@@ -158,7 +158,10 @@
         "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
         "no": {
           "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
-          "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
+          "yes": {
+            "gendered_line": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
+            "relevant_genders": [ "npc" ]
+          },
           "no": {
             "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
@@ -260,7 +263,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Boris_Mission_1",
-    "dynamic_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, I'll help out.  I've pretty much been waiting for someone to ask, the mess is in my way but I've been too busy to organize it myself.  Boris is the one to talk to, you say?  I'll let him know.",
+      "relevant_genders": [ "npc" ]
+    },
     "speaker_effect": {
       "effect": [
         { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" },
@@ -275,7 +281,10 @@
   {
     "id": "TALK_FREE_MERCHANT_TEAMSTER_Godco_Trader",
     "type": "talk_topic",
-    "dynamic_line": "Oh yeah, they're my rookie representative.  I figured that those people wouldn't cause too much trouble for them, so I sent them over there.  What about them?",
+    "dynamic_line": {
+      "gendered_line": "Oh yeah, they're my rookie representative.  I figured that those people wouldn't cause too much trouble for them, so I sent them over there.  What about them?",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "I think they're gouging the prices for the people living there.",

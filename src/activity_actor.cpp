@@ -581,7 +581,6 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
     update_player_vehicle( who );
 
     who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
-    who.omt_path.clear();
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
     }
