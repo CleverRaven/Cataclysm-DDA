@@ -1118,10 +1118,12 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
             you.add_effect( effect_poison, food.poison * 10_minutes );
         }
 
-        if( food.has_flag( flag_HIDDEN_HALLU ) ) {
-            if( !you.has_effect( effect_hallu ) ) {
-                you.add_effect( effect_hallu, 6_hours );
-            }
+        you.add_effect( effect_foodpoison, food.poison * 30_minutes );
+    }
+
+    if( food.has_flag( flag_HIDDEN_HALLU ) ) {
+        if( !you.has_effect( effect_hallu ) ) {
+            you.add_effect( effect_hallu, 6_hours );
         }
     }
 
