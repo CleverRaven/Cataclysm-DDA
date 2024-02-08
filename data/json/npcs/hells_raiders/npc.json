@@ -14,7 +14,7 @@
     "type": "npc",
     "id": "bandit",
     "//": "Generic pistol/rifle focused guard for the Hell's Raiders faction.",
-    "name_suffix": "Bandit",
+    "name_suffix": "Bandit BONER",
     "class": "NC_SCAVENGER",
     "attitude": 0,
     "mission": 8,

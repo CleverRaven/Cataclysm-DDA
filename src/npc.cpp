@@ -1860,7 +1860,9 @@ void npc::on_attacked( const Creature &attacker )
     }
     if( attacker.is_avatar() && !is_enemy() && !is_dead() ) {
         make_angry();
+        if( !guaranteed_hostile() ) {
         hit_by_player = true;
+        }
     }
 }
 
@@ -2958,7 +2960,7 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-
+    bool badguy = ( guaranteed_hostile() || !hit_by_player );
     prevent_death_reminder = false;
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
@@ -3021,37 +3023,46 @@ void npc::die( Creature *nkiller )
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
         get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
-
     Character &player_character = get_player_character();
-    if( killer == &player_character && ( ( !guaranteed_hostile() && !is_enemy() ) || hit_by_player ) ) {
-        int morale_effect = -100;
-        if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
-            morale_effect = std::min( 0, morale_effect + 50 );
-        }
-        if( player_character.has_flag( json_flag_PSYCHOPATH ) || player_character.has_flag( json_flag_SAPIOVORE ) ) {
-            morale_effect = 0;
-        }
-        if( player_character.has_trait( trait_KILLER ) ) {
-            morale_effect += 5;
-        }
-        if( player_character.has_flag( json_flag_SPIRITUAL ) && !player_character.has_flag( json_flag_PSYCHOPATH ) && !player_character.has_flag( json_flag_SAPIOVORE ) ) {
-            if( morale_effect < 0 ) {
-                add_msg( _( "You feel ashamed of your actions." ) );
-                morale_effect -= 10;
-                }
-            if( morale_effect > 0 ) {
-                add_msg( _( "You feel a sense of righteous purpose." ) );
+    if( killer == &player_character ) {
+            if( player_character.has_trait( trait_PACIFIST ) ) {
+                add_msg_if_player_sees( _( "A cold shock of guilt washes over you." ) );
+                player_character.add_morale( MORALE_KILLER_HAS_KILLED, -15, 0, 1_days, 1_hours );
+            } 
+        if( !badguy ) {
+            int morale_effect = -90;
+            // Just because you like eating people doesn't mean you love killing innocents
+            if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
+                morale_effect = std::min( 0, morale_effect + 50 );
+            } // Pacifists double dip on penalties if they kill an innocent
+            if( player_character.has_trait( trait_PACIFIST ) ) {
+                morale_effect = std::min( 0, morale_effect - 15 );
+            } 
+            if( player_character.has_flag( json_flag_PSYCHOPATH ) || player_character.has_flag( json_flag_SAPIOVORE ) ) {
+                morale_effect = 0;
+            } // Killer has the psychopath flag, so we're at +5 total. Whee!
+            if( player_character.has_trait( trait_KILLER ) ) {
                 morale_effect += 5;
-                }            
-        }
-        if( morale_effect == 0 ) {
-            // No morale effect
-        } else if( morale_effect <= -50 ) {
-            player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 2_days, 3_hours );
-        } else if( morale_effect > -50 && morale_effect < 0 ){
-            player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 1_days, 1_hours );
-        } else {
-            player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 3_hours, 7_minutes );
+            } // only god can juge me
+            if( player_character.has_flag( json_flag_SPIRITUAL ) && ( !player_character.has_flag( json_flag_PSYCHOPATH ) && !player_character.has_trait( trait_KILLER ) ) && !player_character.has_flag( json_flag_SAPIOVORE ) ) {
+                if( morale_effect < 0 ) {
+                    add_msg( _( "You feel ashamed of your actions." ) );
+                    morale_effect -= 10;
+                    } // skulls for the skull throne
+                if( morale_effect > 0 ) {
+                    add_msg( _( "You feel a sense of righteous purpose." ) );
+                    morale_effect += 5;
+                    }
+            }
+            if( morale_effect == 0 ) {
+                // No morale effect
+            } else if( morale_effect <= -50 ) {
+                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 2_days, 3_hours );
+            } else if( morale_effect > -50 && morale_effect < 0 ){
+                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 1_days, 1_hours );
+            } else {
+                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 3_hours, 7_minutes );
+            }
         }
     }
 
