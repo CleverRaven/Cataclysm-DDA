@@ -1859,7 +1859,7 @@ void npc::on_attacked( const Creature &attacker )
     if( is_hallucination() ) {
         die( nullptr );
     }
-    if( attacker.is_avatar() && !is_enemy() && !is_dead() ) {
+    if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
         hit_by_player = true;
     }
@@ -2959,7 +2959,6 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-    bool was_enemy = guaranteed_hostile();
     prevent_death_reminder = false;
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
@@ -3028,7 +3027,7 @@ void npc::die( Creature *nkiller )
             add_msg( _( "A cold shock of guilt washes over you." ) );
             player_character.add_morale( MORALE_KILLER_HAS_KILLED, -15, 0, 1_days, 1_hours );
         }
-        if( !was_enemy ) {
+        if( hit_by_player ) {
             int morale_effect = -90;
             // Just because you like eating people doesn't mean you love killing innocents
             if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
