@@ -1519,7 +1519,13 @@ void Character::modify_morale( item &food, const int nutr )
             } else {
                 add_msg_if_player( m_good, _( "You feast upon the sweet honey." ) );
             }
-            add_morale( MORALE_HONEY, honey_fun, 100 );
+            double food_vol = round_up( units::to_liter( masticated_volume( food ) ), 2 );
+            const double energy_density_ratio = compute_effective_food_volume_ratio( food );
+            const double effective_volume = food_vol * energy_density_ratio;
+            if( kcalories == 0 && effective_volume == 0.0 ) {
+                return 0;
+            }
+            return std::round( kcalories / effective_volume );
         }
     }
 
