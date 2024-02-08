@@ -1520,11 +1520,20 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    bool Character::consume_effects( item & food ) {
-        if( !food.is_comestible() ) {
-            debugmsg( "called Character::consume_effects with non-comestible" );
-            return false;
-        }
+                static void activate_consume_eocs( Character & you, item & target ) {
+                    Character *char_ptr = nullptr;
+                    if( avatar *u = you.as_avatar() ) {
+                        char_ptr = u;
+                    } else if( npc *n = you.as_npc() ) {
+                        char_ptr = n;
+                    }
+                    item_location loc( you, &target );
+                    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+                    const islot_comestible &comest = *target.get_comestible();
+                    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+                        eoc->activate( d );
+                    }
+                }
 
                 bool Character::consume_effects( item & food ) {
                     if( !food.is_comestible() ) {
