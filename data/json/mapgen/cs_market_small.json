@@ -199,14 +199,31 @@
       "mapgensize": [ 7, 7 ],
       "rows": [
         "ccccccc",
-        "      t",
-        "      d",
-        "      d",
-        "      d",
-        "       ",
-        "ccccccc"
+        "      c",
+        " MRKJZc",
+        "      C",
+        " MRTIUc",
+        "      c",
+        " cccccc"
       ],
-      "items": { "t": { "item": "cash_register_random", "chance": 100 }, "f": { "item": "MEAT", "chance": 30, "repeat": [ 1, 2 ] } },
+      "furniture": {
+        "K": "f_clothing_rail",
+        "J": "f_clothing_rail",
+        "Z": "f_clothing_rail",
+        "U": "f_clothing_rail",
+        "T": "f_clothing_rail"
+      },
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "R": { "item": "clothes", "chance": 30, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_mannequin_general", "chance": 30, "repeat": [ 1, 2 ] },
+        "K": { "item": "coats_unisex", "chance": 50 },
+        "J": [ { "item": "shoes_unisex", "chance": 60 }, { "item": "shoes_womens", "chance": 20 } ],
+        "Z": [ { "item": "shirts_unisex", "chance": 60 }, { "item": "shirts_womens", "chance": 25 } ],
+        "U": { "item": "underwear_mens", "chance": 65 },
+        "I": { "item": "underwear_womens", "chance": 65 },
+        "T": [ { "item": "gloves_unisex", "chance": 65 }, { "item": "scarfs_unisex", "chance": 40 } ]
+      },
       "palettes": [ "open_air_stall_palette" ]
     }
   },

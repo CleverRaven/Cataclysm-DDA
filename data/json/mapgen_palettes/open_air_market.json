@@ -12,6 +12,7 @@
     "t": "f_table",
     "r": "f_rack_wood",
     "C": "f_large_canvas_door",
+    "M": "f_mannequin",
     "T": "f_table",
     ",": "f_large_groundsheet"
   }
