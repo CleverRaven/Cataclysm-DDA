@@ -1526,15 +1526,11 @@ void Character::modify_morale( item &food, const int nutr )
             return false;
         }
 
-        if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
-            // Was used to cap nutrition and thirst, but no longer does this
-            return false;
-        }
-        if( ( has_trait( trait_HERBIVORE ) || has_trait( trait_RUMINANT ) ) &&
-            food.has_any_flag( herbivore_blacklist ) ) {
-            // No good can come of this.
-            return false;
-        }
+                bool Character::consume_effects( item & food ) {
+                    if( !food.is_comestible() ) {
+                        debugmsg( "called Character::consume_effects with non-comestible" );
+                        return false;
+                    }
 
                     if( has_trait( trait_THRESH_PLANT ) && food.type->can_use( "PLANTBLECH" ) ) {
                         // Was used to cap nutrition and thirst, but no longer does this
