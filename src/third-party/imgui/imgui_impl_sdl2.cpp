@@ -80,10 +80,17 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wimplicit-int-float-conversion"  // warning: implicit conversion from 'xxx' to 'float' may lose precision
 #endif
-
 // SDL
+#if defined(_MSC_VER) && defined(USE_VCPKG)
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_syswm.h>
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <SDL.h>
+#pragma GCC diagnostic pop
 #include <SDL_syswm.h>
+#endif
 #if defined(__APPLE__)
 #include <TargetConditionals.h>
 #endif
