@@ -27,12 +27,13 @@
         "type": "nested_mapgen_id",
         "default": { "distribution": [ "market_clothes", "market_botanical", "market_misc", "market_books" ] }
       }
-    }
+    },
+    "terrain": { ",": "t_thconc_floor" }
   },
   {
     "type": "palette",
     "id": "open_air_stall_palette",
-    "terrain": {  },
+    "terrain": { ",": "t_thconc_floor" },
     "furniture": {
       "c": "f_large_canvas_wall",
       "d": "f_displaycase",
