@@ -1,0 +1,18 @@
+{
+  "type": "palette",
+  "id": "open_air_stall_palette",
+  "terrain": {
+    
+  },
+  "furniture": {
+    "c": "f_large_canvas_wall",
+    "d": "f_displaycase",
+    "f": "f_glass_fridge",
+    "h": "f_chair",
+    "t": "f_table",
+    "r": "f_rack_wood",
+    "C": "f_large_canvas_door",
+    "T": "f_table",
+    ",": "f_large_groundsheet"
+  }
+}
