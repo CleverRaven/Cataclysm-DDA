@@ -967,7 +967,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                          PARASITES );
     }
 
-        const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
+    const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
     if( edible && has_effect( effect_nausea ) ) {
         add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
