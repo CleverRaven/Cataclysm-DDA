@@ -175,17 +175,20 @@
     "method": "json",
     "nested_mapgen_id": "market_bees",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [ 4, 4 ],
       "rows": [
-        "cccccc",
-        "cf   t",
-        "C    d",
-        "cf   d",
-        "cf   d",
-        "cccccc"
+        "cccc",
+        "cr t",
+        "C  d",
+        "cccc"
       ],
-      "items": { "t": { "item": "cash_register_random", "chance": 100 }, "f": { "item": "MEAT", "chance": 30, "repeat": [ 1, 2 ] } },
-      "palettes": [ "open_air_stall_palette" ]
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "r": { "item": "HONEY", "chance": 30, "repeat": [ 1, 2 ] },
+        "d": { "item": "HONEY", "chance": 30, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "open_air_stall_palette" ],
+      "//": "Give small chance to spawn mutated/normal bees?"
     }
   },
   {
@@ -193,14 +196,15 @@
     "method": "json",
     "nested_mapgen_id": "market_clothes",
     "object": {
-      "mapgensize": [ 6, 6 ],
+      "mapgensize": [ 7, 7 ],
       "rows": [
-        "cccccc",
-        "cf   t",
-        "C    d",
-        "cf   d",
-        "cf   d",
-        "cccccc"
+        "ccccccc",
+        "      t",
+        "      d",
+        "      d",
+        "      d",
+        "       ",
+        "ccccccc"
       ],
       "items": { "t": { "item": "cash_register_random", "chance": 100 }, "f": { "item": "MEAT", "chance": 30, "repeat": [ 1, 2 ] } },
       "palettes": [ "open_air_stall_palette" ]
