@@ -1273,7 +1273,8 @@ void Character::modify_addiction( const islot_comestible &comest )
             rem_morale( add.first->get_craving_morale() );
         }
     }
-
+}
+            add_addiction( add.first, add.second );
 void Character::modify_morale( item &food, const int nutr )
 {
     time_duration morale_time = 2_hours;
