@@ -674,19 +674,21 @@ void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "moves_total", moves_total );
     jsout.member( "gun", gun );
     jsout.member( "gunmod", gunmod_idx );
+    jsout.member( "mod_contents", mod_contents );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonValue &jsin )
 {
-    gunmod_remove_activity_actor actor( 0, item_location(), -1 );
+    gunmod_remove_activity_actor actor( 0, item_location(), -1, {} );
 
     JsonObject data = jsin.get_object();
 
     data.read( "moves_total", actor.moves_total );
     data.read( "gun", actor.gun );
     data.read( "gunmod", actor.gunmod_idx );
+    data.read( "mod_contents", actor.mod_contents );
 
     return actor.clone();
 }

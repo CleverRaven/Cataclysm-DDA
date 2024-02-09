@@ -262,18 +262,26 @@ bool Character::gunmod_remove( item &gun, item &mod )
         return false;
     }
 
-    //std::list<item> mod_contents;
-    //for( const item *it : gun.all_items_ptr( pocket_type::CONTAINER ) ) {
-    //    mod_contents.push_back( *it );
-   // }
-    //map &here = get_map();
-    //for( item &content : mod_contents ) {
-    //    here.add_item_or_charges( this->pos(), content );
-   // }
     // Removing gunmod takes only half as much time as installing it
     const int moves = has_trait( trait_DEBUG_HS ) ? 0 : mod.type->gunmod->install_time / 2;
     item_location gun_loc = item_location( *this, &gun );
-    assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) );
+        if( mod.has_flag( flag_NOT_MAGAZINE ) ) {
+            std::list<item> mod_contents;
+            for( const item *it : gun.all_items_ptr( pocket_type::CONTAINER ) ) {
+                mod_contents.push_back( *it );
+            }
+            if( !mod_contents.empty() ) {
+            assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ), mod_contents ) );
+          // make the activity do this stuff
+          //                      map &here = get_map();
+           //     for( item &content : mod_contents ) {
+           //         here.add_item_or_charges( this->pos(), content );
+            //         }
+            return true;
+            }
+    } else {
+    assign_activity( gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ), {} ) );
+    }
     return true;
 }
 
