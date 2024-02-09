@@ -81,15 +81,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "dvd_foodperson",
-    "name": { "str": "DVD disc - Foodperson: The Marketable Movie" },
-    "description": "Foodplace presents this 94.3% watchable motion picture DVD.  It stars Foodperson as they attempt to retrieve the Object of Plot Relevance from the possession of the Antagonist.  Rated D for delicious and is from 2018.",
-    "copy-from": "dvd_blank",
-    "price": 500,
-    "price_postapoc": 75
-  },
-  {
-    "type": "GENERIC",
     "id": "dvd_foodperson2",
     "name": { "str": "DVD disc - Foodperson 2: A Marketable Sequel" },
     "description": "Foodplace presents this 96.7% watchable motion picture DVD.  It stars Foodperson again as they attempt to re-retrieve the Object of Plot Relevance from the possession of the Antagonist that escaped their destiny in the last movie.  Rated D for delicious and is from 2021",
