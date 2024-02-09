@@ -145,5 +145,10 @@
     "type": "overmap_special_migration",
     "id": "nature trail",
     "//": "Removed in 0.G - no new id"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FakeSpecial_cs_market_small",
+    "new_id": "cs_market_small"
   }
 ]
