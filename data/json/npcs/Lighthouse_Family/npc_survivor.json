@@ -22,13 +22,28 @@
     "dynamic_line": {
       "concatenate": [
         [
-          "During one of my night searches of food and supplies, I noticed a bright glow that came from somewhere far away.  I thought that one of the survivors had lit it to indicate their location.  As you can see, I was right.  I managed to find a boat near the nearest shore, on which I set sail.",
-          "I have been sailing on my little boat from coast to coast for a long time.  In truth, the boat was not entirely mine, but it doesn't matter.  That way of life provided me with sufficient safety from the <zombies>, and I managed to get around the sea creatures deftly.  When I saw a distant light, at first, I could not believe my eyes.  Then, I decided to find out what it is."
+          {
+            "gendered_line": "During one of my night searches of food and supplies, I noticed a bright glow that came from somewhere far away.  I thought that one of the survivors had lit it to indicate their location.  As you can see, I was right.  I managed to find a boat near the nearest shore, on which I set sail.",
+            "relevant_genders": [ "npc" ]
+          },
+          {
+            "gendered_line": "I have been sailing on my little boat from coast to coast for a long time.  In truth, the boat was not entirely mine, but it doesn't matter.  That way of life provided me with sufficient safety from the <zombies>, and I managed to get around the sea creatures deftly.  When I saw a distant light, at first, I could not believe my eyes.  Then, I decided to find out what it is.",
+            "relevant_genders": [ "npc" ]
+          }
         ],
         [
-          "  Unfortunately, during my 'voyage' to this lighthouse, luck turned away from me.  I was attacked by some <monster> from the underwater depths.  I couldn't fight off him and he dragged my ship to the bottom.  The waves brought me straight to the shore of this little island.  I still don't understand by what miracle I managed to survive, <name_g>.",
-          "  Unfortunately, when I arrived here, I forgot to tie my boat, and during yesterday's storm it was carried off somewhere.  Well, you don't always have to be lucky, right?",
-          "  I sailed here a few days ago.  Mikhail and his family are very hospitable.  Unfortunately, during our joint fishing, we were attacked by a swarm of underwater <monster>'s, and my boat was smashed to pieces.  It was <very> scary, we could barely sail away on Mikhail's ship."
+          {
+            "gendered_line": "  Unfortunately, during my 'voyage' to this lighthouse, luck turned away from me.  I was attacked by some <monster> from the underwater depths.  I couldn't fight off him and he dragged my ship to the bottom.  The waves brought me straight to the shore of this little island.  I still don't understand by what miracle I managed to survive, <name_g>.",
+            "relevant_genders": [ "npc" ]
+          },
+          {
+            "gendered_line": "  Unfortunately, when I arrived here, I forgot to tie my boat, and during yesterday's storm it was carried off somewhere.  Well, you don't always have to be lucky, right?",
+            "relevant_genders": [ "npc" ]
+          },
+          {
+            "gendered_line": "  I sailed here a few days ago.  Mikhail and his family are very hospitable.  Unfortunately, during our joint fishing, we were attacked by a swarm of underwater <monster>'s, and my boat was smashed to pieces.  It was <very> scary, we could barely sail away on Mikhail's ship.",
+            "relevant_genders": [ "npc" ]
+          }
         ]
       ]
     },

@@ -5,24 +5,19 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdlib>
 #include <functional>
 #include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
-#include <limits>
 #include <list>
 #include <locale>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <sstream>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -52,7 +47,6 @@
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
-#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -64,6 +58,7 @@
 #include "game_inventory.h"
 #include "global_vars.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -80,7 +75,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -98,7 +92,6 @@
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
-#include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -2650,6 +2643,7 @@ static void debug_menu_game_state()
     add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
              player_character.get_bmr() );
     add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
+    add_msg( m_info, _( "Is debugger active: %s" ), isDebuggerActive() ? _( "Yes" ) : _( "No" ) );
     g->invalidate_main_ui_adaptor();
     g->disp_NPCs();
 }
@@ -3341,8 +3335,17 @@ void debug()
             }
             break;
         case debug_menu_index::UNLOCK_ALL:
-            if( query_yn(
-                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+            if( query_yn( _(
+                              "Activating this will add the Arcade Mode achievement unlocking all starting "
+                              "scenarios and professions for all worlds.  You will need to save the "
+                              "character in order to record this.  Achievements are tracked from the "
+                              "'achievements' folder if you need to get rid of this (and the 'memorial' "
+                              "folder if you need to get rid of this from a dead character in a legacy "
+                              "save).  Activating this will spoil factions and situations you may otherwise "
+                              "stumble upon naturally while playing.  Some scenarios are frustrating for the "
+                              "uninitiated, and some professions skip portions of the game's content.  If "
+                              "new to the game, meta progression will help you be introduced to mechanics at "
+                              "a reasonable pace." ) ) ) {
                 get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
                                                        achievement_completion::completed );
             }

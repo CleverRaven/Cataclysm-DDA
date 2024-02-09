@@ -1,0 +1,537 @@
+[
+  {
+    "id": "conical_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "plumber_cap",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "leather_hatball",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "vizor_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "lvizor_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "trucker_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "ltrucker_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "scrap_cap1",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "scrap_cap2",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "ushanka",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "coonskin",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "astrakhan",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "fushanka",
+    "type": "MIGRATION",
+    "replace": "hat_faux_fur"
+  },
+  {
+    "id": "fcoonskin",
+    "type": "MIGRATION",
+    "replace": "hat_faux_fur"
+  },
+  {
+    "id": "fastrakhan",
+    "type": "MIGRATION",
+    "replace": "hat_faux_fur"
+  },
+  {
+    "id": "propeller_hat",
+    "type": "MIGRATION",
+    "replace": "hat_ball"
+  },
+  {
+    "id": "deerstalker",
+    "type": "MIGRATION",
+    "replace": "hat_fur"
+  },
+  {
+    "id": "beanie_hat",
+    "type": "MIGRATION",
+    "replace": "hat_cotton"
+  },
+  {
+    "id": "k_beanie",
+    "type": "MIGRATION",
+    "replace": "hat_knit"
+  },
+  {
+    "id": "chullo_hat",
+    "type": "MIGRATION",
+    "replace": "hat_knit"
+  },
+  {
+    "id": "fez",
+    "type": "MIGRATION",
+    "replace": "eboshi"
+  },
+  {
+    "id": "homburg_hat",
+    "type": "MIGRATION",
+    "replace": "fedora"
+  },
+  {
+    "id": "neckwarmer",
+    "type": "MIGRATION",
+    "replace": "scarf"
+  },
+  {
+    "id": "neckwarmer_head",
+    "type": "MIGRATION",
+    "replace": "scarf"
+  },
+  {
+    "id": "hat_floppy",
+    "type": "MIGRATION",
+    "replace": "10gal_hat"
+  },
+  {
+    "id": "hat_cart",
+    "type": "MIGRATION",
+    "replace": "10gal_hat"
+  },
+  {
+    "id": "trilby_hat",
+    "type": "MIGRATION",
+    "replace": "porkpie"
+  },
+  {
+    "id": "tyrolean_hat",
+    "type": "MIGRATION",
+    "replace": "porkpie"
+  },
+  {
+    "id": "panama_hat",
+    "type": "MIGRATION",
+    "replace": "straw_hat"
+  },
+  {
+    "id": "boater_hat",
+    "type": "MIGRATION",
+    "replace": "straw_hat"
+  },
+  {
+    "id": "tinfoil_boat",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "tinfoil_hat1",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "tinfoil_fedora",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "tinfoil_hatball",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "paper_boat",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "news_boat",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "hat_cloche",
+    "type": "MIGRATION",
+    "replace": "hat_boonie"
+  },
+  {
+    "id": "hat_bucket",
+    "type": "MIGRATION",
+    "replace": "hat_boonie"
+  },
+  {
+    "id": "rag",
+    "type": "MIGRATION",
+    "replace": "sheet_cotton"
+  },
+  {
+    "id": "holybook_odin",
+    "type": "MIGRATION",
+    "replace": "poetic_edda"
+  },
+  {
+    "id": "holybook_asatru",
+    "type": "MIGRATION",
+    "replace": "poetic_edda"
+  },
+  {
+    "id": "wcheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bcheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "rcheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "becheckers_man",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_pawn",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_knight",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_bishop",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_rook",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_queen",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "wchess_king",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_pawn",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_knight",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_bishop",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_rook",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_queen",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "bchess_king",
+    "type": "MIGRATION",
+    "replace": "splinter"
+  },
+  {
+    "id": "checkpaper",
+    "type": "MIGRATION",
+    "replace": "paper"
+  },
+  {
+    "id": "small_checkboard",
+    "type": "MIGRATION",
+    "replace": "tinder"
+  },
+  {
+    "id": "checkboard",
+    "type": "MIGRATION",
+    "replace": "tinder"
+  },
+  {
+    "id": "handmade_chess",
+    "type": "MIGRATION",
+    "replace": "chess"
+  },
+  {
+    "id": "makeshift_chess",
+    "type": "MIGRATION",
+    "replace": "chess"
+  },
+  {
+    "id": "handmade_checkers",
+    "type": "MIGRATION",
+    "replace": "makeshift_checkers"
+  },
+  {
+    "id": "terraforming_mars",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_venus",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_jupiter",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_saturn",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_uranus",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_neptune",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_pluto",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "id": "terraforming_earth",
+    "type": "MIGRATION",
+    "replace": "terraforming_mercury"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_9mm_fmj_1000",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_9mm_fmj_1000"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_9mm_jhp_1000",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_9mm_jhp_1000"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_300jhp_240",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_300jhp_240"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_300AAC_otmss_720",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_300AAC_otmss_720"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308_1tracer4ap_200",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308_1tracer4ap_200"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308ap_240",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308ap_240"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308fmj_460",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308fmj_460"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308_4fmj1tracer_200",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308_4fmj1tracer_200"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_338fmjbt_200",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_338fmjbt_200"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_shot_120",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_shot_120"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_556tracer_820",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_556tracer_820"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_50bmg_4fmj1tracer_100",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_50bmg_4fmj1tracer_100"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_50bmg_1tracer4mk211_100",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_50bmg_1tracer4mk211_100"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_50bmg_fmj_120",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_50bmg_fmj_120"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_556_m855a1_clipped_840",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_556_m855a1_clipped_840"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_300AAC_otm_840",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_300AAC_otm_840"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_308_600",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_308_600"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_338fmjbt_400",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_338fmjbt_400"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_shot_160",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_shot_160"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_beanbag_160",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_beanbag_160"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223_1tracer4ball_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223_1tracer4ball_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223_1tracer4ap_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223_1tracer4ap_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223ap_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223ap_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223fmj_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223fmj_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_308_1tracer4ap_600",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_308_1tracer4ap_600"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_pa120_40x53_32",
+    "replace": "ammunition_can_pa120",
+    "variant": "ammunition_can_pa120_40x53_32"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_can_carlgustav_hedp",
+    "replace": "ammunition_can_carlgustav",
+    "variant": "ammunition_can_carlgustav_hedp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_can_carlgustav_he",
+    "replace": "ammunition_can_carlgustav",
+    "variant": "ammunition_can_carlgustav_he"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_box_carlgustav_he",
+    "replace": "ammunition_box_carlgustav",
+    "variant": "ammunition_box_carlgustav_he"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_box_carlgustav_hedp",
+    "replace": "ammunition_box_carlgustav",
+    "variant": "ammunition_box_carlgustav_hedp"
+  }
+]

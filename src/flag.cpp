@@ -175,6 +175,7 @@ const flag_id flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 const flag_id flag_LEAK_DAM( "LEAK_DAM" );
 const flag_id flag_LITCIG( "LITCIG" );
 const flag_id flag_LUPINE( "LUPINE" );
+const flag_id flag_MAGICAL( "MAGICAL" );
 const flag_id flag_MAGIC_FOCUS( "MAGIC_FOCUS" );
 const flag_id flag_MAG_BELT( "MAG_BELT" );
 const flag_id flag_MAG_BULKY( "MAG_BULKY" );

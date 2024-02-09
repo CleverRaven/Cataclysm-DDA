@@ -68,7 +68,7 @@
       "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
       ":": "t_wall_glass",
       "-": "t_sidewalk",
-      "o": [ "t_window", "t_window_frame" ],
+      "o": [ [ "t_window", 2 ], [ "t_window_empty", 5 ] ],
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "`": "t_sidewalk",

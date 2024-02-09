@@ -227,8 +227,8 @@
     "id": "TALK_ARSONIST_MUTATION_INSULT",
     "dynamic_line": {
       "u_has_any_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
-      "yes": "As if you're one to talk.  Screw You.",
-      "no": "Screw You!"
+      "yes": { "gendered_line": "As if you're one to talk.  Screw You.", "relevant_genders": [ "u" ] },
+      "no": { "gendered_line": "Screw You!", "relevant_genders": [ "u" ] }
     },
     "responses": [
       {

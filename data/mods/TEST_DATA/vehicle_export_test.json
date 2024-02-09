@@ -1,35 +1,31 @@
-{
-  "//": "When updating this file, please also update the corresponding test suite (vehicle_export_test.cpp).",
-  "id": "veh_export_test",
-  "type": "vehicle",
-  "name": "veh_export_test",
-  "blueprint": [
-    "t&"
-  ],
-  "parts": [
-    {
-      "x": 0,
-      "y": 0,
-      "parts": [
-        "frame#vertical_T_left",
-        { "part": "tank_medium", "fuel": "diesel" },
-        "diesel_engine_v6",
-        "alternator_car",
-        "turret_mount",
-        { "part": "turret_m240", "ammo": 100, "ammo_types": "762_51", "ammo_qty": [ 500, 500 ] },
-        "seat#swivel_chair_front"
-      ]
-    },
-    {
-      "x": 0,
-      "y": 1,
-      "parts": [ "frame#vertical_T_right", { "part": "veh_tools_workshop", "tools": [ "water_purifier", "pot", "pan" ] } ]
-    }
-  ],
-  "items": [
-    { "x": 0, "y": 0, "chance": 100, "items": [ "saw" ] }
-  ],
-  "zones": [
-    { "x": 0, "y": 0, "type": "LOOT_GUNS" }
-  ]
-}
+[
+  {
+    "//": "When updating this file, please also update the corresponding test suite (vehicle_export_test.cpp).",
+    "id": "veh_export_test",
+    "type": "vehicle",
+    "name": "veh_export_test",
+    "blueprint": [ "t&" ],
+    "parts": [
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame#vertical_T_left",
+          { "part": "tank_medium", "fuel": "diesel" },
+          "diesel_engine_v6",
+          "alternator_car",
+          "turret_mount",
+          { "part": "turret_m240", "ammo": 100, "ammo_types": "762_51", "ammo_qty": [ 500, 500 ] },
+          "seat#swivel_chair_front"
+        ]
+      },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [ "frame#vertical_T_right", { "part": "veh_tools_workshop", "tools": [ "water_purifier", "pot", "pan" ] } ]
+      }
+    ],
+    "items": [ { "x": 0, "y": 0, "chance": 100, "items": [ "saw" ] } ],
+    "zones": [ { "x": 0, "y": 0, "type": "LOOT_GUNS" } ]
+  }
+]

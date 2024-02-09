@@ -98,6 +98,24 @@
     "sound_description": "a crackle!"
   },
   {
+    "id": "salamander_flame_punch_spell_push",
+    "type": "SPELL",
+    "name": "Blazing Blow Push",
+    "description": "This is the push effect of the Blazing Blow spell.  It's a bug if you have it directly.",
+    "message": "",
+    "skill": "deduction",
+    "valid_targets": [ "ally", "hostile", "item", "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "min_damage": 2,
+    "max_damage": 6,
+    "damage_increment": 0.15,
+    "min_range": 1,
+    "max_range": 1
+  },
+  {
     "id": "salamander_flaming_whip_spell",
     "type": "SPELL",
     "name": "A Hundred Tongues of Flame",
@@ -175,24 +193,6 @@
     "effect": "emit",
     "effect_str": "emit_smoke_stream",
     "shape": "blast"
-  },
-  {
-    "id": "salamander_flame_punch_spell_push",
-    "type": "SPELL",
-    "name": "Blazing Blow Push",
-    "description": "This is the push effect of the Blazing Blow spell.  It's a bug if you have it directly.",
-    "message": "",
-    "skill": "deduction",
-    "valid_targets": [ "ally", "hostile", "item", "ground" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "directed_push",
-    "shape": "blast",
-    "max_level": { "math": [ "str_to_level(1)" ] },
-    "min_damage": 2,
-    "max_damage": 6,
-    "damage_increment": 0.15,
-    "min_range": 1,
-    "max_range": 1
   },
   {
     "id": "salamander_cure_conditions",

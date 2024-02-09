@@ -2,42 +2,51 @@
   {
     "id": "BGSS_SCIENTIST_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Before <the_cataclysm> I worked in a lab.  Don't look at me like that, it had nothing to do with this stuff… I was studying protein-protein interactions in smooth muscle in mice, using NMR.  Nothing even vaguely related to zombies.  Anyway, I was at last year's Experimental Biology conference in San Francisco, and an old friend of mine was talking about some really weird shit she'd heard of coming out of government labs.  Really hush hush stuff.  Normally I wouldn't put much cred into that sort of thing, but from her, it actually had me worried.  I packed a bug-out bag just in case.",
+    "dynamic_line": {
+      "gendered_line": "Before <the_cataclysm> I worked in a lab.  Don't look at me like that, it had nothing to do with this stuff… I was studying protein-protein interactions in smooth muscle in mice, using NMR.  Nothing even vaguely related to zombies.  Anyway, I was at last year's Experimental Biology conference in San Francisco, and an old friend of mine was talking about some really weird shit she'd heard of coming out of government labs.  Really hush hush stuff.  Normally I wouldn't put much cred into that sort of thing, but from her, it actually had me worried.  I packed a bug-out bag just in case.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What came of it?", "topic": "BGSS_SCIENTIST_1_STORY2" },
       {
         "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_SCIENTIST_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "The evacuation order sounded, so I evacuated, comparatively quickly.  That got me out before the worst part.  Our evacuation center was useless… me, a couple other evacuees, a few tins of food, and a few emergency blankets.  Not even close to enough to go around.  The evacuees split down the middle into a few camps, and infighting started.  I ran into the woods nearby with a few others.  We got away, had a little camp going.  They tried to make me their leader, thought I knew more about things than I did because I'd come so prepared.  Like I said, I'm not that kind of scientist, but they didn't seem to understand.  I… I did my best.",
+    "dynamic_line": {
+      "gendered_line": "The evacuation order sounded, so I evacuated, comparatively quickly.  That got me out before the worst part.  Our evacuation center was useless… me, a couple other evacuees, a few tins of food, and a few emergency blankets.  Not even close to enough to go around.  The evacuees split down the middle into a few camps, and infighting started.  I ran into the woods nearby with a few others.  We got away, had a little camp going.  They tried to make me their leader, thought I knew more about things than I did because I'd come so prepared.  Like I said, I'm not that kind of scientist, but they didn't seem to understand.  I… I did my best.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What happened with your leadership run?", "topic": "BGSS_SCIENTIST_1_STORY3" },
       {
         "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_SCIENTIST_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "I thought that us leaving, letting the others have the evac center to themselves, would be enough, but it wasn't.  They tracked us down in the night, a few days later.  They… well… I made it out, along with one other survivor.  The attackers, they were like animals.  We tried to travel together for a while.  I blamed myself, for what had happened, and couldn't really get past it.  We parted ways on good terms not long before I met you.  I just couldn't face the reminder of what had happened.",
+    "dynamic_line": {
+      "gendered_line": "I thought that us leaving, letting the others have the evac center to themselves, would be enough, but it wasn't.  They tracked us down in the night, a few days later.  They… well… I made it out, along with one other survivor.  The attackers, they were like animals.  We tried to travel together for a while.  I blamed myself, for what had happened, and couldn't really get past it.  We parted ways on good terms not long before I met you.  I just couldn't face the reminder of what had happened.",
+      "relevant_genders": [ "npc" ]
+    },
     "//": "TK, this survivor could give a quest to locate the other survivor.",
     "responses": [
       {
         "text": "If I got you the right stuff, do you think you'd be able to like… do science to it?",
         "topic": "BGSS_SCIENTIST_1_SCIENCEHELP"
       },
-      { "text": "I'm sorry to hear that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "I'm sorry to hear that.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

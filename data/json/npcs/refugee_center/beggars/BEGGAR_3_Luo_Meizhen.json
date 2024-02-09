@@ -92,7 +92,7 @@
     "id": "TALK_REFUGEE_BEGGAR_3",
     "dynamic_line": {
       "npc_has_effect": "insulted_luo",
-      "yes": "Fuck off, dickwaddle.",
+      "yes": { "gendered_line": "Fuck off, dickwaddle.", "relevant_genders": [ "u" ] },
       "no": {
         "u_has_var": "luo_recruited",
         "type": "general",
@@ -114,11 +114,14 @@
               "yes": "Hey there.  Good to see you again.",
               "no": "Careful, I'm getting hangry again and am not totally responsible for my own actions."
             },
-            "no": "Look, I'm sorry for freaking out earlier.  You might be an asshole but I'm sure you didn't mean it like that.  My blood sugar is hella low, I get a bit cranky.  We cool?"
+            "no": {
+              "gendered_line": "Look, I'm sorry for freaking out earlier.  You might be an asshole but I'm sure you didn't mean it like that.  My blood sugar is hella low, I get a bit cranky.  We cool?",
+              "relevant_genders": [ "u" ]
+            }
           },
           "no": {
             "npc_has_effect": "beggar_has_eaten",
-            "yes": "Hey there, not-asshole.  Good to see you again.",
+            "yes": { "gendered_line": "Hey there, not-asshole.  Good to see you again.", "relevant_genders": [ "u" ] },
             "no": "Don't bother with these assholes."
           }
         }
@@ -387,7 +390,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_INSULTED",
-    "dynamic_line": "Oooooh.  Oh.  You did not just fucking go there.  Let's leave the fatties to die, hey?  Wanna know how easy it is to find fucking *thyroid medication* after the apocalypse, asshat?  Besides, there are more skills than heavy lifting needed now… no, you know what?  Screw it.  You're not worth my time.",
+    "dynamic_line": {
+      "gendered_line": "Oooooh.  Oh.  You did not just fucking go there.  Let's leave the fatties to die, hey?  Wanna know how easy it is to find fucking *thyroid medication* after the apocalypse, asshat?  Besides, there are more skills than heavy lifting needed now… no, you know what?  Screw it.  You're not worth my time.",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": [
       {
         "effect": [

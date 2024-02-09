@@ -1968,27 +1968,6 @@
     "copy-from": "holybook_abstract"
   },
   {
-    "id": "holybook_asatru",
-    "type": "BOOK",
-    "name": { "str": "The Asatru Edda: Sacred Lore of the North", "str_pl": "copies of The Asatru Edda: Sacred Lore of the North" },
-    "description": "A commercial-grade, hardcover English translation of The Asatru Edda.  It serves as a modern guide to the religious and mythological beliefs of the followers and adherents of the contemporary revival of Norse paganism.  This book contains a collection of poems, stories, rituals, and information about the gods, goddesses, heroes, and cosmology of the Norse tradition, from ancient writings and oral traditions.",
-    "weight": "672 g",
-    "volume": "1368 ml",
-    "copy-from": "holybook_abstract"
-  },
-  {
-    "id": "holybook_odin",
-    "type": "BOOK",
-    "name": {
-      "str": "The Odinist Edda: Sacred Lore of the North",
-      "str_pl": "copies of The Odinist Edda: Sacred Lore of the North"
-    },
-    "description": "A commercial-grade, hardcover English translation of The Odinist Edda.  It can potentially serve as a modern guide to the religious and mythological beliefs of the contemporary revival of Norse paganism.  This book contains a collection of poems, stories, rituals, and information about the gods, goddesses, heroes, and cosmology of the Norse tradition, from ancient writings and oral traditions.",
-    "weight": "672 g",
-    "volume": "1368 ml",
-    "copy-from": "holybook_abstract"
-  },
-  {
     "id": "holybook_ginza",
     "type": "BOOK",
     "name": { "str": "Ginza Rabba", "str_pl": "copies of the Ginza Rabba" },

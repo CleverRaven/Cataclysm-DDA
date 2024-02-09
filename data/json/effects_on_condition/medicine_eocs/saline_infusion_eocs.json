@@ -2,13 +2,14 @@
   {
     "type": "effect_on_condition",
     "id": "SALINE_INFUSION",
-    "//": "4 ml of saline per 1 ml of blood, rate 2L/hour.  1 ml of blood = 10 units of vitamin",
+    "//volume_of_saline": "Amount of saline the bag has. Converts to 'blood' as 250 ml (2500 units of vitamin) of blood volume for each liter of saline.",
+    "condition": { "expects_vars": [ "volume_of_saline" ] },
     "effect": [
       { "math": [ "u_amount_of_saline_infused", "=", "_volume_of_saline" ] },
       { "u_assign_activity": "ACT_SALINE_INFUSE", "duration": { "math": [ "_volume_of_saline / 0.55555556" ] } },
-      { "u_consume_item": { "context_val": "bag_id" } },
+      { "u_consume_item": { "context_val": "id" } },
       {
-        "set_string_var": "<context_val:bag_id>_empty",
+        "set_string_var": "<context_val:id>_empty",
         "target_var": { "context_val": "bag_to_drop" },
         "parse_tags": true
       },

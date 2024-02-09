@@ -430,7 +430,7 @@ class monster : public Creature
 
         float stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, float difficulty ) override;
+        void on_dodge( Creature *source, float difficulty, float training_level = 0.0 ) override;
         void on_try_dodge() override {}
         // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
@@ -508,16 +508,11 @@ class monster : public Creature
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
-        using Creature::add_msg_debug_if_npc;
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
         using Creature::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        using Creature::add_msg_debug_player_or_npc;
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
-                                          const std::string &npc_msg ) const override;
 
         // currently grabbed limbs
         std::unordered_set<bodypart_str_id> grabbed_limbs;

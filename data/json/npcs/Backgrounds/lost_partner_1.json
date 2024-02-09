@@ -12,14 +12,17 @@
     "responses": [
       { "text": "I'm sorry to hear it.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_LOST_PARTNER_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "That's how it goes, you know?  These are the end times.  I don't really want to talk about it more than that.  And honestly, I never really felt like I belonged, in the old world.  In a weird way, I actually feel like I have a purpose now.  Do you ever get that?",
+    "dynamic_line": {
+      "gendered_line": "That's how it goes, you know?  These are the end times.  I don't really want to talk about it more than that.  And honestly, I never really felt like I belonged, in the old world.  In a weird way, I actually feel like I have a purpose now.  Do you ever get that?",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "No, that's messed up.", "topic": "BGSS_LOST_PARTNER_1_NOWAY" },
       {
@@ -27,7 +30,7 @@
         "topic": "BGSS_LOST_PARTNER_1_YEAH"
       },
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -37,7 +40,7 @@
     "dynamic_line": "I guess those of us who made it this far have to have made it for a reason, or something.  I don't mean like a religious reason, just… we're survivors.",
     "responses": [
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -47,18 +50,21 @@
     "dynamic_line": "Haha, yeah, I can see why you'd think that.  I don't mean it's a good apocalypse.  I just mean that at least now I know what I'm doing every day.  I'd still kill a hundred zombies for an internet connection and a night watching crappy movies with… sorry.  Let's change the subject.",
     "responses": [
       { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_LOST_PARTNER_1_TRIFFIDS",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, have you seen them yet?  They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent… I barely made it out, only because they were, uh, distracted.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, have you seen them yet?  They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent… I barely made it out, only because they were, uh, distracted.",
+      "relevant_genders": [ "npc" ]
+    },
     "//": "In a future version this NPC might give you directions to a triffid grove.",
     "responses": [
       { "text": "I'm sorry you lost someone.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

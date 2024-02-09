@@ -1,9 +1,9 @@
 #include "calendar_ui.h"
 
+#include "input_context.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "ui.h"
-#include "ui_manager.h"
 
 time_point calendar_ui::select_time_point( time_point initial_value, std::string_view title,
         calendar_ui::granularity granularity_level )

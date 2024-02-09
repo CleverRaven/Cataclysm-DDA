@@ -2757,54 +2757,6 @@
   },
   {
     "type": "profession",
-    "id": "santa",
-    "name": { "male": "Mall Santa", "female": "Mall Mrs Claus" },
-    "description": "You had a seasonal job that involved portraying the iconic figure of Santa Claus or Mrs Claus at shopping malls, department stores, and other public places during the Christmas season.  Your figure, demeanor and personality had to embody the spirit of Christmas to bring joy to children and adults alike.  This involved greeting visitors, listening to their wishes and requests, taking photographs with them, and spreading holiday cheer.  You hope that your acting skills, sweet-talk and the minimal, probably comical gear you have are enough to get you through this and see another Christmas.",
-    "points": 2,
-    "skills": [ { "level": 4, "name": "speech" }, { "level": 1, "name": "swimming" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "santa_staff" },
-          { "item": "santa_hat" },
-          { "item": "santa_necklace" },
-          { "item": "santa_wristwatch" },
-          { "item": "santa_gloves" },
-          { "item": "badge_santa" },
-          { "item": "bag_santa" },
-          { "item": "candycane", "count": 10 },
-          { "item": "chocolate", "count": 10 },
-          { "item": "teddy_bear", "count": 5 },
-          { "item": "toy_figurine", "count": 5 },
-          { "group": "charged_smart_phone" }
-        ]
-      },
-      "male": {
-        "entries": [
-          { "item": "undershirt" },
-          { "item": "santa_jacket" },
-          { "item": "santa_belt" },
-          { "item": "santa_pants" },
-          { "item": "boxer_briefs" },
-          { "item": "socks" },
-          { "item": "santa_boots" },
-          { "item": "santa_beard" }
-        ]
-      },
-      "female": {
-        "entries": [
-          { "item": "santa_ear" },
-          { "item": "bra" },
-          { "item": "santa_dress" },
-          { "item": "stockings", "variant": "santa_stockings" },
-          { "item": "panties" },
-          { "item": "santa_shoes" }
-        ]
-      }
-    }
-  },
-  {
-    "type": "profession",
     "id": "modern_archer",
     "name": "Modern Archer",
     "description": "A great fan of the archers of old, but at the same time a follower of the latest trends in archery.  You always tried to keep up with the times, acquiring a takedown bow as well as several accessories to complement it.  You can only hope all the training you did with them can help you survive in this trying times.",
@@ -2830,7 +2782,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2867,7 +2819,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2908,7 +2860,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2946,7 +2898,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -2984,7 +2936,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -3022,7 +2974,7 @@
         ]
       },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
-      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "boxer_shorts" } ] }
     },
     "missions": [ "MISSION_HUNTER" ]
   },
@@ -3114,7 +3066,6 @@
           { "item": "hat_ball" },
           { "group": "charged_smart_phone" },
           { "item": "pants", "variant": "pants_stone" },
-          { "item": "trucker_hat", "variant": "generic_truckball" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
@@ -4330,40 +4281,6 @@
           { "item": "purse" },
           { "item": "bra" },
           { "item": "panties" }
-        ]
-      }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "asatru_priest",
-    "name": { "male": "Gode", "female": "Gydje" },
-    "description": "As a spiritual leader of the Asatru Faith, you conducted your small community into ceremonies, rituals, sacrifices and feasts for the Norse Gods.  You can't say if Ragnarok has come, but you'll surely fight like a warrior until your encounter with the Valkyries.",
-    "points": 0,
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "melee" } ],
-    "items": {
-      "both": {
-        "entries": [
-          { "item": "silver_ring" },
-          { "item": "leather_belt" },
-          { "item": "socks" },
-          { "item": "boots" },
-          { "item": "holybook_asatru" },
-          { "group": "charged_smart_phone" },
-          { "item": "holy_symbol", "variant": "odin_necklace1" },
-          { "item": "bronze_knife", "container-item": "sheath" }
-        ]
-      },
-      "male": {
-        "entries": [ { "item": "cloak" }, { "item": "tunic" }, { "item": "briefs" }, { "item": "pants", "variant": "pants_brown" } ]
-      },
-      "female": {
-        "entries": [
-          { "item": "silver_hairpin" },
-          { "item": "bra" },
-          { "item": "dress" },
-          { "item": "panties" },
-          { "item": "altered_apron", "variant": "generic_apron_cotton" }
         ]
       }
     }

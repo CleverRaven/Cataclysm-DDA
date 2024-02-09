@@ -1625,7 +1625,6 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     tname::segment_bitset bits;
     if( type == rhs.type ) {
         bits.set( tname::segments::TYPE );
-        bits.set( tname::segments::ENGINE_DISPLACEMENT );
         bits.set( tname::segments::WHEEL_DIAMETER );
         bits.set( tname::segments::WHITEBLACKLIST, _stacks_whiteblacklist( *this, rhs ) );
     }
@@ -1727,6 +1726,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::CONTENTS, b_contents );
     bits.set( tname::segments::CONTENTS_FULL, b_contents );
     bits.set( tname::segments::CONTENTS_ABREV, b_contents );
+    bits.set( tname::segments::CONTENTS_COUNT, b_contents );
     return { bits };
 }
 
@@ -3180,7 +3180,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( mod->barrel_length().value() > 0 ) {
         if( parts->test( iteminfo_parts::GUN_BARRELLENGTH ) ) {
-            info.emplace_back( "GUN", string_format( _( "Barrel Length: %d %s" ),
+            info.emplace_back( "GUN", string_format( _( "Barrel Length: <info>%d %s</info>" ),
                                convert_length( mod->barrel_length() ), length_units( mod->barrel_length() ) ),
                                iteminfo::no_flags );
         }
@@ -3285,17 +3285,21 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                iteminfo::lower_is_better | iteminfo::no_name,
                                loaded_mod->gun_recoil( player_character, true ) );
         }
+
+        if( parts->test( iteminfo_parts::GUN_RECOIL_THEORETICAL_MINIMUM ) ) {
+            info.back().bNewLine = true;
+            info.emplace_back( "GUN", _( "Theoretical minimum recoil: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better, loaded_mod->gun_recoil( player_character, true,
+                                       true ) );
+        }
+        if( parts->test( iteminfo_parts:: GUN_IDEAL_STRENGTH ) ) {
+            info.emplace_back( "GUN", "ideal_strength", _( " (when strength reaches: <num>)" ),
+                               iteminfo::lower_is_better | iteminfo::no_name,
+                               loaded_mod->gun_base_weight() / 333.0_gram );
+        }
     }
     info.back().bNewLine = true;
-
     std::map<gun_mode_id, gun_mode> fire_modes = mod->gun_all_modes();
-    if( std::any_of( fire_modes.begin(), fire_modes.end(),
-    []( const std::pair<gun_mode_id, gun_mode> &e ) {
-    return e.second.qty > 1 && !e.second.melee();
-    } ) ) {
-        info.emplace_back( "GUN", _( "Recommended strength (burst): " ), "",
-                           iteminfo::lower_is_better, std::ceil( mod->type->weight / 333.0_gram ) );
-    }
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -6073,6 +6077,7 @@ void item::ascii_art_info( std::vector<iteminfo> &info, const iteminfo_query * /
             art = itype_variant().art;
         }
         if( art.is_valid() ) {
+            insert_separation_line( info );
             for( const std::string &line : art->picture ) {
                 info.emplace_back( "DESCRIPTION", line );
             }
@@ -6233,11 +6238,6 @@ int item::get_free_mod_locations( const gunmod_location &location ) const
         }
     }
     return result;
-}
-
-int item::engine_displacement() const
-{
-    return type->engine ? type->engine->displacement : 0;
 }
 
 const std::string &item::symbol() const
@@ -6748,7 +6748,7 @@ std::string item::tname( unsigned int quantity, tname::segment_bitset const &seg
         if( !segments[idx] ) {
             continue;
         }
-        ret += ( *tname::segment_map.at( idx ) )( *this, quantity, segments );
+        ret += tname::print_segment( idx, *this, quantity, segments );
     }
 
     if( item_vars.find( "item_note" ) != item_vars.end() ) {
@@ -7395,12 +7395,12 @@ int item::damage_melee( const damage_type_id &dt ) const
         res *= 1.3;
     }
 
-    // consider any melee gunmods
+    // consider any attached bayonets
     if( is_gun() ) {
         std::vector<int> opts = { res };
-        for( const std::pair<const gun_mode_id, gun_mode> &e : gun_all_modes() ) {
-            if( e.second.target != this && e.second.melee() ) {
-                opts.push_back( e.second.target->damage_melee( dt ) );
+        for( const item *mod : gunmods() ) {
+            if( mod->type->gunmod->is_bayonet ) {
+                opts.push_back( mod->damage_melee( dt ) );
             }
         }
         return *std::max_element( opts.begin(), opts.end() );
@@ -9237,6 +9237,8 @@ bool item::has_itype_variant( bool check_option ) const
     switch( type->variant_kind ) {
         case itype_variant_kind::gun:
             return get_option<bool>( "SHOW_GUN_VARIANTS" );
+        case itype_variant_kind::drug:
+            return get_option<bool>( "SHOW_DRUG_VARIANTS" );
         default:
             return true;
     }
@@ -10444,8 +10446,18 @@ damage_instance item::gun_damage( itype_id ammo ) const
 
     return ret;
 }
+units::mass item::gun_base_weight() const
+{
+    units::mass base_weight = type->weight;
+    for( const item *mod : gunmods() ) {
+        if( !mod->type->mod->ammo_modifier.empty() ) {
+            base_weight += mod->type->integral_weight;
+        }
+    }
+    return base_weight;
 
-int item::gun_recoil( const Character &p, bool bipod ) const
+}
+int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
@@ -10453,7 +10465,9 @@ int item::gun_recoil( const Character &p, bool bipod ) const
 
     ///\ARM_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.get_arm_str() * 333_gram ) / 333.0_gram;
+    // now we need to add weight of receiver
+    double wt = ideal_strength ? gun_base_weight() / 333.0_gram : std::min( gun_base_weight(),
+                p.get_arm_str() * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {
@@ -13231,8 +13245,11 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
             return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
         } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
-        } else if( !veh.part( veh.part_at( mount ) ).carried_stack.empty() ) {
-            return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+        } else {
+            const int part_at = veh.part_at( mount );
+            if( part_at != -1 && !veh.part( part_at ).carried_stack.empty() ) {
+                return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+            }
         }
     } else {
         const link_up_actor *it_actor = static_cast<const link_up_actor *>

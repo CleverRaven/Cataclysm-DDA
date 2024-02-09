@@ -491,8 +491,8 @@ bool aim_activity_actor::load_RAS_weapon()
     }
 
     // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.006f *
-                     get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
+    you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
+                          get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -581,7 +581,6 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
     update_player_vehicle( who );
 
     who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
-    who.omt_path.clear();
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
     }
@@ -1776,6 +1775,11 @@ void read_activity_actor::start( player_activity &act, Character &who )
     add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
                    to_string_writable( time_duration::from_moves( moves_total ) ) );
 
+    // starting the activity should cost a charge to boot up the ebook app
+    if( using_ereader ) {
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
+    }
+
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
@@ -1799,7 +1803,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
-        who.mod_stamina( -1 );
+        who.burn_energy_all( -1 );
     }
 
     // do not spam the message log
@@ -1814,7 +1818,9 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
             _( "<npcname> no longer has the e-book!" ) );
         who.cancel_activity();
         return;
-    } else if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+    }
+
+    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
         add_msg_if_player_sees(
             who,
             _( "%1$s %2$s ran out of batteries." ),
@@ -1822,6 +1828,17 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
             item::nname( ereader->typeId() ) );
         who.cancel_activity();
         return;
+    }
+
+    if( using_ereader && calendar::once_every( 5_minutes ) ) {
+        /** Expected battery life while reading with common ereaders:
+                integrated_ar       - implant                                         = potentially infinite
+                ar_glasses_advanced - max 300 charges from disposable light battery   = 25 hours of reading
+                eink_tablet_pc      - max 300 charges from disposable light battery   = 25 hours of reading
+                laptop              - max 1200 charges from disposable medium battery = 100 hours of reading
+                smart_phone         - 120 UPS charges                                 = 10 hours of reading
+        */
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
     }
 }
 
@@ -3215,6 +3232,7 @@ void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
+    get_event_bus().send<event_type::character_attempt_to_fall_asleep>( who.getID() );
     who.set_movement_mode( move_mode_prone );
     who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }
@@ -3903,8 +3921,8 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
             who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
         }
         if( calendar::once_every( 2_minutes ) ) {
-            who.add_msg_debug_if_player( debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
-            who.add_msg_debug_if_player( debugmode::DF_ACT_WORKOUT, act.id().c_str() );
+            add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, who.activity_level_str() );
+            add_msg_debug_if( who.is_avatar(), debugmode::DF_ACT_WORKOUT, act.id().c_str() );
         }
     } else if( !rest_mode ) {
         rest_mode = true;

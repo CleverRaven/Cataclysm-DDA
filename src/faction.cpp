@@ -2,11 +2,9 @@
 
 #include <bitset>
 #include <cstdlib>
-#include <functional>
 #include <limits>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -17,20 +15,15 @@
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
-#include "condition.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
-#include "item.h"
-#include "item_group.h"
-#include "json.h"
+#include "input_context.h"
 #include "line.h"
 #include "localized_comparator.h"
-#include "memory_fast.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -40,7 +33,6 @@
 #include "skill.h"
 #include "text_snippets.h"
 #include "string_formatter.h"
-#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
