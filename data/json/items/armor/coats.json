@@ -327,7 +327,7 @@
         "encumbrance": [ 7, 7 ],
         "material": [
           { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.3 },
-          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.1 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 }
         ]
       }
     ],
@@ -1135,8 +1135,8 @@
         "coverage": 100,
         "encumbrance": [ 13, 15 ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.2 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.3 }
         ]
       },
       {
@@ -1144,8 +1144,8 @@
         "coverage": 100,
         "encumbrance": [ 13, 13 ],
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.2 }
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.25 },
+          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.3 }
         ]
       }
     ],
@@ -2527,7 +2527,8 @@
     "looks_like": "coat_winter",
     "color": "light_blue",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 22 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 22 ], "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.2 },
+      { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
     ],
     "pocket_data": [
@@ -2561,7 +2562,6 @@
       }
     ],
     "warmth": 80,
-    "material_thickness": 2,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "OUTER", "SOFT" ]
   },
