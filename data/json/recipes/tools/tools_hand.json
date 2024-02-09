@@ -1506,7 +1506,7 @@
     "time": "240 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ], [ "material_aluminium_ingot", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
