@@ -107,6 +107,10 @@
           "derelict_property_south",
           "derelict_property_east",
           "derelict_property_west",
+          "druid_ritual_home_z0_north",
+          "druid_ritual_home_z0_west",
+          "druid_ritual_home_z0_east",
+          "druid_ritual_home_z0_south",
           "homelesscamp_north",
           "homelesscamp_south",
           "homelesscamp_east",
@@ -201,11 +205,7 @@
           "ws_giant_sinkhole_1_north",
           "ws_giant_sinkhole_1_east",
           "ws_giant_sinkhole_1_south",
-          "ws_giant_sinkhole_1_west",
-          "druid_ritual_home_z0_north",
-          "druid_ritual_home_z0_west",
-          "druid_ritual_home_z0_east",
-          "druid_ritual_home_z0_south"
+          "ws_giant_sinkhole_1_west"
         ]
       }
     }
