@@ -81,15 +81,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "dvd_foodperson2",
-    "name": { "str": "DVD disc - Foodperson 2: A Marketable Sequel" },
-    "description": "Foodplace presents this 96.7% watchable motion picture DVD.  It stars Foodperson again as they attempt to re-retrieve the Object of Plot Relevance from the possession of the Antagonist that escaped their destiny in the last movie.  Rated D for delicious and is from 2021",
-    "copy-from": "dvd_blank",
-    "price": 500,
-    "price_postapoc": 75
-  },
-  {
-    "type": "GENERIC",
     "id": "dvd_bean",
     "name": { "str": "DVD disc - Killer Bean Forever" },
     "description": "This DVD disc contains an animated action film featuring anthropomorphic coffee beans.  The story follows a skilled assassin bean named Jack Bean who becomes a target after a mission.  The movie combines humor, stylized action, and unique character designs.  This movie doesn't have a specific age rating from any official American rating organizations and is from 2008.",
