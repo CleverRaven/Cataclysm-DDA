@@ -2926,7 +2926,7 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
-         to_translation( "If enabled, this skips the JSON verification step during loading. This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
+         to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
          false
        );
 }
