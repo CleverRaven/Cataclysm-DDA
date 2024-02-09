@@ -4217,6 +4217,6 @@
     "symbol": "[",
     "color": "yellow",
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
   }
 ]

@@ -7099,15 +7099,25 @@
     "difficulty": 5
   },
   {
-    "id": "nested_bullet_jewellery",
+    "id": "nested_bullet_necklaces",
     "type": "nested_category",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
+    "name": "cartridge-pendent necklaces",
+    "description": "Recipes dealing with the manufacture of necklaces made with bullet casings, including ones made through simple techniques or more refined workmanship.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "simple_pistol_cartridge_necklace" ]
+  },
+  {
+    "id": "nested_bullet_jewellery",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
     "name": "cartridge accoutrements",
     "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewellery formed from spent munitions.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "simple_pistol_cartridge_necklace" ],
-    "difficulty": 0
+    "nested_category_data": [ "nested_bullet_necklaces" ]
   }
 ]
