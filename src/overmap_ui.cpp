@@ -1912,6 +1912,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                         create_note( curs );
                     }
                     const int max_amount = 20;
+                    // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                     const std::string popupmsg = _( "Danger radius in overmap squares? (0-20)" );
                     int amount = string_input_popup()
                                  .title( popupmsg )
