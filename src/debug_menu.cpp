@@ -108,6 +108,7 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
+#include "veh_appliance.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
@@ -145,6 +146,8 @@ static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_NONE( "NONE" );
+
+static const vpart_id vpart_ap_battery_large( "ap_battery_large" );
 
 #if defined(TILES)
 #include "sdl_wrappers.h"
@@ -3811,8 +3814,8 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
         for( const quality_requirement &quality_req : quality_group ) {
             options.clear();
             pseudo_options.clear();
-	    // TODO: Find a better way of doing this than spawning one of every item.
-	    // Do it once and cache the results?
+            // TODO: Find a better way of doing this than spawning one of every item.
+            // Do it once and cache the results?
             for( const itype *i : item_controller->all() ) {
                 item temp_item( i, calendar::turn, min_charges_for_qual );
                 if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
@@ -3943,14 +3946,21 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
                 get_map().add_item_or_charges( player_character.pos(), new_container );
                 charges_to_spawn -= mag.ammo_remaining();
             }
-	} else if( granted.can_link_up() ) {
-	  // This is an item that's supposed to be plugged in to a vehicle/appliance
-	  if( !silent ) {
-	    add_msg( m_info, string_format( "Cannot yet spawn: %s", item::nname( entry.first, entry.second ) ) );
-	  } else {
-	    debugmsg( "Not yet able to spawn linked item %s\n", item::nname( entry.first, entry.second ) );
-	  }
-	  get_map().add_item_or_charges( player_character.pos(), granted );
+        } else if( granted.can_link_up() ) {
+            // This is an item that's supposed to be plugged in to a vehicle/appliance
+            const tripoint battery_pos = player_character.pos() + tripoint_north;
+            // TODO: Check for surrounding furniture
+            item battery_item( "large_storage_battery" );
+            battery_item.ammo_set( battery_item.ammo_default(), entry.second );
+            place_appliance( battery_pos, vpart_ap_battery_large, battery_item );
+            if( !silent ) {
+                add_msg( m_info, string_format( "Spawning appliance battery %s with %i charges",
+                                                battery_item.display_name(), battery_item.charges ) );
+                add_msg( m_info, string_format( "Spawning plug-in item %s", granted.display_name() ) );
+            }
+            granted.link_to( get_map().veh_at( battery_pos ), link_state::automatic );
+            get_map().add_item_or_charges( player_character.pos(), granted );
+
         } else {
             if( entry.second <= 1 ) {
                 if( !silent ) {
