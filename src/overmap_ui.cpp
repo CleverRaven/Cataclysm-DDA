@@ -404,6 +404,8 @@ class map_notes_callback : public uilist_callback
                     if( overmap_buffer.is_marked_dangerous( note_location() ) &&
                         query_yn( _( "Remove dangerous mark?" ) ) ) {
                         overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                        menu->ret = UILIST_MAP_NOTE_EDITED;
+                        return true;
                     }
                     // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
                     else if( ( overmap_buffer.is_marked_dangerous( note_location() ) &&
