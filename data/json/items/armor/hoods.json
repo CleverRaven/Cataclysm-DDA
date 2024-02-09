@@ -193,7 +193,7 @@
     "volume": "750 ml",
     "price": 2000,
     "price_postapoc": 250,
-    "material": [ "vinyl" ],
+    "material": [ { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.4 } ],
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
