@@ -99,15 +99,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "dvd_foodperson3",
-    "name": { "str": "DVD disc - Foodperson 3: The Last Straw" },
-    "description": "Foodplace presents this 98.4% watchable motion picture DVD (almost 100%).  It stars Foodperson once again as they discover more about their own story, family and past, while finally understanding and waging peace with the Antagonist from the last two movies.  Rated D for delicious and is from 2024.",
-    "copy-from": "dvd_blank",
-    "price": 500,
-    "price_postapoc": 75
-  },
-  {
-    "type": "GENERIC",
     "id": "dvd_bean",
     "name": { "str": "DVD disc - Killer Bean Forever" },
     "description": "This DVD disc contains an animated action film featuring anthropomorphic coffee beans.  The story follows a skilled assassin bean named Jack Bean who becomes a target after a mission.  The movie combines humor, stylized action, and unique character designs.  This movie doesn't have a specific age rating from any official American rating organizations and is from 2008.",
