@@ -58,6 +58,11 @@
           "f_whiskflower": 10
         }
       }
+    },
+    "forest_mapgen_settings": {
+      "forest_thick": {
+        "terrains": [ "druid_ritual_home_z0_north", "druid_ritual_home_z0_west", "druid_ritual_home_z0_east", "druid_ritual_home_z0_south" ]
+      }
     }
   }
 ]

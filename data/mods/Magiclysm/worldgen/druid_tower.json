@@ -129,7 +129,6 @@
     "//": "This is common areas and eating places.",
     "object": {
       "predecessor_mapgen": "forest_thick",
-      "fill_ter": "t_region_groundcover",
       "rows": [
         "  ?           I     ?   ",
         "    I  ?   I   I  ?  I  ",
