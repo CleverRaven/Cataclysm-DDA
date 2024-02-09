@@ -636,7 +636,7 @@ void gunmod_remove_activity_actor::finish( player_activity &act, Character &who 
 
 bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
 {
-    if( gunmod.has_flag( flag_BRASS_CATCHER ) ) {
+    if( gunmod.has_flag( flag_BRASS_CATCHER ) || gunmod.has_flag( flag_NOT_MAGAZINE ) ) {
         // Exclude brass catchers so that removing them wouldn't spill the casings
         return true;
     }

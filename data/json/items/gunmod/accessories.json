@@ -138,8 +138,8 @@
     "type": "GUNMOD",
     "name": { "str": "stock-mounted shell holder" },
     "description": "Designed to be strapped to the side of a shotgun's stock, this polymer shotshell holder can store five 12 gauge shells for easy reloading.",
-    "weight": "16 g",
-    "volume": "60 ml",
+    "weight": "50 g",
+    "volume": "350 ml",
     "price": 2000,
     "price_postapoc": 50,
     "install_time": "30 s",
@@ -149,6 +149,16 @@
     "color": "black",
     "location": "stock accessory",
     "mod_targets": [ "shotgun" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "250 g",
+        "ammo_restriction": { "shot": 5 },
+        "moves": 25
+      }
+    ],
     "pocket_mods": [
       {
         "pocket_type": "CONTAINER",
