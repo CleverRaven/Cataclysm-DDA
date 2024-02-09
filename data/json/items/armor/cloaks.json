@@ -1892,7 +1892,7 @@
     "warmth": 35,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "STRAPPED", "OVERSIZE" ],
+    "flags": [ "BELTED", "OVERSIZE" ],
     "armor": [ { "encumbrance": 5, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
