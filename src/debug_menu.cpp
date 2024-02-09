@@ -3787,6 +3787,13 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
             // Attempt to give the user 'real' items,.  However, some recipes can only be completed
             // with pseudo items.  If a pseudo-item is required, the user will be notified below
             item dummy_item( option.type, calendar::turn );
+
+            // Some tool items are representations of integrated bionics.  We're not prepared to spawn those yet
+            // TODO: Figure out how to spawn those properly
+            if( dummy_item.has_flag( flag_USES_BIONIC_POWER ) ) {
+                continue;
+            }
+
             pseudo_options.emplace_back( option.type, option.count + temporary_buffer );
             if( !dummy_item.has_flag( flag_PSEUDO ) ) {
                 options.emplace_back( option.type, option.count + temporary_buffer );
