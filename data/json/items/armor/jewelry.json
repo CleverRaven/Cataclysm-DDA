@@ -4190,7 +4190,7 @@
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "rivolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "magnum-cartridge necklace" } },
+      { "type": "COMPONENT_ID_SUBSTRING", "condition": "44", "name": { "str": "magnum-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "rivolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
     ],
