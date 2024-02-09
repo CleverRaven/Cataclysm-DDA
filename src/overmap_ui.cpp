@@ -441,11 +441,14 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
     point_abs_omt result( point_min );
 
     bool refresh = true;
+    bool first = true;
     uilist nmenu;
     while( refresh ) {
         refresh = false;
         nmenu.color_error( false );
+        int selected = nmenu.selected;
         nmenu.init();
+        nmenu.selected = selected;
         nmenu.desc_enabled = true;
         nmenu.input_category = "OVERMAP_NOTES";
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
@@ -465,7 +468,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.title = string_format( _( "Map notes (%d)" ), notes.size() );
         for( const auto &point_with_note : notes ) {
             const point_abs_omt p = point_with_note.first;
-            if( p == origin.xy() ) {
+            if( first && p == origin.xy() ) {
                 nmenu.selected = row;
             }
             const std::string &note = point_with_note.second;
@@ -503,6 +506,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
             result = notes[nmenu.ret].first;
             refresh = false;
         }
+        first = false;
     }
     return result;
 }
