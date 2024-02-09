@@ -307,7 +307,6 @@
     "volume": "1750 ml",
     "price": 7900,
     "price_postapoc": 50,
-    "material": [ { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.4 } ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
@@ -316,9 +315,21 @@
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_upper", "torso_lower" ],
         "coverage": 100,
-        "encumbrance": [ 7, 15 ]
+        "encumbrance": [ 7, 15 ],
+        "material": [
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 }
+        ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ],
+        "material": [
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "vinyl", "covered_by_mat": 100, "thickness": 0.1 }
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -875,7 +886,7 @@
     "warmth": 20,
     "material_thickness": 0.8,
     "environmental_protection": 1,
-    "flags": [ "OUTER", "OVERSIZE" ]
+    "flags": [ "OUTER" ]
   },
   {
     "id": "jacket_army",
@@ -1115,16 +1126,28 @@
     "volume": "2250 ml",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [
-      { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
-      { "type": "vinyl", "covered_by_mat": 80, "thickness": 0.5 }
-    ],
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "cyan",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 13, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 13, 13 ] }
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 13, 15 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.2 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 13, 13 ],
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.1 },
+          { "type": "vinyl", "covered_by_mat": 60, "thickness": 0.2 }
+        ]
+      }
     ],
     "pocket_data": [
       {
@@ -2187,7 +2210,7 @@
     ],
     "warmth": 8,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "ghost_robe_sheet",
@@ -2268,7 +2291,7 @@
     },
     "warmth": 10,
     "material_thickness": 0.1,
-    "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "UNRESTRICTED", "OUTER", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
     "id": "grim_reaper_robe_faceless",

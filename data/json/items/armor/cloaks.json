@@ -1627,7 +1627,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 95,
-        "encumbrance": [ 6 ],
+        "encumbrance": 6,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1655,7 +1655,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 4 ],
+        "encumbrance": 4,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1675,20 +1675,20 @@
     "symbol": "[",
     "looks_like": "coat_rain",
     "color": "green",
-    "warmth": 30,
-    "material_thickness": 0.4,
-    "environmental_protection": 3,
-    "flags": [ "OVERSIZE", "HOOD", "BELTED" ],
     "armor": [
       { "encumbrance": 4, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 4 ],
+        "encumbrance": 4,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
-    ]
+    ],
+    "warmth": 30,
+    "material_thickness": 0.4,
+    "environmental_protection": 3,
+    "flags": [ "OVERSIZE", "HOOD", "BELTED" ]
   },
   {
     "id": "cloak_denim",
@@ -1711,7 +1711,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 8 ],
+        "encumbrance": 8,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1742,7 +1742,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 2 ],
+        "encumbrance": 2,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1790,7 +1790,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 2 ],
+        "encumbrance": 2,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1819,7 +1819,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 6 ],
+        "encumbrance": 6,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1848,7 +1848,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 6 ],
+        "encumbrance": 6,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1877,7 +1877,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 5 ],
+        "encumbrance": 5,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1906,7 +1906,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 3 ],
+        "encumbrance": 3,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1944,7 +1944,7 @@
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 65,
-        "encumbrance": [ 50 ],
+        "encumbrance": 50,
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "layers": [ "BELTED" ]
       }
@@ -1957,7 +1957,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "FB51 optical cloak (on)", "str_pl": "FB51 optical cloaks (on)" },
     "description": "A plastic cloak embedded with cameras and LEDs that will render you fully invisible to normal vision when powered and worn.  It is turned on, and continually draining power from a UPS.  Use it to turn it off.",
-    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "STRAPPED", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT", "NO_REPAIR" ],
+    "flags": [ "USE_UPS", "OVERSIZE", "HOOD", "BELTED", "ACTIVE_CLOAKING", "TRADER_AVOID", "SOFT", "NO_REPAIR" ],
     "power_draw": "20 kW",
     "revert_to": "optical_cloak",
     "use_action": {
@@ -1991,14 +1991,14 @@
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": [ 5 ],
+        "encumbrance": 5,
         "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
         "layers": [ "BELTED" ]
       },
       {
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 85,
-        "encumbrance": [ 5 ],
+        "encumbrance": 5,
         "specifically_covers": [ "arm_upper_r", "arm_upper_l" ],
         "layers": [ "BELTED" ]
       }
@@ -2018,7 +2018,7 @@
     "weight": "30 g",
     "volume": "50 ml",
     "to_hit": -1,
-    "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "STRAPPED" ],
+    "flags": [ "RAINPROOF", "OVERSIZE", "HOOD", "BELTED" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
     "armor": [ { "coverage": 90, "covers": [ "torso" ] } ]
@@ -2038,7 +2038,7 @@
     "volume": "250 ml",
     "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED", "TRANSPARENT" ],
     "environmental_protection": 1,
-    "material_thickness": 0.1,
+    "material_thickness": 0.4,
     "variant_type": "generic",
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
@@ -2095,7 +2095,7 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER" ],
+    "flags": [ "UNRESTRICTED", "OUTER" ],
     "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   }
 ]
