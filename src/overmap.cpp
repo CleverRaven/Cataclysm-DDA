@@ -3196,6 +3196,20 @@ void overmap::mark_note_dangerous( const tripoint_om_omt &p, int radius, bool is
     }
 }
 
+int overmap::note_danger_radius( const tripoint_om_omt &p ) const
+{
+    if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
+        return -1;
+    }
+
+    const auto &notes = layer[p.z() + OVERMAP_DEPTH].notes;
+    const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
+        return n.p == p.xy();
+    } );
+
+    return ( it != std::end( notes ) ) && it->dangerous ? it->danger_radius : -1;
+}
+
 void overmap::delete_note( const tripoint_om_omt &p )
 {
     add_note( p, std::string{} );
