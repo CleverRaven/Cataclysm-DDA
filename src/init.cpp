@@ -770,7 +770,9 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         ui.proceed();
     }
 
-    check_consistency( ui );
+    if( !get_option<bool>( "SKIP_VERIFICATION" ) ) {
+        check_consistency( ui );
+    }
     finalized = true;
 }
 
