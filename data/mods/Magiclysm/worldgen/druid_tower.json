@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "druid_ritual_home",
     "terrain": {
+      "|": "t_region_groundcover",
       "#": "t_triffid_bark_wall",
       "_": "t_heartwood_floor",
       "b": "t_heartwood_floor",
@@ -131,8 +132,8 @@
         "   ##~ṚṚ~~__~~~~~~~##   ",
         "   ########__########   ",
         "    ##    #++#    ###   ",
-        "                        ",
-        "                        "
+        "           ||           ",
+        "           ||           "
       ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "druid_ritual_home" ],
