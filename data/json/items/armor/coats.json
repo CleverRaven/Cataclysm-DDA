@@ -44,7 +44,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 6,
-    "flags": [ "VARSIZE", "POCKETS", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
+    "flags": [ "VARSIZE", "POCKETS", "STURDY", "RAINPROOF", "OUTER" ]
   },
   {
     "id": "cassock",
@@ -302,12 +302,12 @@
     "id": "coat_rain",
     "type": "ARMOR",
     "name": { "str": "rain coat" },
-    "description": "A plastic coat with a hood and two very large pockets, meant to provide protection from rain.",
+    "description": "A vinyl coat with a hood and two very large pockets, meant to provide protection from rain.",
     "weight": "960 g",
     "volume": "1750 ml",
     "price": 7900,
     "price_postapoc": 50,
-    "material": [ "plastic", "cotton" ],
+    "material": [ "vinyl", "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "yellow",
@@ -339,7 +339,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER", "SOFT" ]
+    "flags": [ "VARSIZE", "POCKETS", "RAINPROOF", "HOOD", "OUTER" ]
   },
   {
     "id": "folding_poncho",
@@ -351,10 +351,10 @@
     "description": "A lightweight transparent plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
     "price": 5000,
     "price_postapoc": 50,
-    "material": [ "plastic" ],
+    "material": [ "vinyl" ],
     "weight": "280 g",
     "volume": "250 ml",
-    "flags": [ "WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER", "SOFT", "TRANSPARENT" ],
+    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED", "TRANSPARENT" ],
     "environmental_protection": 1,
     "material_thickness": 0.1,
     "variant_type": "generic",
@@ -394,7 +394,7 @@
     ],
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "OUTER" ]
+    "flags": [ "OVERSIZE", "RAINPROOF", "BELTED" ]
   },
   {
     "id": "coat_gut",
@@ -412,7 +412,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "HOOD", "OUTER" ],
+    "flags": [ "VARSIZE", "RAINPROOF", "HOOD", "OUTER" ],
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100, "encumbrance": 12 },
       {
@@ -548,7 +548,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "duster_fur",
@@ -622,7 +622,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "xl_duster_fur",
@@ -755,7 +755,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "xl_duster_leather",
@@ -996,7 +996,7 @@
     ],
     "warmth": 20,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "jacket_army_modern",
@@ -1171,7 +1171,7 @@
     "volume": "2250 ml",
     "price": 1000,
     "price_postapoc": 50,
-    "material": [ "plastic", "cotton" ],
+    "material": [ "vinyl", "nylon" ],
     "symbol": "[",
     "looks_like": "jacket_leather",
     "color": "cyan",
@@ -1197,7 +1197,7 @@
     ],
     "warmth": 25,
     "material_thickness": 0.15,
-    "flags": [ "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "SOFT" ]
+    "flags": [ "POCKETS", "HOOD", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "jacket_flannel",
@@ -1530,7 +1530,7 @@
     "warmth": 15,
     "material_thickness": 0.8,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "SOFT" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
   },
   {
     "id": "jacket_light",
@@ -1612,7 +1612,7 @@
     "warmth": 10,
     "material_thickness": 0.25,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "jacket_varsity",
@@ -2552,7 +2552,7 @@
     "volume": "5 L",
     "price": 18000,
     "price_postapoc": 500,
-    "material": [ "cotton", "plastic" ],
+    "material": [ "nylon", "cotton" ],
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_blue",
@@ -2673,7 +2673,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_fur",
@@ -2753,7 +2753,7 @@
     "warmth": 50,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_duster_faux_fur",
@@ -2843,7 +2843,7 @@
     "warmth": 30,
     "material_thickness": 1.5,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "sleeveless_trenchcoat",
@@ -2871,7 +2871,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ],
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
       {
@@ -3096,7 +3096,7 @@
     "warmth": 15,
     "material_thickness": 1.5,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "RAINPROOF" ]
   },
   {
     "id": "trenchcoat_fur",
@@ -3431,7 +3431,7 @@
     ],
     "warmth": 50,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER", "WATERPROOF", "SOFT" ]
+    "flags": [ "VARSIZE", "POCKETS", "HOOD", "OUTER" ]
   },
   {
     "id": "trenchcoat_steampunk",
@@ -3579,7 +3579,7 @@
     ],
     "warmth": 15,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "HOOD", "OUTER" ],
+    "flags": [ "VARSIZE", "POCKETS", "RAINPROOF", "HOOD", "OUTER" ],
     "variant_type": "generic",
     "variants": [
       {
