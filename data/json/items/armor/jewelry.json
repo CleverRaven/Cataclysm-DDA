@@ -4177,5 +4177,46 @@
       { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
+  },
+  {
+    "id": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "looks_like": "gold_necklace",
+    "name": { "str": "pistol-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str": "light rifle-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "revolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "automatic-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "magnum-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
+    ],
+    "description": "A simple, if rather crewed, piece of post-Cataclysm jewellery: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.",
+    "snippet_category": [
+      {
+        "id": "pendent1",
+        "text": "A simple, if rather crewed, piece of post-Cataclysm jewellery: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell’s neck has been daintily drilled through with two tiny holes on opposite sides, through which the cord has been fed and tied off to form a poor man’s excuse for a chain, and from where the cartridge hangs, dimpled primer-down."
+      },
+      {
+        "id": "pendent2",
+        "text": "A simple, if rather crewed, piece of post-Cataclysm jewellery: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The dimpled section of the shell’s primer has been punched out, and a second hole has been drilled through the casing’s side just shy of the base, with the ballistic accoutrement hanging from a section of tied-off cord that has been threaded through both entry points."
+      },
+      {
+        "id": "pendent3",
+        "text": "A simple, if rather crewed, piece of post-Cataclysm jewellery: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell’s throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant’s sides, through which a length of string has been threaded.  The cord’s loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
+      }
+    ],
+    "weight": "35 g",
+    "volume": "15 ml",
+    "price": 500,
+    "price_postapoc": 0,
+    "material": [ { "type": "brass", "portion": 2 }, { "type": "cotton" } ],
+    "symbol": "[",
+    "color": "yellow",
+    "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
+    "flags": [ "NO_WEAR_EFFECT" ]
   }
 ]

@@ -7097,5 +7097,17 @@
       "qt_esbi_plate"
     ],
     "difficulty": 5
+  },
+  {
+    "id": "nested_bullet_jewellery",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "cartridge accoutrements",
+    "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewellery formed from spent munitions.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "simple_pistol_cartridge_necklace" ],
+    "difficulty": 0
   }
 ]

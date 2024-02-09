@@ -309,5 +309,35 @@
         [ "reloaded_50beowulf_penetrator", -1 ]
       ]
     ]
+  },
+  {
+    "id": "pistol_casings",
+    "type": "requirement",
+    "//": "A list of all pistol-calibre casings for use in crafts and adjacent projects.",
+    "components": [
+      [
+        [ "22_casing", 1 ],
+        [ "32_casing", 1 ],
+        [ "38_casing", 1 ],
+        [ "38super_casing", 1 ],
+        [ "40_casing", 1 ],
+        [ "10mm_casing", 1 ],
+        [ "44_casing", 1 ],
+        [ "454_casing", 1 ],
+        [ "45_casing", 1 ],
+        [ "45colt_casing", 1 ],
+        [ "46mm_casing", 1 ],
+        [ "57mm_casing", 1 ],
+        [ "460_casing", 1 ],
+        [ "500_casing", 1 ],
+        [ "762_25_casing", 1 ],
+        [ "9mm_casing", 1 ],
+        [ "357sig_casing", 1 ],
+        [ "357mag_casing", 1 ],
+        [ "9x18mm_casing", 1 ],
+        [ "380_casing", 1 ],
+        [ "50ae_casing", 1 ]
+      ]
+    ]
   }
 ]
