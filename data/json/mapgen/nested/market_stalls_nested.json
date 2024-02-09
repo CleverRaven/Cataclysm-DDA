@@ -76,12 +76,12 @@
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
-        "ccccc ",
-        "cr  t ",
-        "cr  d ",
-        "C   d ",
-        "cr  d ",
-        "ccccc "
+        "cccccc",
+        "cr   t",
+        "cr   d",
+        "C    d",
+        "cr   d",
+        "cccccc"
       ],
       "items": {
         "t": { "item": "cash_register_random", "chance": 100 },
