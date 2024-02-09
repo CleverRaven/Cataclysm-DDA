@@ -10,7 +10,7 @@
     "name": "GROUP_FOREST",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 920 },
+      { "monster": "mon_null", "weight": 880 },
       { "monster": "mon_owlbear", "weight": 10, "cost_multiplier": 10 },
       { "monster": "mon_wisp", "weight": 3, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_troll", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
@@ -67,7 +67,7 @@
     "name": "GROUP_SWAMP",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 958 },
+      { "monster": "mon_null", "weight": 954 },
       { "monster": "mon_black_pudding", "weight": 14, "pack_size": [ 4, 6 ] },
       { "monster": "mon_stirge", "weight": 7, "pack_size": [ 2, 8 ] },
       { "monster": "mon_wisp", "weight": 5, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
@@ -75,6 +75,7 @@
       { "monster": "mon_dragon_black_wyrmling", "weight": 2, "cost_multiplier": 50 },
       { "monster": "mon_dragon_black_young", "weight": 1, "cost_multiplier": 65 },
       { "monster": "mon_ogre", "weight": 3, "cost_multiplier": 12 },
+      { "monster": "mon_troll_water", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       { "group": "GROUP_FOREST_SPIRIT_SWAMP", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
   },
@@ -83,10 +84,11 @@
     "name": "GROUP_CAVE",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 835 },
+      { "monster": "mon_null", "weight": 782 },
       { "monster": "mon_owlbear", "weight": 100, "cost_multiplier": 10, "pack_size": [ 2, 4 ] },
       { "monster": "mon_shrieker", "weight": 10 },
       { "monster": "mon_lemure", "weight": 5, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_troll_stone", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       {
         "monster": "mon_owlbear_zombie",
         "weight": 40,
