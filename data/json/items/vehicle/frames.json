@@ -34,6 +34,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "fold_flying_drone_frame",
+    "name": { "str": "foldable flying drone frame" },
+    "description": "A small, foldable lightweight frame made from aluminum.",
+    "material": [ "plastic", "carbonfiber" ],
+    "weight": "200 g",
+    "copy-from": "foldframe"
+  },
+  {
+    "type": "GENERIC",
     "id": "frame",
     "name": { "str": "steel frame" },
     "description": "A large frame made of steel.  Useful for crafting.",

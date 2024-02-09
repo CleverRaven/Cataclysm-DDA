@@ -1824,5 +1824,14 @@
       { "x": 0, "y": 2, "chance": 7, "items": [ "pockknife" ] },
       { "x": 0, "y": 2, "chance": 5, "items": [ "box_cigarette" ] }
     ]
+  },
+  {
+    "id": "CameraDrone",
+    "type": "vehicle",
+    "name": "Camera Drone",
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "fold_flying_drone_frame", "drive_by_wire_controls" ] },
+      { "x": 0, "y": 0, "parts": [ "drone_rotor", "engine_electric_drone" ] }
+    ]
   }
 ]
