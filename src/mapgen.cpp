@@ -572,12 +572,12 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
 void check_mapgen_definitions()
 {
     oter_mapgen.check_consistency();
-    for( auto &oter_definition : nested_mapgens ) {
+    for( const auto &oter_definition : nested_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr.obj->check();
         }
     }
-    for( auto &oter_definition : update_mapgens ) {
+    for( const auto &oter_definition : update_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr->check();
         }
@@ -4089,7 +4089,7 @@ bool string_id<mapgen_palette>::is_valid() const
     return palettes.find( *this ) != palettes.end();
 }
 
-void mapgen_palette::check()
+void mapgen_palette::check() const
 {
     std::string context = "palette " + id.str();
     jmapgen_int fake_coord( -1 );
@@ -4136,7 +4136,7 @@ const mapgen_palette &mapgen_palette::get( const palette_id &id )
 
 void mapgen_palette::check_definitions()
 {
-    for( auto &p : palettes ) {
+    for( const auto &p : palettes ) {
         p.second.check();
     }
 }
