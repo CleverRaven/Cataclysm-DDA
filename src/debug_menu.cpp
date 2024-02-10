@@ -147,6 +147,8 @@ static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_NONE( "NONE" );
 
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
@@ -4003,6 +4005,31 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
             battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
             items_to_spawn.emplace_back( granted, string_format( "Spawning plug-in item %s",
                                          granted.display_name() ) );
+	} else if( granted.has_flag( flag_PSEUDO ) ) {
+	  // Check if an appliance exists that provides this pseudo item
+	  std::vector<itype_id> appliance_options;
+	  std::set<std::pair<itype_id,int>> pseudo_tools;
+	  for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+	    pseudo_tools = vpi.get_pseudo_tools();
+	    std::set<std::pair<itype_id, int>>::iterator it;
+	    for( it=pseudo_tools.begin(); it!=pseudo_tools.end();++it ) {
+	      if( it->first == granted.typeId() ) {
+		if( vpi.has_flag( flag_APPLIANCE ) ) {
+		  appliance_options.emplace_back( vpi.base_item );
+		}
+	      }
+	    }
+	  }
+	  if( !appliance_options.empty() ) {
+	    // Randomly select an appliance to place
+	    int selected = rng( 0, static_cast<int>( appliance_options.size() - 1 ) );
+            battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
+	    item appliance_item( appliance_options[selected] );
+	    appliances_to_spawn.emplace_back( appliance_item, string_format( "Spawning appliance %s", appliance_item.display_name() ) );
+	  } else {
+	    // Just give the player the pseudo item
+	    items_to_spawn.emplace_back( granted, string_format( "Spawning pseudo item %s", granted.display_name() ) );
+	  }
         } else if( granted.has_flag( flag_NEEDS_INSTALL ) ) {
             // This is an appliance that needs to be placed
             battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
