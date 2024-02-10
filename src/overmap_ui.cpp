@@ -401,29 +401,33 @@ class map_notes_callback : public uilist_callback
                     return true;
                 }
                 if( action == "MARK_DANGER" ) {
-                    if( overmap_buffer.is_marked_dangerous( note_location() ) &&
+                    if( overmap_buffer.note_danger_radius( note_location() ) >= 0 &&
                         query_yn( _( "Remove dangerous mark?" ) ) ) {
                         overmap_buffer.mark_note_dangerous( note_location(), 0, false );
-                    }
-                    // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                    else if( ( overmap_buffer.is_marked_dangerous( note_location() ) &&
-                               query_yn( _( "Edit dangerous mark?" ) ) ) ||
-                             ( !overmap_buffer.is_marked_dangerous( note_location() ) &&
-                               // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                               query_yn( _( "Mark area as dangerous ( to avoid on auto move paths?  This will create a note if none exists already )" ) ) ) ) {
-                        const int max_amount = 20;
-                        // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                        const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
-                        int amount = string_input_popup()
-                                     .title( popupmsg )
-                                     .width( 20 )
-                                     .text( "0" )
-                                     .only_digits( true )
-                                     .query_int();
-                        if( amount > -1 && amount <= max_amount ) {
-                            overmap_buffer.mark_note_dangerous( note_location(), amount, true );
-                            menu->ret = UILIST_MAP_NOTE_EDITED;
-                            return true;
+                    } else {
+                        bool has_mark = overmap_buffer.note_danger_radius( note_location() ) >= 0;
+                        bool has_note = overmap_buffer.has_note( note_location() );
+                        std::string query_text = has_mark ?  _( "Edit dangerous mark?" )  : has_note ?
+                                                 _( "Mark area as dangerous (to avoid on auto move paths)?" ) :
+                                                 _( "Create note and mark area as dangerous (to avoid on auto move paths)?" );
+                        if( query_yn( query_text ) ) {
+                            if( !has_note ) {
+                                create_note( note_location() );
+                            }
+                            const int max_amount = 20;
+                            // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                            const std::string popupmsg = _( "Danger radius in overmap squares? (0-20)" );
+                            int amount = string_input_popup()
+                                         .title( popupmsg )
+                                         .width( 20 )
+                                         .text( "0" )
+                                         .only_digits( true )
+                                         .query_int();
+                            if( amount >= 0 && amount <= max_amount ) {
+                                overmap_buffer.mark_note_dangerous( note_location(), amount, true );
+                                menu->ret = UILIST_MAP_NOTE_EDITED;
+                                return true;
+                            }
                         }
                     }
                 }
@@ -1897,24 +1901,28 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 query_yn( _( "Remove dangerous mark?" ) ) ) {
                 overmap_buffer.mark_note_dangerous( curs, 0,
                                                     false );
-            } else if( ( overmap_buffer.is_marked_dangerous( curs ) &&
-                         query_yn( _( "Edit dangerous mark?" ) ) ) || ( !overmap_buffer.is_marked_dangerous( curs ) &&
-                                 // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                                 query_yn( _( "Mark area as dangerous ( to avoid on auto move paths?  This will create a note if none exists already )" ) ) ) ) {
-                if( !overmap_buffer.has_note( curs ) ) {
-                    create_note( curs );
-                }
-                const int max_amount = 20;
-                // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
-                const std::string popupmsg = _( "Danger radius in overmap squares? ( 0-20 )" );
-                int amount = string_input_popup()
-                             .title( popupmsg )
-                             .width( 20 )
-                             .text( "0" )
-                             .only_digits( true )
-                             .query_int();
-                if( amount > -1 && amount <= max_amount ) {
-                    overmap_buffer.mark_note_dangerous( curs, amount, true );
+            } else {
+                bool has_mark = overmap_buffer.note_danger_radius( curs ) >= 0;
+                bool has_note = overmap_buffer.has_note( curs );
+                std::string query_text = has_mark ?  _( "Edit dangerous mark?" )  : has_note ?
+                                         _( "Mark area as dangerous (to avoid on auto move paths)?" ) :
+                                         _( "Create note and mark area as dangerous (to avoid on auto move paths)?" );
+                if( query_yn( query_text ) ) {
+                    if( !has_note ) {
+                        create_note( curs );
+                    }
+                    const int max_amount = 20;
+                    // NOLINTNEXTLINE(cata-text-style): No need for two whitespaces
+                    const std::string popupmsg = _( "Danger radius in overmap squares? (0-20)" );
+                    int amount = string_input_popup()
+                                 .title( popupmsg )
+                                 .width( 20 )
+                                 .text( "0" )
+                                 .only_digits( true )
+                                 .query_int();
+                    if( amount >= 0 && amount <= max_amount ) {
+                        overmap_buffer.mark_note_dangerous( curs, amount, true );
+                    }
                 }
             }
         } else if( action == "LIST_NOTES" ) {
