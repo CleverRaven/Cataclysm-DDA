@@ -230,7 +230,7 @@ static int compute_kill_xp( const mtype_id &mon_type )
 static void armor_enchantment_adjust( monster &mon, damage_unit &du )
 {
     // FIXME: hardcoded damage types -> enchantments
-    if (du.amount < 1.0f) {
+    if (du.amount < 0.1f) {
         return;
     }
     if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
