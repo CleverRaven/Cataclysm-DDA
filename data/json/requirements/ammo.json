@@ -339,5 +339,31 @@
         [ "50ae_casing", 1 ]
       ]
     ]
+  },
+  {
+    "id": "rifle_casings",
+    "type": "requirement",
+    "//": "A list of rifle-calibre casings for use in crafts and adjacent projects. Excludes giant cartridges like .50 Browning and shotgun shells.",
+    "components": [
+      [
+        [ "123ln_casing", 1 ],
+        [ "223_casing", 1 ],
+        [ "270win_casing", 1 ],
+        [ "3006_casing", 1 ],
+        [ "303_casing", 1 ],
+        [ "308_casing", 1 ],
+        [ "300blk_casing", 1 ],
+        [ "30carbine_casing", 1 ],
+        [ "300_casing", 1 ],
+        [ "4570_casing", 1 ],
+        [ "450_casing", 1 ],
+        [ "545_casing", 1 ],
+        [ "50beowulf_casing", 1 ],
+        [ "762R_casing", 1 ],
+        [ "762_51_casing", 1 ],
+        [ "762_casing", 1 ],
+        [ "77arisaka_casing", 1 ]
+      ]
+    ]
   }
 ]

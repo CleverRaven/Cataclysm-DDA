@@ -7107,7 +7107,7 @@
     "name": "cartridge-pendent necklaces",
     "description": "Recipes dealing with the manufacture of necklaces made with bullet casings, including ones made through simple techniques or more refined workmanship.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "simple_pistol_cartridge_necklace" ]
+    "nested_category_data": [ "simple_pistol_cartridge_necklace", "simple_rifle_cartridge_necklace" ]
   },
   {
     "id": "nested_bullet_jewellery",
