@@ -163,7 +163,7 @@
     "player_display": true,
     "vanity": true,
     "variants": [
-      { "id": "black", "name": { "str": "Hair: black, short" }, "description": "You have short black hair.", "weight": 1 },
+      { "id": "black", "name": { "str": "Hair: black, short" }, "description": "Short black hair style.", "weight": 1 },
       {
         "id": "blond",
         "name": { "str": "Hair: blond, short" },
