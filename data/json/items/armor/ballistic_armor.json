@@ -1454,7 +1454,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of ballistic thigh protectors", "str_pl": "pairs of ballistic thigh protectors" },
-    "description": "Front and back nylon armor with soft armor inserts for upper leg protection.  Designed to be attached to US military body armor.",
+    "description": "Nylon armor with soft armor inserts for upper leg protection.  Designed to be attached to US military body armor.",
     "weight": "3000 g",
     "volume": "1800 ml",
     "price": 60000,
