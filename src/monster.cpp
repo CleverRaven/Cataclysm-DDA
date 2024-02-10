@@ -3150,7 +3150,8 @@ void monster::process_one_effect( effect &it, bool is_new )
         }
     }
     //Reset max speed
-    this->set_speed_base(calculate_by_enchantment(this->get_speed_base(), enchant_vals::mod::SPEED, true));
+    this->set_speed_base( calculate_by_enchantment( this->get_speed_base(), enchant_vals::mod::SPEED,
+                          true ) );
 }
 
 void monster::process_effects()
@@ -3178,8 +3179,9 @@ void monster::process_effects()
         }
     }
     //Apply enchantment modifiers
-    regeneration_amount = calculate_by_enchantment(regeneration_amount, enchant_vals::mod::REGEN_HP, true)
-    //Prevent negative regeneration
+    regeneration_amount = calculate_by_enchantment( regeneration_amount, enchant_vals::mod::REGEN_HP,
+                          true )
+                          //Prevent negative regeneration
     if( regeneration_amount < 0 ) {
         regeneration_amount = 0;
     }
@@ -3699,13 +3701,13 @@ void monster::on_hit( Creature *source, bodypart_id,
 
 int monster::get_hp_max( const bodypart_id & ) const
 {
-    int enchantment_hp = calculate_by_enchantment(type->hp, enchant_vals::mod::MAX_HP, true);
+    int enchantment_hp = calculate_by_enchantment( type->hp, enchant_vals::mod::MAX_HP, true );
     return enchantment_hp;
 }
 
 int monster::get_hp_max() const
 {
-    int enchantment_hp = calculate_by_enchantment(type->hp, enchant_vals::mod::MAX_HP, true);
+    int enchantment_hp = calculate_by_enchantment( type->hp, enchant_vals::mod::MAX_HP, true );
     return enchantment_hp;
 }
 
