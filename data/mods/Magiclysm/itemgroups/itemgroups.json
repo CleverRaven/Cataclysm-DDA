@@ -1070,7 +1070,8 @@
           { "item": "winter_grasp", "prob": 10 },
           { "item": "spell_scroll_recover_mana", "prob": 50 },
           { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
-          { "item": "spell_scroll_recover_pain", "prob": 50 }
+          { "item": "spell_scroll_recover_pain", "prob": 50 },
+          { "item": "spell_scroll_animist_spirit_walking", "prob": 40 }
         ],
         "prob": 10
       },

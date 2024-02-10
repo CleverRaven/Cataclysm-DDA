@@ -887,5 +887,42 @@
     "energy_source": "MANA",
     "base_casting_time": 500,
     "base_energy_cost": 150
+  },
+  {
+    "id": "animist_spirit_walking",
+    "type": "SPELL",
+    "name": { "str": "Spirit-Walking" },
+    "description": "Tranform your body to pure spirit, making you invisible and intangible.  You can move incredibly quickly while the spell is in effect and can pass by enemies unseen, but you will be unable to affect the physical world or cast spells.",
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "spell_class": "ANIMIST",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ANIMIST_SPIRIT_WALKING",
+    "shape": "blast",
+    "valid_targets": [ "self" ],
+    "components": "spell_components_spirit_walking",
+    "max_level": 20,
+    "difficulty": 8,
+    "min_duration": 3000,
+    "max_duration": 9000,
+    "duration_increment": 300,
+    "energy_source": "MANA",
+    "base_casting_time": 300,
+    "base_energy_cost": 1200,
+    "final_energy_cost": 850,
+    "energy_increment": -17.5
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANIMIST_SPIRIT_WALKING",
+    "effect": [
+      {
+        "u_add_effect": "effect_spirit_walking",
+        "duration": { "math": [ "( 30 + (u_spell_level('animist_spirit_walking') * 3)) " ] }
+      },
+      {
+        "u_add_effect": "incorporeal",
+        "duration": { "math": [ "( 30 + (u_spell_level('animist_spirit_walking') * 3)) " ] }
+      }
+    ]
   }
 ]
