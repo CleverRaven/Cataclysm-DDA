@@ -147,8 +147,6 @@ static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_SPEED( "DEBUG_SPEED" );
 static const trait_id trait_NONE( "NONE" );
 
-static const vpart_id vpart_ap_battery_large( "ap_battery_large" );
-
 #if defined(TILES)
 #include "sdl_wrappers.h"
 #endif
@@ -3737,6 +3735,44 @@ void set_random_seed( const std::string &title )
     rng_set_engine_seed( new_seed );
 }
 
+struct items_with_quality {
+    quality_id curr_quality;
+    std::vector<std::pair<itype_id, int>> item_ids;
+    items_with_quality( quality_id curr_qual ) {
+        curr_quality = curr_qual;
+    }
+};
+
+struct item_quality_cache {
+    bool prepared = false;
+    std::vector<items_with_quality> quality_list;
+    void add_entry( itype_id id, quality_id curr_qual, int value ) {
+        bool added = false;
+        for( items_with_quality &i : quality_list ) {
+            if( curr_qual == i.curr_quality ) {
+                i.item_ids.emplace_back( id, value );
+                added = true;
+            }
+        }
+        if( !added ) {
+            quality_list.emplace_back( curr_qual );
+            quality_list.back().item_ids.emplace_back( id, value );
+        }
+    }
+    const std::vector<std::pair<itype_id, int>> &get_itype_list( quality_id curr_qual ) {
+        for( const items_with_quality &i : quality_list ) {
+            if( curr_qual == i.curr_quality ) {
+                return i.item_ids;
+            }
+        }
+        debugmsg( _( "Unable to find items with quality %s.  This will produce unexpected results." ),
+                  std::string( curr_qual ) );
+        return quality_list.back().item_ids;
+    }
+};
+
+item_quality_cache quality_cache;
+
 std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirement_data &req,
                                    const int batch_size, const std::string &requirement_name )
 {
@@ -3821,24 +3857,38 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
         for( const quality_requirement &quality_req : quality_group ) {
             options.clear();
             pseudo_options.clear();
-            // TODO: Find a better way of doing this than spawning one of every item.
-            // Do it once and cache the results?
-            for( const itype *i : item_controller->all() ) {
-                item temp_item( i, calendar::turn, min_charges_for_qual );
-                if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
+
+            if( !quality_cache.prepared ) {
+                for( const itype *i : item_controller->all() ) {
+                    //item temp_item( i, calendar::turn, min_charges_for_qual );
+                    for( auto const& [key, val] : i->qualities ) {
+                        quality_cache.add_entry( i->get_id(), key, val );
+                    }
+                    // TODO: Differentiate these somehow
+                    for( auto const& [key, val] : i->charged_qualities ) {
+                        quality_cache.add_entry( i->get_id(), key, val );
+                    }
+                }
+                quality_cache.prepared = true;
+            }
+
+            for( std::pair<itype_id, int> i : quality_cache.get_itype_list( quality_req.type ) ) {
+                if( i.second >= quality_req.level ) {
+                    item temp_item( i.first, calendar::turn, min_charges_for_qual );
                     if( !temp_item.has_flag( flag_PSEUDO ) ) {
                         // Only provide charged items if required for providing the quality
                         temp_item.charges = 1;
                         if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
-                            options.emplace_back( i->get_id(), 1 );
+                            options.emplace_back( i.first, 1 );
                         } else {
-                            options.emplace_back( i->get_id(), min_charges_for_qual );
+                            options.emplace_back( i.first, min_charges_for_qual );
                         }
                     } else {
-                        pseudo_options.emplace_back( i->get_id(), min_charges_for_qual );
+                        pseudo_options.emplace_back( i.first, min_charges_for_qual );
                     }
                 }
             }
+
             if( options.empty() && pseudo_options.empty() ) {
                 debugmsg( string_format( _( "Unable to spawn %s" ), quality_req.to_string() ) );
             } else {
@@ -3858,8 +3908,9 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
     return items_to_spawn;
 }
 
-static void spawn_charges_in_containers( const itype_id contents_type, const int charges,
-        const itype_id container_type, bool silent )
+static void create_containers_for_charges( std::vector<std::pair<item, std::string>> &item_list,
+        const itype_id contents_type, const int charges,
+        const itype_id container_type/*, bool silent */ )
 {
     int amount_required = charges;
     while( amount_required > 0 ) {
@@ -3871,71 +3922,62 @@ static void spawn_charges_in_containers( const itype_id contents_type, const int
         contents.charges = std::max( contents.charges, 1 );
         container.put_in( contents, pocket_type::CONTAINER );
         amount_required -= contents.charges;
-        if( !silent ) {
-            add_msg( m_info, string_format( "Spawning charged item in container: %s",
-                                            container.display_name() ) );
-        }
-        get_map().add_item_or_charges( get_player_character().pos(), container );
+        item_list.emplace_back( container, string_format( "Spawning charged item in container: %s",
+                                container.display_name() ) );
     }
 }
 
 void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
-                            &items_to_spawn, bool silent )
+                            &itypes_to_spawn, bool silent )
 {
-    if( items_to_spawn.empty() ) {
+    if( itypes_to_spawn.empty() ) {
         return;
     }
     Character &player_character = get_player_character();
-    for( const auto &entry : items_to_spawn ) {
+    std::vector<std::pair<item, std::string>> items_to_spawn;
+    std::vector<std::pair<item, std::string>> appliances_to_spawn;
+    item battery_item( "large_storage_battery" );
+    battery_item.ammo_set( battery_item.ammo_default(), 0 );
+
+    // Convert the list of itype_ids into a collection of items to add to the world
+    for( const auto &entry : itypes_to_spawn ) {
         item granted( entry.first );
         if( granted.count_by_charges() ) {
             granted.charges = entry.second;
             if( granted.in_its_container().typeId() != granted.typeId() ) {
                 // Spawns in a default container
-                spawn_charges_in_containers( entry.first, entry.second, granted.type->default_container.value(),
-                                             silent );
+                create_containers_for_charges( items_to_spawn, entry.first, entry.second,
+                                               granted.type->default_container.value() );
             } else if( !granted.made_of( phase_id::SOLID ) ) {
                 // Default to giant barrels.  TODO: find a more elegant solution
-                spawn_charges_in_containers( entry.first, entry.second, itype_55gal_drum, silent );
+                create_containers_for_charges( items_to_spawn, entry.first, entry.second, itype_55gal_drum );
             } else {
-                // Just spawning the item
                 // Check if the item will fit in a single tile
                 if( granted.charges_per_volume( 1000000_ml ) < granted.charges ) {
                     int charges_to_spawn = entry.second;
                     while( charges_to_spawn > 0 ) {
                         granted.charges = std::min( granted.charges_per_volume( 1000000_ml ), charges_to_spawn );
-                        if( !silent ) {
-                            add_msg( m_info, string_format( "Spawning charged item: %s with %i charges",
-                                                            item::nname( entry.first, granted.charges ), granted.charges ) );
-                        }
-                        get_map().add_item_or_charges( player_character.pos(), granted, true );
+                        items_to_spawn.emplace_back( granted, string_format( "Spawning charged item: %s",
+                                                     granted.display_name() ) );
                         charges_to_spawn -= granted.charges;
                     }
                 } else {
-                    if( !silent ) {
-                        add_msg( m_info, string_format( "Spawning charged item: %s with %i charges",
-                                                        item::nname( entry.first, entry.second ), entry.second ) );
-                    }
-                    get_map().add_item_or_charges( player_character.pos(), granted, true );
+                    items_to_spawn.emplace_back( granted, string_format( "Spawning charged item: %s",
+                                                 granted.display_name() ) );
                 }
             }
         } else if( !granted.ammo_default().is_null() ) {
             // Check if there's room for ammo (e.g. a UPS-using item might not have a battery)
             if( granted.remaining_ammo_capacity() == 0 ) {
-                if( !silent ) {
-                    add_msg( m_info, string_format( "Spawning: %s with no default ammo, since it doesn't fit",
-                                                    granted.display_name() ) );
-                }
-                get_map().add_item_or_charges( player_character.pos(), granted );
+                items_to_spawn.emplace_back( granted,
+                                             string_format( "Spawning: %s with no default ammo, since it doesn't fit",
+                                                     granted.display_name() ) );
             } else {
                 int charges_to_spawn = entry.second;
                 while( charges_to_spawn > 0 ) {
                     granted.ammo_set( granted.ammo_default(), charges_to_spawn );
-                    if( !silent ) {
-                        add_msg( m_info, string_format( "Spawning: %s with %i default ammo",
-                                                        granted.display_name(), granted.ammo_remaining() ) );
-                    }
-                    get_map().add_item_or_charges( player_character.pos(), granted );
+                    items_to_spawn.emplace_back( granted, string_format( "Spawning: %s with %i default ammo",
+                                                 granted.display_name(), granted.ammo_remaining() ) );
                     charges_to_spawn -= granted.ammo_remaining();
                 }
             }
@@ -3945,46 +3987,63 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
             while( charges_to_spawn > 0 ) {
                 item new_container = granted;
                 mag.ammo_set( mag.ammo_default(), charges_to_spawn );
-                if( !silent ) {
-                    add_msg( m_info, string_format( "Spawning: %s with a magazine with %i default ammo",
-                                                    item::nname( entry.first, entry.second ), mag.ammo_remaining() ) );
-                }
                 new_container.put_in( mag, pocket_type::MAGAZINE_WELL );
-                get_map().add_item_or_charges( player_character.pos(), new_container );
+                items_to_spawn.emplace_back( new_container,
+                                             string_format( "Spawning: %s with a magazine with %i default ammo", item::nname( entry.first,
+                                                     entry.second ), mag.ammo_remaining() ) );
                 charges_to_spawn -= mag.ammo_remaining();
             }
         } else if( granted.can_link_up() ) {
             // This is an item that's supposed to be plugged in to a vehicle/appliance
-            const tripoint battery_pos = player_character.pos() + tripoint_north;
-            // TODO: Check for surrounding furniture
-            item battery_item( "large_storage_battery" );
-            battery_item.ammo_set( battery_item.ammo_default(), entry.second );
-            place_appliance( battery_pos, vpart_ap_battery_large, battery_item );
-            if( !silent ) {
-                add_msg( m_info, string_format( "Spawning appliance battery %s with %i charges",
-                                                battery_item.display_name(), battery_item.charges ) );
-                add_msg( m_info, string_format( "Spawning plug-in item %s", granted.display_name() ) );
-            }
-            granted.link_to( get_map().veh_at( battery_pos ), link_state::automatic );
-            get_map().add_item_or_charges( player_character.pos(), granted );
-
+            battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
+            items_to_spawn.emplace_back( granted, string_format( "Spawning plug-in item %s",
+                                         granted.display_name() ) );
+        } else if( granted.has_flag( flag_NEEDS_INSTALL ) ) {
+            // This is an appliance that needs to be placed
+            battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
+            appliances_to_spawn.emplace_back( granted, string_format( "Spawning appliance %s",
+                                              granted.display_name() ) );
         } else {
             if( entry.second <= 1 ) {
-                if( !silent ) {
-                    add_msg( m_info, string_format( "Spawning single item: %s", item::nname( entry.first,
-                                                    entry.second ) ) );
-                }
-                get_map().add_item_or_charges( player_character.pos(), granted );
+                items_to_spawn.emplace_back( granted, string_format( "Spawning single item: %s",
+                                             granted.display_name() ) );
             } else {
-                if( !silent ) {
-                    add_msg( m_info, string_format( "Spawning multiple items: %s x %i", item::nname( entry.first,
-                                                    entry.second ), entry.second ) );
+                int num_to_spawn = entry.second;
+                if( granted.volume() * entry.second > 10000000_ml ) {
+                    debugmsg( "Unable to spawn enough %s", granted.display_name() );
+                    num_to_spawn = 10000000_ml / granted.volume();
                 }
-                for( int i = 0; i < entry.second; ++i ) {
-                    get_map().add_item_or_charges( player_character.pos(), granted );
+                for( int i = 0; i < num_to_spawn; ++i ) {
+                    items_to_spawn.emplace_back( granted, string_format( "Spawning single item: %s",
+                                                 granted.display_name() ) );
                 }
             }
         }
+    }
+
+    // Spawn any required appliances
+    // TODO: Check for surrounding furniture
+    const tripoint battery_pos = player_character.pos() + tripoint_north;
+    if( battery_item.ammo_remaining() > 0 ) {
+        place_appliance( battery_pos, vpart_appliance_from_item( battery_item.typeId() ), battery_item );
+    }
+    tripoint current_pos = battery_pos + tripoint_north;
+    for( const std::pair<item, std::string> &entry : appliances_to_spawn ) {
+        if( !silent ) {
+            add_msg( m_info, entry.second );
+        }
+        place_appliance( current_pos, vpart_appliance_from_item( entry.first.typeId() ), entry.first );
+    }
+
+    // Actually spawn the required items
+    for( std::pair<item, std::string> &entry : items_to_spawn ) {
+        if( !silent ) {
+            add_msg( m_info, entry.second );
+        }
+        if( entry.first.can_link_up() ) {
+            entry.first.link_to( get_map().veh_at( battery_pos ), link_state::automatic );
+        }
+        get_map().add_item_or_charges( player_character.pos(), entry.first, true );
     }
 
     player_character.invalidate_crafting_inventory();
