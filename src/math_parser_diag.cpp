@@ -1336,7 +1336,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
-    { "characters_nearby", { "ung", -1, characters_nearby_eval } },
+    { "characters_nearby", { "ung", 0, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
