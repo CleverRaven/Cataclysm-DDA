@@ -214,7 +214,7 @@
         "TTTTTc",
         "cccccc"
       ],
-      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 6, "y2": 6 } ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
       "items": {
         "t": { "item": "cash_register_random", "chance": 100 },
         "T": [ { "item": "homebooks", "chance": 40, "repeat": [ 1, 2 ] } ]

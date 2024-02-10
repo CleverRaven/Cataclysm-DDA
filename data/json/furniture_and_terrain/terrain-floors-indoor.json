@@ -1510,7 +1510,7 @@
     "description": "An area of common poured concrete, damaged by frost heaves and large cracks due to lack of maintenance.",
     "symbol": ".",
     "color": "light_gray",
-    "looks_like": "t_concrete",
+    "looks_like": "t_sidewalk",
     "move_cost": 2,
     "roof": "t_canvas_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "ROAD", "MINEABLE" ],
