@@ -227,37 +227,29 @@ static int compute_kill_xp( const mtype_id &mon_type )
 }
 
 // adjusts damage unit depending on type by enchantments.
-static void armor_enchantment_adjust(monster& mon, damage_unit& du)
+static void armor_enchantment_adjust( monster &mon, damage_unit &du )
 {
     // FIXME: hardcoded damage types -> enchantments
-    if (du.type == STATIC(damage_type_id("acid"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_ACID);
+    if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
+    } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BASH );
+    } else if( du.type == STATIC( damage_type_id( "biological" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BIO );
+    } else if( du.type == STATIC( damage_type_id( "cold" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_COLD );
+    } else if( du.type == STATIC( damage_type_id( "cut" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_CUT );
+    } else if( du.type == STATIC( damage_type_id( "electric" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ELEC );
+    } else if( du.type == STATIC( damage_type_id( "heat" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_HEAT );
+    } else if( du.type == STATIC( damage_type_id( "stab" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
+    } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
     }
-    else if (du.type == STATIC(damage_type_id("bash"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_BASH);
-    }
-    else if (du.type == STATIC(damage_type_id("biological"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_BIO);
-    }
-    else if (du.type == STATIC(damage_type_id("cold"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_COLD);
-    }
-    else if (du.type == STATIC(damage_type_id("cut"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_CUT);
-    }
-    else if (du.type == STATIC(damage_type_id("electric"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_ELEC);
-    }
-    else if (du.type == STATIC(damage_type_id("heat"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_HEAT);
-    }
-    else if (du.type == STATIC(damage_type_id("stab"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_STAB);
-    }
-    else if (du.type == STATIC(damage_type_id("bullet"))) {
-        du.amount = mon.calculate_by_enchantment(du.amount, enchant_vals::mod::ARMOR_BULLET);
-    }
-    du.amount = std::max(0.0f, du.amount);
+    du.amount = std::max( 0.0f, du.amount );
 }
 
 monster::monster()
@@ -3213,9 +3205,9 @@ void monster::process_effects()
         }
     }
     //Apply enchantment modifiers
-    regeneration_amount = calculate_by_enchantment(regeneration_amount, enchant_vals::mod::REGEN_HP,
-        true);
-                          //Prevent negative regeneration
+    regeneration_amount = calculate_by_enchantment( regeneration_amount, enchant_vals::mod::REGEN_HP,
+                          true );
+    //Prevent negative regeneration
     if( regeneration_amount < 0 ) {
         regeneration_amount = 0;
     }
