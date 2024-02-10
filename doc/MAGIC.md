@@ -24,7 +24,7 @@
     - [The `relic_data` field](#the-relic_data-field)
     - [Variables](#variables)
     - [ID values](#id-values)
-	- [Enchantments on monster](#enchantments-on-monsters)
+	- [Enchantments on monsters](#enchantments-on-monsters)
     - [Enchantment value examples](#enchantment-value-examples)
 
 
