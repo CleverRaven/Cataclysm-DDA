@@ -565,6 +565,75 @@ std::function<double( dialogue & )> mod_order_eval( char /* scope */,
     };
 }
 
+enum class character_filter : int {
+    friends = 0,
+    not_friends,
+    both,
+};
+
+bool _friend_match_filter_character( Character const &beta, Character const &guy,
+                                     character_filter filter )
+{
+    switch( filter ) {
+        case character_filter::friends:
+            return guy.is_ally( beta ) != 0;
+        case character_filter::not_friends:
+            return !guy.is_ally( beta ) == 0;
+        case character_filter::both:
+            return true;
+    }
+    return false;
+}
+
+bool _filter_character( Character const &beta, Character const &guy, int radius,
+                        tripoint_abs_ms const &loc, character_filter filter )
+{
+    if( !guy.is_hallucination() && ( beta.getID() != guy.getID() ) ) {
+        return _friend_match_filter_character( beta, guy, filter ) &&
+               radius >= rl_dist( guy.get_location(), loc );
+    }
+    return false;
+}
+
+std::function<double( dialogue & )> _friends_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value radius_val( 1000.0 );
+    std::optional<var_info> loc_var;
+    if( kwargs.count( "radius" ) != 0 ) {
+        radius_val = *kwargs.at( "radius" );
+    }
+    if( kwargs.count( "location" ) != 0 ) {
+        loc_var = kwargs.at( "location" )->var();
+    } else if( scope == 'g' ) {
+        throw std::invalid_argument( string_format(
+                                         R"("friends_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+    }
+
+    return [beta = is_beta( scope ), params, loc_var, radius_val]( dialogue & d ) {
+        tripoint_abs_ms loc;
+        if( loc_var.has_value() ) {
+            loc = get_tripoint_from_var( loc_var, d );
+        } else {
+            loc = d.actor( beta )->global_pos();
+        }
+
+        int const radius = static_cast<int>( radius_val.dbl( d ) );
+        character_filter filter = character_filter::friends;
+        std::vector<Character *> const targets = g->get_characters_if( [&beta, &d, &radius,
+               &loc, filter ]( const Character & guy ) {
+            return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter );
+        } );
+        return static_cast<double>( targets.size() );
+    };
+}
+
+std::function<double( dialogue & )> friends_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _friends_nearby_eval( scope, params, kwargs );
+}
+
 template<class ID>
 using f_monster_match = bool ( * )( Creature const &critter, ID const &id );
 
@@ -1257,6 +1326,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "faction_respect", { "g", 1, faction_respect_eval } },
     { "faction_trust", { "g", 1, faction_trust_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
+    { "friends_nearby", { "ung", -1, friends_nearby_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },

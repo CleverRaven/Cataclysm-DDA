@@ -3955,6 +3955,7 @@
     "id": "social_satisfied",
     "name": [ "Good Company" ],
     "desc": [ "It feels good to spend time around others." ],
+    "max_duration": "6 h",
     "max_intensity": 1,
     "rating": "good"
   },
@@ -3976,12 +3977,13 @@
     "name": [ "Alone" ],
     "desc": [ "Being on your own makes you feel good." ],
     "max_intensity": 1,
+    "max_duration": "6 h",
     "rating": "good"
   },
   {
     "type": "effect_type",
     "id": "asocial_dissatisfied",
-    "name": [ "Irritable", "Anxious", "Crowded" ],
+    "name": [ "Irritable", "Annoyed", "Crowded" ],
     "desc": [
       "Being around others has left you feeling drained.",
       "OK, that's enough social time.  You'd really rather be alone now.",

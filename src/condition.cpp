@@ -491,35 +491,6 @@ conditional_t::func f_has_trait( const JsonObject &jo, std::string_view member, 
     };
 }
 
-
-conditional_t::func f_can_see_friends( const JsonObject &jo, std::string_view member, bool is_npc )
-{
-    dbl_or_var dov = get_dbl_or_var( jo, member );
-    return [ dov, is_npc ]( dialogue & d ) {
-        Character &player_character = get_player_character();
-        const Character *ch = d.actor( is_npc )->get_character();
-        int seen = 0;
-        if( is_npc ) {
-            if( ch->sees( player_character ) && ch->as_npc()->is_friendly( player_character ) ) {
-                seen += 1;
-            }
-            for( npc &guy : g->all_npcs() ) {
-                if( ch->sees( guy ) && guy.is_friendly( *ch ) ) {
-                    seen += 1;
-                }
-            }
-        } else if( !is_npc ) {
-            int seen = 0;
-            for( npc &guy : g->all_npcs() ) {
-                if( get_player_view().sees( guy ) && guy.is_friendly( player_character ) ) {
-                    seen += 1;
-                }
-            }
-        }
-        return seen >= dov.evaluate( d );
-    };
-}
-
 conditional_t::func f_has_visible_trait( const JsonObject &jo, std::string_view member,
         bool is_npc )
 {
@@ -2309,7 +2280,6 @@ parsers = {
     {"u_is_in_field", "npc_is_in_field", jarg::member, &conditional_fun::f_is_in_field },
     {"u_has_move_mode", "npc_has_move_mode", jarg::member, &conditional_fun::f_has_move_mode },
     {"u_can_see_location", "npc_can_see_location", jarg::member, &conditional_fun::f_can_see_location },
-    {"u_can_see_friends", "npc_can_see_friends", jarg::member | jarg::array, &conditional_fun::f_can_see_friends },
     {"is_weather", jarg::member, &conditional_fun::f_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
