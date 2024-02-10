@@ -4209,9 +4209,10 @@
         "text": "A simple, if rather crewed, piece of post-Cataclysm jewellery: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell’s throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant’s sides, through which a length of string has been threaded.  The cord’s loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
       }
     ],
-    "weight": "25 g",
-    "volume": "20 ml",
+    "weight": "24 g",
+    "volume": "38 ml",
     "longest_side": "28 mm",
+    "//": "Length is derived from averaging out the case lengths of a .22 Long Rifle, .357 Magnum, and .50 Action Express cartridge.",
     "price": 500,
     "price_postapoc": 0,
     "material": [ { "type": "brass", "portion": 2 }, { "type": "cotton" } ],
@@ -4247,8 +4248,57 @@
         "text": "Rather crewed and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewellery—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The jaws of a set of pliers have twisted closed the cartridge’s throat with a spiral flourish, while a hole has been drilled through opposite sides of the pendant’s shoulder, through which a loop of cord has been threaded.  The string’s loose ends have been wrapped several times around the casing in a vague X-pattern before being tied off, creating a form of mini-bullet cocoon."
       }
     ],
-    "weight": "32 g",
-    "volume": "30 ml",
-    "longest_side": "50 mm"
+    "weight": "25 g",
+    "volume": "40 ml",
+    "longest_side": "50 mm",
+    "//": "Length is derived from averaging out the case lengths of a .30 Carbine, .270 Winchester, and .308 Winchester cartridge."
+  },
+  {
+    "id": "simple_ordnance_cartridge_necklace",
+    "copy-from": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "name": { "str": "ordinance-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m195_casing", "name": { "str": "grenade-cartridge necklace" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "40x46mm_hornets_nest_22lr_casing",
+        "name": { "str": "grenade-cartridge necklace" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "40x46mm_hornets_nest_410_casing",
+        "name": { "str": "grenade-cartridge necklace" }
+      },
+      { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordinance necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordinance necklace" } }
+    ],
+    "description": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewellery is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
+    "snippet_category": [
+      {
+        "id": "ordinance_pendent1",
+        "text": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewellery is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The shell’s neck has been carefully tapped, leaving a hole on either side of the casing’s throat through which the makeshift neck chain has been fed and tied off."
+      },
+      {
+        "id": "ordinance_pendent2",
+        "text": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewellery is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The centre of the shell’s struck primer has been punched out, and a second hole has been drilled shy of the rim, with a section of tied-off cordage stringing through both entry points to form a makeshift neck chain."
+      },
+      {
+        "id": "ordinance_pendent3",
+        "text": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewellery is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The jaws of a set of pliers have been laid to work, with the shell's neck twisted closed in a tapered spiral, while a hole has been bored through opposite sides of the cartridge’s base, through which a loop of cord has been tugged.  The string’s loose ends have been wrapped around the casing in a serpentine pattern before being tied off, creating a manner of bullet cocoon."
+      }
+    ],
+    "weight": "37 g",
+    "volume": "43 ml",
+    "longest_side": "85 mm",
+    "//": "Length is derived from averaging out the case lengths of a .338 Lapua, .50 BMG, and 12-Gauge shotgun cartridge.",
+    "material": [ { "type": "brass", "portion": 3 }, { "type": "cotton" } ],
+    "//2": "Are these materials liable to be a lie considering that grenade cartridges are steel and shotgun shells are plastic? Yes. Can the material be changed based on the component used? Sadly, no."
   }
 ]

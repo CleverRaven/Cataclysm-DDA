@@ -365,5 +365,28 @@
         [ "77arisaka_casing", 1 ]
       ]
     ]
+  },
+  {
+    "id": "heavy_weapon_casings",
+    "type": "requirement",
+    "//": "Assorted larger-than-average bullet casings and grenade shells for use in crafts and related projects. Also includes shotgun shells, because those lads are chunky.",
+    "components": [
+      [
+        [ "40x46mm_m212_casing", 1 ],
+        [ "40x46mm_m118_casing", 1 ],
+        [ "40x46mm_m199_casing", 1 ],
+        [ "40x46mm_m195_casing", 1 ],
+        [ "40x46mm_hornets_nest_22lr_casing", 1 ],
+        [ "40x46mm_hornets_nest_410_casing", 1 ],
+        [ "40x53mm_m169_casing", 1 ],
+        [ "50_casing", 1 ],
+        [ "338lapua_casing", 1 ],
+        [ "458wm_casing", 1 ],
+        [ "shot_hull", 1 ],
+        [ "410shot_hull", 1 ],
+        [ "273x110casing", 1 ],
+        [ "273x44casing", 1 ]
+      ]
+    ]
   }
 ]
