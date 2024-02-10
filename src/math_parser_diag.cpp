@@ -1326,7 +1326,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "faction_respect", { "g", 1, faction_respect_eval } },
     { "faction_trust", { "g", 1, faction_trust_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
-    { "friends_nearby", { "ung", -1, friends_nearby_eval } },
+    { "friends_nearby", { "ung", 0, friends_nearby_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },
