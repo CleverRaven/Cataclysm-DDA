@@ -2698,8 +2698,7 @@
     "broken_color": "red",
     "location": "under",
     "durability": 10,
-    "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
-    "//1": "120 cm weld to install the whole assembly, 30 cm weld per damage quadrant for repair",
+    "description": "A tiny electronic unmanned aerial vehicle control system.  You could control it remotely if you had the proper tools.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "folded_volume": "25 ml",
     "item": "drone_drive_by_wire_controls",
     "requirements": {

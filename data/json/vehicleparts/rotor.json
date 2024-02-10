@@ -30,7 +30,7 @@
     "copy-from": "helicopter_rotors",
     "type": "vehicle_part",
     "name": { "str": "set of drone rotors" },
-    "description": "A set of four carbon fiber drone rotor blades, used to provide lift by rotation",
+    "description": "A set of 4 small rotor blades for flying drones.",
     "rotor_diameter": 0.0414,
     "item": "drone_rotor",
     "variants": [ { "symbols": "x", "symbols_broken": "*" } ],

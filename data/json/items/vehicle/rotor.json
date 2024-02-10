@@ -34,12 +34,12 @@
     "type": "GENERIC",
     "category": "veh_parts",
     "name": { "str": "set of tiny drone rotors", "str_pl": "sets of tiny drone rotors" },
-    "description": "A set of four rotor blades from small commercial flying drone.",
+    "description": "A set of 4 small rotor blades for flying drones.",
     "price": 1200,
     "price_postapoc": 250,
     "weight": "50 g",
     "volume": "50 ml",
-    "material": [ "steel" ],
+    "material": [ "carbonfiber" ],
     "symbol": "x",
     "color": "black"
   }

@@ -82,7 +82,7 @@
     "type": "GENERIC",
     "id": "motor_drone",
     "name": { "str": "set of tiny drone motors", "str_pl": "sets of tiny drone motors" },
-    "description": "A small set of electric motors, used in airborne drones and such.",
+    "description": "A set of 4 small electric motors, used for powering small airborne drones and such.",
     "weight": "90 g",
     "color": "light_cyan",
     "symbol": ".",

@@ -287,9 +287,10 @@
     "name": { "str": "foldable drone frame" },
     "item": "fold_flying_drone_frame",
     "durability": 10,
-    "description": "A light flying drone frame.",
+    "description": "A small flying drone frame.",
     "folded_volume": "250 ml",
-    "breaks_into": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
+    "epower": "-10 W",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
       "install": {
@@ -304,6 +305,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
     },
-    "damage_reduction": { "all": 7 }
+    "damage_reduction": { "all": 7 },
+    "flags": [ "MOUNTABLE", "INITIAL_PART", "VISION", "CAMERA", "CAMERA_CONTROL", "ENABLED_DRAINS_EPOWER" ]
   }
 ]
