@@ -623,7 +623,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
     }
 
     return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val,
-        allow_hallucinations_val ]( dialogue & d ) {
+         allow_hallucinations_val ]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d );
