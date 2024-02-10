@@ -650,6 +650,7 @@ struct islot_wheel {
 enum class itype_variant_kind : int {
     gun,
     generic,
+    drug,
     last
 };
 
@@ -895,6 +896,9 @@ struct islot_gunmod : common_ranged_data {
 
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
+
+    // wheter the item is supposed to work as a bayonet when attached
+    bool is_bayonet = false;
 
     /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_slot;

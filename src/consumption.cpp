@@ -925,7 +925,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-    if( food_is_human_flesh  && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
+    if( food_is_human_flesh  && ( !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
+                                  !has_flag( json_flag_PSYCHOPATH ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -955,7 +956,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    if( food.charges > 0 && food.is_food() &&
+    if( food.is_food() &&
         ( food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ||
           has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
         if( edible ) {

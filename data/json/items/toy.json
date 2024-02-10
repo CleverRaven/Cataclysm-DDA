@@ -884,6 +884,11 @@
     "weight": "75 g",
     "volume": "185 ml",
     "longest_side": "10 cm",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "menu_text": "Spin",
+      "effect_on_conditions": [ { "id": "EOC_spinner_spinning", "effect": { "u_message": "You spin your fidget spinner." } } ]
+    },
     "price": 500,
     "price_postapoc": 5,
     "symbol": "/",

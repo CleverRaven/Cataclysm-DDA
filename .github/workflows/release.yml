@@ -232,7 +232,7 @@ jobs:
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
           pip3 install dmgbuild biplist
       - name: Create VERSION.TXT
         shell: bash
@@ -281,8 +281,9 @@ jobs:
         if: matrix.artifact == 'windows-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
-          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-cross-compile
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-cross-compile
+          configFile: ./.devcontainer/cross-compile/devcontainer.json
           push: always
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
@@ -291,9 +292,10 @@ jobs:
         if: matrix.artifact == 'linux-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
-          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
-          push: never
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-graphical
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-graphical
+          configFile: ./.devcontainer/graphical/devcontainer.json
+          push: always
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
             make -j$((`nproc`+0)) TILES=1 LINTJSON=0 RELEASE=1 object_creator

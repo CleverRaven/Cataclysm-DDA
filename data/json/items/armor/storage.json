@@ -808,38 +808,6 @@
     "melee_damage": { "bash": 5 }
   },
   {
-    "id": "bag_santa",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "Santa's toy sack" },
-    "description": "A really large and sturdy red canvas sack for storing a lot of toys for children (or a lot of canned goods).  Preferred by bearded men on Christmas for gifting the good-behaved.",
-    "copy-from": "briefcase",
-    "repairs_like": "bag_canvas_small",
-    "weight": "2000 g",
-    "volume": "5000 ml",
-    "price": 0,
-    "price_postapoc": 10,
-    "to_hit": -5,
-    "material": [ "canvas" ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "90 L", "max_contains_weight": "150 kg", "moves": 300 } ],
-    "armor_data": {
-      "sided": true,
-      "armor": [
-        {
-          "material": [ { "type": "canvas", "covered_by_mat": 100, "thickness": 0.5 } ],
-          "encumbrance": 30,
-          "volume_encumber_modifier": 0.5,
-          "coverage": 5,
-          "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
-        }
-      ]
-    },
-    "melee_damage": { "bash": 3 },
-    "symbol": ")",
-    "color": "red",
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
-  },
-  {
     "id": "case_violin",
     "type": "ARMOR",
     "name": { "str": "violin case" },
@@ -1906,7 +1874,32 @@
         "specifically_covers": [ "torso_hanging_back" ]
       }
     ],
-    "melee_damage": { "bash": 1 }
+    "melee_damage": { "bash": 1 },
+    "use_action": {
+      "type": "transform",
+      "msg": "You slide the bag to your side.",
+      "menu_text": "Adjust",
+      "target": "mbag_sided",
+      "moves": 120
+    }
+  },
+  {
+    "id": "mbag_sided",
+    "type": "ARMOR",
+    "name": { "str": "messenger bag" },
+    "copy-from": "mbag",
+    "sided": true,
+    "flags": [ "OUTER", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "volume_encumber_modifier": 0.25,
+        "coverage": 40,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+      }
+    ],
+    "use_action": { "type": "transform", "msg": "You move the bag to your back.", "menu_text": "Adjust", "target": "mbag", "moves": 120 }
   },
   {
     "id": "molle_pack",

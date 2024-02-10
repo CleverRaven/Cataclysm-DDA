@@ -419,7 +419,8 @@
     "spells": [
       { "id": "create_atomic_lamp", "level": 8 },
       { "id": "invisibility", "level": 2 },
-      { "id": "technomancer_conjure_ups", "level": 3 }
+      { "id": "technomancer_conjure_ups", "level": 3 },
+      { "id": "technomancer_recharge_vehicle", "level": 5 }
     ],
     "points": 5,
     "skills": [
@@ -462,7 +463,9 @@
     "spells": [
       { "id": "freezing_touch", "level": 3 },
       { "id": "glide_ice", "level": 3 },
-      { "id": "kelvinist_anti_heat", "level": 3 }
+      { "id": "kelvinist_anti_heat", "level": 3 },
+      { "id": "kelvinist_extinguish_fire_spell", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 5 }
     ],
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "spellcraft" } ],
     "points": 2,
@@ -602,7 +605,8 @@
       { "id": "eshaper_spawn_tools", "level": 3 },
       { "id": "move_earth", "level": 2 },
       { "id": "earthshaper_pillar", "level": 1 },
-      { "id": "classless_watch_spell", "level": 1 }
+      { "id": "classless_watch_spell", "level": 1 },
+      { "id": "earthshaper_harden_earth", "level": 4 }
     ],
     "traits": [ "EARTHSHAPER" ],
     "items": {
@@ -856,7 +860,8 @@
       { "id": "magic_missile", "level": 6 },
       { "id": "magus_mana_bolt", "level": 2 },
       { "id": "create_atomic_light", "level": 3 },
-      { "id": "protection_aura", "level": 3 }
+      { "id": "protection_aura", "level": 3 },
+      { "id": "classless_clean_clothing_and_self", "level": 2 }
     ],
     "skills": [
       { "level": 1, "name": "melee" },
@@ -1070,7 +1075,12 @@
     "name": "Deep-Cold Marksman",
     "description": "You were a special operative conducting covert sniper ops in sub-zero temperatures, and had just finished your tour when society was destroyed.  Having retained your gear, it's time to join the new war.",
     "points": 7,
-    "spells": [ { "id": "create_lighter", "level": 4 }, { "id": "glide_ice", "level": 3 }, { "id": "frost_armor", "level": 3 } ],
+    "spells": [
+      { "id": "create_lighter", "level": 4 },
+      { "id": "glide_ice", "level": 3 },
+      { "id": "frost_armor", "level": 3 },
+      { "id": "kelvinist_anti_cold", "level": 4 }
+    ],
     "skills": [
       { "level": 5, "name": "gun" },
       { "level": 4, "name": "rifle" },
@@ -1183,7 +1193,8 @@
     "spells": [
       { "id": "chilling_touch", "level": 3 },
       { "id": "frost_spray", "level": 3 },
-      { "id": "kelvinist_anti_heat", "level": 4 }
+      { "id": "kelvinist_anti_heat", "level": 4 },
+      { "id": "kelvinist_summon_freezer_spell", "level": 6 }
     ],
     "skills": [
       { "level": 2, "name": "speech" },

@@ -239,20 +239,20 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
 
 TEST_CASE( "wet_item", "[item][tname][wet]" )
 {
-    item rag( "rag" );
-    rag.set_flag( flag_WET );
-    REQUIRE( rag.has_flag( flag_WET ) );
+    item sheet_cotton( "sheet_cotton" );
+    sheet_cotton.set_flag( flag_WET );
+    REQUIRE( sheet_cotton.has_flag( flag_WET ) );
 
-    CHECK( rag.tname() == "rag (wet)" );
+    CHECK( sheet_cotton.tname() == "cotton sheet (wet)" );
 }
 
 TEST_CASE( "filthy_item", "[item][tname][filthy]" )
 {
-    item rag( "rag" );
-    rag.set_flag( flag_FILTHY );
-    REQUIRE( rag.is_filthy() );
+    item sheet_cotton( "sheet_cotton" );
+    sheet_cotton.set_flag( flag_FILTHY );
+    REQUIRE( sheet_cotton.is_filthy() );
 
-    CHECK( rag.tname() == "rag (filthy)" );
+    CHECK( sheet_cotton.tname() == "cotton sheet (filthy)" );
 }
 
 TEST_CASE( "diamond_item", "[item][tname][diamond]" )
@@ -262,21 +262,6 @@ TEST_CASE( "diamond_item", "[item][tname][diamond]" )
     REQUIRE( katana.has_flag( flag_DIAMOND ) );
 
     CHECK( katana.tname() == "diamond katana" );
-}
-
-TEST_CASE( "engine_displacement_volume", "[item][tname][engine]" )
-{
-    item vtwin = item( "v2_combustion" );
-    item v12diesel = item( "v12_diesel" );
-    item turbine = item( "small_turbine_engine" );
-
-    REQUIRE( vtwin.engine_displacement() == 60 );
-    REQUIRE( v12diesel.engine_displacement() == 700 );
-    REQUIRE( turbine.engine_displacement() == 2700 );
-
-    CHECK( vtwin.tname() == "0.6L V2 engine" );
-    CHECK( v12diesel.tname() == "7L V12 diesel engine" );
-    CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
 }
 
 TEST_CASE( "wheel_diameter", "[item][tname][wheel]" )

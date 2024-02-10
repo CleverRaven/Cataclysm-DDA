@@ -52,7 +52,7 @@
     ],
     "description": "A shiny finned dinosaur corpse covered with bloody armor and crackling bionics.  It shambles quickly as it hunts.  Is that a laser rifle on its head?",
     "special_when_hit": [ "ZAPBACK", 20 ],
-    "upgrades": {  },
+    "upgrades": false,
     "dissect": "dissect_CBM_DINO"
   },
   {
@@ -77,7 +77,7 @@
     ],
     "description": "The shuffling corpse of a bipedal dinosaur dotted with crackling bionics, tattered feathers, and black putrid liquid with glowing curved claws.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "upgrades": {  },
+    "upgrades": false,
     "dissect": "dissect_CBM_DINO"
   },
   {
@@ -95,7 +95,7 @@
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "The shuffling corpse of a bipedal dinosaur dotted with crackling bionics, tattered feathers, and black putrid liquid with glowing curved claws.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "upgrades": {  },
+    "upgrades": false,
     "dissect": "dissect_CBM_DINO"
   },
   {
@@ -116,7 +116,7 @@
     ],
     "description": "A bipedal dinosaur covered with tattered feathers, black goo, and crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "upgrades": {  },
+    "upgrades": false,
     "dissect": "dissect_CBM_DINO"
   },
   {
@@ -138,7 +138,7 @@
     ],
     "description": "The massive shuffling corpse of a four legged dinosaur with a long neck and tail.  The body is dotted with crackling bionics and has two rows of tall glowing spines down the neck and back.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "upgrades": {  },
+    "upgrades": false,
     "dissect": "dissect_CBM_DINO"
   },
   {
@@ -156,7 +156,7 @@
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "The shuffling corpse of a bipedal dinosaur with a round hard-looking domed head.  The body is dotted with crackling bionics, tattered feathers, and black putrid liquid and carries glowing, curved claws.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "upgrades": {  },
+    "upgrades": false,
     "dissect": "dissect_CBM_DINO"
   },
   {
@@ -174,7 +174,7 @@
     "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A massive shambling rhino-like dinosaur corpse dotted with crackling bionics with a bony crest and three wicked looking glowing horns.  Its black eyes ooze like tears.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "upgrades": {  },
+    "upgrades": false,
     "dissect": "dissect_CBM_DINO"
   }
 ]

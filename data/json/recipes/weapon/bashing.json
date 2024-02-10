@@ -12,7 +12,7 @@
     "using": [ [ "adhesive", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 5 ], [ "bronze_nail", 5 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 5, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -239,7 +239,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 6 ], [ "bronze_nail", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ] ], [ [ "nails", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -315,7 +315,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -350,7 +350,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "mc_steel_standard", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -386,7 +386,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -423,7 +423,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "using": [ [ "blacksmithing_standard", 6 ], [ "lc_steel_standard", 3 ], [ "carbon", 3 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -460,11 +460,7 @@
       { "proficiency": "prof_quenching" }
     ],
     "using": [ [ "blacksmithing_standard", 10 ], [ "mc_steel_standard", 3 ] ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -545,7 +541,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -581,7 +577,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -617,7 +613,7 @@
       { "proficiency": "prof_carving" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "hc_steel_standard", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -654,7 +650,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "lc_steel_standard", 1 ], [ "carbon", 1 ] ],
-    "tools": [ [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ] ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -691,11 +687,7 @@
       { "proficiency": "prof_quenching" }
     ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "mc_steel_standard", 1 ] ],
-    "tools": [
-      [ [ "hotcut", -1 ], [ "hotcut_bronze", -1 ] ],
-      [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ], [ "water_clean", -120 ] ]
-    ],
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "qualities": [
       { "id": "CUT", "level": 2 },
       { "id": "SAW_W", "level": 2 },
@@ -725,7 +717,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "bat", 1 ] ], [ [ "nail", 6 ], [ "bronze_nail", 6 ] ] ]
+    "components": [ [ [ "bat", 1 ] ], [ [ "nails", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -777,7 +769,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
-    "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ], [ "bronze_nail", 12 ] ] ]
+    "components": [ [ [ "sword_wood", 1 ] ], [ [ "nails", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -904,7 +896,7 @@
     "using": [ [ "cordage", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 }, { "proficiency": "prof_carving", "skill_penalty": 0 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 16 ], [ "bronze_nail", 16 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nails", 16, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "result": "xl_knuckle_nail",
@@ -913,7 +905,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 18 ], [ "bronze_nail", 18 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nails", 18, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "result": "xs_knuckle_nail",
@@ -922,7 +914,7 @@
     "time": "10 m",
     "using": [ [ "cordage", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nail", 14 ], [ "bronze_nail", 14 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "nails", 14, "LIST" ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1238,7 +1230,7 @@
     "components": [
       [ [ "stick", 1 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 1 ], [ "pipe_fittings", 1 ] ],
-      [ [ "nail", 2 ], [ "bronze_nail", 2 ] ],
+      [ [ "nails", 2, "LIST" ] ],
       [ [ "cordage", 2, "LIST" ], [ "duct_tape", 100 ] ]
     ]
   },
@@ -1295,7 +1287,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "components": [ [ [ "mace_simple", 1 ] ], [ [ "nail", 2 ], [ "bronze_nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
+    "components": [ [ [ "mace_simple", 1 ] ], [ [ "nails", 2, "LIST" ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
   {
     "type": "recipe",

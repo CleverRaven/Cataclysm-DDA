@@ -2,42 +2,54 @@
   {
     "id": "BGSS_GRAD_STUDENT_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I'm not from around here… You can probably tell from the accent, I'm from the UK.  I was here doing my PhD at Dartmouth.  I was halfway to MIT for a conference when <the_cataclysm> stopped me.  I was staying at a flea-ridden little motel on the side of the road.  When I got up for whatever was going to pass for breakfast, the fat bloody proprietor was sitting at his desk, wearing the same grubby clothes from the night before.  I thought he had just slept there, but when he looked at me… well, you know what those Zed-eyes look like.  He lunged, and I reacted without thinking.  Smacked him on the head with my tablet, again and again, until he stopped coming for me.  I never thought I had anything like that in me.",
+    "dynamic_line": {
+      "gendered_line": "I'm not from around here… You can probably tell from the accent, I'm from the UK.  I was here doing my PhD at Dartmouth.  I was halfway to MIT for a conference when <the_cataclysm> stopped me.  I was staying at a flea-ridden little motel on the side of the road.  When I got up for whatever was going to pass for breakfast, the fat bloody proprietor was sitting at his desk, wearing the same grubby clothes from the night before.  I thought he had just slept there, but when he looked at me… well, you know what those Zed-eyes look like.  He lunged, and I reacted without thinking.  Smacked him on the head with my tablet, again and again, until he stopped coming for me.  I never thought I had anything like that in me.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What did you do next?", "topic": "BGSS_GRAD_STUDENT_1_STORY2" },
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_GRAD_STUDENT_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "I wandered for a little while around the grounds, letting the adrenaline fade, hoping for some kind of idea what to do.  I was out in the middle of nowhere, and I didn't know the area at all.  I wasn't certain if I should head back to Hanover, and try to get my belongings, or stay out where I was.  Finally, I decided to rest a while until I knew what was going on.  The internet told me most of what I needed; I'm sure you saw Twitter in those days.  Even if I'd thought it wise to go back all the way to New Hampshire, I was far too scared.",
+    "dynamic_line": {
+      "gendered_line": "I wandered for a little while around the grounds, letting the adrenaline fade, hoping for some kind of idea what to do.  I was out in the middle of nowhere, and I didn't know the area at all.  I wasn't certain if I should head back to Hanover, and try to get my belongings, or stay out where I was.  Finally, I decided to rest a while until I knew what was going on.  The internet told me most of what I needed; I'm sure you saw Twitter in those days.  Even if I'd thought it wise to go back all the way to New Hampshire, I was far too scared.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Something must have driven you out of the motel.", "topic": "BGSS_GRAD_STUDENT_1_STORY3" },
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_GRAD_STUDENT_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Yes.  Simple hunger.  The vending machines sold only peanuts and biscuits.  I wasn't about to rely on that for survival.  I stayed long enough to realize no one was going to come for me, then packed up what I could and drove off.  Eventually my car was caught in a downpour of acid rain that stripped the tires and left me to carry on on foot, living the life of a hunter gatherer.  Honestly, I think I eat better this way than I did as a grad student.",
+    "dynamic_line": {
+      "gendered_line": "Yes.  Simple hunger.  The vending machines sold only peanuts and biscuits.  I wasn't about to rely on that for survival.  I stayed long enough to realize no one was going to come for me, then packed up what I could and drove off.  Eventually my car was caught in a downpour of acid rain that stripped the tires and left me to carry on on foot, living the life of a hunter gatherer.  Honestly, I think I eat better this way than I did as a grad student.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What were you studying?", "topic": "BGSS_GRAD_STUDENT_1_FIELD" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_GRAD_STUDENT_1_FIELD",
     "type": "talk_topic",
-    "dynamic_line": "I was in biochemistry.  Specifically, if you're interested, I was studying the folding of non-standard nucleic acids into enzyme-like structures.  It sounds more interesting than it was; most of my time was spent cursing at computer screens and wishing we had more information on threose chains at unusual temperatures and pressures for modeling.",
+    "dynamic_line": {
+      "gendered_line": "I was in biochemistry.  Specifically, if you're interested, I was studying the folding of non-standard nucleic acids into enzyme-like structures.  It sounds more interesting than it was; most of my time was spent cursing at computer screens and wishing we had more information on threose chains at unusual temperatures and pressures for modeling.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   }

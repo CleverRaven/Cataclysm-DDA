@@ -37,7 +37,7 @@
     "id": "EOC_EATER_CHECK",
     "global": true,
     "recurrence": [ "12 hours", "72 hours" ],
-    "condition": { "math": [ "u_val('spell_count', 'school: EATER')", ">=", "6" ] },
+    "condition": { "math": [ "u_spell_count('school': 'EATER')", ">=", "6" ] },
     "deactivate_condition": { "u_has_trait": "EATER_SIXTH_SENSE" },
     "effect": [
       {

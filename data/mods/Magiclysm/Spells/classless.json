@@ -183,7 +183,7 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 3,
-    "damage_type": "pure"
+    "damage_type": "light"
   },
   {
     "id": "ethereal_grasp",
@@ -246,7 +246,7 @@
     "effect_str": "effect_obfuscating_aura",
     "shape": "blast",
     "energy_source": "MANA",
-    "flags": [ "NO_LEGS" ],
+    "flags": [ "NO_LEGS", "NO_FAIL" ],
     "difficulty": 7,
     "max_level": 25,
     "base_casting_time": 500,
@@ -285,7 +285,7 @@
     "id": "protection_aura_plus",
     "type": "SPELL",
     "name": { "str": "Improved Aura of Protection" },
-    "description": "Encases your whole body in a magical aura that protects you from the environment.  Now you know this spell like the back of your hand, and start to design your own version.",
+    "description": "Encases your whole body in a magical aura that protects you from the environment.  Now you know this spell like the back of your hand, and have started to design your own version.",
     "valid_targets": [ "self" ],
     "min_damage": 1,
     "max_damage": 1,
@@ -295,7 +295,7 @@
     "energy_source": "MANA",
     "difficulty": 5,
     "max_level": 25,
-    "flags": [ "VERBAL", "NO_LEGS" ],
+    "flags": [ "VERBAL", "NO_LEGS", "NO_FAIL" ],
     "base_casting_time": 350,
     "final_casting_time": 100,
     "casting_time_increment": -10,
@@ -346,7 +346,7 @@
     "id": "acid_resistance_greater",
     "type": "SPELL",
     "name": "Greater Acid Resistance",
-    "description": "Protects the user from acid.",
+    "description": "Protects the user from acid.  Now you know this spell like the back of your hand, and start to design your own version, no longer requiring you to hold concentration.",
     "valid_targets": [ "none" ],
     "effect": "attack",
     "effect_str": "effect_acid_res_aura_greater",
@@ -392,7 +392,7 @@
     "effect_str": "thought_shield_plus_item",
     "shape": "blast",
     "energy_source": "MANA",
-    "flags": [ "NO_LEGS" ],
+    "flags": [ "NO_LEGS", "NO_FAIL" ],
     "min_damage": 1,
     "max_damage": 1,
     "difficulty": 7,
@@ -417,6 +417,7 @@
     "effect": "noise",
     "shape": "blast",
     "sound_description": "a loud, high pitched sound",
+    "damage_type": "sonic",
     "min_damage": 12,
     "max_damage": 120,
     "damage_increment": 5,
@@ -454,6 +455,41 @@
     "energy_source": "MANA",
     "base_energy_cost": 150,
     "base_casting_time": 6000
+  },
+  {
+    "id": "classless_clean_clothing_and_self",
+    "type": "SPELL",
+    "name": "Freshen Up",
+    "description": "Undoubtedly the single most common spell in the world before the Cataclysm, Freshen Up cleans your teeth, sweetens your breath, removes stains and sweat from your clothes, exfoliates you, and gives volume back to your hair.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF",
+    "components": "spell_components_freshen_up",
+    "shape": "blast",
+    "difficulty": 2,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF",
+    "effect": [
+      { "u_lose_effect": "wet" },
+      { "u_lose_effect": "wet", "target_part": "head" },
+      { "u_lose_effect": "wet", "target_part": "arm_l" },
+      { "u_lose_effect": "wet", "target_part": "arm_r" },
+      { "u_lose_effect": "wet", "target_part": "torso" },
+      { "u_lose_effect": "wet", "target_part": "leg_l" },
+      { "u_lose_effect": "wet", "target_part": "leg_r" },
+      {
+        "u_run_inv_eocs": "all",
+        "search_data": [ { "worn_only": true }, { "flags": [ "FILTHY" ] } ],
+        "true_eocs": [ { "id": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF_ITEMS", "effect": [ { "npc_unset_flag": "FILTHY" } ] } ]
+      }
+    ]
   },
   {
     "id": "classless_dispel_magic",

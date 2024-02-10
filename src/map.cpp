@@ -5,7 +5,6 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <cstring>
 #include <optional>
 #include <ostream>
 #include <queue>
@@ -40,8 +39,6 @@
 #include "do_turn.h"
 #include "drawing_primitives.h"
 #include "enums.h"
-#include "event.h"
-#include "event_bus.h"
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
@@ -51,6 +48,7 @@
 #include "game.h"
 #include "harvest.h"
 #include "iexamine.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
@@ -76,8 +74,6 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
-#include "npc.h"
-#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
@@ -94,7 +90,6 @@
 #include "string_formatter.h"
 #include "submap.h"
 #include "tileray.h"
-#include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui_manager.h"
@@ -1201,7 +1196,7 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
         if( !v.v->is_moving() ) {
             continue;
         }
-        if( !fov_3d && v.pos.z != zpos.z() ) {
+        if( std::abs( v.pos.z - zpos.z() ) > fov_3d_z_range ) {
             continue;
         }
         if( rl_dist( zpos, tripoint_bub_ms( v.pos ) ) > max_range + 40 ) {
@@ -1726,6 +1721,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
 
     if( current_submap->is_open_air( l ) &&
         !new_f.has_flag( ter_furn_flag::TFLAG_ALLOW_ON_OPEN_AIR ) &&
+        !new_f.has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) &&
         new_target_furniture != f_null ) {
         const ter_id current_ter = current_submap->get_ter( l );
         debugmsg( "Setting furniture %s at %s where terrain is %s (which is_open_air)\n"
@@ -2708,7 +2704,7 @@ void map::drop_everything( const tripoint &p )
 void map::drop_furniture( const tripoint &p )
 {
     const furn_id frn = furn( p );
-    if( frn == f_null ) {
+    if( frn == f_null || frn->has_flag( ter_furn_flag::TFLAG_FLOATS_IN_AIR ) ) {
         return;
     }
 
@@ -6498,6 +6494,26 @@ void map::remove_field( const tripoint_bub_ms &p, const field_type_id &field_to_
     return remove_field( p.raw(), field_to_remove );
 }
 
+void map::delete_field( const tripoint &p, const field_type_id &field_to_remove )
+{
+    submap *current_submap = this->unsafe_get_submap_at( p );
+    field &curfield = this->get_field( p );
+
+    // when displayed_field_type == fd_null it means that `curfield` has no fields inside
+    // avoids instantiating (relatively) expensive map iterator
+    if( !curfield.displayed_field_type() ) {
+        return;
+    }
+
+    for( auto it = curfield.begin(); it != curfield.end(); it++ ) {
+        if( it->second.get_field_type() == field_to_remove ) {
+            --current_submap->field_count;
+            curfield.remove_field( it );
+            break;
+        }
+    }
+}
+
 void map::clear_fields( const tripoint &p )
 {
     if( !inbounds( p ) ) {
@@ -6702,8 +6718,10 @@ void map::update_visibility_cache( const int zlev )
     }
 
 #if defined(TILES)
-    // Mark cata_tiles draw caches as dirty
-    tilecontext->set_draw_cache_dirty();
+    if( !test_mode ) {
+        // Mark cata_tiles draw caches as dirty
+        tilecontext->set_draw_cache_dirty();
+    }
 #endif
 
     visibility_variables_cache.last_pos = player_character.pos();
@@ -7234,7 +7252,8 @@ point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
 bool map::sees( const tripoint &F, const tripoint &T, const int range,
                 int &bresenham_slope ) const
 {
-    if( ( range >= 0 && range < rl_dist( F, T ) ) ||
+    if( std::abs( F.z - T.z ) > fov_3d_z_range ||
+        ( range >= 0 && range < rl_dist( F, T ) ) ||
         !inbounds( T ) ) {
         bresenham_slope = 0;
         return false; // Out of range!
@@ -7247,7 +7266,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
     bool visible = true;
 
     // Ugly `if` for now
-    if( !fov_3d || F.z == T.z ) {
+    if( F.z == T.z ) {
         bresenham( F.xy(), T.xy(), bresenham_slope,
         [this, &visible, &T]( const point & new_point ) {
             // Exit before checking the last square, it's still visible even if opaque.
@@ -7575,11 +7594,11 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {
-    // Ugly `if` for now
-    if( !fov_3d && f.z != t.z ) {
+    if( std::abs( f.z - t.z ) > fov_3d_z_range ) {
         return false;
     }
 
+    // Ugly `if` for now
     if( f.z == t.z ) {
         if( ( range >= 0 && range < rl_dist( f.xy(), t.xy() ) ) ||
             !inbounds( t ) ) {
@@ -9415,8 +9434,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         player_prev_range = sr;
         camera_cache_dirty = true;
 #if defined(TILES)
-        // Mark cata_tiles draw caches as dirty
-        tilecontext->set_draw_cache_dirty();
+        if( !test_mode ) {
+            // Mark cata_tiles draw caches as dirty
+            tilecontext->set_draw_cache_dirty();
+        }
 #endif
     }
     if( camera_cache_dirty ) {

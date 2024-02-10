@@ -39,6 +39,11 @@
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_HOMELESS_BROKER_STORY" },
       {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": { "npc_has_var": "talked_to_homeless", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
         "text": "Where might your friends be?",
         "topic": "TALK_NPC_HOMELESS_BROKER_FRIENDS",
         "condition": { "npc_has_var": "told_about_buddies", "type": "dialogue", "context": "first_meeting", "value": "yes" }
@@ -70,7 +75,10 @@
     "type": "talk_topic",
     "id": "TALK_NPC_HOMELESS_BROKER_STORY",
     "dynamic_line": [
-      "I was homeless for a while before <the_cataclysm>.  I met some buddies out on the road and we were camping out here.  Now we're just scraping by on what we can find, mostly.  We're willing to trade, though.  Who knows, you might find yourself a good deal.",
+      {
+        "gendered_line": "I was homeless for a while before <the_cataclysm>.  I met some buddies out on the road and we were camping out here.  Now we're just scraping by on what we can find, mostly.  We're willing to trade, though.  Who knows, you might find yourself a good deal.",
+        "relevant_genders": [ "npc" ]
+      },
       "Making ends meet, even in the worst circumstances.  We've been camping out here now, trading with whoever passes by.  If something catches your eye, let me know.",
       "We got tired of being out on the road and decided to stay here for a bit.  We've found a lot of useful stuff out and about, so if you see anything you need I'll make you a deal."
     ],

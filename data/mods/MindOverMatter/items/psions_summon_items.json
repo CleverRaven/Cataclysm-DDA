@@ -40,12 +40,12 @@
     "symbol": "$",
     "color": "pink",
     "flags": [
-      "PERSONAL",
       "UNBREAKABLE",
       "ZERO_WEIGHT",
       "ALLOWS_NATURAL_ATTACKS",
       "INTEGRATED",
       "PADDED",
+      "OUTER",
       "SEMITANGIBLE",
       "ONLY_ONE",
       "WATER_FRIENDLY",
@@ -63,7 +63,8 @@
       [ "PRY", 2 ]
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
-    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "biokin_enhance_mobility_item_1",
@@ -258,6 +259,92 @@
     "color": "dark_gray",
     "flags": [ "RAD_DETECT", "PERSONAL", "ZERO_WEIGHT", "TRANSPARENT" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
+    "id": "electro_robot_interface",
+    "type": "GENERIC",
+    "name": { "str": "Robotic Interface" },
+    "description": "Interface with robots remotely",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "!",
+    "color": "cyan",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "TRANSPARENT",
+      "INTEGRATED",
+      "MAGICAL"
+    ],
+    "use_action": [ "ROBOTCONTROL" ]
+  },
+  {
+    "id": "electrokinetic_electrohack_1",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "hacking interface" },
+    "description": "You can hack nearby devices.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "=",
+    "color": "cyan",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "TRANSPARENT",
+      "INTEGRATED",
+      "MAGICAL"
+    ],
+    "qualities": [ [ "HACK", 0 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_2",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 1 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_3",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 2 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_4",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 3 ] ]
+  },
+  {
+    "id": "electrokinetic_electrohack_5",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "hacking interface" },
+    "description": "You can hack nearby devices.",
+    "copy-from": "electrokinetic_electrohack_1",
+    "qualities": [ [ "HACK", 4 ] ]
   },
   {
     "id": "electrokinetic_ups_1",

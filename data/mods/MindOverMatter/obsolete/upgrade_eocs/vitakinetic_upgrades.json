@@ -1,0 +1,129 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMESTART_VITAKINETIC_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "u_has_trait": "VITAKINETIC" },
+    "effect": [ { "math": [ "u_vitakinesis_has_been_updated", "=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKINETIC_UPDATE",
+    "eoc_type": "EVENT",
+    "required_event": "game_load",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_vitakinesis_has_been_updated", "!=", "1" ] } ] },
+    "effect": [
+      { "math": [ "u_vitakinesis_has_been_updated", "=", "1" ] },
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_STOP_BLEEDING",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_HURT_TOUCH",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_HEALING_TOUCH",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_REMOVE_POISON",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_CURE_DISEASE",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_SLEEPING_TRANCE",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_PAIN_SPLIT",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_STOP_INFECTION",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_HEALING_TRANCE",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_ATTACK_TOUCH",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_BLOOD_PURGE",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_BANISH_ILLNESS",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_SUPER_HEAL",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_LIMB_RESTORE",
+          "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_RETURN_FROM_DEATH"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_STOP_BLEEDING",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_stop_bleeding')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_stop_bleeding" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_HURT_TOUCH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_hurt_touch')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_hurt_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_HEALING_TOUCH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_health_power_ally')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_healing_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_REMOVE_POISON",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_remove_poison')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_remove_poison" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_CURE_DISEASE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_cure_disease')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_cure_disease" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_SLEEPING_TRANCE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_sleeping_trance')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_sleeping_trance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_PAIN_SPLIT",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_pain_split')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_pain_split" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_STOP_INFECTION",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_stop_infection')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_stop_infection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_HEALING_TRANCE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_healing_trance')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_healing_trance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_ATTACK_TOUCH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_attack_touch')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_attack_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_BLOOD_PURGE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_blood_purge')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_blood_purge" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_BANISH_ILLNESS",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_banish_illness')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_banish_illness" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_SUPER_HEAL",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_super_heal')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_super_heal" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_LIMB_RESTORE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_limb_restore')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_limb_restore" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMELOAD_VITAKIN_UPDATE_RETURN_FROM_DEATH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_return_from_death')", "<", "0" ] } ] },
+    "effect": [ { "u_forget_recipe": "practice_vita_return_from_death" } ]
+  }
+]

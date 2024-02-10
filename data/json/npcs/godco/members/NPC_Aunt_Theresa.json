@@ -17,7 +17,7 @@
       { "text": "Is there anything I can help you with?", "topic": "TALK_GODCO_Theresa_Help" },
       {
         "text": "How've things been since <the_cataclysm>?",
-        "condition": { "days_since_cataclysm": 60 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ] },
         "topic": "TALK_GODCO_Theresa_Cataclysm"
       },
       { "text": "Do you knit at all?  I noticed you have sewing needles.", "topic": "TALK_GODCO_Theresa_Knit" }
@@ -99,13 +99,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "1 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('1 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "long_knit_scarf" } ],
@@ -116,13 +110,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "2 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('2 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "blanket" } ],
@@ -133,13 +121,7 @@
         "condition": {
           "and": [
             { "npc_has_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
-            {
-              "npc_compare_time_since_var": "knitting",
-              "type": "timer",
-              "context": "trade",
-              "op": ">=",
-              "time": "7 d"
-            }
+            { "math": [ "time_since(n_timer_trade_knitting)", ">=", "time('7 d')" ] }
           ]
         },
         "effect": [ { "u_spawn_item": "quilt" } ],
@@ -216,7 +198,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 5 } },
         "effect": [
           { "npc_add_var": "u_want_scarf", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 5 }
         ],
         "topic": "TALK_DONE"
@@ -226,7 +208,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 10 } },
         "effect": [
           { "npc_add_var": "u_want_blanket", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 10 }
         ],
         "topic": "TALK_DONE"
@@ -236,7 +218,7 @@
         "condition": { "u_has_items": { "item": "icon", "count": 30 } },
         "effect": [
           { "npc_add_var": "u_want_quilt", "type": "general", "context": "trade", "value": "yes" },
-          { "npc_add_var": "knitting", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_knitting", "=", "time('now')" ] },
           { "u_sell_item": "icon", "count": 30 }
         ],
         "topic": "TALK_DONE"

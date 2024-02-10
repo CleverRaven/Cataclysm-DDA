@@ -99,7 +99,10 @@
       "value": "yes",
       "no": {
         "u_has_trait": "seer_mark",
-        "yes": "How do you do.  Name's Cooper.  What's your- wait… that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am, then.",
+        "yes": {
+          "gendered_line": "How do you do.  Name's Cooper.  What's your- wait… that's the Mark of the Seer on your hand.  You're Kindred.  So I guess you know who I am, then.",
+          "relevant_genders": [ "u" ]
+        },
         "no": "How do you do.  Name's Cooper.  And you are?"
       },
       "yes": {
@@ -428,7 +431,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_COOPER_MONSTER",
-    "dynamic_line": "And how many people have you killed?  Maybe it was in self defense, maybe because you wanted their gear.  It's all the same.  I give their death meaning.  I hate that I have to do it, I truly do, but you really must understand, there is no other way.  The sooner I finish my mission, the sooner all this madness can end.",
+    "dynamic_line": {
+      "gendered_line": "And how many people have you killed?  Maybe it was in self defense, maybe because you wanted their gear.  It's all the same.  I give their death meaning.  I hate that I have to do it, I truly do, but you really must understand, there is no other way.  The sooner I finish my mission, the sooner all this madness can end.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "I suppose you're right.", "topic": "TALK_COOPER_AGREE" },
       { "text": "You're mad.  You have to be stopped.", "topic": "TALK_COOPER_FIGHT" },
@@ -457,7 +463,10 @@
     "id": "TALK_COOPER_AGREE",
     "dynamic_line": {
       "u_has_trait": "seer_mark",
-      "yes": "You're like me then, Kindred.  I'm glad I'm not the only one who realizes what's necessary.  Perhaps one day, we'll be able to work together, but what I do now, I must do alone.",
+      "yes": {
+        "gendered_line": "You're like me then, Kindred.  I'm glad I'm not the only one who realizes what's necessary.  Perhaps one day, we'll be able to work together, but what I do now, I must do alone.",
+        "relevant_genders": [ "u" ]
+      },
       "no": "I'm glad you realize the necessity of the burden I bear.  Maybe someday we'll even join our forces, but for now, I have to do this alone."
     },
     "speaker_effect": { "effect": { "u_add_var": "cooper_friendly", "type": "dialogue", "context": "cooper", "value": "yes" } },
@@ -475,7 +484,10 @@
     "id": "TALK_COOPER_WORK",
     "dynamic_line": {
       "u_has_trait": "seer_mark",
-      "yes": "You're Kindred, and yet you question the power the bones hold, the Song itself?  This hypocrisy is why I set off on my own.  Stop wasting my time and get out of my way.",
+      "yes": {
+        "gendered_line": "You're Kindred, and yet you question the power the bones hold, the Song itself?  This hypocrisy is why I set off on my own.  Stop wasting my time and get out of my way.",
+        "relevant_genders": [ "u" ]
+      },
       "no": "I know it's hard to comprehend when you can't hear the song.  The bones hold power, you just don't hear it yet.  But you will, eventually."
     },
     "responses": [
