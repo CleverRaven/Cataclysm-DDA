@@ -1847,9 +1847,18 @@
     "type": "BOOK",
     "copy-from": "spell_scroll",
     "id": "spell_scroll_classless_clean_clothing_and_self",
-    "//": "Earthshaper spell",
+    "//": "Classless spell",
     "name": { "str": "Scroll of Freshen Up", "str_pl": "Scrolls of Freshen Up" },
     "description": "The single most well-known spell in the entire world before the Cataclysm.  Why take a shower and do your laundry if you can get magic to do it for you?",
     "use_action": { "type": "learn_spell", "spells": [ "classless_clean_clothing_and_self" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_spirit_walking",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Spirit-Walking", "str_pl": "Scrolls of Spirit-Walking" },
+    "description": "Highly restricted before the Cataclysm, this spell allows you to turn into pure spirit and pass through the physical world unseen and insubstantial.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_spirit_walking" ] }
   }
 ]
