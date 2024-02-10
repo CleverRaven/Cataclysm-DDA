@@ -3772,9 +3772,10 @@ struct item_quality_cache {
 };
 
 item_quality_cache quality_cache;
+std::vector<std::pair<std::string, std::string>> pseudo_item_cache;
 
 std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirement_data &req,
-                                   const int batch_size, const std::string &requirement_name )
+                                   const int batch_size, const std::string &requirement_name, const bool silent )
 {
     std::vector<std::pair<itype_id, int>> items_to_spawn;
     std::vector<std::pair<itype_id, int>> options;
@@ -3838,7 +3839,9 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
         if( options.empty() && pseudo_options.empty() ) {
             debugmsg( _( "Unable to spawn tools for %s." ), requirement_name );
         } else if( options.empty() ) {
-            debugmsg( _( "Recipe %s requires pseudo tools" ), requirement_name );
+            if( !silent ) {
+                add_msg( m_info, string_format( _( "Recipe %s requires pseudo tools" ), requirement_name ) );
+            }
             int selected = rng( 0, static_cast<int>( pseudo_options.size() - 1 ) );
             // Ensure the tool quantity is at least 1 ( -1 is used in recipe definitions to specify non-charged tools)
             items_to_spawn.emplace_back( pseudo_options[selected].first,
@@ -3896,8 +3899,10 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
                     int selected = rng( 0, static_cast<int>( options.size() - 1 ) );
                     items_to_spawn.emplace_back( options[selected].first, options[selected].second );
                 } else {
-                    debugmsg( _( "Recipe %s requires pseudo tools for quality %s" ), requirement_name,
-                              quality_req.to_string() );
+                    if( !silent ) {
+                        add_msg( m_info, string_format( _( "Recipe %s requires pseudo tools for quality %s" ),
+                                                        requirement_name,  quality_req.to_string() ) );
+                    }
                     int selected = rng( 0, static_cast<int>( pseudo_options.size() - 1 ) );
                     items_to_spawn.emplace_back( pseudo_options[selected].first, pseudo_options[selected].second );
                 }
@@ -4025,7 +4030,10 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
     // TODO: Check for surrounding furniture
     const tripoint battery_pos = player_character.pos() + tripoint_north;
     if( battery_item.ammo_remaining() > 0 ) {
-        place_appliance( battery_pos, vpart_appliance_from_item( battery_item.typeId() ), battery_item );
+      if( !silent ) {
+	add_msg( m_info, string_format( "Spawning appliance %s", battery_item.display_name() ) );
+      }
+      place_appliance( battery_pos, vpart_appliance_from_item( battery_item.typeId() ), battery_item );
     }
     tripoint current_pos = battery_pos + tripoint_north;
     for( const std::pair<item, std::string> &entry : appliances_to_spawn ) {

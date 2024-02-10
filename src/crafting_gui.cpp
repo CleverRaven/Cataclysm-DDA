@@ -2122,7 +2122,7 @@ void debug_assemble_crafting_materials( const recipe *current, const int batch_s
         return;
     }
     std::vector<std::pair<itype_id, int>> items_to_spawn = debug_menu::get_items_for_requirements(
-                                           current->simple_requirements(), batch_size, current->result_name() );;
+                                           current->simple_requirements(), batch_size, current->result_name(), silent );
     debug_menu::spawn_item_collection( items_to_spawn, silent );
 }
 

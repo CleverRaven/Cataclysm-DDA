@@ -181,7 +181,7 @@ void set_random_seed( const std::string &title );
  * then include pseudo items in the list.
  */
 std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirement_data &req,
-                                   int batch_size, const std::string &requirement_name );
+                                   int batch_size, const std::string &requirement_name, const bool silent = false );
 
 /* Will spawn, around the player's feet, the specified items with the specified
  * quantity/charges/ammunition.  If multiple items that have ammunition/battery are desired, they should
