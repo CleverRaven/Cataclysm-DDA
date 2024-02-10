@@ -767,7 +767,11 @@
         { "not": { "u_has_effect": "narcosis" } }
       ]
     },
-    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "asocial_satisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "2 hours" } ]
+    "effect": [
+      { "u_lose_effect": "asocial_dissatisfied" },
+      { "u_lose_effect": "asocial_satisfied" },
+      { "u_add_effect": "asocial_satisfied", "duration": "2 hours" }
+    ]
   },
   {
     "type": "effect_on_condition",
