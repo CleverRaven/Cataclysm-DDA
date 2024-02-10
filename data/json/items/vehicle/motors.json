@@ -81,13 +81,13 @@
   {
     "type": "GENERIC",
     "id": "motor_drone",
-    "name": { "str": "set of tiny drone motors" },
+    "name": { "str": "set of tiny drone motors", "str_pl": "sets of tiny drone motors" },
     "description": "A small set of electric motors, used in airborne drones and such.",
     "weight": "90 g",
     "color": "light_cyan",
     "symbol": ".",
     "material": [ "carbonfiber", "aluminum" ],
-    "volume": "250 ml",
+    "volume": "50 ml",
     "category": "veh_parts",
     "price": 2000,
     "price_postapoc": 100

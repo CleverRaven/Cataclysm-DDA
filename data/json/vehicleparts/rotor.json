@@ -38,7 +38,7 @@
     "categories": [ "movement" ],
     "color": "black",
     "durability": 10,
-    "folded_volume": "250 ml",
+    "folded_volume": "100 ml",
     "breaks_into": [
       { "item": "scrap", "count": [ 2, 3 ] }
     ],

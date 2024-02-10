@@ -130,7 +130,7 @@
     "description": "A fully electronic vehicle control system.  You could control it remotely if you had the proper tools.",
     "weight": "50 g",
     "color": "black",
-    "volume": "250 ml",
+    "volume": "25 ml",
     "price": 200000,
     "price_postapoc": 500,
     "melee_damage": { "bash": 1 }

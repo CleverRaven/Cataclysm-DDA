@@ -1758,7 +1758,7 @@
       { "item": "vibrator", "prob": 1, "charges": 100 },
       { "item": "ar_glasses_basic", "prob": 20, "charges": 150 },
       { "item": "ar_glasses_advanced", "prob": 10, "charges": 150 },
-      { "item": "folded_camera_drone", "prob": 10}
+      { "item": "folded_camera_drone", "prob": 10 }
     ]
   },
   {

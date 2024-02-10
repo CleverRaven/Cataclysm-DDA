@@ -286,9 +286,9 @@
     "copy-from": "frame_abstract",
     "name": { "str": "foldable drone frame" },
     "item": "fold_flying_drone_frame",
-    "durability": 150,
+    "durability": 10,
     "description": "A light flying drone frame.",
-    "folded_volume": "1000 ml",
+    "folded_volume": "250 ml",
     "breaks_into": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] }, { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {

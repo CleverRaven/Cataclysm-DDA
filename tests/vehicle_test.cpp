@@ -24,6 +24,7 @@ static const damage_type_id damage_pure( "pure" );
 static const itype_id itype_folded_bicycle( "folded_bicycle" );
 static const itype_id itype_folded_inflatable_boat( "folded_inflatable_boat" );
 static const itype_id itype_folded_wheelchair_generic( "folded_wheelchair_generic" );
+static const itype_id itype_folded_camera_drone( "folded_camera_drone" );
 static const itype_id itype_hand_pump( "hand_pump" );
 
 static const itype_id itype_test_extension_cable( "test_extension_cable" );
@@ -278,7 +279,8 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
     std::vector<vehicle_preset> vehicle_presets {
         { itype_folded_inflatable_boat,    { itype_hand_pump } },
         { itype_folded_wheelchair_generic, { } },
-        { itype_folded_bicycle,            { } },
+        { itype_folded_camera_drone, { } },
+        { itype_folded_bicycle, { } },
     };
 
     const std::vector<damage_preset> presets {
