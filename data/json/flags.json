@@ -546,6 +546,11 @@
     "inherit": false
   },
   {
+    "id": "NEEDS_INSTALL",
+    "type": "json_flag",
+    "info": "This item is meant to be installed as an appliance or vehicle part."
+  },
+  {
     "id": "NORMAL",
     "type": "json_flag",
     "//": "Item is on the normal layer.",

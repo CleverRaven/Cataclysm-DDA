@@ -58,7 +58,8 @@
     "volume": "290 L",
     "weight": "77 kg",
     "charged_qualities": [ [ "OVEN", 2 ] ],
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "120 L", "max_contains_weight": "200 kg" } ],
+    "flags": [ "NEEDS_INSTALL" ]
   },
   {
     "type": "GENERIC",
@@ -168,7 +169,8 @@
     "//": "Based off JET JWP-15BHH Woodworking Planer",
     "longest_side": "121 cm",
     "volume": "500 L",
-    "weight": "130 kg"
+    "weight": "130 kg",
+    "flags": [ "NEEDS_INSTALL" ]
   },
   {
     "type": "GENERIC",
@@ -418,7 +420,8 @@
     "price": 200000,
     "price_postapoc": 2000,
     "symbol": "&",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "NEEDS_INSTALL" ]
   },
   {
     "type": "GENERIC",
@@ -433,6 +436,8 @@
     "price": 200000,
     "price_postapoc": 2000,
     "symbol": "&",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "NEEDS_INSTALL" ],
+    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
   }
 ]
