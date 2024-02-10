@@ -706,7 +706,7 @@
     "id": "hair_extremely_long",
     "name": { "str": "Hair: extremely long" },
     "points": 0,
-    "description": "You have extremely long hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+    "description": "You have extremely long hair, which goes down to your knees.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
@@ -715,61 +715,61 @@
       {
         "id": "black",
         "name": { "str": "Hair: black, extremely long" },
-        "description": "You have extremely long black hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long black hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "blond",
         "name": { "str": "Hair: blond, extremely long" },
-        "description": "You have extremely long blond hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long blond hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "blue",
         "name": { "str": "Hair: blue, extremely long" },
-        "description": "You have extremely long blue hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long blue hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "brown",
         "name": { "str": "Hair: brown, extremely long" },
-        "description": "You have extremely long brown hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long brown hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "gray",
         "name": { "str": "Hair: gray, extremely long" },
-        "description": "You have extremely long gray hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long gray hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "green",
         "name": { "str": "Hair: green, extremely long" },
-        "description": "You have extremely long green hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long green hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "pink",
         "name": { "str": "Hair: pink, extremely long" },
-        "description": "You have extremely long pink hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long pink hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "purple",
         "name": { "str": "Hair: purple, extremely long" },
-        "description": "You have extremely long purple hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long purple hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "red",
         "name": { "str": "Hair: red, extremely long" },
-        "description": "You have extremely long red hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long red hair, which goes down to your knees.",
         "weight": 1
       },
       {
         "id": "white",
         "name": { "str": "Hair: white, extremely long" },
-        "description": "You have extremely long white hair, which goes down to your knees.  You certainly won't have to worry about keeping warm.",
+        "description": "You have extremely long white hair, which goes down to your knees.",
         "weight": 1
       }
     ],
