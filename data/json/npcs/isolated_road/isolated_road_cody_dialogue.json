@@ -5,7 +5,7 @@
     "dynamic_line": [
       "Hiya darlin', welcome to the shop.",
       "Hey, killer!  How's it going?",
-      "You look like you haven't eaten in days.",
+      { "gendered_line": "You look like you haven't eaten in days.", "relevant_genders": [ "u" ] },
       "Still the apocalypse out there, huh?",
       "See anything you like?"
     ],

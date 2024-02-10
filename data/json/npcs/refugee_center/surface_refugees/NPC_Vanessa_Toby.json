@@ -143,7 +143,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1a",
-    "dynamic_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"",
+    "dynamic_line": { "gendered_line": "*peers at you for a while before speaking.  \"Oh, you're back.\"", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Hi, Vanessa.  What's up?", "topic": "TALK_REFUGEE_Vanessa_2" },
       { "text": "Nevermind.  I'm going.", "topic": "TALK_DONE" }
@@ -178,10 +178,9 @@
       "concatenate": [
         {
           "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
-          "yes": "Well, I",
-          "no": "You want the sarcastic version, or the really sarcastic version?  I"
+          "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead",
+          "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead"
         },
-        "'m stuck in a dank shitty brick building with two dozen strangers, the world's dead",
         {
           "u_has_var": "tacoma_started",
           "type": "knowledge",
