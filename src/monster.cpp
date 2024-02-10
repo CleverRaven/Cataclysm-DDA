@@ -229,10 +229,11 @@ static int compute_kill_xp( const mtype_id &mon_type )
 // adjusts damage unit depending on type by enchantments.
 static void armor_enchantment_adjust( monster &mon, damage_unit &du )
 {
-    // FIXME: hardcoded damage types -> enchantments
+    //If we're not dealing any damage of the given type, don't even bother.
     if (du.amount < 0.1f) {
         return;
     }
+    // FIXME: hardcoded damage types -> enchantments
     if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
         du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
     } else if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
