@@ -133,7 +133,7 @@
     "type": "item_group",
     "//": "Shoulder and groin protectors for heavy vest",
     "subtype": "collection",
-    "entries": [ { "item": "iotv_groin_plate" }, { "item": "iotv_shoulder_plate" } ]
+    "entries": [ { "item": "iotv_groin_plate" }, { "item": "iotv_shoulder_plate" }, { "item": "iotv_thigh_plate", "prob": 40 } ]
   },
   {
     "id": "kitted_heavy_vest",
