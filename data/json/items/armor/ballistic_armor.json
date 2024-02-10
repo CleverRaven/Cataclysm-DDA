@@ -1465,17 +1465,17 @@
     "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
     "armor": [
       {
-      "material": [
-        { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-        { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-      ],
-      "encumbrance": 2,
-      "coverage": 80,
-      "cover_ranged": 95,
-      "cover_vitals": 100,
-      "covers": [ "leg_l", "leg_r" ],
-      "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
-      "volume_encumber_modifier": 0
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "volume_encumber_modifier": 0
       }
     ]
   }
