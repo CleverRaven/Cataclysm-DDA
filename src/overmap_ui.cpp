@@ -736,6 +736,9 @@ static void draw_ascii(
                 ter_sym = type->get_symbol();
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
                 // get_scent_glyph has changed ter_color and ter_sym if omp has a scent
+            } else if( blink && overmap_buffer.is_marked_dangerous( omp ) ) {
+                ter_color = c_red;
+                ter_sym = "X";
             } else if( blink && has_target && omp.xy() == target.xy() ) {
                 // Mission target, display always, player should know where it is anyway.
                 ter_color = c_red;
