@@ -72,7 +72,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MECHANIC_Job",
-    "dynamic_line": "I'm one of the mechanics here.  I do maintenance work on all the vehicles around here, including some non-automotive machinery.",
+    "dynamic_line": {
+      "gendered_line": "I'm one of the mechanics here.  I do maintenance work on all the vehicles around here, including some non-automotive machinery.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Good to know.", "topic": "TALK_NONE" },
       { "text": "A pleasure chatting.  Gotta go!", "topic": "TALK_DONE" }

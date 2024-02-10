@@ -1054,5 +1054,43 @@
       { "math": [ "portal_dungeon_carry_strength", "=", "max(portal_dungeon_carry_strength - 1, -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
     ]
+  },
+  {
+    "id": "fear_paralyze",
+    "type": "SPELL",
+    "name": "Fear Paralyze",
+    "description": "Paralyzes you when you see the creature.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FEAR_PARALYZE",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 10,
+    "max_range": 10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE",
+    "condition": { "not": { "u_has_effect": "fearparalyze" } },
+    "effect": { "run_eocs": [ "EOC_FEAR_PARALYZE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE2",
+    "condition": { "and": [ { "u_has_worn_with_flag": "PSYSHIELD_PARTIAL" }, { "one_in_chance": 4 } ] },
+    "effect": { "u_message": "The <npc_name> probes your mind, but is rebuffed!" },
+    "false_effect": { "run_eocs": [ "EOC_FEAR_PARALYZE3" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE3",
+    "condition": { "math": [ "rand(20) > u_val('intelligence')" ] },
+    "effect": [
+      { "u_message": "The terrifying visage of the <npc_name> paralyzes you.", "type": "bad" },
+      { "u_add_effect": "fearparalyze", "duration": 5 },
+      { "turn_cost": "4 s" }
+    ],
+    "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
   }
 ]

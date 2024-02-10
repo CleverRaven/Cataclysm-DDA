@@ -378,19 +378,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 14,
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "CANPLAY",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "CORNERED_FIGHTER",
-      "NO_BREED"
-    ],
+    "extend": { "flags": [ "NO_BREED" ] },
+    "delete": { "flags": [ "CLIMBS" ] },
     "upgrades": { "age_grow": 120, "into": "mon_cat" },
     "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
     "armor": { "cold": 0 }
@@ -447,6 +436,7 @@
       "WARM",
       "HIT_AND_RUN",
       "CORNERED_FIGHTER",
+      "SMALL_HIDER",
       "CAN_BE_CULLED"
     ],
     "armor": { "cold": 2 }

@@ -353,5 +353,185 @@
     "id": "terraforming_earth",
     "type": "MIGRATION",
     "replace": "terraforming_mercury"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_9mm_fmj_1000",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_9mm_fmj_1000"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_9mm_jhp_1000",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_9mm_jhp_1000"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_300jhp_240",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_300jhp_240"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_300AAC_otmss_720",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_300AAC_otmss_720"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308_1tracer4ap_200",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308_1tracer4ap_200"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308ap_240",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308ap_240"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308fmj_460",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308fmj_460"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_308_4fmj1tracer_200",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_308_4fmj1tracer_200"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_338fmjbt_200",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_338fmjbt_200"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_30_shot_120",
+    "replace": "ammunition_can_30",
+    "variant": "ammunition_can_30_shot_120"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_556tracer_820",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_556tracer_820"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_50bmg_4fmj1tracer_100",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_50bmg_4fmj1tracer_100"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_50bmg_1tracer4mk211_100",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_50bmg_1tracer4mk211_100"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_50bmg_fmj_120",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_50bmg_fmj_120"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_556_m855a1_clipped_840",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_556_m855a1_clipped_840"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_300AAC_otm_840",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_300AAC_otm_840"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_308_600",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_308_600"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_338fmjbt_400",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_338fmjbt_400"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_shot_160",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_shot_160"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_50_beanbag_160",
+    "replace": "ammunition_can_50",
+    "variant": "ammunition_can_50_beanbag_160"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223_1tracer4ball_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223_1tracer4ball_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223_1tracer4ap_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223_1tracer4ap_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223ap_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223ap_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_223fmj_800",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_223fmj_800"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_fat_50_308_1tracer4ap_600",
+    "replace": "ammunition_can_fat_50",
+    "variant": "ammunition_can_fat_50_308_1tracer4ap_600"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammo_can_pa120_40x53_32",
+    "replace": "ammunition_can_pa120",
+    "variant": "ammunition_can_pa120_40x53_32"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_can_carlgustav_hedp",
+    "replace": "ammunition_can_carlgustav",
+    "variant": "ammunition_can_carlgustav_hedp"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_can_carlgustav_he",
+    "replace": "ammunition_can_carlgustav",
+    "variant": "ammunition_can_carlgustav_he"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_box_carlgustav_he",
+    "replace": "ammunition_box_carlgustav",
+    "variant": "ammunition_box_carlgustav_he"
+  },
+  {
+    "type": "MIGRATION",
+    "id": "ammunition_box_carlgustav_hedp",
+    "replace": "ammunition_box_carlgustav",
+    "variant": "ammunition_box_carlgustav_hedp"
   }
 ]
