@@ -566,20 +566,24 @@ std::function<double( dialogue & )> mod_order_eval( char /* scope */,
 }
 
 enum class character_filter : int {
-    friends = 0,
-    not_friends,
-    both,
+    allies = 0,
+    not_allies,
+    hostile,
+    any,
 };
 
 bool _friend_match_filter_character( Character const &beta, Character const &guy,
                                      character_filter filter )
 {
     switch( filter ) {
-        case character_filter::friends:
+        case character_filter::allies:
             return guy.is_ally( beta ) != 0;
-        case character_filter::not_friends:
+        case character_filter::not_allies:
             return !guy.is_ally( beta ) == 0;
-        case character_filter::both:
+        case character_filter::hostile:
+            return guy.attitude_to( beta ) == Creature::Attitude::HOSTILE ||
+                   ( beta.is_avatar() && guy.is_npc() && guy.as_npc()->guaranteed_hostile() );
+        case character_filter::any:
             return true;
     }
     return false;
@@ -595,22 +599,27 @@ bool _filter_character( Character const &beta, Character const &guy, int radius,
     return false;
 }
 
-std::function<double( dialogue & )> _friends_nearby_eval( char scope,
+std::function<double( dialogue & )> _characters_nearby_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value radius_val( 1000.0 );
+    diag_value filter_val( std::string{ "any" } );
     std::optional<var_info> loc_var;
     if( kwargs.count( "radius" ) != 0 ) {
         radius_val = *kwargs.at( "radius" );
     }
+    if( kwargs.count( "attitude" ) != 0 ) {
+        filter_val = *kwargs.at( "attitude" );
+    }
     if( kwargs.count( "location" ) != 0 ) {
         loc_var = kwargs.at( "location" )->var();
+
     } else if( scope == 'g' ) {
         throw std::invalid_argument( string_format(
-                                         R"("friends_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+                                         R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
     }
 
-    return [beta = is_beta( scope ), params, loc_var, radius_val]( dialogue & d ) {
+    return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val ]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d );
@@ -619,7 +628,19 @@ std::function<double( dialogue & )> _friends_nearby_eval( char scope,
         }
 
         int const radius = static_cast<int>( radius_val.dbl( d ) );
-        character_filter filter = character_filter::friends;
+        std::string const filter_str = filter_val.str( d );
+        character_filter filter = character_filter::any;
+        if( filter_str == "allies" ) {
+            filter = character_filter::allies;
+        } else if( filter_str == "not_allies" ) {
+            filter = character_filter::not_allies;
+        } else if( filter_str == "hostile" ) {
+            filter = character_filter::hostile;
+        } else if( filter_str != "any" ) {
+            debugmsg( R"(Unknown attitude filter "%s" for characters_nearby(), counting all characters)",
+                      filter_str );
+        }
+
         std::vector<Character *> const targets = g->get_characters_if( [&beta, &d, &radius,
                &loc, filter ]( const Character & guy ) {
             return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter );
@@ -628,10 +649,10 @@ std::function<double( dialogue & )> _friends_nearby_eval( char scope,
     };
 }
 
-std::function<double( dialogue & )> friends_nearby_eval( char scope,
+std::function<double( dialogue & )> characters_nearby_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
-    return _friends_nearby_eval( scope, params, kwargs );
+    return _characters_nearby_eval( scope, params, kwargs );
 }
 
 template<class ID>
@@ -1315,6 +1336,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "characters_nearby", { "ung", -1, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
@@ -1326,7 +1348,6 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "faction_respect", { "g", 1, faction_respect_eval } },
     { "faction_trust", { "g", 1, faction_trust_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
-    { "friends_nearby", { "ung", -1, friends_nearby_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
     { "has_flag", { "un", 1, has_flag_eval } },
