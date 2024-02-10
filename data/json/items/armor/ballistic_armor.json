@@ -740,6 +740,17 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
         "max_contains_volume": "900 ml",
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
@@ -844,6 +855,17 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
         "max_contains_volume": "900 ml",
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
@@ -938,6 +960,17 @@
       },
       {
         "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "500 g",
         "max_item_length": "13 cm",
@@ -1004,6 +1037,17 @@
         "max_item_length": "13 cm",
         "moves": 120,
         "volume_encumber_modifier": 0.4
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
       },
       {
         "pocket_type": "CONTAINER",
@@ -1074,6 +1118,17 @@
         "max_item_length": "13 cm",
         "moves": 120,
         "volume_encumber_modifier": 0.4
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
       },
       {
         "pocket_type": "CONTAINER",
@@ -1167,6 +1222,17 @@
         "moves": 800,
         "description": "Pocket for a large armor plate.",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1200 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
       }
     ],
     "armor": [
@@ -1344,7 +1410,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
-        "encumbrance": 5,
+        "encumbrance": 3,
         "coverage": 80,
         "cover_ranged": 95,
         "cover_vitals": 100,
@@ -1388,7 +1454,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "pair of ballistic thigh protectors", "str_pl": "pairs of ballistic thigh protectors" },
-    "description": "Nylon armor with soft armor inserts for upper leg protection.  Designed to be attached to US military body armor.",
+    "description": "Front and back nylon armor with soft armor inserts for upper leg protection.  Designed to be attached to US military body armor.",
     "weight": "3000 g",
     "volume": "1800 ml",
     "price": 60000,
@@ -1403,8 +1469,8 @@
         { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
         { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
       ],
-      "encumbrance": 4,
-      "coverage": 85,
+      "encumbrance": 2,
+      "coverage": 80,
       "cover_ranged": 95,
       "cover_vitals": 100,
       "covers": [ "leg_l", "leg_r" ],
