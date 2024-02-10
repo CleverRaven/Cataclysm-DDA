@@ -1260,7 +1260,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
-        say( chatbin.snip_acknowledged );
+        say( chat_snippets().snip_acknowledged.translated() );
     }
 
     if( sees( spos ) || is_hallucination() ) {
@@ -1382,7 +1382,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
             npc *npc_actor = d.actor( true )->get_npc();
             if( npc_actor ) {
-                d.actor( true )->say( _( npc_actor->chatbin.snip_bye ) );
+                d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
             }
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
@@ -1504,7 +1504,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return _( actor( true )->get_npc()->chatbin.snip_bye );
+        return actor( true )->get_npc()->chat_snippets().snip_bye.translated();
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );

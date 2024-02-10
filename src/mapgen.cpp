@@ -3393,7 +3393,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
             for( auto const &npc : overmap_buffer.get_npcs_near_omt(
                      project_to<coords::omt>( dat.m.get_abs_sub() ), 0 ) ) {
                 if( !npc->is_dead() &&
-                    ( npc_class.empty() || npc->idz == npc_class_id( npc_class ) ) &&
+                    ( npc_class.empty() || npc->idz == string_id<npc_template>( npc_class ) ) &&
                     ( unique_id.empty() || unique_id == npc->get_unique_id() ) ) {
                     overmap_buffer.remove_npc( npc->getID() );
                     if( !unique_id.empty() ) {
