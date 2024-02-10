@@ -590,9 +590,9 @@ bool _friend_match_filter_character( Character const &beta, Character const &guy
 }
 
 bool _filter_character( Character const &beta, Character const &guy, int radius,
-                        tripoint_abs_ms const &loc, character_filter filter )
+                        tripoint_abs_ms const &loc, character_filter filter, bool allow_hallucinations )
 {
-    if( !guy.is_hallucination() && ( beta.getID() != guy.getID() ) ) {
+    if( ( !guy.is_hallucination() || allow_hallucinations ) && ( beta.getID() != guy.getID() ) ) {
         return _friend_match_filter_character( beta, guy, filter ) &&
                radius >= rl_dist( guy.get_location(), loc );
     }
@@ -604,6 +604,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
 {
     diag_value radius_val( 1000.0 );
     diag_value filter_val( std::string{ "any" } );
+    diag_value allow_hallucinations_val( 0.0 );
     std::optional<var_info> loc_var;
     if( kwargs.count( "radius" ) != 0 ) {
         radius_val = *kwargs.at( "radius" );
@@ -613,13 +614,16 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
     }
     if( kwargs.count( "location" ) != 0 ) {
         loc_var = kwargs.at( "location" )->var();
-
+    }
+    if( kwargs.count( "allow_hallucinations" ) != 0 ) {
+        allow_hallucinations_val = *kwargs.at( "allow_hallucinations" );
     } else if( scope == 'g' ) {
         throw std::invalid_argument( string_format(
                                          R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
     }
 
-    return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val ]( dialogue & d ) {
+    return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val,
+         allow_hallucinations_val ]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d );
@@ -640,10 +644,16 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
             debugmsg( R"(Unknown attitude filter "%s" for characters_nearby(), counting all characters)",
                       filter_str );
         }
+        bool allow_hallucinations = false;
+        int const hallucinations_int = static_cast<int>( allow_hallucinations_val.dbl( d ) );
+        if( hallucinations_int != 0 ) {
+            allow_hallucinations = true;
+        }
 
         std::vector<Character *> const targets = g->get_characters_if( [&beta, &d, &radius,
-               &loc, filter ]( const Character & guy ) {
-            return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter );
+               &loc, filter, allow_hallucinations ]( const Character & guy ) {
+            return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter,
+                                      allow_hallucinations );
         } );
         return static_cast<double>( targets.size() );
     };
@@ -1233,6 +1243,19 @@ std::function<double( dialogue & )> value_or_eval( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> vision_range_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() ) {
+            return static_cast<talker const *>( d.actor( beta ) )
+                   ->get_character()
+                   ->unimpaired_range();
+        }
+        return 0;
+    };
+}
+
 std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -1381,6 +1404,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "val", { "un", 1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
+    { "vision_range", { "un", 0, vision_range_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
 };
