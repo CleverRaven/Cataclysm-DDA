@@ -273,6 +273,58 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     m.destroy_vehicle( &ovp_unfolded->vehicle() );
 }
 
+
+
+static void unfold_and_control( const vehicle_preset &veh_preset )
+{
+    map &m = get_map();
+    Character &u = get_player_character();
+
+    clear_avatar();
+    clear_map();
+    clear_vehicles( &m );
+
+    u.worn.wear_item( u, item( "debug_backpack" ), false, false );
+
+    item veh_item( veh_preset.vehicle_itype_id );
+
+    // save these to compare against player folded item later
+    const units::volume factory_item_volume = veh_item.volume();
+    const units::mass factory_item_weight = veh_item.weight();
+
+    spawn_tools_nearby( m, u, veh_preset );
+    complete_activity( u, vehicle_unfolding_activity_actor( veh_item ) );
+    clear_spawned_tools( m, u );
+
+    // should succeed now avatar has hand_pump
+    optional_vpart_position ovp = m.veh_at( u.get_location() );
+
+    vehicle &veh = ovp->vehicle();
+    for( const vpart_reference &vpr : veh.get_all_parts() ) {
+        vehicle_part &vp = vpr.part();
+        item base = vp.get_base();
+        vp.set_base( std::move( base ) );
+    }
+
+    // fold into an item
+    spawn_tools_nearby( m, u, veh_preset );
+    complete_activity( u, vehicle_folding_activity_actor( veh ) );
+    clear_spawned_tools( m, u );
+
+    clear_avatar();
+    clear_map();
+    clear_vehicles( &m );
+    clear_items( 0 );
+    // m.destroy_it( &ovp_unfolded->vehicle() );
+}
+
+// Testing iuse::unfold_generic and vehicle part degradation
+TEST_CASE( "Unfolding_drone_and_testing_control", "[item][degradation][vehicle]" )
+{
+    const vehicle_preset veh = {itype_folded_camera_drone, { }};
+    unfold_and_control(veh);
+}
+
 // Testing iuse::unfold_generic and vehicle part degradation
 TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradation][vehicle]" )
 {
@@ -292,6 +344,7 @@ TEST_CASE( "Unfolding_vehicle_parts_and_testing_degradation", "[item][degradatio
     };
 
     for( const vehicle_preset &veh_preset : vehicle_presets ) {
+
         for( const damage_preset &damage_preset : presets ) {
             unfold_and_check( veh_preset, damage_preset );
         }
