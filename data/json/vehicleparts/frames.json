@@ -287,7 +287,7 @@
     "name": { "str": "foldable drone frame" },
     "item": "fold_flying_drone_frame",
     "durability": 10,
-    "description": "A small flying drone frame.",
+    "description": "A nearly weightless flying drone frame made from plastic and carbon fiber.",
     "folded_volume": "250 ml",
     "epower": "-10 W",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
