@@ -577,9 +577,9 @@ bool _friend_match_filter_character( Character const &beta, Character const &guy
 {
     switch( filter ) {
         case character_filter::allies:
-            return guy.is_ally( beta ) != 0;
+            return guy.is_ally( beta );
         case character_filter::not_allies:
-            return !guy.is_ally( beta ) == 0;
+            return !guy.is_ally( beta );
         case character_filter::hostile:
             return guy.attitude_to( beta ) == Creature::Attitude::HOSTILE ||
                    ( beta.is_avatar() && guy.is_npc() && guy.as_npc()->guaranteed_hostile() );
@@ -623,7 +623,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
     }
 
     return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val,
-         allow_hallucinations_val ]( dialogue & d ) {
+        allow_hallucinations_val ]( dialogue & d ) {
         tripoint_abs_ms loc;
         if( loc_var.has_value() ) {
             loc = get_tripoint_from_var( loc_var, d );
@@ -650,7 +650,7 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
             allow_hallucinations = true;
         }
 
-        std::vector<Character *> const targets = g->get_characters_if( [&beta, &d, &radius,
+        std::vector<Character *> const targets = g->get_characters_if( [ &beta, &d, &radius,
                &loc, filter, allow_hallucinations ]( const Character & guy ) {
             return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter,
                                       allow_hallucinations );

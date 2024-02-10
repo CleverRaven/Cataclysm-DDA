@@ -146,7 +146,7 @@
     "type": "effect_on_condition",
     "id": "EOC_BIO_SONAR_activated",
     "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": { "not": { "u_has_effect": "subaquatic_sonar" } },
+    "condition": { "and": [ { "not": { "u_has_effect": "subaquatic_sonar" } }, { "u_has_bionics": "bio_sonar" } ] },
     "effect": [ { "u_add_effect": "subaquatic_sonar", "duration": "PERMANENT" } ]
   },
   {
