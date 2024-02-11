@@ -23,7 +23,7 @@
         ],
         "prob": 100
       },
-      { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 60, "prob": 75 },
+      { "item": "rebreather", "ammo-item": "rebreather_filler_soda_lime", "charges": 60, "prob": 75 },
       { "distribution": [ { "item": "fire_ax", "prob": 20 }, { "item": "crash_axe", "prob": 80 } ], "prob": 30 },
       {
         "collection": [ { "item": "afs_foamgun" }, { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30, "prob": 100 } ],

@@ -272,7 +272,6 @@
       "762_m87",
       "762_jhp",
       "8mm_bootleg",
-      "8mm_civilian",
       "8mm_jhp",
       "30carbine",
       "30carbine_jsp"
@@ -371,9 +370,7 @@
       "762_51_incendiary",
       "762_51_m993",
       "8mm_caseless",
-      "8mm_fmj",
-      "8mm_hvp",
-      "8mm_inc"
+      "8mm_hvp"
     ],
     "type": "MIGRATION",
     "replace": "rifle_AP"
@@ -426,12 +423,12 @@
     "replace": "reloaded_rifle_huge_ball"
   },
   {
-    "id": [ "50ss", "700nx" ],
+    "id": [ "50ss" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_AP"
   },
   {
-    "id": [ "reloaded_50ss", "reloaded_700nx" ],
+    "id": [ "reloaded_50ss" ],
     "type": "MIGRATION",
     "replace": "reloaded_rifle_huge_AP"
   },

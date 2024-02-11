@@ -1,5 +1,614 @@
 [
   {
+    "id": "lobotomizer",
+    "type": "MIGRATION",
+    "replace": "box_medium_wood",
+    "contents": [ { "id": "steel_lump", "count": 6 } ]
+  },
+  {
+    "id": "mold_plastic",
+    "type": "MIGRATION",
+    "replace": "vac_mold"
+  },
+  {
+    "id": "gambeson_loose",
+    "type": "MIGRATION",
+    "replace": "gambeson"
+  },
+  {
+    "id": "gambeson_loose_vest",
+    "type": "MIGRATION",
+    "replace": "gambeson_nylon_vest"
+  },
+  {
+    "id": "k_gambeson",
+    "type": "MIGRATION",
+    "replace": "gambeson_nylon"
+  },
+  {
+    "id": "egg_lady_bug_giant",
+    "type": "MIGRATION",
+    "replace": "egg_lady_bug"
+  },
+  {
+    "id": "spider_egg",
+    "type": "MIGRATION",
+    "replace": "egg_spider_web"
+  },
+  {
+    "id": "spider_egg",
+    "type": "MIGRATION",
+    "replace": "egg_spider_web"
+  },
+  {
+    "id": "egg_frog",
+    "type": "MIGRATION",
+    "replace": "egg_gray_frog"
+  },
+  {
+    "id": "egg_toad",
+    "type": "MIGRATION",
+    "replace": "egg_odd_toad"
+  },
+  {
+    "id": "superalloy_harness_dog",
+    "type": "MIGRATION",
+    "replace": "kevlar_harness"
+  },
+  {
+    "id": "k_gambeson_vest",
+    "type": "MIGRATION",
+    "replace": "gambeson_vest"
+  },
+  {
+    "id": "l-stick",
+    "type": "MIGRATION",
+    "replace": "flashlight"
+  },
+  {
+    "id": "k_gambeson_loose",
+    "type": "MIGRATION",
+    "replace": "gambeson_nylon"
+  },
+  {
+    "id": "k_gambeson_vest_loose",
+    "type": "MIGRATION",
+    "replace": "gambeson_nylon_vest"
+  },
+  {
+    "id": "k_gambeson_pants",
+    "type": "MIGRATION",
+    "replace": "gambeson_pants_nylon"
+  },
+  {
+    "id": "gambeson_xs_loose",
+    "type": "MIGRATION",
+    "replace": "gambeson_xs"
+  },
+  {
+    "id": "gambeson_vest_xs_loose",
+    "type": "MIGRATION",
+    "replace": "gambeson_vest_xs"
+  },
+  {
+    "id": "xl_gambeson_loose",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson"
+  },
+  {
+    "id": "xl_gambeson_vest_loose",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_vest"
+  },
+  {
+    "id": "xl_k_gambeson",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_nylon"
+  },
+  {
+    "id": "xl_k_gambeson_vest",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_nylon_vest"
+  },
+  {
+    "id": "k_gambeson_xs",
+    "type": "MIGRATION",
+    "replace": "xs_gambeson_nylon"
+  },
+  {
+    "id": "k_gambeson_vest_xs",
+    "type": "MIGRATION",
+    "replace": "xs_gambeson_nylon_vest"
+  },
+  {
+    "id": "xl_k_gambeson_pants",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_pants_nylon"
+  },
+  {
+    "id": "xl_k_gambeson_loose",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_pants_nylon"
+  },
+  {
+    "id": "xl_k_gambeson_vest_loose",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_nylon_vest"
+  },
+  {
+    "id": "k_gambeson_vest_xs_loose",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_nylon_vest"
+  },
+  {
+    "id": "k_gambeson_hood",
+    "type": "MIGRATION",
+    "replace": "gambeson_hood"
+  },
+  {
+    "id": "xl_k_gambeson_hood",
+    "type": "MIGRATION",
+    "replace": "xl_gambeson_hood"
+  },
+  {
+    "id": "xs_k_gambeson_hood",
+    "type": "MIGRATION",
+    "replace": "xs_gambeson_hood"
+  },
+  {
+    "id": "l-stick_on",
+    "type": "MIGRATION",
+    "replace": "flashlight"
+  },
+  {
+    "id": "mil_mess_kit",
+    "type": "MIGRATION",
+    "replace": "survivor_mess_kit"
+  },
+  {
+    "id": "5x50dart",
+    "type": "MIGRATION",
+    "replace": "50match"
+  },
+  {
+    "id": "5x50heavy",
+    "type": "MIGRATION",
+    "replace": "50match"
+  },
+  {
+    "id": "reloaded_5x50dart",
+    "type": "MIGRATION",
+    "replace": "reloaded_50bmg"
+  },
+  {
+    "id": "5x50_100_mag",
+    "type": "MIGRATION",
+    "replace": "stanag100"
+  },
+  {
+    "id": "5x50_50_mag",
+    "type": "MIGRATION",
+    "replace": "stanag50"
+  },
+  {
+    "id": "needlegun",
+    "type": "MIGRATION",
+    "replace": "nailgun"
+  },
+  {
+    "id": "needlepistol",
+    "type": "MIGRATION",
+    "replace": "nailgun"
+  },
+  {
+    "id": "5x50_hull",
+    "type": "MIGRATION",
+    "replace": "shot_hull"
+  },
+  {
+    "id": "AID_bio_alarm",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_tattoo_led",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_power_armor_interface",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_power_storage",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_power_storage_mkII",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_watch",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_syringe",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_blood_anal",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_flashlight",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_magnet",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_soporific",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_armor_arms",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_armor_legs",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_shotgun",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_blood_filter",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_climate",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_geiger",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_heatsink",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_meteorologist",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_ups",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_weight",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_trickle",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "AID_bio_pitch_perfect",
+    "type": "MIGRATION",
+    "replace": "letter"
+  },
+  {
+    "id": "waterproof_smart_phone_case_migration",
+    "type": "MIGRATION",
+    "replace": "waterproof_smart_phone_case"
+  },
+  {
+    "id": "schematics_eyebot",
+    "type": "MIGRATION",
+    "replace": "novel_scifi"
+  },
+  {
+    "id": "schematics_copbot",
+    "type": "MIGRATION",
+    "replace": "novel_scifi"
+  },
+  {
+    "id": "schematics_riotbot",
+    "type": "MIGRATION",
+    "replace": "novel_scifi"
+  },
+  {
+    "id": "bot_copbot",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "bot_eyebot",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "bot_riotbot",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "broken_eyebot",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "broken_copbot",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "broken_riotbot",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "RPG",
+    "type": "MIGRATION",
+    "replace": "m3_carlgustav"
+  },
+  {
+    "id": "RPG-7_ammo",
+    "type": "MIGRATION",
+    "replace": "84x246mm_he"
+  },
+  {
+    "id": "RPG-7_pg7vr",
+    "type": "MIGRATION",
+    "replace": "84x246mm_he"
+  },
+  {
+    "id": "RPG-7_tbg7v",
+    "type": "MIGRATION",
+    "replace": "84x246mm_he"
+  },
+  {
+    "id": "RPG-7_og7v",
+    "type": "MIGRATION",
+    "replace": "84x246mm_he"
+  },
+  {
+    "id": "broken_mininuke_hack",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "mininuke_payload",
+    "type": "MIGRATION",
+    "replace": "broken_science_bot"
+  },
+  {
+    "id": "rm802",
+    "type": "MIGRATION",
+    "replace": "m203"
+  },
+  {
+    "id": "aux_pressurized_tank",
+    "type": "MIGRATION",
+    "replace": "pressurized_tank"
+  },
+  {
+    "id": "skorpion_61",
+    "type": "MIGRATION",
+    "replace": "hk_mp5"
+  },
+  {
+    "id": "skorpion61mag",
+    "type": "MIGRATION",
+    "replace": "mp5mag"
+  },
+  {
+    "id": "skorpion_82",
+    "type": "MIGRATION",
+    "replace": "hk_mp5"
+  },
+  {
+    "id": "skorpion82mag",
+    "type": "MIGRATION",
+    "replace": "mp5mag"
+  },
+  {
+    "id": "8mm_civilian",
+    "type": "MIGRATION",
+    "replace": "9mm"
+  },
+  {
+    "id": "8mm_fmj",
+    "type": "MIGRATION",
+    "replace": "9mm"
+  },
+  {
+    "id": "8mm_hvp",
+    "type": "MIGRATION",
+    "replace": "9mm"
+  },
+  {
+    "id": "8mm_inc",
+    "type": "MIGRATION",
+    "replace": "9mm"
+  },
+  {
+    "id": "rm298",
+    "type": "MIGRATION",
+    "replace": "m240"
+  },
+  {
+    "id": "mask_wsurvivor_nofur",
+    "type": "MIGRATION",
+    "replace": "scarf_faux_fur"
+  },
+  {
+    "id": "mask_wsurvivorxl_nofur",
+    "type": "MIGRATION",
+    "replace": "scarf_faux_fur"
+  },
+  {
+    "id": "mask_wsurvivor_nofur_xs",
+    "type": "MIGRATION",
+    "replace": "scarf_faux_fur"
+  },
+  {
+    "id": "mask_wsurvivor",
+    "type": "MIGRATION",
+    "replace": "balclava"
+  },
+  {
+    "id": "mask_wsurvivorxl",
+    "type": "MIGRATION",
+    "replace": "balclava"
+  },
+  {
+    "id": "mask_wsurvivorxs",
+    "type": "MIGRATION",
+    "replace": "balclava"
+  },
+  {
+    "id": "chainmail_hauberk",
+    "type": "MIGRATION",
+    "replace": "lc_chainmail_hauberk"
+  },
+  {
+    "id": "chainmail_suit",
+    "type": "MIGRATION",
+    "replace": "mc_chainmail_suit"
+  },
+  {
+    "id": "armor_plate",
+    "type": "MIGRATION",
+    "replace": "armor_lc_plate"
+  },
+  {
+    "id": "armor_lightplate",
+    "type": "MIGRATION",
+    "replace": "armor_mc_lightplate"
+  },
+  {
+    "id": "xl_armor_lightplate",
+    "type": "MIGRATION",
+    "replace": "xl_armor_mc_plate"
+  },
+  {
+    "id": "xs_armor_lightplate",
+    "type": "MIGRATION",
+    "replace": "xs_hsurvivor_jumpsuit"
+  },
+  {
+    "id": "chainmail_hood",
+    "type": "MIGRATION",
+    "replace": "lc_chainmail_hood"
+  },
+  {
+    "id": "chainmail_vest",
+    "type": "MIGRATION",
+    "replace": "lc_chainmail_vest"
+  },
+  {
+    "id": "chainmail_arms",
+    "type": "MIGRATION",
+    "replace": "mc_chainmail_arms"
+  },
+  {
+    "id": "chainmail_hands",
+    "type": "MIGRATION",
+    "replace": "mc_chainmail_hands"
+  },
+  {
+    "id": "chainmail_legs",
+    "type": "MIGRATION",
+    "replace": "mc_chainmail_legs"
+  },
+  {
+    "id": "chainmail_feet",
+    "type": "MIGRATION",
+    "replace": "mc_chainmail_feet"
+  },
+  {
+    "id": "m2browning_sawn",
+    "type": "MIGRATION",
+    "replace": "m2browning"
+  },
+  {
+    "id": "contacts",
+    "type": "MIGRATION",
+    "replace": "bifocal_contacts_weekly"
+  },
+  {
+    "id": "transition_contacts",
+    "type": "MIGRATION",
+    "replace": "bifocal_transition_contacts_weekly"
+  },
+  {
+    "id": "mean_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug",
+    "variant": "mean_mug",
+    "reset_item_vars": true
+  },
+  {
+    "id": "nice_mug",
+    "type": "MIGRATION",
+    "replace": "ceramic_mug",
+    "variant": "mean_mug2",
+    "reset_item_vars": true
+  },
+  {
+    "id": "hk_ump45",
+    "type": "MIGRATION",
+    "replace": "modular_ump",
+    "contents": [ { "id": "retool_ump_45", "count": 1 } ]
+  },
+  {
+    "id": "bio_trickle",
+    "type": "MIGRATION",
+    "replace": "burnt_out_bionic"
+  },
+  {
+    "id": "ballistic_vest_heavy",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi",
+    "contents": [ { "id": "iotv_shoulder_plate", "count": 1 }, { "id": "iotv_groin_plate", "count": 1 } ]
+  },
+  {
+    "id": "ballistic_vest_heavy_arms",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi",
+    "contents": [ { "id": "iotv_shoulder_plate", "count": 1 } ]
+  },
+  {
+    "id": "ballistic_vest_heavy_legs",
+    "type": "MIGRATION",
+    "replace": "ballistic_vest_esapi",
+    "contents": [ { "id": "iotv_groin_plate", "count": 1 } ]
+  },
+  {
     "id": "conical_hat",
     "type": "MIGRATION",
     "replace": "hat_ball"
