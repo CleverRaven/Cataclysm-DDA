@@ -3,7 +3,7 @@
     "id": "mon_ogre",
     "type": "MONSTER",
     "name": { "str": "ogre" },
-    "description": "An enormous, green beast known for living in swamps and eating passersby, clutching a giantic club in a single meaty hand; it will kill anything it gets its hands on.",
+    "description": "An enormous, pale green beast known for living in swamps and eating passersby, clutching a gigantic club in a single meaty hand; it will kill anything it gets its hands on.",
     "default_faction": "ogre",
     "bodytype": "human",
     "species": [ "OGRE" ],
@@ -21,9 +21,11 @@
     "melee_dice_sides": 6,
     "dodge": 1,
     "harvest": "ogre",
-    "families": [ "prof_wp_demihuman" ],
-    "weakpoint_sets": [ "wps_humanoid_body", "prof_wp_hulk" ],
+    "stomach_size": 6000,
+    "families": [ "prof_wp_demihuman", "prof_wp_hulk" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "anger_triggers": [ "HURT", "FIRE", "PLAYER_WEAK" ],
+    "grab_strength": 50,
     "special_attacks": [
       { "id": "grab", "condition": { "u_has_effect": "disarmed" } },
       {
@@ -42,22 +44,100 @@
         "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
         "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
       },
-      { "id": "smash", "throw_strength": 80 }
+      { "id": "smash", "throw_strength": 80 },
+      [ "EAT_FOOD", 120 ]
     ],
     "vision_day": 45,
     "vision_night": 3,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "FIREPROOF" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 5, "cut": 2, "stab": 2, "psionic": 20 }
   },
   {
     "id": "mon_ogre_mage",
     "copy-from": "mon_ogre",
     "type": "MONSTER",
     "name": { "str": "ogre mage" },
-    "description": "An enormous, blue beast known for living in swamps and eating passersby.  This ogre has a more calculating look and does not have a club.  As it idly waves one hand, you see sparkles trail through the air after its fingers.",
+    "description": "An enormous, blue beast known for living in swamps and eating passersby, slightly smaller than the other ogres you've seen.  This ogre has a more calculating look and does not have a club.  As it idly waves one hand, you see sparkles trail through the air after its fingers.",
+    "proportional": { "hp": 0.78, "weight": 0.8, "volume": 0.8 },
     "morale": 50,
     "regenerates": 1,
     "regen_morale": true,
-    "special_attacks": [ { "id": "smash", "throw_strength": 50 } ]
+    "stomach_size": 5000,
+    "special_attacks": [ { "id": "smash", "throw_strength": 50 }, [ "EAT_FOOD", 120 ] ],
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER_2" ]
+  },
+  {
+    "id": "mon_ogre_twoheaded",
+    "copy-from": "mon_ogre",
+    "type": "MONSTER",
+    "name": { "str": "ettin" },
+    "description": "An enormous, clay-colored beast known for living in swamps and eating passersby.  This one has two heads, both moving independently and gazing around at their surroundings.",
+    "//": "Two heads give it better vision but lower morale (heads disagree about when to run) and much better psionic armor.",
+    "vision_day": 50,
+    "vision_night": 10,
+    "morale": 50,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "WARM",
+      "EATS",
+      "BASHES",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "FILTHY",
+      "PATH_AVOID_DANGER_2",
+      "STUN_IMMUNE"
+    ],
+    "armor": { "bash": 5, "cut": 2, "stab": 2, "psionic": 50 }
+  },
+  {
+    "id": "mon_ogre_spider",
+    "copy-from": "mon_ogre",
+    "type": "MONSTER",
+    "name": { "str": "ettercap" },
+    "description": "A hideous monstrosity, like a spider in the shape of a man.  Its dark purple skin is half-covered in chitin, long claws extend from its hands and feet, and eight eyes peer out from a distorted humanlike face.",
+    "proportional": { "hp": 0.5, "weight": 0.6, "volume": 0.6 },
+    "morale": 50,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "stomach_size": 2000,
+    "special_attacks": [
+      { "id": "bite", "cooldown": 10, "effects": [ { "id": "venom_weaken", "chance": 50, "duration": [ 3600, 36000 ] } ] },
+      { "id": "scratch", "cooldown": 2, "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
+      { "id": "grab", "cooldown": 15 },
+      { "id": "mutant_spinneret", "cooldown": 3 },
+      [ "EAT_FOOD", 120 ]
+    ],
+    "fear_triggers": [ "FIRE" ],
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ],
+    "armor": { "bash": 5, "cut": 8, "stab": 8, "poison": 35 }
+  },
+  {
+    "id": "mon_ogre_giant",
+    "copy-from": "mon_ogre",
+    "type": "MONSTER",
+    "name": { "str": "athach" },
+    "description": "A gigantic, ogre-like monster, but nearly half again as tall as an ogre.  Two huge tusks jut forth from a mouth twisted into a snarl, and a third arm protrudes from the center of its chest.",
+    "proportional": { "hp": 2, "weight": 2, "volume": 2 },
+    "morale": 100,
+    "stomach_size": 12000,
+    "//": "Third arm allows for grab_2 and scratching even while grabbing",
+    "grab_strength": 100,
+    "special_attacks": [
+      {
+        "id": "bite_humanoid",
+        "cooldown": 10,
+        "effects": [ { "id": "badpoison", "chance": 50, "duration": [ 3600, 36000 ] } ]
+      },
+      { "id": "grab", "cooldown": 15 },
+      { "id": "grab_2", "cooldown": 15 },
+      { "id": "scratch", "cooldown": 15, "damage_max_instance": [ { "damage_type": "cut", "amount": 32 } ] },
+      { "id": "smash", "throw_strength": 70 },
+      [ "EAT_FOOD", 120 ]
+    ],
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "EATS", "BASHES", "PUSH_MON", "PUSH_VEH", "FILTHY", "PATH_AVOID_DANGER_1" ]
   }
 ]
