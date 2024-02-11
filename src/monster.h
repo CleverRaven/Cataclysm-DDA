@@ -566,10 +566,13 @@ class monster : public Creature
         bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
+
         short ignoring = 0;
         bool aggro_character = true;
 
         std::optional<time_point> lastseen_turn;
+
+        pimpl<enchant_cache> enchantment_cache;
 
         // Stair data.
         int staircount = 0;
@@ -589,7 +592,6 @@ class monster : public Creature
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( item &itm );
-        pimpl<enchant_cache> enchantment_cache;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
