@@ -10721,7 +10721,7 @@ void Character::echo_pulse()
         if( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, pulse_range ) ) {
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
-            // This only counts obstacles which can be moved through, so we make a very quiet noise.
+            // This only counts obstacles which can be moved through, so the echo is pretty quiet.
         } else if( is_obstacle( origin ) && here.pl_line_of_sight( origin, pulse_range ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
