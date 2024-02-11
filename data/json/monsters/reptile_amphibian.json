@@ -1159,7 +1159,7 @@
           { "damage_type": "cut", "amount": 26, "armor_multiplier": 0.2 },
           { "damage_type": "bash", "amount": 14, "armor_multiplier": 0.2 }
         ],
-        "effects": [ { "id": "paralyzepoison", "duration": 20, "affect_hit_bp": true } ],
+        "effects": [ { "id": "venom_pain", "duration": 20, "affect_hit_bp": true } ],
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       },
       {
