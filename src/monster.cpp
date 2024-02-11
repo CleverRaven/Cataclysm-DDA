@@ -3162,7 +3162,8 @@ void monster::process_one_effect( effect &it, bool is_new )
             you.get_sick( true );
         }
     }
-
+    std::map<const enchant_vals::mod, bool> values_add_exist;
+    std::map<const enchant_vals::mod, bool> values_mult_exist;
     //Process enchantments that apply to monsters.
     for( const auto &elem : *effects ) {
         for( const enchantment_id &ench_id : elem.first->enchantments ) {
@@ -3170,11 +3171,25 @@ void monster::process_one_effect( effect &it, bool is_new )
             if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
                 //Apply multiplication first.
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
-                    enchantment_cache->add_value_mult( pair_values.first, pair_values.second.constant() );
+                    if (values_mult_exist.count(pair_values.first) < 1) {
+                        enchantment_cache->add_value_mult(pair_values.first, pair_values.second.constant());
+                        values_mult_exist[pair_values.first] = true;
+                    }
+                    else {
+                        double enchantment_sum = pair_values.second.constant() + enchantment_cache->get_value_multiply(pair_values.first);
+                        enchantment_cache->add_value_mult(pair_values.first, enchantment_sum);
+                    }
                 }
                 //Then addition
                 for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_add ) {
-                    enchantment_cache->add_value_add( pair_values.first, pair_values.second.constant() );
+                    if (values_add_exist.count(pair_values.first) < 1) {
+                        enchantment_cache->add_value_add(pair_values.first, pair_values.second.constant());
+                        values_add_exist[pair_values.first] = true;
+                    }
+                    else {
+                        double enchantment_sum = pair_values.second.constant() + enchantment_cache->get_value_add(pair_values.first);
+                        enchantment_cache->add_value_add(pair_values.first, enchantment_sum);
+                    }
                 }
             }
         }
