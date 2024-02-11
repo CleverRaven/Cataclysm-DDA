@@ -1247,7 +1247,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 // Materials and protection calculations are not tested here; only their display in item info.
 //
 // item::armor_protection_info
-TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
+TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
 {
     clear_avatar();
 
@@ -1296,6 +1296,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "  Cut: <color_c_yellow>4.00</color>\n"
                "  Ballistic: <color_c_yellow>2.00</color>\n"
                "  Pierce: <color_c_yellow>3.20</color>\n"
+               "  Sonic: <color_c_yellow>1.60</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>1.00</color>\n"
                "  Environmental: <color_c_yellow>20</color>\n"
@@ -1322,6 +1323,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "  Pierce: <color_c_yellow>50.00</color>\n"
                "  Acid: <color_c_yellow>9.00</color>\n"
                "  Fire: <color_c_yellow>2.00</color>\n"
+               "  Light: <color_c_yellow>4.00</color>\n"
                "  Environmental: <color_c_yellow>10</color>\n"
              );
     }
@@ -1345,6 +1347,8 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
                "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
                "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n"
+               "  Sonic: <color_c_yellow>9.20</color>\n"
+               "  Light: <color_c_yellow>12.00</color>\n"
              );
     }
 
@@ -1364,6 +1368,13 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "  Ballistic: <color_c_yellow>10.00</color>\n"
                "  Acid: <color_c_yellow>5.00</color>\n"
                "  Fire: <color_c_yellow>3.00</color>\n"
+               "  Light: <color_c_yellow>12.00</color>\n"
+               "  Poison: <color_c_yellow>0.00</color>\n"
+               "  Necrotic: <color_c_yellow>0.00</color>\n"
+               "  Sonic: <color_c_yellow>1.20</color>\n"
+               "  Psionic: <color_c_yellow>0.00</color>\n"
+               "  Gravity: <color_c_yellow>0.00</color>\n"
+               "  Nether: <color_c_yellow>0.00</color>\n"
                "  Environmental: <color_c_yellow>10</color>\n"
              );
     }
@@ -2960,7 +2971,7 @@ TEST_CASE( "item_debug_info", "[iteminfo][debug][!mayfail][.]" )
     }
 }
 
-TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection][!mayfail]" )
+TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection]" )
 {
     // Normal item definition, no copy
     item armor( itype_test_armor_chitin );
@@ -2997,8 +3008,10 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         "  Cut: <color_c_yellow>16.00</color>\n"
         "  Ballistic: <color_c_yellow>5.60</color>\n"
         "  Pierce: <color_c_yellow>12.80</color>\n"
+        "  Sonic: <color_c_yellow>4.00</color>\n"
         "  Acid: <color_c_yellow>3.60</color>\n"
         "  Fire: <color_c_yellow>1.50</color>\n"
+        "  Light: <color_c_yellow>20.00</color>\n"
         "  Environmental: <color_c_yellow>6</color>\n";
 
     CHECK( a_str == info_str );
