@@ -531,6 +531,7 @@
       { "id": "grab", "cooldown": 4 },
       { "id": "scratch_humanoid", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] }
     ],
+    "upgrades": false,
     "armor": { "bash": 5, "cut": 2, "bullet": 2, "electric": 1 },
     "extend": { "flags": [ "SMELLS", "KEENNOSE" ] }
   },
@@ -575,6 +576,7 @@
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "harvest": "zombie_humanoid_headless",
     "grab_strength": 50,
+    "upgrades": false,
     "armor": { "electric": 2 },
     "extend": { "flags": [ "GOODHEARING", "NOHEAD", "LOUDMOVES" ], "families": [ "prof_wp_hulk" ] },
     "delete": { "special_attacks": [ "bite_humanoid" ] }
@@ -591,13 +593,10 @@
     "material": [ "flesh", "bone" ],
     "color": "red_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_head_small" ],
     "bleed_rate": 80,
-    "vision_night": 3,
     "grab_strength": 15,
     "upgrades": { "half_life": 24, "into": "mon_zombie_brute" },
     "fungalize_into": "mon_zombie_tough_fungal",
@@ -660,7 +659,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
     "bleed_rate": 50,
-    "vision_night": 3,
     "harvest": "zombie_grabber",
     "grab_strength": 37,
     "special_attacks": [
@@ -673,6 +671,7 @@
       { "id": "drag_followup", "grab_data": { "drag_distance": 1, "drag_deviation": 1, "drag_movecost_mod": 1.5 } }
     ],
     "burn_into": "mon_zombie_fiend",
+    "upgrades": false,
     "armor": { "bash": 10, "cut": 14, "stab": 8, "bullet": 8, "electric": 2 },
     "extend": { "flags": [ "SMELLS", "PUSH_VEH", "RANGED_ATTACKER" ], "weakpoint_sets": [ "wps_humanoid_head_small" ] }
   },
@@ -703,6 +702,7 @@
       { "id": "cut_throat" }
     ],
     "burn_into": "mon_zombie_fiend",
+    "upgrades": false,
     "armor": { "bash": 8, "cut": 5, "bullet": 4, "electric": 2 },
     "extend": { "flags": [ "SMELLS", "PUSH_VEH", "NIGHT_INVISIBILITY" ], "weakpoint_sets": [ "wps_humanoid_head_small" ] }
   },
@@ -740,6 +740,7 @@
       { "id": "grab_drag" },
       { "id": "drag_followup" }
     ],
+    "upgrades": false,
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 },
     "extend": { "flags": [ "SMELLS", "CLIMBS", "NIGHT_INVISIBILITY" ] }
   },
@@ -789,6 +790,7 @@
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, { "id": "smash" } ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "regenerates": 15,
+    "upgrades": false,
     "armor": { "bash": 15, "cut": 15, "bullet": 15, "electric": 6 },
     "extend": {
       "flags": [ "ALL_SEEING", "GOODHEARING", "SMELLS", "KEENNOSE", "DESTROYS", "PUSH_VEH", "NEMESIS", "LOUDMOVES" ],
@@ -811,7 +813,6 @@
     "dodge": 1,
     "bleed_rate": 50,
     "vision_day": 30,
-    "vision_night": 3,
     "harvest": "zombie_grabber",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "bite_humanoid", "cooldown": 5 }, { "id": "scratch_humanoid" } ],
@@ -843,6 +844,7 @@
       { "id": "drag_followup" },
       { "id": "bite_humanoid", "cooldown": 5 }
     ],
+    "upgrades": false,
     "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER" ] }
   },
   {
@@ -855,15 +857,12 @@
     "color": "black_white",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_skill": 6,
-    "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 4,
     "bleed_rate": 0,
     "vision_day": 30,
-    "vision_night": 3,
     "harvest": "zombie_meatslug",
-    "grab_strength": 20,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "stretch_bite" }, { "id": "stretch_attack", "cooldown": 5 } ],
     "death_drops": "zed_skin",
     "death_function": {
@@ -871,6 +870,7 @@
       "corpse_type": "NO_CORPSE",
       "effect": { "id": "death_blobsplit", "hit_self": true }
     },
+    "upgrades": false,
     "armor": { "bash": 8, "cut": 4, "stab": 10, "bullet": 10, "electric": 1 },
     "extend": { "flags": [ "SMELLS" ] }
   },
@@ -897,6 +897,7 @@
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" }, { "id": "smash", "throw_strength": 96 } ],
     "death_drops": "mon_zombie_hulk_death_drops",
+    "upgrades": false,
     "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
     "extend": {
       "flags": [ "SMELLS", "PUSH_VEH", "DESTROYS" ],
@@ -914,7 +915,6 @@
     "speed": 110,
     "color": "brown",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "melee_skill": 4,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 3,
@@ -949,7 +949,6 @@
     "speed": 100,
     "color": "light_green_cyan",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
@@ -977,6 +976,7 @@
     ],
     "death_drops": "mon_zombie_swimmer_death_drops",
     "burn_into": "mon_zombie_scorched",
+    "upgrades": false,
     "armor": { "bash": 8, "cut": 10, "bullet": 8, "electric": 1 },
     "extend": { "flags": [ "SMELLS", "SWIMS", "WATER_CAMOUFLAGE" ] }
   },
@@ -1001,6 +1001,7 @@
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "UPGRADE", 10 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "upgrades": false,
     "armor": { "bash": 2, "cut": 2, "bullet": 2, "electric": 3 },
     "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
     "delete": { "flags": [ "STUMBLES" ] }
@@ -1017,7 +1018,6 @@
     "color": "dark_gray",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 5,
-    "melee_skill": 4,
     "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
@@ -1028,6 +1028,7 @@
     "path_settings": { "max_dist": 10, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "RESURRECT", 0 ] ],
     "anger_triggers": [ "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "upgrades": false,
     "armor": { "electric": 2 },
     "extend": { "flags": [ "SMELLS", "HAS_MIND", "CAN_OPEN_DOORS", "PRIORITIZE_TARGETS", "NO_FUNG_DMG", "PATH_AVOID_DANGER_1" ] },
     "delete": { "flags": [ "STUMBLES" ] }
@@ -1054,7 +1055,6 @@
     "copy-from": "mon_zombie_base",
     "speed": 105,
     "color": "brown_white",
-    "melee_skill": 4,
     "melee_dice": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
@@ -1081,11 +1081,11 @@
     "speed": 90,
     "color": "red_cyan",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "melee_skill": 4,
     "melee_dice": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "regenerates": 12,
+    "upgrades": false,
     "extend": { "flags": [ "SMELLS", "REVIVES_HEALTHY", "NO_NECRO" ] }
   },
   {
@@ -1117,6 +1117,7 @@
       },
       { "id": "impale" }
     ],
+    "upgrades": false,
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
@@ -1141,6 +1142,7 @@
     "harvest": "zombie_screamer",
     "grab_strength": 15,
     "special_attacks": [ { "id": "grab" }, [ "SHRIEK_ALERT", 20 ], [ "SHRIEK_STUN", 1 ], { "id": "scratch_humanoid" } ],
+    "upgrades": false,
     "extend": { "flags": [ "SMELLS", "KEENNOSE" ] }
   },
   {
@@ -1151,8 +1153,6 @@
     "copy-from": "mon_zombie_base",
     "color": "light_gray",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
-    "aggression": 100,
-    "morale": 100,
     "vision_day": 3,
     "vision_night": 40,
     "harvest": "zombie_humanoid_shadow",
@@ -1205,6 +1205,7 @@
       { "id": "scratch_humanoid", "cooldown": 15 },
       { "id": "bite_humanoid", "cooldown": 5, "min_mul": 0.75, "max_mul": 1.5 }
     ],
+    "upgrades": false,
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 },
     "extend": { "flags": [ "GOODHEARING", "NOHEAD" ] }
   },
@@ -1224,6 +1225,7 @@
     "bleed_rate": 125,
     "vision_day": 1000,
     "special_attacks": [ { "id": "grab", "cooldown": 6 }, { "id": "scratch_humanoid", "cooldown": 15 } ],
+    "upgrades": false,
     "armor": { "bash": 5, "cut": 3, "bullet": 2, "electric": 2 }
   },
   {
@@ -1275,6 +1277,7 @@
       { "id": "grab_drag" },
       { "id": "drag_followup" }
     ],
+    "upgrades": false,
     "armor": { "bash": 2, "cut": 8, "stab": 8, "heat": 5, "bullet": 10, "electric": 2 },
     "extend": { "flags": [ "HARDTOSHOOT", "PUSH_VEH", "RANGED_ATTACKER" ], "weakpoint_sets": [ "wps_humanoid_head_small" ] }
   },
@@ -1324,7 +1327,6 @@
     "speed": 75,
     "color": "i_light_cyan",
     "melee_skill": 5,
-    "melee_dice_sides": 3,
     "vision_day": 15,
     "vision_night": 2,
     "death_drops": "mon_zombie_technician_death_drops",
@@ -1342,7 +1344,6 @@
     "speed": 75,
     "color": "i_light_cyan",
     "melee_skill": 5,
-    "melee_dice_sides": 3,
     "vision_day": 15,
     "vision_night": 2,
     "death_drops": "mon_zombie_miner_death_drops",
@@ -1368,6 +1369,7 @@
     "attack_effs": [ { "id": "paralyzepoison", "duration": 33 } ],
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" }, [ "PARA_STING", 30 ] ],
     "death_drops": "mon_zombie_thorny_death_drops",
+    "upgrades": false,
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 },
     "extend": { "flags": [ "SMELLS", "RANGED_ATTACKER", "PARALYZEVENOM" ] }
   },

@@ -60,6 +60,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "hive", 80 ] ] },
     "fungalize_into": "mon_beekeeper_fungal",
+    "upgrades": false,
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 1 },
     "extend": { "weakpoint_sets": [ "wps_natural_armor" ], "families": [ "prof_wp_nat_armored" ] }
   },
@@ -80,6 +81,7 @@
     "melee_dice_sides": 4,
     "vision_day": 30,
     "death_drops": "mon_zombie_cop_death_drops",
+    "upgrades": false,
     "armor": { "bash": 6, "cut": 6, "stab": 6, "bullet": 6, "electric": 2 },
     "extend": { "weakpoint_sets": [ "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ], "families": [ "prof_wp_syn_armored" ] }
   },
@@ -134,6 +136,7 @@
     "//grab": "Slightly stronger, but can't bite because of the gear.",
     "grab_strength": 30,
     "death_drops": "mon_zombie_fireman_death_drops",
+    "upgrades": false,
     "armor": { "bash": 6, "cut": 6, "acid": 3, "heat": 10, "bullet": 5, "electric": 4 },
     "extend": {
       "weakpoint_sets": [ "wps_humanoid_turnout_gear", "wps_humanoid_full_helmet" ],
@@ -160,12 +163,9 @@
       }
     ],
     "death_drops": "mon_zombie_hazmat_death_drops",
+    "upgrades": false,
     "armor": { "bash": 5, "cut": 4, "bullet": 3, "electric": 5 },
-    "extend": {
-      "weakpoint_sets": [ "wps_humanoid_gasmask" ],
-      "families": [ "prof_wp_syn_armored" ],
-      "flags": [ "ACIDPROOF" ]
-    },
+    "extend": { "weakpoint_sets": [ "wps_humanoid_gasmask" ], "families": [ "prof_wp_syn_armored" ], "flags": [ "ACIDPROOF" ] },
     "delete": { "special_attacks": [ "bite_humanoid", "scratch_humanoid" ] }
   },
   {

@@ -57,6 +57,7 @@
     "special_when_hit": [ "ACIDSPLASH", 100 ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "fungalize_into": "mon_zombie_fungus_acidic",
+    "upgrades": false,
     "armor": { "bash": 10, "cut": 2, "stab": 12, "bullet": 2, "electric": 2 },
     "extend": {
       "flags": [ "ACIDPROOF", "ACID_BLOOD", "RANGED_ATTACKER" ],

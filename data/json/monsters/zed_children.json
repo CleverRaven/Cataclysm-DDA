@@ -42,6 +42,7 @@
     "melee_skill": 4,
     "dodge": 3,
     "bleed_rate": 50,
+    "upgrades": false,
     "//": "no GUILT_CHILD because it no longer looks enough like a child to evoke pity"
   },
   {
@@ -68,8 +69,9 @@
     "bleed_rate": 50,
     "vision_day": 10,
     "vision_night": 10,
-    "//": "no GUILT_CHILD because it no longer looks enough like a child to evoke pity",
-    "extend": { "weakpoint_sets": [ "wps_eyes_big" ], "flags": [ "CLIMBS" ], "special_attacks": [ [ "SHRIEK", 5 ] ] }
+    "upgrades": false,
+    "extend": { "weakpoint_sets": [ "wps_eyes_big" ], "flags": [ "CLIMBS" ], "special_attacks": [ [ "SHRIEK", 5 ] ] },
+    "//": "no GUILT_CHILD because it no longer looks enough like a child to evoke pity"
   },
   {
     "id": "mon_zombie_shriekling",
@@ -85,6 +87,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "bleed_rate": 50,
     "vision_night": 5,
+    "upgrades": false,
     "extend": { "special_attacks": [ [ "SHRIEK", 5 ] ] }
   },
   {
@@ -103,6 +106,7 @@
       "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ], [ "explode_innards_small", 100 ] ]
     },
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
+    "upgrades": false,
     "armor": { "bash": 1, "electric": 1 }
   },
   {
@@ -119,12 +123,13 @@
     "bleed_rate": 50,
     "vision_day": 10,
     "vision_night": 10,
-    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
+    "upgrades": false,
     "extend": {
       "weakpoint_sets": [ "wps_eyes_big" ],
       "flags": [ "CLIMBS" ],
       "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ]
-    }
+    },
+    "//": "no GUILT_CHILD because it no longer looks enough like a child to evoke pity"
   },
   {
     "id": "mon_zombie_waif",
@@ -140,6 +145,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "bleed_rate": 50,
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
+    "upgrades": false,
     "extend": { "flags": [ "GUILT_CHILD" ], "special_attacks": [ [ "SHRIEK", 15 ] ] },
     "//": "GUILT_CHILD because it still looks enough like a child to evoke pity"
   },
@@ -166,6 +172,7 @@
       }
     ],
     "fungalize_into": "mon_fungal_wretch",
+    "upgrades": false,
     "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
   }
 ]
