@@ -240,8 +240,11 @@
       },
       {
         "id": "ranged_pull",
+        "cooldown": 10,
         "range": 4,
         "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "damage_max_instance": [ { "damage_type": "electric", "amount": 4 } ],
+        "effects": [ { "id": "zapped", "duration": [ 2, 10 ] } ],
         "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
         "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
         "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
@@ -251,12 +254,10 @@
       },
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" },
-      [ "PARROT", 8 ],
-      [ "SHOCKSTORM", 25 ]
+      [ "PARROT", 8 ]
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "extend": { "flags": [ "ELECTRIC" ] },
-    "//": "Add same speech as zapper line."
+    "extend": { "flags": [ "ELECTRIC" ] }
   },
   {
     "id": "mon_toad_bloat",
@@ -337,7 +338,7 @@
     ],
     "upgrades": { "half_life": 30, "into": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
-    "//": "Translator's note needed."
+    "//": "Translation note - 'Croaked' is a euphimistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
   },
   {
     "id": "mon_frog_shadow",
@@ -419,7 +420,7 @@
     },
     "death_drops": "explode_toad",
     "extend": { "flags": [ "POISON", "SLUDGETRAIL" ] },
-    "//": "Create new death_mega_sludge effect; Create sludge-spray on hit effect."
+    "//": "When possible, give a sludge-spray on hit effect."
   },
   {
     "id": "mon_toad_bone",
@@ -2232,3 +2233,4 @@
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 }
   }
 ]
+
