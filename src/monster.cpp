@@ -3159,9 +3159,12 @@ void monster::process_one_effect( effect &it, bool is_new )
             you.get_sick( true );
         }
     }
+
+    //Process enchantments that apply to monsters.
+
+    //These maps exist to mark enchantment mods we've seen once before. That way, if we get a collision, we can add them together instead of overwriting them.
     std::map<const enchant_vals::mod, bool> values_add_exist;
     std::map<const enchant_vals::mod, bool> values_mult_exist;
-    //Process enchantments that apply to monsters.
     for( const auto &elem : *effects ) {
         for( const enchantment_id &ench_id : elem.first->enchantments ) {
             const enchantment &ench = ench_id.obj();
