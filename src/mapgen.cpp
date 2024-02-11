@@ -373,8 +373,8 @@ class mapgen_basic_container
                 mapgen_function_ptr.obj->finalize_parameters();
             }
         }
-        void check_consistency() {
-            for( auto &mapgen_function_ptr : weights_ ) {
+        void check_consistency() const {
+            for( const auto &mapgen_function_ptr : weights_ ) {
                 mapgen_function_ptr.obj->check();
             }
         }
@@ -438,11 +438,11 @@ class mapgen_factory
                 omw.second.finalize_parameters();
             }
         }
-        void check_consistency() {
+        void check_consistency() const {
             // Cache all strings that may get looked up here so we don't have to go through
             // all the sources for them upon each loop.
             const std::set<std::string> usages = get_usages();
-            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
+            for( const std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.check_consistency();
                 if( usages.count( omw.first ) == 0 ) {
                     debugmsg( "Mapgen %s is not used by anything!", omw.first );
@@ -572,12 +572,12 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
 void check_mapgen_definitions()
 {
     oter_mapgen.check_consistency();
-    for( auto &oter_definition : nested_mapgens ) {
+    for( const auto &oter_definition : nested_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr.obj->check();
         }
     }
-    for( auto &oter_definition : update_mapgens ) {
+    for( const auto &oter_definition : update_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr->check();
         }
@@ -4089,7 +4089,7 @@ bool string_id<mapgen_palette>::is_valid() const
     return palettes.find( *this ) != palettes.end();
 }
 
-void mapgen_palette::check()
+void mapgen_palette::check() const
 {
     std::string context = "palette " + id.str();
     jmapgen_int fake_coord( -1 );
@@ -4136,7 +4136,7 @@ const mapgen_palette &mapgen_palette::get( const palette_id &id )
 
 void mapgen_palette::check_definitions()
 {
-    for( auto &p : palettes ) {
+    for( const auto &p : palettes ) {
         p.second.check();
     }
 }

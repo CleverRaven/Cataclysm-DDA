@@ -39,7 +39,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_GODE_WHO",
-    "dynamic_line": "I'm a wanderer like you who found purpose and a home with the gods.  I'm not who I was, but somebody new.  A disciple of the truth to spread the word of the mighty.",
+    "dynamic_line": {
+      "gendered_line": "I'm a wanderer like you who found purpose and a home with the gods.  I'm not who I was, but somebody new.  A disciple of the truth to spread the word of the mighty.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What are you a prophet of?", "topic": "TALK_VALHALLIST_GODE_Religion" },
       { "text": "What is that purpose?", "topic": "TALK_VALHALLIST_GODE_PURPOSE" },

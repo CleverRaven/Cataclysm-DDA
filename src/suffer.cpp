@@ -115,6 +115,7 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_ALBINO( "ALBINO" );
 static const json_character_flag json_flag_DAYFEAR( "DAYFEAR" );
+static const json_character_flag json_flag_ETHEREAL( "ETHEREAL" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -1099,7 +1100,7 @@ void suffer::from_sunburn( Character &you, bool severe )
 
 void suffer::from_item_dropping( Character &you )
 {
-    if( you.has_effect( effect_incorporeal ) ) {
+    if( you.has_effect( effect_incorporeal ) && !you.has_flag( json_flag_ETHEREAL ) ) {
         std::vector<item *> dump = you.inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {

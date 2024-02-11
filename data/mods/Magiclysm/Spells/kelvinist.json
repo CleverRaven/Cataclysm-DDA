@@ -658,5 +658,27 @@
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "base_casting_time": 1500
+  },
+  {
+    "id": "kelvinist_no_emotion_spell",
+    "type": "SPELL",
+    "name": "The Rime-Covered Heart",
+    "description": "Draw on the essence of ice to freeze out all emotion, rendering you comfortably numb.  This spell used to get you on several lists if the government learned that you knew it, back when there was a government to care about that.",
+    "valid_targets": [ "self" ],
+    "spell_class": "KELVINIST",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "spawn_item",
+    "effect_str": "item_kelvinist_frozen_heart",
+    "shape": "blast",
+    "difficulty": 8,
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 60000,
+    "max_duration": 960000,
+    "duration_increment": 60000,
+    "energy_source": "MANA",
+    "base_energy_cost": 650,
+    "base_casting_time": 6000
   }
 ]

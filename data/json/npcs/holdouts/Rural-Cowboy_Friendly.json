@@ -53,13 +53,19 @@
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYFR_BACKGROUND",
-    "dynamic_line": "I worked on a ranch not too fah from here 'fore it all went down.  I'd love ta get back ta what I did - taking care of horses, cows, all sorts of animals, makin' sure the fields stay safe an' all that.  But now?  I dunno, man.  Just tryin' ta survive, I suppose.  Hopefully, tha world will get back togetha' one day and I can put mah skills ta use doin' what I like.",
+    "dynamic_line": {
+      "gendered_line": "I worked on a ranch not too fah from here 'fore it all went down.  I'd love ta get back ta what I did - taking care of horses, cows, all sorts of animals, makin' sure the fields stay safe an' all that.  But now?  I dunno, man.  Just tryin' ta survive, I suppose.  Hopefully, tha world will get back togetha' one day and I can put mah skills ta use doin' what I like.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Let's hope it will.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYFR_INTRODUCTION",
-    "dynamic_line": "I was just sort of wanderin' around, hoping ta maybe find some bettah gear.  Decided ta rest up, 'eard someone walkin', and, well, here we are.",
+    "dynamic_line": {
+      "gendered_line": "I was just sort of wanderin' around, hoping ta maybe find some bettah gear.  Decided ta rest up, 'eard someone walkin', and, well, here we are.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
   },
   {

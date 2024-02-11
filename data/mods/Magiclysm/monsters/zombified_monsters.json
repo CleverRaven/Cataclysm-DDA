@@ -144,12 +144,12 @@
       "melee_damage": -2,
       "vision_day": -13,
       "vision_night": 3,
-      "regenerates": 3,
-      "armor": { "bash": 2, "cut": 2, "bullet": 1 }
+      "armor": { "bash": 2, "cut": 2, "bullet": 1, "fire": -15, "acid": -15 }
     },
+    "regenerates": 15,
     "proportional": { "volume": 1.05, "weight": 1.07 },
     "extend": { "species": [ "ZOMBIE" ], "flags": [ "BASHES", "POISON", "NO_BREATHE", "REVIVES" ] },
-    "delete": { "flags": [ "PATH_AVOID_DANGER_1" ] }
+    "delete": { "flags": [ "PATH_AVOID_DANGER_1", "PATH_AVOID_FIRE" ] }
   },
   {
     "type": "MONSTER",

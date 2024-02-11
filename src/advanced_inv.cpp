@@ -649,7 +649,8 @@ struct advanced_inv_sorter {
         }
         // secondary sort by name and link length
         auto const sort_key = []( advanced_inv_listitem const & d ) {
-            return std::make_tuple( d.name_without_prefix, d.name, d.items.front()->link_sort_key() );
+            return std::make_tuple( d.name_without_prefix, d.contents_count, d.name,
+                                    d.items.front()->link_sort_key() );
         };
         return localized_compare( sort_key( d1 ), sort_key( d2 ) );
     }
