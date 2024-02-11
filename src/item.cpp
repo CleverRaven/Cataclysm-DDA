@@ -1655,6 +1655,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               same_type && ( count_by_charges() || charges == rhs.charges ) );
     bits.set( tname::segments::FAVORITE_PRE, is_favorite == rhs.is_favorite );
     bits.set( tname::segments::FAVORITE_POST, is_favorite == rhs.is_favorite );
+    bits.set( tname::segments::CUSTOM_ITEM_PREFIX );
+    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX );
     bits.set( tname::segments::DURABILITY,
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
