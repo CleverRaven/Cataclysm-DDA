@@ -3,11 +3,11 @@
     "id": "ballistic_vest_esapi",
     "type": "ARMOR",
     "category": "armor",
-    "//": "Based on US Army IOTV",
+    "//": "Based on US Army SPCS",
     "name": { "str": "US ballistic vest" },
     "description": "A ballistic vest with specialized pockets on the front, back, and sides to hold armor plates.  While this plate carrier is still protective even without inserts, it's too soft to effectively stop high-energy projectiles on its own.",
-    "weight": "4976 g", 
-    "//": "Weight from M size base piece plus lower back protector",
+    "weight": "2807 g", 
+    "//": "Weight from size M size side plate configuration (p44 of https://ciehub.info/ref/TM/10-8470-209-10_2013.pdf)",
     "volume": "6 L",
     "variant_type": "generic",
     "variants": [
@@ -22,14 +22,6 @@
         "name": { "str": "SWAT ballistic vest" },
         "description": "This version is colored black, and was once used by specialized police forces.  \"SWAT\" is emblazoned on the back.",
         "color": "dark_gray",
-        "append": true
-      },
-      {
-        "id": "ballistic_vest_heavy_xedra",
-        "name": { "str": "XEDRA containment armor" },
-        "description": "It's black with IR reflective markings and a large XE on the right shoulder.",
-        "color": "light_green",
-        "weight": 0,
         "append": true
       }
     ],
@@ -86,39 +78,6 @@
         "moves": 800,
         "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "1200 kg",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Attachment for shoulder protectors.",
-        "item_restriction": [ "iotv_shoulder_plate" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "800 g",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Attachment for a groin protector.",
-        "item_restriction": [ "iotv_groin_plate" ]
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "ablative": true,
-        "volume_encumber_modifier": 0,
-        "max_contains_volume": "800 ml",
-        "max_contains_weight": "800 g",
-        "max_item_length": "21 cm",
-        "moves": 800,
-        "description": "Attachment for a collar.",
-        "item_restriction": [ "iotv_neck_plate" ]
       }
     ],
     "armor": [
@@ -131,6 +90,19 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 80,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
         "volume_encumber_modifier": 0.3
       }
     ]
@@ -653,6 +625,137 @@
     "price_postapoc": 1,
     "looks_like": "esbi_plate",
     "material": [ "damaged_ceramic" ]
+  },
+  {
+    "id": "ballistic_vest_heavy",
+    "type": "ARMOR",
+    "category": "armor",
+    "//": "Based on US Army IOTV",
+    "name": { "str": "US ballistic vest" },
+    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  Includes additional protection for the lower back and attachment points for optional shoulder, groin, and neck protection. ",
+    "weight": "4976 g", 
+    "//": "Weight from M size base piece plus lower back protector",
+    "volume": "6 L",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ballistic_vest_heavy_military",
+        "name": { "str": "heavy ballistic vest" },
+        "description": "It's styled in a dark olive color.",
+        "color": "light_green",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "ballistic_vest_heavy_xedra",
+        "name": { "str": "XEDRA containment armor" },
+        "description": "It's black with IR reflective markings and a large XE on the right shoulder.",
+        "color": "light_green",
+        "weight": 0,
+        "append": true
+      }
+    ],
+    "price": "1600 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm",
+        "moves": 800,
+        "description": "Pocket for a large armor plate.",
+        "//": "Should fit a medium ESAPI plate snugly",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "33 cm",
+        "moves": 800,
+        "description": "Pocket for a large armor plate.",
+        "flag_restriction": [ "ABLATIVE_LARGE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Pocket for a medium armor plate.",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Pocket for a medium armor plate.",
+        "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "1200 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for a groin protector.",
+        "item_restriction": [ "iotv_groin_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for a collar.",
+        "item_restriction": [ "iotv_neck_plate" ]
+      }
+    ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 6,
+        "coverage": 100,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3
+      }
+    ]
   },
   {
     "id": "ballistic_vest_light",
