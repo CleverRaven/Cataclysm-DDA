@@ -204,12 +204,14 @@
   {
     "id": "mon_zombie_soldier_death_drops",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "mon_zombie_soldier_death_drops",
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 2 } ] }
   },
   {
     "id": "mon_zombie_heavy_soldier_death_drops",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "mon_zombie_heavy_soldier_death_drops",
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 3 } ] }
   },
@@ -238,12 +240,28 @@
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 50 } ] }
   },
   {
-    "id": "milspec_arsenal_weapon&ammo_collection",
+    "id": "milspec_arsenal_group_only_guns",
     "type": "item_group",
-    "copy-from": "milspec_arsenal_weapon&ammo_collection",
-    "extend": {
-      "items": [ { "group": "enchanted_wands_disposable", "prob": 10 }, { "group": "enchanted_melee_weapons_plus1", "prob": 4 } ]
-    }
+    "copy-from": "milspec_arsenal_group_only_guns",
+    "extend": { "items": [ { "group": "enchanted_wands_disposable", "prob": 10 } ] }
+  },
+  {
+    "id": "army_personal_locker",
+    "type": "item_group",
+    "copy-from": "army_personal_locker",
+    "extend": { "items": [ { "group": "enchanted_worn_items", "prob": 20 } ] }
+  },
+  {
+    "id": "lmoe_guns",
+    "type": "item_group",
+    "copy-from": "lmoe_guns",
+    "extend": { "items": [ { "group": "enchanted_wands_disposable", "prob": 20 } ] }
+  },
+  {
+    "id": "homeguns",
+    "type": "item_group",
+    "copy-from": "homeguns",
+    "extend": { "items": [ { "group": "enchanted_wands_disposable", "prob": 5 } ] }
   },
   {
     "type": "item_group",
