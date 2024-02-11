@@ -238,10 +238,12 @@
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 50 } ] }
   },
   {
-    "id": "arsenal_mics_group",
+    "id": "milspec_arsenal_weapon&ammo_collection",
     "type": "item_group",
-    "copy-from": "arsenal_mics_group",
-    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 5 } ] }
+    "copy-from": "milspec_arsenal_weapon&ammo_collection",
+    "extend": {
+      "items": [ { "group": "enchanted_wands_disposable", "prob": 10 }, { "group": "enchanted_melee_weapons_plus1", "prob": 4 } ]
+    }
   },
   {
     "type": "item_group",
