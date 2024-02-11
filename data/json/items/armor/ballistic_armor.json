@@ -639,7 +639,7 @@
       {
         "id": "ballistic_vest_heavy_military",
         "name": { "str": "heavy ballistic vest" },
-        "description": "It's styled in a dark olive color.",
+        "description": "It's a dark olive color.",
         "color": "light_green",
         "weight": 4,
         "append": true
