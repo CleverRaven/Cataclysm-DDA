@@ -206,5 +206,33 @@
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
       [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_invisibility",
+    "type": "requirement",
+    "//": "glass shard suitable for the Invisibility spell",
+    "components": [ [ [ "glass_shard", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_shape_of_dust",
+    "type": "requirement",
+    "//": "non-food powder suitable for the Shape of Dust",
+    "components": [
+      [
+        [ "magnesium", 5 ],
+        [ "chem_aluminium_powder", 5 ],
+        [ "material_cement", 5 ],
+        [ "chem_nickel_powder", 5 ],
+        [ "meal_chitin_piece", 5 ],
+        [ "chem_nickel_powder", 5 ],
+        [ "chem_black_powder", 5 ]
+      ]
+    ]
+  },
+  {
+    "id": "spell_components_luck_bone",
+    "type": "requirement",
+    "//": "A bone for the osseous luck spell",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
   }
 ]

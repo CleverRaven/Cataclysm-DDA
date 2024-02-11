@@ -1031,7 +1031,9 @@
           { "item": "spell_scroll_phase_door", "prob": 50 },
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
-          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 }
+          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
+          { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
+          { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
         ],
         "prob": 45
       },
@@ -1057,10 +1059,7 @@
         ],
         "prob": 10
       },
-      {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
-        "prob": 5
-      }
+      { "distribution": [ { "item": "recovery_spellbook", "prob": 10 } ], "prob": 5 }
     ]
   },
   {
@@ -1081,7 +1080,11 @@
         "prob": 45
       },
       {
-        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_undead", "prob": 50 } ],
+        "distribution": [
+          { "item": "priest_advanced", "prob": 10 },
+          { "item": "spell_scroll_summon_undead", "prob": 50 },
+          { "item": "spell_scroll_animist_luck_bone", "prob": 30 }
+        ],
         "prob": 35
       },
       {
@@ -1091,7 +1094,8 @@
           { "item": "spell_scroll_recover_mana", "prob": 50 },
           { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
           { "item": "spell_scroll_recover_pain", "prob": 50 },
-          { "item": "spell_scroll_animist_spirit_walking", "prob": 40 }
+          { "item": "spell_scroll_animist_spirit_walking", "prob": 40 },
+          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 }
         ],
         "prob": 10
       },
@@ -1151,7 +1155,8 @@
           { "item": "spell_scroll_fireball", "prob": 10 },
           { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
-          { "item": "spell_scroll_hoary_blast", "prob": 50 }
+          { "item": "spell_scroll_hoary_blast", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 }
         ],
         "prob": 10
       }
@@ -1195,17 +1200,15 @@
       {
         "distribution": [
           { "item": "techno_em", "prob": 5 },
+          { "item": "recovery_spellbook", "prob": 5 },
           { "item": "spell_scroll_holographic_transposition", "prob": 10 },
           { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
           { "item": "spell_scroll_animated_blade", "prob": 50 },
           { "item": "spell_scroll_mirror_image", "prob": 50 },
-          { "item": "spell_scroll_improved_knock", "prob": 50 }
+          { "item": "spell_scroll_improved_knock", "prob": 50 },
+          { "item": "spell_scroll_invisibility", "prob": 30 }
         ],
         "prob": 10
-      },
-      {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
-        "prob": 5
       },
       { "group": "magic_CBM", "prob": 2 }
     ]
@@ -1267,7 +1270,8 @@
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
           { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
           { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 },
-          { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 }
+          { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 },
+          { "item": "spell_scroll_biomancer_eat_tons_of_food", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1316,7 +1320,8 @@
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
           { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
           { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
-          { "item": "spell_scroll_druid_water_walking", "prob": 30 }
+          { "item": "spell_scroll_druid_water_walking", "prob": 30 },
+          { "item": "spell_scroll_druid_traverse_the_wilds", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1330,6 +1335,7 @@
           { "item": "spell_scroll_druid_bandage", "prob": 100 },
           { "item": "spell_scroll_druid_disinfectant", "prob": 50 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
+          { "item": "spell_scroll_druid_bearmantle", "prob": 75 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
           { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
           { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 }
