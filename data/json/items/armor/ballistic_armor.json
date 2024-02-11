@@ -1386,7 +1386,7 @@
       }
     ]
   },
-    {
+  {
     "id": "iotv_neck_plate",
     "type": "ARMOR",
     "category": "armor",
@@ -1394,7 +1394,6 @@
     "description": "Front and back nylon collar assemblies with soft armor inserts for neck protection.  Designed to be attached to US military body armor.",
     "weight": "621 g",
     "volume": "488 ml",
-    "//": "33cm x 22cm x 5.4mm",
     "price": 60000,
     "price_postapoc": 100,
     "symbol": ",",
