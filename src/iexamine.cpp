@@ -5993,24 +5993,22 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         // if not enough material, just remove the item (0 loops)
         // (may happen if the player did not add enough charges to the mill
         // or if the conversion rate is changed between versions)
-        for( int i = 0; i < resulting_charges; i++ ) {
-            item result( mdata.into_, start_time + milling_time );
-            result.components.add( millable_items[type] );
+        item result( mdata.into_, start_time + milling_time );
+        result.components.add( millable_items[type] );
 
-            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const flag_id &f : millable_flags[type] ) {
-                if( f->craft_inherit() ) {
-                    result.set_flag( f );
-                }
+        // copied from item::inherit_flags, which can not be called here because it requires a recipe.
+        for( const flag_id &f : millable_flags[type] ) {
+            if( f->craft_inherit() ) {
+                result.set_flag( f );
             }
-
-            result.recipe_charges = resulting_charges;
-            // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( flag_PROCESSING_RESULT );
-            result.set_relative_rot( relative_rot );
-            result.unset_flag( flag_PROCESSING_RESULT );
-            here.add_item( examp, result );
         }
+
+        result.recipe_charges = mdata.conversion_rate_;
+        // Set flag to tell set_relative_rot() to calc from bday not now
+        result.set_flag( flag_PROCESSING_RESULT );
+        result.set_relative_rot( relative_rot );
+        result.unset_flag( flag_PROCESSING_RESULT );
+        here.add_item( examp, result, resulting_charges );
     }
     //Delete the original items that got milled
     for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
