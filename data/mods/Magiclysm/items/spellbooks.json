@@ -796,5 +796,30 @@
         "druidic_regrowth"
       ]
     }
+  },
+  {
+    "id": "book_lazy_magic",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Lazy Mage's How-to Guide", "str_pl": "copies of The Lazy Mage's How-to Guide" },
+    "//": "1 Magus spell, 1 Earthshaper spell, 1 Stormshaper spell, 1 Technomancer spell, 1 Classless spell",
+    "description": "A thin book full of spells designed to help the practitioner short-cut having to actually do any work.  Considering the effort involved in studying magic, you're not sure any actual time is being saved.",
+    "weight": "355 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "blue",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [
+        "magus_far_hand_pull",
+        "classless_watch_spell",
+        "create_electric_lighter",
+        "earthshaper_turning_of_earth",
+        "summon_floating_disk"
+      ]
+    }
   }
 ]

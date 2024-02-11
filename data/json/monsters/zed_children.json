@@ -145,11 +145,9 @@
     "harvest": "zombie_humanoid",
     "special_attacks": [ [ "SHRIEK", 5 ], { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "GUILT_CHILD" ],
-    "//": "GUILT because it still looks enough like a child to evoke pity",
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "electric": 1 }
   },
   {
@@ -260,21 +258,9 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "HARDTOSHOOT",
-      "FILTHY",
-      "GUILT_CHILD"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "GUILT_CHILD" ],
     "//": "GUILT because it still looks enough like a child to evoke pity",
-    "armor": { "cut": 5, "bullet": 4, "electric": 1 }
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_wretch",
