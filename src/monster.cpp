@@ -73,11 +73,8 @@
 
 static const anatomy_id anatomy_default_anatomy( "default_anatomy" );
 
-static const damage_type_id damage_acid( "acid" );
 static const damage_type_id damage_bash( "bash" );
-static const damage_type_id damage_bio( "biological" );
 static const damage_type_id damage_bullet( "bullet" );
-static const damage_type_id damage_cold( "cold" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
@@ -230,7 +227,7 @@ static int compute_kill_xp( const mtype_id &mon_type )
 static void armor_enchantment_adjust( monster &mon, damage_unit &du )
 {
     //If we're not dealing any damage of the given type, don't even bother.
-    if ( du.amount < 0.1f ) {
+    if( du.amount < 0.1f ) {
         return;
     }
     // FIXME: hardcoded damage types -> enchantments

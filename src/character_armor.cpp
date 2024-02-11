@@ -96,7 +96,7 @@ int Character::get_env_resist( bodypart_id bp ) const
 static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
     //If we're not dealing any damage of the given type, don't even bother.
-    if ( du.amount < 0.1f ) {
+    if( du.amount < 0.1f ) {
         return;
     }
     // FIXME: hardcoded damage types -> enchantments
