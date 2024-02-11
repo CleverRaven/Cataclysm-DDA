@@ -6,7 +6,7 @@
     "//": "Based on US Army SPCS. Used weight of size M cummerband configuration, data from: https://ciehub.info/ref/TM/10-8470-209-10_2013.pdf ",
     "name": { "str": "US ballistic vest" },
     "description": "A ballistic vest with specialized pockets on the front, back, and sides to hold armor plates.  While this plate carrier is still protective even without inserts, it's too soft to effectively stop high-energy projectiles on its own.",
-    "weight": "3533 g", 
+    "weight": "3533 g",
     "volume": "6 L",
     "variant_type": "generic",
     "variants": [
