@@ -3,10 +3,11 @@
     "id": "ballistic_vest_esapi",
     "type": "ARMOR",
     "category": "armor",
-    "//": "Based on US Army MTV",
+    "//": "Based on US Army IOTV",
     "name": { "str": "US ballistic vest" },
     "description": "A ballistic vest with specialized pockets on the front, back, and sides to hold armor plates.  While this plate carrier is still protective even without inserts, it's too soft to effectively stop high-energy projectiles on its own.",
-    "weight": "2911 g",
+    "weight": "5579 g", 
+    "//": "Weight from M size base piece plus lower back protector and collar",
     "volume": "6 L",
     "variant_type": "generic",
     "variants": [
@@ -120,6 +121,19 @@
         "cover_vitals": 90,
         "covers": [ "torso" ],
         "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 30,
+        "cover_vitals": 90,
+        "covers": [ "head" ],
+        "layers": [ "BELTED" ],
+        "specifically_covers": [ "head_throat", "head_nape" ],
+        "volume_encumber_modifier": 0
       }
     ]
   },
@@ -1319,8 +1333,9 @@
     "category": "armor",
     "name": { "str": "pair of ballistic shoulder protectors", "str_pl": "pairs of ballistic shoulder protectors" },
     "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to US military body armor.",
-    "weight": "2000 g",
-    "volume": "1200 ml",
+    "weight": "1034 g",
+    "volume": "811 ml",
+    "//": "Density test expects 1.275, so volume derived from this",
     "price": 60000,
     "price_postapoc": 100,
     "symbol": ",",
@@ -1333,7 +1348,7 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
         ],
-        "encumbrance": 5,
+        "encumbrance": 3,
         "coverage": 80,
         "cover_ranged": 95,
         "cover_vitals": 100,
@@ -1349,8 +1364,8 @@
     "category": "armor",
     "name": { "str": "ballistic groin protector" },
     "description": "Front and back nylon armor with soft armor inserts for groin and butt protection.  Designed to be attached to US military body armor.",
-    "weight": "1500 g",
-    "volume": "1000 ml",
+    "weight": "417 g",
+    "volume": "649 ml",
     "price": 60000,
     "price_postapoc": 100,
     "symbol": ",",
