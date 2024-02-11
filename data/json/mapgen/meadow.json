@@ -4,9 +4,6 @@
     "type": "mapgen",
     "method": "json",
     "object": {
-      "fill_ter": "t_region_groundcover",
-      "fallback_predecessor_mapgen": "field",
-      "//": "Why is this using a predecessor when it overrides 3006 out of every 3007 tiles? fill_ter being used alongside it also doesn't make any sense.",
       "rows": [
         "111111111111111111111111",
         "111111111111111111111111",
