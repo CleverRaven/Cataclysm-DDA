@@ -629,11 +629,11 @@
     "id": "ballistic_vest_heavy",
     "type": "ARMOR",
     "category": "armor",
-    "//": "Based on US Army IOTV",
+    "//": "Based on US Army IOTV. Weight from size M  base piece plus lower back protector, data from: https://www.moore.army.mil/tenant/lrc/content/pdf/IOTV%20GEN%20III%20TM%2010-8470-210-10.pdf ",
     "name": { "str": "US ballistic vest" },
     "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  Includes additional protection for the lower back and attachment points for optional shoulder, groin, and neck protection. ",
     "weight": "4976 g", 
-    "//": "Weight from M size base piece plus lower back protector",
+    "//": "",
     "volume": "6 L",
     "variant_type": "generic",
     "variants": [
