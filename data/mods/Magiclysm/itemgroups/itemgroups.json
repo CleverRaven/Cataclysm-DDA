@@ -202,6 +202,42 @@
     }
   },
   {
+    "id": "mon_zombie_soldier_death_drops",
+    "type": "item_group",
+    "copy-from": "mon_zombie_soldier_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 2 } ] }
+  },
+  {
+    "id": "mon_zombie_heavy_soldier_death_drops",
+    "type": "item_group",
+    "copy-from": "mon_zombie_heavy_soldier_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 3 } ] }
+  },
+  {
+    "id": "mon_feral_prepper_death_drops",
+    "type": "item_group",
+    "copy-from": "mon_feral_prepper_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
+  },
+  {
+    "id": "feral_sapien_death_drops_spear",
+    "type": "item_group",
+    "copy-from": "feral_sapien_death_drops_spear",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
+  },
+  {
+    "id": "mon_zombie_survivor_death_drops",
+    "type": "item_group",
+    "copy-from": "mon_zombie_survivor_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
+  },
+  {
+    "id": "mon_zombie_survivor_elite_death_drops",
+    "type": "item_group",
+    "copy-from": "mon_zombie_survivor_elite_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 50 } ] }
+  },
+  {
     "type": "item_group",
     "id": "magic_shop_books",
     "items": [
@@ -915,7 +951,7 @@
       { "item": "retreat_map", "prob": 30 },
       { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 },
-      { "item": "magic_knife_bag", "prob": 25 }
+      { "item": "magic_knife_bag", "prob": 10 }
     ]
   },
   {
@@ -940,9 +976,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "enchanted_bracers_lesser", "prob": 25 },
       { "group": "enchanted_worn_items", "prob": 15 },
-      { "group": "enchanted_melee_weapons_plus1", "prob": 3 },
+      { "group": "enchanted_melee_weapons_plus1", "prob": 10 },
       { "group": "enchanted_small_items", "prob": 1 }
     ]
   },
