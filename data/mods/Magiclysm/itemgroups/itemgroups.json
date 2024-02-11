@@ -247,7 +247,7 @@
     "id": "milspec_arsenal_group_only_guns",
     "type": "item_group",
     "copy-from": "milspec_arsenal_group_only_guns",
-    "extend": { "items": [ { "group": "enchanted_wands_disposable", "prob": 10 } ] }
+    "extend": { "items": [ { "group": "enchanted_wands_disposable_combat", "prob": 10 } ] }
   },
   {
     "id": "army_personal_locker",
@@ -259,13 +259,13 @@
     "id": "lmoe_guns",
     "type": "item_group",
     "copy-from": "lmoe_guns",
-    "extend": { "items": [ { "group": "enchanted_wands_disposable", "prob": 20 } ] }
+    "extend": { "items": [ { "group": "enchanted_wands_disposable_combat", "prob": 20 } ] }
   },
   {
     "id": "homeguns",
     "type": "item_group",
     "copy-from": "homeguns",
-    "extend": { "items": [ { "group": "enchanted_wands_disposable", "prob": 5 } ] }
+    "extend": { "items": [ { "group": "enchanted_wands_disposable_combat", "prob": 5 } ] }
   },
   {
     "type": "item_group",
@@ -725,18 +725,18 @@
     ]
   },
   {
-    "id": "enchanted_wands_disposable",
+    "id": "enchanted_wands_disposable_combat",
     "type": "item_group",
     "//": "disposable wands only",
     "subtype": "distribution",
     "items": [
-      { "group": "enchanted_wands_disposable_minor", "prob": 100 },
-      { "group": "enchanted_wands_disposable_lesser", "prob": 50 },
-      { "group": "enchanted_wands_disposable_greater", "prob": 10 }
+      { "group": "enchanted_wands_disposable_minor_combat", "prob": 100 },
+      { "group": "enchanted_wands_disposable_lesser_combat", "prob": 50 },
+      { "group": "enchanted_wands_disposable_greater_combat", "prob": 10 }
     ]
   },
   {
-    "id": "enchanted_wands_disposable_minor",
+    "id": "enchanted_wands_disposable_minor_combat",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
@@ -750,7 +750,7 @@
     ]
   },
   {
-    "id": "enchanted_wands_disposable_lesser",
+    "id": "enchanted_wands_disposable_lesser_combat",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
@@ -764,7 +764,7 @@
     ]
   },
   {
-    "id": "enchanted_wands_disposable_greater",
+    "id": "enchanted_wands_disposable_greater_combat",
     "type": "item_group",
     "subtype": "distribution",
     "items": [
@@ -1060,7 +1060,7 @@
     "subtype": "distribution",
     "items": [
       { "group": "enchanted_worn_items", "prob": 15 },
-      { "group": "enchanted_wands_disposable", "prob": 10 },
+      { "group": "enchanted_wands_disposable_combat", "prob": 10 },
       {
         "distribution": [ { "group": "enchanted_melee_weapons_plus1", "prob": 95 }, { "group": "enchanted_melee_weapons_plus2", "prob": 5 } ],
         "prob": 4
