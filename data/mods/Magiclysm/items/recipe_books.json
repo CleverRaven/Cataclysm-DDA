@@ -281,5 +281,26 @@
     "time": "25 m",
     "fun": -1,
     "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "arcane_archer_companion",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Arcane Archer's Companion", "str_pl": "copies of The Arcane Archer's Companion" },
+    "description": "A reference book discussing the ancient and now mostly-forgot art of enchanted archery.  With firearms so convenient and taking much less training to use, it has long since fallen out of favor, but this book is so detailed you could revive it for yourself with the recipes it contains.",
+    "weight": "1300 g",
+    "volume": "2500 ml",
+    "price": 7900,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "black",
+    "looks_like": "manual_gun",
+    "skill": "fabrication",
+    "required_level": 3,
+    "max_level": 4,
+    "intelligence": 9,
+    "time": "25 m",
+    "fun": 1,
+    "melee_damage": { "bash": 5 }
   }
 ]
