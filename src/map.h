@@ -1830,11 +1830,6 @@ class map
          * Used for infrared.
          */
         bool pl_line_of_sight( const tripoint &t, int max_range ) const;
-        /**
-         * Basically line_of_sight, but blocked by transparent objects
-         * and other sound baffling
-        */
-        bool pl_line_of_sound( const tripoint &t, int max_range ) const;
         std::set<vehicle *> dirty_vehicle_list;
 
         /** return @ref abs_sub */
