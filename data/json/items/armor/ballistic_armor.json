@@ -91,8 +91,8 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "1200 ml",
-        "max_contains_weight": "2 kg",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "1200 kg",
         "max_item_length": "21 cm",
         "moves": 800,
         "description": "Attachment for shoulder protectors.",
@@ -102,12 +102,23 @@
         "pocket_type": "CONTAINER",
         "ablative": true,
         "volume_encumber_modifier": 0,
-        "max_contains_volume": "1000 ml",
-        "max_contains_weight": "1500 g",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
         "max_item_length": "21 cm",
         "moves": 800,
         "description": "Attachment for a groin protector.",
         "item_restriction": [ "iotv_groin_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for a collar.",
+        "item_restriction": [ "iotv_neck_plate" ]
       }
     ],
     "armor": [
@@ -121,19 +132,6 @@
         "cover_vitals": 90,
         "covers": [ "torso" ],
         "volume_encumber_modifier": 0.3
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
-        ],
-        "encumbrance": 0,
-        "coverage": 30,
-        "cover_vitals": 90,
-        "covers": [ "head" ],
-        "layers": [ "BELTED" ],
-        "specifically_covers": [ "head_throat", "head_nape" ],
-        "volume_encumber_modifier": 0
       }
     ]
   },
@@ -1334,7 +1332,7 @@
     "name": { "str": "pair of ballistic shoulder protectors", "str_pl": "pairs of ballistic shoulder protectors" },
     "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to US military body armor.",
     "weight": "1034 g",
-    "volume": "811 ml",
+    "volume": "812 ml",
     "//": "Density test expects 1.275, so volume derived from this",
     "price": 60000,
     "price_postapoc": 100,
@@ -1384,6 +1382,35 @@
         "cover_vitals": 100,
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+    {
+    "id": "iotv_neck_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ballistic collar" },
+    "description": "Front and back nylon collar assemblies with soft armor inserts for neck protection.  Designed to be attached to US military body armor.",
+    "weight": "621 g",
+    "volume": "488 ml",
+    "//": "33cm x 22cm x 5.4mm",
+    "price": 60000,
+    "price_postapoc": 100,
+    "symbol": ",",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 30,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_nape" ],
         "volume_encumber_modifier": 0
       }
     ]
