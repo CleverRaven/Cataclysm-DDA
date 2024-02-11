@@ -336,7 +336,7 @@
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" }
     ],
-    "upgrades": { "half_life": 30, "into": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
     "//": "Translation note - 'Croaked' is a euphimistic way of saying 'died' in American English, while 'croak' is an onomatopoeic word for the sound frogs make.  A simple, literal translation of 'zombie treefrog' would also be fitting."
   },
