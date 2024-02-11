@@ -364,7 +364,6 @@
         {
           "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
         },
-        { "math": [ "Shadow_Warnings", "<", "2" ] },
         {
           "or": [ { "math": [ "Shadow_Warnings", "<", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
         },
