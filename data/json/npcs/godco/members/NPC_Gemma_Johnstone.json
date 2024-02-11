@@ -40,7 +40,10 @@
       "type": "dialogue",
       "context": "godco",
       "value": "yes",
-      "yes": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
+      "yes": {
+        "gendered_line": "The Lord isn't with you, and that's obvious.  Get out of my sight, sinner.",
+        "relevant_genders": [ "u" ]
+      },
       "no": {
         "npc_has_var": "u_met_godco_gemma",
         "type": "general",
@@ -111,7 +114,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Gemma_Firstmeet",
-    "dynamic_line": "It's nice to meet you too, survivor.  It's a tragedy what's become of the New England Church Community, perhaps it'll flourish again someday.",
+    "dynamic_line": {
+      "gendered_line": "It's nice to meet you too, survivor.  It's a tragedy what's become of the New England Church Community, perhaps it'll flourish again someday.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "I'd better get going.  Nice meeting you.", "topic": "TALK_DONE" } ]
   },
   {

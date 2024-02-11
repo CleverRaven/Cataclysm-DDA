@@ -13,13 +13,13 @@
     "//": "---------------------------------------------------",
     "type": "item_group",
     "id": "ammo_can_9mmfmj_full",
-    "container-item": "ammo_can_30_9mm_fmj_1000",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_9mm_fmj_1000" },
     "items": [ { "group": "ammo_box_9mmfmj", "count": 10 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_9mmfmj_part",
-    "container-item": "ammo_can_30_9mm_fmj_1000",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_9mm_fmj_1000" },
     "items": [ { "group": "ammo_box_9mmfmj", "count": [ 0, 5 ] } ]
   },
   {
@@ -33,13 +33,13 @@
     "//": "---------------------------------------------------",
     "type": "item_group",
     "id": "ammo_can_9mm_full",
-    "container-item": "ammo_can_30_9mm_jhp_1000",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_9mm_jhp_1000" },
     "items": [ { "group": "ammo_box_9mm", "count": 10 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_9mm_part",
-    "container-item": "ammo_can_30_9mm_jhp_1000",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_9mm_jhp_1000" },
     "items": [ { "group": "ammo_box_9mm", "count": [ 0, 5 ] } ]
   },
   {

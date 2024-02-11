@@ -1090,6 +1090,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_spirit_walking",
+    "name": [ "Spirit Walking" ],
+    "desc": [ "You have shed your physical form." ],
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
+    "flags": [ "ETHEREAL", "FEATHER_FALL", "CLIMB_NO_LADDER", "INVISIBLE", "NO_SCENT", "NO_SPELLCASTING" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_magus_mageshield",
     "name": [ "Mageshield" ],
     "desc": [ "You are invincible." ],
@@ -1105,7 +1115,7 @@
     "desc": [ "Nature is speeding your passage." ],
     "rating": "good",
     "show_in_info": true,
-    "remove_message": "Your enchanted speed fades away.",
+    "remove_message": "Nature no longer speeds your movements.",
     "enchantments": [
       {
         "values": [
@@ -1309,6 +1319,7 @@
       "effect_druid_anti_heat",
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
+      "effect_spirit_walking",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

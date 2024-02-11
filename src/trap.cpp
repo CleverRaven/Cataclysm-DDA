@@ -254,11 +254,11 @@ bool trap::detected_by_ground_sonar() const
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // * Buried landmines, the silent killer, have a visibility of 10.
-    // Assuming no knowledge of traps or proficiencies, average per/int, and a focus of 50,
-    // most characters will get a mean_roll of 6.
-    // With a std deviation of 3, that leaves a 10% chance of spotting a landmine when you are next to it.
-    // This gets worse if you are fatigued, or can't see as well.
-    // Obviously it rapidly gets better as your skills improve.
+    // Assuming no knowledge of traps or proficiencies, and average per/int (8 each),
+    // most characters will get a mean_roll of 6.5 against a trap that is one tile away.
+    // With a std deviation of 3, that leaves a ~12% chance of spotting a landmine when you are next to it (per turn).
+    // This gets worse if you are sleep deprived, or can't see as well.
+    // Obviously it rapidly gets better as your skills improve, with most of the improvement coming from proficiencies.
 
     // Devices skill is helpful for spotting traps
     const float traps_skill_level = p.get_skill_level( skill_traps );
@@ -270,37 +270,37 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     // Eye encumbrance will penalize spotting
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
 
-    // Your current focus strongly affects your ability to spot things.
-    const float focus_effect = ( p.get_focus() / 25.0f ) - 2.0f;
-
     // The further away the trap is, the harder it is to spot.
     // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
     const int distance_penalty = rl_dist( p.pos(), pos ) - 1;
 
-    int proficiency_effect = -2;
-    // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
+    int proficiency_effect = -1;
+    // Without at least a basic traps proficiency, your skill level is effectively three levels lower.
     if( p.has_proficiency( proficiency_prof_traps ) ) {
-        proficiency_effect += 2;
+        proficiency_effect += 1;
         // If you have the basic traps prof, negate the above penalty
     }
     if( p.has_proficiency( proficiency_prof_spotting ) ) {
-        proficiency_effect += 4;
-        // If you have the spotting proficiency, add 4 levels.
+        proficiency_effect += 3;
+        // If you have the spotting proficiency, add a whopping 9 effective skill levels.
     }
     if( p.has_proficiency( proficiency_prof_trapsetting ) ) {
         proficiency_effect += 1;
-        // Knowing how to set traps gives you a small bonus to spotting them as well.
+        // Knowing how to set effective traps gives you a considerable bonus to spotting them as well.
     }
 
-    // For every 100 points of sleep deprivation after 200, reduce your roll by 1.
-    // That represents a -2 at dead tired, -4 at exhausted, and so on.
-    const float fatigue_penalty = std::min( 0, p.get_fatigue() - 200 ) / 100.0f;
+    // For every 1000 points of sleep deprivation, reduce your roll by 1.
+    // As of this writing, sleep deprivation passively increases at the rate of 1 point per minute.
+    const float fatigue_penalty = p.get_sleep_deprivation() / 1000.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
-                            proficiency_effect +
-                            focus_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
+                            proficiency_effect - distance_penalty - fatigue_penalty - encumbrance_penalty;
 
     const int roll = std::round( normal_roll( mean_roll, 3 ) );
+
+    add_msg_debug( debugmode::DF_CHARACTER,
+                   "Character %s rolling to detect trap %s. Actual roll: %i, average roll: %f, roll required to detect: %i.",
+                   p.get_name(), name(), roll, mean_roll, visibility );
 
     return roll > visibility;
 }

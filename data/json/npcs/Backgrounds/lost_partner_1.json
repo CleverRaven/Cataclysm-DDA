@@ -19,7 +19,10 @@
   {
     "id": "BGSS_LOST_PARTNER_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "That's how it goes, you know?  These are the end times.  I don't really want to talk about it more than that.  And honestly, I never really felt like I belonged, in the old world.  In a weird way, I actually feel like I have a purpose now.  Do you ever get that?",
+    "dynamic_line": {
+      "gendered_line": "That's how it goes, you know?  These are the end times.  I don't really want to talk about it more than that.  And honestly, I never really felt like I belonged, in the old world.  In a weird way, I actually feel like I have a purpose now.  Do you ever get that?",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "No, that's messed up.", "topic": "BGSS_LOST_PARTNER_1_NOWAY" },
       {
@@ -54,7 +57,10 @@
   {
     "id": "BGSS_LOST_PARTNER_1_TRIFFIDS",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, have you seen them yet?  They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent… I barely made it out, only because they were, uh, distracted.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, have you seen them yet?  They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the zombies, and we were using them for cover to clear a horde of the dead.  Unfortunately, turns out the plants are better trackers than the <zombies>.  They almost seemed intelligent… I barely made it out, only because they were, uh, distracted.",
+      "relevant_genders": [ "npc" ]
+    },
     "//": "In a future version this NPC might give you directions to a triffid grove.",
     "responses": [
       { "text": "I'm sorry you lost someone.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },

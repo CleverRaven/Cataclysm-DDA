@@ -1081,7 +1081,7 @@
   {
     "id": "TALK_ABANDON",
     "type": "talk_topic",
-    "dynamic_line": "Are you sure?",
+    "dynamic_line": { "gendered_line": "Are you sure?", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Yes, I'm sure.", "topic": "TALK_DONE", "effect": "abandon_camp" },
       { "text": "Actually, never mind.", "topic": "TALK_NONE" }

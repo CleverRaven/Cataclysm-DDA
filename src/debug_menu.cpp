@@ -3335,8 +3335,17 @@ void debug()
             }
             break;
         case debug_menu_index::UNLOCK_ALL:
-            if( query_yn(
-                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  You will need to save the character in order to record this.  Achievements are tracked from the save/achievements/ folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+            if( query_yn( _(
+                              "Activating this will add the Arcade Mode achievement unlocking all starting "
+                              "scenarios and professions for all worlds.  You will need to save the "
+                              "character in order to record this.  Achievements are tracked from the "
+                              "'achievements' folder if you need to get rid of this (and the 'memorial' "
+                              "folder if you need to get rid of this from a dead character in a legacy "
+                              "save).  Activating this will spoil factions and situations you may otherwise "
+                              "stumble upon naturally while playing.  Some scenarios are frustrating for the "
+                              "uninitiated, and some professions skip portions of the game's content.  If "
+                              "new to the game, meta progression will help you be introduced to mechanics at "
+                              "a reasonable pace." ) ) ) {
                 get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
                                                        achievement_completion::completed );
             }
