@@ -4149,8 +4149,14 @@ talk_effect_fun_t::func f_npc_first_topic( const JsonObject &jo, std::string_vie
 talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member,
                                    bool is_npc )
 {
-    str_or_var message = get_str_or_var( jo.get_member( member ), member );
     const bool snippet = jo.get_bool( "snippet", false );
+    str_or_var snip_id;
+    translation_or_var message;
+    if( snippet ) {
+        snip_id = get_str_or_var( jo.get_member( member ), member );
+    } else {
+        message = get_translation_or_var( jo.get_member( member ), member );
+    }
     const bool same_snippet = jo.get_bool( "same_snippet", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool sound = jo.get_bool( "sound", false );
@@ -4169,9 +4175,9 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
     } else {
         type_string.str_val = "neutral";
     }
-    return [message, outdoor_only, sound, snippet, same_snippet, type_string, popup_msg,
-                     popup_w_interrupt_query_msg, interrupt_type, global,
-             is_npc]( dialogue const & d ) {
+    return [snip_id, message, outdoor_only, sound, snippet, same_snippet, type_string,
+                     popup_msg, popup_w_interrupt_query_msg, interrupt_type, global, is_npc]
+    ( dialogue const & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( global ) {
             target = &get_player_character();
@@ -4207,19 +4213,19 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
         if( snippet ) {
             if( same_snippet ) {
                 talker *target = d.actor( !is_npc );
-                std::string sid = target->get_value( message.evaluate( d ) + "_snippet_id" );
+                std::string sid = target->get_value( snip_id.evaluate( d ) + "_snippet_id" );
                 if( sid.empty() ) {
-                    sid = SNIPPET.random_id_from_category( message.evaluate( d ) ).c_str();
-                    target->set_value( message.evaluate( d ) + "_snippet_id", sid );
+                    sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
+                    target->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
                 }
                 translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
                         translation() ).translated() );
             } else {
-                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message.evaluate( d ) ).value_or(
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( snip_id.evaluate( d ) ).value_or(
                         translation() ).translated() );
             }
         } else {
-            translated_message = _( message.evaluate( d ) );
+            translated_message = message.evaluate( d );
         }
         std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
         talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;
