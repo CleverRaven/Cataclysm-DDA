@@ -1409,6 +1409,7 @@
         "encumbrance": 0,
         "coverage": 30,
         "covers": [ "head" ],
+        "layers": [ "BELTED" ],
         "specifically_covers": [ "head_throat", "head_nape" ],
         "volume_encumber_modifier": 0
       }
