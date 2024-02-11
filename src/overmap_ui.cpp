@@ -404,6 +404,8 @@ class map_notes_callback : public uilist_callback
                     if( overmap_buffer.note_danger_radius( note_location() ) >= 0 &&
                         query_yn( _( "Remove dangerous mark?" ) ) ) {
                         overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                        menu->ret = UILIST_MAP_NOTE_EDITED;
+                        return true;
                     } else {
                         bool has_mark = overmap_buffer.note_danger_radius( note_location() ) >= 0;
                         bool has_note = overmap_buffer.has_note( note_location() );
