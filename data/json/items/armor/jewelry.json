@@ -4300,5 +4300,72 @@
     "//": "Length is derived from averaging out the case lengths of a .338 Lapua, .50 BMG, and 12-Gauge shotgun cartridge.",
     "material": [ { "type": "brass", "portion": 3 }, { "type": "cotton" } ],
     "//2": "Are these materials liable to be a lie considering that grenade cartridges are steel and shotgun shells are plastic? Yes. Can the material be changed based on the component used? Sadly, no."
+  },
+  {
+    "id": "fancy_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "looks_like": "gold_necklace",
+    "name": { "str": "pistoleer's necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str": "Varmints’ Bane" } },
+      { "type": "COMPONENT_ID", "condition": "32_casing", "name": { "str": "Short King" } },
+      { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "Lawman's" } },
+      { "type": "COMPONENT_ID", "condition": "38super_casing", "name": { "str": "Contestant’s" } },
+      { "type": "COMPONENT_ID", "condition": "40_casing", "name": { "str": "Federal" } },
+      { "type": "COMPONENT_ID", "condition": "10mm_casing", "name": { "str": "Crockett’s Vice" } },
+      { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "Holliday's" } },
+      { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "Big Iron" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "Peacemaker's" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "Judge’s Wrath" } },
+      { "type": "COMPONENT_ID", "condition": "45_casing", "name": { "str": "God’s Caliber" } },
+      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "Hekler’s Screamer" } },
+      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "Needel Rain" } },
+      { "type": "COMPONENT_ID", "condition": "460_casing", "name": { "str": "God’s Magnum" } },
+      { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "Recoil-Rider" } },
+      { "type": "COMPONENT_ID", "condition": "762_25_casing", "name": { "str": "Revolutionary’s" } },
+      { "type": "COMPONENT_ID", "condition": "9mm_casing", "name": { "str": "Sunrise Parabellum" } },
+      { "type": "COMPONENT_ID", "condition": "357sig_casing", "name": { "str": "Schweitzer" } },
+      { "type": "COMPONENT_ID", "condition": "9x18mm_casing", "name": { "str": "Semin" } },
+      { "type": "COMPONENT_ID", "condition": "380_casing", "name": { "str": "Baby Browning" } },
+      { "type": "COMPONENT_ID", "condition": "50ae_casing", "name": { "str": "Fatman" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "description": "The product of a gun nut and a fashionista proverbially shaking one another’s hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.",
+    "snippet_category": [
+      {
+        "id": "fancy_pistol_pendent1",
+        "text": "The product of a gun nut and a fashionista proverbially shaking one another’s hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.  The shell’s primer and rim have been neatly sawed away, and in place of the projectile, a little gemstone has been wrapped with a length of fine-gauge wire and bedded into the casing’s throat.  The rest of the wire’s length trails back through the cartridge’s body, feeding out the base and entwining with a link in the chain."
+      },
+      {
+        "id": "fancy_pistol_pendent2",
+        "text": "The product of a gun nut and a fashionista proverbially shaking one another’s hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.  The teeth of a saw have been put to work upon this shell, whose base and primer have been neatly cut away, and in the throat of which has been seated a small, shining gem.  A length of fine wire has been tightly wrapped around both the cartridge and gemstone in a top-down pattern, with the cord’s loose ends eventually tugged through a small drill hole at the cartridge’s base and finally wrapped among the neck chain’s links."
+      }
+    ],
+    "weight": "56 g",
+    "volume": "33 ml",
+    "longest_side": "28 mm",
+    "//": "Length is derived from averaging out the case lengths of a .22 Long Rifle, .357 Magnum, and .50 Action Express cartridge.",
+    "price": 40000,
+    "price_postapoc": 50,
+    "material": [ { "type": "brass", "portion": 2 }, { "type": "gold", "portion": 2 }, { "type": "gemstone" } ],
+    "symbol": "[",
+    "color": "yellow",
+    "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "FANCY" ]
   }
 ]
