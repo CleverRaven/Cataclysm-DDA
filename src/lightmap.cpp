@@ -90,7 +90,6 @@ bool map::build_transparency_cache( const int zlev )
     level_cache &map_cache = get_cache( zlev );
     auto &transparent_cache_wo_fields = map_cache.transparent_cache_wo_fields;
     auto &transparency_cache = map_cache.transparency_cache;
-    //auto &transparency_cache_wo_solids = map_cache.transparent_cache_wo_solids;
     auto &outside_cache = map_cache.outside_cache;
 
     if( map_cache.transparency_cache_dirty.none() ) {
@@ -144,17 +143,15 @@ bool map::build_transparency_cache( const int zlev )
                     value *= sight_penalty;
                 }
                 float value_wo_fields = value;
-                Character &player_character = get_player_character();
-                if( !player_character.vision_mode_cache[IR_VISION] ) {
-                    for( const auto &fld : cur_submap->get_field( sp ) ) {
-                        const field_intensity_level &i_level = fld.second.get_intensity_level();
-                        if( i_level.transparent ) {
-                            continue;
-                        }
-                        // Fields are either transparent or not, however we want some to be translucent
-                        value = value * i_level.translucency;
+                for( const auto &fld : cur_submap->get_field( sp ) ) {
+                    const field_intensity_level &i_level = fld.second.get_intensity_level();
+                    if( i_level.transparent ) {
+                        continue;
                     }
+                    // Fields are either transparent or not, however we want some to be translucent
+                    value = value * i_level.translucency;
                 }
+                // TODO: [lightmap] Have glass reduce light as well
                 return std::make_pair( value, value_wo_fields );
             };
 
@@ -815,9 +812,8 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    //    Character &player_character = get_player_character();
     const level_cache &map_cache = get_cache_ref( t.z );
-    if( map_cache.seen_cache[t.x][t.y] > 0.075f ) {
+    if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
         return true;
     }
 
