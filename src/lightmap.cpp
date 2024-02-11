@@ -812,7 +812,6 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    //    Character &player_character = get_player_character();
     const level_cache &map_cache = get_cache_ref( t.z );
     if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
         return true;
