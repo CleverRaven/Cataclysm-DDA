@@ -102,7 +102,7 @@ void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color
                             const std::optional<std::string> &tile_id = std::nullopt );
 
 int ballistic_damage( float velocity, float mass );
-float gurney_spherical( const double charge, const double mass );
+float gurney_spherical( double charge, double mass );
 void process_explosions();
 } // namespace explosion_handler
 
