@@ -10719,7 +10719,11 @@ void Character::echo_pulse()
     }
     for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
         if( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, pulse_range ) ) {
-            sounds::sound( origin, 7, sounds::sound_t::sensory, _( "click." ), true,
+            sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
+                           "none", "none" );
+        // This only counts obstacles which can be moved through, so we make a very quiet noise.
+        } else if( is_obstacle( origin ) && here.pl_line_of_sight( origin, pulse_range ) ) {
+            sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
         const trap &tr = here.tr_at( origin );
@@ -10739,13 +10743,13 @@ void Character::echo_pulse()
                     echo_volume = 2;
                     break;
                 case creature_size::medium:
-                    echo_volume = 4;
+                    echo_volume = 3;
                     break;
                 case creature_size::large:
-                    echo_volume = 5;
+                    echo_volume = 4;
                     break;
                 case creature_size::huge:
-                    echo_volume = 7;
+                    echo_volume = 5;
                     break;
                 case creature_size::num_sizes:
                     debugmsg( "ERROR: Invalid Creature size class." );
