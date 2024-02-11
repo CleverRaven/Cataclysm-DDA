@@ -444,7 +444,6 @@ int monster::next_upgrade_time()
     return -1;
 }
 
-
 void monster::try_upgrade( bool pin_time )
 {
     if( !can_upgrade() ) {
