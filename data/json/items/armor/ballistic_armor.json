@@ -97,12 +97,12 @@
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
-        "encumbrance": 6,
+        "encumbrance": 0,
         "coverage": 80,
         "cover_vitals": 90,
         "covers": [ "torso" ],
         "specifically_covers": [ "torso_lower" ],
-        "volume_encumber_modifier": 0.3
+        "volume_encumber_modifier": 0
       }
     ]
   },
@@ -751,7 +751,20 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
         "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 90,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "volume_encumber_modifier": 0
       }
     ]
   },
