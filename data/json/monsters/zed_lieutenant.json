@@ -364,6 +364,7 @@
         {
           "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
         },
+        { "math": [ "Shadow_Warnings", "<", "2" ] },
         {
           "or": [ { "math": [ "Shadow_Warnings", "<", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
         },
@@ -379,6 +380,38 @@
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
         "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
         "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true }
+      }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_LIEUTENANT_SHADOW_WARN_LITE" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SHADOW_WARN_LITE",
+    "eoc_type": "ACTIVATION",
+    "//1": "Same conditions as EOC_LIEUTENANT_SPAWN_SHADOW, minus the RNG check and the warnings check.",
+    "//2": "This doesn't put a popup message in front of you.",
+    "condition": {
+      "and": [
+        { "not": "is_day" },
+        { "not": { "u_has_effect": "sleep" } },
+        {
+          "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
+        },
+        {
+          "or": [ { "math": [ "Shadow_Warnings", "<", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
+        },
+        "u_is_outside",
+        {
+          "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "Shadow_Warnings", "+=", "1" ] },
+      {
+        "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
+        "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": false },
+        "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": false }
       }
     ]
   },
