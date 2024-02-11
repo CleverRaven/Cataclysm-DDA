@@ -218,24 +218,28 @@
   {
     "id": "mon_feral_prepper_death_drops",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "mon_feral_prepper_death_drops",
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
   },
   {
     "id": "feral_sapien_death_drops_spear",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "feral_sapien_death_drops_spear",
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
   },
   {
     "id": "mon_zombie_survivor_death_drops",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "mon_zombie_survivor_death_drops",
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
   },
   {
     "id": "mon_zombie_survivor_elite_death_drops",
     "type": "item_group",
+    "subtype": "collection",
     "copy-from": "mon_zombie_survivor_elite_death_drops",
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 50 } ] }
   },
