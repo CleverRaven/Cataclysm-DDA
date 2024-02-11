@@ -4305,7 +4305,7 @@
     "id": "fancy_pistol_cartridge_necklace",
     "type": "ARMOR",
     "looks_like": "gold_necklace",
-    "name": { "str": "pistoleer's necklace" },
+    "name": { "str": "refined pistol-cartridge necklace" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str": "Varmints’ Bane" } },
       { "type": "COMPONENT_ID", "condition": "32_casing", "name": { "str": "Short King" } },
@@ -4357,7 +4357,7 @@
       }
     ],
     "weight": "56 g",
-    "volume": "33 ml",
+    "volume": "32 ml",
     "longest_side": "28 mm",
     "//": "Length is derived from averaging out the case lengths of a .22 Long Rifle, .357 Magnum, and .50 Action Express cartridge.",
     "price": 40000,
@@ -4367,5 +4367,64 @@
     "color": "yellow",
     "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
     "flags": [ "NO_WEAR_EFFECT", "BELTED", "FANCY" ]
+  },
+  {
+    "id": "fancy_rifle_cartridge_necklace",
+    "type": "ARMOR",
+    "copy-from": "fancy_pistol_cartridge_necklace",
+    "name": { "str": "refined rifle-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "77arisaka_casing", "name": { "str": "Rising Sun" } },
+      { "type": "COMPONENT_ID", "condition": "545_casing", "name": { "str": "Devil’s Poison" } },
+      { "type": "COMPONENT_ID", "condition": "4570_casing", "name": { "str": "Frontiersman’s" } },
+      { "type": "COMPONENT_ID", "condition": "270win_casing", "name": { "str": "Sportsman’s" } },
+      { "type": "COMPONENT_ID", "condition": "303_casing", "name": { "str": "Fusilier’s" } },
+      { "type": "COMPONENT_ID", "condition": "223_casing", "name": { "str": "US Diplomacy" } },
+      { "type": "COMPONENT_ID", "condition": "3006_casing", "name": { "str": "Old Soldier" } },
+      { "type": "COMPONENT_ID", "condition": "762_51_casing", "name": { "str": "Pig’s Feed" } },
+      { "type": "COMPONENT_ID", "condition": "300blk_casing", "name": { "str": "Cloak&Dagger" } },
+      { "type": "COMPONENT_ID", "condition": "762R_casing", "name": { "str": "White Death" } },
+      { "type": "COMPONENT_ID", "condition": "762_casing", "name": { "str": "Iron Curtain" } },
+      { "type": "COMPONENT_ID", "condition": "300_casing", "name": { "str": "Kyle’s Laser" } },
+      { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str": "Wolf’s Voice" } },
+      { "type": "COMPONENT_ID", "condition": "450_casing", "name": { "str": "Cooper’s Touch" } },
+      { "type": "COMPONENT_ID", "condition": "30carbine_casing", "name": { "str": "Paratrooper’s" } },
+      { "type": "COMPONENT_ID", "condition": "308_casing", "name": { "str": "Marksman’s" } },
+      { "type": "COMPONENT_ID", "condition": "123ln_casing", "name": { "str": "Illegal Alien" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "//": "Devil’s Poison for 5.45x39mm is a reference to the fact that the cartridge was sometimes dubed either the 'Devil Bullet' or the 'Poison Bullet'.",
+    "//2": "Pig’s Feed for 7.62x51mm is a reference to the US M60 machine gun. It was nicknamed the 'Pig'. 7.62x51mm feeds it. Coming up with names is hard.",
+    "//3": "Yes, illegal alien for 12.3LN is a reference to Aliens. No, it is not a comment about any group of people.",
+    "description": "A gentlemanly article of craft-preduced jewellery for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.",
+    "snippet_category": [
+      {
+        "id": "fancy_rifle_pendent1",
+        "text": "A gentlemanly article of craft-preduced jewellery for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.  With its brass polished to a mirror-like sheen, the shell’s primer and rim have been neatly extricated at the edge of a saw, with a little gemstone peeking out the casing’s throat.  The gem’s wrapped within the embrace of a length of fine-gauge wire, whose remaining length has been tugged back through the cartridge’s body, fed out the base, and entwined with a link in the chain."
+      },
+      {
+        "id": "fancy_rifle_pendent2",
+        "text": "A gentlemanly article of craft-preduced jewellery for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.  With its brass polished to a mirror-like sheen, the shell has grown shorter by virtue of its base having been sawed away, and a glittering jewel has been seated comfortably within the throat.  A length of wire is tightly wrapped around both cartridge and gemstone in a top-down pattern, forming an X-grid as it wines, with the cord’s loose ends trailing through a small drill hole at the cartridge’s base and tied to the chain’s links."
+      }
+    ],
+    "weight": "57 g",
+    "volume": "35 ml",
+    "longest_side": "50 mm",
+    "//": "Length is derived from averaging out the case lengths of a .30 Carbine, .270 Winchester, and .308 Winchester cartridge."
   }
 ]
