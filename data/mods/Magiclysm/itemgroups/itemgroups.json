@@ -695,6 +695,59 @@
     ]
   },
   {
+    "id": "enchanted_wands_disposable",
+    "type": "item_group",
+    "//": "disposable wands only",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_wands_disposable_minor", "prob": 100 },
+      { "group": "enchanted_wands_disposable_lesser", "prob": 50 },
+      { "group": "enchanted_wands_disposable_greater", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_disposable_minor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wand_disp_magic_missile_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_fireball_minor", "prob": 5, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_mana_beam_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_point_flare_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_cone_cold_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_knock_minor", "prob": 10, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_disposable_lesser",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wand_disp_magic_missile_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_fireball_lesser", "prob": 5, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_mana_beam_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_point_flare_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_cone_cold_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_knock_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_disposable_greater",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wand_disp_magic_missile_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_fireball_greater", "prob": 5, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_mana_beam_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_point_flare_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_cone_cold_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_knock_greater", "prob": 10, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
     "id": "enchanted_arrows",
     "type": "item_group",
     "//": "enchanted arrows in various quantities",
@@ -977,7 +1030,11 @@
     "subtype": "distribution",
     "items": [
       { "group": "enchanted_worn_items", "prob": 15 },
-      { "group": "enchanted_melee_weapons_plus1", "prob": 10 },
+      { "group": "enchanted_wands_disposable", "prob": 10 },
+      {
+        "distribution": [ { "group": "enchanted_melee_weapons_plus1", "prob": 95 }, { "group": "enchanted_melee_weapons_plus2", "prob": 5 } ],
+        "prob": 4
+      },
       { "group": "enchanted_small_items", "prob": 1 }
     ]
   },
