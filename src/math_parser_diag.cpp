@@ -612,11 +612,11 @@ std::function<double( dialogue & )> _characters_nearby_eval( char scope,
     if( kwargs.count( "attitude" ) != 0 ) {
         filter_val = *kwargs.at( "attitude" );
     }
-    if( kwargs.count( "location" ) != 0 ) {
-        loc_var = kwargs.at( "location" )->var();
-    }
     if( kwargs.count( "allow_hallucinations" ) != 0 ) {
         allow_hallucinations_val = *kwargs.at( "allow_hallucinations" );
+    }
+    if( kwargs.count( "location" ) != 0 ) {
+        loc_var = kwargs.at( "location" )->var();
     } else if( scope == 'g' ) {
         throw std::invalid_argument( string_format(
                                          R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
