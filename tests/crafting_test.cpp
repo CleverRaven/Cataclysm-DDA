@@ -2396,21 +2396,31 @@ TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
 
 static void prep_components_for_craft( const recipe *r )
 {
+    Character &player_character = get_player_character();
+    grant_skills_to_character( player_character, *r, 0 );
+
+    // If appliances/furniture have been placed, clear the map:
+    if( get_map().veh_at( player_character.pos() + tripoint_north ) ||
+        get_map().veh_at( player_character.pos() + tripoint_north + tripoint_north ) ) {
+        clear_map();
+    }
+    clear_items( 0 );
+
     unsigned int new_seed = static_cast<unsigned int>( rng( 1, std::numeric_limits<int>::max() ) );
     rng_set_engine_seed( new_seed );
-    Character &player_character = get_player_character();
-    clear_items( 0 );
-    grant_skills_to_character( player_character, *r, 0 );
+
     std::string failures = capture_debugmsg_during( [&r]() {
         debug_assemble_crafting_materials( r, 1, true );
     } );
-    INFO( r->result() );
+    INFO( string_format( "Recipe id: %s", r->ident().str() ) );
+    INFO( string_format( "Resulting in id: %s", r->result().str() ) );
+    INFO( string_format( "Resulting item name: %s", r->result_name() ) );
     INFO( string_format( "Individual spawning seed: %i", new_seed ) );
     if( !failures.empty() ) {
         DebugLog( D_INFO, DC_ALL ) << failures;
     }
 
-    player_character.moves--;
+    //player_character.invalidate_crafting_inventory();
     const inventory &crafting_inv = player_character.crafting_inventory();
 
     bool can_craft_with_crafting_inv = r->deduped_requirements().can_make_with_inventory(

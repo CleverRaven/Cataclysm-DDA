@@ -3739,7 +3739,7 @@ void set_random_seed( const std::string &title )
 
 struct items_with_quality {
     quality_id curr_quality;
-    std::vector<std::pair<itype_id, int>> item_ids;
+    std::vector<std::tuple<itype_id, int, int>> item_ids; // Item, quality level, charges for quality
     items_with_quality( quality_id curr_qual ) {
         curr_quality = curr_qual;
     }
@@ -3748,20 +3748,21 @@ struct items_with_quality {
 struct item_quality_cache {
     bool prepared = false;
     std::vector<items_with_quality> quality_list;
-    void add_entry( itype_id id, quality_id curr_qual, int value ) {
+    void add_entry( const itype_id id, const quality_id curr_qual, const int value,
+                    const int charges ) {
         bool added = false;
         for( items_with_quality &i : quality_list ) {
             if( curr_qual == i.curr_quality ) {
-                i.item_ids.emplace_back( id, value );
+                i.item_ids.emplace_back( id, value, charges );
                 added = true;
             }
         }
         if( !added ) {
             quality_list.emplace_back( curr_qual );
-            quality_list.back().item_ids.emplace_back( id, value );
+            quality_list.back().item_ids.emplace_back( id, value, charges );
         }
     }
-    const std::vector<std::pair<itype_id, int>> &get_itype_list( quality_id curr_qual ) {
+    const std::vector<std::tuple<itype_id, int, int>> &get_itype_list( quality_id curr_qual ) {
         for( const items_with_quality &i : quality_list ) {
             if( curr_qual == i.curr_quality ) {
                 return i.item_ids;
@@ -3774,7 +3775,6 @@ struct item_quality_cache {
 };
 
 item_quality_cache quality_cache;
-std::vector<std::pair<std::string, std::string>> pseudo_item_cache;
 
 std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirement_data &req,
                                    const int batch_size, const std::string &requirement_name, const bool silent )
@@ -3857,39 +3857,33 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
     }
 
     // Randomly select items to spawn for qualities
-    const int min_charges_for_qual = 5; // Some tools require charges to provide a quality
     for( const std::vector<quality_requirement> &quality_group : req.get_qualities() ) {
         for( const quality_requirement &quality_req : quality_group ) {
             options.clear();
             pseudo_options.clear();
 
+            // Prepare a quality cache so that during unit tests we don't end up spawning and
+            // immediately deleting all items multiple times
             if( !quality_cache.prepared ) {
                 for( const itype *i : item_controller->all() ) {
-                    //item temp_item( i, calendar::turn, min_charges_for_qual );
                     for( auto const& [key, val] : i->qualities ) {
-                        quality_cache.add_entry( i->get_id(), key, val );
+                        quality_cache.add_entry( i->get_id(), key, val, 0 );
                     }
-                    // TODO: Differentiate these somehow
                     for( auto const& [key, val] : i->charged_qualities ) {
-                        quality_cache.add_entry( i->get_id(), key, val );
+                        quality_cache.add_entry( i->get_id(), key, val, i->charges_to_use() );
                     }
                 }
                 quality_cache.prepared = true;
             }
 
-            for( std::pair<itype_id, int> i : quality_cache.get_itype_list( quality_req.type ) ) {
-                if( i.second >= quality_req.level ) {
-                    item temp_item( i.first, calendar::turn, min_charges_for_qual );
+            for( std::tuple<itype_id, int, int> i : quality_cache.get_itype_list( quality_req.type ) ) {
+                if( std::get<1>( i ) >= quality_req.level ) {
+                    item temp_item( std::get<0>( i ), calendar::turn );
+                    const int charges = std::max( std::get<2>( i ), 1 );
                     if( !temp_item.has_flag( flag_PSEUDO ) ) {
-                        // Only provide charged items if required for providing the quality
-                        temp_item.charges = 1;
-                        if( temp_item.get_quality( quality_req.type ) >= quality_req.level ) {
-                            options.emplace_back( i.first, 1 );
-                        } else {
-                            options.emplace_back( i.first, min_charges_for_qual );
-                        }
+                        options.emplace_back( std::get<0>( i ), charges );
                     } else {
-                        pseudo_options.emplace_back( i.first, min_charges_for_qual );
+                        pseudo_options.emplace_back( std::get<0>( i ), charges );
                     }
                 }
             }
@@ -3943,8 +3937,10 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
     Character &player_character = get_player_character();
     std::vector<std::pair<item, std::string>> items_to_spawn;
     std::vector<std::pair<item, std::string>> appliances_to_spawn;
-    item battery_item( "large_storage_battery" );
-    battery_item.ammo_set( battery_item.ammo_default(), 0 );
+    std::vector<std::pair<furn_id, std::string>> furniture_to_spawn;
+    int UPS_charges = 0;
+    item app_battery_item( "large_storage_battery" );
+    app_battery_item.ammo_set( app_battery_item.ammo_default(), 0 );
 
     // Convert the list of itype_ids into a collection of items to add to the world
     for( const auto &entry : itypes_to_spawn ) {
@@ -4002,39 +3998,64 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
             }
         } else if( granted.can_link_up() ) {
             // This is an item that's supposed to be plugged in to a vehicle/appliance
-            battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
+            app_battery_item.ammo_set( app_battery_item.ammo_default(),
+                                       app_battery_item.ammo_remaining() + entry.second );
             items_to_spawn.emplace_back( granted, string_format( "Spawning plug-in item %s",
                                          granted.display_name() ) );
-	} else if( granted.has_flag( flag_PSEUDO ) ) {
-	  // Check if an appliance exists that provides this pseudo item
-	  std::vector<itype_id> appliance_options;
-	  std::set<std::pair<itype_id,int>> pseudo_tools;
-	  for( const vpart_info &vpi : vehicles::parts::get_all() ) {
-	    pseudo_tools = vpi.get_pseudo_tools();
-	    std::set<std::pair<itype_id, int>>::iterator it;
-	    for( it=pseudo_tools.begin(); it!=pseudo_tools.end();++it ) {
-	      if( it->first == granted.typeId() ) {
-		if( vpi.has_flag( flag_APPLIANCE ) ) {
-		  appliance_options.emplace_back( vpi.base_item );
-		}
-	      }
-	    }
-	  }
-	  if( !appliance_options.empty() ) {
-	    // Randomly select an appliance to place
-	    int selected = rng( 0, static_cast<int>( appliance_options.size() - 1 ) );
-            battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
-	    item appliance_item( appliance_options[selected] );
-	    appliances_to_spawn.emplace_back( appliance_item, string_format( "Spawning appliance %s", appliance_item.display_name() ) );
-	  } else {
-	    // Just give the player the pseudo item
-	    items_to_spawn.emplace_back( granted, string_format( "Spawning pseudo item %s", granted.display_name() ) );
-	  }
+        } else if( granted.has_flag( flag_PSEUDO ) ) {
+            // Check if an appliance exists that provides this pseudo item
+            std::vector<itype_id> appliance_options;
+            std::set<std::pair<itype_id, int>> pseudo_tools;
+            for( const vpart_info &vpi : vehicles::parts::get_all() ) {
+                pseudo_tools = vpi.get_pseudo_tools();
+                std::set<std::pair<itype_id, int>>::iterator it;
+                for( it = pseudo_tools.begin(); it != pseudo_tools.end(); ++it ) {
+                    if( it->first == granted.typeId() ) {
+                        if( vpi.has_flag( flag_APPLIANCE ) ) {
+                            appliance_options.emplace_back( vpi.base_item );
+                        }
+                    }
+                }
+            }
+            if( !appliance_options.empty() ) {
+                // Randomly select an appliance to place
+                int selected = rng( 0, static_cast<int>( appliance_options.size() - 1 ) );
+                app_battery_item.ammo_set( app_battery_item.ammo_default(),
+                                           app_battery_item.ammo_remaining() + entry.second );
+                item appliance_item( appliance_options[selected] );
+                appliances_to_spawn.emplace_back( appliance_item, string_format( "Spawning appliance %s",
+                                                  appliance_item.display_name() ) );
+            } else {
+                // Check if the pseudo item is provided by furniture
+                std::vector<furn_id> furniture_options;
+                using T_id = decltype( furn_t().id.id() );
+                for( int i = 0; i < static_cast<int>( furn_t::count() ); ++i ) {
+                    const furn_t &temp = T_id( i ).obj();
+                    if( temp.crafting_pseudo_item == granted.typeId() ) {
+                        furniture_options.push_back( temp.id.id() );
+                    }
+                }
+
+                if( !furniture_options.empty() ) {
+                    // Randomly select a piece of furniture to place
+                    int selected = rng( 0, static_cast<int>( furniture_options.size() - 1 ) );
+                    furniture_to_spawn.emplace_back( furniture_options[selected],
+                                                     string_format( "Spawning furniture %s and %i UPS charges",
+                                                             T_id( furniture_options[selected] ).obj().name(), entry.second ) );
+                    UPS_charges += entry.second;
+                } else {
+                    // Just give the player the pseudo item
+                    items_to_spawn.emplace_back( granted, string_format( "Spawning pseudo item %s",
+                                                 granted.display_name() ) );
+                }
+            }
         } else if( granted.has_flag( flag_NEEDS_INSTALL ) ) {
             // This is an appliance that needs to be placed
-            battery_item.ammo_set( battery_item.ammo_default(), battery_item.ammo_remaining() + entry.second );
-            appliances_to_spawn.emplace_back( granted, string_format( "Spawning appliance %s",
-                                              granted.display_name() ) );
+            app_battery_item.ammo_set( app_battery_item.ammo_default(),
+                                       app_battery_item.ammo_remaining() + entry.second );
+            appliances_to_spawn.emplace_back( granted,
+                                              string_format( "Spawning appliance %1s and giving battery %2i charges", granted.display_name(),
+                                                      entry.second ) );
         } else {
             if( entry.second <= 1 ) {
                 items_to_spawn.emplace_back( granted, string_format( "Spawning single item: %s",
@@ -4056,11 +4077,12 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
     // Spawn any required appliances
     // TODO: Check for surrounding furniture
     const tripoint battery_pos = player_character.pos() + tripoint_north;
-    if( battery_item.ammo_remaining() > 0 ) {
-      if( !silent ) {
-	add_msg( m_info, string_format( "Spawning appliance %s", battery_item.display_name() ) );
-      }
-      place_appliance( battery_pos, vpart_appliance_from_item( battery_item.typeId() ), battery_item );
+    if( app_battery_item.ammo_remaining() > 0 ) {
+        if( !silent ) {
+            add_msg( m_info, string_format( "Spawning appliance %s", app_battery_item.display_name() ) );
+        }
+        place_appliance( battery_pos, vpart_appliance_from_item( app_battery_item.typeId() ),
+                         app_battery_item );
     }
     tripoint current_pos = battery_pos + tripoint_north;
     for( const std::pair<item, std::string> &entry : appliances_to_spawn ) {
@@ -4068,6 +4090,23 @@ void spawn_item_collection( const std::vector<std::pair<itype_id, int>>
             add_msg( m_info, entry.second );
         }
         place_appliance( current_pos, vpart_appliance_from_item( entry.first.typeId() ), entry.first );
+        current_pos += tripoint_north;
+    }
+    while( UPS_charges > 0 ) {
+        item UPS_item( "UPS_ON" );
+        item UPS_batteries( "heavy_battery_cell" );
+        UPS_batteries.ammo_set( UPS_batteries.ammo_default(), UPS_charges );
+        UPS_item.put_in( UPS_batteries, pocket_type::MAGAZINE_WELL );
+        items_to_spawn.emplace_back( UPS_item, string_format( "Spawning: %s", UPS_item.display_name() ) );
+        UPS_charges -= UPS_batteries.ammo_remaining();
+    }
+
+    for( const std::pair<furn_id, std::string> &entry : furniture_to_spawn ) {
+        if( !silent ) {
+            add_msg( m_info, entry.second );
+        }
+        get_map().furn_set( current_pos, entry.first );
+        current_pos += tripoint_north;
     }
 
     // Actually spawn the required items
