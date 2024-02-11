@@ -10718,8 +10718,8 @@ void Character::echo_pulse()
                        "none", "none" );
     }
     for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
-        if( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, 2 ) ) {
-            sounds::sound( origin, 6, sounds::sound_t::sensory, _( "click." ), true,
+        if( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, pulse_range ) ) {
+            sounds::sound( origin, 7, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
         const trap &tr = here.tr_at( origin );
@@ -10730,7 +10730,7 @@ void Character::echo_pulse()
             add_known_trap( origin, tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
-        if( critter && here.pl_line_of_sight( origin, 1 ) ) {
+        if( critter && here.pl_line_of_sight( origin, pulse_range ) ) {
             switch( critter->get_size() ) {
                 case creature_size::tiny:
                     echo_volume = 1;
@@ -10739,13 +10739,13 @@ void Character::echo_pulse()
                     echo_volume = 2;
                     break;
                 case creature_size::medium:
-                    echo_volume = 3;
-                    break;
-                case creature_size::large:
                     echo_volume = 4;
                     break;
-                case creature_size::huge:
+                case creature_size::large:
                     echo_volume = 5;
+                    break;
+                case creature_size::huge:
+                    echo_volume = 7;
                     break;
                 case creature_size::num_sizes:
                     debugmsg( "ERROR: Invalid Creature size class." );

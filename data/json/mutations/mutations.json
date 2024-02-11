@@ -490,10 +490,11 @@
     "visibility": 8,
     "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and are less likely to be deafened by loud noises.",
     "types": [ "HEARING" ],
-    "flags": [ "HEARING_PROTECTION" ],
+    "//": "Super_hearing multiplies hearing by 3.5 and let you crack safes. A bat mutant is a bit better at hearing overall than someone with GOODHEARING and a CBM.",
+    "flags": [ "HEARING_PROTECTION", "SUPER_HEARING" ],
     "prereqs": [ "GOODHEARING" ],
     "category": [ "CHIROPTERAN" ],
-    "hearing_modifier": 2
+    "hearing_modifier": 1.8
   },
   {
     "type": "mutation",
