@@ -364,6 +364,15 @@
         {
           "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
         },
+        {
+          "or": [
+            { "math": [ "Shadow_Warnings", "<", "2" ] },
+            { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } }
+          ]
+        },
+        {
+          "or": [ { "math": [ "Shadow_Warnings", "<", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
+        },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
