@@ -90,7 +90,6 @@ bool map::build_transparency_cache( const int zlev )
     level_cache &map_cache = get_cache( zlev );
     auto &transparent_cache_wo_fields = map_cache.transparent_cache_wo_fields;
     auto &transparency_cache = map_cache.transparency_cache;
-    //auto &transparency_cache_wo_solids = map_cache.transparent_cache_wo_solids;
     auto &outside_cache = map_cache.outside_cache;
 
     if( map_cache.transparency_cache_dirty.none() ) {
