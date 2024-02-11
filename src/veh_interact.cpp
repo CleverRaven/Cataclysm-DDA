@@ -3096,25 +3096,25 @@ void veh_interact::complete_vehicle( Character &you )
     }
     map &here = get_map();
     const tripoint_abs_ms act_pos( you.activity.values[0], you.activity.values[1], you.posz() );
-    optional_vpart_position vp = here.veh_at( act_pos );
-    if( !vp ) {
+    optional_vpart_position ovp = here.veh_at( act_pos );
+    if( !ovp ) {
         // so the vehicle could have lost some of its parts from other NPCS works
         // during this player/NPCs activity.
         // check the vehicle points that were stored at beginning of activity.
         for( const tripoint &pt : you.activity.coord_set ) {
-            vp = here.veh_at( here.getlocal( pt ) );
-            if( vp ) {
+            ovp = here.veh_at( here.getlocal( pt ) );
+            if( ovp ) {
                 break;
             }
         }
         // check again, to see if it really is a case of vehicle gone missing.
-        if( !vp ) {
+        if( !ovp ) {
             debugmsg( "Activity ACT_VEHICLE: vehicle not found" );
             return;
         }
     }
 
-    vehicle &veh = vp->vehicle();
+    vehicle &veh = ovp->vehicle();
     const point d( you.activity.values[4], you.activity.values[5] );
     const vpart_id part_id( you.activity.str_values[0] );
     const vpart_info &vpinfo = part_id.obj();
