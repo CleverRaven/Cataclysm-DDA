@@ -256,5 +256,15 @@
     "min_duration": 100,
     "max_duration": 300,
     "duration_increment": 40
+  },
+  {
+    "id": "mon_troll_regenerate_limb_spell",
+    "type": "SPELL",
+    "name": "Troll regenerate limbs",
+    "description": "Allows trolls to remove the maimed effect if their HP is high enough.",
+    "valid_targets": [ "self" ],
+    "effect": "remove_effect",
+    "effect_str": "maimed_arm",
+    "shape": "blast"
   }
 ]
