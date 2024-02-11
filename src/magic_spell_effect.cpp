@@ -33,6 +33,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "item.h"
@@ -482,11 +483,43 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     return targets;
 }
 
+static void splash_target( const tripoint &target, const spell &sp, Creature &caster,
+                           flag_id apply_flag = flag_NULL )
+{
+    if( sp.liquid_volume( caster ) < 1 ) {
+        debugmsg( "LIQUID flagged spell cast with liquid volume < 1" );
+        return;
+    }
+    damage_unit damage = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
+                                          0.0f );
+    bool damage_target = sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET );
+    //bool ignite = sp.has_flag( spell_flag::IGNITE_FLAMMABLE );
+    const int dur_moves = sp.duration( caster );
+    const time_duration dur_td = time_duration::from_moves( dur_moves );
+    creature_tracker &creatures = get_creature_tracker();
+    //Creature *const critter = creatures.creature_at<Creature>( target );
+    Character *const guy = creatures.creature_at<Character>( target );
+    efftype_id spell_effect( sp.effect_data() );
+    if( sp.get_spell_type()->affected_bps.none() ) {
+        bodypart_id bp = guy->random_body_part();
+        guy->worn.splash_attack( *guy, bp, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td,
+                                         sp.has_flag( spell_flag::PERMANENT ), 1, false, false, damage, damage_target, false );
+        return;
+    } else {
+        for( const bodypart_id bps : guy->get_all_body_parts() ) {
+            if( sp.bp_is_affected( bps.id() ) ) {
+                guy->worn.splash_attack( *guy, bps, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td,
+                                         sp.has_flag( spell_flag::PERMANENT ), 1, false, false, damage, damage_target, false );
+                return;
+            }
+        }
+    }
+}
+
 static void add_effect_to_target( const tripoint &target, const spell &sp, Creature &caster )
 {
     const int dur_moves = sp.duration( caster );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
-
     creature_tracker &creatures = get_creature_tracker();
     Creature *const critter = creatures.creature_at<Creature>( target );
     Character *const guy = creatures.creature_at<Character>( target );
@@ -496,7 +529,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
                 if( sp.has_flag( spell_flag::LIQUID ) ) {
-                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
+                    splash_target( target, sp, caster );
                     bodypart_effected = true;
                 } else {
                     guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
@@ -537,23 +570,34 @@ static void damage_targets( const spell &sp, Creature &caster,
         if( !cr ) {
             continue;
         }
-
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );
         const int spell_accuracy = sp.accuracy( caster );
-
-        if( !sp.effect_data().empty() ) {
+        if( sp.has_flag( spell_flag::DODGEABLE ) ) {
+            const float dodge_training = sp.dodge_training( caster );
+                if( cr->dodge_check( spell_accuracy, true, dodge_training ) ) {
+                cr->add_msg_if_player( m_good, _( "You dodge out of the way!" ) );
+                add_msg_if_player_sees( cr->pos(), m_good, _( "%s dodges out of the way!" ),
+                                        cr->disp_name( true ) );
+                cr->on_dodge( &caster, spell_accuracy, dodge_training );
+                continue;
+                }
+            }
+        // Liquid attacks add their effects to characters via splash_target further down
+        if( !sp.effect_data().empty() && ( !sp.has_flag( spell_flag::LIQUID ) || cr->is_monster() ) ) {
             add_effect_to_target( target, sp, caster );
         }
-        if( sp.damage( caster ) > 0 ) {
+
+        if( sp.damage( caster ) > 0 || ( sp.liquid_volume( caster ) > 0 && sp.has_flag( spell_flag::LIQUID ) ) ) {
             // calculate damage mitigation from various sources
             // 5% per point (linear) ranging from 0-33%, capped at block score
+            // skip dodge if the attack was dodgeable as you'd have evaded it already
             double damage_mitigation_multiplier = 1.0;
-            if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 ) {
+            if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 && !sp.has_flag( spell_flag::DODGEABLE ) ) {
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
             }
 
-            if( cr->dodge_check( spell_accuracy ) ) {
+            if( !sp.has_flag( spell_flag::DODGEABLE ) && cr->dodge_check( spell_accuracy ) ) {
                 const int spell_dodge = cr->get_dodge() - spell_accuracy;
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
@@ -564,10 +608,15 @@ static void damage_targets( const spell &sp, Creature &caster,
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_resist ) ) / 3.0;
             }
+            // If it's a liquid attack and the target is a character, splash_target will handle the rest
+            if( sp.has_flag( spell_flag::LIQUID ) && !cr->is_monster() ) {
+                splash_target( target, sp, caster );
+                continue;
+            }
 
             for( damage_unit &val : atk.proj.impact.damage_units ) {
                 if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respecive %
+                    // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respective %
                     val.amount = cr->get_hp( cr->get_max_hitsize_bodypart() ) * sp.damage( caster ) / 100.0;
                 }
                 val.amount *= damage_mitigation_multiplier;

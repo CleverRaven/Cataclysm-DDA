@@ -47,6 +47,7 @@ class event;
 template <typename E> struct enum_traits;
 
 enum class spell_flag : int {
+    DODGEABLE, // the target can dodge this attack completely if they succeed on a dodge roll against its spell level.
     PERMANENT, // items or creatures spawned with this spell do not disappear and die as normal
     PERMANENT_ALL_LEVELS, // items spawned with this spell do not disappear even if the spell is not max level
     PERCENTAGE_DAMAGE, //the spell deals damage based on the targets current hp.
@@ -59,7 +60,10 @@ enum class spell_flag : int {
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
     NO_EXPLOSION_SFX, // spell has no visual explosion
-    LIQUID, // effects applied by this spell can be resisted with waterproof equipment if targeting a body part. doesn't apply to damage (yet)
+    LIQUID, // this spell is a splash of liquid, the amount proportional to its damage. Characters can block the effects with clothing and armor
+    LIQUID_DAMAGE_ARMOR, // requires LIQUID. The liquid splashed by this spell can damage items worn by characters according to its liquid_volume amount, damage amount, and type
+    LIQUID_DAMAGE_TARGET, // requires LIQUID. Will damage target characters according to the liquid_volume amount that isn't blocked by their armor. Monsters are damaged normally
+    LIQUID_FILTHY, // requires LIQUID. The liquid splashed by this spell can add the FILTHY flag to items worn by characters, accoridng to its liquid_volume and type
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
@@ -79,7 +83,7 @@ enum class spell_flag : int {
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
-    IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
+    IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced. LIQUID spells can ignite target characters' equipment
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
     NON_MAGICAL, // ignores spell resistance
@@ -253,10 +257,24 @@ class spell_type
         // accuracy is a bonus against dodge, block, and spellcraft
         // which allows the target to mitigate up to 33% damage for each type of resistance
         // this could theoretically add up to 100%
+        // spells with the DODGEABLE or LIQUID flag can be completely evaded as normal attacks
 
         dbl_or_var min_accuracy;
         dbl_or_var accuracy_increment;
         dbl_or_var max_accuracy;
+
+        // characters who attempt to dodge this spell will only train their skill to this rank +1
+        // only used for DODGEABLE and LIQUID spells
+        dbl_or_var min_dodge_training;
+        dbl_or_var dodge_training_increment;
+        dbl_or_var max_dodge_training;
+
+        // minimum amount of liquid splashed on a target by this spell
+        dbl_or_var min_liquid_volume;
+        // amount of liquid to increase per spell level
+        dbl_or_var liquid_volume_increment;
+        // maximum amount of liquid splashed on a target by this spell
+        dbl_or_var max_liquid_volume;
 
         // minimum damage this spell can cause
         dbl_or_var min_damage;
@@ -389,6 +407,12 @@ class spell_type
         static const int min_accuracy_default;
         static const float accuracy_increment_default;
         static const int max_accuracy_default;
+        static const int min_dodge_training_default;
+        static const float dodge_training_increment_default;
+        static const int max_dodge_training_default;
+        static const int min_liquid_volume_default;
+        static const float liquid_volume_increment_default;
+        static const int max_liquid_volume_default;
         static const int min_damage_default;
         static const float damage_increment_default;
         static const int max_damage_default;
@@ -454,6 +478,8 @@ class spell
         // minimum duration including levels (moves)
         int min_leveled_duration( const Creature &caster ) const;
         int min_leveled_accuracy( const Creature &caster ) const;
+        int min_leveled_dodge_training( const Creature &caster ) const;
+        int min_leveled_liquid_volume( const Creature &caster ) const;
 
     public:
         spell() = default;
@@ -496,6 +522,8 @@ class spell
         // how much damage does the spell do
         int damage( const Creature &caster ) const;
         int accuracy( Creature &caster ) const;
+        float dodge_training( Creature &caster ) const;
+        int liquid_volume( Creature &caster ) const;
         int damage_dot( const Creature &caster ) const;
         damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps,
                                                 const Creature &caster ) const;
@@ -593,6 +621,13 @@ class spell
         std::string damage_string( const Character &caster ) const;
         std::string aoe_string( const Creature &caster ) const;
         std::string duration_string( const Creature &caster ) const;
+
+        const damage_type_id get_dmg_type() const {
+            return dmg_type();
+        }
+        const spell_id get_spell_type() const {
+            return type;
+        }
 
         // magic energy source enum
         magic_energy_type energy_source() const;

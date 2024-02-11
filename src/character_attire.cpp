@@ -1942,7 +1942,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-void outfit::splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
+void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
                             const flag_id &apply_flag,
                             const efftype_id &eff_id, const time_duration &dur, bool permanent, int intensity, bool force,
                             bool deferred, damage_unit elem,
@@ -1969,7 +1969,8 @@ void outfit::splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
                 // rng cap is high here so there's always a decent chance your item comes out ok
                 if( rng( 1, 300 - ( 1.5 * armor.breathability( bp ) ) ) < fluid_remaining ) {
                     // Apply filth or whatever to the item. TODO: Can this use the magic system?
-                    if( apply_flag != flag_NULL ) {
+                    if( apply_flag != flag_NULL && !armor.has_flag( flag_INTEGRATED ) && !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
+               !armor.has_flag( flag_AURA ) ) {
                         add_msg( m_bad, _( "Resist roll failed.  It got filthy!" ) );
                         armor.set_flag( apply_flag );
                     }
@@ -2007,19 +2008,17 @@ void outfit::splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
                             for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
                                 worn_remains.push_back( *it );
                             }
-                            // decltype is the type name of the iterator, note that reverse_iterator::base returns the
-                            // iterator to the next element, not the one the revers_iterator points to.
-                            // http://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator
                             iter = decltype( iter )( worn.erase( --iter.base() ) );
                         }
                     }
                 }
-                    // Whether or not the item was affected by the fluid, it still blocked some or all of it.
-                    // Breathability can help fluid soak through. As we lose fluid, we lose damage potential.
-                    fluid_remaining = std::max( 0, fluid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
-                    add_msg( m_bad, _( "Fluid remaining: %s." ),
-                             fluid_remaining );
-                    elem.amount *= fluid_remaining / fluid_amount;
+                // Whether or not the item was affected by the fluid, it still blocked some or all of it.
+                // Breathability can help fluid soak through. As we lose fluid, we lose damage potential.
+                fluid_remaining = std::max( 0,
+                                            fluid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
+                add_msg( m_bad, _( "Fluid remaining: %s." ),
+                         fluid_remaining );
+                elem.amount *= fluid_remaining / fluid_amount;
             }
         }
         ++iter;
@@ -2028,7 +2027,7 @@ void outfit::splash_attack( Character &guy, bodypart_id &bp, int fluid_amount,
     if( eff_id != effect_null ) {
         intensity = std::ceil( intensity * ( fluid_remaining / fluid_amount ) );
         add_msg( m_bad, _( "Final effect intensity: %s." ),
-                  intensity );
+                 intensity );
         if( intensity >= 1 ) {
             guy.add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, force, deferred );
         } else {

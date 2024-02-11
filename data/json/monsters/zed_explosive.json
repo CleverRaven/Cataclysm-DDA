@@ -26,7 +26,12 @@
     "vision_night": 3,
     "harvest": "exempt",
     "grab_strength": 25,
-    "special_attacks": [ [ "BOOMER", 20 ], { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "bile_barf", "min_level": 1, "max_level": 4 },
+        "monster_message": "The boomer spews bile!"
+      }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },

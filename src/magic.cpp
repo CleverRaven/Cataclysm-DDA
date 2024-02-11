@@ -118,6 +118,7 @@ template<>
 std::string enum_to_string<spell_flag>( spell_flag data )
 {
     switch( data ) {
+        case spell_flag::DODGEABLE: return "DODGEABLE";
         case spell_flag::PERMANENT: return "PERMANENT";
         case spell_flag::PERMANENT_ALL_LEVELS: return "PERMANENT_ALL_LEVELS";
         case spell_flag::PERCENTAGE_DAMAGE: return "PERCENTAGE_DAMAGE";
@@ -130,6 +131,9 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::SILENT: return "SILENT";
         case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
         case spell_flag::LIQUID: return "LIQUID";
+        case spell_flag::LIQUID_DAMAGE_ARMOR: return "LIQUID_DAMAGE_ARMOR";
+        case spell_flag::LIQUID_DAMAGE_TARGET: return "LIQUID_DAMAGE_TARGET";
+        case spell_flag::LIQUID_FILTHY: return "LIQUID_FILTHY";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -203,6 +207,12 @@ const float spell_type::field_intensity_variance_default = 0.0f;
 const int spell_type::min_accuracy_default = 20;
 const float spell_type::accuracy_increment_default = 0.0f;
 const int spell_type::max_accuracy_default = 20;
+const int spell_type::min_dodge_training_default = 0;
+const float spell_type::dodge_training_increment_default = 0.0f;
+const int spell_type::max_dodge_training_default = 0;
+const int spell_type::min_liquid_volume_default = 0;
+const float spell_type::liquid_volume_increment_default = 0.0f;
+const int spell_type::max_liquid_volume_default = 0;
 const int spell_type::min_damage_default = 0;
 const float spell_type::damage_increment_default = 0.0f;
 const int spell_type::max_damage_default = 0;
@@ -371,6 +381,28 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     if( !was_loaded || jo.has_member( "max_accuracy" ) ) {
         max_accuracy = get_dbl_or_var( jo, "max_accuracy", false, max_accuracy_default );
     }
+
+    if( !was_loaded || jo.has_member( "min_dodge_training" ) ) {
+        min_dodge_training = get_dbl_or_var( jo, "min_dodge_training", false, min_dodge_training_default );
+    }
+    if( !was_loaded || jo.has_member( "dodge_training_increment" ) ) {
+        dodge_training_increment = get_dbl_or_var( jo, "dodge_training_increment", false,
+                                             dodge_training_increment_default );
+    }
+    if( !was_loaded || jo.has_member( "max_dodge_training" ) ) {
+        max_dodge_training = get_dbl_or_var( jo, "max_dodge_training", false, max_dodge_training_default );
+    }
+    if( !was_loaded || jo.has_member( "min_liquid_volume" ) ) {
+        min_liquid_volume = get_dbl_or_var( jo, "min_liquid_volume", false, min_liquid_volume_default );
+    }
+    if( !was_loaded || jo.has_member( "liquid_volume_increment" ) ) {
+        liquid_volume_increment = get_dbl_or_var( jo, "liquid_volume_increment", false,
+                                             liquid_volume_increment_default );
+    }
+    if( !was_loaded || jo.has_member( "max_liquid_volume" ) ) {
+        max_liquid_volume = get_dbl_or_var( jo, "max_liquid_volume", false, max_liquid_volume_default );
+    }
+
     if( !was_loaded || jo.has_member( "min_damage" ) ) {
         min_damage = get_dbl_or_var( jo, "min_damage", false, min_damage_default );
     }
@@ -536,6 +568,18 @@ void spell_type::serialize( JsonOut &json ) const
                  accuracy_increment_default );
     json.member( "max_accuracy", static_cast<int>( max_accuracy.min.dbl_val.value() ),
                  max_accuracy_default );
+    json.member( "min_dodge_training", static_cast<int>( min_dodge_training.min.dbl_val.value() ),
+                 min_dodge_training_default );
+    json.member( "dodge_training_increment", static_cast<float>( dodge_training_increment.min.dbl_val.value() ),
+                 dodge_training_increment_default );
+    json.member( "max_dodge_training", static_cast<int>( max_dodge_training.min.dbl_val.value() ),
+                 max_dodge_training_default );
+    json.member( "min_liquid_volume", static_cast<int>( min_liquid_volume.min.dbl_val.value() ),
+                 min_liquid_volume_default );
+    json.member( "liquid_volume_increment", static_cast<float>( liquid_volume_increment.min.dbl_val.value() ),
+                 liquid_volume_increment_default );
+    json.member( "max_liquid_volume", static_cast<int>( max_liquid_volume.min.dbl_val.value() ),
+                 max_liquid_volume_default );
     json.member( "min_range", static_cast<int>( min_range.min.dbl_val.value() ), min_range_default );
     json.member( "max_range", static_cast<int>( max_range.min.dbl_val.value() ), min_range_default );
     json.member( "range_increment", static_cast<float>( range_increment.min.dbl_val.value() ),
@@ -736,6 +780,44 @@ int spell::accuracy( Creature &caster ) const
         return std::min( leveled_accuracy, static_cast<int>( type->max_accuracy.evaluate( d ) ) );
     } else { // if it's negative, min and max work differently
         return std::max( leveled_accuracy, static_cast<int>( type->max_accuracy.evaluate( d ) ) );
+    }
+}
+
+int spell::min_leveled_dodge_training( const Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    return type->min_dodge_training.evaluate( d ) + std::round( get_effective_level() *
+            type->dodge_training_increment.evaluate( d ) );
+}
+
+float spell::dodge_training( Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    const int leveled_dodge_training = min_leveled_dodge_training( caster );
+    if( type->min_dodge_training.evaluate( d ) >= 0 ||
+        type->max_dodge_training.evaluate( d ) >= type->min_dodge_training.evaluate( d ) ) {
+        return static_cast<float>( std::min( leveled_dodge_training, static_cast<int>( type->max_dodge_training.evaluate( d ) ) ) );
+    } else { // if it's negative, min and max work differently
+        return static_cast<float>( std::max( leveled_dodge_training, static_cast<int>( type->max_dodge_training.evaluate( d ) ) ) );
+    }
+}
+
+int spell::min_leveled_liquid_volume( const Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    return type->min_liquid_volume.evaluate( d ) + std::round( get_effective_level() *
+            type->liquid_volume_increment.evaluate( d ) );
+}
+
+int spell::liquid_volume( Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    const int leveled_liquid_volume = min_leveled_liquid_volume( caster );
+    if( type->min_liquid_volume.evaluate( d ) >= 0 ||
+        type->max_liquid_volume.evaluate( d ) >= type->min_liquid_volume.evaluate( d ) ) {
+        return std::min( leveled_liquid_volume, static_cast<int>( type->max_liquid_volume.evaluate( d ) ) );
+    } else { // if it's negative, min and max work differently
+        return std::max( leveled_liquid_volume, static_cast<int>( type->max_liquid_volume.evaluate( d ) ) );
     }
 }
 
