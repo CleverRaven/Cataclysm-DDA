@@ -3722,14 +3722,12 @@ void monster::on_hit( Creature *source, bodypart_id,
 
 int monster::get_hp_max( const bodypart_id & ) const
 {
-    int enchantment_hp = calculate_by_enchantment( type->hp, enchant_vals::mod::MAX_HP, true );
-    return enchantment_hp;
+    return type->hp;
 }
 
 int monster::get_hp_max() const
 {
-    int enchantment_hp = calculate_by_enchantment( type->hp, enchant_vals::mod::MAX_HP, true );
-    return enchantment_hp;
+    return type->hp;
 }
 
 int monster::get_hp( const bodypart_id & ) const
