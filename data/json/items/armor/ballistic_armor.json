@@ -6,8 +6,8 @@
     "//": "Based on US Army IOTV",
     "name": { "str": "US ballistic vest" },
     "description": "A ballistic vest with specialized pockets on the front, back, and sides to hold armor plates.  While this plate carrier is still protective even without inserts, it's too soft to effectively stop high-energy projectiles on its own.",
-    "weight": "5579 g", 
-    "//": "Weight from M size base piece plus lower back protector and collar",
+    "weight": "4976 g", 
+    "//": "Weight from M size base piece plus lower back protector",
     "volume": "6 L",
     "variant_type": "generic",
     "variants": [
