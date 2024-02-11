@@ -376,7 +376,10 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_OTHER_MERCS",
     "type": "talk_topic",
-    "dynamic_line": "Surprise!\"  They do jazz hands.  \"Sorry.  Well, I'm told that I'm part of a small group right now.  Maybe you were the first."
+    "dynamic_line": {
+      "gendered_line": "Surprise!\"  They do jazz hands.  \"Sorry.  Well, I'm told that I'm part of a small group right now.  Maybe you were the first.",
+      "relevant_genders": [ "u" ]
+    }
   },
   {
     "id": "TALK_ROBOFAC_MERC_1_WHO",
@@ -438,7 +441,10 @@
   {
     "id": "TALK_ROBOFAC_MERC_1_COINS",
     "type": "talk_topic",
-    "dynamic_line": "Yeah.  Have you noticed how they pay us in these tiny little gold coins?\"  Cranberry holds one up for emphasis.  \"It's bizarre.  You'd think they have a gold mine in there, but no, they don't, so they make me cross the damn world grabbing gold bars.  As far as scrip goes, it seems inconvenient as hell to make.",
+    "dynamic_line": {
+      "gendered_line": "Yeah.  Have you noticed how they pay us in these tiny little gold coins?\"  Cranberry holds one up for emphasis.  \"It's bizarre.  You'd think they have a gold mine in there, but no, they don't, so they make me cross the damn world grabbing gold bars.  As far as scrip goes, it seems inconvenient as hell to make.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "You sound frustrated about it.", "topic": "TALK_ROBOFAC_MERC_1_GOLD_MISSION" },
       { "text": "Now that you mention it, it does seem rather strange.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" }
@@ -451,9 +457,12 @@
       "Thinking I should go hunt something soon…",
       "Just wondering if things will get better someday.",
       "Hmm?  Nothing, I guess I just like resting in this place.  I feel good today.",
-      "Have you ever noticed how… wait no, never mind.",
+      { "gendered_line": "Have you ever noticed how… wait no, never mind.", "relevant_genders": [ "u" ] },
       "Wondering if the whole world is like this now.  It has to be, right?  I was watching some foreign news channels when everything was going down, and it sounded like things were just as bad there…",
-      "Hey, did you notice that there's working wi-fi here?  Not that anything else is online anymore, but still.",
+      {
+        "gendered_line": "Hey, did you notice that there's working wi-fi here?  Not that anything else is online anymore, but still.",
+        "relevant_genders": [ "u" ]
+      },
       "Just vibing."
     ],
     "responses": [ { "text": "I see.", "topic": "TALK_ROBOFAC_MERC_1_MAIN" } ]
