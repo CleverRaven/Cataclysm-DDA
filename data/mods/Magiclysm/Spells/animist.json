@@ -892,7 +892,7 @@
     "id": "animist_mass_hiding_aoe",
     "type": "SPELL",
     "name": "A Shadow in the Crowd",
-    "description": "Sever the connections between your spirit and the spirits of everyone around you, rendering them incapable of perceiving you--the light might hit their eyes and the sounds their ears, but they cannot recognize what those impressions mean.  Anything outside the spell's area of effect will have no trouble spotting you. \n\nThis spell does not affect any target without a spirit, such as a robot.",
+    "description": "Sever the connections between your spirit and the spirits of everyone around you, rendering them incapable of perceiving you; the light might hit their eyes and the sounds their ears, but they cannot recognize what those impressions mean.  Anything outside the spell's area of effect will have no trouble spotting you.\n\nThis spell does not affect any target without a spirit, such as a robot.",
     "valid_targets": [ "hostile", "ally" ],
     "spell_class": "ANIMIST",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_HANDS", "IGNORE_WALLS" ],
