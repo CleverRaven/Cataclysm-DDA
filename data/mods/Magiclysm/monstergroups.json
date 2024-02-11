@@ -437,5 +437,23 @@
       { "monster": "mon_flaming_eye_migo", "weight": 100, "cost_multiplier": 0 },
       { "monster": "mon_kreck_migo", "weight": 100, "cost_multiplier": 0 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIFIED_ANIMALS",
+    "default": "mon_zombie_dog",
+    "//": "For overrun or feral druid spaces",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "weight": 200 },
+      { "monster": "mon_zombie_dog", "weight": 25, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_zolf", "weight": 100 },
+      { "monster": "mon_zombie_pig", "weight": 150 },
+      { "monster": "mon_zeer", "weight": 150 },
+      { "monster": "mon_zeer", "weight": 25, "pack_size": [ 2, 5 ] },
+      { "monster": "mon_zougar", "weight": 100 },
+      { "monster": "mon_zombear", "weight": 75 },
+      { "monster": "mon_zoose", "weight": 50 },
+      { "monster": "mon_owlbear_zombie", "weight": 25 }
+    ]
   }
 ]
