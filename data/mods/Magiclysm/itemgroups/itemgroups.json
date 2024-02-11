@@ -238,6 +238,12 @@
     "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 50 } ] }
   },
   {
+    "id": "arsenal_mics_group",
+    "type": "item_group",
+    "copy-from": "arsenal_mics_group",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 5 } ] }
+  },
+  {
     "type": "item_group",
     "id": "magic_shop_books",
     "items": [
