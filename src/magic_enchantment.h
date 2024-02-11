@@ -244,6 +244,7 @@ class enchant_cache : public enchantment
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 
         // modifies character stats, or does other passive effects
@@ -264,6 +265,8 @@ class enchant_cache : public enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+        //Clears all the maps and vectors in the cache.
+        void clear();
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;

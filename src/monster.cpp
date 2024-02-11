@@ -3161,36 +3161,13 @@ void monster::process_one_effect( effect &it, bool is_new )
     }
 
     //Process enchantments that apply to monsters.
+    enchantment_cache->clear();
 
-    //These maps exist to mark enchantment mods we've seen once before. That way, if we get a collision, we can add them together instead of overwriting them.
-    std::map<const enchant_vals::mod, bool> values_add_exist;
-    std::map<const enchant_vals::mod, bool> values_mult_exist;
     for( const auto &elem : *effects ) {
         for( const enchantment_id &ench_id : elem.first->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) && ench.is_monster_relevant() ) {
-                //Apply multiplication first.
-                for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_multiply ) {
-                    if( values_mult_exist.count( pair_values.first ) < 1 ) {
-                        enchantment_cache->add_value_mult( pair_values.first, pair_values.second.constant() );
-                        values_mult_exist[pair_values.first] = true;
-                    } else {
-                        double enchantment_sum = pair_values.second.constant() + enchantment_cache->get_value_multiply(
-                                                     pair_values.first );
-                        enchantment_cache->add_value_mult( pair_values.first, enchantment_sum );
-                    }
-                }
-                //Then addition
-                for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values : ench.values_add ) {
-                    if( values_add_exist.count( pair_values.first ) < 1 ) {
-                        enchantment_cache->add_value_add( pair_values.first, pair_values.second.constant() );
-                        values_add_exist[pair_values.first] = true;
-                    } else {
-                        double enchantment_sum = pair_values.second.constant() + enchantment_cache->get_value_add(
-                                                     pair_values.first );
-                        enchantment_cache->add_value_add( pair_values.first, enchantment_sum );
-                    }
-                }
+                enchantment_cache->force_add( ench );
             }
         }
     }
