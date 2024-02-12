@@ -1,12 +1,11 @@
 #include "math_parser_diag_value.h"
 
-#include <optional>
 #include <string>
 #include <variant>
 
 #include "cata_utility.h"
+#include "dialogue.h"
 #include "math_parser_type.h"
-#include "string_formatter.h"
 
 namespace
 {
@@ -19,26 +18,27 @@ constexpr std::string_view _str_type_of( T /* t */ )
         return "string";
     } else if constexpr( std::is_same_v<T, diag_array> ) {
         return "array";
+    } else if constexpr( std::is_same_v<T, tripoint_abs_ms> ) {
+        return "tripoint";
     }
     return "cookies";
 }
 
-template<class C, class R = C, bool at_runtime = false>
-constexpr R _diag_value_at_parse_time( diag_value::impl_t const &data )
+template<typename C, bool at_runtime = false, typename R = C const &>
+constexpr R _diag_value_helper( diag_value::impl_t const &data, const_dialogue const &/* d */ = {} )
 {
     return std::visit( overloaded{
         []( std::monostate const &/* std */ ) -> R
         {
-            static R null_R{};
+            static C const null_R{};
             return null_R;
-        },
-        []( C const & v ) -> R
-        {
-            return v;
         },
         []( auto const & v ) -> R
         {
-            if constexpr( at_runtime )
+            if constexpr( std::is_same_v<decltype( v ), C> )
+            {
+                return v;
+            } else if constexpr( at_runtime )
             {
                 throw math::runtime_error( "Expected %s, got %s", _str_type_of( C{} ), _str_type_of( v ) );
             } else
@@ -59,33 +59,27 @@ bool diag_value::is_dbl() const
 
 double diag_value::dbl() const
 {
-    return _diag_value_at_parse_time<double>( data );
+    return _diag_value_helper<double, false, double>( data );
 }
 
 double diag_value::dbl( const_dialogue const &/* d */ ) const
 {
-    return std::visit( overloaded{
-        []( std::monostate const &/* std */ )
-        {
-            return 0.0;
-        },
-        []( double v )
-        {
-            return v;
-        },
-        []( std::string const & v )
-        {
-            if( std::optional<double> ret = svtod( v ); ret ) {
-                return *ret;
-            }
-            throw math::runtime_error( R"(Could not convert string "%s" to double)", v );
-        },
-        []( diag_array const & ) -> double
-        {
-            throw math::runtime_error( R"(Cannot directly convert array to doubles)" );
-        },
-    },
-    data );
+    return _diag_value_helper<double, true, double>( data );
+}
+
+bool diag_value::is_tripoint() const
+{
+    return std::holds_alternative<tripoint_abs_ms>( data );
+}
+
+tripoint_abs_ms const &diag_value::tripoint() const
+{
+    return _diag_value_helper<tripoint_abs_ms>( data );
+}
+
+tripoint_abs_ms const &diag_value::tripoint( const_dialogue const &d ) const
+{
+    return _diag_value_helper<tripoint_abs_ms, true>( data, d );
 }
 
 bool diag_value::is_str() const
@@ -93,34 +87,14 @@ bool diag_value::is_str() const
     return std::holds_alternative<std::string>( data );
 }
 
-std::string_view diag_value::str() const
+std::string const &diag_value::str() const
 {
-    return _diag_value_at_parse_time<std::string, std::string_view>( data );
+    return _diag_value_helper<std::string>( data );
 }
 
-std::string diag_value::str( const_dialogue const &/* d */ ) const
+std::string const &diag_value::str( const_dialogue const &d ) const
 {
-    return std::visit( overloaded{
-        []( std::monostate const &/* std */ )
-        {
-            return std::string{};
-        },
-        []( double v )
-        {
-            // NOLINTNEXTLINE(cata-translate-string-literal)
-            return string_format( "%g", v );
-        },
-        []( std::string const & v )
-        {
-            return v;
-        },
-        []( diag_array const & )
-        {
-            throw math::runtime_error( R"(Cannot directly convert array to strings)" );
-            return std::string{};
-        },
-    },
-    data );
+    return _diag_value_helper<std::string, true>( data, d );
 }
 
 bool diag_value::is_array() const
@@ -135,10 +109,10 @@ bool diag_value::is_empty() const
 
 diag_array const &diag_value::array() const
 {
-    return _diag_value_at_parse_time<diag_array, diag_array const &>( data );
+    return _diag_value_helper<diag_array>( data );
 }
 
 diag_array const &diag_value::array( const_dialogue const &/* d */ ) const
 {
-    return _diag_value_at_parse_time<diag_array, diag_array const &, true>( data );
+    return _diag_value_helper<diag_array, true>( data );
 }
