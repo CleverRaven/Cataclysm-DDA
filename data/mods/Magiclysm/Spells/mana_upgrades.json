@@ -1,0 +1,167 @@
+[
+  {
+    "id": "mana_upgrade_efficiency_01",
+    "type": "SPELL",
+    "name": { "str": "First Circle: Lesser Mana Efficiency." },
+    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Lesser Mana Efficiency trait.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "mutate",
+    "effect_str": "MANA_ADD1",
+    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "components": "spell_components_mana_upgrade_efficiency_01",
+    "difficulty": 6,
+    "max_level": 20,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "energy_source": "MANA",
+    "base_energy_cost": 800,
+    "base_casting_time": 2520000
+  },
+  {
+    "id": "spell_components_mana_upgrade_efficiency_01",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [ [ [ "mana_energy_weak", 5, "LIST" ] ], [ [ "mercury", 100 ] ], [ [ "crystallized_mana", 25 ] ] ]
+  },
+  {
+    "id": "mana_upgrade_efficiency_02",
+    "type": "SPELL",
+    "name": { "str": "Second Circle: Mana Efficiency." },
+    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Mana Efficiency trait.  You must already have the Lesser Mana Efficiency trait for the spell to take full effect.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "mutate",
+    "effect_str": "MANA_ADD2",
+    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "components": "spell_components_mana_upgrade_efficiency_02",
+    "difficulty": 9,
+    "max_level": 20,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "energy_source": "MANA",
+    "base_energy_cost": 1400,
+    "base_casting_time": 3960000
+  },
+  {
+    "id": "spell_components_mana_upgrade_efficiency_02",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
+    "components": [
+      [ [ "mana_energy_strong", 5, "LIST" ] ],
+      [ [ "mercury", 250 ] ],
+      [ [ "mana_infused_blood", 10 ] ],
+      [ [ "crystallized_mana", 75 ] ]
+    ]
+  },
+  {
+    "id": "mana_upgrade_regeneration_01",
+    "type": "SPELL",
+    "name": { "str": "First Circle: Lesser Mana Regeneration." },
+    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Lesser Mana Regeneration trait.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "mutate",
+    "effect_str": "MANA_REGEN1",
+    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "components": "spell_components_mana_upgrade_regeneration_01",
+    "difficulty": 6,
+    "max_level": 20,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "energy_source": "MANA",
+    "base_energy_cost": 800,
+    "base_casting_time": 2520000
+  },
+  {
+    "id": "spell_components_mana_upgrade_regeneration_01",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [ [ [ "mana_energy_weak", 5, "LIST" ] ], [ [ "mercury", 100 ] ], [ [ "crystallized_mana", 25 ] ] ]
+  },
+  {
+    "id": "mana_upgrade_regeneration_02",
+    "type": "SPELL",
+    "name": { "str": "Second Circle: Mana Regeneration." },
+    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Mana Regeneration trait.  You must already have the Lesser Mana Regeneration trait for the spell to take full effect.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "mutate",
+    "effect_str": "MANA_REGEN2",
+    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "components": "spell_components_mana_upgrade_regeneration_02",
+    "difficulty": 9,
+    "max_level": 20,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "energy_source": "MANA",
+    "base_energy_cost": 1400,
+    "base_casting_time": 3960000
+  },
+  {
+    "id": "spell_components_mana_upgrade_regeneration_02",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
+    "components": [
+      [ [ "mana_energy_strong", 5, "LIST" ] ],
+      [ [ "mercury", 250 ] ],
+      [ [ "mana_infused_blood", 10 ] ],
+      [ [ "crystallized_mana", 75 ] ]
+    ]
+  },
+  {
+    "id": "mana_upgrade_sensitivity_01",
+    "type": "SPELL",
+    "name": { "str": "First Circle: Lesser Mana Sensitivity." },
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Lesser Mana Sensitivity trait.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "mutate",
+    "effect_str": "MANA_MULT1",
+    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "components": "spell_components_mana_upgrade_sensitivity_01",
+    "difficulty": 6,
+    "max_level": 20,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "energy_source": "MANA",
+    "base_energy_cost": 800,
+    "base_casting_time": 2520000
+  },
+  {
+    "id": "spell_components_mana_upgrade_sensitivity_01",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "components": [ [ [ "mana_energy_weak", 5, "LIST" ] ], [ [ "mercury", 100 ] ], [ [ "crystallized_mana", 25 ] ] ]
+  },
+  {
+    "id": "mana_upgrade_sensitivity_02",
+    "type": "SPELL",
+    "name": { "str": "Second Circle: Mana Sensitivity." },
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Mana Sensitivity trait.  You must already have the Lesser Mana Sensitivity trait for the spell to take full effect.",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "mutate",
+    "effect_str": "MANA_MULT2",
+    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "components": "spell_components_mana_upgrade_sensitivity_02",
+    "difficulty": 9,
+    "max_level": 20,
+    "min_damage": 10000,
+    "max_damage": 10000,
+    "energy_source": "MANA",
+    "base_energy_cost": 1400,
+    "base_casting_time": 3960000
+  },
+  {
+    "id": "spell_components_mana_upgrade_sensitivity_02",
+    "type": "requirement",
+    "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
+    "components": [
+      [ [ "mana_energy_strong", 5, "LIST" ] ],
+      [ [ "mercury", 250 ] ],
+      [ [ "mana_infused_blood", 10 ] ],
+      [ [ "crystallized_mana", 75 ] ]
+    ]
+  }
+]
