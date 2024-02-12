@@ -73,6 +73,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
@@ -5945,77 +5946,100 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         return;
     }
 
+    std::map<itype_id, int> millable_counts;
 
-    // Get list of milable items, their rot timer and their flags
-    std::map<itype_id, std::vector<double>> millable_rot;
-    std::map<itype_id, std::vector<flag_id>> millable_flags;
-    std::map<itype_id, item> millable_items;
-    std::vector<map_stack::iterator> iter_to_delet;
     for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
         item &it = *iter;
+
         if( it.type->milling_data ) {
-            it.calc_rot_while_processing( milling_time );
-            // Unset processing flag to be able to check the relative rot
-            it.unset_flag( flag_PROCESSING );
-
-            if( millable_rot.find( it.typeId() ) == millable_rot.end() ) {
-                const std::vector<double> rot_times = { it.get_relative_rot() };
-                millable_rot.emplace( it.typeId(), rot_times );
+            if( millable_counts.find( it.typeId() ) == millable_counts.end() ) {
+                millable_counts.emplace( it.typeId(), 1 );
             } else {
-                const double rot_time = it.get_relative_rot();
-                millable_rot[it.typeId()].emplace_back( rot_time );
+                millable_counts[it.typeId()]++;
             }
-            if( millable_flags.find( it.typeId() ) == millable_flags.end() ) {
-                std::vector<flag_id> flags;
-                for( const flag_id &f : it.type->get_flags() ) {
-                    flags.emplace_back( f );
-                }
-                millable_flags.emplace( it.typeId(), flags );
-            } else {
-                for( const flag_id &f : it.type->get_flags() ) {
-                    millable_flags[it.typeId()].emplace_back( f );
-                }
-            }
-            millable_items.emplace( it.typeId(), it );
-
-            iter_to_delet.push_back( iter );
         }
     }
-    //Create the product items
-    for( const std::pair<const string_id<itype>, std::vector<double>> &rot_data : millable_rot ) {
-        const itype_id &type = rot_data.first;
-        const std::vector<double> &relative_rots = rot_data.second;
-        const double relative_rot = std::accumulate( relative_rots.begin(), relative_rots.end(),
-                                    0.0 ) / relative_rots.size();
 
-        const islot_milling &mdata = *type->milling_data;
-        const int resulting_charges = get_milled_amount( type, examp, here );
-        // if not enough material, just remove the item (0 loops)
-        // (may happen if the player did not add enough charges to the mill
-        // or if the conversion rate is changed between versions)
-        item result( mdata.into_, start_time + milling_time );
-        result.components.add( millable_items[type] );
+    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+        item source( mill_type_count.first );
+        item product( source.type->milling_data->into_ );
+        recipe rec = recipe_dict.get_craft( product.typeId() );
 
-        // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-        for( const flag_id &f : millable_flags[type] ) {
-            if( f->craft_inherit() ) {
-                result.set_flag( f );
-            }
-        }
+        if( !rec ) {
+            debugmsg( _( "Failed to find milling recipe for %s. It will not be milled." ),
+                      source.display_name().c_str() );
 
-        result.recipe_charges = mdata.conversion_rate_;
-        // Set flag to tell set_relative_rot() to calc from bday not now
-        result.set_flag( flag_PROCESSING_RESULT );
-        result.set_relative_rot( relative_rot );
-        result.unset_flag( flag_PROCESSING_RESULT );
-        here.add_item( examp, result, resulting_charges );
-    }
-    //Delete the original items that got milled
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
-        if( std::find( iter_to_delet.begin(), iter_to_delet.end(), iter ) != iter_to_delet.end() ) {
-            iter = items.erase( iter );
         } else {
-            ++iter;
+            const requirement_data::alter_item_comp_vector &components =
+                rec.simple_requirements().get_components();
+            const int makes_amount = rec.makes_amount();
+            int lot_size = 0;
+
+            // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+            // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+            for( std::vector<item_comp> component : components ) {
+                for( const item_comp &comp : component ) {
+                    if( comp.type == mill_type_count.first ) {
+                        lot_size = comp.count;
+                        break;
+                    }
+                }
+
+                if( lot_size > 0 ) {
+                    break;
+                }
+            }
+
+            if( lot_size == 0 ) {
+                debugmsg( _( "Failed to find milling recipe for %s. Milling of it failed." ),
+                          source.display_name().c_str() );
+                mill_type_count.second = 0;
+            } else {
+                const int batches = mill_type_count.second / lot_size;
+                const int process_count = batches * lot_size;
+
+                if( batches == 0 ) {
+                    add_msg( m_info, _( "%s is milled in batches of %d, so none was processed." ),
+                             source.display_name().c_str(), lot_size );
+                } else if( process_count != mill_type_count.second ) {
+                    add_msg( m_info, _( "%s is milled in batches of %d, so %d remained unprocessed." ),
+                             source.display_name().c_str(), lot_size, mill_type_count.second - batches * lot_size );
+                }
+
+                mill_type_count.second = process_count;
+
+                item_components item_component_lot;
+                int count = 0;
+
+                for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
+                    item &it = *iter;
+
+                    if( it.typeId() == mill_type_count.first ) {
+                        item_component_lot.add( it );
+                        count++;
+                        if( count == mill_type_count.second ) {
+                            break;
+                        }
+                    }
+                }
+
+                std::vector<item> results = rec.create_results( batches, &item_component_lot );
+
+                for( const item result : results ) {
+                    here.add_item( examp, result );
+                }
+
+                for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+                    item &it = *iter;
+
+                    if( it.typeId() == mill_type_count.first && mill_type_count.second > 0 ) {
+                        iter = items.erase( iter );
+                        mill_type_count.second--;
+                    } else {
+                        ++iter;
+                    }
+                }
+            }
         }
     }
 
