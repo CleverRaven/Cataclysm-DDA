@@ -1621,26 +1621,26 @@ bool _stacks_components( item const &lhs, item const &rhs, bool check_components
 
 bool _stacks_custom_item_prefix( item const &lhs, item const &rhs )
 {
-    std::string prefix1;
+    std::set<flag_id> prefix1;
     for( const flag_id &f : lhs.get_flags() ) {
         if( !f->item_prefix().empty() ) {
-            prefix1 += f->item_prefix();
+            prefix1.insert( f );
         }
     }
     for( const flag_id &f : lhs.type->get_flags() ) {
         if( !f->item_prefix().empty() ) {
-            prefix1 += f->item_prefix();
+            prefix1.insert( f );
         }
     }
-    std::string prefix2;
+    std::set<flag_id> prefix2;
     for( const flag_id &f : rhs.get_flags() ) {
         if( !f->item_prefix().empty() ) {
-            prefix2 += f->item_prefix();
+            prefix2.insert( f );
         }
     }
     for( const flag_id &f : rhs.type->get_flags() ) {
         if( !f->item_prefix().empty() ) {
-            prefix2 += f->item_prefix();
+            prefix2.insert( f );
         }
     }
     return prefix1 == prefix2;
@@ -1648,26 +1648,26 @@ bool _stacks_custom_item_prefix( item const &lhs, item const &rhs )
 
 bool _stacks_custom_item_suffix( item const &lhs, item const &rhs )
 {
-    std::string suffix1;
+    std::set<flag_id> suffix1;
     for( const flag_id &f : lhs.get_flags() ) {
         if( !f->item_suffix().empty() ) {
-            suffix1 += f->item_suffix();
+            suffix1.insert( f );
         }
     }
     for( const flag_id &f : lhs.type->get_flags() ) {
         if( !f->item_suffix().empty() ) {
-            suffix1 += f->item_suffix();
+            suffix1.insert( f );
         }
     }
-    std::string suffix2;
+    std::set<flag_id> suffix2;
     for( const flag_id &f : rhs.get_flags() ) {
         if( !f->item_suffix().empty() ) {
-            suffix2 += f->item_suffix();
+            suffix2.insert( f );
         }
     }
     for( const flag_id &f : rhs.type->get_flags() ) {
         if( !f->item_suffix().empty() ) {
-            suffix2 += f->item_suffix();
+            suffix2.insert( f );
         }
     }
     return suffix1 == suffix2;
