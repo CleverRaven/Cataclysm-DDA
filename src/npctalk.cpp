@@ -4441,17 +4441,18 @@ talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view mem
     bool hit_self = spell_jo.get_bool( "hit_self", false );
 
     int trigger_once_in = spell_jo.get_int( "once_in", 1 );
-    str_or_var trigger_message;
+    translation_or_var trigger_message;
     if( spell_jo.has_member( "message" ) ) {
-        trigger_message = get_str_or_var( spell_jo.get_member( "message" ), "message", true );
+        trigger_message = get_translation_or_var( spell_jo.get_member( "message" ), "message", true );
     } else {
-        trigger_message.str_val = "";
+        trigger_message.str_val = translation();
     }
-    str_or_var npc_trigger_message;
+    translation_or_var npc_trigger_message;
     if( spell_jo.has_member( "npc_message" ) ) {
-        npc_trigger_message = get_str_or_var( spell_jo.get_member( "npc_message" ), "npc_message", true );
+        npc_trigger_message = get_translation_or_var( spell_jo.get_member( "npc_message" ), "npc_message",
+                              true );
     } else {
-        npc_trigger_message.str_val = "";
+        npc_trigger_message.str_val = translation();
     }
 
     dbl_or_var dov_max_level = get_dbl_or_var( spell_jo, "max_level", false, -1 );
@@ -4474,8 +4475,8 @@ talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view mem
         fake_spell fake( spell_id( id.evaluate( d ) ), hit_self, max_level );
         fake.trigger_once_in = trigger_once_in;
         fake.level = level.evaluate( d );
-        fake.trigger_message = to_translation( trigger_message.evaluate( d ) );
-        fake.npc_trigger_message = to_translation( npc_trigger_message.evaluate( d ) );
+        fake.trigger_message = no_translation( trigger_message.evaluate( d ) );
+        fake.npc_trigger_message = no_translation( npc_trigger_message.evaluate( d ) );
         Creature *caster = d.actor( is_npc )->get_creature();
         if( !caster ) {
             debugmsg( "No valid caster for spell.  %s", d.get_callstack() );
@@ -4491,13 +4492,13 @@ talk_effect_fun_t::func f_cast_spell( const JsonObject &jo, std::string_view mem
             if( targeted ) {
                 if( std::optional<tripoint> target = sp.select_target( caster ) ) {
                     sp.cast_all_effects( *caster, *target );
-                    caster->add_msg_if_player( fake.trigger_message );
+                    caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
                 }
             } else {
                 const tripoint target_pos = loc_var ?
                                             get_map().getlocal( get_tripoint_from_var( loc_var, d ) ) : caster->pos();
                 sp.cast_all_effects( *caster, target_pos );
-                caster->add_msg_if_player( fake.trigger_message );
+                caster->add_msg_player_or_npc( fake.trigger_message, fake.npc_trigger_message );
             }
         }
         run_eoc_vector( true_eocs, d );

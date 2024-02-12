@@ -44,6 +44,18 @@ def parse_effect(effects, origin, comment=""):
                         type(eff["npc_make_sound"]) is str:
                     write_text(eff["npc_make_sound"], origin,
                                comment="NPC makes sound in {}".format(comment))
+            for cast_spell_key in ["u_cast_spell", "npc_cast_spell"]:
+                if cast_spell_key not in eff:
+                    continue
+                spell_obj = eff[cast_spell_key]
+                if "message" in spell_obj:
+                    write_translation_or_var(spell_obj["message"], origin,
+                                             comment="Player spell casting "
+                                             "message in {}".format(comment))
+                if "npc_message" in spell_obj:
+                    write_translation_or_var(spell_obj["npc_message"], origin,
+                                             comment="NPC spell casting "
+                                             "message in {}".format(comment))
             if "set_string_var" in eff and "i18n" in eff and eff["i18n"] is True:
                 str_vals = eff["set_string_var"]
                 if type(str_vals) is not list:
