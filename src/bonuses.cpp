@@ -14,8 +14,8 @@
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
-static const skill_id skill_drive( "drive" );
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_drive( "drive" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
