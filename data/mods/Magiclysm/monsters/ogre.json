@@ -189,12 +189,16 @@
       {
         "id": "bite_humanoid",
         "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 40 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 40, "armor_penetration": 15 } ],
         "effects": [ { "id": "badpoison", "chance": 50, "duration": [ 3600, 36000 ] } ]
       },
       { "id": "grab", "cooldown": 15 },
       { "id": "grab_2", "cooldown": 15 },
-      { "id": "scratch", "cooldown": 3, "damage_max_instance": [ { "damage_type": "cut", "amount": 32 } ] },
+      {
+        "id": "scratch",
+        "cooldown": 3,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 32, "armor_penetration": 6 } ]
+      },
       { "id": "smash", "throw_strength": 70 },
       [ "EAT_FOOD", 120 ]
     ],
