@@ -163,7 +163,11 @@
     "stomach_size": 2000,
     "special_attacks": [
       { "type": "bite", "cooldown": 10, "effects": [ { "id": "venom_weaken", "chance": 25, "duration": [ 3600, 36000 ] } ] },
-      { "id": "scratch", "cooldown": 2, "damage_max_instance": [ { "damage_type": "cut", "amount": 15 } ] },
+      {
+        "id": "scratch",
+        "cooldown": 2,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_penetration": 5 } ]
+      },
       { "id": "grab", "cooldown": 15 },
       { "id": "mutant_spinneret", "cooldown": 3 },
       [ "EAT_FOOD", 120 ]
