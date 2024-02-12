@@ -174,5 +174,69 @@
     "time": "30 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "leather", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "mask_survivorxl",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 10 ] ], [ [ "plastic_chunk", 8 ] ] ]
+  },
+  {
+    "result": "mask_hsurvivorxl",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 10 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "sheet_metal_small", 2 ] ] ]
+  },
+  {
+    "result": "mask_fsurvivorxl",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 10 ] ], [ [ "plastic_chunk", 4 ] ], [ [ "nomex", 3 ] ] ]
+  },
+  {
+    "result": "mask_lsurvivorxl",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 6 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
+    "result": "mask_survivorxs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 4 ] ], [ [ "plastic_chunk", 3 ] ] ]
+  },
+  {
+    "result": "mask_hsurvivorxs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 4 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "mask_fsurvivorxs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 4 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "nomex", 1 ] ] ]
+  },
+  {
+    "result": "mask_lsurvivorxs",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   }
 ]
