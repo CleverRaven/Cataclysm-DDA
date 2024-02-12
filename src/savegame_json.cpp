@@ -3811,8 +3811,12 @@ void faction::deserialize( const JsonObject &jo )
     jo.read( "known_by_u", known_by_u );
     jo.read( "size", size );
     jo.read( "power", power );
-    if( !jo.read( "food_supply", food_supply ) ) {
-        food_supply = 100;
+    if( jo.has_int( "food_supply" ) ) {
+        // Legacy kcal value found, migrate to calories
+        jo.read( "food_supply", food_supply.calories );
+        food_supply.calories *= 1000;
+    } else {
+        jo.read( "fac_food_supply", food_supply );
     }
     if( !jo.read( "wealth", wealth ) ) {
         wealth = 100;
@@ -3835,7 +3839,7 @@ void faction::serialize( JsonOut &json ) const
     json.member( "known_by_u", known_by_u );
     json.member( "size", size );
     json.member( "power", power );
-    json.member( "food_supply", food_supply );
+    json.member( "fac_food_supply", food_supply );
     json.member( "wealth", wealth );
     json.member( "opinion_of", opinion_of );
     json.member( "relations" );

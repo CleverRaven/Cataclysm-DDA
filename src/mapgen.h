@@ -317,7 +317,7 @@ class mapgen_palette
         void load_place_mapings( const JsonObject &jo, const std::string &member_name,
                                  placing_map &format_placings, const std::string &context );
 
-        void check();
+        void check() const;
 
         const mapgen_parameters &get_parameters() const {
             return parameters;

@@ -698,14 +698,21 @@
     "material_thickness": 0.5,
     "environmental_protection": 2,
     "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "SOFT" ],
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "BELTED", "SOFT" ],
     "armor": [
-      { "encumbrance": 10, "coverage": 70, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] },
+      { "encumbrance": 10, "coverage": 70, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
+        "covers": [ "head" ],
         "encumbrance": 10,
         "coverage": 100,
-        "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead", "head_nape" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 70,
+        "encumbrance": 10,
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
       }
     ]
   },

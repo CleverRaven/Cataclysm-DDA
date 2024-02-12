@@ -69,77 +69,33 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ".............`..........",
-        "...........A.`..........",
-        "..ppppppppppp`pppppppp..",
-        "..p..........`.......p..",
-        "..p..........`.......p..",
-        "..pCCCCCCCCC```......p..",
+        ".............-..........",
+        "...........M.-..........",
+        "..fffffffffff-ffffffff..",
+        "..f..........-.......f..",
+        "..f..........-.......f..",
+        "..fC..CC..CC---CC...Cf..",
         "..##oo##oo##o*o##ooo##..",
-        "..#887FOS77|   |     #..",
-        "..#8       |  W|  W  o..",
-        "..#8   W   |   |     o..",
-        "..#|+wwww+||   +     #..",
-        "..#            |wwwww#..",
-        "..o        W   +   W #..",
-        "..o       wwwww|     o..",
-        "..oW      +~~~~|     o..",
-        "..#    W  w~s6t|  W  #..",
-        "..#ww   ww#######ooo##..",
-        "..#      W#cccc.p.......",
-        "..o  W    +cccc.....{...",
-        "..o       #cccc.........",
-        "..#       #cccc.........",
-        "..###ooo###cccc....p....",
+        "..#887FOS77|,,,|,,,,,#^.",
+        "..#8,,,,,,,|,,,|,,,,,o..",
+        "..#8,,XX,,,|,,,|X,,,,o..",
+        "..#|+||||+||,,,+,,,,,#..",
+        "..#,,,,,,,,,,,,||||||#..",
+        "..o,,,,,,,XX,,,+,,,,,#..",
+        "..o,,,,,,,||||||,,,,,o..",
+        "..o,,,,,,,+~~~~|X,,,,o..",
+        "..#X,,,,,,|9s6t|,,,,,#..",
+        "..#||,,,||#######ooo##..",
+        "..#,,,,,,,#cccc.........",
+        "..o,,,,,,,+cccc.....{...",
+        "..o,,XX,,,#cccc.........",
+        ".^#,,,,,,,#cccc.........",
+        "..###ooo###cccc.........",
         "........................",
         "........................"
       ],
-      "palettes": [ "construction_palette" ],
-      "terrain": {
-        ".": [ [ "t_region_groundcover_urban", 7 ], [ "t_region_soil", 10 ] ],
-        "A": "t_region_soil",
-        "C": "t_region_soil",
-        "p": [ "t_pit_shallow", [ "t_region_soil", 3 ] ],
-        "w": "t_wall_half",
-        "{": "t_region_groundcover_urban",
-        "6": "t_linoleum_white",
-        "~": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "s": "t_linoleum_white",
-        "`": "t_thconc_floor"
-      },
-      "furniture": {
-        "A": "f_mailbox",
-        "{": "f_dumpster",
-        "C": [
-          [ "f_null", 20 ],
-          [ "f_crate_c", 3 ],
-          [ "f_pallet_brick", 2 ],
-          [ "f_pallet_brick_adobe", 2 ],
-          [ "f_pallet_cement", 2 ],
-          [ "f_stack_plank", 3 ]
-        ],
-        "6": "f_counter",
-        "s": "f_sink"
-      },
-      "item": { "W": { "item": "glass_sheet", "chance": 40 } },
-      "items": {
-        "W": [
-          { "item": "floor_trash", "chance": 30 },
-          { "item": "hardware_trash", "chance": 30 },
-          { "item": "tools_construction", "chance": 5 },
-          { "item": "tools_carpentry", "chance": 5 },
-          { "item": "power_tools", "chance": 5 },
-          { "item": "tools_home", "chance": 10 },
-          { "item": "construction_worker", "chance": 10 }
-        ],
-        "~": [
-          { "item": "floor_trash", "chance": 10 },
-          { "item": "hardware_trash", "chance": 10 },
-          { "item": "tools_plumbing", "chance": 5 },
-          { "item": "supplies_plumbing", "chance": 5 }
-        ]
-      }
+      "palettes": [ "construction_general_palette" ],
+      "terrain": { "M": "t_region_soil", "C": "t_region_soil", "{": "t_region_groundcover_urban" }
     }
   },
   {
@@ -168,22 +124,16 @@
         "..o       +~~~~|     o..",
         "..#       |~=8t|     #..",
         "..#||   ||#######ooo##..",
-        "..#       #````.........",
-        "..o       *````.........",
-        "..o       #````.........",
-        ".^#       #````.........",
-        "..###ooo###````.........",
+        "..#       #cccc.........",
+        "..o       *cccc.........",
+        "..o       #cccc.........",
+        ".^#       #cccc.........",
+        "..###ooo###cccc.........",
         "........................",
         "........................"
       ],
       "palettes": [ "standard_domestic_abandoned_palette" ],
-      "terrain": {
-        "8": "t_linoleum_white",
-        "=": "t_linoleum_white",
-        "~": "t_linoleum_white",
-        "t": "t_linoleum_white",
-        "`": "t_thconc_floor"
-      },
+      "terrain": { "8": "t_linoleum_white", "=": "t_linoleum_white", "~": "t_linoleum_white", "t": "t_linoleum_white" },
       "furniture": { "=": "f_sink" }
     }
   },

@@ -56,5 +56,50 @@
         ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_01",
+    "name": { "str": "Gluttonous Consumption 1" },
+    "description": "You can eat tons of food.  You should never actually see this.",
+    "player_display": false,
+    "points": 0,
+    "stomach_size_multiplier": 2.0
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_02",
+    "name": { "str": "Gluttonous Consumption 2" },
+    "description": "You can eat tons of food.  You should never actually see this.",
+    "player_display": false,
+    "points": 0,
+    "stomach_size_multiplier": 4.0
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_03",
+    "name": { "str": "Gluttonous Consumption 3" },
+    "description": "You can eat tons of food.  You should never actually see this.",
+    "player_display": false,
+    "points": 0,
+    "stomach_size_multiplier": 6.0
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_04",
+    "name": { "str": "Gluttonous Consumption 4" },
+    "description": "You can eat tons of food.  You should never actually see this.",
+    "player_display": false,
+    "points": 0,
+    "stomach_size_multiplier": 8.0
+  },
+  {
+    "type": "mutation",
+    "id": "BIOMANCER_EAT_TONS_OF_FOOD_05",
+    "name": { "str": "Gluttonous Consumption 5" },
+    "description": "You can eat tons of food.  You should never actually see this.",
+    "player_display": false,
+    "points": 0,
+    "stomach_size_multiplier": 10.0
   }
 ]

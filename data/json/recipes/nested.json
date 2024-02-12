@@ -5247,7 +5247,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "planks",
-    "description": "Recipes related to constructing 4ft planks.",
+    "description": "Recipes related to constructing 4 ft planks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools", "2x4_from logs with powertools" ]
   },
@@ -5258,7 +5258,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "short planks",
-    "description": "Recipes related to constructing 2ft planks.",
+    "description": "Recipes related to constructing 2 ft planks.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "plank_short_from long planks by hand",
@@ -5274,7 +5274,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "wooden posts",
-    "description": "Recipes related to constructing 4ft wooden posts.",
+    "description": "Recipes related to constructing 4 ft wooden posts.",
     "skill_used": "fabrication",
     "nested_category_data": [ "wooden_post_from long posts by hand", "wooden_post_from long posts with powertools" ]
   },
@@ -5285,7 +5285,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "short wooden posts",
-    "description": "Recipes related to constructing 2ft wooden posts.",
+    "description": "Recipes related to constructing 2 ft wooden posts.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "wooden_post_short_from long posts by hand",

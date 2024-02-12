@@ -1,0 +1,85 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "construction_supplies",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_items": [
+        { "item": "floor_trash", "x": 0, "y": 0, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "hardware_trash", "x": 0, "y": 0, "chance": 60, "repeat": [ 1, 3 ] },
+        { "item": "tools_construction", "x": 0, "y": 0, "chance": 25 },
+        { "item": "tools_carpentry", "x": 0, "y": 0, "chance": 25 },
+        { "item": "power_tools", "x": 0, "y": 0, "chance": 25 },
+        { "item": "tools_home", "x": 0, "y": 0, "chance": 25 },
+        { "item": "construction_worker", "x": 0, "y": 0, "chance": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "construction_crate_open",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "furniture": { "X": "f_crate_o" },
+      "items": {
+        "X": [
+          { "item": "hardware_bulk", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "wood_workshop", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "plumbing_bulk", "chance": 30, "repeat": [ 1, 2 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "construction_crate_closed",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "furniture": { "X": "f_crate_c" },
+      "items": {
+        "X": [
+          { "item": "hardware_bulk", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "wood_workshop", "chance": 50, "repeat": [ 2, 4 ] },
+          { "item": "plumbing_bulk", "chance": 40, "repeat": [ 1, 3 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "construction_bathroom_plumbing",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "~" ],
+      "items": {
+        "~": [ { "item": "hardware_trash", "chance": 50 }, { "item": "supplies_plumbing", "chance": 25, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "construction_paint",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "~" ],
+      "items": { "~": [ { "item": "hardware_trash", "chance": 25 }, { "item": "paint", "chance": 25, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "construction_bathroom_tools",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "~" ],
+      "items": { "~": [ { "item": "hardware_trash", "chance": 50, "repeat": [ 1, 2 ] }, { "item": "tools_plumbing", "chance": 30 } ] }
+    }
+  }
+]
