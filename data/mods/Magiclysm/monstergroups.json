@@ -210,11 +210,11 @@
     "type": "monstergroup",
     "name": "GROUP_OGRE",
     "//": "Contains ogres and their various mutations",
-    "mosnters": [
+    "monsters": [
       { "monster": "mon_ogre", "weight": 500 },
-      { "group": "mon_ogre", "weight": 100, "ends": "7 days" },
-      { "group": "mon_ogre", "weight": 150, "ends": "28 days" },
-      { "group": "mon_ogre", "weight": 150, "ends": "90 days" },
+      { "monster": "mon_ogre", "weight": 100, "ends": "7 days" },
+      { "monster": "mon_ogre", "weight": 150, "ends": "28 days" },
+      { "monster": "mon_ogre", "weight": 150, "ends": "90 days" },
       { "monster": "mon_ogre_mage", "weight": 100 },
       { "group": "GROUP_OGRE_MUTANTS", "weight": 100, "starts": "7 days" },
       { "group": "GROUP_OGRE_MUTANTS", "weight": 150, "starts": "28 days" },
