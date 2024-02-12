@@ -489,7 +489,7 @@
     "id": "biomechanic",
     "name": [ "Biomechanism" ],
     "desc": [ "Hunt.  Let them feel." ],
-    "remove_message": "Your body returns to normal state.",
+    "remove_message": "Your body returns to its normal state.",
     "rating": "good",
     "max_intensity": 25,
     "int_add_val": 1,
@@ -518,6 +518,14 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": 0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_technomancer_invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "remove_message": "Your invisibility fades.",
+    "flags": [ "INVISIBLE" ]
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -1045,6 +1053,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biomancer_eat_tons_of_food",
+    "name": [ "Gluttonous Consumption" ],
+    "desc": [ "You feel like you could eat a horse." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_flesh_rending",
     "name": [ "Rending" ],
     "desc": [ "Your flesh is twisting itself apart!" ],
@@ -1082,6 +1097,46 @@
     "show_in_info": true,
     "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
     "flags": [ "ETHEREAL", "FEATHER_FALL", "CLIMB_NO_LADDER", "INVISIBLE", "NO_SCENT", "NO_SPELLCASTING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_mageshield",
+    "name": [ "Mageshield" ],
+    "desc": [ "You are invincible." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Your mageshield fades as the attack impacts it.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_druid_traverse_the_wilds",
+    "name": [ "Traverse the Wilds" ],
+    "desc": [ "Nature is speeding your passage." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Nature no longer speeds your movements.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": { "math": [ "((u_spell_level('druid_traverse_the_wilds') * -0.015) - 0.05)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance",
+    "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance_self",
+    "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "id": "effect_dispel_magic",
@@ -1135,7 +1190,10 @@
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_biomancer_eat_tons_of_food",
       "effect_druid_anti_heat",
+      "effect_druid_traverse_the_wilds",
+      "effect_magus_mageshield",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
@@ -1157,6 +1215,12 @@
       { "u_remove_item_with": "fleshpouch" },
       { "u_remove_item_with": "aura_caustic" },
       { "u_remove_item_with": "item_biomancer_scalpel_fingers" },
+      { "u_lose_trait": "BIO_LASHING_TENTACLES" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" },
       { "u_remove_item_with": "druid_recurve" },
       { "u_remove_item_with": "druid_naturearrows1" },
       { "u_remove_item_with": "druid_quiver" },
@@ -1165,6 +1229,7 @@
       { "u_remove_item_with": "aura_feral_plus" },
       { "u_remove_item_with": "druid_bandages" },
       { "u_remove_item_with": "arrow_druid" },
+      { "u_remove_item_with": "aura_bearmantle" },
       { "u_remove_item_with": "druid_bramble_spear_item" },
       { "u_remove_item_with": "aura_druid_breathing_water" },
       { "u_remove_item_with": "aura_druid_waterwalk" },
@@ -1250,7 +1315,11 @@
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_biomancer_eat_tons_of_food",
       "effect_druid_anti_heat",
+      "effect_druid_traverse_the_wilds",
+      "effect_magus_mageshield",
+      "effect_spirit_walking",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
@@ -1282,6 +1351,12 @@
       { "u_remove_item_with": "fleshpouch" },
       { "u_remove_item_with": "aura_caustic" },
       { "u_remove_item_with": "item_biomancer_scalpel_fingers" },
+      { "u_lose_trait": "BIO_LASHING_TENTACLES" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" },
       { "u_remove_item_with": "druid_recurve" },
       { "u_remove_item_with": "druid_naturearrows1" },
       { "u_remove_item_with": "druid_quiver" },
@@ -1290,6 +1365,7 @@
       { "u_remove_item_with": "aura_feral_plus" },
       { "u_remove_item_with": "druid_bandages" },
       { "u_remove_item_with": "arrow_druid" },
+      { "u_remove_item_with": "aura_bearmantle" },
       { "u_remove_item_with": "druid_bramble_spear_item" },
       { "u_remove_item_with": "aura_druid_breathing_water" },
       { "u_remove_item_with": "aura_druid_waterwalk" },
@@ -1302,6 +1378,7 @@
       { "u_remove_item_with": "eshaper_shovel" },
       { "u_remove_item_with": "finger_firelighter" },
       { "u_remove_item_with": "ice_gliders" },
+      { "u_remove_item_with": "item_kelvinist_frozen_heart" },
       { "u_remove_item_with": "shield_ice" },
       { "u_remove_item_with": "armor_frost" },
       { "u_remove_item_with": "flamesword" },

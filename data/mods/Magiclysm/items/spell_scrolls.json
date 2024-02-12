@@ -1860,5 +1860,77 @@
     "name": { "str": "Scroll of Spirit-Walking", "str_pl": "Scrolls of Spirit-Walking" },
     "description": "Highly restricted before the Cataclysm, this spell allows you to turn into pure spirit and pass through the physical world unseen and insubstantial.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_spirit_walking" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_stop_attack_shield",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Mageshield", "str_pl": "Scrolls of Mageshield" },
+    "description": "A common protective spell even before the Cataclysm, Mageshield will render you completely invincible…against a single attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_stop_attack_shield" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_traverse_the_wilds",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Traverse the Wilds", "str_pl": "Scrolls of Traverse the Wilds" },
+    "description": "A favored spell of those hiking the Appalachian Trail, this spell increases your speed in the wilderness.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_traverse_the_wilds" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_no_emotion_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of the Rime-Frozen Heart", "str_pl": "Scrolls of Rime-Frozen Heart" },
+    "description": "Highly-restricted before the Cataclysm, this spell prevents you from feeling any emotion for the duration.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_no_emotion_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_far_hand_pull",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of the Sorcerer's Hand", "str_pl": "Scrolls of Sorcerer's Hand" },
+    "description": "Pull a distant creature or item toward you.  The ultimate spell for the couch potato mage.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_far_hand_pull" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_mass_hiding_aoe",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of A Shadow in the Crowd", "str_pl": "Scrolls of A Shadow in the Crowd" },
+    "description": "Cut yourself off from your fellows, and also make yourself invisible to them.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_mass_hiding_aoe" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_luck_bone",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Osseous Luck", "str_pl": "Scrolls of Osseous Luck" },
+    "description": "Summon benevolent spirits into a bone, granting minor benefits.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_luck_bone" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_bearmantle",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Bearmantle", "str_pl": "Scrolls of Bearmantle" },
+    "description": "Take on some of the characteristics of the bear, making it much easier to survive the winter.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_bearmantle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_biomancer_eat_tons_of_food",
+    "//": "Biomancer spell",
+    "name": { "str": "Scroll of Gluttonous Consumption", "str_pl": "Scrolls of Gluttonous Consumption" },
+    "description": "For when you don't know where your next meal is coming from and you want to make sure absolutely nothing goes to waste.",
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
   }
 ]
