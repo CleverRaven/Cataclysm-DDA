@@ -1356,6 +1356,8 @@ void Character::modify_morale( item &food, const int nutr )
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
         } else if( sapiovore ) {
             add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
+        } else if( has_flag( json_flag_HEMOVORE ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
+            add_msg_if_player( _( "The human blood tastes as good as any other." ) );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
