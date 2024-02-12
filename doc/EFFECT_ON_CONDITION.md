@@ -2525,6 +2525,8 @@ Save a personal variable, that you can check later using `u_has_var`, `npc_has_v
 | ------ | --------- | --------- | ---- | ------- | --- | 
 | ✔️ | ✔️ | ✔️ | ❌ | ❌ | ✔️ |
 
+Note: numeric vars can be set (and check) to monsters via `math` functions.  See the example below.
+
 ##### Examples
 Saves personal variable `u_met_godco_jeremiah` with `general` type, `meeting` context, and value `yes
 ```json
@@ -2554,6 +2556,50 @@ For example:
 could be moved to:
 ```json  
 [ "u_number_artisans_gunsmith_ammo_amount", "=", "800" ]
+```
+
+Setting and checking monster vars via `math`.  The first spell targets a monster and forces it to run the effect on condition to apply a custom var, which the second spell checks to deal additional effects:
+```json
+  {
+    "id": "spell_tag",
+    "type": "SPELL",
+    "name": { "str": "Spell tag" },
+    "description": "Tags the target with u_var_tagged",
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "spell_tag_eoc",
+    "shape": "blast",
+    "min_range": 10,
+    "max_range": 10
+  }
+...
+  {
+    "id": "spell_tag_eoc",
+    "type": "effect_on_condition",
+    "effect": [ { "math": [ "u_var_tagged", "+=", "1" ] } ]
+  }
+...
+  {
+    "id": "spell_check",
+    "type": "SPELL",
+    "name": { "str": "Spell check" },
+    "description": "Checks for u_var_tagged on the target, and forces it to cast one of two spells accordingly",
+    "valid_targets": [ "ally", "hostile" ],
+    "effect": "effect_on_condition",
+    "effect_str": "spell_check_eoc",
+    "shape": "blast",
+    "min_range": 10,
+    "max_range": 10
+  }
+...
+  {
+    "id": "spell_check_eoc",
+    "type": "effect_on_condition",
+    "condition": { "math": [ "u_var_tagged", ">", "0" ] },
+    "effect": [ { "u_cast_spell": { "id": "spell_heal" } } ],
+    "false_effect": [ { "u_cast_spell": { "id": "spell_hurt" } } ]
+  }
+...
 ```
 
 
