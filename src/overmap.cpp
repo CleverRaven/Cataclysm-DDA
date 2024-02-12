@@ -4852,7 +4852,6 @@ void overmap::place_highways()
         placed_highways[0] = !ocean_next_north;
         placed_highways[2] = !ocean_next_south;
         // Only place half if there's ocean next overmap
-        // TODO: Make shorter so the intersections don't have to override for bends?
         const int y_min = placed_highways[0] ? 0 : floor( OMAPY / 2.0 );
         const int y_max = placed_highways[2] ? OMAPY : floor( OMAPY / 2.0 ) + 1;
         for( int y = y_min; y < y_max; y++ ) {
@@ -4895,6 +4894,7 @@ void overmap::place_highways()
     om_direction::type dir = om_direction::type::north;
     // Add intersection
     // TODO: Add handling for intersections over water
+    // TODO: Add multiple attempts once I'm happy all the specials spawn correctly?
     if( ( placed_highways[0] || placed_highways[2] ) && ( placed_highways[1] || placed_highways[3] ) ) {
         if( placed_highways.all() ) {
             special = settings->overmap_highway.four_way_intersections.pick();
@@ -4929,26 +4929,28 @@ void overmap::place_highways()
         }
     }
     // Add up to one road connection (on off ramps etc) or service station per compass direction of the centre
-    /*for( int i = 0; i < 4; i++ ) {
-        // TODO: If pass a roll
-        bool vary_x = i % 2 == 0;
-        const int variable_side_size = vary_x ? OMAPX : OMAPY;
-        const int invariable_side_size = vary_x ? OMAPY : OMAPX;
-        const int value_to_try = rng_normal( 0, floor( variable_side_size / 2.0 ) );
-        tripoint_om_omt point_to_try;
-        if( vary_x ) {
-            point_to_try = { value_to_try, static_cast<int>( floor( invariable_side_size / 2.0 ) ), 0 };
-        } else {
-            point_to_try = { static_cast<int>( floor( invariable_side_size / 2.0 ) ), value_to_try, 0 };
-        }
-        // TODO: Add offset and flip direction half the time
-        // 50% of the time:
-        // i = i + 2 < static_cast<int>(om_direction::size) ? i + 2 : i + 2 - static_cast<int>(om_direction::size);
+    for( int i = 0; i < 4; i++ ) {
+        bool vary_y = i % 2 == 0;
+        const int variable_side_size = vary_y ? OMAPY : OMAPX;
+        const int invariable_side_size = vary_y ? OMAPX : OMAPY;
+        int value_to_try = i == 1 || i == 2 ? floor( variable_side_size / 2.0 ) : 0;
+        value_to_try += rng_normal( 0, floor( variable_side_size / 2.0 ) );
+        tripoint_om_omt point_to_try = vary_y ? tripoint_om_omt( static_cast<int>( floor(
+                                           invariable_side_size / 2.0 ) ), value_to_try, 0 ) : tripoint_om_omt( value_to_try,
+                                                   static_cast<int>( floor( invariable_side_size / 2.0 ) ), 0 );
         om_direction::type dir = om_direction::all[i];
-        // point_to_try = point_to_try + om_direction::displace( dir, width_of_segments );
+        if( one_in( 2 ) ) {
+            i = i + 2 < static_cast<int>( om_direction::size ) ? i + 2 : i + 2 - static_cast<int>
+                ( om_direction::size );
+            dir = om_direction::all[i];
+            point_to_try = point_to_try + om_direction::displace( dir, segment_width );
+        }
         special = settings->overmap_highway.road_connections.pick();
-        place_special( *special, point_to_try, dir, invalid_city, false, false );
-    }*/
+        if( can_place_special( *special, point_to_try, dir, false ) ) {
+            place_special( *special, point_to_try, dir, invalid_city, false, false );
+            debugmsg( "Placed chosen road connection %s", special.c_str() );
+        }
+    }
 }
 
 void overmap::finalize_highways()
@@ -5129,11 +5131,6 @@ void overmap::finalize_highways()
         for( int y = y_min; y < y_max; y++ ) {
             what_to_place.push_back( determine_what_to_place( { x, y, 0 }, tripoint_east ) );
         }
-        if( y_max - y_min != static_cast<int>( what_to_place.size() ) ) {
-            debugmsg( "finalize_highway's what_to_place wasn't populated correctly. Has size %s instead of the expected %s.",
-                      what_to_place.size(), y_max - y_min );
-            return;
-        }
 
         handle_ramps( what_to_place );
         handle_road_bridges( what_to_place );
@@ -5153,11 +5150,6 @@ void overmap::finalize_highways()
 
         for( int x = x_min; x < x_max; x++ ) {
             what_to_place.push_back( determine_what_to_place( { x, y, 0 }, tripoint_south ) );
-        }
-        if( x_max - x_min != static_cast<int>( what_to_place.size() ) ) {
-            debugmsg( "finalize_highway's what_to_place wasn't populated correctly. Has size %s instead of the expected %s.",
-                      what_to_place.size(), x_max - x_min );
-            return;
         }
 
         handle_ramps( what_to_place );
