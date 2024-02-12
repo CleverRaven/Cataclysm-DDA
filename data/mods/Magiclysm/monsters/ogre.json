@@ -74,7 +74,7 @@
     "name": { "str": "ettin" },
     "description": "An enormous, clay-colored beast known for living in swamps and eating passersby.  This one has two heads, both moving independently and gazing around at their surroundings.",
     "//": "Two heads give it better vision but lower morale (heads disagree about when to run) and much better psionic armor.",
-    "vision_day": 50,
+    "vision_day": 80,
     "vision_night": 10,
     "morale": 50,
     "flags": [
@@ -105,8 +105,8 @@
     "melee_dice_sides": 6,
     "stomach_size": 2000,
     "special_attacks": [
-      { "id": "bite", "cooldown": 10, "effects": [ { "id": "venom_weaken", "chance": 50, "duration": [ 3600, 36000 ] } ] },
-      { "id": "scratch", "cooldown": 2, "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
+      { "id": "bite", "cooldown": 10, "effects": [ { "id": "venom_weaken", "chance": 25, "duration": [ 3600, 36000 ] } ] },
+      { "id": "scratch", "cooldown": 2, "damage_max_instance": [ { "damage_type": "cut", "amount": 15 } ] },
       { "id": "grab", "cooldown": 15 },
       { "id": "mutant_spinneret", "cooldown": 3 },
       [ "EAT_FOOD", 120 ]
@@ -119,7 +119,7 @@
     "id": "mon_ogre_giant",
     "copy-from": "mon_ogre",
     "type": "MONSTER",
-    "name": { "str": "athach" },
+    "name": { "str_sp": "athach" },
     "description": "A gigantic, ogre-like monster, but nearly half again as tall as an ogre.  Two huge tusks jut forth from a mouth twisted into a snarl, and a third arm protrudes from the center of its chest.",
     "proportional": { "hp": 2, "weight": 2, "volume": 2 },
     "morale": 100,
