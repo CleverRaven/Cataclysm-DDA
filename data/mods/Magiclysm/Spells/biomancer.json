@@ -437,7 +437,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "energy_source": "MANA",
-    "base_energy_cost": 300,
+    "base_energy_cost": 200,
     "base_casting_time": 1000
   },
   {
@@ -457,7 +457,7 @@
     "max_duration": 90000,
     "duration_increment": 4000,
     "energy_source": "MANA",
-    "base_energy_cost": 550,
+    "base_energy_cost": 500,
     "base_casting_time": 100
   },
   {
@@ -586,7 +586,7 @@
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
-    "base_energy_cost": 350,
+    "base_energy_cost": 500,
     "base_casting_time": 90000,
     "final_casting_time": 30000,
     "casting_time_increment": -6000
@@ -628,7 +628,7 @@
     "max_duration": 630000,
     "duration_increment": 36000,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "base_energy_cost": 250,
     "base_casting_time": 350
   },
   {
@@ -678,7 +678,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "base_energy_cost": 300,
     "base_casting_time": 500
   },
   {
@@ -698,7 +698,7 @@
     "max_duration": 1380000,
     "duration_increment": 60000,
     "energy_source": "MANA",
-    "base_energy_cost": 750,
+    "base_energy_cost": 450,
     "base_casting_time": 600
   },
   {

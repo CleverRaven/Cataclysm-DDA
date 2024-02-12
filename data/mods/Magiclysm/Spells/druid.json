@@ -956,7 +956,7 @@
     "energy_source": "MANA",
     "difficulty": 5,
     "base_casting_time": 150,
-    "base_energy_cost": 550,
+    "base_energy_cost": 400,
     "max_level": 15
   },
   {
@@ -1187,7 +1187,7 @@
     "difficulty": 4,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": 350,
+    "base_energy_cost": 200,
     "base_casting_time": 1000
   },
   {
