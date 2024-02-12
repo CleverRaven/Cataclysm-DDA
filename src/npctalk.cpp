@@ -4920,17 +4920,17 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         jo.throw_error( "Invalid input for run_eocs" );
     }
 
-    std::vector<str_or_var> eoc_names;
+    std::vector<translation_or_var> eoc_names;
     if( jo.has_array( "names" ) ) {
         for( const JsonValue &jv : jo.get_array( "names" ) ) {
-            eoc_names.push_back( get_str_or_var( jv, "names", true ) );
+            eoc_names.emplace_back( get_translation_or_var( jv, "names", true ) );
         }
     }
 
-    std::vector<str_or_var> eoc_descriptions;
+    std::vector<translation_or_var> eoc_descriptions;
     if( jo.has_array( "descriptions" ) ) {
         for( const JsonValue &jv : jo.get_array( "descriptions" ) ) {
-            eoc_descriptions.push_back( get_str_or_var( jv, "descriptions", true ) );
+            eoc_descriptions.emplace_back( get_translation_or_var( jv, "descriptions", true ) );
         }
     }
 
@@ -4987,7 +4987,8 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         allow_cancel = jo.get_bool( "allow_cancel" );
     }
 
-    std::string title = jo.get_string( "title", _( "Select an option." ) );
+    translation title = to_translation( "Select an option." );
+    jo.read( "title", title );
 
     return [eocs, context, title, eoc_names, eoc_keys, eoc_descriptions,
           hide_failing, allow_cancel]( dialogue & d ) {
@@ -4998,7 +4999,7 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
 
 
-        eoc_list.text = title;
+        eoc_list.text = title.translated();
         eoc_list.allow_cancel = allow_cancel;
         eoc_list.desc_enabled = !eoc_descriptions.empty();
         parse_tags( eoc_list.text, alpha, beta, d );

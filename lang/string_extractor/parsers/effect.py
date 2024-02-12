@@ -72,6 +72,18 @@ def parse_effect(effects, origin, comment=""):
                             parse_effect_on_condition(eoc, origin,
                                                       comment="nested EOCs in {}"
                                                       .format(comment))
+            if "run_eoc_selector" in eff:
+                for name in eff.get("names", []):
+                    write_text(name, origin,
+                               comment="EOC option name in {}".format(comment))
+                for desc in eff.get("descriptions", []):
+                    write_text(desc, origin,
+                               comment="EOC option description in {}"
+                               .format(comment))
+                if "title" in eff:
+                    write_text(eff["title"], origin,
+                               comment="EOC selection title in {}"
+                               .format(comment))
             if "weighted_list_eocs" in eff:
                 for e in eff["weighted_list_eocs"]:
                     if type(e[0]) is dict:
