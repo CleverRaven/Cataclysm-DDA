@@ -54,7 +54,7 @@
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         "fema_entrance",
         { "om_terrain": "bunker", "om_terrain_match_type": "TYPE" },
         "helipad_nw",
@@ -81,7 +81,7 @@
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         "s_pharm",
         "s_gun",
         "s_grocery",
@@ -108,7 +108,7 @@
         { "om_terrain": "s_gas", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "s_gas_rural", "om_terrain_match_type": "TYPE" },
         "roadstop",
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         "hospital",
         "school",
         "police",
@@ -200,7 +200,7 @@
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         "hotel_tower",
         "s_restaurant",
         "cathedral",
@@ -225,7 +225,7 @@
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         "s_restaurant_coffee",
         "s_restaurant",
         { "om_terrain": "bar", "om_terrain_match_type": "PREFIX" },
@@ -249,7 +249,7 @@
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "field", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "swamp", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "forest", "om_terrain_match_type": "PREFIX" },
@@ -273,7 +273,7 @@
       "terrain": [
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         "desolatebarn",
         "shoppingplaza",
         { "om_terrain": "abandonedwarehouse", "om_terrain_match_type": "TYPE" },
@@ -299,7 +299,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "s_restaurant_coffee",
@@ -323,7 +323,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "s_grocery",
@@ -344,7 +344,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "bakery",
@@ -366,7 +366,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "s_bike_shop",
@@ -392,7 +392,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "park", "om_terrain_match_type": "PREFIX" },
@@ -417,7 +417,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "bar", "om_terrain_match_type": "PREFIX" },
@@ -440,7 +440,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "s_gun",
@@ -463,7 +463,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         { "om_terrain": "museum", "om_terrain_match_type": "TYPE" },
@@ -485,7 +485,7 @@
       "type": "reveal_map",
       "radius": 135,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "mall_a_1",
@@ -522,7 +522,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "furniture",
@@ -549,7 +549,7 @@
       "type": "reveal_map",
       "radius": 90,
       "terrain": [
-        "bridge",
+        { "om_terrain": "bridge", "om_terrain_match_type": "CONTAINS" },
         { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
         { "om_terrain": "city_center", "om_terrain_match_type": "TYPE" },
         "s_electronicstore",
