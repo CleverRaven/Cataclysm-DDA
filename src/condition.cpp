@@ -836,7 +836,16 @@ conditional_t::func f_has_effect( const JsonObject &jo, std::string_view member,
                           bodypart_id( bp.evaluate( d ) );
         effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
         return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
-    };
+        };
+}
+
+conditional_t::func f_has_effect_any_bp( const JsonObject &jo, std::string_view member, bool is_npc )
+{
+    str_or_var effect_id = get_str_or_var( jo.get_member( member ), member, true );
+    return [effect_id, is_npc]( dialogue & d ) {;
+        bool target = d.actor( is_npc )->has_effect_any_bp( efftype_id( effect_id.evaluate( d ) ) );
+        return target;
+        };
 }
 
 conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool is_npc )
@@ -2246,6 +2255,7 @@ parsers = {
     {"u_has_bionics", "npc_has_bionics", jarg::member, &conditional_fun::f_has_bionics },
     {"u_has_any_effect", "npc_has_any_effect", jarg::array, &conditional_fun::f_has_any_effect },
     {"u_has_effect", "npc_has_effect", jarg::member, &conditional_fun::f_has_effect },
+    {"u_has_effect_any_bp", "npc_has_effect_any_bp", jarg::member, &conditional_fun::f_has_effect_any_bp },
     {"u_need", "npc_need", jarg::member, &conditional_fun::f_need },
     {"u_query", "npc_query", jarg::member, &conditional_fun::f_query },
     {"u_query_tile", "npc_query_tile", jarg::member, &conditional_fun::f_query_tile },

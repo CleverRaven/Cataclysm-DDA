@@ -2009,9 +2009,16 @@
     "id": "boomered",
     "name": [ "Boomered" ],
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
-    "apply_message": "You're covered in bile!",
+    "apply_message": "Bile gets in your eyes!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": {
+      "per_mod": [ -3 ],
+      "vomit_chance": [ 500, 0 ],
+      "health_chance": [ 1 ],
+      "health_min": [ -1 ],
+      "health_chance_bot": [ 50, 0 ]
+    },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
@@ -2019,6 +2026,17 @@
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "bile",
+    "name": [ "Bile Splashed" ],
+    "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "apply_message": "You're covered in bile!",
+    "rating": "bad",
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 60, 0 ] },
+    "max_duration": "30 s"
   },
   {
     "type": "effect_type",
@@ -3690,14 +3708,51 @@
   {
     "type": "effect_type",
     "id": "corroding",
-    "name": [ "Corroding" ],
-    "desc": [ "You're covered in acid!" ],
+    "name": [ "Acid Splattered", "Acid Splashed", "Acid Showered", "Acid Soaked", "Acid Drenched" ],
+    "desc": [
+      "You've got a little bit of acid on you.",
+      "You've got a small amount of acid on you.",
+      "There's a fair amount of acid on you.",
+      "You're covered in an alarming amount of acid!",
+      "You're bathed in acid!"
+    ],
+    "apply_message": "You're covered in acid!",
+    "rating": "bad",
+    "resist_traits": [ "SLIMY" ],
+    "immune_flags": [ "ACID_IMMUNE" ],
+    "max_duration": "30 s",
+    "max_intensity": 5,
+    "int_dur_factor": "5 s",
+    "//": "Decreases lifestyle score via acidosis. Don't get strange chemicals on you!",
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_chance": [ 1 ],
+      "health_chance": [ 1 ],
+      "health_min": [ -1 ],
+      "hurt_chance_bot": [ 10, 30 ],
+      "health_chance_bot": [ 60, 180 ]
+    },
+    "scaling_mods": { "hurt_chance": [ 1 ], "health_chance": [ 1 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "corroding_prosthetic",
+    "name": [ "Acid Splattered", "Acid Splashed", "Acid Showered", "Acid Soaked", "Acid Drenched" ],
+    "desc": [
+      "You've got a little bit of acid on you.",
+      "You've got a small amount of acid on you.",
+      "There's a fair amount of acid on you.",
+      "You're covered in an alarming amount of acid!",
+      "You're bathed in acid!"
+    ],
     "apply_message": "You're covered in acid!",
     "rating": "bad",
     "max_duration": "30 s",
     "max_intensity": 5,
     "int_dur_factor": "5 s",
-    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "hurt_chance_bot": [ 10 ] },
+    "//": "Decreases lifestyle score via acidosis. Don't get strange chemicals on you!",
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "health_chance": [ 1 ], "health_min": [ -1 ], "hurt_chance_bot": [ 10, 30 ] },
     "scaling_mods": { "hurt_chance": [ 1 ] },
     "show_in_info": true
   },

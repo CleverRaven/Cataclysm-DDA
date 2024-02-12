@@ -3,7 +3,7 @@
     "id": "mon_boomer",
     "type": "MONSTER",
     "name": { "str": "boomer" },
-    "description": "A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid pink sludge dribbles from its mouth.",
+    "description": "A rotund human body, bloated beyond belief and layered in rolls of fat.  It emits a horrible odor, and a putrid sludge dribbles from its mouth.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -29,8 +29,8 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "bile_barf", "min_level": 1, "max_level": 4 },
-        "monster_message": "The boomer spews bile!"
+        "spell_data": { "id": "bile_spew", "min_level": 3 },
+        "monster_message": "The %s spews bile!"
       }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
@@ -56,8 +56,8 @@
   {
     "id": "mon_boomer_huge",
     "type": "MONSTER",
-    "name": { "str": "huge boomer" },
-    "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified.  The bile dribbling from its mouth also appears to have changed…",
+    "name": { "str": "big boomer" },
+    "description": "This impossibly bloated walking corpse stumbles along, retching and spitting up globs of putrescence wherever it goes.  Its layers of fat have grown tough and rubbery, giving it some additional protection.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -82,7 +82,12 @@
     "harvest": "zombie",
     "fungalize_into": "mon_boomer_fungus",
     "grab_strength": 30,
-    "special_attacks": [ [ "BOOMER_GLOW", 20 ], { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "bile_spew", "min_level": 5 },
+        "monster_message": "The %s spews bile!"
+      }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": {
       "effect": { "id": "death_boomer_glow", "hit_self": true, "min_level": 1 },

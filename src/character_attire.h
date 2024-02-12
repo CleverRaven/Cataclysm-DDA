@@ -152,10 +152,9 @@ class outfit
         Splash attacks are blocked by a combination of coverage and breathability, and items use their armor values to resist being damaged */
         void splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
                             const flag_id &apply_flag = flag_id::NULL_ID(), const efftype_id &eff_id = efftype_id::NULL_ID(),
-                            const time_duration &dur = 0_turns,
-                            bool permanent = false, int intensity = 0, bool force = false, bool deferred = false,
-                            damage_unit elem = damage_unit( damage_type_id::NULL_ID(), 0.f, 0.f ), bool guy_damage = false,
-                            bool ignite = false );
+                            const time_duration &dur = 0_turns, int intensity = 1,
+                            bool permanent = false, damage_unit elem = damage_unit( damage_type_id::NULL_ID(), 0.f, 0.f ), bool guy_damage = false
+                            );
 
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;

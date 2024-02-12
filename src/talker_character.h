@@ -108,6 +108,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
 
         // effects and values
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
+        bool has_effect_any_bp( const efftype_id &effect_id ) const override;
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;

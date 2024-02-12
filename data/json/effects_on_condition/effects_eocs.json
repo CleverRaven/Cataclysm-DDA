@@ -15,5 +15,31 @@
       }
     ],
     "false_effect": [ { "u_lose_morale": "morale_bad_protein_bar" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_wash_off_check",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "u_has_effect_any_bp": "corroding" },
+    "effect": [
+      { "u_message": "acid and water detected" },
+          {
+            "foreach": "ids",
+            "var": { "context_val": "id" },
+            "target": "bodypart",
+            "effect": [
+              { "u_message": "[<context_val:id>]" }
+            ]
+          }
+        ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "acid_wash_off",
+    "condition": { "and": [ { "or": [ { "u_has_effect": "corroding", "bodypart": "[<context_val:id>]" }, { "u_has_effect": "corroding_prosthetic" } ] }, { "u_has_effect": "wet", "bodypart": "[<context_val:id>]" } ] },
+    "effect": [
+      { "u_lose_effect": "corroding", "target_part": "[<context_val:id>]" },
+      { "u_message": "Your <context_val:id> is washed clean of acid." }
+        ]
   }
 ]

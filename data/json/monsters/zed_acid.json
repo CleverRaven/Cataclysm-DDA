@@ -27,7 +27,12 @@
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_humanoid_acid",
     "grab_strength": 20,
-    "special_attacks": [ { "id": "grab" }, [ "ACID_BARF", 10 ] ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "acid_barf", "min_level": 3 },
+        "monster_message": "The %s barfs acid!"
+      }, { "id": "grab" } ],
     "death_drops": "default_zombie_death_drops",
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",

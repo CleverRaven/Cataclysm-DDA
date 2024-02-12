@@ -493,24 +493,23 @@ static void splash_target( const tripoint &target, const spell &sp, Creature &ca
     damage_unit damage = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
                                           0.0f );
     bool damage_target = sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET );
-    //bool ignite = sp.has_flag( spell_flag::IGNITE_FLAMMABLE );
     const int dur_moves = sp.duration( caster );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
     creature_tracker &creatures = get_creature_tracker();
-    //Creature *const critter = creatures.creature_at<Creature>( target );
     Character *const guy = creatures.creature_at<Character>( target );
-    efftype_id spell_effect( sp.effect_data() );
+    efftype_id spell_effect = efftype_id( sp.effect_data() );
     if( sp.get_spell_type()->affected_bps.none() ) {
-        bodypart_id bp = guy->random_body_part();
-        guy->worn.splash_attack( *guy, bp, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td,
-                                         sp.has_flag( spell_flag::PERMANENT ), 1, false, false, damage, damage_target, false );
+        const bodypart_id bp = guy->random_body_part( true );
+        //guy->add_effect( spell_effect, dur_td, bp_torso, true );
+        guy->worn.splash_attack( *guy, bp, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td, 1,
+                                         sp.has_flag( spell_flag::PERMANENT ), damage, damage_target );
         return;
     } else {
         for( const bodypart_id bps : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bps.id() ) ) {
-                guy->worn.splash_attack( *guy, bps, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td,
-                                         sp.has_flag( spell_flag::PERMANENT ), 1, false, false, damage, damage_target, false );
-                return;
+       // guy->add_effect( spell_effect, dur_td, bp_torso, true );
+                guy->worn.splash_attack( *guy, bps, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td, 1,
+                                         sp.has_flag( spell_flag::PERMANENT ), damage, damage_target );
             }
         }
     }
@@ -574,7 +573,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         const int spell_accuracy = sp.accuracy( caster );
         if( sp.has_flag( spell_flag::DODGEABLE ) ) {
             const float dodge_training = sp.dodge_training( caster );
-                if( cr->dodge_check( spell_accuracy, true, dodge_training ) ) {
+                if( cr->dodge_check( spell_accuracy, dodge_training ) ) {
                 cr->add_msg_if_player( m_good, _( "You dodge out of the way!" ) );
                 add_msg_if_player_sees( cr->pos(), m_good, _( "%s dodges out of the way!" ),
                                         cr->disp_name( true ) );

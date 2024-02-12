@@ -1944,9 +1944,8 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
 
 void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
                             const flag_id &apply_flag,
-                            const efftype_id &eff_id, const time_duration &dur, bool permanent, int intensity, bool force,
-                            bool deferred, damage_unit elem,
-                            bool guy_damage, bool ignite )
+                            const efftype_id &eff_id, const time_duration &dur, int intensity, bool permanent, damage_unit elem,
+                            bool guy_damage )
 {
     std::list<item> worn_remains;
     // Liquid will splash on the outermost items first.
@@ -1980,20 +1979,6 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
                         add_msg( m_bad, _( "Doing damage, apparently?" ) );
                         bool destroy = false;
                         item_armor_enchantment_adjust( guy, elem, armor );
-                        // Rather than heat damage, we set the item on fire if ignite is true. This lets us differentiate
-                        // boiling water and napalm.
-                        if( ignite && elem.amount >= 1.0f ) {
-                            add_msg( m_bad, _( "Setting %s on fire possibly." ),
-                                     armor.tname() );
-                            // TODO: Different fire intensity values based on damage.
-                            fire_data frd{ 2 };
-                            destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
-                            int fuel = roll_remainder( frd.fuel_produced );
-                            if( fuel > 0 ) {
-                                guy.add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false,
-                                                true );
-                            }
-                        }
                         if( !destroy ) {
                             // The roll here is -1 because we already rolled to see if the attack hurts the armor.
                             destroy = guy.armor_absorb( elem, armor, bp, -1 );
@@ -2029,7 +2014,8 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
         add_msg( m_bad, _( "Final effect intensity: %s." ),
                  intensity );
         if( intensity >= 1 ) {
-            guy.add_effect( effect_source::empty(), eff_id, dur, bp, permanent, intensity, force, deferred );
+            add_msg( m_bad, _( "adding effect to %s"), body_part_name( bp ) );
+            guy.add_effect( eff_id, dur, bp, permanent, intensity );
         } else {
             add_msg( m_bad, _( "Effect averted due to zero intensity." ) );
         }
