@@ -281,6 +281,17 @@
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       },
+      {
+        "id": "ranged_pull",
+        "range": 4,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" }
     ],
@@ -291,7 +302,7 @@
     },
     "death_drops": "explode_toad",
     "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" },
-    "extend": { "flags": [ "POISON", "SMALLSLUDGETRAIL" ] },
+    "extend": { "flags": [ "POISON", "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
     "//": "Create new death_sludge effect."
   },
   {
@@ -410,6 +421,17 @@
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } }
       },
+      {
+        "id": "ranged_pull",
+        "range": 4,
+        "condition": { "and": [ { "not": { "u_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "maimed_tongue" } } ] },
+        "hit_dmg_u": "%s catches you with its tongue and pulls you in!",
+        "hit_dmg_npc": "%s catches <npcname> with its tongue and pulls them in!",
+        "miss_msg_u": "%s's tongue lashes out at you, but you dodge!",
+        "miss_msg_npc": "%s's tongue lashes out at <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%s catches you with its tongue and pulls you in!",
+        "no_dmg_msg_npc": "%s catches <npcname> with its tongue and pulls them in!"
+      },
       { "id": "grab_drag", "cooldown": 3 },
       { "id": "drag_followup" }
     ],
@@ -419,7 +441,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "death_drops": "explode_toad",
-    "extend": { "flags": [ "POISON", "SLUDGETRAIL" ] },
+    "extend": { "flags": [ "POISON", "SLUDGETRAIL", "SLUDGEPROOF" ] },
     "//": "When possible, give a sludge-spray on hit effect."
   },
   {
@@ -2233,4 +2255,3 @@
     "armor": { "bash": 5, "cut": 5, "bullet": 1, "electric": 1 }
   }
 ]
-

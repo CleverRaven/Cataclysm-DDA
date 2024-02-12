@@ -820,6 +820,7 @@
     "symbol": "R",
     "dodge": 2,
     "harvest": "zombie_animal_acid",
+    "emit_fields": [ { "emit_id": "emit_acid_drop", "delay": "1 s" } ],
     "special_attacks": [
       {
         "type": "leap",
@@ -835,6 +836,7 @@
     ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
-    "extend": { "flags": [ "POISON", "ACIDPROOF", "ACID_BLOOD" ] }
+    "extend": { "flags": [ "POISON", "ACIDPROOF", "ACID_BLOOD" ] },
+    "delete": { "flags": [ "RANGED_ATTACKER" ] }
   }
 ]
