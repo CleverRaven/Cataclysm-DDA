@@ -8,7 +8,7 @@
       { "u_location_variable": { "global_val": "dungeon_roof_loc" }, "z_adjust": 7, "z_override": true },
       { "revert_location": { "global_val": "dungeon_loc" }, "key": "abyssal_hunger", "time_in_future": "infinite" },
       {
-        "place_override": { "global_val": "place_name", "default_str": "Inside the Abyssal Hunger" },
+        "place_override": { "global_val": "place_name", "default": "Inside the Abyssal Hunger" },
         "key": "abyssal_hunger",
         "length": "infinite"
       },

@@ -14,7 +14,7 @@
       "run_eocs": [
         {
           "id": "EOC_nether_glass_no_map",
-          "effect": { "place_override": { "global_val": "place_name", "default_str": "lost level" }, "length": "10 seconds" }
+          "effect": { "place_override": { "global_val": "place_name", "default": "lost level" }, "length": "10 seconds" }
         },
         {
           "id": "EOC_nether_glass_lost_tp",
