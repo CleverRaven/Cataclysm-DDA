@@ -204,6 +204,10 @@ const int spell_type::min_field_intensity_default = 0;
 const int spell_type::max_field_intensity_default = 0;
 const float spell_type::field_intensity_increment_default = 0.0f;
 const float spell_type::field_intensity_variance_default = 0.0f;
+const int spell_type::min_effect_intensity_default = 1;
+const float spell_type::effect_intensity_increment_default = 0.0f;
+const int spell_type::max_effect_intensity_default = 1;
+const float spell_type::effect_intensity_variance_default = 0.0f;
 const int spell_type::min_accuracy_default = 20;
 const float spell_type::accuracy_increment_default = 0.0f;
 const int spell_type::max_accuracy_default = 20;
@@ -370,7 +374,20 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
         field_intensity_variance = get_dbl_or_var( jo, "field_intensity_variance", false,
                                    field_intensity_variance_default );
     }
-
+    if( !was_loaded || jo.has_member( "min_effect_intensity" ) ) {
+        min_effect_intensity = get_dbl_or_var( jo, "min_effect_intensity", false, min_effect_intensity_default );
+    }
+    if( !was_loaded || jo.has_member( "effect_intensity_increment" ) ) {
+        effect_intensity_increment = get_dbl_or_var( jo, "effect_intensity_increment", false,
+                                             effect_intensity_increment_default );
+    }
+    if( !was_loaded || jo.has_member( "max_effect_intensity" ) ) {
+        max_effect_intensity = get_dbl_or_var( jo, "max_effect_intensity", false, max_effect_intensity_default );
+    }
+    if( !was_loaded || jo.has_member( "effect_intensity_variance" ) ) {
+        effect_intensity_variance = get_dbl_or_var( jo, "effect_intensity_variance", false,
+                                   effect_intensity_variance_default );
+    }
     if( !was_loaded || jo.has_member( "min_accuracy" ) ) {
         min_accuracy = get_dbl_or_var( jo, "min_accuracy", false, min_accuracy_default );
     }
@@ -562,6 +579,15 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "max_damage", static_cast<int>( max_damage.min.dbl_val.value() ), max_damage_default );
     json.member( "damage_increment", static_cast<float>( damage_increment.min.dbl_val.value() ),
                  damage_increment_default );
+    json.member( "min_effect_intensity", static_cast<int>( min_effect_intensity.min.dbl_val.value() ),
+                 min_effect_intensity_default );
+    json.member( "effect_intensity_increment", static_cast<float>( effect_intensity_increment.min.dbl_val.value() ),
+                 effect_intensity_increment_default );
+    json.member( "max_effect_intensity", static_cast<int>( max_effect_intensity.min.dbl_val.value() ),
+                 max_effect_intensity_default );
+    json.member( "effect_intensity_variance",
+                 static_cast<float>( effect_intensity_variance.min.dbl_val.value() ),
+                 effect_intensity_variance_default );
     json.member( "min_accuracy", static_cast<int>( min_accuracy.min.dbl_val.value() ),
                  min_accuracy_default );
     json.member( "accuracy_increment", static_cast<float>( accuracy_increment.min.dbl_val.value() ),
@@ -1876,6 +1902,28 @@ dealt_projectile_attack spell::get_projectile_attack( const tripoint &target,
 std::string spell::effect_data() const
 {
     return type->effect_str;
+}
+
+int spell::min_leveled_effect_intensity( const Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    return type->min_effect_intensity.evaluate( d ) + std::round( get_effective_level() *
+            type->effect_intensity_increment.evaluate( d ) );
+}
+
+int spell::effect_intensity( Creature &caster ) const
+{
+    dialogue d( get_talker_for( caster ), nullptr );
+    // < 0 intensity will add the effect with intensity 1 in add_effect, but we still use std::max to avoid error messages about it
+    const int leveled_effect_intensity = std::max( 1, min_leveled_effect_intensity( caster )+ rng( -type->field_intensity_variance.evaluate(
+                              d ) * field_intensity( caster ),
+                          type->field_intensity_variance.evaluate( d ) * field_intensity( caster ) ) );
+    if( type->min_effect_intensity.evaluate( d ) >= 0 ||
+        type->max_effect_intensity.evaluate( d ) >= type->min_effect_intensity.evaluate( d ) ) {
+        return std::min( leveled_effect_intensity, static_cast<int>( type->max_effect_intensity.evaluate( d ) ) );
+    } else { // if it's negative, min and max work differently
+        return std::max( leveled_effect_intensity, static_cast<int>( type->max_effect_intensity.evaluate( d ) ) );
+    }
 }
 
 vproto_id spell::summon_vehicle_id() const

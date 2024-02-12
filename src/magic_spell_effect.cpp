@@ -494,6 +494,8 @@ static void splash_target( const tripoint &target, const spell &sp, Creature &ca
                                           0.0f );
     bool damage_target = sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET );
     bool damage_armor = sp.has_flag( spell_flag::LIQUID_DAMAGE_ARMOR );
+    bool ignite = sp.has_flag( spell_flag::IGNITE_FLAMMABLE );
+    int intensity = sp.effect_intensity( caster );
     const int dur_moves = sp.duration( caster );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
     creature_tracker &creatures = get_creature_tracker();
@@ -502,13 +504,12 @@ static void splash_target( const tripoint &target, const spell &sp, Creature &ca
     if( sp.get_spell_type()->affected_bps.none() ) {
         const bodypart_id bp = guy->random_body_part( true );
         //guy->add_effect( spell_effect, dur_td, bp_torso, true );
-        guy->worn.splash_attack( *guy, bp, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td, 1,
-                                         sp.has_flag( spell_flag::PERMANENT ), damage, damage_target );
+        guy->worn.splash_attack( *guy, bp, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td, intensity,
+                                         sp.has_flag( spell_flag::PERMANENT ), damage, damage_target, damage_armor, ignite );
         return;
     } else {
         for( const bodypart_id bps : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bps.id() ) ) {
-       // guy->add_effect( spell_effect, dur_td, bp_torso, true );
                 guy->worn.splash_attack( *guy, bps, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td, 1,
                                          sp.has_flag( spell_flag::PERMANENT ), damage, damage_target );
             }

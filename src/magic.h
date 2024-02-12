@@ -254,11 +254,18 @@ class spell_type
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
         dbl_or_var field_intensity_variance;
 
+        // intensity of any effects this spell applies to a target via effect_str. Also affects the
+        // fire_data used to apply the onfire effect if it ignites a character's armor via a splash attack
+        // defaults to 1 if unset
+        dbl_or_var min_effect_intensity;
+        dbl_or_var effect_intensity_increment;
+        dbl_or_var max_effect_intensity;
+        dbl_or_var effect_intensity_variance;
+
         // accuracy is a bonus against dodge, block, and spellcraft
         // which allows the target to mitigate up to 33% damage for each type of resistance
         // this could theoretically add up to 100%
         // spells with the DODGEABLE or LIQUID flag can be completely evaded as normal attacks
-
         dbl_or_var min_accuracy;
         dbl_or_var accuracy_increment;
         dbl_or_var max_accuracy;
@@ -404,6 +411,10 @@ class spell_type
         static const int max_field_intensity_default;
         static const float field_intensity_increment_default;
         static const float field_intensity_variance_default;
+        static const int min_effect_intensity_default;
+        static const float effect_intensity_increment_default;
+        static const int max_effect_intensity_default;
+        static const float effect_intensity_variance_default;
         static const int min_accuracy_default;
         static const float accuracy_increment_default;
         static const int max_accuracy_default;
@@ -478,6 +489,7 @@ class spell
         // minimum duration including levels (moves)
         int min_leveled_duration( const Creature &caster ) const;
         int min_leveled_accuracy( const Creature &caster ) const;
+        int min_leveled_effect_intensity( const Creature &caster ) const;
         int min_leveled_dodge_training( const Creature &caster ) const;
         int min_leveled_liquid_volume( const Creature &caster ) const;
 
@@ -522,6 +534,7 @@ class spell
         // how much damage does the spell do
         int damage( const Creature &caster ) const;
         int accuracy( Creature &caster ) const;
+        int effect_intensity( Creature &caster ) const;
         float dodge_training( Creature &caster ) const;
         int liquid_volume( Creature &caster ) const;
         int damage_dot( const Creature &caster ) const;
