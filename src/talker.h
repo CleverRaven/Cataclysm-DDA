@@ -325,9 +325,6 @@ class talker
         virtual effect get_effect( const efftype_id &, const bodypart_id & ) const {
             return effect::null_effect;
         }
-        virtual bool has_effect_any_bp( const efftype_id & ) const {
-            return false;
-        }
         virtual bool is_deaf() const {
             return false;
         }

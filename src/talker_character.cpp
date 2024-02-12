@@ -422,11 +422,6 @@ bool talker_character_const::has_effect( const efftype_id &effect_id, const body
     return me_chr_const->has_effect( effect_id, bp );
 }
 
-bool talker_character_const::has_effect_any_bp( const efftype_id &effect_id ) const
-{
-    return me_chr_const->has_effect( effect_id );
-}
-
 effect talker_character_const::get_effect( const efftype_id &effect_id,
         const bodypart_id &bp ) const
 {
