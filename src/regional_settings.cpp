@@ -822,6 +822,8 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     load_overmap_ocean_settings( jo, region.overmap_ocean, false, true );
 
+    load_overmap_highway_settings( jo, region.overmap_highway, false, true );
+
     load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
 
     load_overmap_connection_settings( jo, region.overmap_connection, false, true );
