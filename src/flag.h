@@ -424,13 +424,13 @@ class json_flag
         }
 
         /** Custom prefix that is added to item name. */
-        std::string item_prefix() const {
-            return item_prefix_.translated();
+        const translation &item_prefix() const {
+            return item_prefix_;
         }
 
         /** Custom suffix that is added to item name. */
-        std::string item_suffix() const {
-            return item_suffix_.translated();
+        const translation &item_suffix() const {
+            return item_suffix_;
         }
 
         /** Is flag inherited by base items from any attached items? */

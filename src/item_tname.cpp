@@ -137,7 +137,7 @@ std::string custom_item_prefix( item const &it, unsigned int /* quantity */,
     }
     // Iterate through the merged set of flags
     for( const flag_id &f : all_flags ) {
-        prefix += f->item_prefix();
+        prefix += f->item_prefix().translated();
     }
     return prefix;
 }
@@ -160,7 +160,7 @@ std::string custom_item_suffix( item const &it, unsigned int /* quantity */,
     }
     // Iterate through the merged set of flags
     for( const flag_id &f : all_flags ) {
-        suffix += f->item_suffix();
+        suffix += f->item_suffix().translated();
     }
     return suffix;
 }
