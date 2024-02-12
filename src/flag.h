@@ -423,12 +423,12 @@ class json_flag
             return name_.translated();
         }
 
-        /** Add custom prefix to item name. */
+        /** Custom prefix that is added to item name. */
         std::string item_prefix() const {
             return item_prefix_.translated();
         }
 
-        /** Add custom suffix to item name. */
+        /** Custom suffix that is added to item name. */
         std::string item_suffix() const {
             return item_suffix_.translated();
         }
