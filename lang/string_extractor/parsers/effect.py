@@ -96,6 +96,9 @@ def parse_effect(effects, origin, comment=""):
                     parse_effect(e["effect"], origin,
                                  comment="nested effect in switch statement in {}"
                                  .format(comment))
+            if "place_override" in eff:
+                write_text(eff["place_override"], origin,
+                           comment="place name in {}".format(comment))
 
 
 def parse_effect_on_condition(json, origin, comment=""):

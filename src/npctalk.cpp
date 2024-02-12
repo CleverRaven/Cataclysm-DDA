@@ -3826,7 +3826,7 @@ talk_effect_fun_t::func f_transform_line( const JsonObject &jo, std::string_view
 
 talk_effect_fun_t::func f_place_override( const JsonObject &jo, std::string_view member )
 {
-    str_or_var new_place = get_str_or_var( jo.get_member( member ), member );
+    translation_or_var new_place = get_translation_or_var( jo.get_member( member ), member );
     duration_or_var dov_length = get_duration_or_var( jo, "length", true );
     str_or_var key;
     if( jo.has_member( "key" ) ) {
