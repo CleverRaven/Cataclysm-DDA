@@ -6848,8 +6848,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
                 "The following specials could not be placed, some missions may fail to initialize: ";
             int n = 0;
             for( auto iter = custom_overmap_specials.begin(); iter != custom_overmap_specials.end(); ) {
-                if (iter->instances_placed < iter->special_details->get_constraints().occurrences.min) {
-                    msg.append(iter->special_details->id.c_str()).append(", ");
+                if( iter->instances_placed < iter->special_details->get_constraints().occurrences.min ) {
+                    msg.append( iter->special_details->id.c_str() ).append( ", " );
                     n++;
                 }
                 ++iter;
