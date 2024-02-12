@@ -92,9 +92,11 @@ add_link_options(
     /INCREMENTAL:NO
     /DYNAMICBASE
     /NXCOMPAT
+    "$<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>"
+    "$<$<CONFIG:RelWithDebInfo>:/NODEFAULTLIB:LIBCMTD>"
 )
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 # Where is vcpkg.json ?
 set(VCPKG_MANIFEST_DIR ${CMAKE_SOURCE_DIR}/msvc-full-features)
