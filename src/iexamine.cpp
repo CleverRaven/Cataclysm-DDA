@@ -5925,7 +5925,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::mill_finalize( Character &, const tripoint &examp, const time_point &start_time )
+void iexamine::mill_finalize( Character &, const tripoint &examp )
 {
     map &here = get_map();
     const furn_id cur_mill_type = here.furn( examp );
@@ -5948,14 +5948,12 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
 
     std::map<itype_id, int> millable_counts;
 
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
-        item &it = *iter;
-
-        if( it.type->milling_data ) {
-            if( millable_counts.find( it.typeId() ) == millable_counts.end() ) {
-                millable_counts.emplace( it.typeId(), 1 );
+    for( const item &iter : items ) {
+        if( iter.type->milling_data ) {
+            if( millable_counts.find( iter.typeId() ) == millable_counts.end() ) {
+                millable_counts.emplace( iter.typeId(), 1 );
             } else {
-                millable_counts[it.typeId()]++;
+                millable_counts[iter.typeId()]++;
             }
         }
     }
@@ -5972,7 +5970,6 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         } else {
             const requirement_data::alter_item_comp_vector &components =
                 rec.simple_requirements().get_components();
-            const int makes_amount = rec.makes_amount();
             int lot_size = 0;
 
             // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
@@ -6025,7 +6022,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
 
                 std::vector<item> results = rec.create_results( batches, &item_component_lot );
 
-                for( const item result : results ) {
+                for( const item &result : results ) {
                     here.add_item( examp, result );
                 }
 
