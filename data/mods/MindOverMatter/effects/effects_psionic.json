@@ -366,7 +366,7 @@
     "type": "effect_type",
     "id": "effect_biokin_metabolism_enhance",
     "name": [ "Hyperenhanced Metabolism" ],
-    "desc": [ "c ." ],
+    "desc": [ "Your metabolism is far more efficient than before." ],
     "apply_message": "",
     "remove_message": "Your stomach rumbles.",
     "rating": "good",
