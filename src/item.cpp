@@ -1619,54 +1619,54 @@ bool _stacks_components( item const &lhs, item const &rhs, bool check_components
            ( lhs.get_uncraft_components() == rhs.get_uncraft_components() );
 }
 
-bool _stacks_custom_item_prefix(item const& lhs, item const& rhs)
+bool _stacks_custom_item_prefix( item const &lhs, item const &rhs )
 {
     std::string prefix1;
-    for (const flag_id& f : lhs.get_flags()) {
-        if (!f->item_prefix().empty()) {
+    for( const flag_id &f : lhs.get_flags() ) {
+        if( !f->item_prefix().empty() ) {
             prefix1 += f->item_prefix();
         }
     }
-    for (const flag_id& f : lhs.type->get_flags()) {
-        if (!f->item_prefix().empty()) {
+    for( const flag_id &f : lhs.type->get_flags() ) {
+        if( !f->item_prefix().empty() ) {
             prefix1 += f->item_prefix();
         }
     }
     std::string prefix2;
-    for (const flag_id& f : rhs.get_flags()) {
-        if (!f->item_prefix().empty()) {
+    for( const flag_id &f : rhs.get_flags() ) {
+        if( !f->item_prefix().empty() ) {
             prefix2 += f->item_prefix();
         }
     }
-    for (const flag_id& f : rhs.type->get_flags()) {
-        if (!f->item_prefix().empty()) {
+    for( const flag_id &f : rhs.type->get_flags() ) {
+        if( !f->item_prefix().empty() ) {
             prefix2 += f->item_prefix();
         }
     }
     return prefix1 == prefix2;
 }
 
-bool _stacks_custom_item_suffix(item const& lhs, item const& rhs)
+bool _stacks_custom_item_suffix( item const &lhs, item const &rhs )
 {
     std::string suffix1;
-    for (const flag_id& f : lhs.get_flags()) {
-        if (!f->item_suffix().empty()) {
+    for( const flag_id &f : lhs.get_flags() ) {
+        if( !f->item_suffix().empty() ) {
             suffix1 += f->item_suffix();
         }
     }
-    for (const flag_id& f : lhs.type->get_flags()) {
-        if (!f->item_suffix().empty()) {
+    for( const flag_id &f : lhs.type->get_flags() ) {
+        if( !f->item_suffix().empty() ) {
             suffix1 += f->item_suffix();
         }
     }
     std::string suffix2;
-    for (const flag_id& f : rhs.get_flags()) {
-        if (!f->item_suffix().empty()) {
+    for( const flag_id &f : rhs.get_flags() ) {
+        if( !f->item_suffix().empty() ) {
             suffix2 += f->item_suffix();
         }
     }
-    for (const flag_id& f : rhs.type->get_flags()) {
-        if (!f->item_suffix().empty()) {
+    for( const flag_id &f : rhs.type->get_flags() ) {
+        if( !f->item_suffix().empty() ) {
             suffix2 += f->item_suffix();
         }
     }
@@ -1709,8 +1709,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               same_type && ( count_by_charges() || charges == rhs.charges ) );
     bits.set( tname::segments::FAVORITE_PRE, is_favorite == rhs.is_favorite );
     bits.set( tname::segments::FAVORITE_POST, is_favorite == rhs.is_favorite );
-    bits.set( tname::segments::CUSTOM_ITEM_PREFIX, _stacks_custom_item_prefix(*this, rhs));
-    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, _stacks_custom_item_suffix(*this, rhs));
+    bits.set( tname::segments::CUSTOM_ITEM_PREFIX, _stacks_custom_item_prefix( *this, rhs ) );
+    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, _stacks_custom_item_suffix( *this, rhs ) );
     bits.set( tname::segments::DURABILITY,
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
