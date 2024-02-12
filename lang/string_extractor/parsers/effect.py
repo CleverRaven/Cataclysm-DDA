@@ -19,9 +19,10 @@ def parse_effect(effects, origin, comment=""):
                 write_text(eff["message_npc"], origin,
                            comment="NPC message in {}".format(comment))
             if "u_buy_monster" in eff and "name" in eff:
-                write_text(eff["name"], origin,
-                           comment="Nickname for creature '{}' in {}".
-                           format(eff["u_buy_monster"], comment))
+                write_translation_or_var(eff["name"], origin,
+                                         comment="Nickname for creature '{}' "
+                                         "in {}"
+                                         .format(eff["u_buy_monster"], comment))
             if "snippet" not in eff or eff["snippet"] is False:
                 if "message" in eff:
                     write_translation_or_var(eff["message"], origin,

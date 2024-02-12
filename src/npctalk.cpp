@@ -4086,18 +4086,18 @@ talk_effect_fun_t::func f_u_buy_monster( const JsonObject &jo, std::string_view 
     dbl_or_var cost = get_dbl_or_var( jo, "cost", false, 0 );
     dbl_or_var count = get_dbl_or_var( jo, "count", false, 1 );
     const bool pacified = jo.get_bool( "pacified", false );
-    str_or_var name;
+    translation_or_var name;
     if( jo.has_member( "name" ) ) {
-        name = get_str_or_var( jo.get_member( "name" ), "name", true );
+        name = get_translation_or_var( jo.get_member( "name" ), "name", true );
     } else {
-        name.str_val = "";
+        name.str_val = translation();
     }
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     return [monster_type_id, cost, count, pacified, name, true_eocs,
                      false_eocs]( dialogue & d ) {
         const mtype_id mtype( monster_type_id.evaluate( d ) );
-        translation translated_name = to_translation( name.evaluate( d ) );
+        translation translated_name = no_translation( name.evaluate( d ) );
         if( d.actor( false )->buy_monster( *d.actor( true ), mtype, cost.evaluate( d ), count.evaluate( d ),
                                            pacified, translated_name ) ) {
             run_eoc_vector( true_eocs, d );
