@@ -142,5 +142,37 @@
     "time": "2 m",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "wire", 1 ] ], [ [ "button_plastic", 9 ] ] ]
+  },
+  {
+    "result": "mask_survivor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 8 ] ], [ [ "plastic_chunk", 6 ] ] ]
+  },
+  {
+    "result": "mask_survivor_heavy",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 8 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "sheet_metal_small", 1 ] ] ]
+  },
+  {
+    "result": "mask_survivor_fire",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 8 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "nomex", 2 ] ] ]
+  },
+  {
+    "result": "mask_survivor_light",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "leather", 4 ] ], [ [ "plastic_chunk", 1 ] ] ]
   }
 ]
