@@ -6844,7 +6844,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             point_abs_om new_om_addr = random_entry( nearest_candidates );
             overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
-            std::string msg = "The following specials could not be placed, some missions may fail to initialize: ";
+            std::string msg =
+                "The following specials could not be placed, some missions may fail to initialize: ";
             int n = 0;
             for( auto iter = custom_overmap_specials.begin(); iter != custom_overmap_specials.end(); ) {
                 if (iter->instances_placed < iter->special_details->get_constraints().occurrences.min) {
