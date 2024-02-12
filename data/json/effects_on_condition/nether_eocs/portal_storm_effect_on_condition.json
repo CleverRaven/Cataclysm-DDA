@@ -861,7 +861,8 @@
       },
       {
         "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
-        "target_var": { "global_val": "place_name" }
+        "target_var": { "global_val": "place_name" },
+        "i18n": true
       },
       {
         "place_override": { "global_val": "place_name", "default": "1 minutes" },
@@ -918,7 +919,8 @@
       { "revert_location": { "global_val": "dungeon_loc" }, "key": "portal_dungeon", "time_in_future": "infinite" },
       {
         "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
-        "target_var": { "global_val": "place_name" }
+        "target_var": { "global_val": "place_name" },
+        "i18n": true
       },
       {
         "place_override": { "global_val": "place_name", "default_str": "Error" },

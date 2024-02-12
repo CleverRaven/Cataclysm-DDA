@@ -4561,19 +4561,29 @@ talk_effect_fun_t::func f_next_weather()
 
 talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view member )
 {
-    std::vector<str_or_var> values;
+    const bool i18n = jo.get_bool( "i18n", false );
+    std::vector<str_or_var> str_vals;
+    std::vector<translation_or_var> i18n_vals;
     if( jo.has_array( member ) ) {
         for( JsonValue value : jo.get_array( member ) ) {
-            values.emplace_back( get_str_or_var( value, member ) );
+            if( i18n ) {
+                i18n_vals.emplace_back( get_translation_or_var( value, member ) );
+            } else {
+                str_vals.emplace_back( get_str_or_var( value, member ) );
+            }
         }
     } else {
-        values.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
+        if( i18n ) {
+            i18n_vals.emplace_back( get_translation_or_var( jo.get_member( member ), member ) );
+        } else {
+            str_vals.emplace_back( get_str_or_var( jo.get_member( member ), member ) );
+        }
     }
     bool parse = jo.get_bool( "parse_tags", false );
     var_info var = read_var_info( jo.get_member( "target_var" ) );
-    return [values, var, parse]( dialogue & d ) {
-        int index = rng( 0, values.size() - 1 );
-        std::string str = values[index].evaluate( d );
+    return [i18n, str_vals, i18n_vals, var, parse]( dialogue & d ) {
+        int index = rng( 0, ( i18n ? i18n_vals.size() : str_vals.size() ) - 1 );
+        std::string str = i18n ? i18n_vals[index].evaluate( d ) : str_vals[index].evaluate( d );
         if( parse ) {
             std::unique_ptr<talker> default_talker = get_talker_for( get_player_character() );
             talker &alpha = d.has_alpha ? *d.actor( false ) : *default_talker;

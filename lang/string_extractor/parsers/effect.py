@@ -39,6 +39,13 @@ def parse_effect(effects, origin, comment=""):
                         type(eff["npc_make_sound"]) is str:
                     write_text(eff["npc_make_sound"], origin,
                                comment="NPC makes sound in {}".format(comment))
+            if "set_string_var" in eff and "i18n" in eff and eff["i18n"] is True:
+                str_vals = eff["set_string_var"]
+                if type(str_vals) is not list:
+                    str_vals = [str_vals]
+                for val in str_vals:
+                    write_text(val, origin,
+                               comment="Text variable value in {}".format(comment))
             if "spawn_message" in eff:
                 write_text(eff["spawn_message"], origin,
                            comment="Player sees monster spawns in {}"
@@ -62,7 +69,9 @@ def parse_effect(effects, origin, comment=""):
                 if type(eff["run_eocs"]) is list:
                     for eoc in eff["run_eocs"]:
                         if type(eoc) is dict:
-                            parse_effect_on_condition(eoc, origin)
+                            parse_effect_on_condition(eoc, origin,
+                                                      comment="nested EOCs in {}"
+                                                      .format(comment))
             if "weighted_list_eocs" in eff:
                 for e in eff["weighted_list_eocs"]:
                     if type(e[0]) is dict:
@@ -70,16 +79,23 @@ def parse_effect(effects, origin, comment=""):
                             parse_effect(e[0]["effect"], origin,
                                          comment="nested effect in {}"
                                          .format(comment))
+            if "switch" in eff:
+                for e in eff["cases"]:
+                    parse_effect(e["effect"], origin,
+                                 comment="nested effect in switch statement in {}"
+                                 .format(comment))
 
 
 def parse_effect_on_condition(json, origin, comment=""):
     id = json["id"]
-    if comment:
-        parse_effect(json["effect"], origin,
-                     comment="effect in EoC \"{}\" in {}".format(id, comment))
-    else:
-        parse_effect(json["effect"], origin,
-                     comment="effect in EoC \"{}\"".format(id))
+    if "effect" in json:
+        if comment:
+            parse_effect(json["effect"], origin,
+                         comment="effect in EoC \"{}\" in {}"
+                         .format(id, comment))
+        else:
+            parse_effect(json["effect"], origin,
+                         comment="effect in EoC \"{}\"".format(id))
     if "false_effect" in json:
         if comment:
             parse_effect(json["false_effect"], origin,

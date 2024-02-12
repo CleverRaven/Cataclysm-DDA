@@ -2638,6 +2638,7 @@ Store string from `set_string_var` in the variable object `target_var`
 | "set_string_var" | **mandatory** | string, [variable object](##variable-object), or array of both | value, that would be put into `target_var` |
 | "target_var" | **mandatory** | [variable object](##variable-object) | variable, that accept the value; usually `context_val` | 
 | "parse_tags" | optional | boolean | Allo if parse [custom entries](NPCs.md#customizing-npc-speech) in string before storing | 
+| "i18n"       | optional | boolean | Whether the string values should be localized | 
 
 
 ##### Valid talkers:

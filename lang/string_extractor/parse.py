@@ -35,5 +35,4 @@ def parse_json_file(file_path):
     except Exception as E:
         print("Error in JSON object\n'{0}'\nfrom file: '{1}'".format(
             json.dumps(json_object, indent=2), file_path))
-        print(E)
-        exit(1)
+        raise
