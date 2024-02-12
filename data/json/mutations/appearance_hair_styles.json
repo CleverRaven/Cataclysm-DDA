@@ -786,7 +786,7 @@
       {
         "id": "black",
         "name": { "str": "Hair: black, mullet" },
-        "description": "YYou have long black hair, in the style of a mullet.",
+        "description": "You have long black hair, in the style of a mullet.",
         "weight": 1
       },
       {
