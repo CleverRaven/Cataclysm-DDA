@@ -6857,7 +6857,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             if( n > 0 ) {
                 msg = msg.substr( 0, msg.length() - 2 );
             } else {
-                msg = msg.append ("<unknown>");
+                msg = msg.append( "<unknown>" );
             }
             add_msg( _( msg ) );
         }
