@@ -718,10 +718,7 @@
       ]
     },
     "effect": [
-      {
-        "u_add_effect": "flask_regeneration",
-        "duration": { "math": [ "( 15000 + (u_spell_level('druid_healing') * 3000)) " ] }
-      }
+      { "u_add_effect": "flask_regeneration", "duration": { "math": [ "( 150 + (u_spell_level('druid_healing') * 30)) " ] } }
     ],
     "false_effect": [ { "u_message": "You must be surrounded by nature to use its power to heal.", "type": "bad" } ]
   },
