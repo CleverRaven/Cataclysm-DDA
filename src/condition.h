@@ -47,6 +47,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
         time_duration default_val = 0_seconds );
 tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue const &d );
 var_info read_var_info( const JsonObject &jo );
+translation_var_info read_translation_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       const std::string &value );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,

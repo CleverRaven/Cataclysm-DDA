@@ -1,5 +1,6 @@
 from .condition import parse_condition
 from ..write_text import write_text
+from ..write_text import write_translation_or_var
 
 
 def parse_effect(effects, origin, comment=""):
@@ -14,9 +15,6 @@ def parse_effect(effects, origin, comment=""):
                     comment = "effect \"{}\"".format(eff["effect_id"])
                 else:
                     comment = "an effect"
-            if "message" in eff:
-                write_text(eff["message"], origin,
-                           comment="Message in {}".format(comment))
             if "message_npc" in eff:
                 write_text(eff["message_npc"], origin,
                            comment="NPC message in {}".format(comment))
@@ -25,12 +23,18 @@ def parse_effect(effects, origin, comment=""):
                            comment="Nickname for creature '{}' in {}".
                            format(eff["u_buy_monster"], comment))
             if "snippet" not in eff or eff["snippet"] is False:
+                if "message" in eff:
+                    write_translation_or_var(eff["message"], origin,
+                                             comment="Message in {}"
+                                             .format(comment))
                 if "u_message" in eff:
-                    write_text(eff["u_message"], origin,
-                               comment="Player message in {}".format(comment))
+                    write_translation_or_var(eff["u_message"], origin,
+                                             comment="Player message in {}"
+                                             .format(comment))
                 if "npc_message" in eff:
-                    write_text(eff["npc_message"], origin,
-                               comment="NPC message in {}".format(comment))
+                    write_translation_or_var(eff["npc_message"], origin,
+                                             comment="NPC message in {}"
+                                             .format(comment))
                 if "u_make_sound" in eff and type(eff["u_make_sound"]) is str:
                     write_text(eff["u_make_sound"], origin,
                                comment="Player makes sound in {}".
@@ -44,8 +48,9 @@ def parse_effect(effects, origin, comment=""):
                 if type(str_vals) is not list:
                     str_vals = [str_vals]
                 for val in str_vals:
-                    write_text(val, origin,
-                               comment="Text variable value in {}".format(comment))
+                    write_translation_or_var(val, origin,
+                                             comment="Text variable value in {}"
+                                             .format(comment))
             if "spawn_message" in eff:
                 write_text(eff["spawn_message"], origin,
                            comment="Player sees monster spawns in {}"
@@ -74,12 +79,13 @@ def parse_effect(effects, origin, comment=""):
                                                       .format(comment))
             if "run_eoc_selector" in eff:
                 for name in eff.get("names", []):
-                    write_text(name, origin,
-                               comment="EOC option name in {}".format(comment))
+                    write_translation_or_var(name, origin,
+                                             comment="EOC option name in {}"
+                                             .format(comment))
                 for desc in eff.get("descriptions", []):
-                    write_text(desc, origin,
-                               comment="EOC option description in {}"
-                               .format(comment))
+                    write_translation_or_var(desc, origin,
+                                             comment="EOC option description "
+                                             "in {}".format(comment))
                 if "title" in eff:
                     write_text(eff["title"], origin,
                                comment="EOC selection title in {}"
@@ -97,8 +103,9 @@ def parse_effect(effects, origin, comment=""):
                                  comment="nested effect in switch statement in {}"
                                  .format(comment))
             if "place_override" in eff:
-                write_text(eff["place_override"], origin,
-                           comment="place name in {}".format(comment))
+                write_translation_or_var(eff["place_override"], origin,
+                                         comment="place name in {}"
+                                         .format(comment))
 
 
 def parse_effect_on_condition(json, origin, comment=""):
