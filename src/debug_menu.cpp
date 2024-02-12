@@ -3811,6 +3811,7 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
         options.clear();
         pseudo_options.clear();
         for( const tool_comp &option : tool_list ) {
+            itype_id option_to_add = option.type;
             // Check to see if any tools are already in use as components
             // (e.g. chips have oil as tool and component)
             // If so, add a buffer to ensure craftability
@@ -3823,9 +3824,24 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
                     }
                 }
             }
+
+            // Specific check for canning, where some recipes require clean water for use in the recipe
+            // in addition to clean water OR regular water for the canning pot.  Currently, getting
+            // water for the canning pot and clean water for the food can result in a false negative for
+            // craftability.  TODO: Figure out a way to get rid of this special case
+            const itype_id water_id( "water" );
+            const itype_id clean_water_id( "water_clean" );
+            if( option.type == water_id ) {
+                for( std::pair<itype_id, int> entry : items_to_spawn ) {
+                    if( entry.first == clean_water_id ) {
+                        option_to_add = clean_water_id;
+                    }
+                }
+            }
+
             // Attempt to give the user 'real' items,.  However, some recipes can only be completed
             // with pseudo items.  If a pseudo-item is required, the user will be notified below
-            item dummy_item( option.type, calendar::turn );
+            item dummy_item( option_to_add, calendar::turn );
 
             // Some tool items are representations of integrated bionics.  We're not prepared to spawn those yet
             // TODO: Figure out how to spawn those properly
@@ -3833,9 +3849,9 @@ std::vector<std::pair<itype_id, int>> get_items_for_requirements( const requirem
                 continue;
             }
 
-            pseudo_options.emplace_back( option.type, option.count + temporary_buffer );
+            pseudo_options.emplace_back( option_to_add, option.count + temporary_buffer );
             if( !dummy_item.has_flag( flag_PSEUDO ) ) {
-                options.emplace_back( option.type, option.count + temporary_buffer );
+                options.emplace_back( option_to_add, option.count + temporary_buffer );
             }
         }
         if( options.empty() && pseudo_options.empty() ) {
