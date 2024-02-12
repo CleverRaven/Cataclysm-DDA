@@ -2397,5 +2397,10 @@
     "id": "BLEEDSLOW2",
     "type": "json_flag",
     "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
+  },
+  {
+    "id": "WASHABLE_EFFECT",
+    "type": "json_flag",
+    "//": "The character is afflicted with something that can be washed off in water, such as acid or bile."
   }
 ]

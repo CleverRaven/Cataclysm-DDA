@@ -2036,7 +2036,8 @@
     "rating": "bad",
     "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
     "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 60, 0 ] },
-    "max_duration": "30 s"
+    "max_duration": "30 s",
+    "flags": [ "WASHABLE_EFFECT" ]
   },
   {
     "type": "effect_type",
@@ -2757,7 +2758,8 @@
     "name": [ "Damp", "Wet", "Soaked" ],
     "desc": [ "Your %s is covered in moisture.", "Your %s is wet.", "Your %s is soaked!" ],
     "max_intensity": 3,
-    "part_descs": true
+    "part_descs": true,
+    "flags": [ "WET" ]
   },
   {
     "type": "effect_type",
@@ -3733,7 +3735,8 @@
       "health_chance_bot": [ 60, 180 ]
     },
     "scaling_mods": { "hurt_chance": [ 1 ], "health_chance": [ 1 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "WASHABLE_EFFECT" ]
   },
   {
     "type": "effect_type",
@@ -3754,7 +3757,8 @@
     "//": "Decreases lifestyle score via acidosis. Don't get strange chemicals on you!",
     "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "health_chance": [ 1 ], "health_min": [ -1 ], "hurt_chance_bot": [ 10, 30 ] },
     "scaling_mods": { "hurt_chance": [ 1 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "flags": [ "WASHABLE_EFFECT" ]
   },
   {
     "type": "effect_type",

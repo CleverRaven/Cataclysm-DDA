@@ -1091,6 +1091,21 @@ class map
         bool is_divable( const point &p ) const {
             return is_divable( tripoint( p, abs_sub.z() ) );
         }
+        /**
+         * Returns whether or not the terrain is water, even if it's shallow.
+         * @param p The coordinate to look at.
+         * @return true if the terrain is water; false if not
+         * Decent_water means we're excluding sewage.
+         */
+        bool is_water( const tripoint &p ) const;
+        bool is_water( const point &p ) const {
+            return is_water( tripoint( p, abs_sub.z() ) );
+        }
+        bool is_decent_water( const tripoint &p ) const;
+        bool is_decent_water( const point &p ) const {
+            return is_decent_water( tripoint( p, abs_sub.z() ) );
+        }
+
         bool is_water_shallow_current( const tripoint &p ) const;
         bool is_water_shallow_current( const point &p ) const {
             return is_water_shallow_current( tripoint( p, abs_sub.z() ) );

@@ -493,6 +493,7 @@ static void splash_target( const tripoint &target, const spell &sp, Creature &ca
     damage_unit damage = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
                                           0.0f );
     bool damage_target = sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET );
+    bool damage_armor = sp.has_flag( spell_flag::LIQUID_DAMAGE_ARMOR );
     const int dur_moves = sp.duration( caster );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
     creature_tracker &creatures = get_creature_tracker();
