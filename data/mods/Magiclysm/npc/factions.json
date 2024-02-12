@@ -8,7 +8,7 @@
     "known_by_u": false,
     "size": 5,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 100000,
     "currency": "embued_coin",
     "relations": {
@@ -69,7 +69,7 @@
     "known_by_u": false,
     "size": 50,
     "power": 50,
-    "food_supply": 11520,
+    "fac_food_supply": { "calories": 11520, "vitamins": {  } },
     "wealth": 1000,
     "relations": {
       "lobby_beggars": {
@@ -130,7 +130,7 @@
     "known_by_u": false,
     "size": 5,
     "power": 100,
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000000,
     "currency": "denarius",
     "relations": {

@@ -29,7 +29,6 @@
 #include "faction.h"
 #include "flag.h"
 #include "game.h"
-#include "game_constants.h"
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "input_context.h"
@@ -65,7 +64,6 @@
 #include "requirements.h"
 #include "rng.h"
 #include "skill.h"
-#include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
@@ -305,12 +303,6 @@ static std::string camp_trip_description( const time_duration &total_time,
 
 /// The number of days the current camp supplies lasts at the given exertion level.
 static int camp_food_supply_days( float exertion_level );
-/// Changes the faction food supply by @ref change, 0 returns total food supply, a negative
-/// total food supply hurts morale
-static int camp_food_supply( int change = 0 );
-/// Same as above but takes a time_duration and consumes from faction food supply for that
-/// duration of work
-static int camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
 /// Returns the total charges of food time_duration @ref work costs
 static int time_to_food( time_duration work, float exertion_level = NO_EXERCISE );
 /// Changes the faction respect for you by @ref change, returns respect
@@ -766,6 +758,7 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
 void basecamp::get_available_missions_by_dir( mission_data &mission_key, const point &dir )
 {
     std::string entry;
+    faction *yours = get_player_character().get_faction();
 
     const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
@@ -801,7 +794,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
                                                        making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
                                                    making.exertion_level() );
-                const int available_calories = camp_food_supply( );
+                const int available_calories = yours->food_supply.kcal();
                 bool can_upgrade = upgrade.avail;
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
                 if( foodcost > available_calories ) {
@@ -1372,6 +1365,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
 void basecamp::get_available_missions( mission_data &mission_key, map &here )
 {
     std::string entry;
+    faction *yours = get_player_character().get_faction();
 
     const point &base_dir = base_camps::base_dir;
     const base_camps::direction_data &base_data = base_camps::all_directions.at( base_dir );
@@ -1486,7 +1480,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "> Rots in < 5 days: 80%%\n\n"
                                       "Total faction food stock: %d kcal\nor %d / %d / %d day's rations\n"
                                       "where the days is measured for Extra / Moderate / No exercise levels" ),
-                                   camp_food_supply(), camp_food_supply_days( EXTRA_EXERCISE ),
+                                   yours->food_supply.kcal(), camp_food_supply_days( EXTRA_EXERCISE ),
                                    camp_food_supply_days( MODERATE_EXERCISE ), camp_food_supply_days( NO_EXERCISE ) );
             mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                              entry );
@@ -1924,7 +1918,8 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
                                  const std::vector<item *> &equipment, float exertion_level,
                                  const std::map<skill_id, int> &required_skills )
 {
-    if( must_feed && camp_food_supply() < time_to_food( duration, exertion_level ) ) {
+    faction *yours = get_player_character().get_faction();
+    if( must_feed && yours->food_supply.kcal() < time_to_food( duration, exertion_level ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return nullptr;
     }
@@ -1976,6 +1971,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
     cata_assert( req_it != making.blueprint_build_reqs().reqs_by_parameters.end() );
     const build_reqs &bld_reqs = req_it->second;
     time_duration base_time = time_duration::from_moves( bld_reqs.time );
+    faction *yours = get_player_character().get_faction();
 
     comp_list result;
 
@@ -1985,7 +1981,8 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
         work_days = base_camps::to_workdays( base_time / ( result.size() + 1 ) );
 
         if( must_feed &&
-            camp_food_supply() < time_to_food( work_days * ( result.size() + 1 ), making.exertion_level() ) ) {
+            yours->food_supply.kcal() < time_to_food( work_days * ( result.size() + 1 ),
+                    making.exertion_level() ) ) {
             if( result.empty() ) {
                 popup( _( "You don't have enough food stored to feed your companion for this task." ) );
                 return result;
@@ -2409,7 +2406,8 @@ void basecamp::job_assignment_ui()
 
 void basecamp::start_menial_labor()
 {
-    if( camp_food_supply() < time_to_food( 3_hours ) ) {
+    faction *yours = get_player_character().get_faction();
+    if( yours->food_supply.kcal() < time_to_food( 3_hours ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return;
     }
@@ -3727,10 +3725,11 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     // companions subtracted food when they started the mission, but didn't mod their hunger for
     // that food.  so add it back in.
     int need_food = time_to_food( mission_time - reserve_time );
-    if( camp_food_supply() < need_food ) {
+    faction *yours = get_player_character().get_faction();
+    if( yours->food_supply.kcal() < need_food ) {
         popup( _( "Your companion seems disappointed that your pantry is empty…" ) );
     }
-    int avail_food = std::min( need_food, camp_food_supply() ) + time_to_food( reserve_time );
+    int avail_food = std::min( need_food, yours->food_supply.kcal() ) + time_to_food( reserve_time );
     // movng all the logic from talk_function::companion return here instead of polluting
     // mission_companion
     comp.reset_companion_mission();
@@ -4622,6 +4621,7 @@ std::string talk_function::name_mission_tabs(
 // recipes and craft support functions
 int basecamp::recipe_batch_max( const recipe &making ) const
 {
+    faction *yours = get_player_character().get_faction();
     int max_batch = 0;
     const int max_checks = 9;
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
@@ -4631,7 +4631,7 @@ int basecamp::recipe_batch_max( const recipe &making ) const
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
                                 _inv, making.get_component_filter(), max_batch + batch_size );
-            if( can_make && camp_food_supply() > food_req ) {
+            if( can_make && yours->food_supply.kcal() > food_req ) {
                 max_batch += batch_size;
             } else {
                 break;
@@ -5331,7 +5331,8 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
             farm++;
         }
     }
-    sfaction = std::min( camp_food_supply() / 10000, 10 );
+    faction *yours = get_player_character().get_faction();
+    sfaction = std::min( yours->food_supply.kcal() / 10000, 10 );
     sfaction += std::min( camp_discipline() / 10, 5 );
     sfaction += std::min( camp_morale() / 10, 5 );
 
@@ -5441,24 +5442,49 @@ int camp_food_supply_days( float exertion_level )
 {
     faction *yours = get_player_character().get_faction();
 
-    return yours->food_supply / time_to_food( 24_hours, exertion_level );
+    return yours->food_supply.kcal() / time_to_food( 24_hours, exertion_level );
 }
 
-int camp_food_supply( int change )
+nutrients basecamp::camp_food_supply( nutrients &change )
 {
+    nutrients consumed;
     faction *yours = get_player_character().get_faction();
+    if( change.calories < 0 && change.vitamins().empty() && yours->food_supply.calories > 0 ) {
+        // We've been passed a raw kcal value, we should also consume a proportional amount of vitamins
+        // Kcals are used as a proxy to consume vitamins.
+        // e.g. if you have a larder with 10k kcal, 100 vitamin A, 200 vitamin B then consuming 1000 kcal will
+        // consume 10 vitamin A and *20* vitamin B. In other words, we assume the vitamins are uniformly distributed with the kcals
+        // This isn't a perfect assumption but it's a necessary one to abstract away the food items themselves
+        double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
+                                  yours->food_supply.calories;
+        consumed = yours->food_supply;
+        consumed *= percent_consumed;
+        // Subtraction since we use the absolute value of change's calories to get the percent
+        yours->food_supply -= consumed;
+        return consumed;
+    }
     yours->food_supply += change;
-    if( yours->food_supply < 0 ) {
-        yours->likes_u += yours->food_supply / 1250;
-        yours->respects_u += yours->food_supply / 625;
-        yours->trusts_u += yours->food_supply / 625;
-        yours->food_supply = 0;
+    if( yours->food_supply.kcal() < 0 ) {
+        yours->likes_u += yours->food_supply.kcal() / 1250;
+        yours->respects_u += yours->food_supply.kcal() / 625;
+        yours->trusts_u += yours->food_supply.kcal() / 625;
+        yours->food_supply.calories = 0;
     }
 
-    return yours->food_supply;
+    consumed = change;
+    //TODO: This return value is so that nutrients can actually be consumed by the workers instead of vanishing.
+    return consumed;
 }
 
-int camp_food_supply( time_duration work, float exertion_level )
+nutrients basecamp::camp_food_supply( int change )
+{
+    nutrients added;
+    // Kcal to calories
+    added.calories = ( change * 1000 );
+    return camp_food_supply( added );
+}
+
+nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
 {
     return camp_food_supply( -time_to_food( work, exertion_level ) );
 }
@@ -5497,7 +5523,7 @@ bool basecamp::distribute_food()
 
     double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
     double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
-    int total = 0;
+    nutrients nutrients_to_add;
 
     const auto rot_multip = [&]( const item & it, item * const container ) {
         if( !it.goes_bad() ) {
@@ -5541,14 +5567,14 @@ bool basecamp::distribute_food()
         if( it.rotten() ) {
             return false;
         }
-        const int kcal = getAverageJoe().compute_effective_nutrients( it ).kcal() * it.count() * rot_multip(
-                             it,
-                             container );
-        if( kcal <= 0 ) {
+        nutrients from_it = getAverageJoe().compute_effective_nutrients( it ) * it.count();
+        // Do this multiplication separately to make sure we're using the *= operator with double argument..
+        from_it *= rot_multip( it, container );
+        nutrients_to_add += from_it;
+        if( from_it.kcal() <= 0 ) {
             // can happen if calories is low and rot is high.
             return false;
         }
-        total += kcal;
         return true;
     };
 
@@ -5587,13 +5613,13 @@ bool basecamp::distribute_food()
         }
     }
 
-    if( total <= 0 ) {
+    if( nutrients_to_add.kcal() <= 0 ) {
         popup( _( "No suitable items are located at the drop points…" ) );
         return false;
     }
 
-    popup( _( "You distribute %d kcal worth of food to your companions." ), total );
-    camp_food_supply( total );
+    popup( _( "You distribute %d kcal worth of food to your companions." ), nutrients_to_add.kcal() );
+    camp_food_supply( nutrients_to_add );
     return true;
 }
 

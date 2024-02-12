@@ -134,7 +134,7 @@
     "price_postapoc": 2750,
     "material": [ "fae_fur" ],
     "color": "brown_red",
-    "flags": [ "OVERSIZE", "HOOD", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ],
+    "flags": [ "OVERSIZE", "HOOD", "BELTED", "RAINPROOF", "FANCY" ],
     "armor": [ { "encumbrance": 6, "coverage": 65, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
