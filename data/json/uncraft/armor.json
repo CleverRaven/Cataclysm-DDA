@@ -152,7 +152,7 @@
     "components": [ [ [ "leather", 8 ] ], [ [ "plastic_chunk", 6 ] ] ]
   },
   {
-    "result": "mask_survivor_heavy",
+    "result": "mask_hsurvivor",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
@@ -160,7 +160,7 @@
     "components": [ [ [ "leather", 8 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "sheet_metal_small", 1 ] ] ]
   },
   {
-    "result": "mask_survivor_fire",
+    "result": "mask_fsurvivor",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
@@ -168,7 +168,7 @@
     "components": [ [ [ "leather", 8 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "nomex", 2 ] ] ]
   },
   {
-    "result": "mask_survivor_light",
+    "result": "mask_lsurvivor",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "30 m",
