@@ -1844,6 +1844,7 @@
     "name": [ "Coagulation" ],
     "desc": [ "You bleed less than normal." ],
     "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "flags": [ "BLEEDSLOW" ]
   },
@@ -1853,6 +1854,7 @@
     "name": [ "Coagulation" ],
     "desc": [ "You bleed much less than normal." ],
     "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "flags": [ "BLEEDSLOW2" ]
   },
@@ -1862,6 +1864,7 @@
     "name": [ "Coagulation" ],
     "desc": [ "You bleed much less than normal and sometimes not at all." ],
     "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "blocks_effects": [ "bleed" ],
     "flags": [ "BLEEDSLOW2" ]
