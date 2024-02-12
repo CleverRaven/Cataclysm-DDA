@@ -48,8 +48,9 @@ if (TILES)
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
         if(MSYS2)
-            # /MANIFESTINPUT not supported by GNU linker
-            # Defaul embed via `windres.exe` compiling `resource.rc` -> `resource.rc.obj`
+            target_link_options(cataclysm-tiles PRIVATE
+                "LINKER:--strip-debug"
+            )
         else()
             # Use only our RT_MANIFEST from resource.rc
             target_link_options(cataclysm-tiles PRIVATE
