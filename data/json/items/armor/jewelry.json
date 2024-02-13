@@ -1151,16 +1151,16 @@
     "use_action": [ "MEDITATE" ],
     "flags": [ "NO_WEAR_EFFECT" ]
   },
-  { 
-	"id": "wooden_hair_beads",
-	"copy-from": "garnet_silver_tiara",
-	"type": "ARMOR",
-	"name": { "str": "wooden hair beads" },
-	"description": "An assortment of wooden beads used to decorate locs or braids.",
-	"material": [ "wood" ],
-	"symbol": ".",
-	"color": "brown",
-	"delete": { "flags": [ "SUPER_FANCY" ] }
+  {
+    "id": "wooden_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "wooden hair beads" },
+    "description": "An assortment of wooden beads used to decorate locs or braids.",
+    "material": [ "wood" ],
+    "symbol": ".",
+    "color": "brown",
+    "delete": { "flags": [ "SUPER_FANCY" ] }
   },
   {
     "id": "holy_symbol",
