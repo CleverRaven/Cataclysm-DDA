@@ -303,7 +303,7 @@
     },
     "overmap_ravine_settings": { "num_ravines": 0, "ravine_width": 3, "ravine_range": 45, "ravine_depth": -3 },
     "overmap_forest_settings": {
-      "noise_threshold_forest": 0.2,
+      "noise_threshold_forest": 0.17,
       "noise_threshold_forest_thick": 0.25,
       "noise_threshold_swamp_adjacent_water": 0.3,
       "noise_threshold_swamp_isolated": 0.6,
