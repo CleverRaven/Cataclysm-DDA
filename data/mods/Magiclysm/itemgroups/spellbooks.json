@@ -43,6 +43,7 @@
       [ "spell_scroll_create_atomic_lamp", 25 ],
       [ "spell_scroll_taze", 25 ],
       [ "spell_scroll_technomancer_conjure_radio", 20 ],
+      [ "spell_scroll_stormshaper_loud_voice_spell", 20 ],
       [ "spell_scroll_laze", 25 ],
       [ "spell_scroll_lightning_blast", 20 ],
       [ "spell_scroll_x-ray", 30 ],

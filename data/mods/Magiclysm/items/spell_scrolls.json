@@ -1950,5 +1950,14 @@
     "name": { "str": "Scroll of Firebolt", "str_pl": "Scrolls of Firebolt" },
     "description": "Hurls a bolt of fire at the target, just like the name implies.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_firebolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormshaper_loud_voice_spell",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Thundering Voice", "str_pl": "Scrolls of Thundering Voice" },
+    "description": "Greatly increases the volume of the caster's voice while also making them immune to any hearing damage the resulting noise would cause.  Very popular at pre-Cataclysm metal concerts, both on and off the stage.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormshaper_loud_voice_spell" ] }
   }
 ]

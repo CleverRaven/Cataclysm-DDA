@@ -996,6 +996,21 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_stormshaper_loud_voice",
+    "name": [ "Thundering Voice" ],
+    "desc": [ "Every word you speak resounds like a crash of thunder." ],
+    "apply_message": "",
+    "remove_message": "Your voice returns to normal.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "SHOUT_NOISE", "add": { "math": [ "( u_spell_level('stormshaper_loud_voice_spell') * 3) + 15" ] } } ]
+      }
+    ],
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biomancer_cure_disease_minor",
     "name": [ "" ],
     "desc": [ "" ],
