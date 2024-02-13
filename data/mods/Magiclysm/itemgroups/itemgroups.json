@@ -1263,7 +1263,8 @@
           { "item": "spell_scroll_chilling_touch", "prob": 50 },
           { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
           { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 },
-          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 }
+          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 },
+          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 }
         ],
         "prob": 45
       },

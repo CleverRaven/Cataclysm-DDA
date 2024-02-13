@@ -22,6 +22,7 @@
       [ "spell_scroll_eshaper_rockbolt", 50 ],
       [ "spell_scroll_reactive_armor", 25 ],
       [ "spell_scroll_pertifying_touch", 25 ],
+      [ "spell_scroll_kelvinist_firebolt", 40 ],
       [ "spell_scroll_druid_traverse_the_wilds", 35 ],
       [ "spell_scroll_earthshaper_boulder", 35 ],
       [ "spell_scroll_earthshaper_turning_of_earth", 30 ],
@@ -284,6 +285,7 @@
       [ "priest_advanced", 50 ],
       [ "prepper_spellbook", 30 ],
       [ "techno_fundamentals", 50 ],
+      [ "basic_pyromancy", 50 ],
       [ "stat_up_spellbook", 45 ],
       [ "tome_of_wind", 45 ],
       [ "tome_of_storms", 20 ]

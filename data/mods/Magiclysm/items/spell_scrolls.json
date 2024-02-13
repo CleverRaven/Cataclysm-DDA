@@ -1941,5 +1941,14 @@
     "name": { "str": "Scroll of Peaceful Rest", "str_pl": "Scrolls of Peaceful Rest" },
     "description": "Never spend any time tossing and turning again with one of the most popular pre-Cataclysm spells.",
     "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_firebolt",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Firebolt", "str_pl": "Scrolls of Firebolt" },
+    "description": "Hurls a bolt of fire at the target, just like the name implies.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_firebolt" ] }
   }
 ]
