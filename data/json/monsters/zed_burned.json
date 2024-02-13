@@ -12,7 +12,6 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
     "bleed_rate": 0,
     "vision_day": 10,
-    "vision_night": 3,
     "death_function": { "effect": { "id": "death_zombie_kinderling", "min_level": 4 }, "message": "The %s explodes!" },
     "upgrades": { "half_life": 28, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
     "armor": { "bash": 4, "cut": 5, "acid": 3, "heat": 15, "bullet": 4, "electric": 3 },
@@ -37,7 +36,6 @@
     "grab_strength": 20,
     "bleed_rate": 0,
     "vision_day": 10,
-    "vision_night": 3,
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "flags": [ "SEES", "HEARS", "GRABS", "STUMBLES", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 6, "cut": 12, "acid": 5, "heat": 15, "bullet": 10, "electric": 3 },
@@ -60,7 +58,6 @@
     "melee_dice_sides": 2,
     "bleed_rate": 0,
     "vision_day": 10,
-    "vision_night": 3,
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s explodes!" },
     "armor": { "bash": 2, "cut": 9, "acid": 3, "heat": 15, "bullet": 7, "electric": 3 },
     "extend": {
