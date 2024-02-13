@@ -1873,10 +1873,10 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
                        wp->id, wp->armor_mult.count( elem.type ) > 0 ? wp->armor_mult.at( elem.type ) : 0.f,
                        wp->armor_penalty.count( elem.type ) > 0 ? wp->armor_penalty.at( elem.type ) : 0.f,
                        r.get_effective_resist( elem ) );
+        //FIXME: Debug values do not take enchantments into account.
+        armor_enchantment_adjust(*this, elem);
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
-        //FIXME: Debug values do not take enchantments into account.
-        armor_enchantment_adjust( *this, elem );
     }
     wp->apply_to( dam, attack.is_crit );
     return wp;
