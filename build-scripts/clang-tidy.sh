@@ -89,7 +89,7 @@ then
     TIDY="all"
 fi
 
-all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
+all_cpp_files="$(jq -r '.[].file | select(contains("third-party") | not)' build/compile_commands.json)"
 if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"
@@ -103,7 +103,7 @@ else
         includes
 
     tidyable_cpp_files="$( \
-        ( test -f ./files_changed && build-scripts/get_affected_files.py ./files_changed ) || \
+        ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed | grep -v third-party ) ) || \
         echo unknown )"
 
     if [ "tidyable_cpp_files" == "unknown" ]
