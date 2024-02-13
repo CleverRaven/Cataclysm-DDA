@@ -954,6 +954,18 @@
     "flags": [ "WATCH" ]
   },
   {
+    "id": "effect_classless_easy_sleep",
+    "type": "effect_type",
+    "name": [ "Peaceful Rest" ],
+    "desc": [ "You feel pretty sleepy." ],
+    "apply_message": "",
+    "enchantments": [
+      {
+        "values": [ { "value": "SLEEPY", "add": { "math": [ "( u_spell_level('classless_easy_sleep_spell') * 3) + 15" ] } } ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "effect_burning_trail",
     "name": [ "Burning Trail" ],

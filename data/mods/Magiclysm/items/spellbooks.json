@@ -1214,5 +1214,21 @@
     "symbol": "?",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
+  },
+  {
+    "id": "easy_sleeping_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Beyond Sleeping Easy with Sorcery", "str_pl": "copies of Beyond Sleeping Easy with Sorcery" },
+    "//": "1 Classless spell",
+    "description": "This self-help book is themed around the Peaceful Rest spell, famed before the Cataclysm as an easy way to avoid tossing and turning.  Laudably, the book seems to be mostly about eventually weaning the reader off the need to cast a spell to be able to fall asleep on time.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "black",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] }
   }
 ]

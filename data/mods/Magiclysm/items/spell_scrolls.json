@@ -1884,7 +1884,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_kelvinist_no_emotion_spell",
     "//": "Kelvinist spell",
-    "name": { "str": "Scroll of the Rime-Frozen Heart", "str_pl": "Scrolls of Rime-Frozen Heart" },
+    "name": { "str": "Scroll of The Rime-Covered Heart", "str_pl": "Scrolls of The Rime-Covered Heart" },
     "description": "Highly-restricted before the Cataclysm, this spell prevents you from feeling any emotion for the duration.",
     "use_action": { "type": "learn_spell", "spells": [ "kelvinist_no_emotion_spell" ] }
   },
@@ -1893,7 +1893,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_magus_far_hand_pull",
     "//": "Magus spell",
-    "name": { "str": "Scroll of the Sorcerer's Hand", "str_pl": "Scrolls of Sorcerer's Hand" },
+    "name": { "str": "Scroll of Sorcerer's Hand", "str_pl": "Scrolls of Sorcerer's Hand" },
     "description": "Pull a distant creature or item toward you.  The ultimate spell for the couch potato mage.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_far_hand_pull" ] }
   },
@@ -1932,5 +1932,14 @@
     "name": { "str": "Scroll of Gluttonous Consumption", "str_pl": "Scrolls of Gluttonous Consumption" },
     "description": "For when you don't know where your next meal is coming from and you want to make sure absolutely nothing goes to waste.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_eat_tons_of_food" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_classless_easy_sleep_spell",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Peaceful Rest", "str_pl": "Scrolls of Peaceful Rest" },
+    "description": "Never spend any time tossing and turning again with one of the most popular pre-Cataclysm spells.",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] }
   }
 ]
