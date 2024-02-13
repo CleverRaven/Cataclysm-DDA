@@ -105,7 +105,8 @@
       ],
       "place_monster": [
         { "monster": "mon_irongolem", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 20, "repeat": [ 1, 3 ] },
-        { "monster": "mon_darkman", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 10, "repeat": [ 1, 3 ] }
+        { "monster": "mon_darkman", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 10, "repeat": [ 1, 3 ] },
+        { "monster": "mon_star_vampire", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 15, "repeat": [ 1, 3 ] }
       ]
     }
   },
