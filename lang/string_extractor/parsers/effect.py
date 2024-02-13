@@ -36,14 +36,14 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(eff["npc_message"], origin,
                                              comment="NPC message in {}"
                                              .format(comment))
-                if "u_make_sound" in eff and type(eff["u_make_sound"]) is str:
-                    write_text(eff["u_make_sound"], origin,
-                               comment="Player makes sound in {}".
-                               format(comment))
-                if "npc_make_sound" in eff and \
-                        type(eff["npc_make_sound"]) is str:
-                    write_text(eff["npc_make_sound"], origin,
-                               comment="NPC makes sound in {}".format(comment))
+                if "u_make_sound" in eff:
+                    write_translation_or_var(eff["u_make_sound"], origin,
+                                             comment="Player makes sound in {}"
+                                             .format(comment))
+                if "npc_make_sound" in eff:
+                    write_translation_or_var(eff["npc_make_sound"], origin,
+                                             comment="NPC makes sound in {}"
+                                             .format(comment))
             for cast_spell_key in ["u_cast_spell", "npc_cast_spell"]:
                 if cast_spell_key not in eff:
                     continue

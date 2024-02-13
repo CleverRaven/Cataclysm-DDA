@@ -4795,12 +4795,17 @@ talk_effect_fun_t::func f_transform_item( const JsonObject &jo, std::string_view
 talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view member,
                                       bool is_npc )
 {
-    str_or_var message = get_str_or_var( jo.get_member( member ), member, true );
-
     dbl_or_var volume = get_dbl_or_var( jo, "volume", true );
     bool ambient = jo.get_bool( "ambient", false );
     bool snippet = jo.get_bool( "snippet", false );
     bool same_snippet = jo.get_bool( "same_snippet", false );
+    str_or_var snip_id;
+    translation_or_var message;
+    if( snippet ) {
+        snip_id = get_str_or_var( jo.get_member( member ), member, true );
+    } else {
+        message = get_translation_or_var( jo.get_member( member ), member, true );
+    }
     sounds::sound_t type = sounds::sound_t::background;
     std::string type_string = jo.get_string( "type", "background" );
     if( type_string == "background" ) {
@@ -4834,26 +4839,26 @@ talk_effect_fun_t::func f_make_sound( const JsonObject &jo, std::string_view mem
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    return [is_npc, message, volume, ambient, type, target_var, snippet,
+    return [is_npc, snip_id, message, volume, ambient, type, target_var, snippet,
             same_snippet]( dialogue & d ) {
         tripoint_abs_ms target_pos = get_tripoint_from_var( target_var, d );
         std::string translated_message;
         if( snippet ) {
             if( same_snippet ) {
                 talker *target = d.actor( !is_npc );
-                std::string sid = target->get_value( message.evaluate( d ) + "_snippet_id" );
+                std::string sid = target->get_value( snip_id.evaluate( d ) + "_snippet_id" );
                 if( sid.empty() ) {
-                    sid = SNIPPET.random_id_from_category( message.evaluate( d ) ).c_str();
-                    target->set_value( message.evaluate( d ) + "_snippet_id", sid );
+                    sid = SNIPPET.random_id_from_category( snip_id.evaluate( d ) ).c_str();
+                    target->set_value( snip_id.evaluate( d ) + "_snippet_id", sid );
                 }
                 translated_message = SNIPPET.expand( SNIPPET.get_snippet_by_id( snippet_id( sid ) ).value_or(
                         translation() ).translated() );
             } else {
-                translated_message = SNIPPET.expand( SNIPPET.random_from_category( message.evaluate( d ) ).value_or(
+                translated_message = SNIPPET.expand( SNIPPET.random_from_category( snip_id.evaluate( d ) ).value_or(
                         translation() ).translated() );
             }
         } else {
-            translated_message = _( message.evaluate( d ) );
+            translated_message = message.evaluate( d );
         }
         sounds::sound( get_map().getlocal( target_pos ), volume.evaluate( d ), type, translated_message,
                        ambient );
