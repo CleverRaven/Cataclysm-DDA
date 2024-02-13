@@ -5,7 +5,7 @@
     "name": { "str": "fake item" },
     "description": "Dummy item.",
     "//": "Include ZERO_WEIGHT flag to avoid errors when instantiating pseudo items.",
-      "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY", "PSEUDO" ],
+    "flags": [ "ZERO_WEIGHT", "TRADER_AVOID", "DEBUG_ONLY", "PSEUDO" ],
     "weight": "1 g",
     "volume": "1 ml",
     "symbol": "@",
@@ -214,7 +214,8 @@
     "name": { "str": "drill press", "str_pl": "drill presses" },
     "copy-from": "fake_appliance_tool",
     "charges_per_use": 25,
-    "charged_qualities": [ [ "DRILL", 3 ] ]
+    "charged_qualities": [ [ "DRILL", 3 ] ],
+    "extend": { "flags": [ "NEEDS_INSTALL" ] }
   },
   {
     "id": "tablesaw_tool",

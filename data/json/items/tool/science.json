@@ -320,7 +320,8 @@
     "price": 20000,
     "to_hit": -5,
     "material": [ "steel" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "flags": [ "NEEDS_INSTALL" ]
   },
   {
     "id": "filter_paper_qualitative",

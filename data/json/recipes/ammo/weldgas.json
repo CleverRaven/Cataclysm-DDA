@@ -228,7 +228,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "oxygen_concentrator", 1620 ] ], [ [ "hd_compressor_unit", 1350 ] ] ],
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
     "components": [ [ [ "oxygen_tank", 1 ] ] ]
   },
   {
@@ -241,7 +241,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "time": "9 h 25 m",
     "autolearn": true,
-    "tools": [ [ [ "oxygen_concentrator", 20250 ] ], [ [ "hd_compressor_unit", 16875 ] ] ],
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 20250 ] ], [ [ "pseudo_app_hd_compressor_unit", 16875 ] ] ],
     "components": [ [ [ "oxygen_cylinder", 1 ] ] ]
   },
   {
@@ -254,7 +254,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "time": "25 m",
     "autolearn": true,
-    "tools": [ [ [ "oxygen_concentrator", 810 ] ], [ [ "hd_compressor_unit", 675 ] ] ],
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 810 ] ], [ [ "pseudo_app_hd_compressor_unit", 675 ] ] ],
     "components": [ [ [ "smoxygen_tank", 1 ] ] ]
   }
 ]

@@ -727,7 +727,8 @@
         { "item": "glass_shard", "prob": 50 },
         { "item": "motor_small", "prob": 25 }
       ]
-    }
+    },
+    "crafting_pseudo_item": "pseudo_app_oxygen_concentrator"
   },
   {
     "type": "furniture",
@@ -752,6 +753,7 @@
         { "item": "steel_chunk", "count": [ 8, 16 ] },
         { "item": "sheet_metal_small", "count": [ 1, 4 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "pseudo_app_hd_compressor_unit"
   }
 ]

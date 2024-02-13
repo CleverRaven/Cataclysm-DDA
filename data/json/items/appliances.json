@@ -99,7 +99,8 @@
     "//": "Based off JET J-2500 Drill Press",
     "longest_side": "137 cm",
     "volume": "200 L",
-    "weight": "114 kg"
+    "weight": "114 kg",
+    "flags": [ "NEEDS_INSTALL" ]
   },
   {
     "type": "GENERIC",
@@ -437,7 +438,6 @@
     "price_postapoc": 2000,
     "symbol": "&",
     "color": "light_gray",
-    "flags": [ "NEEDS_INSTALL" ],
-    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+    "flags": [ "NEEDS_INSTALL" ]
   }
 ]

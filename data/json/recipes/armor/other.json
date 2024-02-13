@@ -514,7 +514,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_closures_waterproofing" } ],
     "using": [ [ "soldering_standard", 40 ] ],
-    "tools": [ [ [ "oxygen_concentrator", 1620 ] ], [ [ "hd_compressor_unit", 1350 ] ] ],
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "hose", 2 ] ],
@@ -552,7 +552,7 @@
     "flags": [ "FULL_MAGAZINE" ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "oxygen_concentrator", 1620 ] ], [ [ "hd_compressor_unit", 1350 ] ] ],
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
     "components": [ [ [ "rebreather_filler_soda_lime", 180 ] ], [ [ "rebreather_cartridge_air", 1 ], [ "rebreather_cartridge_o2", 1 ] ] ]
   },
   {
