@@ -1945,12 +1945,19 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
 void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
                             const flag_id &apply_flag,
                             const efftype_id &eff_id, const time_duration &dur, int intensity, bool permanent, damage_unit elem,
-                            bool guy_damage )
+                            bool damage_target, bool damage_armor, bool ignite )
 {
+    sub_bodypart_id sbp;
+    sub_bodypart_id secondary_sbp;
+    // if this body part has sub part locations roll one
+    if( !bp->sub_parts.empty() ) {
+        sbp = bp->random_sub_part( false );
+        // the torso and legs has a second layer of hanging body parts
+        secondary_sbp = bp->random_sub_part( true );
+    }
     std::list<item> worn_remains;
     // Liquid will splash on the outermost items first.
     int fluid_remaining = fluid_amount;
-    bool outermost = true;
     for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
         item &armor = *iter;
         if( !armor.covers( bp ) || armor.has_flag( flag_INTEGRATED ) ) {
@@ -1958,70 +1965,78 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
             continue;
         }
         const std::string pre_damage_name = armor.tname();
-        if( outermost ) {
-            if( rng( 1, 100 ) <= armor.get_coverage( bp ) && fluid_remaining > 0 ) {
-                // The item has intercepted the splash to protect its wearer,
-                // now we roll to see if it's affected.
-                add_msg( m_bad, _( "Splash has hit %s." ),
-                         armor.tname() );
-                // A droplet of acid or bile are less likely to ruin a shirt than a whole bucket.
-                // rng cap is high here so there's always a decent chance your item comes out ok
-                if( rng( 1, 300 - ( 1.5 * armor.breathability( bp ) ) ) < fluid_remaining ) {
-                    // Apply filth or whatever to the item. TODO: Can this use the magic system?
-                    if( apply_flag != flag_NULL && !armor.has_flag( flag_INTEGRATED ) && !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
-               !armor.has_flag( flag_AURA ) ) {
-                        add_msg( m_bad, _( "Resist roll failed.  It got filthy!" ) );
-                        armor.set_flag( apply_flag );
+        if( rng( 1, 100 ) <= armor.get_coverage( bp ) && fluid_remaining > 0 ) {
+            // The item has intercepted the splash to protect its wearer,
+            // now we roll to see if it's affected.
+            guy.add_msg_if_player( m_warning, _( "Your %s is splashed." ),
+                                   armor.tname() );
+            // A droplet of acid or bile are less likely to ruin a shirt than a whole bucket.
+            // rng cap is high here so there's always a decent chance your item comes out ok
+            if( rng( 1, 300 - ( 1.5 * armor.breathability( bp ) ) ) < fluid_remaining ) {
+                // Apply filth or whatever to the item. TODO: Can this use the magic system?
+                if( apply_flag != flag_NULL && !armor.has_flag( flag_INTEGRATED ) &&
+                    !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
+                    !armor.has_flag( flag_AURA ) ) {
+                    guy.add_msg_if_player( m_bad, _( "The %s is covered in filth!" ), armor.tname() );
+                    armor.set_flag( apply_flag );
+                }
+                // If this is a damaging liquid, the damage is relative to fluid_remaining
+                // and the coverage of the item.
+                if( elem.amount >= 1.0f && damage_armor ) {
+                    // If we're flagged to specifically damage armor, we're going to need to do more damage than we'd do to a person.
+                    const std::string pre_damage_name = armor.tname();
+                    bool destroy = false;
+                    item_armor_enchantment_adjust( guy, elem, armor );
+                    if( ignite && elem.amount >= 1.0f ) {
+                        int fire_intensity = std::ceil( intensity * ( fluid_remaining / fluid_amount ) );
+                        if( fire_intensity >= 1 ) {
+                            fire_data frd{ fire_intensity };
+                            destroy = !armor.has_flag( flag_INTEGRATED ) && armor.burn( frd );
+                            int fuel = roll_remainder( frd.fuel_produced );
+                            if( fuel > 0 ) {
+                                guy.add_effect( effect_onfire, time_duration::from_turns( fuel + 1 ), bp, false, 0, false,
+                                                true );
+                            }
+                        }
                     }
-                    // If this is a damaging liquid, the damage is relative to fluid_remaining
-                    // and the coverage of the item.
-                    if( elem.amount >= 1.0f ) {
-                        add_msg( m_bad, _( "Doing damage, apparently?" ) );
-                        bool destroy = false;
-                        item_armor_enchantment_adjust( guy, elem, armor );
-                        if( !destroy ) {
-                            // The roll here is -1 because we already rolled to see if the attack hurts the armor.
-                            destroy = guy.armor_absorb( elem, armor, bp, -1 );
+                    if( !destroy ) {
+                        // The roll here is -1 because we already rolled to see if the attack hurts the armor.
+                        destroy = guy.armor_absorb( elem, armor, bp, sbp, 0 );
+                        if( secondary_sbp != sub_bodypart_id() ) {
+                            // for the torso we also need to consider if it hits anything hanging off the character or their neck
+                            destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, -1 );
                         }
-                        if( destroy ) {
-                            if( get_player_view().sees( guy ) ) {
-                                SCT.add( point( guy.posx(), guy.posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
-                                         m_neutral, _( "destroyed" ), m_info );
-                            }
-                            destroyed_armor_msg( guy, pre_damage_name );
-                            armor.on_takeoff( guy );
-                            for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
-                                worn_remains.push_back( *it );
-                            }
-                            iter = decltype( iter )( worn.erase( --iter.base() ) );
+                    }
+                    if( destroy ) {
+                        if( get_player_view().sees( guy ) ) {
+                            SCT.add( point( guy.posx(), guy.posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
+                                     m_neutral, _( "destroyed" ), m_info );
                         }
+                        destroyed_armor_msg( guy, pre_damage_name );
+                        armor.on_takeoff( guy );
+                        for( const item *it : armor.all_items_top( pocket_type::CONTAINER ) ) {
+                            worn_remains.push_back( *it );
+                        }
+                        iter = decltype( iter )( worn.erase( --iter.base() ) );
                     }
                 }
-                // Whether or not the item was affected by the fluid, it still blocked some or all of it.
-                // Breathability can help fluid soak through. As we lose fluid, we lose damage potential.
-                fluid_remaining = std::max( 0,
-                                            fluid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
-                add_msg( m_bad, _( "Fluid remaining: %s." ),
-                         fluid_remaining );
-                elem.amount *= fluid_remaining / fluid_amount;
             }
+            // Whether or not the item was affected by the fluid, it still blocked some or all of it.
+            // Breathability can help fluid soak through. As we lose fluid, we lose damage potential.
+            fluid_remaining = std::max( 0,
+                                        fluid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
+            elem.amount *= fluid_remaining / fluid_amount;
         }
         ++iter;
-        outermost = false;
     }
     if( eff_id != effect_null ) {
         intensity = std::ceil( intensity * ( fluid_remaining / fluid_amount ) );
-        add_msg( m_bad, _( "Final effect intensity: %s." ),
-                 intensity );
         if( intensity >= 1 ) {
-            add_msg( m_bad, _( "adding effect to %s"), body_part_name( bp ) );
             guy.add_effect( eff_id, dur, bp, permanent, intensity );
-        } else {
-            add_msg( m_bad, _( "Effect averted due to zero intensity." ) );
         }
     }
     if( fluid_remaining == fluid_amount ) {
-        add_msg( m_bad, _( "Splash hit your skin without touching any armor." ) );
+        add_msg( m_bad, _( "Your bare skin was splashed!" ) );
     }
     // If any containers were destroyed, dump the contents on the ground
     map &here = get_map();
@@ -2030,7 +2045,7 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
     }
     // Acid damages clothes directly, but should only harm players via the corroding effect
     // However, something like boiling water should just deal damage instantly. guy_damage == true if so.
-    if( guy_damage ) {
+    if( damage_target ) {
         guy.deal_damage( nullptr, bp, damage_instance( elem.type, elem.amount ) );
     }
 }

@@ -3884,7 +3884,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                                _( "Protection when active" ) ) );
             info.emplace_back( bp_cat, space + _( "Acid: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
-                               resist( damage_acid, false, sbp, get_base_env_resist_w_filter() ) );
+                               resist( damage_acid, false, sbp ) );
             info.emplace_back( bp_cat, space + _( "Fire: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
                                resist( damage_heat, false, sbp, get_base_env_resist_w_filter() ) );
@@ -8563,14 +8563,13 @@ float item::resist( const damage_type_id &dmg_type, const bool to_self,
     }
 
     if( !dmg_type.is_valid() ) {
-        debugmsg( "Invalid damage type: %d", dmg_type.c_str() );
         return 0.0f;
     }
 
     // Implicit item damage immunity for damage types listed prior to bash
-    // Acid/fire immunity would be handled in _environmental_resist, but there are more
-    // dmg types that do not affect items such as PURE/COLD etc..
+    // There are dmg types that do not affect items such as PURE/COLD etc..
     if( to_self && !damage_type_can_damage_items( dmg_type ) ) {
+        add_msg( m_bad, _( "%s cant damage items" ), dmg_type->name.translated() );
         return std::numeric_limits<float>::max();
     }
 
@@ -8589,7 +8588,8 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
                      const std::vector<const part_material *> &armor_mats,
                      const float avg_thickness ) const
 {
-    if( dmg_type->env ) {
+    if( dmg_type->environmental ) {
+        add_msg( m_bad, _( "%s is enviro" ), dmg_type->name.translated() );
         return _environmental_resist( dmg_type, to_self, resist_value, bp_null, armor_mats );
     }
 
@@ -8651,8 +8651,8 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                                    const bool bp_null,
                                    const std::vector<const part_material *> &armor_mats ) const
 {
-    if( to_self ) {
-        // Currently no items are damaged by acid, and fire is handled elsewhere
+    if( to_self && !dmg_type->physical ) {
+        // Make the item basically invulnerable unless the attack is physical, like acid.
         return std::numeric_limits<float>::max();
     }
 
@@ -8677,7 +8677,7 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                 resist += tmp_add;
             }
             const int env = get_env_resist( base_env_resist );
-            if( env < 10 ) {
+            if( env < 10 && !dmg_type->physical ) {
                 resist *= env / 10.0f;
             }
         }
@@ -8687,8 +8687,7 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
         const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
-        // Not sure why cut and bash get an armor thickness bonus but acid/fire doesn't,
-        // but such is the way of the code.
+        // Acid and fire aren't solid objects forcing their way through, so they only care about the top layer here.
         for( const auto &m : mats ) {
             float tmp_add = 0.f;
             if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
@@ -8700,12 +8699,6 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
         }
         // Average based portion of materials
         resist /= total;
-    }
-
-    const int env = get_env_resist( base_env_resist );
-    if( env < 10 ) {
-        // Low env protection means it doesn't prevent acid seeping in.
-        resist *= env / 10.0f;
     }
 
     return resist + mod;
@@ -8855,7 +8848,6 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     if( has_flag( flag_UNBREAKABLE ) ) {
         return armor_status::UNDAMAGED;
     }
-
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = resist( du.type, true, bp );
     if( armors_own_resist > 1000.0f ) {
@@ -8870,7 +8862,11 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
     // before becoming ineffective or being destroyed.
-    const int num_parts_covered = get_covered_body_parts().count();
+    int num_parts_covered = get_covered_body_parts().count();
+    // Acid has a higher chance of damaging equipment.
+    if( du.type->environmental && num_parts_covered > 2 ) {
+        num_parts_covered = static_cast<int>( std::max( 2.0, num_parts_covered * 0.66 ) );
+    }
     if( !one_in( num_parts_covered ) ) {
         return armor_status::UNDAMAGED;
     }
@@ -8879,7 +8875,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const float post_mitigated_dmg = du.amount;
     // more gradual damage chance calc
-    const float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
+    float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
     if( post_mitigated_dmg > armors_own_resist ) {
         // handle overflow, if you take a lot of damage your armor should be damaged
         if( damaged_chance >= 1 ) {
@@ -8895,7 +8891,6 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
             return armor_status::UNDAMAGED;
         }
     }
-
     return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
 }
 

@@ -22,15 +22,15 @@
     "recurrence": [ "2 seconds", "4 seconds" ],
     "condition": "u_is_in_water",
     "effect": [
-          {
-            "foreach": "ids",
-            "var": { "context_val": "id" },
-            "target": "bodypart",
-            "effect": [
-              { "u_message": "The acid washes off of your <context_val:id>!", "type": "good" },
-              { "u_lose_effect": "corroding", "target_part": { "context_val": "id" } }
-            ]
-          }
+      {
+        "foreach": "ids",
+        "var": { "context_val": "id" },
+        "target": "bodypart",
+        "effect": [
+          { "u_message": "The acid washes off of your <context_val:id>!", "type": "good" },
+          { "u_lose_effect": "corroding", "target_part": { "context_val": "id" } }
         ]
       }
+    ]
+  }
 ]

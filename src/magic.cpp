@@ -375,18 +375,20 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
                                    field_intensity_variance_default );
     }
     if( !was_loaded || jo.has_member( "min_effect_intensity" ) ) {
-        min_effect_intensity = get_dbl_or_var( jo, "min_effect_intensity", false, min_effect_intensity_default );
+        min_effect_intensity = get_dbl_or_var( jo, "min_effect_intensity", false,
+                                               min_effect_intensity_default );
     }
     if( !was_loaded || jo.has_member( "effect_intensity_increment" ) ) {
         effect_intensity_increment = get_dbl_or_var( jo, "effect_intensity_increment", false,
-                                             effect_intensity_increment_default );
+                                     effect_intensity_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_effect_intensity" ) ) {
-        max_effect_intensity = get_dbl_or_var( jo, "max_effect_intensity", false, max_effect_intensity_default );
+        max_effect_intensity = get_dbl_or_var( jo, "max_effect_intensity", false,
+                                               max_effect_intensity_default );
     }
     if( !was_loaded || jo.has_member( "effect_intensity_variance" ) ) {
         effect_intensity_variance = get_dbl_or_var( jo, "effect_intensity_variance", false,
-                                   effect_intensity_variance_default );
+                                    effect_intensity_variance_default );
     }
     if( !was_loaded || jo.has_member( "min_accuracy" ) ) {
         min_accuracy = get_dbl_or_var( jo, "min_accuracy", false, min_accuracy_default );
@@ -404,7 +406,7 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     }
     if( !was_loaded || jo.has_member( "dodge_training_increment" ) ) {
         dodge_training_increment = get_dbl_or_var( jo, "dodge_training_increment", false,
-                                             dodge_training_increment_default );
+                                   dodge_training_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_dodge_training" ) ) {
         max_dodge_training = get_dbl_or_var( jo, "max_dodge_training", false, max_dodge_training_default );
@@ -414,7 +416,7 @@ void spell_type::load( const JsonObject &jo, const std::string_view src )
     }
     if( !was_loaded || jo.has_member( "liquid_volume_increment" ) ) {
         liquid_volume_increment = get_dbl_or_var( jo, "liquid_volume_increment", false,
-                                             liquid_volume_increment_default );
+                                  liquid_volume_increment_default );
     }
     if( !was_loaded || jo.has_member( "max_liquid_volume" ) ) {
         max_liquid_volume = get_dbl_or_var( jo, "max_liquid_volume", false, max_liquid_volume_default );
@@ -581,7 +583,8 @@ void spell_type::serialize( JsonOut &json ) const
                  damage_increment_default );
     json.member( "min_effect_intensity", static_cast<int>( min_effect_intensity.min.dbl_val.value() ),
                  min_effect_intensity_default );
-    json.member( "effect_intensity_increment", static_cast<float>( effect_intensity_increment.min.dbl_val.value() ),
+    json.member( "effect_intensity_increment",
+                 static_cast<float>( effect_intensity_increment.min.dbl_val.value() ),
                  effect_intensity_increment_default );
     json.member( "max_effect_intensity", static_cast<int>( max_effect_intensity.min.dbl_val.value() ),
                  max_effect_intensity_default );
@@ -596,13 +599,15 @@ void spell_type::serialize( JsonOut &json ) const
                  max_accuracy_default );
     json.member( "min_dodge_training", static_cast<int>( min_dodge_training.min.dbl_val.value() ),
                  min_dodge_training_default );
-    json.member( "dodge_training_increment", static_cast<float>( dodge_training_increment.min.dbl_val.value() ),
+    json.member( "dodge_training_increment",
+                 static_cast<float>( dodge_training_increment.min.dbl_val.value() ),
                  dodge_training_increment_default );
     json.member( "max_dodge_training", static_cast<int>( max_dodge_training.min.dbl_val.value() ),
                  max_dodge_training_default );
     json.member( "min_liquid_volume", static_cast<int>( min_liquid_volume.min.dbl_val.value() ),
                  min_liquid_volume_default );
-    json.member( "liquid_volume_increment", static_cast<float>( liquid_volume_increment.min.dbl_val.value() ),
+    json.member( "liquid_volume_increment",
+                 static_cast<float>( liquid_volume_increment.min.dbl_val.value() ),
                  liquid_volume_increment_default );
     json.member( "max_liquid_volume", static_cast<int>( max_liquid_volume.min.dbl_val.value() ),
                  max_liquid_volume_default );
@@ -822,9 +827,11 @@ float spell::dodge_training( Creature &caster ) const
     const int leveled_dodge_training = min_leveled_dodge_training( caster );
     if( type->min_dodge_training.evaluate( d ) >= 0 ||
         type->max_dodge_training.evaluate( d ) >= type->min_dodge_training.evaluate( d ) ) {
-        return static_cast<float>( std::min( leveled_dodge_training, static_cast<int>( type->max_dodge_training.evaluate( d ) ) ) );
+        return static_cast<float>( std::min( leveled_dodge_training,
+                                             static_cast<int>( type->max_dodge_training.evaluate( d ) ) ) );
     } else { // if it's negative, min and max work differently
-        return static_cast<float>( std::max( leveled_dodge_training, static_cast<int>( type->max_dodge_training.evaluate( d ) ) ) );
+        return static_cast<float>( std::max( leveled_dodge_training,
+                                             static_cast<int>( type->max_dodge_training.evaluate( d ) ) ) );
     }
 }
 
@@ -1915,14 +1922,17 @@ int spell::effect_intensity( Creature &caster ) const
 {
     dialogue d( get_talker_for( caster ), nullptr );
     // < 0 intensity will add the effect with intensity 1 in add_effect, but we still use std::max to avoid error messages about it
-    const int leveled_effect_intensity = std::max( 1, min_leveled_effect_intensity( caster )+ rng( -type->field_intensity_variance.evaluate(
-                              d ) * field_intensity( caster ),
-                          type->field_intensity_variance.evaluate( d ) * field_intensity( caster ) ) );
+    const int leveled_effect_intensity = std::max( 1,
+                                         min_leveled_effect_intensity( caster ) + rng( -type->field_intensity_variance.evaluate(
+                                                 d ) * field_intensity( caster ),
+                                                 type->field_intensity_variance.evaluate( d ) * field_intensity( caster ) ) );
     if( type->min_effect_intensity.evaluate( d ) >= 0 ||
         type->max_effect_intensity.evaluate( d ) >= type->min_effect_intensity.evaluate( d ) ) {
-        return std::min( leveled_effect_intensity, static_cast<int>( type->max_effect_intensity.evaluate( d ) ) );
+        return std::min( leveled_effect_intensity,
+                         static_cast<int>( type->max_effect_intensity.evaluate( d ) ) );
     } else { // if it's negative, min and max work differently
-        return std::max( leveled_effect_intensity, static_cast<int>( type->max_effect_intensity.evaluate( d ) ) );
+        return std::max( leveled_effect_intensity,
+                         static_cast<int>( type->max_effect_intensity.evaluate( d ) ) );
     }
 }
 

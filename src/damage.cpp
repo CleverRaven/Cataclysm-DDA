@@ -113,7 +113,7 @@ void damage_type::load( const JsonObject &jo, std::string_view )
     optional( jo, was_loaded, "physical", physical );
     optional( jo, was_loaded, "melee_only", melee_only );
     optional( jo, was_loaded, "edged", edged );
-    optional( jo, was_loaded, "environmental", env );
+    optional( jo, was_loaded, "environmental", environmental );
     optional( jo, was_loaded, "material_required", material_required );
     optional( jo, was_loaded, "mon_difficulty", mon_difficulty );
     optional( jo, was_loaded, "no_resist", no_resist );

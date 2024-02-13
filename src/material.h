@@ -104,6 +104,7 @@ class material_type
 
         translation _bash_dmg_verb;
         translation _cut_dmg_verb;
+        translation _acid_dmg_verb;
         std::vector<translation> _dmg_adj;
 
         std::map<vitamin_id, double> _vitamins;
@@ -138,6 +139,7 @@ class material_type
         bool has_dedicated_resist( const damage_type_id &dmg_type ) const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
+        std::string acid_dmg_verb() const;
         std::string dmg_adj( int damage_level ) const;
         int chip_resist() const;
         int repair_difficulty() const;

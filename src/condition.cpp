@@ -836,7 +836,7 @@ conditional_t::func f_has_effect( const JsonObject &jo, std::string_view member,
                           bodypart_id( bp.evaluate( d ) );
         effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
         return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
-        };
+    };
 }
 
 conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool is_npc )

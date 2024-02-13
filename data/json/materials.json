@@ -11,6 +11,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 4, "cut": 5, "acid": 10, "heat": 6, "bullet": 3 }
   },
   {
@@ -76,6 +77,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "burned",
     "fuel_data": { "energy": "1000 kJ" },
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 }
   },
@@ -136,6 +138,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "burned",
     "fuel_data": {
       "energy": "15600 kJ",
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
@@ -161,6 +164,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "burned",
     "fuel_data": {
       "energy": "15600 kJ",
       "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
@@ -188,6 +192,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "burned",
     "fuel_data": { "energy": "24700 kJ" },
     "//": "Burn data is cargo culted from alcohol.",
     "burn_data": [
@@ -212,6 +217,7 @@
     "dmg_adj": [ "agitated", "thinned", "culled", "eradicated" ],
     "bash_dmg_verb": "ripples",
     "cut_dmg_verb": "passed through",
+    "acid_dmg_verb": "sizzled",
     "repaired_with": "water",
     "soft": true,
     "resist": { "bash": 8, "cut": 0, "acid": 8, "heat": 4, "bullet": 4 },
@@ -232,6 +238,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 8, "cut": 12, "acid": 20, "heat": 8, "bullet": 10 }
   },
   {
@@ -248,6 +255,7 @@
     "dmg_adj": [ "dented", "bent", "smashed", "destroyed" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 1, "cut": 2, "acid": 4, "heat": 2, "bullet": 1 },
     "repair_difficulty": 5
   },
@@ -268,6 +276,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 2 ] ],
     "//": "There is some historical evidence that animal bones have been used as an *added* combustion fuel by humans, but bones overall are a difficult material to use for this purpose and vary greatly in their suitability. The primary combustive component is in fact marrow and fats trapped inside the bone, not the bone structure itself.",
     "burn_data": [
@@ -293,6 +302,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 3, "cut": 4, "acid": 16, "heat": 2, "bullet": 2 },
     "repair_difficulty": 4
   },
@@ -307,6 +317,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap_bronze", 0.5 ] ],
     "resist": { "bash": 4, "cut": 5, "acid": 1, "heat": 2, "bullet": 2 },
     "repair_difficulty": 4
@@ -323,6 +334,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "burned",
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 8, "cut": 12, "acid": 20, "heat": 1, "bullet": 10 }
   },
@@ -337,6 +349,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap_bronze", 0.5 ] ],
     "resist": { "bash": 5, "cut": 5, "acid": 5, "heat": 2, "bullet": 2 },
     "repair_difficulty": 4
@@ -355,6 +368,7 @@
     "repaired_with": "scrap",
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 },
     "repair_difficulty": 2
@@ -373,6 +387,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
       { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },
@@ -395,6 +410,7 @@
     "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 1, "cut": 2, "acid": 10, "heat": 10, "bullet": 2 }
   },
   {
@@ -419,6 +435,7 @@
     "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 3, "cut": 5, "acid": 10, "heat": 10, "bullet": 6 }
   },
   {
@@ -436,6 +453,7 @@
     "dmg_adj": [ "chipped", "cracked", "split", "broken" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 6, "cut": 10, "acid": 10, "heat": 10, "bullet": 12 }
   },
   {
@@ -452,6 +470,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "burned",
     "repaired_with": "chitin_piece",
     "salvaged_into": "chitin_piece",
     "burn_data": [
@@ -478,6 +497,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0.0001 },
       { "fuel": 0.2, "smoke": 3, "burn": 0.001, "volume_per_turn": "200 ml" },
@@ -500,6 +520,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "burned",
     "chip_resist": 10,
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0.0001 },
@@ -541,6 +562,7 @@
     "dmg_adj": [ "chipped", "scratched", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_products": [ [ "ceramic_shard", 0.5 ] ],
     "resist": { "bash": 2, "cut": 3, "acid": 6, "heat": 3, "bullet": 2 }
   },
@@ -556,6 +578,7 @@
     "dmg_adj": [ "chipped", "scratched", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 2, "cut": 3, "acid": 6, "heat": 3, "bullet": 2 }
   },
   {
@@ -572,6 +595,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "burned",
     "burn_products": [ [ "copper", 0.5 ] ],
     "resist": { "bash": 2, "cut": 3, "acid": 0, "heat": 3, "bullet": 2 },
     "repair_difficulty": 3
@@ -593,6 +617,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 0.02 },
       { "fuel": 2, "smoke": 1, "burn": 0.04 },
@@ -629,6 +654,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 0.02 },
       { "fuel": 2, "smoke": 1, "burn": 0.04 },
@@ -654,6 +680,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 0.02 },
       { "fuel": 2, "smoke": 1, "burn": 0.04 },
@@ -692,6 +719,7 @@
     "dmg_adj": [ "marked", "chipped", "cracked", "shattered" ],
     "bash_dmg_verb": "chipped",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 5, "cut": 5, "acid": 10, "heat": 3, "bullet": 2 }
   },
   {
@@ -707,6 +735,7 @@
     "dmg_adj": [ "marked", "chipped", "cracked", "shattered" ],
     "bash_dmg_verb": "chipped",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 5, "cut": 5, "acid": 10, "heat": 3, "bullet": 2 }
   },
   {
@@ -723,6 +752,7 @@
     "dmg_adj": [ "scratched", "damaged", "smashed", "crushed" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.5 ], [ "iron", 0.5 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -747,6 +777,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ],
     "//1": "It's rather difficult to find citeable data on how well arbitrary volumes of human flesh burns, so I've settled for just spitballing it, using wood as a baseline and knowing that cremation takes a lot of fuel. Now it burns less well than wood. So, big improvement. This data was last touched 7 years ago, in a 2016 PR which also cleaned up the fire code. They thought it was crusty and nonsensical at the time. I checked to see what had changed since then. Essentially nothing. So these values never made any sense.",
     "burn_data": [
@@ -781,6 +812,7 @@
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.02, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
       { "fuel": 0.05, "smoke": 2, "burn": 0.002, "volume_per_turn": "500 ml" },
@@ -802,6 +834,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "ceramic_shard", 0.5 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 4, "heat": 3, "bullet": 1 }
   },
@@ -820,6 +853,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "vitC", 2 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -844,6 +878,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.6, "smoke": 1, "burn": 0.02 },
       { "fuel": 1, "smoke": 1, "burn": 0.04 },
@@ -869,6 +904,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.6, "smoke": 1, "burn": 0.02 },
       { "fuel": 1, "smoke": 1, "burn": 0.04 },
@@ -890,6 +926,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "etched",
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
@@ -911,6 +948,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "etched",
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
@@ -933,6 +971,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "etched",
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
       { "fuel": 0, "smoke": 0, "burn": 0 },
@@ -955,6 +994,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "gold_small", 0.5 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 10, "heat": 3, "bullet": 1 },
     "repair_difficulty": 5
@@ -974,6 +1014,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ],
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
@@ -999,6 +1040,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "vitamins": [ [ "iron", 0.2 ], [ "vitC", 0.1 ], [ "calcium", 0.1 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -1021,6 +1063,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 150, "smoke": 6, "burn": 1 },
       { "fuel": 300, "smoke": 6, "burn": 2 },
@@ -1042,6 +1085,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "//1": "1L adds about 90 minutes to a fire at the lowest intensity bracket.",
     "burn_data": [
       { "fuel": 300, "smoke": 6, "burn": 1 },
@@ -1159,6 +1203,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 1 ], [ "iron", 1.3 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
@@ -1182,6 +1227,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 4, "cut": 4, "acid": 5, "heat": 3, "bullet": 2 },
     "repair_difficulty": 2
@@ -1201,6 +1247,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
       { "fuel": 0, "smoke": 3, "burn": 0.002 },
@@ -1224,6 +1271,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
       { "fuel": 0, "smoke": 3, "burn": 0.002 },
@@ -1253,6 +1301,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 1, "cut": 3, "acid": 5, "heat": 1, "bullet": 2, "stab": 5 },
     "repair_difficulty": 4
   },
@@ -1273,6 +1322,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 1.5, "cut": 2, "acid": 5, "heat": 3, "bullet": 5 },
     "repair_difficulty": 4
   },
@@ -1290,6 +1340,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 3, "cut": 4, "acid": 5, "heat": 3, "bullet": 5 },
     "repair_difficulty": 5
   },
@@ -1307,6 +1358,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "lead", 0.5 ] ],
     "resist": { "bash": 0, "cut": 0, "acid": 8, "heat": 3, "bullet": 0 }
   },
@@ -1327,6 +1379,7 @@
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
       { "fuel": 0.1, "smoke": 3, "burn": 0.002, "volume_per_turn": "500 ml" },
@@ -1352,6 +1405,7 @@
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
       { "fuel": 0.1, "smoke": 3, "burn": 0.002, "volume_per_turn": "500 ml" },
@@ -1376,6 +1430,7 @@
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.001, "volume_per_turn": "200 ml" },
       { "fuel": 0.1, "smoke": 3, "burn": 0.002, "volume_per_turn": "500 ml" },
@@ -1401,6 +1456,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "//1": "Nylon/polyester reacts poorly to flame (it melts) but is hard to light. Doesn't break down easily unless exposed to a high-intensity fire.",
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.01 },
@@ -1425,6 +1481,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "vitamins": [ [ "calcium", 1.5 ], [ "iron", 0.1 ] ],
     "burn_data": [
       { "fuel": -100, "smoke": 1, "burn": 1 },
@@ -1448,6 +1505,7 @@
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "//": "Neoprene is considered highly fire-resistant, and it survives much better than most fabrics. Leaving a 1L cube in a small fire for upwards of 20 minutes produces burnt-badly burnt items.",
     "burn_data": [
       { "fuel": 0.001, "smoke": 3, "burn": 0.001, "volume_per_turn": "1 ml" },
@@ -1474,6 +1532,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [ { "immune": true }, { "immune": true }, { "immune": true } ],
     "resist": { "bash": 1, "cut": 1, "acid": 5, "heat": 20, "bullet": 1 },
     "repair_difficulty": 4
@@ -1491,6 +1550,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 1, "bullet": 0 }
   },
   {
@@ -1507,6 +1567,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "burn_data": [
       { "fuel": 300, "smoke": 3, "burn": 1 },
       { "fuel": 600, "smoke": 6, "burn": 2 },
@@ -1530,6 +1591,7 @@
     "salvaged_into": "wax",
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "//1": "Basically as flammable as a candle.",
     "burn_data": [
       { "fuel": 0.1, "smoke": 1, "burn": 0.001 },
@@ -1552,6 +1614,7 @@
     "salvaged_into": "wax_paraffin",
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "burn_data": [
       { "fuel": 150, "smoke": 0, "burn": 1 },
       { "fuel": 300, "smoke": 0, "burn": 2 },
@@ -1574,6 +1637,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 1.1, "smoke": 1, "burn": 0.025 },
       { "fuel": 2.2, "smoke": 1, "burn": 0.05 },
@@ -1595,6 +1659,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
       { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },
@@ -1620,6 +1685,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "melted",
     "//1": "Most consumer polymers and plastics receive a UL94 rating for flammability and the lowest UL94 rating is HB, generally considered self-extinguishing. Plastics are flammable but should only contribute significant fuel in intense fires.",
     "burn_data": [
       { "fuel": 0.1, "smoke": 2, "burn": 0.001 },
@@ -1661,6 +1727,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "melted",
     "burn_data": [
       { "fuel": 0.1, "smoke": 2, "burn": 0.001 },
       { "fuel": 0.4, "smoke": 3, "burn": 0.003 },
@@ -1696,6 +1763,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "//": "This is a highly non-specific material which usually can't be found in any great quantity, so it doesn't really matter what the burn_data is.",
     "burn_data": [
       { "fuel": 10, "smoke": 2, "burn": 10 },
@@ -1717,6 +1785,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "resist": { "bash": 1, "cut": 1, "acid": 0, "heat": 20, "bullet": 1 }
   },
   {
@@ -1733,6 +1802,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "resist": { "bash": 1, "cut": 1, "acid": 0, "heat": 20, "bullet": 1 }
   },
   {
@@ -1747,6 +1817,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "resist": { "bash": 0, "cut": 0, "acid": 8, "heat": 3, "bullet": 0 }
   },
   {
@@ -1763,6 +1834,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "silver_small", 0.5 ] ],
     "resist": { "bash": 2, "cut": 3, "acid": 10, "heat": 3, "bullet": 2 },
     "repair_difficulty": 5
@@ -1781,6 +1853,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "platinum_small", 0.5 ] ],
     "resist": { "bash": 1, "cut": 1, "acid": 10, "heat": 3, "bullet": 1 },
     "repair_difficulty": 5
@@ -1801,6 +1874,7 @@
     "dmg_adj": [ "worn", "stressed", "shredded", "ruined" ],
     "bash_dmg_verb": "stressed",
     "cut_dmg_verb": "slashed",
+    "acid_dmg_verb": "melted",
     "//2": "based on synthetic fabric and wood, trying to get long burning with much smoke but little fuel",
     "burn_data": [
       { "fuel": 1, "smoke": 3, "burn": 0.1, "volume_per_turn": "100 ml" },
@@ -1826,6 +1900,7 @@
     "dmg_adj": [ "worn", "stressed", "shredded", "ruined" ],
     "bash_dmg_verb": "stressed",
     "cut_dmg_verb": "slashed",
+    "acid_dmg_verb": "melted",
     "//2": "based on synthetic fabric and wood, trying to get long burning with much smoke but little fuel",
     "burn_data": [
       { "fuel": 1, "smoke": 3, "burn": 0.1, "volume_per_turn": "100 ml" },
@@ -1845,6 +1920,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0 }
   },
   {
@@ -1862,6 +1938,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 4.5 },
     "repair_difficulty": 3
@@ -1881,6 +1958,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 7, "cut": 7, "acid": 7, "heat": 3, "bullet": 4.5 },
     "repair_difficulty": 4
@@ -1900,6 +1978,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
     "repair_difficulty": 5
@@ -1919,6 +1998,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
     "repair_difficulty": 6
@@ -1938,6 +2018,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 },
     "repair_difficulty": 7
@@ -1960,6 +2041,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 2 },
     "repair_difficulty": 2
@@ -1983,6 +2065,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 4.5 },
     "repair_difficulty": 2
@@ -2006,6 +2089,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 7, "cut": 7, "acid": 7, "heat": 3, "bullet": 4.5 },
     "repair_difficulty": 2
@@ -2029,6 +2113,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
     "repair_difficulty": 2
@@ -2052,6 +2137,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 10, "cut": 10, "acid": 7, "heat": 3, "bullet": 6.5 },
     "repair_difficulty": 2
@@ -2075,6 +2161,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 11, "cut": 11, "acid": 7, "heat": 3, "bullet": 7.5 },
     "repair_difficulty": 2
@@ -2093,6 +2180,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "scrap", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 3 },
     "repair_difficulty": 4
@@ -2110,6 +2198,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "fuel_data": { "energy": "10000 kJ" },
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 3 }
   },
@@ -2126,6 +2215,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "fuel_data": { "energy": "10000 kJ" },
     "resist": { "bash": 6, "cut": 6, "acid": 7, "heat": 3, "bullet": 3 }
   },
@@ -2143,6 +2233,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "fuel_data": {
       "//": "Compressed gaseous hydrogen has 9.2 MJ/L.  This stuff has a very high energy density but is also bulky and explosive.",
       "energy": "4000000 kJ",
@@ -2163,6 +2254,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "corroded",
     "burn_products": [ [ "pebble", 0.5 ] ],
     "resist": { "bash": 6, "cut": 6, "acid": 8, "heat": 3, "bullet": 3 }
   },
@@ -2213,6 +2305,7 @@
     "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
+    "acid_dmg_verb": "agitated",
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
   },
   {
@@ -2227,6 +2320,7 @@
     "dmg_adj": [ "resonating", "cascading", "unravelling", "fractal" ],
     "bash_dmg_verb": "agitated",
     "cut_dmg_verb": "agitated",
+    "acid_dmg_verb": "agitated",
     "burn_products": [ [ "pebble", 1 ] ],
     "resist": { "bash": 160, "cut": 200, "acid": 100, "heat": 100, "bullet": 160 }
   },
@@ -2252,6 +2346,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 6, "cut": 6, "acid": 5, "heat": 3, "bullet": 5 },
     "repair_difficulty": 7
   },
@@ -2269,6 +2364,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 6, "cut": 6, "acid": 30, "heat": 30, "bullet": 5 }
   },
   {
@@ -2288,6 +2384,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "melted",
     "//1": "Nylon reacts poorly to flame (it melts) but is hard to light. Doesn't break down easily unless exposed to a high-intensity fire.",
     "burn_data": [
       { "fuel": 0.05, "smoke": 1, "burn": 0.01 },
@@ -2351,6 +2448,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 2, "cut": 3, "acid": 0, "heat": 3, "bullet": 2 },
     "//1": "No material in game can actually repair this. Difficulty is zero so that second skin can be 'repaired' (fed blood) with the feeding kit trivially.",
     "repair_difficulty": 0
@@ -2374,6 +2472,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 0, "cut": 0, "acid": 2, "heat": 3, "bullet": 0 },
     "repair_difficulty": 4
   },
@@ -2393,6 +2492,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.1 ], [ "vitC", 0.5 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2416,6 +2516,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.1 ], [ "vitC", 4 ], [ "iron", 0.1 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2439,6 +2540,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.3 ], [ "vitC", 0.6 ], [ "iron", 0.8 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2462,6 +2564,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 1.8 ], [ "vitC", 5.2 ], [ "iron", 0.9 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2485,6 +2588,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.3 ], [ "iron", 1 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2508,6 +2612,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.4 ], [ "iron", 4 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2530,6 +2635,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "burn_data": [
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },
@@ -2565,6 +2671,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "burn_data": [
       { "fuel": 300, "smoke": 6, "burn": 1 },
       { "fuel": 600, "smoke": 6, "burn": 2 },
@@ -2592,6 +2699,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 1, "bullet": 0 }
   },
   {
@@ -2609,6 +2717,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "iron", 0.1 ] ],
     "//": "This material is used primarily for foodstuffs, and should not provide any significant fuel value.",
     "burn_data": [
@@ -2633,6 +2742,7 @@
     "dmg_adj": [ "scratched", "chipped", "cracked", "splintered" ],
     "bash_dmg_verb": "splintered",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 0.01, "volume_per_turn": "200 ml" },
       { "fuel": 2, "smoke": 1, "burn": 0.02, "volume_per_turn": "825 ml" },
@@ -2695,6 +2805,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "torn",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.6, "smoke": 1, "burn": 0.025, "volume_per_turn": "200 ml" },
       { "fuel": 1.2, "smoke": 1, "burn": 0.05, "volume_per_turn": "825 ml" },
@@ -2735,6 +2846,7 @@
     "dmg_adj": [ "squished", "squashed", "mashed", "mushed" ],
     "bash_dmg_verb": "squished",
     "cut_dmg_verb": "squished",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
       { "fuel": 2, "smoke": 1, "burn": 2, "volume_per_turn": "2500 ml" },
@@ -2757,6 +2869,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "vitC", 2 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2780,6 +2893,7 @@
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 0.1 ], [ "iron", 1.3 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2803,6 +2917,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
       { "fuel": 0, "smoke": 3, "burn": 0.002 },
@@ -2825,6 +2940,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "melted",
     "vitamins": [ [ "calcium", 1.5 ], [ "iron", 0.1 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 1, "burn": 0.002 },
@@ -2848,6 +2964,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "smashed",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "melted",
     "burn_data": [
       { "fuel": -100, "smoke": 1, "burn": 1 },
       { "fuel": -50, "smoke": 2, "burn": 1 },
@@ -2868,6 +2985,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "resist": { "bash": 1, "cut": 1, "acid": 0, "heat": 20, "bullet": 1 }
   },
   {
@@ -2891,6 +3009,7 @@
     "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 4, "cut": 3, "acid": 4, "heat": 1, "bullet": 2 },
     "repair_difficulty": 4
   },
@@ -2917,6 +3036,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 1, "cut": 1, "acid": 0, "heat": 20, "bullet": 1 }
   },
   {
@@ -2931,6 +3051,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "freezing_point": -77.73,
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0, "electric": 0 }
   },
@@ -2947,6 +3068,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "freezing_point": -77.73,
     "fuel_data": { "energy": "11500 kJ" },
     "resist": { "bash": 0, "cut": 0, "acid": 0, "heat": 0, "bullet": 0, "electric": 0 }
@@ -2965,6 +3087,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "freezing_point": -55,
     "fuel_data": {
       "energy": "34800 kJ",
@@ -2992,6 +3115,7 @@
     "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 1, "cut": 4, "acid": 4, "heat": 3, "bullet": 4 }
   },
   {
@@ -3008,6 +3132,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damaged",
     "resist": { "bash": 2, "cut": 5, "acid": 10, "heat": 20, "bullet": 2 }
   },
   {
@@ -3024,6 +3149,7 @@
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "sliced",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 0.6, "smoke": 1, "burn": 0.02 },
       { "fuel": 1, "smoke": 1, "burn": 0.04 },
@@ -3045,6 +3171,7 @@
     "dmg_adj": [ "scratched", "chipped", "cracked", "splintered" ],
     "bash_dmg_verb": "splintered",
     "cut_dmg_verb": "gouged",
+    "acid_dmg_verb": "burned",
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 0.01, "volume_per_turn": "200 ml" },
       { "fuel": 2, "smoke": 1, "burn": 0.02, "volume_per_turn": "825 ml" },
@@ -3069,6 +3196,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 2 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0.0003 },
@@ -3091,6 +3219,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "burned",
     "vitamins": [ [ "calcium", 2 ] ],
     "burn_data": [
       { "fuel": 0, "smoke": 0, "burn": 0 },
@@ -3131,6 +3260,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 3, "cut": 4, "acid": 10, "heat": 2, "bullet": 2 },
     "repair_difficulty": 7
   }

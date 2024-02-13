@@ -233,7 +233,6 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                               const sub_bodypart_id &sbp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
-
     // if the core armor is missed then exit
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;
@@ -245,13 +244,12 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         armor.deactivate( nullptr, false );
         add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
     }
+
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, sbp, -1 );
-
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, bp );
-
     // describe what happened if the armor took damage
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
         describe_damage( du, armor );
@@ -262,7 +260,6 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
-
     if( roll > armor.get_coverage( bp, ctype ) ) {
         return false;
     }
@@ -276,10 +273,8 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, bp, -1 );
-
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, bp );
-
     // describe what happened if the armor took damage
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
         describe_damage( du, armor );
@@ -381,8 +376,15 @@ void Character::describe_damage( damage_unit &du, item &armor ) const
 {
     const material_type &material = armor.get_random_material();
     // FIXME: Hardcoded damage types
-    std::string damage_verb = ( du.type == STATIC( damage_type_id( "bash" ) ) ) ?
-                              material.bash_dmg_verb() : material.cut_dmg_verb();
+    std::string damage_verb;
+    // Fire has its own method, but heat damage exists outside of fire IE lasers
+    if( du.type == STATIC( damage_type_id( "bash" ) ) ) {
+        damage_verb = material.bash_dmg_verb();
+    } else if( du.type == STATIC( damage_type_id( "heat" ) ) || STATIC( damage_type_id( "acid" ) ) ) {
+        damage_verb = material.acid_dmg_verb();
+    } else {
+        damage_verb = material.cut_dmg_verb();
+    }
 
     const std::string pre_damage_name = armor.tname();
     const std::string pre_damage_adj = armor.get_base_material().dmg_adj( armor.damage_level() );

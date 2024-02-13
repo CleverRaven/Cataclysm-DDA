@@ -3295,7 +3295,7 @@ bool map::is_water( const tripoint &p ) const
 bool map::is_decent_water( const tripoint &p ) const
 {
     return has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
-               !has_flag( ter_furn_flag::TFLAG_SEWAGE, p );
+           !has_flag( ter_furn_flag::TFLAG_SEWAGE, p );
 }
 
 bool map::is_outside( const tripoint &p ) const

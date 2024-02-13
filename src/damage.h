@@ -39,7 +39,7 @@ struct damage_type {
     bool mon_difficulty = false;
     bool no_resist = false;
     bool edged = false;
-    bool env = false;
+    bool environmental = false;
     bool material_required = false;
     bool was_loaded = false;
 

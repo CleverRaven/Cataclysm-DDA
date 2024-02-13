@@ -546,7 +546,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
     for( const damage_type &dt : damage_type::get_all() ) {
         if( info.best_case.type_resist( dt.id ) > 1 ) {
             info_txt.emplace_back( string_format( "  %s:", uppercase_first_letter( dt.name.translated() ) ) );
-            info_txt.emplace_back( dt.env ? get_env_str( dt.id ) : get_res_str( dt.id ) );
+            info_txt.emplace_back( dt.environmental ? get_env_str( dt.id ) : get_res_str( dt.id ) );
         }
     }
 }
