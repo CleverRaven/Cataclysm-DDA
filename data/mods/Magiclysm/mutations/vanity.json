@@ -51,7 +51,7 @@
     "id": "SKIN_MIDNIGHT",
     "type": "mutation",
     "name": { "str": "Skin tone: midnight" },
-    "description": "You have an extremely dark skin tone.",
+    "description": "You have an almost pure black skin tone.",
     "points": 0,
     "starting_trait": true,
     "valid": false,
