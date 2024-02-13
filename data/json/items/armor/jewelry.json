@@ -4065,14 +4065,14 @@
     "color": "dark_gray"
   },
   {
-	"id": "gold_hair_beads",
-	"copy-from": "garnet_gold_tiara",
-	"type": "ARMOR",
-	"name": { "str": "gold hair beads" },
-	"description": "an assortment of gold beads used to decorate locs or braids.",
-	"material": [ "gold" ],
-	"symbol": ".",
-	"color": "yellow"
+    "id": "gold_hair_beads",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "gold hair beads" },
+    "description": "an assortment of gold beads used to decorate locs or braids.",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow"
   },
   {
     "id": "garnet_silver_tiara",
