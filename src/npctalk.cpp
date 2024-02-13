@@ -5573,11 +5573,11 @@ talk_effect_fun_t::func f_roll_remainder( const JsonObject &jo,
         list.emplace_back( get_str_or_var( jv, member ) );
     }
     str_or_var type = get_str_or_var( jo.get_member( "type" ), "type", true );
-    str_or_var message;
+    translation_or_var message;
     if( jo.has_member( "message" ) ) {
-        message = get_str_or_var( jo.get_member( "message" ), "message", true );
+        message = get_translation_or_var( jo.get_member( "message" ), "message", true );
     } else {
-        message.str_val = "";
+        message.str_val = translation();
     }
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
@@ -5632,7 +5632,7 @@ talk_effect_fun_t::func f_roll_remainder( const JsonObject &jo,
             if( !cur_message.empty() ) {
                 Character *target = d.actor( is_npc )->get_character();
                 if( target ) {
-                    target->add_msg_if_player( _( cur_message ), name );
+                    target->add_msg_if_player( cur_message, name );
                 }
             }
             run_eoc_vector( true_eocs, d );

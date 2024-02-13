@@ -44,6 +44,28 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(eff["npc_make_sound"], origin,
                                              comment="NPC makes sound in {}"
                                              .format(comment))
+            if "u_roll_remainder" in eff or "npc_roll_remainder" in eff:
+                if "u_roll_remainder" in eff:
+                    roll_type = "player"
+                else:
+                    roll_type = "NPC"
+                if "message" in eff:
+                    write_translation_or_var(eff["message"], origin,
+                                             comment="{} roll message in {}"
+                                             .format(roll_type, comment))
+                for key in ["true_eocs", "false_eocs"]:
+                    if key not in eff:
+                        continue
+                    eoc_list = eff[key]
+                    if type(eoc_list) is not list:
+                        eoc_list = [eoc_list]
+                    for eoc in eoc_list:
+                        if type(eoc) is not dict:
+                            continue
+                        parse_effect_on_condition(
+                            eoc, origin,
+                            comment="{} roll nested EOCs in {}"
+                            .format(roll_type, comment))
             for cast_spell_key in ["u_cast_spell", "npc_cast_spell"]:
                 if cast_spell_key not in eff:
                     continue
@@ -84,12 +106,14 @@ def parse_effect(effects, origin, comment=""):
             if "variables" in eff:
                 parse_effect_variables(eff["variables"], origin, comment)
             if "run_eocs" in eff:
-                if type(eff["run_eocs"]) is list:
-                    for eoc in eff["run_eocs"]:
-                        if type(eoc) is dict:
-                            parse_effect_on_condition(eoc, origin,
-                                                      comment="nested EOCs in {}"
-                                                      .format(comment))
+                eoc_list = eff["run_eocs"]
+                if type(eoc_list) is not list:
+                    eoc_list = [eoc_list]
+                for eoc in eoc_list:
+                    if type(eoc) is dict:
+                        parse_effect_on_condition(eoc, origin,
+                                                  comment="nested EOCs in {}"
+                                                  .format(comment))
             if "run_eoc_selector" in eff:
                 for name in eff.get("names", []):
                     write_translation_or_var(name, origin,
