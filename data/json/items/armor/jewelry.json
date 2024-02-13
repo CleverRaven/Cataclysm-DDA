@@ -99,7 +99,7 @@
     "copy-from": "bead_bracelet",
     "type": "ARMOR",
     "name": { "str": "cowrie bracelet" },
-    "description": "a bracelet made of cowrie shells, valued in many african cultures such as the Yoruba. If you want, you could meditate with this.",
+    "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white"
   },
