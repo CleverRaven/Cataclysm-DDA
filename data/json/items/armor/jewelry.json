@@ -107,7 +107,7 @@
     "id": "cowrie_hair_beads",
     "copy-from": "wooden_hair_beads",
     "type": "ARMOR",
-    "name": { "str": "cowrie hair beads" },
+    "name": { "str": "cowrie hair beads", "str_pl": "sets of cowrie hair beads" },
     "description": "An assortment of cowrie shells used to decorate locs or braids.",
     "material": [ "bone" ],
     "color": "white",
