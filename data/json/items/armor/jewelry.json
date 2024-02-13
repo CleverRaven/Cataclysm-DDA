@@ -1155,7 +1155,7 @@
     "id": "wooden_hair_beads",
     "copy-from": "garnet_silver_tiara",
     "type": "ARMOR",
-    "name": { "str": "wooden hair beads" },
+    "name": { "str": "wooden hair beads", "str_pl": "sets of wooden hair beads" },
     "description": "An assortment of wooden beads used to decorate locs or braids.",
     "material": [ "wood" ],
     "symbol": ".",
