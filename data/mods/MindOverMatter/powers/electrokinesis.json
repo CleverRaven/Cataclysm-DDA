@@ -598,12 +598,12 @@
     },
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('electrokinetic_lightning_aura') > -1 ? 0 : max((9000 - (u_spell_level('electrokinetic_lightning_aura') * 200)), 4500)"
+        "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 0 : max((9000 - (u_spell_level('electrokinetic_lightning_aura') * 200)), 4500)"
       ]
     },
     "base_casting_time": {
       "math": [
-        "u_effect_intensity('electrokinetic_lightning_aura') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_lightning_aura') * 8.5)), 55)"
+        "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_lightning_aura') * 8.5)), 55)"
       ]
     },
     "energy_source": "STAMINA"
