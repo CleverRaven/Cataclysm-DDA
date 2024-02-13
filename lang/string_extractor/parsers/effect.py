@@ -103,6 +103,15 @@ def parse_effect(effects, origin, comment=""):
                     write_text(eff["title"], origin,
                                comment="EOC selection title in {}"
                                .format(comment))
+            if "title" in eff:
+                if "u_run_inv_eocs" in eff:
+                    write_translation_or_var(eff["title"], origin,
+                                             comment="Player inventory menu "
+                                             "title in {}".format(comment))
+                if "npc_run_inv_eocs" in eff:
+                    write_translation_or_var(eff["title"], origin,
+                                             comment="NPC inventory menu "
+                                             "title in {}".format(comment))
             if "weighted_list_eocs" in eff:
                 for e in eff["weighted_list_eocs"]:
                     if type(e[0]) is dict:

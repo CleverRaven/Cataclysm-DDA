@@ -5246,11 +5246,11 @@ talk_effect_fun_t::func f_run_inv_eocs( const JsonObject &jo,
     for( const JsonValue &search_data_jo : jo.get_array( "search_data" ) ) {
         data.emplace_back( search_data_jo );
     }
-    str_or_var title;
+    translation_or_var title;
     if( jo.has_member( "title" ) ) {
-        title = get_str_or_var( jo.get_member( "title" ), "title", true );
+        title = get_translation_or_var( jo.get_member( "title" ), "title", true );
     } else {
-        title.str_val = "";
+        title.str_val = translation();
     }
 
     return [option, true_eocs, false_eocs, data, is_npc, title]( dialogue & d ) {
