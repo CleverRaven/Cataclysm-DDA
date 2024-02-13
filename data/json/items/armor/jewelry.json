@@ -4228,14 +4228,14 @@
     "color": "dark_gray"
   },
   {
-	"id": "silver_hair_beads",
-	"copy-from": "garnet_silver_tiara",
-	"type": "ARMOR",
-	"name": { "str": "silver hair beads" },
-	"description": "An assortment of shiny silver beads used to decorate locs or braids.",
-	"material": [ "silver" ],
-	"symbol": ".",
-	"color": "white",
-	"flags": [ "FANCY", "NO_WEAR_EFFECT" ]
+    "id": "silver_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "silver hair beads" },
+    "description": "An assortment of shiny silver beads used to decorate locs or braids.",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "white",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   }
 ]
