@@ -118,7 +118,7 @@
     "copy-from": "bead_necklace",
     "type": "ARMOR",
     "name": { "str": "cowrie necklace" },
-    "description": "a necklace made of cowrie shells, valued in many african cultures such as the Yoruba. If you want, you could meditate with this.",
+    "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
     "color": "white"
   },
