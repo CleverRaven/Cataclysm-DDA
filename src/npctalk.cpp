@@ -6064,18 +6064,19 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
                                     bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
-    str_or_var fail_message;
+    translation_or_var fail_message;
     if( jo.has_member( "fail_message" ) ) {
-        fail_message = get_str_or_var( jo.get_member( "fail_message" ), "fail_message", false, "" );
+        fail_message = get_translation_or_var( jo.get_member( "fail_message" ), "fail_message",
+                                               false, translation() );
     } else {
-        fail_message.str_val = "";
+        fail_message.str_val = translation();
     }
-    str_or_var success_message;
+    translation_or_var success_message;
     if( jo.has_member( "success_message" ) ) {
-        success_message = get_str_or_var( jo.get_member( "success_message" ), "success_message", false,
-                                          "" );
+        success_message = get_translation_or_var( jo.get_member( "success_message" ), "success_message",
+                          false, translation() );
     } else {
-        success_message.str_val = "";
+        success_message.str_val = translation();
     }
     bool force = jo.get_bool( "force", false );
     return [is_npc, target_var, fail_message, success_message, force]( dialogue const & d ) {
@@ -6084,15 +6085,15 @@ talk_effect_fun_t::func f_teleport( const JsonObject &jo, std::string_view membe
         if( teleporter ) {
             if( teleport::teleport_to_point( *teleporter, get_map().getlocal( target_pos ), true, false,
                                              false, force ) ) {
-                teleporter->add_msg_if_player( _( success_message.evaluate( d ) ) );
+                teleporter->add_msg_if_player( success_message.evaluate( d ) );
             } else {
-                teleporter->add_msg_if_player( _( fail_message.evaluate( d ) ) );
+                teleporter->add_msg_if_player( fail_message.evaluate( d ) );
             }
         }
         item_location *it = d.actor( is_npc )->get_item();
         if( it && it->get_item() ) {
             map_add_item( *it->get_item(), target_pos );
-            add_msg( _( success_message.evaluate( d ) ) );
+            add_msg( success_message.evaluate( d ) );
             it->remove_item();
         }
     };

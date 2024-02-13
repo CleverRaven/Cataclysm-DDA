@@ -83,13 +83,15 @@ def parse_effect(effects, origin, comment=""):
                            .format(comment))
             if "u_teleport" in eff or "npc_teleport" in eff:
                 if "success_message" in eff:
-                    write_text(eff["success_message"], origin,
-                               comment="Success message in teleportation in {}"
-                               .format(comment))
+                    write_translation_or_var(eff["success_message"], origin,
+                                             comment="Success message in "
+                                             "teleportation in {}"
+                                             .format(comment))
                 if "fail_message" in eff:
-                    write_text(eff["fail_message"], origin,
-                               comment="Fail message in teleportation in {}"
-                               .format(comment))
+                    write_translation_or_var(eff["fail_message"], origin,
+                                             comment="Fail message in "
+                                             "teleportation in {}"
+                                             .format(comment))
             if "variables" in eff:
                 parse_effect_variables(eff["variables"], origin, comment)
             if "run_eoc_selector" in eff:
