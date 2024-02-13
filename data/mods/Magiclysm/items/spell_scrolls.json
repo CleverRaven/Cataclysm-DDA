@@ -1968,5 +1968,14 @@
     "name": { "str": "Scroll of Arrowflight", "str_pl": "Scrolls of Arrowflight" },
     "description": "Manipulate gravity, atmospheric drag, and friction to increase the effective ranged of ranged weapons, both bows and firearms.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_ranged_increase" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_add_evasion_spell",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Guardian Spirit", "str_pl": "Scrolls of Guardian Spirit" },
+    "description": "Summon a benevolent spirit to watch over the caster and warn them of imminent attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_add_evasion_spell" ] }
   }
 ]

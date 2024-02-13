@@ -799,6 +799,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_animist_add_evasion",
+    "name": [ "Guardian Spirit" ],
+    "desc": [ "A protective spirit is looking out for you." ],
+    "apply_message": "",
+    "remove_message": "With a soft whisper, the guardian spirit returns from whence it came.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "EVASION", "add": { "math": [ "(( u_spell_level('animist_add_evasion_spell') * 0.02) + 0.1)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_anti_heat",
     "name": [ "Water's Cooling Touch" ],
     "desc": [ "Your skin feels like you just splashed cool water on it." ],
@@ -1218,6 +1232,7 @@
       "flask_mana_regen",
       "flask_max_mana",
       "flask_regeneration",
+      "effect_animist_add_evasion",
       "earthshaper_fortitude_of_stone",
       "effect_tremorsense",
       "effect_sense_outsiders",
@@ -1234,12 +1249,14 @@
       "effect_druid_anti_heat",
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
+      "effect_magus_ranged_increase",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
-      "effect_thorns_electric"
+      "effect_thorns_electric",
+      "effect_stormshaper_loud_voice"
     ]
   },
   {
@@ -1352,6 +1369,7 @@
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
+      "effect_animist_add_evasion",
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
@@ -1359,7 +1377,9 @@
       "effect_druid_anti_heat",
       "effect_druid_traverse_the_wilds",
       "effect_magus_mageshield",
+      "effect_magus_ranged_increase",
       "effect_spirit_walking",
+      "effect_stormshaper_loud_voice",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
