@@ -404,6 +404,8 @@ class map_notes_callback : public uilist_callback
                     if( overmap_buffer.note_danger_radius( note_location() ) >= 0 &&
                         query_yn( _( "Remove dangerous mark?" ) ) ) {
                         overmap_buffer.mark_note_dangerous( note_location(), 0, false );
+                        menu->ret = UILIST_MAP_NOTE_EDITED;
+                        return true;
                     } else {
                         bool has_mark = overmap_buffer.note_danger_radius( note_location() ) >= 0;
                         bool has_note = overmap_buffer.has_note( note_location() );
@@ -489,13 +491,20 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
                 overmap_buffer.get_description_at( tripoint_abs_sm( sm_pos, origin.z() ) );
             const bool is_dangerous =
                 overmap_buffer.is_marked_dangerous( tripoint_abs_omt( p, origin.z() ) );
+            const int note_danger_radius = overmap_buffer.note_danger_radius( tripoint_abs_omt( p,
+                                           origin.z() ) );
+            nc_color bracket_color = note_danger_radius >= 0 ? c_red : c_light_gray;
+            std::string danger_desc_text = note_danger_radius >= 0 ? string_format(
+                                               _( "DANGEROUS AREA!  (R=%d)" ),
+                                               note_danger_radius ) : is_dangerous ? _( "IN DANGEROUS AREA!" ) : "";
             nmenu.addentry_desc(
-                string_format( _( "[%s] %s" ), colorize( note_symbol, note_color ), note_text ),
+                string_format( colorize( _( "[%s] %s" ), bracket_color ), colorize( note_symbol, note_color ),
+                               note_text ),
                 string_format(
                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color>: %s "
                        "(Distance: <color_white>%d</color>) <color_red>%s</color>" ),
                     origin.z(), p_om.x(), p_omt.x(), p_om.y(), p_omt.y(), location_desc,
-                    distance_player, is_dangerous ? "DANGEROUS AREA!" : "" ) );
+                    distance_player, danger_desc_text ) );
             nmenu.entries[row].ctxt =
                 string_format( _( "<color_light_gray>Distance: </color><color_white>%d</color>" ),
                                distance_player );

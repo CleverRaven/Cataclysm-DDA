@@ -251,7 +251,7 @@
     "price_postapoc": 10,
     "to_hit": -3,
     "stack_size": 8,
-    "material": [ "steel" ],
+    "material": [ "lc_steel" ],
     "symbol": "]",
     "color": "light_cyan",
     "ammo_type": "components",

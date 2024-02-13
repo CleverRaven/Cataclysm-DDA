@@ -4422,6 +4422,7 @@ bool npc::consume_food_from_camp()
     basecamp *bcp = *potential_bc;
     if( get_thirst() > 40 && bcp->has_water() ) {
         complain_about( "camp_water_thanks", 1_hours, chatbin.snip_camp_water_thanks, false );
+        // TODO: Stop skipping the stomach for this, actually put the water in there.
         set_thirst( 0 );
         return true;
     }
@@ -4434,7 +4435,7 @@ bool npc::consume_food_from_camp()
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
                                       kcal_threshold + 100 - current_kcals ) );
-        int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
+        int kcals_to_eat = std::min( desired_kcals, yours->food_supply.kcal() );
 
         if( kcals_to_eat > 0 ) {
             // We need food and there's some available, so let's eat it
@@ -4446,10 +4447,8 @@ bool npc::consume_food_from_camp()
             // or becoming engorged
             units::volume filling_vol = std::max( 0_ml, stomach.capacity( *this ) / 2 - stomach.contains() );
 
-            // TODO: At the moment, vitamins are not tracked by the faction camp, so this does *not* give
-            // the NPC any vitamins. That will need to be added once vitamin deficiencies start mattering
-            nutrients nutr{};
-            nutr.calories = kcals_to_eat * 1000;
+            // Returns the actual amount of calories and vitamins taken from the camp's larder.
+            nutrients nutr = bcp->camp_food_supply( -kcals_to_eat );
 
             stomach.ingest( food_summary{
                 0_ml,
@@ -4460,7 +4459,6 @@ bool npc::consume_food_from_camp()
             // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
             set_hunger( -1 );
 
-            yours->food_supply -= kcals_to_eat;
             return true;
         } else {
             // We need food but there's none to eat :(
