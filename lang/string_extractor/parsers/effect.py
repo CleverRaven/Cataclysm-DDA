@@ -53,19 +53,6 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(eff["message"], origin,
                                              comment="{} roll message in {}"
                                              .format(roll_type, comment))
-                for key in ["true_eocs", "false_eocs"]:
-                    if key not in eff:
-                        continue
-                    eoc_list = eff[key]
-                    if type(eoc_list) is not list:
-                        eoc_list = [eoc_list]
-                    for eoc in eoc_list:
-                        if type(eoc) is not dict:
-                            continue
-                        parse_effect_on_condition(
-                            eoc, origin,
-                            comment="{} roll nested EOCs in {}"
-                            .format(roll_type, comment))
             for cast_spell_key in ["u_cast_spell", "npc_cast_spell"]:
                 if cast_spell_key not in eff:
                     continue
@@ -105,15 +92,6 @@ def parse_effect(effects, origin, comment=""):
                                .format(comment))
             if "variables" in eff:
                 parse_effect_variables(eff["variables"], origin, comment)
-            if "run_eocs" in eff:
-                eoc_list = eff["run_eocs"]
-                if type(eoc_list) is not list:
-                    eoc_list = [eoc_list]
-                for eoc in eoc_list:
-                    if type(eoc) is dict:
-                        parse_effect_on_condition(eoc, origin,
-                                                  comment="nested EOCs in {}"
-                                                  .format(comment))
             if "run_eoc_selector" in eff:
                 for name in eff.get("names", []):
                     write_translation_or_var(name, origin,
@@ -136,6 +114,11 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(eff["title"], origin,
                                              comment="NPC inventory menu "
                                              "title in {}".format(comment))
+            if "place_override" in eff:
+                write_translation_or_var(eff["place_override"], origin,
+                                         comment="place name in {}"
+                                         .format(comment))
+            # Nested effects
             if "weighted_list_eocs" in eff:
                 for e in eff["weighted_list_eocs"]:
                     if type(e[0]) is dict:
@@ -143,15 +126,34 @@ def parse_effect(effects, origin, comment=""):
                             parse_effect(e[0]["effect"], origin,
                                          comment="nested effect in {}"
                                          .format(comment))
+            if "run_eocs" in eff:
+                eoc_list = eff["run_eocs"]
+                if type(eoc_list) is not list:
+                    eoc_list = [eoc_list]
+                for eoc in eoc_list:
+                    if type(eoc) is dict:
+                        parse_effect_on_condition(eoc, origin,
+                                                  comment="nested EOCs in {}"
+                                                  .format(comment))
+            for key, cond_type in [("true_eocs", "true"),
+                                   ("false_eocs", "false")]:
+                if key not in eff:
+                    continue
+                eoc_list = eff[key]
+                if type(eoc_list) is not list:
+                    eoc_list = [eoc_list]
+                for eoc in eoc_list:
+                    if type(eoc) is not dict:
+                        continue
+                    parse_effect_on_condition(
+                        eoc, origin,
+                        comment="nested EOCs on {} condition in {}"
+                        .format(cond_type, comment))
             if "switch" in eff:
                 for e in eff["cases"]:
                     parse_effect(e["effect"], origin,
                                  comment="nested effect in switch statement in {}"
                                  .format(comment))
-            if "place_override" in eff:
-                write_translation_or_var(eff["place_override"], origin,
-                                         comment="place name in {}"
-                                         .format(comment))
 
 
 def parse_effect_on_condition(json, origin, comment=""):
