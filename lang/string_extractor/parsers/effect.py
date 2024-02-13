@@ -104,11 +104,11 @@ def parse_effect(effects, origin, comment=""):
                                comment="EOC selection title in {}"
                                .format(comment))
             if "title" in eff:
-                if "u_run_inv_eocs" in eff:
+                if "u_run_inv_eocs" in eff or "u_map_run_item_eocs" in eff:
                     write_translation_or_var(eff["title"], origin,
                                              comment="Player inventory menu "
                                              "title in {}".format(comment))
-                if "npc_run_inv_eocs" in eff:
+                if "npc_run_inv_eocs" in eff or "npc_map_run_item_eocs" in eff:
                     write_translation_or_var(eff["title"], origin,
                                              comment="NPC inventory menu "
                                              "title in {}".format(comment))

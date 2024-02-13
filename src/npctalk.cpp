@@ -5278,11 +5278,11 @@ talk_effect_fun_t::func f_map_run_item_eocs( const JsonObject &jo, std::string_v
     for( const JsonValue &search_data_jo : jo.get_array( "search_data" ) ) {
         data.emplace_back( search_data_jo );
     }
-    str_or_var title;
+    translation_or_var title;
     if( jo.has_member( "title" ) ) {
-        title = get_str_or_var( jo.get_member( "title" ), "title", true );
+        title = get_translation_or_var( jo.get_member( "title" ), "title", true );
     } else {
-        title.str_val = "";
+        title.str_val = translation();
     }
     std::optional<var_info> loc_var;
     if( jo.has_object( "loc" ) ) {
