@@ -5789,7 +5789,7 @@ static void mill_activate( Character &you, const tripoint &examp )
 
             // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
             // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
-            for( std::vector<item_comp> component : components ) {
+            for( const std::vector<item_comp> &component : components ) {
                 for( const item_comp &comp : component ) {
                     if( comp.type == mill_type_count.first ) {
                         lot_size = comp.count;
@@ -6064,7 +6064,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
 
             // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
             // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
-            for( std::vector<item_comp> component : components ) {
+            for( const std::vector<item_comp> &component : components ) {
                 for( const item_comp &comp : component ) {
                     if( comp.type == mill_type_count.first ) {
                         lot_size = comp.count;
@@ -6270,7 +6270,7 @@ static void mill_load_food( Character &you, const tripoint &examp,
 
         // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
         // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
-        for( std::vector<item_comp> component : components ) {
+        for( const std::vector<item_comp> &component : components ) {
             for( const item_comp &comp : component ) {
                 if( comp.type == it.typeId() ) {
                     return true;
