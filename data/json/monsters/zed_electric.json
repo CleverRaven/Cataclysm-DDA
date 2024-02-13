@@ -60,7 +60,6 @@
     "bleed_rate": 0,
     "//2": "melee damage is quite weak since the shockfield around it is its most dangerous function",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "vision_night": 3,
     "luminance": 16,
     "harvest": "zombie_humanoid_electric",
     "special_attacks": [ [ "PARROT", 5 ] ],
