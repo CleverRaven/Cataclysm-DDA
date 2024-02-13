@@ -645,20 +645,16 @@
     "type": "MONSTER",
     "name": { "str": "zombie wrestler" },
     "description": "A slab of festering muscle the size of a well-toned bodybuilder.  With popping and cracking sounds its arm muscles constantly lengthen and contract as it reaches out with deformed muscular hands the size of dinner plates.",
-    "copy-from": "mon_zombie_base",
+    "copy-from": "mon_zombie_brute",
     "diff": 3,
     "volume": "108500 ml",
     "weight": "94500 g",
     "hp": 220,
     "speed": 95,
     "color": "red_white",
-    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_skill": 7,
-    "melee_dice": 3,
-    "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
-    "bleed_rate": 50,
     "harvest": "zombie_grabber",
     "grab_strength": 37,
     "special_attacks": [
@@ -670,22 +666,19 @@
       { "id": "grab_drag", "grab_data": { "drag_distance": 1, "drag_deviation": 1, "drag_movecost_mod": 1.5 } },
       { "id": "drag_followup", "grab_data": { "drag_distance": 1, "drag_deviation": 1, "drag_movecost_mod": 1.5 } }
     ],
-    "burn_into": "mon_zombie_fiend",
     "upgrades": false,
     "armor": { "bash": 10, "cut": 14, "stab": 8, "bullet": 8, "electric": 2 },
-    "extend": { "flags": [ "SMELLS", "PUSH_VEH", "RANGED_ATTACKER" ], "weakpoint_sets": [ "wps_humanoid_head_small" ] }
+    "extend": { "flags": [ "RANGED_ATTACKER" ] }
   },
   {
     "id": "mon_zombie_brute_ninja",
     "type": "MONSTER",
     "name": { "str": "zombie nightstalker" },
     "description": "Somehow, this brute hides in the dark like some kind of boogeyman.  Very agile for such a large zombie.",
-    "copy-from": "mon_zombie_base",
-    "diff": 2,
+    "copy-from": "mon_zombie_brute",
     "hp": 200,
     "speed": 90,
     "color": "dark_gray_red",
-    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_skill": 5,
     "melee_dice": 4,
     "melee_dice_sides": 4,
@@ -701,10 +694,9 @@
       { "id": "longswipe" },
       { "id": "cut_throat" }
     ],
-    "burn_into": "mon_zombie_fiend",
     "upgrades": false,
     "armor": { "bash": 8, "cut": 5, "bullet": 4, "electric": 2 },
-    "extend": { "flags": [ "SMELLS", "PUSH_VEH", "NIGHT_INVISIBILITY" ], "weakpoint_sets": [ "wps_humanoid_head_small" ] }
+    "extend": { "flags": [ "NIGHT_INVISIBILITY" ] }
   },
   {
     "id": "mon_zombie_grue",
@@ -727,7 +719,7 @@
       { "name": "the head", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
-    "weakpoint_sets": [ " " ],
+    "weakpoint_sets": [  ],
     "bleed_rate": 0,
     "vision_day": 6,
     "vision_night": 40,
@@ -1255,15 +1247,13 @@
     "type": "MONSTER",
     "name": { "str": "ashen brawler" },
     "description": "A gigantic, twisted human frame with a menacing stance and rapid movements.  Thick clouds of smoke pour from violent-looking eviscerations spread across its muscular body, and its arms appear to have elongated massively.",
-    "copy-from": "mon_zombie_base",
+    "copy-from": "mon_zombie_brute",
     "hp": 150,
     "speed": 110,
     "color": "light_gray",
     "melee_skill": 5,
-    "melee_dice": 3,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "bleed_rate": 50,
     "dodge": 7,
     "vision_day": 30,
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
@@ -1279,7 +1269,8 @@
     ],
     "upgrades": false,
     "armor": { "bash": 2, "cut": 8, "stab": 8, "heat": 5, "bullet": 10, "electric": 2 },
-    "extend": { "flags": [ "HARDTOSHOOT", "PUSH_VEH", "RANGED_ATTACKER" ], "weakpoint_sets": [ "wps_humanoid_head_small" ] }
+    "extend": { "flags": [ "HARDTOSHOOT", "RANGED_ATTACKER" ] },
+    "delete": { "flags": [ "SMELLS" ] }
   },
   {
     "id": "mon_zombie_swimmer_base",
