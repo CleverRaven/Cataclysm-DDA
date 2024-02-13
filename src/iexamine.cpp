@@ -5961,10 +5961,10 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
     for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
         item source( mill_type_count.first );
         item product( source.type->milling_data->into_ );
-        recipe rec = recipe_dict.get_craft( product.typeId() );
+        recipe rec = recipe_dictionary::get_craft( product.typeId() );
 
         if( !rec ) {
-            debugmsg( _( "Failed to find milling recipe for %s. It will not be milled." ),
+            debugmsg( _( "Failed to find milling recipe for %s. It wasn't milled." ),
                       source.display_name().c_str() );
 
         } else {
@@ -6008,11 +6008,9 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
                 item_components item_component_lot;
                 int count = 0;
 
-                for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
-                    item &it = *iter;
-
-                    if( it.typeId() == mill_type_count.first ) {
-                        item_component_lot.add( it );
+                for( item &iter : items ) {
+                    if( iter.typeId() == mill_type_count.first ) {
+                        item_component_lot.add( iter );
                         count++;
                         if( count == mill_type_count.second ) {
                             break;
