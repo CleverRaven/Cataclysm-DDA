@@ -78,6 +78,6 @@
     "autolearn": true,
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "tools": [ [ [ "casting_mold", -1 ] ] ],
-    "components": [ [ [ "scrap_moon_tears", 350 ] ] ]
+    "components": [ [ [ "scrap_moon_tears", 140 ] ] ]
   }
 ]
