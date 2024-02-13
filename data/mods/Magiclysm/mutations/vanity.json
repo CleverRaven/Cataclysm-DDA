@@ -46,5 +46,17 @@
     "player_display": true,
     "vanity": true,
     "types": [ "skin_tone" ]
+  },
+  {
+    "id": "SKIN_MIDNIGHT",
+    "type": "mutation",
+    "name": { "str": "Skin tone: midnight" },
+    "description": "You have an extremely dark skin tone.",
+    "points": 0,
+    "starting_trait": true,
+    "valid": false,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "skin_tone" ]
   }
 ]
