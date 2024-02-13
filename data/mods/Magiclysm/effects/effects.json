@@ -528,6 +528,27 @@
     "flags": [ "INVISIBLE" ]
   },
   {
+    "type": "effect_type",
+    "id": "effect_technomancer_gain_electronics_computer",
+    "name": [ "Machine Mind" ],
+    "desc": [ "You have an intuitive understanding of computers." ],
+    "remove_message": "Your mind no longer easily grasps the flow of electrons.",
+    "enchantments": [
+      {
+        "skills": [
+          {
+            "value": "computer",
+            "add": { "math": [ "((u_spell_level('technomancer_gain_electronics_computer_spell') / 7) + 1)" ] }
+          },
+          {
+            "value": "electronics",
+            "add": { "math": [ "((u_spell_level('technomancer_gain_electronics_computer_spell') / 7) + 1)" ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
     "id": "eshaper_crystal_wrap",
     "type": "effect_type",
     "name": [ "Crystal Wrapping" ],
@@ -1256,7 +1277,8 @@
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
-      "effect_stormshaper_loud_voice"
+      "effect_stormshaper_loud_voice",
+      "effect_technomancer_gain_electronics_computer"
     ]
   },
   {
@@ -1380,6 +1402,7 @@
       "effect_magus_ranged_increase",
       "effect_spirit_walking",
       "effect_stormshaper_loud_voice",
+      "effect_technomancer_gain_electronics_computer",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",

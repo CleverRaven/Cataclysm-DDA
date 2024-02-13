@@ -500,6 +500,7 @@
     "flags": [ "VERBAL", "SOMATIC" ],
     "effect": "attack",
     "effect_str": "effect_classless_easy_sleep",
+    "components": "spell_components_easy_sleep",
     "shape": "blast",
     "difficulty": 1,
     "max_level": 15,

@@ -127,6 +127,7 @@
       [ "spell_scroll_caustic_aura", 30 ],
       [ "spell_scroll_biomancer_carrion_feast", 15 ],
       [ "spell_scroll_biomancer_eat_tons_of_food", 30 ],
+      [ "spell_scroll_technomancer_gain_electronics_computer_spell", 30 ],
       [ "spell_scroll_impactsling", 20 ],
       [ "spell_scroll_boneclub", 20 ],
       [ "spell_scroll_flamesword", 35 ],

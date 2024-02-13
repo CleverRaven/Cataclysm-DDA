@@ -1977,5 +1977,14 @@
     "name": { "str": "Scroll of Guardian Spirit", "str_pl": "Scrolls of Guardian Spirit" },
     "description": "Summon a benevolent spirit to watch over the caster and warn them of imminent attack.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_add_evasion_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_gain_electronics_computer_spell",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Machine Mind", "str_pl": "Scrolls of Machine Mind" },
+    "description": "Gain an intuitive understanding of computers and electronics, allowing an easier time repairing or using them.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_gain_electronics_computer_spell" ] }
   }
 ]
