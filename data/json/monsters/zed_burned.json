@@ -30,18 +30,7 @@
     "harvest": "zombie_humanoid",
     "death_function": { "effect": { "id": "death_zombie_kinderling", "min_level": 4 }, "message": "The %s explodes!" },
     "upgrades": { "half_life": 28, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "STUMBLES",
-      "POISON",
-      "GRABS",
-      "NO_BREATHE",
-      "REVIVES",
-      "REVIVES_HEALTHY",
-      "NO_NECRO",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 4, "cut": 5, "acid": 3, "heat": 15, "bullet": 4, "electric": 3 }
   },
   {
