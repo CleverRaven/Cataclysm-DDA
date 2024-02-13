@@ -95,32 +95,32 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
-	  "id": "cowrie_bracelet",
-	  "copy-from": "bead_bracelet",
-	  "type": "ARMOR",
-	  "name": { "str": "cowrie bracelet" },
-	  "description": "a bracelet made of cowrie shells, valued in many african cultures such as the Yoruba. If you want, you could meditate with this.",
-	  "material": [ "bone" ],
-	  "color": "white"
+    "id": "cowrie_bracelet",
+    "copy-from": "bead_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "cowrie bracelet" },
+    "description": "a bracelet made of cowrie shells, valued in many african cultures such as the Yoruba. If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white"
   },
   {
-	 "id": "cowrie_hair_beads",
-	 "copy-from": "wooden_hair_beads",
-	 "type": "ARMOR",
-	 "name": { "str": "cowrie hair beads" },
-	 "description": "an assortment of cowrie shells used to decorate locs or braids.",
-	 "material": [ "bone" ],
-	 "color": "white",
-     "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+    "id": "cowrie_hair_beads",
+    "copy-from": "wooden_hair_beads",
+    "type": "ARMOR",
+    "name": { "str": "cowrie hair beads" },
+    "description": "an assortment of cowrie shells used to decorate locs or braids.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
   },
   {
-	  "id": "cowrie_necklace",
-	  "copy-from": "bead_necklace",
-	  "type": "ARMOR",
-	  "name": { "str": "cowrie necklace" },
-	  "description": "a necklace made of cowrie shells, valued in many african cultures such as the Yoruba. If you want, you could meditate with this.",
-	  "material": [ "bone" ],
-	  "color": "white"
+    "id": "cowrie_necklace",
+    "copy-from": "bead_necklace",
+    "type": "ARMOR",
+    "name": { "str": "cowrie necklace" },
+    "description": "a necklace made of cowrie shells, valued in many african cultures such as the Yoruba. If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white"
   },
   {
     "id": "diamond_dental_grill",
