@@ -239,6 +239,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ogre_mound",
+    "name": "ogre lair",
+    "sym": "O",
+    "color": "dark_gray",
+    "looks_like": "forest_water",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ogre_mound_roof",
+    "name": "ogre lair roof",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lake_retreat_z1",
     "name": "forest",
     "sym": ".",
