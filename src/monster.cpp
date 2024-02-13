@@ -1865,7 +1865,7 @@ const weakpoint *monster::absorb_hit( const weakpoint_attack &attack, const body
     const weakpoint *wp = type->weakpoints.select_weakpoint( attack );
     wp->apply_to( r );
     for( damage_unit &elem : dam.damage_units ) {
-        armor_enchantment_adjust(*this, elem);
+        armor_enchantment_adjust( *this, elem );
         add_msg_debug( debugmode::DF_MONSTER,
                        "Dam Type: %s :: Dam Amt: %.1f :: Ar Pen: %.1f :: Armor Mult: %.1f",
                        elem.type.c_str(), elem.amount, elem.res_pen, elem.res_mult );
