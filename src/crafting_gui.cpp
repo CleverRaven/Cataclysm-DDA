@@ -2029,8 +2029,9 @@ std::pair<Character *, const recipe *> select_crafter_and_crafting_recipe( int &
         } else if( action == "DEBUG" ) {
             if( !current.empty() && !current[line]->is_nested() ) {
                 int batch_size = batch ? line + 1 : 1;
-                std::string result_message = string_format( _( "Spawning materials for %s" ),
-                                             current[line]->result_name() );
+                std::string result_message = string_format(
+                                                 _( "Spawning materials for recipe %1s, resulting in %2s" ), current[line]->ident().str(),
+                                                 current[line]->result_name() );
                 if( batch_size > 1 ) {
                     // Mirror repeated message log behaviour without printing all those messages
                     //NOLINTNEXTLINE
