@@ -31,10 +31,6 @@
 # * modernize-use-trailing-return-type
 # An arbitrary style convention we haven't adopted.
 #
-# * readability-braces-around-statements
-# Covered by astyle and buggy in clang-tidy 8.  Can enable once we have a newer
-# clang-tidy.
-#
 # * readability-identifier-naming
 # We are not enforcing a standard identifier naming scheme in the code base.
 # This check does not bring much value at the moment and consumes a lot of CPU time.
@@ -58,7 +54,6 @@ modernize-*,\
 -modernize-use-trailing-return-type,\
 performance-*,\
 readability-*,\
--readability-braces-around-statements,\
 -bugprone-assignment-in-if-condition,\
 -bugprone-easily-swappable-parameters,\
 -bugprone-implicit-widening-of-multiplication-result,\

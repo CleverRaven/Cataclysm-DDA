@@ -1776,8 +1776,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         if( type->bodytype == "insect" || type->bodytype == "flying insect" || type->bodytype == "spider" ||
             type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
-        } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
-                          has_flag( mon_flag_FLIES ) || has_flag( mon_flag_IMMOBILE );
+        } else {
+            return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                   has_flag( mon_flag_FLIES ) || has_flag( mon_flag_IMMOBILE );
+        }
     }
     return false;
 }
