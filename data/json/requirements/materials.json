@@ -546,13 +546,13 @@
   {
     "id": "plain_necklaces",
     "type": "requirement",
-    "//": "For jewellery crafts that require a plain necklace as a base. Anything with a pendent already attached shouldn’t be considered here.",
+    "//": "For jewelry crafts that require a plain necklace as a base. Anything with a pendent already attached shouldn’t be considered here.",
     "components": [ [ [ "platinum_necklace", 1 ], [ "gold_necklace", 1 ], [ "silver_necklace", 1 ], [ "copper_necklace", 1 ] ] ]
   },
   {
     "id": "gemstones",
     "type": "requirement",
-    "//": "For jewellery crafts that require gemstones.",
+    "//": "For jewelry crafts that require gemstones.",
     "components": [
       [
         [ "diamond", 1 ],

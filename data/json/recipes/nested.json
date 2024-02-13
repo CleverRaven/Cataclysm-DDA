@@ -7117,13 +7117,13 @@
     ]
   },
   {
-    "id": "nested_bullet_jewellery",
+    "id": "nested_bullet_jewelry",
     "type": "nested_category",
     "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "name": "cartridge accoutrements",
-    "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewellery formed from spent munitions.",
+    "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewelry formed from spent munitions.",
     "skill_used": "fabrication",
     "nested_category_data": [ "nested_bullet_necklaces" ]
   }
