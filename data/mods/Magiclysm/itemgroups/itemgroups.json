@@ -13,6 +13,12 @@
   },
   {
     "type": "item_group",
+    "id": "SUS_book_nonf_soft",
+    "copy-from": "SUS_book_nonf_soft",
+    "extend": { "items": [ { "item": "book_nonfict_magic_origin_of_species", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
     "id": "novels",
     "copy-from": "novels",
     "extend": { "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ] }
