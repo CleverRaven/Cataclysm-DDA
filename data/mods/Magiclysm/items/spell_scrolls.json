@@ -1959,5 +1959,14 @@
     "name": { "str": "Scroll of Thundering Voice", "str_pl": "Scrolls of Thundering Voice" },
     "description": "Greatly increases the volume of the caster's voice while also making them immune to any hearing damage the resulting noise would cause.  Very popular at pre-Cataclysm metal concerts, both on and off the stage.",
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_loud_voice_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_ranged_increase",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Arrowflight", "str_pl": "Scrolls of Arrowflight" },
+    "description": "Manipulate gravity, atmospheric drag, and friction to increase the effective ranged of ranged weapons, both bows and firearms.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_ranged_increase" ] }
   }
 ]

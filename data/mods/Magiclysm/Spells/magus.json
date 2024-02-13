@@ -573,7 +573,7 @@
     "id": "magus_stop_attack_shield",
     "type": "SPELL",
     "name": "Mageshield",
-    "description": "A simple but powerful spell, mageshield will render the caster immune to any single attack.  It is indiscriminate: whether hit by an anti-tank missile or the caster stubbing their toe, it will absorb all energy of the attack and then fade.",
+    "description": "A simple but powerful spell, Mageshield will render the caster immune to any single attack.  It is indiscriminate: whether hit by an anti-tank missile or the caster stubbing their toe, it will absorb all energy of the attack and then fade.",
     "valid_targets": [ "self" ],
     "spell_class": "MAGUS",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
@@ -622,5 +622,27 @@
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -10
+  },
+  {
+    "id": "magus_ranged_increase",
+    "type": "SPELL",
+    "name": "Arrowflight",
+    "description": "A popular military spell since ancient times, Arrowflight increases the range of bows and, as it later turned out, firearms.",
+    "valid_targets": [ "self", "ally" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_magus_ranged_increase",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": 15,
+    "min_range": 1,
+    "max_range": 1,
+    "min_duration": 36000,
+    "max_duration": 576000,
+    "duration_increment": 36000,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 300
   }
 ]

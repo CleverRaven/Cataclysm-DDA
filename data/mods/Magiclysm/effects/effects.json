@@ -893,6 +893,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magus_ranged_increase",
+    "name": [ "Arrowflight" ],
+    "desc": [ "Your ranged weapons travel much further than physics claims they should." ],
+    "apply_message": "",
+    "remove_message": "Your weapons return to their normal range.",
+    "enchantments": [
+      {
+        "values": [ { "value": "RANGE", "multiply": { "math": [ "(( u_spell_level('magus_ranged_increase') * 0.02) + 0.25 )" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biomancer_swim_speed",
     "name": [ "Frog Limbs" ],
     "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],

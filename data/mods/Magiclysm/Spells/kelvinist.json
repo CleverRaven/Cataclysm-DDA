@@ -685,7 +685,7 @@
     "id": "kelvinist_firebolt",
     "type": "SPELL",
     "name": "Firebolt",
-    "description": "A simple spell that hurls a bolt of fire to the target location.  While not as damaging as some more complex spells, it is quick to cast and will ignite anything flamamble at the target.",
+    "description": "A simple spell that hurls a bolt of fire to the target location.  While not as damaging as some more complex spells, it is quick to cast and will ignite anything flammable at the target.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "spell_class": "KELVINIST",
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "IGNITE_FLAMMABLE" ],
