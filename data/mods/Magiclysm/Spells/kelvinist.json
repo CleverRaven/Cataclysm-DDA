@@ -602,6 +602,7 @@
     "name": "Extinguish",
     "description": "Just as the kelvinist can start a fire, they can extinguish it, by transmuting the heat of the fire directly into cold and leaving nothing left to continue the flames.",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "KELVINIST",
     "valid_targets": [ "ground" ],
     "difficulty": 5,
     "max_level": 20,
