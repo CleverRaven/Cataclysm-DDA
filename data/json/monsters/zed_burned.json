@@ -3,7 +3,7 @@
     "id": "mon_zombie_child_scorched",
     "type": "MONSTER",
     "name": { "str": "zombie kinderling" },
-    "description": "A tiny charred body, jumping and kicking and flailing around in a mockery of playground exercise.",
+    "description": "A diminutive humanoid figure, its body ravaged by fire into a blackened, charred shell.  Its leathery flesh has mended in patches, and the tattered clothing is still clinging to its emaciated frame making it clear it once was - and still is - the body of a child.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
