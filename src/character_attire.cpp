@@ -1954,13 +1954,13 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
         secondary_sbp = bp->random_sub_part( true );
     }
     damage_unit damage = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
-                                       0.0f );
+                                      0.0f );
     flag_id apply_flag = flag_NULL;
     if( sp.has_flag( spell_flag::MAKE_FILTHY ) ) {
         apply_flag = json_flag_FILTHY;
     }
     damage_unit elem = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
-                                       0.0f );
+                                    0.0f );
     const bool damage_target = sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET );
     const bool damage_armor = sp.has_flag( spell_flag::LIQUID_DAMAGE_ARMOR );
     bool ignite = sp.has_flag( spell_flag::IGNITE_FLAMMABLE );
@@ -2008,7 +2008,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             // A droplet of acid or bile are less likely to ruin a shirt than a whole bucket.
             // RNG cap is high here so there's always a decent chance your item comes out ok
             if( rng( 1, 300 - ( 1.5 * armor.breathability( bp ) ) ) < liquid_remaining ) {
-                // Apply filth to the item. Currently hardcoded because we don't have other item 
+                // Apply filth to the item. Currently hardcoded because we don't have other item
                 // flags that would make sense for this.
                 if( apply_flag != flag_NULL && !armor.has_flag( flag_INTEGRATED ) &&
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
@@ -2061,7 +2061,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             // Whether or not the item was affected by the fluid, it still blocked some or all of it.
             // Breathability and coverage let fluid soak through, but some is lost, weakening the attack as it goes.
             liquid_remaining = std::max( 0,
-                                        liquid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
+                                         liquid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
             elem.amount *= liquid_remaining / liquid_amount;
         }
         ++iter;

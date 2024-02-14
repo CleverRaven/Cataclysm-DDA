@@ -133,7 +133,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::LIQUID: return "LIQUID";
         case spell_flag::LIQUID_DAMAGE_ARMOR: return "LIQUID_DAMAGE_ARMOR";
         case spell_flag::LIQUID_DAMAGE_TARGET: return "LIQUID_DAMAGE_TARGET";
-        case spell_flag::LIQUID_FILTHY: return "LIQUID_FILTHY";
+        case spell_flag::MAKE_FILTHY: return "MAKE_FILTHY";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
