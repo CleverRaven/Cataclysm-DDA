@@ -149,6 +149,60 @@
     }
   },
   {
+    "type": "MONSTER",
+    "id": "mon_goblin_mage_poison",
+    "name": { "str": "goblin thornweaver" },
+    "description": "A goblin in tattered clothing, muttering to themselves.  Occasionally, they wave a hand and an eldritch viridian glow trails after it.",
+    "copy-from": "mon_goblin_warrior",
+    "color": "light_green",
+    "melee_skill": 4,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_goblin_mage_poison_thorn_spell",
+        "cooldown": 15,
+        "move_cost": 100,
+        "range": 7,
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 10, "armor_penetration": 10 } ],
+        "effects": [ { "id": "poison", "duration": 60, "chance": 33, "affect_hit_bp": false } ],
+        "uncanny_dodgeable": true,
+        "dodgeable": false,
+        "blockable": false,
+        "hit_dmg_u": "%1$s chatters words of magic and your %2$s is surrounded by a cloud of scratching thorns!",
+        "hit_dmg_npc": "%1$s chatters words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns!",
+        "miss_msg_u": "%1$s chatters words of magic and you narrowly avoid a cloud of scratching thorns!",
+        "miss_msg_npc": "%1$s chatters words of magic and <npcname> narrowly avoids a cloud of scratching thorns!",
+        "no_dmg_msg_u": "%1$s chatters words of magic and your %2$s is surrounded by a cloud of scratching thorns, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s chatters words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns, but they do no damage."
+      },
+      {
+        "id": "mon_goblin_mage_poison_veggrasp_spell",
+        "type": "spell",
+        "spell_data": { "id": "druid_veggrasp", "min_level": 5 },
+        "cooldown": 20,
+        "monster_message": "%1$s waves their hands and roots burst from the ground around you!"
+      },
+      {
+        "id": "mon_goblin_mage_poison_gas_spell",
+        "type": "spell",
+        "spell_data": { "id": "monster_ranged_gas_attack", "min_level": 5 },
+        "cooldown": 30,
+        "monster_message": "%1$s waves their hands and %1$s is surrounded in greenish vapors."
+      }
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "group": "feral_goblin_death_drops", "prob": 100 },
+        { "group": "potions_common", "prob": 30, "count": [ 1, 2 ] },
+        { "group": "enchanted_rings_common", "prob": 10 },
+        { "group": "enchanted_wands_disposable_combat", "prob": 10 }
+      ]
+    },
+    "extend": { "armor": { "poison": 25 } }
+  },
+  {
     "id": "mon_troll_goblin_tamed",
     "type": "MONSTER",
     "copy-from": "mon_troll",
@@ -205,10 +259,10 @@
     "id": "mon_goblin_bugbear",
     "type": "MONSTER",
     "name": { "str": "bugbear" },
-    "description": "An enormous gray-green humanoid, over two meters tall with thick fur at their joints and long, tufted ears, this creature has very little resemblance to a goblin other than the color.  Despite their size, they move in almost complete silence and hold a long bladed weapon in their hand.",
+    "description": "An enormous gray-green humanoid, over two meters tall with thick fur at their joints and long, tufted ears, this creature no longer has much resemblance to a goblin other than the color.  Despite their size, they move in almost complete silence and hold a long bladed weapon in their hand.",
     "default_faction": "goblin",
     "bodytype": "human",
-    "species": [ "GOBLIN", "ORC" ],
+    "species": [ "GOBLIN" ],
     "volume": "60 L",
     "weight": "70 kg",
     "hp": 125,
@@ -255,7 +309,7 @@
         "move_cost": 45,
         "accuracy": 6,
         "//": "attack based on combat machete + rapid strike",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 15 } ],
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ],
         "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "hit_dmg_u": "%1$s hits your %2$s with their blade!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
@@ -280,7 +334,7 @@
         { "item": "bellywrap_fur", "prob": 5 },
         { "item": "chestwrap_fur", "prob": 5 },
         {
-          "distribution": [ { "group": "survivor_machete", "prob": 98 }, { "group": "broadsword_plus_one", "prob": 2 } ],
+          "distribution": [ { "group": "survivor_machete", "prob": 98 }, { "item": "broadsword_plus_one", "prob": 2 } ],
           "prob": 100
         }
       ]
@@ -293,7 +347,8 @@
     "type": "MONSTER",
     "copy-from": "mon_goblin_bugbear",
     "name": { "str": "bugbear stalker" },
-    "description": "An enormous gray-green humanoid, over two meters tall with thick fur at their joints and long, tufted ears, this creature has very little resemblance to a goblin other than the color.  Despite their size, they move in almost complete silence and hold a long spear in their hand.  Strangely, you can only see them when you're looking directly at them; when in the corner of your vision they simply fade from sight.",
+    "description": "An enormous gray-green humanoid, over two meters tall with thick fur at their joints and long, tufted ears, this creature no longer has much resemblance to a goblin other than the color.  Despite their size, they move in almost complete silence and hold a long spear in their hand.  Strangely, you can only see them when you're looking directly at them; when in the corner of your vision they simply fade from sight.",
+    "color": "dark_gray",
     "special_attacks": [
       {
         "type": "monster_attack",
@@ -328,7 +383,7 @@
         { "item": "bellywrap_fur", "prob": 5 },
         { "item": "chestwrap_fur", "prob": 5 },
         {
-          "distribution": [ { "group": "survivor_stabbing", "prob": 97 }, { "group": "spear_steel_plus_one", "prob": 3 } ],
+          "distribution": [ { "group": "survivor_stabbing", "prob": 97 }, { "item": "spear_steel_plus_one", "prob": 3 } ],
           "prob": 100
         }
       ]

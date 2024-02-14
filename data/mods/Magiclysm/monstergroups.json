@@ -280,13 +280,14 @@
       { "monster": "mon_wolf_goblin", "weight": 75 },
       { "monster": "mon_wolf_goblin", "weight": 15, "pack_size": [ 2, 4 ] },
       { "monster": "mon_goblin_warrior", "weight": 100, "ends": "7 days" },
-      { "monster": "mon_goblin_warrior", "weight": 150, "ends": "28 days" },
+      { "monster": "mon_goblin_warrior", "weight": 125, "ends": "28 days" },
       { "monster": "mon_goblin_warrior", "weight": 150, "ends": "90 days" },
+      { "monster": "mon_goblin_mage_poison", "weight": 25 },
       { "monster": "mon_goblin_warrior", "weight": 35, "pack_size": [ 2, 4 ] },
       { "monster": "mon_goblin_slinger", "weight": 65, "pack_size": [ 2, 4 ] },
       { "monster": "mon_troll_goblin_tamed", "weight": 15 },
-      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 150, "ends": "7 days" },
-      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 150, "ends": "28 days" },
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 100, "ends": "7 days" },
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 125, "ends": "28 days" },
       { "group": "GROUP_GOBLIN_MUTANTS", "weight": 150, "ends": "90 days" }
     ]
   },
@@ -294,9 +295,10 @@
     "type": "monstergroup",
     "name": "GROUP_GOBLIN_MUTANTS",
     "monsters": [
-      { "monster": "mon_orc_warrior", "weight": 500 },
-      { "monster": "mon_orc_archer", "weight": 100 },
-      { "monster": "mon_orc_blood_warrior", "weight": 75 },
+      { "monster": "mon_orc_warrior", "weight": 400 },
+      { "monster": "mon_orc_archer", "weight": 150 },
+      { "monster": "mon_orc_blood_warrior", "weight": 100 },
+      { "monster": "mon_orc_mage_blood", "weight": 25 },
       { "monster": "mon_goblin_bugbear", "weight": 250 },
       { "monster": "mon_goblin_bugbear_stalker", "weight": 75 }
     ]

@@ -59,7 +59,7 @@
         "move_cost": 45,
         "range": 1,
         "//": "attack based on combat machete + rapid strike",
-        "damage_max_instance": [ { "damage_type": "cut", "amount": 15 } ],
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 16 } ],
         "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
         "hit_dmg_u": "%1$s hits your %2$s with their blade!",
         "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
@@ -86,9 +86,9 @@
         { "item": "chestwrap_fur", "prob": 5 },
         {
           "distribution": [
-            { "group": "survivor_machete", "prob": 96 },
-            { "group": "arming_sword_plus_one", "prob": 2 },
-            { "group": "broadsword_plus_one", "prob": 2 }
+            { "item": "survivor_machete", "prob": 96 },
+            { "item": "arming_sword_plus_one", "prob": 2 },
+            { "item": "broadsword_plus_one", "prob": 2 }
           ],
           "prob": 100
         }
@@ -100,7 +100,7 @@
     "type": "MONSTER",
     "id": "mon_orc_archer",
     "name": { "str": "orc archer" },
-    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying a bow.  They smile silently as they aim at you.",
+    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying a bow.  They smile silently, baring a set of sharp teeth, as they aim at you.",
     "copy-from": "mon_orc_warrior",
     "melee_skill": 2,
     "death_drops": {
@@ -190,12 +190,68 @@
         { "item": "chestwrap_fur", "prob": 5 },
         {
           "distribution": [
-            { "group": "mace_pipe_large", "prob": 96 },
-            { "group": "mace_plus_one", "prob": 2 },
-            { "group": "warhammer_plus_one", "prob": 2 }
+            { "item": "mace_pipe_large", "prob": 96 },
+            { "item": "mace_plus_one", "prob": 2 },
+            { "item": "warhammer_plus_one", "prob": 2 }
           ],
           "prob": 100
         }
+      ]
+    }
+  },
+  {
+    "id": "mon_orc_mage_blood",
+    "type": "MONSTER",
+    "copy-from": "mon_orc_warrior",
+    "name": { "str": "orc blood-mage" },
+    "//": "Not the blood mage attunement, just magic themed around bleeding",
+    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor. There are red streaks all over their skin, like they had bathed themselves in blood, and their hands glow faintly red.",
+    "hp": 97,
+    "dodge": 3,
+    "aggression": 100,
+    "melee_skill": 5,
+    "color": "red",
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_orc_mage_blood_bleeding_spell",
+        "cooldown": 10,
+        "move_cost": 100,
+        "range": 8,
+        "damage_max_instance": [ { "damage_type": "necrotic", "amount": 10 } ],
+        "effects": [ { "id": "bleed", "duration": 60, "chance": 33, "intensity": 3, "affect_hit_bp": true } ],
+        "dodgeable": true,
+        "blockable": false,
+        "hit_dmg_u": "%1$s growls words of magic and your %2$s is impacted by a bolt of carmine energy!",
+        "hit_dmg_npc": "%1$s growls words of magic and <npcname>'s %2$s is impacted by a bolt of carmine energy!",
+        "miss_msg_u": "%1$s growls words of magic and you narrowly avoid a bolt of carmine energy!",
+        "miss_msg_npc": "%1$s growls words of magic and <npcname> narrowly avoids a bolt of carmine energy!",
+        "no_dmg_msg_u": "%1$s growls words of magic and your %2$s is surrounded by a cloud of scratching thorns, but they do no damage.",
+        "no_dmg_msg_npc": "%1$s growls words of magic and <npcname>'s %2$s is surrounded by a cloud of scratching thorns, but they do no damage."
+      },
+      {
+        "id": "mon_orc_mage_bloodlust_spell",
+        "type": "spell",
+        "spell_data": { "id": "mon_bloodlust_spell" },
+        "cooldown": 20,
+        "monster_message": "%1$s makes a frenzied cry and as they point, %3$s is surrounded by a red glow."
+      }
+    ],
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "helmet_scrap", "prob": 20 },
+        { "item": "legguard_scrap", "prob": 10 },
+        { "item": "boots_scrap", "prob": 10 },
+        { "item": "cuirass_scrap", "prob": 20 },
+        { "item": "loincloth_fur", "prob": 10 },
+        { "item": "footrags_fur", "prob": 10 },
+        { "item": "gloves_wraps_fur", "prob": 10 },
+        { "item": "bellywrap_fur", "prob": 5 },
+        { "item": "chestwrap_fur", "prob": 5 },
+        { "group": "magic_plants_common", "prob": 10 },
+        { "group": "magic_plants_uncommon", "prob": 1 }
       ]
     }
   }
