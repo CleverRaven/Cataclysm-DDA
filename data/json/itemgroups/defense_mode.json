@@ -28,7 +28,7 @@
       { "item": "marlin_9a" },
       { "item": "hk_mp5" },
       { "item": "taurus_spectrum" },
-      { "item": "deagle_44" },
+      { "group": "modular_deagle_44" },
       { "item": "m1911" },
       { "item": "hk_ump45" },
       { "item": "fn_p90" },

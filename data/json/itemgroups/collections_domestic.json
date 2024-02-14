@@ -1365,7 +1365,7 @@
       [ "pistol_flintlock", 1 ],
       [ "carbine_flintlock", 1 ],
       [ "rifle_flintlock", 1 ],
-      { "item": "deagle_44", "prob": 25, "charges": [ 0, 8 ] },
+      { "group": "modular_deagle_44", "prob": 25, "charges": [ 0, 8 ] },
       { "item": "lemat_revolver", "prob": 25, "charges": [ 0, 9 ] },
       [ "fencing_foil", 20 ],
       [ "fencing_sabre", 20 ],
