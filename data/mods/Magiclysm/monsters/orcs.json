@@ -37,15 +37,15 @@
       {
         "type": "monster_attack",
         "attack_type": "melee",
-        "id": "orc_spear_attack",
+        "id": "orc_combat_machete",
         "cooldown": 1,
         "move_cost": 110,
         "range": 1,
-        "//": "attack based on knife spear",
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 22 } ],
+        "//": "attack based on combat machete",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23 } ],
         "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
-        "hit_dmg_u": "%1$s hits your %2$s with their weapon!",
-        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their weapon!",
+        "hit_dmg_u": "%1$s hits your %2$s with their blade!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
         "miss_msg_u": "%1$s tries to hit you, but you dodge!",
         "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
         "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
@@ -67,7 +67,14 @@
         { "item": "gloves_wraps_fur", "prob": 10 },
         { "item": "bellywrap_fur", "prob": 5 },
         { "item": "chestwrap_fur", "prob": 5 },
-        { "item": "longsword", "prob": 100 }
+        {
+          "distribution": [
+            { "group": "survivor_machete", "prob": 96 },
+            { "group": "arming_sword_plus_one", "prob": 2 },
+            { "group": "broadsword_plus_one", "prob": 2 }
+          ],
+          "prob": 100
+        }
       ]
     },
     "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE", "WIELDED_WEAPON" ]
@@ -124,7 +131,7 @@
     "type": "MONSTER",
     "copy-from": "mon_orc_warrior",
     "name": { "str": "blood orc" },
-    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying an enormous club.  There are red streaks all over their skin, like they had bathed themselves in blood.",
+    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying an enormous metallic club.  There are red streaks all over their skin, like they had bathed themselves in blood.",
     "hp": 97,
     "dodge": 3,
     "aggression": 100,
@@ -163,7 +170,14 @@
         { "item": "gloves_wraps_fur", "prob": 10 },
         { "item": "bellywrap_fur", "prob": 5 },
         { "item": "chestwrap_fur", "prob": 5 },
-        { "item": "mace_pipe_large", "prob": 100 }
+        {
+          "distribution": [
+            { "group": "mace_pipe_large", "prob": 96 },
+            { "group": "mace_plus_one", "prob": 2 },
+            { "group": "warhammer_plus_one", "prob": 2 }
+          ],
+          "prob": 100
+        }
       ]
     }
   }

@@ -56,6 +56,7 @@
         { "item": "cudgel", "prob": 95 }
       ]
     },
+    "armor": { "bash": 12, "cut": 12, "bullet": 4 },
     "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
@@ -136,7 +137,11 @@
         { "item": "armguard_scrap", "prob": 40 },
         { "item": "cuirass_scrap", "prob": 40 },
         {
-          "distribution": [ { "group": "survivor_stabbing", "prob": 90 }, { "group": "enchanted_melee_weapons_plus1", "prob": 10 } ],
+          "distribution": [
+            { "group": "survivor_stabbing", "prob": 96 },
+            { "group": "spear_steel_plus_one", "prob": 3 },
+            { "group": "rune_biomancer_weapon", "prob": 1 }
+          ],
           "prob": 100
         }
       ]
@@ -164,7 +169,7 @@
     "material": [ "flesh" ],
     "symbol": "W",
     "color": "light_gray",
-    "looks_like": "mon_wolf",
+    "looks_like": "mon_wolf_mutant_huge",
     "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 20,
     "morale": 70,
@@ -194,5 +199,75 @@
     "zombify_into": "mon_zombie_dog_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ],
     "armor": { "bash": 8, "cut": 10, "electric": 1 }
+  },
+  {
+    "id": "mon_goblin_bugbear",
+    "type": "MONSTER",
+    "name": { "str": "bugbear" },
+    "description": "An enormous gray-green humanoid, over two meters tall with thick fur at their joints and long, tufted ears, this creature has very little resemblance to a goblin other than the color.  Despite their size, they move in almost complete silence and hold a long bladed weapon in their hand.",
+    "default_faction": "goblin",
+    "bodytype": "human",
+    "species": [ "GOBLIN", "ORC" ],
+    "volume": "60 L",
+    "weight": "70 kg",
+    "hp": 110,
+    "speed": 105,
+    "material": [ "flesh" ],
+    "symbol": "G",
+    "color": "green",
+    "aggression": 75,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+    "dodge": 4,
+    "harvest": "orc",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
+    "vision_day": 8,
+    "vision_night": 25,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "bugbear_combat_machete",
+        "cooldown": 1,
+        "move_cost": 110,
+        "range": 1,
+        "//": "attack based on combat machete",
+        "damage_max_instance": [ { "damage_type": "cut", "amount": 23 } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s with their blade!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their blade!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "death_drops": {
+      "subtype": "collection",
+      "items": [
+        { "item": "xl_helmet_larmor", "prob": 20 },
+        { "item": "xl_gauntlets_larmor", "prob": 20 },
+        { "item": "xl_boots_larmor", "prob": 20 },
+        { "item": "xl_armguard_larmor", "prob": 20 },
+        { "item": "xl_armor_larmor_chest", "prob": 10 },
+        { "item": "loincloth_fur", "prob": 10 },
+        { "item": "footrags_fur", "prob": 10 },
+        { "item": "gloves_wraps_fur", "prob": 10 },
+        { "item": "bellywrap_fur", "prob": 5 },
+        { "item": "chestwrap_fur", "prob": 5 },
+        {
+          "distribution": [ { "group": "survivor_machete", "prob": 98 }, { "group": "broadsword_plus_one", "prob": 2 } ],
+          "prob": 100
+        }
+      ]
+    },
+    "armor": { "bash": 4, "cut": 12, "bullet": 8 },
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE", "WIELDED_WEAPON" ]
   }
 ]
