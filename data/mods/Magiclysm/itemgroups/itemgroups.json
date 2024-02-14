@@ -21,13 +21,25 @@
     "type": "item_group",
     "id": "homebooks",
     "copy-from": "homebooks",
-    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 }, { "item": "history_botanical_enchantment", "prob": 2 } ] }
+    "extend": {
+      "items": [
+        { "group": "spellbook_tier_0", "prob": 80 },
+        { "group": "spellbook_loot_0", "prob": 4 },
+        { "item": "history_botanical_enchantment", "prob": 2 }
+      ]
+    }
   },
   {
     "type": "item_group",
     "id": "manuals",
     "copy-from": "manuals",
-    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 } ] }
+    "extend": {
+      "items": [
+        { "group": "spellbook_tier_0", "prob": 60 },
+        { "group": "spellbook_loot_0", "prob": 3 },
+        { "group": "dragon_books", "prob": 4 }
+      ]
+    }
   },
   {
     "type": "item_group",

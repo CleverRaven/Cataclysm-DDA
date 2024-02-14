@@ -744,7 +744,7 @@
     "id": "earthshaper_boulder",
     "type": "SPELL",
     "name": "Summon Boulder",
-    "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
+    "description": "Pull forth a table of smooth rock from the underground bedrock, using your forces of earthshaping.  You can use it as a table or as a primitive anvil.",
     "valid_targets": [ "ground" ],
     "effect": "ter_transform",
     "effect_str": "earthshaper_boulder",

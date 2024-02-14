@@ -617,7 +617,7 @@
     "range_increment": 1,
     "energy_source": "MANA",
     "base_energy_cost": 200,
-    "final_energy_cost": 100,
+    "final_energy_cost": 50,
     "energy_increment": -10,
     "base_casting_time": 150,
     "final_casting_time": 50,
