@@ -101,7 +101,8 @@
     "name": { "str": "cowrie bracelet" },
     "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
-    "color": "white"
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
   },
   {
     "id": "cowrie_hair_beads",
@@ -120,7 +121,8 @@
     "name": { "str": "cowrie necklace" },
     "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
     "material": [ "bone" ],
-    "color": "white"
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -1157,6 +1159,8 @@
     "type": "ARMOR",
     "name": { "str": "wooden hair beads", "str_pl": "sets of wooden hair beads" },
     "description": "An assortment of wooden beads used to decorate locs or braids.",
+    "weight": "6 g",
+    "volume": "10 ml",
     "material": [ "wood" ],
     "symbol": ".",
     "color": "brown",
@@ -4068,8 +4072,10 @@
     "id": "gold_hair_beads",
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
-    "name": { "str_sp": "gold hair beads" },
+    "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
     "description": "an assortment of gold beads used to decorate locs or braids.",
+    "weight": "15 g",
+    "volume": "25 ml",
     "material": [ "gold" ],
     "symbol": ".",
     "color": "yellow"
@@ -4233,6 +4239,8 @@
     "type": "ARMOR",
     "name": { "str": "silver hair beads", "str_pl": "sets of silver hair beads" },
     "description": "An assortment of shiny silver beads used to decorate locs or braids.",
+    "weight": "10 g",
+    "volume": "20 ml",
     "material": [ "silver" ],
     "symbol": ".",
     "color": "white",
