@@ -15,21 +15,6 @@
     "display_field": true
   },
   {
-    "id": "fd_napalm",
-    "type": "field_type",
-    "substance_name": "napalm",
-    "legacy_enum_id": 1,
-    "intensity_levels": [ { "name": "napalm splatter", "color": "white" }, { "name": "napalm" }, { "name": "puddle of napalm" } ],
-    "description_affix": "covered_in",
-    "underwater_age_speedup": "25 minutes",
-    "decay_amount_factor": 2,
-    "is_splattering": true,
-    "half_life": "2 days",
-    "phase": "liquid",
-    "accelerated_decay": true,
-    "display_field": true
-  },
-  {
     "id": "fd_bile",
     "type": "field_type",
     "substance_name": "bile",

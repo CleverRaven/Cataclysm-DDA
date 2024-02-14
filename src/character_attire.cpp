@@ -1955,10 +1955,6 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
     }
     damage_unit damage = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
                                       0.0f );
-    flag_id apply_flag = flag_NULL;
-    if( sp.has_flag( spell_flag::MAKE_FILTHY ) ) {
-        apply_flag = json_flag_FILTHY;
-    }
     damage_unit elem = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
                                     0.0f );
     const bool damage_target = sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET );
@@ -1974,7 +1970,6 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
     std::list<item> worn_remains;
     // Liquid will splash on the outermost items first.
     int liquid_remaining = liquid_amount;
-
     for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
         item &armor = *iter;
         if( !armor.covers( bp ) || armor.has_flag( flag_INTEGRATED ) ) {
@@ -1985,9 +1980,9 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
         std::string liquid_descriptor = "some";
         // Fluid amounts roughly correspond to milliliters, but keeping it vague will give contributors
         // more freedom to make attacks work like they want to.
-        if( liquid_remaining <= 50 ) {
+        if( liquid_remaining <= 25 ) {
             liquid_descriptor = "droplets of";
-        } else if( liquid_remaining <= 75 ) {
+        } else if( liquid_remaining <= 50 ) {
             liquid_descriptor = "a splatter of";
         } else if( liquid_remaining <= 100 ) {
             liquid_descriptor = "a spray of";
@@ -1995,7 +1990,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             liquid_descriptor = "quite a lot of";
         } else if( liquid_remaining <= 175 ) {
             liquid_descriptor = "copious amounts of";
-        } else if( liquid_remaining <= 225 ) {
+        } else if( liquid_remaining <= 200 ) {
             liquid_descriptor = "a torrent of";
         } else {
             liquid_descriptor = "a great deluge of";
@@ -2007,14 +2002,14 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
                                    armor.tname(), liquid_descriptor, liquid_name );
             // A droplet of acid or bile are less likely to ruin a shirt than a whole bucket.
             // RNG cap is high here so there's always a decent chance your item comes out ok
-            if( rng( 1, 300 - ( 1.5 * armor.breathability( bp ) ) ) < liquid_remaining ) {
+            if( rng( 1, 100 + ( 2 * ( 100 - armor.breathability( bp ) ) ) ) > liquid_remaining ) {
                 // Apply filth to the item. Currently hardcoded because we don't have other item
-                // flags that would make sense for this.
-                if( apply_flag != flag_NULL && !armor.has_flag( flag_INTEGRATED ) &&
+                // flags that would make sense for this. 
+                if( sp.has_flag( spell_flag::MAKE_FILTHY ) && !armor.has_flag( flag_INTEGRATED ) &&
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
-                    !armor.has_flag( flag_AURA ) ) {
+                    !armor.has_flag( flag_AURA ) && one_in( 16 - ( 0.1 * armor.breathability( bp ) ) ) ) {
                     guy.add_msg_if_player( m_bad, _( "The %s is covered in filth!" ), armor.tname() );
-                    armor.set_flag( apply_flag );
+                    armor.set_flag( json_flag_FILTHY );
                 }
                 // If this is an armor-damaging liquid, the damage is relative to fluid_remaining
                 // and the coverage of the item.

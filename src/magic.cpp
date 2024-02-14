@@ -199,7 +199,7 @@ const std::string spell_type::sound_variant_default = "default";
 // empty string
 const std::string spell_type::effect_str_default;
 const std::optional<field_type_id> spell_type::field_default = std::nullopt;
-const int spell_type::field_chance_default = 1;
+const float spell_type::field_chance_default = 1.0f;
 const int spell_type::min_field_intensity_default = 0;
 const int spell_type::max_field_intensity_default = 0;
 const float spell_type::field_intensity_increment_default = 0.0f;
@@ -564,7 +564,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "flags", flags, std::set<std::string> {} );
     if( field ) {
         json.member( "field_id", field->id().str() );
-        json.member( "field_chance", static_cast<int>( field_chance.min.dbl_val.value() ),
+        json.member( "field_chance", static_cast<float>( field_chance.min.dbl_val.value() ),
                      field_chance_default );
         json.member( "max_field_intensity", static_cast<int>( max_field_intensity.min.dbl_val.value() ),
                      max_field_intensity_default );

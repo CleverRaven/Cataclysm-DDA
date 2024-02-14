@@ -406,7 +406,7 @@ class spell_type
         static const std::string sound_variant_default;
         static const std::string effect_str_default;
         static const std::optional<field_type_id> field_default;
-        static const int field_chance_default;
+        static const float field_chance_default;
         static const int min_field_intensity_default;
         static const int max_field_intensity_default;
         static const float field_intensity_increment_default;
