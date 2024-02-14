@@ -256,5 +256,31 @@
     "min_duration": 100,
     "max_duration": 300,
     "duration_increment": 40
+  },
+  {
+    "id": "mon_troll_regenerate_limb_spell",
+    "type": "SPELL",
+    "name": "Troll regenerate limbs",
+    "description": "Allows trolls to remove the maimed effect if their HP is high enough.",
+    "valid_targets": [ "self" ],
+    "effect": "remove_effect",
+    "effect_str": "maimed_arm",
+    "shape": "blast"
+  },
+  {
+    "type": "SPELL",
+    "id": "monster_invisibility_spell",
+    "name": { "str": "monster invisibility" },
+    "description": "Makes the target invisible",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "invisibility",
+    "shape": "blast",
+    "message": "",
+    "max_level": 35,
+    "min_duration": 1000,
+    "max_duration": 36000,
+    "duration_increment": 1000,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   }
 ]

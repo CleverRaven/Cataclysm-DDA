@@ -290,7 +290,7 @@
     "size": 25,
     "power": 20,
     "currency": "icon",
-    "food_supply": 87500,
+    "fac_food_supply": { "calories": 87500, "vitamins": {  } },
     "wealth": 82500,
     "relations": {
       "free_merchants": {

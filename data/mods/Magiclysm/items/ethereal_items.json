@@ -1749,5 +1749,80 @@
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 0 } ] } ]
     },
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "id": "item_kelvinist_frozen_heart",
+    "type": "ARMOR",
+    "name": "Rime-Frozen Heart",
+    "description": "You don't feel anything.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "ZERO_WEIGHT",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRANSPARENT",
+      "PADDED",
+      "INTEGRATED"
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "NUMB", "PSYCHOPATH" ] } ] }
+  },
+  {
+    "id": "aura_bearmantle",
+    "type": "ARMOR",
+    "name": "bearmantle",
+    "description": "Think as the bear.  Move as the bear.  Sleep as the bear.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "material": [ "magical_material" ],
+    "flags": [
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "INTEGRATED",
+      "NONCONDUCTIVE",
+      "TRANSPARENT"
+    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "mutations": [ "HEAVYSLEEPER2", "FAT", "URSINE_FUR", "SMELLY2", "STRONGER_RESISTCHILL", "HIBERNATE" ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "item_animist_luck_bone",
+    "copy-from": "bone",
+    "type": "GENERIC",
+    "name": { "str": "luck-bone" },
+    "description": "A bone from some creature or other, inhabited by benevolent spirits.",
+    "color": "white",
+    "price": 0,
+    "material": [ "bone" ],
+    "weight": "225 g",
+    "symbol": "%",
+    "price_postapoc": 10,
+    "volume": "250 ml",
+    "longest_side": "40 cm",
+    "relic_data": { "passive_effects": [ { "id": "ench_luck_bone" } ] }
   }
 ]

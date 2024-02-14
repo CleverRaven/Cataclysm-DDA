@@ -744,6 +744,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finalize_martial_arts },
+            { _( "Scenarios" ), &scenario::finalize },
             { _( "Climbing aids" ), &climbing_aid::finalize },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
@@ -770,7 +771,9 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
         ui.proceed();
     }
 
-    check_consistency( ui );
+    if( !get_option<bool>( "SKIP_VERIFICATION" ) ) {
+        check_consistency( ui );
+    }
     finalized = true;
 }
 
@@ -822,7 +825,6 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Crafting recipes" ), &recipe_dictionary::check_consistency },
             { _( "Professions" ), &profession::check_definitions },
             { _( "Profession groups" ), &profession_group::check_profession_group_consistency },
-            { _( "Scenarios" ), &scenario::check_definitions },
             { _( "Martial arts" ), &check_martialarts },
             { _( "Climbing aid" ), &climbing_aid::check_consistency },
             { _( "Mutations" ), &mutation_branch::check_consistency },

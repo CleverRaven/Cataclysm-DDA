@@ -21,6 +21,7 @@
 
 #include "activity_type.h"
 #include "auto_pickup.h"
+#include "basecamp.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"

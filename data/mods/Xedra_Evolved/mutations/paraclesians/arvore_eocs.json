@@ -74,7 +74,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_1",
               "duration": {
-                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 30) + 300) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -85,7 +85,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_2",
               "duration": {
-                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 30) + 300) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -96,7 +96,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_3",
               "duration": {
-                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 30) + 300) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]

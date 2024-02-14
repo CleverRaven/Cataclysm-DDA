@@ -694,12 +694,13 @@
     "id": "shape_of_dust",
     "type": "SPELL",
     "name": "Shape of Dust",
-    "description": "Hide yourself within sand-filled winds.  It's harder to hit you, and monsters can't spot you.",
+    "description": "Hide yourself within sand-filled winds.  It's harder to hit you, and monsters can't spot you.  Attacking a target will break the spell.",
     "//": "Fuck its broken. I thought you can make monster hard to see you, so you will be able to hide from them beyond the sand, but of course invis make monsters even more dumb, and they start to stoically ignore your existence.",
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "LOUD" ],
     "effect": "attack",
     "effect_str": "effect_shape_of_dust",
+    "components": "spell_components_shape_of_dust",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
@@ -743,7 +744,7 @@
     "id": "earthshaper_boulder",
     "type": "SPELL",
     "name": "Summon Boulder",
-    "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
+    "description": "Pull forth a table of smooth rock from the underground bedrock, using your forces of earthshaping.  You can use it as a table or as a primitive anvil.",
     "valid_targets": [ "ground" ],
     "effect": "ter_transform",
     "effect_str": "earthshaper_boulder",
@@ -1158,6 +1159,11 @@
               "z_override": true
             },
             {
+              "u_location_variable": { "u_val": "earthshaper_sleep_in_earth_return" },
+              "min_radius": 0,
+              "max_radius": 0
+            },
+            {
               "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
               "type": "good"
             },
@@ -1169,14 +1175,7 @@
       }
     ],
     "false_effect": [
-      {
-        "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
-        "min_radius": 0,
-        "max_radius": 0,
-        "z_adjust": 0,
-        "z_override": true
-      },
-      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" } },
+      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth_return" } },
       {
         "u_message": "As you recite the words of release, you feel yourself rising until you stand in the clear air once again.",
         "type": "good"
