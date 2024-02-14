@@ -157,11 +157,23 @@ def parse_effect(effects, origin, comment=""):
                         eoc, origin,
                         comment="nested EOCs on {} condition in {}"
                         .format(cond_type, comment))
+            if "if" in eff:
+                parse_effect(eff["then"], origin,
+                             comment="nested effect in then statement in {}"
+                             .format(comment))
+                if "else" in eff:
+                    parse_effect(eff["else"], origin,
+                                 comment="nested effect in else statement in {}"
+                                 .format(comment))
             if "switch" in eff:
                 for e in eff["cases"]:
                     parse_effect(e["effect"], origin,
                                  comment="nested effect in switch statement in {}"
                                  .format(comment))
+            if "foreach" in eff:
+                parse_effect(eff["effect"], origin,
+                             comment="nested effect in foreach statement in {}"
+                             .format(comment))
 
 
 def parse_effect_on_condition(json, origin, comment=""):
