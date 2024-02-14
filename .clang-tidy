@@ -25,7 +25,7 @@
 # We have lots of memory allocations in static variable declarations, and
 # that's fine.
 #
-# * clang-analyzer-core.{DivideZero,NonNullParamChecker}
+# * clang-analyzer-core.{DivideZero,NonNullParamChecker,UndefinedBinaryOperatorResult}
 # * clang-analyzer-cplusplus.NewDelete
 # They report too many false positives.
 #
@@ -56,6 +56,7 @@ clang-diagnostic-*,\
 -clang-analyzer-core.CallAndMessage,\
 -clang-analyzer-core.DivideZero,\
 -clang-analyzer-core.NonNullParamChecker,\
+-clang-analyzer-core.UndefinedBinaryOperatorResult,\
 -clang-analyzer-cplusplus.NewDelete,\
 cppcoreguidelines-slicing,\
 google-explicit-constructor,\
