@@ -205,7 +205,7 @@
     "copy-from": "mon_orc_warrior",
     "name": { "str": "orc blood-mage" },
     "//": "Not the blood mage attunement, just magic themed around bleeding",
-    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor. There are red streaks all over their skin, like they had bathed themselves in blood, and their hands glow faintly red.",
+    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor.  There are red streaks all over their skin, like they had bathed themselves in blood, and their hands glow faintly red.",
     "hp": 97,
     "dodge": 3,
     "aggression": 100,
