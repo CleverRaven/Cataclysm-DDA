@@ -1,5 +1,4 @@
 from ..write_text import write_text
-from .effect import parse_effect
 
 
 def parse_field_type(json, origin):

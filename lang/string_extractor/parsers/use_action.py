@@ -50,8 +50,8 @@ def parse_use_action(json, origin, item_name):
             write_text(json["bury"]["done_message"], origin,
                        comment="bury trap message of item \"{}\""
                        .format(item_name))
-        if (json["type"] == "effect_on_conditions"
-            and "effect_on_conditions" in json):
+        if (json["type"] == "effect_on_conditions" and
+                "effect_on_conditions" in json):
             for e in json["effect_on_conditions"]:
                 if type(e) is dict:
                     parse_effect_on_condition(e, origin,

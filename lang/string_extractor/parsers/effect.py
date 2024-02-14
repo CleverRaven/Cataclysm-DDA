@@ -18,8 +18,8 @@ def parse_effect(effects, origin, comment=""):
             if "u_buy_monster" in eff and "name" in eff:
                 write_translation_or_var(eff["name"], origin,
                                          comment="Nickname for creature '{}' "
-                                         "in {}"
-                                         .format(eff["u_buy_monster"], comment))
+                                         "in {}".format(eff["u_buy_monster"],
+                                                        comment))
             if "snippet" not in eff or eff["snippet"] is False:
                 if "message" in eff:
                     write_translation_or_var(eff["message"], origin,
@@ -62,17 +62,17 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(spell_obj["npc_message"], origin,
                                              comment="NPC spell casting "
                                              "message in {}".format(comment))
-            if ("set_string_var" in eff
-                and "i18n" in eff and eff["i18n"] is True):
+            if ("set_string_var" in eff and
+                    "i18n" in eff and eff["i18n"] is True):
                 str_vals = eff["set_string_var"]
                 if type(str_vals) is not list:
                     str_vals = [str_vals]
                 for val in str_vals:
                     write_translation_or_var(val, origin,
-                                             comment="Text variable value in {}"
-                                             .format(comment))
-            if ("u_spawn_monster" in eff or "npc_spawn_monster" in eff
-                or "u_spawn_npc" in eff or "npc_spawn_npc" in eff):
+                                             comment="Text variable value in "
+                                             "{}".format(comment))
+            if ("u_spawn_monster" in eff or "npc_spawn_monster" in eff or
+                    "u_spawn_npc" in eff or "npc_spawn_npc" in eff):
                 if "u_spawn_monster" in eff or "npc_spawn_monster" in eff:
                     spawn_type = "monster"
                 else:
@@ -161,13 +161,13 @@ def parse_effect(effects, origin, comment=""):
                              .format(comment))
                 if "else" in eff:
                     parse_effect(eff["else"], origin,
-                                 comment="nested effect in else statement in {}"
-                                 .format(comment))
+                                 comment="nested effect in else statement in "
+                                 "{}".format(comment))
             if "switch" in eff:
                 for e in eff["cases"]:
                     parse_effect(e["effect"], origin,
-                                 comment="nested effect in switch statement in "
-                                 "{}".format(comment))
+                                 comment="nested effect in switch statement "
+                                 "in {}".format(comment))
             if "foreach" in eff:
                 parse_effect(eff["effect"], origin,
                              comment="nested effect in foreach statement in {}"
