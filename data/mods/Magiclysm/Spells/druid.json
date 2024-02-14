@@ -1369,8 +1369,8 @@
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 48000,
-    "max_duration": 720000,
-    "duration_increment": 48000
+    "min_duration": 96000,
+    "max_duration": 1440000,
+    "duration_increment": 96000
   }
 ]

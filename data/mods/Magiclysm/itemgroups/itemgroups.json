@@ -13,6 +13,12 @@
   },
   {
     "type": "item_group",
+    "id": "SUS_book_nonf_soft",
+    "copy-from": "SUS_book_nonf_soft",
+    "extend": { "items": [ { "item": "book_nonf_magic_origin_of_species", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
     "id": "novels",
     "copy-from": "novels",
     "extend": { "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ] }
@@ -1106,7 +1112,8 @@
           { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 50 },
           { "item": "spell_scroll_lightning_blast", "prob": 50 },
           { "item": "spell_scroll_stormshaper_cloak_of_fog", "prob": 50 },
-          { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 25 }
+          { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 25 },
+          { "item": "spell_scroll_stormshaper_loud_voice_spell", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1175,13 +1182,13 @@
         "distribution": [
           { "item": "wizard_advanced", "prob": 20 },
           { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
-          { "item": "spell_scroll_magus_haste", "prob": 50 },
           { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
           { "item": "spell_scroll_magus_escape", "prob": 50 },
           { "item": "spell_scroll_cats_grace", "prob": 50 },
           { "item": "spell_scroll_eagles_sight", "prob": 50 },
           { "item": "spell_scroll_ogres_strength", "prob": 50 },
-          { "item": "spell_scroll_foxs_cunning", "prob": 50 }
+          { "item": "spell_scroll_foxs_cunning", "prob": 50 },
+          { "item": "spell_scroll_magus_ranged_increase", "prob": 50 }
         ],
         "prob": 35
       },
@@ -1189,7 +1196,8 @@
         "distribution": [
           { "item": "magus_spellbook_move", "prob": 25 },
           { "item": "magus_spellbook", "prob": 25 },
-          { "item": "spell_scroll_magus_mana_blast", "prob": 50 }
+          { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
+          { "item": "spell_scroll_magus_haste", "prob": 50 }
         ],
         "prob": 10
       },
@@ -1217,7 +1225,8 @@
         "distribution": [
           { "item": "priest_advanced", "prob": 10 },
           { "item": "spell_scroll_summon_undead", "prob": 50 },
-          { "item": "spell_scroll_animist_luck_bone", "prob": 30 }
+          { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
+          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
         ],
         "prob": 35
       },
@@ -1263,7 +1272,8 @@
           { "item": "spell_scroll_chilling_touch", "prob": 50 },
           { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
           { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 },
-          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 }
+          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 },
+          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1311,7 +1321,8 @@
           { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
           { "item": "spell_scroll_taze", "prob": 50 },
           { "item": "spell_scroll_laze", "prob": 50 },
-          { "item": "spell_scroll_technomancer_conjure_radio", "prob": 40 }
+          { "item": "spell_scroll_technomancer_conjure_radio", "prob": 40 },
+          { "item": "spell_scroll_technomancer_gain_electronics_computer_spell", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1539,7 +1550,8 @@
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
           { "item": "spell_scroll_crystallize_mana", "prob": 50 },
           { "item": "spell_scroll_blinding_flash", "prob": 50 },
-          { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 }
+          { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 },
+          { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 50 }
         ],
         "prob": 50
       },

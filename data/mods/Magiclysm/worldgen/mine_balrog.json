@@ -120,7 +120,7 @@
               { "item": "armguard_lightplate", "prob": 60, "damage": 4 },
               { "item": "gloves_plate", "prob": 40, "damage": 4 },
               { "item": "legguard_lightplate", "prob": 60, "damage": 4 },
-              { "item": "armor_lightplate", "prob": 70, "damage": 4 },
+              { "item": "armor_lc_lightplate", "prob": 70, "damage": 4 },
               { "group": "balrog_mine_weapons", "prob": 70, "damage": 4 },
               { "item": "bone_human", "prob": 100, "damage": 4, "count": [ 10, 20 ] }
             ]

@@ -512,7 +512,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "The Tome of Magical Movement", "str_pl": "copies of The Tome of Magical Movement" },
-    "//": "5 Magus spells",
+    "//": "6 Magus spells",
     "description": "This small lightweight book seems to almost not entirely exist, let's say it 97% does.  It contains Magus spells focused on movement.",
     "weight": "231 g",
     "volume": "500 ml",
@@ -523,7 +523,7 @@
     "color": "light_gray",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "phase_door", "magus_escape", "magus_haste", "magus_slowfall", "magus_spiderclimb" ]
+      "spells": [ "phase_door", "magus_escape", "magus_haste", "magus_slowfall", "magus_spiderclimb", "magus_ranged_increase" ]
     }
   },
   {
@@ -1214,5 +1214,40 @@
     "symbol": "?",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
+  },
+  {
+    "id": "easy_sleeping_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Beyond Sleeping Easy with Sorcery", "str_pl": "copies of Beyond Sleeping Easy with Sorcery" },
+    "//": "1 Classless spell",
+    "description": "This self-help book is themed around the Peaceful Rest spell, famed before the Cataclysm as an easy way to avoid tossing and turning.  Laudably, the book seems to be mostly about eventually weaning the reader off the need to cast a spell to be able to fall asleep on time.",
+    "weight": "483 g",
+    "volume": "825 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "white",
+    "use_action": { "type": "learn_spell", "spells": [ "classless_easy_sleep_spell" ] }
+  },
+  {
+    "id": "basic_pyromancy",
+    "type": "BOOK",
+    "category": "manuals",
+    "//": "5 Kelvinist spells",
+    "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
+    "description": "The 2020 edition of the classic tome of fire magic, not containing any restricted battle magic but popular all the same.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": 9000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "kelvinist_firebolt", "kelvinist_extinguish_fire_spell", "create_lighter", "kelvinist_anti_cold", "burning_hands" ]
+    }
   }
 ]

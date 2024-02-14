@@ -201,7 +201,7 @@
   {
     "id": "spell_components_freshen_up",
     "type": "requirement",
-    "//": "Water and soap / lye for freshen up",
+    "//": "Water and soap / lye for Freshen Up",
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_mineral", 1 ] ],
       [ [ "soap", 5 ], [ "detergent", 5 ], [ "liquid_soap", 3 ], [ "lye", 1 ], [ "lye_powder", 1 ] ]
@@ -216,7 +216,7 @@
   {
     "id": "spell_components_shape_of_dust",
     "type": "requirement",
-    "//": "non-food powder suitable for the Shape of Dust",
+    "//": "non-food powder suitable for the Shape of Dust spell",
     "components": [
       [
         [ "magnesium", 5 ],
@@ -232,7 +232,19 @@
   {
     "id": "spell_components_luck_bone",
     "type": "requirement",
-    "//": "A bone for the osseous luck spell",
+    "//": "A bone for the Osseous Luck spell",
     "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_easy_sleep",
+    "type": "requirement",
+    "//": "Chamomile for the Peaceful Rest spell",
+    "components": [ [ [ "chamomile", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_technomancer_gain_electronics_computer",
+    "type": "requirement",
+    "//": "A wire for the Machine Mind spell",
+    "components": [ [ [ "cable", 1 ], [ "copper_wire", 1 ], [ "solder_wire", 1 ] ] ]
   }
 ]
