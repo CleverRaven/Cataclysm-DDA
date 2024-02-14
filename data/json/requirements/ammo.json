@@ -343,7 +343,7 @@
   {
     "id": "rifle_casings",
     "type": "requirement",
-    "//": "A list of rifle-calibre casings for use in crafts and adjacent projects. Excludes giant cartridges like .50 Browning and shotgun shells.",
+    "//": "A list of rifle-caliber casings for use in crafts and adjacent projects. Excludes giant cartridges like .50 Browning and shotgun shells.",
     "components": [
       [
         [ "123ln_casing", 1 ],
