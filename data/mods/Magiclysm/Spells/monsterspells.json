@@ -266,5 +266,21 @@
     "effect": "remove_effect",
     "effect_str": "maimed_arm",
     "shape": "blast"
+  },
+  {
+    "type": "SPELL",
+    "id": "monster_invisibility_spell",
+    "name": { "str": "monster invisibility" },
+    "description": "Makes the target invisible",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "invisibility",
+    "shape": "blast",
+    "message": "",
+    "max_level": 35,
+    "min_duration": 1000,
+    "max_duration": 36000,
+    "duration_increment": 1000,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ]
   }
 ]

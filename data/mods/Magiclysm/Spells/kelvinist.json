@@ -552,7 +552,7 @@
     "max_duration": 2160000,
     "duration_increment": 99000,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "base_energy_cost": 250,
     "base_casting_time": 1500
   },
   {
@@ -572,7 +572,7 @@
     "max_duration": 2160000,
     "duration_increment": 99000,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "base_energy_cost": 250,
     "base_casting_time": 1500
   },
   {
@@ -593,7 +593,7 @@
     "max_duration": 990000,
     "duration_increment": 45000,
     "energy_source": "MANA",
-    "base_energy_cost": 250,
+    "base_energy_cost": 350,
     "base_casting_time": 500
   },
   {
@@ -602,6 +602,7 @@
     "name": "Extinguish",
     "description": "Just as the kelvinist can start a fire, they can extinguish it, by transmuting the heat of the fire directly into cold and leaving nothing left to continue the flames.",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "spell_class": "KELVINIST",
     "valid_targets": [ "ground" ],
     "difficulty": 5,
     "max_level": 20,
@@ -616,7 +617,7 @@
     "max_aoe": 10,
     "aoe_increment": 0.5,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "base_energy_cost": 250,
     "base_casting_time": 250
   },
   {
@@ -656,7 +657,7 @@
     "max_duration": 327240000,
     "duration_increment": 18360000,
     "energy_source": "MANA",
-    "base_energy_cost": 500,
+    "base_energy_cost": 400,
     "base_casting_time": 1500
   },
   {
