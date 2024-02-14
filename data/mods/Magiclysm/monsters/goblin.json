@@ -48,11 +48,11 @@
       "subtype": "collection",
       "items": [
         { "group": "feral_goblin_death_drops", "prob": 100 },
-        { "item": "helmet_scrap", "prob": 40 },
-        { "item": "legguard_scrap", "prob": 40 },
-        { "item": "boots_scrap", "prob": 40 },
-        { "item": "armguard_scrap", "prob": 40 },
-        { "item": "cuirass_scrap", "prob": 40 },
+        { "item": "helmet_scrap_xs", "prob": 40 },
+        { "item": "xs_legguard_scrap", "prob": 40 },
+        { "item": "xs_boots_scrap", "prob": 40 },
+        { "item": "xs_armguard_scrap", "prob": 40 },
+        { "item": "xs_cuirass_scrap", "prob": 40 },
         { "item": "cudgel", "prob": 95 }
       ]
     },
