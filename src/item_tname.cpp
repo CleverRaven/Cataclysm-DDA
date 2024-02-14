@@ -123,20 +123,7 @@ std::string custom_item_prefix( item const &it, unsigned int /* quantity */,
                                 segment_bitset const &/* segments */ )
 {
     std::string prefix;
-    std::set<flag_id> all_flags;
-    // Collect all flags from item and its type
-    for( const flag_id &f : it.get_flags() ) {
-        if( !f->item_prefix().empty() ) {
-            all_flags.insert( f );
-        }
-    }
-    for( const flag_id &f : it.type->get_flags() ) {
-        if( !f->item_prefix().empty() ) {
-            all_flags.insert( f );
-        }
-    }
-    // Iterate through the merged set of flags
-    for( const flag_id &f : all_flags ) {
+    for( const flag_id &f : it.get_prefix_flags() ) {
         prefix += f->item_prefix().translated();
     }
     return prefix;
@@ -146,20 +133,7 @@ std::string custom_item_suffix( item const &it, unsigned int /* quantity */,
                                 segment_bitset const &/* segments */ )
 {
     std::string suffix;
-    std::set<flag_id> all_flags;
-    // Collect all flags from item and its type
-    for( const flag_id &f : it.get_flags() ) {
-        if( !f->item_suffix().empty() ) {
-            all_flags.insert( f );
-        }
-    }
-    for( const flag_id &f : it.type->get_flags() ) {
-        if( !f->item_suffix().empty() ) {
-            all_flags.insert( f );
-        }
-    }
-    // Iterate through the merged set of flags
-    for( const flag_id &f : all_flags ) {
+    for( const flag_id &f : it.get_suffix_flags() ) {
         suffix += f->item_suffix().translated();
     }
     return suffix;

@@ -302,6 +302,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
     item_vars = type->item_variables;
 
+    update_prefix_suffix_flags();
     if( has_flag( flag_CORPSE ) ) {
         corpse = &type->source_monster.obj();
         if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
@@ -1619,60 +1620,6 @@ bool _stacks_components( item const &lhs, item const &rhs, bool check_components
            ( lhs.get_uncraft_components() == rhs.get_uncraft_components() );
 }
 
-bool _stacks_custom_item_prefix( item const &lhs, item const &rhs )
-{
-    std::set<flag_id> prefix1;
-    for( const flag_id &f : lhs.get_flags() ) {
-        if( !f->item_prefix().empty() ) {
-            prefix1.insert( f );
-        }
-    }
-    for( const flag_id &f : lhs.type->get_flags() ) {
-        if( !f->item_prefix().empty() ) {
-            prefix1.insert( f );
-        }
-    }
-    std::set<flag_id> prefix2;
-    for( const flag_id &f : rhs.get_flags() ) {
-        if( !f->item_prefix().empty() ) {
-            prefix2.insert( f );
-        }
-    }
-    for( const flag_id &f : rhs.type->get_flags() ) {
-        if( !f->item_prefix().empty() ) {
-            prefix2.insert( f );
-        }
-    }
-    return prefix1 == prefix2;
-}
-
-bool _stacks_custom_item_suffix( item const &lhs, item const &rhs )
-{
-    std::set<flag_id> suffix1;
-    for( const flag_id &f : lhs.get_flags() ) {
-        if( !f->item_suffix().empty() ) {
-            suffix1.insert( f );
-        }
-    }
-    for( const flag_id &f : lhs.type->get_flags() ) {
-        if( !f->item_suffix().empty() ) {
-            suffix1.insert( f );
-        }
-    }
-    std::set<flag_id> suffix2;
-    for( const flag_id &f : rhs.get_flags() ) {
-        if( !f->item_suffix().empty() ) {
-            suffix2.insert( f );
-        }
-    }
-    for( const flag_id &f : rhs.type->get_flags() ) {
-        if( !f->item_suffix().empty() ) {
-            suffix2.insert( f );
-        }
-    }
-    return suffix1 == suffix2;
-}
-
 } // namespace
 
 stacking_info item::stacks_with( const item &rhs, bool check_components, bool combine_liquid,
@@ -1709,8 +1656,6 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
               same_type && ( count_by_charges() || charges == rhs.charges ) );
     bits.set( tname::segments::FAVORITE_PRE, is_favorite == rhs.is_favorite );
     bits.set( tname::segments::FAVORITE_POST, is_favorite == rhs.is_favorite );
-    bits.set( tname::segments::CUSTOM_ITEM_PREFIX, _stacks_custom_item_prefix( *this, rhs ) );
-    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, _stacks_custom_item_suffix( *this, rhs ) );
     bits.set( tname::segments::DURABILITY,
               damage_level( precise ) == rhs.damage_level( precise ) && degradation_ == rhs.degradation_ );
     bits.set( tname::segments::BURN, burnt == rhs.burnt );
@@ -1728,6 +1673,11 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
         bits.set( tname::segments::TEMPERATURE, is_same_temperature( rhs ) );
         bits.set( tname::segments::TAGS, item_tags == rhs.item_tags );
     }
+
+    // Since CUSTOM_ITEM_PREFIX and CUSTOM_ITEM_SUFFIX are determined by flags,
+    // after the check of TAGS above, there is no need to check whether the item has same prefix/suffix
+    bits.set( tname::segments::CUSTOM_ITEM_PREFIX );
+    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX );
 
     bits.set( tname::segments::FAULTS, faults == rhs.faults );
     bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
@@ -6683,6 +6633,7 @@ void item::update_inherited_flags()
         for( flag_id const &f : Flags ) {
             if( f->inherit() ) {
                 inherited_tags_cache.emplace( f );
+                update_prefix_suffix_flags( f );
             }
         }
     };
@@ -6702,6 +6653,30 @@ void item::update_inherited_flags()
                 inehrit_flags( e->type->get_flags() );
             }
         }
+    }
+}
+
+void item::update_prefix_suffix_flags()
+{
+    prefix_tags_cache.clear();
+    suffix_tags_cache.clear();
+    auto const insert_prefix_suffix_flags = [this]( FlagsSetType const & Flags ) {
+        for( flag_id const &f : Flags ) {
+            update_prefix_suffix_flags( f );
+        }
+    };
+    insert_prefix_suffix_flags( get_flags() );
+    insert_prefix_suffix_flags( type->get_flags() );
+    insert_prefix_suffix_flags( inherited_tags_cache );
+}
+
+void item::update_prefix_suffix_flags( const flag_id &f )
+{
+    if( !f->item_prefix().empty() ) {
+        prefix_tags_cache.emplace( f );
+    }
+    if( !f->item_suffix().empty() ) {
+        suffix_tags_cache.emplace( f );
     }
 }
 
@@ -7585,6 +7560,7 @@ item &item::set_flag( const flag_id &flag )
 {
     if( flag.is_valid() ) {
         item_tags.insert( flag );
+        update_prefix_suffix_flags( flag );
         requires_tags_processing = true;
     } else {
         debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
@@ -7595,6 +7571,7 @@ item &item::set_flag( const flag_id &flag )
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
+    update_prefix_suffix_flags();
     requires_tags_processing = true;
     return *this;
 }
@@ -7613,6 +7590,16 @@ item &item::set_flag_recursive( const flag_id &flag )
 const item::FlagsSetType &item::get_flags() const
 {
     return item_tags;
+}
+
+const item::FlagsSetType &item::get_prefix_flags() const
+{
+    return prefix_tags_cache;
+}
+
+const item::FlagsSetType &item::get_suffix_flags() const
+{
+    return suffix_tags_cache;
 }
 
 bool item::has_property( const std::string &prop ) const
