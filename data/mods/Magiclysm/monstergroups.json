@@ -36,6 +36,7 @@
       { "monster": "mon_troll_zombie", "weight": 3, "cost_multiplier": 13 },
       { "monster": "mon_yulecat_zombie", "weight": 3, "cost_multiplier": 12 },
       { "monster": "mon_yulecat_zombie_brute", "weight": 1, "cost_multiplier": 25 },
+      { "monster": "mon_ogre_spider", "weight": 5, "cost_multiplier": 12, "starts": "60 days" },
       {
         "group": "GROUP_FOREST_SPIRIT",
         "weight": 15,
@@ -67,14 +68,14 @@
     "name": "GROUP_SWAMP",
     "is_animal": true,
     "monsters": [
-      { "monster": "mon_null", "weight": 954 },
+      { "monster": "mon_null", "weight": 940 },
       { "monster": "mon_black_pudding", "weight": 14, "pack_size": [ 4, 6 ] },
       { "monster": "mon_stirge", "weight": 7, "pack_size": [ 2, 8 ] },
       { "monster": "mon_wisp", "weight": 5, "cost_multiplier": 10, "conditions": [ "NIGHT" ] },
       { "monster": "mon_wisp", "weight": 1, "cost_multiplier": 10, "conditions": [ "NIGHT" ], "pack_size": [ 1, 3 ] },
       { "monster": "mon_dragon_black_wyrmling", "weight": 2, "cost_multiplier": 50 },
       { "monster": "mon_dragon_black_young", "weight": 1, "cost_multiplier": 65 },
-      { "monster": "mon_ogre", "weight": 3, "cost_multiplier": 12 },
+      { "group": "GROUP_OGRE", "weight": 4, "cost_multiplier": 12 },
       { "monster": "mon_troll_water", "weight": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       { "group": "GROUP_FOREST_SPIRIT_SWAMP", "weight": 10, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] }
     ]
@@ -203,6 +204,30 @@
       { "monster": "mon_crocodile", "weight": 30, "cost_multiplier": 30, "pack_size": [ 1, 4 ] },
       { "monster": "mon_lizardfolk_shaman", "weight": 10, "cost_multiplier": 30 },
       { "monster": "mon_lizardfolk_chieftan", "weight": 10, "cost_multiplier": 50 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_OGRE",
+    "//": "Contains ogres and their various mutations",
+    "monsters": [
+      { "monster": "mon_ogre", "weight": 500 },
+      { "monster": "mon_ogre", "weight": 100, "ends": "7 days" },
+      { "monster": "mon_ogre", "weight": 150, "ends": "28 days" },
+      { "monster": "mon_ogre", "weight": 150, "ends": "90 days" },
+      { "monster": "mon_ogre_mage", "weight": 100 },
+      { "group": "GROUP_OGRE_MUTANTS", "weight": 100, "starts": "7 days" },
+      { "group": "GROUP_OGRE_MUTANTS", "weight": 150, "starts": "28 days" },
+      { "group": "GROUP_OGRE_MUTANTS", "weight": 150, "starts": "90 days" }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_OGRE_MUTANTS",
+    "monsters": [
+      { "monster": "mon_ogre_twoheaded", "weight": 500 },
+      { "monster": "mon_ogre_spider", "weight": 400 },
+      { "monster": "mon_ogre_giant", "weight": 100 }
     ]
   },
   {

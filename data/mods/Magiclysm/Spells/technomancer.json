@@ -658,7 +658,7 @@
     "max_damage": { "math": [ "( (u_spell_level('technomancer_robot_shutdown') * -25) - 400)" ] },
     "energy_source": "MANA",
     "base_casting_time": 150,
-    "base_energy_cost": 350,
+    "base_energy_cost": 250,
     "targeted_monster_species": [ "GOLEM", "ROBOT", "CYBORG" ]
   },
   {
@@ -679,7 +679,7 @@
     "duration_increment": 15000,
     "energy_source": "MANA",
     "base_casting_time": 6000,
-    "base_energy_cost": 450
+    "base_energy_cost": 300
   },
   {
     "id": "technomancer_conjure_ups",
@@ -700,9 +700,9 @@
     "//": "The Power Supply provides 1 kj per second and regenerates 1 kj per second, so the duration is the total power supplied.  Cost below increases but not as fast as power does.",
     "energy_source": "MANA",
     "base_casting_time": 3000,
-    "base_energy_cost": 600,
-    "final_energy_cost": 900,
-    "energy_increment": 15
+    "base_energy_cost": 300,
+    "final_energy_cost": 450,
+    "energy_increment": 7
   },
   {
     "id": "technomancer_welder",
@@ -723,7 +723,7 @@
     "max_duration": 720000,
     "duration_increment": 24000,
     "energy_source": "MANA",
-    "base_energy_cost": 500,
+    "base_energy_cost": 300,
     "base_casting_time": 3000
   },
   {
@@ -743,7 +743,7 @@
     "damage_increment": 2350,
     "min_range": 1,
     "energy_source": "MANA",
-    "base_energy_cost": 750,
+    "base_energy_cost": 500,
     "base_casting_time": 6000
   }
 ]

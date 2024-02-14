@@ -453,7 +453,7 @@
     "max_duration": 8640000,
     "duration_increment": 720000,
     "energy_source": "MANA",
-    "base_energy_cost": 150,
+    "base_energy_cost": 50,
     "base_casting_time": 6000
   },
   {
@@ -470,7 +470,7 @@
     "difficulty": 2,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": 200,
+    "base_energy_cost": 75,
     "base_casting_time": 3000
   },
   {

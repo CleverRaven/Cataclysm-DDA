@@ -1,0 +1,137 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ogre_mound" ],
+    "object": {
+      "predecessor_mapgen": "forest_water",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "          X   X         ",
+        "       ----...----      ",
+        "     ---U.......U---    ",
+        "    --UUU.........U--   ",
+        "    -UU............U-   ",
+        "   --U..........B..U--  ",
+        "  --U.....t...t.....U-- ",
+        "  -..B...............U- ",
+        "  -.........O......B..- ",
+        " --.....t..OOO..t.....- ",
+        " -U..B......O......B..- ",
+        " -U...................- ",
+        " --U......t...t...U...- ",
+        "  -.........B......U.-- ",
+        "  --...B........B....-  ",
+        "   --U...............-  ",
+        "    --U..B...B....U.--  ",
+        "     ---U........UU--   ",
+        "       ----UUUU-----    ",
+        "          ------        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "-": "t_wall_wattle",
+        "O": "t_dirtfloor_no_roof",
+        "U": "t_dirtfloor_thatchroof",
+        "B": "t_dirtfloor_thatchroof",
+        "t": "t_dirtfloor_thatchroof",
+        ".": "t_dirtfloor_thatchroof"
+      },
+      "furniture": { "O": "f_firering", "t": "f_logstool" },
+      "nested": {
+        "X": { "chunks": [ [ "human_gore", 1 ], [ "null", 1 ] ] },
+        "B": { "chunks": [ [ "ogre_bed", 1 ], [ "null", 1 ] ] },
+        "U": { "chunks": [ [ "ogre_loot", 1 ], [ "null", 1 ] ] }
+      },
+      "place_item": [
+        { "item": "log", "x": 12, "y": 11, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "ash", "x": 12, "y": 11, "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "corpse_ash", "x": 12, "y": 11, "chance": 60, "repeat": [ 100, 400 ] },
+        { "item": "log", "x": 11, "y": 12, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "ash", "x": 11, "y": 12, "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "corpse_ash", "x": 11, "y": 12, "chance": 60, "repeat": [ 100, 400 ] },
+        { "item": "log", "x": 12, "y": 12, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "ash", "x": 12, "y": 12, "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "corpse_ash", "x": 12, "y": 12, "chance": 60, "repeat": [ 100, 400 ] },
+        { "item": "log", "x": 13, "y": 12, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "ash", "x": 13, "y": 12, "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "corpse_ash", "x": 13, "y": 12, "chance": 60, "repeat": [ 100, 400 ] },
+        { "item": "log", "x": 12, "y": 13, "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "ash", "x": 12, "y": 13, "chance": 100, "repeat": [ 500, 1200 ] },
+        { "item": "corpse_ash", "x": 12, "y": 13, "chance": 60, "repeat": [ 100, 400 ] }
+      ],
+      "items": { ".": { "item": "midden_heap", "chance": 2 } },
+      "place_monster": [ { "group": "GROUP_OGRE", "x": [ 7, 16 ], "y": [ 7, 16 ], "repeat": [ 2, 5 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ogre_bed",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BB",
+        "BB"
+      ],
+      "furniture": { "B": "f_straw_bed" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ogre_loot",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "rows": [ "X" ],
+      "items": {
+        "X": [
+          { "item": "midden_heap", "chance": 40, "repeat": [ 1, 2 ] },
+          { "item": "orc_village_foodstuffs", "repeat": [ 1, 3 ], "chance": 80 },
+          { "item": "corpses", "chance": 2, "repeat": 1 },
+          { "item": "default_zombie_death_drops", "chance": 55, "repeat": [ 1, 3 ] },
+          { "item": "stone_troll_lair_treasure", "chance": 10, "repeat": [ 1, 2 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ogre_mound_roof" ],
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ...........      ",
+        "     ...............    ",
+        "    .................   ",
+        "    .................   ",
+        "   ...................  ",
+        "  ..................... ",
+        "  ..................... ",
+        "  .......... .......... ",
+        " ..........   ......... ",
+        " ........... .......... ",
+        " ...................... ",
+        " ...................... ",
+        "  ..................... ",
+        "  ....................  ",
+        "   ...................  ",
+        "    ..................  ",
+        "     ................   ",
+        "       .............    ",
+        "          ......        ",
+        "                        "
+      ],
+      "terrain": { " ": "t_open_air", ".": "t_thatch_roof" }
+    }
+  }
+]
