@@ -1674,10 +1674,8 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
         bits.set( tname::segments::TAGS, item_tags == rhs.item_tags );
     }
 
-    // Since CUSTOM_ITEM_PREFIX and CUSTOM_ITEM_SUFFIX are determined by flags,
-    // after the check of TAGS above, there is no need to check whether the item has same prefix/suffix
-    bits.set( tname::segments::CUSTOM_ITEM_PREFIX );
-    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX );
+    bits.set( tname::segments::CUSTOM_ITEM_PREFIX, bits[tname::segments::TAGS] );
+    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, bits[tname::segments::TAGS] );
 
     bits.set( tname::segments::FAULTS, faults == rhs.faults );
     bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
