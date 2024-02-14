@@ -2004,10 +2004,11 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             // RNG cap is high here so there's always a decent chance your item comes out ok
             if( rng( 1, 100 + ( 2 * ( 100 - armor.breathability( bp ) ) ) ) > liquid_remaining ) {
                 // Apply filth to the item. Currently hardcoded because we don't have other item
-                // flags that would make sense for this. 
+                // flags that would make sense for this. It gets its own probability calculated here
+                // because it can't use armor_absorb's.
                 if( sp.has_flag( spell_flag::MAKE_FILTHY ) && !armor.has_flag( flag_INTEGRATED ) &&
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
-                    !armor.has_flag( flag_AURA ) && one_in( 16 - ( 0.1 * armor.breathability( bp ) ) ) ) {
+                    !armor.has_flag( flag_AURA ) && one_in( 30 - ( 0.1 * armor.breathability( bp ) ) - ( 0.1 * liquid_remaining ) ) ) {
                     guy.add_msg_if_player( m_bad, _( "The %s is covered in filth!" ), armor.tname() );
                     armor.set_flag( json_flag_FILTHY );
                 }

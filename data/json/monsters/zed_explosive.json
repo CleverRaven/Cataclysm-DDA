@@ -31,7 +31,7 @@
         "type": "spell",
         "spell_data": { "id": "bile_spew", "min_level": 3 },
         "monster_message": "The %s spews bile!",
-        "cooldown": 12
+        "cooldown": 24
       }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": {
@@ -92,7 +92,7 @@
         "type": "spell",
         "spell_data": { "id": "bile_spew", "min_level": 4 },
         "monster_message": "The %s spews bile!",
-        "cooldown": 7
+        "cooldown": 16
       }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": {
