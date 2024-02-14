@@ -4964,14 +4964,13 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         jo.throw_error( "Invalid input for run_eoc_selector, size of eocs and keys needs to be identical, or keys need to be empty." );
     }
 
-    std::vector<std::unordered_map<std::string, str_or_var>> context;
+    std::vector<std::unordered_map<std::string, str_translation_or_var>> context;
     if( jo.has_array( "variables" ) ) {
         for( const JsonValue &member : jo.get_array( "variables" ) ) {
             const JsonObject &variables = member.get_object();
-            std::unordered_map<std::string, str_or_var> temp_context;
+            std::unordered_map<std::string, str_translation_or_var> temp_context;
             for( const JsonMember &jv : variables ) {
-                temp_context["npctalk_var_" + jv.name()] =
-                    get_str_or_var( variables.get_member( jv.name() ), jv.name(), true );
+                temp_context["npctalk_var_" + jv.name()] = get_str_translation_or_var( jv, jv.name(), true );
             }
             context.emplace_back( temp_context );
         }
@@ -5079,12 +5078,11 @@ talk_effect_fun_t::func f_run_eoc_with( const JsonObject &jo, std::string_view m
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
 
-    std::unordered_map<std::string, str_or_var> context;
+    std::unordered_map<std::string, str_translation_or_var> context;
     if( jo.has_object( "variables" ) ) {
         const JsonObject &variables = jo.get_object( "variables" );
         for( const JsonMember &jv : variables ) {
-            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
-                                                  true );
+            context["npctalk_var_" + jv.name()] = get_str_translation_or_var( jv, jv.name(), true );
         }
     }
 
@@ -5401,12 +5399,11 @@ talk_effect_fun_t::func f_queue_eoc_with( const JsonObject &jo, std::string_view
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
 
-    std::unordered_map<std::string, str_or_var> context;
+    std::unordered_map<std::string, str_translation_or_var> context;
     if( jo.has_object( "variables" ) ) {
         const JsonObject &variables = jo.get_object( "variables" );
         for( const JsonMember &jv : variables ) {
-            context["npctalk_var_" + jv.name()] = get_str_or_var( variables.get_member( jv.name() ), jv.name(),
-                                                  true );
+            context["npctalk_var_" + jv.name()] = get_str_translation_or_var( jv, jv.name(), true );
         }
     }
 

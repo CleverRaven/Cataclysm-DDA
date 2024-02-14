@@ -1541,7 +1541,7 @@ Same as `run_eocs`, but runs the specific EoC with provided variables as context
 | "alpha_loc","beta_loc" | optional | string, [variable object](#variable-object) | `u_location_variable`, where the EoC should be run. Set the alpha/beta talker to the creature at the location. |
 | "alpha_talker","beta_talker" | optional (If you use both "alpha_loc" and "alpha_talker", "alpha_talker" will be ignored.) | string, [variable object](#variable-object) | Set alpha/beta talker. This can be either a `character_id` (you can get from [EOC event](#event-eocs) or [u_set_talker](#u_set_talkernpc_set_talker) ) or some hard-coded values: <br> `""`: null talker <br> `"u"/"npc": the alpha/beta talker of the EOC`(Should be Avatar/Character/NPC/Monster) <br> `"avatar"`: your avatar|
 | "false_eocs" | optional | string, [variable object](#variable-object), inline EoC, or range of all of them | false EOCs will run if<br>1. there is no creature at "alpha_loc"/"beta_loc",or<br>2. "alpha_talker" or "beta_talker" doesn't exist in the game (eg. dead NPC),or<br>3. alpha and beta talker are both null |
-| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC;  all variables should be strings, even if it's int; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
 ##### Valid talkers:
 
@@ -1680,7 +1680,7 @@ Combination of `run_eoc_with` and `queue_eocs` - Put EoC into queue and run into
 | --- | --- | --- | --- | 
 | "queue_eoc_with" | **mandatory** | string (eoc id or inline eoc) | EoC, that would be added into queue; Could be an inline EoC |
 | "time_in_future" | optional | int, duration, [variable object](#variable-object) or value between two | When in the future EoC would be run; default 0 |
-| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoC; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoC; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 
 ##### Valid talkers:
 
@@ -2107,7 +2107,7 @@ Open a menu, that allow to select one of multiple options
 | "title" | optional | string | Text, that would be shown as the name of the list; Default `Select an option.` | 
 | "hide_failing" | optional | boolean | if true, the options, that fail their check, would be completely removed from the list, instead of being grayed out | 
 | "allow_cancel" | optional | boolean | if true, you can quit the menu without selecting an option, no effect will occur | 
-| "variables" | optional | pair of `"variable_name": "varialbe"` | variables, that would be passed to the EoCs; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
+| "variables" | optional | pair of `"variable_name": "variable"` | variables, that would be passed to the EoCs; numeric values should be specified as strings; when a variable is an object and has the `i18n` member set to true, the variable will be localized; `expects_vars` condition can be used to ensure every variable exist before the EoC is run | 
 ##### Valid talkers:
 
 | Avatar | Character | NPC | Monster |  Furniture | Item |

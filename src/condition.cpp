@@ -257,14 +257,7 @@ str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool re
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        const JsonObject &jo = jv.get_object();
-        if( jo.has_member( "mutator" ) ) {
-            // if we have a mutator then process that here.
-            ret_val.function = conditional_t::get_get_string( jo );
-        } else {
-            ret_val.var_val = read_var_info( jo );
-            ret_val.default_val = default_val;
-        }
+        ret_val = get_str_or_var( jv.get_object(), member, default_val );
     } else if( required ) {
         jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
@@ -273,15 +266,57 @@ str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool re
     return ret_val;
 }
 
+str_or_var get_str_or_var( const JsonObject &jo, std::string_view,
+                           std::string_view default_val )
+{
+    str_or_var ret_val;
+    if( jo.has_member( "mutator" ) ) {
+        // if we have a mutator then process that here.
+        ret_val.function = conditional_t::get_get_string( jo );
+    } else {
+        ret_val.var_val = read_var_info( jo );
+        ret_val.default_val = default_val;
+    }
+    return ret_val;
+}
+
+static bool json_object_read( const JsonObject &jo, translation &v )
+{
+    try {
+        v.deserialize( jo );
+        return true;
+    } catch( const JsonError & ) {
+        return false;
+    }
+}
+
 translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required, const translation &default_val )
 {
     translation_or_var ret_val;
+    if( jv.test_object() ) {
+        ret_val = get_translation_or_var( jv.get_object(), member, default_val );
+    } else {
+        translation str_val;
+        if( jv.read( str_val ) ) {
+            ret_val.str_val = str_val;
+        } else if( required ) {
+            jv.throw_error( "No valid value for " + std::string( member ) );
+        } else {
+            ret_val.str_val = default_val;
+        }
+    }
+    return ret_val;
+}
+
+translation_or_var get_translation_or_var( const JsonObject &jo, std::string_view,
+        const translation &default_val )
+{
+    translation_or_var ret_val;
     translation str_val;
-    if( jv.read( str_val ) ) {
+    if( json_object_read( jo, str_val ) ) {
         ret_val.str_val = str_val;
-    } else if( jv.test_object() ) {
-        const JsonObject &jo = jv.get_object();
+    } else {
         if( jo.has_member( "mutator" ) ) {
             // if we have a mutator then process that here.
             ret_val.function = conditional_t::get_get_translation( jo );
@@ -289,10 +324,24 @@ translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view
             ret_val.var_val = read_translation_var_info( jo );
             ret_val.default_val = default_val;
         }
-    } else if( required ) {
-        jv.throw_error( "No valid value for " + std::string( member ) );
+    }
+    return ret_val;
+}
+
+str_translation_or_var get_str_translation_or_var(
+    const JsonValue &jv, std::string_view member, bool required,
+    std::string_view str_default_val, const translation &translation_default_val )
+{
+    str_translation_or_var ret_val;
+    if( jv.test_object() ) {
+        const JsonObject &jo = jv.get_object();
+        if( jo.get_bool( "i18n", false ) ) {
+            ret_val.val = get_translation_or_var( jo, member, translation_default_val );
+        } else {
+            ret_val.val = get_str_or_var( jo, member, str_default_val );
+        }
     } else {
-        ret_val.str_val = default_val;
+        ret_val.val = get_str_or_var( jv, member, required, str_default_val );
     }
     return ret_val;
 }

@@ -187,17 +187,11 @@ def parse_effect_on_condition(json, origin, comment=""):
 
 
 def parse_effect_variables(json, origin, comment):
-    if "message_success" in json:
-        write_text(json["message_success"], origin,
-                   comment="Success message casting spell \"{}\" in {}"
-                   .format(json["spell_to_cast"], comment))
-    if "message_fail" in json:
-        write_text(json["message_fail"], origin,
-                   comment="Fail message casting spell \"{}\" in {}"
-                   .format(json["spell_to_cast"], comment))
-    if "success_message" in json:
-        write_text(json["success_message"], origin,
-                   comment="Success message in {}".format(comment))
-    if "failure_message" in json:
-        write_text(json["failure_message"], origin,
-                   comment="Failure message in {}".format(comment))
+    if type(json) is dict:
+        json = [json]
+    for jsobj in json:
+        for key, val in jsobj.items():
+            if type(val) is dict and val.get("i18n", False):
+                write_translation_or_var(val, origin,
+                                         comment="value of variable '{}' in {}"
+                                         .format(key, comment))

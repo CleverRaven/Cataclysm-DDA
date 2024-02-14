@@ -138,6 +138,13 @@ std::string translation_or_var::evaluate( dialogue const &d ) const
     return "";
 }
 
+std::string str_translation_or_var::evaluate( dialogue const &d ) const
+{
+    return std::visit( [&d]( auto &&val ) {
+        return val.evaluate( d );
+    }, val );
+}
+
 double dbl_or_var_part::evaluate( dialogue &d ) const
 {
     if( dbl_val.has_value() ) {

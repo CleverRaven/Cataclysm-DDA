@@ -3,6 +3,7 @@
 #define CATA_SRC_DIALOGUE_HELPERS_H
 
 #include <optional>
+#include <variant>
 
 #include "calendar.h"
 #include "global_vars.h"
@@ -45,6 +46,12 @@ struct abstract_str_or_var {
 };
 
 using str_or_var = abstract_str_or_var<std::string>;
+using translation_or_var = abstract_str_or_var<translation>;
+
+struct str_translation_or_var {
+    std::variant<str_or_var, translation_or_var> val;
+    std::string evaluate( dialogue const & ) const;
+};
 
 struct talk_effect_fun_t {
     public:
@@ -79,8 +86,6 @@ std::optional<std::string> maybe_read_var_value(
     const abstract_var_info<T> &info, const dialogue &d );
 
 var_info process_variable( const std::string &type );
-
-using translation_or_var = abstract_str_or_var<translation>;
 
 struct eoc_math {
     enum class oper : int {

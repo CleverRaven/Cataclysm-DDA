@@ -32,8 +32,15 @@ struct enum_traits<jarg> {
 
 str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool required = true,
                            std::string_view default_val = "" );
+str_or_var get_str_or_var( const JsonObject &jv, std::string_view member,
+                           std::string_view default_val = "" );
 translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required = true, const translation &default_val = {} );
+translation_or_var get_translation_or_var( const JsonObject &jv, std::string_view member,
+        const translation &default_val = {} );
+str_translation_or_var get_str_translation_or_var(
+    const JsonValue &jv, std::string_view member, bool required = true,
+    std::string_view str_default_val = "", const translation &translation_default_val = {} );
 dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string_view member, bool required = true,
                            double default_val = 0.0 );
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, std::string_view member,
