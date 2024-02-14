@@ -3,7 +3,7 @@
     "id": "mon_goblin_warrior",
     "type": "MONSTER",
     "name": { "str": "goblin warrior" },
-    "description": "This short humanoid is covered in filth and shouts slurs at you as it brandishes a cudgel.",
+    "description": "A goblin, but like something out of history.  Over the dirty, tattered remnants of their street clothes, they're wearing improvised armor and carrying a heavy club.  They look at you like a wolf seeing a particularly juicy hunk of lamb.",
     "default_faction": "goblin",
     "bodytype": "human",
     "species": [ "GOBLIN" ],
@@ -16,19 +16,38 @@
     "color": "brown",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 2,
+    "melee_skill": 3,
+    "melee_dice": 1,
     "melee_dice_sides": 4,
-    "dodge": 5,
+    "dodge": 4,
     "harvest": "demihuman",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
-    "vision_day": 30,
-    "vision_night": 8,
+    "vision_day": 8,
+    "vision_night": 25,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "goblin_cudgel_attack",
+        "cooldown": 1,
+        "move_cost": 80,
+        "accuracy": 4,
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s with a cudgel!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with a cudgel!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
     "death_drops": {
       "subtype": "collection",
       "items": [
+        { "group": "feral_goblin_death_drops", "prob": 100 },
         { "item": "helmet_scrap", "prob": 40 },
         { "item": "legguard_scrap", "prob": 40 },
         { "item": "boots_scrap", "prob": 40 },
@@ -37,18 +56,19 @@
         { "item": "cudgel", "prob": 95 }
       ]
     },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1", "WIELDED_WEAPON" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",
     "id": "mon_goblin_slinger",
     "name": { "str": "goblin slinger" },
-    "description": "An ugly creature that slings rocks almost as well as it slings insults.",
+    "description": "A goblin, but like something out of history.  Over the dirty, tattered remnants of their street clothes, they're wearing improvised armor and carrying a sling with a pouch for extra stones.  They look at you like a wolf seeing a particularly juicy hunk of lamb.",
     "copy-from": "mon_goblin_warrior",
     "melee_skill": 2,
     "death_drops": {
       "subtype": "collection",
       "items": [
+        { "group": "feral_goblin_death_drops", "prob": 100 },
         { "item": "helmet_scrap", "prob": 40 },
         { "item": "legguard_scrap", "prob": 40 },
         { "item": "boots_scrap", "prob": 40 },
@@ -82,22 +102,41 @@
     "id": "mon_goblin_chieftain",
     "type": "MONSTER",
     "copy-from": "mon_goblin_warrior",
-    "name": { "str": "goblin chieftain" },
-    "description": "An ugly creature that was promoted to chieftain because it figured out which end of the weapon is pointy.",
-    "hp": 135,
-    "dodge": 6,
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "name": { "str": "goblin leader" },
+    "description": "A goblin, slightly larger than the others and bearing a weapon with more craftsmanship.  The goblins around them scurry to obey their orders.",
+    "hp": 80,
+    "dodge": 4,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "goblin_boss_attack",
+        "cooldown": 1,
+        "move_cost": 80,
+        "accuracy": 4,
+        "range": 1,
+        "//": "attack based on knife spear",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 22 } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s with their weapon!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their weapon!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
     "death_drops": {
       "subtype": "collection",
       "items": [
+        { "group": "feral_goblin_death_drops", "prob": 100 },
         { "item": "helmet_scrap", "prob": 40 },
         { "item": "legguard_scrap", "prob": 40 },
         { "item": "boots_scrap", "prob": 40 },
         { "item": "armguard_scrap", "prob": 40 },
         { "item": "cuirass_scrap", "prob": 40 },
         {
-          "distribution": [ { "group": "survivor_melee", "prob": 90 }, { "group": "enchanted_melee_weapons_plus1", "prob": 10 } ],
+          "distribution": [ { "group": "survivor_stabbing", "prob": 90 }, { "group": "enchanted_melee_weapons_plus1", "prob": 10 } ],
           "prob": 100
         }
       ]

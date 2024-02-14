@@ -9,30 +9,49 @@
     "id": "mon_orc_warrior",
     "type": "MONSTER",
     "name": { "str": "orc warrior" },
-    "description": "This green brute is an orc warrior.  It stares at you menacingly, sword in hand.",
-    "default_faction": "orcs",
+    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying a spear.",
+    "default_faction": "goblin",
     "bodytype": "human",
-    "species": [ "ORC" ],
+    "species": [ "GOBLIN", "ORC" ],
     "volume": "60 L",
     "weight": "70 kg",
     "hp": 92,
     "speed": 110,
     "material": [ "flesh" ],
-    "symbol": "o",
+    "symbol": "G",
     "color": "green",
     "aggression": 75,
     "morale": 100,
-    "melee_skill": 5,
-    "melee_dice": 6,
-    "melee_dice_sides": 4,
+    "melee_skill": 4,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
-    "dodge": 7,
+    "dodge": 3,
     "harvest": "orc",
     "families": [ "prof_wp_demihuman" ],
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK" ],
-    "vision_day": 13,
-    "vision_night": 5,
+    "vision_day": 20,
+    "vision_night": 25,
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "orc_spear_attack",
+        "cooldown": 1,
+        "move_cost": 110,
+        "range": 1,
+        "//": "attack based on knife spear",
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 22 } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s with their weapon!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their weapon!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "zombify_into": "mon_zorc",
     "death_drops": {
@@ -51,24 +70,13 @@
         { "item": "longsword", "prob": 100 }
       ]
     },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "HAS_MIND",
-      "WARM",
-      "BASHES",
-      "FILTHY",
-      "PATH_AVOID_DANGER_1",
-      "SWARMS",
-      "GROUP_MORALE",
-      "WIELDED_WEAPON"
-    ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE", "WIELDED_WEAPON" ]
   },
   {
     "type": "MONSTER",
     "id": "mon_orc_archer",
     "name": { "str": "orc archer" },
-    "description": "This green brute is an orc archer.  It looks at you with a bow in hand and smiles silently as it aims at you.",
+    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying a bow.  They smile silently as they aim at you.",
     "copy-from": "mon_orc_warrior",
     "melee_skill": 2,
     "death_drops": {
@@ -116,13 +124,32 @@
     "type": "MONSTER",
     "copy-from": "mon_orc_warrior",
     "name": { "str": "blood orc" },
-    "description": "This bloody red brute is an orc warrior.  He stares at you menacingly, weapon in hand; this one seems to have bathed himself in the blood of his enemies.",
+    "description": "Like a goblin, but stretched and exaggerated until they're as tall as a human but much more heavily muscled, wearing improvised armor and carrying an enormous club.  There are red streaks all over their skin, like they had bathed themselves in blood.",
     "hp": 97,
     "dodge": 3,
     "aggression": 100,
+    "melee_skill": 5,
     "color": "red",
-    "melee_dice_sides": 8,
-    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "special_attacks": [
+      {
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "orc_blood_pipe_attack",
+        "cooldown": 1,
+        "move_cost": 130,
+        "accuracy": 4,
+        "range": 1,
+        "//": "attack based on great pipe mace",
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 30 } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "hit_dmg_u": "%1$s hits your %2$s with their mace!",
+        "hit_dmg_npc": "%1$s hits <npcname>'s %2$s with their mace!",
+        "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+        "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+        "no_dmg_msg_u": "%1$s hits your %2$s without penetrating your armor.",
+        "no_dmg_msg_npc": "%1$s hits <npcname>'s %2$s without penetrating their armor."
+      }
+    ],
     "death_drops": {
       "subtype": "collection",
       "items": [
@@ -136,7 +163,7 @@
         { "item": "gloves_wraps_fur", "prob": 10 },
         { "item": "bellywrap_fur", "prob": 5 },
         { "item": "chestwrap_fur", "prob": 5 },
-        { "item": "warhammer", "prob": 100 }
+        { "item": "mace_pipe_large", "prob": 100 }
       ]
     }
   }

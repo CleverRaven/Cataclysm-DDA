@@ -97,9 +97,9 @@
       ],
       "nested": { "1": { "chunks": [ [ "null", 20 ], [ "goblin_campfire", 80 ] ] } },
       "place_monsters": [
-        { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 24, 47 ], "y": [ 24, 46 ], "density": 0.1, "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 48, 71 ], "y": [ 24, 46 ], "density": 0.1, "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_GOBLIN_STANDARD", "x": [ 72, 95 ], "y": [ 24, 46 ], "density": 0.1, "repeat": [ 1, 3 ] }
+        { "monster": "GROUP_ALL_GOBLINS", "x": [ 24, 47 ], "y": [ 24, 46 ], "density": 0.1, "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_ALL_GOBLINS", "x": [ 48, 71 ], "y": [ 24, 46 ], "density": 0.1, "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_ALL_GOBLINS", "x": [ 72, 95 ], "y": [ 24, 46 ], "density": 0.1, "repeat": [ 1, 3 ] }
       ]
     }
   },
@@ -443,10 +443,10 @@
       { "point": [ 4, 2, 0 ], "overmap": "goblin_5C_north" },
       { "point": [ 4, 2, 1 ], "overmap": "goblin_5C_roof_north" }
     ],
-    "locations": [ "wilderness" ],
+    "locations": [ "forest_center" ],
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 20 ],
-    "occurrences": [ 0, 2 ]
+    "occurrences": [ 0, 1 ]
   },
   {
     "type": "overmap_terrain",

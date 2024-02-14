@@ -30,7 +30,7 @@
   },
   {
     "id": "orc_village_foodstuffs",
-    "//": "stuff the orcs 'eat', mostly there for flavor, pun intended",
+    "//": "stuff the goblins 'eat', mostly there for flavor, pun intended",
     "type": "item_group",
     "subtype": "collection",
     "on_overflow": "spill",
@@ -47,7 +47,7 @@
   },
   {
     "id": "orc_village_storage",
-    "//": "stuff the orcs are storing in their racks, weapons, utils and such",
+    "//": "stuff the goblins are storing in their racks, weapons, utils and such",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
@@ -68,7 +68,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "human_gore",
-    "//": "lore: brutally slaughtered human, only scraps of it remain. the orcs have taken everything they need from it and left the rest there to frighten every human that comes close to their village. can be reused for other purposes, such as humans eaten by animals.",
+    "//": "lore: brutally slaughtered human, only scraps of it remain. the goblins have taken everything they need from it and left the rest there to frighten every human that comes close to their outpost. can be reused for other purposes, such as humans eaten by animals.",
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_fields": [
@@ -113,23 +113,24 @@
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "orc_palette" ],
       "nested": { "X": { "chunks": [ [ "human_gore", 9 ], [ "null", 1 ] ] } },
-      "place_monsters": [ { "monster": "GROUP_ORC", "x": [ 3, 21 ], "y": [ 4, 19 ], "density": 0.6, "repeat": [ 3, 6 ] } ]
+      "place_monsters": [ { "monster": "GROUP_ALL_GOBLINS", "x": [ 3, 21 ], "y": [ 4, 19 ], "density": 0.6, "repeat": [ 3, 6 ] } ]
     }
   },
   {
     "type": "overmap_special",
     "id": "orc_village",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orc_village_north" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 20, -5 ],
+    "locations": [ "forest" ],
+    "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 13 ],
-    "occurrences": [ 0, 6 ]
+    "occurrences": [ 0, 2 ],
+    "spawns": { "group": "GROUP_ALL_GOBLINS", "population": [ 10, 30 ], "radius": [ 1, 10 ] }
   },
   {
     "type": "overmap_terrain",
     "id": [ "orc_village" ],
-    "name": "orc village",
-    "sym": "o",
+    "name": "goblin outpost",
+    "sym": "G",
     "color": "green",
     "see_cost": 6,
     "flags": [ "RISK_HIGH" ]
