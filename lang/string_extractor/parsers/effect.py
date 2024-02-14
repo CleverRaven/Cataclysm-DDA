@@ -15,9 +15,6 @@ def parse_effect(effects, origin, comment=""):
                     comment = "effect \"{}\"".format(eff["effect_id"])
                 else:
                     comment = "an effect"
-            if "message_npc" in eff:
-                write_text(eff["message_npc"], origin,
-                           comment="NPC message in {}".format(comment))
             if "u_buy_monster" in eff and "name" in eff:
                 write_translation_or_var(eff["name"], origin,
                                          comment="Nickname for creature '{}' "
