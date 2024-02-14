@@ -3,7 +3,7 @@
     "id": "mana_upgrade_efficiency_01",
     "type": "SPELL",
     "name": { "str": "First Circle: Lesser Mana Efficiency." },
-    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Lesser Mana Efficiency trait.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Lesser Mana Efficiency trait.  The ritual must end when the sun is in the sky.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -19,14 +19,29 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SPELL_GRANT_MANA_ADD1",
-    "condition": {
-      "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_01') + (u_skill('spellcraft') / 2 )" ] },
-      "difficulty": 15
-    },
-    "effect": [ { "u_mutate_towards": "MANA_ADD1", "use_vitamins": false } ],
+    "condition": "is_day",
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_ADD1_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_01') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_ADD1", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "false_effect": [
       {
-        "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
       }
     ]
   },
@@ -45,7 +60,7 @@
     "id": "mana_upgrade_efficiency_02",
     "type": "SPELL",
     "name": { "str": "Second Circle: Mana Efficiency." },
-    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Mana Efficiency trait.  You must already have the Lesser Mana Efficiency trait for the spell to take full effect.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the efficiency by which your body processes mana, granting you the Mana Efficiency trait.  You must already have the Lesser Mana Efficiency trait for the spell to take full effect.  The ritual must end within two hours of noon.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -62,13 +77,33 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELL_GRANT_MANA_ADD2",
     "condition": {
-      "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_02') + (u_skill('spellcraft') / 2 )" ] },
-      "difficulty": 15
+      "and": [
+        { "math": [ "time_since('midnight', 'unit': 'hours') >= 10" ] },
+        { "math": [ "time_since('midnight', 'unit': 'hours') <= 14" ] }
+      ]
     },
-    "effect": [ { "u_mutate_towards": "MANA_ADD2", "use_vitamins": false } ],
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_ADD2_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_02') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_ADD2", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "false_effect": [
       {
-        "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
       }
     ]
   },
@@ -88,7 +123,7 @@
     "id": "mana_upgrade_regeneration_01",
     "type": "SPELL",
     "name": { "str": "First Circle: Lesser Mana Regeneration." },
-    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Lesser Mana Regeneration trait.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Lesser Mana Regeneration trait.  The ritual must be performed while standing in a natural water source.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -105,13 +140,39 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELL_GRANT_MANA_REGEN1",
     "condition": {
-      "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_01') + (u_skill('spellcraft') / 2 )" ] },
-      "difficulty": 15
+      "and": [
+        "u_is_outside",
+        {
+          "and": [
+            { "or": [ { "u_is_on_terrain_with_flag": "SHALLOW_WATER" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+            { "not": { "u_is_on_terrain": "t_sewage" } },
+            { "not": { "u_is_on_terrain": "t_water_pool_shallow_outdoors" } }
+          ]
+        }
+      ]
     },
-    "effect": [ { "u_mutate_towards": "MANA_REGEN1", "use_vitamins": false } ],
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_REGEN1_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_01') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_REGEN1", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "false_effect": [
       {
-        "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
       }
     ]
   },
@@ -125,7 +186,7 @@
     "id": "mana_upgrade_regeneration_02",
     "type": "SPELL",
     "name": { "str": "Second Circle: Mana Regeneration." },
-    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Mana Regeneration trait.  You must already have the Lesser Mana Regeneration trait for the spell to take full effect.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Mana Regeneration trait.  You must already have the Lesser Mana Regeneration trait for the spell to take full effect.   The ritual must be performed while standing in a natural source of flowing water.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -142,13 +203,40 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELL_GRANT_MANA_REGEN2",
     "condition": {
-      "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_02') + (u_skill('spellcraft') / 2 )" ] },
-      "difficulty": 15
+      "and": [
+        "u_is_outside",
+        {
+          "and": [
+            { "or": [ { "u_is_on_terrain_with_flag": "SHALLOW_WATER" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+            { "u_is_on_terrain_with_flag": "CURRENT" },
+            { "not": { "u_is_on_terrain": "t_sewage" } },
+            { "not": { "u_is_on_terrain": "t_water_pool_shallow_outdoors" } }
+          ]
+        }
+      ]
     },
-    "effect": [ { "u_mutate_towards": "MANA_REGEN2", "use_vitamins": false } ],
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_SPELL_GRANT_MANA_REGEN2_PART2",
+            "condition": {
+              "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_02') + (u_skill('spellcraft') / 2 )" ] },
+              "difficulty": 15
+            },
+            "effect": [ { "u_mutate_towards": "MANA_REGEN2", "use_vitamins": false } ],
+            "false_effect": [
+              {
+                "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "false_effect": [
       {
-        "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
+        "u_message": "You intone the final words of the spell, but without the proper conditions being fulfilled it has no effect."
       }
     ]
   },
