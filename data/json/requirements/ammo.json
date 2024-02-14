@@ -313,7 +313,7 @@
   {
     "id": "pistol_casings",
     "type": "requirement",
-    "//": "A list of all pistol-calibre casings for use in crafts and adjacent projects.",
+    "//": "A list of all pistol-caliber casings for use in crafts and adjacent projects.",
     "components": [
       [
         [ "22_casing", 1 ],
