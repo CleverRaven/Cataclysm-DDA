@@ -3139,6 +3139,43 @@ void iexamine::digester_full( Character &, const tripoint &examp )
     add_msg( _( "The process has finished, yielding %d methane." ), result.charges );
 }
 
+// This is all stolen from the gas pumps. I have no idea what I am doing.
+void iexamine::gaspump( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
+        none( you, examp );
+        return;
+    }
+
+    map_stack items = here.i_at( examp );
+    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
+        if( item_it->made_of( phase_id::GAS ) ) {
+            /// @note \EFFECT_DEX decreases chance of spilling gas from a pump
+            if( one_in( 10 + you.get_dex() ) ) {
+                add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
+                static const auto max_spill_volume = units::from_liter( 1 );
+                const int max_spill_charges = std::max( 1, item_it->charges_per_volume( max_spill_volume ) );
+                /// @note \EFFECT_DEX decreases amount of gas spilled, if gas is spilled from pump
+                const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, you.get_dex() ) );
+
+                item spill = item_it->split( qty );
+                if( spill.is_null() ) {
+                    here.add_item_or_charges( you.pos(), *item_it );
+                    items.erase( item_it );
+                } else {
+                    here.add_item_or_charges( you.pos(), spill );
+                }
+
+            } else {
+                liquid_handler::handle_liquid_from_ground( item_it, examp, 1 );
+            }
+            return;
+        }
+    }
+    add_msg( m_info, _( "Out of order." ) );
+}
+
 //arc furnance start
 void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
 {
