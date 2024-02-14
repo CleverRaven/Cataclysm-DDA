@@ -289,7 +289,7 @@
               { "not": { "u_near_om_location": "road", "range": 1 } }
             ]
           },
-          "values": [ { "value": "MOVE_COST", "multiply": -0.9 } ]
+          "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ]
         }
       ]
     }

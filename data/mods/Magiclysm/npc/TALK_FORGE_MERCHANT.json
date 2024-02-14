@@ -58,7 +58,6 @@
       { "group": "enchanted_rings_rare", "count": [ 1, 2 ], "prob": 30 },
       { "group": "enchanted_wands_greater", "count": [ 1, 2 ], "prob": 30 },
       { "group": "enchanted_wands_lesser", "count": [ 5, 8 ], "prob": 20 },
-      { "gruop": "enchanted_wands_disposable_combat", "count": [ 5, 8 ], "prob": 40 },
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
