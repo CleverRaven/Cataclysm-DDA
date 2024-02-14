@@ -5762,8 +5762,10 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    std::string spawn_message = jo.get_string( "spawn_message", "" );
-    std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
+    translation spawn_message;
+    jo.read( "spawn_message", spawn_message );
+    translation spawn_message_plural;
+    jo.read( "spawn_message_plural", spawn_message_plural );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     return [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
@@ -5944,8 +5946,10 @@ talk_effect_fun_t::func f_spawn_npc( const JsonObject &jo, std::string_view memb
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
-    std::string spawn_message = jo.get_string( "spawn_message", "" );
-    std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
+    translation spawn_message;
+    jo.read( "spawn_message", spawn_message );
+    translation spawn_message_plural;
+    jo.read( "spawn_message_plural", spawn_message_plural );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     return [sov_npc_class, unique_id, traits, dov_hallucination_count, dov_real_count,

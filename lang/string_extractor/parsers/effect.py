@@ -73,14 +73,20 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(val, origin,
                                              comment="Text variable value in {}"
                                              .format(comment))
-            if "spawn_message" in eff:
-                write_text(eff["spawn_message"], origin,
-                           comment="Player sees monster spawns in {}"
-                           .format(comment))
-            if "spawn_message_plural" in eff:
-                write_text(eff["spawn_message_plural"], origin,
-                           comment="Player sees monsters spawn in {}"
-                           .format(comment))
+            if ("u_spawn_monster" in eff or "npc_spawn_monster" in eff
+                or "u_spawn_npc" in eff or "npc_spawn_npc" in eff):
+                if "u_spawn_monster" in eff or "npc_spawn_monster" in eff:
+                    spawn_type = "monster"
+                else:
+                    spawn_type = "NPC"
+                if "spawn_message" in eff:
+                    write_text(eff["spawn_message"], origin,
+                               comment="Player sees {} spawns in {}"
+                               .format(spawn_type, comment))
+                if "spawn_message_plural" in eff:
+                    write_text(eff["spawn_message_plural"], origin,
+                               comment="Player sees {}s spawn in {}"
+                               .format(spawn_type, comment))
             if "u_teleport" in eff or "npc_teleport" in eff:
                 if "success_message" in eff:
                     write_translation_or_var(eff["success_message"], origin,
