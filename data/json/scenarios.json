@@ -722,7 +722,7 @@
     "id": "foodplace",
     "name": "The Mascot Rises",
     "points": 0,
-    "description": "Business had been bad—for some reason, weeks of rioting, an evacuation order, and the sky breaking with alien shadows prompted a downturn in foot traffic, even among Food Place’s chain restaurants.  As an employee, upon evacuation being declared, you disregarded company orders to lock up your outlet and, along with another survivor, opted to close yourselves within the breakroom rather than braving the streets awash with insanity and blood.  Safe, for now, behind a security door, you’re convicted that, at least, you’re not going to die in a cheep fast food joint.",
+    "description": "Business had been bad—for some reason, weeks of rioting, an evacuation order, and the sky breaking with alien shadows prompted a downturn in foot traffic, even among Foodplace’s chain restaurants.  As an employee, upon evacuation being declared, you disregarded company orders to lock up your outlet and, along with another survivor, opted to close yourselves within the breakroom to recuperate and plan your next move. Will Foodplace's delicious food™ be enough to placate the horde of hungry customers banging at the door?",
     "allowed_locs": [ "sloc_restaraunt_foodplace_break_room" ],
     "professions": [ "true_foodperson", "unemployed" ],
     "start_name": "Foodplace Break Room",
