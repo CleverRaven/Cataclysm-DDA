@@ -2,6 +2,7 @@
   {
     "id": "fd_blood",
     "type": "field_type",
+    "substance_name": "blood",
     "legacy_enum_id": 1,
     "intensity_levels": [ { "name": "blood splatter", "color": "red" }, { "name": "blood stain" }, { "name": "puddle of blood" } ],
     "description_affix": "covered_in",
@@ -14,8 +15,24 @@
     "display_field": true
   },
   {
+    "id": "fd_napalm",
+    "type": "field_type",
+    "substance_name": "napalm",
+    "legacy_enum_id": 1,
+    "intensity_levels": [ { "name": "napalm splatter", "color": "white" }, { "name": "napalm" }, { "name": "puddle of napalm" } ],
+    "description_affix": "covered_in",
+    "underwater_age_speedup": "25 minutes",
+    "decay_amount_factor": 2,
+    "is_splattering": true,
+    "half_life": "2 days",
+    "phase": "liquid",
+    "accelerated_decay": true,
+    "display_field": true
+  },
+  {
     "id": "fd_bile",
     "type": "field_type",
+    "substance_name": "bile",
     "legacy_enum_id": 2,
     "intensity_levels": [
       {
@@ -70,6 +87,7 @@
   {
     "id": "fd_darkness",
     "type": "field_type",
+    "substance_name": "darkness",
     "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
     "half_life": "10 seconds",
     "percent_spread": 50
@@ -77,6 +95,7 @@
   {
     "id": "fd_gibs_flesh",
     "type": "field_type",
+    "substance_name": "gore",
     "legacy_enum_id": 3,
     "intensity_levels": [
       { "name": "scraps of flesh", "sym": "~", "color": "brown" },
@@ -96,6 +115,7 @@
   {
     "id": "fd_gibs_veggy",
     "type": "field_type",
+    "substance_name": "vegetation",
     "legacy_enum_id": 4,
     "intensity_levels": [
       { "name": "shredded leaves and twigs", "sym": "~", "color": "light_green" },
@@ -115,6 +135,7 @@
   {
     "id": "fd_web",
     "type": "field_type",
+    "substance_name": "silk web",
     "legacy_enum_id": 5,
     "intensity_levels": [
       {
@@ -159,6 +180,7 @@
     "id": "fd_web_nostick",
     "type": "field_type",
     "looks_like": "fd_web",
+    "substance_name": "silk web",
     "intensity_levels": [ { "name": "thin cobwebs", "sym": "}", "color": "white" }, { "name": "thin webs", "transparent": false } ],
     "description_affix": "covered_in",
     "decrease_intensity_on_contact": true,
@@ -178,6 +200,7 @@
   {
     "id": "fd_void_web",
     "type": "field_type",
+    "substance_name": "starlit web",
     "looks_like": "fd_web",
     "intensity_levels": [
       {
@@ -212,6 +235,7 @@
   },
   {
     "id": "fd_slime",
+    "substance_name": "slime",
     "type": "field_type",
     "legacy_enum_id": 6,
     "intensity_levels": [
@@ -267,6 +291,7 @@
   {
     "id": "fd_acid",
     "type": "field_type",
+    "substance_name": "acid",
     "legacy_enum_id": 7,
     "intensity_levels": [
       { "name": "acid splatter", "sym": "5", "color": "light_green", "dangerous": true },
@@ -286,6 +311,7 @@
   {
     "id": "fd_sap",
     "type": "field_type",
+    "substance_name": "sap",
     "legacy_enum_id": 8,
     "intensity_levels": [
       {
@@ -352,6 +378,7 @@
   {
     "id": "fd_sludge",
     "type": "field_type",
+    "substance_name": "sludge",
     "legacy_enum_id": 9,
     "mopsafe": true,
     "intensity_levels": [
@@ -384,6 +411,7 @@
   {
     "id": "fd_fire",
     "type": "field_type",
+    "substance_name": "flames",
     "legacy_enum_id": 10,
     "intensity_levels": [
       {
@@ -410,6 +438,7 @@
   {
     "id": "fd_extinguisher",
     "type": "field_type",
+    "substance_name": "extinguisher mist",
     "intensity_levels": [
       {
         "name": "extinguisher mist",
@@ -500,6 +529,7 @@
   {
     "id": "fd_rubble",
     "type": "field_type",
+    "substance_name": "rubble",
     "legacy_enum_id": 11,
     "intensity_levels": [ { "name": "legacy rubble", "sym": "#", "color": "dark_gray" } ],
     "description_affix": "covered_in",
@@ -513,6 +543,7 @@
   {
     "id": "fd_biolum",
     "type": "field_type",
+    "substance_name": "luminescence",
     "intensity_levels": [
       { "name": "glimmer", "sym": "6", "color": "cyan", "light_emitted": 4 },
       { "name": "glow", "color": "cyan", "light_emitted": 9 },
@@ -529,6 +560,7 @@
   {
     "id": "fd_smoke",
     "type": "field_type",
+    "substance_name": "smoke",
     "legacy_enum_id": 12,
     "intensity_levels": [
       {
@@ -630,6 +662,7 @@
   {
     "id": "fd_toxic_gas",
     "type": "field_type",
+    "substance_name": "toxic gas",
     "legacy_enum_id": 13,
     "intensity_levels": [
       {
@@ -776,6 +809,7 @@
   {
     "id": "fd_tear_gas",
     "type": "field_type",
+    "substance_name": "tear gas",
     "legacy_enum_id": 14,
     "intensity_levels": [
       { "name": "hazy cloud", "sym": "8", "dangerous": true, "translucency": 1, "concentration": 1 },
@@ -806,6 +840,7 @@
   {
     "id": "fd_nuke_gas",
     "type": "field_type",
+    "substance_name": "radioactive gas",
     "legacy_enum_id": 15,
     "intensity_levels": [
       {
@@ -843,6 +878,7 @@
   {
     "id": "fd_gas_vent",
     "type": "field_type",
+    "substance_name": "toxic gas",
     "legacy_enum_id": 16,
     "intensity_levels": [ { "name": "gas vent", "concentration": 4 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
@@ -858,6 +894,7 @@
   {
     "id": "fd_tindalos_rift",
     "type": "field_type",
+    "substance_name": "bent spacetime",
     "intensity_levels": [
       { "name": "angular ripple", "color": "light_gray", "sym": "*", "light_emitted": 160, "concentration": 1 },
       { "name": "angular rift", "color": "dark_gray", "concentration": 1 },
@@ -887,6 +924,7 @@
   {
     "id": "fd_fire_vent",
     "type": "field_type",
+    "substance_name": "flames",
     "legacy_enum_id": 17,
     "intensity_levels": [ { "name": "fire vent", "light_emitted": 20 }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
@@ -899,6 +937,7 @@
   {
     "id": "fd_shadow",
     "type": "field_type",
+    "substance_name": "shadows",
     "intensity_levels": [ { "name": "shadow", "light_override": 3.7 } ],
     "half_life": "10 seconds",
     "percent_spread": 50
@@ -906,6 +945,7 @@
   {
     "id": "fd_flame_burst",
     "type": "field_type",
+    "substance_name": "flames",
     "legacy_enum_id": 18,
     "intensity_levels": [
       { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 },
@@ -923,6 +963,7 @@
   {
     "id": "fd_electricity",
     "type": "field_type",
+    "substance_name": "sparks",
     "legacy_enum_id": 19,
     "intensity_levels": [
       { "name": "sparks", "sym": "9", "dangerous": true, "light_emitted": 0.01 },
@@ -947,6 +988,7 @@
   {
     "id": "fd_fatigue",
     "type": "field_type",
+    "substance_name": "swirling air",
     "legacy_enum_id": 20,
     "intensity_levels": [
       {
@@ -977,6 +1019,7 @@
   {
     "id": "fd_push_items",
     "type": "field_type",
+    "substance_name": "force",
     "legacy_enum_id": 21,
     "intensity_levels": [ { "name": "push items", "sym": "&" } ],
     "priority": -1,
@@ -986,6 +1029,7 @@
   {
     "id": "fd_shock_vent",
     "type": "field_type",
+    "substance_name": "sparks",
     "legacy_enum_id": 22,
     "intensity_levels": [ { "name": "shock vent", "sym": "&" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
@@ -999,6 +1043,7 @@
   {
     "id": "fd_acid_vent",
     "type": "field_type",
+    "substance_name": "acid",
     "legacy_enum_id": 23,
     "intensity_levels": [ { "name": "acid vent", "sym": "&" }, { "//": "repeat last entry" }, { "//": "repeat last entry" } ],
     "description_affix": "under",
@@ -1012,6 +1057,7 @@
   {
     "id": "fd_plasma",
     "type": "field_type",
+    "substance_name": "plasma",
     "legacy_enum_id": 24,
     "intensity_levels": [
       { "name": "faint plasma", "color": "magenta", "sym": "9", "light_emitted": 0.01 },
@@ -1029,6 +1075,7 @@
   {
     "id": "fd_laser",
     "type": "field_type",
+    "substance_name": "light",
     "legacy_enum_id": 25,
     "intensity_levels": [
       { "name": "faint glimmer", "color": "blue", "sym": "9" },
@@ -1047,6 +1094,7 @@
   {
     "id": "fd_spotlight",
     "type": "field_type",
+    "substance_name": "light",
     "legacy_enum_id": 26,
     "intensity_levels": [ { "name": "spotlight", "sym": "&", "light_emitted": 80 } ],
     "description_affix": "illuminated_by",
@@ -1058,6 +1106,7 @@
   {
     "id": "fd_dazzling",
     "type": "field_type",
+    "substance_name": "light",
     "legacy_enum_id": 27,
     "intensity_levels": [
       {
@@ -1117,6 +1166,7 @@
   {
     "id": "fd_blood_veggy",
     "type": "field_type",
+    "substance_name": "sap",
     "legacy_enum_id": 28,
     "intensity_levels": [
       { "name": "plant sap splatter", "color": "light_green" },
@@ -1136,6 +1186,7 @@
   {
     "id": "fd_blood_insect",
     "type": "field_type",
+    "substance_name": "bug blood",
     "legacy_enum_id": 29,
     "intensity_levels": [ { "name": "bug blood splatter", "color": "green" }, { "name": "bug blood stain" }, { "name": "puddle of bug blood" } ],
     "description_affix": "covered_in",
@@ -1151,6 +1202,7 @@
   {
     "id": "fd_blood_invertebrate",
     "type": "field_type",
+    "substance_name": "hemolymph",
     "legacy_enum_id": 30,
     "intensity_levels": [
       { "name": "hemolymph splatter", "color": "light_gray" },
@@ -1170,6 +1222,7 @@
   {
     "id": "fd_gibs_insect",
     "type": "field_type",
+    "substance_name": "gore",
     "legacy_enum_id": 31,
     "intensity_levels": [
       { "name": "shards of chitin", "color": "light_green", "sym": "~" },
@@ -1189,6 +1242,7 @@
   {
     "id": "fd_gibs_invertebrate",
     "type": "field_type",
+    "substance_name": "gore",
     "legacy_enum_id": 32,
     "intensity_levels": [
       { "name": "gooey scraps", "color": "light_gray", "sym": "~" },
@@ -1208,6 +1262,7 @@
   {
     "id": "fd_cigsmoke",
     "type": "field_type",
+    "substance_name": "cigarette smoke",
     "legacy_enum_id": 33,
     "intensity_levels": [
       { "name": "swirl of tobacco smoke", "translucency": 5 },
@@ -1228,6 +1283,7 @@
   {
     "id": "fd_weedsmoke",
     "type": "field_type",
+    "substance_name": "pot smoke",
     "legacy_enum_id": 34,
     "intensity_levels": [
       { "name": "swirl of pot smoke", "translucency": 5 },
@@ -1249,6 +1305,7 @@
   {
     "id": "fd_cracksmoke",
     "type": "field_type",
+    "substance_name": "crack smoke",
     "legacy_enum_id": 35,
     "intensity_levels": [
       { "name": "swirl of crack smoke", "translucency": 5 },
@@ -1270,6 +1327,7 @@
   {
     "id": "fd_methsmoke",
     "type": "field_type",
+    "substance_name": "meth smoke",
     "legacy_enum_id": 36,
     "intensity_levels": [
       { "name": "swirl of meth smoke", "translucency": 5 },
@@ -1291,6 +1349,7 @@
   {
     "id": "fd_tindalos_gas",
     "type": "field_type",
+    "substance_name": "foul fog",
     "intensity_levels": [
       { "name": "swirl of fog", "translucency": 5, "light_emitted": 20 },
       { "name": "foul fog", "color": "cyan" },
@@ -1309,6 +1368,7 @@
   {
     "id": "fd_incendiary",
     "type": "field_type",
+    "substance_name": "incendiary",
     "legacy_enum_id": 38,
     "intensity_levels": [
       { "name": "smoke", "sym": "8", "color": "light_red", "dangerous": true, "light_emitted": 20, "translucency": 1 },
@@ -1335,6 +1395,7 @@
   {
     "id": "fd_relax_gas",
     "type": "field_type",
+    "substance_name": "sedative gas",
     "legacy_enum_id": 39,
     "intensity_levels": [
       {
@@ -1403,6 +1464,7 @@
   {
     "id": "fd_swamp_gas",
     "type": "field_type",
+    "substance_name": "swamp gas",
     "intensity_levels": [
       { "name": "swamp gas", "sym": ".", "dangerous": true, "translucency": 5, "concentration": 1 },
       { "//": "repeat last entry" },
@@ -1425,6 +1487,7 @@
   {
     "id": "fd_fog",
     "type": "field_type",
+    "substance_name": "fog",
     "intensity_levels": [
       { "name": "mist", "sym": "~", "dangerous": false, "transparent": false, "translucency": 5, "concentration": 0.5 },
       { "name": "fog", "translucency": 3 },
@@ -1446,6 +1509,7 @@
   {
     "id": "fd_fungal_haze",
     "type": "field_type",
+    "substance_name": "spores",
     "legacy_enum_id": 40,
     "intensity_levels": [
       { "name": "hazy cloud", "sym": ".", "dangerous": true, "concentration": 1 },
@@ -1469,6 +1533,7 @@
   {
     "id": "fd_hallucinogenic_spores",
     "type": "field_type",
+    "substance_name": "spores",
     "intensity_levels": [
       {
         "name": "hallucinogenic cloud",
@@ -1544,6 +1609,7 @@
   {
     "id": "fd_cold_air1",
     "type": "field_type",
+    "substance_name": "cold air",
     "legacy_enum_id": 41,
     "intensity_levels": [
       { "name": "cold air 1", "sym": "&", "convection_temperature_mod": -2 },
@@ -1560,6 +1626,7 @@
   {
     "id": "fd_cold_air2",
     "type": "field_type",
+    "substance_name": "cold air",
     "legacy_enum_id": 42,
     "intensity_levels": [
       { "name": "cold air 2", "sym": "&", "convection_temperature_mod": -6 },
@@ -1576,6 +1643,7 @@
   {
     "id": "fd_cold_air3",
     "type": "field_type",
+    "substance_name": "cold air",
     "legacy_enum_id": 43,
     "intensity_levels": [
       { "name": "cold air 3", "sym": "&", "convection_temperature_mod": -16 },
@@ -1592,6 +1660,7 @@
   {
     "id": "fd_cold_air4",
     "type": "field_type",
+    "substance_name": "cold air",
     "legacy_enum_id": 44,
     "intensity_levels": [
       { "name": "cold air 4", "sym": "&", "convection_temperature_mod": -70 },
@@ -1608,6 +1677,7 @@
   {
     "id": "fd_hot_air1",
     "type": "field_type",
+    "substance_name": "hot air",
     "legacy_enum_id": 45,
     "intensity_levels": [
       { "name": "hot air 1", "sym": "&", "convection_temperature_mod": 2 },
@@ -1624,6 +1694,7 @@
   {
     "id": "fd_hot_air2",
     "type": "field_type",
+    "substance_name": "hot air",
     "legacy_enum_id": 46,
     "intensity_levels": [
       { "name": "hot air 2", "sym": "&", "convection_temperature_mod": 6 },
@@ -1640,6 +1711,7 @@
   {
     "id": "fd_hot_air3",
     "type": "field_type",
+    "substance_name": "hot air",
     "legacy_enum_id": 47,
     "intensity_levels": [
       { "name": "hot air 3", "sym": "&", "convection_temperature_mod": 16 },
@@ -1656,6 +1728,7 @@
   {
     "id": "fd_hot_air4",
     "type": "field_type",
+    "substance_name": "hot air",
     "legacy_enum_id": 48,
     "intensity_levels": [
       { "name": "hot air 4", "sym": "&", "convection_temperature_mod": 70 },
@@ -1672,6 +1745,7 @@
   {
     "id": "fd_hot_air_sauna",
     "type": "field_type",
+    "substance_name": "hot air",
     "intensity_levels": [
       { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 60 },
       { "color": "yellow", "convection_temperature_mod": 70 },
@@ -1747,6 +1821,7 @@
   {
     "id": "fd_fungicidal_gas",
     "type": "field_type",
+    "substance_name": "fungicidal gas",
     "legacy_enum_id": 49,
     "intensity_levels": [
       { "name": "fungicidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
@@ -1770,6 +1845,7 @@
   {
     "id": "fd_insecticidal_gas",
     "type": "field_type",
+    "substance_name": "insecticidal gas",
     "intensity_levels": [
       { "name": "insecticidal mist", "sym": "8", "dangerous": true, "concentration": 1 },
       { "name": "insecticidal haze", "color": "light_gray", "concentration": 2 },
@@ -1792,6 +1868,7 @@
   {
     "id": "fd_smoke_vent",
     "type": "field_type",
+    "substance_name": "smoke",
     "legacy_enum_id": 50,
     "intensity_levels": [
       { "name": "smoke vent", "dangerous": true, "concentration": 4 },
@@ -1811,6 +1888,7 @@
   {
     "id": "fd_mechanical_fluid",
     "type": "field_type",
+    "substance_name": "mechanical fluid",
     "intensity_levels": [
       { "name": "mechanical fluid splatter", "color": "light_gray" },
       { "name": "mechanical fluid stain" },
@@ -1826,6 +1904,7 @@
   {
     "id": "fd_electricity_unlit",
     "type": "field_type",
+    "substance_name": "sparks",
     "intensity_levels": [
       { "name": "sparks", "sym": "9", "dangerous": true },
       { "//": "repeat last entry" },
@@ -1875,6 +1954,7 @@
   {
     "id": "fd_bee_swarm",
     "type": "field_type",
+    "substance_name": "bees",
     "intensity_levels": [
       { "name": "a few bees", "sym": ".", "dangerous": true, "translucency": 1 },
       { "name": "a swarm of bees", "color": "yellow", "transparent": true, "translucency": 1 },
@@ -1896,6 +1976,7 @@
   {
     "id": "fd_churned_earth",
     "type": "field_type",
+    "substance_name": "dirt",
     "intensity_levels": [ { "name": "churned earth", "sym": "^", "color": "brown", "dangerous": false } ],
     "half_life": "1 minute",
     "accelerated_decay": true,
@@ -1913,6 +1994,7 @@
     "id": "fd_nm_monster_gas_1",
     "//": "Spores cause players to light up",
     "type": "field_type",
+    "substance_name": "glowing spores",
     "intensity_levels": [
       {
         "name": "glowing gas spores",
@@ -1951,6 +2033,7 @@
     "id": "fd_nm_monster_gas_2",
     "//": "Spores, when inhaled, act like smoke",
     "type": "field_type",
+    "substance_name": "glowing spores",
     "intensity_levels": [
       {
         "name": "glowing gas",

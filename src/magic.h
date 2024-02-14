@@ -607,6 +607,8 @@ class spell
         std::string effect() const;
         // get spell effect_str data
         std::string effect_data() const;
+        // get field id
+        std::optional<field_type_id> field() const;
         // get spell summon vehicle id
         vproto_id summon_vehicle_id() const;
         // name of spell (translated)

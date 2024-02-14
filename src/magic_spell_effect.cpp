@@ -483,38 +483,23 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     return targets;
 }
 
-static void splash_target( const tripoint &target, const spell &sp, Creature &caster,
-                           flag_id apply_flag = flag_NULL )
+static void splash_target( const tripoint &target, const spell &sp, Creature &caster )
 {
     if( sp.liquid_volume( caster ) < 1 ) {
         debugmsg( "LIQUID flagged spell cast with liquid volume < 1" );
         return;
     }
-    damage_unit damage = damage_unit( sp.get_dmg_type(), static_cast<float>( sp.damage( caster ) ),
-                                      0.0f );
-    bool damage_target = sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET );
-    bool damage_armor = sp.has_flag( spell_flag::LIQUID_DAMAGE_ARMOR );
-    bool ignite = sp.has_flag( spell_flag::IGNITE_FLAMMABLE );
-    bool permanent = sp.has_flag( spell_flag::PERMANENT );
-    int intensity = sp.effect_intensity( caster );
-    const int dur_moves = sp.duration( caster );
-    const time_duration dur_td = time_duration::from_moves( dur_moves );
     creature_tracker &creatures = get_creature_tracker();
     Character *const guy = creatures.creature_at<Character>( target );
-    efftype_id spell_effect = efftype_id( sp.effect_data() );
     if( sp.get_spell_type()->affected_bps.none() ) {
-        const bodypart_id bp = guy->random_body_part( true );
-        guy->worn.splash_attack( *guy, bp, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td,
-                                 intensity,
-                                 permanent, damage, damage_target, damage_armor, ignite );
-        return;
+        bodypart_id bp = guy->random_body_part( false );
+        guy->worn.splash_attack( *guy, sp, caster, bp );
     } else {
-        for( const bodypart_id bps : guy->get_all_body_parts() ) {
-            if( sp.bp_is_affected( bps.id() ) ) {
-                guy->worn.splash_attack( *guy, bps, sp.liquid_volume( caster ), apply_flag, spell_effect, dur_td, 1,
-                                         sp.has_flag( spell_flag::PERMANENT ), damage, damage_target );
-            }
-            return;
+        body_part_set parts = sp.get_spell_type()->affected_bps;
+        for( auto iter = parts.begin(); iter != parts.end(); ) {
+            bodypart_str_id bp = *iter;
+            guy->worn.splash_attack( *guy, sp, caster, bp );
+            iter++;
         }
     }
 }

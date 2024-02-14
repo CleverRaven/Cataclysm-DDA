@@ -1185,6 +1185,11 @@ int spell::energy_cost( const Character &guy ) const
     return std::max( cost * temp_spell_cost_multiplyer, 0.0f );
 }
 
+std::optional<field_type_id> spell::field() const
+{
+    return type->field;
+}
+
 bool spell::has_flag( const spell_flag &flag ) const
 {
     return type->spell_tags[flag];

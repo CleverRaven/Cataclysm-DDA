@@ -8569,7 +8569,6 @@ float item::resist( const damage_type_id &dmg_type, const bool to_self,
     // Implicit item damage immunity for damage types listed prior to bash
     // There are dmg types that do not affect items such as PURE/COLD etc..
     if( to_self && !damage_type_can_damage_items( dmg_type ) ) {
-        add_msg( m_bad, _( "%s cant damage items" ), dmg_type->name.translated() );
         return std::numeric_limits<float>::max();
     }
 
@@ -8589,7 +8588,6 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
                      const float avg_thickness ) const
 {
     if( dmg_type->environmental ) {
-        add_msg( m_bad, _( "%s is enviro" ), dmg_type->name.translated() );
         return _environmental_resist( dmg_type, to_self, resist_value, bp_null, armor_mats );
     }
 

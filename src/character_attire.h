@@ -6,6 +6,8 @@
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
+#include "magic.h"
+#include "magic_spell_effect_helpers.h"
 #include "units.h"
 
 class advanced_inventory_pane;
@@ -147,15 +149,9 @@ class outfit
         void damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const;
         float damage_resist( const damage_type_id &dt, const bodypart_id &bp, bool to_self = false ) const;
 
-        /** Splash some kind of liquid on a character's body part, which can apply flags to worn items it hits, damage the items,
-        apply an effect to the character, damage the character, and set worn items on fire. fluid_amount should always be <= 100.
+        /** Splash some kind of liquid on a character's body and equipment part via magic_spell_effect.
         Splash attacks are blocked by a combination of coverage and breathability, and items use their armor values to resist being damaged */
-        void splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
-                            const flag_id &apply_flag = flag_id::NULL_ID(), const efftype_id &eff_id = efftype_id::NULL_ID(),
-                            const time_duration &dur = 0_turns, int intensity = 1, bool permanent = false,
-                            damage_unit elem = damage_unit( damage_type_id::NULL_ID(), 0.f, 0.f ), bool damage_target = false,
-                            bool damage_armor = false, bool ignite = false
-                          );
+        void splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp );
 
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;
