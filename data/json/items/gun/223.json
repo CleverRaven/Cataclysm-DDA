@@ -530,7 +530,6 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "ammo": [ "NULL" ],
     "default_mods": [ "adjustable_stock", "retool_ar15_223rem_extended" ],
-    "dispersion": 150,
     "durability": 7,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
