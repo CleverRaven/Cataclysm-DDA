@@ -58,6 +58,7 @@
       { "group": "enchanted_rings_rare", "count": [ 1, 2 ], "prob": 30 },
       { "group": "enchanted_wands_greater", "count": [ 1, 2 ], "prob": 30 },
       { "group": "enchanted_wands_lesser", "count": [ 5, 8 ], "prob": 20 },
+      { "gruop": "enchanted_wands_disposable_combat", "count": [ 5, 8 ], "prob": 40 },
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
@@ -65,6 +66,7 @@
       { "group": "group_potion_fruits", "prob": 10, "count": [ 1, 4 ] },
       { "group": "enchanted_bracelets", "prob": 4 },
       { "group": "enchanted_belts", "prob": 2 },
+      { "group": "items_of_elvenkind", "prob": 1 },
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] }
     ]
   },
