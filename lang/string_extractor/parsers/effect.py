@@ -62,7 +62,8 @@ def parse_effect(effects, origin, comment=""):
                     write_translation_or_var(spell_obj["npc_message"], origin,
                                              comment="NPC spell casting "
                                              "message in {}".format(comment))
-            if "set_string_var" in eff and "i18n" in eff and eff["i18n"] is True:
+            if ("set_string_var" in eff
+                and "i18n" in eff and eff["i18n"] is True):
                 str_vals = eff["set_string_var"]
                 if type(str_vals) is not list:
                     str_vals = [str_vals]
@@ -165,8 +166,8 @@ def parse_effect(effects, origin, comment=""):
             if "switch" in eff:
                 for e in eff["cases"]:
                     parse_effect(e["effect"], origin,
-                                 comment="nested effect in switch statement in {}"
-                                 .format(comment))
+                                 comment="nested effect in switch statement in "
+                                 "{}".format(comment))
             if "foreach" in eff:
                 parse_effect(eff["effect"], origin,
                              comment="nested effect in foreach statement in {}"
