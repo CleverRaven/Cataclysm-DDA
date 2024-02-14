@@ -652,8 +652,8 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "rigid": true,
-        "max_contains_volume": "50 L",
-        "max_contains_weight": "25 kg",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "15 kg",
         "max_item_length": "500 cm",
         "moves": 50
       }
