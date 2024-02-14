@@ -10,3 +10,6 @@ def parse_field_type(json, origin):
             parse_effect(fd["effects"], origin,
                          comment="effect in field {}".format(fd["name"])
                          if "name" in fd else "")
+    if "npc_complain" in json:
+        write_text(json["npc_complain"]["speech"], origin,
+                   comment="Field NPC complaint")

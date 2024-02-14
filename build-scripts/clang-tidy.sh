@@ -24,8 +24,8 @@ then
     cmake_extra_opts+=("-DCATA_CLANG_TIDY_PLUGIN=ON")
     # Need to specify the particular LLVM / Clang versions to use, lest it
     # use the older LLVM that comes by default on Ubuntu.
-    cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-16/lib/cmake/llvm")
-    cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-16/lib/cmake/clang")
+    cmake_extra_opts+=("-DLLVM_DIR=/usr/lib/llvm-17/lib/cmake/llvm")
+    cmake_extra_opts+=("-DClang_DIR=/usr/lib/llvm-17/lib/cmake/clang")
 fi
 
 mkdir -p build
