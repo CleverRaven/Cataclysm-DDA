@@ -1958,6 +1958,10 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
     std::list<item> worn_remains;
     // Liquid will splash on the outermost items first.
     int fluid_remaining = fluid_amount;
+    std::string fluid_burning = "liquid.";
+    if( ignite ) {
+        std::string fluid_burning = "burning liquid.";
+    }
     for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
         item &armor = *iter;
         if( !armor.covers( bp ) || armor.has_flag( flag_INTEGRATED ) ) {
@@ -1965,11 +1969,29 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
             continue;
         }
         const std::string pre_damage_name = armor.tname();
+        std::string fluid_descriptor = "some";
+        // Fluid amounts roughly correspond to ML, but keeping it vague will give contributors
+        // more freedom to make attacks work like they want to.
+        if( fluid_remaining <= 50 ) {
+            fluid_descriptor = "a few drops of";
+        } else if( fluid_remaining <= 75 ) {
+            fluid_descriptor = "a spray of";
+        } else if( fluid_remaining <= 100 ) {
+            fluid_descriptor = "quite a bit of";
+        } else if( fluid_remaining <= 125 ) {
+            fluid_descriptor = "a great deal of";
+        } else if( fluid_remaining <= 175 ) {
+            fluid_descriptor = "copious amounts of";
+        } else if( fluid_remaining <= 225 ) {
+            fluid_descriptor = "a torrent of";
+        } else {
+            fluid_descriptor = "a great deluge of";
+        }
         if( rng( 1, 100 ) <= armor.get_coverage( bp ) && fluid_remaining > 0 ) {
             // The item has intercepted the splash to protect its wearer,
             // now we roll to see if it's affected.
-            guy.add_msg_if_player( m_warning, _( "Your %s is splashed." ),
-                                   armor.tname() );
+            guy.add_msg_if_player( m_warning, _( "Your %1s is splashed with %2s of %3s." ),
+                                   armor.tname(), fluid_descriptor, fluid_burning );
             // A droplet of acid or bile are less likely to ruin a shirt than a whole bucket.
             // rng cap is high here so there's always a decent chance your item comes out ok
             if( rng( 1, 300 - ( 1.5 * armor.breathability( bp ) ) ) < fluid_remaining ) {
@@ -2000,11 +2022,12 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
                         }
                     }
                     if( !destroy ) {
-                        // The roll here is -1 because we already rolled to see if the attack hurts the armor.
+                        // The roll here is 0 because we already rolled to see if the attack hurts the armor.
+                        // Not -1 so that we can't splash items with 0 coverage.
                         destroy = guy.armor_absorb( elem, armor, bp, sbp, 0 );
                         if( secondary_sbp != sub_bodypart_id() ) {
                             // for the torso we also need to consider if it hits anything hanging off the character or their neck
-                            destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, -1 );
+                            destroy = guy.armor_absorb( elem, armor, bp, secondary_sbp, 0 );
                         }
                     }
                     if( destroy ) {
@@ -2036,7 +2059,7 @@ void outfit::splash_attack( Character &guy, bodypart_id bp, int fluid_amount,
         }
     }
     if( fluid_remaining == fluid_amount ) {
-        add_msg( m_bad, _( "Your bare skin was splashed!" ) );
+        add_msg( m_bad, _( "You are splashed with %s!" ), fluid_burning );
     }
     // If any containers were destroyed, dump the contents on the ground
     map &here = get_map();

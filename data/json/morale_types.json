@@ -428,5 +428,10 @@
     "id": "morale_afs_drugs",
     "type": "morale_type",
     "text": "Chemical enhancement moodswing"
+  },
+  {
+    "id": "morale_disgusted",
+    "type": "morale_type",
+    "text": "Disgusted"
   }
 ]

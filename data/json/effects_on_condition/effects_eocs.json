@@ -18,17 +18,34 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "bile_mood_debuff",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "or": [ { "u_has_effect": "bile" }, { "u_has_effect": "boomered" } ] },
+    "effect": [
+      {
+        "u_add_morale": "morale_disgusted",
+        "bonus": -5,
+        "max_bonus": -15,
+        "duration": "1 hours",
+        "decay_start": "1 hours"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "acid_wash_off_check",
     "recurrence": [ "2 seconds", "4 seconds" ],
-    "condition": "u_is_in_water",
+    "condition": { "and": [ "u_is_in_water", { "u_has_flag": "WASHABLE_EFFECT" } ] },
     "effect": [
       {
         "foreach": "ids",
         "var": { "context_val": "id" },
         "target": "bodypart",
         "effect": [
-          { "u_message": "The acid washes off of your <context_val:id>!", "type": "good" },
-          { "u_lose_effect": "corroding", "target_part": { "context_val": "id" } }
+          { "u_message": "The water washes the noxious substances from your body.", "type": "good" },
+          { "u_lose_effect": "corroding", "target_part": { "context_val": "id" } },
+          { "u_lose_effect": "bile", "target_part": { "context_val": "id" } },
+          { "u_lose_effect": "boomered", "target_part": { "context_val": "id" } }
         ]
       }
     ]
