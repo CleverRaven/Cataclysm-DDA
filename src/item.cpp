@@ -6644,7 +6644,6 @@ void item::update_inherited_flags()
         for( flag_id const &f : Flags ) {
             if( f->inherit() ) {
                 inherited_tags_cache.emplace( f );
-                update_prefix_suffix_flags( f );
             }
         }
     };
@@ -6665,6 +6664,7 @@ void item::update_inherited_flags()
             }
         }
     }
+    update_prefix_suffix_flags();
 }
 
 void item::update_prefix_suffix_flags()

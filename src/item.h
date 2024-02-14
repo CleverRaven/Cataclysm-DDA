@@ -2439,12 +2439,6 @@ class item : public visitable
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
 
-    private:
-        /**
-        * Update prefix_tags_cache and suffix_tags_cache
-        */
-        void update_prefix_suffix_flags();
-        void update_prefix_suffix_flags( const flag_id &flag );
 
     private:
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
@@ -3047,6 +3041,11 @@ class item : public visitable
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
         void update_inherited_flags();
+        /**
+        * Update prefix_tags_cache and suffix_tags_cache
+        */
+        void update_prefix_suffix_flags();
+        void update_prefix_suffix_flags( const flag_id &flag );
 
     public:
         enum class sizing : int {
