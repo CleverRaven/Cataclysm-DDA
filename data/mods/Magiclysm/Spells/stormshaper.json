@@ -1144,5 +1144,25 @@
     "max_aoe": 20,
     "aoe_increment": 0.65,
     "min_duration": { "math": [ "( (u_spell_level('stormshaper_cloak_of_frog') * 3750) + 15000)" ] }
+  },
+  {
+    "id": "stormshaper_loud_voice_spell",
+    "type": "SPELL",
+    "name": "Thundering Voice",
+    "description": "Increase the volume of the caster's voice, allowing every word to resound like a peal of thunder.  As a useful side effect, it makes the caster immune to hearing damage caused by loud noises.",
+    "valid_targets": [ "self" ],
+    "spell_class": "STORMSHAPER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_stormshaper_loud_voice",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 20,
+    "min_duration": 42000,
+    "max_duration": 882000,
+    "duration_increment": 42000,
+    "energy_source": "MANA",
+    "base_energy_cost": 150,
+    "base_casting_time": 250
   }
 ]

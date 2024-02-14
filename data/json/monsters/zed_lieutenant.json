@@ -364,6 +364,9 @@
         {
           "or": [ { "math": [ "Shadow_Lurking", ">", "0" ] }, { "not": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } } ]
         },
+        {
+          "or": [ { "math": [ "Shadow_Warnings", "<", "1" ] }, { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] } ]
+        },
         "u_is_outside",
         {
           "or": [ { "u_at_om_location": "field" }, { "u_at_om_location": "forest" }, { "u_at_om_location": "forest_thick" } ]
@@ -374,8 +377,16 @@
       { "math": [ "Shadow_Warnings", "+=", "1" ] },
       {
         "if": { "math": [ "time_since('cataclysm', 'unit':'days') >= 7" ] },
-        "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
-        "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true }
+        "then": {
+          "if": { "math": [ "Shadow_Warnings", "<", "2" ] },
+          "then": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": true },
+          "else": { "u_message": "Shadow_Warnings_Snippets_late", "snippet": true, "popup": false }
+        },
+        "else": {
+          "if": { "math": [ "Shadow_Warnings", "<", "2" ] },
+          "then": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": true },
+          "else": { "u_message": "Shadow_Warnings_Snippets_early", "snippet": true, "popup": false }
+        }
       }
     ]
   },
