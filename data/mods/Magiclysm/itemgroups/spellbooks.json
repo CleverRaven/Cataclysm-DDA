@@ -383,7 +383,7 @@
       { "item": "second_circle_mana_regen_upgrade_spellbook", "prob": 50 },
       { "item": "first_circle_mana_mult_upgrade_spellbook", "prob": 200 },
       { "item": "second_circle_mana_mult_upgrade_spellbook", "prob": 50 },
-      { "item": "all_first_circle_upgrades_spellbook", "prob": 25 }
+      { "item": "all_first_circle_upgrades_spellbook", "prob": 50 }
     ]
   }
 ]
