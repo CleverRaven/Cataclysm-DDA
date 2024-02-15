@@ -10,7 +10,7 @@
     "volume": "32 L",
     "weight": "42 kg",
     "hp": 40,
-    "speed": 105,
+    "speed": 90,
     "material": [ "flesh" ],
     "symbol": "g",
     "color": "brown",
@@ -107,7 +107,7 @@
     "name": { "str": "goblin leader" },
     "description": "A goblin, slightly larger than the others and bearing a weapon with more craftsmanship.  The goblins around them scurry to obey their orders.",
     "hp": 80,
-    "dodge": 4,
+    "dodge": 3,
     "special_attacks": [
       {
         "type": "monster_attack",
