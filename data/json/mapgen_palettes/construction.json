@@ -217,7 +217,7 @@
     },
     "toilets": { "t": {  } },
     "terrain": {
-      "b": "f_bathtub",
+      "b": "t_floor",
       "c": "t_thconc_floor_no_roof",
       "f": { "param": "construction2_house_fence_type", "fallback": "t_region_soil" },
       "g": "t_region_soil",
