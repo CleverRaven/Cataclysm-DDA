@@ -182,13 +182,18 @@
     "id": "spell_components_mana_upgrade_regeneration_01",
     "type": "requirement",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
-    "components": [ [ [ "mana_energy_weak", 5, "LIST" ] ], [ [ "mercury", 100 ] ], [ [ "crystallized_mana", 25 ] ] ]
+    "components": [
+      [ [ "mana_energy_weak", 5, "LIST" ] ],
+      [ [ "mercury", 100 ] ],
+      [ [ "crystallized_mana", 25 ] ],
+      [ [ "mana_potion_lesser", 40 ], [ "mana_potion", 10 ], [ "mana_potion_greater", 2 ] ]
+    ]
   },
   {
     "id": "mana_upgrade_regeneration_02",
     "type": "SPELL",
     "name": { "str": "Second Circle: Mana Regeneration." },
-    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Mana Regeneration trait.  You must already have the Lesser Mana Regeneration trait for the spell to take full effect.   The ritual must be performed while standing in a river.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the speed by which your body restores its mana, granting you the Mana Regeneration trait.  You must already have the Lesser Mana Regeneration trait for the spell to take full effect.  The ritual must be performed while standing in a river.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -210,6 +215,22 @@
         {
           "and": [
             { "or": [ { "u_is_on_terrain_with_flag": "SHALLOW_WATER" }, { "u_is_on_terrain_with_flag": "DEEP_WATER" } ] },
+            {
+              "or": [
+                { "u_at_om_location": "generic_river_bank" },
+                { "u_at_om_location": "generic_river" },
+                { "u_at_om_location": "river_center" },
+                { "u_at_om_location": "river" },
+                { "u_at_om_location": "river_c_not_ne" },
+                { "u_at_om_location": "river_c_not_nw" },
+                { "u_at_om_location": "river_c_not_se" },
+                { "u_at_om_location": "river_c_not_sw" },
+                { "u_at_om_location": "river_ne" },
+                { "u_at_om_location": "river_se" },
+                { "u_at_om_location": "river_sw" },
+                { "u_at_om_location": "river_nw" }
+              ]
+            },
             { "u_is_on_terrain_with_flag": "CURRENT" },
             { "not": { "u_is_on_terrain": "t_sewage" } },
             { "not": { "u_is_on_terrain": "t_water_pool_shallow_outdoors" } }
@@ -250,14 +271,15 @@
       [ [ "mana_energy_strong", 5, "LIST" ] ],
       [ [ "mercury", 250 ] ],
       [ [ "mana_infused_blood", 10 ] ],
-      [ [ "crystallized_mana", 75 ] ]
+      [ [ "crystallized_mana", 75 ] ],
+      [ [ "mana_potion_lesser", 200 ], [ "mana_potion", 50 ], [ "mana_potion_greater", 10 ] ]
     ]
   },
   {
     "id": "mana_upgrade_sensitivity_01",
     "type": "SPELL",
     "name": { "str": "First Circle: Lesser Mana Sensitivity." },
-    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Lesser Mana Sensitivity trait.  The ritual must take place in a natural location away from buildings or roads.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Lesser Mana Sensitivity trait.  The ritual must take place in a natural location away (at least 4 OM tiles) from buildings or roads.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -277,19 +299,19 @@
       "and": [
         "u_is_outside",
         { "not": { "u_at_om_location": "FACTION_CAMP_ANY" } },
-        { "not": { "u_near_om_location": "cabin", "range": 2 } },
-        { "not": { "u_near_om_location": "magic_cabin", "range": 2 } },
-        { "not": { "u_near_om_location": "road_curved", "range": 2 } },
-        { "not": { "u_near_om_location": "road_four_way", "range": 2 } },
-        { "not": { "u_near_om_location": "road_tee", "range": 2 } },
-        { "not": { "u_near_om_location": "road_straight", "range": 2 } },
-        { "not": { "u_near_om_location": "road_end", "range": 2 } },
-        { "not": { "u_near_om_location": "road_sw", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ne", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ew", "range": 2 } },
-        { "not": { "u_near_om_location": "road_ns", "range": 2 } },
-        { "not": { "u_near_om_location": "road_nesw", "range": 2 } },
-        { "not": { "u_near_om_location": "road", "range": 2 } }
+        { "not": { "u_near_om_location": "cabin", "range": 4 } },
+        { "not": { "u_near_om_location": "magic_cabin", "range": 4 } },
+        { "not": { "u_near_om_location": "road_curved", "range": 4 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 4 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 4 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 4 } },
+        { "not": { "u_near_om_location": "road_end", "range": 4 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 4 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 4 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 4 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 4 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 4 } },
+        { "not": { "u_near_om_location": "road", "range": 4 } }
       ]
     },
     "effect": [
@@ -321,13 +343,14 @@
     "id": "spell_components_mana_upgrade_sensitivity_01",
     "type": "requirement",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "using": [ [ "precious_gemstones", 5 ], [ "semiprecious_gemstones", 25 ] ],
     "components": [ [ [ "mana_energy_weak", 5, "LIST" ] ], [ [ "mercury", 100 ] ], [ [ "crystallized_mana", 25 ] ] ]
   },
   {
     "id": "mana_upgrade_sensitivity_02",
     "type": "SPELL",
     "name": { "str": "Second Circle: Mana Sensitivity." },
-    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Mana Sensitivity trait.  You must already have the Lesser Mana Sensitivity trait for the spell to take full effect.  The ritual must take place in a natural location far away (at least OM 10 tiles) from buildings or roads.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Mana Sensitivity trait.  You must already have the Lesser Mana Sensitivity trait for the spell to take full effect.  The ritual must take place in a natural location far away (at least 15 OM tiles) from buildings or roads.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -347,19 +370,19 @@
       "and": [
         "u_is_outside",
         { "not": { "u_at_om_location": "FACTION_CAMP_ANY" } },
-        { "not": { "u_near_om_location": "cabin", "range": 10 } },
-        { "not": { "u_near_om_location": "magic_cabin", "range": 10 } },
-        { "not": { "u_near_om_location": "road_curved", "range": 10 } },
-        { "not": { "u_near_om_location": "road_four_way", "range": 10 } },
-        { "not": { "u_near_om_location": "road_tee", "range": 10 } },
-        { "not": { "u_near_om_location": "road_straight", "range": 10 } },
-        { "not": { "u_near_om_location": "road_end", "range": 10 } },
-        { "not": { "u_near_om_location": "road_sw", "range": 10 } },
-        { "not": { "u_near_om_location": "road_ne", "range": 10 } },
-        { "not": { "u_near_om_location": "road_ew", "range": 10 } },
-        { "not": { "u_near_om_location": "road_ns", "range": 10 } },
-        { "not": { "u_near_om_location": "road_nesw", "range": 10 } },
-        { "not": { "u_near_om_location": "road", "range": 10 } }
+        { "not": { "u_near_om_location": "cabin", "range": 15 } },
+        { "not": { "u_near_om_location": "magic_cabin", "range": 15 } },
+        { "not": { "u_near_om_location": "road_curved", "range": 15 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 15 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 15 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 15 } },
+        { "not": { "u_near_om_location": "road_end", "range": 15 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 15 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 15 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 15 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 15 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 15 } },
+        { "not": { "u_near_om_location": "road", "range": 15 } }
       ]
     },
     "effect": [
@@ -391,6 +414,7 @@
     "id": "spell_components_mana_upgrade_sensitivity_02",
     "type": "requirement",
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
+    "using": [ [ "precious_gemstones", 25 ], [ "semiprecious_gemstones", 150 ] ],
     "components": [
       [ [ "mana_energy_strong", 5, "LIST" ] ],
       [ [ "mercury", 250 ] ],
