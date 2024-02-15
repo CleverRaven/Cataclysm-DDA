@@ -288,7 +288,7 @@
     "type": "SPELL",
     "name": "Gas Attack Ranged",
     "description": "Spreads toxic gas around at range.",
-    "valid_targets": [ "hostile", "ground" ],
+    "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE" ],
     "damage_type": "biological",
     "min_damage": 1,

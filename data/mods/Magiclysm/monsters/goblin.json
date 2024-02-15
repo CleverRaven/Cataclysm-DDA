@@ -140,8 +140,8 @@
         {
           "distribution": [
             { "group": "survivor_stabbing", "prob": 96 },
-            { "group": "spear_steel_plus_one", "prob": 3 },
-            { "group": "rune_biomancer_weapon", "prob": 1 }
+            { "item": "spear_steel_plus_one", "prob": 3 },
+            { "item": "rune_biomancer_weapon", "prob": 1 }
           ],
           "prob": 100
         }
@@ -334,7 +334,7 @@
         { "item": "bellywrap_fur", "prob": 5 },
         { "item": "chestwrap_fur", "prob": 5 },
         {
-          "distribution": [ { "group": "survivor_machete", "prob": 98 }, { "item": "broadsword_plus_one", "prob": 2 } ],
+          "distribution": [ { "item": "survivor_machete", "prob": 98 }, { "item": "broadsword_plus_one", "prob": 2 } ],
           "prob": 100
         }
       ]

@@ -286,9 +286,9 @@
       { "monster": "mon_goblin_warrior", "weight": 35, "pack_size": [ 2, 4 ] },
       { "monster": "mon_goblin_slinger", "weight": 65, "pack_size": [ 2, 4 ] },
       { "monster": "mon_troll_goblin_tamed", "weight": 15 },
-      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 100, "ends": "7 days" },
-      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 125, "ends": "28 days" },
-      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 150, "ends": "90 days" }
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 100, "starts": "7 days" },
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 125, "starts": "28 days" },
+      { "group": "GROUP_GOBLIN_MUTANTS", "weight": 150, "starts": "90 days" }
     ]
   },
   {
