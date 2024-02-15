@@ -1946,27 +1946,28 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
 // liquid_remaining corresponds roughly to ml, but by keeping it a little vague we can allow
 // contributors more freedom in adjusting balance or creating spells that work the way
 // they want.
-std::string get_liquid_descriptor( int liquid_remaining ) {
+std::string outfit::get_liquid_descriptor( int liquid_remaining )
+{
     std::string liquid_descriptor = "some";
-    if ( liquid_remaining <= 10 ) {
+    if( liquid_remaining <= 10 ) {
         liquid_descriptor = "droplets of";
-    } else if ( liquid_remaining <= 20 ) {
+    } else if( liquid_remaining <= 20 ) {
         liquid_descriptor = "a glob of";
-    } else if ( liquid_remaining <= 30 ) {
+    } else if( liquid_remaining <= 30 ) {
         liquid_descriptor = "a spurt of";
-    } else if ( liquid_remaining <= 50 ) {
+    } else if( liquid_remaining <= 50 ) {
         liquid_descriptor = "a splatter of";
-    } else if ( liquid_remaining <= 75 ) {
+    } else if( liquid_remaining <= 75 ) {
         liquid_descriptor = "a spray of";
-    } else if ( liquid_remaining <= 100 ) {
+    } else if( liquid_remaining <= 100 ) {
         liquid_descriptor = "quite a lot of";
-    } else if ( liquid_remaining <= 125 ) {
+    } else if( liquid_remaining <= 125 ) {
         liquid_descriptor = "copious amounts of";
-    } else if ( liquid_remaining <= 150 ) {
+    } else if( liquid_remaining <= 150 ) {
         liquid_descriptor = "a cascade of";
-    } else if ( liquid_remaining <= 175 ) {
+    } else if( liquid_remaining <= 175 ) {
         liquid_descriptor = "a torrent of";
-    } else if ( liquid_remaining <= 200 ) {
+    } else if( liquid_remaining <= 200 ) {
         liquid_descriptor = "a flood of";
     } else {
         liquid_descriptor = "a great deluge of";
@@ -2019,9 +2020,11 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
                 // because it can't use armor_absorb's.
                 if( sp.has_flag( spell_flag::MAKE_FILTHY ) && !armor.has_flag( flag_INTEGRATED ) &&
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
-                    !armor.has_flag( flag_AURA ) && one_in( 30 - ( 0.1 * armor.breathability( bp ) ) - ( 0.1 * liquid_remaining ) ) ) {
+                    !armor.has_flag( flag_AURA ) &&
+                    one_in( 30 - ( 0.1 * armor.breathability( bp ) ) - ( 0.1 * liquid_remaining ) ) ) {
                     guy.add_msg_if_player( m_bad, _( "The %s is covered in filth!" ), armor.tname() );
-                    add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true ), armor.tname() );
+                    add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true ),
+                                            armor.tname() );
                     armor.set_flag( json_flag_FILTHY );
                 }
                 // If this is an armor-damaging liquid, the damage is relative to fluid_remaining
@@ -2082,10 +2085,12 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
     }
     if( liquid_remaining == liquid_amount && !guy.is_avatar() ) {
         // You took the whole attack without any being blocked!
-        add_msg( m_bad, _( "You are splashed with %1s %2s!" ), get_liquid_descriptor( liquid_remaining ), liquid_name );
+        add_msg( m_bad, _( "You are splashed with %1s %2s!" ), get_liquid_descriptor( liquid_remaining ),
+                 liquid_name );
     }
     if( !guy.is_avatar() ) {
-        add_msg_if_player_sees( guy, m_warning, _( "%1s is splashed with %2s %3s!" ), guy.disp_name(), get_liquid_descriptor( liquid_remaining ), liquid_name );
+        add_msg_if_player_sees( guy, m_warning, _( "%1s is splashed with %2s %3s!" ), guy.disp_name(),
+                                get_liquid_descriptor( liquid_remaining ), liquid_name );
     }
     // If any containers were destroyed, dump the contents on the ground
     map &here = get_map();
@@ -2098,12 +2103,12 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
         guy.deal_damage( nullptr, bp, damage_instance( damage.type, damage.amount ) );
     }
     if( sp.damage( caster ) < 0 ) {
-            sp.heal( guy.pos(), caster );
-            add_msg_if_player_sees( guy.pos(), m_good, _( "%s wounds are closing up!" ),
-                                    guy.disp_name( true ) );
-        }
-        // Acid uses the corroding effect, but damage_over_time exists so we may as well run it here.
-        guy.add_damage_over_time( sp.damage_over_time( { bp.id() }, caster ) );
+        sp.heal( guy.pos(), caster );
+        add_msg_if_player_sees( guy.pos(), m_good, _( "%s wounds are closing up!" ),
+                                guy.disp_name( true ) );
+    }
+    // Acid uses the corroding effect, but damage_over_time exists so we may as well run it here.
+    guy.add_damage_over_time( sp.damage_over_time( { bp.id() }, caster ) );
 }
 
 float outfit::damage_resist( const damage_type_id &dt, const bodypart_id &bp,

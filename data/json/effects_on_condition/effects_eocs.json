@@ -45,14 +45,14 @@
     "type": "effect_on_condition",
     "id": "acid_wash_off_check",
     "recurrence": [ "2 seconds", "4 seconds" ],
-    "condition": { "and": [ "u_is_in_water", { "u_has_flag": "WASHABLE_EFFECT" } ] },
+    "condition": { "and": [ "u_is_underwater", { "u_has_flag": "WASHABLE_EFFECT" } ] },
     "effect": [
       {
         "foreach": "ids",
         "var": { "context_val": "id" },
         "target": "bodypart",
         "effect": [
-          { "u_message": "The water washes the noxious substances from your body.", "type": "good" },
+          { "u_message": "The noxious substances are washed from your body.", "type": "good" },
           { "u_lose_effect": "corroding", "target_part": { "context_val": "id" } },
           { "u_lose_effect": "bile", "target_part": { "context_val": "id" } },
           { "u_lose_effect": "boomered", "target_part": { "context_val": "id" } }

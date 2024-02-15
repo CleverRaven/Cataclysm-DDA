@@ -152,9 +152,9 @@ class outfit
         /** Splash a liquid on a character's body and equipment via magic_spell_effect. Splash attacks are blocked by a combination of coverage
          * and breathability, and items use their armor values to resist being damaged if the spell is flagged to damage them.
          */
-        void splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp ) const;
+        void splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp );
         // Used with splash_attack. Returns a string relative to the amount of liquid involved in the attack.
-        std::string get_liquid_descriptor( int liquid_remaining = 0 ) const;
+        std::string get_liquid_descriptor( int liquid_remaining = 0 );
 
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;

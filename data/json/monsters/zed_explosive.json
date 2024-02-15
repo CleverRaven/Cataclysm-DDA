@@ -31,11 +31,19 @@
         "type": "spell",
         "spell_data": { "id": "bile_spew", "min_level": 3 },
         "monster_message": "The %s spews bile!",
-        "cooldown": 18
+        "cooldown": 10,
+        "condition": { "one_in": 2 }
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "bile_spew_eyes", "min_level": 3 },
+        "monster_message": "The %s spews bile!",
+        "cooldown": 15,
+        "condition": { "one_in": 4 }
       }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": {
-      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 2 },
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 3 },
       "message": "A %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
@@ -90,13 +98,21 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "bile_spew", "min_level": 4 },
+        "spell_data": { "id": "bile_spew", "min_level": 5 },
         "monster_message": "The %s spews bile!",
-        "cooldown": 12
+        "cooldown": 10,
+        "condition": { "one_in": 2 }
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "bile_spew_eyes", "min_level": 5 },
+        "monster_message": "The %s spews bile!",
+        "cooldown": 12,
+        "condition": { "one_in": 4 }
       }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": {
-      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 3 },
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 5 },
       "message": "A %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
@@ -317,7 +333,7 @@
     ],
     "death_drops": "default_zombie_items",
     "death_function": {
-      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 4 },
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 6 },
       "message": "A %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
@@ -369,7 +385,7 @@
     ],
     "death_drops": "default_zombie_items",
     "death_function": {
-      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 3 },
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 4 },
       "message": "A %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
