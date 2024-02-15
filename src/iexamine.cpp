@@ -5725,16 +5725,6 @@ static bool is_non_rotten_crafting_component( const item &it )
     return is_crafting_component( it ) && !it.rotten();
 }
 
-static int get_milled_amount( const itype_id &milled_id, const tripoint &examp,
-                              map &here )
-{
-    const item_filter valid = [&milled_id]( const item & itm ) {
-        return itm.typeId() == milled_id;
-    };
-    const int num_here = here.items_with( examp, valid ).size();
-    return num_here * milled_id.obj().milling_data->conversion_rate_;
-}
-
 static void mill_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
@@ -5756,7 +5746,7 @@ static void mill_activate( Character &you, const tripoint &examp )
     std::map<itype_id, int> millable_counts;
 
     for( const item &iter : items ) {
-        if( iter.type->milling_data ) {
+        if( iter.type->milling_data && !iter.type->milling_data->into_.is_null() ) {
             if( millable_counts.find( iter.typeId() ) == millable_counts.end() ) {
                 millable_counts.emplace( iter.typeId(), 1 );
             } else {
@@ -5768,7 +5758,15 @@ static void mill_activate( Character &you, const tripoint &examp )
     for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
         item source( mill_type_count.first );
         const item product( source.type->milling_data->into_ );
-        recipe rec = recipe_dictionary::get_craft( product.typeId() );
+        recipe rec;
+
+        for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
+             iter != recipe_dict.end(); iter++ ) {
+            if( iter->first == source.type->milling_data->recipe_ ) {
+                rec = iter->second;
+                break;
+            }
+        }
 
         if( rec.is_null() ) {
             debugmsg( _( "Failed to find milling recipe for %s." ),
@@ -5844,7 +5842,7 @@ static void mill_activate( Character &you, const tripoint &examp )
     items = here.i_at( examp );
 
     for( item &it : items ) {
-        if( it.type->milling_data ) {
+        if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             food_present = true;
             food_volume += it.volume();
             continue;
@@ -5869,25 +5867,8 @@ static void mill_activate( Character &you, const tripoint &examp )
         return;
     }
 
-    std::set<std::string, localized_comparator> no_final_product;
-    for( const item &it : here.i_at( examp ) ) {
-        const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
-        if( mdata ) {
-            const int resulting_charges = get_milled_amount( it.typeId(), examp, here );
-            if( resulting_charges <= 0 ) {
-                no_final_product.emplace( it.tname() );
-            }
-        }
-    }
-    if( !no_final_product.empty()
-        && !query_yn( _( "The following items have insufficient charges and will "
-                         "not produce anything.  Continue?\n<color_white>%s</color>" ),
-                      enumerate_as_string( no_final_product ) ) ) {
-        return;
-    }
-
     for( item &it : here.i_at( examp ) ) {
-        if( it.type->milling_data ) {
+        if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
             it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
@@ -6039,7 +6020,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
     std::map<itype_id, int> millable_counts;
 
     for( const item &iter : items ) {
-        if( iter.type->milling_data ) {
+        if( iter.type->milling_data && !iter.type->milling_data->into_.is_null() ) {
             if( millable_counts.find( iter.typeId() ) == millable_counts.end() ) {
                 millable_counts.emplace( iter.typeId(), 1 );
             } else {
@@ -6051,7 +6032,15 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
     for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
         const item source( mill_type_count.first );
         const item product( source.type->milling_data->into_ );
-        recipe rec = recipe_dictionary::get_craft( product.typeId() );
+        recipe rec;
+
+        for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
+             iter != recipe_dict.end(); iter++ ) {
+            if( iter->first == source.type->milling_data->recipe_ ) {
+                rec = iter->second;
+                break;
+            }
+        }
 
         if( rec.is_null() ) {
             debugmsg( _( "Failed to find milling recipe for %s. It wasn't milled." ),
@@ -6252,12 +6241,20 @@ static void mill_load_food( Character &you, const tripoint &examp,
         return it.rotten();
     } );
     std::vector<const item *> filtered = you.crafting_inventory().items_with( []( const item & it ) {
-        if( !it.type->milling_data ) {
+        if( !it.type->milling_data || it.type->milling_data->into_.is_null() ) {
             return false;
         }
 
         const item product( it.type->milling_data->into_ );
-        recipe rec = recipe_dictionary::get_craft( product.typeId() );
+        recipe rec;
+
+        for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
+             iter != recipe_dict.end(); iter++ ) {
+            if( iter->first == it.type->milling_data->recipe_ ) {
+                rec = iter->second;
+                break;
+            }
+        }
 
         if( rec.is_null() ) {
             debugmsg( _( "Failed to find milling recipe for %s. It can't be inserted into the mill." ),

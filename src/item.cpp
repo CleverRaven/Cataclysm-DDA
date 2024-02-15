@@ -5816,33 +5816,60 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                               "<info>sickly green glow</info>." ) );
     }
 
-    if( type->milling_data ) {
+    if( type->milling_data && !type->milling_data->into_.is_null() ) {
         if( parts->test( iteminfo_parts::DESCRIPTION_MILLEABLE ) ) {
 
             const islot_milling &mdata = *type->milling_data;
-            const int conv_rate = mdata.conversion_rate_;
-            std::string rate_info;
-            if( conv_rate < 1 ) {
-                const int ratio = int( 1 / mdata.conversion_rate_ );
-                rate_info = string_format(
-                                _( "* You need at least <neutral>%i %s</neutral> to produce <neutral>1 %s</neutral>." ), ratio,
-                                type->nname( ratio ),
-                                mdata.into_->nname( 1 ) );
-            } else {
-                const int ratio = int( mdata.conversion_rate_ );
-                rate_info = string_format(
-                                _( "* <neutral>1 %s</neutral> can be turned into <neutral>%i %s</neutral>." ),
-                                type->nname( 1 ), ratio,
-                                mdata.into_->nname( ratio ) );
+
+            recipe rec;
+
+            for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
+                 iter != recipe_dict.end(); iter++ ) {
+                if( iter->first == mdata.recipe_ ) {
+                    rec = iter->second;
+                    break;
+                }
             }
-            info.emplace_back( "DESCRIPTION",
-                               string_format( _( "* This item can be <info>milled</info>." ) ) );
-            info.emplace_back( "DESCRIPTION", rate_info );
-            info.emplace_back( "DESCRIPTION",
-                               string_format(
-                                   _( "* It has a conversion rate of <neutral>1 %s</neutral> for <neutral>%.3f %s</neutral>." ),
-                                   type->nname( 1 ),
-                                   mdata.conversion_rate_, mdata.into_->nname( mdata.conversion_rate_ ) ) );
+
+            if( rec.is_null() ) {
+                debugmsg( _( "Failed to find milling recipe for %s." ),
+                          this->tname( 1, false ) );
+            } else {
+                const int product_size = rec.makes_amount();
+                const requirement_data::alter_item_comp_vector &components =
+                    rec.simple_requirements().get_components();
+                int lot_size = 0;
+
+                // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+                // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+                for( const std::vector<item_comp> &component : components ) {
+                    for( const item_comp &comp : component ) {
+                        if( comp.type == this->typeId() ) {
+                            lot_size = comp.count;
+                            break;
+                        }
+                    }
+
+                    if( lot_size > 0 ) {
+                        break;
+                    }
+                }
+
+                if( lot_size == 0 ) {
+                    debugmsg( _( "Failed to find milling recipe for %s. It can't be milled." ),
+                              this->display_name().c_str() );
+                } else {
+                    std::string rate_info = string_format(
+                                                _( "* <neutral>%d %s</neutral> can be turned into <neutral>%d %s</neutral>." ),
+                                                lot_size,
+                                                type->nname( lot_size ), product_size,
+                                                mdata.into_->nname( product_size ) );
+
+                    info.emplace_back( "DESCRIPTION",
+                                       string_format( _( "* This item can be <info>milled</info>." ) ) );
+                    info.emplace_back( "DESCRIPTION", rate_info );
+                }
+            }
         }
     }
 
