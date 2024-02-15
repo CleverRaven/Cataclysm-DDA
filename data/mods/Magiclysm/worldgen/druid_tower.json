@@ -354,7 +354,8 @@
           { "item": "SUS_dresser_mens", "chance": 60 },
           { "item": "SUS_dresser_womens", "chance": 60 },
           { "item": "magic_shop_clothes", "chance": 25, "repeat": [ 1, 2 ] },
-          { "item": "enchanted_worn_items", "chance": 20, "repeat": [ 1, 2 ] }
+          { "item": "enchanted_worn_items", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "items_of_elvenkind", "chance": 10 }
         ],
         "5": [ { "item": "SUS_bathroom_sink", "chance": 80 } ]
       },
