@@ -124,7 +124,7 @@ std::string custom_item_prefix( item const &it, unsigned int /* quantity */,
 {
     std::string prefix;
     for( const flag_id &f : it.get_prefix_flags() ) {
-        prefix = prefix + f->item_prefix().translated();
+        prefix += f->item_prefix().translated();
     }
     return prefix;
 }
@@ -134,7 +134,7 @@ std::string custom_item_suffix( item const &it, unsigned int /* quantity */,
 {
     std::string suffix;
     for( const flag_id &f : it.get_suffix_flags() ) {
-        suffix = f->item_suffix().translated() + suffix;
+        suffix.insert( 0, f->item_suffix().translated() );
     }
     return suffix;
 }
