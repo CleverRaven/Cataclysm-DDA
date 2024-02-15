@@ -811,7 +811,7 @@
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "smoking_result": "dry_soybean",
-    "milling": { "into": "paste_nut", "conversion_rate": 0.2 },
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_5_1" },
     "seed_data": {
       "plant_name": "soybean",
       "fruit": "soybean",
@@ -838,7 +838,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "fun": -5,
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 1 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_1" },
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "seed_data": {
       "plant_name": "soybean",
