@@ -639,7 +639,7 @@
     "type": "ARMOR",
     "name": { "str": "magnetic holster" },
     "looks_like": "shoulder_strap",
-    "description": "A long strap with small, powerful gravity pullers on the surface.  Allows one to strap and carry almost anything.",
+    "description": "A long strap with small, powerful gravity field emitters on the surface.  Allows one to strap and carry almost anything.",
     "weight": "250 g",
     "volume": "250 ml",
     "material": [ "plastic", "aluminum" ],
@@ -651,14 +651,15 @@
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "max_contains_volume": "3 L",
-        "max_contains_weight": "5 kg",
-        "max_item_length": "200 cm",
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "15 kg",
+        "max_item_length": "300 cm",
         "moves": 50
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED" ],
+    "flags": [ "BELTED", "OVERSIZE", "MUNDANE", "INVENTOR_CRAFTED", "TARDIS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   }
 ]

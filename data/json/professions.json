@@ -1708,7 +1708,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "combat_shirt" },
           { "item": "tac_fullhelmet" },
           { "item": "mask_ski" },
@@ -2951,7 +2951,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "knit_scarf" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -6557,7 +6557,7 @@
           { "item": "gold_bracelet" },
           { "group": "charged_cell_phone" },
           { "item": "cigar", "entry-wrapper": "case_cigar", "container-item": "null", "count": 2 },
-          { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
+          { "group": "modular_deagle_44", "ammo-item": "44fmj", "container-item": "XL_holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 },
           { "item": "knuckle_brass", "container-item": "tux" }
         ]
@@ -6926,7 +6926,7 @@
           { "item": "wetsuit_gloves" },
           { "item": "diving_watch" },
           { "item": "diveknife" },
-          { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 20 }
+          { "item": "rebreather", "ammo-item": "rebreather_filler_soda_lime", "charges": 20 }
         ]
       }
     }
