@@ -164,6 +164,7 @@
     "type": "item_group",
     "id": "religious_books",
     "//": "Any religious book",
+    "//": Items are weighted at roughly 500 weight per one percent of US population self-reporting as affiliated with a given religion. Most recent data source used was https://www.pewresearch.org/religion/wp-content/uploads/sites/7/2021/01/PF_01.14.21_ATP_NPORS_report.pdf. Anything less than 100 weight is part of the 2% "other" where data is scarce.
     "subtype": "distribution",
     "entries": [
       { "item": "holybook_bible1", "prob": 11500 },
@@ -240,7 +241,7 @@
       { "item": "holybook_bahai4", "prob": 5 },
       { "item": "holybook_bahai5", "prob": 5 },
       { "item": "holybook_quran", "prob": 500 },
-      { "item": "holybook_hadith", "prob": 18 },
+      { "item": "holybook_hadith", "prob": 250 },
       { "item": "holybook_havamal", "prob": 8 },
       { "item": "holybook_tanakh", "prob": 500 },
       { "item": "holybook_talmud", "prob": 25 },
