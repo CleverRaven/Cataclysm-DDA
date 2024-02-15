@@ -848,7 +848,7 @@
     "id": "presort",
     "name": "Crazy Party",
     "points": -2,
-    "description": "It was meant to be a simple, nice, relaxing holiday—a means to distance yourself from the crazies flooding the cities.  What it turned out to be was a nerve-racking stay in a resort filled with uneasy people while the nation fell to bits outside, and, when the evacuation order came, scores of refugees flooded to the building as a makeshift gathering point.  As the population grew past what the private security could comfortably supervise and any form of evac failed to materialise, you heard murmurings that things weren’t going to end well.  They were right.",
+    "description": "You’d been unsurprised when your vacation—a hastily arranged holiday to a remote resort to maintain distance from the riots—had been put out of its misery when state-wide evacuation was ordered after weeks of worsening violence, and the complex had been placed on a shortlist for civilian gathering sights.  After days of waiting for a non-existent rescue and refugees bringing tales of monsters and the dead, the remaining staff had taken steps to keep spirits up, and last evening, they did that in the best way they knew—hosting a party.  Considering that it lured scores of zombies, you could probably classify that decision as a 'road to literal hell paved with good intentions.'",
     "start_name": "Private resort",
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [
