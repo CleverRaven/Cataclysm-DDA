@@ -1294,11 +1294,11 @@ class item : public visitable
          * @param dmg_type The type of incoming damage
          * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
          * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
-         * @param base_env_resist Will override the base environmental
+         * @param resist_value Will override the base environmental
          * resistance (to allow hypothetical calculations for gas masks).
          */
         float _environmental_resist( const damage_type_id &dmg_type, bool to_self = false,
-                                     int base_env_resist = 0,
+                                     int resist_value = 0,
                                      bool bp_null = true,
                                      const std::vector<const part_material *> &armor_mats = {} ) const;
         /*@}*/

@@ -32,14 +32,14 @@
         "spell_data": { "id": "bile_spew", "min_level": 3 },
         "monster_message": "The %s spews bile!",
         "cooldown": 10,
-        "condition": { "one_in": 2 }
+        "condition": { "math": [ "rand(1)", "<", "1" ] }
       },
       {
         "type": "spell",
         "spell_data": { "id": "bile_spew_eyes", "min_level": 3 },
         "monster_message": "The %s spews bile!",
         "cooldown": 15,
-        "condition": { "one_in": 4 }
+        "condition": { "math": [ "rand(3)", "<", "3" ] }
       }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": {
@@ -101,14 +101,14 @@
         "spell_data": { "id": "bile_spew", "min_level": 5 },
         "monster_message": "The %s spews bile!",
         "cooldown": 10,
-        "condition": { "one_in": 2 }
+        "condition": { "math": [ "rand(1)", "<", "1" ] }
       },
       {
         "type": "spell",
         "spell_data": { "id": "bile_spew_eyes", "min_level": 5 },
         "monster_message": "The %s spews bile!",
         "cooldown": 12,
-        "condition": { "one_in": 4 }
+        "condition": { "math": [ "rand(3)", "<", "3" ] }
       }, { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_items",
     "death_function": {
