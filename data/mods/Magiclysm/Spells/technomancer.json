@@ -745,5 +745,25 @@
     "energy_source": "MANA",
     "base_energy_cost": 500,
     "base_casting_time": 6000
+  },
+  {
+    "id": "technomancer_gain_electronics_computer_spell",
+    "type": "SPELL",
+    "name": "Machine Mind",
+    "description": "This spell grants the caster an intuitive understanding of electronics and computers, making their use, repair, and construction much easier.",
+    "valid_targets": [ "self" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_technomancer_gain_electronics_computer",
+    "components": "spell_components_technomancer_gain_electronics_computer",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 15,
+    "min_duration": 90000,
+    "max_duration": 1440000,
+    "duration_increment": 90000,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 3000
   }
 ]

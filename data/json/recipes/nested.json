@@ -4137,7 +4137,7 @@
     "skill_used": "fabrication",
     "nested_category_data": [
       "m26_mass_mod",
-      "knife_combat_mod",
+      "knife_combat",
       "knife_combat_army_mod",
       "knife_combat_marine_mod",
       "m203_mod",
