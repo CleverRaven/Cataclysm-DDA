@@ -418,7 +418,7 @@ int Character::item_wear_cost( const item &it ) const
 {
     double mv = item_handling_cost( it );
 
-    for( layer_level layer : it.get_layer() )
+    for( layer_level layer : it.get_layer() ) {
         switch( layer ) {
             case layer_level::SKINTIGHT:
                 mv *= 1.5;
@@ -441,6 +441,7 @@ int Character::item_wear_cost( const item &it ) const
             default:
                 break;
         }
+    }
 
     mv *= std::max( it.get_avg_encumber( *this ) / 10.0, 1.0 );
 
