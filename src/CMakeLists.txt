@@ -49,7 +49,7 @@ if (TILES)
                 ${RESOURCE_RC})
         if(MSYS2)
             target_link_options(cataclysm-tiles PRIVATE
-                "LINKER:--strip-debug"
+                "$<$<CONFIG:Debug,RelWithDebInfo>:LINKER:--strip-debug>"
             )
         else()
             # Use only our RT_MANIFEST from resource.rc
