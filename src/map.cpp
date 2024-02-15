@@ -3287,17 +3287,6 @@ bool map::is_divable( const tripoint &p ) const
            has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p );
 }
 
-bool map::is_water( const tripoint &p ) const
-{
-    return has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p );
-}
-
-bool map::is_decent_water( const tripoint &p ) const
-{
-    return has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
-           !has_flag( ter_furn_flag::TFLAG_SEWAGE, p );
-}
-
 bool map::is_outside( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {

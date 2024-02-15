@@ -8650,7 +8650,7 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                                    const std::vector<const part_material *> &armor_mats ) const
 {
     if( to_self && !dmg_type->physical ) {
-        // Make the item basically invulnerable unless the attack is physical, like acid.
+        // Fire does damage to items elsewhere. Cold, bio, etc. do not deal damage to items as they're non-physical.
         return std::numeric_limits<float>::max();
     }
 
@@ -8663,40 +8663,79 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
     if( !bp_null ) {
-        // If we have armour portion materials for this body part, use that instead
+        // If we have armour portion materials for this body part, use them.
         if( !armor_mats.empty() ) {
+            // Physical enviro attacks (ie acid) try to damage the surface layers of armor and do not respect
+            // thickness - when it comes to chemicals, a material burns, or it does not.
+            // Nonphysical attacks don't respect thickness, but average the protection of all layers,
+            // surface or no.
+            const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+            int total_coverage = 0;
             for( const part_material *m : armor_mats ) {
                 float tmp_add = 0.f;
                 if( derived.has_value() && !m->id->has_dedicated_resist( dmg_type ) ) {
-                    tmp_add = m->id->resist( derived->first ) * m->cover * 0.01f * derived->second;
+                    if( total_coverage < 100 || !dmg_type->physical ) {
+                        if( total_coverage + m->cover <= 100 || !dmg_type->physical ) {
+                        total_coverage += m->cover;
+                        tmp_add = m->id->resist( derived->first ) * m->cover * 0.01f * derived->second;
+                        } else {
+                            tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( derived->first ) * m->cover * 0.01f * derived->second );
+                        }
+                    }
                 } else {
-                    tmp_add = m->id->resist( dmg_type ) * m->cover * 0.01f;
+                    if( total_coverage < 100 || !dmg_type->physical  ) {
+                        if( total_coverage + m->cover <= 100 || !dmg_type->physical ) {
+                            total_coverage += m->cover;
+                           tmp_add = m->id->resist( dmg_type ) * m->cover * 0.01f;
+                        } else {
+                            tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( derived->first ) * m->cover * 0.01f * derived->second );
+                        }
+                    }
                 }
                 resist += tmp_add;
             }
             const int env = get_env_resist( base_env_resist );
+            // Acid ( being both enviro and physical, 'cause it's a liquid ) cares about breathability rather than environmental protection.
+            // Gas/plasma/cold/etc attacks still care about enviro.
             if( env < 10 && !dmg_type->physical ) {
                 resist *= env / 10.0f;
+            }
+        if( !dmg_type->physical ) {
+            // Average based portion of materials.
+            resist /= total;
             }
         }
         return resist + mod;
     }
-
+    // If we don't have armor portion materials for this body part, we just look at the item's general values.
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
         const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
-        // Acid and fire aren't solid objects forcing their way through, so they only care about the top layer here.
+        // Acid isn't a solid objects forcing their way through, so cares about the top layer here.
+        int total_coverage = 0;
         for( const auto &m : mats ) {
             float tmp_add = 0.f;
-            if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
-                tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
-            } else {
-                tmp_add = m.first->resist( dmg_type ) * m.second;
+            if( total_coverage <= 100 || !dmg_type->physical ) {
+                 if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
+                    if( total_coverage / 100 + m.second <= 100 || !dmg_type->physical ) {
+                    tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
+                    } else {
+                        tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m.first->resist( derived->first ) * m.second * derived->second );
+                    }
+                } else {
+                    if( ( total_coverage / 100 + m.second <= 100 || !dmg_type->physical ) ) {
+                        tmp_add = m.first->resist( dmg_type ) * m.second;
+                    } else {
+                        tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( tmp_add = m.first->resist( dmg_type ) * m.second );
+                    }
+                }
             }
             resist += tmp_add;
         }
-        // Average based portion of materials
+        if( !dmg_type->physical ) {
+        // Average based portion of materials.
         resist /= total;
+        }
     }
 
     return resist + mod;
