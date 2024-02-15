@@ -354,7 +354,7 @@
   {
     "id": "mon_frog_shadow",
     "type": "MONSTER",
-    "name": { "str": "leaping shadow" },
+    "name": { "str": "shadow leaper" },
     "description": "A lithe and leggy form rests flat against the ground, wreathed in darkness.  When it leaps, the shadows follow with it.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "80 L",
