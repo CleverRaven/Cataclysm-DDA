@@ -1155,7 +1155,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```PUSH_VEH``` Can push vehicles out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
-- ```QUIETMOVES``` Makes move noises as if ~1 sizes smaller.
+- ```QUIETMOVES``` Makes move noises as if ~2 sizes smaller.
 - ```RANGED_ATTACKER``` Monster has any sort of ranged attack.
 - ```REVIVES_HEALTHY``` When revived, this monster has full hitpoints and speed.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
