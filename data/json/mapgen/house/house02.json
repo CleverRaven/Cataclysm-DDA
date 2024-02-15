@@ -99,45 +99,6 @@
     }
   },
   {
-    "method": "json",
-    "om_terrain": "house_02",
-    "//": "Abandoned variant",
-    "type": "mapgen",
-    "weight": 40,
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        ".............-..........",
-        "...........p.-..........",
-        "..ŦŦŦŦŦŦŦŦŦŦ.-.ŦŦŦŦŦŦŦ..",
-        ".............-..........",
-        ".............-..........",
-        "............---.........",
-        "..##oo##oo##o*o##ooo##..",
-        "..#2JJFO5C4|   |     #^.",
-        "..#1      4|   |     o..",
-        "..#3      2|   |     o..",
-        "..#|+||||+||   +     #..",
-        "..#            ||||||#..",
-        "..o            +     #..",
-        "..o       ||||||     o..",
-        "..o       +~~~~|     o..",
-        "..#       |~=8t|     #..",
-        "..#||   ||#######ooo##..",
-        "..#       #cccc.........",
-        "..o       *cccc.........",
-        "..o       #cccc.........",
-        ".^#       #cccc.........",
-        "..###ooo###cccc.........",
-        "........................",
-        "........................"
-      ],
-      "palettes": [ "standard_domestic_abandoned_palette" ],
-      "terrain": { "8": "t_linoleum_white", "=": "t_linoleum_white", "~": "t_linoleum_white", "t": "t_linoleum_white" },
-      "furniture": { "=": "f_sink" }
-    }
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_02_roof",
