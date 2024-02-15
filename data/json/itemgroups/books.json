@@ -243,7 +243,7 @@
       { "item": "holybook_hadith", "prob": 18 },
       { "item": "holybook_havamal", "prob": 8 },
       { "item": "holybook_tanakh", "prob": 500 },
-      { "item": "holybook_talmud", "prob": 500 },
+      { "item": "holybook_talmud", "prob": 25},
       { "item": "holybook_vedas", "prob": 15 },
       { "item": "holybook_upanishads", "prob": 15 },
       { "item": "holybook_tripitaka", "prob": 15 },
