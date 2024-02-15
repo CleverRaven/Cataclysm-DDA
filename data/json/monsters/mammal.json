@@ -247,7 +247,7 @@
       "PATH_AVOID_DANGER_1",
       "CAN_BE_CULLED",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1140,7 +1140,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1231,7 +1231,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1276,7 +1276,7 @@
       "WARM",
       "CORNERED_FIGHTER",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1330,7 +1330,7 @@
       "SWARMS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1421,7 +1421,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1496,7 +1496,7 @@
       "SWARMS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1540,7 +1540,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1593,7 +1593,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1637,7 +1637,7 @@
       "STUMBLES",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1691,7 +1691,7 @@
       "STUMBLES",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1780,7 +1780,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1877,7 +1877,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1973,7 +1973,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -2066,7 +2066,7 @@
       "SMELLS",
       "WARM",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
