@@ -8676,19 +8676,21 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                 if( derived.has_value() && !m->id->has_dedicated_resist( dmg_type ) ) {
                     if( total_coverage < 100 || !dmg_type->physical ) {
                         if( total_coverage + m->cover <= 100 || !dmg_type->physical ) {
-                        total_coverage += m->cover;
-                        tmp_add = m->id->resist( derived->first ) * m->cover * 0.01f * derived->second;
+                            total_coverage += m->cover;
+                            tmp_add = m->id->resist( derived->first ) * m->cover * 0.01f * derived->second;
                         } else {
-                            tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( derived->first ) * m->cover * 0.01f * derived->second );
+                            tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( derived->first ) * m->cover * 0.01f
+                                      * derived->second );
                         }
                     }
                 } else {
-                    if( total_coverage < 100 || !dmg_type->physical  ) {
+                    if( total_coverage < 100 || !dmg_type->physical ) {
                         if( total_coverage + m->cover <= 100 || !dmg_type->physical ) {
                             total_coverage += m->cover;
-                           tmp_add = m->id->resist( dmg_type ) * m->cover * 0.01f;
+                            tmp_add = m->id->resist( dmg_type ) * m->cover * 0.01f;
                         } else {
-                            tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( derived->first ) * m->cover * 0.01f * derived->second );
+                            tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( derived->first ) * m->cover * 0.01f
+                                      * derived->second );
                         }
                     }
                 }
@@ -8700,9 +8702,9 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
             if( env < 10 && !dmg_type->physical ) {
                 resist *= env / 10.0f;
             }
-        if( !dmg_type->physical ) {
-            // Average based portion of materials.
-            resist /= total;
+            if( !dmg_type->physical ) {
+                // Average based portion of materials.
+                resist /= total;
             }
         }
         return resist + mod;
@@ -8716,11 +8718,12 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
         for( const auto &m : mats ) {
             float tmp_add = 0.f;
             if( total_coverage <= 100 || !dmg_type->physical ) {
-                 if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
+                if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
                     if( total_coverage / 100 + m.second <= 100 || !dmg_type->physical ) {
-                    tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
+                        tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
                     } else {
-                        tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m.first->resist( derived->first ) * m.second * derived->second );
+                        tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m.first->resist( derived->first ) * m.second *
+                                  derived->second );
                     }
                 } else {
                     if( ( total_coverage / 100 + m.second <= 100 || !dmg_type->physical ) ) {
@@ -8733,8 +8736,8 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
             resist += tmp_add;
         }
         if( !dmg_type->physical ) {
-        // Average based portion of materials.
-        resist /= total;
+            // Average based portion of materials.
+            resist /= total;
         }
     }
 
