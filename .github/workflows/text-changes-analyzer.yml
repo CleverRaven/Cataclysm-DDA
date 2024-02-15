@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install python3-pip gettext
-          sudo pip3 install polib pyspellchecker
+          sudo pip3 install polib pyspellchecker regex
       - name: "Checkout test merge commit"
         uses: actions/checkout@v4
       - name: "Compute base commit and test merge commit"
