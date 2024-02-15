@@ -543,6 +543,9 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         sp.make_sound( target, caster );
         sp.create_field( target, caster );
+        bool dodgeable = ( sp.has_flag( spell_flag::DODGEABLE ) );
+        bool liquid = ( sp.has_flag( spell_flag::LIQUID ) );
+        bool liquid_damage_target = ( sp.has_flag( spell_flag::LIQUID_DAMAGE_TARGET ) );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
             here.add_field( target, fd_fire, 1, 10_minutes );
 
@@ -561,7 +564,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );
         const int spell_accuracy = sp.accuracy( caster );
-        if( sp.has_flag( spell_flag::DODGEABLE ) ) {
+        if( dodgeable ) {
             const float dodge_training = sp.dodge_training( caster );
             if( cr->dodge_check( spell_accuracy, dodge_training ) ) {
                 cr->add_msg_if_player( m_good, _( "You dodge out of the way!" ) );
@@ -572,23 +575,23 @@ static void damage_targets( const spell &sp, Creature &caster,
             }
         }
         // Liquid attacks add their effects to characters via splash_target further down
-        if( !sp.effect_data().empty() && ( !sp.has_flag( spell_flag::LIQUID ) || cr->is_monster() ) ) {
+        if( !sp.effect_data().empty() && ( !liquid || cr->is_monster() ) ) {
             add_effect_to_target( target, sp, caster );
         }
 
         if( sp.damage( caster ) > 0 || ( sp.liquid_volume( caster ) > 0 &&
-                                         sp.has_flag( spell_flag::LIQUID ) ) ) {
+                                         liquid ) ) {
             // calculate damage mitigation from various sources
             // 5% per point (linear) ranging from 0-33%, capped at block score
-            // skip dodge if the attack was dodgeable as you'd have evaded it already
+            // skip if the attack was dodgeable as you'd have evaded it already
             double damage_mitigation_multiplier = 1.0;
             if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 &&
-                                        !sp.has_flag( spell_flag::DODGEABLE ) ) {
+                                        !dodgeable ) {
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
             }
 
-            if( !sp.has_flag( spell_flag::DODGEABLE ) && cr->dodge_check( spell_accuracy ) ) {
+            if( !dodgeable && cr->dodge_check( spell_accuracy ) ) {
                 const int spell_dodge = cr->get_dodge() - spell_accuracy;
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
@@ -600,19 +603,21 @@ static void damage_targets( const spell &sp, Creature &caster,
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_resist ) ) / 3.0;
             }
             // If it's a liquid attack and the target is a character, splash_target will handle the rest
-            if( sp.has_flag( spell_flag::LIQUID ) && !cr->is_monster() ) {
+            if( liquid && !cr->is_monster() ) {
                 splash_target( target, sp, caster );
                 continue;
             }
-
             for( damage_unit &val : atk.proj.impact.damage_units ) {
-                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
+                if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) && ( liquid_damage_target || !liquid ) ) {
                     // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respective %
                     val.amount = cr->get_hp( cr->get_max_hitsize_bodypart() ) * sp.damage( caster ) / 100.0;
                 }
                 val.amount *= damage_mitigation_multiplier;
             }
-            cr->deal_projectile_attack( &caster, atk, true );
+            // Ensure we don't accidentally try to damage a monster with a splash attack that isn't supposed to hurt
+            if( liquid_damage_target || !liquid ) {
+                cr->deal_projectile_attack( &caster, atk, true );
+            }
         } else if( sp.damage( caster ) < 0 ) {
             sp.heal( target, caster );
             add_msg_if_player_sees( cr->pos(), m_good, _( "%s wounds are closing up!" ),

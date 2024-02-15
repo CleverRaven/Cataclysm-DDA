@@ -2017,7 +2017,7 @@
       "vomit_chance": [ 500, 0 ],
       "health_chance": [ 1 ],
       "health_min": [ -1 ],
-      "health_chance_bot": [ 50, 0 ]
+      "health_chance_bot": [ 100, 0 ]
     },
     "max_duration": "30 s",
     "limb_score_mods": [
@@ -3731,10 +3731,10 @@
       "hurt_chance": [ 1 ],
       "health_chance": [ 1 ],
       "health_min": [ -1 ],
-      "hurt_chance_bot": [ 10, 30 ],
-      "health_chance_bot": [ 60, 180 ]
+      "hurt_chance_bot": [ 6, 24 ],
+      "health_chance_bot": [ 120, 480 ]
     },
-    "scaling_mods": { "hurt_chance": [ 1 ], "health_chance": [ 1 ] },
+    "scaling_mods": { "hurt_chance": [ 0.2 ], "hurt_max": [ 0.6 ], "health_chance": [ 1 ] },
     "show_in_info": true,
     "flags": [ "WASHABLE_EFFECT" ]
   },
@@ -3754,7 +3754,7 @@
     "max_duration": "30 s",
     "max_intensity": 5,
     "int_dur_factor": "5 s",
-    "//": "Decreases lifestyle score via acidosis. Don't get strange chemicals on you!",
+    "//": "Doesn't harm lifestyle as it's not reacting with your anatomy.",
     "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "health_chance": [ 1 ], "health_min": [ -1 ], "hurt_chance_bot": [ 10, 30 ] },
     "scaling_mods": { "hurt_chance": [ 1 ] },
     "show_in_info": true,
