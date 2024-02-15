@@ -164,7 +164,7 @@
     "type": "item_group",
     "id": "religious_books",
     "//": "Any religious book",
-    "//": Items are weighted at roughly 500 weight per one percent of US population self-reporting as affiliated with a given religion. Most recent data source used was https://www.pewresearch.org/religion/wp-content/uploads/sites/7/2021/01/PF_01.14.21_ATP_NPORS_report.pdf. Anything less than 100 weight is part of a religion in the 2% "other" where data is scarce, or a rarer text.
+    "//": Items are weighted at roughly 500 weight per one percent of US population self-reporting as affiliated with a given religion. Most recent data source used was Pew Religious Survey 2020. Anything less than 100 weight is part of a religion in the 2% "other" where data is scarce, or a rarer text.
     "subtype": "distribution",
     "entries": [
       { "item": "holybook_bible1", "prob": 11500 },
