@@ -1351,7 +1351,7 @@
     "description": "A huge bone of a large creature.",
     "copy-from": "bone_abstract",
     "price_postapoc": 20,
-    "milling": { "into": "meal_bone", "conversion_rate": 4 },
+    "//": "While it would make sense to be able to mill it, the bone won't fit into a mill...",
     "volume": "36 L",
     "longest_side": "2000 cm",
     "to_hit": { "grip": "bad", "length": "short", "surface": "any", "balance": "clumsy" },
