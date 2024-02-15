@@ -258,7 +258,7 @@
       { "item": "holybook_kallisti", "prob": 15 },
       { "item": "holybook_scientology", "prob": 15 },
       { "item": "holybook_satanic", "prob": 15 },
-      { "item": "book_judaica_siddur", "prob": 15 },
+      { "item": "book_judaica_siddur", "prob": 500 },
       { "item": "holybook_mozilla", "prob": 1 },
       { "item": "holybook_frog", "prob": 1 },
       { "item": "holybook_osa", "prob": 1 },
