@@ -29,7 +29,7 @@
               "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_01') + (u_skill('spellcraft') / 2 )" ] },
               "difficulty": 15
             },
-            "effect": [ { "u_mutate_towards": "MANA_ADD1", "use_vitamins": false } ],
+            "effect": [ { "u_mutate_towards": "MANA_ADD1", "category": "MANATOUCHED", "use_vitamins": false } ],
             "false_effect": [
               {
                 "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
@@ -92,7 +92,7 @@
               "roll_contested": { "math": [ "u_spell_level('mana_upgrade_efficiency_02') + (u_skill('spellcraft') / 2 )" ] },
               "difficulty": 15
             },
-            "effect": [ { "u_mutate_towards": "MANA_ADD2", "use_vitamins": false } ],
+            "effect": [ { "u_mutate_towards": "MANA_ADD2", "category": "MANATOUCHED", "use_vitamins": false } ],
             "false_effect": [
               {
                 "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
@@ -162,7 +162,7 @@
               "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_01') + (u_skill('spellcraft') / 2 )" ] },
               "difficulty": 15
             },
-            "effect": [ { "u_mutate_towards": "MANA_REGEN1", "use_vitamins": false } ],
+            "effect": [ { "u_mutate_towards": "MANA_REGEN1", "category": "MANATOUCHED", "use_vitamins": false } ],
             "false_effect": [
               {
                 "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
@@ -247,7 +247,7 @@
               "roll_contested": { "math": [ "u_spell_level('mana_upgrade_regeneration_02') + (u_skill('spellcraft') / 2 )" ] },
               "difficulty": 15
             },
-            "effect": [ { "u_mutate_towards": "MANA_REGEN2", "use_vitamins": false } ],
+            "effect": [ { "u_mutate_towards": "MANA_REGEN2", "category": "MANATOUCHED", "use_vitamins": false } ],
             "false_effect": [
               {
                 "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
@@ -279,7 +279,7 @@
     "id": "mana_upgrade_sensitivity_01",
     "type": "SPELL",
     "name": { "str": "First Circle: Lesser Mana Sensitivity." },
-    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Lesser Mana Sensitivity trait.  The ritual must take place in a natural location away (at least 4 OM tiles) from buildings or roads.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Lesser Mana Sensitivity trait.  The ritual must take place in a natural location away (at least 4 OM tiles) from buildings, roads, or other evidence of civilization.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -311,7 +311,9 @@
         { "not": { "u_near_om_location": "road_ew", "range": 4 } },
         { "not": { "u_near_om_location": "road_ns", "range": 4 } },
         { "not": { "u_near_om_location": "road_nesw", "range": 4 } },
-        { "not": { "u_near_om_location": "road", "range": 4 } }
+        { "not": { "u_near_om_location": "road", "range": 4 } },
+        { "not": { "u_near_om_location": "dirt_road", "range": 4 } },
+        { "not": { "u_near_om_location": "dumpsite", "range": 4 } }
       ]
     },
     "effect": [
@@ -323,7 +325,7 @@
               "roll_contested": { "math": [ "u_spell_level('mana_upgrade_sensitivity_01') + (u_skill('spellcraft') / 2 )" ] },
               "difficulty": 15
             },
-            "effect": [ { "u_mutate_towards": "MANA_MULT1", "use_vitamins": false } ],
+            "effect": [ { "u_mutate_towards": "MANA_MULT1", "category": "MANATOUCHED", "use_vitamins": false } ],
             "false_effect": [
               {
                 "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
@@ -354,7 +356,7 @@
     "id": "mana_upgrade_sensitivity_02",
     "type": "SPELL",
     "name": { "str": "Second Circle: Mana Sensitivity." },
-    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Mana Sensitivity trait.  You must already have the Lesser Mana Sensitivity trait for the spell to take full effect.  The ritual must take place in a natural location far away (at least 15 OM tiles) from buildings or roads.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
+    "description": "Perform a magical ritual to increase the sensitivity that your body has to mana, granting you the Mana Sensitivity trait.  You must already have the Lesser Mana Sensitivity trait for the spell to take full effect.  The ritual must take place in a natural location far away (at least 15 OM tiles) from buildings, roads, or other evidence of civilization.\n\nThe chance of the ritual's success depends in your spell level and Spellcraft skill.",
     "valid_targets": [ "self" ],
     "shape": "blast",
     "effect": "effect_on_condition",
@@ -386,7 +388,9 @@
         { "not": { "u_near_om_location": "road_ew", "range": 15 } },
         { "not": { "u_near_om_location": "road_ns", "range": 15 } },
         { "not": { "u_near_om_location": "road_nesw", "range": 15 } },
-        { "not": { "u_near_om_location": "road", "range": 15 } }
+        { "not": { "u_near_om_location": "road", "range": 15 } },
+        { "not": { "u_near_om_location": "dirt_road", "range": 15 } },
+        { "not": { "u_near_om_location": "dumpsite", "range": 15 } }
       ]
     },
     "effect": [
@@ -398,7 +402,7 @@
               "roll_contested": { "math": [ "u_spell_level('mana_upgrade_sensitivity_02') + (u_skill('spellcraft') / 2 )" ] },
               "difficulty": 15
             },
-            "effect": [ { "u_mutate_towards": "MANA_MULT2", "use_vitamins": false } ],
+            "effect": [ { "u_mutate_towards": "MANA_MULT2", "category": "MANATOUCHED", "use_vitamins": false } ],
             "false_effect": [
               {
                 "u_message": "As you intone the final words of the spell, you wait for the change, but nothing happens.  You must need more practice."
