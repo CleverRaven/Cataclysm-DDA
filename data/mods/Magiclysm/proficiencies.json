@@ -1,89 +1,9 @@
 [
   {
     "type": "proficiency_category",
-    "id": "prof_alchemy",
-    "name": "Alchemy",
-    "description": "Proficiencies for working with the elements and transforming substances."
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_alchemy",
-    "category": "prof_alchemy",
-    "name": { "str": "Alchemy" },
-    "description": "You know the basics of manipulating the mana of objects through application of chemical laws.",
-    "can_learn": true,
-    "default_time_multiplier": 2,
-    "default_skill_penalty": 0.3,
-    "time_to_learn": "8 h"
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_almetallurgy",
-    "category": "prof_alchemy",
-    "name": { "str": "Almetallurgy" },
-    "description": "The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy.",
-    "can_learn": true,
-    "time_to_learn": "4 h",
-    "default_time_multiplier": 2,
-    "default_skill_penalty": 0.2,
-    "required_proficiencies": [ "prof_alchemy", "prof_metalworking" ]
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_leatherworking_dragon",
-    "category": "prof_tailoring",
-    "name": { "str": "Dragon leather working" },
-    "description": "Working with dragon leather requires a specific set of skills and tools… a set you are familiar with.",
-    "can_learn": true,
-    "default_time_multiplier": 1.5,
-    "default_skill_penalty": 1,
-    "time_to_learn": "6 h",
-    "required_proficiencies": [ "prof_leatherworking" ]
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_scaleworking_dragon",
-    "category": "prof_tailoring",
-    "name": { "str": "Dragon scale working" },
-    "description": "Working with dragon scales requires a specific set of skills and tools… a set you are familiar with.",
-    "can_learn": true,
-    "default_time_multiplier": 2,
-    "default_skill_penalty": 2,
-    "time_to_learn": "12 h",
-    "required_proficiencies": [ "prof_leatherworking_dragon" ]
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_golemancy_basic",
-    "category": "prof_alchemy",
-    "name": { "str": "Basic Golemancy" },
-    "description": "Infusing shaped material with your will and the ability to move is hard but you're starting to get it.",
-    "can_learn": true,
-    "time_to_learn": "4 h",
-    "default_time_multiplier": 1.5,
-    "default_skill_penalty": 1
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_weapon_enchanting",
-    "category": "prof_alchemy",
-    "name": { "str": "Enchanting" },
-    "description": "You are an experienced enchanter.",
-    "can_learn": true,
-    "time_to_learn": "12 h",
-    "default_time_multiplier": 2,
-    "default_skill_penalty": 0
-  },
-  {
-    "type": "proficiency",
-    "id": "prof_botanical_enchantment",
-    "category": "prof_alchemy",
-    "name": { "str": "Mystic Horticulture" },
-    "description": "The art of instilling mystical energy into fruit.",
-    "can_learn": true,
-    "default_time_multiplier": 2,
-    "default_skill_penalty": 0.2,
-    "time_to_learn": "10 h"
+    "id": "prof_magic_casting",
+    "name": "Magic",
+    "description": "Proficiencies that help with casting of magical spells."
   },
   {
     "type": "proficiency",
@@ -127,7 +47,7 @@
     "category": "prof_magic_casting",
     "name": { "str": "Novice Channeling" },
     "//": "This covers anything that involves channeling mana for a prolonged amount of time.",
-    "description": "You're familiar with the methods used to efficently channel mana in prolonged casting.",
+    "description": "You're familiar with the methods used to efficiently channel mana in prolonged casting.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
@@ -150,7 +70,7 @@
     "id": "prof_magic_channel_master",
     "category": "prof_magic_casting",
     "name": { "str": "Master Channeling" },
-    "description": "You've mastered the art of letting magic flow through you in long streches.",
+    "description": "You've mastered the art of letting magic flow through you in long stretches.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
     "default_skill_penalty": 0.2,
