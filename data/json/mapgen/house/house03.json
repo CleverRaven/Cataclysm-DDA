@@ -50,7 +50,7 @@
     "method": "json",
     "om_terrain": "house_03",
     "type": "mapgen",
-    "weight": 2000,
+    "weight": 20,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
