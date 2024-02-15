@@ -1214,5 +1214,24 @@
     "symbol": "?",
     "color": "black",
     "use_action": { "type": "learn_spell", "spells": [ "classless_dispel_magic" ] }
+  },
+  {
+    "id": "all_first_circle_upgrades_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Rites of the First Circle", "str_pl": "copies of The Rites of the First Circle" },
+    "//": "All 3 first circle mana trait upgrade spells",
+    "description": "A weighty tome containing all three of the Rites of the First Circle, the rituals used by dedicated mages to increase their ability to channel and recover mana.",
+    "weight": "900 g",
+    "volume": "1200 ml",
+    "price": 50000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "white",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "mana_upgrade_efficiency_01", "mana_upgrade_regeneration_01", "mana_upgrade_sensitivity_01" ]
+    }
   }
 ]

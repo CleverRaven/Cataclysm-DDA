@@ -343,8 +343,12 @@
     "id": "spell_components_mana_upgrade_sensitivity_01",
     "type": "requirement",
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
-    "using": [ [ "precious_gemstones", 5 ], [ "semiprecious_gemstones", 25 ] ],
-    "components": [ [ [ "mana_energy_weak", 5, "LIST" ] ], [ [ "mercury", 100 ] ], [ [ "crystallized_mana", 25 ] ] ]
+    "components": [
+      [ [ "mana_energy_weak", 5, "LIST" ] ],
+      [ [ "mercury", 100 ] ],
+      [ [ "crystallized_mana", 25 ] ],
+      [ [ "precious_gemstones", 5, "LIST" ], [ "semiprecious_gemstones", 25, "LIST" ] ]
+    ]
   },
   {
     "id": "mana_upgrade_sensitivity_02",
@@ -414,12 +418,12 @@
     "id": "spell_components_mana_upgrade_sensitivity_02",
     "type": "requirement",
     "qualities": [ { "id": "MANA_INFUSE", "level": 2 }, { "id": "MANA_FOCUS", "level": 2 } ],
-    "using": [ [ "precious_gemstones", 25 ], [ "semiprecious_gemstones", 150 ] ],
     "components": [
       [ [ "mana_energy_strong", 5, "LIST" ] ],
       [ [ "mercury", 250 ] ],
       [ [ "mana_infused_blood", 10 ] ],
-      [ [ "crystallized_mana", 75 ] ]
+      [ [ "crystallized_mana", 75 ] ],
+      [ [ "precious_gemstones", 25, "LIST" ], [ "semiprecious_gemstones", 150, "LIST" ] ]
     ]
   }
 ]

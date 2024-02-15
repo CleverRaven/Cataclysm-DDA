@@ -9,7 +9,7 @@
     "id": "semiprecious_gemstones",
     "type": "requirement",
     "//": "semi-precious gems, for rituals or alchemy ",
-    "tools": [
+    "components": [
       [
         [ "garnet", 1 ],
         [ "amethyst", 1 ],
@@ -30,6 +30,6 @@
     "id": "precious_gemstones",
     "type": "requirement",
     "//": "precious gems, for rituals or alchemy ",
-    "tools": [ [ [ "diamond", 1 ], [ "emerald", 1 ], [ "ruby", 1 ], [ "sapphire", 1 ] ] ]
+    "components": [ [ [ "diamond", 1 ], [ "emerald", 1 ], [ "ruby", 1 ], [ "sapphire", 1 ] ] ]
   }
 ]
