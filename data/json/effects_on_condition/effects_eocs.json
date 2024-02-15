@@ -18,21 +18,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "bile_mood_debuff",
-    "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": { "or": [ { "u_has_effect": "bile" }, { "u_has_effect": "boomered" } ] },
-    "effect": [
-      {
-        "u_add_morale": "morale_disgusted",
-        "bonus": -5,
-        "max_bonus": -15,
-        "duration": "1 hours",
-        "decay_start": "1 hours"
-      }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "bile_in_eyes",
     "recurrence": [ "1 seconds", "1 seconds" ],
     "condition": { "or": [ { "u_has_effect": "bile", "bodypart": "eyes" } ] },

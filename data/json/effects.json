@@ -2017,7 +2017,7 @@
       "vomit_chance": [ 500, 0 ],
       "health_chance": [ 1 ],
       "health_min": [ -1 ],
-      "health_chance_bot": [ 150, 0 ]
+      "health_chance_bot": [ 100, 0 ]
     },
     "max_duration": "30 s",
     "limb_score_mods": [
@@ -2035,7 +2035,7 @@
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
-    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 150, 0 ] },
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 120, 0 ] },
     "max_duration": "30 s",
     "flags": [ "WASHABLE_EFFECT" ]
   },
@@ -3732,9 +3732,9 @@
       "health_chance": [ 1 ],
       "health_min": [ -1 ],
       "hurt_chance_bot": [ 6, 24 ],
-      "health_chance_bot": [ 120, 480 ]
+      "health_chance_bot": [ 240, 720 ]
     },
-    "scaling_mods": { "hurt_chance": [ 0.2 ], "hurt_max": [ 0.6 ], "health_chance": [ 1 ] },
+    "scaling_mods": { "hurt_chance": [ 0.6 ], "health_chance": [ 0.2 ] },
     "show_in_info": true,
     "flags": [ "WASHABLE_EFFECT" ]
   },
