@@ -2125,7 +2125,18 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "CLIMBS", "SMALL_HIDER" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "CLIMBS",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_fox_red",
@@ -2673,7 +2684,7 @@
       "KEENNOSE",
       "CAN_BE_CULLED",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
@@ -2764,7 +2775,7 @@
       "CAN_BE_CULLED",
       "GOODHEARING",
       "EATS",
-	  "SMALL_HIDER"
+      "SMALL_HIDER"
     ]
   },
   {
