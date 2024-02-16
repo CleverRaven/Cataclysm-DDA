@@ -90,7 +90,7 @@
     "type": "item_group",
     "id": "firearm_slings",
     "//": "Slings that belong on a firearm.",
-    "items": [ [ "shoulder_strap_simple", 50 ], [ "single_sling", 25 ], [ "shoulder_strap", 25 ] ]
+    "items": [ [ "shoulder_strap_simple", 50 ], [ "shoulder_strap", 25 ] ]
   },
   {
     "type": "item_group",
