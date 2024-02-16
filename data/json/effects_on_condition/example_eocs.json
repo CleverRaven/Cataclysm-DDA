@@ -517,5 +517,18 @@
       { "u_set_talker": { "global_val": "u_character_id" } },
       { "u_message": "Your character id is <global_val:u_character_id>" }
     ]
+  },
+  {
+    "id": "EOC_add_unbreakable_attribute_to_item",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "true_eocs": {
+          "id": "_EOC_add_unbreakable_attribute_to_item",
+          "effect": [ { "npc_set_flag": "UNBREAKABLE" }, { "npc_set_flag": "UNBREAKABLE_INFO" } ]
+        }
+      }
+    ]
   }
 ]
