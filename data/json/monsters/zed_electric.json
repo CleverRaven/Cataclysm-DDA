@@ -19,7 +19,6 @@
     "special_attacks": [ [ "PARROT", 8 ], [ "SHOCKSTORM", 15 ], { "id": "smash", "throw_strength": 36, "cooldown": 30 } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "upgrades": false,
-    "armor": { "bash": 3, "cut": 8, "bullet": 6 },
     "extend": { "families": [ "prof_electromagnetics" ], "flags": [ "ELECTRIC", "RANGED_ATTACKER" ] }
   },
   {
