@@ -71,6 +71,7 @@ jobs:
         emsdk activate ccache-git-emscripten-64bit
         export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
         echo $PATH
+        export EM_CONFIG=$EMSDK/.emscripten
         ccache --zero-stats
         # Increase cache size because debug builds generate large object files
         ccache -M 5G
