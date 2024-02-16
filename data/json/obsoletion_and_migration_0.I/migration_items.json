@@ -600,7 +600,7 @@
     "id": "ballistic_vest_heavy_legs",
     "type": "MIGRATION",
     "replace": "ballistic_vest_heavy",
-    "contents": [ { "id": "iotv_groin_plate", "count": 1 } { "id": "iotv_neck_plate", "count": 1 }  ]
+    "contents": [ { "id": "iotv_groin_plate", "count": 1 }, { "id": "iotv_neck_plate", "count": 1 }  ]
   },
   {
     "id": "conical_hat",
