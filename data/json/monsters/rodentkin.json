@@ -43,7 +43,19 @@
     "stomach_size": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "KEENNOSE",
+      "CANPLAY",
+      "WARM",
+      "SWIMS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "EATS",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_big_rat",

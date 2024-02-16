@@ -2373,7 +2373,18 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "SWIMS", "SMALL_HIDER" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "SWIMS",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_moose",
@@ -3214,7 +3225,7 @@
     "dissect": "dissect_cattle_sample_single",
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
     "upgrades": { "age_grow": 500, "into": "mon_reindeer" },
-	"extend": { "flags": [ "SMALL_HIDER" ] }
+    "extend": { "flags": [ "SMALL_HIDER" ] }
   },
   {
     "id": "mon_llama_calf",
@@ -3332,7 +3343,18 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_monster": "mon_ferret_kit", "baby_count": 5, "baby_timer": 100 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "CANPLAY", "CAN_BE_CULLED", "SMALL_HIDER" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "SWIMS",
+      "WARM",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_ferret_kit",
