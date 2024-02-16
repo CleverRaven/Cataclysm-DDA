@@ -28,9 +28,27 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "bile_stink",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": { "and": [ { "u_has_flag": "BILE_AFFLICTED" }, { "not": { "u_has_trait": "BILE_STINK" } } ] },
+    "effect": [
+      { "u_add_trait": "BILE_STINK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bile_unstink",
+    "recurrence": [ "3 minutes", "10 minutes" ],
+    "condition": { "not": { "u_has_flag": "BILE_AFFLICTED" } },
+    "effect": [
+      { "u_lose_trait": "BILE_STINK" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "acid_wash_off_check",
     "recurrence": [ "2 seconds", "4 seconds" ],
-    "condition": { "and": [ "u_is_underwater", { "u_has_flag": "WASHABLE_EFFECT" } ] },
+    "condition": { "and": [ "u_is_underwater", { "or": [ { "u_has_flag": "ACID_AFFLICTED" }, { "u_has_flag": "BILE_AFFLICTED" } ] } ] },
     "effect": [
       {
         "foreach": "ids",

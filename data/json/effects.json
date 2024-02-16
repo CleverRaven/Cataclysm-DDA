@@ -2017,7 +2017,7 @@
       "vomit_chance": [ 500, 0 ],
       "health_chance": [ 1 ],
       "health_min": [ -1 ],
-      "health_chance_bot": [ 100, 0 ]
+      "health_chance_bot": [ 1000, 0 ]
     },
     "max_duration": "30 s",
     "limb_score_mods": [
@@ -2025,7 +2025,7 @@
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",
@@ -2035,9 +2035,9 @@
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
-    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 120, 0 ] },
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 1000, 0 ] },
     "max_duration": "30 s",
-    "flags": [ "WASHABLE_EFFECT" ]
+    "flags": [ "WASHABLE_EFFECT", "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",
@@ -3718,7 +3718,7 @@
       "You're covered in an alarming amount of acid!",
       "You're bathed in acid!"
     ],
-    "apply_message": "You're covered in acid!",
+    "apply_message": "You're doused with acid!",
     "rating": "bad",
     "resist_traits": [ "SLIMY" ],
     "immune_flags": [ "ACID_IMMUNE" ],
@@ -3729,36 +3729,18 @@
     "base_mods": {
       "hurt_min": [ 1 ],
       "hurt_chance": [ 1 ],
+      "hurt_max": [ 2 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 1 ],
+      "pain_chance_bot": [ 2, 8 ],
       "health_chance": [ 1 ],
       "health_min": [ -1 ],
-      "hurt_chance_bot": [ 6, 24 ],
-      "health_chance_bot": [ 240, 720 ]
+      "hurt_chance_bot": [ 2, 8 ],
+      "health_chance_bot": [ 1920, 7680 ]
     },
-    "scaling_mods": { "hurt_chance": [ 0.6 ], "health_chance": [ 0.2 ] },
+    "scaling_mods": { "hurt_amount": [ 0.3 ], "health_chance": [ 1 ] },
     "show_in_info": true,
-    "flags": [ "WASHABLE_EFFECT" ]
-  },
-  {
-    "type": "effect_type",
-    "id": "corroding_prosthetic",
-    "name": [ "Acid Splattered", "Acid Splashed", "Acid Showered", "Acid Soaked", "Acid Drenched" ],
-    "desc": [
-      "You've got a little bit of acid on you.",
-      "You've got a small amount of acid on you.",
-      "There's a fair amount of acid on you.",
-      "You're covered in an alarming amount of acid!",
-      "You're bathed in acid!"
-    ],
-    "apply_message": "You're covered in acid!",
-    "rating": "bad",
-    "max_duration": "30 s",
-    "max_intensity": 5,
-    "int_dur_factor": "5 s",
-    "//": "Doesn't harm lifestyle as it's not reacting with your anatomy.",
-    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 1 ], "health_chance": [ 1 ], "health_min": [ -1 ], "hurt_chance_bot": [ 10, 30 ] },
-    "scaling_mods": { "hurt_chance": [ 1 ] },
-    "show_in_info": true,
-    "flags": [ "WASHABLE_EFFECT" ]
+    "flags": [ "ACID_AFFLICTED" ]
   },
   {
     "type": "effect_type",
