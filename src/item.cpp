@@ -8667,7 +8667,7 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
         if( !armor_mats.empty() ) {
             // Physical enviro attacks (ie acid) try to damage the surface layers of armor and do not respect
             // thickness - when it comes to chemicals, a material burns, or it does not. Nonphysical attacks
-            // don't respect thickness, but average the protection of all layers, surface or no. Acid rolls 
+            // don't respect thickness, but average the protection of all layers, surface or no. Acid rolls
             // for portion total (and thus can bypass layers that dont fully cover),
             // other stuff doesn't.
             const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
@@ -8698,7 +8698,7 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                             }
                         }
                     }
-                resist += tmp_add;
+                    resist += tmp_add;
                 }
             }
             const int env = get_env_resist( resist_value );
@@ -8724,13 +8724,13 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                 tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
             } else {
                 tmp_add = m.first->resist( dmg_type ) * m.second;
-                }
+            }
         }
-            resist += tmp_add;
+        resist += tmp_add;
         // Average by portion of materials
         resist /= total;
     }
-        return resist + mod;
+    return resist + mod;
 }
 
 #if defined(_MSC_VER)
