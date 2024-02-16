@@ -228,8 +228,8 @@
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "arvore_vine_drag_spell",
-          "message_success": "Vines lash out and drag your target in!",
-          "message_fail": "You are too parched to lash out with any vines."
+          "message_success": { "i18n": true, "str": "Vines lash out and drag your target in!" },
+          "message_fail": { "i18n": true, "str": "You are too parched to lash out with any vines." }
         }
       }
     ]

@@ -24,6 +24,7 @@
     - [The `relic_data` field](#the-relic_data-field)
     - [Variables](#variables)
     - [ID values](#id-values)
+	- [Enchantments on monsters](#enchantments-on-monsters)
     - [Enchantment value examples](#enchantment-value-examples)
 
 
@@ -855,6 +856,7 @@ Character status value  | Description
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
+`SPEED`                 | Affects your base speed.
 `RANGE`                 | Modifies your characters range with firearms
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.
@@ -892,6 +894,22 @@ Enchanted item value | Description
 `ITEM_ARMOR_STAB`    | 
 `ITEM_ATTACK_SPEED`  | 
 
+### Enchantments on monsters
+A small subset of enchantments can be applied to monsters via effects. These are listed below:
+
+Character status value  | Description
+---                     |---
+`ARMOR_ACID`            | Negative values give armor against the damage, positive values make the monster accept more damage of this type.
+`ARMOR_BASH`            | 
+`ARMOR_BIO`             | 
+`ARMOR_BULLET`          | 
+`ARMOR_COLD`            | 
+`ARMOR_CUT`             | 
+`ARMOR_ELEC`            | 
+`ARMOR_HEAT`            | 
+`ARMOR_STAB`            | 
+`REGEN_HP`              | Affects the rate the monster recovers hp.
+`SPEED`                 | Affects the base speed of the monster.
 
 ### Enchantment value examples
 
