@@ -140,6 +140,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lmoe_dead_mage",
+    "//": "lore: a dead mage.  Maybe killed in some kind of magical ritual that the portal storms messed up, maybe they went feral and their defense golems killed them, maybe they tried to summon a star vampire and it went out of control.",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],

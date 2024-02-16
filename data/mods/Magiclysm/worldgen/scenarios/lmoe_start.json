@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "last_mage_on_earth" ],
+    "om_terrain": [ "last_mage_on_earth_shelter" ],
     "//": "Empty LMOE shelter built for a wizard.",
     "weight": 40,
     "object": {

@@ -544,7 +544,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "last_mage_on_earth" ],
+    "id": [ "last_mage_on_earth_shelter" ],
     "copy-from": "lmoe_under_empty"
   }
 ]
