@@ -4249,19 +4249,19 @@
       { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "rivolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
     ],
-    "description": "A simple, if rather crewed, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.",
+    "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.",
     "snippet_category": [
       {
         "id": "pistol_pendent1",
-        "text": "A simple, if rather crewed, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell’s neck has been daintily drilled through with two tiny holes on opposite sides, through which the cord has been fed and tied off to form a poor man’s excuse for a chain, and from where the cartridge hangs, dimpled primer-down."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell’s neck has been daintily drilled through with two tiny holes on opposite sides, through which the cord has been fed and tied off to form a poor man’s excuse for a chain, and from where the cartridge hangs, dimpled primer-down."
       },
       {
         "id": "pistol_pendent2",
-        "text": "A simple, if rather crewed, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The dimpled section of the shell’s primer has been punched out, and a second hole has been drilled through the casing’s side just shy of the base, with the ballistic accoutrement hanging from a section of tied-off cord that has been threaded through both entry points."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The dimpled section of the shell’s primer has been punched out, and a second hole has been drilled through the casing’s side just shy of the base, with the ballistic accoutrement hanging from a section of tied-off cord that has been threaded through both entry points."
       },
       {
         "id": "pistol_pendent3",
-        "text": "A simple, if rather crewed, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell’s throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant’s sides, through which a length of string has been threaded.  The cord’s loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell’s throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant’s sides, through which a length of string has been threaded.  The cord’s loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
       }
     ],
     "weight": "24 g",
@@ -4288,19 +4288,19 @@
       { "type": "COMPONENT_ID", "condition": "450_casing", "name": { "str": "Thumper-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str": "Thumper-cartridge necklace" } }
     ],
-    "description": "Rather crewed and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.",
+    "description": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.",
     "snippet_category": [
       {
         "id": "rifle_pendent1",
-        "text": "Rather crewed and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The cartridge’s neck has been carefully drilled through, leaving behind a tiny hole on either side of the shell’s throat through which the cord has been fed and tied off, forming a pedestrian facsimile of a chain from where the round hangs, primer-down."
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The cartridge’s neck has been carefully drilled through, leaving behind a tiny hole on either side of the shell’s throat through which the cord has been fed and tied off, forming a pedestrian facsimile of a chain from where the round hangs, primer-down."
       },
       {
         "id": "rifle_pendent2",
-        "text": "Rather crewed and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The primer’s indented portion has been drilled away, with a second hole situated in the casing’s side just shy of the base and a length of tied-off cordage looping through both entry points to form a makeshift chain for the apparel."
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The primer’s indented portion has been drilled away, with a second hole situated in the casing’s side just shy of the base and a length of tied-off cordage looping through both entry points to form a makeshift chain for the apparel."
       },
       {
         "id": "rifle_pendent3",
-        "text": "Rather crewed and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The jaws of a set of pliers have twisted closed the cartridge’s throat with a spiral flourish, while a hole has been drilled through opposite sides of the pendant’s shoulder, through which a loop of cord has been threaded.  The string’s loose ends have been wrapped several times around the casing in a vague X-pattern before being tied off, creating a form of mini-bullet cocoon."
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The jaws of a set of pliers have twisted closed the cartridge’s throat with a spiral flourish, while a hole has been drilled through opposite sides of the pendant’s shoulder, through which a loop of cord has been threaded.  The string’s loose ends have been wrapped several times around the casing in a vague X-pattern before being tied off, creating a form of mini-bullet cocoon."
       }
     ],
     "weight": "25 g",
@@ -4334,19 +4334,19 @@
       { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordinance necklace" } },
       { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordinance necklace" } }
     ],
-    "description": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
+    "description": "An expedient means of flaunting one’s gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
     "snippet_category": [
       {
         "id": "ordinance_pendent1",
-        "text": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The shell’s neck has been carefully tapped, leaving a hole on either side of the casing’s throat through which the makeshift neck chain has been fed and tied off."
+        "text": "An expedient means of flaunting one’s gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The shell’s neck has been carefully tapped, leaving a hole on either side of the casing’s throat through which the makeshift neck chain has been fed and tied off."
       },
       {
         "id": "ordinance_pendent2",
-        "text": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The centre of the shell’s struck primer has been punched out, and a second hole has been drilled shy of the rim, with a section of tied-off cordage stringing through both entry points to form a makeshift neck chain."
+        "text": "An expedient means of flaunting one’s gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The centre of the shell’s struck primer has been punched out, and a second hole has been drilled shy of the rim, with a section of tied-off cordage stringing through both entry points to form a makeshift neck chain."
       },
       {
         "id": "ordinance_pendent3",
-        "text": "An expedient means of flaunting one’s gunnery prowess, or a crewed attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The jaws of a set of pliers have been laid to work, with the shell's neck twisted closed in a tapered spiral, while a hole has been bored through opposite sides of the cartridge’s base, through which a loop of cord has been tugged.  The string’s loose ends have been wrapped around the casing in a serpentine pattern before being tied off, creating a manner of bullet cocoon."
+        "text": "An expedient means of flaunting one’s gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The jaws of a set of pliers have been laid to work, with the shell's neck twisted closed in a tapered spiral, while a hole has been bored through opposite sides of the cartridge’s base, through which a loop of cord has been tugged.  The string’s loose ends have been wrapped around the casing in a serpentine pattern before being tied off, creating a manner of bullet cocoon."
       }
     ],
     "weight": "37 g",
