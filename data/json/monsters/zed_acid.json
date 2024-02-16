@@ -28,7 +28,12 @@
     "harvest": "zombie_humanoid_acid",
     "grab_strength": 20,
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "acid_barf", "min_level": 3 }, "monster_message": "The %s barfs acid!", "cooldown": 10 },
+      {
+        "type": "spell",
+        "spell_data": { "id": "acid_barf", "min_level": 3 },
+        "monster_message": "The %s barfs acid!",
+        "cooldown": 10
+      },
       { "id": "grab" }
     ],
     "death_drops": "default_zombie_death_drops",
