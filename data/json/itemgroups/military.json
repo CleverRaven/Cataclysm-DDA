@@ -26,21 +26,16 @@
         "variant": "modular_m4a1",
         "prob": 88,
         "charges": [ 0, 30 ],
-        "contents-group": [ "gunmod_carbine_sights_army", "firearm_slings" ]
+        "contents-group": "gunmod_army_loadout"
       },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
         "prob": 10,
         "charges": [ 0, 30 ],
-        "contents-group": [ "gunmod_carbine_sights_army", "firearm_slings" ]
+        "contents-group": "gunmod_army_loadout"
       },
-      {
-        "item": "modular_m16a4",
-        "prob": 2,
-        "charges": [ 0, 30 ],
-        "contents-group": [ "gunmod_carbine_sights_army", "firearm_slings" ]
-      }
+      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "gunmod_army_loadout" }
     ]
   },
   {
