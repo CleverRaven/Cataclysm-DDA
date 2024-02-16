@@ -94,6 +94,13 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "gunmod_army_loadout",
+    "//": "Weapon mod loadouts that represent the average US Army rifleman.",
+    "entries": [ { "group": "firearm_slings" }, { "group": "gunmod_carbine_sights_army" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_rifle",
     "//": "Aftermarket sights that are for rifles.",
     "items": [
