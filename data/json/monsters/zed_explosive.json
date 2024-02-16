@@ -103,12 +103,7 @@
         "spell_data": { "id": "bile_spew", "min_level": 5 },
         "monster_message": "The %s spews bile!",
         "cooldown": 20,
-        "condition": {
-          "and": [
-            { "not": { "u_is_underwater": "true" } },
-            { "not": { "npc_is_underwater": "true" } }
-          ]
-        }
+        "condition": { "and": [ { "not": { "u_is_underwater": "true" } }, { "not": { "npc_is_underwater": "true" } } ] }
       },
       { "id": "grab" },
       { "id": "bite_humanoid" },
