@@ -1541,10 +1541,11 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     }
 
     // Filter out bodypart immunity
-    for( json_character_flag flag : eff_id->immune_bp_flags )
+    for( json_character_flag flag : eff_id->immune_bp_flags ) {
         if( bp->has_flag( flag ) ) {
             return;
         }
+    }
 
     // Then check if the effect is blocked by another
     for( auto &elem : *effects ) {

@@ -7206,7 +7206,7 @@ void Character::update_stamina( int turns )
             stamina_recovery += bonus;
             bonus /= 10;
             bonus = std::max( bonus, 1 );
-            mod_power_level( units::from_kilojoule( -bonus ) );
+            mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -bonus ) ) );
         }
     }
 
@@ -9794,7 +9794,8 @@ units::energy Character::available_ups() const
 
     if( is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
-        available_charges += units::from_kilojoule( mons->battery_item->ammo_remaining() );
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>
+                             ( mons->battery_item->ammo_remaining() ) );
     }
 
     bool has_bio_powered_ups = false;
@@ -9808,7 +9809,7 @@ units::energy Character::available_ups() const
     }
 
     cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
-        available_charges += units::from_kilojoule( it.ammo_remaining() );
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining() ) );
     } );
 
     return available_charges;
@@ -9875,7 +9876,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } else if( what == itype_UPS ) {
         // Fairly sure that nothing comes here. But handle it anyways.
         debugmsg( _( "This UPS use needs updating.  Create issue on github." ) );
-        consume_ups( units::from_kilojoule( qty ), radius );
+        consume_ups( units::from_kilojoule( static_cast<std::int64_t>( qty ) ), radius );
         return res;
     }
 
@@ -9908,7 +9909,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     if( has_tool_with_UPS ) {
-        consume_ups( units::from_kilojoule( qty ), radius );
+        consume_ups( units::from_kilojoule( static_cast<std::int64_t>( qty ) ), radius );
     }
 
     return res;

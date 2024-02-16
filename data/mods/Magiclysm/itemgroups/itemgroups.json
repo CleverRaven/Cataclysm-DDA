@@ -612,6 +612,7 @@
       { "group": "spellbook_loot_2", "prob": 20 },
       { "group": "enchanted_misc", "prob": 5 },
       { "group": "enchanted_cloaks_rare", "prob": 10 },
+      { "group": "items_of_elvenkind", "prob": 5 },
       { "item": "denarius", "prob": 40, "count-min": 27, "count-max": 98 }
     ]
   },
@@ -1491,6 +1492,7 @@
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "plant_spellbook", "prob": 10 },
+          { "group": "items_of_elvenkind", "prob": 5 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
@@ -1724,6 +1726,17 @@
       { "item": "gold_small", "prob": 20, "count": [ 120, 390 ] },
       { "item": "denarius", "prob": 20, "count": [ 20, 90 ] },
       { "item": "silver_small", "prob": 5, "count": [ 68, 560 ] }
+    ]
+  },
+  {
+    "id": "items_of_elvenkind",
+    "type": "item_group",
+    "//": "all the elven items.",
+    "subtype": "collection",
+    "items": [
+      { "item": "cloak_of_elvenkind", "prob": 10 },
+      { "item": "boots_of_elvenkind", "prob": 10 },
+      { "item": "bow_of_elvenkind", "prob": 1 }
     ]
   },
   {
