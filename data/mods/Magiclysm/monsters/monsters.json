@@ -784,5 +784,68 @@
       "ELECTRIC"
     ],
     "armor": { "bash": 7, "cut": 7, "bullet": 7, "electric": 50 }
+  },
+  {
+    "id": "mon_ankheg",
+    "type": "MONSTER",
+    "name": { "str": "ankheg" },
+    "description": "A huge, segmented, burrowing insect, two meters long and pale greenish-yellow in color.",
+    "default_faction": "magical_beast",
+    "bodytype": "snake",
+    "species": [ "MAGICAL_BEAST" ],
+    "volume": "92500 ml",
+    "weight": "120 kg",
+    "hp": 120,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "A",
+    "color": "light_green",
+    "aggression": 0,
+    "morale": 100,
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 3,
+    "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_bug" ],
+    "weakpoint_sets": [ "wps_arthropod" ],
+    "harvest": "arachnid_acid",
+    "dissect": "dissect_troglobite_sample_small",
+    "fear_triggers": [ "FIRE" ],
+    "special_attacks": [
+      { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
+      {
+        "type": "bite",
+        "id": "ankheg_bite_with_acid",
+        "cooldown": 3,
+        "move_cost": 110,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 12 } ],
+        "infection_chance": 5,
+        "effects": [ { "id": "corroding", "duration": 500, "affect_hit_bp": true } ],
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+      },
+      {
+        "type": "bite",
+        "id": "ankheg_bite_without_acid",
+        "cooldown": 3,
+        "move_cost": 110,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 12 } ],
+        "infection_chance": 5,
+        "//": "After using acid attack below, acid is expended",
+        "condition": { "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "u_has_effect": "maimed_acid_gland" } ] }
+      },
+      {
+        "id": "mon_ankheg_acid_barf",
+        "type": "spell",
+        "spell_data": { "id": "ankheg_acid_spit", "min_level": 3 },
+        "cooldown": 1,
+        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "50" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+      },
+      [ "EAT_FOOD", 60 ],
+      [ "EAT_CARRION", 60 ]
+    ],
+    "zombify_into": "mon_meat_cocoon_med",
+    "flags": [ "SEES", "HEARS", "EATS", "BASHES", "DIGS" ],
+    "armor": { "bash": 6, "electric": 3, "acid": 30, "poison": 15 }
   }
 ]
