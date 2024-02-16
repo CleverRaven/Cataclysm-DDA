@@ -442,6 +442,11 @@ bool npc::could_move_onto( const tripoint &p ) const
     return true;
 }
 
+bool npc::could_move_onto( const tripoint_bub_ms &p ) const
+{
+    return could_move_onto( p.raw() );
+}
+
 std::vector<sphere> npc::find_dangerous_explosives() const
 {
     std::vector<sphere> result;
@@ -1632,9 +1637,9 @@ void npc::execute_action( npc_action action )
         case npc_sleep: {
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
-            int best_sleepy = sleep_spot( pos() );
-            tripoint best_spot = pos();
-            for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
+            tripoint_bub_ms best_spot = pos_bub();
+            int best_sleepy = sleep_spot( best_spot );
+            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1651,7 +1656,7 @@ void npc::execute_action( npc_action action )
             }
             update_path( best_spot );
             // TODO: Handle empty path better
-            if( best_spot == pos() || path.empty() ) {
+            if( best_spot == pos_bub() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
@@ -2832,6 +2837,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     }
 
     return false;
+}
+
+bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool force )
+{
+    return update_path( p.raw(), no_bashing, force );
 }
 
 void npc::set_guard_pos( const tripoint_abs_ms &p )

@@ -6337,6 +6337,11 @@ time_duration map::get_field_age( const tripoint_bub_ms &p, const field_type_id 
 
 int map::get_field_intensity( const tripoint &p, const field_type_id &type ) const
 {
+    return get_field_intensity( tripoint_bub_ms( p ), type );
+}
+
+int map::get_field_intensity( const tripoint_bub_ms &p, const field_type_id &type ) const
+{
     const field_entry *field_ptr = get_field( p, type );
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
