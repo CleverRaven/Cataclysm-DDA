@@ -896,6 +896,10 @@ Snippets also support the color codes
 "<color_yellow_red>Biohazard</color>",
 ```
 
+To use literal `<` and `>` characters in a snippet, escape them with `<lt>` and
+`<gt>`. For example, `<lt>swear<gt>` expands into `<swear>` rather than any
+snippet in the `<swear>` category.
+
 ### Addiction types
 
 Addictions are defined in JSON using `"addiction_type"`:
