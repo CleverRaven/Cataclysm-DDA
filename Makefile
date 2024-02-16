@@ -636,8 +636,8 @@ ifeq ($(NATIVE), emscripten)
   CXX=emcc
   LD=emcc
   ifeq ($(CCACHE), 1)
-    CXX=ccache emcc
-    LD=ccache emcc
+    CXX=$(CCACHEBIN) emcc
+    LD=$(CCACHEBIN) emcc
   endif
 
   # Flags that are common across compile and link phases.
