@@ -582,7 +582,7 @@ void veh_app_interact::populate_app_actions()
     app_actions.emplace_back( [this]() {
         remove();
     } );
-    imenu.addentry( -1, veh->can_unmount( vp ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
+    imenu.addentry( -1, veh->can_unmount( vp, true ).success(), ctxt.keys_bound_to( "REMOVE" ).front(),
                     ctxt.get_action_name( "REMOVE" ) );
     // Plug
     app_actions.emplace_back( [this]() {

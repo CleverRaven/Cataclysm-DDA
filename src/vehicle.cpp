@@ -1289,7 +1289,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
     return ret_val<void>::make_success();
 }
 
-ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove ) const
+ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove, bool allow_splits ) const
 {
     const vpart_info &vpi_to_remove = vp_to_remove.info();
     const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
@@ -1357,7 +1357,7 @@ ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove ) const
         }
     }
 
-    if( adjacent_parts.size() > 1 ) {
+    if( !allow_splits && adjacent_parts.size() > 1 ) {
         // Reaching here means there is more than one adjacent tile, which means it's possible
         // for removal of this part to split the vehicle in two or more disjoint parts, for
         // example removing the middle section of a quad bike. To prevent that we'll run BFS
