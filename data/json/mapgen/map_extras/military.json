@@ -15,7 +15,8 @@
     "id": "military_squad_guns",
     "subtype": "distribution",
     "groups": [
-      [ "military_standard_assault_rifles", 80 ],
+      [ "military_standard_assault_rifles", 30 ],
+      [ "military_standard_assault_rifles_sighted", 50 ],
       [ "military_standard_lmgs", 10 ],
       [ "military_standard_sniper_rifles", 5 ],
       [ "military_standard_shotguns", 5 ]
