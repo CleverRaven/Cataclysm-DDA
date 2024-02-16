@@ -3117,6 +3117,7 @@ class Character : public Creature, public visitable
         void enchantment_wear_change();
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
+        void on_worn_item_soiled( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
         void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */

@@ -14,6 +14,8 @@
 #include "melee.h"
 #include "memorial_logger.h"
 #include "messages.h"
+#include "morale.h"
+#include "morale_types.h"
 #include "mutation.h"
 #include "output.h"
 
@@ -2026,6 +2028,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
                     add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true ),
                                             armor.tname() );
                     armor.set_flag( json_flag_FILTHY );
+                    guy.on_worn_item_soiled( armor );
                 }
                 // If this is an armor-damaging liquid, the damage is relative to fluid_remaining
                 // and the coverage of the item.
