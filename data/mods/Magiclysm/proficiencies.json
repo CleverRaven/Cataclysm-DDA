@@ -192,5 +192,41 @@
     "default_skill_penalty": 0.2,
     "time_to_learn": "32 h",
     "required_proficiencies": [ "prof_magic_summon_apprentice" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enhancement_beginner",
+    "category": "prof_magic_casting",
+    "name": { "str": "Novice Enhancement" },
+    "//": "This covers anything that improves a target, such as making oneself more intelligent or strong.",
+    "description": "You're familiar with improving a creature by way of magical enhancement.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "8 h"
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enhancement_apprentice",
+    "category": "prof_magic_casting",
+    "name": { "str": "Apprentice Enhancement" },
+    "description": "You're proficient in boosting the capabilities of your subject with magic.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "16 h",
+    "required_proficiencies": [ "prof_magic_enhancement_beginner" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_magic_enhancement_master",
+    "category": "prof_magic_casting",
+    "name": { "str": "Master Enhancement" },
+    "description": "You've mastered the art of improving yourself and others with the power of magical incantations.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 0.2,
+    "time_to_learn": "32 h",
+    "required_proficiencies": [ "prof_magic_enhancement_apprentice" ]
   }
 ]
