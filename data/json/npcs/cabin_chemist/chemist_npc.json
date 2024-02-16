@@ -115,7 +115,10 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "It's nice to see you again <u_name>.  What can I do for you?",
-      "no": "It's nice to see a new face around here.  I'm <npc_name>, it's a pleasure meeting you."
+      "no": {
+        "gendered_line": "It's nice to see a new face around here.  I'm <npc_name>, it's a pleasure meeting you.",
+        "relevant_genders": [ "npc" ]
+      }
     },
     "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -155,15 +158,24 @@
       "type": "dialogue",
       "context": "story",
       "value": "yes",
-      "yes": "Like I said before, I'm a chemist.  I've been living out here for a while, decided to set up shop in this old cabin.  I even found some good equipment out here, and a couple useful things here in the cupboards.  I decided to stay right here.",
-      "no": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Lucky enough, I even found some good equipment out here, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in."
+      "yes": {
+        "gendered_line": "Like I said before, I'm a chemist.  I've been living out here for a while, decided to set up shop in this old cabin.  I even found some good equipment out here, and a couple useful things here in the cupboards.  I decided to stay right here.",
+        "relevant_genders": [ "npc" ]
+      },
+      "no": {
+        "gendered_line": "I used to be a chemist.  Well, I am a chemist.  I've been living out here in the wilderness for a little while now since <the_cataclysm>.  Lucky enough, I even found some good equipment out here, though unfortunately missing some of the more sensitive and expensive stuff.  I found a couple useful things here in the cupboards, but other than that, entirely empty.  So, I moved in.",
+        "relevant_genders": [ "npc" ]
+      }
     },
     "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_NPC_CABIN_CHEMIST_HOME",
-    "dynamic_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here, that's all I'm saying.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+    "dynamic_line": {
+      "gendered_line": "Not my place, just somewhere I ended up.  Some old shack, maybe a hunting cabin or something more… criminal, at least judging by some of what I found on the shelves.  You certainly wouldn't attract much attention synthesizing illegal substances all the way out here, that's all I'm saying.  I found it while I was trying to escape all the <zombies> in the city, and I decided to stay.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Hmm.", "topic": "TALK_NONE" } ]
   },
   {
@@ -283,7 +295,7 @@
   {
     "id": "TALK_CABIN_CHEMIST_BULK_SELL_END",
     "type": "talk_topic",
-    "dynamic_line": [ "Is there anything else you need?" ],
+    "dynamic_line": "Is there anything else you need?",
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
       {
