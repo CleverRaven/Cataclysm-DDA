@@ -692,7 +692,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4,
+    "fun": 2,
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
@@ -711,7 +711,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 7,
+    "fun": 4,
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
