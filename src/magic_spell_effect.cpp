@@ -562,6 +562,9 @@ static void damage_targets( const spell &sp, Creature &caster,
         if( !cr ) {
             continue;
         }
+        if( cr->is_underwater() ) {
+            continue;
+        }
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );
         const int spell_accuracy = sp.accuracy( caster );
         if( dodgeable ) {

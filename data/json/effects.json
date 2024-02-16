@@ -2037,7 +2037,7 @@
     "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
     "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 1000, 0 ] },
     "max_duration": "30 s",
-    "flags": [ "WASHABLE_EFFECT", "BILE_AFFLICTED" ]
+    "flags": [ "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",
@@ -3718,7 +3718,7 @@
       "You're covered in an alarming amount of acid!",
       "You're bathed in acid!"
     ],
-    "apply_message": "You're doused with acid!",
+    "apply_message": "You're covered in acid!",
     "rating": "bad",
     "resist_traits": [ "SLIMY" ],
     "immune_flags": [ "ACID_IMMUNE" ],
