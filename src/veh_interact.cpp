@@ -3367,6 +3367,7 @@ void veh_interact::complete_vehicle( Character &you )
                 veh.shed_loose_parts( trinary::ALL );
                 veh.find_and_split_vehicles( here, { vp_index } );
                 veh.part_removal_cleanup();
+                here.rebuild_vehicle_level_caches();
 
                 if( auto newpart = here.veh_at( act_pos ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
                     vp = &newpart->part();
