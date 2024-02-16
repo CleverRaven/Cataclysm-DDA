@@ -97,7 +97,7 @@
     "subtype": "collection",
     "id": "gunmod_army_loadout",
     "//": "Weapon mod loadouts that represent the average US Army rifleman.",
-    "entries": [ { "group": "firearm_slings" }, { "group": "gunmod_carbine_sights_army" } ]
+    "items": [ { "group": "firearm_slings" }, { "group": "gunmod_carbine_sights_army" } ]
   },
   {
     "type": "item_group",
