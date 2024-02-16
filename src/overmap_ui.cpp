@@ -495,7 +495,8 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
                                            origin.z() ) );
             nc_color bracket_color = note_danger_radius >= 0 ? c_red : c_light_gray;
             std::string danger_desc_text = note_danger_radius >= 0 ? string_format(
-                                               _( "DANGEROUS AREA! (R=%d)" ), note_danger_radius ) : is_dangerous ? _( "IN DANGEROUS AREA!" ) : "";
+                                               _( "DANGEROUS AREA!  (R=%d)" ),
+                                               note_danger_radius ) : is_dangerous ? _( "IN DANGEROUS AREA!" ) : "";
             nmenu.addentry_desc(
                 string_format( colorize( _( "[%s] %s" ), bracket_color ), colorize( note_symbol, note_color ),
                                note_text ),

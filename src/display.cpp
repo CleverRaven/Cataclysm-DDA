@@ -1204,7 +1204,7 @@ std::string display::overmap_position_text( const tripoint_abs_omt &loc )
 std::string display::current_position_text( const tripoint_abs_omt &loc )
 {
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
-        return _( e->string_id );
+        return e->string_id;
     }
     return overmap_buffer.ter( loc )->get_name();
 }

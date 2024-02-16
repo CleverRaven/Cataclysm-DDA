@@ -57,35 +57,35 @@
           {
             "case": 300,
             "effect": [
-              { "set_string_var": "300 BLK", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "300 BLK", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" }, "i18n": true },
               { "set_string_var": "300blk", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
             ]
           },
           {
             "case": 545,
             "effect": [
-              { "set_string_var": "5.45x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "5.45x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" }, "i18n": true },
               { "set_string_var": "545", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
             ]
           },
           {
             "case": 556,
             "effect": [
-              { "set_string_var": "5.56x45", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "5.56x45", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" }, "i18n": true },
               { "set_string_var": "556", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
             ]
           },
           {
             "case": 76239,
             "effect": [
-              { "set_string_var": "7.62x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "7.62x39", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" }, "i18n": true },
               { "set_string_var": "762_m87", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
             ]
           },
           {
             "case": 76251,
             "effect": [
-              { "set_string_var": "7.62x51", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" } },
+              { "set_string_var": "7.62x51", "target_var": { "u_val": "artisans_gunsmith_ammo_source_name" }, "i18n": true },
               { "set_string_var": "762_51", "target_var": { "u_val": "artisans_gunsmith_ammo_source_item" } }
             ]
           }

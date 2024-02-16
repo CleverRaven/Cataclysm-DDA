@@ -303,6 +303,23 @@
     "id": "EOC_FEAR_PARALYZE1",
     "condition": { "not": { "u_has_effect": "effect_telepathic_psi_armor" } },
     "effect": { "run_eocs": [ "EOC_FEAR_PARALYZE2" ] },
-    "false_effect": { "u_message": "Some <npc_name> tries to intrude into your thoughts, but your telepathic shield reflects it!" }
+    "false_effect": {
+      "u_message": "Some <npc_name> tries to intrude into your thoughts, but your telepathic shield reflects it!",
+      "type": "warning"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE",
+    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" } ] },
+    "effect": { "u_message": "You feel a strange reverberation across your body.", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE1",
+    "condition": { "u_has_effect": "effect_telepathic_psi_armor" },
+    "effect": { "u_message": "You sense some <npc_name> trying to enter your mind, but you repel!", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
   }
 ]
