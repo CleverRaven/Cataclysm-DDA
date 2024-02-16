@@ -174,11 +174,7 @@
       "failure": "Sorry, I had to find someone else since you didn't come through."
     },
     "end": {
-      "effect": [
-        { "math": [ "godco_warehouse_in_progress", "=", "1" ] },
-        { "math": [ "n_timer_trade_warehouse_started_building", "=", "time('now')" ] },
-        { "u_spawn_item": "icon", "count": 137 }
-      ],
+      "effect": [ { "queue_eocs": "godco_place_warehouse", "time_in_future": "336 hours" }, { "u_spawn_item": "icon", "count": 137 } ],
       "opinion": { "trust": 7, "value": 6, "anger": -3 }
     }
   },
@@ -307,7 +303,7 @@
     "end": {
       "effect": [
         { "math": [ "darryl_building_coop", "=", "1" ] },
-        { "math": [ "n_timer_trade_coop_in_progress", "=", "time('now')" ] },
+        { "queue_eocs": "godco_place_coop", "time_in_future": "168 hours" },
         { "u_spawn_item": "icon", "count": 6 }
       ]
     }
@@ -934,11 +930,7 @@
     "difficulty": 5,
     "value": 0,
     "end": {
-      "effect": [
-        { "u_spawn_item": "icon", "count": 90 },
-        { "math": [ "kostas_building_garden", "=", "1" ] },
-        { "math": [ "n_timer_trade_herb_garden_in_progress", "=", "time('now')" ] }
-      ]
+      "effect": [ { "u_spawn_item": "icon", "count": 90 }, { "queue_eocs": "godco_place_herb_garden", "time_in_future": "72 hours" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_KOSTAS_3",
@@ -1199,8 +1191,7 @@
     "end": {
       "effect": [
         { "mapgen_update": "helena_planer", "om_terrain": "godco_8" },
-        { "math": [ "wall_in_progress", "=", "1" ] },
-        { "math": [ "n_timer_trade_wall_started_building", "=", "time('now')" ] },
+        { "queue_eocs": "godco_place_wall", "time_in_future": "432 hours" },
         { "u_spawn_item": "icon", "count": 40 }
       ]
     },

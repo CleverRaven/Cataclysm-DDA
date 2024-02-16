@@ -487,7 +487,7 @@
     "weakpoint_sets": [ "wps_netherium_abomination" ],
     "harvest": "zombie_meatslug",
     "//": "Add a demihuman alien anatomy for things like flaming eye's and Mi-go, polyps and other lovecraftian horrors from other dimensions",
-    "special_attacks": [ [ "STARE", 12 ] ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "stare" }, "monster_message": "", "cooldown": 12 } ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "PACIFIST" ],
     "armor": { "bash": 4 }
   },

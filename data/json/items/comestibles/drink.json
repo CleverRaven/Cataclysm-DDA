@@ -923,6 +923,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "orangeade",
+    "copy-from": "lemonade",
+    "name": { "str_sp": "orangeade" },
+    "description": "Cheap orange flavored beverage with limited vitamins."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "grapeade",
+    "copy-from": "lemonade",
+    "name": { "str_sp": "grapeade" },
+    "description": "Cheap grape flavored beverage with limited vitamins."
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "lemonlime",
     "looks_like": "lemonade",
     "name": { "str_sp": "lemon-lime soda" },

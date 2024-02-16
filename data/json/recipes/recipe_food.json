@@ -3218,6 +3218,30 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "orangeade",
+    "id_suffix": "from_mix",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "30 s",
+    "autolearn": true,
+    "components": [ [ [ "orangeade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "grapeade",
+    "id_suffix": "from_mix",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "30 s",
+    "autolearn": true,
+    "components": [ [ [ "grapeade_powder", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "spezi",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",

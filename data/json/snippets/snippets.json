@@ -1,6 +1,18 @@
 [
   {
     "type": "snippet",
+    "category": "<lt>",
+    "text": [ { "text": { "ctxt": "less than symbol", "str": "<", "//~": "Escape sequence, do not translate" } } ],
+    "//": "used to escape < to avoid it intefering with tag parsing"
+  },
+  {
+    "type": "snippet",
+    "category": "<gt>",
+    "text": [ { "text": { "ctxt": "greater than symbol", "str": ">", "//~": "Escape sequence, do not translate" } } ],
+    "//": "used to escape > to avoid it intefering with tag parsing"
+  },
+  {
+    "type": "snippet",
     "category": "<number>",
     "text": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
   },
