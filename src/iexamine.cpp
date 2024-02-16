@@ -5758,15 +5758,7 @@ static void mill_activate( Character &you, const tripoint &examp )
     for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
         item source( mill_type_count.first );
         const item product( source.type->milling_data->into_ );
-        recipe rec;
-
-        for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
-             iter != recipe_dict.end(); iter++ ) {
-            if( iter->first == source.type->milling_data->recipe_ ) {
-                rec = iter->second;
-                break;
-            }
-        }
+        const recipe rec = *source.type->milling_data->recipe_;
 
         if( rec.is_null() ) {
             debugmsg( _( "Failed to find milling recipe for %s." ),
@@ -5777,7 +5769,12 @@ static void mill_activate( Character &you, const tripoint &examp )
             for( int i = 0; i < mill_type_count.second; i++ ) {
                 here.add_item_or_charges( you.pos(), source );
                 you.mod_moves( -you.item_handling_cost( source ) );
-                here.i_rem( examp, &source );
+                for( item &iter : items ) {
+                    if( iter.typeId() == source.typeId() ) {
+                        here.i_rem( examp, &iter );
+                        break;
+                    }
+                }
             }
 
         } else {
@@ -5809,7 +5806,12 @@ static void mill_activate( Character &you, const tripoint &examp )
                 for( int i = 0; i < mill_type_count.second; i++ ) {
                     here.add_item_or_charges( you.pos(), source );
                     you.mod_moves( -you.item_handling_cost( source ) );
-                    here.i_rem( examp, &source );
+                    for( item &iter : items ) {
+                        if( iter.typeId() == source.typeId() ) {
+                            here.i_rem( examp, &iter );
+                            break;
+                        }
+                    }
                 }
             } else {
                 const int batches = mill_type_count.second / lot_size;
@@ -5822,7 +5824,12 @@ static void mill_activate( Character &you, const tripoint &examp )
                     for( int i = 0; i < mill_type_count.second; i++ ) {
                         here.add_item_or_charges( you.pos(), source );
                         you.mod_moves( -you.item_handling_cost( source ) );
-                        here.i_rem( examp, &source );
+                        for( item &iter : items ) {
+                            if( iter.typeId() == source.typeId() ) {
+                                here.i_rem( examp, &iter );
+                                break;
+                            }
+                        }
                     }
                 } else if( process_count != mill_type_count.second ) {
                     add_msg( m_bad,
@@ -5832,14 +5839,17 @@ static void mill_activate( Character &you, const tripoint &examp )
                     for( int i = 0; i < mill_type_count.second - process_count; i++ ) {
                         here.add_item_or_charges( you.pos(), source );
                         you.mod_moves( -you.item_handling_cost( source ) );
-                        here.i_rem( examp, &source );
+                        for( item &iter : items ) {
+                            if( iter.typeId() == source.typeId() ) {
+                                here.i_rem( examp, &iter );
+                                break;
+                            }
+                        }
                     }
                 }
             }
         }
     }
-
-    items = here.i_at( examp );
 
     for( item &it : items ) {
         if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
@@ -6032,15 +6042,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp )
     for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
         const item source( mill_type_count.first );
         const item product( source.type->milling_data->into_ );
-        recipe rec;
-
-        for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
-             iter != recipe_dict.end(); iter++ ) {
-            if( iter->first == source.type->milling_data->recipe_ ) {
-                rec = iter->second;
-                break;
-            }
-        }
+        const recipe rec = *source.type->milling_data->recipe_;
 
         if( rec.is_null() ) {
             debugmsg( _( "Failed to find milling recipe for %s. It wasn't milled." ),
@@ -6246,15 +6248,7 @@ static void mill_load_food( Character &you, const tripoint &examp,
         }
 
         const item product( it.type->milling_data->into_ );
-        recipe rec;
-
-        for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
-             iter != recipe_dict.end(); iter++ ) {
-            if( iter->first == it.type->milling_data->recipe_ ) {
-                rec = iter->second;
-                break;
-            }
-        }
+        const recipe rec = *it.type->milling_data->recipe_;
 
         if( rec.is_null() ) {
             debugmsg( _( "Failed to find milling recipe for %s. It can't be inserted into the mill." ),

@@ -5820,16 +5820,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( parts->test( iteminfo_parts::DESCRIPTION_MILLEABLE ) ) {
 
             const islot_milling &mdata = *type->milling_data;
-
-            recipe rec;
-
-            for( std::map<recipe_id, recipe>::const_iterator iter = recipe_dict.begin();
-                 iter != recipe_dict.end(); iter++ ) {
-                if( iter->first == mdata.recipe_ ) {
-                    rec = iter->second;
-                    break;
-                }
-            }
+            const recipe rec = *mdata.recipe_;
 
             if( rec.is_null() ) {
                 debugmsg( _( "Failed to find milling recipe for %s." ),
