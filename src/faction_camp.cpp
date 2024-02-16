@@ -1674,7 +1674,7 @@ void basecamp::choose_new_leader()
 
 void basecamp::player_eats_meal()
 {
-    const int kcal_to_eat = 3000;
+    int kcal_to_eat = 3000;
     Character &you = get_player_character();
     const int &food_available = you.get_faction()->food_supply.kcal();
     if( you.stomach.contains() >= ( you.stomach.capacity( you ) / 2 ) ) {
@@ -1686,6 +1686,7 @@ void basecamp::player_eats_meal()
         return;
     } else if( food_available <= kcal_to_eat ) {
         add_msg( _( "There's only one meal left.  Guess that's dinner!" ) );
+        kcal_to_eat = food_available;
     }
     nutrients dinner = camp_food_supply( -kcal_to_eat );
     feed_workers( you, dinner, true );
@@ -3763,8 +3764,7 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
         talk_function::companion_skill_trainer( comp, skill, mission_time, difficulty );
     }
 
-    // companions subtracted food when they started the mission, but didn't mod their hunger for
-    // that food.  so add it back in.
+    // Missions that are not fixed_time pay their food costs at the end, instead of up-front.
     int need_food = time_to_food( mission_time - reserve_time );
     faction *yours = get_player_character().get_faction();
     if( yours->food_supply.kcal() < need_food ) {
@@ -3790,8 +3790,8 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     g->reload_npcs();
     validate_assignees();
 
-    //CHECKME: When does this even get called? Are we double-dipping food costs?
-    //feed_workers( comp, camp_food_supply( -need_food ) );
+    // Missions that are not fixed_time can try to draw more food than is in the food supply
+    feed_workers( comp, camp_food_supply( -need_food ) );
     if( has_water() ) {
         comp.set_thirst( 0 );
     }
@@ -5497,9 +5497,12 @@ nutrients basecamp::camp_food_supply( nutrients &change )
         double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
                                   yours->food_supply.calories;
         consumed = yours->food_supply;
-        // Access to this branch is guarded by checks against the food supply, we should only get here via player_eats_meal()
         if( std::abs( change.calories ) > yours->food_supply.calories ) {
             //Whoops, we don't have enough food. Empty the larder! No crumb shall go un-eaten!
+            yours->food_supply.calories -= change.calories;
+            yours->likes_u += yours->food_supply.kcal() / 1250;
+            yours->respects_u += yours->food_supply.kcal() / 625;
+            yours->trusts_u += yours->food_supply.kcal() / 625;
             yours->food_supply *= 0;
             return consumed;
         }
@@ -5509,15 +5512,7 @@ nutrients basecamp::camp_food_supply( nutrients &change )
         return consumed;
     }
     yours->food_supply += change;
-    if( yours->food_supply.kcal() < 0 ) {
-        yours->likes_u += yours->food_supply.kcal() / 1250;
-        yours->respects_u += yours->food_supply.kcal() / 625;
-        yours->trusts_u += yours->food_supply.kcal() / 625;
-        yours->food_supply.calories = 0;
-    }
-
     consumed = change;
-    //TODO: This return value is so that nutrients can actually be consumed by the workers instead of vanishing.
     return consumed;
 }
 
