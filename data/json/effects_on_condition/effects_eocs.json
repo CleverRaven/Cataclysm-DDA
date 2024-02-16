@@ -33,7 +33,7 @@
       ]
     },
     "effect": [
-      { "u_add_effect": "boomered", "target_part": "eyes", "duration": "12 seconds" },
+      { "u_add_effect": "boomered", "target_part": "eyes", "duration": "6 seconds" },
       { "u_lose_effect": "bile", "target_part": "eyes" }
     ]
   },

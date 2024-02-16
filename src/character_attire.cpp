@@ -2021,7 +2021,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
                 if( sp.has_flag( spell_flag::MAKE_FILTHY ) && !armor.has_flag( flag_INTEGRATED ) &&
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
                     !armor.has_flag( flag_AURA ) &&
-                    one_in( 30 - ( 0.1 * armor.breathability( bp ) ) - ( 0.1 * liquid_remaining ) ) ) {
+                    one_in( 25 + ( -0.1 * armor.breathability( bp ) ) - ( 0.1 * liquid_remaining ) ) ) {
                     guy.add_msg_if_player( m_bad, _( "The %s is covered in filth!" ), armor.tname() );
                     add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true ),
                                             armor.tname() );
