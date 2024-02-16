@@ -462,7 +462,7 @@
     "text": [
       "<zombie_humanoid_harvest_general>",
       "<zombie_humanoid_harvest_mushroom_general>",
-      "<zombie_humanoid_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_humanoid_harvest_mushroom_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
@@ -481,7 +481,7 @@
     "category": "<zombie_humanoid_moldy_bone_harvest>",
     "text": [
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_bone_general>",
-      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_mushroom_harvest_general>",
+      "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_mushroom_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_humanoid_harvest_bone_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
@@ -503,7 +503,7 @@
       "<zombie_humanoid_harvest_general>  <zombie_harvest_pupating_general>",
       "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_shadow_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_humanoid_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
+      "<zombie_harvest_pupating_general>  <zombie_humanoid_harvest_general_deeper>"
     ]
   },
   {
@@ -515,7 +515,7 @@
       "<zombie_harvest_pupating_general>",
       "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_hulk_general>  <zombie_humanoid_harvest_general_deeper>",
-      "<zombie_harvest_humanoid_general>  <zombie_humanoid_harvest_general_deeper>",
+      "<zombie_humanoid_harvest_general>  <zombie_humanoid_harvest_general_deeper>",
       "<zombie_harvest_hulk_general>  <zombie_harvest_pupating_general>"
     ]
   }

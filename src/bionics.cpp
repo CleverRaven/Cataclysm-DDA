@@ -694,7 +694,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     int ammo_count = weap.ammo_remaining( this );
     const units::energy ups_drain = weap.get_gun_ups_drain();
     if( ups_drain > 0_kJ ) {
-        ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
+        ammo_count = units::from_kilojoule( static_cast<std::int64_t>( ammo_count ) ) / ups_drain;
     }
 
     // the weapon value from `weapon_value` may be different from `npc_attack_rating`
@@ -1193,7 +1193,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( &ctr );
-            mod_power_level( units::from_kilojoule( -power_use ) );
+            mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -power_use ) ) );
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
