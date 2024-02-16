@@ -26,44 +26,55 @@
         "variant": "modular_m4a1",
         "prob": 40,
         "charges": [ 0, 30 ],
-        "contents-item": "acog_scope"
+        "contents-item": [ "acog_scope", "shoulder_strap_simple" ]
       },
       {
         "item": "modular_m4_carbine",
         "variant": "modular_m4a1",
         "prob": 40,
         "charges": [ 0, 30 ],
-        "contents-item": "red_dot_sight"
+        "contents-item": [ "red_dot_sight", "shoulder_strap_simple" ]
       },
       {
         "item": "modular_m4_carbine",
         "variant": "modular_m4a1",
         "prob": 10,
         "charges": [ 0, 30 ],
-        "contents-item": "holo_sight"
+        "contents-item": [ "holo_sight", "shoulder_strap_simple" ]
       },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
         "prob": 3,
         "charges": [ 0, 30 ],
-        "contents-item": "acog_scope"
+        "contents-item": [ "acog_scope", "shoulder_strap_simple" ]
       },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
         "prob": 3,
         "charges": [ 0, 30 ],
-        "contents-item": "red_dot_sight"
+        "contents-item": [ "red_dot_sight", "shoulder_strap_simple" ]
       },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
         "prob": 2,
         "charges": [ 0, 30 ],
-        "contents-item": "holo_sight"
+        "contents-item": [ "holo_sight", "shoulder_strap_simple" ]
       },
-      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-item": "acog_scope" }
+      {
+        "item": "modular_m16a4",
+        "prob": 1,
+        "charges": [ 0, 30 ],
+        "contents-item": [ "red_dot_sight", "shoulder_strap_simple" ]
+      },
+      {
+        "item": "modular_m16a4",
+        "prob": 1,
+        "charges": [ 0, 30 ],
+        "contents-item": [ "acog_scope", "shoulder_strap_simple" ]
+      }
     ]
   },
   {
