@@ -918,7 +918,7 @@
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 },
       { "name": "the leg", "armor_mult": { "physical": 0.75 }, "coverage": 3 }
     ],
-    "weakpoint_sets": [ " " ],
+    "weakpoint_sets": [  ],
     "special_attacks": [
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 12 } ] },
       { "type": "leap", "cooldown": 5, "max_range": 3 },
@@ -949,7 +949,7 @@
       { "name": "the inside of the mouth", "armor_mult": { "physical": 0.5 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
-    "weakpoint_sets": [ " " ],
+    "weakpoint_sets": [  ],
     "bleed_rate": 0,
     "vision_day": 25,
     "vision_night": 5,
