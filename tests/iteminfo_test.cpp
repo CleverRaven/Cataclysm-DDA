@@ -1203,6 +1203,12 @@ TEST_CASE( "armor_fit_and_sizing", "[iteminfo][armor][fit]" )
            "--\n"
            "* This clothing <color_c_cyan>can be refitted</color>.\n" );
 
+    // Sided armor is show as sided
+    item briefcase( "test_briefcase" );
+    CHECK( item_info_str( briefcase, sided ) ==
+           "--\n"
+           "* This item can be worn on <color_c_cyan>either side</color> of the body.\n" );
+
     item power_armor( "test_power_armor" );
     CHECK_THAT( item_info_str( power_armor, powerarmor ),
                 Catch::EndsWith( "* This gear is a part of power armor.\n" ) );
