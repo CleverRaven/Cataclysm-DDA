@@ -69,6 +69,7 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "red_dot_sight", 100 ],
       [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
@@ -78,6 +79,18 @@
       [ "rm121aux", 10 ],
       [ "sword_bayonet", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunmod_carbine_sights_army",
+    "//": "Sights that are issued by the US Army for the M4 and similar firearms.",
+    "items": [ [ "acog_scope", 30 ], [ "hybrid_sight_4x", 10 ], [ "holo_sight", 20 ], [ "red_dot_sight", 40 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "firearm_slings",
+    "//": "Slings that belong on a firearm.",
+    "items": [ [ "shoulder_strap_simple", 50 ], [ "single_sling", 25 ], [ "shoulder_strap", 25 ] ]
   },
   {
     "type": "item_group",
