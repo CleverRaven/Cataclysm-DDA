@@ -4,8 +4,20 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ] },
-      { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 88,
+        "charges": [ 0, 30 ],
+        "contents-group": "firearm_slings"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m27iar",
+        "prob": 10,
+        "charges": [ 0, 30 ],
+        "contents-group": "firearm_slings"
+      },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m38dmr",
@@ -13,7 +25,7 @@
         "prob": 1,
         "charges": [ 0, 30 ]
       },
-      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ] }
+      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "firearm_slings" }
     ]
   },
   {
@@ -42,7 +54,7 @@
     "type": "item_group",
     "id": "military_grenadier_assault_rifles",
     "subtype": "distribution",
-    "entries": [ { "item": "modular_m4_carbine", "contents-group": "military_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
+    "entries": [ { "item": "modular_m4_carbine", "contents-group": [ "military_grenadier_mods", "firearm_slings" ], "prob": 100, "charges": [ 0, 30 ] } ]
   },
   {
     "id": "armor_plates",
