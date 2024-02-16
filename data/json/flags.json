@@ -2402,12 +2402,5 @@
     "id": "BLEEDSLOW2",
     "type": "json_flag",
     "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
-  },
-  {
-    "id": "UNBREAKABLE_INFO",
-    "type": "json_flag",
-    "//": "This flag is intended to add suffix '(Unbreakable)' to item name",
-    "info": "This item is unbreakable.",
-    "item_suffix": " (Unbreakable)"
   }
 ]
