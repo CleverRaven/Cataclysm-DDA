@@ -292,7 +292,7 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
     "spawns": { "group": "GROUP_OGRE", "population": [ 1, 10 ], "radius": [ 1, 6 ] },
-    "flags": [ "WILDERNESS" ]
+    "flags": [ "WILDERNESS", "RISK_HIGH" ]
   },
   {
     "type": "overmap_special",
@@ -306,7 +306,7 @@
     "city_distance": [ 25, -1 ],
     "//": "Meant for the Last Mage on Earth start",
     "city_sizes": [ 0, 13 ],
-    "occurrences": [ 40, 100 ],
-    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "WILDERNESS" ]
+    "occurrences": [ 1, 2 ],
+    "flags": [ "MAN_MADE", "WILDERNESS" ]
   }
 ]
