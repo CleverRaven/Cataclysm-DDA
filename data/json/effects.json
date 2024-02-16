@@ -2758,8 +2758,7 @@
     "name": [ "Damp", "Wet", "Soaked" ],
     "desc": [ "Your %s is covered in moisture.", "Your %s is wet.", "Your %s is soaked!" ],
     "max_intensity": 3,
-    "part_descs": true,
-    "flags": [ "WET" ]
+    "part_descs": true
   },
   {
     "type": "effect_type",
