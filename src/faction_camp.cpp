@@ -1676,7 +1676,7 @@ void basecamp::player_eats_meal()
 {
     // Make an empty vector, branch logic determines it must be the player
     nutrients dinner = camp_food_supply( -3000 );
-    feed_workers( get_player_character(), dinner );
+    feed_workers( get_player_character(), dinner, true );
 }
 
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
@@ -5523,14 +5523,14 @@ nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
 }
 
 void basecamp::feed_workers( std::vector<std::reference_wrapper <Character>> workers,
-                             nutrients food )
+                             nutrients food, bool is_player_meal )
 {
     const int num_workers = workers.size();
     if( num_workers == 0 ) {
         debugmsg( "feed_workers called without any workers to feed!" );
         return;
     }
-    if( get_option<bool>( "NO_NPC_FOOD" ) ) {
+    if( !is_player_meal && get_option<bool>( "NO_NPC_FOOD" ) ) {
         return;
     }
 
@@ -5538,6 +5538,7 @@ void basecamp::feed_workers( std::vector<std::reference_wrapper <Character>> wor
     food /= num_workers;
     for( auto &worker_reference : workers ) {
         Character &worker = worker_reference.get();
+        worker.add_msg_if_player( _( "You grab a prepared meal from storage and chow down." ) );
         units::volume filling_vol = std::max( 0_ml,
                                               worker.stomach.capacity( worker ) / 2 - worker.stomach.contains() );
         worker.stomach.ingest( food_summary{
@@ -5549,11 +5550,11 @@ void basecamp::feed_workers( std::vector<std::reference_wrapper <Character>> wor
     return;
 }
 
-void basecamp::feed_workers( Character &worker, nutrients food )
+void basecamp::feed_workers( Character &worker, nutrients food, bool is_player_meal )
 {
     std::vector<std::reference_wrapper <Character>> work_party;
     work_party.emplace_back( worker );
-    feed_workers( work_party, food );
+    feed_workers( work_party, food, is_player_meal );
     return;
 }
 
