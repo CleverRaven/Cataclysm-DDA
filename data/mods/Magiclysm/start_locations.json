@@ -14,7 +14,7 @@
   {
     "type": "start_location",
     "id": "sloc_last_mage_on_earth",
-    "name": "Last Mage on Earth",
+    "name": "Last Mage on Earth Shelter",
     "terrain": [ "last_mage_on_earth_shelter" ]
   }
 ]

@@ -140,7 +140,6 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "lmoe_dead_mage",
-    "//": "lore: a dead mage.  Maybe killed in some kind of magical ritual that the portal storms messed up, maybe they went feral and their defense golems killed them, maybe they tried to summon a star vampire and it went out of control.",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
@@ -150,7 +149,7 @@
         { "field": "fd_blood", "x": 0, "y": 0, "intensity": 2, "age": 0 },
         { "field": "fd_gibs_flesh", "x": 0, "y": 0, "intensity": 3, "age": 0 }
       ],
-      "place_monster": [ { "monster": "mon_star_vampire", "x": 0, "y": 0, "chance": 75 } ],
+      "place_monster": [ { "monster": "mon_star_vampire", "x": 0, "y": 0, "chance": 50 } ],
       "place_items": [
         { "item": "corpse_bloody", "x": 0, "y": 0 },
         { "item": "enchanted_worn_items", "x": 0, "y": 0, "chance": 100 },
