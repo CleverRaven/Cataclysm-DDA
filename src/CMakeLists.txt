@@ -48,13 +48,13 @@ if (TILES)
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
         if(MSYS2)
-            # /MANIFESTINPUT not supported by GNU linker
-            # Defaul embed via `windres.exe` compiling `resource.rc` -> `resource.rc.obj`
-        else()
-            # Embed manifest directly to avoid:
-            # "fatal error CVT1100: duplicate resource.  type:MANIFEST, name:1, language:0x0409"
             target_link_options(cataclysm-tiles PRIVATE
-                "LINKER:/MANIFESTINPUT:${CMAKE_SOURCE_DIR}/data/application_manifest.xml"
+                "$<$<CONFIG:Debug,RelWithDebInfo>:LINKER:--strip-debug>"
+            )
+        else()
+            # Use only our RT_MANIFEST from resource.rc
+            target_link_options(cataclysm-tiles PRIVATE
+                "LINKER:/MANIFEST:NO"
             )
         endif()
     else ()
