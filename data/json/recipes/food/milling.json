@@ -283,6 +283,23 @@
     "result": "flour_wheat_free",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "id_suffix": "mill_1_1",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "charges": 1,
+    "time": "0 s",
+    "autolearn": false,
+    "tools": [  ],
+    "components": [ [ [ "dry_soybean", 1 ] ] ]
+  },
+  {
+    "//": "For use by mills, so the only entries used are the charges and components.",
+    "//1": "Note that there should only be a single component with no extras such as lubricants, etc.",
+    "result": "flour_wheat_free",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "id_suffix": "mill_1_3",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -399,6 +416,7 @@
         [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
+        [ "dry_soybean", 15 ],
         [ "dry_wild_rice", 5 ],
         [ "chestnut_roasted", 12 ],
         [ "oats", 4 ]
@@ -425,6 +443,7 @@
         [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
+        [ "dry_soybean", 15 ],
         [ "dry_wild_rice", 5 ],
         [ "chestnut_roasted", 12 ],
         [ "oats", 4 ]
@@ -453,6 +472,7 @@
         [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
         [ "dry_rice", 5 ],
+        [ "dry_soybean", 15 ],
         [ "dry_wild_rice", 5 ],
         [ "chestnut_roasted", 12 ],
         [ "oats", 4 ]

@@ -275,7 +275,8 @@
     "description": "A handful of roasted nuts from a walnut tree.",
     "price": 90,
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1
+    "fun": 1,
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
