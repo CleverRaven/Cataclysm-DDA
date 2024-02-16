@@ -819,7 +819,7 @@
         "id": "ankheg_bite_with_acid",
         "cooldown": 3,
         "move_cost": 110,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 12 } ],
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 12 }, { "damage_type": "acid", "amount": 8 } ],
         "infection_chance": 5,
         "effects": [ { "id": "corroding", "duration": 500, "affect_hit_bp": true } ],
         "condition": { "and": [ { "not": { "u_has_effect": "maimed_mandible" } }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
