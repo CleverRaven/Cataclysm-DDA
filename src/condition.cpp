@@ -257,14 +257,7 @@ str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool re
     if( jv.test_string() ) {
         ret_val.str_val = jv.get_string();
     } else if( jv.test_object() ) {
-        const JsonObject &jo = jv.get_object();
-        if( jo.has_member( "mutator" ) ) {
-            // if we have a mutator then process that here.
-            ret_val.function = conditional_t::get_get_string( jo );
-        } else {
-            ret_val.var_val = read_var_info( jo );
-            ret_val.default_val = default_val;
-        }
+        ret_val = get_str_or_var( jv.get_object(), member, default_val );
     } else if( required ) {
         jv.throw_error( "No valid value for " + std::string( member ) );
     } else {
@@ -273,26 +266,82 @@ str_or_var get_str_or_var( const JsonValue &jv, std::string_view member, bool re
     return ret_val;
 }
 
+str_or_var get_str_or_var( const JsonObject &jo, std::string_view,
+                           std::string_view default_val )
+{
+    str_or_var ret_val;
+    if( jo.has_member( "mutator" ) ) {
+        // if we have a mutator then process that here.
+        ret_val.function = conditional_t::get_get_string( jo );
+    } else {
+        ret_val.var_val = read_var_info( jo );
+        ret_val.default_val = default_val;
+    }
+    return ret_val;
+}
+
+static bool json_object_read( const JsonObject &jo, translation &v )
+{
+    try {
+        v.deserialize( jo );
+        return true;
+    } catch( const JsonError & ) {
+        return false;
+    }
+}
+
 translation_or_var get_translation_or_var( const JsonValue &jv, std::string_view member,
         bool required, const translation &default_val )
 {
     translation_or_var ret_val;
+    if( jv.test_object() ) {
+        ret_val = get_translation_or_var( jv.get_object(), member, default_val );
+    } else {
+        translation str_val;
+        if( jv.read( str_val ) ) {
+            ret_val.str_val = str_val;
+        } else if( required ) {
+            jv.throw_error( "No valid value for " + std::string( member ) );
+        } else {
+            ret_val.str_val = default_val;
+        }
+    }
+    return ret_val;
+}
+
+translation_or_var get_translation_or_var( const JsonObject &jo, std::string_view,
+        const translation &default_val )
+{
+    translation_or_var ret_val;
     translation str_val;
-    if( jv.read( str_val ) ) {
+    if( json_object_read( jo, str_val ) ) {
         ret_val.str_val = str_val;
-    } else if( jv.test_object() ) {
-        const JsonObject &jo = jv.get_object();
+    } else {
         if( jo.has_member( "mutator" ) ) {
             // if we have a mutator then process that here.
             ret_val.function = conditional_t::get_get_translation( jo );
         } else {
-            ret_val.var_val = read_var_info( jo );
+            ret_val.var_val = read_translation_var_info( jo );
             ret_val.default_val = default_val;
         }
-    } else if( required ) {
-        jv.throw_error( "No valid value for " + std::string( member ) );
+    }
+    return ret_val;
+}
+
+str_translation_or_var get_str_translation_or_var(
+    const JsonValue &jv, std::string_view member, bool required,
+    std::string_view str_default_val, const translation &translation_default_val )
+{
+    str_translation_or_var ret_val;
+    if( jv.test_object() ) {
+        const JsonObject &jo = jv.get_object();
+        if( jo.get_bool( "i18n", false ) ) {
+            ret_val.val = get_translation_or_var( jo, member, translation_default_val );
+        } else {
+            ret_val.val = get_str_or_var( jo, member, str_default_val );
+        }
     } else {
-        ret_val.str_val = default_val;
+        ret_val.val = get_str_or_var( jv, member, required, str_default_val );
     }
     return ret_val;
 }
@@ -309,19 +358,37 @@ tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue con
     return target_pos;
 }
 
-var_info read_var_info( const JsonObject &jo )
+template<class T>
+static T abstract_read_var_info_no_translation( std::string && );
+
+template<>
+std::string abstract_read_var_info_no_translation( std::string &&s )
 {
-    std::string default_val;
+    return std::move( s );
+}
+
+template<>
+translation abstract_read_var_info_no_translation( std::string &&s )
+{
+    return no_translation( s );
+}
+
+template<class T>
+static abstract_var_info<T> abstract_read_var_info( const JsonObject &jo )
+{
+    T default_val;
     dbl_or_var empty;
     var_type type;
     std::string name;
-    if( jo.has_string( "default_str" ) ) {
-        default_val = jo.get_string( "default_str" );
+    if( jo.has_member( "default_str" ) ) {
+        jo.read( "default_str", default_val );
     } else if( jo.has_string( "default" ) ) {
-        default_val = std::to_string( to_turns<int>( read_from_json_string<time_duration>
-                                      ( jo.get_member( "default" ), time_duration::units ) ) );
+        std::string tmp = std::to_string( to_turns<int>( read_from_json_string<time_duration>
+                                          ( jo.get_member( "default" ), time_duration::units ) ) );
+        default_val = abstract_read_var_info_no_translation<T>( std::move( tmp ) );
     } else if( jo.has_float( "default" ) ) {
-        default_val = std::to_string( jo.get_float( "default" ) );
+        std::string tmp = std::to_string( jo.get_float( "default" ) );
+        default_val = abstract_read_var_info_no_translation<T>( std::move( tmp ) );
     }
 
     if( jo.has_string( "var_name" ) ) {
@@ -369,7 +436,17 @@ var_info read_var_info( const JsonObject &jo )
     } else {
         jo.throw_error( "Invalid variable type." );
     }
-    return var_info( type, name, default_val );
+    return abstract_var_info<T>( type, name, default_val );
+}
+
+var_info read_var_info( const JsonObject &jo )
+{
+    return abstract_read_var_info<std::string>( jo );
+}
+
+translation_var_info read_translation_var_info( const JsonObject &jo )
+{
+    return abstract_read_var_info<translation>( jo );
 }
 
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,

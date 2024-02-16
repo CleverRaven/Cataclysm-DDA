@@ -145,7 +145,7 @@
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       {
-        "u_message": "They are all dead. The group you were surviving with has been annihilated. Their bodies are still nearby. You are the last one left alive and their screams will haunt you.",
+        "u_message": "They are all dead.  The group you were surviving with has been annihilated.  Their bodies are still nearby.  You are the last one left alive and their screams will haunt you.",
         "type": "warning",
         "popup": true
       },

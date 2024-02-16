@@ -639,7 +639,7 @@
       { "math": [ "totalstarts", "=", "1 + basementsunlocked + roofsunlocked + labsunlocked" ] },
       { "math": [ "totalexits", "=", "1 + bonusexits" ] },
       {
-        "u_message": "Island Rank: <global_val:islandrank_readable> of 2 \nExpedition Lengths: <global_val:longerraids> of 2 \nExpedition Starts: <global_val:totalstarts> of 5 \nBonus Pulses: <global_val:bonuspulses> of 4 \nTarget reveal distance: <global_val:scoutingdistancetargets> of 10 \nLanding reveal distance: <global_val:scoutingdistancelanding> of 24 \nWarpcloak duration in seconds: <global_val:invistime> of 120 \nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1 \nExits per expedition: <global_val:totalexits> of 3 \nMissions per expedition: <global_val:bonusmissions> of 3 \nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
+        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 5\nBonus Pulses: <global_val:bonuspulses> of 4\nTarget reveal distance: <global_val:scoutingdistancetargets> of 10\nLanding reveal distance: <global_val:scoutingdistancelanding> of 24\nWarpcloak duration in seconds: <global_val:invistime> of 120\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 3\nMissions per expedition: <global_val:bonusmissions> of 3\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
         "popup": true
       }
     ]
@@ -652,7 +652,7 @@
       { "math": [ "readablepulselimit", "=", "8 + bonuspulses" ] },
       { "math": [ "readabledisintegrationlimit", "=", "12 + bonuspulses" ] },
       {
-        "u_message": "Total expeditions: <global_val:raidstotal> \nWins: <global_val:raidswon> \nLosses: <global_val:raidslost> \nMissions complete: <u_val:missionswon> \nSlaughter missions complete: <global_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: <global_val:readablepulselimit> pulses.\nDisintegration at: <global_val:readabledisintegrationlimit> pulses.\nDefault pulse length: <global_val:readablesicknessintervals> minutes.",
+        "u_message": "Total expeditions: <global_val:raidstotal>\nWins: <global_val:raidswon>\nLosses: <global_val:raidslost>\nMissions complete: <u_val:missionswon>\nSlaughter missions complete: <global_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: <global_val:readablepulselimit> pulses.\nDisintegration at: <global_val:readabledisintegrationlimit> pulses.\nDefault pulse length: <global_val:readablesicknessintervals> minutes.",
         "popup": true
       }
     ]
@@ -663,7 +663,7 @@
     "//": "Displays the player's current constructions.",
     "effect": [
       {
-        "u_message": "Entrance: <global_val:skyisland_build_base> of 1 \nMain Room: <global_val:skyisland_build_bigroom> of 4",
+        "u_message": "Entrance: <global_val:skyisland_build_base> of 1\nMain Room: <global_val:skyisland_build_bigroom> of 4",
         "popup": true
       }
     ]
