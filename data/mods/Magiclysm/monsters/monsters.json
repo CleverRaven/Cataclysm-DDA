@@ -839,7 +839,7 @@
         "type": "spell",
         "spell_data": { "id": "ankheg_acid_spit", "min_level": 3 },
         "cooldown": 1,
-        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "50" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
+        "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "60" ] }, { "not": { "u_has_effect": "maimed_acid_gland" } } ] }
       },
       [ "EAT_FOOD", 60 ],
       [ "EAT_CARRION", 60 ]
