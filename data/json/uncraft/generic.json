@@ -606,22 +606,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "earthbag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "gravelbag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "skull_human",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",

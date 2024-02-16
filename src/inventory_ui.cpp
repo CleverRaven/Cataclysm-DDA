@@ -1677,9 +1677,14 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                // Print from right rather than trim_and_print to avoid improper positioning of wide characters
-                right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial,
-                             c_red ) ) : denial, denial_width ) );
+                /* Need to determine exact point to start printing from the left, since just trimming produces
+                 * artifacts on languages with wide characters, and right_print expects only a second column */
+                std::string trimmed = trim_by_length( denial, denial_width );
+                const int x = p.x + get_width() - utf8_width( remove_color_tags( trimmed ) );
+                nc_color temp = c_red;
+                print_colored_text( win, point( x, yy ), temp, c_red,
+                                    selected ? hilite_string( colorize( trimmed, c_red ) ) : trimmed );
+                entry.cached_denial_space = denial_width;
             }
         }
 
@@ -3613,10 +3618,9 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         if( !denial.empty() ) {
             const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
                                           + colorize( denial, c_red );
-            query_popup()
-            .message( "%s", assembled )
-            .option( "QUIT" )
-            .query();
+            if( static_cast<size_t>( utf8_width( denial ) ) > highlighted_entry.cached_denial_space ) {
+                popup( assembled, PF_GET_KEY );
+            }
         }
         count = 0;
         return;

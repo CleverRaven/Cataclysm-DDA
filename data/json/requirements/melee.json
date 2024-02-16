@@ -262,7 +262,6 @@
         [ "sword_nail", -1 ],
         [ "sword_crude", -1 ],
         [ "sword_sheets_welded", -1 ],
-        [ "sword_sheets_bolted", -1 ],
         [ "sword_metal", -1 ]
       ]
     ]
@@ -349,7 +348,6 @@
         [ "sword_nail", -1 ],
         [ "sword_crude", -1 ],
         [ "sword_sheets_welded", -1 ],
-        [ "sword_sheets_bolted", -1 ],
         [ "sword_metal", -1 ],
         [ "longsword_inferior", -1 ],
         [ "longsword_fake", -1 ],
@@ -390,7 +388,6 @@
         [ "sword_wood_large", -1 ],
         [ "sword_crude_large", -1 ],
         [ "sword_sheets_welded_large", -1 ],
-        [ "sword_sheets_bolted_large", -1 ],
         [ "sword_metal_large", -1 ],
         [ "zweihander_inferior", -1 ],
         [ "zweihander_fake", -1 ],
