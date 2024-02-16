@@ -5,9 +5,9 @@
     "name": "Smite",
     "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",
     "valid_targets": [ "hostile" ],
-    "min_damage": 10,
-    "max_damage": 200,
-    "damage_increment": 15,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(10)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(200)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(15)" ] },
     "min_range": 1,
     "max_range": 1,
     "effect": "attack",
@@ -23,6 +23,7 @@
     "max_level": 15,
     "damage_type": "light",
     "flags": [ "VERBAL", "LOUD", "NO_HANDS" ],
+    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "energy_source": "MANA"
   },
   {
