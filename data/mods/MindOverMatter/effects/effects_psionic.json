@@ -1163,8 +1163,20 @@
     "max_intensity": 36,
     "dur_add_perc": 10,
     "int_dur_factor": "17 s",
-    "enchantments": [ "enchant_electrokin_lightning_aura" ],
-    "flags": [ "EMP_IMMUNE" ]
+    "flags": [ "EMP_IMMUNE", "ELECTRIC_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokinetic_lightning_aura_aftershock",
+    "name": [ "Galvanic Aftershock" ],
+    "desc": [ "You still remain immune to the effects of electricity, if only briefly." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "5 seconds",
+    "max_intensity": 1,
+    "dur_add_perc": 0,
+    "flags": [ "EMP_IMMUNE", "ELECTRIC_IMMUNE" ]
   },
   {
     "type": "effect_type",

@@ -659,7 +659,7 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "mil_mess_kit",
+    "id": "military_mess_kit",
     "type": "TOOL",
     "name": { "str": "military mess kit" },
     "description": "A military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All of its parts are made from thin sheets of aluminum-superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled hexamine stove.  Compact, durable and lightweight.",

@@ -63,7 +63,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jane_Firstmeet",
-    "dynamic_line": "Always nice to meet a fellow outsider.  How can I help you?",
+    "dynamic_line": { "gendered_line": "Always nice to meet a fellow outsider.  How can I help you?", "relevant_genders": [ "u" ] },
     "responses": [ { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" } ]
   },
   {

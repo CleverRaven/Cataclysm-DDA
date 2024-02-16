@@ -6,8 +6,6 @@ from ..write_text import write_text
 def parse_generic(json, origin):
     name = ""
     comment = []
-    if "//" in json:
-        comment.append(json["//"])
     if "//isbn13" in json:
         comment.append("ISBN {}".format(json["//isbn13"]))
 

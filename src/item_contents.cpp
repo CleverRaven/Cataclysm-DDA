@@ -883,6 +883,9 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
     std::pair<item_location, item_pocket *> ret = { this_loc, nullptr };
     std::vector<item_pocket *> valid_pockets;
     for( item_pocket &pocket : contents ) {
+        if( pocket.is_forbidden() ) {
+            continue;
+        }
         if( !pocket.is_type( pocket_type::CONTAINER ) ) {
             // best pocket is for picking stuff up.
             // containers are the only pockets that are available for such
@@ -1230,7 +1233,8 @@ int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_effici
             if( !pocket.empty() && pocket.front().is_fuel() && fuel_efficiency >= 0 ) {
                 // if using fuel instead of battery, everything is in kJ
                 // charges is going to be the energy needed over the energy in 1 unit of fuel * the efficiency of the generator
-                int charges_used = ceil( static_cast<float>( units::from_kilojoule( qty ).value() ) / (
+                int charges_used = ceil( static_cast<float>( units::from_kilojoule( static_cast<std::int64_t>
+                                         ( qty ) ).value() ) / (
                                              static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
 
                 const int res = pocket.ammo_consume( charges_used );

@@ -1295,7 +1295,9 @@ void item::update_modified_pockets()
     // Prevent cleanup of added modular pockets
     for( const item *it : contents.get_added_pockets() ) {
         for( const pocket_data &pocket : it->type->pockets ) {
-            container_pockets.push_back( &pocket );
+            if( pocket.type == pocket_type::CONTAINER ) {
+                container_pockets.push_back( &pocket );
+            }
         }
     }
 
@@ -1726,6 +1728,7 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
     bits.set( tname::segments::CONTENTS, b_contents );
     bits.set( tname::segments::CONTENTS_FULL, b_contents );
     bits.set( tname::segments::CONTENTS_ABREV, b_contents );
+    bits.set( tname::segments::CONTENTS_COUNT, b_contents );
     return { bits };
 }
 
@@ -2992,20 +2995,33 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                           medium ).total_damage() );
             const int large_damage = static_cast<int>( ammo.damage.di_considering_length(
                                          large ).total_damage() );
-            if( small_damage != medium_damage || medium_damage != large_damage ) {
-                info.emplace_back( "AMMO", _( "Damage by barrel length: " ) );
+            const int small_dispersion = static_cast<int>( ammo.dispersion_considering_length( small ) );
+            const int medium_dispersion = static_cast<int>( ammo.dispersion_considering_length( medium ) );
+            const int large_dispersion = static_cast<int>( ammo.dispersion_considering_length( large ) );
+            if( small_damage != medium_damage || medium_damage != large_damage ||
+                small_dispersion != medium_dispersion || medium_damage != large_dispersion ) {
+                info.emplace_back( "AMMO", _( "Damage and dispersion by barrel length: " ) );
                 const std::string small_string = string_format( " <info>%d %s</info>: ",
                                                  convert_length( small ),
                                                  length_units( small ) );
-                info.emplace_back( "AMMO", small_string, small_damage );
+                info.emplace_back( "AMMO", small_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                                   small_damage );
+                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
+                                   iteminfo::no_name | iteminfo::lower_is_better, small_dispersion );
                 const std::string medium_string = string_format( " <info>%d %s</info>: ",
                                                   convert_length( medium ),
                                                   length_units( medium ) );
-                info.emplace_back( "AMMO", medium_string, medium_damage );
+                info.emplace_back( "AMMO", medium_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                                   medium_damage );
+                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
+                                   iteminfo::no_name  | iteminfo::lower_is_better, medium_dispersion );
                 const std::string large_string = string_format( " <info>%d %s</info>: ",
                                                  convert_length( large ),
                                                  length_units( large ) );
-                info.emplace_back( "AMMO", large_string, large_damage );
+                info.emplace_back( "AMMO", large_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                                   large_damage );
+                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
+                                   iteminfo::no_name | iteminfo::lower_is_better, large_dispersion );
             }
         }
     }
@@ -3227,7 +3243,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->gun_dispersion( false, false ) );
     }
     if( mod->ammo_required() ) {
-        int ammo_dispersion = curammo->ammo->dispersion;
+        int ammo_dispersion = curammo->ammo->dispersion_considering_length( barrel_length() );
         // ammo_dispersion and sum_of_dispersion don't need to translate.
         if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) ) {
             info.emplace_back( "GUN", "ammo_dispersion", "",
@@ -3284,17 +3300,21 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                iteminfo::lower_is_better | iteminfo::no_name,
                                loaded_mod->gun_recoil( player_character, true ) );
         }
+
+        if( parts->test( iteminfo_parts::GUN_RECOIL_THEORETICAL_MINIMUM ) ) {
+            info.back().bNewLine = true;
+            info.emplace_back( "GUN", _( "Theoretical minimum recoil: " ), "",
+                               iteminfo::no_newline | iteminfo::lower_is_better, loaded_mod->gun_recoil( player_character, true,
+                                       true ) );
+        }
+        if( parts->test( iteminfo_parts:: GUN_IDEAL_STRENGTH ) ) {
+            info.emplace_back( "GUN", "ideal_strength", _( " (when strength reaches: <num>)" ),
+                               iteminfo::lower_is_better | iteminfo::no_name,
+                               loaded_mod->gun_base_weight() / 333.0_gram );
+        }
     }
     info.back().bNewLine = true;
-
     std::map<gun_mode_id, gun_mode> fire_modes = mod->gun_all_modes();
-    if( std::any_of( fire_modes.begin(), fire_modes.end(),
-    []( const std::pair<gun_mode_id, gun_mode> &e ) {
-    return e.second.qty > 1 && !e.second.melee();
-    } ) ) {
-        info.emplace_back( "GUN", _( "Recommended strength (burst): " ), "",
-                           iteminfo::lower_is_better, std::ceil( mod->type->weight / 333.0_gram ) );
-    }
 
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
         info.emplace_back( "GUN", _( "Reload time: " ),
@@ -10341,7 +10361,7 @@ int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
     dispersion_sum += damage_level() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
-        dispersion_sum += ammo_data()->ammo->dispersion;
+        dispersion_sum += ammo_data()->ammo->dispersion_considering_length( barrel_length() );
     }
     if( !with_scaling ) {
         return dispersion_sum;
@@ -10441,8 +10461,18 @@ damage_instance item::gun_damage( itype_id ammo ) const
 
     return ret;
 }
+units::mass item::gun_base_weight() const
+{
+    units::mass base_weight = type->weight;
+    for( const item *mod : gunmods() ) {
+        if( !mod->type->mod->ammo_modifier.empty() ) {
+            base_weight += mod->type->integral_weight;
+        }
+    }
+    return base_weight;
 
-int item::gun_recoil( const Character &p, bool bipod ) const
+}
+int item::gun_recoil( const Character &p, bool bipod, bool ideal_strength ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
@@ -10450,7 +10480,9 @@ int item::gun_recoil( const Character &p, bool bipod ) const
 
     ///\ARM_STR improves the handling of heavier weapons
     // we consider only base weight to avoid exploits
-    double wt = std::min( type->weight, p.get_arm_str() * 333_gram ) / 333.0_gram;
+    // now we need to add weight of receiver
+    double wt = ideal_strength ? gun_base_weight() / 333.0_gram : std::min( gun_base_weight(),
+                p.get_arm_str() * 333_gram ) / 333.0_gram;
 
     double handling = type->gun->handling;
     for( const item *mod : gunmods() ) {
@@ -10640,7 +10672,7 @@ units::energy item::energy_remaining( const Character *carrier ) const
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
             if( e->typeId() == itype_battery ) {
-                ret += units::from_kilojoule( e->charges );
+                ret += units::from_kilojoule( static_cast<std::int64_t>( e->charges ) );
             }
         }
     }
@@ -10785,7 +10817,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Guns handle energy in energy_consume()
     if( carrier != nullptr && type->tool &&
         ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
-        units::energy wanted_energy = units::from_kilojoule( qty );
+        units::energy wanted_energy = units::from_kilojoule( static_cast<std::int64_t>( qty ) );
 
         if( has_flag( flag_USE_UPS ) ) {
             wanted_energy -= carrier->consume_ups( wanted_energy );
@@ -10817,7 +10849,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     // Consume battery(ammo) and other fuel (if allowed)
     if( is_battery() || fuel_efficiency >= 0 ) {
         int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
-        qty -= units::from_kilojoule( consumed_kj );
+        qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
         // fix negative quantity
         if( qty < 0_J ) {
             qty = 0_J;
@@ -10845,7 +10877,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     // Should happen only if battery powered and energy per shot is not integer kJ.
     if( qty > 0_kJ && is_battery() ) {
         int consumed_kj = contents.ammo_consume( 1, pos );
-        qty -= units::from_kilojoule( consumed_kj );
+        qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
     }
 
     return wanted_energy - qty;
@@ -13228,8 +13260,11 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
             return ret_val<void>::make_failure( _( "That vehicle already has a tow-line attached." ) );
         } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
-        } else if( !veh.part( veh.part_at( mount ) ).carried_stack.empty() ) {
-            return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+        } else {
+            const int part_at = veh.part_at( mount );
+            if( part_at != -1 && !veh.part( part_at ).carried_stack.empty() ) {
+                return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
+            }
         }
     } else {
         const link_up_actor *it_actor = static_cast<const link_up_actor *>
@@ -15055,4 +15090,11 @@ bool is_preferred_component( const item &component )
 bool is_preferred_crafting_component( const item &component )
 {
     return is_preferred_component( component ) && is_crafting_component( component );
+}
+
+disp_mod_by_barrel::disp_mod_by_barrel() = default;
+void disp_mod_by_barrel::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "barrel_length", barrel_length );
+    mandatory( jo, false, "dispersion", dispersion_modifier );
 }

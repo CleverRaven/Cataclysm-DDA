@@ -152,6 +152,11 @@ TEST_CASE( "base_cardio", "[cardio][base]" )
     REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
+    // Ensure that the character has the correct leg configuration
+    they.recalc_limb_energy_usage();
+    REQUIRE( they.get_working_leg_count() == 2 );
+    REQUIRE( they.get_legs_power_use() == 0 );
+    REQUIRE( they.get_legs_stam_mult() == 1 );
 
     SECTION( "Base character with no traits" ) {
         // pre-Cardio, could run 96 steps
@@ -189,6 +194,11 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
     REQUIRE( static_cast<int>( they.get_skill_level( skill_swimming ) ) == 0 );
     // Ensure starting cardio are what we expect
     REQUIRE( they.get_cardiofit() == 1000 );
+    // Ensure that the character has the correct leg configuration
+    they.recalc_limb_energy_usage();
+    REQUIRE( they.get_working_leg_count() == 2 );
+    REQUIRE( they.get_legs_power_use() == 0 );
+    REQUIRE( they.get_legs_stam_mult() == 1 );
 
     SECTION( "Base character with no traits" ) {
         // pre-Cardio, could run 96 steps

@@ -1,0 +1,140 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHANGING_LIMB_SETUP",
+    "//": "Get the timer started, it should be added to all first-level changing traits",
+    "condition": { "math": [ "u_limb_progress_timer", "==", "0" ] },
+    "effect": [ { "math": [ "u_limb_progress_timer", "=", "time('now')" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_GLARE",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "<eyes_glare>", "snippet": true, "type": "bad" },
+      { "u_add_effect": "glare", "duration": [ "1 m", "5 m" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_BLIND",
+    "condition": { "and": [ { "one_in_chance": 5 }, "u_can_see" ] },
+    "effect": [
+      { "u_message": "<eyes_blind>", "snippet": true, "type": "bad" },
+      { "u_add_effect": "blind", "duration": [ "2 s", "5 s" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_STUN",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "<eyes_stun>", "snippet": true, "type": "bad", "popup": true },
+      { "u_add_effect": "stunned", "duration": [ "5 s", "30 s" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PRE_EYES_INSECT",
+    "//": "IF we're asleep, had three progress dreams and have enough juice -> grow eyes, ELSE IF we're asleep and one day since the last limb-related dream -> print dream and progress own var ELSE print failure.  Three dreams to progress",
+    "//LIMB-TODO": "Move arthropod/exoskeletal mutation trees over to use molting to progress",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('mutagen_insect')", ">=", "300" ] },
+        { "math": [ "u_vitamin('mutagen')", ">=", "300" ] },
+        { "math": [ "u_progress_pre_eyes_insect", ">=", "3" ] },
+        { "u_has_effect": "sleep" }
+      ]
+    },
+    "effect": [
+      { "u_mutate_towards": "EYES_INSECT", "category": "INSECT", "use_vitamins": true },
+      {
+        "if": { "u_has_trait": "EYES_INSECT" },
+        "then": [
+          { "u_message": "<insect_eye_success>", "popup": true },
+          { "math": [ "u_progress_pre_eyes_insect", "=", "0" ] },
+          { "u_lose_effect": "sleep" }
+        ],
+        "else": { "u_message": "<insect_failure>", "type": "bad", "snippet": true }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "sleep" },
+            {
+              "x_in_y_chance": { "x": { "math": [ "u_vitamin('mutagen_insect') + u_vitamin('mutagen')" ] }, "y": 1000 }
+            },
+            { "math": [ "time_since('limb_progress_timer', 'unit':'days') >= 1" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "<insect_eye_dream>", "snippet": true },
+          { "u_lose_effect": "sleep" },
+          { "math": [ "u_progress_pre_eyes_insect", "++" ] },
+          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+        ],
+        "else": [
+          { "if": { "one_in_chance": 5 }, "then": { "u_message": "<insect_failure>", "type": "bad", "snippet": true } },
+          {
+            "if": { "one_in_chance": 10 },
+            "then": { "weighted_list_eocs": [ [ "EOC_EYES_BLIND", 1 ], [ "EOC_EYES_GLARE", 5 ], [ "EOC_EYES_STUN", 2 ] ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EYES_INSECT",
+    "//": "Five progression dream steps steps",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('mutagen_insect')", ">=", "500" ] },
+        { "math": [ "u_vitamin('mutagen')", ">=", "500" ] },
+        { "math": [ "u_progress_eyes_insect", ">=", "5" ] },
+        { "u_has_effect": "sleep" }
+      ]
+    },
+    "effect": [
+      { "u_mutate_towards": "EYES_INSECT_2", "category": "INSECT", "use_vitamins": true },
+      {
+        "if": { "u_has_trait": "EYES_INSECT_2" },
+        "then": [
+          { "u_message": "<insect_eye_2_success>", "popup": true },
+          { "math": [ "u_progress_eyes_insect", "=", "0" ] },
+          { "u_set_field": "fd_blood_insect", "radius": 0 },
+          { "u_lose_effect": "sleep" }
+        ],
+        "else": { "u_message": "<insect_failure>", "type": "bad", "snippet": true }
+      }
+    ],
+    "false_effect": [
+      {
+        "if": {
+          "and": [
+            { "u_has_effect": "sleep" },
+            {
+              "x_in_y_chance": { "x": { "math": [ "u_vitamin('mutagen_insect') + u_vitamin('mutagen')" ] }, "y": 1200 }
+            },
+            { "math": [ "time_since('limb_progress_timer', 'unit':'days') >= 1" ] }
+          ]
+        },
+        "then": [
+          { "u_message": "<insect_eye_dream>", "snippet": true },
+          { "u_lose_effect": "sleep" },
+          { "math": [ "u_progress_eyes_insect", "++" ] },
+          { "math": [ "u_limb_progress_timer", "=", "time('now')" ] }
+        ],
+        "else": [
+          { "if": { "one_in_chance": 8 }, "then": { "u_message": "<insect_failure>", "type": "bad", "snippet": true } },
+          {
+            "if": { "one_in_chance": 15 },
+            "then": { "weighted_list_eocs": [ [ "EOC_EYES_BLIND", 1 ], [ "EOC_EYES_GLARE", 5 ], [ "EOC_EYES_STUN", 2 ] ] }
+          }
+        ]
+      }
+    ]
+  }
+]

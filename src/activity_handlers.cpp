@@ -218,6 +218,7 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
+static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -532,7 +533,8 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
+    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
+                          corpse.in_species( species_FERAL ) ) &&
                           !corpse.in_species( species_ZOMBIE ) );
 
     // applies to all butchery actions except for dissections
@@ -1800,7 +1802,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                 here.add_splatter_trail( type_blood, pos, dest );
             }
 
-            you->mod_stamina( -pulp_effort );
+            // mixture of isaac clarke stomps and swinging your weapon
+            you->burn_energy_all( -pulp_effort );
             you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
@@ -2985,7 +2988,7 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 
 void activity_handlers::butcher_do_turn( player_activity * /*act*/, Character *you )
 {
-    you->mod_stamina( -20 );
+    you->burn_energy_arms( -20 );
 }
 
 void activity_handlers::wait_finish( player_activity *act, Character *you )
@@ -3889,7 +3892,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         you->mod_stamina( -cost );
                         break;
                     case magic_energy_type::bionic:
-                        you->mod_power_level( -units::from_kilojoule( cost ) );
+                        you->mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
                         break;
                     case magic_energy_type::hp:
                         blood_magic( you, cost );

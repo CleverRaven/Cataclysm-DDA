@@ -1,0 +1,38 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_MELEE_MONSTER_REMOVE_INVISIBILITY_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_shape_of_dust" },
+        { "u_has_effect": "effect_technomancer_invisibility" },
+        { "u_has_effect": "telepathic_ignorance_self" }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_shape_of_dust" },
+      { "u_lose_effect": "effect_technomancer_invisibility" },
+      { "npc_lose_effect": "telepathic_ignorance" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGICLYSM_MELEE_CHARACTER_REMOVE_INVISIBILITY_EFFECTS",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": {
+      "or": [
+        { "u_has_effect": "effect_shape_of_dust" },
+        { "u_has_effect": "effect_technomancer_invisibility" },
+        { "u_has_effect": "telepathic_ignorance_self" }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "effect_shape_of_dust" },
+      { "u_lose_effect": "effect_technomancer_invisibility" },
+      { "npc_lose_effect": "telepathic_ignorance" }
+    ]
+  }
+]

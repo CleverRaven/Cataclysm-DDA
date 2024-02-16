@@ -524,7 +524,8 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     }
 
     if( fun < 0 && has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) ) {
+        get_power_level() > units::from_kilojoule( static_cast<std::int64_t>( std::abs(
+                    comest.get_comestible_fun() ) ) ) ) {
         fun = 0;
     }
 
@@ -925,7 +926,8 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-    if( food_is_human_flesh  && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) ) {
+    if( food_is_human_flesh  && ( !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
+                                  !has_flag( json_flag_PSYCHOPATH ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1122,8 +1124,10 @@ static bool eat( item &food, Character &you, bool force )
     }
 
     if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
-        you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
-        you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
+        you.get_power_level() > units::from_kilojoule( static_cast<std::int64_t>( std::abs(
+                    food.get_comestible_fun() ) ) ) ) {
+        you.mod_power_level( units::from_kilojoule( static_cast<std::int64_t>
+                             ( food.get_comestible_fun() ) ) );
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !you.has_trait( trait_M_IMMUNE ) ) {

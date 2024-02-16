@@ -76,7 +76,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_TACOMA_Dana_1",
-    "dynamic_line": "*stands in the middle of a cramped kitchen, covered in flour.  The scene looks reminiscent of easier times, but the illusion is broken as he apron shifts to reveal a heavy machete and holstered pistol on  her belt.  She looks up as you approach, then beams in recognition.  \"Welcome to Dana's Bakery, stranger!\"  She laughs brightly.  \"Glad you made out this way.  What can I do for you?\"",
+    "dynamic_line": {
+      "gendered_line": "*stands in the middle of a cramped kitchen, covered in flour.  The scene looks reminiscent of easier times, but the illusion is broken as he apron shifts to reveal a heavy machete and holstered pistol on  her belt.  She looks up as you approach, then beams in recognition.  \"Welcome to Dana's Bakery, stranger!\"  She laughs brightly.  \"Glad you made out this way.  What can I do for you?\"",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Hi Dana, how are things here?", "topic": "TALK_TACOMA_Dana_2" },
       { "text": "Got any bread for sale?", "topic": "TALK_TACOMA_Dana_Baking" },

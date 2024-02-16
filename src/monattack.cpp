@@ -116,9 +116,9 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
+static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
 static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
-static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -142,6 +142,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
+static const efftype_id effect_took_thorazine( "took_thorazine" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
@@ -162,6 +163,8 @@ static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
+
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
@@ -231,6 +234,7 @@ static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
+static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -285,7 +289,12 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
                                   dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
-        return true;
+        // whether this function returns true determines whether it applies a status effect like paralysis or mutation
+        if( atk.dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
+            return false;
+        } else {
+            return true;
+        }
     } else {
         if( atk.missed_by == 1 ) {
             target->add_msg_if_player( m_good,
@@ -1050,7 +1059,7 @@ bool mattack::boomer( monster *z )
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
     for( tripoint &i : line ) {
-        here.add_field( i, fd_bile, 1 );
+        here.add_field( i, fd_bile, 1.0f );
         // If bile hit a solid tile, return.
         if( here.impassable( i ) ) {
             here.add_field( i, fd_bile, 3 );
@@ -1059,13 +1068,13 @@ bool mattack::boomer( monster *z )
         }
     }
 
-    if( !target->dodge_check( z ) ) {
+    if( !target->dodge_check( z, 1.0f ) ) {
         target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
     } else if( u_see ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
     }
-    target->on_dodge( z, 5 );
+    target->on_dodge( z, 5, 1 );
 
     return true;
 }
@@ -1099,9 +1108,9 @@ bool mattack::boomer_glow( monster *z )
         }
     }
 
-    if( !target->dodge_check( z ) ) {
+    if( !target->dodge_check( z, 1.0f ) ) {
         target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
-        target->on_dodge( z, 5 );
+        target->on_dodge( z, 5, 1.0f );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
             const bodypart_id &bp = target->random_body_part();
             target->add_liquid_effect( effect_glowing, bp, 4, 4_minutes );
@@ -2033,8 +2042,8 @@ bool mattack::fungus_inject( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
-
-        if( one_in( 10 - dam ) ) {
+        // do not fungal infect a bionic limb
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 10 - dam ) ) {
             player_character.add_effect( effect_fungus, 10_minutes, true );
             add_msg( m_warning, _( "You feel thousands of live spores pumping into you…" ) );
         }
@@ -2088,8 +2097,8 @@ bool mattack::fungus_bristle( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_if_player( m_bad, _( "The %1$s sinks several needlelike barbs into your %2$s!" ),
                                    z->name(), body_part_name_accusative( hit ) );
-
-        if( one_in( 15 - dam ) ) {
+        // no fungal infection if it is a bionic limb
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 15 - dam ) ) {
             target->add_effect( effect_fungus, 20_minutes, true );
             target->add_msg_if_player( m_warning,
                                        _( "You feel thousands of live spores pumping into you…" ) );
@@ -2252,7 +2261,8 @@ bool mattack::fungus_fortify( monster *z )
     target->block_hit( z, hit, dam_inst );
 
     int dam = player_character.deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
+    // no way to pump spores into a bionic limb
+    if( !hit->has_flag( json_flag_BIONIC_LIMB ) && dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
@@ -2379,9 +2389,10 @@ bool mattack::dermatik( monster *z )
         return true;
     }
 
-    // Can the bug penetrate our armor?
+    // Can the bug penetrate our armor? Or is the limb a bionic one?
     const bodypart_id targeted = target->get_random_body_part();
-    if( 4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
+    if( !targeted->has_flag( json_flag_BIONIC_LIMB ) &&
+        4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
                                    z->name(), body_part_name_accusative( targeted ) );
@@ -2878,6 +2889,23 @@ bool mattack::stare( monster *z )
             player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
             add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
             return true;
+        }//Does the eye fear what it sees in the fractured mind, or is it simply unable to get a good look at it?
+        if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
+            !player_character.has_effect( effect_took_thorazine ) && x_in_y( 2.0, 3.0 ) ) {
+            if( player_character.sees( *z ) ) {
+                add_msg( m_warning, _( "The %s quickly looks away from you." ), z->name() );
+                return true;
+            } else {
+                add_msg( m_warning, _( "A chorus of whispers chatter raucously around you." ) );
+                return true;
+            }
+        }
+        //Being drunk can protect you from The Horrors
+        if( player_character.has_effect( effect_drunk ) &&
+            ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
+            add_msg( m_warning, _( "The world lurches drunkenly around you." ) );
+            player_character.add_effect( effect_stunned, 4_seconds );
+            return true;
         }
         if( player_character.sees( *z ) ) {
             add_msg( m_bad, _( "The %s stares at you, and you shudder." ), z->name() );
@@ -2904,33 +2932,6 @@ bool mattack::stare( monster *z )
     return true;
 }
 
-bool mattack::fear_paralyze( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-
-    if( !within_visual_range( z, 10 ) ) {
-        return false;
-    }
-
-    Character &player_character = get_player_character();
-    if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
-        if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {
-            add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
-            ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if( rng( 0, 20 ) > player_character.get_int() ) {
-            add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name() );
-            player_character.add_effect( effect_fearparalyze, 5_turns );
-            player_character.moves -= 4 * player_character.get_speed();
-        } else {
-            add_msg( _( "You manage to avoid staring at the horrendous %s." ), z->name() );
-        }
-    }
-
-    return true;
-}
 bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
@@ -4212,7 +4213,7 @@ bool mattack::stretch_bite( monster *z )
                                        z->name(),
                                        body_part_name_accusative( hit ) );
 
-        if( one_in( 16 - dam ) ) {
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 16 - dam ) ) {
             if( target->has_effect( effect_bite, hit.id() ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit, true );
             } else if( target->has_effect( effect_infected, hit.id() ) ) {
