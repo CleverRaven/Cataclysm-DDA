@@ -1674,9 +1674,21 @@ void basecamp::choose_new_leader()
 
 void basecamp::player_eats_meal()
 {
-    // Make an empty vector, branch logic determines it must be the player
-    nutrients dinner = camp_food_supply( -3000 );
-    feed_workers( get_player_character(), dinner, true );
+    const int kcal_to_eat = 3000;
+    Character &you = get_player_character();
+    const int &food_available = you.get_faction()->food_supply.kcal();
+    if( you.stomach.contains() >= ( you.stomach.capacity( you ) / 2 ) ) {
+        popup( _( "You're way too full to eat a full meal right now." ) );
+        return;
+    }
+    if( food_available <= 0 ) {
+        popup( _( "You check storage for some food, but there is nothing but dust and cobwebs…" ) );
+        return;
+    } else if( food_available <= kcal_to_eat ) {
+        add_msg( _( "There's only one meal left.  Guess that's dinner!" ) );
+    }
+    nutrients dinner = camp_food_supply( -kcal_to_eat );
+    feed_workers( you, dinner, true );
 }
 
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
