@@ -24,16 +24,44 @@
       {
         "item": "modular_m4_carbine",
         "variant": "modular_m4a1",
-        "prob": 88,
+        "prob": 40,
+        "charges": [ 0, 30 ],
+        "contents-item": "acog_scope"
+      },
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 40,
+        "charges": [ 0, 30 ],
+        "contents-item": "red_dot_sight"
+      },
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 10,
+        "charges": [ 0, 30 ],
+        "contents-item": "holo_sight"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m27iar",
+        "prob": 3,
         "charges": [ 0, 30 ],
         "contents-item": "acog_scope"
       },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
-        "prob": 10,
+        "prob": 3,
         "charges": [ 0, 30 ],
-        "contents-item": "acog_scope"
+        "contents-item": "red_dot_sight"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m27iar",
+        "prob": 2,
+        "charges": [ 0, 30 ],
+        "contents-item": "holo_sight"
       },
       { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-item": "acog_scope" }
     ]
