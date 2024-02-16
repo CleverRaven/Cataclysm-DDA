@@ -28,7 +28,7 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // category
         case 'c':
             return [filter]( const item & i ) {
-                return lcmatch( i.get_category_of_contents().name(), filter );
+                return lcmatch( i.get_category_of_contents().name_header(), filter );
             };
         // material
         case 'm':

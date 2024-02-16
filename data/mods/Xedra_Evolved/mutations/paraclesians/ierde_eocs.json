@@ -109,7 +109,7 @@
         "variables": {
           "prep_time": "2",
           "spell_to_cast": "ierde_smashing_punch_spell",
-          "message_success": "You gather yourself for a moment and strike.",
+          "message_success": { "i18n": true, "str": "You gather yourself for a moment and strike." },
           "message_fail": ""
         }
       }
@@ -125,7 +125,7 @@
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "ierde_no_sleep_meditate_spell",
-          "message_success": "You settle down, feeling the ground beneath you, and begin your vigil",
+          "message_success": { "i18n": true, "str": "You settle down, feeling the ground beneath you, and begin your vigil" },
           "message_fail": ""
         }
       }
