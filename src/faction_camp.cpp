@@ -1674,9 +1674,8 @@ void basecamp::choose_new_leader()
 void basecamp::player_eats_meal()
 {
     // Make an empty vector, branch logic determines it must be the player
-    std::vector<shared_ptr_fast<npc>> fake_work_party;
     nutrients dinner = camp_food_supply( -3000 );
-    feed_workers( fake_work_party, dinner );
+    feed_workers( get_player_character(), dinner );
 }
 
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
@@ -1953,7 +1952,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
     if( comp != nullptr ) {
         comp->companion_mission_time_ret = calendar::turn + duration;
         if( must_feed ) {
-            feed_workers( comp, camp_food_supply( duration, exertion_level ) );
+            feed_workers( *comp.get()->as_character(), camp_food_supply( duration, exertion_level ) );
         }
         if( !equipment.empty() ) {
             map &target_map = get_camp_map();
@@ -2039,7 +2038,11 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
             comp->companion_mission_time_ret = calendar::turn + work_days;
         }
         if( must_feed ) {
-            feed_workers( result, camp_food_supply( work_days * result.size(), making.exertion_level() ) );
+            std::vector<std::reference_wrapper <Character>> work_party;
+            for( npc_ptr &comp : result ) {
+                work_party.emplace_back( *comp.get()->as_character() );
+            }
+            feed_workers( work_party, camp_food_supply( work_days * result.size(), making.exertion_level() ) );
         }
         return result;
     }
@@ -5518,19 +5521,12 @@ nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
     return camp_food_supply( -time_to_food( work, exertion_level ) );
 }
 
-void basecamp::feed_workers( std::vector<npc_ptr> workers, nutrients food )
+void basecamp::feed_workers( std::vector<std::reference_wrapper <Character>> workers,
+                             nutrients food )
 {
     const int num_workers = workers.size();
     if( num_workers == 0 ) {
-        // Must be the player looking for food...
-        Character &you = get_player_character();
-        units::volume filling_vol = std::max( 0_ml,
-                                              you.stomach.capacity( you ) / 2 - you.stomach.contains() );
-        you.stomach.ingest( food_summary{
-            0_ml,
-            filling_vol,
-            food
-        } );
+        debugmsg( "feed_workers called without any workers to feed!" );
         return;
     }
     if( get_option<bool>( "NO_NPC_FOOD" ) ) {
@@ -5539,10 +5535,11 @@ void basecamp::feed_workers( std::vector<npc_ptr> workers, nutrients food )
 
     // Split the food into equal sized portions.
     food /= num_workers;
-    for( auto &worker : workers ) {
+    for( auto &worker_reference : workers ) {
+        Character &worker = worker_reference.get();
         units::volume filling_vol = std::max( 0_ml,
-                                              worker->stomach.capacity( *worker ) / 2 - worker->stomach.contains() );
-        worker->stomach.ingest( food_summary{
+                                              worker.stomach.capacity( worker ) / 2 - worker.stomach.contains() );
+        worker.stomach.ingest( food_summary{
             0_ml,
             filling_vol,
             food
@@ -5551,9 +5548,9 @@ void basecamp::feed_workers( std::vector<npc_ptr> workers, nutrients food )
     return;
 }
 
-void basecamp::feed_workers( npc_ptr worker, nutrients food )
+void basecamp::feed_workers( Character &worker, nutrients food )
 {
-    std::vector<npc_ptr> work_party;
+    std::vector<std::reference_wrapper <Character>> work_party;
     work_party.emplace_back( worker );
     feed_workers( work_party, food );
     return;
