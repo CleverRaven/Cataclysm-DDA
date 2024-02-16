@@ -1337,7 +1337,7 @@
     "id": "achievement_lvl_10_electronics",
     "type": "achievement",
     "name": "Nicola Tesla",
-    "description": "One does not simply taste a 9V battery.",
+    "description": "One does not simply taste a 9 V battery.",
     "requirements": [
       {
         "event_statistic": "num_gains_electronics_level_10",

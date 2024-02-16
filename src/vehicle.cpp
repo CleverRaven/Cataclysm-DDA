@@ -4843,7 +4843,8 @@ void vehicle::consume_fuel( int load, bool idling )
         }
         // decreased stamina burn scalable with load
         if( player_character.has_active_bionic( bio_jointservo ) ) {
-            player_character.mod_power_level( units::from_kilojoule( -std::max( eff_load / 20, 1 ) ) );
+            player_character.mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -std::max(
+                                                  eff_load / 20, 1 ) ) ) );
             mod -= std::max( eff_load / 5, 5 );
         }
 

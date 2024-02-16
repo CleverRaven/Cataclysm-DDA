@@ -437,7 +437,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "energy_source": "MANA",
-    "base_energy_cost": 300,
+    "base_energy_cost": 200,
     "base_casting_time": 1000
   },
   {
@@ -457,7 +457,7 @@
     "max_duration": 90000,
     "duration_increment": 4000,
     "energy_source": "MANA",
-    "base_energy_cost": 550,
+    "base_energy_cost": 500,
     "base_casting_time": 100
   },
   {
@@ -586,7 +586,7 @@
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
-    "base_energy_cost": 350,
+    "base_energy_cost": 500,
     "base_casting_time": 90000,
     "final_casting_time": 30000,
     "casting_time_increment": -6000
@@ -608,7 +608,7 @@
     "max_duration": 13000,
     "duration_increment": 500,
     "energy_source": "MANA",
-    "base_energy_cost": 750,
+    "base_energy_cost": 900,
     "base_casting_time": 150
   },
   {
@@ -625,10 +625,10 @@
     "effect_str": "EOC_BIOMANCER_SLOW_BLEEDING",
     "shape": "blast",
     "min_duration": 90000,
-    "max_duration": 360000,
-    "duration_increment": 18000,
+    "max_duration": 630000,
+    "duration_increment": 36000,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "base_energy_cost": 250,
     "base_casting_time": 350
   },
   {
@@ -641,21 +641,21 @@
           "case": 0,
           "effect": {
             "u_add_effect": "effect_biomancer_slow_bleeding_01",
-            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 )" ] }
           }
         },
         {
           "case": 8,
           "effect": {
             "u_add_effect": "effect_biomancer_slow_bleeding_02",
-            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 )" ] }
           }
         },
         {
           "case": 15,
           "effect": {
             "u_add_effect": "effect_biomancer_slow_bleeding_03",
-            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 )" ] }
           }
         }
       ]
@@ -678,7 +678,7 @@
     "max_duration": 360000,
     "duration_increment": 24000,
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "base_energy_cost": 300,
     "base_casting_time": 500
   },
   {
@@ -698,7 +698,7 @@
     "max_duration": 1380000,
     "duration_increment": 60000,
     "energy_source": "MANA",
-    "base_energy_cost": 750,
+    "base_energy_cost": 450,
     "base_casting_time": 600
   },
   {
@@ -723,6 +723,102 @@
       { "u_message": "The faint burning sensation fades.", "type": "bad" },
       { "u_lose_trait": "ACIDBLOOD" },
       { "u_lose_trait": "ACIDPROOF" }
+    ]
+  },
+  {
+    "id": "biomancer_eat_tons_of_food",
+    "type": "SPELL",
+    "name": "Gluttonous Consumption",
+    "description": "Magically expand your stomach size, allowing it to consume more food without taking up any more room in your body.  Once a rarely-learned spell, it's much more useful now that you're not always sure where your next meal is coming from.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 16,
+    "min_duration": 72000,
+    "max_duration": 1224000,
+    "duration_increment": 72000,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 1500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION",
+    "effect": [
+      {
+        "u_add_effect": "effect_biomancer_eat_tons_of_food",
+        "duration": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+      },
+      {
+        "switch": { "math": [ "u_spell_level('biomancer_eat_tons_of_food')" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 8,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 12,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 16,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+    "effect": [
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" }
     ]
   }
 ]

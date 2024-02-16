@@ -415,7 +415,7 @@ enum npc_chat_menu {
     NPC_CHAT_DONE,
     NPC_CHAT_TALK,
     NPC_CHAT_YELL,
-    NPC_CHAT_THINK,
+    NPC_CHAT_EMOTE,
     NPC_CHAT_START_SEMINAR,
     NPC_CHAT_SENTENCE,
     NPC_CHAT_GUARD,
@@ -878,7 +878,7 @@ void game::chat()
 
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
-    nmenu.addentry( NPC_CHAT_THINK, true, 'T', _( "Think something" ) );
+    nmenu.addentry( NPC_CHAT_EMOTE, true, 'E', _( "Emote" ) );
     if( !animal_vehicles.empty() ) {
         nmenu.addentry( NPC_CHAT_ANIMAL_VEHICLE_FOLLOW, true, 'F',
                         _( "Whistle at your animals pulling vehicles to follow you." ) );
@@ -924,7 +924,7 @@ void game::chat()
     }
     std::string message;
     std::string yell_msg;
-    std::string think_msg;
+    std::string emote_msg;
     bool is_order = true;
     nmenu.query();
 
@@ -958,16 +958,17 @@ void game::chat()
             is_order = false;
             break;
         }
-        case NPC_CHAT_THINK: {
-            std::string popupdesc = _( "What are you thinking about?" );
+        case NPC_CHAT_EMOTE: {
+            std::string popupdesc =
+                _( "What do you want to emote?  (This will have no in-game effect!)" );
             string_input_popup popup;
-            popup.title( _( "You think" ) )
+            popup.title( _( "Emote" ) )
             .width( 64 )
             .description( popupdesc )
             .identifier( "sentence" )
             .max_length( 128 )
             .query();
-            think_msg = popup.text();
+            emote_msg = popup.text();
             is_order = false;
             break;
         }
@@ -1234,8 +1235,8 @@ void game::chat()
         add_msg( _( "You yell %s" ), message );
         u.shout( string_format( _( "%s yelling %s" ), u.disp_name(), message ), is_order );
     }
-    if( !think_msg.empty() ) {
-        add_msg( _( "You think %s" ), think_msg );
+    if( !emote_msg.empty() ) {
+        add_msg( emote_msg );
     }
 
     u.moves -= 100;
@@ -1259,7 +1260,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
-        say( chatbin.snip_acknowledged );
+        say( chat_snippets().snip_acknowledged.translated() );
     }
 
     if( sees( spos ) || is_hallucination() ) {
@@ -1381,7 +1382,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool radio_contact,
         if( next.id == "TALK_DONE" || d.topic_stack.empty() ) {
             npc *npc_actor = d.actor( true )->get_npc();
             if( npc_actor ) {
-                d.actor( true )->say( _( npc_actor->chatbin.snip_bye ) );
+                d.actor( true )->say( npc_actor->chat_snippets().snip_bye.translated() );
             }
             d.done = true;
         } else if( next.id != "TALK_NONE" ) {
@@ -1503,7 +1504,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic )
     }
 
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
-        return _( actor( true )->get_npc()->chatbin.snip_bye );
+        return actor( true )->get_npc()->chat_snippets().snip_bye.translated();
     } else if( topic == "TALK_TRAIN" ) {
         if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );

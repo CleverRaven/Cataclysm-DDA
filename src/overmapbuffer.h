@@ -176,6 +176,7 @@ class overmapbuffer
         bool has_note( const tripoint_abs_omt &p );
         bool is_marked_dangerous( const tripoint_abs_omt &p );
         const std::string &note( const tripoint_abs_omt &p );
+        int note_danger_radius( const tripoint_abs_omt &p );
         void add_note( const tripoint_abs_omt &, const std::string &message );
         void delete_note( const tripoint_abs_omt &p );
         void mark_note_dangerous( const tripoint_abs_omt &p, int radius, bool is_dangerous );

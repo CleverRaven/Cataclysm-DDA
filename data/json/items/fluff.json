@@ -383,6 +383,20 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
+    "id": "small_checkboard",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "compact checkerboard" },
+    "description": "A pair of smaller checkered wooden boards that together form a compact checkerboard.  Useful as timber or for crafting a smaller chess or checkers board.",
+    "weight": "200 g",
+    "volume": "1000 ml",
+    "longest_side": "15 cm",
+    "material": [ "wood" ],
+    "symbol": "?",
+    "color": "white",
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "chess",
     "type": "GENERIC",
     "category": "other",
@@ -1442,7 +1456,7 @@
     "type": "GENERIC",
     "id": "ruler",
     "name": { "str": "ruler" },
-    "description": "A plastic ruler used to measure lengths of smaller objects.  This one measures 15cm.",
+    "description": "A plastic ruler used to measure lengths of smaller objects.  This one measures 15 cm.",
     "weight": "9 g",
     "volume": "10 ml",
     "longest_side": "16 cm",

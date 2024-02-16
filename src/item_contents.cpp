@@ -1233,7 +1233,8 @@ int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_effici
             if( !pocket.empty() && pocket.front().is_fuel() && fuel_efficiency >= 0 ) {
                 // if using fuel instead of battery, everything is in kJ
                 // charges is going to be the energy needed over the energy in 1 unit of fuel * the efficiency of the generator
-                int charges_used = ceil( static_cast<float>( units::from_kilojoule( qty ).value() ) / (
+                int charges_used = ceil( static_cast<float>( units::from_kilojoule( static_cast<std::int64_t>
+                                         ( qty ) ).value() ) / (
                                              static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
 
                 const int res = pocket.ammo_consume( charges_used );
