@@ -53,6 +53,7 @@
 #include "npc.h"
 #include "npctalk.h"
 #include "omdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
