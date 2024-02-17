@@ -692,7 +692,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4,
+    "fun": 2,
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
@@ -704,10 +704,10 @@
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 76,
+    "calories": 86,
     "description": "Grilled glazed carrots, topped with some aromatic herbs.  Simply divine.",
     "price": 250,
-    "price_postapoc": 50,
+    "price_postapoc": 60,
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
