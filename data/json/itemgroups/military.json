@@ -9,14 +9,14 @@
         "variant": "modular_m4a1",
         "prob": 88,
         "charges": [ 0, 30 ],
-        "contents-group": "firearm_slings"
+        "contents-group": "gunmod_army_loadout"
       },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
         "prob": 10,
         "charges": [ 0, 30 ],
-        "contents-group": "firearm_slings"
+        "contents-group": "gunmod_army_loadout"
       },
       {
         "item": "modular_m27_assault_rifle",
@@ -26,28 +26,6 @@
         "charges": [ 0, 30 ]
       },
       { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "firearm_slings" }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "military_standard_assault_rifles_sighted",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
-        "prob": 88,
-        "charges": [ 0, 30 ],
-        "contents-group": "gunmod_army_loadout"
-      },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_m27iar",
-        "prob": 10,
-        "charges": [ 0, 30 ],
-        "contents-group": "gunmod_army_loadout"
-      },
-      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "gunmod_army_loadout" }
     ]
   },
   {
