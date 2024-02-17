@@ -141,7 +141,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     const float fragment_velocity = explosion_handler::gurney_spherical( ex.power, shr.casing_mass );
     const float fragment_count = static_cast<float>( shr.casing_mass ) / shr.fragment_mass;
     const fragment_cloud cloud_at_target =
-        shrapnel_calc( { fragment_velocity, fragment_count }, { 1.2, 1.0 }, range );
+        shrapnel_calc( { fragment_velocity, fragment_count }, { 1.2, 1.0 }, std::max( 1, range ) );
     std::poisson_distribution<> d( cloud_at_target.density );
     int hits = d( rng_get_engine() );
     INFO( "Casing mass " << shr.casing_mass );
