@@ -302,7 +302,7 @@
       "sandy_beach_width": 6
     },
     "overmap_highway_settings": {
-      "grid_column_seperation": 5,
+      "grid_column_seperation": 7,
       "grid_row_seperation": 5,
       "width_of_segments": 2,
       "reserved_terrain_id": "hw_reserved",
