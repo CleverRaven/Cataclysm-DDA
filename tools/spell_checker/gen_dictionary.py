@@ -13,6 +13,10 @@ def gen_dictionary():
         words = Tokenizer.findall(entry.msgid)
         for word in Speller.unknown(words):
             dictionary.add(word)
+        if entry.msgid_plural:
+            words = Tokenizer.findall(entry.msgid_plural)
+            for word in Speller.unknown(words):
+                dictionary.add(word)
     dict_path = os.path.join(os.path.dirname(__file__), "dictionary.txt")
     with open(dict_path, "w", encoding="utf-8") as fp:
         for word in sorted(dictionary):
