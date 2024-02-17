@@ -257,9 +257,8 @@
     "looks_like": "f_oven",
     "description": "A tiny sink and cooking surface only big enough to fit an electric hotplate, placed above and below many integrated storage units.  The minimal space in which you could technically cook.",
     "color": "blue",
-    "move_cost": -1,
+    "move_cost": 0,
     "coverage": 55,
-    "required_str": -1,
     "flags": [ "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF", "NO_SELF_CONNECT" ],
     "bash": {
       "str_min": 8,
@@ -272,9 +271,7 @@
         { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
         { "item": "plastic_chunk", "count": [ 2, 16 ] }
       ]
-    },
-    "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "50L" }
+    }
   },
   {
     "type": "terrain",
@@ -284,9 +281,8 @@
     "looks_like": "f_cupboard",
     "description": "The wall-mounted, steel and plastic storage solution of tomorrow.",
     "color": "blue",
-    "move_cost": 1,
+    "move_cost": 0,
     "coverage": 55,
-    "required_str": -1,
     "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "FLAT_SURF" ],
     "connect_groups": "COUNTER",
     "connects_to": "COUNTER",
@@ -303,9 +299,7 @@
         { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
         { "item": "plastic_chunk", "count": [ 2, 16 ] }
       ]
-    },
-    "examine_action": "workbench",
-    "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
+    }
   },
   {
     "type": "terrain",
