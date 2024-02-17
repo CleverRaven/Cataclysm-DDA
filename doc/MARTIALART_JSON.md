@@ -201,7 +201,7 @@ The bonuses arrays contain any number of bonus entries like this:
 "stat": affected statistic, any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen",
 "type": damage type for the affected statistic ("bash", "cut", "heat", etc.), only needed if the affected statistic is "damage", "armor", or "arpen".
 "scale": the value of the bonus itself.
-"scaling-stat": scaling stat, any of: "str", "dex", "int", "per", "bashing", "cutting", "dodge", "melee", "stabbing". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat/skill.
+"scaling-stat": scaling stat, any of: "str", "dex", "int", "per". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat.
 
 Bonuses must be written in the correct order.
 
