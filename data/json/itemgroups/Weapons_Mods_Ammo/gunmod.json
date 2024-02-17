@@ -113,6 +113,13 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "issued_grenadier_mods",
+    "//": "Weapon mod loadouts that represent the average US Army grenadier loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "military_grenadier_mods" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_rifle",
     "//": "Aftermarket sights that are for rifles.",
     "items": [
