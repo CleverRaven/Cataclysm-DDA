@@ -9,14 +9,14 @@
         "variant": "modular_m4a1",
         "prob": 88,
         "charges": [ 0, 30 ],
-        "contents-group": "gunmod_army_loadout"
+        "contents-group": "issued_carbine_mods"
       },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m27iar",
         "prob": 10,
         "charges": [ 0, 30 ],
-        "contents-group": "gunmod_army_loadout"
+        "contents-group": "issued_carbine_mods"
       },
       {
         "item": "modular_m27_assault_rifle",
