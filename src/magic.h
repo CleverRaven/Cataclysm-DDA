@@ -637,10 +637,10 @@ class spell
         std::string aoe_string( const Creature &caster ) const;
         std::string duration_string( const Creature &caster ) const;
 
-        const damage_type_id get_dmg_type() const {
+        damage_type_id get_dmg_type() const {
             return dmg_type();
         }
-        const spell_id get_spell_type() const {
+        spell_id get_spell_type() const {
             return type;
         }
 
