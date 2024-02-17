@@ -7256,7 +7256,7 @@ point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
  **/
 bool map::sees( const tripoint &F, const tripoint &T, const int range,
                 int &bresenham_slope, bool with_fields ) const
- {
+{
     bool ( map::*f_transparent )( const tripoint & p ) const =
         with_fields ? &map::is_transparent : &map::is_transparent_wo_fields;
     lru_cache_t &skew_cache = with_fields ? skew_vision_cache : skew_vision_wo_fields_cache;
