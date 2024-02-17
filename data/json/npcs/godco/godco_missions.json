@@ -174,7 +174,10 @@
       "failure": "Sorry, I had to find someone else since you didn't come through."
     },
     "end": {
-      "effect": [ { "queue_eocs": "godco_place_warehouse_new", "time_in_future": "336 hours" }, { "u_spawn_item": "icon", "count": 137 } ],
+      "effect": [
+        { "queue_eocs": "godco_place_warehouse_new", "time_in_future": "336 hours" },
+        { "u_spawn_item": "icon", "count": 137 }
+      ],
       "opinion": { "trust": 7, "value": 6, "anger": -3 }
     }
   },
@@ -930,7 +933,10 @@
     "difficulty": 5,
     "value": 0,
     "end": {
-      "effect": [ { "u_spawn_item": "icon", "count": 90 }, { "queue_eocs": "godco_place_herb_garden_new", "time_in_future": "72 hours" } ]
+      "effect": [
+        { "u_spawn_item": "icon", "count": 90 },
+        { "queue_eocs": "godco_place_herb_garden_new", "time_in_future": "72 hours" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GODCO_KOSTAS_3",
