@@ -734,6 +734,7 @@ void game::reenter_fullscreen()
 void game::setup()
 {
     loading_ui ui( true );
+    new_game = true;
     {
         background_pane background;
         static_popup popup;
@@ -751,7 +752,6 @@ void game::setup()
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
-    new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
