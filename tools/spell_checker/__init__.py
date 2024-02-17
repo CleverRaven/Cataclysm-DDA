@@ -45,3 +45,49 @@ def init_known_words():
 
 if not KnownWords:
     init_known_words()
+
+
+def unit_test__tokenizer():
+    text_and_results = [
+        ("I'm a test", ["I'm", "test"]),
+        ("\"This'll do!\"", ["This'll", "do"]),
+        ("Someone's test case", ["Someone", "test", "case"]),
+        ("SOMEONE'S VERY IMPORTANT TEST", ["SOMEONE", "VERY", "IMPORTANT", "TEST"]),
+        ("tic-tac-toe", ["tic", "tac", "toe"]),
+        ("Ünicodé", ["Ünicodé"]),
+        ("This apostrophe’s weird", ["This", "apostrophe’s", "weird"]),
+        ("Foo i18n l10n bar", ["Foo", "bar"]),
+        ("Lorem 123 ipsum -- dolor ||| sit", ["Lorem", "ipsum", "dolor", "sit"]),
+        ("Lorem", ["Lorem"]),
+        ("Lorem ipsum dolor sit amet",
+            ["Lorem", "ipsum", "dolor", "sit", "amet"]),
+        ("'Lorem ipsum dolor sit amet, consectetur adipiscing elit'",
+            ["Lorem", "ipsum", "dolor", "sit", "amet", "consectetur",
+                "adipiscing","elit"]),
+        ("Lorem, ipsum.  dolor?  sit!  amet.", ["Lorem", "ipsum", "dolor", "sit", "amet"]),
+        ("Lorem ipsum, 'dolor?'  sit!?", ["Lorem", "ipsum", "dolor", "sit"]),
+        ("Lorem: ipsum; dolor…", ["Lorem", "ipsum", "dolor"]),
+        ('"Lorem"', ["Lorem"]),
+        ("Lorem-ipsum", ["Lorem", "ipsum"]),
+        ("«Lorem ipsum»", ["Lorem", "ipsum"]), # used in some NPC dialogue
+        ("*Lorem ipsum*", ["Lorem", "ipsum"]),
+        ("&Lorem ipsum", ["Lorem", "ipsum"]), # used in some NPC dialogue
+        ("…Lorem", ["Lorem"]),
+        ("'…Lorem ipsum…'", ["Lorem", "ipsum"]),
+        ("Lorem <ipsum> <color_yellow>dolor</color>", ["Lorem", "dolor"]),
+        ("<global_val:<u_val:foobar>>", []),
+        ("Lorem (ipsum) [dolor sit] {amet}", ["Lorem", "ipsum", "dolor", "sit", "amet"]),
+        ("Lorem ipsum/dolor/sit amet", ["Lorem", "ipsum", "dolor", "sit", "amet"]),
+        ("Lorem.ipsum.dolor", []),
+        ("Lorem %1$s ipsum %2$d dolor!", ["Lorem", "ipsum", "dolor"])
+    ]
+
+    fail = False
+    for text, expected in text_and_results:
+        result = list(Tokenizer.findall(text))
+        if result != expected:
+            print(f"test case: {text}\nexpected: {expected}\nresult: {result}\n")
+            fail = True
+
+    if fail:
+        raise RuntimeError("tokenizer test failed")
