@@ -733,7 +733,7 @@
     "id": "last_delivery",
     "name": "The Last Delivery",
     "points": 2,
-    "description": "Bigwigs had been acting strangely over the past weeks at Food Place Regional HQ: making all their delivery drivers wear full mascot uniforms, insisting on maintaining regular drop-offs despite the evacuation, and shredding insubordinates skin off with desk scissors.  The latter was the straw that broke the camel’s back; you’d nabbed a parked food truck and high-tailed it out of dodge.  Since then, you’ve been cruising around New England, trying to get to evacuation points, only to find them deserted or overrun.  With only a stretch of open road between you and your nightmares, only time will tell what will become of you.",
+    "description": "As the world was falling appart around you something shook you out of your stupor. A phone call, a phone call on the Foodplace's excellent delivery servirce™ line, it was the most incoherent rambling you've ever heard but also the biggest order you've seen in your years working at Foodplace. While you can't fix the tears in reality, this you can do! You're not sure of much anymore, but one thing is certain: that delicious food™ is going to get delivered if it's the last thing you do!",
     "vehicle": "food_truck_delivery_mission",
     "professions": [ "true_foodperson", "unemployed" ],
     "start_name": "A Stop On The Road",
