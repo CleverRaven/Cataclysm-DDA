@@ -82,28 +82,34 @@
   },
   {
     "type": "item_group",
-    "id": "gunmod_carbine_sights_army",
+    "id": "issued_carbine_sights",
     "//": "Sights that are issued by the US Army for the M4 and similar firearms.",
-    "items": [ [ "acog_scope", 30 ], [ "hybrid_sight_4x", 10 ], [ "holo_sight", 20 ], [ "red_dot_sight", 40 ] ]
+    "items": [
+      [ "acog_scope", 15 ],
+      [ "hybrid_sight_4x", 5 ],
+      [ "holo_sight", 10 ],
+      [ "red_dot_sight", 20 ],
+      [ "improve_sights", 50 ]
+    ]
   },
   {
     "type": "item_group",
-    "id": "firearm_slings",
-    "//": "Slings that belong on a firearm.",
-    "items": [ [ "shoulder_strap_simple", 50 ], [ "shoulder_strap", 25 ] ]
+    "id": "issued_slings",
+    "//": "Slings that belong on a firearm, the 5% of soldiers who lost theirs are very unhappy right now.",
+    "items": [ [ "shoulder_strap_simple", 60 ], [ "shoulder_strap", 35 ], [ "null", 5 ] ]
   },
   {
     "type": "item_group",
-    "id": "gunmod_army_potential_grip",
-    "//": "Not all soldiers would have a forward grip, but they're not uncommon.",
+    "id": "issued_grip",
+    "//": "Not all soldiers would have a forward grip, but they're common accessories.",
     "items": [ [ "grip", 40 ], [ "null", 60 ] ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "gunmod_army_loadout",
+    "id": "issued_carbine_mods",
     "//": "Weapon mod loadouts that represent the average US Army carbine loadout.",
-    "items": [ { "group": "firearm_slings" }, { "group": "gunmod_carbine_sights_army" }, { "group": "gunmod_army_potential_grip" } ]
+    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "issued_grip" } ]
   },
   {
     "type": "item_group",
