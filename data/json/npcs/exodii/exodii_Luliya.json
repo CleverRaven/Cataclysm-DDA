@@ -27,7 +27,7 @@
     "bonus_dex": { "rng": [ 0, 6 ] },
     "bonus_int": { "rng": [ 0, 2 ] },
     "bonus_per": { "rng": [ 0, 4 ] },
-    "carry_override": "NC_EXODII_TYPE_2_carried",
+    "weapon_override": "NC_EXODII_TYPE_2_carried",
     "worn_override": "EMPTY_GROUP",
     "skills": [
       {
