@@ -368,7 +368,7 @@ std::pair<nc_color, std::string> faction::vitamin_stores( vitamin_type vit_type 
     // Iterate the map's content into a sortable container...
     for( auto &vit : stored_vits ) {
         int units_per_day = vit.first.obj().units_absorption_per_day();
-        double relative_intake = units_per_day / days_of_food;
+        double relative_intake = static_cast<double>( vit.second / units_per_day ) / days_of_food;
         // We use the inverse value for toxins, since they are bad.
         if( is_toxin ) {
             relative_intake = 1 / relative_intake;
