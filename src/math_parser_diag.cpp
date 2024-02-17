@@ -1143,19 +1143,6 @@ std::function<double( dialogue & )> value_or_eval( char /* scope */,
     };
 }
 
-std::function<double( dialogue & )> vision_range_eval( char scope,
-        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
-{
-    return[beta = is_beta( scope )]( dialogue const & d ) {
-        if( d.actor( beta )->get_character() ) {
-            return static_cast<talker const *>( d.actor( beta ) )
-                   ->get_character()
-                   ->unimpaired_range();
-        }
-        return 0;
-    };
-}
-
 std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -1259,7 +1246,6 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
-    { "characters_nearby", { "ung", 0, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
