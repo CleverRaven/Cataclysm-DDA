@@ -5529,7 +5529,7 @@ nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
     return camp_food_supply( -time_to_food( work, exertion_level ) );
 }
 
-void basecamp::feed_workers( std::vector<std::reference_wrapper <Character>> workers,
+void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>> &workers,
                              nutrients food, bool is_player_meal )
 {
     const int num_workers = workers.size();
@@ -5554,15 +5554,13 @@ void basecamp::feed_workers( std::vector<std::reference_wrapper <Character>> wor
             food
         } );
     }
-    return;
 }
 
 void basecamp::feed_workers( Character &worker, nutrients food, bool is_player_meal )
 {
     std::vector<std::reference_wrapper <Character>> work_party;
     work_party.emplace_back( worker );
-    feed_workers( work_party, food, is_player_meal );
-    return;
+    feed_workers( work_party, std::move( food ), is_player_meal );
 }
 
 int time_to_food( time_duration work, float exertion_level )
