@@ -5543,7 +5543,7 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
 
     // Split the food into equal sized portions.
     food /= num_workers;
-    for( auto &worker_reference : workers ) {
+    for( const auto &worker_reference : workers ) {
         Character &worker = worker_reference.get();
         worker.add_msg_if_player( _( "You grab a prepared meal from storage and chow down." ) );
         units::volume filling_vol = std::max( 0_ml,
