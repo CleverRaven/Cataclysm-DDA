@@ -273,6 +273,7 @@
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
         { "item": "rigid_plastic_sheet", "count": [ 0, 1 ] },
@@ -310,6 +311,7 @@
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
+      "ter_set": "t_metal_floor",
       "items": [
         { "item": "scrap", "count": [ 2, 8 ] },
         { "item": "polycarbonate_sheet", "count": [ 1, 3 ] },
