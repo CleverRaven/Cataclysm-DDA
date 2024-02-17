@@ -253,7 +253,7 @@
     "player_display": false,
     "dummy": true,
     "category": [ "HUMAN" ],
-    "types": [ "ANIMAL_EMPATHY", "SOCIAL", "ATTITUDE", "HUMAN_EMPATHY", "MASOCHISM", "MEMORY", "SLEEPINESS", "WANDERLUST" ],
+    "types": [ "ANIMAL_EMPATHY", "ATTITUDE", "HUMAN_EMPATHY", "MASOCHISM", "MEMORY", "SLEEPINESS", "WANDERLUST" ],
     "cancels": [
       "ADDICTIVE",
       "ADRENALINE",
