@@ -2443,7 +2443,7 @@
     "ugliness": 2,
     "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
     "types": [ "TEETH" ],
-    "changes_to": [ "SABER_TEETH", "SHARKTEETH", "VAMPIRE_FANGS" ],
+    "changes_to": [ "SABER_TEETH", "SHARKTEETH", "FANGS_VAMPIRE" ],
     "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN" ],
     "attacks": [
       {
@@ -9655,38 +9655,20 @@
     "category": [ "ALPHA" ],
     "starting_trait": true
   },
-{
-  "type": "mutation",
-  "id": "ALPHA_COMPLEX",
-  "name": {
-    "str": "Superiority Complex"
+  {
+    "type": "mutation",
+    "id": "ALPHA_COMPLEX",
+    "name": { "str": "Superiority Complex" },
+    "points": 0,
+    "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
+    "purifiable": false,
+    "types": [ "HUMAN_EMPATHY" ],
+    "social_modifiers": { "lie": 10, "persuade": -25, "intimidate": 10 },
+    "category": [ "ALPHA" ],
+    "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
+    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
+    "threshreq": [ "THRESH_ALPHA" ]
   },
-  "points": 0,
-  "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
-  "purifiable": false,
-  "types": [
-    "HUMAN_EMPATHY"
-  ],
-  "social_modifiers": {
-    "lie": 10,
-    "persuade": -25,
-    "intimidate": 10
-  },
-  "category": [
-    "ALPHA"
-  ],
-  "prereqs": [
-    "INT_ALPHA",
-    "PER_ALPHA"
-  ],
-  "prereqs2": [
-    "STR_ALPHA",
-    "DEX_ALPHA"
-  ],
-  "threshreq": [
-    "THRESH_ALPHA"
-  ]
-},
   {
     "type": "mutation",
     "id": "NOT_GLASS",

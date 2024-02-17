@@ -45,8 +45,6 @@ static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK
 
 static const limb_score_id limb_score_block( "block" );
 
-static const matec_id tec_none( "tec_none" );
-
 static const skill_id skill_unarmed( "unarmed" );
 
 static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );

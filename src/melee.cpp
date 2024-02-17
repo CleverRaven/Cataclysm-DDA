@@ -740,9 +740,6 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             technique_id = force_technique;
         } else if( allow_special ) {
             technique_id = pick_technique( t, cur_weapon, critical_hit, false, false );
-            if( critical_hit && technique_id.obj().crit_tec_id != tec_none ) {
-                technique_id = technique_id.obj().crit_tec_id;
-            }
         } else {
             technique_id = tec_none;
         }
