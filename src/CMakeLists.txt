@@ -48,9 +48,20 @@ if (TILES)
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
         if(MSYS2)
+            set(_keep $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            --only-keep-debug
+            $<TARGET_FILE:cataclysm-tiles>
+            $<TARGET_FILE:cataclysm-tiles>.debug
+            >)
+            set(_strip $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            --strip-unneeded
+            --add-gnu-debuglink=$<TARGET_FILE:cataclysm-tiles>.debug
+            $<TARGET_FILE:cataclysm-tiles>
+            >)
             add_custom_command(TARGET cataclysm-tiles POST_BUILD
-                COMMAND objcopy --only-keep-debug $<TARGET_FILE:cataclysm-tiles> $<TARGET_FILE:cataclysm-tiles>.debug
-                COMMAND objcopy --strip-unneeded --add-gnu-debuglink=$<TARGET_FILE:cataclysm-tiles>.debug $<TARGET_FILE:cataclysm-tiles>
+                COMMAND "${_keep}"
+                COMMAND "${_strip}"
+                COMMAND_EXPAND_LISTS
             )
         else()
             # Use only our RT_MANIFEST from resource.rc
