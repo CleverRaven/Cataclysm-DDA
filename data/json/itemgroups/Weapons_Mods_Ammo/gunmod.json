@@ -89,7 +89,7 @@
       [ "hybrid_sight_4x", 5 ],
       [ "holo_sight", 10 ],
       [ "red_dot_sight", 20 ],
-      [ "improve_sights", 50 ]
+      [ "null", 50 ]
     ]
   },
   {
@@ -102,7 +102,7 @@
     "type": "item_group",
     "id": "issued_grip",
     "//": "Not all soldiers would have a forward grip, but they're common accessories.",
-    "items": [ [ "grip", 40 ], [ "null", 60 ] ]
+    "items": [ [ "grip", 33 ], [ "null", 67 ] ]
   },
   {
     "type": "item_group",
