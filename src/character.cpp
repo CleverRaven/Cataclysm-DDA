@@ -2240,6 +2240,8 @@ int Character::footstep_sound() const
             }
             if( mons->has_flag( mon_flag_LOUDMOVES ) ) {
                 volume += 6;
+            } else if( mons->has_flag( mon_flag_QUIETMOVES ) ) {
+                volume /= 2;
             }
         } else {
             volume = calculate_by_enchantment( volume, enchant_vals::mod::FOOTSTEP_NOISE );
