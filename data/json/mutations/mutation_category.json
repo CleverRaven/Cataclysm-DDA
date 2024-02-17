@@ -291,7 +291,7 @@
     "id": "CHIROPTERAN",
     "name": "Chiropteran",
     "threshold_mut": "THRESH_CHIROPTERAN",
-    "mutagen_message": "Your ears ring, and you thirst for blood.",
+    "mutagen_message": "Your ears ring and you taste iron.",
     "memorial_message": "Became the night.",
     "vitamin": "mutagen_chiropteran",
     "base_removal_chance": 33,
