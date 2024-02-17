@@ -106,7 +106,7 @@ else
         ( test -f ./files_changed && ( build-scripts/get_affected_files.py ./files_changed | grep -v third-party ) ) || \
         echo unknown )"
 
-    if [ "tidyable_cpp_files" == "unknown" ]
+    if [ "$tidyable_cpp_files" == "unknown" ]
     then
         echo "Unable to determine affected files, tidying all files"
         tidyable_cpp_files=$all_cpp_files
