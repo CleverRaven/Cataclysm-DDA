@@ -84,13 +84,7 @@
     "type": "item_group",
     "id": "issued_carbine_sights",
     "//": "Sights that are issued by the US Army for the M4 and similar firearms.",
-    "items": [
-      [ "acog_scope", 15 ],
-      [ "hybrid_sight_4x", 5 ],
-      [ "holo_sight", 10 ],
-      [ "red_dot_sight", 20 ],
-      [ "null", 50 ]
-    ]
+    "items": [ [ "acog_scope", 15 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 10 ], [ "red_dot_sight", 20 ], [ "null", 50 ] ]
   },
   {
     "type": "item_group",
