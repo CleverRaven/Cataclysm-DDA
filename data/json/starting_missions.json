@@ -721,8 +721,8 @@
   {
     "id": "MISSION_LAST_DELIVERY",
     "type": "mission_definition",
-    "name": { "str": "Reach Your Vehicle’s Delivery Destination" },
-    "description": "According to your truck’s saved GPS coordinates, its original mission had been to deliver Food Place products to a mansion in bumfuck nowhere.  You’re not sure who orders takeout while the United States is imploding upon itself, but it seems like as good of a place as any to head to now that evacuation seems to be off the cards.  They’re rich people, after all.  Perhaps they’ll have some room for charity.",
+    "name": { "str": "Deliver Your Cargo" },
+    "description": "You’re not sure who orders takeout when the world’s ending, but that doesn’t matter.  Evacuation doesn’t matter.  Nothing, indeed, matters, save for safely delivering your precious cargo to its destination: a remote mansion.  May Food Person watch over you, soldier.",
     "goal": "MGOAL_GO_TO_TYPE",
     "destination": "mansion_c3",
     "difficulty": 1,
