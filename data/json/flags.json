@@ -2424,22 +2424,6 @@
     "//": "This item contains blood and satisfies a hemovore's requirements."
   },
   {
-    "id": "SOCIAL1",
-    "type": "json_flag"
-  },
-  {
-    "id": "SOCIAL2",
-    "type": "json_flag"
-  },
-  {
-    "id": "ASOCIAL1",
-    "type": "json_flag"
-  },
-  {
-    "id": "ASOCIAL2",
-    "type": "json_flag"
-  },
-  {
     "id": "QUADRUPED_CROUCH",
     "type": "json_flag",
     "//": "This character goes down on all fours when they crouch, if their hands are free.  Used for paw mutations."
@@ -2453,13 +2437,5 @@
     "id": "HEARING_PROTECTION",
     "type": "json_flag",
     "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
-  },
-  {
-    "id": "DRACULIN_VENOM",
-    "type": "json_flag"
-  },
-  {
-    "id": "VENOM1",
-    "type": "json_flag"
   }
 ]

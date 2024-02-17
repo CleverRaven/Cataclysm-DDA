@@ -153,7 +153,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS", "MUZZLE", "TEETH", "TONGUE" ],
-    "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE", "BLOODLETTER" ],
+    "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE" ],
     "description": "You have a human mouth with human teeth."
   },
   {
@@ -1153,58 +1153,6 @@
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
     "starting_trait": true,
     "valid": false
-  },
-  {
-    "type": "mutation",
-    "id": "SOCIAL1",
-    "name": { "str": "Extrovert" },
-    "points": 1,
-    "types": [ "SOCIAL" ],
-    "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
-    "changes_to": [ "SOCIAL2" ],
-    "description": "You don't mind being alone, but you get a slight mood boost from being around friends.",
-    "starting_trait": true,
-    "flags": [ "SOCIAL1" ],
-    "category": [ "CATTLE", "ELFA", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "BIRD", "FISH" ]
-  },
-  {
-    "type": "mutation",
-    "id": "SOCIAL2",
-    "name": { "str": "Sociable" },
-    "points": 1,
-    "types": [ "SOCIAL" ],
-    "cancels": [ "ASOCIAL1", "ASOCIAL2" ],
-    "description": "You are a social creature.  Spending time with friends will improve your mood, but if you're alone too long, you'll start to feel unhappy.",
-    "starting_trait": true,
-    "mixed_effect": true,
-    "flags": [ "SOCIAL2" ],
-    "category": [ "CATTLE", "LUPINE", "MOUSE", "RAT", "CHIROPTERAN", "ELFA" ]
-  },
-  {
-    "type": "mutation",
-    "id": "ASOCIAL1",
-    "name": { "str": "Introvert" },
-    "points": 1,
-    "types": [ "SOCIAL" ],
-    "cancels": [ "SOCIAL1", "SOCIAL2" ],
-    "changes_to": [ "ASOCIAL2" ],
-    "description": "You can tolerate others, but you prefer to be alone.  Spending time by yourself will boost your mood slightly.",
-    "starting_trait": true,
-    "flags": [ "ASOCIAL1" ],
-    "category": [ "SPIDER", "URSINE", "FELINE", "LIZARD", "BEAST", "CHIMERA" ]
-  },
-  {
-    "type": "mutation",
-    "id": "ASOCIAL2",
-    "name": { "str": "Loner" },
-    "points": 1,
-    "types": [ "SOCIAL" ],
-    "cancels": [ "SOCIAL1", "SOCIAL2" ],
-    "description": "You'd really rather be by yourself.  Being alone will improve your mood, but spending too much time around other people can grate on your nerves.",
-    "starting_trait": true,
-    "mixed_effect": true,
-    "flags": [ "ASOCIAL2" ],
-    "category": [ "SPIDER", "URSINE", "LIZARD", "BEAST" ]
   },
   {
     "type": "mutation",
@@ -2493,11 +2441,44 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 2,
-    "description": "Your teeth have grown into long, sharp fangs.  If your mouth is uncovered, you'll sometimes bite your enemies.",
+    "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
     "types": [ "TEETH" ],
-    "changes_to": [ "SABER_TEETH", "SHARKTEETH", "FANGS_VAMPIRE" ],
-    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN", "URSINE", "BEAST" ],
-    "integrated_armor": [ "integrated_fangs" ]
+    "changes_to": [ "SABER_TEETH", "SHARKTEETH", "VAMPIRE_FANGS" ],
+    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN" ],
+    "attacks": [
+      {
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 20,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+        "required_mutations": [ "MUZZLE" ],
+        "body_part": "mouth",
+        "chance": 18,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+        "required_mutations": [ "MUZZLE_LONG" ],
+        "body_part": "mouth",
+        "chance": 15,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      },
+      {
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+        "required_mutations": [ "MUZZLE_RAT" ],
+        "body_part": "mouth",
+        "chance": 19,
+        "base_damage": { "damage_type": "stab", "amount": 20 }
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2531,7 +2512,13 @@
     "prereqs": [ "FANGS" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
     "category": [ "CHIROPTERAN" ],
-    "integrated_armor": [ "integrated_vampire_fangs" ]
+    "attacks": {
+      "attack_text_u": "You sink your fangs into %s!",
+      "attack_text_npc": "%1$s sinks their fangs into %2$s!",
+      "body_part": "mouth",
+      "chance": 18,
+      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 2 } ]
+    }
   },
   {
     "type": "mutation",
@@ -7566,16 +7553,6 @@
   },
   {
     "type": "mutation",
-    "id": "BLOODLETTER",
-    "name": { "str": "Bloodletter" },
-    "points": 2,
-    "description": "Your saliva contains powerful anticoagulants.  If you have a bite attack, it will prolong the bleeding of most animals, including humans and the undead.  It may be less effective against insects and stranger creatures.",
-    "flags": [ "DRACULIN_VENOM" ],
-    "prereqs": [ "HEMOVORE", "BLOODFEEDER" ],
-    "category": [ "CHIROPTERAN" ]
-  },
-  {
-    "type": "mutation",
     "id": "PONDEROUS1",
     "name": { "str": "Ponderous" },
     "points": -3,
@@ -9678,20 +9655,38 @@
     "category": [ "ALPHA" ],
     "starting_trait": true
   },
-  {
-    "type": "mutation",
-    "id": "ALPHA_COMPLEX",
-    "name": { "str": "Superiority Complex" },
-    "points": 0,
-    "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
-    "purifiable": false,
-    "types": [ "SOCIAL" ],
-    "social_modifiers": { "lie": 10, "persuade": -25, "intimidate": 10 },
-    "category": [ "ALPHA" ],
-    "prereqs": [ "INT_ALPHA", "PER_ALPHA" ],
-    "prereqs2": [ "STR_ALPHA", "DEX_ALPHA" ],
-    "threshreq": [ "THRESH_ALPHA" ]
+{
+  "type": "mutation",
+  "id": "ALPHA_COMPLEX",
+  "name": {
+    "str": "Superiority Complex"
   },
+  "points": 0,
+  "description": "You can't stand to prostrate yourself before your lessers and hate it when they don't immediately do what you say.  Persuasion is much more difficult, but you're better at lying and intimidating.",
+  "purifiable": false,
+  "types": [
+    "HUMAN_EMPATHY"
+  ],
+  "social_modifiers": {
+    "lie": 10,
+    "persuade": -25,
+    "intimidate": 10
+  },
+  "category": [
+    "ALPHA"
+  ],
+  "prereqs": [
+    "INT_ALPHA",
+    "PER_ALPHA"
+  ],
+  "prereqs2": [
+    "STR_ALPHA",
+    "DEX_ALPHA"
+  ],
+  "threshreq": [
+    "THRESH_ALPHA"
+  ]
+},
   {
     "type": "mutation",
     "id": "NOT_GLASS",
