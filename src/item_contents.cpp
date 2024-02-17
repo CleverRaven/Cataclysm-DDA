@@ -391,14 +391,14 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             } else if( !lhs_in_list && rhs_in_list ) {
                 return false;
             }
-            return localized_compare( lhs.name(), rhs.name() );
+            return localized_compare( lhs.name_header(), rhs.name_header() );
         } );
 
         uilist selector_menu;
         for( const item_category &cat : all_cat ) {
             const bool in_list = listed_cat.count( cat.get_id() );
             const std::string &prefix = in_list ? remove_prefix : add_prefix;
-            selector_menu.addentry( prefix + cat.name() );
+            selector_menu.addentry( prefix + cat.name_header() );
         }
         selector_menu.query();
 
@@ -1233,7 +1233,8 @@ int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_effici
             if( !pocket.empty() && pocket.front().is_fuel() && fuel_efficiency >= 0 ) {
                 // if using fuel instead of battery, everything is in kJ
                 // charges is going to be the energy needed over the energy in 1 unit of fuel * the efficiency of the generator
-                int charges_used = ceil( static_cast<float>( units::from_kilojoule( qty ).value() ) / (
+                int charges_used = ceil( static_cast<float>( units::from_kilojoule( static_cast<std::int64_t>
+                                         ( qty ) ).value() ) / (
                                              static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
 
                 const int res = pocket.ammo_consume( charges_used );

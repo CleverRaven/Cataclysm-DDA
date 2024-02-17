@@ -987,5 +987,25 @@
         "duration": { "math": [ "( 30 + (u_spell_level('animist_spirit_walking') * 3)) " ] }
       }
     ]
+  },
+  {
+    "id": "animist_add_evasion_spell",
+    "type": "SPELL",
+    "name": "Guardian Spirit",
+    "description": "Summon a benevolent spirit to keep watch over you and warn you of imminent attacks, allowing you to dodge some of them.",
+    "valid_targets": [ "self" ],
+    "spell_class": "ANIMIST",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "effect_animist_add_evasion",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "max_level": 15,
+    "base_energy_cost": 350,
+    "min_duration": 30000,
+    "max_duration": 480000,
+    "duration_increment": 30000,
+    "base_casting_time": 250
   }
 ]

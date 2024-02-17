@@ -1034,8 +1034,14 @@ struct islot_ammo : common_ranged_data {
      */
     bool force_stat_display;
 
+    /**
+    * Bullet dispersion affected by the length of the barrel
+    */
+    std::vector<disp_mod_by_barrel> disp_mod_by_barrels;
+
     bool was_loaded = false;
 
+    int dispersion_considering_length( units::length barrel_length ) const;
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };

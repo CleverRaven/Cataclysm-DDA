@@ -351,7 +351,7 @@
     "id": "EOC_TELEKIN_MATRIX_AWAKENING_SUCCESS",
     "effect": [
       {
-        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You release your grasp on the crystal but it doesn't fall.  It floats, supported on nothingness, and as you watch it you become aware of the connections between objects. Gravity, attraction and repulsion, reveal themselves--you can see the weakened influence of gravity on the crystal, and with a thought you nudge it slightly.  The crystal floats up in the air, stretching the connections between it at the ground, before they adjust to its new place.  You tug on the connections, rotating the crystal, moving it from left to right, and as the light within it slowly fades away, you let go and the crystal drops back to your hand.",
+        "u_message": "You gaze into the strange crystal and the light slowly grows brighter.  You release your grasp on the crystal but it doesn't fall.  It floats, supported on nothingness, and as you watch it you become aware of the connections between objects.  Gravity, attraction and repulsion, reveal themselves--you can see the weakened influence of gravity on the crystal, and with a thought you nudge it slightly.  The crystal floats up in the air, stretching the connections between it at the ground, before they adjust to its new place.  You tug on the connections, rotating the crystal, moving it from left to right, and as the light within it slowly fades away, you let go and the crystal drops back to your hand.",
         "popup": true
       },
       { "u_add_trait": "TELEKINETIC" },
@@ -774,7 +774,7 @@
     },
     "effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Multi-colored lightning flashes across the sky and then freezes.  The lightning expands in your sight, until you can see individual electrons tracing their paths through the air. You reach out a hand and some of the electrons change their path, and as the world restarts its motion the lightning crashes into you and through you to the ground.  A few sparks remain, dancing across your hand, and as you flex your fingers lightning crackles between them.",
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Multi-colored lightning flashes across the sky and then freezes.  The lightning expands in your sight, until you can see individual electrons tracing their paths through the air.  You reach out a hand and some of the electrons change their path, and as the world restarts its motion the lightning crashes into you and through you to the ground.  A few sparks remain, dancing across your hand, and as you flex your fingers lightning crackles between them.",
         "popup": true
       },
       { "u_add_trait": "ELECTROKINETIC" },
@@ -939,7 +939,7 @@
     },
     "effect": [
       {
-        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Reality grows thin--you can see the ground beneath your hand. You can see the spaces between molecules, larger by far than the distances at a macro scale.  You see the paths you could take to slip between them, to traverse space in an instant without any obstacles in your path.  As the distances collapse back and reality grows solid once again, that knowledge remains with you.",
+        "u_message": "A roar fills your mind, louder even than the screaming madness of the portal storm.  Reality grows thin--you can see the ground beneath your hand.  You can see the spaces between molecules, larger by far than the distances at a macro scale.  You see the paths you could take to slip between them, to traverse space in an instant without any obstacles in your path.  As the distances collapse back and reality grows solid once again, that knowledge remains with you.",
         "popup": true
       },
       { "u_add_trait": "TELEPORTER" },
