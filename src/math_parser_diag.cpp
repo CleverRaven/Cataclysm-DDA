@@ -1290,7 +1290,6 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "val", { "un", 1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
-    { "vision_range", { "un", 0, vision_range_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
 };
