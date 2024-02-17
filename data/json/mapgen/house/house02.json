@@ -33,7 +33,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_domestic_migration_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
       "terrain": {
         "/": "t_screened_porch_wall",
         "=": "t_screen_door_c",
