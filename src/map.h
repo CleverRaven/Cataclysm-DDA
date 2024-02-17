@@ -602,7 +602,7 @@ class map
         /**
         * Returns whether `F` sees `T` with a view range of `range`.
         */
-        bool sees( const tripoint &F, const tripoint &T, int range ) const;
+        bool sees( const tripoint &F, const tripoint &T, int range, bool with_fields = true ) const;
     private:
         /**
          * Don't expose the slope adjust outside map functions.
@@ -614,7 +614,8 @@ class map
          * the two points, and may subsequently be used to form a path between them.
          * Set to zero if the function returns false.
         **/
-        bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope,
+                   bool with_fields = true ) const;
         point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
@@ -2264,7 +2265,9 @@ class map
         /**
          * Cache of coordinate pairs recently checked for visibility.
          */
-        mutable lru_cache<point, char> skew_vision_cache;
+        using lru_cache_t = lru_cache<point, char>;
+        mutable lru_cache_t skew_vision_cache;
+        mutable lru_cache_t skew_vision_wo_fields_cache;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {
