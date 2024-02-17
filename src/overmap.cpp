@@ -4904,7 +4904,6 @@ void overmap::place_highways()
         if( placed_highways.all() ) {
             special = settings->overmap_highway.four_way_intersections.pick();
         } else if( placed_highways.count() == 3 ) {
-            // TODO: Check this is the right way around
             special = settings->overmap_highway.three_way_intersections.pick();
             for( int i = 0; i < placed_highways_size; i++ ) {
                 if( !placed_highways[i] ) {
@@ -4913,21 +4912,34 @@ void overmap::place_highways()
                 }
             }
         } else {
-            // TODO: Check this is the right way around
             special = settings->overmap_highway.bends.pick();
             for( int i = 0; i < placed_highways_size; i++ ) {
                 int j = i + 1 < placed_highways_size ? i + 1 : 0;
                 if( !placed_highways[i] && !placed_highways[j] ) {
-                    dir = om_direction::all[i];
+                    dir = om_direction::all[j];
                     break;
                 }
             }
         }
         const int x = floor( OMAPX / 2.0 );
         const int y = floor( OMAPY / 2.0 );
-        const tripoint_om_omt nw_corner( x, y, 0 );
-        if( can_place_special( *special, nw_corner, dir, false ) ) {
-            place_special( *special, nw_corner, dir, invalid_city, false,
+        tripoint_om_omt center( x, y, 0 );
+        switch (dir){
+            case om_direction::type::east:
+                center = center + displace( om_direction::type::east );
+                break;
+            case om_direction::type::south:
+                center = center + displace( om_direction::type::east ) + displace( om_direction::type::south );
+                break;
+            case om_direction::type::west:
+                center = center + displace( om_direction::type::south );
+                break;
+            case om_direction::type::north:
+            default:
+                break;
+        }
+        if( can_place_special( *special, center, dir, false ) ) {
+            place_special( *special, center, dir, invalid_city, false,
                            false );
         } else {
             debugmsg( "Failed to place chosen highway intersection %s", special.c_str() );
