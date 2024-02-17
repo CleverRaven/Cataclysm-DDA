@@ -52,7 +52,7 @@
     "om_terrain": "house_20",
     "//": "in-construction variant",
     "type": "mapgen",
-    "weight": 2000,
+    "weight": 20,
     "object": {
       "fill_ter": "t_floor",
       "rows": [
