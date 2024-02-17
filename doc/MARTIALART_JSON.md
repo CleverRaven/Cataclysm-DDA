@@ -70,7 +70,7 @@
   "id": "tec_debug_arpen",    // Unique ID. Must be one continuous word
   "name": "phasing strike",   // In-game name displayed
   "attack_vectors": [ "WEAPON", "HAND" ] // What attack vector would be used for this technique; this field is order dependend, meaning in this example the game will try to use WEAPON first, and, if not possible, reject it and will use HAND instead; For more info see Attack vectors below
-  "attack_vectors_random": [ "FOOT", "HEAD", "TORSO", "HEAD", "HEAD", "MOUTH" ] // same as attack_vectors, but has no priority, and pick random vector from the list; it is used only if all choises from attack_vectors are rejected
+  "attack_vectors_random": [ "FOOT", "HEAD", "TORSO", "HEAD", "HEAD" ] // same as attack_vectors, but has no priority, and pick random vector from the list; it is used only if all choises from attack_vectors are rejected
   "unarmed_allowed": true,    // Can an unarmed character use this technique
   "unarmed_weapons_allowed": true,    // Does this technique require the character to be actually unarmed or does it allow unarmed weapons
   "weapon_categories_allowed": [ "BLADES", "KNIVES" ], // Restrict technique to only these categories of weapons. If omitted, all weapon categories are allowed.
@@ -145,7 +145,6 @@ List of attack vectors is currently hardcoded, and contain:
 - `WEAPON` - Any technique the requires a held item to perform (see any weapon style). Can be used if the user is holding a valid style weapon for their martial art and at least one hand/arm is not broken.
 - `THROW` - Any technique that forcefully moves an opponent (judo throws, suplex). Can be used only if both hands/arms are not broken.
 - `GRAPPLE` - Any technique that maintains contact with an opponent and squeezes (chock, headlock), bends (Krav Maga's Arm Breaker), or twists (arm twist) some part of the opponent. Can be used only if both hands/arms are not broken.
-- `MOUTH` - Any technique that uses the mouth, such as biting or spitting acid. Can be used if the mouth is uncovered. Items flagged with ALLOWS_NATURAL_ATTACKS are ignored when checking for coverage.
 
 ### Tech effects
 ```C++
@@ -201,7 +200,7 @@ The bonuses arrays contain any number of bonus entries like this:
 "stat": affected statistic, any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen",
 "type": damage type for the affected statistic ("bash", "cut", "heat", etc.), only needed if the affected statistic is "damage", "armor", or "arpen".
 "scale": the value of the bonus itself.
-"scaling-stat": scaling stat, any of: "str", "dex", "int", "per", "bashing", "cutting", "dodge", "melee", "stabbing", "athletics", "unarmed", "gun", "pistol", "rifle", "shotgun", "smg", "archery", "throw", "launcher", "drive". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat/skill.
+"scaling-stat": scaling stat, any of: "str", "dex", "int", "per". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat.
 
 Bonuses must be written in the correct order.
 
@@ -219,9 +218,6 @@ All cutting damage dealt is multiplied by `(10% of dexterity)*(damage)`:
 
 Move cost is decreased by 100% of strength value
 * `flat_bonuses: [ { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 } ]`
-
-Gain a bonus to accuracy based on your driving skill. Should probably only be used while in control of a vehicle:
-* `flat_bonuses: [ { "stat": "hit", "scaling-stat": "drive", "scale": 0.3 } ]`
 
 ### Place relevant items in the world and chargen
 
