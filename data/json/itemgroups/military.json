@@ -32,14 +32,7 @@
     "type": "item_group",
     "id": "military_grenadier_assault_rifles",
     "subtype": "distribution",
-    "entries": [
-      {
-        "item": "modular_m4_carbine",
-        "contents-group": [ "military_grenadier_mods", "issued_slings" ],
-        "prob": 100,
-        "charges": [ 0, 30 ]
-      }
-    ]
+    "entries": [ { "item": "modular_m4_carbine", "contents-group": "issued_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
   },
   {
     "id": "armor_plates",
