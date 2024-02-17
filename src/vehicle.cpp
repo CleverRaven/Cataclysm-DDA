@@ -2460,7 +2460,7 @@ bool vehicle::split_vehicles( map &here,
         new_vehicle->precalc_mounts( 0, new_vehicle->turn_dir, point() );
         new_vehicle->precalc_mounts( 1, new_vehicle->skidding ?
                                      new_vehicle->turn_dir : new_vehicle->face.dir(),
-                                     new_vehicle->pivot_point() );
+                                     is_appliance ? point() : new_vehicle->pivot_point() );
         if( !passengers.empty() ) {
             new_vehicle->relocate_passengers( passengers );
         }
