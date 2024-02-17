@@ -454,7 +454,7 @@
     "min_range": 4,
     "max_range": 26,
     "range_increment": 1.1,
-    "base_energy_cost": 400,
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(400)" ] },
     "spell_class": "ANIMIST",
     "difficulty": 6,
     "max_level": 20,
@@ -464,9 +464,10 @@
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000,
-    "base_casting_time": 300,
-    "final_casting_time": 30,
-    "casting_time_increment": -14,
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(300)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(30)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-14)" ] },
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "energy_source": "MANA"
   },
   {
@@ -564,6 +565,7 @@
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
     "min_range": 3,
     "max_range": 6,
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "range_increment": 0.2
   },
   {
@@ -615,8 +617,9 @@
     "max_aoe": 3,
     "flags": [ "SOMATIC", "VERBAL" ],
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(3600)" ] },
-    "max_duration": 12000,
-    "duration_increment": 1000
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(12000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ]
   },
   {
     "id": "spirit_walk",
@@ -632,14 +635,15 @@
     "energy_source": "MANA",
     "difficulty": 5,
     "max_level": 20,
-    "base_casting_time": 100,
-    "casting_time_increment": -2.5,
-    "final_casting_time": 50,
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-2.5)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50)" ] },
     "base_energy_cost": 300,
     "energy_increment": -5.0,
     "final_energy_cost": 200,
     "min_range": 5,
     "max_range": 15,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "range_increment": 1.0
   },
   {
@@ -873,10 +877,11 @@
     "difficulty": 5,
     "max_level": 15,
     "base_energy_cost": 500,
-    "min_duration": 90000,
-    "max_duration": 900000,
-    "duration_increment": 60000,
-    "base_casting_time": 1500
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(900000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] },
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
     "id": "animist_summon_watcher",
@@ -982,14 +987,15 @@
     "components": "spell_components_spirit_walking",
     "max_level": 20,
     "difficulty": 8,
-    "min_duration": 3000,
-    "max_duration": 9000,
-    "duration_increment": 300,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(3000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(9000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(300)" ] },
     "energy_source": "MANA",
-    "base_casting_time": 300,
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(300)" ] },
     "base_energy_cost": 1200,
     "final_energy_cost": 850,
-    "energy_increment": -17.5
+    "energy_increment": -17.5,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   },
   {
     "type": "effect_on_condition",
@@ -1020,9 +1026,10 @@
     "difficulty": 4,
     "max_level": 15,
     "base_energy_cost": 350,
-    "min_duration": 30000,
-    "max_duration": 480000,
-    "duration_increment": 30000,
-    "base_casting_time": 250
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(480000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(250)" ] },
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ]
   }
 ]
