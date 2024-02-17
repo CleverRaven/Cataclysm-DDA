@@ -691,6 +691,7 @@ bool is_lake_or_river( const oter_id &ter );
 bool is_ocean( const oter_id &ter );
 bool is_road( const oter_id &ter );
 bool is_highway( const oter_id &ter );
+bool is_highway_reserved( const oter_id &ter );
 bool is_highway_special( const oter_id &ter );
 
 /**

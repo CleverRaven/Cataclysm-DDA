@@ -631,6 +631,11 @@ bool is_highway( const oter_id &ter )
     return ter->is_highway();
 }
 
+bool is_highway_reserved( const oter_id &ter )
+{
+    return ter->is_highway_reserved();
+}
+
 bool is_highway_special( const oter_id &ter )
 {
     return ter->is_highway_special();
@@ -4934,7 +4939,7 @@ void overmap::place_highways()
         const int variable_side_size = vary_y ? OMAPY : OMAPX;
         const int invariable_side_size = vary_y ? OMAPX : OMAPY;
         int value_to_try = i == 1 || i == 2 ? floor( variable_side_size / 2.0 ) : 0;
-        value_to_try += rng_normal( 0, floor( variable_side_size / 2.0 ) );
+        value_to_try += rng_normal( 5, floor( variable_side_size / 2.0 ) - 5 );
         tripoint_om_omt point_to_try = vary_y ? tripoint_om_omt( static_cast<int>( floor(
                                            invariable_side_size / 2.0 ) ), value_to_try, 0 ) : tripoint_om_omt( value_to_try,
                                                    static_cast<int>( floor( invariable_side_size / 2.0 ) ), 0 );
@@ -5006,8 +5011,9 @@ void overmap::finalize_highways()
     auto determine_what_to_place = [&]( tripoint_om_omt point, tripoint offset ) {
         std::pair<int, int> ret;
         // TODO: Might be able to make a highway_reserved flag and just check the highway flag instead
-        if( is_highway_special( ter( point ) ) ) {
+        if( is_highway( ter( point ) ) ) {
             ret = { 0, 0 };
+        // Check for the reserved terrain instead
         } else if( is_water_body_or( point, offset ) ) {
             ret = { 3, 0 };
         } else if( is_in_city_or( point, offset ) ) {
@@ -6862,7 +6868,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connectio
             break;
         }
         const oter_id &ter_id = ter( pos );
-        if( ter_id->is_highway() ) {
+        if( ter_id->is_highway_reserved() ) {
             if( !checked_highway ) {
                 // Break if parallel to the highway direction
                 if( are_parallel( dir, ter_id.obj().get_dir() ) ) {
