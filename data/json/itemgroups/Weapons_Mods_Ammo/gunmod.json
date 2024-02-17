@@ -94,10 +94,16 @@
   },
   {
     "type": "item_group",
+    "id": "gunmod_army_potential_grip",
+    "//": "Not all soldiers would have a forward grip, but they're not uncommon.",
+    "items": [ [ "grip", 40 ], [ "null", 60 ] ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "gunmod_army_loadout",
-    "//": "Weapon mod loadouts that represent the average US Army rifleman.",
-    "items": [ { "group": "firearm_slings" }, { "group": "gunmod_carbine_sights_army" } ]
+    "//": "Weapon mod loadouts that represent the average US Army carbine loadout.",
+    "items": [ { "group": "firearm_slings" }, { "group": "gunmod_carbine_sights_army" }, { "group": "gunmod_army_potential_grip" } ]
   },
   {
     "type": "item_group",
