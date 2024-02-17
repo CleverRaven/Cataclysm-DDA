@@ -25,7 +25,7 @@
         "prob": 1,
         "charges": [ 0, 30 ]
       },
-      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "firearm_slings" }
+      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "issued_slings" }
     ]
   },
   {
@@ -35,7 +35,7 @@
     "entries": [
       {
         "item": "modular_m4_carbine",
-        "contents-group": [ "military_grenadier_mods", "firearm_slings" ],
+        "contents-group": [ "military_grenadier_mods", "issued_slings" ],
         "prob": 100,
         "charges": [ 0, 30 ]
       }
