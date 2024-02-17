@@ -75,5 +75,12 @@
     "info": "Allows to place procgen forest trailheads during overmap generation.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_HIGHWAYS",
+    "info": "Allows to place fixed distance highways during overmap generation.",
+    "stype": "bool",
+    "value": false
   }
 ]
