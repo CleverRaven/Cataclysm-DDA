@@ -98,7 +98,6 @@ static const activity_id ACT_RELOAD( "ACT_RELOAD" );
 static const bionic_id bio_uncanny_dodge( "bio_uncanny_dodge" );
 
 static const damage_type_id damage_acid( "acid" );
-static const damage_type_id damage_heat( "heat" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_electric( "electric" );
@@ -168,8 +167,6 @@ static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
-
-static const flag_id json_flag_FILTHY( "FILTHY" );
 
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
