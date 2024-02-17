@@ -438,22 +438,22 @@
   {
     "id": "8mm_civilian",
     "type": "MIGRATION",
-    "replace": "9mm"
+    "replace": "8mm_caseless"
   },
   {
     "id": "8mm_fmj",
     "type": "MIGRATION",
-    "replace": "9mm"
+    "replace": "8mm_caseless"
   },
   {
     "id": "8mm_hvp",
     "type": "MIGRATION",
-    "replace": "9mm"
+    "replace": "8mm_caseless"
   },
   {
     "id": "8mm_inc",
     "type": "MIGRATION",
-    "replace": "9mm"
+    "replace": "8mm_caseless"
   },
   {
     "id": "rm298",
