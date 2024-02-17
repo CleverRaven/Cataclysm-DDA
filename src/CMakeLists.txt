@@ -48,19 +48,19 @@ if (TILES)
                 ${MESSAGES_CPP}
                 ${RESOURCE_RC})
         if(MSYS2)
-            set(_keep $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            set(_KEEP $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
             --only-keep-debug
             $<TARGET_FILE:cataclysm-tiles>
             $<TARGET_FILE:cataclysm-tiles>.debug
             >)
-            set(_strip $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
+            set(_STRIP $<$<CONFIG:RelWithDebInfo,Debug>:objcopy
             --strip-unneeded
             --add-gnu-debuglink=$<TARGET_FILE:cataclysm-tiles>.debug
             $<TARGET_FILE:cataclysm-tiles>
             >)
             add_custom_command(TARGET cataclysm-tiles POST_BUILD
-                COMMAND "${_keep}"
-                COMMAND "${_strip}"
+                COMMAND "${_KEEP}"
+                COMMAND "${_STRIP}"
                 COMMAND_EXPAND_LISTS
             )
         else()
