@@ -22,5 +22,17 @@
     "id": "channeling_proficiency_bonus_calculate",
     "num_args": 1,
     "return": "_0 + ((u_proficiency('prof_magic_channel_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_master', 'format': 'percent') * 1) / 10)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "summoning_proficiency_bonus_calculate",
+    "num_args": 1,
+    "return": "_0 + ((u_proficiency('prof_magic_summon_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_master', 'format': 'percent') * 1) / 10)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "summoning_proficiency_negate_calculate",
+    "num_args": 1,
+    "return": "_0 - ((u_proficiency('prof_magic_summon_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_summon_master', 'format': 'percent') * 1) / 10)"
   }
 ]

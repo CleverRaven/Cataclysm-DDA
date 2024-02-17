@@ -86,11 +86,12 @@
     "shape": "blast",
     "energy_source": "MANA",
     "base_energy_cost": 400,
-    "base_casting_time": 3000,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(3000)" ] },
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "CONSUMES_RUNES" ],
-    "min_duration": 36000,
-    "max_duration": 1080000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ]
   },
   {
     "type": "effect_on_condition",
@@ -123,9 +124,9 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "min_duration": 36000,
-    "max_duration": 1080000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_zombie",
@@ -137,9 +138,9 @@
     "effect": "summon",
     "effect_str": "mon_zombie",
     "max_level": 35,
-    "min_duration": 216000,
-    "max_duration": 216000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(216000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(216000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_tough_zombie",
@@ -151,9 +152,9 @@
     "effect": "summon",
     "effect_str": "mon_zombie_tough",
     "max_level": 35,
-    "min_duration": 468000,
-    "max_duration": 468000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(468000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(468000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_zombie_brute",
@@ -165,9 +166,9 @@
     "effect": "summon",
     "effect_str": "mon_zombie_brute",
     "max_level": 35,
-    "min_duration": 720000,
-    "max_duration": 720000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(720000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(720000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_skeleton",
@@ -179,9 +180,9 @@
     "effect": "summon",
     "effect_str": "mon_skeleton",
     "max_level": 35,
-    "min_duration": 972000,
-    "max_duration": 972000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(972000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(972000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_skeleton_brute",
@@ -193,9 +194,9 @@
     "effect": "summon",
     "effect_str": "mon_skeleton_brute",
     "max_level": 35,
-    "min_duration": 1260000,
-    "max_duration": 1260000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_skeleton_hulk",
@@ -207,9 +208,9 @@
     "effect": "summon",
     "effect_str": "mon_skeleton_hulk",
     "max_level": 35,
-    "min_duration": 1260000,
-    "max_duration": 1260000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_undead_swarm",
@@ -227,12 +228,13 @@
     "components": "spell_components_rune_animist_3",
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": 600,
-    "base_casting_time": 3000,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600)" ] },
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(3000)" ] },
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "CONSUMES_RUNES" ],
-    "min_duration": 36000,
-    "max_duration": 1080000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ]
   },
   {
     "type": "effect_on_condition",
@@ -267,9 +269,9 @@
     "min_aoe": 2,
     "max_aoe": 2,
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "min_duration": 36000,
-    "max_duration": 1080000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1080000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_zombie_dog",
@@ -281,9 +283,9 @@
     "effect": "summon",
     "effect_str": "mon_zombie_dog",
     "max_level": 35,
-    "min_duration": 144000,
-    "max_duration": 144000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(144000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(144000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_dog_skeleton",
@@ -295,9 +297,9 @@
     "effect": "summon",
     "effect_str": "mon_dog_skeleton",
     "max_level": 35,
-    "min_duration": 324000,
-    "max_duration": 324000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(324000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(324000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_zougar",
@@ -309,9 +311,9 @@
     "effect": "summon",
     "effect_str": "mon_zougar",
     "max_level": 35,
-    "min_duration": 504000,
-    "max_duration": 504000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(504000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(504000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_wolf_skeleton",
@@ -323,9 +325,9 @@
     "effect": "summon",
     "effect_str": "mon_wolf_skeleton",
     "max_level": 35,
-    "min_duration": 684000,
-    "max_duration": 684000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(684000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(684000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_dog_zombie_brute",
@@ -337,9 +339,9 @@
     "effect": "summon",
     "effect_str": "mon_dog_zombie_brute",
     "max_level": 35,
-    "min_duration": 864000,
-    "max_duration": 864000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(864000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(864000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_dog_skeleton_brute",
@@ -351,9 +353,9 @@
     "effect": "summon",
     "effect_str": "mon_dog_skeleton_brute",
     "max_level": 35,
-    "min_duration": 1044000,
-    "max_duration": 1044000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1044000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1044000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_dog_zombie_hulk",
@@ -365,9 +367,9 @@
     "effect": "summon",
     "effect_str": "mon_dog_zombie_hulk",
     "max_level": 35,
-    "min_duration": 1260000,
-    "max_duration": 1260000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "summon_zougar_hunter",
@@ -379,9 +381,9 @@
     "effect": "summon",
     "effect_str": "mon_zougar_hunter",
     "max_level": 35,
-    "min_duration": 1260000,
-    "max_duration": 1260000,
-    "duration_increment": 36000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1260000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] }
   },
   {
     "id": "necrotic_gaze",
@@ -556,10 +558,10 @@
     "max_damage": 140,
     "damage_increment": 2.5,
     "max_level": 40,
-    "base_casting_time": 200,
-    "casting_time_increment": -2.0,
-    "final_casting_time": 120,
-    "base_energy_cost": 200,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
+    "casting_time_increment": { "math": [ "summoning_proficiency_negate_calculate(-2.0)" ] },
+    "final_casting_time": { "math": [ "summoning_proficiency_negate_calculate(120)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
     "min_range": 3,
     "max_range": 6,
     "range_increment": 0.2
@@ -607,12 +609,12 @@
     "effect_str": "mon_magi_shadow",
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": 200,
-    "base_casting_time": 500,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(500)" ] },
     "min_aoe": 3,
     "max_aoe": 3,
     "flags": [ "SOMATIC", "VERBAL" ],
-    "min_duration": 6000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(3600)" ] },
     "max_duration": 12000,
     "duration_increment": 1000
   },
@@ -675,8 +677,8 @@
     "energy_source": "MANA",
     "spell_class": "ANIMIST",
     "difficulty": 2,
-    "base_casting_time": 250,
-    "base_energy_cost": 300,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(250)" ] },
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
     "max_level": 25,
     "min_damage": 1,
     "max_damage": 8,
@@ -686,9 +688,10 @@
     "min_range": 3,
     "max_range": 7,
     "range_increment": 0.16,
-    "min_duration": 6000,
-    "max_duration": 60000,
-    "duration_increment": 2160
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(6000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(60000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(2160)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ]
   },
   {
     "id": "bleed",
@@ -734,14 +737,15 @@
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 24000,
-    "max_duration": 360000,
-    "duration_increment": 24000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(2400)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
     "spell_class": "ANIMIST",
     "base_casting_time": 400,
     "base_energy_cost": 6,
     "energy_source": "HP",
     "learn_spells": { "animist_summon_decaying_boneclub_plus": 20 },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "difficulty": 6
   },
   {
@@ -758,17 +762,18 @@
     "max_level": 25,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 360000,
-    "max_duration": 2160000,
-    "duration_increment": 72000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] },
     "spell_class": "ANIMIST",
-    "base_casting_time": 400,
-    "final_casting_time": 100,
-    "casting_time_increment": -12,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
+    "final_casting_time": { "math": [ "summoning_proficiency_negate_calculate(100)" ] },
+    "casting_time_increment": { "math": [ "summoning_proficiency_negate_calculate(-12)" ] },
     "base_energy_cost": 6,
     "final_energy_cost": 3,
     "energy_increment": -0.2,
     "energy_source": "HP",
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "difficulty": 7
   },
   {
@@ -891,12 +896,13 @@
     "min_range": 3,
     "max_range": 20,
     "range_increment": 1.1,
-    "min_duration": 24000,
-    "max_duration": 360000,
-    "duration_increment": 24000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
     "energy_source": "MANA",
     "base_casting_time": 500,
-    "base_energy_cost": 150
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(150)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ]
   },
   {
     "id": "animist_mass_hiding_aoe",
@@ -954,12 +960,13 @@
     "max_level": 20,
     "min_damage": 1,
     "max_damage": 1,
-    "min_duration": 72000,
-    "max_duration": 1512000,
-    "duration_increment": 72000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1512000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] },
     "energy_source": "MANA",
     "base_casting_time": 30000,
-    "base_energy_cost": 600
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ]
   },
   {
     "id": "animist_spirit_walking",
