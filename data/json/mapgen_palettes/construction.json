@@ -24,7 +24,14 @@
     "type": "palette",
     "id": "construction_all_variants",
     "//": "Palette shared by all in-construction houses",
-    "terrain": { ",": "t_floor", "a": "t_thconc_floor", ":": "t_concrete", "`": "t_thconc_floor", "X": "t_floor", "x": "t_thconc_floor" },
+    "terrain": {
+      ",": "t_floor",
+      "a": "t_thconc_floor",
+      "'": "t_concrete",
+      "`": "t_thconc_floor",
+      "X": "t_floor",
+      "x": "t_thconc_floor"
+    },
     "nested": {
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
       ",": {
