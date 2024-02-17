@@ -460,7 +460,10 @@ class map
          * @param p The tile on this map to draw.
          * @param params Draw parameters.
          */
+        // TODO: Get rid of untyped overload,
         void drawsq( const catacurses::window &w, const tripoint &p, const drawsq_params &params ) const;
+        void drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
+                     const drawsq_params &params ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -797,7 +800,9 @@ class map
         * Returns the name of the obstacle at p that might be blocking movement/projectiles/etc.
         * Note that this only accounts for vehicles, terrain, and furniture.
         */
+        // TODO: Get rid of untyped overload.
         std::string obstacle_name( const tripoint &p );
+        std::string obstacle_name( const tripoint_bub_ms &p );
         bool has_furn( const tripoint &p ) const;
         // TODO: fix point types (remove the first overload)
         bool has_furn( const tripoint_bub_ms &p ) const;
@@ -1270,7 +1275,9 @@ class map
             return i_at( tripoint( p, abs_sub.z() ) );
         }
         item water_from( const tripoint &p );
+        // TODO: Get rid of untyped overload.
         void i_clear( const tripoint &p );
+        void i_clear( const tripoint_bub_ms &p );
         void i_clear( const point &p ) {
             i_clear( tripoint( p, abs_sub.z() ) );
         }

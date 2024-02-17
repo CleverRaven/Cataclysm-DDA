@@ -1653,6 +1653,11 @@ std::string map::obstacle_name( const tripoint &p )
     return name( p );
 }
 
+std::string map::obstacle_name( const tripoint_bub_ms &p )
+{
+    return obstacle_name( p.raw() );
+}
+
 bool map::has_furn( const tripoint &p ) const
 {
     return furn( p ) != f_null;
@@ -4924,6 +4929,11 @@ void map::i_clear( const tripoint &p )
     current_submap->get_items( l ).clear();
 }
 
+void map::i_clear( const tripoint_bub_ms &p )
+{
+    i_clear( p.raw() );
+}
+
 std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item> &new_items )
 {
     std::vector<item *> ret;
@@ -6949,6 +6959,12 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
     tripoint below( p.xy(), p.z - 1 );
     const const_maptile tile_below = maptile_at( below );
     draw_from_above( w, below, tile_below, params );
+}
+
+void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
+                  const drawsq_params &params ) const
+{
+    map::drawsq( w, p.raw(), params );
 }
 
 // a check to see if the lower floor needs to be rendered in tiles

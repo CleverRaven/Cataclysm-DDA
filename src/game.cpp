@@ -5753,7 +5753,17 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     return true;
 }
 
+bool game::forced_door_closing( const tripoint_bub_ms &p, const ter_id &door_type, int bash_dmg )
+{
+    return forced_door_closing( p.raw(), door_type, bash_dmg );
+}
+
 void game::open_gate( const tripoint &p )
+{
+    open_gate( tripoint_bub_ms( p ) );
+}
+
+void game::open_gate( const tripoint_bub_ms &p )
 {
     gates::open_gate( p, u );
 }
