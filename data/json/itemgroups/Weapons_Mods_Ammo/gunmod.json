@@ -135,6 +135,54 @@
   },
   {
     "type": "item_group",
+    "id": "rifle_light",
+    "subtype": "collection",
+    "//": "Small group to represent a tactical light attached to the mount.",
+    "items": [ [ "tac_flashlight" ], [ "rail_mount_light" ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_rail",
+    "subtype": "collection",
+    "//": "A lower chance of having laser modules, but can much more commonly spawn with tactical lights.  They can also rarely have both.",
+    "items": [ { "group": "rifle_light", "prob": 80 }, { "item": "rail_LAM", "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_grip",
+    "subtype": "distribution",
+    "//": "SWAT is more likely to have CQB attachments than the military.",
+    "items": [ [ "grip", 67 ], [ "null", 33 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_sights",
+    "subtype": "distribution",
+    "//": "SWAT is more likely to have CQB optics than the military.",
+    "items": [ [ "acog_scope", 5 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 40 ], [ "red_dot_sight", 40 ], [ "null", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_muzzle",
+    "subtype": "distribution",
+    "//": "SWAT is known to use suppressors with their firearms.",
+    "items": [ { "item": "suppressor", "prob": 40 }, { "item": "null", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SWAT_carbine_mods",
+    "//": "Weapon mod loadouts that represent the average SWAT carbine loadout.",
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "SWAT_sights" },
+      { "group": "SWAT_rail" },
+      { "group": "SWAT_muzzle" },
+      { "group": "SWAT_grip" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_rifle",
     "//": "Aftermarket sights that are for rifles.",
     "items": [
