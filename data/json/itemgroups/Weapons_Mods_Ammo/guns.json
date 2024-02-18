@@ -2025,7 +2025,7 @@
     "id": "police_carbines",
     "//": "Carbines that US police would have",
     "subtype": "distribution",
-    "items": [ { "item": "modular_ar15", "prob": 50, "charges": [ 0, 30 ], "contents-group": "police_carbine_mods" } ]
+    "entries": [ { "group": "modular_ar15", "prob": 50, "charges": [ 0, 30 ], "contents-group": "police_carbine_mods" } ]
   },
   {
     "type": "item_group",
@@ -2088,7 +2088,7 @@
         "contents-group": "SWAT_carbine_mods"
       },
       { "item": "modular_m16a4", "prob": 30, "charges": [ 0, 30 ], "contents-group": "SWAT_carbine_mods" },
-      { "item": "modular_ar15", "prob": 50, "charges": [ 0, 30 ], "contents-group": "SWAT_carbine_mods" }
+      { "group": "modular_ar15", "prob": 50, "charges": [ 0, 30 ], "contents-group": "SWAT_carbine_mods" }
     ]
   },
   {
