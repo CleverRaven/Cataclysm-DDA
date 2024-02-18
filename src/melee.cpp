@@ -389,8 +389,8 @@ float Character::hit_roll() const
             hit -= 8.0f;
         }
     } else if( is_crouching() && ( !has_flag( json_flag_PSEUDOPOD_GRASP ) ||
-                                   ( !has_effect( effect_natural_stance ) && ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) &&
-                                           !unarmed_attack() ) ) ) ) {
+                                   ( !has_effect( effect_natural_stance ) &&
+                                           !unarmed_attack() ) ) ) {
         hit -= 2.0f;
     }
 
@@ -795,8 +795,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
             d.mult_damage( 0.3 );
         } else if( is_crouching() && ( ( !has_effect( effect_natural_stance ) &&
-                                         ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !unarmed_attack() ) ) ||
-                                       !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ) {
+                                       !unarmed_attack() ) ) ||
+                                       !has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
             d.mult_damage( 0.8 );
         }
 
@@ -970,8 +970,7 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
     // Quadrupeds don't mind crouching, squids and slimes hardly care about even being prone
     const int stance_malus = ( is_on_ground() &&
                                !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ? 50 : ( ( !has_flag( json_flag_PSEUDOPOD_GRASP ) ||
-                                       ( !has_effect( effect_natural_stance ) && ( !weap->has_flag( flag_NATURAL_WEAPON ) &&
-                                               !unarmed_attack() ) ) ) && is_crouching() ? 20 : 0 );
+                                       ( !has_effect( effect_natural_stance ) && !unarmed_attack() ) ) && is_crouching() ? 20 : 0 );
 
     return std::min( -50, mod_sta + melee - stance_malus );
 }
@@ -1068,7 +1067,7 @@ int stumble( Character &u, const item_location &weap )
         str_mod /= 4;
         // but quadrupeds fight naturally on all fours
     } else if( u.is_crouching() && ( !u.has_effect( effect_natural_stance ) &&
-                                     ( !cur_weap.has_flag( flag_NATURAL_WEAPON ) && !u.unarmed_attack() ) ) ) {
+                                     ( !u.unarmed_attack() ) ) ) {
         str_mod /= 2;
     }
 
@@ -2773,8 +2772,8 @@ int Character::attack_speed( const item &weap ) const
             move_cost *= 4.0;
         }
     } else if( is_crouching() && ( !has_flag( json_flag_PSEUDOPOD_GRASP ) ||
-                                   ( !has_effect( effect_natural_stance ) && ( !weap.has_flag( flag_NATURAL_WEAPON ) &&
-                                           !unarmed_attack() ) ) ) ) {
+                                   ( !has_effect( effect_natural_stance ) &&
+                                           !unarmed_attack() ) ) ) {
         move_cost *= 1.5;
     }
 
