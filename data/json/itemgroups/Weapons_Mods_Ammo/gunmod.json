@@ -137,14 +137,21 @@
     "type": "item_group",
     "id": "rifle_light",
     "subtype": "collection",
-    "//": "Small group to represent a tactical light attached to the mount.",
+    "//": "Small group to represent a tactical light attached to the mount, appropriate for rifles.",
     "entries": [ { "item": "rail_mount_light" }, { "item": "tac_flashlight" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pistol_light",
+    "subtype": "collection",
+    "//": "Small group to represent a compact tactical light attached to the mount, appropriate for pistols.",
+    "entries": [ { "item": "rail_mount_light" }, { "item": "compact_tac_flashlight" } ]
   },
   {
     "type": "item_group",
     "id": "underbarrel_light",
     "subtype": "collection",
-    "//": "Small group to represent a tactical light attached to the underbarrel.",
+    "//": "Small group to represent a tactical light attached to the underbarrel, usually necessary for shotguns.",
     "entries": [ { "item": "underbarrel_mount_light" }, { "item": "tac_flashlight" } ]
   },
   {
@@ -230,6 +237,13 @@
   },
   {
     "type": "item_group",
+    "id": "police_rail_pistol",
+    "subtype": "collection",
+    "//": "Lights are a common sight on duty pistols.",
+    "items": [ { "group": "pistol_light", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
     "id": "police_underbarrel",
     "subtype": "collection",
     "//": "Gives police shotguns a chance to have a flashlight.",
@@ -258,6 +272,13 @@
   },
   {
     "type": "item_group",
+    "id": "police_sights_pistol",
+    "subtype": "distribution",
+    "//": "This group of sights belongs on a duty pistol, empty until proper pistol red dots are added.",
+    "items": [ [ "null", 30 ] ]
+  },
+  {
+    "type": "item_group",
     "id": "police_muzzle",
     "subtype": "distribution",
     "//": "placeholder group for when more muzzle attachments are added.",
@@ -282,6 +303,13 @@
     "id": "police_shotgun_mods",
     "//": "Weapon mod loadouts that represent the average police shotgun loadout.",
     "items": [ { "group": "issued_slings" }, { "group": "police_sights_CQB" }, { "group": "police_underbarrel" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "police_pistol_mods",
+    "//": "Weapon mod loadouts that represent the average police duty pistol loadout.",
+    "items": [ { "group": "police_sights_pistol" }, { "group": "police_rail_pistol" } ]
   },
   {
     "type": "item_group",
