@@ -13,5 +13,10 @@
     "type": "overmap_special_migration",
     "id": "Railroad Station",
     "//": "Moved to railroad mod in 0.G, but no migration, remove when 0.I stable"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "house_05ab",
+    "new_id": "house_05"
   }
 ]
