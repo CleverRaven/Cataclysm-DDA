@@ -786,7 +786,7 @@
   {
     "type": "COMESTIBLE",
     "abstract": "egg_fish_mutant",
-    "name": { "str_sp": "mutant fish roe" }
+    "name": { "str_sp": "mutant fish roe" },
     "description": "A large half-translucent glob with a mutant fish fry inside.",
     "volume": "330 ml",
     "weight": "300 g",
