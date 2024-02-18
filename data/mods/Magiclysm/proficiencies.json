@@ -6,6 +6,12 @@
     "description": "Proficiencies for working with the elements and transforming substances."
   },
   {
+    "type": "proficiency_category",
+    "id": "prof_magic_casting",
+    "name": "Spellcraft",
+    "description": "Proficiencies that help with casting of magical spells."
+  },
+  {
     "type": "proficiency",
     "id": "prof_alchemy",
     "category": "prof_alchemy",
