@@ -2022,6 +2022,24 @@
   },
   {
     "type": "item_group",
+    "id": "police_carbines",
+    "//": "Carbines that US police would have",
+    "subtype": "distribution",
+    "items": [ { "item": "modular_ar15", "prob": 50, "charges": [ 0, 30 ], "contents-group": "police_carbine_mods" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_shotguns",
+    "//": "Shotguns that US police would have",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mossberg_930", "variant": "M1014", "prob": 10, "charges": [ 0, 8 ], "contents-group": "police_shotgun_mods" },
+      { "item": "remington_870_express", "prob": 50, "charges": [ 0, 7 ], "contents-group": "police_shotgun_mods" },
+      { "item": "mossberg_500", "prob": 40, "charges": [ 0, 6 ], "contents-group": "police_shotgun_mods" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "SWAT_carbines",
     "//": "Carbines that a US SWAT team would use",
     "subtype": "distribution",
