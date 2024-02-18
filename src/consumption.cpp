@@ -1360,7 +1360,7 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( has_flag( json_flag_HEMOVORE ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
             add_msg_if_player(
                 _( "Despite your cravings, you still can't help feeling weird about drinking somebody's blood." ) );
-            add_morale( MORALE_CANNIBAL, -10, -40, 40_minutes, 20_minutes );
+            add_morale( MORALE_CANNIBAL, -10, -30, 30_minutes, 15_minutes );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
