@@ -180,12 +180,15 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
+static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
+static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -200,11 +203,15 @@ static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 
+static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
+static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
+static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
+static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -218,7 +225,6 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
-static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -533,8 +539,7 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
-                          corpse.in_species( species_FERAL ) ) &&
+    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
                           !corpse.in_species( species_ZOMBIE ) );
 
     // applies to all butchery actions except for dissections
@@ -1612,6 +1617,19 @@ void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Cha
         }
         if( one_in( 128 ) ) {
             communioncycles += 1;
+            if( one_in( 256 ) ) {
+                if( you->has_effect( effect_social_dissatisfied ) ) {
+                    you->remove_effect( effect_social_dissatisfied );
+                }
+                if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
+                    !you->has_effect( effect_social_satisfied ) ) {
+                    you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
+                }
+                if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
+                    !you->has_effect( effect_asocial_dissatisfied ) ) {
+                    you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
+                }
+            }
             you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
                                         translation() ) );
             you->add_morale( MORALE_TREE_COMMUNION, 4, 30, 18_hours, 8_hours );
@@ -3781,6 +3799,19 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                 you->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
             }
             if( one_in( 128 ) ) {
+                if( one_in( 256 ) ) {
+                    if( you->has_effect( effect_social_dissatisfied ) ) {
+                        you->remove_effect( effect_social_dissatisfied );
+                    }
+                    if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
+                        !you->has_effect( effect_social_satisfied ) ) {
+                        you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
+                    }
+                    if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
+                        !you->has_effect( effect_asocial_dissatisfied ) ) {
+                        you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
+                    }
+                }
                 you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
                                             translation() ) );
             }
@@ -3892,7 +3923,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         you->mod_stamina( -cost );
                         break;
                     case magic_energy_type::bionic:
-                        you->mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
+                        you->mod_power_level( -units::from_kilojoule( cost ) );
                         break;
                     case magic_energy_type::hp:
                         blood_magic( you, cost );
