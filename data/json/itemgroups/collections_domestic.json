@@ -814,13 +814,13 @@
       { "item": "thermos", "prob": 15 },
       { "prob": 4, "group": "meat_canned_jar_3l_glass_sealed_12" },
       { "prob": 4, "group": "veggy_canned_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "apple_canned_jar_3l_glass_sealed_12" },
-      { "prob": 4, "group": "can_tomato_jar_3l_glass_sealed_12" },
+      { "prob": 4, "group": "apple_canned_jar_3l_glass_sealed_24" },
+      { "prob": 4, "group": "can_tomato_jar_3l_glass_sealed_24" },
       { "prob": 4, "group": "fish_pickled_jar_3l_glass_sealed_12" },
       { "prob": 4, "group": "meat_pickled_jar_3l_glass_sealed_12" },
       { "prob": 4, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
       { "prob": 4, "group": "fish_pickled_jar_3l_glass_sealed_12" },
-      { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 4, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "group": "big_canned_food", "prob": 4 }
     ]
@@ -1365,7 +1365,7 @@
       [ "pistol_flintlock", 1 ],
       [ "carbine_flintlock", 1 ],
       [ "rifle_flintlock", 1 ],
-      { "item": "deagle_44", "prob": 25, "charges": [ 0, 8 ] },
+      { "group": "modular_deagle_44", "prob": 25, "charges": [ 0, 8 ] },
       { "item": "lemat_revolver", "prob": 25, "charges": [ 0, 9 ] },
       [ "fencing_foil", 20 ],
       [ "fencing_sabre", 20 ],
@@ -1968,19 +1968,19 @@
   },
   {
     "type": "item_group",
-    "id": "apple_canned_jar_3l_glass_sealed_12",
+    "id": "apple_canned_jar_3l_glass_sealed_24",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "apple_canned", "container-item": "null", "count": 12 } ]
+    "entries": [ { "item": "apple_canned", "container-item": "null", "count": 24 } ]
   },
   {
     "type": "item_group",
-    "id": "can_tomato_jar_3l_glass_sealed_12",
+    "id": "can_tomato_jar_3l_glass_sealed_24",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_3l_glass_sealed",
-    "entries": [ { "item": "can_tomato", "container-item": "null", "count": 12 } ]
+    "entries": [ { "item": "can_tomato", "container-item": "null", "count": 24 } ]
   },
   {
     "type": "item_group",

@@ -2358,6 +2358,11 @@
     "type": "json_flag"
   },
   {
+    "id": "ETHEREAL",
+    "type": "json_flag",
+    "info": "You feel like you would keep all your items if you somehow became incorporeal."
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"

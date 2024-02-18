@@ -1295,7 +1295,9 @@ void item::update_modified_pockets()
     // Prevent cleanup of added modular pockets
     for( const item *it : contents.get_added_pockets() ) {
         for( const pocket_data &pocket : it->type->pockets ) {
-            container_pockets.push_back( &pocket );
+            if( pocket.type == pocket_type::CONTAINER ) {
+                container_pockets.push_back( &pocket );
+            }
         }
     }
 
@@ -2408,7 +2410,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.emplace_back( "BASE", _( "Category: " ),
-                           "<header>" + get_category_shallow().name() + "</header>" );
+                           "<header>" + get_category_shallow().name_header() + "</header>" );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
@@ -2993,20 +2995,33 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                           medium ).total_damage() );
             const int large_damage = static_cast<int>( ammo.damage.di_considering_length(
                                          large ).total_damage() );
-            if( small_damage != medium_damage || medium_damage != large_damage ) {
-                info.emplace_back( "AMMO", _( "Damage by barrel length: " ) );
+            const int small_dispersion = static_cast<int>( ammo.dispersion_considering_length( small ) );
+            const int medium_dispersion = static_cast<int>( ammo.dispersion_considering_length( medium ) );
+            const int large_dispersion = static_cast<int>( ammo.dispersion_considering_length( large ) );
+            if( small_damage != medium_damage || medium_damage != large_damage ||
+                small_dispersion != medium_dispersion || medium_damage != large_dispersion ) {
+                info.emplace_back( "AMMO", _( "Damage and dispersion by barrel length: " ) );
                 const std::string small_string = string_format( " <info>%d %s</info>: ",
                                                  convert_length( small ),
                                                  length_units( small ) );
-                info.emplace_back( "AMMO", small_string, small_damage );
+                info.emplace_back( "AMMO", small_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                                   small_damage );
+                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
+                                   iteminfo::no_name | iteminfo::lower_is_better, small_dispersion );
                 const std::string medium_string = string_format( " <info>%d %s</info>: ",
                                                   convert_length( medium ),
                                                   length_units( medium ) );
-                info.emplace_back( "AMMO", medium_string, medium_damage );
+                info.emplace_back( "AMMO", medium_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                                   medium_damage );
+                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
+                                   iteminfo::no_name  | iteminfo::lower_is_better, medium_dispersion );
                 const std::string large_string = string_format( " <info>%d %s</info>: ",
                                                  convert_length( large ),
                                                  length_units( large ) );
-                info.emplace_back( "AMMO", large_string, large_damage );
+                info.emplace_back( "AMMO", large_string, _( " damage:  <num>" ), iteminfo::no_newline,
+                                   large_damage );
+                info.emplace_back( "AMMO", "", _( " dispersion:  <num>" ),
+                                   iteminfo::no_name | iteminfo::lower_is_better, large_dispersion );
             }
         }
     }
@@ -3228,7 +3243,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            mod->gun_dispersion( false, false ) );
     }
     if( mod->ammo_required() ) {
-        int ammo_dispersion = curammo->ammo->dispersion;
+        int ammo_dispersion = curammo->ammo->dispersion_considering_length( barrel_length() );
         // ammo_dispersion and sum_of_dispersion don't need to translate.
         if( parts->test( iteminfo_parts::GUN_DISPERSION_LOADEDAMMO ) ) {
             info.emplace_back( "GUN", "ammo_dispersion", "",
@@ -10346,7 +10361,7 @@ int item::gun_dispersion( bool with_ammo, bool with_scaling ) const
     dispersion_sum += damage_level() * dispPerDamage;
     dispersion_sum = std::max( dispersion_sum, 0 );
     if( with_ammo && ammo_data() ) {
-        dispersion_sum += ammo_data()->ammo->dispersion;
+        dispersion_sum += ammo_data()->ammo->dispersion_considering_length( barrel_length() );
     }
     if( !with_scaling ) {
         return dispersion_sum;
@@ -10657,7 +10672,7 @@ units::energy item::energy_remaining( const Character *carrier ) const
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( pocket_type::MAGAZINE ) ) {
             if( e->typeId() == itype_battery ) {
-                ret += units::from_kilojoule( e->charges );
+                ret += units::from_kilojoule( static_cast<std::int64_t>( e->charges ) );
             }
         }
     }
@@ -10802,7 +10817,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     // Guns handle energy in energy_consume()
     if( carrier != nullptr && type->tool &&
         ( has_flag( flag_USE_UPS ) || has_flag( flag_USES_BIONIC_POWER ) ) ) {
-        units::energy wanted_energy = units::from_kilojoule( qty );
+        units::energy wanted_energy = units::from_kilojoule( static_cast<std::int64_t>( qty ) );
 
         if( has_flag( flag_USE_UPS ) ) {
             wanted_energy -= carrier->consume_ups( wanted_energy );
@@ -10834,7 +10849,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     // Consume battery(ammo) and other fuel (if allowed)
     if( is_battery() || fuel_efficiency >= 0 ) {
         int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos, fuel_efficiency );
-        qty -= units::from_kilojoule( consumed_kj );
+        qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
         // fix negative quantity
         if( qty < 0_J ) {
             qty = 0_J;
@@ -10862,7 +10877,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     // Should happen only if battery powered and energy per shot is not integer kJ.
     if( qty > 0_kJ && is_battery() ) {
         int consumed_kj = contents.ammo_consume( 1, pos );
-        qty -= units::from_kilojoule( consumed_kj );
+        qty -= units::from_kilojoule( static_cast<std::int64_t>( consumed_kj ) );
     }
 
     return wanted_energy - qty;
@@ -15075,4 +15090,11 @@ bool is_preferred_component( const item &component )
 bool is_preferred_crafting_component( const item &component )
 {
     return is_preferred_component( component ) && is_crafting_component( component );
+}
+
+disp_mod_by_barrel::disp_mod_by_barrel() = default;
+void disp_mod_by_barrel::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "barrel_length", barrel_length );
+    mandatory( jo, false, "dispersion", dispersion_modifier );
 }

@@ -2240,6 +2240,8 @@ int Character::footstep_sound() const
             }
             if( mons->has_flag( mon_flag_LOUDMOVES ) ) {
                 volume += 6;
+            } else if( mons->has_flag( mon_flag_QUIETMOVES ) ) {
+                volume /= 2;
             }
         } else {
             volume = calculate_by_enchantment( volume, enchant_vals::mod::FOOTSTEP_NOISE );
@@ -5067,7 +5069,7 @@ void Character::update_needs( int rate_multiplier )
                     rest_modifier += 1;
                 }
 
-                const comfort_level comfort = base_comfort_value( pos() ).level;
+                const comfort_level comfort = base_comfort_value( pos_bub() ).level;
 
                 if( comfort >= comfort_level::very_comfortable ) {
                     rest_modifier *= 3;
@@ -5591,7 +5593,7 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
     mod_part_temp_cur( bp1, diff );
 }
 
-Character::comfort_response_t Character::base_comfort_value( const tripoint &p ) const
+Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_ms &p ) const
 {
     // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
     // As in the latter also checks for fatigue and other variables while this function
@@ -7206,7 +7208,7 @@ void Character::update_stamina( int turns )
             stamina_recovery += bonus;
             bonus /= 10;
             bonus = std::max( bonus, 1 );
-            mod_power_level( units::from_kilojoule( -bonus ) );
+            mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -bonus ) ) );
         }
     }
 
@@ -9794,7 +9796,8 @@ units::energy Character::available_ups() const
 
     if( is_mounted() && mounted_creature.get()->has_flag( mon_flag_RIDEABLE_MECH ) ) {
         auto *mons = mounted_creature.get();
-        available_charges += units::from_kilojoule( mons->battery_item->ammo_remaining() );
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>
+                             ( mons->battery_item->ammo_remaining() ) );
     }
 
     bool has_bio_powered_ups = false;
@@ -9808,7 +9811,7 @@ units::energy Character::available_ups() const
     }
 
     cache_visit_items_with( flag_IS_UPS, [&available_charges]( const item & it ) {
-        available_charges += units::from_kilojoule( it.ammo_remaining() );
+        available_charges += units::from_kilojoule( static_cast<std::int64_t>( it.ammo_remaining() ) );
     } );
 
     return available_charges;
@@ -9875,7 +9878,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     } else if( what == itype_UPS ) {
         // Fairly sure that nothing comes here. But handle it anyways.
         debugmsg( _( "This UPS use needs updating.  Create issue on github." ) );
-        consume_ups( units::from_kilojoule( qty ), radius );
+        consume_ups( units::from_kilojoule( static_cast<std::int64_t>( qty ) ), radius );
         return res;
     }
 
@@ -9908,7 +9911,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
 
     if( has_tool_with_UPS ) {
-        consume_ups( units::from_kilojoule( qty ), radius );
+        consume_ups( units::from_kilojoule( static_cast<std::int64_t>( qty ) ), radius );
     }
 
     return res;
@@ -11338,7 +11341,7 @@ double Character::vomit_mod()
     return mod;
 }
 
-int Character::sleep_spot( const tripoint &p ) const
+int Character::sleep_spot( const tripoint_bub_ms &p ) const
 {
     const int current_stim = get_stim();
     const comfort_response_t comfort_info = base_comfort_value( p );
@@ -11402,7 +11405,7 @@ bool Character::can_sleep()
     }
     last_sleep_check = now;
 
-    int sleepy = sleep_spot( pos() );
+    int sleepy = sleep_spot( pos_bub() );
     sleepy += rng( -8, 8 );
     bool result = sleepy > 0;
 

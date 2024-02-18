@@ -53,7 +53,10 @@
   {
     "id": [ "BEM_DRUGRUNNER_1" ],
     "type": "talk_topic",
-    "dynamic_line": "&This visitor seems way more watchful than normal.  You notice zip bags peeking out from <mypossesivepronoun> overcoat, they are clearly pushing something.  It doesn't take much longer for them to notice you in kind.\n\"You want something?  Or just gawking?\"",
+    "dynamic_line": {
+      "gendered_line": "&This visitor seems way more watchful than normal.  You notice zip bags peeking out from <mypossesivepronoun> overcoat, they are clearly pushing something.  It doesn't take much longer for them to notice you in kind.\n\"You want something?  Or just gawking?\"",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Sure, let see what you offer.", "topic": "TALK_DONE", "effect": "start_trade" },
       { "text": "Not interested.", "topic": "TALK_DONE" }

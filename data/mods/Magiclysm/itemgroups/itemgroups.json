@@ -13,6 +13,12 @@
   },
   {
     "type": "item_group",
+    "id": "SUS_book_nonf_soft",
+    "copy-from": "SUS_book_nonf_soft",
+    "extend": { "items": [ { "item": "book_nonf_magic_origin_of_species", "prob": 1 } ] }
+  },
+  {
+    "type": "item_group",
     "id": "novels",
     "copy-from": "novels",
     "extend": { "items": [ [ "wizard_beginner", 3 ], [ "wizard_advanced", 1 ] ] }
@@ -21,13 +27,25 @@
     "type": "item_group",
     "id": "homebooks",
     "copy-from": "homebooks",
-    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 4 }, { "item": "history_botanical_enchantment", "prob": 2 } ] }
+    "extend": {
+      "items": [
+        { "group": "spellbook_tier_0", "prob": 80 },
+        { "group": "spellbook_loot_0", "prob": 4 },
+        { "item": "history_botanical_enchantment", "prob": 2 }
+      ]
+    }
   },
   {
     "type": "item_group",
     "id": "manuals",
     "copy-from": "manuals",
-    "extend": { "items": [ { "group": "spellbook_loot_0", "prob": 3 }, { "group": "dragon_books", "prob": 4 } ] }
+    "extend": {
+      "items": [
+        { "group": "spellbook_tier_0", "prob": 60 },
+        { "group": "spellbook_loot_0", "prob": 3 },
+        { "group": "dragon_books", "prob": 4 }
+      ]
+    }
   },
   {
     "type": "item_group",
@@ -202,6 +220,72 @@
     }
   },
   {
+    "id": "mon_zombie_soldier_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_zombie_soldier_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 2 } ] }
+  },
+  {
+    "id": "mon_zombie_heavy_soldier_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_zombie_heavy_soldier_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 3 } ] }
+  },
+  {
+    "id": "mon_feral_prepper_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_feral_prepper_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
+  },
+  {
+    "id": "feral_sapien_death_drops_spear",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "feral_sapien_death_drops_spear",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
+  },
+  {
+    "id": "mon_zombie_survivor_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_zombie_survivor_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 15 } ] }
+  },
+  {
+    "id": "mon_zombie_survivor_elite_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "mon_zombie_survivor_elite_death_drops",
+    "extend": { "items": [ { "group": "enchanted_combat_items", "prob": 50 } ] }
+  },
+  {
+    "id": "milspec_arsenal_group_only_guns",
+    "type": "item_group",
+    "copy-from": "milspec_arsenal_group_only_guns",
+    "extend": { "items": [ { "group": "enchanted_wands_disposable_combat", "prob": 10 } ] }
+  },
+  {
+    "id": "army_personal_locker",
+    "type": "item_group",
+    "copy-from": "army_personal_locker",
+    "extend": { "items": [ { "group": "enchanted_worn_items", "prob": 20 } ] }
+  },
+  {
+    "id": "lmoe_guns",
+    "type": "item_group",
+    "copy-from": "lmoe_guns",
+    "extend": { "items": [ { "group": "enchanted_wands_disposable_combat", "prob": 20 } ] }
+  },
+  {
+    "id": "homeguns",
+    "type": "item_group",
+    "copy-from": "homeguns",
+    "extend": { "items": [ { "group": "enchanted_wands_disposable_combat", "prob": 5 } ] }
+  },
+  {
     "type": "item_group",
     "id": "magic_shop_books",
     "items": [
@@ -373,6 +457,7 @@
           { "group": "enchanted_rings_common", "prob": 20 },
           { "group": "enchanted_rings_uncommon", "prob": 5 },
           { "group": "enchanted_combat_items", "prob": 10 },
+          { "group": "enchanted_arrows", "prob": 5 },
           { "group": "enchanted_belts", "prob": 2 },
           { "group": "enchanted_misc", "prob": 1 }
         ],
@@ -385,6 +470,22 @@
       { "group": "magic_plants_common", "prob": 40, "count-min": 1, "count-max": 14 },
       { "group": "magic_plants_uncommon", "prob": 20, "count-min": 1, "count-max": 8 },
       { "group": "magic_plants_rare", "prob": 5, "count-min": 1, "count-max": 4 }
+    ]
+  },
+  {
+    "id": "stone_troll_lair_treasure",
+    "type": "item_group",
+    "//": "Magical items for a troll lair.  Mostly consumables",
+    "items": [
+      { "group": "potions_common", "prob": 80 },
+      { "group": "potions_uncommon", "prob": 20 },
+      { "group": "enchanted_wands_lesser", "prob": 50 },
+      { "group": "magic_shop_books", "prob": 35, "count": [ 1, 3 ] },
+      { "group": "enchanted_rings_common", "prob": 20 },
+      { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_combat_items", "prob": 10 },
+      { "group": "enchanted_belts", "prob": 2 },
+      { "group": "magical_reagents", "prob": 35 }
     ]
   },
   {
@@ -492,6 +593,7 @@
     "items": [
       { "group": "lair_loot_generic", "prob": 80, "count": [ 2, 6 ] },
       { "group": "enchanted_tokens_weapon", "prob": 30 },
+      { "group": "enchanted_arrows", "prob": 20 },
       { "group": "enchanted_rings_common", "prob": 40 },
       { "group": "enchanted_rings_uncommon", "prob": 30 },
       { "group": "enchanted_rings_unusual", "prob": 20 },
@@ -510,6 +612,7 @@
       { "group": "spellbook_loot_2", "prob": 20 },
       { "group": "enchanted_misc", "prob": 5 },
       { "group": "enchanted_cloaks_rare", "prob": 10 },
+      { "group": "items_of_elvenkind", "prob": 5 },
       { "item": "denarius", "prob": 40, "count-min": 27, "count-max": 98 }
     ]
   },
@@ -641,6 +744,75 @@
     ]
   },
   {
+    "id": "enchanted_wands_disposable_combat",
+    "type": "item_group",
+    "//": "disposable wands only",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_wands_disposable_minor_combat", "prob": 100 },
+      { "group": "enchanted_wands_disposable_lesser_combat", "prob": 50 },
+      { "group": "enchanted_wands_disposable_greater_combat", "prob": 10 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_disposable_minor_combat",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wand_disp_magic_missile_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_fireball_minor", "prob": 5, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_mana_beam_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_point_flare_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_cone_cold_minor", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_knock_minor", "prob": 10, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_disposable_lesser_combat",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wand_disp_magic_missile_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_fireball_lesser", "prob": 5, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_mana_beam_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_point_flare_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_cone_cold_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_knock_lesser", "prob": 10, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "id": "enchanted_wands_disposable_greater_combat",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "wand_disp_magic_missile_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_fireball_greater", "prob": 5, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_mana_beam_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_point_flare_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_hoaryblast_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_cone_cold_greater", "prob": 10, "charges-min": 3, "charges-max": 24 },
+      { "item": "wand_disp_knock_greater", "prob": 10, "charges-min": 3, "charges-max": 24 }
+    ]
+  },
+  {
+    "id": "enchanted_arrows",
+    "type": "item_group",
+    "//": "enchanted arrows in various quantities",
+    "subtype": "distribution",
+    "items": [
+      { "item": "arrow_druid_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_stormshaper_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_earthshaper_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_kelvinist_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_biomancer_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_technomancer_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_magus_crafted", "prob": 10, "count": [ 2, 20 ] },
+      { "item": "arrow_animist_crafted", "prob": 10, "count": [ 2, 20 ] }
+    ]
+  },
+  {
     "id": "enchanted_wands_lesser",
     "type": "item_group",
     "//": "lesser enchanted wands",
@@ -728,7 +900,9 @@
       { "item": "mbelt_pockets_greater", "prob": 5 },
       { "item": "mbelt_weaponry", "prob": 10 },
       { "item": "mbelt_technomancer_toolbelt", "prob": 5 },
-      { "item": "mbelt_iron_whip", "prob": 5 }
+      { "item": "mbelt_iron_whip", "prob": 5 },
+      { "item": "quiver_of_holding_plus_one", "prob": 5 },
+      { "item": "quiver_of_holding_plus_two", "prob": 1 }
     ]
   },
   {
@@ -879,7 +1053,7 @@
       { "item": "retreat_map", "prob": 30 },
       { "item": "crystallized_mana", "prob": 50, "charges-min": 1, "charges-max": 10 },
       { "item": "small_mana_crystal", "prob": 40, "charges-min": 5, "charges-max": 50 },
-      { "item": "magic_knife_bag", "prob": 25 }
+      { "item": "magic_knife_bag", "prob": 10 }
     ]
   },
   {
@@ -904,9 +1078,12 @@
     "type": "item_group",
     "subtype": "distribution",
     "items": [
-      { "group": "enchanted_bracers_lesser", "prob": 25 },
       { "group": "enchanted_worn_items", "prob": 15 },
-      { "group": "enchanted_melee_weapons_plus1", "prob": 3 },
+      { "group": "enchanted_wands_disposable_combat", "prob": 10 },
+      {
+        "distribution": [ { "group": "enchanted_melee_weapons_plus1", "prob": 95 }, { "group": "enchanted_melee_weapons_plus2", "prob": 5 } ],
+        "prob": 4
+      },
       { "group": "enchanted_small_items", "prob": 1 }
     ]
   },
@@ -936,7 +1113,8 @@
           { "item": "spell_scroll_stormshaper_wall_of_fog", "prob": 50 },
           { "item": "spell_scroll_lightning_blast", "prob": 50 },
           { "item": "spell_scroll_stormshaper_cloak_of_fog", "prob": 50 },
-          { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 25 }
+          { "item": "spell_scroll_stormshaper_cloak_of_frog", "prob": 25 },
+          { "item": "spell_scroll_stormshaper_loud_voice_spell", "prob": 50 }
         ],
         "prob": 45
       },
@@ -995,7 +1173,9 @@
           { "item": "spell_scroll_phase_door", "prob": 50 },
           { "item": "spell_scroll_shadow_field", "prob": 40 },
           { "item": "spell_scroll_magus_slowfall", "prob": 50 },
-          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 }
+          { "item": "spell_scroll_magus_spiderclimb", "prob": 40 },
+          { "item": "spell_scroll_magus_stop_attack_shield", "prob": 50 },
+          { "item": "spell_scroll_magus_far_hand_pull", "prob": 60 }
         ],
         "prob": 45
       },
@@ -1003,13 +1183,13 @@
         "distribution": [
           { "item": "wizard_advanced", "prob": 20 },
           { "item": "spell_scroll_magus_mana_bolt", "prob": 50 },
-          { "item": "spell_scroll_magus_haste", "prob": 50 },
           { "item": "spell_scroll_magus_mana_beam", "prob": 50 },
           { "item": "spell_scroll_magus_escape", "prob": 50 },
           { "item": "spell_scroll_cats_grace", "prob": 50 },
           { "item": "spell_scroll_eagles_sight", "prob": 50 },
           { "item": "spell_scroll_ogres_strength", "prob": 50 },
-          { "item": "spell_scroll_foxs_cunning", "prob": 50 }
+          { "item": "spell_scroll_foxs_cunning", "prob": 50 },
+          { "item": "spell_scroll_magus_ranged_increase", "prob": 50 }
         ],
         "prob": 35
       },
@@ -1017,14 +1197,12 @@
         "distribution": [
           { "item": "magus_spellbook_move", "prob": 25 },
           { "item": "magus_spellbook", "prob": 25 },
-          { "item": "spell_scroll_magus_mana_blast", "prob": 50 }
+          { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
+          { "item": "spell_scroll_magus_haste", "prob": 50 }
         ],
         "prob": 10
       },
-      {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
-        "prob": 5
-      }
+      { "distribution": [ { "item": "recovery_spellbook", "prob": 10 } ], "prob": 5 }
     ]
   },
   {
@@ -1045,7 +1223,12 @@
         "prob": 45
       },
       {
-        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_undead", "prob": 50 } ],
+        "distribution": [
+          { "item": "priest_advanced", "prob": 10 },
+          { "item": "spell_scroll_summon_undead", "prob": 50 },
+          { "item": "spell_scroll_animist_luck_bone", "prob": 30 },
+          { "item": "spell_scroll_animist_add_evasion_spell", "prob": 40 }
+        ],
         "prob": 35
       },
       {
@@ -1054,7 +1237,9 @@
           { "item": "winter_grasp", "prob": 10 },
           { "item": "spell_scroll_recover_mana", "prob": 50 },
           { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
-          { "item": "spell_scroll_recover_pain", "prob": 50 }
+          { "item": "spell_scroll_recover_pain", "prob": 50 },
+          { "item": "spell_scroll_animist_spirit_walking", "prob": 40 },
+          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 }
         ],
         "prob": 10
       },
@@ -1088,7 +1273,8 @@
           { "item": "spell_scroll_chilling_touch", "prob": 50 },
           { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
           { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 },
-          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 }
+          { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 },
+          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 }
         ],
         "prob": 45
       },
@@ -1114,7 +1300,8 @@
           { "item": "spell_scroll_fireball", "prob": 10 },
           { "item": "spell_scroll_nova_flare", "prob": 50 },
           { "item": "spell_scroll_cone_cold", "prob": 50 },
-          { "item": "spell_scroll_hoary_blast", "prob": 50 }
+          { "item": "spell_scroll_hoary_blast", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_no_emotion_spell", "prob": 20 }
         ],
         "prob": 10
       }
@@ -1135,7 +1322,8 @@
           { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
           { "item": "spell_scroll_taze", "prob": 50 },
           { "item": "spell_scroll_laze", "prob": 50 },
-          { "item": "spell_scroll_technomancer_conjure_radio", "prob": 40 }
+          { "item": "spell_scroll_technomancer_conjure_radio", "prob": 40 },
+          { "item": "spell_scroll_technomancer_gain_electronics_computer_spell", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1158,17 +1346,15 @@
       {
         "distribution": [
           { "item": "techno_em", "prob": 5 },
+          { "item": "recovery_spellbook", "prob": 5 },
           { "item": "spell_scroll_holographic_transposition", "prob": 10 },
           { "item": "spell_scroll_recover_bionic_power", "prob": 50 },
           { "item": "spell_scroll_animated_blade", "prob": 50 },
           { "item": "spell_scroll_mirror_image", "prob": 50 },
-          { "item": "spell_scroll_improved_knock", "prob": 50 }
+          { "item": "spell_scroll_improved_knock", "prob": 50 },
+          { "item": "spell_scroll_invisibility", "prob": 30 }
         ],
         "prob": 10
-      },
-      {
-        "distribution": [ { "item": "recovery_spellbook", "prob": 10 }, { "item": "spell_scroll_invisibility", "prob": 50 } ],
-        "prob": 5
       },
       { "group": "magic_CBM", "prob": 2 }
     ]
@@ -1230,7 +1416,8 @@
           { "item": "spell_scroll_biomancer_paralytic_dart", "prob": 50 },
           { "item": "spell_scroll_biomancer_visceral_projection", "prob": 50 },
           { "item": "spell_scroll_biomancer_swim_frog", "prob": 35 },
-          { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 }
+          { "item": "spell_scroll_biomancer_cure_disease_minor", "prob": 50 },
+          { "item": "spell_scroll_biomancer_eat_tons_of_food", "prob": 30 }
         ],
         "prob": 45
       },
@@ -1279,7 +1466,8 @@
           { "item": "spell_scroll_druid_harvest_hunter", "prob": 30 },
           { "item": "spell_scroll_druid_bramble_spear", "prob": 30 },
           { "item": "spell_scroll_druid_breathing_underwater", "prob": 30 },
-          { "item": "spell_scroll_druid_water_walking", "prob": 30 }
+          { "item": "spell_scroll_druid_water_walking", "prob": 30 },
+          { "item": "spell_scroll_druid_traverse_the_wilds", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1293,6 +1481,7 @@
           { "item": "spell_scroll_druid_bandage", "prob": 100 },
           { "item": "spell_scroll_druid_disinfectant", "prob": 50 },
           { "item": "spell_scroll_purification_seed", "prob": 100 },
+          { "item": "spell_scroll_druid_bearmantle", "prob": 75 },
           { "item": "spell_scroll_druid_summon_tanglevine", "prob": 50 },
           { "item": "spell_scroll_druid_summon_brambles", "prob": 60 },
           { "item": "spell_scroll_druid_wood_living_tree_spell", "prob": 80 }
@@ -1303,6 +1492,7 @@
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "plant_spellbook", "prob": 10 },
+          { "group": "items_of_elvenkind", "prob": 5 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
@@ -1324,6 +1514,7 @@
       "items": [
         { "group": "enchanted_tokens_tool", "prob": 3 },
         { "group": "enchanted_tokens_weapon", "prob": 2 },
+        { "group": "enchanted_arrows", "prob": 5 },
         { "group": "potions_common", "prob": 12 },
         { "group": "potions_uncommon", "prob": 6 },
         { "group": "potions_rare", "prob": 3 },
@@ -1339,6 +1530,7 @@
     "items": [
       { "group": "enchanted_tokens_tool", "prob": 15 },
       { "group": "enchanted_tokens_weapon", "prob": 5 },
+      { "group": "enchanted_arrows", "prob": 3 },
       { "group": "potions_common", "prob": 35 },
       { "group": "potions_uncommon", "prob": 20 },
       { "group": "potions_rare", "prob": 10 },
@@ -1360,7 +1552,8 @@
           { "item": "spell_scroll_ethereal_grasp", "prob": 50 },
           { "item": "spell_scroll_crystallize_mana", "prob": 50 },
           { "item": "spell_scroll_blinding_flash", "prob": 50 },
-          { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 }
+          { "item": "spell_scroll_classless_clean_clothing_and_self", "prob": 50 },
+          { "item": "spell_scroll_classless_easy_sleep_spell", "prob": 50 }
         ],
         "prob": 50
       },
@@ -1493,6 +1686,7 @@
     "items": [
       { "group": "enchanted_combat_items", "prob": 40 },
       { "group": "enchanted_misc", "prob": 50 },
+      { "group": "enchanted_arrows", "prob": 15 },
       { "group": "enchanted_rings_unusual", "prob": 20 },
       { "group": "enchanted_rings_rare", "prob": 30 },
       { "group": "enchanted_wands_greater", "prob": 30 },
@@ -1532,6 +1726,17 @@
       { "item": "gold_small", "prob": 20, "count": [ 120, 390 ] },
       { "item": "denarius", "prob": 20, "count": [ 20, 90 ] },
       { "item": "silver_small", "prob": 5, "count": [ 68, 560 ] }
+    ]
+  },
+  {
+    "id": "items_of_elvenkind",
+    "type": "item_group",
+    "//": "all the elven items.",
+    "subtype": "collection",
+    "items": [
+      { "item": "cloak_of_elvenkind", "prob": 10 },
+      { "item": "boots_of_elvenkind", "prob": 10 },
+      { "item": "bow_of_elvenkind", "prob": 1 }
     ]
   },
   {

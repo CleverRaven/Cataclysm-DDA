@@ -121,7 +121,10 @@
     "type": "mutation",
     "id": "PALE",
     "copy-from": "PALE",
-    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] }
+    "extend": { "category": [ "MANATOUCHED", "SPECIES_ELF" ] },
+    "visibility": 0,
+    "ugliness": 0,
+    "starting_trait": true
   },
   {
     "type": "mutation",

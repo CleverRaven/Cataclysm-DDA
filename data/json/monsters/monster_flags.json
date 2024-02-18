@@ -505,6 +505,16 @@
     "//": "This monster makes move noises as if ~2 sizes louder, even if flying"
   },
   {
+    "id": "QUIETMOVES",
+    "type": "monster_flag",
+    "//": "This monster makes move noises as if ~2 sizes quieter"
+  },
+  {
+    "id": "SILENTMOVES",
+    "type": "monster_flag",
+    "//": "This monster makes no move noise at all"
+  },
+  {
     "id": "CAN_OPEN_DOORS",
     "type": "monster_flag",
     "//": "This monster can open doors"

@@ -945,6 +945,8 @@ elete
 elongates
 elopements
 elsewheres
+elven
+elves
 elytra
 embrasure
 emode
@@ -1578,6 +1580,7 @@ jirts
 johnnycake
 jointer
 jointing
+jolter
 jort
 jorts
 jpg
@@ -2159,6 +2162,8 @@ orthogonally
 oryctodromeus
 oscillated
 osho
+osteoderm
+osteoderms
 osteokinesis
 oter
 otes
@@ -3067,6 +3072,7 @@ tazed
 tazer
 tazers
 tearjerker
+tech
 techn
 technologist
 technomancer
@@ -3409,6 +3415,7 @@ warhammers
 warmouth
 warpglass
 warpstream
+warted
 wastebread
 watchband
 waterfowl
@@ -3538,11 +3545,15 @@ zentai
 zeriatric
 zincite
 zischt
+zoad
+zoads
 zolpidem
 zombaby
 zombear
 zombeaver
 zombeavers
+zombfrog
+zombfrogs
 zombiespawn
 zombiethustra
 zombification

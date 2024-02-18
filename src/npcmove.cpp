@@ -442,6 +442,11 @@ bool npc::could_move_onto( const tripoint &p ) const
     return true;
 }
 
+bool npc::could_move_onto( const tripoint_bub_ms &p ) const
+{
+    return could_move_onto( p.raw() );
+}
+
 std::vector<sphere> npc::find_dangerous_explosives() const
 {
     std::vector<sphere> result;
@@ -1632,9 +1637,9 @@ void npc::execute_action( npc_action action )
         case npc_sleep: {
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
-            int best_sleepy = sleep_spot( pos() );
-            tripoint best_spot = pos();
-            for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
+            tripoint_bub_ms best_spot = pos_bub();
+            int best_sleepy = sleep_spot( best_spot );
+            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1647,11 +1652,11 @@ void npc::execute_action( npc_action action )
                 }
             }
             if( is_walking_with() ) {
-                complain_about( "napping", 30_minutes, _( chatbin.snip_warn_sleep ) );
+                complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
             update_path( best_spot );
             // TODO: Handle empty path better
-            if( best_spot == pos() || path.empty() ) {
+            if( best_spot == pos_bub() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
@@ -1761,9 +1766,9 @@ void npc::execute_action( npc_action action )
                 if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
                     heal_player( *patient );
                 } else if( !path.empty() ) {
-                    std::string talktag = chatbin.snip_heal_player;
+                    std::string talktag = chat_snippets().snip_heal_player.translated();
                     parse_tags( talktag, get_player_character(), *this );
-                    say( string_format( _( talktag ), patient->disp_name() ) );
+                    say( string_format( talktag, patient->disp_name() ) );
                     move_to_next();
                 } else {
                     move_pause();
@@ -2562,7 +2567,7 @@ npc_action npc::address_player()
             return npc_talk_to_player;    // Close enough to talk to you
         } else {
             if( one_in( 10 ) ) {
-                say( chatbin.snip_lets_talk );
+                say( chat_snippets().snip_lets_talk.translated() );
             }
             return npc_follow_player;
         }
@@ -2570,7 +2575,7 @@ npc_action npc::address_player()
 
     if( attitude == NPCATT_MUG && sees( player_character ) ) {
         if( one_in( 3 ) ) {
-            say( _( chatbin.snip_mug_dontmove ) );
+            say( chat_snippets().snip_mug_dontmove.translated() );
         }
         return npc_mug_player;
     }
@@ -2593,11 +2598,11 @@ npc_action npc::address_player()
         if( rl_dist( pos(), player_character.pos() ) >= 12 || !sees( player_character ) ) {
             int intense = get_effect_int( effect_catch_up );
             if( intense < 10 ) {
-                say( chatbin.snip_keep_up );
+                say( chat_snippets().snip_keep_up.translated() );
                 add_effect( effect_catch_up, 5_turns );
                 return npc_pause;
             } else {
-                say( chatbin.snip_im_leaving_you );
+                say( chat_snippets().snip_im_leaving_you.translated() );
                 set_attitude( NPCATT_NULL );
                 return npc_pause;
             }
@@ -2834,6 +2839,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     return false;
 }
 
+bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool force )
+{
+    return update_path( p.raw(), no_bashing, force );
+}
+
 void npc::set_guard_pos( const tripoint_abs_ms &p )
 {
     ai_cache.guard_pos = p;
@@ -2941,7 +2951,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
         if( critter->is_avatar() ) {
             if( sees( *critter ) ) {
-                say( chatbin.snip_let_me_pass );
+                say( chat_snippets().snip_let_me_pass.translated() );
             } else {
                 stumble_invis( *critter );
             }
@@ -2963,7 +2973,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             // other npcs should not try to move into this npc anymore,
             // so infinite loop can be avoided.
             realnomove->insert( pos() );
-            say( chatbin.snip_let_me_pass );
+            say( chat_snippets().snip_let_me_pass.translated() );
             np->move_away_from( pos(), true, realnomove );
             // if we moved NPC, readjust their path, so NPCs don't jostle each other out of their activity paths.
             if( np->attitude == NPCATT_ACTIVITY ) {
@@ -3470,8 +3480,8 @@ void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 void npc::find_item()
 {
     if( is_hallucination() ) {
-        see_item_say_smth( itype_thorazine, chatbin.snip_no_to_thorazine );
-        see_item_say_smth( itype_lsd, chatbin.snip_yes_to_lsd );
+        see_item_say_smth( itype_thorazine, chat_snippets().snip_no_to_thorazine.translated() );
+        see_item_say_smth( itype_lsd, chat_snippets().snip_yes_to_lsd.translated() );
         return;
     }
 
@@ -3848,9 +3858,9 @@ bool npc::find_corpse_to_pulp()
     }
 
     if( corpse != nullptr && corpse != old_target && is_walking_with() ) {
-        std::string talktag = chatbin.snip_pulp_zombie;
+        std::string talktag = chat_snippets().snip_pulp_zombie.translated();
         parse_tags( talktag, get_player_character(), *this );
-        say( string_format( _( talktag ), corpse->tname() ) );
+        say( string_format( talktag, corpse->tname() ) );
     }
 
     return corpse != nullptr;
@@ -4421,7 +4431,9 @@ bool npc::consume_food_from_camp()
     }
     basecamp *bcp = *potential_bc;
     if( get_thirst() > 40 && bcp->has_water() ) {
-        complain_about( "camp_water_thanks", 1_hours, chatbin.snip_camp_water_thanks, false );
+        complain_about( "camp_water_thanks", 1_hours,
+                        chat_snippets().snip_camp_water_thanks.translated(), false );
+        // TODO: Stop skipping the stomach for this, actually put the water in there.
         set_thirst( 0 );
         return true;
     }
@@ -4434,11 +4446,12 @@ bool npc::consume_food_from_camp()
         // but also don't try to eat a week's worth of food in one sitting
         int desired_kcals = std::min( static_cast<int>( base_metabolic_rate ), std::max( 0,
                                       kcal_threshold + 100 - current_kcals ) );
-        int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
+        int kcals_to_eat = std::min( desired_kcals, yours->food_supply.kcal() );
 
         if( kcals_to_eat > 0 ) {
             // We need food and there's some available, so let's eat it
-            complain_about( "camp_food_thanks", 1_hours, chatbin.snip_camp_food_thanks, false );
+            complain_about( "camp_food_thanks", 1_hours,
+                            chat_snippets().snip_camp_food_thanks.translated(), false );
 
             // Make a fake food object here to feed the NPC with, since camp calories are abstracted away
 
@@ -4446,10 +4459,8 @@ bool npc::consume_food_from_camp()
             // or becoming engorged
             units::volume filling_vol = std::max( 0_ml, stomach.capacity( *this ) / 2 - stomach.contains() );
 
-            // TODO: At the moment, vitamins are not tracked by the faction camp, so this does *not* give
-            // the NPC any vitamins. That will need to be added once vitamin deficiencies start mattering
-            nutrients nutr{};
-            nutr.calories = kcals_to_eat * 1000;
+            // Returns the actual amount of calories and vitamins taken from the camp's larder.
+            nutrients nutr = bcp->camp_food_supply( -kcals_to_eat );
 
             stomach.ingest( food_summary{
                 0_ml,
@@ -4460,11 +4471,11 @@ bool npc::consume_food_from_camp()
             // update_stomach() usually takes care of that but it's only called once every 10 seconds for NPCs
             set_hunger( -1 );
 
-            yours->food_supply -= kcals_to_eat;
             return true;
         } else {
             // We need food but there's none to eat :(
-            complain_about( "camp_larder_empty", 1_hours, chatbin.snip_camp_larder_empty, false );
+            complain_about( "camp_larder_empty", 1_hours,
+                            chat_snippets().snip_camp_larder_empty.translated(), false );
             return false;
         }
     }
@@ -4577,7 +4588,7 @@ void npc::mug_player( Character &mark )
     if( to_steal == nullptr ) { // Didn't find anything worthwhile!
         set_attitude( NPCATT_FLEE_TEMP );
         if( !one_in( 3 ) ) {
-            say( chatbin.snip_done_mugging );
+            say( chat_snippets().snip_done_mugging.translated() );
         }
         moves -= 100;
         return;
@@ -4602,7 +4613,7 @@ void npc::mug_player( Character &mark )
 
 void npc::look_for_player( const Character &sought )
 {
-    complain_about( "look_for_player", 5_minutes, chatbin.snip_wait, false );
+    complain_about( "look_for_player", 5_minutes, chat_snippets().snip_wait.translated(), false );
     update_path( sought.pos() );
     move_to_next();
     // The part below is not implemented properly
@@ -5000,13 +5011,13 @@ static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
 std::string npc::distance_string( int range ) const
 {
     if( range < 6 ) {
-        return chatbin.snip_danger_close_distance;
+        return chat_snippets().snip_danger_close_distance.translated();
     } else if( range < 11 ) {
-        return chatbin.snip_close_distance;
+        return chat_snippets().snip_close_distance.translated();
     } else if( range < 26 ) {
-        return chatbin.snip_medium_distance;
+        return chat_snippets().snip_medium_distance.translated();
     } else {
-        return chatbin.snip_far_distance;
+        return chat_snippets().snip_far_distance.translated();
     }
 }
 
@@ -5016,36 +5027,41 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
     std::string snip;
     sounds::sound_t spriority = sounds::sound_t::alert;
     if( type == "monster" ) {
-        snip = is_enemy() ? chatbin.snip_monster_warning_h : chatbin.snip_monster_warning;
+        snip = is_enemy() ? chat_snippets().snip_monster_warning_h.translated()
+               : chat_snippets().snip_monster_warning.translated();
     } else if( type == "explosion" ) {
-        snip = is_enemy() ? chatbin.snip_fire_in_the_hole_h : chatbin.snip_fire_in_the_hole;
+        snip = is_enemy() ? chat_snippets().snip_fire_in_the_hole_h.translated()
+               : chat_snippets().snip_fire_in_the_hole.translated();
     } else if( type == "general_danger" ) {
-        snip = is_enemy() ? chatbin.snip_general_danger_h : chatbin.snip_general_danger;
+        snip = is_enemy() ? chat_snippets().snip_general_danger_h.translated()
+               : chat_snippets().snip_general_danger.translated();
         spriority = sounds::sound_t::speech;
     } else if( type == "relax" ) {
-        snip = is_enemy() ? chatbin.snip_its_safe_h : chatbin.snip_its_safe;
+        snip = is_enemy() ? chat_snippets().snip_its_safe_h.translated()
+               : chat_snippets().snip_its_safe.translated();
         spriority = sounds::sound_t::speech;
     } else if( type == "kill_npc" ) {
-        snip = is_enemy() ? chatbin.snip_kill_npc_h : chatbin.snip_kill_npc;
+        snip = is_enemy() ? chat_snippets().snip_kill_npc_h.translated()
+               : chat_snippets().snip_kill_npc.translated();
     } else if( type == "kill_player" ) {
-        snip = is_enemy() ? chatbin.snip_kill_player_h : "";
+        snip = is_enemy() ? chat_snippets().snip_kill_player_h.translated() : "";
     } else if( type == "run_away" ) {
-        snip = chatbin.snip_run_away;
+        snip = chat_snippets().snip_run_away.translated();
     } else if( type == "cant_flee" ) {
-        snip = chatbin.snip_cant_flee;
+        snip = chat_snippets().snip_cant_flee.translated();
     } else if( type == "fire_bad" ) {
-        snip = chatbin.snip_fire_bad;
+        snip = chat_snippets().snip_fire_bad.translated();
     } else if( type == "speech_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
-        snip = chatbin.snip_speech_warning;
+        snip = chat_snippets().snip_speech_warning.translated();
         spriority = sounds::sound_t::speech;
     } else if( type == "combat_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
-        snip = chatbin.snip_combat_noise_warning;
+        snip = chat_snippets().snip_combat_noise_warning.translated();
         spriority = sounds::sound_t::speech;
     } else if( type == "movement_noise" && !has_trait( trait_IGNORE_SOUND ) ) {
-        snip = chatbin.snip_movement_noise_warning;
+        snip = chat_snippets().snip_movement_noise_warning.translated();
         spriority = sounds::sound_t::speech;
     } else if( type == "heal_self" ) {
-        snip = chatbin.snip_heal_self;
+        snip = chat_snippets().snip_heal_self.translated();
         spriority = sounds::sound_t::speech;
     } else {
         return;
@@ -5115,9 +5131,9 @@ bool npc::complain()
         const bodypart_id &bp =  bp_affected( *this, effect_infected );
         const effect &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
-        std::string talktag = chatbin.snip_wound_infected;
+        std::string talktag = chat_snippets().snip_wound_infected.translated();
         parse_tags( talktag, get_player_character(), *this );
-        const std::string speech = string_format( _( talktag ), body_part_name( bp ) );
+        const std::string speech = string_format( talktag, body_part_name( bp ) );
         if( complain_about( infected_string, time_duration::from_hours( 4 - intensity ), speech,
                             intensity >= 3 ) ) {
             // Only one complaint per turn
@@ -5128,9 +5144,9 @@ bool npc::complain()
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
         const bodypart_id &bp =  bp_affected( *this, effect_bite );
-        std::string talktag = chatbin.snip_wound_bite;
+        std::string talktag = chat_snippets().snip_wound_bite.translated();
         parse_tags( talktag, get_player_character(), *this );
-        const std::string speech = string_format( _( talktag ), body_part_name( bp ) );
+        const std::string speech = string_format( talktag, body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
             return true;
         }
@@ -5139,7 +5155,7 @@ bool npc::complain()
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
     if( get_fatigue() > fatigue_levels::TIRED &&
-        complain_about( fatigue_string, 30_minutes, _( chatbin.snip_yawn ),
+        complain_about( fatigue_string, 30_minutes, chat_snippets().snip_yawn.translated(),
                         get_fatigue() > fatigue_levels::MASSIVE_FATIGUE - 100 ) )  {
         return true;
     }
@@ -5147,7 +5163,7 @@ bool npc::complain()
     // Radiation every 10 minutes
     if( get_rad() > 90 ) {
         activate_bionic_by_id( bio_radscrubber );
-        std::string speech = _( chatbin.snip_radiation_sickness );
+        std::string speech = chat_snippets().snip_radiation_sickness.translated();
         if( complain_about( radiation_string, 10_minutes, speech, get_rad() > 150 ) ) {
             return true;
         }
@@ -5158,15 +5174,16 @@ bool npc::complain()
     // Hunger every 3-6 hours
     // Since NPCs can't starve to death, respect the rules
     if( get_hunger() > NPC_HUNGER_COMPLAIN &&
-        complain_about( hunger_string, std::max( 3_hours,
-                        time_duration::from_minutes( 60 * 8 - get_hunger() ) ), _( chatbin.snip_hungry ) ) ) {
+        complain_about( hunger_string,
+                        std::max( 3_hours, time_duration::from_minutes( 60 * 8 - get_hunger() ) ),
+                        chat_snippets().snip_hungry.translated() ) ) {
         return true;
     }
 
     // Thirst every 2 hours
     // Since NPCs can't dry to death, respect the rules
     if( get_thirst() > NPC_THIRST_COMPLAIN &&
-        complain_about( thirst_string, 2_hours, _( chatbin.snip_thirsty ) ) ) {
+        complain_about( thirst_string, 2_hours, chat_snippets().snip_thirsty.translated() ) ) {
         return true;
     }
 
@@ -5176,14 +5193,14 @@ bool npc::complain()
         std::string speech;
         time_duration often;
         if( get_effect( effect_bleed, bp ).get_intensity() < 10 ) {
-            std::string talktag = chatbin.snip_bleeding;
+            std::string talktag = chat_snippets().snip_bleeding.translated();
             parse_tags( talktag, get_player_character(), *this );
-            speech = string_format( _( talktag ), body_part_name( bp ) );
+            speech = string_format( talktag, body_part_name( bp ) );
             often = 5_minutes;
         } else {
-            std::string talktag = chatbin.snip_bleeding_badly;
+            std::string talktag = chat_snippets().snip_bleeding_badly.translated();
             parse_tags( talktag, get_player_character(), *this );
-            speech = string_format( _( talktag ), body_part_name( bp ) );
+            speech = string_format( talktag, body_part_name( bp ) );
             often = 1_minutes;
         }
         if( complain_about( bleed_string, often, speech ) ) {
@@ -5192,7 +5209,7 @@ bool npc::complain()
     }
 
     if( has_effect( effect_hypovolemia ) ) {
-        std::string speech = _( chatbin.snip_lost_blood );
+        std::string speech = chat_snippets().snip_lost_blood.translated();
         if( complain_about( hypovolemia_string, 10_minutes, speech ) ) {
             return true;
         }
