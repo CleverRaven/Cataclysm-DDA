@@ -17,7 +17,7 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 3 ] ] ]
+    "components": [ [ [ "410shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_pistol", 10 ] ], [ [ "lead", 2 ] ] ]
   },
   {
     "result": "410shot_slug",
