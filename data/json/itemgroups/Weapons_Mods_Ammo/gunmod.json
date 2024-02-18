@@ -138,7 +138,7 @@
     "id": "rifle_light",
     "subtype": "collection",
     "//": "Small group to represent a tactical light attached to the mount.",
-    "entries": [ { "item":"rail_mount_light" }, { "item": "tac_flashlight" } ]
+    "entries": [ { "item": "rail_mount_light" }, { "item": "tac_flashlight" } ]
   },
   {
     "type": "item_group",
