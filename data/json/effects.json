@@ -4903,7 +4903,7 @@
     "name": [ "Natural Stance" ],
     "rating": "good",
     "desc": [
-      "You are positioned to take advantage of your mutated anatomy, and will favor any natural attacks you may have.  You receive no penalties for crouching in melee combat."
+      "You are positioned to take advantage of your mutated anatomy, and will receive no penalties for crouching in melee combat.  Wielding a weapon will cause you to lose this effect."
     ]
   },
   {
