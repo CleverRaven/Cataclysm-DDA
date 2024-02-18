@@ -128,13 +128,15 @@
     "//": "~50L of loamy soil, sand, clay, and rocks from digging in generic dirt",
     "items": [
       { "item": "material_soil", "count": [ 8, 12 ] },
-      { "item": "earthworm", "count": [ 1, 10 ] },
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
       { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
       { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
       { "item": "flint", "prob": 1 },
       { "item": "rock_large", "prob": 10 },
+      { "item": "earthworm", "count": [ 2, 6 ], "prob": 60 },
+      { "item": "earthworm", "count": [ 1, 5 ], "prob": 30 },
+      { "item": "earthworm", "count": [ 1, 4 ], "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]
   },
