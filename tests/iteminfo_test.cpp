@@ -1240,7 +1240,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 //
 // - "materials" determine the resistance factors (bash, cut, fire etc.)
 // - "material_thickness" multiplies bash, cut, and bullet resistance
-// - "environmental_protection" gives acid and fire resist (N/10 if less than 10)
+// - "environmental_protection" gives fire resist (N/10 if less than 10)
 //
 // See doc/DEVELOPER_FAQ.md "How armor protection is calculated" for more.
 //
@@ -1261,9 +1261,9 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
     SECTION( "no protection from physical, no protection from environmental" ) {
         // Long-sleeved shirt, material:cotton, thickness:0.2
         // 1/1/1 bash/cut/bullet x 1 thickness
-        // 0/0/0 acid/fire/env
+        // 3/0/0 acid/fire/env
         item longshirt( "test_longshirt" );
-        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f );
+        expected_armor_values( longshirt, 0.2f, 3.f, 0.16f, 0.2f );
         REQUIRE( longshirt.get_covered_body_parts().any() );
 
         // Protection info displayed on two lines
@@ -2997,7 +2997,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         "  Cut: <color_c_yellow>16.00</color>\n"
         "  Ballistic: <color_c_yellow>5.60</color>\n"
         "  Pierce: <color_c_yellow>12.80</color>\n"
-        "  Acid: <color_c_yellow>3.60</color>\n"
+        "  Acid: <color_c_yellow>6.00</color>\n"
         "  Fire: <color_c_yellow>1.50</color>\n"
         "  Environmental: <color_c_yellow>6</color>\n";
 
@@ -3015,7 +3015,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         "  Cut: <color_c_yellow>19.20</color>\n"
         "  Ballistic: <color_c_yellow>6.72</color>\n"
         "  Pierce: <color_c_yellow>15.36</color>\n"
-        "  Acid: <color_c_yellow>4.20</color>\n"
+        "  Acid: <color_c_yellow>6.00</color>\n"
         "  Fire: <color_c_yellow>1.75</color>\n"
         "  Environmental: <color_c_yellow>7</color>\n";
 
@@ -3032,7 +3032,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         "  Cut: <color_c_yellow>24.00</color>\n"
         "  Ballistic: <color_c_yellow>8.40</color>\n"
         "  Pierce: <color_c_yellow>19.20</color>\n"
-        "  Acid: <color_c_yellow>4.80</color>\n"
+        "  Acid: <color_c_yellow>6.00</color>\n"
         "  Fire: <color_c_yellow>2.00</color>\n"
         "  Environmental: <color_c_yellow>8</color>\n";
 
