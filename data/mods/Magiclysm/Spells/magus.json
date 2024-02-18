@@ -644,40 +644,5 @@
     "energy_source": "MANA",
     "base_energy_cost": 350,
     "base_casting_time": 300
-  },
-  {
-    "id": "magus_continual_light",
-    "type": "SPELL",
-    "name": "Imperishable Light",
-    "description": "Undoubtedly the single most common spell in the world before the Cataclysm, Freshen Up cleans your teeth, sweetens your breath, removes stains and sweat from your clothes, exfoliates you, and gives volume back to your hair.",
-    "valid_targets": [ "self" ],
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_MAGUS_IMPERISHABLE_LIGHT_SPELL",
-    "components": "spell_components_imperishable_light",
-    "shape": "blast",
-    "difficulty": 8,
-    "max_level": 15,
-    "energy_source": "MANA",
-    "base_energy_cost": 950,
-    "base_casting_time": 42000
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_MAGUS_IMPERISHABLE_LIGHT_SPELL",
-    "effect": [
-      { "u_lose_effect": "wet" },
-      { "u_lose_effect": "wet", "target_part": "head" },
-      { "u_lose_effect": "wet", "target_part": "arm_l" },
-      { "u_lose_effect": "wet", "target_part": "arm_r" },
-      { "u_lose_effect": "wet", "target_part": "torso" },
-      { "u_lose_effect": "wet", "target_part": "leg_l" },
-      { "u_lose_effect": "wet", "target_part": "leg_r" },
-      {
-        "u_run_inv_eocs": "all",
-        "search_data": [ { "worn_only": true }, { "flags": [ "FILTHY" ] } ],
-        "true_eocs": [ { "id": "EOC_MAGUS_IMPERISHABLE_LIGHT_SPELL_ITEM", "effect": [ { "npc_unset_flag": "FILTHY" } ] } ]
-      }
-    ]
   }
 ]

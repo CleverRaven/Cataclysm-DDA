@@ -195,7 +195,7 @@
   {
     "id": "spell_components_spirit_walking",
     "type": "requirement",
-    "//": "Spell components for the Spirit Walking spell",
+    "//": "Spell components for the Body of Spirit spell",
     "components": [ [ [ "lead", 1 ] ], [ [ "gold_small", 1 ] ] ]
   },
   {
@@ -246,5 +246,11 @@
     "type": "requirement",
     "//": "A wire for the Machine Mind spell",
     "components": [ [ [ "cable", 1 ], [ "copper_wire", 1 ], [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_baking_hands",
+    "type": "requirement",
+    "//": "Coal or charcoal for the Baking Hands spell",
+    "components": [ [ [ "coal_lump", 1 ], [ "charcoal", 1 ] ] ]
   }
 ]
