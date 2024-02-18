@@ -146,7 +146,7 @@
     "subtype": "collection",
     "//": "Small group to represent a tactical light attached to the underbarrel.",
     "entries": [ { "item": "underbarrel_mount_light" }, { "item": "tac_flashlight" } ]
-  },  
+  },
   {
     "type": "item_group",
     "id": "SWAT_rail",
@@ -158,7 +158,7 @@
     "type": "item_group",
     "id": "SWAT_underbarrel",
     "subtype": "collection",
-    "//": "Gives SWAT shotguns a chance to have a flashlight.",
+    "//": "Gives SWAT shotguns/SMGs a chance to have a flashlight.",
     "items": [ { "group": "underbarrel_light", "prob": 50 } ]
   },
   {
@@ -207,12 +207,20 @@
     "subtype": "collection",
     "id": "SWAT_shotgun_mods",
     "//": "Weapon mod loadouts that represent the average SWAT shotgun loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "SWAT_sights_CQB" }, { "group": "SWAT_underbarrel" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SWAT_smg_mods",
+    "//": "Weapon mod loadouts that represent the average SWAT smg loadout.",
     "items": [
       { "group": "issued_slings" },
       { "group": "SWAT_sights_CQB" },
+      { "group": "SWAT_muzzle" },
       { "group": "SWAT_underbarrel" }
     ]
-  },  
+  },
   {
     "type": "item_group",
     "id": "sights_rifle",
