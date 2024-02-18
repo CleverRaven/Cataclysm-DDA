@@ -223,6 +223,68 @@
   },
   {
     "type": "item_group",
+    "id": "police_rail",
+    "subtype": "collection",
+    "//": "Lights are a common sight on patrol rifles.",
+    "items": [ { "group": "rifle_light", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_underbarrel",
+    "subtype": "collection",
+    "//": "Gives police shotguns a chance to have a flashlight.",
+    "items": [ { "group": "underbarrel_light", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_grip",
+    "subtype": "distribution",
+    "//": "police are more likely to have CQB attachments than the military.",
+    "items": [ [ "grip", 67 ], [ "null", 33 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_sights",
+    "subtype": "distribution",
+    "//": "police are more likely to have CQB optics than the military.",
+    "items": [ [ "acog_scope", 5 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 40 ], [ "red_dot_sight", 40 ], [ "null", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_sights_CQB",
+    "subtype": "distribution",
+    "//": "This group of sights better represents those present on police shotguns or submachine guns.",
+    "items": [ [ "holo_sight", 50 ], [ "red_dot_sight", 20 ], [ "null", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_muzzle",
+    "subtype": "distribution",
+    "//": "placeholder group for when more muzzle attachments are added.",
+    "items": [ { "item": "null", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "police_carbine_mods",
+    "//": "Weapon mod loadouts that represent the average police carbine loadout.",
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "police_sights" },
+      { "group": "police_rail" },
+      { "group": "police_muzzle" },
+      { "group": "police_grip" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "police_shotgun_mods",
+    "//": "Weapon mod loadouts that represent the average police shotgun loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "police_sights_CQB" }, { "group": "police_underbarrel" } ]
+  },
+  {
+    "type": "item_group",
     "id": "sights_rifle",
     "//": "Aftermarket sights that are for rifles.",
     "items": [
