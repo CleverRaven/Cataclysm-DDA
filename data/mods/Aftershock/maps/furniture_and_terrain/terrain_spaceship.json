@@ -536,6 +536,7 @@
     }
   },
   {
+    "type": "terrain",
     "id": "t_afs_augustmoon_diamond_glass",
     "name": "diamond-matrix glass",
     "description": "The diamond cubic lattice distorts distant light sources into eight pointed stars.  The galactic core is visible through the glass, but no spacer would ever give it more than a passing glance.",
