@@ -2033,7 +2033,7 @@
     "//": "Shotguns that US police would have",
     "subtype": "distribution",
     "entries": [
-      { "item": "mossberg_930", "variant": "M1014", "prob": 10, "charges": [ 0, 8 ], "contents-group": "police_shotgun_mods" },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges": [ 0, 8 ], "contents-group": "police_shotgun_mods" },
       { "item": "remington_870_express", "prob": 50, "charges": [ 0, 7 ], "contents-group": "police_shotgun_mods" },
       { "item": "mossberg_500", "prob": 40, "charges": [ 0, 6 ], "contents-group": "police_shotgun_mods" }
     ]
