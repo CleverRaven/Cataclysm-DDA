@@ -795,8 +795,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             }
             d.mult_damage( 0.3 );
         } else if( is_crouching() && ( ( ( !has_effect( effect_natural_stance ) &&
-                                         !unarmed_attack() ) ) ||
-                   !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ) {
+                                           !unarmed_attack() ) ) ||
+                                       !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ) {
             d.mult_damage( 0.8 );
         }
 
