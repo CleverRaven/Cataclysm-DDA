@@ -127,6 +127,14 @@
     "min_skills": [ [ "gun", 1 ] ]
   },
   {
+    "id": "underbarrel_mount_light",
+    "type": "GUNMOD",
+    "copy-from": "rail_mount_light",
+    "name": { "str": "underbarrel flashlight mount" },
+    "description": "A small device for mounting flashlights to the underbarrel of firearms.",
+    "location": "underbarrel"
+  },
+  {
     "id": "rail_LAM",
     "type": "GUNMOD",
     "//": "Based on the AN/PEQ-15.",
