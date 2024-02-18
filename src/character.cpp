@@ -10622,13 +10622,7 @@ bool Character::sees_with_infrared( const Creature &critter ) const
 
     map &here = get_map();
 
-    if( is_avatar() || critter.is_avatar() ) {
-        // Players should not use map::sees
-        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return here.pl_line_of_sight( critter.pos(), unimpaired_range() );
-    }
-
-    return here.sees( pos(), critter.pos(), unimpaired_range() );
+    return here.sees( pos(), critter.pos(), unimpaired_range(), false );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
@@ -10718,11 +10712,11 @@ void Character::echo_pulse()
                        "none", "none" );
     }
     for( tripoint origin : points_in_radius( pos(), pulse_range ) ) {
-        if( here.move_cost( origin ) == 0 && here.pl_line_of_sight( origin, pulse_range ) ) {
+        if( here.move_cost( origin ) == 0 && here.sees( pos(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 5, sounds::sound_t::sensory, _( "clack." ), true,
                            "none", "none" );
             // This only counts obstacles which can be moved through, so the echo is pretty quiet.
-        } else if( is_obstacle( origin ) && here.pl_line_of_sight( origin, pulse_range ) ) {
+        } else if( is_obstacle( origin ) && here.sees( pos(), origin, pulse_range, false ) ) {
             sounds::sound( origin, 1, sounds::sound_t::sensory, _( "click." ), true,
                            "none", "none" );
         }
@@ -10734,7 +10728,7 @@ void Character::echo_pulse()
             add_known_trap( origin, tr );
         }
         Creature *critter = get_creature_tracker().creature_at( origin, true );
-        if( critter && here.pl_line_of_sight( origin, pulse_range ) ) {
+        if( critter && here.sees( pos(), origin, pulse_range, false ) ) {
             switch( critter->get_size() ) {
                 case creature_size::tiny:
                     echo_volume = 1;
