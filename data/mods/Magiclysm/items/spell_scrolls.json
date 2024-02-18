@@ -1857,7 +1857,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_animist_spirit_walking",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Spirit-Walking", "str_pl": "Scrolls of Spirit-Walking" },
+    "name": { "str": "Scroll of Body of Spirit", "str_pl": "Scrolls of Body of Spirit" },
     "description": "Highly restricted before the Cataclysm, this spell allows you to turn into pure spirit and pass through the physical world unseen and insubstantial.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_spirit_walking" ] }
   },
