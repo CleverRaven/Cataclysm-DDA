@@ -4519,9 +4519,6 @@
       { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
       { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
     ],
-    "//": "Devil’s Poison for 5.45x39mm is a reference to the fact that the cartridge was sometimes dubed either the 'Devil Bullet' or the 'Poison Bullet'.",
-    "//2": "Pig’s Feed for 7.62x51mm is a reference to the US M60 machine gun. It was nicknamed the 'Pig'. 7.62x51mm feeds it. Coming up with names is hard.",
-    "//3": "Yes, illegal alien for 12.3LN is a reference to Aliens. No, it is not a comment about any group of people.",
     "description": "An article of hand-produced apparel that George Washingten himself could look down upon with an approving smile, the daintiness of this necklace’s precious metal chain looks rather comical when compared against the gargantuan pendent that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.",
     "snippet_category": [
       {
