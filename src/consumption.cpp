@@ -952,8 +952,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
     if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
           !has_flag( json_flag_PSYCHOPATH ) && !has_flag( json_flag_SAPIOVORE ) ) &&
-        ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_HEMOVORE ) &&
-                !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
+        ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
@@ -1352,12 +1351,16 @@ void Character::modify_morale( item &food, const int nutr )
             add_msg_if_player( _( "You greedily devour the taboo meat." ) );
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
+        } else if( has_flag( json_flag_BLOODFEEDER ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
+            add_msg_if_player( _( "The human blood tastes as good as any other." ) );
         } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
         } else if( sapiovore ) {
             add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
         } else if( has_flag( json_flag_HEMOVORE ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
-            add_msg_if_player( _( "The human blood tastes as good as any other." ) );
+            add_msg_if_player(
+                _( "Despite your cravings, you still can't help feeling weird about drinking somebody's blood." ) );
+            add_morale( MORALE_CANNIBAL, -10, -40, 40_minutes, 20_minutes );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
