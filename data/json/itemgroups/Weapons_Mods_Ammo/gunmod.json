@@ -18,6 +18,9 @@
       [ "match_trigger", 20 ],
       [ "offset_sights", 40 ],
       [ "offset_sight_rail", 30 ],
+      [ "compact_tac_flashlight", 40 ],
+      [ "tac_flashlight", 30 ],
+      [ "rail_mount_light", 50 ],
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
@@ -39,6 +42,7 @@
       [ "gun_crossbow", 20 ],
       [ "stabilizer", 10 ],
       [ "laser_sight", 40 ],
+      [ "rail_LAM", 40 ],
       [ "light_grip", 50 ],
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
@@ -72,6 +76,7 @@
       [ "red_dot_sight", 100 ],
       [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
+      [ "rail_LAM", 80 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
@@ -100,17 +105,33 @@
   },
   {
     "type": "item_group",
+    "id": "issued_rail",
+    "//": "AN/PEQ modules were very common in pictures I reviewed of deployments overseas as well as National Guard units.",
+    "items": [ [ "rail_LAM", 67 ], [ "null", 33 ] ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "issued_carbine_mods",
     "//": "Weapon mod loadouts that represent the average US Army carbine loadout.",
-    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "issued_grip" } ]
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "issued_carbine_sights" },
+      { "group": "issued_rail" },
+      { "group": "issued_grip" }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "issued_grenadier_mods",
     "//": "Weapon mod loadouts that represent the average US Army grenadier loadout.",
-    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "military_grenadier_mods" } ]
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "issued_carbine_sights" },
+      { "group": "issued_rail" },
+      { "group": "military_grenadier_mods" }
+    ]
   },
   {
     "type": "item_group",
