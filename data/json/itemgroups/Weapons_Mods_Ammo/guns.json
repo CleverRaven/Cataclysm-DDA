@@ -1783,7 +1783,7 @@
             "variant": "modular_m4a1",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
-            "contents-item": "shoulder_strap",
+            "contents-group": "SWAT_carbine_mods",
             "damage": [ 0, 3 ],
             "dirt": [ 0, 7050 ]
           },
@@ -1801,7 +1801,7 @@
             "variant": "m4_cqbr",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
-            "contents-item": "shoulder_strap",
+            "contents-group": "SWAT_carbine_mods",
             "damage": [ 0, 3 ],
             "dirt": [ 0, 7050 ]
           },
@@ -1819,7 +1819,7 @@
             "variant": "modular_h&k416a5",
             "ammo-item": "556_mk318",
             "charges": [ 0, 30 ],
-            "contents-item": "shoulder_strap",
+            "contents-group": "SWAT_carbine_mods",
             "damage": [ 0, 3 ],
             "dirt": [ 0, 7050 ]
           },
@@ -1835,7 +1835,7 @@
           {
             "group": "modular_ump_9",
             "charges": [ 0, 30 ],
-            "contents-item": "shoulder_strap",
+            "contents-group": "SWAT_carbine_mods",
             "damage": [ 0, 3 ],
             "dirt": [ 0, 7050 ]
           },
@@ -1848,7 +1848,7 @@
           {
             "group": "modular_ump_40",
             "charges": [ 0, 30 ],
-            "contents-item": "shoulder_strap",
+            "contents-group": "SWAT_carbine_mods",
             "damage": [ 0, 3 ],
             "dirt": [ 0, 7050 ]
           },
@@ -1861,7 +1861,7 @@
           {
             "group": "modular_ump_45",
             "charges": [ 0, 25 ],
-            "contents-item": "shoulder_strap",
+            "contents-group": "SWAT_carbine_mods",
             "damage": [ 0, 3 ],
             "dirt": [ 0, 7050 ]
           },
@@ -1895,7 +1895,7 @@
           {
             "item": "colt_ro635",
             "charges": [ 0, 32 ],
-            "contents-item": "shoulder_strap",
+            "contents-group": "SWAT_carbine_mods",
             "damage": [ 0, 3 ],
             "dirt": [ 0, 7050 ]
           },
