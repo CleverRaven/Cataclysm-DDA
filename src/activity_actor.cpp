@@ -3095,7 +3095,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_zero );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms( tripoint_zero ) );
 
     JsonObject data = jsin.get_object();
 
