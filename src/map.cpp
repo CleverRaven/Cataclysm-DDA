@@ -9420,6 +9420,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     seen_cache_dirty |= build_vision_transparency_cache( zlev );
 
     if( seen_cache_dirty ) {
+        skew_vision_cache.clear();
         skew_vision_wo_fields_cache.clear();
     }
     avatar &u = get_avatar();
