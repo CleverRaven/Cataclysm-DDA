@@ -591,22 +591,16 @@
     "replace": "burnt_out_bionic"
   },
   {
-    "id": "ballistic_vest_heavy",
-    "type": "MIGRATION",
-    "replace": "ballistic_vest_esapi",
-    "contents": [ { "id": "iotv_shoulder_plate", "count": 1 }, { "id": "iotv_groin_plate", "count": 1 } ]
-  },
-  {
     "id": "ballistic_vest_heavy_arms",
     "type": "MIGRATION",
-    "replace": "ballistic_vest_esapi",
-    "contents": [ { "id": "iotv_shoulder_plate", "count": 1 } ]
+    "replace": "ballistic_vest_heavy",
+    "contents": [ { "id": "iotv_shoulder_plate", "count": 1 }, { "id": "iotv_neck_plate", "count": 1 } ]
   },
   {
     "id": "ballistic_vest_heavy_legs",
     "type": "MIGRATION",
-    "replace": "ballistic_vest_esapi",
-    "contents": [ { "id": "iotv_groin_plate", "count": 1 } ]
+    "replace": "ballistic_vest_heavy",
+    "contents": [ { "id": "iotv_groin_plate", "count": 1 }, { "id": "iotv_neck_plate", "count": 1 } ]
   },
   {
     "id": "conical_hat",

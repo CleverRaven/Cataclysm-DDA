@@ -123,7 +123,7 @@
     "type": "item_group",
     "//": "Shoulder and groin protectors for heavy vest",
     "subtype": "collection",
-    "entries": [ { "item": "iotv_groin_plate" }, { "item": "iotv_shoulder_plate" } ]
+    "entries": [ { "item": "iotv_groin_plate" }, { "item": "iotv_shoulder_plate" }, { "item": "iotv_neck_plate" } ]
   },
   {
     "id": "kitted_heavy_vest",
@@ -393,21 +393,21 @@
     "type": "item_group",
     "//": "heavy ballistic vest plus plates",
     "subtype": "collection",
-    "entries": [ { "item": "ballistic_vest_esapi", "contents-group": "kitted_heavy_vest" } ]
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "kitted_heavy_vest" } ]
   },
   {
     "id": "xedra_ballistic_vest_heavy_pristine",
     "type": "item_group",
     "//": "heavy xedra ballistic vest plus plates",
     "subtype": "collection",
-    "entries": [ { "item": "ballistic_vest_esapi", "variant": "ballistic_vest_heavy_xedra", "contents-group": "kitted_heavy_vest" } ]
+    "entries": [ { "item": "ballistic_vest_heavy", "variant": "ballistic_vest_heavy_xedra", "contents-group": "kitted_heavy_vest" } ]
   },
   {
     "id": "military_ballistic_vest_heavy",
     "type": "item_group",
     "//": "heavy ballistic vest plus plates",
     "subtype": "collection",
-    "entries": [ { "item": "ballistic_vest_esapi", "contents-group": "used_kitted_heavy_vest" } ]
+    "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "used_kitted_heavy_vest" } ]
   },
   {
     "type": "item_group",
