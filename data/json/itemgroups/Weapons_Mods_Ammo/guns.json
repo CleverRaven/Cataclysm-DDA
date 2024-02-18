@@ -2056,6 +2056,13 @@
   },
   {
     "type": "item_group",
+    "id": "SWAT_smgs",
+    "//": "SMGs that a US SWAT team would use",
+    "subtype": "distribution",
+    "entries": [ { "item": "hk_mp5", "prob": 100, "charges": [ 0, 30 ], "contents-group": "SWAT_smg_mods" } ]
+  },
+  {
+    "type": "item_group",
     "id": "longguns_operator_in_field",
     "//": "gun plus potential expended magazines for a tacticool operator, should be lots of AR-15s",
     "items": [
