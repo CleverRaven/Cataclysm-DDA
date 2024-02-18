@@ -1463,6 +1463,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                             om.build_connection(
                                 nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
                                 must_be_unexplored, initial_dir );
+                            break;
                         }
                     }
                 }
