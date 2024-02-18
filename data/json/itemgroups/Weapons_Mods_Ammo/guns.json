@@ -2050,14 +2050,8 @@
     "//": "Shotguns that a US SWAT team would use",
     "subtype": "distribution",
     "entries": [
-      {
-        "item": "mossberg_930",
-        "variant": "M1014",
-        "prob": 91,
-        "charges": [ 0, 8 ],
-        "contents-group": "P L A C E H O L D E R"
-      },
-      { "item": "remington_870_express", "prob": 9, "charges": [ 0, 7 ], "contents-group": "P L A C E H O L D E R" }
+      { "item": "mossberg_930", "variant": "M1014", "prob": 91, "charges": [ 0, 8 ], "contents-group": "SWAT_shotgun_mods" },
+      { "item": "remington_870_express", "prob": 9, "charges": [ 0, 7 ], "contents-group": "SWAT_shotgun_mods" }
     ]
   },
   {
