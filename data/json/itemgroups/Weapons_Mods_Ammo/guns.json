@@ -2040,6 +2040,35 @@
   },
   {
     "type": "item_group",
+    "id": "police_pistols",
+    "//": "Pistols that US police would have",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "fn57", "prob": 1, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "glock_19", "prob": 50, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "glock_17", "prob": 60, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "m9", "variant": "m9", "prob": 3, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "sp2022", "prob": 10, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "px4", "prob": 5, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "usp_9mm", "prob": 3, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "glock_31", "prob": 4, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "p226_357sig", "prob": 2, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "p320_357sig", "prob": 2, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "glock_22", "prob": 30, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "px4_40", "prob": 5, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "sig_40", "prob": 10, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "glock_21", "prob": 10, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      {
+        "item": "usp_45",
+        "variant": "usp_45",
+        "prob": 2,
+        "charges": [ 0, 6 ],
+        "contents-group": "police_pistol_mods"
+      }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "SWAT_carbines",
     "//": "Carbines that a US SWAT team would use",
     "subtype": "distribution",
