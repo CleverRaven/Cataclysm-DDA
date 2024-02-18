@@ -32,7 +32,7 @@ or engaging way.
 The second problem is problem of mapping the extreme variety of real world guns
 to the guns in game. In the real world, many guns can be quite similar. While
 they are welcomed in game, having them all of them as separate items creates
-some problems. Each item has it's own stat block, and this invites all sorts of
+some problems. Each item has its own stat block, and this invites all sorts of
 differences that aren't meaningfully different. Having non-meaningful
 differences like this only exacerbates the first problem.
 
@@ -88,7 +88,7 @@ Per family of firearm, if there have been historically 100 listings or more
 combined on a secondary market's website (e.g. GunBroker, GunsAmerica, Rock
 Island Auctionhouse, etc) then the gun is common enough for inclusion into
 C:DDA. A family of firearms would include things like, all S&W K-frame models,
-all types of mosin-nagant longarms, the entire MDR rifle family, etc. This is
+all types of Mosin-Nagant longarms, the entire MDR rifle family, etc. This is
 distinct from "100 models produced, ever", as it is instead a measure of how
 common the guns are on the broader market.
 
@@ -142,9 +142,9 @@ script.
 ## Rule 1: What is this?
 
 This rule requires that the name of the gun clarifies what it is. This is meant
-to prevent gun names that are obsccure strings of letters and numbers.
+to prevent gun names that are obscure strings of letters and numbers.
 
-As of writing, names are considiered to be acceptable if the gun name contains
+As of writing, names are considered to be acceptable if the gun name contains
 any of these strings. As with the other rules, the most up-to-date info on what
 is acceptable is contained in the
 [verification script](../tools/json_tools/gun_variant_validator.py).
