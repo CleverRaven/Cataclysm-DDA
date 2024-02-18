@@ -2069,6 +2069,20 @@
   },
   {
     "type": "item_group",
+    "id": "police_longarms",
+    "//": "Rifles/Shotguns that US police would have",
+    "subtype": "distribution",
+    "items": [ { "group": "police_carbines", "prob": 80 }, { "group": "police_shotguns", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_weapons",
+    "//": "A police officer's primary and secondary weapon",
+    "subtype": "collection",
+    "items": [ { "group": "police_longarms", "prob": 80 }, { "group": "police_pistols", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
     "id": "SWAT_carbines",
     "//": "Carbines that a US SWAT team would use",
     "subtype": "distribution",
