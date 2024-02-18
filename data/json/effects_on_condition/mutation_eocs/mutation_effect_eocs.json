@@ -736,7 +736,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_social2_penalty",
-    "recurrence": [ "1 hours", "6 hours" ],
+    "recurrence": [ "30 minutes", "90 minutes" ],
     "condition": {
       "and": [
         { "u_has_flag": "SOCIAL2" },
@@ -793,7 +793,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_asocial2_penalty",
-    "recurrence": [ "1 hours", "6 hours" ],
+    "recurrence": [ "30 minutes", "90 minutes" ],
     "condition": {
       "and": [
         { "u_has_flag": "ASOCIAL2" },
