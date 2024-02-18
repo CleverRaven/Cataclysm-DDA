@@ -1177,7 +1177,9 @@ class npc : public Character
          * @param force If there is no valid path, empty the current path.
          * @returns If it updated the path.
          */
+        // TODO: Remove untyped version.
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
+        bool update_path( const tripoint_bub_ms &p, bool no_bashing = false, bool force = true );
         void set_guard_pos( const tripoint_abs_ms &p );
         bool can_open_door( const tripoint &p, bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
@@ -1444,7 +1446,9 @@ class npc : public Character
         bool prevent_death_reminder = false; // NOLINT(cata-serialize)
 
         bool sees_dangerous_field( const tripoint &p ) const;
+        // TODO: Remove untyped version.
         bool could_move_onto( const tripoint &p ) const;
+        bool could_move_onto( const tripoint_bub_ms &p ) const;
 
         std::vector<sphere> find_dangerous_explosives() const;
 

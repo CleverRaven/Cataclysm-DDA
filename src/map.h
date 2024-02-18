@@ -460,7 +460,10 @@ class map
          * @param p The tile on this map to draw.
          * @param params Draw parameters.
          */
+        // TODO: Get rid of untyped overload,
         void drawsq( const catacurses::window &w, const tripoint &p, const drawsq_params &params ) const;
+        void drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
+                     const drawsq_params &params ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -602,7 +605,7 @@ class map
         /**
         * Returns whether `F` sees `T` with a view range of `range`.
         */
-        bool sees( const tripoint &F, const tripoint &T, int range ) const;
+        bool sees( const tripoint &F, const tripoint &T, int range, bool with_fields = true ) const;
     private:
         /**
          * Don't expose the slope adjust outside map functions.
@@ -614,7 +617,8 @@ class map
          * the two points, and may subsequently be used to form a path between them.
          * Set to zero if the function returns false.
         **/
-        bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope ) const;
+        bool sees( const tripoint &F, const tripoint &T, int range, int &bresenham_slope,
+                   bool with_fields = true ) const;
         point sees_cache_key( const tripoint &from, const tripoint &to ) const;
     public:
         /**
@@ -797,7 +801,9 @@ class map
         * Returns the name of the obstacle at p that might be blocking movement/projectiles/etc.
         * Note that this only accounts for vehicles, terrain, and furniture.
         */
+        // TODO: Get rid of untyped overload.
         std::string obstacle_name( const tripoint &p );
+        std::string obstacle_name( const tripoint_bub_ms &p );
         bool has_furn( const tripoint &p ) const;
         // TODO: fix point types (remove the first overload)
         bool has_furn( const tripoint_bub_ms &p ) const;
@@ -1270,7 +1276,9 @@ class map
             return i_at( tripoint( p, abs_sub.z() ) );
         }
         item water_from( const tripoint &p );
+        // TODO: Get rid of untyped overload.
         void i_clear( const tripoint &p );
+        void i_clear( const tripoint_bub_ms &p );
         void i_clear( const point &p ) {
             i_clear( tripoint( p, abs_sub.z() ) );
         }
@@ -1562,7 +1570,9 @@ class map
          * Get the intensity of a field entry (@ref field_entry::intensity),
          * if there is no field of that type, returns 0.
          */
+        // TODO: fix point types (remove the first overload)
         int get_field_intensity( const tripoint &p, const field_type_id &type ) const;
+        int get_field_intensity( const tripoint_bub_ms &p, const field_type_id &type ) const;
         /**
          * Increment/decrement age of field entry at point.
          * @return resulting age or `-1_turns` if not present (does *not* create a new field).
@@ -1824,12 +1834,7 @@ class map
          * Ignored if smaller than 0.
          */
         bool pl_sees( const tripoint &t, int max_range ) const;
-        /**
-         * Uses the map cache to tell if the player could see the given square.
-         * pl_sees implies pl_line_of_sight
-         * Used for infrared.
-         */
-        bool pl_line_of_sight( const tripoint &t, int max_range ) const;
+
         std::set<vehicle *> dirty_vehicle_list;
 
         /** return @ref abs_sub */
@@ -2262,7 +2267,9 @@ class map
         /**
          * Cache of coordinate pairs recently checked for visibility.
          */
-        mutable lru_cache<point, char> skew_vision_cache;
+        using lru_cache_t = lru_cache<point, char>;
+        mutable lru_cache_t skew_vision_cache;
+        mutable lru_cache_t skew_vision_wo_fields_cache;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {

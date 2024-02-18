@@ -340,7 +340,18 @@
       ]
     },
     "armor": { "bash": 4, "cut": 12, "bullet": 8 },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "WARM", "BASHES", "PATH_AVOID_DANGER_1", "SWARMS", "GROUP_MORALE", "WIELDED_WEAPON" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "HAS_MIND",
+      "WARM",
+      "BASHES",
+      "PATH_AVOID_DANGER_1",
+      "QUIETMOVES",
+      "SWARMS",
+      "GROUP_MORALE",
+      "WIELDED_WEAPON"
+    ]
   },
   {
     "id": "mon_goblin_bugbear_stalker",
@@ -388,6 +399,6 @@
         }
       ]
     },
-    "extend": { "flags": [ "CAMOUFLAGE" ] }
+    "extend": { "flags": [ "CAMOUFLAGE", "SILENTMOVES" ] }
   }
 ]

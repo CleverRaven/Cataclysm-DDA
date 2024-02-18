@@ -1653,6 +1653,11 @@ std::string map::obstacle_name( const tripoint &p )
     return name( p );
 }
 
+std::string map::obstacle_name( const tripoint_bub_ms &p )
+{
+    return obstacle_name( p.raw() );
+}
+
 bool map::has_furn( const tripoint &p ) const
 {
     return furn( p ) != f_null;
@@ -4924,6 +4929,11 @@ void map::i_clear( const tripoint &p )
     current_submap->get_items( l ).clear();
 }
 
+void map::i_clear( const tripoint_bub_ms &p )
+{
+    i_clear( p.raw() );
+}
+
 std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item> &new_items )
 {
     std::vector<item *> ret;
@@ -6337,6 +6347,11 @@ time_duration map::get_field_age( const tripoint_bub_ms &p, const field_type_id 
 
 int map::get_field_intensity( const tripoint &p, const field_type_id &type ) const
 {
+    return get_field_intensity( tripoint_bub_ms( p ), type );
+}
+
+int map::get_field_intensity( const tripoint_bub_ms &p, const field_type_id &type ) const
+{
     const field_entry *field_ptr = get_field( p, type );
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
@@ -6946,6 +6961,12 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
     draw_from_above( w, below, tile_below, params );
 }
 
+void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
+                  const drawsq_params &params ) const
+{
+    map::drawsq( w, p.raw(), params );
+}
+
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
@@ -7226,10 +7247,10 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
     }
 }
 
-bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
+bool map::sees( const tripoint &F, const tripoint &T, const int range, bool with_fields ) const
 {
     int dummy = 0;
-    return sees( F, T, range, dummy );
+    return sees( F, T, range, dummy, with_fields );
 }
 
 point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
@@ -7250,8 +7271,11 @@ point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
  * This one is internal-only, we don't want to expose the slope tweaking ickiness outside the map class.
  **/
 bool map::sees( const tripoint &F, const tripoint &T, const int range,
-                int &bresenham_slope ) const
+                int &bresenham_slope, bool with_fields ) const
 {
+    bool ( map::*f_transparent )( const tripoint & p ) const =
+        with_fields ? &map::is_transparent : &map::is_transparent_wo_fields;
+    lru_cache_t &skew_cache = with_fields ? skew_vision_cache : skew_vision_wo_fields_cache;
     if( std::abs( F.z - T.z ) > fov_3d_z_range ||
         ( range >= 0 && range < rl_dist( F, T ) ) ||
         !inbounds( T ) ) {
@@ -7259,7 +7283,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         return false; // Out of range!
     }
     const point key = sees_cache_key( F, T );
-    char cached = skew_vision_cache.get( key, -1 );
+    char cached = skew_cache.get( key, -1 );
     if( cached >= 0 ) {
         return cached > 0;
     }
@@ -7268,24 +7292,24 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
     // Ugly `if` for now
     if( F.z == T.z ) {
         bresenham( F.xy(), T.xy(), bresenham_slope,
-        [this, &visible, &T]( const point & new_point ) {
+        [this, f_transparent, &visible, &T]( const point & new_point ) {
             // Exit before checking the last square, it's still visible even if opaque.
             if( new_point.x == T.x && new_point.y == T.y ) {
                 return false;
             }
-            if( !this->is_transparent( tripoint( new_point, T.z ) ) ) {
+            if( !( this->*f_transparent )( tripoint( new_point, T.z ) ) ) {
                 visible = false;
                 return false;
             }
             return true;
         } );
-        skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
+        skew_cache.insert( 100000, key, visible ? 1 : 0 );
         return visible;
     }
 
     tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
-    [this, &visible, &T, &last_point]( const tripoint & new_point ) {
+    [this, f_transparent, &visible, &T, &last_point]( const tripoint & new_point ) {
         // Exit before checking the last square if it's not a vertical transition,
         // it's still visible even if opaque.
         if( new_point == T && last_point.z == T.z ) {
@@ -7294,16 +7318,16 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
 
         // TODO: Allow transparent floors (and cache them!)
         if( new_point.z == last_point.z ) {
-            if( !this->is_transparent( new_point ) ) {
+            if( !( this->*f_transparent )( new_point ) ) {
                 visible = false;
                 return false;
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
             if( ( has_floor_or_support( {new_point.xy(), max_z} ) ||
-                  !is_transparent( {new_point.xy(), last_point.z} ) ) &&
+                  !( this->*f_transparent )( {new_point.xy(), last_point.z} ) ) &&
                 ( has_floor_or_support( {last_point.xy(), max_z} ) ||
-                  !is_transparent( {last_point.xy(), new_point.z} ) ) ) {
+                  !( this->*f_transparent )( {last_point.xy(), new_point.z} ) ) ) {
                 visible = false;
                 return false;
             }
@@ -7312,7 +7336,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         last_point = new_point;
         return true;
     } );
-    skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
+    skew_cache.insert( 100000, key, visible ? 1 : 0 );
     return visible;
 }
 
@@ -9237,7 +9261,7 @@ void map::build_obstacle_cache(
             continue;
         }
         // TODO: scale this with expected creature "thickness".
-        obstacle_cache[loc.x][loc.y].velocity = 1000.0f;
+        obstacle_cache[loc.x][loc.y].velocity = 1.2f;
         // ranged_target_size is "proportion of square that is blocked", and density needs to be
         // "transmissivity of square", so we need the reciprocal.
         obstacle_cache[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
@@ -9413,6 +9437,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
+        skew_vision_wo_fields_cache.clear();
     }
     avatar &u = get_avatar();
     Character::moncam_cache_t mcache = u.get_active_moncams();

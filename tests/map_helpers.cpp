@@ -108,7 +108,7 @@ void clear_items( const int zlevel )
     const int mapsize = here.getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
-            here.i_clear( { x, y, zlevel } );
+            here.i_clear( tripoint_bub_ms{ x, y, zlevel } );
         }
     }
 }

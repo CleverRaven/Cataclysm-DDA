@@ -2,7 +2,10 @@
   {
     "id": [ "BEM_KEYCARD_SELLER_1", "BEM_KEYCARD_SELLER_ASK" ],
     "type": "talk_topic",
-    "dynamic_line": "&You spot the mercenary at the tail end of a deal.  \"Want in on the business?  Still have a pair of ID cards looking for buyers.  Two army and two science cards left, they sell together for 4 coins or not at all.",
+    "dynamic_line": {
+      "gendered_line": "&You spot the mercenary at the tail end of a deal.  \"Want in on the business?  Still have a pair of ID cards looking for buyers.  Two army and two science cards left, they sell together for 4 coins or not at all.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "[4 HGC] Its a deal.",

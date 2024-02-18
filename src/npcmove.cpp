@@ -442,6 +442,11 @@ bool npc::could_move_onto( const tripoint &p ) const
     return true;
 }
 
+bool npc::could_move_onto( const tripoint_bub_ms &p ) const
+{
+    return could_move_onto( p.raw() );
+}
+
 std::vector<sphere> npc::find_dangerous_explosives() const
 {
     std::vector<sphere> result;
@@ -1632,9 +1637,9 @@ void npc::execute_action( npc_action action )
         case npc_sleep: {
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
-            int best_sleepy = sleep_spot( pos() );
-            tripoint best_spot = pos();
-            for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
+            tripoint_bub_ms best_spot = pos_bub();
+            int best_sleepy = sleep_spot( best_spot );
+            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -1651,7 +1656,7 @@ void npc::execute_action( npc_action action )
             }
             update_path( best_spot );
             // TODO: Handle empty path better
-            if( best_spot == pos() || path.empty() ) {
+            if( best_spot == pos_bub() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
@@ -2834,6 +2839,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     return false;
 }
 
+bool npc::update_path( const tripoint_bub_ms &p, const bool no_bashing, bool force )
+{
+    return update_path( p.raw(), no_bashing, force );
+}
+
 void npc::set_guard_pos( const tripoint_abs_ms &p )
 {
     ai_cache.guard_pos = p;
@@ -3037,9 +3047,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= 100;
             moved = true;
         }
-    } else if( doors::can_unlock_door( here, *this, pt ) ) {
+    } else if( doors::can_unlock_door( here, *this, tripoint_bub_ms( pt ) ) ) {
         if( !is_hallucination() ) {
-            doors::unlock_door( here, *this, pt );
+            doors::unlock_door( here, *this, tripoint_bub_ms( pt ) );
         } else {
             mod_moves( -100 );
             moved = true;
@@ -3107,11 +3117,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
         // Close doors behind self (if you can)
         if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
-            doors::close_door( here, *this, old_pos );
+            doors::close_door( here, *this, tripoint_bub_ms( old_pos ) );
         }
         // Lock doors as well
         if( ( rules.has_flag( ally_rule::lock_doors ) && is_player_ally() ) && !is_hallucination() ) {
-            doors::lock_door( here, *this, old_pos );
+            doors::lock_door( here, *this, tripoint_bub_ms( old_pos ) );
         }
 
         if( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {

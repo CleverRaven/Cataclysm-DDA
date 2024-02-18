@@ -95,6 +95,36 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
+    "id": "cowrie_bracelet",
+    "copy-from": "bead_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "cowrie bracelet" },
+    "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
+    "id": "cowrie_hair_beads",
+    "copy-from": "wooden_hair_beads",
+    "type": "ARMOR",
+    "name": { "str": "cowrie hair beads", "str_pl": "sets of cowrie hair beads" },
+    "description": "An assortment of cowrie shells used to decorate locs or braids.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
+    "id": "cowrie_necklace",
+    "copy-from": "bead_necklace",
+    "type": "ARMOR",
+    "name": { "str": "cowrie necklace" },
+    "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
     "id": "diamond_dental_grill",
     "type": "ARMOR",
     "name": { "str": "diamond dental grill" },
@@ -1122,6 +1152,19 @@
     "color": "white",
     "use_action": [ "MEDITATE" ],
     "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "wooden_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "wooden hair beads", "str_pl": "sets of wooden hair beads" },
+    "description": "An assortment of wooden beads used to decorate locs or braids.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "material": [ "wood" ],
+    "symbol": ".",
+    "color": "brown",
+    "delete": { "flags": [ "SUPER_FANCY" ] }
   },
   {
     "id": "holy_symbol",
@@ -4026,6 +4069,18 @@
     "color": "dark_gray"
   },
   {
+    "id": "gold_hair_beads",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
+    "description": "an assortment of gold beads used to decorate locs or braids.",
+    "weight": "15 g",
+    "volume": "25 ml",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow"
+  },
+  {
     "id": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and silver tiara" },
@@ -4177,5 +4232,18 @@
       { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
+  },
+  {
+    "id": "silver_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "silver hair beads", "str_pl": "sets of silver hair beads" },
+    "description": "An assortment of shiny silver beads used to decorate locs or braids.",
+    "weight": "10 g",
+    "volume": "20 ml",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "white",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   }
 ]

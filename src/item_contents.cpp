@@ -391,14 +391,14 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             } else if( !lhs_in_list && rhs_in_list ) {
                 return false;
             }
-            return localized_compare( lhs.name(), rhs.name() );
+            return localized_compare( lhs.name_header(), rhs.name_header() );
         } );
 
         uilist selector_menu;
         for( const item_category &cat : all_cat ) {
             const bool in_list = listed_cat.count( cat.get_id() );
             const std::string &prefix = in_list ? remove_prefix : add_prefix;
-            selector_menu.addentry( prefix + cat.name() );
+            selector_menu.addentry( prefix + cat.name_header() );
         }
         selector_menu.query();
 

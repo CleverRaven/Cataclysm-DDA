@@ -61,7 +61,7 @@
       { "u_add_effect": "narcosis", "duration": "5 minutes" },
       { "u_add_effect": "sleep", "duration": "5 minutes" },
       {
-        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move. You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
+        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move.  You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
         "type": "bad"
       },
       { "u_lose_trait": "CHITIN2" },

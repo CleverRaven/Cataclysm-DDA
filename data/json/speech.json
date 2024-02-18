@@ -2671,13 +2671,25 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "crackling sounds.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "high-pitched hum.",
     "volume": 20
   },
