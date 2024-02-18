@@ -142,10 +142,24 @@
   },
   {
     "type": "item_group",
+    "id": "underbarrel_light",
+    "subtype": "collection",
+    "//": "Small group to represent a tactical light attached to the underbarrel.",
+    "entries": [ { "item": "underbarrel_mount_light" }, { "item": "tac_flashlight" } ]
+  },  
+  {
+    "type": "item_group",
     "id": "SWAT_rail",
     "subtype": "collection",
     "//": "A lower chance of having laser modules, but can much more commonly spawn with tactical lights.  They can also rarely have both.",
     "items": [ { "group": "rifle_light", "prob": 80 }, { "item": "rail_LAM", "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_underbarrel",
+    "subtype": "collection",
+    "//": "Gives SWAT shotguns a chance to have a flashlight.",
+    "items": [ { "group": "underbarrel_light", "prob": 50 } ]
   },
   {
     "type": "item_group",
@@ -160,6 +174,13 @@
     "subtype": "distribution",
     "//": "SWAT is more likely to have CQB optics than the military.",
     "items": [ [ "acog_scope", 5 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 40 ], [ "red_dot_sight", 40 ], [ "null", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_sights_CQB",
+    "subtype": "distribution",
+    "//": "This group of sights better represents those present on SWAT shotguns or submachine guns.",
+    "items": [ [ "holo_sight", 50 ], [ "red_dot_sight", 20 ], [ "null", 30 ] ]
   },
   {
     "type": "item_group",
@@ -181,6 +202,17 @@
       { "group": "SWAT_grip" }
     ]
   },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SWAT_shotgun_mods",
+    "//": "Weapon mod loadouts that represent the average SWAT shotgun loadout.",
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "SWAT_sights_CQB" },
+      { "group": "SWAT_underbarrel" }
+    ]
+  },  
   {
     "type": "item_group",
     "id": "sights_rifle",
