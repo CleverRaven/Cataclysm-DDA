@@ -332,10 +332,24 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
                                                  false, id, variant, seas_str } );
 }
 
+void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const std::string &description,
+                    bool ambient, const std::string &id, const std::string &variant )
+{
+    sounds::sound( p.raw(), vol, category, description, ambient, id, variant );
+}
+
 void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
     sounds::sound( p, vol, category, description.translated(), ambient, id, variant );
+}
+
+void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const translation &description,
+                    bool ambient, const std::string &id, const std::string &variant )
+{
+    sounds::sound( p.raw(), vol, category, description, ambient, id, variant );
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
