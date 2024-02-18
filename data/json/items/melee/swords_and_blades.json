@@ -280,7 +280,7 @@
     "id": "utility_knife_folding",
     "type": "TOOL",
     "name": { "str": "utility folding knife", "str_pl": "utility folding knives" },
-    "description": "A 'Hideman' brand folding knife, this model includes extra utility options such as a screwdriver, Awl, and small pry bar.",
+    "description": "A 'Hideman' brand folding knife, this model includes extra utility options such as a screwdriver, awl, and small pry bar.",
     "looks_like": "knife_folding",
     "weight": "155 g",
     "volume": "40 ml",
