@@ -354,6 +354,7 @@
       { "group": "spellbook_tier_1", "prob": 50 },
       { "group": "spellbook_tier_2", "prob": 18 },
       { "group": "spellbook_tier_3", "prob": 2 },
+      { "group": "spellbook_mana_upgrades", "prob": 1 },
       { "group": "spell_scroll_tier_1", "prob": 300 },
       { "group": "spell_scroll_tier_2", "prob": 100 }
     ]
@@ -366,8 +367,23 @@
       { "group": "spellbook_tier_1", "prob": 30 },
       { "group": "spellbook_tier_2", "prob": 50 },
       { "group": "spellbook_tier_3", "prob": 15 },
+      { "group": "spellbook_mana_upgrades", "prob": 8 },
       { "group": "spell_scroll_tier_2", "prob": 300 },
       { "group": "spell_scroll_tier_3", "prob": 100 }
+    ]
+  },
+  {
+    "id": "spellbook_mana_upgrades",
+    "type": "item_group",
+    "//": "Contains the books with spells that upgrade mana traits",
+    "items": [
+      { "item": "first_circle_mana_amount_upgrade_spellbook", "prob": 200 },
+      { "item": "second_circle_mana_amount_upgrade_spellbook", "prob": 50 },
+      { "item": "first_circle_mana_regen_upgrade_spellbook", "prob": 200 },
+      { "item": "second_circle_mana_regen_upgrade_spellbook", "prob": 50 },
+      { "item": "first_circle_mana_mult_upgrade_spellbook", "prob": 200 },
+      { "item": "second_circle_mana_mult_upgrade_spellbook", "prob": 50 },
+      { "item": "all_first_circle_upgrades_spellbook", "prob": 50 }
     ]
   }
 ]
