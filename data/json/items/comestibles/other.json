@@ -1461,6 +1461,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "earthworm_handful",
+    "copy-from": "earthworm",
+    "name": { "str": "handful of earthworms", "str_pl": "handfuls of earthworms" },
+    "description": "A handful of earthworms.",
+    "weight": "20 g",
+    "volume": "20 ml",
+    "quench": 10,
+    "fun": -20,
+    "calories": 13.2,
+    "parasites": 20,
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "earthworm_dried",
     "copy-from": "earthworm_boiled",
     "name": { "str_sp": "dried earthworms" },
@@ -1486,19 +1500,15 @@
   {
     "type": "COMESTIBLE",
     "id": "earthworm_boiled",
-    "copy-from": "earthworm",
+    "copy-from": "earthworm_handful",
     "name": { "str_sp": "boiled earthworms" },
     "description": "A handful of common earthworms, boiled to remove impurities.",
     "spoils_in": "5 days",
     "fun": -5,
     "//": "10 earthworms triple-boiled",
-    "weight": "20 g",
-    "volume": "20 ml",
-    "calories": 13.2,
     "parasites": 0,
     "flags": [ "FREEZERBURN", "SMOKABLE", "NUTRIENT_OVERRIDE" ],
-    "smoking_result": "earthworm_dried",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 9 ] ]
+    "smoking_result": "earthworm_dried"
   },
   {
     "type": "COMESTIBLE",

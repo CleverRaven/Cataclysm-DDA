@@ -134,10 +134,18 @@
       { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
       { "item": "flint", "prob": 1 },
       { "item": "rock_large", "prob": 10 },
-      { "item": "earthworm", "count": [ 2, 6 ], "prob": 60 },
-      { "item": "earthworm", "count": [ 1, 5 ], "prob": 30 },
-      { "item": "earthworm", "count": [ 1, 4 ], "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
+    ]
+  },
+  {
+    "id": "digging_topsoil_loam_50L",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "digging_soil_loam_50L", "count": 1 },
+      { "item": "earthworm", "count": [ 0, 10 ], "prob": 75 },
+      { "item": "earthworm_handful", "count": [ 0, 3 ], "prob": 60 },
+      { "item": "earthworm_handful", "count": [ 1, 2 ], "prob": 20 }
     ]
   },
   {
