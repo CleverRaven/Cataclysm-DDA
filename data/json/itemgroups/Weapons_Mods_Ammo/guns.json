@@ -2022,6 +2022,30 @@
   },
   {
     "type": "item_group",
+    "id": "SWAT_carbines",
+    "//": "Carbines that a US SWAT team would use",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 3,
+        "charges": [ 0, 30 ],
+        "contents-group": "SWAT_carbine_mods"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_h&k416a5",
+        "prob": 17,
+        "charges": [ 0, 30 ],
+        "contents-group": "SWAT_carbine_mods"
+      },
+      { "item": "modular_m16a4", "prob": 30, "charges": [ 0, 30 ], "contents-group": "SWAT_carbine_mods" },
+      { "item": "modular_ar15", "prob": 50, "charges": [ 0, 30 ], "contents-group": "SWAT_carbine_mods" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "longguns_operator_in_field",
     "//": "gun plus potential expended magazines for a tacticool operator, should be lots of AR-15s",
     "items": [
