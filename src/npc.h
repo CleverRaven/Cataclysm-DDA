@@ -1211,7 +1211,9 @@ class npc : public Character
 
         // Comment on item seen
         void see_item_say_smth( const itype_id &object, const std::string &smth );
-        // Look around and pick an item
+		// Consider a life of crime
+        bool would_steal_that( const item &it, const tripoint &p );
+		// Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
