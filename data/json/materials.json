@@ -2846,12 +2846,17 @@
   },
   {
     "type": "material",
-    "id": "auto_steel",
-    "name": "automotive steel"
+    "id": "auto_steel_light",
+    "name": "light automotive steel"
+  },
+  {
+    "type": "material",
+    "id": "auto_steel_medium",
+    "name": "medium automotive steel"
   },
   {
     "type": "material",
     "id": "auto_steel_heavy",
-    "name": "heavy duty automotive steel"
+    "name": "heavy automotive steel"
   }
 ]
