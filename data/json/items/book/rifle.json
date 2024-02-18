@@ -160,7 +160,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "retool instructions", "str_pl": "copies of retool instructions" },
-    "description": "This is a small booklet, containing several diagrams and clearly worded instructions for assisting one in assembling, installing, and using their newly purchased weapon conversion kit.  The flyer’s rear is covered in neatly printed rows of advertisements, displaying other products by the same manufacturer.  All in all, it, strangely enough, brings to mind nostalgic images of the instructions for assembling Legos—a very angry, explosive Lego construct that goes boom.",
+    "description": "This is a small booklet, containing several diagrams and clearly worded instructions for assisting one in assembling, installing, and using their newly purchased weapon conversion kit.  The flyer's rear is covered in neatly printed rows of advertisements, displaying other products by the same manufacturer.  All in all, it, strangely enough, brings to mind nostalgic images of the instructions for assembling Legos—a very angry, explosive Lego construct that goes boom.",
     "weight": "25 g",
     "volume": "100 ml",
     "price": 150,
