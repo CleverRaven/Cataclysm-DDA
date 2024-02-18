@@ -214,7 +214,6 @@
       [ "combination_gun", 1 ],
       [ "458wm", 1 ],
       [ "sw629", 3 ],
-      [ "ruger_redhawk", 3 ],
       { "group": "modular_deagle_44", "prob": 2 },
       [ "lemat_revolver", 1 ],
       [ "m1911", 5 ],
