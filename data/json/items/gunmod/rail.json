@@ -132,7 +132,7 @@
     "copy-from": "rail_mount_light",
     "name": { "str": "underbarrel flashlight mount" },
     "description": "A small device for mounting flashlights to the underbarrel of firearms.",
-    "location": "underbarrel"
+    "location": "underbarrel mount"
   },
   {
     "id": "rail_LAM",
