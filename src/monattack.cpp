@@ -4708,11 +4708,6 @@ bool mattack::slimespring( monster *z )
         add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
         player_character.add_morale( MORALE_SUPPORT, 10, 50 );
     }
-    // They will stave off loneliness, but aren't a substitute for real friends.
-    if( player_character.has_effect( effect_social_dissatisfied ) ) {
-        add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
-        player_character.remove_effect( effect_social_dissatisfied );
-    }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
         if( player_character.has_effect( effect_bleed ) ||
             player_character.has_effect( effect_bite ) ) {
