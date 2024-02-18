@@ -46,5 +46,17 @@
     "id": "enhancement_proficiency_negate_calculate",
     "num_args": 1,
     "return": "_0 - ((u_proficiency('prof_magic_enhancement_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_enhancement_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_enhancement_master', 'format': 'percent') * 1) / 10)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "conveyance_proficiency_bonus_calculate",
+    "num_args": 1,
+    "return": "_0 + ((u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_master', 'format': 'percent') * 1) / 10)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "conveyance_proficiency_negate_calculate",
+    "num_args": 1,
+    "return": "_0 - ((u_proficiency('prof_magic_conveyance_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_conveyance_master', 'format': 'percent') * 1) / 10)"
   }
 ]
