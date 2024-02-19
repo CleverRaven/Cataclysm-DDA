@@ -61,7 +61,7 @@ def parse_effect(effects, origin, comment=""):
             if "run_eocs" in eff:
                 if type(eff["run_eocs"]) is list:
                     for eoc in eff["run_eocs"]:
-                        if type(eoc) is dict:
+                        if type(eoc) is dict and "id" in eoc:
                             parse_effect_on_condition(eoc, origin)
             if "weighted_list_eocs" in eff:
                 for e in eff["weighted_list_eocs"]:
