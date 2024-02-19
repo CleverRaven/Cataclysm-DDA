@@ -15,7 +15,6 @@
       ],
       "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
       "furniture": { "H": "f_hanging_meathook" },
-      "item": { "h": { "item": "" } },
       "items": {
         "t": { "item": "cash_register_random", "chance": 100 },
         "d": { "item": "butcher_meat", "chance": 25, "repeat": [ 1, 2 ] },
