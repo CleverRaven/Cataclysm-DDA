@@ -10,6 +10,7 @@
     "bash_dmg_verb": "dented",
     "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 4, "cut": 9, "acid": 14, "heat": 4, "bullet": 7, "afs_plasma": 1, "electric": 8 },
     "repair_difficulty": 5
   },
@@ -26,6 +27,7 @@
     "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
+    "acid_dmg_verb": "burned",
     "resist": { "bash": 3, "cut": 3, "acid": 5, "heat": 5, "bullet": 2, "afs_plasma": 1, "electric": 0 },
     "repair_difficulty": 10
   },
@@ -39,6 +41,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "IMPERMEABLE",
+    "acid_dmg_verb": "etched",
     "//": "only to be used in encumbering armors.",
     "resist": { "bash": 8, "cut": 14, "acid": 17, "heat": 14, "bullet": 12, "afs_plasma": 5, "electric": -4 },
     "repair_difficulty": 10
@@ -53,6 +56,7 @@
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched",
     "breathability": "AVERAGE",
+    "acid_dmg_verb": "burned",
     "//": "mostly meant to be lightweight energy armor.",
     "resist": { "bash": 2, "cut": 4, "acid": 4, "heat": 10, "bullet": 2, "afs_plasma": 10, "electric": 6 },
     "repair_difficulty": 10
@@ -67,6 +71,7 @@
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
     "breathability": "GOOD",
+    "acid_dmg_verb": "corroded",
     "//": "lightweight high-protection-value armors that degrade easily.",
     "resist": { "bash": 4, "cut": 6, "acid": 6, "heat": 2, "afs_plasma": 2, "bullet": 8, "electric": 0 },
     "repair_difficulty": 9

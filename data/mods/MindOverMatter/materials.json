@@ -13,7 +13,8 @@
     "breathability": "SECOND_SKIN",
     "dmg_adj": [ "damaged", "strained", "fractured", "eradicated" ],
     "bash_dmg_verb": "rippled",
-    "cut_dmg_verb": "pierced"
+    "cut_dmg_verb": "pierced",
+    "acid_dmg_verb": "sizzled"
   },
   {
     "type": "material",
@@ -27,6 +28,7 @@
     "resist": { "bash": 5, "cut": 5, "acid": 100, "heat": 10, "bullet": 2, "electric": 100 },
     "dmg_adj": [ "marked", "chipped", "cracked", "shattered" ],
     "bash_dmg_verb": "chipped",
-    "cut_dmg_verb": "scratched"
+    "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "etched"
   }
 ]
