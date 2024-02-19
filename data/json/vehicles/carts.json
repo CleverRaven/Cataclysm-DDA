@@ -139,7 +139,11 @@
     "name": "Rolling Trash Can",
     "blueprint": [ [ "o" ] ],
     "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe", "wheel_caster", "integrated_trashcan" ] } ],
-    "items": [ { "x": 0, "y": 0, "chance": 75, "item_groups": [ "trash" ] } ]
+    "items": [
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] },
+      { "x": 0, "y": 0, "chance": 20, "item_groups": [ "rolling_trash" ] }
+    ]
   },
   {
     "id": "grocery_cart",
