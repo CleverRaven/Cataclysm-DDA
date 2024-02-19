@@ -1233,7 +1233,9 @@
             "id": "EOC_EARTHSHAPER_REPAIR_METAL_STONE_ITEM",
             "condition": { "not": { "npc_has_flag": "NO_REPAIR" } },
             "effect": [
-              { "math": [ "n_hp('ALL')", "+=", "n_hp_max() * ( (u_spell_level('earthshaper_repair_metal_stone') * 0.03) + 0.1)" ] }
+              {
+                "math": [ "n_hp('ALL')", "+=", "n_hp_max('bp_null') * ( (u_spell_level('earthshaper_repair_metal_stone') * 0.03) + 0.1)" ]
+              }
             ],
             "false_effect": [
               { "u_message": "The magic simply does not take hold.  The item cannot be repaired, even with sorcery.", "type": "bad" }
