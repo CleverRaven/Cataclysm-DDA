@@ -712,7 +712,7 @@
     "id": "kelvinist_heat_food",
     "type": "SPELL",
     "name": "Baking Hands",
-    "description": "With the tiniest amount of eat, unfreeze an item of food and heat it up to a comfortable temperature.",
+    "description": "With the tiniest amount of eat, unfreeze an item of food or drink and heat it up to a comfortable temperature.",
     "valid_targets": [ "self" ],
     "spell_class": "KELVINIST",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
@@ -734,7 +734,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "manual",
-        "search_data": [ { "category": "food" } ],
+        "search_data": [ { "category": "food" }, { "category": "drink" } ],
         "true_eocs": [
           { "id": "EOC_KELVINIST_HEAT_FOOD_SPELL_ITEM", "effect": [ { "npc_set_flag": "HOT" }, { "npc_unset_flag": "FROZEN" } ] }
         ]

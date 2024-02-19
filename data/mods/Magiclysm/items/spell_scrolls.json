@@ -1986,5 +1986,32 @@
     "name": { "str": "Scroll of Machine Mind", "str_pl": "Scrolls of Machine Mind" },
     "description": "Gain an intuitive understanding of computers and electronics, allowing an easier time repairing or using them.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_gain_electronics_computer_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_kelvinist_heat_food",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Baking Hands", "str_pl": "Scrolls of Baking Hands" },
+    "description": "Warm up your food using pure mana.",
+    "use_action": { "type": "learn_spell", "spells": [ "kelvinist_heat_food" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_magus_diamond_imbuement",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Diamond Imbuement", "str_pl": "Scrolls of Diamond Imbuement" },
+    "description": "Enchant a weapon with the metaphysical essence of diamonds, greatly increasing its power.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_diamond_imbuement" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_animist_slow_food_rotting_spell",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Abjure Spirits of Rot", "str_pl": "Scrolls of Abjure Spirits of Rot" },
+    "description": "Banisht the decay spirits from the food you're carrying, making it last much longer before going bad.",
+    "use_action": { "type": "learn_spell", "spells": [ "animist_slow_food_rotting_spell" ] }
   }
 ]

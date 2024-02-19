@@ -252,5 +252,17 @@
     "type": "requirement",
     "//": "Coal or charcoal for the Baking Hands spell",
     "components": [ [ [ "coal_lump", 1 ], [ "charcoal", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_diamond_imbuement",
+    "type": "requirement",
+    "//": "Diamonds for the Diamond Imbuement spell",
+    "components": [ [ [ "diamond", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_slow_food_rotting",
+    "type": "requirement",
+    "//": "Herbs and sulfur for the Abjure Spirits of Rot spell",
+    "components": [ [ [ "wild_herbs", 15 ] ], [ [ "chem_sulphur", 20 ] ] ]
   }
 ]
