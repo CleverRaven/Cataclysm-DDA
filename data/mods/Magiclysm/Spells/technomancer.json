@@ -770,9 +770,9 @@
     "id": "technomancer_create_ups_connection",
     "type": "SPELL",
     "name": "Power Linkage",
-    "description": "With the tiniest amount of heat, unfreeze an item of food or drink and heat it up to a comfortable temperature.",
+    "description": "Enchant an item so that it is capable of drawing power wirelessly through the air from a compatible power source.",
     "valid_targets": [ "self" ],
-    "spell_class": "KELVINIST",
+    "spell_class": "TECHNOMANCER",
     "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_TECHNOMANCER_POWER_LINKAGE",
@@ -790,7 +790,7 @@
     "effect": [
       {
         "u_run_inv_eocs": "manual",
-        "search_data": [ { "category": "tool" }, { "category": "tool_armor" } ],
+        "search_data": [ { "category": "tools" }, { "category": "tool_armor" } ],
         "true_eocs": [ { "id": "EOC_TECHNOMANCER_POWER_LINKAGE_ITEM", "effect": [ { "npc_set_flag": "USE_UPS" } ] } ]
       }
     ]
