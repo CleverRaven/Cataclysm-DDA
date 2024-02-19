@@ -291,11 +291,11 @@
     "name": { "str": "dried seaweed", "str_pl": "dried seaweed" },
     "looks_like": "withered",
     "description": "A handful of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
-    "weight": "12 g",
+    "weight": "25 g",
     "color": "green",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": "20 ml",
+    "volume": "25 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {
@@ -304,11 +304,11 @@
     "name": { "str": "pile of dried seaweed", "str_pl": "pile of dried seaweed" },
     "looks_like": "withered",
     "description": "A big heap of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
-    "weight": "240 g",
+    "weight": "200 g",
     "color": "green",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": "400 ml",
+    "volume": "200 ml",
     "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
   },
   {

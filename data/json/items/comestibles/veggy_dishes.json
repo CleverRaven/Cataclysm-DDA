@@ -1565,5 +1565,43 @@
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "FREEZERBURN" ] },
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "kombu",
+    "name": { "str_sp": "kombu" },
+    "weight": "10 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 17,
+    "description": "An essential component of Japanese cuisine, this dried sheet of seaweed has hardened to the point of inedibility.  Boiled in water, it should make an excellent broth.",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "25 ml",
+    "flags": [ "FREEZERBURN", "INEDIBLE" ],
+    "smoking_result": "kombu",
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vit_anticoagulant_fucoidan", 180 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "dried_bladderwrack",
+    "name": { "str_sp": "dried bladderwrack" },
+    "weight": "10 g",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 17,
+    "description": "Crunchy dried bits of seaweed.  While the effect is minor and only lasts a few days, it's a known anticoagulant and may prolong bleeding any bleeding wounds if consumed in large quantities.",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "veggy" ],
+    "volume": "25 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "smoking_result": "dried_bladderwrack",
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ], [ "vit_anticoagulant_fucoidan", 360 ] ]
   }
 ]

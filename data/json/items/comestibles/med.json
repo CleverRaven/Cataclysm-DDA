@@ -144,7 +144,7 @@
       "activation_message": "You take some aspirin.",
       "effects": [ { "id": "pkill1_nsaid", "duration": 9000 } ]
     },
-    "vitamins": [ [ "vit_bloodthinner", 4320 ] ]
+    "vitamins": [ [ "vit_anticoagulant_aspirin", 4320 ] ]
   },
   {
     "id": "ibuprofen",

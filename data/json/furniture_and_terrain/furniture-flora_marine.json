@@ -73,7 +73,7 @@
     "type": "furniture",
     "id": "f_sea_anemone",
     "name": "sea anemone",
-    "description": "This sessile polyp waves its stinging tentacles with the motion of the tides, hoping to capture a tiny fish or crab.  It's inedible, and poses no danger to anything bigger than a shrimp.",
+    "description": "This sessile polyp waves its stinging tentacles with the motion of the tides, hoping to capture a tiny fish or crab.  It's wholly inedible and poses no danger to anything bigger than a shrimp.",
     "symbol": "f",
     "color": "pink",
     "move_cost_mod": 0,
@@ -85,13 +85,12 @@
     "type": "furniture",
     "id": "f_sea_sponge",
     "name": "sea sponge",
-    "description": "An immobile, lumpy little creature that looks nothing like a square kitchen sponge.  Anchored to the sea floor, its porous body filters plankton from the water that freely passes through it.",
+    "description": "An immobile, lumpy little creature that looks nothing like a square kitchen sponge.  Anchored to the sea floor, its porous body passively filters plankton from the water that freely passes through it.",
     "symbol": "f",
-    "color": "pink",
+    "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "GRAZER_INEDIBLE", "ORGANIC", "HARVEST_REQ_CUT1" ],
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "sea_sponge_harv" } ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "GRAZER_INEDIBLE", "ORGANIC" ],
     "bash": { "str_min": 6, "str_max": 12, "sound": "splat.", "sound_fail": "squelch." }
   }
 ]
