@@ -3480,6 +3480,7 @@ void npc::find_item()
     }
 
     fetching_item = false;
+    wanted_item = nullptr;
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
     units::volume volume_allowed = volume_capacity() - volume_carried();
@@ -3489,7 +3490,7 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    const item *wanted = nullptr;
+    const item *wanted = wanted_item;
 
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered picking something up, but no storage left.",
@@ -3500,9 +3501,9 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, this]
     ( const item & it, const tripoint & p ) {
-        if( ::good_for_pickup( it, *this, p ) && would_take_that( it, p ) ) {
+        if( ::good_for_pickup( it, *this, p ) ) {
             wanted_item_pos = p;
-            wanted = &it;
+            wanted_item = &it;
             best_value = has_item_whitelist() ? 1000 : value( it );
         }
     };
@@ -3614,6 +3615,7 @@ void npc::find_item()
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
+        wanted_item = nullptr;
     }
 
     if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_walking_with() ) {
@@ -3630,6 +3632,7 @@ void npc::pick_up_item()
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
         add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", get_name() );
         fetching_item = false;
+        wanted_item = nullptr;
         moves -= 1;
         return;
     }
@@ -3645,13 +3648,24 @@ void npc::pick_up_item()
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
+        wanted_item = nullptr;
         move_pause();
         add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
         return;
     }
 
     // Check: Is the item owned? Has the situation changed since we last moved? Am 'I' now
-    // standing in front of the shopkeeper that I am about to steal from?
+    // standing in front of the shopkeeper/player that I am about to steal from?
+    if( wanted_item != nullptr ) {
+        if( !::good_for_pickup( *wanted_item, *this, wanted_item_pos ) ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                           "%s canceling pickup - situation changed since they decided to take item", get_name() );
+            fetching_item = false;
+            wanted_item = nullptr;
+            move_pause();
+            return;
+        }
+    }
 
     add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); [ % d, % d, % d] => [ % d, % d, % d]",
                    get_name(),
@@ -3671,6 +3685,7 @@ void npc::pick_up_item()
         add_msg_debug( debugmode::DF_NPC, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
+        wanted_item = nullptr;
         move_pause();
         return;
     }
@@ -3689,6 +3704,7 @@ void npc::pick_up_item()
             // Note: we didn't actually pick up anything, just spawned items
             // but we want the item picker to find new items
             fetching_item = false;
+            wanted_item = nullptr;
             return;
         }
     }
@@ -3718,6 +3734,7 @@ void npc::pick_up_item()
 
     moves -= 100;
     fetching_item = false;
+    wanted_item = nullptr;
     has_new_items = true;
 }
 
@@ -3792,7 +3809,7 @@ bool npc::would_take_that( const item &it, const tripoint &p )
             would_always_steal = true;
         }
         if( would_always_steal ) {
-            add_msg_debug( debugmode::DF_NPC, "%s attempting to steal %s (owned by player).", get_name(),
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s attempting to steal %s (owned by player).", get_name(),
                            it.tname() );
             return true;
         }
@@ -3817,7 +3834,7 @@ bool npc::would_take_that( const item &it, const tripoint &p )
             }
         }
         //Fallthrough, no consequences if you won't be caught!
-        add_msg_debug( debugmode::DF_NPC,
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
                        "%s attempting to steal %s (owned by player) because it isn't guarded.",
                        get_name(), it.tname() );
         return true;
