@@ -257,7 +257,7 @@
     "id": "spell_components_diamond_imbuement",
     "type": "requirement",
     "//": "Diamonds for the Diamond Imbuement spell",
-    "components": [ [ [ "diamond", 3 ] ] ]
+    "components": [ [ [ "diamond", 5 ] ] ]
   },
   {
     "id": "spell_components_slow_food_rotting",
