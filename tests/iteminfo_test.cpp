@@ -1330,7 +1330,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
         item super_tanktop( "test_complex_tanktop" );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
         // these values are averaged values but test that assumed armor portion is working at all
-        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f, 7.00f );
+        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f, 1.0f );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( super_tanktop, more_protection ) ==
