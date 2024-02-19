@@ -627,6 +627,7 @@
     "//": "barren in winter",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
+    "dies_into": "t_dirt",
     "bash": {
       "str_min": 4,
       "str_max": 50,
@@ -1293,6 +1294,7 @@
     "coverage": 80,
     "roof": "t_treetop_evergreen",
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
+    "dies_into": "t_tree_deadpine",
     "transforms_into": "t_tree_pine_harvested",
     "examine_action": "harvest_ter",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "pine_harv" } ],
@@ -1364,6 +1366,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_birch_harvested",
+    "dies_into": "t_tree_birch_harvested",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "birch_harv" } ],
     "bash": {
       "str_min": 80,
@@ -1419,6 +1422,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "examine_action": "harvest_ter",
     "transforms_into": "t_tree_willow_harvested",
+    "dies_into": "t_tree_willow_harvested",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "willow_harv" } ],
     "bash": {
       "str_min": 80,
@@ -1527,6 +1531,7 @@
     "examine_action": "tree_hickory",
     "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "hickory_harv" } ],
     "transforms_into": "t_tree_hickory_harvested",
+    "dies_into": "t_tree_hickory_dead",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -1555,6 +1560,7 @@
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED", "CLIMB_ADJACENT" ],
     "examine_action": "tree_hickory",
     "transforms_into": "t_tree_hickory",
+    "dies_into": "t_tree_hickory_dead",
     "bash": {
       "str_min": 80,
       "str_max": 180,
@@ -2671,6 +2677,7 @@
     "color": "green",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT", "PLOWABLE" ],
+    "dies_into": "t_dirt",
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
   {

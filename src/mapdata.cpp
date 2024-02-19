@@ -1484,6 +1484,7 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "open", open, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "dies_into", dies_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
@@ -1565,6 +1566,10 @@ void ter_t::check() const
         debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
     }
 
+    if( !dies_into.is_valid() ) {
+        debugmsg( "invalid dies_into %s for %s", dies_into.c_str(), id.c_str() );
+    }
+
     // Validate open/close transforms
     if( !open.is_valid() ) {
         debugmsg( "invalid terrain %s for opening %s", open.c_str(), id.c_str() );
@@ -1595,6 +1600,10 @@ void ter_t::check() const
     // Validate generic transforms
     if( transforms_into && transforms_into == id ) {
         debugmsg( "%s transforms_into itself", id.c_str() );
+    }
+
+    if( dies_into && dies_into == id ) {
+        debugmsg( "%s dies_into itself", id.c_str() );
     }
 
     for( const emit_id &e : emissions ) {

@@ -148,11 +148,7 @@ static const species_id species_FERAL( "FERAL" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_soil( "t_soil" );
-static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
-static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
-static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
-static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
@@ -2146,6 +2142,14 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 ter_id map::get_ter_transforms_into( const tripoint &p ) const
 {
     return ter( p ).obj().transforms_into.id();
+}
+
+/*
+ * Get the terrain dies_into id (what the terrain becomes after it 'dies')
+ */
+ter_id map::get_ter_dies_into( const tripoint &p ) const
+{
+    return ter( p ).obj().dies_into.id();
 }
 
 /**
@@ -8492,26 +8496,11 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
         furn_set( p, f_null );
     }
 
-    const ter_id tid = ter( p );
-    // TODO: De-hardcode this
-    static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_t_dirt},
-            {t_tree_young, ter_t_dirt},
-            {t_tree_pine, ter_t_tree_deadpine},
-            {t_tree_birch, ter_t_tree_birch_harvested},
-            {t_tree_willow, ter_t_tree_willow_harvested},
-            {t_tree_hickory, ter_t_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
-        }};
+    const ter_t &tr = ter( p ).obj();
 
-    const auto iter = dies_into.find( tid );
-    if( iter != dies_into.end() ) {
-        ter_set( p, iter->second );
-        return;
-    }
-
-    const ter_t &tr = tid.obj();
-    if( tr.has_flag( ter_furn_flag::TFLAG_SHRUB ) ) {
+    if( tr.dies_into != ter_str_id::NULL_ID() ) {
+        ter_set( p, tr.dies_into );
+    } else if( tr.has_flag( ter_furn_flag::TFLAG_SHRUB ) ) {
         ter_set( p, t_dirt );
     } else if( tr.has_flag( ter_furn_flag::TFLAG_TREE ) ) {
         ter_set( p, ter_t_tree_dead );

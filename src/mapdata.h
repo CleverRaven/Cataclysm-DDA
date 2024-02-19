@@ -615,6 +615,7 @@ struct ter_t : map_data_common_t {
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
+    ter_str_id dies_into;       // Transform into what terrain during map::rad_scorch()
     ter_str_id roof;            // What will be the floor above this terrain
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
