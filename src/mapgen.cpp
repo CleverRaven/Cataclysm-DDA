@@ -2329,7 +2329,7 @@ class jmapgen_monster : public jmapgen_piece
         jmapgen_int pack_size;
         bool one_or_none;
         bool friendly;
-        translation name;
+        std::optional<translation> name = std::nullopt;
         std::string random_name_str;
         bool target;
         bool use_pack_size;
@@ -2341,12 +2341,18 @@ class jmapgen_monster : public jmapgen_piece
                                          !( jsi.has_member( "repeat" ) ||
                                             jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
-            , name( no_translation( "NONE" ) )
             , random_name_str( jsi.get_string( "random_name", "" ) )
             , target( jsi.get_bool( "target", false ) )
             , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
 
-            jsi.read( "name", name );
+            {
+                translation translated_name;
+                if( jsi.read( "name", translated_name ) ) {
+                    name.emplace( std::move( translated_name ) );
+                } else if( random_name_str == "snippet" ) {
+                    debugmsg( "Field \"name\" is missing for random name 'snippet'" );
+                }
+            }
 
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
@@ -2429,17 +2435,20 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
-            std::string chosen_name = name.translated();
+            std::optional<std::string> chosen_name = std::nullopt;
             if( !random_name_str.empty() ) {
                 if( random_name_str == "female" ) {
-                    chosen_name = SNIPPET.expand( "<female_given_name>" );
+                    chosen_name.emplace( SNIPPET.expand( "<female_given_name>" ) );
                 } else if( random_name_str == "male" ) {
-                    chosen_name = SNIPPET.expand( "<male_given_name>" );
+                    chosen_name.emplace( SNIPPET.expand( "<male_given_name>" ) );
                 } else if( random_name_str == "random" ) {
-                    chosen_name = SNIPPET.expand( "<given_name>" );
-                } else if( random_name_str == "snippet" ) {
-                    chosen_name = SNIPPET.expand( name.translated() );
+                    chosen_name.emplace( SNIPPET.expand( "<given_name>" ) );
+                } else if( random_name_str == "snippet" && name.has_value() ) {
+                    chosen_name.emplace( SNIPPET.expand( name.value().translated() ) );
                 }
+            }
+            if( !chosen_name.has_value() && name.has_value() ) {
+                chosen_name.emplace( name.value().translated() );
             }
             if( !chosen_group.is_null() ) {
                 std::vector<MonsterGroupResult> spawn_details =
@@ -6540,19 +6549,19 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
 
 void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p )
 {
-    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
+    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
                spawn_details.data );
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name )
+                     int faction_id, int mission_id, const std::optional<std::string> &name )
 {
     add_spawn( type, count, p, friendly, faction_id, mission_id, name, spawn_data() );
 }
 
 void map::add_spawn(
     const mtype_id &type, int count, const tripoint &p, bool friendly, int faction_id,
-    int mission_id, const std::string &name, const spawn_data &data )
+    int mission_id, const std::optional<std::string> &name, const spawn_data &data )
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
@@ -6573,8 +6582,8 @@ void map::add_spawn(
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name, data );
-    place_on_submap->spawns.push_back( tmp );
+    place_on_submap->spawns.emplace_back( type, count, offset, faction_id, mission_id, friendly, name,
+                                          data );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,

@@ -5324,7 +5324,7 @@ void Character::check_needs_extremes()
     }
 
     // check if we've starved
-    if( is_avatar() ) {
+    if( needs_food() ) {
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
             get_event_bus().send<event_type::dies_of_starvation>( getID() );
@@ -5363,7 +5363,7 @@ void Character::check_needs_extremes()
     }
 
     // Check if we're dying of thirst
-    if( is_avatar() && get_thirst() >= 600 && ( stomach.get_water() == 0_ml ||
+    if( needs_food() && get_thirst() >= 600 && ( stomach.get_water() == 0_ml ||
             guts.get_water() == 0_ml ) ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );

@@ -66,14 +66,8 @@ ${COMPILER:-clang++} -v -x c++ /dev/null -c
 # And the same for clang-tidy
 "$CATA_CLANG_TIDY" ../src/version.cpp -- -v
 
-# Run clang-tidy analysis instead of regular build & test
-# We could use CMake to create compile_commands.json, but that's super
-# slow, so use compiledb <https://github.com/nickdiego/compiledb>
-# instead.
-compiledb -n make
-
 cd ..
-rm -f compile_commands.json && ln -s build/compile_commands.json
+ln -s build/compile_commands.json
 
 # We want to first analyze all files that changed in this PR, then as
 # many others as possible, in a random order.
