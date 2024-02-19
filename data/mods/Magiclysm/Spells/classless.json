@@ -348,7 +348,7 @@
     "base_casting_time": 200,
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(150)" ] },
     "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000,)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "learn_spells": { "acid_resistance_greater": 15 }
@@ -417,8 +417,8 @@
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(800)" ] },
     "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(200)" ] },
     "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-24)" ] },
-    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000,)" ] },
-    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000,)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000)" ] },
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] }
   },
   {
