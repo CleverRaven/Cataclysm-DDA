@@ -889,7 +889,7 @@ class map
          */
         const std::set<std::string> &get_harvest_names( const tripoint &p ) const;
         ter_id get_ter_transforms_into( const tripoint &p ) const;
-        ter_id get_ter_dies_into( const tripoint & p ) const;
+        ter_id get_ter_dies_into( const tripoint &p ) const;
 
         // TODO: fix point types (remove the first overload)
         bool ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_creatures = false );
