@@ -12,6 +12,7 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
+    "acid_dmg_verb": "damage",
     "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ],
     "resist": { "bash": 0, "cut": 0, "acid": 1, "heat": 1, "bullet": 0, "electric": 1 }
   },
@@ -27,6 +28,7 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "chipped",
+    "acid_dmg_verb": "caramelized",
     "burn_products": [ [ "sugar", 1 ] ],
     "burn_data": [ { "fuel": 1, "smoke": 1, "burn": 1 }, { "fuel": 1, "smoke": 1, "burn": 2 }, { "fuel": 1, "smoke": 1, "burn": 3 } ],
     "resist": { "bash": 6, "cut": 6, "acid": 8, "heat": 3, "bullet": 3, "electric": 2 }
