@@ -12052,7 +12052,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // ...and we're trying to swim down
             if( movez == -1 ) {
                 // ...and there's more water beneath us.
-                if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) ) {
+                if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) || target_ter->has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
                     // Then go ahead and move down.
                     add_msg( _( "You swim down." ) );
                 } else {
