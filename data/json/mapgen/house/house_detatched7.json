@@ -54,7 +54,7 @@
         "=": "t_screen_door_c",
         "&": "t_sandbox"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 7, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 7, "y": 0 } ],
       "furniture": { "!": "f_region_flower" },
       "place_item": [
         { "item": "television", "repeat": 1, "x": 7, "y": 8 },
