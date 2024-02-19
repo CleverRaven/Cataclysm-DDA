@@ -2013,5 +2013,14 @@
     "name": { "str": "Scroll of Abjure Spirits of Rot", "str_pl": "Scrolls of Abjure Spirits of Rot" },
     "description": "Banisht the decay spirits from the food you're carrying, making it last much longer before going bad.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_slow_food_rotting_spell" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_repair_metal_stone",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Fault-Mending Chant", "str_pl": "Scrolls of Fault-Mending Chant" },
+    "description": "With some earth and stone and a song, repair and item made of natural stone or metal.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_repair_metal_stone" ] }
   }
 ]

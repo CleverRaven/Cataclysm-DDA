@@ -85,6 +85,7 @@
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],
+      [ "spell_scroll_earthshaper_repair_metal_stone", 40 ],
       [ "spell_scroll_clairvoyance", 30 ],
       [ "spell_scroll_point_flare", 50 ],
       [ "spell_scroll_ice_spike", 50 ],

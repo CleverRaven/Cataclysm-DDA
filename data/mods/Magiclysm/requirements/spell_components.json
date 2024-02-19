@@ -264,5 +264,23 @@
     "type": "requirement",
     "//": "Herbs and sulfur for the Abjure Spirits of Rot spell",
     "components": [ [ [ "wild_herbs", 15 ] ], [ [ "chem_sulphur", 20 ] ] ]
+  },
+  {
+    "id": "spell_components_repair_metal_stone",
+    "type": "requirement",
+    "//": "Metal, stone, and dirt for the Fault-Mending Chant spell",
+    "components": [
+      [ [ "material_soil", 1 ] ],
+      [ [ "rock", 1 ] ],
+      [
+        [ "lead", 5 ],
+        [ "platinum_small", 5 ],
+        [ "copper", 5 ],
+        [ "gold_small", 5 ],
+        [ "silver_small", 5 ],
+        [ "scrap_cast_iron", 5 ],
+        [ "chunk_cast_iron", 1 ]
+      ]
+    ]
   }
 ]
