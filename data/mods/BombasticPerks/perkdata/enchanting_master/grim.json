@@ -25,7 +25,6 @@
     "effect": [
       { "math": [ "_miss_percentage", "=", "( n_hp_max('torso')-n_hp('torso') ) / n_hp_max('torso')" ] },
       { "math": [ "_prob", "=", "max(0.01, 0.5 * _miss_percentage * _miss_percentage )" ] },
-      { "message": "<context_val:prob>!!!" },
       {
         "if": { "math": [ "rng(0,1)", "<", "_prob" ] },
         "then": [

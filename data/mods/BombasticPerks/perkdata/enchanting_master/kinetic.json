@@ -65,7 +65,6 @@
         },
         "loc": { "context_val": "loc" }
       },
-      { "message": "<context_val:spell_level>!!!" },
       { "run_eocs": "EOC_enchanting_master_item_ench_trigger_count_minus_one" }
     ]
   },

@@ -131,7 +131,7 @@
               "Kinetic: When an enemy is killed with a kinetic weapon, any excess force is stored in the weapon and will be applied to the next successful attack.",
               "Projecting: With this enchantment melee weapons will gain extra reach.",
               "Lucky: This powerful enchantment increases the fortune of whoever wields it. Enemies which are killed with a lucky weapon have a chance to drop extra loot.",
-              "Grim: This powerful enchantment possesses the power to instantly execute an enemy (deal damage equal to 90% of its hp.). The effect is more likely to occur the weaker the enemy is.",
+              "Grim: This powerful enchantment possesses the power to instantly execute an enemy (deal damage equal to 90% of its hp). The effect is more likely to occur the weaker the enemy is.",
               "Vampiric: This powerful enchantment leeches life force from enemies with each blow, funneling it back into the wearer.",
               "Corrupting: This powerful enchantment possesses the ability to turn enemies to your will. When an enemy is killed with this weapon, there is a chance they will become corrupted instead of dying.",
               "Cancel this effect will <color_red>not</color> return your mana."
