@@ -91,7 +91,6 @@
     "//": "-999 means infinite trigger count",
     "type": "effect_on_condition",
     "effect": [
-      { "message": "<npc_val:item_ench_trigger_count>!" },
       {
         "if": { "math": [ "n_item_ench_trigger_count", "==", "-999" ] },
         "then": [  ],
