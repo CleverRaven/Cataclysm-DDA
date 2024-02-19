@@ -67,7 +67,7 @@
   {
     "id": "spell_enchanting_master_shocking_2",
     "type": "SPELL",
-    "name": "shocking subeffect",
+    "name": "shocking effect 2",
     "copy-from": "spell_enchanting_master_shocking_base",
     "field_id": "none",
     "flags": [ "RANDOM_TARGET" ],
