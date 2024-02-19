@@ -649,7 +649,7 @@
     "id": "magus_diamond_imbuement",
     "type": "SPELL",
     "name": "Diamond Imbuement",
-    "description": "Magically infuse a melee weapon with the hardness and resilience of a diamond as well as its industrial cutting capability, making it ",
+    "description": "Magically infuse a melee weapon with the hardness and resilience of a diamond as well as its industrial cutting capability, making it supremely sharp and durable.",
     "valid_targets": [ "self" ],
     "spell_class": "MAGUS",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
