@@ -2127,18 +2127,14 @@
   {
     "type": "effect_type",
     "id": "anticoagulant_fucoidan",
-    "//": "Platelet inhibition is permament, but platelets only live about 10 days max. By 5 days, they're mostly replaced.",
-    "max_duration": "5 d",
     "max_intensity": 3,
     "rating": "bad",
     "blood_analysis_description": "Anticoagulant (Fucoidan)",
-    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.03, "same_bp": false } ]
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
   },
   {
     "type": "effect_type",
     "id": "anticoagulant_aspirin",
-    "//": "Platelet inhibition is permament, but platelets only live about 10 days max. By 5 days, they're mostly replaced.",
-    "max_duration": "5 d",
     "max_intensity": 3,
     "rating": "bad",
     "blood_analysis_description": "Anticoagulant (Acetylsalicylic Acid)",
