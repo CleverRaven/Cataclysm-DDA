@@ -773,7 +773,7 @@
     "description": "With the tiniest amount of heat, unfreeze an item of food or drink and heat it up to a comfortable temperature.",
     "valid_targets": [ "self" ],
     "spell_class": "KELVINIST",
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_TECHNOMANCER_POWER_LINKAGE",
     "components": "spell_components_create_ups_connection",
