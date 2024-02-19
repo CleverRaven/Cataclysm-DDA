@@ -1172,9 +1172,9 @@ void npc::act_on_danger_assessment()
                     int panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
                     if( mem_combat.panic - personality.bravery > panic_alert ) {
                         if( one_in( 4 ) && mem_combat.panic < 10 + personality.bravery ) {
-                            add_msg( m_bad, _( "%s is starting to panic a bit." ) );
+                            add_msg( m_bad, _( "%s is starting to panic a bit." ), name );
                         } else if( mem_combat.panic >= 10 + personality.bravery ) {
-                            add_msg( m_bad, _( "%s is panicking!" ) );
+                            add_msg( m_bad, _( "%s is panicking!" ), name );
                         }
                     }
                 }
@@ -1185,7 +1185,7 @@ void npc::act_on_danger_assessment()
                            "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
             if( failed_reposition ) {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again.", name );
                 mem_combat.failing_to_reposition++;
             } else {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,

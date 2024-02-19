@@ -57,16 +57,16 @@
     "dynamic_line": { "gendered_line": "You again.  Any good news?  Haven't heard any in a long time.", "relevant_genders": [ "npc" ] },
     "responses": [
       { "text": "What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
-      { "text": "No, I don’t have any.", "topic": "TALK_DONE" }
+      { "text": "No, I don't have any.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A1_Hurt",
-    "dynamic_line": "I can’t tell if you’re joking or not, please don’t say such things.",
+    "dynamic_line": "I can't tell if you're joking or not, please don't say such things.",
     "responses": [
-      { "text": "Oh, I wasn’t joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
-      { "text": "I’m sorry, I should be going before I do something bad again.", "topic": "TALK_DONE" }
+      { "text": "Oh, I wasn't joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
+      { "text": "I'm sorry, I should be going before I do something bad again.", "topic": "TALK_DONE" }
     ]
   },
   {
