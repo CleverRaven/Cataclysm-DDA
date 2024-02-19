@@ -886,6 +886,15 @@ NPC is dead
 ```json
 { "not": "npc_is_alive" }
 ```
+### `u_exists`, `npc_exists`
+- type: simple string
+- return true if alpha or beta talker is not null
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### `u_is_on_terrain`, `npc_is_on_terrain`
 - type: string or [variable object](##variable-object)
