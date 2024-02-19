@@ -10759,7 +10759,7 @@ void Character::echo_pulse()
             const char *echo_string = nullptr;
             // bio_targeting has a visual HUD and automatically interprets the raw audio data,
             // but only for electronic SONAR. Its designers didn't anticipate bat mutations
-            if( has_bionic( bio_targeting ) && has_effect( effect_subaquatic_sonar ) )
+            if( has_bionic( bio_targeting ) && has_effect( effect_subaquatic_sonar ) ) {
                 switch( echo_volume ) {
                     case 1:
                         echo_string = _( "Target [Tiny]." );
@@ -10779,7 +10779,8 @@ void Character::echo_pulse()
                     default:
                         debugmsg( "ERROR: Invalid echo string." );
                         break;
-                } else if( !has_bionic( bio_targeting ) && has_effect( effect_subaquatic_sonar ) ) {
+                }
+            } else if( !has_bionic( bio_targeting ) && has_effect( effect_subaquatic_sonar ) ) {
                 switch( echo_volume ) {
                     case 1:
                         echo_string = _( "tick." );

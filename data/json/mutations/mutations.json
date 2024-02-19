@@ -5410,7 +5410,7 @@
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
-    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
+    "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "flags": [ "WINGS_2", "WING_GLIDE", "ARM_WINGS" ]
   },
   {
