@@ -114,7 +114,7 @@
       { "u_add_effect": "warpsickness", "intensity": 1, "duration": "PERMANENT" },
       { "u_add_effect": "warpdisintegration", "intensity": 1, "duration": "PERMANENT" },
       {
-        "u_message": "As the warp pulse hits, you realize there are no words to describe how much trouble you're in.  Your body is crumbling to wet paste and your blood is twisting into a viny tangle.  All you know is pain.  \nYou're not just dying, you're dying horribly.  \nIf escape is already near you may survive against all odds, but oblivion is only moments away.",
+        "u_message": "As the warp pulse hits, you realize there are no words to describe how much trouble you're in.  Your body is crumbling to wet paste and your blood is twisting into a viny tangle.  All you know is pain.\nYou're not just dying, you're dying horribly.\nIf escape is already near you may survive against all odds, but oblivion is only moments away.",
         "popup": true,
         "type": "mixed"
       }

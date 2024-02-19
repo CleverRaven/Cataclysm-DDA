@@ -17,13 +17,13 @@
       { "prob": 30, "group": "lobster_canned_jar_glass_sealed_2" },
       { "prob": 20, "group": "meat_canned_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "veggy_canned_jar_3l_glass_sealed_12" },
-      { "prob": 30, "group": "apple_canned_jar_3l_glass_sealed_12" },
-      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_12" },
+      { "prob": 30, "group": "apple_canned_jar_3l_glass_sealed_24" },
+      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_24" },
       { "prob": 10, "group": "meat_pickled_jar_3l_glass_sealed_12" },
       { "prob": 20, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
       { "item": "brandied_fruit", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
-      { "item": "sauce_red", "prob": 60, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 60, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "freeze_dried_meal", "prob": 10 }
     ]
@@ -307,7 +307,7 @@
       { "prob": 4, "group": "can_tomato_can_food_big_24" },
       { "prob": 3, "group": "can_pineapple_can_food_big_12" },
       { "prob": 3, "group": "can_corn_can_food_big_6" },
-      { "item": "sauce_red", "prob": 3, "charges": 96, "container-item": "can_food_big" },
+      { "item": "sauce_red", "prob": 3, "charges": 48, "container-item": "can_food_big" },
       { "prob": 6, "group": "coffee_raw_can_food_big_240" }
     ]
   },

@@ -1,4 +1,6 @@
-file(TOUCH ${CMAKE_SOURCE_DIR}/src/version.h)
+if(NOT EXISTS ${CMAKE_SOURCE_DIR}/src/version.h)
+    file(TOUCH ${CMAKE_SOURCE_DIR}/src/version.h)
+endif()
 
 list(APPEND CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules)

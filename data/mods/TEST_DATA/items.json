@@ -4838,5 +4838,25 @@
     "volume": "250 ml",
     "to_hit": -3,
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "test_500_kcal",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST 500kcal" },
+    "description": "This one's 500kcal, and some vitamins.",
+    "price": 0,
+    "spoils_in": 0,
+    "calories": 500,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "//": "Do not use calcium, iron or vitamin C! Those are calculated as RDAs, and you only get 96% of the listed value! No, that doesn't make any sense! But that's how it is. So use a normal vitamin. This is for a camp test, not a vitamin test...",
+    "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 200 ] ],
+    "melee_damage": { "bash": 1 }
   }
 ]

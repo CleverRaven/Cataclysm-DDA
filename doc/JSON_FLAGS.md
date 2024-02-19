@@ -358,6 +358,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```DIMENSIONAL_ANCHOR``` You can't be teleported.  Also protects you from any dangerous effects of portal storms.
 - ```DOWNED_RECOVERY``` Always has 50% chance to recover from downing, regardless of limb scores / stats.
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
+- ```ETHEREAL```  You will not drop your items if you gain the `incorporeal` effect.
 - ```ELECTRIC_IMMUNE``` You are immune to electric damage.
 - ```EMP_IMMUNE``` You bionic power cannot be drained and your vulnerable electronics cannot be broken during an EMP blast.
 - ```ENHANCED_VISION``` Increases the scouting range, similarly to `ZOOM` item flag.
@@ -432,7 +433,7 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
-- ```mycus``` TBD
+- ```mycus``` acts as `THRESH_MYCUS`, makes all monsters with FUNGUS species friendly, fungicidal gas & antifungal pills cause worse effects.  Mutate when eating mycus fruit, or when sleeping.
 
 
 ### Mutation Categories
@@ -542,6 +543,7 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```INHALER``` Removes disease `asthma`.
 - ```IODINE``` Adds disease `iodine`.
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
+- ```MYCUS``` if has trait `THRESH_MARLOSS`, neutral effect removes radiation, add 30 painkiller & heals all bodyparts by 4.  if good effect, add 1000 morale, sleep for 5 hours, add `THRESH_MYCUS`, also removes marloss addictions `addiction_marloss_r`,`addiction_marloss_b`, `addiction_marloss_y` .  With mycus threshold, adds 5 painkiller and stimulant.  With trait `M_DEPENDENT`, removes 87 kcal, add 10 thirst, adds 5 fatigue, and add morale to negate mutation pains. not having previously mentioned traits causes you to vomit, mutate, randomly gain 2 pain, reduce daily health by 8-50, removes 87 kcal, add 10 thirst, and add 5 fatigue.  Only applies to mycus fruit by default.
 - ```METH``` Adds disease `meth`.
 - ```NONE``` "You can't do anything of interest with your [x]."
 - ```PKILL``` Reduces pain.  Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
@@ -1153,6 +1155,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```PUSH_VEH``` Can push vehicles out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
+- ```QUIETMOVES``` Makes move noises as if ~2 sizes smaller.
 - ```RANGED_ATTACKER``` Monster has any sort of ranged attack.
 - ```REVIVES_HEALTHY``` When revived, this monster has full hitpoints and speed.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
@@ -1161,6 +1164,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```SHEARABLE``` This monster can be sheared for wool.
 - ```SHORTACIDTRAIL``` Leaves an intermittent trail of acid.  See also `ACIDTRAIL`.
 - ```SILENT_DISAPPEAR``` If this monster dissapear (left no corpse), the `The %s disappears.` message won't be printed.
+- ```SILENTMOVES``` Makes no noise at all when moving.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMALLSLUDGETRAIL``` Causes the monster to occasionally leave a 1-tile sludge trail when moving.
@@ -1270,6 +1274,7 @@ See [Character](#character)
 - ```BEE``` Location is related to bees.  Used to classify location.
 - ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
 - ```CLASSIC``` Location is allowed when classic zombies are enabled.
+- ```DERMATIK``` Location is related to a dermatik investation.  Used to classify location.
 - ```FARM```
 - ```FUNGAL``` Location is related to fungi.  Used to classify location.
 - ```GLOBALLY_UNIQUE``` Location will only occur once per world.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).

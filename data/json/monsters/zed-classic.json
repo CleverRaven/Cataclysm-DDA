@@ -274,7 +274,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "NO_FUNG_DMG",
       "FILTHY"
     ],
     "armor": { "bash": 6, "cut": 6, "acid": 3, "heat": 10, "bullet": 5, "electric": 4 }
@@ -331,7 +330,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "NO_FUNG_DMG",
       "FILTHY"
     ],
     "armor": { "bash": 5, "cut": 4, "bullet": 3, "electric": 5 }
@@ -481,7 +479,6 @@
     "description": "This zombie is rather sleek and scantily clothed.",
     "copy-from": "mon_zombie",
     "looks_like": "mon_zombie",
-    "dodge": 1,
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_dancer_death_drops"
   },

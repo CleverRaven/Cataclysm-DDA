@@ -130,5 +130,20 @@
       { "item": "dinosuit", "prob": 50, "damage": [ 2, 3 ] },
       { "item": "sharksuit", "prob": 50, "damage": [ 2, 3 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "explode_toad",
+    "subtype": "collection",
+    "entries": [
+      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "mutant_brain", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
+      { "item": "stomach_large", "prob": 80, "damage": [ 2, 3 ] }
+    ]
   }
 ]

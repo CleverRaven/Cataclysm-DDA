@@ -453,7 +453,7 @@
     "max_duration": 8640000,
     "duration_increment": 720000,
     "energy_source": "MANA",
-    "base_energy_cost": 150,
+    "base_energy_cost": 50,
     "base_casting_time": 6000
   },
   {
@@ -470,7 +470,7 @@
     "difficulty": 2,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": 200,
+    "base_energy_cost": 75,
     "base_casting_time": 3000
   },
   {
@@ -490,6 +490,29 @@
         "true_eocs": [ { "id": "EOC_CLASSLESS_CLEAN_CLOTHING_AND_SELF_ITEMS", "effect": [ { "npc_unset_flag": "FILTHY" } ] } ]
       }
     ]
+  },
+  {
+    "id": "classless_easy_sleep_spell",
+    "type": "SPELL",
+    "name": "Peaceful Rest",
+    "description": "A favorite of overworked mages and dilettantes who, this spell makes it much easier to fall asleep regardless of how tired you are.",
+    "valid_targets": [ "self" ],
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "effect": "attack",
+    "effect_str": "effect_classless_easy_sleep",
+    "components": "spell_components_easy_sleep",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 15,
+    "min_duration": 360000,
+    "max_duration": 360000,
+    "energy_source": "MANA",
+    "base_energy_cost": 250,
+    "final_energy_cost": 75,
+    "energy_increment": -11.67,
+    "base_casting_time": 90000,
+    "final_casting_time": 6000,
+    "casting_time_increment": -5600
   },
   {
     "id": "classless_dispel_magic",

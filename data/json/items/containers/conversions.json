@@ -57,7 +57,7 @@
     "category": "container",
     "name": { "str": "standard rifle conversion kit" },
     "looks_like": "box_small",
-    "description": "This is a sturdy cardboard box, stamped with manufacturer markings and emblazoned with the stylized image of an assembled rifle.  Containing appropriate retool components for an average weapon platform, including upper receiver assemblies, swappable barrels, and assorted extras (such as magazines), its contents could be used to rechamber a compatible rifle.",
+    "description": "This is a sturdy cardboard box, stamped with manufacturer markings and emblazoned with the stylized image of an assembled rifle.  Containing appropriate retool components for an average weapon platform, including upper receiver assemblies, swappable barrels, and assorted extras (such as magazines), its contents could be used to rechamber a compatible rifle.",
     "weight": "400 g",
     "volume": "6880 ml",
     "longest_side": "43 cm",

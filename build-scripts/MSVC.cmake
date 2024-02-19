@@ -48,6 +48,21 @@ Linker flags used by all builds:
 /NXCOMPAT     same as above
 No need to force /TLBID:1 because is default
 
+CMake defaults seen in generators:
+CMAKE_CXX_FLAGS=/DWIN32 /D_WINDOWS /EHsc
+CMAKE_CXX_FLAGS_DEBUG=/Zi /Ob0 /Od /RTC1
+CMAKE_CXX_FLAGS_RELWITHDEBINFO=/Zi /O2 /Ob1 /DNDEBUG
+CMAKE_EXE_LINKER_FLAGS=/machine:x64
+CMAKE_EXE_LINKER_FLAGS_DEBUG=/debug /INCREMENTAL
+CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO=/debug /INCREMENTAL
+
+Use the following for Dr. Memory:
+/Zi or /ZI
+/DEBUG:FULL
+/Ob0    disable inlining
+/Oy-    don't omit frame pointers
+Remove /RTC1
+
 #]=======================================================================]
 
 # Path has changed, so this configure run will find cl.exe
@@ -61,6 +76,7 @@ set(CMAKE_CXX_FLAGS_INIT "\
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT
 "/Oi"
 )
+
 add_compile_definitions(
     _SCL_SECURE_NO_WARNINGS
     _CRT_SECURE_NO_WARNINGS
@@ -68,6 +84,7 @@ add_compile_definitions(
     LOCALIZE
     USE_VCPKG
 )
+
 add_link_options(
     /OPT:REF
     /OPT:ICF
@@ -75,9 +92,11 @@ add_link_options(
     /INCREMENTAL:NO
     /DYNAMICBASE
     /NXCOMPAT
+    "$<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>"
+    "$<$<CONFIG:RelWithDebInfo>:/NODEFAULTLIB:LIBCMTD>"
 )
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 # Where is vcpkg.json ?
 set(VCPKG_MANIFEST_DIR ${CMAKE_SOURCE_DIR}/msvc-full-features)

@@ -99,6 +99,10 @@ Hub now offers armor set printing after HWP is unlocked
 Implement basic saline infusion to help with blood loss
 Adds treetops and makes trees climbable
 Allow bird wings to glide
+Allow whitelisting and blacklisting hobbies in scenarios, professions, and globally
+EoCs support mutate_towards directly
+make `u_spawn_item` to support the item group whose subtype is `collection`
+Add u_wants_to_talk/npc_wants_to_talk EOC effects
 
 
 ## Content:
@@ -184,7 +188,12 @@ Lockets can store photographs
 Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
 Modularize Desert Eagle, add .50 AE
-Add WIP Limb Stuff Mod
+Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
+Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
+JSONize Electrohack Tool
+Previously Innawoods-only stream mutables are now in the main game
+Added ASCII art for most containers
+Making Shadow Spawn Messages editable
 
 
 ## Interface:
@@ -333,6 +342,8 @@ Paraclesian Map extras
 [DinoMod] plesiosaurus
 [MoM] Power learning revamp: Teleportation, Electrokinesis, Clairsentience and Telekineseis
 [Xedra Evolved] Add Great Tree elemental eruption map special
+Aftershock: Add the Port Augustmoon Station
+Add WIP Limb Stuff Mod
 
 
 ## Balance:
@@ -385,6 +396,8 @@ Activity suit is actually waterproof, soft surfaces are less slippery, boomer on
 Visitors Passes and Freight Badges no longer reveal roads
 Hub14 no longer gives infinite pricey schematics
 Removed FANCY and SUPER_FANCY from a bunch of items
+Pianos can be fast-deconstructed and thus be moved as an item
+Obsolete trickle charger CBMs
 
 
 ## Bugfixes:
@@ -496,6 +509,9 @@ Autodrive over bridges
 Stable vehicle speeds with autotravel
 Count charges in all nearby smoking racks to crafting inventory
 Fix crash from reachability zones checking dead NPCs.
+Fixes issue where some CBMs could be taken off via forcing a pet to wear them
+You can use all kinds of ropes in all constructions now.
+Did you know we didn't have any hallucinations for a while? now they're back, baby!
 
 
 ## Performance:
@@ -582,6 +598,7 @@ Added WebAssembly build via Emscripten
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
+Add check to ensure translator comments are correctly located and extracted
 
 
 # 0.G (Gaiman)

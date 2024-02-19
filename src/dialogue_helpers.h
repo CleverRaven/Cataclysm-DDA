@@ -3,6 +3,7 @@
 #define CATA_SRC_DIALOGUE_HELPERS_H
 
 #include <optional>
+#include <variant>
 
 #include "calendar.h"
 #include "global_vars.h"
@@ -20,27 +21,37 @@ using dialogue_fun_ptr = std::add_pointer_t<void( npc & )>;
 using trial_mod = std::pair<std::string, int>;
 struct dbl_or_var;
 
-struct var_info {
-    var_info( var_type in_type, std::string in_name ): type( in_type ),
+template<class T>
+struct abstract_var_info {
+    abstract_var_info( var_type in_type, std::string in_name ): type( in_type ),
         name( std::move( in_name ) ) {}
-    var_info( var_type in_type, std::string in_name, std::string in_default_val ): type( in_type ),
+    abstract_var_info( var_type in_type, std::string in_name, T in_default_val ): type( in_type ),
         name( std::move( in_name ) ), default_val( std::move( in_default_val ) ) {}
-    var_info() : type( var_type::global ) {}
+    abstract_var_info() : type( var_type::global ) {}
     var_type type;
     std::string name;
-    std::string default_val;
+    T default_val;
 };
+
+using var_info = abstract_var_info<std::string>;
+using translation_var_info = abstract_var_info<translation>;
 
 template<class T>
 struct abstract_str_or_var {
     std::optional<T> str_val;
-    std::optional<var_info> var_val;
+    std::optional<abstract_var_info<T>> var_val;
     std::optional<T> default_val;
     std::optional<std::function<T( const dialogue & )>> function;
     std::string evaluate( dialogue const & ) const;
 };
 
 using str_or_var = abstract_str_or_var<std::string>;
+using translation_or_var = abstract_str_or_var<translation>;
+
+struct str_translation_or_var {
+    std::variant<str_or_var, translation_or_var> val;
+    std::string evaluate( dialogue const & ) const;
+};
 
 struct talk_effect_fun_t {
     public:
@@ -68,12 +79,13 @@ struct talk_effect_fun_t {
         }
 };
 
-std::string read_var_value( const var_info &info, const dialogue &d );
-std::optional<std::string> maybe_read_var_value( const var_info &info, const dialogue &d );
+template<class T>
+std::string read_var_value( const abstract_var_info<T> &info, const dialogue &d );
+template<class T>
+std::optional<std::string> maybe_read_var_value(
+    const abstract_var_info<T> &info, const dialogue &d );
 
 var_info process_variable( const std::string &type );
-
-using translation_or_var = abstract_str_or_var<translation>;
 
 struct eoc_math {
     enum class oper : int {

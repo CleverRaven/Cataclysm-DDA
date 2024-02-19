@@ -220,7 +220,10 @@
   {
     "id": "BGSS_PREPPER_1_SHARELOOTFAILURE",
     "type": "talk_topic",
-    "dynamic_line": "What, like some secret Batcave?  Pull back the curtain and it turns out I'm the communist <name_b> who brewed up a demon bio-weapon in their basement?  I just gave you food, all the tools in my workshop, and the safest hole in the ground in the county.  If I've got any secrets left, they're mine to keep.",
+    "dynamic_line": {
+      "gendered_line": "What, like some secret Batcave?  Pull back the curtain and it turns out I'm the communist <name_b> who brewed up a demon bio-weapon in their basement?  I just gave you food, all the tools in my workshop, and the safest hole in the ground in the county.  If I've got any secrets left, they're mine to keep.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "No, you're right!  I'm sorry for intruding!", "topic": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE" },
       {

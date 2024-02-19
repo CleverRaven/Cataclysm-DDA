@@ -504,7 +504,10 @@ void vehicle::toggle_autopilot()
         autopilot_on = true;
         is_following = true;
         is_patrolling = false;
-        if( !engine_on ) start_engines();
+        if( !engine_on )
+        {
+            start_engines();
+        }
     } );
 
     menu.add( _( "Stop…" ) )
@@ -2382,13 +2385,13 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             menu.add( string_format( _( "Lock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "LOCK_DOOR" )
             .on_submit( [p] {
-                doors::lock_door( get_map(), get_player_character(), p );
+                doors::lock_door( get_map(), get_player_character(), tripoint_bub_ms( p ) );
             } );
         } else if( player_inside && vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Unlock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "UNLOCK_DOOR" )
             .on_submit( [p] {
-                doors::unlock_door( get_map(), get_player_character(), p );
+                doors::unlock_door( get_map(), get_player_character(), tripoint_bub_ms( p ) );
             } );
         } else if( vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Check the lock on %s" ), vp_lockable_door->part().name() ) )

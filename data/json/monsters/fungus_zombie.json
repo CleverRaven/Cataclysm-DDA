@@ -122,7 +122,6 @@
       "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "special_attacks": [ [ "FUNGUS", 200 ] ],
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "moldy_bones",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "armor": { "bash": 0, "electric": 5 }
@@ -140,7 +139,7 @@
     "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "special_attacks": [ [ "SMASH", 30 ], [ "FUNGUS", 200 ] ],
     "extend": {
-      "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "HARDTOSHOOT" ],
+      "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_bone_armor" ],
       "families": [ "prof_wp_skeleton" ]
     },
@@ -180,19 +179,7 @@
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "burn_into": "mon_zombie_fiend",
-    "flags": [
-      "HEARS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "DESTROYS",
-      "POISON",
-      "NO_BREATHE",
-      "PUSH_MON",
-      "PUSH_VEH",
-      "HARDTOSHOOT",
-      "FILTHY"
-    ],
+    "flags": [ "HEARS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FILTHY" ],
     "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8 }
   },
   {

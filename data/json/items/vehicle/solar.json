@@ -126,7 +126,7 @@
     "type": "GENERIC",
     "id": "ground_solar_panel_v2",
     "name": { "str": "advanced solar panel array" },
-    "description": "A collection of four smaller solar panels, read to convert solar radiation into electric power.  These panels are high-performance, made with monocrystalline silicon cells.",
+    "description": "A collection of four smaller solar panels, ready to convert solar radiation into electric power.  These panels are high-performance, made with monocrystalline silicon cells.",
     "copy-from": "solar_panel_v2",
     "proportional": { "price": 4, "price_postapoc": 4, "weight": 4, "volume": 4, "longest_side": 2 }
   },

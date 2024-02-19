@@ -255,5 +255,58 @@
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 66, 100 ],
     "flags": [ "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "druid_tower",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "druid_ritual_home_z0_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "druid_ritual_home_z1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "druid_ritual_home_z2_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "druid_ritual_home_z3_north" },
+      { "point": [ -1, -1, 4 ], "overmap": "druid_ritual_home_crown_nw_north" },
+      { "point": [ 0, -1, 4 ], "overmap": "druid_ritual_home_crown_n_north" },
+      { "point": [ 1, -1, 4 ], "overmap": "druid_ritual_home_crown_ne_north" },
+      { "point": [ -1, 0, 4 ], "overmap": "druid_ritual_home_crown_w_north" },
+      { "point": [ 0, 0, 4 ], "overmap": "druid_ritual_home_crown_north" },
+      { "point": [ 1, 0, 4 ], "overmap": "druid_ritual_home_crown_e_north" },
+      { "point": [ -1, 1, 4 ], "overmap": "druid_ritual_home_crown_sw_north" },
+      { "point": [ 0, 1, 4 ], "overmap": "druid_ritual_home_crown_s_north" },
+      { "point": [ 1, 1, 4 ], "overmap": "druid_ritual_home_crown_se_north" }
+    ],
+    "locations": [ "forest_center" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "WILDERNESS", "MAN_MADE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "ogre_lair",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "ogre_mound_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "ogre_mound_roof_north" }
+    ],
+    "locations": [ "swamp" ],
+    "city_distance": [ 30, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 2 ],
+    "spawns": { "group": "GROUP_OGRE", "population": [ 1, 10 ], "radius": [ 1, 6 ] },
+    "flags": [ "WILDERNESS", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "last_mage_on_earth_shelter_start",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "last_mage_on_earth_shelter_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "//": "Meant for the Last Mage on Earth start",
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 10, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "WILDERNESS" ]
   }
 ]

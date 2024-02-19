@@ -608,8 +608,27 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBULL_FROG_UPGRADE",
     "monsters": [
+      { "monster": "mon_zombullfrog", "weight": 100, "cost_multiplier": 3 },
       { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
       { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DEADTOAD_UPGRADE",
+    "monsters": [
+      { "monster": "mon_toad_bloat", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_toad_wart", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_toad_bone", "weight": 25, "cost_multiplier": 1 },
+      { "monster": "mon_gastro_bufo", "weight": 25, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBTREEFROG_UPGRADE",
+    "monsters": [
+      { "monster": "mon_zombtreefrog", "weight": 75, "cost_multiplier": 3 },
+      { "monster": "mon_frog_shadow", "weight": 25, "cost_multiplier": 3 }
     ]
   },
   {

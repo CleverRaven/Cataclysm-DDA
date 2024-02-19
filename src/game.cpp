@@ -734,6 +734,7 @@ void game::reenter_fullscreen()
 void game::setup()
 {
     loading_ui ui( true );
+    new_game = true;
     {
         background_pane background;
         static_popup popup;
@@ -751,7 +752,6 @@ void game::setup()
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
-    new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -5753,7 +5753,17 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     return true;
 }
 
+bool game::forced_door_closing( const tripoint_bub_ms &p, const ter_id &door_type, int bash_dmg )
+{
+    return forced_door_closing( p.raw(), door_type, bash_dmg );
+}
+
 void game::open_gate( const tripoint &p )
+{
+    open_gate( tripoint_bub_ms( p ) );
+}
+
+void game::open_gate( const tripoint_bub_ms &p )
 {
     gates::open_gate( p, u );
 }
@@ -6534,7 +6544,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string tile = uppercase_first_letter( m.tername( lp ) );
     std::string area = uppercase_first_letter( area_name );
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
-        area = _( e->string_id );
+        area = e->string_id;
     }
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
@@ -8703,7 +8713,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             for( int i = std::max( 0, highPEnd );
                  i < std::min( lowPStart, static_cast<int>( filtered_items.size() ) ); i++ ) {
                 const std::string &cat_name =
-                    filtered_items[i].example->get_category_of_contents().name();
+                    filtered_items[i].example->get_category_of_contents().name_header();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
