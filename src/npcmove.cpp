@@ -219,7 +219,7 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-bool good_for_pickup( const item &it, npc &who )
+bool good_for_pickup( const item &it, npc &who, const tripoint &there )
 {
     bool good = false;
 
@@ -3513,7 +3513,7 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, this]
     ( const item & it, const tripoint & p ) {
-        if( ::good_for_pickup( it, *this ) && would_steal_that( it, p ) ) {
+        if( ::good_for_pickup( it, *this, p ) && would_take_that( it, p ) ) {
             wanted_item_pos = p;
             wanted = &it;
             best_value = has_item_whitelist() ? 1000 : value( it );
@@ -3752,7 +3752,36 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
     return picked_up;
 }
 
-bool npc::would_steal_that( const item &it, const tripoint &p )
+bool npc::can_take_that( const item &it, const tripoint &p )
+{
+    bool good = false;
+
+    auto weight_allowed = weight_capacity() - weight_carried();
+
+    if( !it.made_of_from_type( phase_id::LIQUID ) && ( it.weight() <= weight_allowed ) &&
+        can_stash( it ) ) {
+        good = true;
+    }
+
+    return good;
+}
+
+bool npc::wants_take_that( const item &it, const tripoint &p )
+{
+    bool good = false;
+    int min_value = minimum_item_value();
+    const bool whitelisting = has_item_whitelist();
+
+    item &weap = get_wielded_item() ? *get_wielded_item() : null_item_reference();
+    if( ( ( !whitelisting && value( it ) > min_value ) || item_whitelisted( it ) ) ||
+        weapon_value( it ) > weapon_value( weap ) ) {
+        good = true;
+    }
+
+    return good;
+}
+
+bool npc::would_take_that( const item &it, const tripoint &p )
 {
     const bool is_stealing = !it.is_owned_by( *this, true );
     if( !is_stealing ) {
@@ -3776,6 +3805,8 @@ bool npc::would_steal_that( const item &it, const tripoint &p )
             would_always_steal = true;
         }
         if( would_always_steal ) {
+            add_msg_debug( debugmode::DF_NPC, "%s attempting to steal %s (owned by player).", get_name(),
+                           it.tname() );
             return true;
         }
 
@@ -3799,6 +3830,9 @@ bool npc::would_steal_that( const item &it, const tripoint &p )
             }
         }
         //Fallthrough, no consequences if you won't be caught!
+        add_msg_debug( debugmode::DF_NPC,
+                       "%s attempting to steal %s (owned by player) because it isn't guarded.",
+                       get_name(), it.tname() );
         return true;
     }
 
