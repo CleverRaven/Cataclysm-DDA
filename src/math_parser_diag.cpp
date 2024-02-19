@@ -1405,6 +1405,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", 1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
+    { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
@@ -1427,7 +1428,6 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
     { "val", { "un", 1, u_val_ass } },
-    { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },
 };
