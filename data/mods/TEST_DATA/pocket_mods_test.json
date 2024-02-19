@@ -86,7 +86,7 @@
     "id": "debug_retool_mag_well",
     "type": "GUNMOD",
     "name": { "str": "debug gunmod to add/alter magazine well" },
-    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a standard 16-inch barrel chambered for .223 Remington ammunition.",
+    "description": "This is a complete upper receiver assembly containing a barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle's lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit furnishing a weapon with a standard 16-inch barrel chambered for .223 Remington ammunition.",
     "weight": "2268 g",
     "volume": "1550 ml",
     "longest_side": "480 mm",

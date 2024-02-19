@@ -242,7 +242,7 @@
     "id": "mon_wisp",
     "type": "MONSTER",
     "name": "will-o-wisp",
-    "description": "Will-o’-wisps can be yellow, white, green, or blue.  They are easily mistaken for lanterns, especially in the foggy marshes and swamps where they reside.",
+    "description": "Will-o'-wisps can be yellow, white, green, or blue.  They are easily mistaken for lanterns, especially in the foggy marshes and swamps where they reside.",
     "default_faction": "magical_beast",
     "bodytype": "blob",
     "species": [ "MAGICAL_BEAST" ],

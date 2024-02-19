@@ -5,7 +5,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Mosin carbine" },
-    "description": "A later produced and substantially shortened version of Imperial Russia’s original service rifle, this variant of the Mosin features a notably more compact barrel and an integral side-folding bayonet.  Produced during the latter days of the Second World War for the Soviet Union, the weapon exhibits less overall stopping power than its full-length older brother thanks to the former’s stubbier barrel.  Despite the arm being somewhat weaker than its forefather, the 7.62x54mm round that it chambers still packs a hefty punch, whilst its smaller size helps to make the weapon wieldier.",
+    "description": "A later produced and substantially shortened version of Imperial Russia's original service rifle, this variant of the Mosin features a notably more compact barrel and an integral side-folding bayonet.  Produced during the latter days of the Second World War for the Soviet Union, the weapon exhibits less overall stopping power than its full-length older brother thanks to the former's stubbier barrel.  Despite the arm being somewhat weaker than its forefather, the 7.62x54mm round that it chambers still packs a hefty punch, whilst its smaller size helps to make the weapon wieldier.",
     "weight": "4100 g",
     "volume": "2720 ml",
     "longest_side": "1015 mm",
