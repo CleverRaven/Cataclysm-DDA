@@ -287,6 +287,32 @@
   },
   {
     "type": "GENERIC",
+    "id": "dried_seaweed",
+    "name": { "str": "dried seaweed", "str_pl": "dried seaweed" },
+    "looks_like": "withered",
+    "description": "A handful of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
+    "weight": "12 g",
+    "color": "green",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "20 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "dried_seaweed_pile",
+    "name": { "str": "pile of dried seaweed", "str_pl": "pile of dried seaweed" },
+    "looks_like": "withered",
+    "description": "A big heap of dried seaweed.  It's tough, inedible, and possibly poisonous, but it could be burned or used for crafts.",
+    "weight": "240 g",
+    "color": "green",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": "400 ml",
+    "flags": [ "TRADER_AVOID", "FIREWOOD", "TINDER" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "superglue",
     "category": "spare_parts",
     "symbol": ",",
