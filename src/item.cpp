@@ -12374,6 +12374,8 @@ bool item::has_rotten_away() const
 {
     if( is_corpse() && !can_revive() ) {
         return get_rot() > 10_days;
+    } else if( is_comestible() && rot_transform != null ) {
+        
     } else {
         return get_relative_rot() > 2.0;
     }

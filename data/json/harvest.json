@@ -388,6 +388,31 @@
     "entries": [ { "drop": "wintergreen_berry", "base_num": [ 1, 4 ] }, { "drop": "wintergreen_leaves", "base_num": [ 1, 2 ] } ]
   },
   {
+    "id": "seaweed_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "seaweed", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "kelp_sugar_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "kelp_sugar", "base_num": [ 1 ] } ]
+  },
+  {
+    "id": "bladderwrack_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "bladderwrack", "base_num": [ 1 ] } ]
+  },
+  {
+    "id": "sea_lettuce_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "sea_lettuce", "base_num": [ 1 ] } ]
+  },
+  {
+    "id": "sea_sponge_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "sea_sponge", "base_num": [ 1 ] } ]
+  },
+  {
     "id": "fish_tiny",
     "type": "harvest",
     "entries": [

@@ -10,7 +10,7 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC"],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "seaweed" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "seaweed_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "splat.", "sound_fail": "squelch." }
   },
   {
@@ -24,21 +24,21 @@
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "seaweed" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "seaweed_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "splat.", "sound_fail": "squelch." }
   },
   {
     "type": "furniture",
     "id": "f_kelp_sugar",
     "name": "sugar kelp",
-    "description": "Also known as kombu, this brown algae grows in a single leaflike blade that can reach more than twice the height of a man.  High in glutamic acids, young fronds make for excellent soup stock and can even be eaten raw.",
+    "description": "Also known as kombu, this brown algae grows in a single leaflike blade that can reach more than twice the height of a man.  Young fronds make for excellent soup stock and can even be eaten raw.",
     "symbol": "i",
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "SMALL_HIDE" ],
+    "flags": [ "FLAMMABLE_ASH", "ORGANIC", "SMALL_HIDE", "HARVEST_REQ_CUT1" ],
     "examine_action": "harvest_furn",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "kelp_sugar" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer" ], "id": "kelp_sugar_harv" } ],
     "bash": { "str_min": 8, "str_max": 16, "sound": "splat.", "sound_fail": "squelch." }
   },
   {
@@ -52,7 +52,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "sea_lettuce" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "sea_lettuce_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "splat.", "sound_fail": "squelch." }
   },
   {
@@ -66,7 +66,7 @@
     "move_cost_mod": 0,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "bladderwrack" } ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "bladderwrack_harv" } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "splat.", "sound_fail": "squelch." }
   },
   {
@@ -90,7 +90,8 @@
     "color": "pink",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "GRAZER_INEDIBLE", "ORGANIC" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "GRAZER_INEDIBLE", "ORGANIC", "HARVEST_REQ_CUT1" ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "sea_sponge_harv" } ],
     "bash": { "str_min": 6, "str_max": 12, "sound": "splat.", "sound_fail": "squelch." }
   }
 ]
