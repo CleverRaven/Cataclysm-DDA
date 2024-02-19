@@ -89,6 +89,7 @@
     "bash_dmg_verb": "cracked",
     "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 10, "cut": 6, "acid": 6, "heat": 100, "bullet": 100, "afs_plasma": 0, "electric": 10 },
     "repair_difficulty": 10
   },
@@ -102,6 +103,7 @@
     "bash_dmg_verb": "chipped",
     "breathability": "IMPERMEABLE",
     "cut_dmg_verb": "scratched",
+    "acid_dmg_verb": "corroded",
     "resist": { "bash": 4, "cut": 7, "acid": 2, "heat": 4, "bullet": 6, "afs_plasma": 0, "electric": 8 },
     "repair_difficulty": 7
   }
