@@ -1345,7 +1345,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
                "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
                "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n"
-               "  Acid:  <color_c_red>3.00</color>, <color_c_yellow>7.00</color>, <color_c_green>7.00</color>\n"
+               "  Acid:  <color_c_red>3.00</color>, <color_c_yellow>3.00</color>, <color_c_green>7.00</color>\n"
              );
     }
 
