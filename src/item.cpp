@@ -9297,7 +9297,7 @@ std::string item::variant_description() const
 
     // append the description instead of fully overwriting it
     if( itype_variant().append ) {
-        return string_format( "%s  %s", type->description.translated(),
+        return string_format( pgettext( "variant description", "%s  %s" ), type->description.translated(),
                               itype_variant().alt_description.translated() );
     } else {
         return itype_variant().alt_description.translated();
