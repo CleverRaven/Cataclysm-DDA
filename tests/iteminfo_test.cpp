@@ -1263,7 +1263,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
         // 1/1/1 bash/cut/bullet x 1 thickness
         // 3/0/0 acid/fire/env
         item longshirt( "test_longshirt" );
-        expected_armor_values( longshirt, 0.2f, 3.f, 0.16f, 0.2f );
+        expected_armor_values( longshirt, 0.2f, 3.f, 0.16f, 0.2f, 3.0f );
         REQUIRE( longshirt.get_covered_body_parts().any() );
 
         // Protection info displayed on two lines
