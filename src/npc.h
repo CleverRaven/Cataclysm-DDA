@@ -1212,9 +1212,9 @@ class npc : public Character
         // Comment on item seen
         void see_item_say_smth( const itype_id &object, const std::string &smth );
         // Consider available storage
-        bool can_take_that( const item &it, const tripoint &p );
+        bool can_take_that( const item &it );
         // Consider hoarding
-        bool wants_take_that( const item &it, const tripoint &p );
+        bool wants_take_that( const item &it );
         // Consider a life of crime
         bool would_take_that( const item &it, const tripoint &p );
         // Look around and pick an item

@@ -219,24 +219,11 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-bool good_for_pickup( const item &it, npc &who, const tripoint &there )
+bool good_for_pickup( const item &it, npc &I, const tripoint &there )
 {
-    bool good = false;
-
-    const bool whitelisting = who.has_item_whitelist();
-    auto weight_allowed = who.weight_capacity() - who.weight_carried();
-    int min_value = who.minimum_item_value();
-
-    item &weap = who.get_wielded_item() ? *who.get_wielded_item() : null_item_reference();
-    if( ( !it.made_of_from_type( phase_id::LIQUID ) ) &&
-        ( ( !whitelisting && who.value( it ) > min_value ) || who.item_whitelisted( it ) ) &&
-        ( it.weight() <= weight_allowed ) &&
-        ( who.can_stash( it ) ||
-          who.weapon_value( it ) > who.weapon_value( weap ) ) ) {
-        good = true;
-    }
-
-    return good;
+    return I.can_take_that( it ) &&
+           I.wants_take_that( it ) &&
+           I.would_take_that( it, there );
 }
 
 } // namespace
@@ -3741,7 +3728,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( ::good_for_pickup( it, who ) ) {
+        if( who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
         } else {
@@ -3752,7 +3739,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
     return picked_up;
 }
 
-bool npc::can_take_that( const item &it, const tripoint &p )
+bool npc::can_take_that( const item &it )
 {
     bool good = false;
 
@@ -3766,7 +3753,7 @@ bool npc::can_take_that( const item &it, const tripoint &p )
     return good;
 }
 
-bool npc::wants_take_that( const item &it, const tripoint &p )
+bool npc::wants_take_that( const item &it )
 {
     bool good = false;
     int min_value = minimum_item_value();
