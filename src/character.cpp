@@ -2240,6 +2240,8 @@ int Character::footstep_sound() const
             }
             if( mons->has_flag( mon_flag_LOUDMOVES ) ) {
                 volume += 6;
+            } else if( mons->has_flag( mon_flag_QUIETMOVES ) ) {
+                volume /= 2;
             }
         } else {
             volume = calculate_by_enchantment( volume, enchant_vals::mod::FOOTSTEP_NOISE );
@@ -5067,7 +5069,7 @@ void Character::update_needs( int rate_multiplier )
                     rest_modifier += 1;
                 }
 
-                const comfort_level comfort = base_comfort_value( pos() ).level;
+                const comfort_level comfort = base_comfort_value( pos_bub() ).level;
 
                 if( comfort >= comfort_level::very_comfortable ) {
                     rest_modifier *= 3;
@@ -5591,7 +5593,7 @@ void Character::temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 )
     mod_part_temp_cur( bp1, diff );
 }
 
-Character::comfort_response_t Character::base_comfort_value( const tripoint &p ) const
+Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_ms &p ) const
 {
     // Comfort of sleeping spots is "objective", while sleep_spot( p ) is "subjective"
     // As in the latter also checks for fatigue and other variables while this function
@@ -10638,13 +10640,7 @@ bool Character::sees_with_infrared( const Creature &critter ) const
 
     map &here = get_map();
 
-    if( is_avatar() || critter.is_avatar() ) {
-        // Players should not use map::sees
-        // Likewise, players should not be "looked at" with map::sees, not to break symmetry
-        return here.pl_line_of_sight( critter.pos(), unimpaired_range() );
-    }
-
-    return here.sees( pos(), critter.pos(), unimpaired_range() );
+    return here.sees( pos(), critter.pos(), unimpaired_range(), false );
 }
 
 bool Character::is_visible_in_range( const Creature &critter, const int range ) const
@@ -11339,7 +11335,7 @@ double Character::vomit_mod()
     return mod;
 }
 
-int Character::sleep_spot( const tripoint &p ) const
+int Character::sleep_spot( const tripoint_bub_ms &p ) const
 {
     const int current_stim = get_stim();
     const comfort_response_t comfort_info = base_comfort_value( p );
@@ -11403,7 +11399,7 @@ bool Character::can_sleep()
     }
     last_sleep_check = now;
 
-    int sleepy = sleep_spot( pos() );
+    int sleepy = sleep_spot( pos_bub() );
     sleepy += rng( -8, 8 );
     bool result = sleepy > 0;
 

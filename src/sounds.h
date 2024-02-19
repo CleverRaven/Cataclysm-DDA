@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "coordinates.h"
 #include "units_fwd.h"
 
 class Character;
@@ -15,7 +16,6 @@ class JsonObject;
 class item;
 class monster;
 class translation;
-struct tripoint;
 template <typename E> struct enum_traits;
 
 namespace sounds
@@ -52,10 +52,18 @@ enum class sound_t : int {
  * @param variant Variant of sound effect given in id
  * @returns true if the player could hear the sound.
  */
+// TODO: Get rid of untyped overload.
 void sound( const tripoint &p, int vol, sound_t category, const std::string &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const std::string &description,
+            bool ambient = false, const std::string &id = "",
+            const std::string &variant = "default" );
+// TODO: Get rid of untyped overload.
 void sound( const tripoint &p, int vol, sound_t category, const translation &description,
+            bool ambient = false, const std::string &id = "",
+            const std::string &variant = "default" );
+void sound( const tripoint_bub_ms &p, int vol, sound_t category, const translation &description,
             bool ambient = false, const std::string &id = "",
             const std::string &variant = "default" );
 /** Functions identical to sound(..., true). */

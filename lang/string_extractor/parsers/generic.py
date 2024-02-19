@@ -22,6 +22,8 @@ def parse_generic(json, origin):
 
     if "use_action" in json:
         parse_use_action(json["use_action"], origin, name)
+    if "tick_action" in json:
+        parse_use_action(json["tick_action"], origin, name)
 
     for cname in json.get("conditional_names", []):
         write_text(cname["name"], origin,

@@ -1580,6 +1580,7 @@ jirts
 johnnycake
 jointer
 jointing
+jolter
 jort
 jorts
 jpg
@@ -2161,6 +2162,8 @@ orthogonally
 oryctodromeus
 oscillated
 osho
+osteoderm
+osteoderms
 osteokinesis
 oter
 otes
@@ -3412,6 +3415,7 @@ warhammers
 warmouth
 warpglass
 warpstream
+warted
 wastebread
 watchband
 waterfowl
@@ -3541,11 +3545,15 @@ zentai
 zeriatric
 zincite
 zischt
+zoad
+zoads
 zolpidem
 zombaby
 zombear
 zombeaver
 zombeavers
+zombfrog
+zombfrogs
 zombiespawn
 zombiethustra
 zombification

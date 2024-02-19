@@ -803,26 +803,6 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
              map_cache.sm[t.x][t.y] > 0.0 );
 }
 
-bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
-{
-    if( !inbounds( t ) ) {
-        return false;
-    }
-
-    const level_cache &map_cache = get_cache_ref( t.z );
-    if( map_cache.camera_cache[t.x][t.y] > 0.075f ) {
-        return true;
-    }
-
-    if( max_range >= 0 && square_dist( t, get_player_character().pos() ) > max_range ) {
-        // Out of range!
-        return false;
-    }
-
-    // Any epsilon > 0 is fine - it means lightmap processing visited the point
-    return map_cache.seen_cache[t.x][t.y] > 0.0f;
-}
-
 // For a direction vector defined by x, y, return the quadrant that's the
 // source of that direction.  Assumes x != 0 && y != 0
 // NOLINTNEXTLINE(cata-xy)

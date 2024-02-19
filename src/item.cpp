@@ -2415,7 +2415,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.emplace_back( "BASE", _( "Category: " ),
-                           "<header>" + get_category_shallow().name() + "</header>" );
+                           "<header>" + get_category_shallow().name_header() + "</header>" );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
@@ -9339,8 +9339,8 @@ std::string item::variant_description() const
 
     // append the description instead of fully overwriting it
     if( itype_variant().append ) {
-        return _( string_format( "%s  %s", type->description.translated(),
-                                 itype_variant().alt_description.translated() ) );
+        return string_format( pgettext( "variant description", "%s  %s" ), type->description.translated(),
+                              itype_variant().alt_description.translated() );
     } else {
         return itype_variant().alt_description.translated();
     }

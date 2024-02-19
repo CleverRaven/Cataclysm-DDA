@@ -26,7 +26,7 @@
         "u_has_trait": "PROF_HUB01_ANCILLIARY",
         "yes": [
           "Hey oh umm.  Yes, Sir?",
-          "&The mercenary looks noticeably tense as you approach.",
+          { "gendered_line": "&The mercenary looks noticeably tense as you approach.", "relevant_genders": [ "npc" ] },
           "Nothing to report, Sir!",
           "Hey boss."
         ],
