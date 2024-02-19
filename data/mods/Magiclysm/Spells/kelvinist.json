@@ -712,7 +712,7 @@
     "id": "kelvinist_heat_food",
     "type": "SPELL",
     "name": "Baking Hands",
-    "description": "With the tiniest amount of eat, unfreeze an item of food or drink and heat it up to a comfortable temperature.",
+    "description": "With the tiniest amount of heat, unfreeze an item of food or drink and heat it up to a comfortable temperature.",
     "valid_targets": [ "self" ],
     "spell_class": "KELVINIST",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
