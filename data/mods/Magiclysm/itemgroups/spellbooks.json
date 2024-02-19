@@ -191,6 +191,7 @@
       [ "spell_scroll_technomancer_conjure_ups", 20 ],
       [ "spell_scroll_technomancer_robot_shutdown", 25 ],
       [ "spell_scroll_technomancer_recharge_vehicle", 15 ],
+      [ "spell_scroll_technomancer_create_ups_connection", 25 ],
       [ "spell_scroll_kelvinist_extinguish_fire_spell", 25 ],
       [ "spell_scroll_kelvinist_summon_freezer_spell", 20 ],
       [ "spell_scroll_animist_add_evasion_spell", 30 ],

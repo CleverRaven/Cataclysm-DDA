@@ -282,5 +282,11 @@
         [ "chunk_cast_iron", 1 ]
       ]
     ]
+  },
+  {
+    "id": "spell_components_create_ups_connection",
+    "type": "requirement",
+    "//": "Fuel oils for the Power Linkage spell",
+    "components": [ [ [ "crude_lamp_oil", 120 ] ], [ [ "lamp_oil", 120 ] ], [ [ "gasoline", 120 ] ], [ [ "diesel", 120 ] ] ]
   }
 ]

@@ -1342,7 +1342,8 @@
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
           { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
           { "item": "spell_scroll_technomancer_welder", "prob": 35 },
-          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 }
+          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 },
+          { "item": "spell_scroll_technomancer_create_ups_connection", "prob": 25 }
         ],
         "prob": 35
       },
