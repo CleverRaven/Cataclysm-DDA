@@ -744,6 +744,17 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "offal_tainted",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": { "str": "tainted offal", "str_pl": "clumps of tainted offal" },
+    "description": "An unidentifiable selection of rotted innards that barely hold their form.  It is revolting and certainly no longer healthy to eat.",
+    "spoils_in": "4 hours",
+    "use_action": [ "POISON" ],
+    "price_postapoc": 0,
+    "fun": -25
+  },
+  {
     "id": "mutant_bug_organs",
     "type": "COMESTIBLE",
     "copy-from": "offal",
