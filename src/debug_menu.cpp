@@ -2290,6 +2290,35 @@ static void faction_edit_opinion_menu( faction *fac )
     }
 }
 
+static void faction_edit_larder_menu( faction *fac )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'l', _( "kcal: have stored %i" ), fac->food_supply.kcal() );
+    const auto &vits = vitamin::all();
+    for( const auto &v : vits ) {
+        smenu.addentry( -1, true, 0, _( "%s: have stored %d" ), v.second.name(),
+                        fac->food_supply.get_vitamin( v.first ) );
+    }
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply.kcal() ) ) {
+                fac->food_supply.calories = ( value * 1000 );
+            }
+            break;
+        default:
+            if( smenu.ret >= 1 && smenu.ret < static_cast<int>( vits.size() + 1 ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - 1 );
+                if( query_int( value, _( "Set %s to?  Currently: %d" ),
+                               iter->second.name(), fac->food_supply.get_vitamin( iter->first ) ) ) {
+                    fac->food_supply.set_vitamin( iter->first, value );
+                }
+            }
+    }
+}
+
 static void faction_edit_menu()
 {
 
@@ -2309,7 +2338,7 @@ static void faction_edit_menu()
          << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
     data << string_format( _( "Size: %d" ), fac->size ) << " | "
          << string_format( _( "Power: %d" ), fac->power ) << " | "
-         << string_format( _( "Food Supply: %d" ), fac->food_supply ) << std::endl;
+         << string_format( _( "Food Supply: %d" ), fac->food_supply.kcal() ) << std::endl;
     data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
          << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
          << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
@@ -2348,9 +2377,7 @@ static void faction_edit_menu()
             }
             break;
         case D_FOOD:
-            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply ) ) {
-                fac->food_supply = value;
-            }
+            faction_edit_larder_menu( fac );
             break;
         case D_OPINION:
             faction_edit_opinion_menu( fac );

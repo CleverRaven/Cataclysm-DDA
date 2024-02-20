@@ -64,6 +64,7 @@
       ]
     },
     "dispersion": 30,
+    "dispersion_modifier": [ { "barrel_length": "337 mm", "dispersion": 30 }, { "barrel_length": "533 mm", "dispersion": 0 } ],
     "recoil": 1500,
     "effects": [ "COOKOFF" ]
   },
@@ -100,7 +101,8 @@
     "price": 290,
     "price_postapoc": 900,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 10 }, "dispersion": 140 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 10 }, "dispersion": 20 },
+    "dispersion_modifier": [ { "barrel_length": "337 mm", "dispersion": 120 }, { "barrel_length": "533 mm", "dispersion": 0 } ],
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },

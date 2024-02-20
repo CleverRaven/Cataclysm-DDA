@@ -1034,8 +1034,14 @@ struct islot_ammo : common_ranged_data {
      */
     bool force_stat_display;
 
+    /**
+    * Bullet dispersion affected by the length of the barrel
+    */
+    std::vector<disp_mod_by_barrel> disp_mod_by_barrels;
+
     bool was_loaded = false;
 
+    int dispersion_considering_length( units::length barrel_length ) const;
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
@@ -1473,7 +1479,7 @@ struct itype {
         std::string get_item_type_string() const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
-        // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
+        // based on quantity (example: item type "anvil", nname(4) would return "anvils" (as in "4 anvils").
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.

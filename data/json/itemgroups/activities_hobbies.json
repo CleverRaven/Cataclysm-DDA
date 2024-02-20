@@ -213,7 +213,6 @@
       { "prob": 10, "group": "quikclot_bag_plastic_1_6" },
       { "prob": 15, "group": "bfipowder_bottle_plastic_small_1_4" },
       { "item": "speargun", "prob": 10 },
-      { "item": "minispeargun", "prob": 10 },
       { "item": "doublespeargun", "prob": 8 },
       { "item": "airspeargun", "prob": 8 },
       { "item": "fishspear", "prob": 12 },

@@ -2355,7 +2355,7 @@ void options_manager::add_options_graphics()
 
         add( "USE_DRAW_ASCII_LINES_ROUTINE", page_id, to_translation( "SDL ASCII lines" ),
              to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
-             false, COPT_CURSES_HIDE
+             true, COPT_CURSES_HIDE
            );
     } );
 #endif // TILES
@@ -2922,6 +2922,17 @@ void options_manager::add_options_debug()
              0.0, 60.0, 0.0, 0.1
            );
     } );
+
+    add_empty_line();
+
+    add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
+         to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
+#if defined(EMSCRIPTEN)
+         true
+#else
+         false
+#endif
+       );
 }
 
 void options_manager::add_options_android()

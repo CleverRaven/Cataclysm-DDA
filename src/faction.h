@@ -15,8 +15,10 @@
 #include "character_id.h"
 #include "color.h"
 #include "shop_cons_rate.h"
+#include "stomach.h"
 #include "translations.h"
 #include "type_id.h"
+#include "vitamin.h"
 
 namespace catacurses
 {
@@ -112,7 +114,7 @@ class faction_template
         translation desc;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
-        int food_supply;  //Total nutritional value held
+        nutrients food_supply; //Total nutritional value held
         int wealth;  //Total trade currency
         bool lone_wolf_faction; // is this a faction for just one person?
         itype_id currency; // id of the faction currency
@@ -137,6 +139,8 @@ class faction : public faction_template
 
         std::string food_supply_text();
         nc_color food_supply_color();
+
+        std::pair<nc_color, std::string> vitamin_stores( vitamin_type vit );
 
         faction_price_rule const *get_price_rules( item const &it, npc const &guy ) const;
 

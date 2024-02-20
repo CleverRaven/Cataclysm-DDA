@@ -17,13 +17,13 @@
       { "prob": 30, "group": "lobster_canned_jar_glass_sealed_2" },
       { "prob": 20, "group": "meat_canned_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "veggy_canned_jar_3l_glass_sealed_12" },
-      { "prob": 30, "group": "apple_canned_jar_3l_glass_sealed_12" },
-      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_12" },
+      { "prob": 30, "group": "apple_canned_jar_3l_glass_sealed_24" },
+      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_24" },
       { "prob": 10, "group": "meat_pickled_jar_3l_glass_sealed_12" },
       { "prob": 20, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
       { "item": "brandied_fruit", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
-      { "item": "sauce_red", "prob": 60, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 60, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 10, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "freeze_dried_meal", "prob": 10 }
     ]
@@ -307,7 +307,7 @@
       { "prob": 4, "group": "can_tomato_can_food_big_24" },
       { "prob": 3, "group": "can_pineapple_can_food_big_12" },
       { "prob": 3, "group": "can_corn_can_food_big_6" },
-      { "item": "sauce_red", "prob": 3, "charges": 96, "container-item": "can_food_big" },
+      { "item": "sauce_red", "prob": 3, "charges": 48, "container-item": "can_food_big" },
       { "prob": 6, "group": "coffee_raw_can_food_big_240" }
     ]
   },
@@ -1029,6 +1029,46 @@
       { "group": "lunchbox_fruit", "prob": 25 },
       { "item": "cheeseburger", "prob": 5 },
       { "item": "hamburger", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fresh_fish",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "fish", "prob": 30, "count": [ 1, 3 ] },
+      { "item": "fish_scrap", "prob": 20, "count": [ 3, 6 ] },
+      { "item": "lobster", "prob": 10 },
+      { "item": "gastropod_purged", "prob": 10, "count": [ 3, 8 ] },
+      { "item": "mollusk", "prob": 10, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "fish_market_stall",
+    "subtype": "collection",
+    "entries": [
+      { "prob": 15, "group": "fish_pickled_jar_glass_sealed_2" },
+      { "prob": 10, "group": "lobster_canned_jar_glass_sealed_2" },
+      { "prob": 25, "item": "soup_fish" },
+      { "prob": 10, "item": "salted_fish" },
+      { "prob": 10, "item": "salted_mollusk" },
+      { "prob": 10, "item": "fish_smoked" },
+      { "prob": 10, "item": "lobster_smoked" },
+      { "prob": 10, "item": "mollusk_smoked" },
+      { "prob": 25, "group": "fish_pickled_jar_3l_glass_sealed_12" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "honey_market_stall",
+    "subtype": "collection",
+    "entries": [
+      { "group": "honey_mustard_sealed_rng", "prob": 15 },
+      { "item": "honey_bottled", "prob": 20 },
+      { "item": "honey_glassed", "prob": 20 },
+      { "item": "honeycomb", "count": [ 2, 4 ], "prob": 10 },
+      { "group": "honey_glassed_jar_glass_sealed_5", "prob": 10 }
     ]
   },
   {

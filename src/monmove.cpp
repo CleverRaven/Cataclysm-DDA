@@ -1428,7 +1428,7 @@ void monster::footsteps( const tripoint &p )
     }
     made_footstep = true;
     int volume = 6; // same as player's footsteps
-    if( flies() ) {
+    if( flies() || has_flag( mon_flag_SILENTMOVES ) ) {
         volume = 0;    // Flying monsters don't have footsteps!
     }
     if( digging() ) {
@@ -1454,6 +1454,8 @@ void monster::footsteps( const tripoint &p )
     }
     if( has_flag( mon_flag_LOUDMOVES ) ) {
         volume += 6;
+    } else if( has_flag( mon_flag_QUIETMOVES ) ) {
+        volume -= 3;
     }
     if( volume == 0 ) {
         return;

@@ -1269,7 +1269,7 @@
     "id": "sailor",
     "name": "Navy Sailor",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You’re a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
+    "description": "You're a sailor of the US Navy, and spent the last few years working shipside aboard an aircraft carrier.  Though you're trained in combat, maintenance of the vessel has been your primary duty.  After some event beyond your understanding, the carrier has become a floating graveyard in the middle of nowhere.  This is going to take more than a cup of coffee and a monkey wrench to fix.",
     "points": 4,
     "proficiencies": [
       "prof_pneumatics",
@@ -1682,7 +1682,7 @@
     "type": "profession",
     "id": "seal_sniper",
     "name": "Navy SEAL Marksmen",
-    "description": "Recruited into the ranks of the US Navy’s Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
+    "description": "Recruited into the ranks of the US Navy's Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "points": 8,
     "proficiencies": [
       "prof_gunsmithing_basic",
@@ -1708,7 +1708,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "combat_shirt" },
           { "item": "tac_fullhelmet" },
           { "item": "mask_ski" },
@@ -1740,7 +1740,7 @@
     "id": "seal",
     "name": "Navy SEAL",
     "requirement": "achievement_reach_aircraft_carrier",
-    "description": "You were a member of the SEALs; a key component of the US Navy’s special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
+    "description": "You were a member of the SEALs; a key component of the US Navy's special forces and a proficient combatant in both maritime and ground operations.  'The only easy day was yesterday', and with the chain of command in ruins, you may fulfill your final mission in any way you see fit.",
     "points": 8,
     "proficiencies": [
       "prof_gunsmithing_basic",
@@ -2951,7 +2951,7 @@
     "items": {
       "both": {
         "entries": [
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "knit_scarf" },
           { "item": "socks" },
           { "item": "boots_steel" },
@@ -6557,7 +6557,7 @@
           { "item": "gold_bracelet" },
           { "group": "charged_cell_phone" },
           { "item": "cigar", "entry-wrapper": "case_cigar", "container-item": "null", "count": 2 },
-          { "item": "deagle_44", "ammo-item": "44fmj", "container-item": "holster", "charges": 8 },
+          { "group": "modular_deagle_44", "ammo-item": "44fmj", "container-item": "XL_holster", "charges": 8 },
           { "item": "deaglemag", "ammo-item": "44fmj", "charges": 8, "count": 2 },
           { "item": "knuckle_brass", "container-item": "tux" }
         ]
@@ -6757,7 +6757,7 @@
     "type": "profession",
     "id": "prepped_patriot",
     "name": "Prepped Patriot",
-    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
+    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you've readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun… and nothing more.  God bless America, soldier.",
     "points": 2,
     "skills": [
       { "level": 3, "name": "gun" },
@@ -6926,7 +6926,7 @@
           { "item": "wetsuit_gloves" },
           { "item": "diving_watch" },
           { "item": "diveknife" },
-          { "item": "rebreather", "ammo-item": "rebreather_filter", "charges": 20 }
+          { "item": "rebreather", "ammo-item": "rebreather_filler_soda_lime", "charges": 20 }
         ]
       }
     }

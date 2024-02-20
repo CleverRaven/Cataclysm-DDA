@@ -45,7 +45,7 @@
               "and": [
                 "u_is_outside",
                 { "not": { "math": [ "u_val('pos_z')", "<=", "-1" ] } },
-                { "u_near_om_location": "forest_thick", "range": 2 },
+                { "u_near_om_location": "forest", "range": 2 },
                 { "not": { "u_at_om_location": "field" } }
               ]
             },

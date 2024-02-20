@@ -948,7 +948,7 @@ class Character : public Creature, public visitable
             const item *aid = nullptr;
         };
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
-        comfort_response_t base_comfort_value( const tripoint &p ) const;
+        comfort_response_t base_comfort_value( const tripoint_bub_ms &p ) const;
 
         /** Returns focus equilibrium cap due to fatigue **/
         int focus_equilibrium_fatigue_cap( int equilibrium ) const;
@@ -1030,7 +1030,6 @@ class Character : public Creature, public visitable
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
-        bool is_runallfours() const;
         bool is_prone() const;
 
         int footstep_sound() const;
@@ -3674,6 +3673,9 @@ class Character : public Creature, public visitable
         /** Creates an auditory hallucination */
         void sound_hallu();
 
+        /** All nearby obstacles make a very quiet sound */
+        void echo_pulse();
+
         /** Checks if a Character is driving */
         bool is_driving() const;
 
@@ -3749,7 +3751,7 @@ class Character : public Creature, public visitable
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
         /** Rate point's ability to serve as a bed. Takes all mutations, fatigue and stimulants into account. */
-        int sleep_spot( const tripoint &p ) const;
+        int sleep_spot( const tripoint_bub_ms &p ) const;
         /** Processes human-specific effects of effects before calling Creature::process_effects(). */
         void process_effects() override;
         /** Handles the still hard-coded effects. */

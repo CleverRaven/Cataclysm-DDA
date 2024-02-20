@@ -213,7 +213,7 @@ struct field_type {
         std::string substance_name = "liquid";
 
         // chance, issue, duration, speech
-        std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
+        std::tuple<int, std::string, time_duration, translation> npc_complain_data;
         field_immunity_data immunity_data;
 
         std::set<mtype_id> immune_mtypes;

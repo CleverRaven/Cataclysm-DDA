@@ -694,12 +694,13 @@
     "id": "shape_of_dust",
     "type": "SPELL",
     "name": "Shape of Dust",
-    "description": "Hide yourself within sand-filled winds.  It's harder to hit you, and monsters can't spot you.",
+    "description": "Hide yourself within sand-filled winds.  It's harder to hit you, and monsters can't spot you.  Attacking a target will break the spell.",
     "//": "Fuck its broken. I thought you can make monster hard to see you, so you will be able to hide from them beyond the sand, but of course invis make monsters even more dumb, and they start to stoically ignore your existence.",
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "LOUD" ],
     "effect": "attack",
     "effect_str": "effect_shape_of_dust",
+    "components": "spell_components_shape_of_dust",
     "shape": "blast",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
@@ -743,7 +744,7 @@
     "id": "earthshaper_boulder",
     "type": "SPELL",
     "name": "Summon Boulder",
-    "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
+    "description": "Pull forth a table of smooth rock from the underground bedrock, using your forces of earthshaping.  You can use it as a table or as a primitive anvil.",
     "valid_targets": [ "ground" ],
     "effect": "ter_transform",
     "effect_str": "earthshaper_boulder",
@@ -1158,6 +1159,11 @@
               "z_override": true
             },
             {
+              "u_location_variable": { "u_val": "earthshaper_sleep_in_earth_return" },
+              "min_radius": 0,
+              "max_radius": 0
+            },
+            {
               "u_message": "As you complete the spell, the earth parts beneath you and you sink down into the stone.",
               "type": "good"
             },
@@ -1169,14 +1175,7 @@
       }
     ],
     "false_effect": [
-      {
-        "u_location_variable": { "u_val": "earthshaper_sleep_in_earth" },
-        "min_radius": 0,
-        "max_radius": 0,
-        "z_adjust": 0,
-        "z_override": true
-      },
-      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth" } },
+      { "u_teleport": { "u_val": "earthshaper_sleep_in_earth_return" } },
       {
         "u_message": "As you recite the words of release, you feel yourself rising until you stand in the clear air once again.",
         "type": "good"
@@ -1191,5 +1190,59 @@
     "required_event": "avatar_moves",
     "condition": { "and": [ { "not": { "math": [ "u_val('pos_z')", "==", "-9" ] } }, { "u_has_trait": "EARTHSHAPER_STONE_SLEEP" } ] },
     "effect": [ { "u_lose_trait": "EARTHSHAPER_STONE_SLEEP" } ]
+  },
+  {
+    "id": "earthshaper_repair_metal_stone",
+    "type": "SPELL",
+    "name": "Fault-Mending Chant",
+    "description": "While holding an item made of natural metal or stone, mold it with your hands, work to repairing any flaws and restoring its condition.  Note that some items may still not be repaired.",
+    "valid_targets": [ "self" ],
+    "spell_class": "EARTHSHAPER",
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_REPAIR_METAL_STONE",
+    "components": "spell_components_repair_metal_stone",
+    "shape": "blast",
+    "difficulty": 4,
+    "max_level": 20,
+    "energy_source": "MANA",
+    "base_energy_cost": 600,
+    "base_casting_time": 360000,
+    "final_casting_time": 90000,
+    "casting_time_increment": -13500
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_REPAIR_METAL_STONE",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [
+          { "wielded_only": true },
+          { "material": "stone" },
+          { "material": "iron" },
+          { "material": "copper" },
+          { "material": "silver" },
+          { "material": "lead" },
+          { "material": "gold" },
+          { "material": "tin" },
+          { "material": "platinum" }
+        ],
+        "true_eocs": [
+          {
+            "id": "EOC_EARTHSHAPER_REPAIR_METAL_STONE_ITEM",
+            "condition": { "not": { "npc_has_flag": "NO_REPAIR" } },
+            "effect": [
+              {
+                "math": [ "n_hp('ALL')", "+=", "n_hp_max('bp_null') * ( (u_spell_level('earthshaper_repair_metal_stone') * 0.03) + 0.1)" ]
+              }
+            ],
+            "false_effect": [
+              { "u_message": "The magic simply does not take hold.  The item cannot be repaired, even with sorcery.", "type": "bad" }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]
