@@ -24,6 +24,7 @@
     "type": "SPECIES",
     "id": "CYBORG",
     "description": "an alien cyborg",
+    "flags": [ "DRACULIN_IMMUNE" ],
     "footsteps": "heavy thuds."
   },
   {
@@ -56,38 +57,44 @@
   {
     "type": "SPECIES",
     "id": "NETHER",
-    "description": "a nether creature"
+    "description": "a nether creature",
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
     "id": "NETHER_EMANATION",
     "description": "a reflection of another dimension",
-    "fear_triggers": [ "HURT" ]
+    "fear_triggers": [ "HURT" ],
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
     "id": "MIGO",
     "description": "a creature from the mi-go homeworld",
-    "fear_triggers": [ "HURT" ]
+    "fear_triggers": [ "HURT" ],
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
     "id": "SLIME",
     "description": "a slime",
     "footsteps": "plop.",
-    "bleeds": "fd_slime"
+    "bleeds": "fd_slime",
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
     "id": "FUNGUS",
     "description": "a fungus",
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
     "id": "LEECH_PLANT",
     "description": "a leech plant",
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
@@ -95,7 +102,8 @@
     "description": "an insect",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "bleeds": "fd_blood_insect"
+    "bleeds": "fd_blood_insect",
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
@@ -103,7 +111,8 @@
     "description": "a centipede",
     "footsteps": "skittering.",
     "fear_triggers": [ "FIRE" ],
-    "bleeds": "fd_blood_insect"
+    "bleeds": "fd_blood_insect",
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
@@ -111,7 +120,7 @@
     "description": "a flying insect",
     "footsteps": "BZZZZZZZZZZZZZZZZZ",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "flags": [ "LOUDMOVES" ],
+    "flags": [ "LOUDMOVES", "DRACULIN_IMMUNE" ],
     "bleeds": "fd_blood_insect"
   },
   {
@@ -120,20 +129,23 @@
     "description": "a spider",
     "anger_triggers": [ "FRIEND_DIED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "bleeds": "fd_blood_insect"
+    "bleeds": "fd_blood_insect",
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
     "id": "PLANT",
     "description": "a plant",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "bleeds": "fd_blood_veggy"
+    "bleeds": "fd_blood_veggy",
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
     "id": "MOLLUSK",
     "description": "a mollusk",
     "fear_triggers": [ "HURT", "FIRE" ],
+    "//": "Despite having nonstandard blood, mollusks have circulatory systems similar to fish and reptiles, so no DRACULIN_IMMUNE",
     "bleeds": "fd_blood_invertebrate"
   },
   {
@@ -142,7 +154,8 @@
     "description": "a worm",
     "footsteps": "rustle.",
     "fear_triggers": [ "HURT" ],
-    "bleeds": "fd_blood_invertebrate"
+    "bleeds": "fd_blood_invertebrate",
+    "flags": [ "DRACULIN_IMMUNE" ]
   },
   {
     "type": "SPECIES",
