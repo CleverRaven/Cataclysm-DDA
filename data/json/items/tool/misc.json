@@ -1041,7 +1041,7 @@
     "category": "other",
     "description": "Impossibly-sharp teeth extracted from a giant corpse.  You could use them as a weapon, but you might want to wear gloves.",
     "material": [ "bone" ],
-    "weight": "75 g",
+    "weight": "42 g",
     "volume": "30 ml",
     "use_action": {
       "type": "place_trap",
