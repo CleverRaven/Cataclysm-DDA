@@ -2412,8 +2412,8 @@
     "id": "ACID_AFFLICTED",
     "type": "json_flag",
     "//": "The character is afflicted with acid."
-  {
   },
+  {
     "id": "PSEUDOPOD_GRASP",
     "type": "json_flag",
     "//": "Removes some penalties for melee attacks made while prone or crouching."
