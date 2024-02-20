@@ -45,9 +45,6 @@ jobs:
 
     - uses: mymindstorm/setup-emsdk@v14
 
-    - name: Prepare web data
-      run: ./build-scripts/prepare-web-data.sh
-
     - name: Install ccache
       run: |
         emsdk install ccache-git-emscripten-64bit

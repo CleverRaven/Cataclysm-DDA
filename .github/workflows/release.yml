@@ -266,7 +266,6 @@ jobs:
       - name: Build CDDA (WebAssembly)
         if: matrix.wasm
         run: |
-          ./build-scripts/prepare-web-data.sh
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
