@@ -23,6 +23,7 @@ namespace sounds
 enum class sound_t : int {
     background = 0,
     weather,
+    sensory, // Sonar etc. Ensures this sound will usually get a visual marker so the player can see it.
     music,
     movement,
     speech,

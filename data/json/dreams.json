@@ -38,6 +38,16 @@
   {
     "type": "dream",
     "messages": [
+      "You dream about the moon.",
+      "You dream you're safely at home with a bustling family.",
+      "You dream of chasing a beautiful butterfly."
+    ],
+    "category": "CHIROPTERAN",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
       "You have a strange dream about frogs in a pond near your childhood home.",
       "Your dreams contain a croaking concerto."
     ],
@@ -205,6 +215,17 @@
       "You dream of digging a hole under a hill to make your home."
     ],
     "category": "RABBIT",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of flying.",
+      "You have an upsetting dream about falling and being unable to get back up.",
+      "Tinnitus follows you into your dreams, where it becomes a chorus of crickets.",
+      "You dream of warm breath and fresh blood."
+    ],
+    "category": "CHIROPTERAN",
     "strength": 2
   },
   {
@@ -440,6 +461,17 @@
       "You are disturbed when your birdlike dreams are more lifelike than reality."
     ],
     "category": "BIRD",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a nightmare of being all alone, but then your family flies home to comfort you.",
+      "You dream of sneaking into someone's home to listen to them sleep.",
+      "You taste iron all night long, like you've bitten your tongue.",
+      "You dream in sounds and smells, not images."
+    ],
+    "category": "CHIROPTERAN",
     "strength": 3
   },
   {
@@ -719,6 +751,16 @@
       "The herd moves along and you with them, finding greener pastures."
     ],
     "category": "CATTLE",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "In your dreams, your fangs slip through flesh like scalpels.  You quickly crawl away to let your clumsy prey bleed out.",
+      "You flutter through the air, listening for echoes to guide you through your dream.",
+      "You dream of friends and family crowded around, chattering noisily, grooming one another, and sharing blood."
+    ],
+    "category": "CHIROPTERAN",
     "strength": 4
   },
   {
