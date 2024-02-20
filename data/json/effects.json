@@ -2126,14 +2126,6 @@
   },
   {
     "type": "effect_type",
-    "id": "anticoagulant_fucoidan",
-    "max_intensity": 3,
-    "rating": "bad",
-    "blood_analysis_description": "Anticoagulant (Fucoidan)",
-    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
-  },
-  {
-    "type": "effect_type",
     "id": "anticoagulant_aspirin",
     "max_intensity": 3,
     "rating": "bad",

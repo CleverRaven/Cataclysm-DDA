@@ -72,18 +72,6 @@
     "disease_excess": [ [ 10, 4320 ] ]
   },
   {
-    "id": "vit_antiplatelet_fucoidan",
-    "type": "vitamin",
-    "vit_type": "drug",
-    "name": { "str": "" },
-    "excess": "anticoagulant_fucoidan",
-    "min": 0,
-    "max": 4320,
-    "rate": "100 s",
-    "//": "Takes 30 min to kick in, lasts 5 days",
-    "disease_excess": [ [ 10, 4320 ] ]
-  },
-  {
     "id": "vit_ibuprofen",
     "type": "vitamin",
     "vit_type": "drug",
