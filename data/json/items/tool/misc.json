@@ -1037,7 +1037,7 @@
     "id": "nm_teeth",
     "symbol": ",",
     "color": "light_cyan",
-    "name": { "str": "monster teeth", "str_pl": "monster teeth" },
+    "name": { "str_sp": "monster teeth" },
     "category": "other",
     "description": "Impossibly-sharp teeth extracted from a giant corpse.  You could use them as a weapon, but you might want to wear gloves.",
     "material": [ "bone" ],
