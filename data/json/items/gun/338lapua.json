@@ -155,7 +155,7 @@
     "dispersion": 50,
     "durability": 10,
     "blackpowder_tolerance": 24,
-    "default_mods": [ "match_trigger", "high_end_folding_stock", "muzzle_brake" ],
+    "default_mods": [ "match_trigger", "high_end_folding_stock" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "bore", 1 ],
@@ -164,6 +164,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ],
       [ "stock", 1 ]
     ],
     "flags": [ "NO_TURRET", "EASY_CLEAN" ],

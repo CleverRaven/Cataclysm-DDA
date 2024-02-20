@@ -1030,7 +1030,6 @@ class Character : public Creature, public visitable
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
-        bool is_runallfours() const;
         bool is_prone() const;
 
         int footstep_sound() const;
@@ -3672,6 +3671,9 @@ class Character : public Creature, public visitable
 
         /** Creates an auditory hallucination */
         void sound_hallu();
+
+        /** All nearby obstacles make a very quiet sound */
+        void echo_pulse();
 
         /** Checks if a Character is driving */
         bool is_driving() const;

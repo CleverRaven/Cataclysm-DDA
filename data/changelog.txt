@@ -194,6 +194,14 @@ JSONize Electrohack Tool
 Previously Innawoods-only stream mutables are now in the main game
 Added ASCII art for most containers
 Making Shadow Spawn Messages editable
+Adds new jewelry for black history month, such as cowrie necklaces and various types of hair beads.
+Mainlined the innawoods meadow mapgen
+Light vest disassembly now drops kevlar
+Add QUIETMOVES and SILENTMOVE flags, apply them to [Magiclysm] bugbears
+Add 7 new frog zombie varities and audit existing frog zombies
+Cinnamon for Deluxe Oatmeal
+Soldiers' rifles have more/various weapon mods
+readd heavy ballistic vest
 
 
 ## Interface:
@@ -344,6 +352,24 @@ Paraclesian Map extras
 [Xedra Evolved] Add Great Tree elemental eruption map special
 Aftershock: Add the Port Augustmoon Station
 Add WIP Limb Stuff Mod
+Replace global_val with context_val in Bombastic Perks documentation.
+[Magiclysm] Rebalance enchanted combat loot
+[Magiclysm] Reduce mana cost of some of the spells I've written
+[Magiclysm] Ogre revamp
+[Magiclysm] Greatly increase the number of (weak) spellbooks in people's homes
+Update Galvanic Aura to Concentration power and fix other errors
+[Magiclysm] Add wizard version of LMOE
+[Magiclysm] Add fantasy skin colors
+[Magiclysm] Even more spells
+[XEDRA] Adjust Magnetic Holster Values
+[Magiclysm] Add "of elvenkind" items
+[Magiclysm] Goblin encampment / orc village revamp + additions
+Fix Brackenwight special attack message
+[Sky Island] Take NPCs on/back from raids
+[MoM] Final 0.H Fixes 
+[Magiclysm] Add spells that allow you to gain the various +mana traits
+[Magiclysm] Last Mage on Earth start
+Tamable Wildlife: add Cougars to list of tameables
 
 
 ## Balance:
@@ -398,6 +424,10 @@ Hub14 no longer gives infinite pricey schematics
 Removed FANCY and SUPER_FANCY from a bunch of items
 Pianos can be fast-deconstructed and thus be moved as an item
 Obsolete trickle charger CBMs
+Bring ice axe in line with reality
+Audit remaining magazines (.223, 9mm, .308)
+Update books.json to rebalance religious book spawning
+Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
 
 
 ## Bugfixes:
@@ -512,6 +542,19 @@ Fix crash from reachability zones checking dead NPCs.
 Fixes issue where some CBMs could be taken off via forcing a pet to wear them
 You can use all kinds of ropes in all constructions now.
 Did you know we didn't have any hallucinations for a while? now they're back, baby!
+fix #71673, gives Chris’s body clothes.
+Sheet metal is Low Carbon Steel
+[Magiclysm] Fix Restoration duration
+Hint that you need to return to the Representative for the Exodii Recon Mission
+'A shadow?' is no longer a pinball.
+Fixes excessive shadow lieutenant warnings
+[Magiclysm] Add "spell_class": "KELVINIST" to Extinguish
+Fix 32 bit integer overflow in bionic power level calculations
+[Xedra Evolved] Fix Homullus fae ban
+Say which specials could not be placed.
+Fix assignment ID's with NECC mapgen EOCs.
+Allows Infrared vision to see through smoke
+[Magiclysm] Fix Peaceful Rest hobby
 
 
 ## Performance:
@@ -535,6 +578,7 @@ Optimize stationary vehicle performance when they contain a lot of items.
 Optimizing mostly item to reduce load-time allocation by over 20%
 Optimize creature vision checks.
 Optimize hot item function to save ~6.7% of game load time
+Skip MGOAL_Find_Item if the player is busy.
 
 
 ## Infrastructure:
@@ -579,6 +623,9 @@ Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
 Items warn on exceeding max volume, unify max volume as a game constant
 Migrate names to snippets & add weighted snippets
+Effect enchantments can now apply to monsters
+Make JSON formatter replace nbsp with escape sequence
+Update houses to utilize palettes
 
 
 ## Build:
@@ -593,6 +640,7 @@ Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
 Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
+CMake: Add LLVM build for Windows and other linker fixes
 
 
 ## I18N and A11Y:
