@@ -296,7 +296,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "using": [ [ "adhesive", 5 ] ],
-    "components": [ [ [ "nm_teeth", 40 ] ], [ [ "2x4", 1 ] ] ] 
+    "components": [ [ [ "nm_teeth", 40 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
