@@ -103,7 +103,7 @@ def parse_effect(effects, origin, comment=""):
                 for eoc in eoc_list:
                     if type(eoc) is dict and "id" in eoc:
                         parse_effect_on_condition(eoc, origin,
-                                                  comment="nested EOCs in {}"
+                                                  comment="nested EOC option in {}"
                                                   .format(comment))
                 for name in eff.get("names", []):
                     write_translation_or_var(name, origin,
