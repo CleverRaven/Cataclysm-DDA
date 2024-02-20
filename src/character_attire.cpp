@@ -1912,7 +1912,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
         if( !destroy ) {
             // if the armor location has ablative armor apply that first
             if( armor.is_ablative() ) {
-                guy.ablative_armor_absorb( elem, armor, sbp, 1 );
+                guy.ablative_armor_absorb( elem, armor, sbp, roll );
             }
 
             // if not already destroyed to an armor absorb
@@ -1945,9 +1945,6 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-// liquid_remaining corresponds roughly to ml, but by keeping it a little vague we can allow
-// contributors more freedom in adjusting balance or creating spells that work the way
-// they want.
 std::string outfit::get_liquid_descriptor( int liquid_remaining )
 {
     std::string liquid_descriptor = "some";

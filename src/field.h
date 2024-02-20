@@ -67,6 +67,7 @@ class field_entry
         std::string name() const {
             return type.obj().get_name( intensity - 1 );
         }
+        
         //Returns true if this is an active field, false if it should be removed.
         bool is_field_alive() const {
             return intensity > 0 && is_alive;
