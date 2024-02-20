@@ -478,7 +478,7 @@
   {
     "type": "mutation",
     "id": "perk_enchanting_master",
-    "name": { "str": "Enchating Master" },
+    "name": { "str": "Enchanting Master" },
     "points": 0,
     "description": "You can temporarily enchant your weapons with magic, imbuing them with powerful capabilities.",
     "category": [ "perk" ],
