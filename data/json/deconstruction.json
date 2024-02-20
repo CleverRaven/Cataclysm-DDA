@@ -42,6 +42,14 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "teeth_deconstruction_result",
+    "subtype": "collection",
+    "entries": [
+      { "item": "nm_teeth", "count": [ 30, 50 ] }
+    ]
+  },
+  {
     "type": "construction",
     "id": "constr_remove_window_empty",
     "group": "remove_empty_window",
@@ -1051,7 +1059,7 @@
     "required_skills": [ [ "survival", 4 ] ],
     "time": "90 m",
     "using": [ [ "nm_teeth_removal", 1 ] ],
-    "byproducts": { "item": "nm_teeth", "count": [ 30, 50 ] }, 
+    "byproducts": "teeth_deconstruction_result",
     "pre_terrain": "t_nm_wall_teeth",
     "post_terrain": "t_nm_wall_flesh"
   }

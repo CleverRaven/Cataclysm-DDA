@@ -881,7 +881,7 @@
   {
     "type": "GENERIC",
     "id": "teeth_macuahuitl",
-    "name": { "str": "teeth bladed macuahuitl" },
+    "name": { "str": "teeth-bladed macuahuitl" },
     "description": "A flat wooden club with impossibly-sharp teeth stuck to both sides.  Fragile yet very sharp.",
     "weight": "2000 g",
     "volume": "3800 ml",
