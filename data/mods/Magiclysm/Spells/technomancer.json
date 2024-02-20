@@ -688,8 +688,8 @@
     "description": "For the technomancer with no enhancements, this spell summons a power supply composed of pure mana that can be used to charge any compatible device.  It will continually recharge until the duration expires.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "spawn_item",
-    "effect_str": "technomancer_summoned_ups",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_CONJURE_UPS_SWITCHER",
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
     "difficulty": 7,
@@ -697,12 +697,44 @@
     "min_duration": 100000,
     "max_duration": 300000,
     "duration_increment": 10000,
-    "//": "The Power Supply provides 1 kj per second and regenerates 1 kj per second, so the duration is the total power supplied.  Cost below increases but not as fast as power does.",
     "energy_source": "MANA",
     "base_casting_time": 3000,
     "base_energy_cost": 300,
     "final_energy_cost": 450,
     "energy_increment": 7
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_SWITCHER",
+    "effect": [
+      {
+        "queue_eocs": "EOC_CONJURE_UPS_REMOVER",
+        "time_in_future": { "math": [ "(u_spell_level('technomancer_conjure_ups') * 100 ) + 1000" ] }
+      },
+      {
+        "switch": { "math": [ "u_spell_level('technomancer_conjure_ups')" ] },
+        "cases": [
+          { "case": 0, "effect": [ { "u_spawn_item": "technomancer_summoned_ups", "suppress_message": true } ] },
+          { "case": 4, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_2", "suppress_message": true } ] },
+          { "case": 8, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_3", "suppress_message": true } ] },
+          { "case": 12, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_4", "suppress_message": true } ] },
+          { "case": 16, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_5", "suppress_message": true } ] },
+          { "case": 20, "effect": [ { "u_spawn_item": "technomancer_summoned_ups_6", "suppress_message": true } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONJURE_UPS_REMOVER",
+    "effect": [
+      { "u_remove_item_with": "technomancer_summoned_ups" },
+      { "u_remove_item_with": "technomancer_summoned_ups_2" },
+      { "u_remove_item_with": "technomancer_summoned_ups_3" },
+      { "u_remove_item_with": "technomancer_summoned_ups_4" },
+      { "u_remove_item_with": "technomancer_summoned_ups_5" },
+      { "u_remove_item_with": "technomancer_summoned_ups_6" }
+    ]
   },
   {
     "id": "technomancer_welder",
@@ -765,5 +797,34 @@
     "energy_source": "MANA",
     "base_energy_cost": 350,
     "base_casting_time": 3000
+  },
+  {
+    "id": "technomancer_create_ups_connection",
+    "type": "SPELL",
+    "name": "Power Linkage",
+    "description": "Enchant an item so that it is capable of drawing power wirelessly through the air from a compatible power source.",
+    "valid_targets": [ "self" ],
+    "spell_class": "TECHNOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_TECHNOMANCER_POWER_LINKAGE",
+    "components": "spell_components_create_ups_connection",
+    "shape": "blast",
+    "difficulty": 6,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 600,
+    "base_casting_time": 720000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TECHNOMANCER_POWER_LINKAGE",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [ { "category": "tools" }, { "category": "tool_armor" } ],
+        "true_eocs": [ { "id": "EOC_TECHNOMANCER_POWER_LINKAGE_ITEM", "effect": [ { "npc_set_flag": "USE_UPS" } ] } ]
+      }
+    ]
   }
 ]

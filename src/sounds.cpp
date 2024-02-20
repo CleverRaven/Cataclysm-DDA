@@ -92,6 +92,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_HEARING_PROTECTION( "HEARING_PROTECTION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id material_bone( "bone" );
@@ -218,6 +219,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     switch ( data ) {
     case sounds::sound_t::background: return "background";
     case sounds::sound_t::weather: return "weather";
+    case sounds::sound_t::sensory: return "sensory";
     case sounds::sound_t::music: return "music";
     case sounds::sound_t::movement: return "movement";
     case sounds::sound_t::speech: return "speech";
@@ -288,6 +290,7 @@ static bool is_provocative( sounds::sound_t category )
     switch( category ) {
         case sounds::sound_t::background:
         case sounds::sound_t::weather:
+        case sounds::sound_t::sensory:
         case sounds::sound_t::music:
         case sounds::sound_t::activity:
         case sounds::sound_t::destructive_activity:
@@ -523,6 +526,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
                 return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
+            case sounds::sound_t::sensory:
             case sounds::sound_t::music:
             // detailed music descriptions are printed in iuse::play_music
             case sounds::sound_t::movement:
@@ -541,6 +545,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
         switch( category ) {
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
+            case sounds::sound_t::sensory:
             case sounds::sound_t::music:
             case sounds::sound_t::movement:
             case sounds::sound_t::activity:
@@ -578,9 +583,11 @@ void sounds::process_sound_markers( Character *you )
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
         // deafened players or players with sub-par hearing to begin with.
-        const int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
-                                volume_multiplier ) ) - distance_to_sound;
-
+        int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
+                                            volume_multiplier ) ) - distance_to_sound;
+        if( you->has_flag( json_flag_HEARING_PROTECTION ) ) {
+            felt_volume /= 2;
+        }
         // Deafening is based on the felt volume, as a player may be too deaf to
         // hear the deafening sound but still suffer additional hearing loss.
         const bool is_sound_deafening = rng( felt_volume / 2, felt_volume ) >= 150;
@@ -721,18 +728,35 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // Place footstep markers.
-        if( pos == you->pos() || you->sees( pos ) ) {
-            // If we are or can see the source, don't draw a marker.
+        if( pos == you->pos() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
+            // If we are or can see the source, don't draw a marker, except for sonar etc
             continue;
         }
 
         int err_offset;
+
         if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
-            err_offset = 3;
+            err_offset = rng( 0, 3 );
         } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
-            err_offset = 2;
+            err_offset = rng( 0, 2 );
         } else {
-            err_offset = 1;
+            err_offset = rng( 0, 1 );
+        }
+
+        // Echolocation has to be fairly precise or it's worse than useless.
+        // However, it is never perfect.
+        if( sound.category == sound_t::sensory ) {
+            if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
+                err_offset = rng( 0, 3 );
+            } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
+                err_offset = rng( 0, 2 );
+            } else {
+                if( one_in( 3 ) ) {
+                    err_offset = rng( 0, 1 );
+                } else {
+                    err_offset = 0;
+                }
+            }
         }
 
         // If Z-coordinate is different, draw even when you can see the source
@@ -740,9 +764,10 @@ void sounds::process_sound_markers( Character *you )
 
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
+        // Also show sensory sounds like SONAR even if we can see the point.
         std::vector<tripoint> unseen_points;
         for( const tripoint &newp : get_map().points_in_radius( pos, err_offset ) ) {
-            if( diff_z || !you->sees( newp ) ) {
+            if( diff_z || sound.category == sound_t::sensory || !you->sees( newp ) ) {
                 unseen_points.emplace_back( newp );
             }
         }

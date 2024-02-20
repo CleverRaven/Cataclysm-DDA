@@ -70,6 +70,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_ECHOLOCATION( "ECHOLOCATION" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
 static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
@@ -876,6 +877,9 @@ void Character::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
+    } else if( mut == trait_ECHOLOCATION ) {
+        echo_pulse();
+        deactivate_mutation( mut );
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
         // Check for adjacent trees.

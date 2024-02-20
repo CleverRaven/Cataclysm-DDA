@@ -325,7 +325,7 @@
     "id": "spell_endurance",
     "type": "SPELL",
     "name": "Endurance",
-    "description": "Take the blows.  Don’t let the world kill you.",
+    "description": "Take the blows.  Don't let the world kill you.",
     "teachable": false,
     "valid_targets": [ "self" ],
     "effect": "attack",

@@ -53,7 +53,7 @@
         ")": "t_wall_glass",
         "]": "t_door_glass_c"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 7, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 7, "y": 1 } ],
       "furniture": { "!": "f_region_flower" },
       "place_item": [
         { "item": "cig_butt", "repeat": 1, "x": 9, "y": 8 },
