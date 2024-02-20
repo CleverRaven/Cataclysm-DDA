@@ -8563,6 +8563,7 @@ float item::resist( const damage_type_id &dmg_type, const bool to_self,
     }
 
     if( !dmg_type.is_valid() ) {
+        debugmsg( "Invalid damage type: %d", dmg_type.c_str() );
         return 0.0f;
     }
 
@@ -8881,6 +8882,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     if( has_flag( flag_UNBREAKABLE ) ) {
         return armor_status::UNDAMAGED;
     }
+
     // We want armor's own resistance to this type, not the resistance it grants
     const float armors_own_resist = resist( du.type, true, bp );
     if( armors_own_resist > 1000.0f ) {
@@ -8896,7 +8898,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // This represents large articles being able to take more punishment
     // before becoming ineffective or being destroyed.
     int num_parts_covered = get_covered_body_parts().count();
-    // Acid has a higher chance of damaging equipment.
+    // Acid spreads out to cover the item, reducing the mitigation items receive from body parts covered.
     if( du.type->environmental && num_parts_covered > 2 ) {
         num_parts_covered = static_cast<int>( std::max( 2.0, num_parts_covered * 0.66 ) );
     }
@@ -8908,7 +8910,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const float post_mitigated_dmg = du.amount;
     // more gradual damage chance calc
-    float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
+    const float damaged_chance = 0.11 * ( post_mitigated_dmg / ( armors_own_resist + 2 ) ) + 0.1;
     if( post_mitigated_dmg > armors_own_resist ) {
         // handle overflow, if you take a lot of damage your armor should be damaged
         if( damaged_chance >= 1 ) {
