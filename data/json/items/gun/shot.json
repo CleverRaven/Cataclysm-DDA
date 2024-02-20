@@ -105,7 +105,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "compact bullpup shotgun" },
-    "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon’s trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm’s notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
+    "description": "This pump-action shotgun uses a system of twin magazines to carry 14 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
@@ -149,7 +149,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "extended bullpup shotgun" },
-    "description": "This pump-action shotgun uses a system of twin magazines to carry 24 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon’s trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm’s still only as long as conventional shotguns despite having a comparatively far higher capacity.",
+    "description": "This pump-action shotgun uses a system of twin magazines to carry 24 total rounds of 12-gauge shotgun shells.  Each tube must be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger is situated forwards of the chamber in what is termed as a 'bullpup' design, the firearm's still only as long as conventional shotguns despite having a comparatively far higher capacity.",
     "variant_type": "gun",
     "variants": [
       {
@@ -194,7 +194,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "6-round combat shotgun" },
-    "//": "Not exactly a combat shotgun, but I was hard-pressed to think of a name which wasn’t just, “6-round shotgun.” In its proper descriptions it's referenced as often being used by militaries, therefore I’m calling this a combat shotgun.",
+    "//": "Not exactly a combat shotgun, but I was hard-pressed to think of a name which wasn't just, \"6-round shotgun.\" In its proper descriptions it's referenced as often being used by militaries, therefore I'm calling this a combat shotgun.",
     "description": "The faithful friend of law-enforcement officers, military personnel, and zombie-hunting action heroes alike, this quaint firearm with its over 20 inch long barrel, 6-round magazine tube, and iconic pump-action design is as simple as it is effective.  One of the most popular firearm designs in all of history, this weapon can be reliably counted upon to do the job whether one's simply looking to hunt, or to, with the right loads, turn the heads of the living dead into a chunky zombie puree.",
     "variant_type": "gun",
     "variants": [
@@ -280,7 +280,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "8-round auto-loading shotgun" },
-    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that it's harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user’s own physical input.",
+    "description": "A semi-automatic smooth-bore shotgun, this weapon features respectable ergonomics and room for 8 shotshells within its tubular magazine.  Suitable both for competition shooting and offensive combat roles, this firearm is faster to shoot than a traditional pump-action model, with the caveat that it's harder to maintain than its manually operated siblings as it relies on an internal gas system to cycle rounds rather than the user's own physical input.",
     "variant_type": "gun",
     "variants": [
       {
@@ -389,7 +389,7 @@
     "//": "Tileset whitelist for shotguns.",
     "type": "GUN",
     "name": { "str": "5-round hunting shotgun" },
-    "description": "A classic shotgun in nearly every respect; big, bulky, and intimidating, guns such as this one have been made for over a century in one form or another, coming in both pump-action and semi-automatic models.  Serving both competition-shooting, law-enforcement, and hunting roles, this firearm is sporting a standard-capacity 5-round magazine tube.  Despite the firearm’s low magazine space, what it lacks in capacity it makes up for in sheer close-range effectiveness and stopping power.",
+    "description": "A classic shotgun in nearly every respect; big, bulky, and intimidating, guns such as this one have been made for over a century in one form or another, coming in both pump-action and semi-automatic models.  Serving both competition-shooting, law-enforcement, and hunting roles, this firearm is sporting a standard-capacity 5-round magazine tube.  Despite the firearm's low magazine space, what it lacks in capacity it makes up for in sheer close-range effectiveness and stopping power.",
     "variant_type": "gun",
     "variants": [
       {
@@ -411,7 +411,7 @@
       {
         "id": "ithaca37",
         "name": { "str": "Ithaca M37 Featherlight shotgun" },
-        "description": "A seasoned veteran of America’s sporting culture, the Ithaca M37 is the oldest pump-action shotgun still in active production.  The M37 has served hunters and officers for over eight decades, featuring a bottom-feeding and ejecting design that keeps the action sealed from the elements.  An heirloom that retains its utility all the way from pre-Cataclysm hunting expeditions up into the depths of alien environments, it would be wise to keep it handy, for close encounters."
+        "description": "A seasoned veteran of America's sporting culture, the Ithaca M37 is the oldest pump-action shotgun still in active production.  The M37 has served hunters and officers for over eight decades, featuring a bottom-feeding and ejecting design that keeps the action sealed from the elements.  An heirloom that retains its utility all the way from pre-Cataclysm hunting expeditions up into the depths of alien environments, it would be wise to keep it handy, for close encounters."
       }
     ],
     "ascii_picture": "remington870",
@@ -481,7 +481,7 @@
     "copy-from": "remington_870",
     "type": "GUN",
     "name": { "str": "7-round riot shotgun" },
-    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  Featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it’s a very versatile and reliable weapon.",
+    "description": "A brother of more typical hunting style shotguns, this particular model was most often seen utilised for self-defence or law-enforcement purposes.  Featuring a shortened 18.5 inch barrel and extended 7-round magazine tube, it's a very versatile and reliable weapon.",
     "variant_type": "gun",
     "variants": [
       {
@@ -696,7 +696,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "auto-loading bullpup shotgun" },
-    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon’s trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm’s notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
+    "description": "Looking more like some form of sci-fi prop gun than an actual firearm, this weapon uses a system of three different magazines to field 15 12-gauge shotgun shells within a comparatively compact design.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  As the weapon's trigger assembly is situated forwards of the chamber and magazines in what is termed as a 'bullpup' design, the firearm's notably more compact than its peers despite having a higher capacity when compared against more classically designed shotguns.",
     "variant_type": "gun",
     "variants": [
       {
@@ -783,7 +783,7 @@
     "copy-from": "shotgun_base",
     "type": "GUN",
     "name": { "str": "6-round trenchgun" },
-    "description": "Whether or not you ever wondered what would happen if one was to attach a shotgun atop a sword, the result of such an inquiry now rests before you in all its metallic glory.  Coming outfitted with a large 17 inch sword bayonet and a wooden heat shield to protect the user’s hands from the barrel when it heats up during firing, this pump-action shotgun practically drips menace and looks like it’s straight out of the trenches of World War I.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
+    "description": "Whether or not you ever wondered what would happen if one was to attach a shotgun atop a sword, the result of such an inquiry now rests before you in all its metallic glory.  Coming outfitted with a large 17 inch sword bayonet and a wooden heat shield to protect the user's hands from the barrel when it heats up during firing, this pump-action shotgun practically drips menace and looks like it's straight out of the trenches of World War I.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
     "variant_type": "gun",
     "variants": [
       {

@@ -165,7 +165,7 @@
   {
     "id": "magic_circle_rank_1",
     "type": "TOOL",
-    "name": { "str": "Magic Circle Rank 1", "str_pl": "Magic Circles Rank 2" },
+    "name": { "str": "Magic Circle Rank 1", "str_pl": "Magic Circles Rank 1" },
     "description": "This is the pseudo-tool provided by having a nearby magic circle.  You shouldn't see this as an individual item.",
     "symbol": "O",
     "color": "red",

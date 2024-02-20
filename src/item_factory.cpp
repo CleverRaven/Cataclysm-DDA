@@ -3568,7 +3568,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 31> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
@@ -3601,7 +3601,9 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_iflesh, flag_CARNIVORE_OK },
             { material_blood, flag_CARNIVORE_OK },
             { material_hblood, flag_CARNIVORE_OK },
-            { material_honey, flag_URSINE_HONEY }
+            { material_honey, flag_URSINE_HONEY },
+            { material_blood, flag_HEMOVORE_FUN },
+            { material_hblood, flag_HEMOVORE_FUN }
         }
     };
 

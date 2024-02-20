@@ -213,7 +213,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Purpose2",
     "type": "talk_topic",
-    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.\"\n\n[TRANSLATE:] \"English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are."
+    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we're lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.\"\n\n[TRANSLATE:] \"English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Purpose3",
@@ -228,12 +228,12 @@
   {
     "id": "TALK_EXODII_MERCHANT_Survival",
     "type": "talk_topic",
-    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much meat-an'-bone.\"\n\n[TRANSLATE:] \"English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone."
+    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won't take too much meat-an'-bone.\"\n\n[TRANSLATE:] \"English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Survival2",
     "type": "talk_topic",
-    "dynamic_line": "Haha, not mostly, mate.  Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid.\"\n\n[TRANSLATE:] \"Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid."
+    "dynamic_line": "Haha, not mostly, mate.  Not worth riskin' the willies, innit?  I keep what's Rubik, but the rest is all solid.\"\n\n[TRANSLATE:] \"Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Survival3",

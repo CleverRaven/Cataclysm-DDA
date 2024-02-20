@@ -954,7 +954,7 @@
   {
     "id": "animist_spirit_walking",
     "type": "SPELL",
-    "name": { "str": "Spirit-Walking" },
+    "name": { "str": "Body of Spirit" },
     "description": "Tranform your body to pure spirit, making you invisible and intangible.  You can move incredibly quickly while the spell is in effect and can pass by enemies unseen, but you will be unable to affect the physical world or cast spells.",
     "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
     "spell_class": "ANIMIST",
@@ -1007,5 +1007,39 @@
     "max_duration": 480000,
     "duration_increment": 30000,
     "base_casting_time": 250
+  },
+  {
+    "id": "animist_slow_food_rotting_spell",
+    "type": "SPELL",
+    "name": "Abjure Spirits of Rot",
+    "description": "Placing a warding on food or drink, preventing the spirits of decay from nesting within it.  The mage may affect as much food or drink as they can carry.  The principles by which this spell functions were not discovered until the 20th century, but some animists maintain that radiation is frightening to decay spirits.",
+    "valid_targets": [ "self" ],
+    "spell_class": "ANIMIST",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ANIMIST_SLOW_FOOD_ROTTING_SPELL",
+    "components": "spell_components_slow_food_rotting",
+    "shape": "blast",
+    "difficulty": 5,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 550,
+    "base_casting_time": 90000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ANIMIST_SLOW_FOOD_ROTTING_SPELL",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual_mult",
+        "search_data": [ { "category": "food" }, { "category": "drink" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_ANIMIST_SLOW_FOOD_ROTTING_SPELL_ITEM",
+            "effect": [ { "npc_set_flag": "IRRADIATED" }, { "npc_set_flag": "NO_PARASITES" } ]
+          }
+        ]
+      }
+    ]
   }
 ]

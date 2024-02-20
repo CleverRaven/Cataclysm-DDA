@@ -21,6 +21,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 
+static const flag_id json_flag_ECHOLOCATION_DETECTABLE( "ECHOLOCATION_DETECTABLE" );
 static const flag_id json_flag_SONAR_DETECTABLE( "SONAR_DETECTABLE" );
 
 static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
@@ -246,9 +247,18 @@ bool trap::is_trivial_to_spot() const
     return visibility <= 0 && !is_always_invisible();
 }
 
+// SONAR refers to ground-penetrating sonar and detects traps buried in the ground
 bool trap::detected_by_ground_sonar() const
 {
     return has_flag( json_flag_SONAR_DETECTABLE );
+}
+
+// Echolocation refers to both bat-style echolocation and underwater SONAR, and
+// detects traps which are solid and unburied objects, aboveground or underwater.
+// Isn't fine enough to detect very small traps ie caltrops
+bool trap::detected_by_echolocation() const
+{
+    return has_flag( json_flag_ECHOLOCATION_DETECTABLE );
 }
 
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const

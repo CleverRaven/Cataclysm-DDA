@@ -67,6 +67,25 @@
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
   },
   {
+    "id": "silver_circlet",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "silver circlet" },
+    "description": "A wooden band with silver trimmings to be worn on the head.  Touching your temples with it on makes you feel very calm.",
+    "weight": "700 g",
+    "volume": "600ml",
+    "price": 3000,
+    "price_postapoc": 200,
+    "material": [ "silver", "wood" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "warmth": 0,
+    "material_thickness": 1,
+    "flags": [ "BELTED" ],
+    "qualities": [ [ "MANA_FOCUS", 2 ] ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "head" ] } ]
+  },
+  {
     "id": "potion_starter",
     "copy-from": "mixed_alcohol_strong",
     "type": "COMESTIBLE",
