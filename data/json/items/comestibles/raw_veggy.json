@@ -1247,7 +1247,7 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "kombu",
-    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vit_anticoagulant_fucoidan", 180 ] ]
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ], [ "vit_anticoagulant_fucoidan", 90 ] ]
   },
   {
     "type": "COMESTIBLE",
