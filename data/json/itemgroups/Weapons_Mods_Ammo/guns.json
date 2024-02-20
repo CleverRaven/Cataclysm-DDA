@@ -2275,6 +2275,15 @@
   },
   {
     "type": "item_group",
+    "id": "police_pistols_damaged_extramags_holstered",
+    "//": "Holstered version, necessary for spawning correctly on zombie cop belts, the magazines 'spill' out into the mag pouches on the belt.",
+    "container-item": "holster",
+    "on_overflow": "spill",
+    "subtype": "collection",
+    "items": [ { "group": "police_pistols_damaged_extramags", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
     "id": "police_longarms",
     "//": "Rifles/Shotguns that US police would have",
     "subtype": "distribution",
