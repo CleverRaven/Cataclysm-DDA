@@ -183,7 +183,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1",
-    "dynamic_line": "Well, there's the downstairs section, we can't fit more people down there so it's out of bounds.  Then there's the second bay that we were using as a staging area at first.  Things went… wrong.  I hear the shopkeeper is offering a reward to clear it out, if you're feeling suicidal.",
+    "dynamic_line": {
+      "gendered_line": "Well, there's the downstairs section, we can't fit more people down there so it's out of bounds.  Then there's the second bay that we were using as a staging area at first.  Things went… wrong.  I hear the shopkeeper is offering a reward to clear it out, if you're feeling suicidal.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "What went wrong with your staging area?", "topic": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong" } ]
   },
   {
@@ -203,7 +206,10 @@
   {
     "id": "TALK_FREE_MERCHANT_STOCKS_RANCH",
     "type": "talk_topic",
-    "dynamic_line": "I'm so glad we've got that up and running.  One of the people evacuated here had a connection to a functioning ranch, and we got him and a crew out there as quickly as we were able.  We're hoping they'll be able to supply us in enough foodstuffs to make this place self-sufficient and even to trade with other communities as they arise."
+    "dynamic_line": {
+      "gendered_line": "I'm so glad we've got that up and running.  One of the people evacuated here had a connection to a functioning ranch, and we got him and a crew out there as quickly as we were able.  We're hoping they'll be able to supply us in enough foodstuffs to make this place self-sufficient and even to trade with other communities as they arise.",
+      "relevant_genders": [ "npc" ]
+    }
   },
   {
     "id": "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1",

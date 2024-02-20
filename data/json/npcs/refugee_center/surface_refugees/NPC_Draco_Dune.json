@@ -80,7 +80,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": "Always good to see you, friend.",
+      "yes": { "gendered_line": "Always good to see you, friend.", "relevant_genders": [ "u" ] },
       "no": "Well now, good to see another new face!  Welcome to the center, friend, I'm Draco."
     },
     "speaker_effect": {
@@ -97,7 +97,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1a",
-    "dynamic_line": "Always good to see you, friend.",
+    "dynamic_line": { "gendered_line": "Always good to see you, friend.", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Hi, Draco, how are you doing?",
@@ -262,7 +262,10 @@
       "type": "general",
       "context": "mission",
       "value": "yes",
-      "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
+      "yes": {
+        "gendered_line": "My savior!  My patron of the arts!  You're always welcome here, friend.",
+        "relevant_genders": [ "u" ]
+      },
       "no": "Man, just imagine what I could do with a new guitar."
     },
     "speaker_effect": { "effect": { "math": [ "u_general_meeting_Draco_Dune_convo_depth", "=", "7" ] } },
@@ -315,7 +318,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_10_question",
-    "dynamic_line": "Where you say you're from again?  You're not as worldly as you look.  I'm talking about weed.  Marijuana.  Wondered if you've happened upon any.",
+    "dynamic_line": {
+      "gendered_line": "Where you say you're from again?  You're not as worldly as you look.  I'm talking about weed.  Marijuana.  Wondered if you've happened upon any.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Oh.  Uh, sure.", "topic": "TALK_REFUGEE_Draco_10_approve" },
       {
@@ -434,7 +440,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_10_sold",
-    "dynamic_line": "Sold!  Thanks for helping me out, friend.",
+    "dynamic_line": { "gendered_line": "Sold!  Thanks for helping me out, friend.", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "No problem, Draco.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "You're welcome.  Later.", "topic": "TALK_DONE" }
@@ -443,7 +449,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_Dance",
-    "dynamic_line": "Sure thing, friend!  Let's see how you can move to this one.",
+    "dynamic_line": { "gendered_line": "Sure thing, friend!  Let's see how you can move to this one.", "relevant_genders": [ "u" ] },
     "responses": [
       { "text": "Just a sec, got somethig I need to do first.", "topic": "TALK_DONE" },
       {
@@ -503,7 +509,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_Dance_3",
-    "dynamic_line": "Oh my, am I dealing with a professional dancer here?  Sweet moves, friend.",
+    "dynamic_line": {
+      "gendered_line": "Oh my, am I dealing with a professional dancer here?  Sweet moves, friend.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
   },
   {
@@ -515,7 +524,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_Dance_5",
-    "dynamic_line": "Daym.  You're probably the best dancer I've ever had the honor of meeting.  Well done.  Well done indeed.",
+    "dynamic_line": {
+      "gendered_line": "Daym.  You're probably the best dancer I've ever had the honor of meeting.  Well done.  Well done indeed.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Thanks!", "topic": "TALK_REFUGEE_Draco_7" }, { "text": "Cheers!  Later.", "topic": "TALK_DONE" } ]
   },
   {

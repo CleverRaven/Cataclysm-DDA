@@ -6061,7 +6061,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "nylon", 6 ] ] ]
+    "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
   },
   {
     "result": "towel",

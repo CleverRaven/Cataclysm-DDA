@@ -581,7 +581,6 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
     update_player_vehicle( who );
 
     who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
-    who.omt_path.clear();
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
     }
@@ -3096,7 +3095,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_zero );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms( tripoint_zero ) );
 
     JsonObject data = jsin.get_object();
 

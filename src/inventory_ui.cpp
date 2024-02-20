@@ -776,7 +776,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     } else if( cell_index != 0 ) {
         return replace_colors( cells[cell_index].title );
     } else {
-        return entry.get_category_ptr()->name();
+        return entry.get_category_ptr()->name_header();
     }
 }
 
@@ -1677,9 +1677,14 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                // Print from right rather than trim_and_print to avoid improper positioning of wide characters
-                right_print( win, yy, 1, c_red, trim_by_length( selected ? hilite_string( colorize( denial,
-                             c_red ) ) : denial, denial_width ) );
+                /* Need to determine exact point to start printing from the left, since just trimming produces
+                 * artifacts on languages with wide characters, and right_print expects only a second column */
+                std::string trimmed = trim_by_length( denial, denial_width );
+                const int x = p.x + get_width() - utf8_width( remove_color_tags( trimmed ) );
+                nc_color temp = c_red;
+                print_colored_text( win, point( x, yy ), temp, c_red,
+                                    selected ? hilite_string( colorize( trimmed, c_red ) ) : trimmed );
+                entry.cached_denial_space = denial_width;
             }
         }
 
@@ -1791,7 +1796,7 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( id, no_translation( name ), 0 )
+    selected_cat( id, no_translation( name ), translation(), 0 )
 {
     hide_entries_override = { false };
 }
@@ -1881,9 +1886,9 @@ const item_category *inventory_selector::naturalize_category( const item_categor
             return existing;
         }
 
-        const std::string name = string_format( "%s %s", category.name(), suffix.c_str() );
+        const std::string name = string_format( "%s %s", category.name_header(), suffix.c_str() );
         const int sort_rank = category.sort_rank() + dist;
-        const item_category new_category( id, no_translation( name ), sort_rank );
+        const item_category new_category( id, no_translation( name ), translation(), sort_rank );
 
         categories.push_back( new_category );
     } else {
@@ -2094,7 +2099,7 @@ void inventory_selector::add_map_items( const tripoint &target )
     if( here.accessible_items( target ) ) {
         map_stack items = here.i_at( target );
         const std::string name = to_upper_case( here.name( target ) );
-        const item_category map_cat( name, no_translation( name ), 100 );
+        const item_category map_cat( name, no_translation( name ), translation(), 100 );
         _add_map_items( target, map_cat, items, [target]( item & it ) {
             return item_location( map_cursor( target ), &it );
         } );
@@ -2110,7 +2115,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle_part &vp = ovp->part();
     vehicle_stack items = ovp->items();
     const std::string name = to_upper_case( remove_color_tags( vp.name() ) );
-    const item_category vehicle_cat( name, no_translation( name ), 200 );
+    const item_category vehicle_cat( name, no_translation( name ), translation(), 200 );
     const vehicle_cursor cursor( ovp->vehicle(), ovp->part_index() );
     _add_map_items( target, vehicle_cat, items, [&cursor]( item & it ) {
         return item_location( cursor, &it );
@@ -2158,7 +2163,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
 {
     map_stack items = remote_map->i_at( target );
     const std::string name = to_upper_case( remote_map->name( target ) );
-    const item_category map_cat( name, no_translation( name ), 100 );
+    const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
         return item_location( map_cursor( target ), &it );
     } );
@@ -3148,7 +3153,7 @@ void inventory_selector::_uncategorize( inventory_column &col )
         const item_category *custom_category = nullptr;
         if( ancestor.where() != item_location::type::character ) {
             const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
-            const item_category map_cat( name, no_translation( name ), 100 );
+            const item_category map_cat( name, no_translation( name ), translation(), 100 );
             custom_category = naturalize_category( map_cat, ancestor.position() );
         } else {
             custom_category = wielded_worn_category( ancestor, u );
@@ -3613,10 +3618,9 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         if( !denial.empty() ) {
             const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
                                           + colorize( denial, c_red );
-            query_popup()
-            .message( "%s", assembled )
-            .option( "QUIT" )
-            .query();
+            if( static_cast<size_t>( utf8_width( denial ) ) > highlighted_entry.cached_denial_space ) {
+                popup( assembled, PF_GET_KEY );
+            }
         }
         count = 0;
         return;

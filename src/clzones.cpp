@@ -437,7 +437,7 @@ std::string unload_options::get_zone_name_suggestion() const
     return string_format( "%s%s%s%s%s", _( "Unload: " ),
                           mods ? _( "mods, " ) : "",
                           molle ? _( "MOLLE, " ) : "",
-                          sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
+                          sparse_only ? string_format( _( "ignore stacks over %i, " ), sparse_threshold ) : "",
                           always_unload ? _( "unload all" ) : _( "unload unmatched" ) );
 }
 
@@ -485,7 +485,7 @@ std::vector<std::pair<std::string, std::string>> unload_options::get_description
                           string_format( "%s%s%s%s",
                                          mods ? _( "mods " ) : "",
                                          molle ? _( "MOLLE " ) : "",
-                                         sparse_only ? _( string_format( "ignore stacks over %i, ", sparse_threshold ) ) : "",
+                                         sparse_only ? string_format( _( "ignore stacks over %i, " ), sparse_threshold ) : "",
                                          always_unload ? _( "unload all" ) : _( "unload unmatched" ) ) );
 
     return options;

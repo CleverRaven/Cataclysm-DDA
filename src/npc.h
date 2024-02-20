@@ -21,6 +21,7 @@
 
 #include "activity_type.h"
 #include "auto_pickup.h"
+#include "basecamp.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
@@ -1176,7 +1177,9 @@ class npc : public Character
          * @param force If there is no valid path, empty the current path.
          * @returns If it updated the path.
          */
+        // TODO: Remove untyped version.
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
+        bool update_path( const tripoint_bub_ms &p, bool no_bashing = false, bool force = true );
         void set_guard_pos( const tripoint_abs_ms &p );
         bool can_open_door( const tripoint &p, bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
@@ -1308,7 +1311,7 @@ class npc : public Character
         // #############   VALUES   ################
         activity_id current_activity_id = activity_id::NULL_ID();
         npc_class_id myclass; // What's our archetype?
-        npc_class_id idz; // actual npc template used
+        string_id<npc_template> idz; // actual npc template used
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
         std::optional<tripoint_abs_omt> assigned_camp = std::nullopt;
@@ -1316,6 +1319,8 @@ class npc : public Character
         // accessors to ai_cache functions
         const std::vector<weak_ptr_fast<Creature>> &get_cached_friends() const;
         std::optional<int> closest_enemy_to_friendly_distance() const;
+
+        const dialogue_chatbin_snippets &chat_snippets() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1441,7 +1446,9 @@ class npc : public Character
         bool prevent_death_reminder = false; // NOLINT(cata-serialize)
 
         bool sees_dangerous_field( const tripoint &p ) const;
+        // TODO: Remove untyped version.
         bool could_move_onto( const tripoint &p ) const;
+        bool could_move_onto( const tripoint_bub_ms &p ) const;
 
         std::vector<sphere> find_dangerous_explosives() const;
 
@@ -1467,6 +1474,7 @@ class npc_template
         npc_template() = default;
 
         npc guy;
+        dialogue_chatbin_snippets snippets;
         translation name_unique;
         translation name_suffix;
         enum class gender : int {

@@ -72,6 +72,7 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_electric( "electric" );
 static const damage_type_id damage_heat( "heat" );
 
+static const efftype_id effect_all_fours( "all_fours" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -431,7 +432,8 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     if( ch != nullptr ) {
-        if( ch->is_crouching() || ch->is_prone() || pos().z != critter.pos().z ) {
+        if( ch->is_crouching() || ch->has_effect( effect_all_fours ) || ch->is_prone() ||
+            pos().z != critter.pos().z ) {
             const int coverage = std::max( here.obstacle_coverage( pos(), critter.pos() ),
                                            here.ledge_coverage( *this, critter.pos() ) );
             if( coverage < 30 ) {
@@ -459,7 +461,7 @@ bool Creature::sees( const Creature &critter ) const
             }
 
             int profile = 120 / size_modifier;
-            if( ch->is_crouching() ) {
+            if( ch->is_crouching() || ch->has_effect( effect_all_fours ) ) {
                 profile *= 0.5;
             } else if( ch->is_prone() ) {
                 profile *= 0.275;
@@ -1541,10 +1543,11 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     }
 
     // Filter out bodypart immunity
-    for( json_character_flag flag : eff_id->immune_bp_flags )
+    for( json_character_flag flag : eff_id->immune_bp_flags ) {
         if( bp->has_flag( flag ) ) {
             return;
         }
+    }
 
     // Then check if the effect is blocked by another
     for( auto &elem : *effects ) {
