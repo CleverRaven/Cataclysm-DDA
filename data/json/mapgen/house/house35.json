@@ -13,9 +13,9 @@
         ".#D+  @@|÷+ h *````````.",
         ".#||d   | |E T##oo##```.",
         ".#D|||+|| |||||O152#```.",
-        ".#+| +     II|F'''3#```.",
-        "!# d ||+|     J'''7#*##.",
-        "!o   |S'|H  E ''''6|~~#.",
+        ".#+| +     II|F___3#```.",
+        "!# d ||+|     J___7#*##.",
+        "!o   |S'|H  E ____6|~~#.",
         "!#@@ |t'|H     hfh |ANo!",
         ".#¤  |BB|H     hfh |~N#!",
         ".#|||||||sHH       +~~o!",
@@ -47,7 +47,8 @@
         "G": "t_thconc_floor",
         "y": "t_thconc_floor",
         "q": "t_thconc_floor",
-        "'": "t_linoleum_gray"
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 0 } ],
       "place_loot": [
