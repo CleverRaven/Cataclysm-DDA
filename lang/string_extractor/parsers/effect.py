@@ -100,6 +100,8 @@ def parse_effect(effects, origin, comment=""):
                 parse_effect_variables(eff["variables"], origin, comment)
             if "run_eoc_selector" in eff:
                 eoc_list = eff["run_eoc_selector"]
+                if type(eoc_list) is not list:
+                    eoc_list = [eoc_list]
                 for eoc in eoc_list:
                     if type(eoc) is dict and "id" in eoc:
                         parse_effect_on_condition(eoc, origin,
