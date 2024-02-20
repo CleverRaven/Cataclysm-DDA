@@ -22,7 +22,7 @@
     "id": "conserved_damage",
     "name": [ "Conserved Damage" ],
     "desc": [
-      "Your weapon has stored the excess force from a previous killing blow, and will apply it as bonus damage to your next attack. The energy will slowly fade over time, however."
+      "Your weapon has stored the excess force from a previous killing blow, and will apply it as bonus damage to your next attack.  The energy will slowly fade over time, however."
     ],
     "apply_message": "You feel a surge of power coming into your weapon.",
     "max_intensity": 100,

@@ -100,7 +100,7 @@
             "if": { "math": [ "n_item_ench_trigger_count", "<=", "0" ] },
             "then": [
               { "run_eocs": "EOC_enchanting_master_remove_ench" },
-              { "message": "Your weapon loses power. Its glow fading into darkness.", "type": "warning" }
+              { "message": "Your weapon loses power.  Its glow fading into darkness.", "type": "warning" }
             ],
             "else": {
               "if": { "math": [ "n_item_ench_trigger_count", "==", "floor(n_item_ench_total_trigger_count * 3 / 4)" ] },
