@@ -45,9 +45,7 @@
     "type": "item_group",
     "id": "teeth_deconstruction_result",
     "subtype": "collection",
-    "entries": [
-      { "item": "nm_teeth", "count": [ 30, 50 ] }
-    ]
+    "entries": [ { "item": "nm_teeth", "count": [ 30, 50 ] } ]
   },
   {
     "type": "construction",
