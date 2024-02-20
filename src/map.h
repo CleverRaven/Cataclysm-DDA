@@ -1091,7 +1091,6 @@ class map
         bool is_divable( const point &p ) const {
             return is_divable( tripoint( p, abs_sub.z() ) );
         }
-
         bool is_water_shallow_current( const tripoint &p ) const;
         bool is_water_shallow_current( const point &p ) const {
             return is_water_shallow_current( tripoint( p, abs_sub.z() ) );

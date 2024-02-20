@@ -509,6 +509,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
     const int dur_moves = sp.duration( caster );
     const int effect_intensity = sp.effect_intensity( caster );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
+
     creature_tracker &creatures = get_creature_tracker();
     Creature *const critter = creatures.creature_at<Creature>( target );
     Character *const guy = creatures.creature_at<Character>( target );
@@ -520,6 +521,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
                 if( sp.has_flag( spell_flag::LIQUID ) ) {
                     splash_target( target, sp, caster );
                     bodypart_effected = true;
+                    return;
                 } else {
                     guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ), effect_intensity );
                     bodypart_effected = true;
