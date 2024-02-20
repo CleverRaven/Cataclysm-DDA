@@ -92,7 +92,6 @@ readability-*,\
 -readability-avoid-unconditional-preprocessor-if,\
 -readability-container-data-pointer,\
 -readability-convert-member-functions-to-static,\
--readability-duplicate-include,\
 -readability-else-after-return,\
 -readability-function-cognitive-complexity,\
 -readability-identifier-length,\

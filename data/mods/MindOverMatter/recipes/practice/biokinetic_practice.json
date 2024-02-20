@@ -304,7 +304,7 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Flexibility power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Burst of Speed power.",
                 "popup": true
               },
               { "math": [ "u_spell_level('biokin_dash')", "=", "1" ] },
@@ -535,7 +535,7 @@
             },
             "effect": [
               {
-                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Hardened Skin power.",
+                "u_message": "As you meditate, all the pieces suddenly come together.  You've unlocked the Adrenaline Trigger power.",
                 "popup": true
               },
               { "math": [ "u_spell_level('biokin_adrenaline')", "=", "1" ] },

@@ -122,7 +122,6 @@
       "armor": { "cut": 22, "stab": 30, "acid": 3, "bullet": 30 }
     },
     "special_attacks": [ [ "FUNGUS", 200 ] ],
-    "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "moldy_bones",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "armor": { "bash": 0, "electric": 5 }
@@ -140,7 +139,7 @@
     "relative": { "melee_dice": 1, "melee_dice_sides": 5, "melee_damage": 2, "armor": { "bash": 4, "cut": 6, "bullet": 5 } },
     "special_attacks": [ [ "SMASH", 30 ], [ "FUNGUS", 200 ] ],
     "extend": {
-      "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH", "HARDTOSHOOT" ],
+      "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ],
       "weakpoint_sets": [ "wps_bone_armor" ],
       "families": [ "prof_wp_skeleton" ]
     },
@@ -180,19 +179,7 @@
     "death_drops": "mon_zombie_hulk_death_drops",
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "burn_into": "mon_zombie_fiend",
-    "flags": [
-      "HEARS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "DESTROYS",
-      "POISON",
-      "NO_BREATHE",
-      "PUSH_MON",
-      "PUSH_VEH",
-      "HARDTOSHOOT",
-      "FILTHY"
-    ],
+    "flags": [ "HEARS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FILTHY" ],
     "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8 }
   },
   {
@@ -273,7 +260,7 @@
     "id": "mon_fungal_wretch",
     "type": "MONSTER",
     "name": { "str": "fungal wretch", "str_pl": "fungal wretches" },
-    "description": "This severely deformed child lies on its back, its ribs exposed to the sky.  With its limbs contorted in ways only possible through a lack of bones, the child’s ribcage stretches far beyond the boundaries of human biology, appearing akin to a bony hive coated in quivering fungal matter.  Spores occasionally waft from its hollowed interior, and, periodically, you can catch sight of weak movement within the abomination’s guts.",
+    "description": "This severely deformed child lies on its back, its ribs exposed to the sky.  With its limbs contorted in ways only possible through a lack of bones, the child's ribcage stretches far beyond the boundaries of human biology, appearing akin to a bony hive coated in quivering fungal matter.  Spores occasionally waft from its hollowed interior, and, periodically, you can catch sight of weak movement within the abomination's guts.",
     "default_faction": "fungus",
     "bodytype": "blob",
     "species": [ "FUNGUS" ],
@@ -302,7 +289,7 @@
         "type": "spell",
         "spell_data": { "id": "wretch_fungal_raptor_spawn", "hit_self": true },
         "cooldown": 50,
-        "monster_message": "Through a plume of fungal spores, a small beast struggles to take flight from the wretch’s abdomen!"
+        "monster_message": "Through a plume of fungal spores, a small beast struggles to take flight from the wretch's abdomen!"
       }
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },

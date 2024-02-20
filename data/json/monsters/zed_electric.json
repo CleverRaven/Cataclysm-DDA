@@ -106,7 +106,7 @@
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 2,
+    "diff": 20,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 200,
@@ -132,7 +132,7 @@
     "emit_fields": [ { "emit_id": "emit_shock_cloud", "delay": "1 s" } ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "default_zombie_death_drops",
-    "flags": [ "SEES", "HEARS", "WARM", "POISON", "ELECTRIC", "NO_BREATHE", "REVIVES", "ELECTRIC_FIELD", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "POISON", "ELECTRIC", "NO_BREATHE", "REVIVES", "ELECTRIC_FIELD", "FILTHY" ]
   },
   {
     "id": "mon_zombie_static",
@@ -158,7 +158,6 @@
     "//grab": "Basic zombie level, the later versions lose grab in favor of lightning",
     "grab_strength": 20,
     "special_attacks": [ { "id": "grab" } ],
-    "dodge": 2,
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_electromagnetics" ],
     "luminance": 4,

@@ -644,5 +644,39 @@
     "energy_source": "MANA",
     "base_energy_cost": 350,
     "base_casting_time": 300
+  },
+  {
+    "id": "magus_diamond_imbuement",
+    "type": "SPELL",
+    "name": "Diamond Imbuement",
+    "description": "Magically infuse a melee weapon with the hardness and resilience of a diamond as well as its industrial cutting capability, making it supremely sharp and durable.  However, like a diamond, any damage the weapon suffers afterwards cannot be repaired.",
+    "valid_targets": [ "self" ],
+    "spell_class": "MAGUS",
+    "flags": [ "CONCENTRATE", "VERBAL", "NO_HANDS" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_MAGUS_DIAMOND_IMBUEMENT",
+    "components": "spell_components_diamond_imbuement",
+    "shape": "blast",
+    "difficulty": 8,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 900,
+    "base_casting_time": 180000
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MAGUS_DIAMOND_IMBUEMENT",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [ { "category": "weapons" } ],
+        "true_eocs": [
+          {
+            "id": "EOC_MAGUS_DIAMOND_IMBUEMENT_ITEM",
+            "effect": [ { "npc_set_flag": "DIAMOND" }, { "npc_set_flag": "DURABLE_MELEE" }, { "npc_set_flag": "NO_REPAIR" } ]
+          }
+        ]
+      }
+    ]
   }
 ]

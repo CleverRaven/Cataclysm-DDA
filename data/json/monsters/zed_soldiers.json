@@ -356,10 +356,10 @@
     "id": "mon_zombie_sailor",
     "type": "MONSTER",
     "name": { "str": "zombie mariner" },
-    "description": "Still dressed in the ragged remains of deep blue naval fatigues, it’s clear that this walking corpse was once a sailor of some description.  The US Navy’s insignia is embroidered on the shredded sleeve and shoulder of its bloodied jacket, the dead crewman’s battered cap is beaten into the remains of its fractured skull and its inky black eyes are scanning the area around it as dark ooze drips from its limply hanging maw.",
+    "description": "Still dressed in the ragged remains of deep blue naval fatigues, it's clear that this walking corpse was once a sailor of some description.  The US Navy's insignia is embroidered on the shredded sleeve and shoulder of its bloodied jacket, the dead crewman's battered cap is beaten into the remains of its fractured skull and its inky black eyes are scanning the area around it as dark ooze drips from its limply hanging maw.",
     "copy-from": "mon_zombie_milbase_personnel",
     "looks_like": "mon_zombie_soldier",
-    "//": "no provision for body armour or helmets in either the weak point set or dissection set, as Navy sailors aren’t normally dressed in military combat gear whilst shipside.",
+    "//": "no provision for body armour or helmets in either the weak point set or dissection set, as Navy sailors aren't normally dressed in military combat gear whilst shipside.",
     "death_drops": "mon_zombie_sailor_death_drops",
     "armor": { "electric": 2, "bash": 2, "cut": 2, "bullet": 2 }
   },
@@ -412,7 +412,7 @@
     "type": "MONSTER",
     "copy-from": "mon_zombie_marine",
     "name": { "str": "bestial stalker" },
-    "description": "Lumbering about on all fours, this mutated beast’s dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split, and the brute's teeth have extended into spikes of bone.  The Marine insignias on the remains of the creature’s pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
+    "description": "Lumbering about on all fours, this mutated beast's dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split, and the brute's teeth have extended into spikes of bone.  The Marine insignias on the remains of the creature's pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
     "delete": { "categories": [ "CLASSIC" ] },
     "volume": "140 L",
     "weight": "120 kg",
@@ -436,7 +436,7 @@
     "copy-from": "mon_zombie_marine_upgrade",
     "looks_like": "mon_zombie_marine_upgrade",
     "//": "This is a variation which will drop default military equipment, rather than specific naval uniforms and gear.",
-    "description": "Lumbering about on all fours, this mutated beast’s dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split, and the brute's teeth have extended into spikes of bone.  The military insignias on the remains of the creature’s pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
+    "description": "Lumbering about on all fours, this mutated beast's dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split, and the brute's teeth have extended into spikes of bone.  The military insignias on the remains of the creature's pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
     "death_drops": "mon_zombie_soldier_death_drops"
   },
   {

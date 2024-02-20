@@ -1299,6 +1299,8 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         }
         add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
+        // Enchantments based on move modes can stack inappropriately without a recalc here
+        recalculate_enchantment_cache();
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
         recoil = MAX_RECOIL;

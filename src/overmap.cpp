@@ -1463,6 +1463,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                             om.build_connection(
                                 nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
                                 must_be_unexplored, initial_dir );
+                            break;
                         }
                     }
                 }
@@ -6844,7 +6845,22 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             point_abs_om new_om_addr = random_entry( nearest_candidates );
             overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
-            add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
+            std::string msg =
+                "The following specials could not be placed, some missions may fail to initialize: ";
+            int n = 0;
+            for( auto iter = custom_overmap_specials.begin(); iter != custom_overmap_specials.end(); ) {
+                if( iter->instances_placed < iter->special_details->get_constraints().occurrences.min ) {
+                    msg.append( iter->special_details->id.c_str() ).append( ", " );
+                    n++;
+                }
+                ++iter;
+            }
+            if( n > 0 ) {
+                msg = msg.substr( 0, msg.length() - 2 );
+            } else {
+                msg = msg.append( "<unknown>" );
+            }
+            add_msg( _( msg ) );
         }
     }
     // Then fill in non-mandatory specials.
