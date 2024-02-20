@@ -4184,7 +4184,6 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
 {
     map &here = get_map();
     
-    const furn_id furn = here.furn( target );
     if( here.has_furn( target ) ) {
         const furn_id furn = here.furn( target );
         
