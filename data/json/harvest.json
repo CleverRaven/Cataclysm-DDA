@@ -408,11 +408,6 @@
     "entries": [ { "drop": "sea_lettuce", "base_num": [ 1 ] } ]
   },
   {
-    "id": "sea_sponge_harv",
-    "type": "harvest",
-    "entries": [ { "drop": "sea_sponge", "base_num": [ 1 ] } ]
-  },
-  {
     "id": "fish_tiny",
     "type": "harvest",
     "entries": [
