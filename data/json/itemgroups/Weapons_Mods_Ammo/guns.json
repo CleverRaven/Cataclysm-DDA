@@ -2025,7 +2025,17 @@
     "id": "police_carbines",
     "//": "Carbines that US police would have",
     "subtype": "distribution",
-    "entries": [ { "group": "modular_ar15", "prob": 50, "charges": [ 0, 30 ], "contents-group": "police_carbine_mods" } ]
+    "entries": [ { "group": "modular_ar15", "prob": 100, "charges": [ 30, 30 ], "contents-group": "police_carbine_mods" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_carbines_damaged_extramags",
+    "//": "Carbines that US police would have, worn down and with used magazines",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_carbines", "prob": 100, "charges": [ 0, 30 ], "damage": [ 0, 3 ], "dirt": [ 0, 1000 ] },
+      { "group": "field_ar15_223" }
+    ]
   },
   {
     "type": "item_group",
