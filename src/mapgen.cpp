@@ -6308,7 +6308,8 @@ void map::draw_slimepit( const mapgendata &dat )
 
 void map::place_spawns( const mongroup_id &group, const int chance,
                         const point &p1, const point &p2, const float density,
-                        const bool individual, const bool friendly, const std::string &name, const int mission_id )
+                        const bool individual, const bool friendly, const std::optional<std::string> &name,
+                        const int mission_id )
 {
     if( !group.is_valid() ) {
         const tripoint_abs_omt omt = project_to<coords::omt>( get_abs_sub() );
