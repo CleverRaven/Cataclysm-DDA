@@ -1194,7 +1194,7 @@
     "material": [ "veggy" ],
     "volume": "30 ml",
     "flags": [ "SMOKABLE", "INEDIBLE" ],
-    "smoking_result": "dried_seaweed"
+    "smoking_result": "dry_seaweed"
   },
   {
     "type": "COMESTIBLE",
@@ -1209,7 +1209,7 @@
     "material": [ "veggy" ],
     "volume": "600 ml",
     "flags": [ "SMOKABLE", "INEDIBLE" ],
-    "smoking_result": "dried_seaweed_pile"
+    "smoking_result": "dry_seaweed_pile"
   },
   {
     "type": "COMESTIBLE",
@@ -1265,7 +1265,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
-    "smoking_result": "dried_bladderwrack",
+    "smoking_result": "dry_veggy",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ] ]
   }
 ]

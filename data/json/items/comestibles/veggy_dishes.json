@@ -1581,7 +1581,7 @@
     "price_postapoc": 10,
     "material": [ "veggy" ],
     "volume": "25 ml",
-    "flags": [ "FREEZERBURN", "INEDIBLE" ],
+    "flags": [ "INEDIBLE" ],
     "smoking_result": "kombu",
     "vitamins": [ [ "calcium", 3 ], [ "iron", 3 ], [ "vitC", 1 ] ]
   },
@@ -1600,7 +1600,6 @@
     "price_postapoc": 10,
     "material": [ "veggy" ],
     "volume": "25 ml",
-    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dried_bladderwrack",
     "vitamins": [ [ "calcium", 2 ], [ "iron", 4 ], [ "vitC", 1 ] ]
   },

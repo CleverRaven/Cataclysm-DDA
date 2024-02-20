@@ -316,6 +316,123 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
+    "result": "kombu",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "20 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 7, "LIST" ] ] ],
+    "components": [
+      [
+        [ "kelp_sugar", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "kombu",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "22 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 7, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [
+        [ "kelp_sugar", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_seaweed_pile",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "120 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 100, "LIST" ] ] ],
+    "components": [
+      [
+        [ "seaweed", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_seaweed_pile",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "160 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 100, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [
+        [ "seaweed", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_seaweed",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "6 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 5, "LIST" ] ] ],
+    "components": [
+      [
+        [ "seaweed", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dry_seaweed",
+    "charges": 1,
+    "category": "CC_FOOD",
+    "id_suffix": "frozen_ingredients",
+    "subcategory": "CSC_FOOD_DRY",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "8 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "tools": [ [ [ "dehydrating_heat", 5, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [
+        [ "seaweed", 1 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
     "result": "dry_veggy",
     "charges": 1,
     "category": "CC_FOOD",
