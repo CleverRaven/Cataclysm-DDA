@@ -86,12 +86,7 @@
         "{......................{",
         "{{{{{{{{{{{{{{{{{{{{{{{{"
       ],
-      "terrain": {
-        "{": "t_chainfence",
-        ")": "t_chaingate_c",
-        "=": "t_carpet_purple",
-        "`": "t_carpet_yellow"
-      },
+      "terrain": { "{": "t_chainfence", ")": "t_chaingate_c", "=": "t_carpet_purple", "`": "t_carpet_yellow" },
       "furniture": { "(": "f_rack", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 50 }, "(": { "item": "clothing_outdoor_shoes", "chance": 50 } },
       "place_loot": [ { "item": "television", "x": 14, "y": 6 } ]
