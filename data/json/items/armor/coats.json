@@ -1624,7 +1624,7 @@
       {
         "id": "black_white_varsity_jacket",
         "name": { "str": "black and white varsity jacket" },
-        "description": "This one is is black except the white arms, and has no discerning emblem or writing.",
+        "description": "This one is black except for its white arms, and has no discerning emblem or writing.",
         "color": "white",
         "weight": 10,
         "append": true
@@ -1696,7 +1696,7 @@
       {
         "id": "pink_white_varsity_jacket",
         "name": { "str": "pink and white varsity jacket" },
-        "description": "This one has a pink torso and white arms.  Somone has sewn an equally pink heart on its front right.",
+        "description": "This one has a pink torso and white arms.  Someone has sewn an equally pink heart on its front right.",
         "color": "pink",
         "weight": 10,
         "append": true
