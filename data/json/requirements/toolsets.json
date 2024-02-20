@@ -500,5 +500,13 @@
     "id": "metal_file_any",
     "type": "requirement",
     "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ] ]
+  },
+  {
+    "id": "nm_teeth_removal",
+    "type": "requirement",
+    "//": "Something able to do fine cuts, allowing to extract small teeth without damaging them",
+    "//2": "The comment called for adequate protection. When a way to check for that without writing down and keeping updated a list of anything that can protect the arms in the requirements, add arm protection requirement",
+    "//3": "Can instead add arm damage risk, mitigated by skill and reduced by armor, when such a thing becomes possible",
+    "qualities": [ { "id": "CUT_FINE", "level": 2 } ]
   }
 ]

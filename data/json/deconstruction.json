@@ -1041,5 +1041,18 @@
     "byproducts": [ { "item": "brick", "count": [ 25, 30 ] } ],
     "pre_terrain": "f_fireplace",
     "post_terrain": "f_null"
+  },
+  {
+    "type": "construction",
+    "id": "constr_extract_teeth",
+    "group": "remove_wall",
+    "//": "Extract some impossibly-sharp teeth for later use.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 4 ] ],
+    "time": "90 m",
+    "using": [ [ "nm_teeth_removal", 1 ] ],
+    "byproducts": { "item": "nm_teeth", "count": [ 30, 50 ] }, 
+    "pre_terrain": "t_nm_wall_teeth",
+    "post_terrain": "t_nm_wall_flesh"
   }
 ]
