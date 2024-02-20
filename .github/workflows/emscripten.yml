@@ -37,6 +37,8 @@ jobs:
   build_catatclysm:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      CCACHE: 1
 
     steps:
     - uses: actions/checkout@v4
