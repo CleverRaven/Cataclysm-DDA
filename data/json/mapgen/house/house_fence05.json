@@ -130,7 +130,7 @@
         ".,,,,...................",
         "........................"
       ],
-      "terrain": {  ",": "t_shingle_flat_roof", ".": "t_open_air" },
+      "terrain": { ",": "t_shingle_flat_roof", ".": "t_open_air" },
       "furniture": { "!": "f_clothing_rail", "$": "f_table" },
       "items": {
         "$": { "item": "table_foyer", "chance": 50 },
