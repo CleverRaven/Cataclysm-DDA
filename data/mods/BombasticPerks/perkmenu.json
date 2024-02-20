@@ -826,7 +826,11 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_enchanting_master", "target_var": { "context_val": "trait_id" } },
-          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" }, "i18n": true },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
