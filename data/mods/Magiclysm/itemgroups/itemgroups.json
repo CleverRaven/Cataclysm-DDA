@@ -612,6 +612,7 @@
       { "group": "spellbook_loot_2", "prob": 20 },
       { "group": "enchanted_misc", "prob": 5 },
       { "group": "enchanted_cloaks_rare", "prob": 10 },
+      { "group": "items_of_elvenkind", "prob": 5 },
       { "item": "denarius", "prob": 40, "count-min": 27, "count-max": 98 }
     ]
   },
@@ -1197,7 +1198,8 @@
           { "item": "magus_spellbook_move", "prob": 25 },
           { "item": "magus_spellbook", "prob": 25 },
           { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
-          { "item": "spell_scroll_magus_haste", "prob": 50 }
+          { "item": "spell_scroll_magus_haste", "prob": 50 },
+          { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 }
         ],
         "prob": 10
       },
@@ -1238,7 +1240,8 @@
           { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
           { "item": "spell_scroll_recover_pain", "prob": 50 },
           { "item": "spell_scroll_animist_spirit_walking", "prob": 40 },
-          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 }
+          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 },
+          { "item": "spell_scroll_animist_slow_food_rotting_spell", "prob": 50 }
         ],
         "prob": 10
       },
@@ -1273,7 +1276,8 @@
           { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
           { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 },
           { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 },
-          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 }
+          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_heat_food", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1338,7 +1342,8 @@
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
           { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
           { "item": "spell_scroll_technomancer_welder", "prob": 35 },
-          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 }
+          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 },
+          { "item": "spell_scroll_technomancer_create_ups_connection", "prob": 25 }
         ],
         "prob": 35
       },
@@ -1371,7 +1376,8 @@
           { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 },
           { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
           { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 }
+          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 25 }
         ],
         "prob": 45
       },
@@ -1491,6 +1497,7 @@
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "plant_spellbook", "prob": 10 },
+          { "group": "items_of_elvenkind", "prob": 5 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
@@ -1724,6 +1731,17 @@
       { "item": "gold_small", "prob": 20, "count": [ 120, 390 ] },
       { "item": "denarius", "prob": 20, "count": [ 20, 90 ] },
       { "item": "silver_small", "prob": 5, "count": [ 68, 560 ] }
+    ]
+  },
+  {
+    "id": "items_of_elvenkind",
+    "type": "item_group",
+    "//": "all the elven items.",
+    "subtype": "collection",
+    "items": [
+      { "item": "cloak_of_elvenkind", "prob": 10 },
+      { "item": "boots_of_elvenkind", "prob": 10 },
+      { "item": "bow_of_elvenkind", "prob": 1 }
     ]
   },
   {

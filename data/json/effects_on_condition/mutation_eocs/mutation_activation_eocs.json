@@ -10,7 +10,7 @@
     "condition": {
       "and": [
         { "expects_vars": [ "prep_time", "spell_to_cast", "message_success", "message_fail" ] },
-        { "math": [ "u_val('stamina')", ">", "_energy_amount" ] }
+        { "math": [ "u_val('stamina')", ">", "energy_amount" ] }
       ]
     },
     "effect": [
@@ -39,8 +39,8 @@
         "variables": {
           "prep_time": "3",
           "spell_to_cast": "spell_spit_flare",
-          "message_success": "You launch a glob of bioluminescent material!",
-          "message_fail": "Your body is too starved to activate your bioluminescent flare."
+          "message_success": { "i18n": true, "str": "You launch a glob of bioluminescent material!" },
+          "message_fail": { "i18n": true, "str": "Your body is too starved to activate your bioluminescent flare." }
         }
       }
     ]
@@ -54,8 +54,8 @@
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "spell_slime_spray",
-          "message_success": "You spit out some goo onto your enemies!",
-          "message_fail": "Your body is too starved to activate your slime spray."
+          "message_success": { "i18n": true, "str": "You spit out some goo onto your enemies!" },
+          "message_fail": { "i18n": true, "str": "Your body is too starved to activate your slime spray." }
         }
       }
     ]
@@ -70,8 +70,11 @@
           "energy_amount": "2000",
           "prep_time": "1",
           "spell_to_cast": "spell_feline_leap",
-          "message_success": "You squat down, build up tension in your legs, waggling your tail, then release, launching yourself quite a distance.",
-          "message_fail": "Your legs are too tired to perform a jump."
+          "message_success": {
+            "i18n": true,
+            "str": "You squat down, build up tension in your legs, waggling your tail, then release, launching yourself quite a distance."
+          },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
         }
       }
     ]
@@ -86,8 +89,11 @@
           "energy_amount": "2000",
           "prep_time": "2",
           "spell_to_cast": "spell_short_leap",
-          "message_success": "You squat down, build up tension in your legs and release, launching yourself quite a distance.",
-          "message_fail": "Your legs are too tired to perform a jump."
+          "message_success": {
+            "i18n": true,
+            "str": "You squat down, build up tension in your legs and release, launching yourself quite a distance."
+          },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
         }
       }
     ]
@@ -102,8 +108,8 @@
           "energy_amount": "6000",
           "prep_time": "3",
           "spell_to_cast": "spell_crushing_leap",
-          "message_success": "You squat down, build up tension in your legs and release.  Death from above.",
-          "message_fail": "Your legs are too tired to perform a jump."
+          "message_success": { "i18n": true, "str": "You squat down, build up tension in your legs and release.  Death from above." },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
         }
       }
     ]
@@ -118,8 +124,11 @@
           "energy_amount": "2500",
           "prep_time": "1",
           "spell_to_cast": "spell_avian_leap",
-          "message_success": "You jump at your target with your talons up front, attempting to deal devastating damage to your target.",
-          "message_fail": "Your legs are too tired to perform a jump."
+          "message_success": {
+            "i18n": true,
+            "str": "You jump at your target with your talons up front, attempting to deal devastating damage to your target."
+          },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
         }
       }
     ]

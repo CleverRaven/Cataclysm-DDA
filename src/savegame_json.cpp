@@ -5047,7 +5047,8 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int faction_id = spawn_entry.next_int();
             int mission_id = spawn_entry.next_int();
             bool friendly = spawn_entry.next_bool();
-            std::string name = spawn_entry.next_string();
+            std::optional<std::string> name = std::nullopt;
+            spawn_entry.read_next( name );
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }

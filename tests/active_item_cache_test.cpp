@@ -35,7 +35,7 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             REQUIRE( here.get_submaps_with_active_items().find( abs_loc ) !=
                      here.get_submaps_with_active_items().end() );
             REQUIRE_FALSE( here.i_at( tripoint{ x, y, z } ).empty() );
-            here.i_clear( { x, y, z } );
+            here.i_clear( tripoint_bub_ms{ x, y, z } );
             here.process_items();
         }
     }

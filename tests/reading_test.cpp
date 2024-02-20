@@ -6,7 +6,6 @@
 
 #include "avatar.h"
 #include "activity_actor_definitions.h"
-#include "activity_actor_definitions.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"

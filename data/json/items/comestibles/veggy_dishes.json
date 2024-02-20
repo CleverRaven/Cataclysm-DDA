@@ -692,7 +692,7 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4,
+    "fun": 2,
     "vitamins": [ [ "vitC", 4 ], [ "calcium", 2 ], [ "iron", 1 ] ]
   },
   {
@@ -704,10 +704,10 @@
     "spoils_in": "2 days",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 76,
+    "calories": 86,
     "description": "Grilled glazed carrots, topped with some aromatic herbs.  Simply divine.",
     "price": 250,
-    "price_postapoc": 50,
+    "price_postapoc": 60,
     "material": [ "veggy" ],
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
@@ -1565,5 +1565,24 @@
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "FREEZERBURN" ] },
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "onion_sauteed",
+    "name": { "str_sp": "sauteed onions" },
+    "weight": "129 g",
+    "color": "brown",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 334,
+    "description": "Onions cooked up in oil and spices, often used as a topping or side in dishes.",
+    "price": 400,
+    "price_postapoc": 250,
+    "material": [ "veggy", "oil" ],
+    "volume": "200 ml",
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
+    "fun": 6,
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
   }
 ]

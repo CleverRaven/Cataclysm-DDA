@@ -815,6 +815,7 @@
     "name": { "str": "Enhanced Hearing" },
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
+    "mutation_conflicts": [ "BATEARS" ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
     "active_flags": [ "SUPER_HEARING" ],
     "auto_deactivates": [ "bio_earplugs" ],
@@ -1599,6 +1600,18 @@
     "occupied_bodyparts": [ [ "eyes", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "hand_l", 1 ], [ "hand_r", 1 ] ],
     "flags": [ "BIONIC_NPC_USABLE" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
+  },
+  {
+    "id": "bio_sonar",
+    "type": "bionic",
+    "name": { "str": "Subaquatic Navigation System" },
+    "description": "While active, a tiny device in your inner ear periodically generates ultrasonic pulses which aid in navigation, provided you are underwater and able to hear.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "act_cost": "1 J",
+    "trigger_cost": "5 J",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_BIO_SONAR_activated" ],
+    "deactivated_eocs": [ "EOC_BIO_SONAR_deactivated" ]
   },
   {
     "id": "bio_taser",

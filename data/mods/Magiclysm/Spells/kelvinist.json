@@ -707,5 +707,38 @@
     "sound_type": "combat",
     "sound_id": "fire_spell",
     "sound_description": "a crackle!"
+  },
+  {
+    "id": "kelvinist_heat_food",
+    "type": "SPELL",
+    "name": "Baking Hands",
+    "description": "With the tiniest amount of heat, unfreeze an item of food or drink and heat it up to a comfortable temperature.",
+    "valid_targets": [ "self" ],
+    "spell_class": "KELVINIST",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_KELVINIST_HEAT_FOOD_SPELL",
+    "components": "spell_components_baking_hands",
+    "shape": "blast",
+    "difficulty": 1,
+    "max_level": 15,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "final_energy_cost": 50,
+    "energy_increment": -10,
+    "base_casting_time": 750
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_KELVINIST_HEAT_FOOD_SPELL",
+    "effect": [
+      {
+        "u_run_inv_eocs": "manual",
+        "search_data": [ { "category": "food" }, { "category": "drink" } ],
+        "true_eocs": [
+          { "id": "EOC_KELVINIST_HEAT_FOOD_SPELL_ITEM", "effect": [ { "npc_set_flag": "HOT" }, { "npc_unset_flag": "FROZEN" } ] }
+        ]
+      }
+    ]
   }
 ]
