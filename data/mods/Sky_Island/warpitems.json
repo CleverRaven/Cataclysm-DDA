@@ -253,7 +253,7 @@
     "id": "warpcorpsebag",
     "name": { "str": "warped butcher's harness", "str_pl": "warped butcher's harnesses" },
     "copy-from": "warpbag_base",
-    "description": "A looped set of shimmering blue-black straps that can be worn over the shoulders like a harness.  They're cold to the touch, and would preserve a corpse indefinitely. It outright refuses to be packed inside of other bags.",
+    "description": "A looped set of shimmering blue-black straps that can be worn over the shoulders like a harness.  They're cold to the touch, and would preserve a corpse indefinitely.  It outright refuses to be packed inside of other bags.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
