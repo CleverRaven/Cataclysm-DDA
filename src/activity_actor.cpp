@@ -4183,9 +4183,11 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsi
 void harvest_activity_actor::start( player_activity &act, Character &who )
 {
     map &here = get_map();
+    
     const furn_id furn = here.furn( target );
     if( here.has_furn( target ) ) {
         const furn_id furn = here.furn( target );
+        
         if( furn->has_examine( iexamine::harvest_furn ) ) {
             if( furn->has_flag( ter_furn_flag::TFLAG_HARVEST_REQ_CUT1 ) && who.max_quality( qual_CUT ) < 1 ) {
                 if( !auto_forage ) {
