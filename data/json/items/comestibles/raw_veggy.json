@@ -1259,7 +1259,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 17,
-    "description": "A leafy bunch of seaweed covered in air bladders.  While the effect is minor, it's a known anticoagulant and may prolong bleeding if consumed in large quantities.",
+    "description": "A leafy bunch of seaweed covered in air bladders.  Many claims are made about its health benefits, but at least as a foodstuff, it's no better or worse than other edible seaweed.",
     "price": 10,
     "price_postapoc": 10,
     "material": [ "veggy" ],
