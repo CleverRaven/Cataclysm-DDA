@@ -650,7 +650,7 @@ ifeq ($(NATIVE), emscripten)
   CXXFLAGS += $(EMCC_COMMON_FLAGS)
   LDFLAGS += $(EMCC_COMMON_FLAGS)
 
-  LDFLAGS += --preload-file web_bundle@/
+  LDFLAGS += -sFORCE_FILESYSTEM
   LDFLAGS += -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
   LDFLAGS += -sINITIAL_MEMORY=512MB
   LDFLAGS += -sMAXIMUM_MEMORY=4GB
