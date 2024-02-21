@@ -173,6 +173,34 @@
   },
   {
     "type": "item_group",
+    "id": "explode_gasbag",
+    "subtype": "collection",
+    "entries": [
+      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 3, 7 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "explode_innards",
+    "subtype": "collection",
+    "entries": [
+      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 8, 15 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 8, 15 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 3, 8 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 12, 24 ] },
+      { "item": "sinew", "prob": 100, "damage": [ 2, 3 ], "count": [ 8, 15 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "explode_toad",
     "subtype": "collection",
     "entries": [
