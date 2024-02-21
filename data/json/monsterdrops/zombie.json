@@ -138,6 +138,7 @@
     "entries": [
       { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 2, 5 ] },
       { "item": "corpse_ash", "count": [ 25, 35 ] },
+      { "item": "skull_human_tainted", "prob": 40, "damage": [ 1, 3 ] },
       { "item": "bone_tainted", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 3 ] }
     ]
   },
@@ -147,6 +148,9 @@
     "subtype": "collection",
     "entries": [
       { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 2, 4 ] },
+      { "item": "skull_human_tainted", "prob": 60, "damage": [ 2, 3 ] },
+      { "item": "arm_zed", "prob": 30, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 30, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
       { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
       { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
       { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
@@ -162,6 +166,9 @@
     "subtype": "collection",
     "entries": [
       { "group": "default_zombie_death_drops", "prob": 100, "damage": [ 2, 4 ] },
+      { "item": "skull_human_tainted", "prob": 60, "damage": [ 2, 3 ] },
+      { "item": "arm_zed", "prob": 20, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 20, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
       { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
       { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
       { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
@@ -176,6 +183,8 @@
     "id": "explode_gasbag",
     "subtype": "collection",
     "entries": [
+      { "item": "arm_zed", "prob": 10, "damage": [ 2, 3 ] },
+      { "item": "leg_zed", "prob": 10, "damage": [ 2, 3 ] },
       { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
       { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 3, 7 ] },
       { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 3 ] },
@@ -204,6 +213,8 @@
     "id": "explode_toad",
     "subtype": "collection",
     "entries": [
+      { "item": "arm_zed", "prob": 60, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
       { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
       { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
       { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
