@@ -8603,7 +8603,7 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
                      const std::vector<const part_material *> &armor_mats,
                      const float avg_thickness ) const
 {
-    if( dmg_type->environmental ) {
+    if( dmg_type->env ) {
         return _environmental_resist( dmg_type, to_self, resist_value, bp_null, armor_mats );
     }
 
@@ -8914,7 +8914,7 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // before becoming ineffective or being destroyed.
     int num_parts_covered = get_covered_body_parts().count();
     // Acid spreads out to cover the surface of the item, ignoring this mitigation.
-    if( !one_in( num_parts_covered ) && !du.type->environmental ) {
+    if( !one_in( num_parts_covered ) && !du.type->env ) {
         return armor_status::UNDAMAGED;
     }
 
