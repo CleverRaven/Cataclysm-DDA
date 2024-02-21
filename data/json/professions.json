@@ -2450,7 +2450,7 @@
     "id": "detective",
     "name": "Police Detective",
     "requirement": "achievement_reach_police_station",
-    "description": "You were on the brink of a major breakthrough in your latest homicide case when the Cataclysm struck.  Now your prime suspect is dead.  Everyone's dead.  You could really use a smoke.",
+    "description": "You used to be a homicide detective, a job that grew overwhelming across your PD’s end when slaughter cases had become as numerous as the cigarettes you'd resorted to smoking to stave off the exhaustion and stress.  Now, after being assigned to assist with local evacuations and the government collapsing, all you have left is your crumpled work clothes and a badge that no longer means anything.  You solved murders, but with billions dead, this is beyond your pay grade.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
@@ -2459,8 +2459,7 @@
         "entries": [
           { "item": "dress_shirt" },
           { "item": "tie_skinny" },
-          { "item": "waistcoat" },
-          { "item": "trenchcoat" },
+          { "item": "duster" },
           { "item": "police_belt" },
           { "item": "badge_detective" },
           { "item": "gloves_leather" },
@@ -2469,13 +2468,13 @@
           { "item": "wristwatch" },
           { "item": "socks" },
           { "item": "dress_shoes" },
-          { "item": "cig" },
+          { "group": "charged_cigs" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "group": "charged_ref_lighter" },
           { "item": "pants", "variant": "pants_stone" },
-          { "group": "speedloaders_s&w619_magnum" },
-          { "item": "sw_619", "ammo-item": "357mag_fmj", "charges": 7, "container-item": "holster" }
+          { "group": "police_mags_glock17" },
+          { "item": "glock_17", "ammo-item": "9mm", "charges": 17, "container-item": "shoulder_holster" }
         ]
       },
       "male": { "entries": [ { "item": "briefs" } ] },
