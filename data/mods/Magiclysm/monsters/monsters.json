@@ -58,7 +58,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "harvest": "exempt",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
-    "dissect": "dissect_slime_sample_small",
+    "dissect": "dissect_slime_sample_single",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "special_attacks": [
       {
@@ -402,7 +402,7 @@
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "stirge",
-    "dissect": "dissect_stirge_sample_single",
+    "dissect": "dissect_stirge_sample_small",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]

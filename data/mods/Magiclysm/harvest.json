@@ -451,12 +451,6 @@
     "entries": [ { "drop": "sojourners_flower", "base_num": [ 1, 5 ] } ]
   },
   {
-    "id": "dissect_owlbear_sample_small",
-    "type": "harvest",
-    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "alpha_sample_single", "type": "mutagen_group" } ]
-  },
-  {
     "id": "dissect_owlbear_sample_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
@@ -484,7 +478,7 @@
      ]
   },
   {
-    "id": "dissect_stirge_sample_smalll",
+    "id": "dissect_stirge_sample_small",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
     "entries": [ 
