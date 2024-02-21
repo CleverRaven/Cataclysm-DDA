@@ -43,9 +43,6 @@ jobs:
 
     - uses: mymindstorm/setup-emsdk@v13
 
-    - name: Prepare web data
-      run: ./build-scripts/prepare-web-data.sh
-
     - name: Build with emcc (emscripten)
       run: ./build-scripts/build-emscripten.sh
 
