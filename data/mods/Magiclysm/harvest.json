@@ -487,7 +487,7 @@
     "id": "dissect_stirge_sample_smalll",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ 
+    "entries": [
       { "drop": "insect_sample_single", "type": "mutagen_group" },
       { "drop": "chiropteran_sample_single", "type": "mutagen_group" }
     ]
