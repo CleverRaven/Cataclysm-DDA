@@ -1859,6 +1859,16 @@ class vehicle
          * @param dst Future vehicle position, used for calculating cable length when shed_cables == trinary::SOME.
          */
         void shed_loose_parts( trinary shed_cables = trinary::NONE, const tripoint_bub_ms *dst = nullptr );
+        /**
+         * Disconnect cables attached to the specified mount point.
+         * @param mount The mount point to detach cables from.
+         * @param remover The character disconnecting the cables.
+         * @param unlink_items If extension cord and device items should be unlinked.
+         * @param unlink_tow_cables If tow cables should be unlinked.
+         * @param unlink_power_cords If power grid cables (power_cord) should be unlinked.
+         */
+        void unlink_cables( const point &mount, Character &remover, bool unlink_items = false,
+                            bool unlink_tow_cables = false, bool unlink_power_cords = false );
 
         /**
          * @name Vehicle turrets
