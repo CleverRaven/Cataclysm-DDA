@@ -1322,16 +1322,20 @@ ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove, bool allow
         return ret_val<void>::make_success(); // non-structure parts don't have extra requirements
     }
 
-    // structure parts can only be removed when no non-structure parts are on tile
+    // structure parts can only be removed when no non-structure/non-cable parts are on tile
+    bool cable_here = false;
     for( const int elem : parts_here ) {
         const vehicle_part &vp_here = parts[elem];
-        if( vp_here.info().location != part_location_structure ) {
+        bool vp_is_cable = vp_here.info().has_flag( VPFLAG_POWER_TRANSFER ) ||
+                           vp_here.info().has_flag( "TOW_CABLE" );
+        cable_here = cable_here || vp_is_cable;
+        if( vp_here.info().location != part_location_structure && !vp_is_cable ) {
             return ret_val<void>::make_failure( _( "Remove all other attached parts first." ) );
         }
     }
 
-    // reaching here means only structure parts left on this tile
-    if( parts_here.size() > 1 ) {
+    // reaching here means only structure parts and/or cables left on this tile
+    if( parts_here.size() > 1 && !cable_here ) {
         return ret_val<void>::make_success(); // wrecks can have more than one structure part, so it's valid for removal
     }
 

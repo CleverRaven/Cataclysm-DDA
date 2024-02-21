@@ -3364,7 +3364,6 @@ void veh_interact::complete_vehicle( Character &you )
 
             // Remove any leftover power cords from the appliance
             if( appliance_removal && veh.part_count() >= 2 ) {
-                veh.shed_loose_parts( trinary::ALL );
                 veh.find_and_split_vehicles( here, { vp_index } );
                 veh.part_removal_cleanup();
                 here.rebuild_vehicle_level_caches();
@@ -3379,17 +3378,25 @@ void veh_interact::complete_vehicle( Character &you )
                 you.activity.set_to_null();
             }
 
+            const point part_mount = vp->mount;
+            const tripoint part_pos = veh.global_part_pos3( *vp );
+
+            vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_BATTERY );
+            veh.unlink_cables( part_mount, you,
+                               false, /* unneeded as items will be unlinked if the connected part is removed */
+                               appliance_removal || vpi.location == "structure",
+                               appliance_removal || vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_BATTERY ) );
+
             if( veh.part_count_real() <= 1 ) {
                 you.add_msg_if_player( _( "You completely dismantle the %s." ), veh.name );
                 you.activity.set_to_null();
                 // destroy vehicle clears the cache
                 here.destroy_vehicle( &veh );
             } else if( vp ) {
-                const tripoint part_pos = veh.global_part_pos3( *vp );
                 veh.remove_part( *vp );
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh.part_removal_cleanup();
-                if( veh.parts_at_relative( vp->mount, true ).empty() ) {
+                if( veh.parts_at_relative( part_mount, true ).empty() ) {
                     get_map().clear_vehicle_point_from_cache( &veh, part_pos );
                 }
             }
