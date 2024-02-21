@@ -61,9 +61,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_RAD_IMMUNITY_INITIATE",
-    "condition": {
-      "and": [ { "not": { "u_has_item": "photokinetic_rad_aura" } }, { "not": { "u_has_effect": "effect_photokin_light_barrier" } } ]
-    },
+    "condition": { "not": { "u_has_effect": "effect_photokin_light_barrier" } },
     "effect": [
       { "u_message": "The air around you shimmers as an invisible barrier of light forms around you.", "type": "good" },
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
@@ -91,16 +89,12 @@
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_REMOVE_RAD_IMMUNITY",
     "condition": { "u_has_effect": "effect_photokin_light_barrier" },
-    "effect": [
-      { "u_remove_item_with": "photokinetic_rad_aura" },
-      { "u_lose_effect": "effect_photokin_light_barrier" },
-      { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" }
-    ]
+    "effect": [ { "u_lose_effect": "effect_photokin_light_barrier" }, { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PHOTOKIN_RAD_IMMUNITY_DRAIN",
-    "condition": { "or": [ { "u_has_item": "photokinetic_rad_aura" }, { "u_has_effect": "effect_photokin_light_barrier" } ] },
+    "condition": { "u_has_effect": "effect_photokin_light_barrier" },
     "effect": [
       { "u_cast_spell": { "id": "psionic_maintenance_drained_difficulty_three", "hit_self": true } },
       { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(3)" ] },

@@ -635,6 +635,10 @@ endif
 ifeq ($(NATIVE), emscripten)
   CXX=emcc
   LD=emcc
+  ifeq ($(CCACHE), 1)
+    CXX=$(CCACHEBIN) emcc
+    LD=$(CCACHEBIN) emcc
+  endif
 
   # Flags that are common across compile and link phases.
   EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=['png']

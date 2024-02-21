@@ -376,6 +376,7 @@ boomin
 boonie
 booo
 booorrrring
+boop
 bootable
 bootup
 boozeberry
@@ -515,6 +516,7 @@ cere
 cerium
 cervine
 cestus
+ch
 chachalaca
 chainmail
 chambering
@@ -537,6 +539,7 @@ chestpiece
 chestplate
 chestplates
 chestwrap
+chhk
 chicharrones
 chickenbot
 chickenwire
@@ -551,6 +554,8 @@ chitin
 chitinous
 chitinworking
 chk
+chkch
+chkchh
 chlorination
 cholla
 chonker
@@ -2307,6 +2312,7 @@ pictograms
 pictographic
 pidgeon
 piezomechanical
+pii
 pileus
 pinita
 pinnata
@@ -3104,6 +3110,7 @@ themm
 therizinosaurus
 thermochemistry
 thermoplastics
+thermoreceptors
 theropod
 thescelosaurus
 thicknesses

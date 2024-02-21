@@ -206,7 +206,8 @@
         "H": [
           { "item": "magic_shop_clothes", "chance": 5 },
           { "item": "enchanted_small_items", "chance": 10 },
-          { "item": "magic_shop_books", "chance": 10 }
+          { "item": "magic_shop_books", "chance": 10 },
+          { "item": "spellbook_mana_upgrades", "chance": 1 }
         ],
         "`": [
           { "item": "alchemy_items", "chance": 35, "repeat": [ 1, 2 ] },
@@ -261,7 +262,11 @@
       "furniture": { "&": "f_magic_bench" },
       "items": {
         "&": [ { "item": "magic_tools_and_loot", "chance": 35, "repeat": [ 1, 2 ] }, { "item": "magic_shop_potions", "chance": 30 } ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "dragon_books", "chance": 10 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "item": "dragon_books", "chance": 10 },
+          { "item": "spellbook_mana_upgrades", "chance": 5 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
@@ -303,7 +308,11 @@
       "furniture": { "&": "f_magic_bench" },
       "items": {
         "&": [ { "item": "magic_tools_and_loot", "chance": 35 }, { "item": "magic_shop_potions", "chance": 30 } ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "dragon_books", "chance": 10 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "item": "dragon_books", "chance": 10 },
+          { "item": "spellbook_mana_upgrades", "chance": 5 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
@@ -393,11 +402,16 @@
       "items": {
         "r": [
           { "item": "magic_shop_books", "chance": 20 },
+          { "item": "spellbook_mana_upgrades", "chance": 5 },
           { "item": "magic_shop_wands", "chance": 10 },
           { "item": "enchanted_small_items", "chance": 5 },
           { "item": "enchanted_combat_items", "chance": 2 }
         ],
-        "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "dragon_books", "chance": 30 } ]
+        "R": [
+          { "item": "magic_shop_books", "chance": 30 },
+          { "item": "spellbook_mana_upgrades", "chance": 5 },
+          { "item": "dragon_books", "chance": 30 }
+        ]
       },
       "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
