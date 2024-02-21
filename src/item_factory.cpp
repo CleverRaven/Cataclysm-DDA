@@ -800,6 +800,42 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    // Add similar bodyparts
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        if( data.covers.has_value() ) {
+            for( const bodypart_str_id &bp : data.covers.value() ) {
+                for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+                    data.covers->set( similar );
+                }
+            }
+        }
+    }
+
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        // if no sub locations are specified assume it covers everything
+        if( data.covers.has_value() && data.sub_coverage.empty() ) {
+            for( const bodypart_str_id &bp : data.covers.value() ) {
+                for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
+                    // only assume to add the non hanging locations
+                    if( !sbp->secondary ) {
+                        data.sub_coverage.insert( sbp );
+                    }
+                }
+            }
+        }
+    }
+
+    // Include similar sublimbs as well (after populating sub coverage)
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        if( !data.sub_coverage.empty() ) {
+            for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
+                for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+                    data.sub_coverage.insert( similar );
+                }
+            }
+        }
+    }
+
     // if this armor doesn't have material info should try to populate it with base item materials
     for( armor_portion_data &data : obj.armor->sub_data ) {
         if( data.materials.empty() ) {
@@ -2871,18 +2907,6 @@ void armor_portion_data::deserialize( const JsonObject &jo )
         breathability = material_type::breathability_to_rating( temp_enum );
     }
     optional( jo, false, "specifically_covers", sub_coverage );
-
-    // if no sub locations are specified assume it covers everything
-    if( covers.has_value() && sub_coverage.empty() ) {
-        for( const bodypart_str_id &bp : covers.value() ) {
-            for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-                // only assume to add the non hanging locations
-                if( !sbp->secondary ) {
-                    sub_coverage.insert( sbp );
-                }
-            }
-        }
-    }
 
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
