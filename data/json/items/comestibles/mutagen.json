@@ -941,7 +941,8 @@
     "use_action": [ "POISON" ],
     "color": "red",
     "material": [ "flesh", "bone" ],
-    "vitamins": [  ]
+    "vitamins": [  ],
+	"extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -952,6 +953,7 @@
     "use_action": [ "POISON" ],
     "color": "red",
     "material": [ "flesh", "bone" ],
-    "vitamins": [  ]
+    "vitamins": [  ],
+	"extend": { "flags": [ "NO_REPAIR" ] }
   }
 ]
