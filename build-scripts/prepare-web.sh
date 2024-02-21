@@ -21,6 +21,9 @@ for MOD_DIR in $DATA_DIR/mods/*/ ; do
     fi
 done
 
+echo "Removing MA mod..."
+rm -rf $DATA_DIR/mods/MA
+
 $EMSDK/upstream/emscripten/tools/file_packager cataclysm-tiles.data --js-output=cataclysm-tiles.data.js --no-node --preload "$BUNDLE_DIR""@/"
 
 mkdir -p build/
