@@ -2017,8 +2017,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             guy.add_msg_if_player( m_warning, _( "Your %1s is splashed with %2s %3s." ),
                                    armor.tname(), get_liquid_descriptor( liquid_remaining ), liquid_name );
             // A droplet of acid or bile are less likely to ruin a shirt than a whole bucket.
-            // RNG cap is high here so there's always a decent chance your item comes out ok
-            if( rng( 1, 100 + ( 2 * ( 100 - armor.breathability( bp ) ) ) ) > liquid_remaining ) {
+            if( rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
                 // Apply filth to the item. Currently hardcoded because we don't have other item
                 // flags that would make sense for this. It gets its own probability calculated here
                 // because it can't use armor_absorb's.
