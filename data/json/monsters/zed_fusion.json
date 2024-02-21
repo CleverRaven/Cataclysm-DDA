@@ -377,7 +377,7 @@
     "vision_night": 60,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "bleed_rate": 50,
-    "harvest": "exempt",
+    "harvest": "zombie_meatslug",
     "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 25, "cut": 25, "bullet": 20, "electric": 5 }
   },
@@ -401,7 +401,7 @@
     "vision_night": 60,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "bleed_rate": 0,
-    "harvest": "exempt",
+    "harvest": "zombie_meatslug",
     "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ],
     "armor": { "bash": 15, "cut": 15, "bullet": 10, "electric": 6 }
   }

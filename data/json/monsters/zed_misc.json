@@ -227,6 +227,7 @@
     "dodge": 2,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie", "prof_electromagnetics" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
+    "harvest": "zombie_animal_electric",
     "luminance": 16,
     "attack_cost": 50,
     "special_attacks": [

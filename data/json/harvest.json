@@ -1515,7 +1515,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.4 },
-      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.2 },
+      { "drop": "tainted_innards", "type": "offal", "mass_ratio": 0.1 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "offal", "mass_ratio": 0.1 }
