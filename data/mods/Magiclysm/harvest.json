@@ -478,7 +478,7 @@
     "id": "dissect_bulette_sample_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ 
+    "entries": [
       { "drop": "lizard_sample_small", "type": "mutagen_group" },
       { "drop": "beast_sample_small", "type": "mutagen_group" }
     ]
