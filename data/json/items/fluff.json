@@ -772,7 +772,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Survival Island", "str_pl": "sets of Survival Island" },
-    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe’s mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson’s abilities and combat various challenges that arise during his time on the island.",
+    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe's mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson's abilities and combat various challenges that arise during his time on the island.",
     "weight": "708 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -788,7 +788,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Nemo's Sea", "str_pl": "sets of Nemo's Sea" },
-    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne’s classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
+    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne's classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
     "weight": "904 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -804,7 +804,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
-    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters’ abilities and acquire new skills as they progress through the game.",
+    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
     "weight": "1120 g",
     "volume": "1850 ml",
     "price": 7050,
@@ -902,7 +902,7 @@
       {
         "id": "terraforming_saturn",
         "name": { "str": "Terraforming - Saturn", "str_pl": "sets of Terraforming - Saturn" },
-        "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn’s moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players."
+        "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn's moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players."
       },
       {
         "id": "terraforming_uranus",
@@ -922,7 +922,7 @@
       {
         "id": "terraforming_earth",
         "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
-        "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet’s ecosystems, atmosphere, and climate while also competing for resources and prestige."
+        "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet's ecosystems, atmosphere, and climate while also competing for resources and prestige."
       }
     ]
   },
@@ -931,7 +931,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Vigneto", "str_pl": "sets of Vigneto" },
-    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard’s productivity and efficiency.",
+    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard's productivity and efficiency.",
     "weight": "904 g",
     "volume": "1350 ml",
     "price": 7050,

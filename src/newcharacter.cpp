@@ -2048,7 +2048,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += "\n";
         }
         if( !prof_ma_choices.empty() ) {
-            assembled += colorize( _( string_format( "Choose %s:", ma_amount ) ), c_cyan ) + "\n";
+            assembled += colorize( string_format( _( "Choose %d:" ), ma_amount ), c_cyan ) + "\n";
             for( const matype_id &ma : prof_ma_choices ) {
                 const martialart &style = ma.obj();
                 assembled += style.name.translated() + "\n";

@@ -69,6 +69,7 @@
     "items": [
       [ "acog_scope", 100 ],
       [ "holo_sight", 100 ],
+      [ "red_dot_sight", 100 ],
       [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
       [ "m203", 30 ],
@@ -78,6 +79,38 @@
       [ "rm121aux", 10 ],
       [ "sword_bayonet", 10 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "issued_carbine_sights",
+    "//": "Sights that are issued by the US Army for the M4 and similar firearms.",
+    "items": [ [ "acog_scope", 15 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 10 ], [ "red_dot_sight", 20 ], [ "null", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "issued_slings",
+    "//": "Slings that belong on a firearm, the 5% of soldiers who lost theirs are very unhappy right now.",
+    "items": [ [ "shoulder_strap_simple", 60 ], [ "shoulder_strap", 35 ], [ "null", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "issued_grip",
+    "//": "Not all soldiers would have a forward grip, but they're common accessories.",
+    "items": [ [ "grip", 33 ], [ "null", 67 ] ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "issued_carbine_mods",
+    "//": "Weapon mod loadouts that represent the average US Army carbine loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "issued_grip" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "issued_grenadier_mods",
+    "//": "Weapon mod loadouts that represent the average US Army grenadier loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "military_grenadier_mods" } ]
   },
   {
     "type": "item_group",
@@ -128,6 +161,13 @@
     "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
     "subtype": "collection",
     "entries": [ { "item": "folding_stock" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ak74_folding_mods",
+    "//": "Default mods for the Kalashnikov AKS-74 variant of the 5.45x39mm fighting rifle",
+    "subtype": "collection",
+    "entries": [ { "item": "stock_mount" }, { "item": "folding_stock" } ]
   },
   {
     "type": "item_group",

@@ -383,5 +383,17 @@
       { "item": "splinter", "count": [ 1, 2 ] },
       { "item": "nail", "charges": [ 0, 2 ] }
     ]
+  },
+  {
+    "id": "rolling_trash",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_garbage",
+    "on_overflow": "spill",
+    "items": [
+      { "group": "trash_domestic", "count": [ 0, 35 ] },
+      { "group": "trash_cart", "count": [ 0, 10 ] },
+      { "group": "trash", "count": [ 0, 15 ] }
+    ]
   }
 ]

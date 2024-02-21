@@ -348,10 +348,10 @@
     "type": "effect_type",
     "id": "sneezing",
     "name": [ "Sneezing" ],
-    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "rating": "bad",
+    "desc": [ "It's hard to pay attention to anything when you're in the middle of sneezing!" ],
     "max_duration": "1 s",
-    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
-    "show_in_info": false
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
@@ -1719,6 +1719,31 @@
     "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Rat Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_chiropteran",
+    "name": [ "Chiropteran Mutation", "Chiropteran Transformation", "Chiropteran Metamorphosis" ],
+    "desc": [
+      "You consumed chiropteran primer.",
+      "You taste iron, and you want more.",
+      "Every sound is a painful screech in your ears.  It's all too much!."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CHIROPTERAN" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Chiropteran Primer Contamination"
   },
   {
     "type": "effect_type",
@@ -4859,5 +4884,34 @@
     "desc": [ "You are descending at a safe speed." ],
     "flags": [ "FEATHER_FALL" ],
     "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_full",
+    "name": [ "" ],
+    "//": "Allows fully-quadrupedal mutants to run and crouch on all fours.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_half",
+    "name": [ "" ],
+    "//": "Allows quadrupedal mutants with front paws only to crouch-walk slightly faster than normal.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "natural_stance",
+    "name": [ "Natural Stance" ],
+    "rating": "good",
+    "desc": [
+      "You are positioned to take advantage of your mutated anatomy, and will receive no penalties for crouching in melee combat.  Wielding a weapon will cause you to lose this effect."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "subaquatic_sonar",
+    "name": [ "Subaquatic SONAR" ],
+    "desc": [
+      "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back."
+    ]
   }
 ]
