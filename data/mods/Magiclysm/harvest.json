@@ -472,7 +472,7 @@
     "entries": [ 
       { "drop": "bird_sample_single", "type": "mutagen_group" },
       { "drop": "ursine_sample_single", "type": "mutagen_group" }
-     ]
+    ]
   },
   {
     "id": "dissect_bulette_sample_large",
