@@ -237,7 +237,7 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
                               const sub_bodypart_id &sbp, int roll ) const
 {
     item::cover_type ctype = item::get_cover_type( du.type );
-    
+
     // if the core armor is missed then exit
     if( roll > armor.get_coverage( sbp, ctype ) ) {
         return false;

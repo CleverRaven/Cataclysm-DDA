@@ -8913,11 +8913,8 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // This represents large articles being able to take more punishment
     // before becoming ineffective or being destroyed.
     int num_parts_covered = get_covered_body_parts().count();
-    // Acid spreads out to cover the item, reducing the mitigation items receive from body parts covered.
-    if( du.type->environmental && num_parts_covered > 2 ) {
-        num_parts_covered = static_cast<int>( std::max( 2.0, num_parts_covered * 0.66 ) );
-    }
-    if( !one_in( num_parts_covered ) ) {
+    // Acid spreads out to cover the surface of the item, ignoring this mitigation.
+    if( !one_in( num_parts_covered ) && !du.type->environmental ) {
         return armor_status::UNDAMAGED;
     }
 
