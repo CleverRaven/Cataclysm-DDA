@@ -180,6 +180,23 @@
   },
   {
     "type": "item_group",
+    "id": "explode_zed_beast",
+    "subtype": "collection",
+    "entries": [
+      { "item": "leg_zed", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
+      { "item": "leg_zed", "prob": 40, "damage": [ 2, 3 ], "count": [ 1, 2 ] },
+      { "item": "raw_tainted_leather", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "blood_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "meat_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "fat_tainted", "prob": 80, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
+      { "item": "bone_tainted", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "tainted_marrow", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 5 ] },
+      { "item": "tainted_innards", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 10 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 5, 10 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "explode_gasbag",
     "subtype": "collection",
     "entries": [
