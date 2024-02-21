@@ -33,7 +33,8 @@
       ],
       "palettes": [ "triffid" ],
       "nested": { "2": { "chunks": [ "1x1_megafernification" ] } },
-      "terrain": { ">": "t_triffid_slope_down" }
+      "terrain": { ">": "t_triffid_slope_down" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]
