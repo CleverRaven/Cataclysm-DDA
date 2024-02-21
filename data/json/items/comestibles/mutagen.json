@@ -942,7 +942,7 @@
     "color": "red",
     "material": [ "flesh", "bone" ],
     "vitamins": [  ],
-	"extend": { "flags": [ "NO_REPAIR" ] }
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -954,6 +954,6 @@
     "color": "red",
     "material": [ "flesh", "bone" ],
     "vitamins": [  ],
-	"extend": { "flags": [ "NO_REPAIR" ] }
+    "extend": { "flags": [ "NO_REPAIR" ] }
   }
 ]
