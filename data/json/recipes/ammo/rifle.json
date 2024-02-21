@@ -1816,7 +1816,7 @@
     "components": [
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 26 ], [ "gunpowder_large_rifle", 26 ] ],
+      [ [ "gunpowder", 58 ], [ "gunpowder_large_rifle", 58 ] ],
       [ [ "lead", 5 ] ],
       [ [ "copper", 3 ] ]
     ]
@@ -1841,7 +1841,7 @@
     "components": [
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 26 ], [ "gunpowder_large_rifle", 26 ] ],
+      [ [ "gunpowder", 58 ], [ "gunpowder_large_rifle", 58 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "copper", 6 ] ]
     ]
@@ -1866,7 +1866,7 @@
     "components": [
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 26 ], [ "gunpowder_large_rifle", 26 ] ],
+      [ [ "gunpowder", 58 ], [ "gunpowder_large_rifle", 58 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "copper", 3 ] ],
       [ [ "incendiary", 6 ] ]
@@ -1892,7 +1892,7 @@
     "components": [
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 26 ] ],
+      [ [ "chem_black_powder", 58 ] ],
       [ [ "lead", 5 ] ],
       [ [ "copper", 3 ] ]
     ]
@@ -1919,7 +1919,7 @@
       [ [ "lgrifle_primer", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "copper", 6 ] ],
-      [ [ "chem_black_powder", 29 ] ]
+      [ [ "chem_black_powder", 58 ] ]
     ]
   },
   {
@@ -1942,7 +1942,7 @@
     "components": [
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "chem_black_powder", 29 ] ],
+      [ [ "chem_black_powder", 58 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "copper", 3 ] ],
       [ [ "incendiary", 6 ] ]

@@ -39,8 +39,10 @@
         "#": "t_rock_wall",
         "!": "t_door_locked_interior"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 3, "y": 1, "chance": 80, "status": 0 } ],
-      "place_nested": [ { "chunks": [ [ "bathroom_suicide", 100 ] ], "x": 18, "y": 13 } ]
+      "place_nested": [
+        { "chunks": [ [ "bathroom_suicide", 100 ] ], "x": 18, "y": 13 },
+        { "chunks": [ "rolling_trash_can_1x1" ], "x": 3, "y": 1 }
+      ]
     }
   },
   {

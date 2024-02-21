@@ -1172,9 +1172,9 @@ void npc::act_on_danger_assessment()
                     int panic_alert = rl_dist( pos(), player_character.pos() ) - player_character.get_per();
                     if( mem_combat.panic - personality.bravery > panic_alert ) {
                         if( one_in( 4 ) && mem_combat.panic < 10 + personality.bravery ) {
-                            add_msg( m_bad, _( "%s is starting to panic a bit." ) );
+                            add_msg( m_bad, _( "%s is starting to panic a bit." ), name );
                         } else if( mem_combat.panic >= 10 + personality.bravery ) {
-                            add_msg( m_bad, _( "%s is panicking!" ) );
+                            add_msg( m_bad, _( "%s is panicking!" ), name );
                         }
                     }
                 }
@@ -1185,7 +1185,7 @@ void npc::act_on_danger_assessment()
                            "<color_light_gray>%s considers </color>repositioning<color_light_gray> from swarming enemies.</color>",
                            name );
             if( failed_reposition ) {
-                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again." );
+                add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s failed repositioning, trying again.", name );
                 mem_combat.failing_to_reposition++;
             } else {
                 add_msg_debug( debugmode::DF_NPC_COMBATAI,
@@ -3047,9 +3047,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= 100;
             moved = true;
         }
-    } else if( doors::can_unlock_door( here, *this, pt ) ) {
+    } else if( doors::can_unlock_door( here, *this, tripoint_bub_ms( pt ) ) ) {
         if( !is_hallucination() ) {
-            doors::unlock_door( here, *this, pt );
+            doors::unlock_door( here, *this, tripoint_bub_ms( pt ) );
         } else {
             mod_moves( -100 );
             moved = true;
@@ -3117,11 +3117,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
 
         // Close doors behind self (if you can)
         if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
-            doors::close_door( here, *this, old_pos );
+            doors::close_door( here, *this, tripoint_bub_ms( old_pos ) );
         }
         // Lock doors as well
         if( ( rules.has_flag( ally_rule::lock_doors ) && is_player_ally() ) && !is_hallucination() ) {
-            doors::lock_door( here, *this, old_pos );
+            doors::lock_door( here, *this, tripoint_bub_ms( old_pos ) );
         }
 
         if( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
@@ -5311,5 +5311,7 @@ bool outfit::adjust_worn( npc &guy )
 
 void npc::set_movement_mode( const move_mode_id &new_mode )
 {
+    // Enchantments based on move modes can stack inappropriately without a recalc here
+    recalculate_enchantment_cache();
     move_mode = new_mode;
 }

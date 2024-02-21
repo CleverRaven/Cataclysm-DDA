@@ -206,6 +206,11 @@ struct final_result {
     bool sealed;
     bool parent_pocket_sealed;
     std::vector<final_result> contents;
+
+    explicit final_result( const itype_id id, const bool sealed, const bool parent_pocket_sealed,
+                           std::vector<final_result> contents ) :
+        id( id ), sealed( sealed ), parent_pocket_sealed( parent_pocket_sealed ),
+        contents( std::move( contents ) ) {}
 };
 
 item *item_pointer( item *const it )
@@ -805,19 +810,19 @@ void test_scenario::run()
             break;
         case container_location::inventory:
             if( original_location ) {
-                worn_results.emplace_back( final_result {
+                worn_results.emplace_back(
                     itype_test_restricted_container_holder,
                     false,
                     false,
-                    { *original_location }
-                } );
+                    std::vector<final_result> { *original_location }
+                );
             } else {
-                worn_results.emplace_back( final_result {
+                worn_results.emplace_back(
                     itype_test_restricted_container_holder,
                     false,
                     false,
-                    {}
-                } );
+                    std::vector<final_result> {}
+                );
             }
             break;
         case container_location::worn:

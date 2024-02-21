@@ -387,7 +387,7 @@
     "type": "GUN",
     "copy-from": "pistol_backup",
     "name": { "str": "cheap .22 caliber pistol" },
-    "description": "Made from only the cheapest of budget metals, firing one of the weakest cartridges, and having a hearty laugh at the concept of user safety, this .22 caliber pocket pistol is of questionable utility at best.  Affordably priced before the Cataclysm, the pistol’s price point was arguably its only positive element, an element which pertains zero bearing on your current situation.",
+    "description": "Made from only the cheapest of budget metals, firing one of the weakest cartridges, and having a hearty laugh at the concept of user safety, this .22 caliber pocket pistol is of questionable utility at best.  Affordably priced before the Cataclysm, the pistol's price point was arguably its only positive element, an element which pertains zero bearing on your current situation.",
     "variant_type": "gun",
     "variants": [
       {

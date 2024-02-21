@@ -1235,7 +1235,7 @@
     "id": "basic_pyromancy",
     "type": "BOOK",
     "category": "manuals",
-    "//": "5 Kelvinist spells",
+    "//": "6 Kelvinist spells",
     "name": { "str": "Practical Pyromancy, Seventh Edition", "str_pl": "copies of Practical Pyromancy, Seventh Edition" },
     "description": "The 2020 edition of the classic tome of fire magic, not containing any restricted battle magic but popular all the same.",
     "weight": "537 g",
@@ -1247,7 +1247,14 @@
     "color": "red",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "kelvinist_firebolt", "kelvinist_extinguish_fire_spell", "create_lighter", "kelvinist_anti_cold", "burning_hands" ]
+      "spells": [
+        "kelvinist_firebolt",
+        "kelvinist_extinguish_fire_spell",
+        "create_lighter",
+        "kelvinist_heat_food",
+        "kelvinist_anti_cold",
+        "burning_hands"
+      ]
     }
   },
   {

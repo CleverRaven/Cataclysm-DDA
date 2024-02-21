@@ -272,5 +272,15 @@
     "description": "A slurry of toughness.",
     "looks_like": "medical_sample",
     "material": [ "flesh", "chitin" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "chiropteran_sample",
+    "copy-from": "mutagen_sample",
+    "color": "brown",
+    "name": { "str": "chiropteran sample" },
+    "description": "A slurry of silence.",
+    "looks_like": "medical_sample",
+    "material": [ "bone", "blood" ]
   }
 ]

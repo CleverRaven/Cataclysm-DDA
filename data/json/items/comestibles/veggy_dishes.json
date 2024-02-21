@@ -1565,5 +1565,24 @@
     "delete": { "flags": [ "RAW" ] },
     "extend": { "flags": [ "FREEZERBURN" ] },
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "onion_sauteed",
+    "name": { "str_sp": "sauteed onions" },
+    "weight": "129 g",
+    "color": "brown",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 334,
+    "description": "Onions cooked up in oil and spices, often used as a topping or side in dishes.",
+    "price": 400,
+    "price_postapoc": 250,
+    "material": [ "veggy", "oil" ],
+    "volume": "200 ml",
+    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
+    "fun": 6,
+    "vitamins": [ [ "vitC", 12 ], [ "calcium", 4 ], [ "iron", 2 ] ]
   }
 ]

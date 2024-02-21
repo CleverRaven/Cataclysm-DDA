@@ -1136,5 +1136,10 @@
     "id": "ammunition_box_carlgustav_hedp",
     "replace": "ammunition_box_carlgustav",
     "variant": "ammunition_box_carlgustav_hedp"
+  },
+  {
+    "id": "ak74",
+    "type": "MIGRATION",
+    "replace": "ak74_semi"
   }
 ]
