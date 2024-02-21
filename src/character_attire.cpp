@@ -2025,7 +2025,8 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
                     !armor.has_flag( flag_AURA ) &&
                     rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
-                    add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true, true ),
+                    add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true,
+                                            true ),
                                             armor.tname() );
                     armor.set_flag( json_flag_FILTHY );
                     guy.on_worn_item_soiled( armor );
