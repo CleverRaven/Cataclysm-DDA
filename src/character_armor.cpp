@@ -249,12 +249,13 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
         armor.deactivate( nullptr, false );
         add_msg_if_player( _( "Your %s doesn't have enough power and shuts down!" ), armor.tname() );
     }
-
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, sbp, -1 );
+    
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, bp );
+    
     // describe what happened if the armor took damage
     if( damaged == item::armor_status::DAMAGED || damaged == item::armor_status::DESTROYED ) {
         describe_damage( du, armor );
