@@ -214,11 +214,7 @@
     "difficulty": 4,
     "time": "45 m",
     "autolearn": true,
-    "book_learn": [
-      [ "textbook_fabrication", 3 ],
-      [ "textbook_weparabic", 5 ],
-      [ "bronze_book", 4 ] 
-    ],
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_weparabic", 5 ], [ "bronze_book", 4 ] ],
     "using": [ [ "forging_standard", 3 ], [ "scrap_bronze", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without the metal fileset - this process would still be possible, just realistically take slightly longer.",
