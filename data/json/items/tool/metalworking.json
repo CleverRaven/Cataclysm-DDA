@@ -136,7 +136,7 @@
     "melee_damage": { "bash": 4, "cut": 2 }
   },
   {
-    "id":"chisel_bronze",
+    "id": "chisel_bronze",
     "type": "TOOL",
     "copy-from": "chisel",
     "name": { "str": "bronze chisel" },
