@@ -481,7 +481,7 @@
     "entries": [ 
       { "drop": "lizard_sample_small", "type": "mutagen_group" },
       { "drop": "beast_sample_small", "type": "mutagen_group" }
-     ]
+    ]
   },
   {
     "id": "dissect_stirge_sample_smalll",
