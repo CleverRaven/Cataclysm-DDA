@@ -24,6 +24,24 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_STR_UP_2" } },
+        "text": "Gain [<trait_name:perk_STR_UP_2>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_STR_UP_2>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_STR_UP_2>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_STR_UP_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Stronger perk.",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_STR_UP" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_DEX_UP" } },
         "text": "Gain [<trait_name:perk_DEX_UP>]",
         "effect": [
@@ -39,6 +57,24 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_DEX_UP_2" } },
+        "text": "Gain [<trait_name:perk_DEX_UP_2>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_DEX_UP_2>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_DEX_UP_2>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_DEX_UP_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Faster perk",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_DEX_UP" } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -62,6 +98,24 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_INT_UP_2" } },
+        "text": "Gain [<trait_name:perk_INT_UP_2>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_INT_UP_2>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_INT_UP_2>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_INT_UP_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Smarter perk",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_INT_UP" } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_PER_UP" } },
         "text": "Gain [<trait_name:perk_PER_UP>]",
         "effect": [
@@ -77,6 +131,24 @@
             "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_PER_UP_2" } },
+        "text": "Gain [<trait_name:perk_PER_UP_2>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_PER_UP_2>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_PER_UP_2>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_PER_UP_2", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Must have the Sharper perk",
+            "target_var": { "context_val": "trait_requirement_description" }
+          },
+          { "set_condition": "perk_condition", "condition": { "u_has_trait": "perk_PER_UP" } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
@@ -1017,7 +1089,7 @@
         },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_add_trait": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] } ]
+        "effect": [ { "u_mutate_towards": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] } ]
       },
       {
         "text": "Go Back.",
