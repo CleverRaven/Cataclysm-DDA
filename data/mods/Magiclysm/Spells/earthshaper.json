@@ -1105,7 +1105,7 @@
         "u_transform_radius": 1,
         "ter_furn_transform": "earthshaper_granite_aegis_from_stone",
         "target_var": { "global_val": "earthshaper_granite_aegis_location" },
-        "time_in_future": [ "summoning_proficiency_bonus_calculate(5) seconds", "summoning_proficiency_bonus_calculate(20) seconds" ]
+        "time_in_future": [ "5 seconds", "20 seconds" ]
       }
     ],
     "false_effect": { "u_message": "Without a connection to the living earth or a flat surface of solid rock, the spell fails." }
