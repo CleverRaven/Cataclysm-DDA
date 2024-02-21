@@ -744,10 +744,10 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
-    "id": "offal_tainted",
+    "id": "tainted_innards",
     "copy-from": "offal",
     "type": "COMESTIBLE",
-    "name": { "str": "tainted offal", "str_pl": "clumps of tainted offal" },
+    "name": { "str_sp": "tainted innards" },
     "description": "An unidentifiable selection of rotted innards that barely hold their form.  It is revolting and certainly no longer healthy to eat.",
     "spoils_in": "4 hours",
     "use_action": [ "POISON" ],
