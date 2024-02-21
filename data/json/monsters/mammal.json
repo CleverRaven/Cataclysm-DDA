@@ -722,7 +722,7 @@
     "copy-from": "mon_cougar",
     "looks_like": "mon_cat_kitten",
     "name": { "str": "cougar kitten" },
-    "description": "A cuddly and defenseless cougar kitten, meowing at its surroundings in search of protection.  Be careful, these kittens grow quite big and ferocious in just a few months.",
+    "description": "A cute and currently defenseless cougar kitten, meowing at its surroundings in search of its mother.  Be careful, these kittens grow quite big and ferocious in just a few months.",
     "volume": "900 ml",
     "weight": "1200 g",
     "hp": 10,
