@@ -3,11 +3,12 @@
     "type": "overmap_terrain",
     "id": "triffid_grove",
     "name": "triffid grove",
+    "copy-from": "generic_forest",
     "sym": "T",
     "color": "light_red",
     "see_cost": 5,
     "mondensity": 2,
-    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH" ]
+    "flags": [ "KNOWN_UP", "KNOWN_DOWN", "RISK_HIGH", "REQUIRES_PREDECESSOR" ]
   },
   {
     "type": "overmap_terrain",
@@ -150,9 +151,11 @@
     "type": "overmap_terrain",
     "id": "triffid_field",
     "name": "vibrant field",
+    "copy-from": "generic_forest",
     "sym": ".",
     "color": "green",
     "see_cost": 5,
-    "mondensity": 2
+    "mondensity": 2,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]
