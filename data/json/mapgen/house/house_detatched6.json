@@ -46,7 +46,7 @@
         "&": "t_dirtmound",
         "(": "t_region_soil",
         "#": "t_adobe_brick_wall",
-        "'": "t_linoleum_gray",
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "Ŧ": "t_privacy_fence",
         "ɤ": "t_privacy_fencegate_c",
         "¶": "t_reinforced_door_glass_c",
