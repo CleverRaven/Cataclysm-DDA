@@ -490,6 +490,6 @@
     "entries": [ 
       { "drop": "insect_sample_single", "type": "mutagen_group" },
       { "drop": "chiropteran_sample_single", "type": "mutagen_group" }
-     ]
+    ]
   }
 ]
