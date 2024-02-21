@@ -75,7 +75,7 @@
         "standard_domestic_lino_bathroom",
         "standard_domestic_landscaping_palette"
       ],
-      "terrain": { "#": "t_rock_wall", "$": "t_drystone_wall_half", "'": "t_thconc_floor" },
+      "terrain": { "$": "t_drystone_wall_half", "'": "t_thconc_floor" },
       "furniture": { "0": "f_counter" },
       "place_nested": [ { "chunks": [ [ "greenhouse_6x6_herbal", 100 ] ], "x": 3, "y": 15 } ],
       "place_loot": [
@@ -104,9 +104,9 @@
         "``````````o      H##o######o##Dy   dT#``````````",
         "``````````#TE        c ii c  |       #o#````````",
         "``````````###|+||+|          +       hIo````````",
-        "````````````oS~t|U|###   |> <|  @@    Io````````",
-        "````````````#||||||#a#   ||||| s@@s  #o#````````",
-        "````````````#RRyTRR#'#|++|MMM||||||||#``````````",
+        "````````````oS~t|U||||   |> <|  @@    Io````````",
+        "````````````#|||||||a|   ||||| s@@s  #o#````````",
+        "````````````#RRyTRR|'||++|MMM||||||||#``````````",
         "````````````o         H      |ÆsØ    #``````````",
         "````````````o  h      H           ee #``````````",
         "```)))))````# rr   EsE  TRRRR|0A  ee o``````````",
@@ -125,7 +125,6 @@
         ".": "t_shingle_flat_roof",
         "!": "t_gutter_drop",
         "-": "t_gutter",
-        "#": "t_rock_wall",
         ")": "t_glass_roof"
       },
       "furniture": { "0": "f_counter" },
@@ -150,9 +149,9 @@
         "~~~~~~~~~~oH     x#####o###o##Db   yd#~~~~~~~~~~",
         "~~~~~~~~~~#H       |D|8S8|   |       #o#~~~~~~~~",
         "~~~~~~~~~~###      + +,,,|   +        Io~~~~~~~~",
-        "~~~~~~~~~~~~#s    y###,,t| |>|  @@   hIo~~~~~~~~",
-        "~~~~~~~~~~~~#@@    'a#BBB| |||Ts@@s  #o#~~~~~~~~",
-        "~~~~~~~~~~~~#@@   y###||||   ||||||||#~~~~~~~~~~",
+        "~~~~~~~~~~~~#s    y|||,,t| |>|  @@   hIo~~~~~~~~",
+        "~~~~~~~~~~~~#@@    'a|BBB| |||Ts@@s  #o#~~~~~~~~",
+        "~~~~~~~~~~~~#@@   y|||||||   ||||||||#~~~~~~~~~~",
         "~~~~~~~~~~~~#s    c|T        +  s@@s #~~~~~~~~~~",
         "~~~~~~~~~~~~o     ||     ||+||   @@  #~~~~~~~~~~",
         "~~~~~~~~~~~~#dbd  +    yY|S,t|E      o~~~~~~~~~~",
@@ -165,12 +164,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
-      "terrain": {
-        "~": "t_open_air",
-        ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "'": "t_thconc_floor",
-        "#": "t_rock_wall"
-      },
+      "terrain": { "~": "t_open_air", ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }, "'": "t_thconc_floor" },
       "place_loot": [ { "item": "television", "x": 17, "y": 8, "chance": 100 } ]
     }
   },
