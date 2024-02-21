@@ -460,10 +460,7 @@
     "id": "dissect_owlbear_sample_large",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ 
-      { "drop": "bird_sample_small", "type": "mutagen_group" },
-      { "drop": "ursine_sample_small", "type": "mutagen_group" }
-     ]
+    "entries": [ { "drop": "bird_sample_small", "type": "mutagen_group" }, { "drop": "ursine_sample_small", "type": "mutagen_group" } ]
   },
   {
     "id": "dissect_owlbear_sample_small",
