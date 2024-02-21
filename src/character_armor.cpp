@@ -252,7 +252,6 @@ bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &b
     // reduce the damage
     // -1 is passed as roll so that each material is rolled individually
     armor.mitigate_damage( du, sbp, -1 );
-    
     // check if the armor was damaged
     item::armor_status damaged = armor.damage_armor_durability( du, bp );
     // describe what happened if the armor took damage
