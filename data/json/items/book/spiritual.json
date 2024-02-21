@@ -523,7 +523,7 @@
     "id": "holybook_helliand",
     "type": "BOOK",
     "name": { "str": "Heliand", "str_pl": "copies of the Heliand" },
-    "description": "A English translation of the Heliand, an Old Saxon epic poem that narrates the life and passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus’s childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm.",
+    "description": "A English translation of the Heliand, an Old Saxon epic poem that narrates the life and passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus' childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"
