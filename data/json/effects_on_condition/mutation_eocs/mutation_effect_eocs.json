@@ -752,5 +752,14 @@
     "effect": [
       { "u_lose_trait": "BIOLUM2_active" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAWS_RETRACT_LOSE",
+    "condition": { "and": [ { "u_has_trait": "CLAWS_RETRACT_active" }, { "not": { "u_has_trait": "CLAWS_RETRACT" } } ] },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_lose_trait": "CLAWS_RETRACT_active" }
+    ]
   }
 ]
