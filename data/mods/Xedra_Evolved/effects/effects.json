@@ -853,7 +853,7 @@
     "vitamins": [
       { "vitamin": "calcium", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] },
       { "vitamin": "vitC", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] },
-      { "vitamin": "iron", "rate": [ [ 1, 1 ] ], "tick": [ "20 n" ] }
+      { "vitamin": "iron", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] }
     ]
   },
   {
