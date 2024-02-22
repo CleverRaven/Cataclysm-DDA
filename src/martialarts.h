@@ -159,7 +159,7 @@ class ma_technique
         // performs the listed technique if this attack procs a crit. tec_none skips this behavior.
         // requires crit_ok to be true
         matec_id crit_tec_id = tec_none;
-        
+
         ma_requirements reqs;
 
         // What way is the technique delivered to the target?
