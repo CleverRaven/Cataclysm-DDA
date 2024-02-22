@@ -475,9 +475,9 @@ Mutations are given completely subjective point values.  The most important fact
 ## Mutation Attacks
 Some mutations, such as fangs, grant a character special attacks. These attacks are defined in techniques.json, and are designed to closely mimic normal weapons in terms of how their damage is calculated. Mutation attacks should almost always scale with the unarmed skill, even if the mutation is cutting claws or a stabbing stinger. 
 
-These attacks use flat_bonuses. Following the guidelines below, you only need to plug in base movecost and damage to implement a new mutation attack. See the guidelines in the melee weapons section of this document for more information on selecting an appropriate base DPS.
+These attacks use flat_bonuses. Following the method below, you only need to plug in base movecost and damage to implement a new mutation attack. See the guidelines in the melee weapons section of this document for more information on selecting an appropriate base DPS.
 
-To approximate a stabbing weapon with this system:
+**To approximate a stabbing weapon with this system**
 - Stab damage scales with unarmed skill at a rate of 1.0.
 - Bash damage scales with strength at a rate of 0.75.
 - Bash damage scales with unarmed skill at a rate of 0.06.
