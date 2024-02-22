@@ -634,6 +634,8 @@ static std::optional<basecamp *> get_basecamp( npc &p,
     return temp_camp;
 }
 
+/** @relates string_id */
+template<>
 const faction &string_id<faction>::obj() const
 {
     return *g->faction_manager_ptr->get( *this );
