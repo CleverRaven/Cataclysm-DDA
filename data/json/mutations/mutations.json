@@ -2456,26 +2456,6 @@
   },
   {
     "type": "mutation",
-    "id": "FANGS_VAMPIRE",
-    "name": { "str": "Vampire Fangs" },
-    "points": 2,
-    "visibility": 3,
-    "ugliness": 3,
-    "description": "Your teeth are so sharp, you can use them to shave the fur from your victims before you feed.  What's more, anticoagulants in your saliva will keep their blood flowing long after it should have clotted.",
-    "types": [ "TEETH" ],
-    "prereqs": [ "FANGS" ],
-    "threshreq": [ "THRESH_CHIROPTERAN" ],
-    "category": [ "CHIROPTERAN" ],
-    "attacks": {
-      "attack_text_u": "You sink your fangs into %s!",
-      "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 2 } ]
-    }
-  },
-  {
-    "type": "mutation",
     "id": "MEMBRANE",
     "name": { "str": "Nictitating Membrane" },
     "points": 1,
