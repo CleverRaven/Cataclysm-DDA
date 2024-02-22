@@ -134,7 +134,7 @@
     ],
     "false_effect": [
       { "u_lose_trait": "ARVORE_WOOD_CLAWS_active" },
-      { "u_message": "The jagged wood covering your hands receeds, leaving no trace behind.", "type": "neutral" }
+      { "u_message": "The jagged wood covering your hands recedes, leaving no trace behind.", "type": "neutral" }
     ]
   },
   {
