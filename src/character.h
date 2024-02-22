@@ -2733,6 +2733,7 @@ class Character : public Creature, public visitable
         std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
+        // FIXME: The presence of camps should be global objects, this should only be knowledge of camps (at best)
         std::set<tripoint_abs_omt> camps;
 
         std::vector <addiction> addictions;

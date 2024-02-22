@@ -453,6 +453,8 @@ class basecamp
     private:
         friend class basecamp_action_components;
 
+        // Which faction owns this camp?
+        mutable faction_id owner = faction_id::NULL_ID();
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
