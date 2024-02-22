@@ -940,7 +940,7 @@
     "copy-from": "arm",
     "use_action": [ "POISON" ],
     "color": "red",
-    "material": [ "flesh", "bone" ],
+    "material": [ "flesh" ],
     "vitamins": [  ],
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
@@ -952,7 +952,7 @@
     "copy-from": "leg",
     "use_action": [ "POISON" ],
     "color": "red",
-    "material": [ "flesh", "bone" ],
+    "material": [ "flesh" ],
     "vitamins": [  ],
     "extend": { "flags": [ "NO_REPAIR" ] }
   }
