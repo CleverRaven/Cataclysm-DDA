@@ -483,42 +483,30 @@
     "id": "ARVORE_WOOD_CLAWS",
     "name": { "str": "Jagged Wooden Claws" },
     "points": 2,
-    "active": true,
     "description": "At will, you can transform your hands into jagged wooden claws.  They are potent weapons but make anything other than combat more difficult.",
     "types": [ "CLAWS" ],
     "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
-    "transform": {
-      "target": "ARVORE_WOOD_CLAWS_active",
-      "msg_transform": "Your fingers itch as jagged wood rapidly covers them.",
-      "active": false,
-      "moves": 10
-    },
-    "cost": 0
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_JAGGED_CLAWS_ON" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_WOOD_CLAWS_active",
-    "name": { "str": "Jagged Wooden Claws (active)" },
+    "name": { "str": "Jagged Wooden Claws Extended" },
     "points": 2,
     "visibility": 3,
     "ugliness": 2,
     "description": "Your hands are transformed into jagged wooden claws.  You can use them to attack, but performing mundane tasks will be harder.",
     "types": [ "CLAWS" ],
-    "prereqs": [ "ARVORE_SKIN_2", "ARVORE_SKIN_3" ],
     "category": [ "ARVORE" ],
-    "transform": {
-      "target": "ARVORE_WOOD_CLAWS",
-      "msg_transform": "The wood covering your hands receeds, leaving no trace behind.",
-      "active": false,
-      "moves": 10
-    },
     "cost": 0,
-    "copy-from": "ARVORE_WOOD_CLAWS",
+    "player_display": false,
     "valid": false,
-    "active": true,
     "integrated_armor": [ "integrated_arvore_claws" ],
-    "crafting_speed_multiplier": 0.75
+    "crafting_speed_multiplier": 0.5
   },
   {
     "type": "mutation",
@@ -985,36 +973,27 @@
     "description": "Every rose has its thorn and so do you.  With a moment's concentration, you can exude thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
     "active": true,
-    "transform": {
-      "target": "ARVORE_THORN_SKIN_ON",
-      "msg_transform": "Woody thorns push through your skin!",
-      "active": true,
-      "moves": 50
-    }
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ],
+    "deactivated_eocs": [ "EOC_ARVORE_THORNSKIN_ON" ]
   },
   {
     "type": "mutation",
     "id": "ARVORE_THORN_SKIN_ON",
-    "name": { "str": "Unveiled Thorns (active)" },
+    "name": { "str": "Unveiled Thorns Extended" },
     "points": 7,
     "visibility": 8,
     "ugliness": 4,
     "description": "You are exuding thorns through your skin that have a chance of damaging attackers while increasing the damage of your unarmed attacks.  However, you cannot wear rigid armor over your thorns.",
     "category": [ "ARVORE" ],
-    "active": true,
+    "player_display": false,
     "valid": false,
     "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
     "allow_soft_gear": true,
     "integrated_armor": [ "integrated_arvore_thorns" ],
     "enchantments": [ "ench_arvore_thorns_mut" ],
-    "encumbrance_covered": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ],
-    "transform": {
-      "target": "ARVORE_THORN_SKIN",
-      "msg_transform": "Your thorns retract, leaving smooth unbroken skin behind.",
-      "active": false,
-      "moves": 50
-    }
+    "encumbrance_covered": [ [ "hand_l", 10 ], [ "hand_r", 10 ] ]
   },
   {
     "type": "mutation",
