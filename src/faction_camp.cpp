@@ -641,6 +641,16 @@ static std::optional<basecamp *> get_basecamp( npc &p,
     return temp_camp;
 }
 
+const faction &string_id<faction>::obj() const
+{
+    return *g->faction_manager_ptr->get( *this );
+}
+
+faction *basecamp::fac() const
+{
+    return g->faction_manager_ptr->get( owner );
+}
+
 recipe_id base_camps::select_camp_option( const std::map<recipe_id, translation> &pos_options,
         const std::string &option )
 {
@@ -797,7 +807,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                 const int foodcost = time_to_food( base_camps::to_workdays( time_duration::from_moves(
                                                        making.blueprint_build_reqs().reqs_by_parameters.find( miss_id.mapgen_args )->second.time ) ),
                                                    making.exertion_level() );
-                const int available_calories = owner->food_supply.kcal();
+                const int available_calories = fac()->food_supply.kcal();
                 bool can_upgrade = upgrade.avail;
                 entry = om_upgrade_description( upgrade.bldg, upgrade.args );
                 if( foodcost > available_calories ) {
@@ -1482,7 +1492,7 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                                       "> Rots in < 5 days: 80%%\n\n"
                                       "Total faction food stock: %d kcal\nor %d / %d / %d day's rations\n"
                                       "where the days is measured for Extra / Moderate / No exercise levels" ),
-                                   owner->food_supply.kcal(), camp_food_supply_days( EXTRA_EXERCISE ),
+                                   fac()->food_supply.kcal(), camp_food_supply_days( EXTRA_EXERCISE ),
                                    camp_food_supply_days( MODERATE_EXERCISE ), camp_food_supply_days( NO_EXERCISE ) );
             mission_key.add( { miss_id, false }, name_display_of( miss_id ),
                              entry );
@@ -1674,7 +1684,7 @@ void basecamp::player_eats_meal()
 {
     int kcal_to_eat = 3000;
     Character &you = get_player_character();
-    const int &food_available = owner->food_supply.kcal();
+    const int &food_available = fac()->food_supply.kcal();
     if( you.stomach.contains() >= ( you.stomach.capacity( you ) / 2 ) ) {
         popup( _( "You're way too full to eat a full meal right now." ) );
         return;
@@ -1954,7 +1964,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
                                  const std::vector<item *> &equipment, float exertion_level,
                                  const std::map<skill_id, int> &required_skills )
 {
-    if( must_feed && owner->food_supply.kcal() < time_to_food( duration, exertion_level ) ) {
+    if( must_feed && fac()->food_supply.kcal() < time_to_food( duration, exertion_level ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return nullptr;
     }
@@ -2015,7 +2025,7 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
         work_days = base_camps::to_workdays( base_time / ( result.size() + 1 ) );
 
         if( must_feed &&
-            owner->food_supply.kcal() < time_to_food( work_days * ( result.size() + 1 ),
+            fac()->food_supply.kcal() < time_to_food( work_days * ( result.size() + 1 ),
                     making.exertion_level() ) ) {
             if( result.empty() ) {
                 popup( _( "You don't have enough food stored to feed your companion for this task." ) );
@@ -2444,7 +2454,7 @@ void basecamp::job_assignment_ui()
 
 void basecamp::start_menial_labor()
 {
-    if( owner->food_supply.kcal() < time_to_food( 3_hours ) ) {
+    if( fac()->food_supply.kcal() < time_to_food( 3_hours ) ) {
         popup( _( "You don't have enough food stored to feed your companion." ) );
         return;
     }
@@ -3761,7 +3771,7 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
 
     // Missions that are not fixed_time pay their food costs at the end, instead of up-front.
     int need_food = time_to_food( mission_time - reserve_time );
-    if( owner->food_supply.kcal() < need_food ) {
+    if( fac()->food_supply.kcal() < need_food ) {
         popup( _( "Your companion seems disappointed that your pantry is empty…" ) );
     }
     // movng all the logic from talk_function::companion return here instead of polluting
@@ -4663,7 +4673,7 @@ int basecamp::recipe_batch_max( const recipe &making ) const
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
                                 _inv, making.get_component_filter(), max_batch + batch_size );
-            if( can_make && owner->food_supply.kcal() > food_req ) {
+            if( can_make && fac()->food_supply.kcal() > food_req ) {
                 max_batch += batch_size;
             } else {
                 break;
@@ -5363,7 +5373,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
             farm++;
         }
     }
-    sfaction = std::min( owner->food_supply.kcal() / 10000, 10 );
+    sfaction = std::min( fac()->food_supply.kcal() / 10000, 10 );
     sfaction += std::min( camp_discipline() / 10, 5 );
     sfaction += std::min( camp_morale() / 10, 5 );
 
@@ -5479,34 +5489,33 @@ int camp_food_supply_days( float exertion_level )
 nutrients basecamp::camp_food_supply( nutrients &change )
 {
     nutrients consumed;
-    faction owner_fac = owner.obj();
-    if( change.calories < 0 && change.vitamins().empty() && owner->food_supply.calories > 0 ) {
+    if( change.calories < 0 && change.vitamins().empty() && fac()->food_supply.calories > 0 ) {
         // We've been passed a raw kcal value, we should also consume a proportional amount of vitamins
         // Kcals are used as a proxy to consume vitamins.
         // e.g. if you have a larder with 10k kcal, 100 vitamin A, 200 vitamin B then consuming 1000 kcal will
         // consume 10 vitamin A and *20* vitamin B. In other words, we assume the vitamins are uniformly distributed with the kcals
         // This isn't a perfect assumption but it's a necessary one to abstract away the food items themselves
         double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
-                                  owner->food_supply.calories;
-        consumed = owner->food_supply;
-        if( std::abs( change.calories ) > owner->food_supply.calories ) {
+                                  fac()->food_supply.calories;
+        consumed = fac()->food_supply;
+        if( std::abs( change.calories ) > fac()->food_supply.calories ) {
             //Whoops, we don't have enough food. Empty the larder! No crumb shall go un-eaten!
-            owner_fac.food_supply += change;
+            fac()->food_supply += change;
             faction *yours = get_player_character().get_faction();
-            if( owner == yours->id ) {
-                yours->likes_u += owner->food_supply.kcal() / 1250;
-                yours->respects_u += owner->food_supply.kcal() / 625;
-                yours->trusts_u += owner->food_supply.kcal() / 625;
+            if( fac()->id == yours->id ) {
+                yours->likes_u += fac()->food_supply.kcal() / 1250;
+                yours->respects_u += fac()->food_supply.kcal() / 625;
+                yours->trusts_u += fac()->food_supply.kcal() / 625;
             }
-            owner_fac.food_supply *= 0;
+            fac()->food_supply *= 0;
             return consumed;
         }
         consumed *= percent_consumed;
         // Subtraction since we use the absolute value of change's calories to get the percent
-        owner_fac.food_supply -= consumed;
+        fac()->food_supply -= consumed;
         return consumed;
     }
-    owner_fac.food_supply += change;
+    fac()->food_supply += change;
     consumed = change;
     return consumed;
 }

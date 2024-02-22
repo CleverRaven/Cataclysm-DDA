@@ -33,6 +33,8 @@ enum class farm_ops : int;
 class item;
 class recipe;
 
+using faction_id = string_id<faction>;
+
 const int work_day_hours = 10;
 const int work_day_rest_hours = 8;
 const int work_day_idle_hours = 6;
@@ -455,6 +457,8 @@ class basecamp
 
         // Which faction owns this camp?
         mutable faction_id owner = faction_id::NULL_ID();
+        // Returns the actual faction object which owns this camp
+        faction *fac() const;
         // lazy re-evaluation of available camp resources
         void reset_camp_resources( map &here );
         void add_resource( const itype_id &camp_resource );
