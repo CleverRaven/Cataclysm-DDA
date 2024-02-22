@@ -3633,7 +3633,7 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 22 },
+      { "stat": "damage", "type": "stab", "scale": 15 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
@@ -3673,7 +3673,7 @@
       ]
     },
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 22 },
+      { "stat": "damage", "type": "stab", "scale": 15 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
@@ -3705,7 +3705,7 @@
     ],
     "attack_vectors": [ "MOUTH" ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 22 },
+      { "stat": "damage", "type": "stab", "scale": 15 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
