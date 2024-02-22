@@ -259,7 +259,7 @@ class basecamp
          * @param difficulty a random number from 0 to difficulty is created for each attempt, and
          * if skill is higher, an item or corpse is spawned
          */
-        void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
+        void hunting_results( npc &comp, int skill, const mission_id &miss_id, int attempts, int difficulty );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }

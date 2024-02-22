@@ -64,4 +64,7 @@
     "github-actions.remote-name": "upstream",
     // NOTE: This disable the plugins formatting so astyle is used.
     "C_Cpp.formatting": "disabled",
+    "files.associations": {
+        "cmath": "cpp"
+    },
 }

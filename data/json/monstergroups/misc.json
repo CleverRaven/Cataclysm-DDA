@@ -560,5 +560,26 @@
       { "monster": "mon_pig", "weight": 1 },
       { "monster": "mon_wolf", "weight": 10 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAMP_HUNTING_LARGE_CANNIBAL",
+    "//": "Same as GROUP_CAMP_HUNTING_LARGE, but for cannibals...",
+    "monsters": [
+      { "monster": "mon_chicken", "weight": 20 },
+      { "monster": "mon_grouse", "weight": 2 },
+      { "monster": "mon_pheasant", "weight": 2 },
+      { "monster": "mon_turkey", "weight": 10 },
+      { "monster": "mon_bear", "weight": 1 },
+      { "monster": "mon_cougar", "weight": 5 },
+      { "monster": "mon_cow", "weight": 1 },
+      { "monster": "mon_coyote", "weight": 15 },
+      { "monster": "mon_deer", "weight": 2 },
+      { "monster": "mon_moose", "weight": 1 },
+      { "monster": "mon_pig", "weight": 1 },
+      { "monster": "mon_wolf", "weight": 10 },
+      { "monster": "mon_feral_human_pipe", "weight": 5 },
+      { "monster": "mon_feral_human_crowbar", "weight": 1 }
+    ]
   }
 ]

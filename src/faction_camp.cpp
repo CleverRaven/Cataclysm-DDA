@@ -103,6 +103,8 @@ static const itype_id itype_marloss_seed( "marloss_seed" );
 
 static const mongroup_id GROUP_CAMP_HUNTING( "GROUP_CAMP_HUNTING" );
 static const mongroup_id GROUP_CAMP_HUNTING_LARGE( "GROUP_CAMP_HUNTING_LARGE" );
+static const mongroup_id GROUP_CAMP_HUNTING_LARGE_CANNIBAL( "GROUP_CAMP_HUNTING_LARGE_CANNIBAL" );
+
 static const mongroup_id GROUP_CAMP_TRAPPING( "GROUP_CAMP_TRAPPING" );
 
 static const oter_str_id oter_dirt_road_3way_forest_east( "dirt_road_3way_forest_east" );
@@ -158,6 +160,7 @@ static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
 //static const update_mapgen_id update_mapgen_faction_wall_level_N_1(
@@ -3972,7 +3975,7 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
     }
     if( miss_id.id == Camp_Trapping ||
         miss_id.id == Camp_Hunting ) {
-        hunting_results( round( skill ), miss_id, checks_per_cycle * mission_time / min_time, 30 );
+        hunting_results( *comp, round( skill ), miss_id, checks_per_cycle * mission_time / min_time, 30 );
     } else {
         search_results( round( skill ), itemlist, checks_per_cycle * mission_time / min_time, 15 );
     }
@@ -4654,7 +4657,7 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
     }
 }
 
-void basecamp::hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty )
+void basecamp::hunting_results( npc &comp, int skill, const mission_id &miss_id, int attempts, int difficulty )
 {
     // corpses do not exist as discrete items, so we use monster groups instead
     weighted_int_list<mtype_id> hunting_targets;
@@ -4666,8 +4669,14 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
             hunting_targets.add( target.name, target.frequency );
         }
     } else if( miss_id.id == Camp_Hunting ) {
-        for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE->monsters ) {
-            hunting_targets.add( target.name, target.frequency );
+        if ( comp.has_trait(trait_CANNIBAL) ) {
+            for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE_CANNIBAL->monsters ) {
+                hunting_targets.add( target.name, target.frequency );
+            }
+        } else { 
+            for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE->monsters ) {
+                hunting_targets.add( target.name, target.frequency );
+            }
         }
     }
     for( int i = 0; i < attempts; i++ ) {
