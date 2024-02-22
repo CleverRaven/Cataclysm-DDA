@@ -578,8 +578,7 @@
       { "monster": "mon_moose", "weight": 1 },
       { "monster": "mon_pig", "weight": 1 },
       { "monster": "mon_wolf", "weight": 10 },
-      { "monster": "mon_feral_human_pipe", "weight": 5 },
-      { "monster": "mon_feral_human_crowbar", "weight": 1 }
+      { "monster": "mon_feral_human_pipe", "weight": 10 }
     ]
   }
 ]

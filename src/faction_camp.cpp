@@ -4657,7 +4657,8 @@ void basecamp::search_results( int skill, const item_group_id &group_id, int att
     }
 }
 
-void basecamp::hunting_results( npc &comp, int skill, const mission_id &miss_id, int attempts, int difficulty )
+void basecamp::hunting_results( npc &comp, int skill, const mission_id &miss_id, int attempts,
+                                int difficulty )
 {
     // corpses do not exist as discrete items, so we use monster groups instead
     weighted_int_list<mtype_id> hunting_targets;
@@ -4669,11 +4670,11 @@ void basecamp::hunting_results( npc &comp, int skill, const mission_id &miss_id,
             hunting_targets.add( target.name, target.frequency );
         }
     } else if( miss_id.id == Camp_Hunting ) {
-        if ( comp.has_trait(trait_CANNIBAL) ) {
+        if( comp.has_trait( trait_CANNIBAL ) ) {
             for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE_CANNIBAL->monsters ) {
                 hunting_targets.add( target.name, target.frequency );
             }
-        } else { 
+        } else {
             for( const MonsterGroupEntry &target : GROUP_CAMP_HUNTING_LARGE->monsters ) {
                 hunting_targets.add( target.name, target.frequency );
             }
