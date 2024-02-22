@@ -77,11 +77,19 @@ jobs:
         # sure why this isn't figured out automatically.
         export EM_CONFIG=$EMSDK/.emscripten
         export CCACHE_COMPILERCHECK=string:3.1.51
+        export CCACHE_DEBUG=1
+        export CCACHE_DEBUGDIR=$GITHUB_WORKSPACE/ccache-debug
         ccache --zero-stats
         ccache -M 5G
         ccache --show-stats
 
         ./build-scripts/build-emscripten.sh
+
+    - name: Upload ccache debug
+      uses: actions/upload-artifact@v4
+      with:
+        name: ccache-debug
+        path: "ccache-debug/**/*"
 
     - name: post-build ccache manipulation
       run: |
