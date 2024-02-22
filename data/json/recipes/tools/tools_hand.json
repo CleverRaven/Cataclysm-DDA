@@ -224,7 +224,7 @@
       { "proficiency": "prof_redsmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "components": [ [ "scrap_bronze", 2 ] ]
+    "components": [ [ [ "scrap_bronze", 2 ] ] ]
   },
   {
     "type": "recipe",
