@@ -846,6 +846,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_arvore_vitamin_bonus",
+    "//": "Hidden, but provides vitamins for being out in the sun",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [
+      { "vitamin": "calcium", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] },
+      { "vitamin": "vitC", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] },
+      { "vitamin": "iron", "rate": [ [ 1, 1 ] ], "tick": [ "20 n" ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pollen_arvore_weaken",
     "name": [ "Weakening Pollen" ],
     "desc": [ "The pollen makes it hard to breathe!" ],
