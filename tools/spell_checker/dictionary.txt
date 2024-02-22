@@ -352,6 +352,7 @@ bloodhunting
 bloodstreams
 bloomery
 bloop
+blowback
 blued
 bluegill
 blup
@@ -2831,6 +2832,7 @@ sluglike
 smallmouth
 smartcard
 smartgun
+smartphone
 smg
 smithing
 smokable
