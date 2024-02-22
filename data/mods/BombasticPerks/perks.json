@@ -27,8 +27,9 @@
     "type": "mutation",
     "id": "perk_STR_UP_2",
     "name": { "str": "Even Stronger" },
-    "points": 2,
+    "points": 0,
     "description": "You HAVE been working out.  +2 Strength.",
+    "prereqs": [ "perk_STR_UP" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
@@ -46,8 +47,9 @@
     "type": "mutation",
     "id": "perk_DEX_UP_2",
     "name": { "str": "Even Faster" },
-    "points": 2,
+    "points": 0,
     "description": "You HAVE been doing cardio.  +2 Dexterity.",
+    "prereqs": [ "perk_DEX_UP" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
@@ -65,8 +67,9 @@
     "type": "mutation",
     "id": "perk_INT_UP_2",
     "name": { "str": "Even Smarter" },
-    "points": 2,
+    "points": 0,
     "description": "You HAVE been reading.  +2 Intelligence.",
+    "prereqs": [ "perk_INT_UP" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
@@ -84,8 +87,9 @@
     "type": "mutation",
     "id": "perk_PER_UP_2",
     "name": { "str": "Even Sharper" },
-    "points": 2,
+    "points": 0,
     "description": "You HAVE been staring out into the middle distance.  +2 Perception.",
+    "prereqs": [ "perk_PER_UP" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
