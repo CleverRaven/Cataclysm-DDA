@@ -3518,10 +3518,26 @@
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
         "req_flag": "DRACULIN_VENOM"
+      },
+      {
+        "id": "venom_player1",
+        "chance": 70,
+        "duration": 30,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM1"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 70,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM2"
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 12 },
+      { "stat": "damage", "type": "stab", "scale": 9 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
@@ -3558,10 +3574,26 @@
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
         "req_flag": "DRACULIN_VENOM"
+      },
+      {
+        "id": "venom_player1",
+        "chance": 70,
+        "duration": 30,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM1"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 70,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM2"
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 12 },
+      { "stat": "damage", "type": "stab", "scale": 9 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
@@ -3589,10 +3621,26 @@
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
         "req_flag": "DRACULIN_VENOM"
+      },
+      {
+        "id": "venom_player1",
+        "chance": 90,
+        "duration": 30,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM1"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 90,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM2"
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 12 },
+      { "stat": "damage", "type": "stab", "scale": 9 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
@@ -3630,6 +3678,22 @@
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
         "req_flag": "DRACULIN_VENOM"
+      },
+      {
+        "id": "venom_player1",
+        "chance": 70,
+        "duration": 30,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM1"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 70,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM2"
       }
     ],
     "flat_bonuses": [
@@ -3663,6 +3727,22 @@
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
         "req_flag": "DRACULIN_VENOM"
+      },
+      {
+        "id": "venom_player1",
+        "chance": 70,
+        "duration": 30,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM1"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 70,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM2"
       }
     ],
     "condition": {
@@ -3701,6 +3781,22 @@
         "on_damage": true,
         "message": "Saliva glistens across %s's wound!",
         "req_flag": "DRACULIN_VENOM"
+      },
+      {
+        "id": "venom_player1",
+        "chance": 90,
+        "duration": 30,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM1"
+      },
+      {
+        "id": "venom_player2",
+        "chance": 90,
+        "duration": 60,
+        "on_damage": true,
+        "message": "Venom gets into %s's wound!",
+        "req_flag": "VENOM2"
       }
     ],
     "attack_vectors": [ "MOUTH" ],
