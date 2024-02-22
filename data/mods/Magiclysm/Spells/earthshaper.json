@@ -121,7 +121,7 @@
     "max_level": 20,
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30)" ] },
     "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(80)" ] },
-    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2,5)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(2.5)" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "damage_type": "cut",
     "min_aoe": 25,
