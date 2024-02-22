@@ -132,5 +132,85 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAWS_RETRACT",
+    "condition": { "and": [ { "u_has_trait": "CLAWS_RETRACT_active" } ] },
+    "effect": [
+      { "u_message": "You retract your claws." },
+      { "u_lose_trait": "CLAWS_RETRACT_active" }
+    ],
+    "false_effect": [ { "u_message": "You extend your claws." }, { "u_add_trait": "CLAWS_RETRACT_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EATHEALTH",
+    "condition": { "and": [ { "u_has_trait": "EATHEALTH_active" } ] },
+    "effect": [
+      { "u_message": "Your hyper-metabolism slows down." },
+      { "u_lose_trait": "EATHEALTH_active" }
+    ],
+    "false_effect": [ { "u_message": "Your hyper-metabolism starts burning up calories." }, { "u_add_trait": "EATHEALTH_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_WINGS_INSECT",
+    "condition": { "and": [ { "u_has_trait": "WINGS_INSECT_active" } ] },
+    "effect": [
+      { "u_message": "You stop buzzing your wings." },
+      { "u_lose_trait": "WINGS_INSECT_active" }
+    ],
+    "false_effect": [ { "u_message": "You begin buzzing your wings." }, { "u_add_trait": "WINGS_INSECT_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOLUM1",
+    "condition": { "and": [ { "u_has_trait": "BIOLUM1_active" } ] },
+    "effect": [
+      { "u_message": "Your photophore loses its glow." },
+      { "u_lose_trait": "BIOLUM1_active" }
+    ],
+    "false_effect": [ { "u_message": "Your photophore begins to glow." }, { "u_add_trait": "BIOLUM1_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOLUM2",
+    "condition": { "and": [ { "u_has_trait": "BIOLUM2_active" } ] },
+    "effect": [
+      { "u_message": "Your photophore loses its glow." },
+      { "u_lose_trait": "BIOLUM2_active" }
+    ],
+    "false_effect": [ { "u_message": "Your photophore begins to glow." }, { "u_add_trait": "BIOLUM2_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARK2_b",
+    "condition": { "and": [ { "u_has_trait": "BARK2_b" } ] },
+    "effect": [
+      { "u_lose_trait": "BARK2_b" },
+      { "u_add_trait": "BARK2_c" }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_BARK2_c" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARK2_c",
+    "condition": { "and": [ { "u_has_trait": "BARK2_c" } ] },
+    "effect": [
+      { "u_lose_trait": "BARK2_c" },
+      { "u_add_trait": "BARK2_d" }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_BARK2_d" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARK2_d",
+    "condition": { "and": [ { "u_has_trait": "BARK2_d" } ] },
+    "effect": [
+      { "u_lose_trait": "BARK2_c" },
+      { "u_add_trait": "BARK2_d" }
+    ],
+    "false_effect": [ { "run_eocs": [ "EOC_BARK2_b" ] } ]
   }
 ]

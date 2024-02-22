@@ -695,5 +695,62 @@
       { "u_activate_trait": "WINGS_INSECT_active" },
       { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EAGLEEYED_NIGHT",
+    "condition": { "and": [ { "u_has_trait": "EAGLEEYED" }, { "not": { "u_has_trait": "EAGLEEYED_NIGHT" } }, { "not": "is_day" } ] },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_lose_trait": "EAGLEEYED_DAY" },
+      { "u_add_trait": "EAGLEEYED_NIGHT" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EAGLEEYED_DAY",
+    "condition": { "and": [ { "u_has_trait": "EAGLEEYED" }, { "not": { "u_has_trait": "EAGLEEYED_DAY" } }, "is_day" ] },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_lose_trait": "EAGLEEYED_NIGHT" },
+      { "u_add_trait": "EAGLEEYED_DAY" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EAGLEEYED_LOSE",
+    "condition": { "and": [ { "or": [ { "u_has_trait": "EAGLEEYED_NIGHT" }, { "u_has_trait": "EAGLEEYED_DAY" } ] }, { "not": { "u_has_trait": "EAGLEEYED" } } ] },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_lose_trait": "EAGLEEYED_NIGHT" },
+      { "u_lose_trait": "EAGLEEYED_DAY" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BARK2_initialize",
+    "condition": { "and": [ { "u_has_trait": "BARK2_a" }, { "not": { "u_has_trait": "BARK2_b" } }, { "not": { "u_has_trait": "BARK2_c" } }, { "not": { "u_has_trait": "BARK2_d" } } ] },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_add_trait": "BARK2_b" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOLUM1_LOSE",
+    "condition": { "and": [ { "u_has_trait": "BIOLUM1_active" }, { "not": { "u_has_trait": "BIOLUM1" } } ] },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_lose_trait": "BIOLUM1_active" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOLUM2_LOSE",
+    "condition": { "and": [ { "u_has_trait": "BIOLUM2_active" }, { "not": { "u_has_trait": "BIOLUM2" } } ] },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_lose_trait": "BIOLUM2_active" }
+    ]
   }
 ]

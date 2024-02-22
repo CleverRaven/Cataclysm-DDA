@@ -339,7 +339,6 @@
     "name": { "str": "Weak Photophore" },
     "points": 1,
     "description": "A photophore has grown from your head; you can make it glow softly.  This will make you very visible in the dark, ideal for attracting a partner during mating season.",
-    "active": true,
     "cost": 9,
     "time": "225 h",
     "kcal": true,
@@ -347,17 +346,18 @@
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM0" ],
     "changes_to": [ "BIOLUM2" ],
-    "transform": { "target": "BIOLUM1_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 },
-    "category": [ "ELFA", "INSECT", "FISH" ]
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "active": true,
+    "activated_eocs": [ "EOC_BIOLUM1" ]
   },
   {
     "type": "mutation",
     "id": "BIOLUM1_active",
     "name": { "str": "Weak Photophore (on)" },
     "description": "Your photophore is glowing softly.",
-    "copy-from": "BIOLUM1",
+    "points": 0,
     "valid": false,
-    "transform": { "target": "BIOLUM1", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
+    "purifiable": false,
     "lumination": [ [ "head", 8 ] ]
   },
   {
@@ -374,17 +374,16 @@
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM1" ],
     "leads_to": [ "BIOLUM3" ],
-    "category": [ "ELFA", "INSECT", "FISH" ],
-    "transform": { "target": "BIOLUM2_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
+    "category": [ "ELFA", "INSECT", "FISH" ]
   },
   {
     "type": "mutation",
     "id": "BIOLUM2_active",
+    "points": 0,
     "name": { "str": "Photophore (on)" },
     "description": "You photophore is glowing brightly.",
-    "copy-from": "BIOLUM2",
     "valid": false,
-    "transform": { "target": "BIOLUM2", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
+    "purifiable": false,
     "lumination": [ [ "head", 20 ] ]
   },
   {
@@ -407,7 +406,7 @@
     "type": "mutation",
     "id": "JEKYLL",
     "name": { "str": "Normal Human" },
-    "points": 0,
+    "points": 2,
     "description": "You're a normal human; there's nothing wrong with you.  No need to worry.",
     "category": [ "MEDICAL" ],
     "triggers": [
@@ -429,35 +428,58 @@
         }
       ]
     ],
-    "transform": { "target": "HYDE", "msg_transform": "The anger overtakes you!", "active": false, "moves": 10 }
+    "enchantments": [ "ench_hyde" ]
   },
   {
     "type": "mutation",
     "id": "HYDE",
     "valid": false,
-    "name": { "str": "Violent Monster" },
-    "points": -1,
+    "purifiable": false,
+    "points": 0,
+    "name": {
+      "str": "Violent Monster"
+    },
     "description": "Anger clouds your mind; you can't think straight, but you feel strong.",
     "mixed_effect": true,
-    "category": [ "MEDICAL" ],
     "triggers": [
       [
         {
           "condition": {
             "and": [
-              { "math": [ "time_since('midnight', 'unit': 'hours') > 6" ] },
-              { "math": [ "time_since('midnight', 'unit': 'hours') < 21" ] }
+              {
+                "math": [
+                  "time_since('midnight', 'unit': 'hours') > 6"
+                ]
+              },
+              {
+                "math": [
+                  "time_since('midnight', 'unit': 'hours') < 21"
+                ]
+              }
             ]
           },
-          "msg_on": { "text": "As the morning comes, you return back to normal.", "rating": "good" }
+          "msg_on": {
+            "text": "As the morning comes, you return back to normal.",
+            "rating": "good"
+          }
         }
       ]
     ],
-    "transform": { "target": "JEKYLL", "msg_transform": "The anger subsides.", "active": false, "moves": 10 },
-    "passive_mods": { "int_mod": -8, "str_mod": 3 },
+    "transform": {
+      "target": "NULL",
+      "msg_transform": "The anger subsides.",
+      "active": false,
+      "moves": 10
+    },
+    "passive_mods": {
+      "int_mod": -8,
+      "str_mod": 3
+    },
     "ugliness": 8,
     "visibility": 8,
-    "social_modifiers": { "intimidate": 4 }
+    "social_modifiers": {
+      "intimidate": 4
+    }
   },
   {
     "type": "mutation",
@@ -1184,23 +1206,26 @@
     "points": 1,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
-    "cancels": [ "UNOBSERVANT" ],
+    "cancels": [ "UNOBSERVANT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EAGLEEYED_DAY",
+    "//": "Indistinguishable to player, version without overmap_sight so it doesn't work at night.",
+    "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
+    "points": 0,
+    "name": { "str": "Scout (day)" },
     "overmap_sight": 5,
-    "triggers": [ [ { "condition": { "not": "is_day" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "EAGLEEYED_NIGHT", "msg_transform": "", "active": false, "moves": 0 }
+    "valid": false
   },
   {
     "type": "mutation",
     "id": "EAGLEEYED_NIGHT",
     "//": "Indistinguishable to player, version without overmap_sight so it doesn't work at night.",
-    "name": { "str": "Scout" },
-    "points": 1,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
-    "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
-    "cancels": [ "UNOBSERVANT" ],
-    "valid": false,
-    "triggers": [ [ { "condition": "is_day", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "EAGLEEYED", "msg_transform": "", "active": false, "moves": 0 }
+    "points": 0,
+    "name": { "str": "Scout (night)" },
+    "valid": false
   },
   {
     "type": "mutation",
@@ -3375,64 +3400,53 @@
   {
     "type": "mutation",
     "id": "BARK2_a",
-    "name": { "str": "Shifting Bark (Distributed)" },
-    "points": 6,
-    "visibility": 10,
-    "ugliness": 3,
+    "name": { "str": "Shifting Bark" },
     "purifiable": false,
-    "description": "Your warped bark can be shifted in function, and is currently spread evenly.  Activate to better protect your torso, at the cost of other areas.",
+    "description": "Your warped bark can be shifted in function.  Activate to adjust its protection.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "BARK" ],
     "category": [ "PLANT" ],
     "threshreq": [ "THRESH_PLANT" ],
     "active": true,
-    "integrated_armor": [ "integrated_bark2_a" ],
-    "transform": {
-      "target": "BARK2_b",
-      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
-      "active": false,
-      "moves": 350
-    }
+    "activated_eocs": [ "EOC_BARK2_b" ],
+    "points": 6
   },
   {
     "type": "mutation",
     "id": "BARK2_b",
-    "name": { "str": "Shifting Bark (Consolidated)" },
-    "points": 6,
+    "name": { "str": "Shifting Bark (Distributed)" },
+    "points": 0,
     "visibility": 10,
     "ugliness": 3,
     "purifiable": false,
     "valid": false,
-    "description": "Your warped bark can be shifted in function, and is currently consolidated on your torso.  Activate to shift your bark into a lattice, increasing bulk but providing better protection for the entire body.",
-    "types": [ "BODY_ARMOR" ],
-    "active": true,
-    "integrated_armor": [ "integrated_bark2_b" ],
-    "transform": {
-      "target": "BARK2_c",
-      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
-      "active": false,
-      "moves": 350
-    }
+    "description": "Your bark is currently spread evenly across your body.",
+    "integrated_armor": [ "integrated_bark2_a" ]
   },
   {
     "type": "mutation",
     "id": "BARK2_c",
-    "name": { "str": "Shifting Bark (Latticed)" },
-    "points": 6,
+    "name": { "str": "Shifting Bark (Consolidated)" },
+    "points": 0,
     "visibility": 10,
     "ugliness": 3,
     "purifiable": false,
     "valid": false,
-    "description": "Your warped bark can be shifted in function, and is currently expanded into a sturdy lattice.  Activate to collapse the lattice, returning to an evenly distributed form.",
+    "description": "Your bark is currently consolidated over your torso.",
     "types": [ "BODY_ARMOR" ],
-    "active": true,
-    "integrated_armor": [ "integrated_bark2_c" ],
-    "transform": {
-      "target": "BARK2_a",
-      "msg_transform": "Your bark ripples across your body, repositioning at a cellular level.",
-      "active": false,
-      "moves": 350
-    }
+    "integrated_armor": [ "integrated_bark2_b" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BARK2_d",
+    "name": { "str": "Shifting Bark (Latticed)" },
+    "points": 0,
+    "visibility": 10,
+    "ugliness": 3,
+    "purifiable": false,
+    "valid": false,
+    "description": "Your bark is currently spread across your body in a sturdy lattice.",
+    "integrated_armor": [ "integrated_bark2_c" ]
   },
   {
     "type": "mutation",
@@ -3854,21 +3868,19 @@
     "description": "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS" ],
+    "activated_eocs": [ "EOC_CLAWS_RETRACT" ],
     "category": [ "FELINE" ],
-    "transform": { "target": "CLAWS_RETRACT_active", "msg_transform": "You extend your claws.", "active": false, "moves": 10 },
     "cost": 0
   },
   {
     "type": "mutation",
     "id": "CLAWS_RETRACT_active",
     "name": { "str": "Extended Claws" },
-    "copy-from": "CLAWS_RETRACT",
-    "active": true,
+    "points": 0,
     "valid": false,
     "ugliness": 1,
     "integrated_armor": [ "integrated_claws" ],
     "description": "Sharp claws are extending from the end of your fingers.",
-    "transform": { "target": "CLAWS_RETRACT", "msg_transform": "You retract your claws.", "active": false, "moves": 10 },
     "cost": 0
   },
   {
@@ -4731,32 +4743,33 @@
     "id": "EATHEALTH",
     "name": { "str": "Hyper-Metabolism" },
     "points": 15,
-    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes; this is, however, a very wasteful process.  Activate to start healing.",
+    "description": "Your particular metabolism allows you to burn calories at a prodigious rate to regenerate tissues in a matter of minutes; this is, however, a very wasteful process.  Activate to start or stop healing.",
     "prereqs": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "threshreq": [ "THRESH_CHIMERA" ],
     "category": [ "CHIMERA" ],
     "active": true,
-    "transform": {
-      "target": "EATHEALTH_active",
-      "msg_transform": "Your hyper-metabolism starts burning up calories.",
-      "active": true,
-      "moves": 0
-    }
+    "activated_eocs": [ "EOC_EATHEALTH" ]
   },
   {
     "type": "mutation",
     "id": "EATHEALTH_active",
     "name": { "str": "Hyper-Metabolism: burning" },
     "description": "You're burning calories like crazy to heal your wounds.",
-    "copy-from": "EATHEALTH",
+    "starts_active": true,
     "valid": false,
     "cost": 9,
     "time": "1 s",
     "kcal": true,
     "healing_awake": 0.85,
     "healing_multiplier": 350.0,
-    "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
+    "points": 0,
+    "transform": {
+      "target": "NULL",
+      "msg_transform": "Starvation forces your hyper-metabolism to slow back down.",
+      "active": false,
+      "moves": 0
+    }
   },
   {
     "type": "mutation",
@@ -5427,7 +5440,7 @@
     "restricts_gear": [ "torso" ],
     "flags": [ "WINGS_1" ],
     "active": true,
-    "transform": { "target": "WINGS_INSECT_active", "msg_transform": "You begin buzzing your wings.", "active": true, "moves": 20 }
+    "activated_eocs": [ "EOC_WINGS_INSECT" ]
   },
   {
     "type": "mutation",
@@ -5437,9 +5450,9 @@
     "copy-from": "WINGS_INSECT",
     "valid": false,
     "movecost_modifier": 0.75,
-    "flags": [ "WINGS_1", "MUSCLE_VEH_BOOST" ],
+    "flags": [ "MUSCLE_VEH_BOOST" ],
     "enchantments": [ "ench_wings_insect_active" ],
-    "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 }
+    "activated_eocs": [ "EOC_WINGS_INSECT" ]
   },
   {
     "type": "mutation",
