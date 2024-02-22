@@ -804,6 +804,23 @@ void basecamp::unload_camp_map()
     }
 }
 
+void basecamp::set_owner( faction_id new_owner )
+{
+    for( const std::pair<faction_id, faction> fac : g->faction_manager_ptr->all() ) {
+        if( fac.first == new_owner ) {
+            owner = new_owner;
+            return;
+        }
+    }
+    //Fallthrough, id must be invalid
+    debugmsg( "Could not find matching faction for new owner's faction_id!" );
+}
+
+faction_id basecamp::get_owner()
+{
+    return owner;
+}
+
 void basecamp::form_crafting_inventory()
 {
     map &here = get_camp_map();

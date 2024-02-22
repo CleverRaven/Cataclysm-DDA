@@ -629,6 +629,7 @@ static std::optional<basecamp *> get_basecamp( npc &p,
         return std::nullopt;
     }
     basecamp *temp_camp = *bcp;
+    temp_camp->set_owner( p.get_fac_id() );
     temp_camp->define_camp( omt_pos, camp_type );
     return temp_camp;
 }
