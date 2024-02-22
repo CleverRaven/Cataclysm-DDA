@@ -184,7 +184,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 13 to 30 seconds, plus 1.5 to 2.5 seconds per level<br />
 *Stamina Cost*: 3000, minus 125 per level to a minimum of 1250<br />
 *Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
-*Effects*: Reduce the armor values of the target, causing them to take +1 damage per two power levels on any hit. Due to engine limitations, at the moment this power only works on NPCs.<br />
+*Effects*: Reduce the armor values of the target, causing them to take +4 additional damage, +1 per power level, on any hit.<br />
 *Prerequisites*: Night Eyes 4, Premonition 4<br />
 
 ## Aura Sight (C)
@@ -353,6 +353,15 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Reduces incoming pain by 15% plus 2% per power level, to a maximum of 50% reduction, and increases the chance to remove pain during pain reduction checks by 10% plus 2% per power level to a maximum of 50% increased chance.<br />
 *Prerequisites*: Neural Spasms 4 *or* (Spark Sight 8 AND Electrical Discharge 8)<br />
 
+## Hacking Interface (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: 10 minutes and to 30 minutes, plus 45 seconds to 1 minute and 30 seconds per power level.<br />
+*Stamina Cost*: 6500, minus 150 per level to a minimum of 3500<br />
+*Channeling Time*: 350 moves, minus 9 moves per level to a minimum of 150<br />
+*Effects*: Create a connection between the psion's brain and any computers nearby, allowing them to hack the computer with their mind.  They still must interact with the computer to hack it.  Increasing level decreases the time the hack will take and increases the odds the hack will be successful.<br />
+*Prerequisites*: Spark Sight 4, Static Touch 4, and Electron Overflow 4<br />
+
 ## Electrocutioner
 *Difficulty*: 5<br />
 *Target*: Line stretching 3 squares plus 0.7 squares per power level<br />
@@ -398,13 +407,22 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Overloads a robot or cyborg, completely short-circuiting it and destroying it, and releasing a cloud of sparks within 1 square of the target plus 0.4 squares per power level.  Yrax constructs do not function based on electricity and are immune to this power.<br />
 *Prerequisites*: Re-energize 8 *or* Electrocutioner 8 *or* Voltaic Strikes 13, Spark Sight 8<br />
 
-## Galvanic Aura
+## Robotic Interface
+*Difficulty*: 8<br />
+*Target*: One nearby robot or cyborg within 10 squares<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 8000, minus 125 per level to a minimum of 5000<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 30<br />
+*Effects*: Attempt to take control of a robot within range, reprogramming it to serve as an ally. The psion may also channel this power to command the robots under their control. Success is dependent on Computer skill.<br />
+*Prerequisites*: Spark Sight 12, Hacking Interface 8, Short Circuit 8<br />
+
+## Galvanic Aura (C)
 *Difficulty*: 8<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 4 minutes 10 seconds, plus 15 seconds to 25 seconds per power level<br />
 *Stamina Cost*: 9000, minus 200 per level to a minimum of 4500<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 55<br />
-*Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds. It also provides electric armor equal to the power level and makes the psion and their gear immune to EMP blasts.<br />
+*Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds, as well as blasting a nearby non-NPC target repeatedly with lightning. It makes the psion immune to electrical damage and makes them and their gear immune to EMP blasts.<br />
 *Prerequisites*: Electrical Discharge 12, Electron Overflow 15 *or* Re-energize 6<br />
 
 ## Ion Blast
