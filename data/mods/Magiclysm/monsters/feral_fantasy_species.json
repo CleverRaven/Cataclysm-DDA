@@ -29,7 +29,8 @@
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
     "id": "mon_feral_dwarf_pipe",
@@ -93,7 +94,8 @@
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
     "id": "mon_feral_dwarf_crowbar",
@@ -138,7 +140,8 @@
     "dodge": 3,
     "vision_night": 8,
     "harvest": "demihuman",
-    "families": [ "prof_intro_biology", "prof_wp_demihuman" ]
+    "families": [ "prof_intro_biology", "prof_wp_demihuman" ],
+    "extend": { "flags": [ "QUIETMOVES" ] }
   },
   {
     "id": "mon_feral_dwarf_axe",

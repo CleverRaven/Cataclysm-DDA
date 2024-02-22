@@ -238,6 +238,7 @@
       [ "bio_infrared", 10 ],
       [ "bio_lockpick", 10 ],
       [ "bio_night_vision", 10 ],
+      [ "bio_sonar", 10 ],
       [ "bio_power_storage_mkII", 10 ],
       [ "bio_scent_mask", 10 ],
       [ "bio_jointservo", 10 ],

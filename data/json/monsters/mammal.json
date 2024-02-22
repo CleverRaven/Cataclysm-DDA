@@ -57,7 +57,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
     "harvest": "mammal_tiny",
-    "dissect": "dissect_beast_sample_single",
+    "dissect": "dissect_chiropteran_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying" ],
     "vision_day": 20,
     "vision_night": 20,

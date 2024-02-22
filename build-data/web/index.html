@@ -287,7 +287,10 @@
         },
       };
       Module.setStatus("Downloading...");
-      window.onerror = function (event) {
+      window.onerror = function (event, source, lineno, colno, error) {
+        if (typeof error === 'number' && Module.getExceptionMessage) {
+          console.log(Module.getExceptionMessage(error));
+        }
         alert("Exception thrown, see JavaScript console.");
       };
       window.onbeforeunload = (e) => {

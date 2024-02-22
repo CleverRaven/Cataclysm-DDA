@@ -226,16 +226,22 @@ class basecamp
         bool set_sort_points();
 
         // food utility
-        /// Takes all the food from the camp_food zone and increases the faction
-        /// food_supply
         /// Changes the faction food supply by @ref change, returns the amount of kcal+vitamins consumed, a negative
         /// total food supply hurts morale
         /// Handles vitamin consumption when only a kcal value is supplied
         nutrients camp_food_supply( nutrients &change );
-        /// LEGACY FUNCTION. Constructs a new nutrients struct in place and forwards it
-        nutrients camp_food_supply( int change = 0 );
-        /// LEGACY FUNCTION. Calculates raw kcal cost from duration of work and exercise, then forwards it to above
+        /// Constructs a new nutrients struct in place and forwards it. Passed argument should be in kilocalories.
+        nutrients camp_food_supply( int change );
+        /// Calculates raw kcal cost from duration of work and exercise, then forwards it to above
         nutrients camp_food_supply( time_duration work, float exertion_level = NO_EXERCISE );
+        /// Evenly distributes the actual consumed food from a work project to the workers assigned to it
+        void feed_workers( const std::vector<std::reference_wrapper <Character>> &workers, nutrients food,
+                           bool is_player_meal = false );
+        /// Helper, forwards to above
+        void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
+        void player_eats_meal();
+        /// Takes all the food from the camp_food zone and increases the faction
+        /// food_supply
         bool distribute_food();
         std::string name_display_of( const mission_id &miss_id );
         void handle_hide_mission( const point &dir );

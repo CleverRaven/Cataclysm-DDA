@@ -588,7 +588,7 @@
       "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
     },
     "responses": [
-      { "text": "I don’t know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
+      { "text": "I don't know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -1174,7 +1174,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
-      "str": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike."
+      "str": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we're lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike."
     },
     "responses": [
       {
@@ -1195,7 +1195,7 @@
     "responses": [
       { "text": "What the hell does that mean?", "topic": "TALK_EXODII_MERCHANT_Purpose4" },
       {
-        "text": "[INT 8] Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "text": "[INT 8] Are you saying you think we're doomed?  Why would you have come here if there wasn't some way to survive?",
         "condition": { "u_has_intelligence": 8 },
         "topic": "TALK_EXODII_MERCHANT_Survival"
       },
@@ -1212,7 +1212,7 @@
     },
     "responses": [
       {
-        "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn't some way to survive?",
         "topic": "TALK_EXODII_MERCHANT_Survival"
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -1224,7 +1224,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone.",
-      "str": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much meat-an'-bone."
+      "str": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won't take too much meat-an'-bone."
     },
     "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" } },
     "responses": [
@@ -1255,7 +1255,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid.",
-      "str": "Haha, not mostly, mate.  Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid."
+      "str": "Haha, not mostly, mate.  Not worth riskin' the willies, innit?  I keep what's Rubik, but the rest is all solid."
     },
     "responses": [
       {

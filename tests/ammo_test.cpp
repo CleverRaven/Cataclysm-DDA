@@ -123,7 +123,7 @@ TEST_CASE( "ammo_types", "[ammo][ammo_types]" )
         CHECK( has_ammo_types( item( "m1911" ) ) );
         CHECK( has_ammo_types( item( "usp_9mm" ) ) );
         CHECK( has_ammo_types( item( "tommygun" ) ) );
-        CHECK( has_ammo_types( item( "ak74" ) ) );
+        CHECK( has_ammo_types( item( "ak74_semi" ) ) );
         CHECK( has_ammo_types( item( "ak47" ) ) );
     }
 

@@ -99,7 +99,9 @@ static const itype_id itype_apparatus( "apparatus" );
 static const itype_id itype_dab_pen_on( "dab_pen_on" );
 static const itype_id itype_syringe( "syringe" );
 
+static const json_character_flag json_flag_BLOODFEEDER( "BLOODFEEDER" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_HEMOVORE( "HEMOVORE" );
 static const json_character_flag json_flag_IMMUNE_SPOIL( "IMMUNE_SPOIL" );
 static const json_character_flag json_flag_NUMB( "NUMB" );
 static const json_character_flag json_flag_PARAIMMUNE( "PARAIMMUNE" );
@@ -507,6 +509,29 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
             fun = -fun;
             fun /= 2;
         }
+    }
+
+    // Cooked blood is OK, but it's really better raw
+    // This is automatically handled by raw blood having negative fun
+    if( comest.has_flag( flag_HEMOVORE_FUN ) ) {
+        if( has_flag( json_flag_BLOODFEEDER ) ) {
+            if( fun <= 0 ) {
+                fun += 25;
+            } else {
+                fun *= 1.2;
+            }
+        } else if( has_flag( json_flag_HEMOVORE ) ) {
+            if( fun <= 0 ) {
+                fun += 13;
+            } else {
+                fun *= 1.1;
+            }
+        }
+    }
+
+    // This cherry soda's just not the same...
+    if( has_flag( json_flag_BLOODFEEDER ) && !comest.has_flag( flag_HEMOVORE_FUN ) && fun > 0 ) {
+        fun *= 0.5;
     }
 
     if( has_trait( trait_GOURMAND ) ) {
@@ -926,13 +951,15 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
-    if( food_is_human_flesh  && ( !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
-                                  !has_flag( json_flag_PSYCHOPATH ) ) ) {
+    if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
+          !has_flag( json_flag_PSYCHOPATH ) && !has_flag( json_flag_SAPIOVORE ) ) &&
+        ( !food.has_flag( flag_HEMOVORE_FUN ) || ( !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( _( "The thought of eating human flesh makes you feel sick." ), CANNIBALISM );
     }
 
     if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-        !has_flag( json_flag_PARAIMMUNE ) ) {
+        !has_flag( json_flag_PARAIMMUNE ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+                ( !has_flag( json_flag_HEMOVORE ) && !has_flag( json_flag_BLOODFEEDER ) ) ) ) {
         add_consequence( string_format( _( "Consuming this %s probably isn't very healthy." ),
                                         food.tname() ),
                          PARASITES );
@@ -1151,7 +1178,8 @@ static bool eat( item &food, Character &you, bool force )
     // Chance to become parasitised
     if( !will_vomit && !you.has_flag( json_flag_PARAIMMUNE ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
-            one_in( food.get_comestible()->parasites ) ) {
+            one_in( food.get_comestible()->parasites ) && ( !food.has_flag( flag_HEMOVORE_FUN ) ||
+                    ( !you.has_flag( json_flag_HEMOVORE ) && !you.has_flag( json_flag_BLOODFEEDER ) ) ) ) {
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !you.has_trait( trait_EATHEALTH ) ) {
@@ -1326,10 +1354,16 @@ void Character::modify_morale( item &food, const int nutr )
             add_msg_if_player( _( "You greedily devour the taboo meat." ) );
             // Small bonus for violating a taboo.
             add_morale( MORALE_CANNIBAL, 5, 50 );
+        } else if( has_flag( json_flag_BLOODFEEDER ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
+            add_msg_if_player( _( "The human blood tastes as good as any other." ) );
         } else if( psycho ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
         } else if( sapiovore ) {
             add_msg_if_player( _( "Mmh.  Tastes like venison." ) );
+        } else if( has_flag( json_flag_HEMOVORE ) && food.has_flag( flag_HEMOVORE_FUN ) ) {
+            add_msg_if_player(
+                _( "Despite your cravings, you still can't help feeling weird about drinking somebody's blood." ) );
+            add_morale( MORALE_CANNIBAL, -10, -30, 30_minutes, 15_minutes );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );

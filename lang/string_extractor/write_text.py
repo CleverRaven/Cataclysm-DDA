@@ -69,3 +69,15 @@ def write_text(json, origin, context="", comment="",
     messages[(context, text)].append(
         Message(comments, origin, format_tag, context, text, text_plural))
     occurrences.append((context, text))
+
+
+# Used in parse_effect and parse_condition
+def write_translation_or_var(json, origin, context="", comment="",
+                             plural=False, c_format=True):
+    if type(json) is dict and "default_str" in json:
+        write_text(json["default_str"], origin, context=context,
+                   comment="default value for {}".format(comment),
+                   plural=plural, c_format=c_format)
+    else:
+        write_text(json, origin, context=context, comment=comment,
+                   plural=plural, c_format=c_format)

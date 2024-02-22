@@ -3,7 +3,7 @@
     "id": "mon_zombie_child_scorched",
     "type": "MONSTER",
     "name": { "str": "zombie kinderling" },
-    "description": "A tiny charred body, jumping and kicking and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
+    "description": "A diminutive humanoid figure, its body ravaged by fire into a blackened, charred shell.  Its leathery flesh has mended in patches, and the tattered clothing is still clinging to its emaciated frame making it clear it once was - and still is - the body of a child.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -11,7 +11,7 @@
     "volume": "30000 ml",
     "weight": "40750 g",
     "hp": 35,
-    "speed": 90,
+    "speed": 60,
     "material": [ "flesh" ],
     "symbol": "z",
     "color": "i_brown",
@@ -30,19 +30,7 @@
     "harvest": "zombie_humanoid",
     "death_function": { "effect": { "id": "death_zombie_kinderling", "min_level": 4 }, "message": "The %s explodes!" },
     "upgrades": { "half_life": 28, "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "STUMBLES",
-      "POISON",
-      "GRABS",
-      "NO_BREATHE",
-      "REVIVES",
-      "REVIVES_HEALTHY",
-      "NO_NECRO",
-      "CLIMBS",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "FILTHY" ],
     "armor": { "bash": 4, "cut": 5, "acid": 3, "heat": 15, "bullet": 4, "electric": 3 }
   },
   {

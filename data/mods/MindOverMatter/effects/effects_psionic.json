@@ -366,7 +366,7 @@
     "type": "effect_type",
     "id": "effect_biokin_metabolism_enhance",
     "name": [ "Hyperenhanced Metabolism" ],
-    "desc": [ "c ." ],
+    "desc": [ "Your metabolism is far more efficient than before." ],
     "apply_message": "",
     "remove_message": "Your stomach rumbles.",
     "rating": "good",
@@ -1856,6 +1856,7 @@
     "name": [ "Coagulation" ],
     "desc": [ "You bleed less than normal." ],
     "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "flags": [ "BLEEDSLOW" ]
   },
@@ -1865,6 +1866,7 @@
     "name": [ "Coagulation" ],
     "desc": [ "You bleed much less than normal." ],
     "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "flags": [ "BLEEDSLOW2" ]
   },
@@ -1874,6 +1876,7 @@
     "name": [ "Coagulation" ],
     "desc": [ "You bleed much less than normal and sometimes not at all." ],
     "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "blocks_effects": [ "bleed" ],
     "flags": [ "BLEEDSLOW2" ]

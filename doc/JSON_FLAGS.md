@@ -1155,6 +1155,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```PUSH_VEH``` Can push vehicles out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
+- ```QUIETMOVES``` Makes move noises as if ~2 sizes smaller.
 - ```RANGED_ATTACKER``` Monster has any sort of ranged attack.
 - ```REVIVES_HEALTHY``` When revived, this monster has full hitpoints and speed.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
@@ -1163,6 +1164,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```SHEARABLE``` This monster can be sheared for wool.
 - ```SHORTACIDTRAIL``` Leaves an intermittent trail of acid.  See also `ACIDTRAIL`.
 - ```SILENT_DISAPPEAR``` If this monster dissapear (left no corpse), the `The %s disappears.` message won't be printed.
+- ```SILENTMOVES``` Makes no noise at all when moving.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
 - ```SMALLSLUDGETRAIL``` Causes the monster to occasionally leave a 1-tile sludge trail when moving.
