@@ -10,5 +10,53 @@
     "category": [ "ARVORE" ],
     "triggers": [ [ { "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_KNOW_TIME", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_FOODS_ON",
+    "name": { "str": "Solar Repast (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "enchantments": [ "ench_arvore_sun_foods_on" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              "is_day",
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_is_on_terrain": "t_dirt" },
+                  { "u_is_on_terrain": "t_dirtmound" },
+                  { "u_is_on_terrain": "t_clay" },
+                  { "u_is_on_terrain": "t_sand" },
+                  { "u_is_on_terrain": "t_sandmound" },
+                  { "u_is_on_terrain": "t_grave" },
+                  { "u_is_on_terrain": "t_forestfloor" },
+                  { "u_is_on_terrain": "t_grass" },
+                  { "u_is_on_terrain": "t_grass_long" },
+                  { "u_is_on_terrain": "t_grass_tall" },
+                  { "u_is_on_terrain": "t_grass_dead" },
+                  { "u_is_on_terrain": "t_mud" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_moss" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_FOODS", "msg_transform": "", "active": false, "moves": 0 }
   }
 ]
