@@ -153,7 +153,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS", "MUZZLE", "TEETH", "TONGUE" ],
-    "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE" ],
+    "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE", "BLOODLETTER" ],
     "description": "You have a human mouth with human teeth."
   },
   {
@@ -9632,7 +9632,6 @@
     "points": 2,
     "description": "Your saliva contains powerful anticoagulants.  If you have a bite attack, it will prolong the bleeding of most animals, including humans and the undead.  It may be less effective against insects and stranger creatures.",
     "flags": [ "DRACULIN_VENOM" ],
-    "//": "If this is still here, a contributor forgot to make human_mouth remove this mutation.",
     "prereqs": [ "HEMOVORE", "BLOODFEEDER" ],
     "category": [ "CHIROPTERAN" ]
   },
