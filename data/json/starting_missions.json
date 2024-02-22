@@ -741,5 +741,19 @@
     "start": "kill_nemesis",
     "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
     "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_MOTORIZED_POLICE",
+    "type": "mission_definition",
+    "name": { "str": "Reach The Evacuation Site." },
+    "description": "Before the evacuation group you were escorting got obliterated, your mission had been to accompany it to a refugee processing encampment.  The convoy’s no more and higher authority may have collapsed days ago, but you can only hope that the camp’s still secure and has room for one more refugee.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "fema_entrance_north",
+    "difficulty": 1,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "fema_entrance_north", "reveal_radius": 3, "om_special": "FEMA Camp", "search_range": 80 }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
   }
 ]
