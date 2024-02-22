@@ -77,7 +77,7 @@ jobs:
         # sure why this isn't figured out automatically.
         export EM_CONFIG=$EMSDK/.emscripten
         export CCACHE_COMPILERCHECK=string:3.1.51
-        export CCACHE_DEBUG=1
+        export CCACHE_DEBUG=2
         export CCACHE_DEBUGDIR=$GITHUB_WORKSPACE/ccache-debug
         ccache --zero-stats
         ccache -M 5G
