@@ -21,7 +21,7 @@
         ".`.oO   hfh  +     o....",
         ".`.#7       y|  EbD#....",
         ".`.#TsHHH   R|+|####ŦɤŦŦ",
-        ".`.#E  l    R|-t#^.....Ŧ",
+        ".`.#E  l    R|~t#^.....Ŧ",
         "ŦɤŦ#y xxx   R|S9#...[..Ŧ",
         "Ŧ`.##o#####  ####......Ŧ",
         "Ŧ`..^...``# i#.........Ŧ",
@@ -34,7 +34,6 @@
         "ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "-": "t_linoleum_gray" },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 15, "y": 1 } ]
     }
   },

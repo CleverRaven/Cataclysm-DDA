@@ -245,7 +245,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "H&K USC 45 carbine" },
-    "description": "A compact, lightweight carbine chambering the popular .45 ACP pistol round.  Resembling the popular UMP submachine gun in both its blowback operating system and lightweight polymer frame construction.  This civilian variant is distinguished by its skeletonized stock and 16 inch barrel, and cannot accept UMP parts.",
+    "description": "A compact, lightweight carbine chambering the .45 ACP pistol round.  Resembling the popular UMP submachine gun in both its blowback operating system and lightweight polymer frame construction, this civilian variant is distinguished by its skeletonized stock and 16 inch barrel, leaving it unable to accommodate standard UMP parts.",
     "weight": "2781 g",
     "volume": "6116 ml",
     "longest_side": "900 mm",

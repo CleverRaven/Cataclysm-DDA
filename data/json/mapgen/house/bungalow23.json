@@ -38,7 +38,7 @@
         "........................"
       ],
       "terrain": {
-        "_": "t_linoleum_gray",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ",": "t_floor_noroof",
         "6": "t_null",
         "F": "t_null",
@@ -53,8 +53,8 @@
         "`": "t_railing_v",
         "]": "t_carpet_purple",
         "i": "t_floor_noroof",
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray",
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "₸": "t_floor_noroof",
         "l": "t_carpet_purple",
         "Q": "t_null",

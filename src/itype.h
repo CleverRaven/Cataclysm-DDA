@@ -1147,7 +1147,7 @@ class islot_milling
 {
     public:
         itype_id into_;
-        double conversion_rate_ = 0;
+        recipe_id recipe_;
 
         bool was_loaded = false;
 

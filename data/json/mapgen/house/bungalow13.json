@@ -34,7 +34,7 @@
         "................^......."
       ],
       "terrain": {
-        "_": "t_linoleum_gray",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ":": "t_concrete",
         "g": "t_concrete",
         "w": "t_concrete",

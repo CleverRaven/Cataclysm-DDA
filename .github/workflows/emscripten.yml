@@ -45,9 +45,6 @@ jobs:
 
     - uses: mymindstorm/setup-emsdk@v14
 
-    - name: Prepare web data
-      run: ./build-scripts/prepare-web-data.sh
-
     - name: Install ccache
       run: |
         emsdk install ccache-git-emscripten-64bit
@@ -79,6 +76,7 @@ jobs:
         # The forked ccache seems to crash unless EM_CONFIG is defined, I'm not
         # sure why this isn't figured out automatically.
         export EM_CONFIG=$EMSDK/.emscripten
+        export CCACHE_COMPILERCHECK=string:3.1.51
         ccache --zero-stats
         ccache -M 5G
         ccache --show-stats
