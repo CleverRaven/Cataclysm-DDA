@@ -1349,7 +1349,7 @@ bool npc::wield( item &it )
         return true;
     }
 
-    mod_moves( -it.obtain_cost( it ) );
+    mod_moves( -to_wield.on_wield_cost( *this ) );
     if( weapon && to_wield.can_combine( *weapon ) ) {
         weapon->combine( to_wield );
     } else {
