@@ -147,7 +147,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
-static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
@@ -1304,6 +1303,8 @@ int Character::overmap_sight_range( float light_level ) const
     }
     // Mutations like Scout and Topographagnosia affect how far you can see.
     sight += mutation_value( "overmap_sight" );
+
+    sight = enchantment_cache->modify_value( enchant_vals::mod::OVERMAP_SIGHT, sight );
 
     float multiplier = mutation_value( "overmap_multiplier" );
     // If sight is change due to overmap_sight, process the rest of the modifiers, otherwise skip them
@@ -3530,12 +3531,9 @@ int Character::read_speed() const
     /** @EFFECT_INT affects reading speed by an decreasing amount the higher intelligence goes, intially about 9% per point at 4 int to lower than 4% at 20+ int */
     time_duration ret = 180_seconds / intel;
 
-    if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
-        ret *= .85;
-    }
-
     ret *= mutation_value( "reading_speed_multiplier" );
 
+    ret = enchantment_cache->modify_value( enchant_vals::mod::READING_SPEED_MULTIPLIER, ret );
     if( ret < 1_seconds ) {
         ret = 1_seconds;
     }
@@ -6057,6 +6055,8 @@ int Character::visibility( bool, int ) const
     // TODO:
     // if ( dark_clothing() && light check ...
     int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
+    stealth_modifier = enchantment_cache->modify_value( enchant_vals::mod::STEALTH_MODIFIER,
+                       stealth_modifier );
     return clamp( 100 - stealth_modifier, 40, 160 );
 }
 

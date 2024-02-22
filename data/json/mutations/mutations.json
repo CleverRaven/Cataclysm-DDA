@@ -4471,6 +4471,7 @@
     "description": "You seem to get full faster now, and food goes through you more rapidly as well.",
     "purifiable": false,
     "stomach_size_multiplier": 0.9,
+    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.4 } ] } ],
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
     "prereqs2": [ "LIGHTEATER" ],
     "threshreq": [ "THRESH_BIRD" ],

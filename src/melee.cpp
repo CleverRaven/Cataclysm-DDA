@@ -921,7 +921,9 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     /** @EFFECT_MELEE reduces stamina cost of melee attacks */
     const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
     const int base_stam = get_base_melee_stamina_cost();
-    const int total_stam = get_total_melee_stamina_cost();
+    const int total_stam = enchantment_cache->modify_value(
+                               enchant_vals::mod::MELEE_STAMINA_CONSUMPTION,
+                               get_total_melee_stamina_cost() );
 
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,

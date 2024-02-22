@@ -57,7 +57,6 @@
 static const std::string comesttype_DRINK( "DRINK" );
 static const std::string comesttype_FOOD( "FOOD" );
 
-static const bionic_id bio_digestion( "bio_digestion" );
 static const bionic_id bio_faulty_grossfood( "bio_faulty_grossfood" );
 static const bionic_id bio_syringe( "bio_syringe" );
 static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
@@ -129,7 +128,6 @@ static const trait_id trait_ANTIWHEAT( "ANTIWHEAT" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
-static const trait_id trait_GIZZARD( "GIZZARD" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HERBIVORE( "HERBIVORE" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
@@ -192,10 +190,6 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= 0.75f;
     }
 
-    if( you.has_trait( trait_GIZZARD ) ) {
-        kcal *= 0.6f;
-    }
-
     if( you.has_trait( trait_CARNIVORE ) && comest.has_flag( flag_CARNIVORE_OK ) &&
         comest.has_any_flag( carnivore_blacklist ) ) {
         // TODO: Comment pizza scrapping
@@ -211,10 +205,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
         kcal *= ( 1.0f - rottedness );
     }
 
-    // Bionic digestion gives extra nutrition
-    if( you.has_bionic( bio_digestion ) ) {
-        kcal *= 1.5f;
-    }
+    kcal = you.enchantment_cache->modify_value( enchant_vals::mod::KCAL, kcal );
 
     return static_cast<int>( kcal );
 }
@@ -262,6 +253,10 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
         for( std::pair<const vitamin_id, int> &vit : res ) {
             vit.second *= bid->vitamin_absorb_mod;
         }
+    }
+    for( std::pair<const vitamin_id, int> &vit : res ) {
+        vit.second = you.enchantment_cache->modify_value( enchant_vals::mod::VITAMIN_ABSORB_MOD,
+                     vit.second );
     }
     return res;
 }
