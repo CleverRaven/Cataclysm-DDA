@@ -572,7 +572,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "UNDINE_MORE_MANA_REGEN_AND_MANA" ],
-    "description": "Like the fountain overflowing with water, the Undine's mana regenerates 50% faster, they have 50% more mana, and their Stamina regenerates 100% faster while standing in or under water..",
+    "description": "Like the fountain overflowing with water, the Undine's mana regenerates 50% faster, they have 50% more mana, and their stamina regenerates 100% faster while standing in or under water.",
     "category": [ "UNDINE" ],
     "threshreq": [ "THRESH_UNDINE" ],
     "enchantments": [

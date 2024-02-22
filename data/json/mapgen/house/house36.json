@@ -19,7 +19,7 @@
         "##=====##i |+|+|R    R#.",
         "#&~~~~~U#i     ||    |#.",
         "o~~~~~~~#|+|y        T#.",
-        "#~~~~~~q#S_|||||||    #.",
+        "#~~~~~~q#S'|||||||    #.",
         "#~~~~~~q#t9|32F1O| hh #.",
         "#~~~~~~##|||4____J ff #.",
         "#~~~~~~*~~+______J ff #.",
@@ -46,7 +46,8 @@
         "A": "t_thconc_floor",
         "N": "t_thconc_floor",
         "y": "t_concrete",
-        "_": "t_linoleum_gray"
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
       "place_loot": [
         { "item": "hose", "x": 10, "y": 20 },

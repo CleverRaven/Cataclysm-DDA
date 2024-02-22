@@ -88,8 +88,8 @@
         "..|::::|-----%o     VV|.",
         ".|| h  ||----%| |||   o.",
         ".|y ff y|::*::| |>||+||.",
-        ".| hffh      Ly + |S08o.",
-        ".|  ff          |||008|.",
+        ".| hffh      Ly + |S~8o.",
+        ".|  ff          |||~~8|.",
         ".o  h           <||t9||.",
         ".o       A A  |o||||||,.",
         ".|y    6 JJJ  o```````,.",
@@ -101,7 +101,6 @@
       ],
       "terrain": {
         ",": "t_railing_v",
-        "0": "t_linoleum_gray",
         "`": "t_floor_noroof",
         "|": "t_strconc_wall",
         "G": "t_floor_noroof",
@@ -126,7 +125,7 @@
         "........................",
         "..........||||oo||||....",
         ".........||$z|B88St||...",
-        ".........|$ z|B____Q|...",
+        ".........|$ z|B~~~~Q|...",
         ".........||+|||+|||||...",
         ".........o      | !@|...",
         ".........oy     |  @o...",
@@ -148,7 +147,7 @@
         "........................",
         "........................"
       ],
-      "terrain": { ".": "t_open_air", "|": "t_strconc_wall", "_": "t_linoleum_gray" },
+      "terrain": { ".": "t_open_air", "|": "t_strconc_wall" },
       "furniture": { "!": "f_table", "$": "f_clothing_rail" },
       "items": { "!": { "item": "nightstand", "chance": 30 }, "$": { "item": "clothing_outdoor_shoes", "chance": 30 } }
     }
