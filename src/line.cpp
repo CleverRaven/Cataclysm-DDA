@@ -22,7 +22,7 @@ double iso_tangent( double distance, const units::angle &vertex )
     return tan( vertex / 2 )  * distance * 2;
 }
 
-void bresenham( const point &p1, const point &p2, int t,
+void bresenham( const point &p1, const point &p2, int o,
                 const std::function<bool( const point & )> &interact )
 {
     // The slope components.
@@ -43,25 +43,27 @@ void bresenham( const point &p1, const point &p2, int t,
             }
         }
     } else if( a.x > a.y ) {
+        const int t = a.x / 2 - a.y;
         while( cur.x != p2.x ) {
-            if( t > 0 ) {
+            if( o > t ) {
                 cur.y += s.y;
-                t -= a.x;
+                o -= a.x;
             }
             cur.x += s.x;
-            t += a.y;
+            o += a.y;
             if( !interact( cur ) ) {
                 break;
             }
         }
     } else {
+        const int h = a.y / 2 - a.x;
         while( cur.y != p2.y ) {
-            if( t > 0 ) {
+            if( o > h ) {
                 cur.x += s.x;
-                t -= a.y;
+                o -= a.y;
             }
             cur.y += s.y;
-            t += a.x;
+            o += a.x;
             if( !interact( cur ) ) {
                 break;
             }
@@ -69,18 +71,18 @@ void bresenham( const point &p1, const point &p2, int t,
     }
 }
 
-void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
+void bresenham( const tripoint &loc1, const tripoint &loc2, int o, int o2,
                 const std::function<bool( const tripoint & )> &interact )
 {
     // The slope components.
-    const tripoint d( -loc1 + loc2 );
+    const tripoint d = loc2 - loc1;
     // The signs of the slopes.
     const tripoint s( ( d.x == 0 ? 0 : sgn( d.x ) ), ( d.y == 0 ? 0 : sgn( d.y ) ),
                       ( d.z == 0 ? 0 : sgn( d.z ) ) );
     // Absolute values of slope components, x2 to avoid rounding errors.
-    const tripoint a( std::abs( d.x ) * 2, std::abs( d.y ) * 2, std::abs( d.z ) * 2 );
+    const tripoint a = d.abs() * 2;
 
-    tripoint cur( loc1 );
+    tripoint cur = loc1;
 
     if( a.z == 0 ) {
         if( a.x == a.y ) {
@@ -92,25 +94,27 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else if( a.x > a.y ) {
+            const int t = a.x / 2 - a.y;
             while( cur.x != loc2.x ) {
-                if( t > 0 ) {
+                if( o > t ) {
                     cur.y += s.y;
-                    t -= a.x;
+                    o -= a.x;
                 }
                 cur.x += s.x;
-                t += a.y;
+                o += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else {
+            const int h = a.y / 2 - a.x;
             while( cur.y != loc2.y ) {
-                if( t > 0 ) {
+                if( o > h ) {
                     cur.x += s.x;
-                    t -= a.y;
+                    o -= a.y;
                 }
                 cur.y += s.y;
-                t += a.x;
+                o += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
@@ -128,90 +132,90 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
             }
         } else if( ( a.z > a.x ) && ( a.z > a.y ) ) {
             while( cur.z != loc2.z ) {
-                if( t > 0 ) {
+                if( o > 0 ) {
                     cur.x += s.x;
-                    t -= a.z;
+                    o -= a.z;
                 }
-                if( t2 > 0 ) {
+                if( o2 > 0 ) {
                     cur.y += s.y;
-                    t2 -= a.z;
+                    o2 -= a.z;
                 }
                 cur.z += s.z;
-                t += a.x;
-                t2 += a.y;
+                o += a.x;
+                o2 += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x == a.y ) {
             while( cur.x != loc2.x ) {
-                if( t > 0 ) {
+                if( o > 0 ) {
                     cur.z += s.z;
-                    t -= a.x;
+                    o -= a.x;
                 }
                 cur.y += s.y;
                 cur.x += s.x;
-                t += a.z;
+                o += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x == a.z ) {
             while( cur.x != loc2.x ) {
-                if( t > 0 ) {
+                if( o > 0 ) {
                     cur.y += s.y;
-                    t -= a.x;
+                    o -= a.x;
                 }
                 cur.z += s.z;
                 cur.x += s.x;
-                t += a.y;
+                o += a.y;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.y == a.z ) {
             while( cur.y != loc2.y ) {
-                if( t > 0 ) {
+                if( o > 0 ) {
                     cur.x += s.x;
-                    t -= a.z;
+                    o -= a.z;
                 }
                 cur.y += s.y;
                 cur.z += s.z;
-                t += a.x;
+                o += a.x;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( a.x > a.y ) {
             while( cur.x != loc2.x ) {
-                if( t > 0 ) {
+                if( o > 0 ) {
                     cur.y += s.y;
-                    t -= a.x;
+                    o -= a.x;
                 }
-                if( t2 > 0 ) {
+                if( o2 > 0 ) {
                     cur.z += s.z;
-                    t2 -= a.x;
+                    o2 -= a.x;
                 }
                 cur.x += s.x;
-                t += a.y;
-                t2 += a.z;
+                o += a.y;
+                o2 += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else { //dy > dx >= dz
             while( cur.y != loc2.y ) {
-                if( t > 0 ) {
+                if( o > 0 ) {
                     cur.x += s.x;
-                    t -= a.y;
+                    o -= a.y;
                 }
-                if( t2 > 0 ) {
+                if( o2 > 0 ) {
                     cur.z += s.z;
-                    t2 -= a.y;
+                    o2 -= a.y;
                 }
                 cur.y += s.y;
-                t += a.x;
-                t2 += a.z;
+                o += a.x;
+                o2 += a.z;
                 if( !interact( cur ) ) {
                     break;
                 }
@@ -239,7 +243,7 @@ std::vector<point> line_to( const point &p1, const point &p2, int t )
     return line;
 }
 
-std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t, int t2 )
+std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t, int t2 )
 {
     std::vector<tripoint> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
@@ -254,6 +258,99 @@ std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int 
         } );
     }
     return line;
+}
+
+// better line_to
+// Returns a line up to and including the tile where interact fails.
+std::vector<point> line_to_2( const point &p1, const point &p2,
+                const std::function<bool( std::vector<point> & )> &interact, const int o )
+{
+    std::vector<point> new_line;
+    // Preallocate the max number of cells we might need instead of allocating them piecewise.
+    const int maxCells = square_dist( p1, p2 );
+    if( maxCells == 0 ) {
+        new_line.push_back( p1 );
+    } else {
+        new_line.reserve( maxCells );
+        bresenham( p1, p2, o, [&new_line, &interact]( const point &new_point ) {
+            new_line.push_back( new_point );
+            return interact( new_line );
+        } );
+    }
+    return new_line;
+}
+
+std::vector<tripoint> line_to_2( const tripoint &loc1, const tripoint &loc2,
+                const std::function<bool( std::vector<tripoint> & )> &interact,
+                const int o, const int o2 )
+{
+    std::vector<tripoint> new_line;
+    // Preallocate the max number of cells we might need instead of allocating them piecewise.
+    const int maxCells = square_dist( loc1, loc2 );
+    if( maxCells == 0 ) {
+        new_line.push_back( loc1 );
+    } else {
+        new_line.reserve( maxCells );
+        bresenham( loc1, loc2, o, o2, [&new_line, &interact]( const tripoint &new_point ) {
+            new_line.push_back( new_point );
+            return interact( new_line );
+        } );
+    }
+    return new_line;
+}
+
+// Tries every line offset between target and source and returns the centermost one.
+// If there is no complete line, returns the closest one.
+std::vector<tripoint> find_line_to_2( const tripoint &source, const tripoint &target,
+                const std::function<bool( std::vector<tripoint> & )> &interact )
+{
+    const int range = rl_dist( source, target );
+    const point d = target.xy() - source.xy();
+    const point a = d.abs();
+    int major = std::max( a.x, a.y ) * 2;
+    int minor = std::min( a.x, a.y ) * 2;
+    const int gcd = std::gcd( major, minor );
+    const int maximum = major / 2;
+
+    std::vector<tripoint> line;
+    std::vector<tripoint> closest_line;
+    int line_dist;
+    int closest_line_dist = range;
+
+    // Iterate over each relevant offset without going out of bounds and into the next tile.
+    for( int offset = 0; offset <= maximum; offset += gcd ) {
+
+        debugmsg( "major: %s, minor: %s, offset: %s", major, minor, offset );
+
+        // Try this offset from our perspective...
+        line = line_to_2( source, target, interact, offset );
+        if( line.at( line.size() - 1 ) == target ) {
+            debugmsg("forwards!");
+            //debugmsg( "%s %s %s", line.at( line.size() - 1 ).x, line.at( line.size() - 1 ).y, line.at( line.size() - 1 ).z );
+            return line;
+        } else {
+            line_dist = rl_dist( line.at( line.size() - 1 ), target );
+            if( line_dist < closest_line_dist ) {
+                closest_line_dist = line_dist; 
+                closest_line = line;
+                debugmsg("new closer line! ending at %s %s %s", closest_line.at( closest_line.size() - 1 ).x, closest_line.at( closest_line.size() - 1 ).y, closest_line.at( closest_line.size() - 1 ).z);
+            }
+            // TODO: we cant actually go backwards, but we can try offsets along the back edge of the starting tile
+            // ...and then again from the target's perspective, so that we are guarenteed to
+            // have both options. This conviently also means we test every offset we need to.
+            // Note these are never used as a closest partial line since they're from the wrong side.
+            /*line = line_to_2( target, source, interact, offset );
+            if( line.at( line.size() - 1 ) == source ) {
+                std::reverse( line.begin(), line.end() - 1 );
+                line.at( line.size() - 1 ) = target;
+                debugmsg("backwards!");
+                return line;
+            }*/
+        }
+    }
+    debugmsg("defaulted u-u");
+    // If we couldn't find a clear line, return the one that got us the closest.
+    return closest_line;
 }
 
 float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 )
