@@ -18,8 +18,8 @@
         "..#D |6+     |RR   r#...",
         "..#|||||    ||||   |#...",
         "..#D |>  ||+|hfh_J_7#...",
-        ".%#|+|||+|5_|hfh_J_4#%..",
-        ".%#      |t_|______3o%..",
+        ".%#|+|||+|5'|hfh_J_4#%..",
+        ".%#      |t'|______3o%..",
         "..o @@  d|BB|F__O512#%..",
         "..#I@@I d##o##*##o###^..",
         "..####o###yyy~~~~GKG$%..",
@@ -47,9 +47,10 @@
         "K": "t_thconc_floor",
         "G": "t_thconc_floor",
         "y": "t_thconc_floor",
-        "_": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "f": "t_linoleum_gray"
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "f": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 4, "y": 1 } ],
       "place_loot": [

@@ -17,9 +17,9 @@
         "..#Ry   PPP|y     4 6#..",
         "..#||+||||||||  V   Y#..",
         "..#P  Y|d   T|  |||||#..",
-        "..oP   |@@   +  +_8S8#..",
-        "..oP h |@@   |++|____#..",
-        "..#Prrr|d   E|WZ|t_BB#..",
+        "..oP   |@@   +  +~8S8#..",
+        "..oP h |@@   |++|~~~~#..",
+        "..#Prrr|d   E|WZ|t~BB#..",
         "..########o###########..",
         "................^.......",
         "........................",
@@ -33,7 +33,7 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "#": "t_wall_wood", "_": "t_linoleum_gray", "0": "t_region_groundcover" },
+      "terrain": { "#": "t_wall_wood", "0": "t_region_groundcover" },
       "furniture": { "?": "f_bulletin", "0": "f_hedge_short" },
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 1, 2 ] } ]
     }

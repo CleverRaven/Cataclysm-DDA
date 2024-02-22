@@ -646,7 +646,7 @@
     "condition": { "math": [ "u_effect_intensity('ink_gland_ink')", ">", "1" ] },
     "effect": [
       { "u_cast_spell": { "id": "ink_gland_spray" } },
-      { "u_message": "Your ink glands spray some ink into attacker eyes!", "type": "good" },
+      { "u_message": "Your ink glands spray some ink into your attacker's eyes!", "type": "good" },
       {
         "u_add_effect": "ink_gland_ink",
         "duration": "PERMANENT",

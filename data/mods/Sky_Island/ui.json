@@ -37,6 +37,18 @@
     "extend": { "widgets": [ "sky_island_expedition_timer" ] }
   },
   {
+    "copy-from": "zenfs_thick_sidebar",
+    "type": "widget",
+    "id": "zenfs_thick_sidebar",
+    "extend": { "widgets": [ "sky_island_expedition_timer" ] }
+  },
+  {
+    "copy-from": "zenfs_numbar",
+    "type": "widget",
+    "id": "zenfs_numbar",
+    "extend": { "widgets": [ "sky_island_expedition_timer" ] }
+  },
+  {
     "id": "sky_island_expedition_timer",
     "type": "widget",
     "label": "Expedition Timer:",

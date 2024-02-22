@@ -2208,7 +2208,7 @@ void Item_factory::check_definitions() const
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
             msg += "has use_action MA_MANUAL but is not a book\n";
         }
-        if( type->milling_data ) {
+        if( type->milling_data && !type->milling_data->into_.is_null() ) {
             if( !has_template( type->milling_data->into_ ) ) {
                 msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
             }
@@ -2560,7 +2560,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
 void islot_milling::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "into", into_ );
-    optional( jo, was_loaded, "conversion_rate", conversion_rate_ );
+    optional( jo, was_loaded, "recipe", recipe_ );
 }
 
 void islot_milling::deserialize( const JsonObject &jo )
