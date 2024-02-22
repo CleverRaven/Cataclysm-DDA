@@ -34,6 +34,7 @@ aetherically
 affixes
 affordability
 affordably
+afro
 afterbirth
 aftereffect
 aftereffects
@@ -1950,6 +1951,7 @@ modifier
 modifiers
 modularity
 modulations
+mohawk
 mohawks
 moisturized
 mokorotlo
