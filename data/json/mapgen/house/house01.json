@@ -37,7 +37,7 @@
       "terrain": {
         "$": "t_privacy_fence",
         ";": "t_privacy_fencegate_c",
-        "-": "t_linoleum_gray",
+        "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "N": "t_thconc_floor",
         "q": "t_thconc_floor",
         "A": "t_thconc_floor",

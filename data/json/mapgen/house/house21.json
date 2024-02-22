@@ -21,7 +21,7 @@
         "...o  lH  YJJJy  hfh#...",
         "...o   H           y#...",
         "...# E   |1FO÷6||+||#...",
-        "..^#RR yR###o*##B''t#^..",
+        "..^#RR yR###o*##B~~t#^..",
         "...#||+||#jjj``#B8SQ#...",
         "...#d   P#`````######...",
         "...o@@ hIo!````.%%.%....",
@@ -32,7 +32,7 @@
         "........................"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "j": "t_concrete", "'": "t_linoleum_gray" },
+      "terrain": { "j": "t_concrete" },
       "place_item": [ { "item": "stereo", "x": 4, "y": 11, "chance": 100 } ],
       "place_nested": [
         {

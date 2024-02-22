@@ -19,7 +19,7 @@
         "..#++|  |||+||||V lllo%.",
         "..#dd|b +    RRy     o%.",
         "..#||||||         HHH#^.",
-        "..oB____+   ==$=  sss#..",
+        "..oB~~~~+   ==$=  sss#..",
         "..#B8tS8|R  =ff=     #..",
         "..#||||||R  $ff$    1#..",
         "..orh   +   =$==  J Fo..",
@@ -34,7 +34,6 @@
         "........................"
       ],
       "terrain": {
-        "_": "t_linoleum_gray",
         "G": "t_region_groundcover_urban",
         "K": "t_region_groundcover_urban",
         "=": "t_carpet_green",
