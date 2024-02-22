@@ -907,7 +907,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "hflesh" ],
-    "volume": "2 L",
+    "volume": "4.5 L",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ] ]
   },
@@ -928,7 +928,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "hflesh" ],
-    "volume": "5 L",
+    "volume": "12 L",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ] ]
   },
