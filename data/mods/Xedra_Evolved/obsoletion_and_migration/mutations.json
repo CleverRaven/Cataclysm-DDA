@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mutation",
+    "id": "ARVORE_KNOW_TIME_OFF",
+    "name": { "str": "Sensing the Sun" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By the places of the sun and the moon, you can always tell exactly what time it is.  Or you could, if you weren't underground.",
+    "category": [ "ARVORE" ],
+    "triggers": [ [ { "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_KNOW_TIME", "msg_transform": "", "active": false, "moves": 0 }
+  }
+]

@@ -838,6 +838,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_arvore_sense_sun",
+    "//": "Hidden, but provides flags for Sensing the Sun",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pollen_arvore_weaken",
     "name": [ "Weakening Pollen" ],
     "desc": [ "The pollen makes it hard to breathe!" ],
