@@ -219,7 +219,7 @@
     "category": "armor",
     "name": { "str_sp": "barkskin" },
     "description": "A thin layer of bark covers your body.",
-    "weight": "400 g",
+    "weight": "4 kg",
     "volume": "400 ml",
     "price": 0,
     "price_postapoc": 0,
