@@ -302,14 +302,6 @@ static std::string camp_trip_description( const time_duration &total_time,
         const time_duration &travel_time,
         int distance, int trips, int need_food );
 
-/// The number of days the current camp supplies lasts at the given exertion level.
-static int camp_food_supply_days( float exertion_level );
-/// Returns the total charges of food time_duration @ref work costs
-static int time_to_food( time_duration work, float exertion_level = NO_EXERCISE );
-/// Changes the faction respect for you by @ref change, returns respect
-static int camp_discipline( int change = 0 );
-/// Changes the faction opinion for you by @ref change, returns opinion
-static int camp_morale( int change = 0 );
 /*
  * check if a companion survives a random encounter
  * @param comp the companion
@@ -5479,11 +5471,9 @@ std::string basecamp::farm_description( const tripoint_abs_omt &farm_pos, size_t
 
 // food supply
 
-int camp_food_supply_days( float exertion_level )
+int basecamp::camp_food_supply_days( float exertion_level ) const
 {
-    faction *yours = get_player_character().get_faction();
-    // FIXME: Hardcoded to player faction!
-    return yours->food_supply.kcal() / time_to_food( 24_hours, exertion_level );
+    return fac()->food_supply.kcal() / time_to_food( 24_hours, exertion_level );
 }
 
 nutrients basecamp::camp_food_supply( nutrients &change )
@@ -5567,7 +5557,7 @@ void basecamp::feed_workers( Character &worker, nutrients food, bool is_player_m
     feed_workers( work_party, std::move( food ), is_player_meal );
 }
 
-int time_to_food( time_duration work, float exertion_level )
+int basecamp::time_to_food( time_duration work, float exertion_level ) const
 {
     const int days = to_hours<int>( work ) / 24;
     const int work_time = days * work_day_hours + to_hours<int>( work ) - days * 24;
@@ -5859,20 +5849,16 @@ void basecamp::handle_hide_mission( const point &dir )
 }
 
 // morale
-int camp_discipline( int change )
+int basecamp::camp_discipline( int change ) const
 {
-    faction *yours = get_player_character().get_faction();
-    // FIXME: Hardcoded to player faction!
-    yours->respects_u += change;
-    return yours->respects_u;
+    fac()->respects_u += change;
+    return fac()->respects_u;
 }
 
-int camp_morale( int change )
+int basecamp::camp_morale( int change ) const
 {
-    faction *yours = get_player_character().get_faction();
-    yours->likes_u += change;
-    // FIXME: Hardcoded to player faction!
-    return yours->likes_u;
+    fac()->likes_u += change;
+    return fac()->likes_u;
 }
 
 void basecamp::place_results( const item &result )

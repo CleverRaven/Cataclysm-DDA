@@ -249,6 +249,14 @@ class basecamp
         void handle_hide_mission( const point &dir );
         void handle_reveal_mission( const point &dir );
         bool has_water() const;
+        /// The number of days the current camp supplies lasts at the given exertion level.
+        int camp_food_supply_days( float exertion_level ) const;
+        /// Returns the total charges of food time_duration @ref work costs
+        int time_to_food( time_duration work, float exertion_level = NO_EXERCISE ) const;
+        /// Changes the faction respect for you by @ref change, returns respect
+        int camp_discipline( int change = 0 ) const;
+        /// Changes the faction opinion for you by @ref change, returns opinion
+        int camp_morale( int change = 0 ) const;
 
         // recipes, gathering, and craft support functions
         // from a direction
