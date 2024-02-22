@@ -30,7 +30,7 @@
     "calories": 280,
     "spoils_in": "5 days",
     "description": "A roasted root from a cattail plant.  Its fibrous outer core is charred black, so you can remove it and chew on the dry inside.",
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 7.5 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_2_15" },
     "fun": -1,
     "delete": { "flags": [ "RAW" ] },
     "//": "The flag below implies that part of root got burned and has to be removed",
@@ -51,7 +51,7 @@
     "price_postapoc": 10,
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "milling": { "into": "flour", "conversion_rate": 15 },
+    "milling": { "into": "flour", "recipe": "flour_mill_1_15" },
     "fun": -14,
     "vitamins": [  ],
     "flags": [ "EDIBLE_FROZEN" ]
@@ -254,7 +254,8 @@
     "description": "A serving of cooked buckwheat porridge.  Healthy and nutritious but bland.",
     "price": 120,
     "price_postapoc": 50,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT" ],
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -392,7 +393,7 @@
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "83 ml",
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 3 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_4" },
     "cooks_like": "rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 3 ] ],
@@ -416,7 +417,7 @@
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": "83 ml",
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 2 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_4" },
     "cooks_like": "wild_rice_cooked",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "iron", 3 ] ],
@@ -439,7 +440,8 @@
     "flags": [ "EATEN_HOT", "FREEZERBURN", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
     "vitamins": [ [ "iron", 11 ] ],
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -458,7 +460,8 @@
     "flags": [ "EATEN_HOT", "FREEZERBURN", "NUTRIENT_OVERRIDE" ],
     "fun": 2,
     "vitamins": [ [ "iron", 10 ] ],
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -1083,7 +1086,7 @@
     "price": "15 cent",
     "price_postapoc": "20 cent",
     "material": [ "veggy" ],
-    "milling": { "into": "chilly-p", "conversion_rate": 20 },
+    "milling": { "into": "chilly-p", "recipe": "chilly-p_mill_1_50" },
     "volume": "55 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "vitamins": [ [ "vitC", 88 ], [ "calcium", 1 ], [ "iron", 3 ] ],
@@ -1104,7 +1107,7 @@
     "price": "5 cent",
     "price_postapoc": "3 cent",
     "material": [ "garlic" ],
-    "milling": { "into": "garlic_powder", "conversion_rate": 5 },
+    "milling": { "into": "garlic_powder", "recipe": "garlic_powder_mill_1_50" },
     "volume": "17 ml",
     "fun": -6,
     "flags": [ "EDIBLE_FROZEN" ]
@@ -1123,7 +1126,7 @@
     "price": 60,
     "price_postapoc": 50,
     "material": [ "veggy" ],
-    "milling": { "into": "cornmeal", "conversion_rate": 3 },
+    "milling": { "into": "cornmeal", "recipe": "cornmeal_mill_1_3" },
     "volume": "255 ml",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "petfood": [ "CATTLEFOOD" ],

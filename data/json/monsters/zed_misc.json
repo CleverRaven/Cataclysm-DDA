@@ -162,7 +162,7 @@
     "id": "mon_frog_dad",
     "type": "MONSTER",
     "name": { "str": "colossal zombullfrog" },
-    "description": "This gigantic zombified frog lets out an ear splitting unholy wail as it slowly takes notice of you.  Its lethargic movements are offset by the gargantuan stout leaping legs",
+    "description": "This gigantic zombified frog lets out an ear splitting unholy wail as it slowly takes notice of you.  Its mostly lethargic movements are offset by its ability to leap great distances using its gargantuan stout legs.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "200 L",
     "weight": "180 kg",

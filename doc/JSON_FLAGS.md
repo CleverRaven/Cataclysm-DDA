@@ -159,11 +159,11 @@ These are handled through [ammo types](../data/json/items/ammo_types.json).  You
 
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types.  Experiment to find which flags work elsewhere.
 
-- ```ABLATIVE_CHAINMAIL_ARMS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
-- ```ABLATIVE_CHAINMAIL_ELBOWS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
-- ```ABLATIVE_CHAINMAIL_KNEES``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
-- ```ABLATIVE_CHAINMAIL_LEGS``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
-- ```ABLATIVE_CHAINMAIL_TORSO``` item can be worn with chainmanil armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_ARMS``` item can be worn with chainmail armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_ELBOWS``` item can be worn with chainmail armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_KNEES``` item can be worn with chainmail armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_LEGS``` item can be worn with chainmail armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
+- ```ABLATIVE_CHAINMAIL_TORSO``` item can be worn with chainmail armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
 - ```ABLATIVE_HELMET``` item can be worn with Hub 01 headgear without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
 - ```ABLATIVE_LARGE``` This item fits in large ablative pockets.
 - ```ABLATIVE_MANTLE``` item can be worn with Hub 01 armor without encumbrance penalty; specifically can be put in pocket for armor with this flag restriction.
@@ -191,18 +191,18 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FIN``` This item is swim fins aka diving fins aka flippets, and provide speed boost when you swim.
 - ```FIX_FARSIGHT``` This gear corrects farsightedness.
 - ```FIX_NEARSIGHT``` This gear corrects nearsightedness.
-- ```FLASH_PROTECTION``` This item grant a protection against different light-related dangers, including flashbangs and dazzling light.
+- ```FLASH_PROTECTION``` This item grants a protection against different light-related dangers, including flashbangs and dazzling light.
 - ```FLOTATION``` Prevents the player from drowning in deep water.  Also prevents diving underwater.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```GAS_PROOF``` This item will completely protect you from any dangerous gases.
 - ```GNV_EFFECT``` Being worn, this item will give a night vision.  Using enchantment, that applies effect, that modifies character's night vision score, may be better alternative, and more flexible.
 - ```HELMET_AVENTAIL``` Item can be worn with nasal helmet; specifically can be put in pocket for armor with this flag restriction.
-- ```HELMET_BACK_POUCH``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
-- ```HELMET_EAR_ATTACHMENT``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
-- ```HELMET_FACE_SHIELD``` Item can be worn with diferent hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
-- ```HELMET_MANDIBLE_GUARD_STRAPPED``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
-- ```HELMET_MANDIBLE_GUARD``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
-- ```HELMET_NAPE_PROTECTOR``` Item can be worn with diferent hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_BACK_POUCH``` Item can be worn with different hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_EAR_ATTACHMENT``` Item can be worn with different hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_FACE_SHIELD``` Item can be worn with different hard hats, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_MANDIBLE_GUARD_STRAPPED``` Item can be worn with different hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_MANDIBLE_GUARD``` Item can be worn with different hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
+- ```HELMET_NAPE_PROTECTOR``` Item can be worn with different hard helmets, as attachment; specifically can be put in pocket for armor with this flag restriction.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection, if the player's head isn't encumbered.
 - ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
 - ```INTEGRATED``` This item represents a part of you granted by mutations or bionics.  It will always fit, cannot be unequipped (aside from losing the source), and won't drop on death, but otherwise behaves like normal armor with regards to function, encumbrance, layer conflicts and so on.
@@ -450,7 +450,7 @@ These branches are the valid `dreams` from [dreams.json](../data/json/dreams.jso
 - ```MUTCAT_FISH``` "You are overcome by an overwhelming longing for the ocean."
 - ```MUTCAT_INSECT``` "You hear buzzing, and feel your body harden."
 - ```MUTCAT_LIZARD``` "For a heartbeat, your body cools down."
-- ```MUTCAT_MEDICAL``` "Your can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."
+- ```MUTCAT_MEDICAL``` "You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses."
 - ```MUTCAT_PLANT``` "You feel much closer to nature."
 - ```MUTCAT_RAPTOR``` "Mmm...sweet bloody flavor... tastes like victory."
 - ```MUTCAT_RAT``` "You feel a momentary nausea."
@@ -750,7 +750,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BIONIC_WEAPON_MELEE``` This weapon is bionic melee, used for different checks in EOCs.
 - ```BIRD``` Food that only player with `BIRD` threshold mutation can eat.  See also `INEDIBLE`.
 - ```BURNOUT``` You can visually inspect how much it is burned out (candle, torch).
-- ```CALORIES_INTAKE``` This item allow you to see detailed info about your calories intake for today and tomorrow in consuming menu.  Can be used with `CALORIES_INTAKE_TRACKER` `use_action`, that shows the same info.
+- ```CALORIES_INTAKE``` This item allows you to see detailed info about your calories intake for today and tomorrow in consuming menu.  Can be used with `CALORIES_INTAKE_TRACKER` `use_action`, that shows the same info.
 - ```CAMERA_PRO``` This item is professional camera, and increase the quality of made photos.
 - ```CATTLE``` Food that only player with `CATTLE` threshold mutation can eat.  See also `INEDIBLE`.
 - ```CBM``` This item is CBM, and works respectively.
