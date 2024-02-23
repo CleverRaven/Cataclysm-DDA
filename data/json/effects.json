@@ -2038,7 +2038,7 @@
     "rating": "bad",
     "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
     "base_mods": {
-      "per_mod": [ -3 ],
+      "per_mod": [ -3, -3 ],
       "vomit_chance": [ 500, 0 ],
       "health_chance": [ 1 ],
       "health_min": [ -1 ],
