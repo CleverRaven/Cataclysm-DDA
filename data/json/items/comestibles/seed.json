@@ -880,7 +880,7 @@
     "type": "COMESTIBLE",
     "id": "seed_garlic_clove",
     "copy-from": "garlic",
-    "name": { "str": "seed garlic" },
+    "name": { "str_sp": "seed garlic" },
     "category": "seeds",
     "description": "Several cloves of garlic, ready for planting.",
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" },
