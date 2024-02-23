@@ -749,8 +749,9 @@
     "type": "effect_on_condition",
     "id": "EOC_BARK2_lose",
     "condition": {
-      "and": [ { "not": { "u_has_trait": "BARK2_a" } },
-      { "or": [ { "u_has_trait": "BARK2_b" }, { "u_has_trait": "BARK2_c" }, { "u_has_trait": "BARK2_d" } ] }
+      "and": [
+        { "not": { "u_has_trait": "BARK2_a" } },
+        { "or": [ { "u_has_trait": "BARK2_b" }, { "u_has_trait": "BARK2_c" }, { "u_has_trait": "BARK2_d" } ] }
       ]
     },
     "recurrence": [ "1 seconds", "1 seconds" ],
