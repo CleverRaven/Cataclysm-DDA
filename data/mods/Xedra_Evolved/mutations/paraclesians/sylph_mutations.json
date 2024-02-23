@@ -490,6 +490,21 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_CLOUD_FORM",
+    "name": { "str": "Body of Cloud" },
+    "points": 11,
+    "description": "You may transform into misty cloud.  You will be insubstantial and unable to interact with your environment, but also able to move incredibly quickly and attacks will simply pass through you.  Each turn in the cloud form will cost 2 mana.",
+    "prereqs": [ "SYLPH_FLY_AT_WILL" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SYLPH_CLOUD_FORM_ON" ],
+    "processed_eocs": [ "EOC_SYLPH_CLOUD_FORM_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_SYLPH_CLOUD_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
     "id": "SYLPH_CANNOT_BE_SLOWED_OR_STOPPED",
     "name": { "str": "As Free as the Wind" },
     "points": 12,

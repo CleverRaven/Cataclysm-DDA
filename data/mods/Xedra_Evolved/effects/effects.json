@@ -1076,6 +1076,17 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_cloud_body",
+    "name": [ "Body of Clouds" ],
+    "desc": [ "You are mist and cloud and wind." ],
+    "apply_message": "",
+    "remove_message": "Your body regains its solidity.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_cannot_be_slowed",
     "//": "Empty since the mutation explains what the effect is and does",
     "name": [ "" ],

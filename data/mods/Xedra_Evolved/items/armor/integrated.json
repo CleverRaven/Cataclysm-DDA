@@ -408,7 +408,7 @@
   {
     "id": "item_salamander_cooking_heat",
     "type": "TOOL_ARMOR",
-    "name": { "str": "stove's caress" },
+    "name": { "str_sp": "stove's caress" },
     "description": "Heat from your hands.  You may cook with it at will.",
     "weight": "0 g",
     "volume": "0 L",

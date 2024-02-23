@@ -10,15 +10,5 @@
     "type": "requirement",
     "//": "anything you would consider a leafy green vegetable",
     "extend": { "components": [ [ [ "hawthorn_petals", 1 ] ] ] }
-  },
-  {
-    "id": "surface_heat",
-    "type": "requirement",
-    "extend": { "tools": [ [ [ "item_salamander_cooking_heat", -1 ] ] ] }
-  },
-  {
-    "id": "water_boiling_heat",
-    "type": "requirement",
-    "extend": { "tools": [ [ [ "item_salamander_cooking_heat", -1 ] ] ] }
   }
 ]
