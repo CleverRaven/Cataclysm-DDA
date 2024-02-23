@@ -1970,5 +1970,37 @@
     "vision_day": 50,
     "vision_night": 8,
     "armor": { "bash": 8 }
+  },
+  {
+    "id": "mon_nether_unviable_butterfly",
+    "type": "MONSTER",
+    "name": { "str": "abnormal butterfly" },
+    "description": "There is barely anything there, but you do notice hints of a faint, translucent veiled creature that you can only describe as butterfly-like.  While strangely alluring, it seems unsuited to the atmosphere and is slowly falling apart."
+  },
+  {
+    "id": "mon_nether_unviable_root",
+    "type": "MONSTER",
+    "name": { "str": "writhing root" },
+    "bodytype": "blob",
+    "description": "A small chunk of curious looking roots, constantly trying to grow and expand but failing miserably.  It has grown weak, as if incompatible with the very soil it is in."
+  },
+  {
+    "id": "mon_nether_unviable_stomper",
+    "type": "MONSTER",
+    "name": { "str": "eldritch stomper" },
+    "description": "Mostly covered in wet-looking, long strands that remind you firmly of hair, this abomination has a single but very pronounced leg.  It keeps its balance with its odd hair on the rear.  Yet it seems to shrivel and die with each gust of wind it is hit with."
+  },
+  {
+    "id": "mon_nether_unviable_bug",
+    "type": "MONSTER",
+    "name": { "str": "strange bug" },
+    "description": "This amorphous, three legged bug-like creature curiously wriggles its 5 antennae.  It looks like a fish out of water and is getting weaker by the minute."
+  },
+  {
+    "id": "mon_nether_unviable_chunk",
+    "type": "MONSTER",
+    "name": { "str": "chunk of alien flesh" },
+    "description": "A writhing mass of strange flesh and something that oddly resembles tentacles.  It is getting more pale by the minute.",
+    "bodytype": "blob"
   }
 ]
