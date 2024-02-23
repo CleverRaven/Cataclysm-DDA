@@ -147,7 +147,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to emit large quantities of heat.",
-    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs": [ "SALAMANDER_COOKING_HEAT" ],
     "prereqs2": [ "SALAMANDER_SLEEP_LESS2", "SALAMANDER_SLEEP_LESS3" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_emit_heat", 1 ] ]
@@ -415,7 +415,7 @@
     "name": { "str": "Searing Footsteps" },
     "points": 6,
     "description": "The Salamander can enhance their inner fire to the point where they leave fiery footprints everywhere they travel.  Activate this trait to leave a trail of fire in your wake at the cost of mana for every footstep.",
-    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "prereqs2": [ "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
     "active": true,
@@ -553,7 +553,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SALAMANDER_STR_BONUS_1" ],
-    "prereqs2": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs2": [ "SALAMANDER_EMIT_HEAT" ],
     "description": "Like the bonfire that will burn through the night, you have greatly increased strength.  +3 Strength.",
     "category": [ "SALAMANDER" ],
     "passive_mods": { "str_mod": 3 }
@@ -617,8 +617,23 @@
     "active": true,
     "category": [ "SALAMANDER" ],
     "activated_eocs": [ "EOC_SALAMANDER_REMOVE_STUN" ],
-    "cost": 1,
+    "cost": 75,
     "kcal": true
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_COOKING_HEAT",
+    "name": { "str": "Stove's Caress" },
+    "points": 4,
+    "description": "Instead of simply causing a burst of heat, the salamander can emit heat from their hands at will, allowing them to use it to cook.",
+    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "category": [ "SALAMANDER" ],
+    "activated_eocs": [ "EOC_SALAMANDER_GRANT_COOKING_HEAT" ],
+    "cost": 1,
+    "active": true,
+    "kcal": true,
+    "activated_is_setup": true,
+    "time": 60
   },
   {
     "type": "mutation",
