@@ -194,7 +194,11 @@
     "type": "effect_on_condition",
     "id": "EOC_BARK2_d",
     "condition": { "and": [ { "u_has_trait": "BARK2_d" } ] },
-    "effect": [ { "u_message": "Your bark grows thinner as it spreads out to cover your entire body." }, { "u_lose_trait": "BARK2_d" }, { "u_add_trait": "BARK2_b" } ],
+    "effect": [
+      { "u_message": "Your bark grows thinner as it spreads out to cover your entire body." },
+      { "u_lose_trait": "BARK2_d" },
+      { "u_add_trait": "BARK2_b" }
+    ],
     "false_effect": [ { "run_eocs": [ "EOC_BARK2_b" ] } ]
   }
 ]
