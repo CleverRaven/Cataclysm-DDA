@@ -1036,7 +1036,7 @@
     "type": "profession",
     "id": "basketball_player",
     "name": "Basketball Player",
-    "description": "Whether a professional athlete or a casual hoop-shooter, you were pretty handy at dribbling a mean ball — a skill that, unfortunately, has little relevance to the cataclysm.  When evacuation had been declared, you’d packed your old jacket and favourite B-ball, and, now, all you can bank on is that your athleticism might give you a leg up in the coming days.  Hopefully, your sentimental keepsakes are enough reminders of the life you've left behind.",
+    "description": "Whether a professional athlete or a casual hoop-shooter, you were pretty handy at dribbling a mean ball — a skill that, unfortunately, has little relevance to the cataclysm.  When evacuation had been declared, you'd packed your old jacket and favourite B-ball, and, now, all you can bank on is that your athleticism might give you a leg up in the coming days.  Hopefully, your sentimental keepsakes are enough reminders of the life you've left behind.",
     "points": 2,
     "skills": [ { "level": 5, "name": "dodge" }, { "level": 5, "name": "throw" }, { "level": 4, "name": "swimming" } ],
     "proficiencies": [ "prof_athlete_basic" ],
@@ -1065,8 +1065,8 @@
     "id": "football_player",
     "name": "Soccer Player",
     "description": {
-      "male": "Soccer, rugby, American football — whatever you term it, you’d played it extensively before the Cataclysm and were quite the sportsman.  Now, your trade has left you with a set of football armour that you’d packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you’d been able to hold on to through the end of days, you suppose that it’s time to hustle.",
-      "female": "Soccer, rugby, American football — whatever you term it, you’d played it extensively before the Cataclysm and were quite the sportswoman.  Now, your trade has left you with a set of football armour that you’d packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you’d been able to hold on to through the end of days, you suppose that it’s time to hustle."
+      "male": "Soccer, rugby, American football — whatever you term it, you'd played it extensively before the Cataclysm and were quite the sportsman.  Now, your trade has left you with a set of football armour that you'd packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you'd been able to hold on to through the end of days, you suppose that it's time to hustle.",
+      "female": "Soccer, rugby, American football — whatever you term it, you'd played it extensively before the Cataclysm and were quite the sportswoman.  Now, your trade has left you with a set of football armour that you'd packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you'd been able to hold on to through the end of days, you suppose that it's time to hustle."
     },
     "points": 3,
     "skills": [
@@ -2410,7 +2410,7 @@
     "id": "cop",
     "name": "Police Officer",
     "requirement": "achievement_reach_police_station",
-    "description": "Being a lawman in the end hadn’t been easy, not when the department was working with the national guard during the riots or when the PD had been tasked with helping local evacuations — it’s certainly not going to get any simpler now that you’re on your own.  Left with your duty gear and police training, you wonder who’s going to respect your authority now that the government your badge represents doesn’t even exist anymore.",
+    "description": "Being a lawman in the end hadn't been easy, not when the department was working with the national guard during the riots or when the PD had been tasked with helping local evacuations — it's certainly not going to get any simpler now that you're on your own.  Left with your duty gear and police training, you wonder who's going to respect your authority now that the government your badge represents doesn't even exist anymore.",
     "points": 4,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -2450,7 +2450,7 @@
     "id": "detective",
     "name": "Police Detective",
     "requirement": "achievement_reach_police_station",
-    "description": "You used to be a homicide detective, a job that grew overwhelming across your PD’s end when slaughter cases had become as numerous as the cigarettes you'd resorted to smoking to stave off the exhaustion and stress.  Now, after being assigned to assist with local evacuations and the government collapsing, all you have left is your crumpled work clothes and a badge that no longer means anything.  You solved murders, but with billions dead, this is beyond your pay grade.",
+    "description": "You used to be a homicide detective, a job that grew overwhelming across your PD's end when slaughter cases had become as numerous as the cigarettes you'd resorted to smoking to stave off the exhaustion and stress.  Now, after being assigned to assist with local evacuations and the government collapsing, all you have left is your crumpled work clothes and a badge that no longer means anything.  You solved murders, but with billions dead, this is beyond your pay grade.",
     "points": 4,
     "traits": [ "PROF_PD_DET" ],
     "proficiencies": [ "prof_spotting", "prof_gun_cleaning" ],
@@ -2698,7 +2698,7 @@
     "id": "cop_motor",
     "name": "Motorized Police Officer",
     "requirement": "achievement_reach_police_station",
-    "description": "Nobody expected that the evacuation convoy you'd been escorting astride your motorcycle was going to stumble upon something.  Now, you laugh at the naiveté.  A section of the world that shifted in fractal desinence: you still don’t know what it’d been, but when writhing limbs that rend bloody skeletons from men had stretched forth, you were thrown from your bike and had to flee.  All you know is that, now, your sleep’s going to echo with the screams of those you left behind.",
+    "description": "Nobody expected that the evacuation convoy you'd been escorting astride your motorcycle was going to stumble upon something.  Now, you laugh at the naiveté.  A section of the world that shifted in fractal desinence: you still don't know what it'd been, but when writhing limbs that rend bloody skeletons from men had stretched forth, you were thrown from your bike and had to flee.  All you know is that, now, your sleep's going to echo with the screams of those you left behind.",
     "points": 4,
     "skills": [
       { "level": 4, "name": "gun" },
@@ -2992,7 +2992,7 @@
     "type": "profession",
     "id": "hillbilly",
     "name": { "male": "Hillbilly", "female": "Hillbilly Girl" },
-    "description": "You’d never been one for the cities, and that spared you after the first weeks of rioting, when the going really got rough.  The nightmares didn’t overlook you for long, however, and when they came, you’d hightailed it in the family truck.  Days later, you can’t count the number of overrun sanctuaries you’ve passed, and a reliance on drinking to stave off impending dejection has left the case of boos in the back mostly empty.",
+    "description": "You'd never been one for the cities, and that spared you after the first weeks of rioting, when the going really got rough.  The nightmares didn't overlook you for long, however, and when they came, you'd hightailed it in the family truck.  Days later, you can't count the number of overrun sanctuaries you've passed, and a reliance on drinking to stave off impending dejection has left the case of boos in the back mostly empty.",
     "points": 4,
     "proficiencies": [ "prof_driver" ],
     "skills": [
