@@ -932,6 +932,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hidden_flame_immunity",
+    "//": "name and description hidden because it's explained in the mutation",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_cure_conditions",
     "name": [ "Burning" ],
     "desc": [ "Your impurities are being seared away!" ],
