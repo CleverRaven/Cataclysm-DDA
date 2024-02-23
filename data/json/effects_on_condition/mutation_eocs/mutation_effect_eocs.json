@@ -281,7 +281,9 @@
       "and": [
         { "u_has_effect": "hay_fever" },
         { "not": { "u_has_effect": "took_antihistamine" } },
-        { "not": { "u_has_effect": "narcosis" } }
+        { "not": { "u_has_effect": "narcosis" } },
+        { "not": { "u_has_effect": "sleep" } },
+        { "not": "u_is_underwater" }
       ]
     },
     "effect": [
@@ -712,7 +714,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_EAGLEEYED_LOSE",
+    "id": "EOC_EAGLEEYED_lose",
     "condition": {
       "and": [
         { "or": [ { "u_has_trait": "EAGLEEYED_NIGHT" }, { "u_has_trait": "EAGLEEYED_DAY" } ] },
@@ -738,23 +740,75 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BIOLUM1_LOSE",
+    "id": "EOC_BIOLUM1_lose",
     "condition": { "and": [ { "u_has_trait": "BIOLUM1_active" }, { "not": { "u_has_trait": "BIOLUM1" } } ] },
     "recurrence": [ "1 seconds", "1 seconds" ],
     "effect": [ { "u_lose_trait": "BIOLUM1_active" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_BIOLUM2_LOSE",
+    "id": "EOC_BIOLUM2_lose",
     "condition": { "and": [ { "u_has_trait": "BIOLUM2_active" }, { "not": { "u_has_trait": "BIOLUM2" } } ] },
     "recurrence": [ "1 seconds", "1 seconds" ],
     "effect": [ { "u_lose_trait": "BIOLUM2_active" } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CLAWS_RETRACT_LOSE",
+    "id": "EOC_CLAWS_RETRACT_lose",
     "condition": { "and": [ { "u_has_trait": "CLAWS_RETRACT_active" }, { "not": { "u_has_trait": "CLAWS_RETRACT" } } ] },
     "recurrence": [ "1 seconds", "1 seconds" ],
     "effect": [ { "u_lose_trait": "CLAWS_RETRACT_active" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_JEKYLL_deactivate",
+    "condition": {
+      "and": [
+        { "u_has_trait": "HYDE" },
+        { "math": [ "u_val('morale') > -50" ] },
+        { "math": [ "time_since('midnight', 'unit': 'hours') > 6" ] },
+        { "math": [ "time_since('midnight', 'unit': 'hours') < 21" ] }
+      ]
+    },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_add_trait": "HYDE_inactive" },
+      { "u_message": "Your anger subsides, and you return to normal.", "type": "warning" },
+      { "u_lose_trait": "HYDE" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_JEKYLL_activate",
+    "condition": {
+      "and": [
+        { "u_has_trait": "JEKYLL" },
+        { "not": { "u_has_trait": "HYDE" } },
+        { "not": { "u_has_effect": "narcosis" } },
+        { "not": { "u_has_effect": "sleep" } },
+        {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') < 6" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') > 21" ] },
+            { "math": [ "u_val('morale') <= -50" ] }
+          ]
+        }
+      ]
+    },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [
+      { "u_add_trait": "HYDE" },
+      { "u_message": "Everything is terrible and it makes you so ANGRY!", "type": "warning" },
+      { "u_lose_trait": "HYDE_inactive" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_JEKYLL_lose",
+    "condition": {
+      "and": [ { "not": { "u_has_trait": "JEKYLL" } }, { "or": [ { "u_has_trait": "HYDE_inactive" }, { "u_has_trait": "HYDE" } ] } ]
+    },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [ { "u_lose_trait": "HYDE_inactive" }, { "u_lose_trait": "HYDE" } ]
   }
 ]

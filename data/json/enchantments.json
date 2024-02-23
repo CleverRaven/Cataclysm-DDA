@@ -144,13 +144,5 @@
       ]
     },
     "values": [ { "value": "MOVE_COST", "multiply": -0.5 } ]
-  },
-  {
-  "id": "ench_hyde",
-  "type": "enchantment",
-  "condition": "ALWAYS",
-  "mutations": [
-    "HYDE"
-    ]
   }
 ]

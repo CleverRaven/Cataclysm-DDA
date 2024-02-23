@@ -374,6 +374,7 @@
     "types": [ "BIOLUM" ],
     "prereqs": [ "BIOLUM1" ],
     "leads_to": [ "BIOLUM3" ],
+    "activated_eocs": [ "EOC_BIOLUM2" ],
     "category": [ "ELFA", "INSECT", "FISH" ]
   },
   {
@@ -405,72 +406,33 @@
   {
     "type": "mutation",
     "id": "JEKYLL",
-    "name": { "str": "Normal Human" },
+    "name": { "str": "Alter Ego" },
     "points": 2,
-    "description": "You're a normal human; there's nothing wrong with you.  No need to worry.",
+    "player_display": false,
     "category": [ "MEDICAL" ],
-    "triggers": [
-      [
-        {
-          "condition": { "math": [ "u_val('morale')", "<", "-50" ] },
-          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
-        }
-      ],
-      [
-        {
-          "condition": {
-            "or": [
-              { "math": [ "time_since('midnight', 'unit': 'hours') < 6" ] },
-              { "math": [ "time_since('midnight', 'unit': 'hours') > 21" ] }
-            ]
-          },
-          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
-        }
-      ]
-    ],
-    "enchantments": [ "ench_hyde" ]
+    "description": "You undergo a radical change under certain conditions.  This trait is supposed to be invisible, it's a bug if you can see it."
+  },
+  {
+    "type": "mutation",
+    "id": "HYDE_inactive",
+    "name": { "str": "Normal Human" },
+    "cancels": [ "HYDE" ],
+    "points": 0,
+    "mixed_effect": true,
+    "description": "You're a normal human; there's nothing wrong with you.  No need to worry."
   },
   {
     "type": "mutation",
     "id": "HYDE",
     "valid": false,
+    "mixed_effect": true,
     "purifiable": false,
     "points": 0,
+    "cancels": [ "HYDE_inactive" ],
     "name": {
       "str": "Violent Monster"
     },
     "description": "Anger clouds your mind; you can't think straight, but you feel strong.",
-    "mixed_effect": true,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              {
-                "math": [
-                  "time_since('midnight', 'unit': 'hours') > 6"
-                ]
-              },
-              {
-                "math": [
-                  "time_since('midnight', 'unit': 'hours') < 21"
-                ]
-              }
-            ]
-          },
-          "msg_on": {
-            "text": "As the morning comes, you return back to normal.",
-            "rating": "good"
-          }
-        }
-      ]
-    ],
-    "transform": {
-      "target": "NULL",
-      "msg_transform": "The anger subsides.",
-      "active": false,
-      "moves": 10
-    },
     "passive_mods": {
       "int_mod": -8,
       "str_mod": 3
@@ -4758,6 +4720,7 @@
     "description": "You're burning calories like crazy to heal your wounds.",
     "starts_active": true,
     "valid": false,
+    "mixed_effect": true,
     "cost": 9,
     "time": "1 s",
     "kcal": true,
@@ -4765,7 +4728,7 @@
     "healing_multiplier": 350.0,
     "points": 0,
     "transform": {
-      "target": "NULL",
+      "target": "EATHEALTH",
       "msg_transform": "Starvation forces your hyper-metabolism to slow back down.",
       "active": false,
       "moves": 0
