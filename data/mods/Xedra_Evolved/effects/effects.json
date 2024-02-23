@@ -1028,6 +1028,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_phoenix_healing",
+    "name": [ "Phoenix's Rejuvenation" ],
+    "desc": [ "Like the phoenix, the flames are renewing your flesh." ],
+    "remove_message": "The aftereffects of the phoenix fire finally fade.",
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 2 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lucid_dream",
     "name": [ "Lucid Dreaming" ],
     "rating": "good",
