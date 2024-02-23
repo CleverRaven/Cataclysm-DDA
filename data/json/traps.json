@@ -1179,5 +1179,35 @@
     "difficulty": 0,
     "action": "sound_detect",
     "sound_threshold": [ 15, 25 ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_teeth",
+    "name": "scattered monster teeth",
+    "color": "light_cyan",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Stepped on teeth." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Stepped on teeth." },
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "glass",
+    "drops": [ "nm_teeth" ],
+    "vehicle_data": { "sound_volume": 10, "sound": "Crunch!" }
+  },
+  {
+    "type": "trap",
+    "id": "tr_caltrops_teeth",
+    "name": "monster teeth caltrops",
+    "color": "dark_gray",
+    "memorial_male": { "ctxt": "memorial_male", "str": "Stepped on a tooth caltrop." },
+    "memorial_female": { "ctxt": "memorial_female", "str": "Stepped on a tooth caltrop." },
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 6,
+    "difficulty": 0,
+    "action": "caltrops_glass",
+    "drops": [ "caltrops_teeth" ],
+    "vehicle_data": { "damage": 600 }
   }
 ]
