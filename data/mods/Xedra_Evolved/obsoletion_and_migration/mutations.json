@@ -1,0 +1,146 @@
+[
+  {
+    "type": "mutation",
+    "id": "ARVORE_KNOW_TIME_OFF",
+    "name": { "str": "Sensing the Sun" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "By the places of the sun and the moon, you can always tell exactly what time it is.  Or you could, if you weren't underground.",
+    "category": [ "ARVORE" ],
+    "triggers": [ [ { "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_KNOW_TIME", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_FOODS_ON",
+    "name": { "str": "Solar Repast (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as food and will need to eat much less.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "enchantments": [ "ench_arvore_sun_foods_on" ],
+    "triggers": [
+      [
+        {
+          "condition": {
+            "and": [
+              "is_day",
+              "u_is_outside",
+              {
+                "or": [
+                  { "u_is_on_terrain_with_flag": "SHRUB" },
+                  { "u_is_on_terrain": "t_tree_young" },
+                  { "u_is_on_terrain": "t_bamboo_tall" },
+                  { "u_is_on_terrain": "t_dirt" },
+                  { "u_is_on_terrain": "t_dirtmound" },
+                  { "u_is_on_terrain": "t_clay" },
+                  { "u_is_on_terrain": "t_sand" },
+                  { "u_is_on_terrain": "t_sandmound" },
+                  { "u_is_on_terrain": "t_grave" },
+                  { "u_is_on_terrain": "t_forestfloor" },
+                  { "u_is_on_terrain": "t_grass" },
+                  { "u_is_on_terrain": "t_grass_long" },
+                  { "u_is_on_terrain": "t_grass_tall" },
+                  { "u_is_on_terrain": "t_grass_dead" },
+                  { "u_is_on_terrain": "t_mud" },
+                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+                  { "u_is_on_terrain": "t_moss" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "ARVORE_SUN_FOODS", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_NUTRIENTS_ON",
+    "name": { "str": "Solar Rejuvenation (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients and will heal slightly faster.",
+    "category": [ "ARVORE" ],
+    "changes_to": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
+    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
+    "healing_awake": 0.25,
+    "healing_multiplier": 1.5,
+    "mending_modifier": 3.0,
+    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
+    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+    "name": { "str": "Solar Revitalization (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, and your mana is regenerating quicker.",
+    "category": [ "ARVORE" ],
+    "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
+    "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
+    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
+    "healing_awake": 0.25,
+    "healing_multiplier": 1.5,
+    "mending_modifier": 3.0,
+    "mana_regen_multiplier": 1.5,
+    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
+    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_MANA_BONUS_ON",
+    "name": { "str": "Solar Empowerment (active)" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, your mana is regenerating quicker, and your maximum mana is increased.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
+    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
+    "healing_awake": 0.25,
+    "healing_multiplier": 1.5,
+    "mending_modifier": 3.0,
+    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
+    "mana_regen_multiplier": 1.5,
+    "mana_multiplier": 1.5,
+    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "ARVORE_SUN_POWER_MANA_STATS_ON",
+    "name": { "str": "Solar Ascendancy (active)" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "You feel the warm sun radiating down on you and revitalizing you.  You are absorbing the sun's energy as nutrients, will heal slightly faster, your mana is regenerating quicker, your maximum mana is increased, and you have +2 to all stats.",
+    "category": [ "ARVORE" ],
+    "threshreq": [ "THRESH_ARVORE" ],
+    "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
+    "healing_awake": 0.25,
+    "healing_multiplier": 1.5,
+    "mending_modifier": 3.0,
+    "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
+    "mana_regen_multiplier": 1.5,
+    "mana_multiplier": 1.5,
+    "passive_mods": { "str_mod": 2, "dex_mod": 2, "int_mod": 2, "per_mod": 2 },
+    "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "ARVORE_SUN_POWER_MANA_STATS", "msg_transform": "", "active": false, "moves": 0 }
+  }
+]

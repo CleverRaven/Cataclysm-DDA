@@ -126,6 +126,29 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_JAGGED_CLAWS_ON",
+    "condition": { "not": { "u_has_trait": "ARVORE_WOOD_CLAWS_active" } },
+    "effect": [
+      { "u_add_trait": "ARVORE_WOOD_CLAWS_active" },
+      { "u_message": "Your fingers itch as jagged wood rapidly covers them.", "type": "good" }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "ARVORE_WOOD_CLAWS_active" },
+      { "u_message": "The jagged wood covering your hands recedes, leaving no trace behind.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_THORNSKIN_ON",
+    "condition": { "not": { "u_has_trait": "ARVORE_THORN_SKIN_ON" } },
+    "effect": [ { "u_add_trait": "ARVORE_THORN_SKIN_ON" }, { "u_message": "Woody thorns push through your skin.", "type": "good" } ],
+    "false_effect": [
+      { "u_lose_trait": "ARVORE_THORN_SKIN_ON" },
+      { "u_message": "Your thorns retract, leaving smooth unbroken skin behind.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_WALK_WILDS_TELEPORT_CHECK",
     "condition": {
       "or": [
