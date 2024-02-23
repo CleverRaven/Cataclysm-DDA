@@ -241,6 +241,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_drops": "explode_zed_beast",
     "special_attacks": [ { "id": "impale" } ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },

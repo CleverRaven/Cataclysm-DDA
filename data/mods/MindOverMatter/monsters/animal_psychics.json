@@ -46,7 +46,7 @@
     "id": "mon_fear_hawk",
     "type": "MONSTER",
     "name": { "str": "fear hawk" },
-    "description": "A hawk with striking golden eyes.  It's call seems to pierce deep into your psyche even when it's not directed at you.",
+    "description": "A hawk with striking golden eyes.  Its call seems to pierce deep into your psyche even when it's not directed at you.",
     "bodytype": "bird",
     "default_faction": "fear_hawk",
     "categories": [ "WILDLIFE" ],

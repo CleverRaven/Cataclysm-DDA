@@ -35,8 +35,7 @@
       ],
       "terrain": {
         "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
-        "#": "t_adobe_brick_wall"
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
       "furniture": { "&": "f_bookcase", "?": "f_rack" },
       "items": { "?": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 1, 3 ] } },

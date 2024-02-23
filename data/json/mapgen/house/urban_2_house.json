@@ -40,7 +40,6 @@
         "=": "t_door_metal_locked",
         "_": "t_pavement",
         "&": "t_gates_control_brick",
-        "#": "t_brick_wall",
         "'": "t_thconc_floor",
         "q": "t_thconc_floor",
         "A": "t_thconc_floor",
@@ -115,7 +114,6 @@
       "palettes": [ "domestic_general_and_variant_palette" ],
       "terrain": {
         "`": "t_open_air",
-        "#": "t_brick_wall",
         ".": "t_shingle_flat_roof",
         "!": "t_gutter_drop",
         "-": "t_gutter",
