@@ -3379,6 +3379,7 @@
     "ugliness": 3,
     "purifiable": false,
     "valid": false,
+    "player_display": false,
     "description": "Your bark is currently spread evenly across your body.",
     "integrated_armor": [ "integrated_bark2_a" ]
   },
@@ -3391,6 +3392,7 @@
     "ugliness": 3,
     "purifiable": false,
     "valid": false,
+    "player_display": false,
     "description": "Your bark is currently consolidated over your torso.",
     "types": [ "BODY_ARMOR" ],
     "integrated_armor": [ "integrated_bark2_b" ]
@@ -3404,6 +3406,7 @@
     "ugliness": 3,
     "purifiable": false,
     "valid": false,
+    "player_display": false,
     "description": "Your bark is currently spread across your body in a sturdy lattice.",
     "integrated_armor": [ "integrated_bark2_c" ]
   },

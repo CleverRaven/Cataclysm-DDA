@@ -747,6 +747,17 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_BARK2_lose",
+    "condition": {
+      "and": [ { "not": { "u_has_trait": "BARK2_a" } },
+      { "or": [ { "u_has_trait": "BARK2_b" }, { "u_has_trait": "BARK2_c" }, { "u_has_trait": "BARK2_d" } ] }
+      ]
+    },
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "effect": [ { "u_lose_trait": "BARK2_b" }, { "u_lose_trait": "BARK2_c" }, { "u_lose_trait": "BARK2_d" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BIOLUM1_lose",
     "condition": { "and": [ { "u_has_trait": "BIOLUM1_active" }, { "not": { "u_has_trait": "BIOLUM1" } } ] },
     "recurrence": [ "1 seconds", "1 seconds" ],
