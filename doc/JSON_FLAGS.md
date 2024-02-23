@@ -605,7 +605,6 @@ List of known flags, used in both `furniture` and `terrain`.  Some work for both
 - ```CONNECT_WITH_WALL``` (only for terrain) This flag has been superseded by the JSON entries `connect_group` and `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
-- ```CORNERED_FIGHTER``` This creature will stop fleeing and fight back if enemies pursue it into melee range.
 - ```CURRENT``` This water is flowing.
 - ```DEEP_WATER``` This is water that can submerge the player.
 - ```DESTROY_ITEM``` Items that land here are destroyed.  See also `NOITEM`.
@@ -1084,6 +1083,7 @@ Used to describe monster characteristics and set their properties and abilities.
 - ```COMBAT_MOUNT```  This mount has better chance to ignore hostile monster fear.
 - ```CONSOLE_DESPAWN``` Despawns when a nearby console is properly hacked.
 - ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
+- ```CORNERED_FIGHTER``` This creature will stop fleeing and fight back if enemies pursue it into melee range.
 - ```DORMANT``` This monster will be revived by dormant corpse traps.
 - ```DEADLY_VIRUS``` This monster can inflict the `zombie_virus` effect.  Used by the Dark Days of the Dead and Deadly Zombie Virus mods.
 - ```DESTROYS``` Bashes down walls and more (2.5x bash multiplier, where base is the critter's max melee bashing).
@@ -1274,7 +1274,7 @@ See [Character](#character)
 - ```BEE``` Location is related to bees.  Used to classify location.
 - ```BLOB``` Location should "blob" outward from the defined location with a chance to be placed in adjacent locations.
 - ```CLASSIC``` Location is allowed when classic zombies are enabled.
-- ```DERMATIK``` Location is related to a dermatik investation.  Used to classify location.
+- ```DERMATIK``` Location is related to a dermatik infestation.  Used to classify location.
 - ```FARM```
 - ```FUNGAL``` Location is related to fungi.  Used to classify location.
 - ```GLOBALLY_UNIQUE``` Location will only occur once per world.  `occurrences` is overridden to define a percent chance (e.g. `"occurrences" : [75, 100]` is 75%).
