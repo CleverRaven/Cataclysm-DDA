@@ -43,7 +43,19 @@
     "stomach_size": 30,
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "CANPLAY", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ]
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "KEENNOSE",
+      "CANPLAY",
+      "WARM",
+      "SWIMS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "EATS",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_big_rat",
@@ -87,7 +99,7 @@
       [ "EAT_CARRION", 120 ]
     ],
     "attack_effs": [ { "id": "rat_bite_fever", "duration": 400, "chance": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "mutant_mammal_small_fur",
     "dissect": "dissect_rat_sample_single"
@@ -109,7 +121,7 @@
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "EAT_CARRION", 120 ] ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_electromagnetics" ],
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ELECTRIC", "ANIMAL", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ],
     "emit_fields": [ { "emit_id": "emit_shock_burst_rat", "delay": "5 s" } ]
   },
   {

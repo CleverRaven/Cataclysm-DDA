@@ -34,7 +34,12 @@
         "[......................."
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_bathroom", "standard_domestic_landscaping_palette" ],
-      "terrain": { "G": "t_concrete", "-": "t_linoleum_gray", "k": "t_thconc_floor", "~": "t_thconc_floor" },
+      "terrain": {
+        "G": "t_concrete",
+        "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "k": "t_thconc_floor",
+        "~": "t_thconc_floor"
+      },
       "place_items": [ { "item": "stash_wood", "x": 12, "y": 11, "chance": 100, "repeat": [ 2, 6 ] } ],
       "place_nested": [
         {

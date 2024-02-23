@@ -219,8 +219,8 @@
     "category": "armor",
     "name": { "str_sp": "barkskin" },
     "description": "A thin layer of bark covers your body.",
-    "weight": "12 kg",
-    "volume": "15 L",
+    "weight": "4 kg",
+    "volume": "400 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "mut_wood" ],
@@ -228,7 +228,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2 } ],

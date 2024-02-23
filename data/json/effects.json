@@ -4887,6 +4887,48 @@
   },
   {
     "type": "effect_type",
+    "id": "social_satisfied",
+    "name": [ "Good Company" ],
+    "desc": [ "It feels good to spend time around others." ],
+    "max_duration": "6 h",
+    "max_intensity": 1,
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "social_dissatisfied",
+    "name": [ "Lonely", "Very Lonely", "All Alone" ],
+    "desc": [
+      "You feel a little lonely.",
+      "You could really use a friend right now.",
+      "What's the point of surviving if you're all alone?"
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_satisfied",
+    "name": [ "Alone" ],
+    "desc": [ "Being on your own makes you feel good." ],
+    "max_intensity": 1,
+    "max_duration": "6 h",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_dissatisfied",
+    "name": [ "Irritable", "Annoyed", "Crowded" ],
+    "desc": [
+      "Being around others has left you feeling drained.",
+      "OK, that's enough social time.  You'd really rather be alone now.",
+      "Your nerves are frayed from all this socializing.  You need some alone time to recharge."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "quadruped_full",
     "name": [ "" ],
     "//": "Allows fully-quadrupedal mutants to run and crouch on all fours.  For annoying reasons, this is handled via enchantments."

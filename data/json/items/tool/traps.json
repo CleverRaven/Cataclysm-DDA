@@ -291,5 +291,29 @@
       "done_message": "You string up the tripwire."
     },
     "flags": [ "SINGLE_USE" ]
+  },
+  {
+    "id": "caltrops_teeth",
+    "type": "TOOL",
+    "name": { "str_sp": "loose teeth caltrops" },
+    "category": "traps",
+    "description": "A handful of small impossibly-sharp teeth glued together.  If an unsuspecting victim steps on one, they'll get a tooth through the foot.",
+    "weight": "264 g",
+    "volume": "500 ml",
+    "price": 100,
+    "price_postapoc": 50,
+    "to_hit": -4,
+    "material": [ "bone" ],
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_caltrops_teeth",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You scatter the teeth caltrops on the %s."
+    },
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "cut": 12 }
   }
 ]

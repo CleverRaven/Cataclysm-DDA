@@ -232,7 +232,7 @@
     "price_postapoc": 100,
     "material": [ "wheat" ],
     "//": "These things are rock-hard and not digestible by humans, but birds and cattle can eat them just fine.",
-    "milling": { "into": "flour", "conversion_rate": 15 },
+    "milling": { "into": "flour", "recipe": "flour_mill_1_15" },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 4 ], [ "iron", 40 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
@@ -279,7 +279,7 @@
     "price_postapoc": "62 cent",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "milling": { "into": "flour", "conversion_rate": 15 },
+    "milling": { "into": "flour", "recipe": "flour_mill_1_15" },
     "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
@@ -333,7 +333,7 @@
     "price_postapoc": 100,
     "material": [ "wheat" ],
     "volume": "250 ml",
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 3.75 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_4_15" },
     "vitamins": [ [ "calcium", 3 ], [ "iron", 20 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [
@@ -380,7 +380,7 @@
     "copy-from": "oats",
     "calories": 120,
     "description": "Raw wild rice, still in its fibrous shell.  It'll need to be milled before it's edible for humans.",
-    "milling": { "into": "dry_wild_rice", "conversion_rate": 5 },
+    "milling": { "into": "dry_wild_rice", "recipe": "dry_wild_rice_mill_1_5" },
     "fun": -20,
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
@@ -401,7 +401,7 @@
     "price_postapoc": "2 USD",
     "material": [ "veggy" ],
     "volume": "250 ml",
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 15 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_15" },
     "vitamins": [ [ "calcium", 3 ], [ "iron", 22 ] ],
     "petfood": [ "CATTLEFOOD", "BIRDFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED", "CUT_HARVEST", "BIRD", "RAT", "MOUSE" ],
@@ -478,7 +478,7 @@
       "MOUSE"
     ],
     "seed_data": { "plant_name": "canola", "fruit": "canola_stalks", "seeds": false, "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_1_1" }
   },
   {
     "type": "COMESTIBLE",

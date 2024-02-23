@@ -97,7 +97,7 @@
     "price": 0,
     "price_postapoc": 10,
     "material": [ "bone" ],
-    "milling": { "into": "meal_bone", "conversion_rate": 4 },
+    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ] ]
   },
@@ -405,7 +405,7 @@
     "price": 0,
     "price_postapoc": 10,
     "material": [ "bone" ],
-    "milling": { "into": "meal_bone", "conversion_rate": 4 },
+    "milling": { "into": "meal_bone", "recipe": "meal_bone_mill_1_4" },
     "volume": "250 ml",
     "vitamins": [ [ "calcium", 96 ], [ "mutant_toxin", 25 ] ]
   },

@@ -6,7 +6,7 @@
     "monsters": [
       { "monster": "mon_bat", "weight": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
       { "group": "GROUP_BEARS", "weight": 100, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_cougar", "weight": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
+      { "group": "GROUP_COUGARS", "weight": 100, "cost_multiplier": 20, "pack_size": [ 1, 2 ] },
       { "monster": "mon_mutant_experimental", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_mole_cricket", "weight": 60, "cost_multiplier": 3 },
       { "monster": "mon_woodlouse", "weight": 60, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },
@@ -161,7 +161,7 @@
     "monsters": [
       { "monster": "mon_bobcat", "weight": 7, "cost_multiplier": 2 },
       { "group": "GROUP_BOARS", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_cougar", "weight": 1, "cost_multiplier": 3 },
+      { "group": "GROUP_COUGARS", "weight": 1, "cost_multiplier": 3 },
       { "group": "GROUP_DEERS", "weight": 4, "cost_multiplier": 2, "pack_size": [ 1, 5 ] },
       { "group": "GROUP_REINDEERS", "weight": 3, "cost_multiplier": 3, "pack_size": [ 2, 6 ], "event": "christmas" },
       { "monster": "mon_fox_gray", "weight": 1, "cost_multiplier": 0 },

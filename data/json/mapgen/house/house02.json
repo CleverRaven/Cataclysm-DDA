@@ -37,7 +37,7 @@
       "terrain": {
         "/": "t_screened_porch_wall",
         "=": "t_screen_door_c",
-        "-": "t_linoleum_gray",
+        "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "G": "t_thconc_floor",
         "K": "t_thconc_floor",
         "~": "t_thconc_floor"
