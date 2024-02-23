@@ -500,7 +500,7 @@
     "id": "SYLPH_CLOUD_FORM",
     "name": { "str": "Body of Cloud" },
     "points": 11,
-    "description": "The Sylph may transform into misty cloud.  They will be insubstantial and unable to interact with the environment, but also able to move incredibly quickly and attacks will simply pass through them.  Each turn in the cloud form will cost 2 mana.",
+    "description": "The Sylph may transform into misty cloud.  They will be insubstantial and unable to interact with the environment, but also able to move incredibly quickly and attacks will simply pass through them.  Each second in the cloud form will cost 10 mana.",
     "prereqs": [ "SYLPH_FLY_AT_WILL" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],

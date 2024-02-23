@@ -81,8 +81,8 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SYLPH_CLOUD_FORM_PER_TURN",
-    "condition": { "math": [ "u_val('mana')", ">=", "2" ] },
-    "effect": [ { "math": [ "u_val('mana')", "-=", "2" ] } ],
+    "condition": { "math": [ "u_val('mana')", ">=", "10" ] },
+    "effect": [ { "math": [ "u_val('mana')", "-=", "10" ] } ],
     "false_effect": [
       { "u_message": "You do not have enough mana to maintain your cloud body!", "type": "bad" },
       { "u_lose_effect": "incorporeal" },
