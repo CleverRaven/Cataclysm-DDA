@@ -286,7 +286,7 @@
     "type": "recipe",
     "id_suffix": "seed_designation",
     "copy-from": "seed_extraction_designation",
-    "components": [ [ [ "seed_garlic_clove" ] ] ],
+    "components": [ [ [ "seed_garlic_clove", 1 ] ] ],
     "charges": 6
   },
   {
