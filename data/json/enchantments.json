@@ -110,7 +110,7 @@
     "id": "ench_wings_insect_active",
     "type": "enchantment",
     "name": { "str": "Insect Wings (Buzzing)" },
-    "description": "Your rapidly buzzing wings propel you with extra speed.",
+    "description": "Your wings are buzzing rapidly.  This helps you walk, run, or even bike faster, but it's a lot of work and may tire you out quickly.",
     "condition": "ALWAYS",
     "values": [ { "value": "REGEN_STAMINA", "add": -110 } ]
   },

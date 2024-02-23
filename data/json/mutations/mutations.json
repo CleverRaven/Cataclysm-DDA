@@ -358,6 +358,7 @@
     "points": 0,
     "valid": false,
     "purifiable": false,
+    "player_display": false,
     "lumination": [ [ "head", 8 ] ]
   },
   {
@@ -385,6 +386,7 @@
     "description": "You photophore is glowing brightly.",
     "valid": false,
     "purifiable": false,
+    "player_display": false,
     "lumination": [ [ "head", 20 ] ]
   },
   {
@@ -418,6 +420,8 @@
     "name": { "str": "Normal Human" },
     "cancels": [ "HYDE" ],
     "points": 0,
+    "purifiable": false,
+    "valid": false,
     "mixed_effect": true,
     "description": "You're a normal human; there's nothing wrong with you.  No need to worry."
   },
@@ -429,19 +433,12 @@
     "purifiable": false,
     "points": 0,
     "cancels": [ "HYDE_inactive" ],
-    "name": {
-      "str": "Violent Monster"
-    },
+    "name": { "str": "Violent Monster" },
     "description": "Anger clouds your mind; you can't think straight, but you feel strong.",
-    "passive_mods": {
-      "int_mod": -8,
-      "str_mod": 3
-    },
+    "passive_mods": { "int_mod": -8, "str_mod": 3 },
     "ugliness": 8,
     "visibility": 8,
-    "social_modifiers": {
-      "intimidate": 4
-    }
+    "social_modifiers": { "intimidate": 4 }
   },
   {
     "type": "mutation",
@@ -5409,13 +5406,14 @@
     "type": "mutation",
     "id": "WINGS_INSECT_active",
     "name": { "str": "Insect Wings (Buzzing)" },
-    "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
-    "copy-from": "WINGS_INSECT",
+    "description": "You're fluttering your wings as fast as you can.  This shouldn't be visible, it's a bug if it is.",
     "valid": false,
+    "purifiable": false,
+    "points": 0,
+    "player_display": false,
     "movecost_modifier": 0.75,
     "flags": [ "MUSCLE_VEH_BOOST" ],
-    "enchantments": [ "ench_wings_insect_active" ],
-    "activated_eocs": [ "EOC_WINGS_INSECT" ]
+    "enchantments": [ "ench_wings_insect_active" ]
   },
   {
     "type": "mutation",
