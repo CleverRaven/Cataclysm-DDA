@@ -47,10 +47,7 @@
       "furniture": { "_": "f_hedge_tall" },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 13, "y": 0 } ],
       "place_loot": [ { "item": "television", "x": 40, "y": 12, "chance": 100 } ],
-      "place_monster": [
-        { "group": "GROUP_MAPGEN_POOL", "x": [ 4, 23 ], "y": [ 4, 22 ] },
-        { "group": "GROUP_MAPGEN_POOL", "x": [ 24, 42 ], "y": [ 4, 22 ] }
-      ]
+      "place_monster": [ { "group": "GROUP_MAPGEN_POOL", "x": 20, "y": 13 }, { "group": "GROUP_MAPGEN_POOL", "x": 29, "y": 18 } ]
     }
   },
   {
