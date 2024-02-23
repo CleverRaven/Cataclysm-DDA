@@ -1082,7 +1082,7 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "urban_22_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "urban_22_2_north" },
-      { "point": [ 0, 0, 1 ], "overmap": "urban_22_2_roof_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_22_1_roof_north" },
       { "point": [ 1, 0, 1 ], "overmap": "urban_22_2_roof_north" }
     ]
   },
