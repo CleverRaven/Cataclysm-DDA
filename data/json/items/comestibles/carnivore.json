@@ -744,6 +744,18 @@
     "flags": [ "EATEN_HOT" ]
   },
   {
+    "id": "tainted_innards",
+    "copy-from": "offal",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "tainted innards" },
+    "description": "An unidentifiable selection of rotted innards that barely hold their form.  It is revolting and certainly no longer healthy to eat.",
+    "snippet_category": "tainted_innards_desc",
+    "spoils_in": "4 hours",
+    "use_action": [ "POISON" ],
+    "price_postapoc": 0,
+    "fun": -25
+  },
+  {
     "id": "mutant_bug_organs",
     "type": "COMESTIBLE",
     "copy-from": "offal",

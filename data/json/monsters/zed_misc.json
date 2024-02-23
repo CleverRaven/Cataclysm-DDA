@@ -227,6 +227,7 @@
     "dodge": 2,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_basic_amphibian", "prof_wp_zombie", "prof_electromagnetics" ],
     "weakpoint_sets": [ "wps_amphibian_body", "wps_amphibian_frog", "wps_amphibian_electric" ],
+    "harvest": "zombie_animal_electric",
     "luminance": 16,
     "attack_cost": 50,
     "special_attacks": [
@@ -1490,6 +1491,7 @@
     "description": "At first this creature looks like nothing more than a grotesque and oleaginous husk, bloated and punctured by jet-black pustules.  When approached, its glowing red eyes and an aching grin take form; its skin tears and its guts teem with unmatched fecundity, as its gaze inspires fear of nothing less than cosmic, inhuman ecstasy.",
     "copy-from": "mon_zombie_necro",
     "diff": 25,
+    "death_drops": "zed_dust",
     "death_function": {
       "effect": { "id": "necro_boomer_death", "hit_self": true },
       "corpse_type": "NO_CORPSE",
