@@ -277,6 +277,26 @@
     "melee_damage": { "stab": 12 }
   },
   {
+    "id": "utility_knife_folding",
+    "type": "TOOL",
+    "name": { "str": "utility folding knife", "str_pl": "utility folding knives" },
+    "description": "A 'Hideman' brand folding knife, this model includes extra utility options such as a screwdriver, awl, and small pry bar.",
+    "looks_like": "knife_folding",
+    "weight": "155 g",
+    "volume": "40 ml",
+    "longest_side": "10 cm",
+    "price": 2500,
+    "price_postapoc": 150,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ], [ "SCREW", 1 ], [ "PRYING_NAIL", 1 ], [ "LEATHER_AWL", 2 ] ],
+    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "stab": 12 }
+  },
+  {
     "id": "knife_combat_marine",
     "type": "TOOL",
     "category": "weapons",

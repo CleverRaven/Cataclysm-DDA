@@ -1031,5 +1031,28 @@
     "flags": [ "REACH_ATTACK" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 1 }
+  },
+  {
+    "type": "TOOL",
+    "id": "nm_teeth",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str_sp": "monster teeth" },
+    "category": "other",
+    "description": "Impossibly-sharp teeth extracted from a giant corpse.  You could use them as a weapon, but you might want to wear gloves.",
+    "material": [ "bone" ],
+    "weight": "42 g",
+    "volume": "30 ml",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_teeth",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefully place the teeth on the ground, ready to be walked on by something passing by."
+    },
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": -1,
+    "melee_damage": { "cut": 12 },
+    "weapon_category": [ "SHIVS" ]
   }
 ]

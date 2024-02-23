@@ -60,7 +60,6 @@ llvm-namespace-comment,\
 misc-*,\
 modernize-*,\
 -modernize-use-auto,\
--modernize-use-emplace,\
 -modernize-use-trailing-return-type,\
 performance-*,\
 -performance-avoid-endl,\

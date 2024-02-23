@@ -109,8 +109,8 @@
         "~~~~~~~o       so~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~#  @@   E#~~~~~~~~~~~~~~~~~###o####o###~~",
         "~~~~~~~# I@@I  y#~~~~~~~~~~~~~~~~~#2O5746 yxx#~~",
-        "~~~~~~~##########~~~~~~~~~~~~~#&&&#1,,,JA    #~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&yyy#F,,JJA  lHo~~",
+        "~~~~~~~##########~~~~~~~~~~~~~#&&&#1===JA    #~~",
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&yyy#F==JJA  lHo~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&i  *       HHH#~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~&i >#|||  R#####~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#&&&#S,+    @@ #~~",
@@ -118,7 +118,12 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^#######o####^~"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
-      "terrain": { "~": "t_open_air", "&": "t_screened_porch_wall", ",": "t_linoleum_gray", "A": "t_linoleum_gray" }
+      "terrain": {
+        "~": "t_open_air",
+        "&": "t_screened_porch_wall",
+        ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "A": "t_linoleum_gray"
+      }
     }
   },
   {

@@ -63,6 +63,7 @@
     "common": false,
     "traits": [
       { "trait": "hair_long", "variant": "red" },
+      { "trait": "natural_hair_color_red" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "WARM_NATURED" },
       { "trait": "INT_UP_3" },

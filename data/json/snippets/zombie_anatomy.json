@@ -1,6 +1,32 @@
 [
   {
     "type": "snippet",
+    "category": "tainted_innards_desc",
+    "text": [
+      {
+        "id": "tainted_innards_1",
+        "text": "An unidentifiable selection of rotted innards that barely hold their form.  It is revolting and certainly no longer healthy to eat."
+      },
+      {
+        "id": "tainted_innards_2",
+        "text": "This looks like a stomach and length of intestine, if they were made of lung tissue.  Every now and then you notice it expanding or contracting slightly.  It looks dangerous to eat, maybe even to handle."
+      },
+      {
+        "id": "tainted_innards_3",
+        "text": "A clump of rotten entrails.  The sallow membranes that link these lobes of flesh together are lined with blackened veins and capillaries.  A caul of slime coats them all in a greasy sheen.  You should not put this anywhere near your mouth."
+      },
+      {
+        "id": "tainted_innards_4",
+        "text": "Zombie guts.  Your appetite may have been spoiled by one look at the twisted, compacted tubes and sacs that form this clump of foul entrails.  Why then does it make you think of frozen spaghetti and meatballs?"
+      },
+      {
+        "id": "tainted_innards_5",
+        "text": "The inner contents of the walking dead.  It's hard to tell exactly what kind of tissue this may have once been.  Several structures appear to have molded together."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<zombie_humanoid_harvest_general>",
     "text": [
       "As you make your first cut into its skin, a pressurized jet of decaying blood almost hits your face.",

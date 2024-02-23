@@ -33,7 +33,6 @@
         "........................"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "~": "t_linoleum_gray" },
       "place_loot": [
         { "group": "guns_pistol_common", "x": [ 4, 4 ], "y": [ 4, 4 ], "chance": 5, "ammo": 95, "magazine": 100 },
         { "group": "guns_pistol_common", "x": [ 15, 15 ], "y": [ 7, 8 ], "chance": 5, "ammo": 95, "magazine": 100 },

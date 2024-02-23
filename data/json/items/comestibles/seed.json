@@ -132,7 +132,7 @@
       "byproducts": [ "grape_leaves", "withered" ],
       "grow": "91 days"
     },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "id": "seed_rose",
@@ -160,7 +160,8 @@
     "name": { "str_sp": "barley seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "This pile of dried barley is earmarked for planting.",
-    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" }
+    "seed_data": { "plant_name": "barley", "fruit": "barley_stalks", "seeds": false, "grow": "70 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -215,7 +216,7 @@
     "weight": "5 g",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cotton", "fruit": "cotton_boll", "byproducts": [ "withered" ], "grow": "130 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.05 },
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" },
     "volume": "6 ml"
   },
   {
@@ -413,7 +414,8 @@
     "name": { "str_sp": "corn seeds" },
     "description": "A pile of dried corn, designated for planting.  It could just as easily become food.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" }
+    "seed_data": { "plant_name": "corn", "fruit": "corn", "seeds": false, "byproducts": [ "withered" ], "grow": "80 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -473,7 +475,7 @@
     "price": "1 cent",
     "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
     "seed_data": { "plant_name": "cannabis", "fruit": "cannabis", "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -531,7 +533,8 @@
     "extend": { "flags": [ "NUTRIENT_OVERRIDE", "INEDIBLE" ] },
     "description": "A pile of dry soybeans.  These are intended for planting, but there's no reason they couldn't be made into food.",
     "price": 90,
-    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" }
+    "seed_data": { "plant_name": "soybean", "fruit": "raw_edamame", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -588,7 +591,7 @@
     "price": 100,
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "pumpkin", "fruit": "pumpkin", "seeds": false, "byproducts": [ "withered" ], "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -604,7 +607,7 @@
     "price": "1 cent",
     "flags": [ "PLANTABLE_SEED" ],
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
-    "milling": { "into": "paste_seed", "conversion_rate": 0.02 }
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
     "type": "COMESTIBLE",
@@ -658,7 +661,8 @@
     "description": "A pile of buckwheat, ready to be planted.",
     "category": "seeds",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" }
+    "seed_data": { "plant_name": "buckwheat", "fruit": "buckwheat_stalks", "seeds": false, "grow": "91 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",
@@ -888,7 +892,8 @@
     "description": "A pile of dried whole oats, ready for planting.",
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "category": "seeds",
-    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" }
+    "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "id": "seed_wheat",
@@ -898,7 +903,8 @@
     "name": { "str_sp": "wheat seeds" },
     "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
     "description": "A pile of dry wheatberries, designated for planting.",
-    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" }
+    "seed_data": { "plant_name": "wheat", "fruit": "wheat_stalks", "seeds": false, "grow": "120 days" },
+    "milling": { "into": "null", "recipe": "" }
   },
   {
     "type": "COMESTIBLE",

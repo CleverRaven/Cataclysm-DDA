@@ -35,7 +35,6 @@
     "items": [
       { "group": "novels", "count": [ 9, 12 ] },
       { "group": "manuals_school", "count": [ 9, 12 ] },
-      { "group": "textbooks_school", "count": [ 9, 12 ] },
       { "group": "literature", "count": [ 9, 12 ] },
       { "group": "games", "count": [ 5, 6 ] }
     ]
