@@ -863,6 +863,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_earthen_shield",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "Impenetrable Earthen Shield" ],
+    "desc": [ "You are protected by the living earth." ],
+    "remove_message": "Your earthen shield finally crumbles.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_sense_nearby_monsters",
     "name": [ "Earth-Sensing" ],
     "desc": [ "You are sensing the movements of nearby creatures upon the living earth." ],

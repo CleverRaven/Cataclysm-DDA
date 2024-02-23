@@ -216,6 +216,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_EARTH_SHIELD",
+    "name": { "str": "Impenetrable Earthen Shield" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "While standing on natural earth or stone, the Ierde can summon up an earthen shield to protect themselves.  They will be invulnerable until the shield breaks.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_earthen_shield_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_NO_SCENT_AND_IRON",
     "name": {
       "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
