@@ -3060,7 +3060,7 @@
     "type": "profession",
     "id": "trucker",
     "name": "Trucker",
-    "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
+    "description": "You once ruled the road in your big rig.  Long-haul deliveries had grown scarce by the riots’ height, and when nightmares had joined the mix in strength, you’d conveniently assumed ownership of your vehicle and scrammed, taking it to the remotest location possible and using it as a makeshift mobile home, hiding away from the madness.  Now it's just you and your truck against the world.",
     "points": 4,
     "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "mechanics" } ],
@@ -3073,9 +3073,9 @@
           { "item": "multitool" },
           { "item": "wristwatch" },
           { "item": "gloves_work" },
-          { "item": "hat_ball" },
+          { "item": "hat_ball", "variant": "generic_truckball" },
           { "group": "charged_smart_phone" },
-          { "item": "pants", "variant": "pants_stone" },
+          { "item": "pants", "variant": "pants_olive_khaki" },
           { "item": "tank_top", "variant": "tank_top_generic" }
         ]
       },
