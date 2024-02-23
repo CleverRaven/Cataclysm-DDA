@@ -89,6 +89,7 @@
     ]
   },
   {
+    "type": "effect_on_condition",
     "id": "eoc_social_satisfied",
     "recurrence": [ "1 minutes", "5 minutes" ],
     "condition": { "u_has_effect": "social_satisfied" },
