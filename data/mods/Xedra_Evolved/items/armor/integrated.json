@@ -406,6 +406,22 @@
     ]
   },
   {
+    "id": "item_salamander_cooking_heat",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "stove's caress" },
+    "description": "Heat from your hands.  You may cook with it at will.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "$",
+    "color": "red",
+    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP", "TRANSPARENT" ],
+    "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
+    "use_action": [ { "type": "HEAT_FOOD" } ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+  },
+  {
     "id": "integrated_gelatinous_skin",
     "type": "ARMOR",
     "category": "armor",

@@ -593,7 +593,6 @@
     "id": "arvore_roots_spell",
     "type": "SPELL",
     "name": { "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.", "str": "Hungry Thirsty Roots" },
-    "//": "Experience with the druid spell Vegetative Grasp shows that at high levels it's a horde-killer with a single cast, so this is a greatly toned-down version with less predictability.",
     "description": "Your command over plants allows you to call forth roots from the earth to clutch and grasp at your enemies.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
