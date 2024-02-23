@@ -881,9 +881,10 @@
     "id": "seed_garlic_clove",
     "copy-from": "garlic",
     "name": { "str": "seed_garlic" },
+    "category": "seeds",
     "description": "Several cloves of garlic, ready for planting.",
     "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" },
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE", "PLANTABLE_SEED" ] }
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   },
   {
     "id": "seed_wheat",
