@@ -322,15 +322,28 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "zoo_2_0",
+    "id": [ "zoo_2_0", "zoo_3_0" ],
     "copy-from": "generic_city_building",
-    "name": "zoo pavilion",
+    "name": "zoo entrance",
     "sym": "P",
     "color": "i_green"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "zoo_0_1", "zoo_1_1", "zoo_2_1", "zoo_0_2", "zoo_1_2", "zoo_2_2" ],
+    "id": [
+      "zoo_0_1",
+      "zoo_1_1",
+      "zoo_2_1",
+      "zoo_3_1",
+      "zoo_0_2",
+      "zoo_1_2",
+      "zoo_2_2",
+      "zoo_3_2",
+      "zoo_0_3",
+      "zoo_1_3",
+      "zoo_2_3",
+      "zoo_3_3"
+    ],
     "copy-from": "generic_city_building",
     "name": "zoo",
     "sym": "Z",
