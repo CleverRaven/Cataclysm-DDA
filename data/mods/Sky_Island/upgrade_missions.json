@@ -325,7 +325,7 @@
     "components": [
       [ [ "microscope_dissecting", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "holybook_wicca1", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
       [ [ "warptoken", 12 ] ],
       [ [ "platinum_small", 10 ] ],
       [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
