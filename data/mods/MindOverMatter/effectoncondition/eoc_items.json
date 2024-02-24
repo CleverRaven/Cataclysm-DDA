@@ -5,7 +5,7 @@
     "condition": { "math": [ "u_school_level('CLAIRSENTIENT')", ">=", "10" ] },
     "effect": [
       {
-        "switch": { "rand": 4 },
+        "switch": { "math": [ "rand(4)" ] },
         "cases": [
           {
             "case": 0,
@@ -52,7 +52,7 @@
     ],
     "false_effect": [
       {
-        "switch": { "rand": 4 },
+        "switch": { "math": [ "rand(4)" ] },
         "cases": [
           {
             "case": 0,

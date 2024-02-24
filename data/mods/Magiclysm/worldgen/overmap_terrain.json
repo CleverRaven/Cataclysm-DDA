@@ -239,6 +239,23 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ogre_mound",
+    "name": "ogre lair",
+    "sym": "O",
+    "color": "dark_gray",
+    "looks_like": "forest_water",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ogre_mound_roof",
+    "name": "ogre lair roof",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lake_retreat_z1",
     "name": "forest",
     "sym": ".",
@@ -498,5 +515,36 @@
     "color": "dark_gray",
     "flags": [ "NO_ROTATE", "REQUIRES_PREDECESSOR" ],
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "druid_ritual_home_z0", "druid_ritual_home_z1", "druid_ritual_home_z2", "druid_ritual_home_z3" ],
+    "name": "druid tower",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "druid_ritual_home_crown_nw",
+      "druid_ritual_home_crown_n",
+      "druid_ritual_home_crown_ne",
+      "druid_ritual_home_crown_w",
+      "druid_ritual_home_crown",
+      "druid_ritual_home_crown_e",
+      "druid_ritual_home_crown_sw",
+      "druid_ritual_home_crown_s",
+      "druid_ritual_home_crown_se"
+    ],
+    "name": "druid tower crown",
+    "sym": "F",
+    "color": "green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "last_mage_on_earth_shelter" ],
+    "copy-from": "lmoe_under_empty"
   }
 ]

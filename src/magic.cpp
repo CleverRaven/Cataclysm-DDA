@@ -2188,7 +2188,7 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
         case magic_energy_type::mana:
             return available_mana() >= cost;
         case magic_energy_type::bionic:
-            return guy.get_power_level() >= units::from_kilojoule( cost );
+            return guy.get_power_level() >= units::from_kilojoule( static_cast<std::int64_t>( cost ) );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= cost;
         case magic_energy_type::hp:

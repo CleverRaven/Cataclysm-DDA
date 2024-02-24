@@ -69,7 +69,7 @@
     "active": true,
     "points": 1,
     "visibility": 1,
-    "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
+    "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
     "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
     "valid": false,
     "starting_trait": false,

@@ -1,154 +1,156 @@
-{
-  "type": "mapgen",
-  "method": "json",
-  "update_mapgen_id": "mx_riverside_boat",
-  "object": {
-    "place_nested": [
-      { "chunks": [ "riverside_boat" ], "neighbors": { "west": [ "river_n" ], "east": [ "river_n" ] }, "x": 0, "y": 0 },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_n" ], "east": [ "river_e" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_n" ], "east": [ "river_s" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_n" ], "east": [ "river_w" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_n" ], "east": [ "river_c_" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_e" ], "east": [ "river_e" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_e" ], "east": [ "river_s" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_e" ], "east": [ "river_w" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_e" ], "east": [ "river_n" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_e" ], "east": [ "river_c_" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_s" ], "east": [ "river_s" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_s" ], "east": [ "river_w" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_s" ], "east": [ "river_n" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_s" ], "east": [ "river_e" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_s" ], "east": [ "river_c_" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_w" ], "east": [ "river_w" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_w" ], "east": [ "river_n" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_w" ], "east": [ "river_e" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_w" ], "east": [ "river_s" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_w" ], "east": [ "river_c_" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_c_" ], "east": [ "river_c_" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_c_" ], "east": [ "river_n" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_c_" ], "east": [ "river_e" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_c_" ], "east": [ "river_s" ] },
-        "x": 0,
-        "y": 0
-      },
-      {
-        "chunks": [ "riverside_boat" ],
-        "neighbors": { "west": [ "river_c_" ], "east": [ "river_w" ] },
-        "x": 0,
-        "y": 0
-      }
-    ]
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_riverside_boat",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "riverside_boat" ], "neighbors": { "west": [ "river_n" ], "east": [ "river_n" ] }, "x": 0, "y": 0 },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_n" ], "east": [ "river_e" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_n" ], "east": [ "river_s" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_n" ], "east": [ "river_w" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_n" ], "east": [ "river_c_" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_e" ], "east": [ "river_e" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_e" ], "east": [ "river_s" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_e" ], "east": [ "river_w" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_e" ], "east": [ "river_n" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_e" ], "east": [ "river_c_" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_s" ], "east": [ "river_s" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_s" ], "east": [ "river_w" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_s" ], "east": [ "river_n" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_s" ], "east": [ "river_e" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_s" ], "east": [ "river_c_" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_w" ], "east": [ "river_w" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_w" ], "east": [ "river_n" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_w" ], "east": [ "river_e" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_w" ], "east": [ "river_s" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_w" ], "east": [ "river_c_" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_c_" ], "east": [ "river_c_" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_c_" ], "east": [ "river_n" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_c_" ], "east": [ "river_e" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_c_" ], "east": [ "river_s" ] },
+          "x": 0,
+          "y": 0
+        },
+        {
+          "chunks": [ "riverside_boat" ],
+          "neighbors": { "west": [ "river_c_" ], "east": [ "river_w" ] },
+          "x": 0,
+          "y": 0
+        }
+      ]
+    }
   }
-}
+]

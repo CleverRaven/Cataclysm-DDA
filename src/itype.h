@@ -897,6 +897,9 @@ struct islot_gunmod : common_ranged_data {
     /** Additional gunmod slots to add to the gun */
     std::map<gunmod_location, int> add_mod;
 
+    // wheter the item is supposed to work as a bayonet when attached
+    bool is_bayonet = false;
+
     /** Not compatible on weapons that have this mod slot */
     std::set<gunmod_location> blacklist_slot;
 
@@ -1031,8 +1034,14 @@ struct islot_ammo : common_ranged_data {
      */
     bool force_stat_display;
 
+    /**
+    * Bullet dispersion affected by the length of the barrel
+    */
+    std::vector<disp_mod_by_barrel> disp_mod_by_barrels;
+
     bool was_loaded = false;
 
+    int dispersion_considering_length( units::length barrel_length ) const;
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
 };
@@ -1138,7 +1147,7 @@ class islot_milling
 {
     public:
         itype_id into_;
-        double conversion_rate_ = 0;
+        recipe_id recipe_;
 
         bool was_loaded = false;
 
@@ -1470,7 +1479,7 @@ struct itype {
         std::string get_item_type_string() const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
-        // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
+        // based on quantity (example: item type "anvil", nname(4) would return "anvils" (as in "4 anvils").
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.

@@ -36,7 +36,7 @@
     "id": "summon_shambling_mound",
     "type": "SPELL",
     "name": { "str": "Call of Mound" },
-    "description": "Summon the Shambling Mound, the giant carnivorous plant mess with devastating area attacks.  It is too slow for a common fight, but it is the best defender for a skilled druid.",
+    "description": "Summons a Shambling Mound, a giant carnivorous plant mess with devastating area attacks.  It is too slow for a normal fight, but excels at defending its shaman.",
     "valid_targets": [ "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "effect": "summon",

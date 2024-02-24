@@ -29,9 +29,9 @@
             "variables": {
               "turn_cost": "0.8",
               "transform_target": "masonrysaw_on",
-              "success_message": "With a roar, the <npc_name> screams to life!",
+              "success_message": { "i18n": true, "str": "With a roar, the <npc_name> screams to life!" },
               "volume": "20",
-              "failure_message": "You yank the cord, but nothing happens."
+              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           },
           "false_effect": { "u_message": "You yank the cord, but nothing happens." }
@@ -70,7 +70,12 @@
           "id": "EOC_toolweapon_running__masonrysaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": { "sound_chance": "15", "sound_message": "Your masonry saw buzzes.", "volume": "7", "revert_to": "masonrysaw_off" }
+            "variables": {
+              "sound_chance": "15",
+              "sound_message": { "i18n": true, "str": "Your masonry saw buzzes." },
+              "volume": "7",
+              "revert_to": "masonrysaw_off"
+            }
           }
         }
       ]
@@ -151,7 +156,7 @@
             "run_eoc_with": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "15",
-              "sound_message": "Your electric masonry saw buzzes.",
+              "sound_message": { "i18n": true, "str": "Your electric masonry saw buzzes." },
               "volume": "7",
               "revert_to": "electric_masonrysaw_off"
             }
@@ -179,7 +184,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "name": { "str": "grinder blade" },
-    "description": "A 125mm angle grinder blade.  You could make a power tool with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
+    "description": "A 125 mm angle grinder blade.  You could make a power tool with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
     "category": "spare_parts",
     "price": 20,
     "price_postapoc": 500,

@@ -340,7 +340,7 @@
     "apply_message": "You're staggered off-balance.",
     "max_duration": "5 s",
     "base_mods": { "speed_mod": [ -20 ] },
-    "removes_effects": [ "grabbing", "grabbing_2" ],
+    "removes_effects": [ "grabbing", "grabbing_2", "grabbing_3" ],
     "rating": "bad",
     "show_in_info": true
   },
@@ -348,10 +348,10 @@
     "type": "effect_type",
     "id": "sneezing",
     "name": [ "Sneezing" ],
-    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "rating": "bad",
+    "desc": [ "It's hard to pay attention to anything when you're in the middle of sneezing!" ],
     "max_duration": "1 s",
-    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
-    "show_in_info": false
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
@@ -507,21 +507,89 @@
     "remove_message": "You catch your breath.",
     "rating": "bad",
     "max_duration": "30 s",
+    "base_mods": { "per_mod": [ -1 ], "speed_mod": [ -10 ], "pain_min": [ 1 ], "pain_chance": [ 5 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.5 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_leg_l",
+    "name": [ "Winded (Left Leg)" ],
+    "desc": [ "You're short of breath.  Your left leg has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.9 },
+      { "limb_score": "swim", "modifier": 0.7 },
+      { "limb_score": "move_speed", "modifier": 0.8 },
+      { "limb_score": "footing", "modifier": 0.8 },
+      { "limb_score": "balance", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_leg_r",
+    "name": [ "Winded (Right Leg)" ],
+    "desc": [ "You're short of breath.  Your right leg has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": { "speed_mod": [ -5 ], "pain_min": [ 1 ], "pain_chance": [ 10 ], "pain_max_val": [ 20 ] },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.9 },
+      { "limb_score": "swim", "modifier": 0.7 },
+      { "limb_score": "move_speed", "modifier": 0.8 },
+      { "limb_score": "footing", "modifier": 0.8 },
+      { "limb_score": "balance", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_arm_l",
+    "name": [ "Winded (Left Arm)" ],
+    "desc": [ "You're short of breath.  Your left arm has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
     "base_mods": {
-      "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "str_mod": [ -3 ],
-      "speed_mod": [ -30 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -5 ],
       "pain_min": [ 1 ],
-      "pain_chance": [ 1 ],
+      "pain_chance": [ 10 ],
       "pain_max_val": [ 20 ]
     },
     "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.5 },
-      { "limb_score": "lift", "modifier": 0.75 },
-      { "limb_score": "block", "modifier": 0.75 },
-      { "limb_score": "manip", "modifier": 0.5 },
-      { "limb_score": "swim", "modifier": 0.3 }
+      { "limb_score": "lift", "modifier": 0.8 },
+      { "limb_score": "block", "modifier": 0.8 },
+      { "limb_score": "swim", "modifier": 0.8 },
+      { "limb_score": "manip", "modifier": 0.8 },
+      { "limb_score": "grip", "modifier": 0.8 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "winded_arm_r",
+    "name": [ "Winded (Right Arm)" ],
+    "desc": [ "You're short of breath.  Your right arm has impaired function until you recover." ],
+    "rating": "bad",
+    "max_duration": "30 s",
+    "base_mods": {
+      "dex_mod": [ -1 ],
+      "str_mod": [ -1 ],
+      "speed_mod": [ -5 ],
+      "pain_min": [ 1 ],
+      "pain_chance": [ 10 ],
+      "pain_max_val": [ 20 ]
+    },
+    "limb_score_mods": [
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.5 },
+      { "limb_score": "move_speed", "modifier": 0.5 },
+      { "limb_score": "footing", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.5 }
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
@@ -696,6 +764,7 @@
     "desc": [ "You have been poisoned!" ],
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
@@ -720,6 +789,7 @@
     "desc": [ "You have been badly poisoned!" ],
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
@@ -775,6 +845,7 @@
     "remove_message": "The burning pain subsides, but the damage is done.",
     "show_intensity": false,
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Necrotizing Venom",
     "resist_effects": [ "prophylactic_antivenom" ],
@@ -808,6 +879,7 @@
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
     "blood_analysis_description": "Systemic Inflammatory Agents",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "speed_name": "Poisoned",
     "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
@@ -861,6 +933,7 @@
     "int_decay_tick": 90,
     "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
     "scaling_mods": { "per_mod": [ -2, -1 ] },
     "limb_score_mods": [
@@ -934,6 +1007,7 @@
     "rating": "bad",
     "max_intensity": 20,
     "resist_traits": [ "POISRESIST" ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_effects": [ "prophylactic_antivenom" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
@@ -1648,6 +1722,31 @@
   },
   {
     "type": "effect_type",
+    "id": "mutagen_chiropteran",
+    "name": [ "Chiropteran Mutation", "Chiropteran Transformation", "Chiropteran Metamorphosis" ],
+    "desc": [
+      "You consumed chiropteran primer.",
+      "You taste iron, and you want more.",
+      "Every sound is a painful screech in your ears.  It's all too much!."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CHIROPTERAN" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Chiropteran Primer Contamination"
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_slime",
     "name": [ "Slime Mutation", "Slime Transformation", "Slime Metamorphosis" ],
     "desc": [ "You consumed slime primer.", "Plop.", "Brain… melting…" ],
@@ -1938,6 +2037,7 @@
     "apply_message": "You're covered in bile!",
     "rating": "bad",
     "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
@@ -1950,6 +2050,7 @@
     "id": "glowing",
     "name": [ "Glowing" ],
     "desc": [ "You are covered in glowing goo!" ],
+    "max_duration": "6 m",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
     "base_mods": { "vomit_chance": [ 500 ] }
@@ -2176,6 +2277,7 @@
     "remove_memorial_log": "Recovered from a bite wound.",
     "apply_message": "The bite wound feels really deep…",
     "resist_traits": [ "INFRESIST" ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "main_parts_only": true,
     "rating": "bad",
     "int_dur_factor": "30 m",
@@ -2722,6 +2824,7 @@
     "desc": [ "Your %s is frostnipped and has gone numb.", "Your %s is frostbitten!  Its tissues are frozen from the cold!" ],
     "part_descs": true,
     "speed_name": "Frostbite",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "dur_add_perc": 0,
     "max_intensity": 2,
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -2740,6 +2843,7 @@
     "id": "frostbite_recovery",
     "name": [ "Defrosting" ],
     "desc": [ "Your %s is starting to feel the damage cold has wrought." ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "part_descs": true,
     "base_mods": { "pain_max_val": [ 40 ], "pain_chance": [ 2 ], "pain_min": [ 1 ] }
   },
@@ -2751,6 +2855,7 @@
     "main_parts_only": true,
     "part_descs": true,
     "miss_messages": [ [ "Your blisters distract you", 1 ] ],
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "base_mods": {
       "dex_mod": [ -1 ],
       "str_mod": [ -1 ],
@@ -2765,6 +2870,7 @@
   {
     "type": "effect_type",
     "id": "dermatik",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "blood_analysis_description": "Insect Parasite"
   },
   {
@@ -2776,6 +2882,7 @@
     "rating": "bad",
     "resist_effects": [ "took_flumed", "took_antihistamine" ],
     "main_parts_only": true,
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "max_intensity": 3,
     "base_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ -0.34 ], "int_mod": [ -1 ] }
@@ -3073,7 +3180,22 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "infected", "bite", "bleed", "fungus", "dermatik", "winded", "poison", "badpoison", "venom_dmg", "venom_weaken" ],
+    "removes_effects": [
+      "infected",
+      "bite",
+      "bleed",
+      "fungus",
+      "dermatik",
+      "poison",
+      "badpoison",
+      "venom_dmg",
+      "venom_weaken",
+      "winded",
+      "winded_leg_l",
+      "winded_leg_r",
+      "winded_arm_l",
+      "winded_arm_r"
+    ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -2 ], "per_mod": [ -2 ], "int_mod": [ -1 ] },
     "scaling_mods": { "str_mod": [ 2 ], "dex_mod": [ 3 ], "per_mod": [ 3 ], "int_mod": [ 1 ] },
     "blood_analysis_description": "Healing Medication"
@@ -3088,7 +3210,7 @@
     "rating": "good",
     "max_intensity": 2,
     "int_dur_factor": "50 s",
-    "removes_effects": [ "winded" ],
+    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
     "base_mods": { "speed_mod": [ -5 ], "dex_mod": [ -2 ], "per_mod": [ -1 ], "int_mod": [ -2 ] },
     "scaling_mods": {
       "speed_mod": [ 15 ],
@@ -3112,7 +3234,7 @@
     "miss_messages": [ [ "Your comedown throws you off.", 1 ] ],
     "max_intensity": 2,
     "int_dur_factor": "150 s",
-    "removes_effects": [ "winded" ],
+    "removes_effects": [ "winded", "winded_leg_l", "winded_leg_r", "winded_arm_l", "winded_arm_r" ],
     "base_mods": {
       "speed_mod": [ -10 ],
       "str_mod": [ -2 ],
@@ -3443,6 +3565,7 @@
     "apply_message": "Your skin starts burning around some of your scratches.  Some aspirin might relieve the effects.",
     "remove_message": "The fever breaks.",
     "rating": "bad",
+    "immune_bp_flags": [ "BIONIC_LIMB" ],
     "resist_effects": [ "aspirin" ],
     "base_mods": {
       "stamina_min": [ -50 ],
@@ -3505,6 +3628,17 @@
   {
     "type": "effect_type",
     "id": "grabbing_2",
+    "name": [ "Grabbing" ],
+    "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you)",
+    "base_mods": { "dodge_mod": [ -8 ] },
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_3",
     "name": [ "Grabbing" ],
     "desc": [ "Grabbing another creature and holding them in place with a second appendage." ],
     "max_intensity": 1,
@@ -4750,5 +4884,76 @@
     "desc": [ "You are descending at a safe speed." ],
     "flags": [ "FEATHER_FALL" ],
     "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "social_satisfied",
+    "name": [ "Good Company" ],
+    "desc": [ "It feels good to spend time around others." ],
+    "max_duration": "6 h",
+    "max_intensity": 1,
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "social_dissatisfied",
+    "name": [ "Lonely", "Very Lonely", "All Alone" ],
+    "desc": [
+      "You feel a little lonely.",
+      "You could really use a friend right now.",
+      "What's the point of surviving if you're all alone?"
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_satisfied",
+    "name": [ "Alone" ],
+    "desc": [ "Being on your own makes you feel good." ],
+    "max_intensity": 1,
+    "max_duration": "6 h",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_dissatisfied",
+    "name": [ "Irritable", "Annoyed", "Crowded" ],
+    "desc": [
+      "Being around others has left you feeling drained.",
+      "OK, that's enough social time.  You'd really rather be alone now.",
+      "Your nerves are frayed from all this socializing.  You need some alone time to recharge."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_full",
+    "name": [ "" ],
+    "//": "Allows fully-quadrupedal mutants to run and crouch on all fours.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_half",
+    "name": [ "" ],
+    "//": "Allows quadrupedal mutants with front paws only to crouch-walk slightly faster than normal.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "natural_stance",
+    "name": [ "Natural Stance" ],
+    "rating": "good",
+    "desc": [
+      "You are positioned to take advantage of your mutated anatomy, and will receive no penalties for crouching in melee combat.  Wielding a weapon will cause you to lose this effect."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "subaquatic_sonar",
+    "name": [ "Subaquatic SONAR" ],
+    "desc": [
+      "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back."
+    ]
   }
 ]

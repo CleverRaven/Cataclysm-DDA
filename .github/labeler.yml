@@ -178,6 +178,7 @@
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
+  - "data/json/regional_map_settings.json"
 
 "Martial Arts":
   - "**/martialart**"

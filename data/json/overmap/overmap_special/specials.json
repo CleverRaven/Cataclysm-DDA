@@ -312,7 +312,7 @@
     "flags": [ "MAN_MADE", "WILDERNESS" ]
   },
   {
-    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn’t spawn inside a city.  Should be removed once we can guarantee the spawning of mid-city specials",
+    "//": "This special is required for robofac mission 3, and this is a fallback for when the tower doesn't spawn inside a city.  Should be removed once we can guarantee the spawning of mid-city specials",
     "type": "overmap_special",
     "id": "office_tower_collapsed",
     "overmaps": [
@@ -470,7 +470,7 @@
     "locations": [ "land" ],
     "city_distance": [ 20, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "WILDERNESS" ],
+    "flags": [ "WILDERNESS", "DERMATIK" ],
     "spawns": { "group": "GROUP_DERMATIK", "population": [ 10, 20 ], "radius": [ 10, 15 ] }
   },
   {
@@ -2922,7 +2922,7 @@
     ],
     "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 1, 0 ] } ],
     "locations": [ "field", "forest_without_trail" ],
-    "city_distance": [ 5, 40 ],
+    "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 5 ],
     "flags": [ "CLASSIC", "FARM", "MAN_MADE" ]
   },
@@ -2940,7 +2940,7 @@
     ],
     "connections": [ { "point": [ 0, 2, 0 ], "terrain": "road", "connection": "local_road" } ],
     "locations": [ "field" ],
-    "city_distance": [ 5, 60 ],
+    "city_distance": [ 5, -1 ],
     "occurrences": [ 0, 3 ],
     "flags": [ "CLASSIC", "FARM", "MAN_MADE" ]
   },
@@ -4403,7 +4403,7 @@
       { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road" }
     ],
     "locations": [ "land" ],
-    "city_distance": [ 5, 60 ],
+    "city_distance": [ 5, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "MAN_MADE" ]

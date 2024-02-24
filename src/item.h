@@ -2655,7 +2655,7 @@ class item : public visitable
          *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( const Character &p, bool bipod = false ) const;
+        int gun_recoil( const Character &p, bool bipod = false, bool ideal_strength = false ) const;
 
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
@@ -2663,6 +2663,10 @@ class item : public visitable
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
         damage_instance gun_damage( itype_id ammo ) const;
+        /**
+        * The base weight of gun which takes receiver into account
+         */
+        units::mass gun_base_weight() const;
         /**
          * The minimum force required to cycle the gun, can be overridden by mods
          */
@@ -3274,3 +3278,13 @@ bool is_preferred_component( const item &component );
 bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H
+
+struct disp_mod_by_barrel {
+    units::length barrel_length;
+    int dispersion_modifier;
+
+    disp_mod_by_barrel();
+    disp_mod_by_barrel( units::length bl, int disp ) : barrel_length( bl ),
+        dispersion_modifier( disp ) {}
+    void deserialize( const JsonObject &jo );
+};

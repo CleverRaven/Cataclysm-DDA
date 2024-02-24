@@ -39,10 +39,8 @@ static const itype_id itype_char_forge( "char_forge" );
 static const itype_id itype_crucible( "crucible" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_forge( "forge" );
-static const itype_id itype_mold_plastic( "mold_plastic" );
 static const itype_id itype_oxy_torch( "oxy_torch" );
 static const itype_id itype_press( "press" );
-static const itype_id itype_sewing_kit( "sewing_kit" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_welder_crude( "welder_crude" );
 
@@ -1193,14 +1191,6 @@ requirement_data requirement_data::disassembly_requirements() const
                 replaced = true;
                 break;
             }
-            //This only catches instances where the two tools are explicitly stated, and not just the required sewing quality
-            if( type == itype_sewing_kit ||
-                type == itype_mold_plastic ) {
-                new_qualities.emplace_back( qual_CUT, 1, 1 );
-                replaced = true;
-                break;
-            }
-
             if( type == itype_crucible ) {
                 replaced = true;
                 break;

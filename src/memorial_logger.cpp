@@ -403,7 +403,7 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
 {
     JsonOut jsout( memorial_file, true, 2 );
     jsout.start_object();
-    jsout.member( "memorial_version", 0 );
+    jsout.member( "memorial_version", 1 );
     jsout.member( "log", log );
     jsout.member( "achievements", get_achievements() );
     jsout.member( "stats", get_stats() );

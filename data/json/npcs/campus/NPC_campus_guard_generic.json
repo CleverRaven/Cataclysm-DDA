@@ -30,8 +30,14 @@
     "id": "TALK_GUARD_CAMP_BACKGROUND",
     "dynamic_line": [
       "Everybody left has to take a turn.  I guess it's fair but not everyone is really suited for beating up zombies or whatever.",
-      "I'm not even supposed to be here today, I just lost a bet and had to take this shift.",
-      "I should be resting right now, this is my third straight shift.  Too many people sick or hurt right now.",
+      {
+        "gendered_line": "I'm not even supposed to be here today, I just lost a bet and had to take this shift.",
+        "relevant_genders": [ "npc" ]
+      },
+      {
+        "gendered_line": "I should be resting right now, this is my third straight shift.  Too many people sick or hurt right now.",
+        "relevant_genders": [ "npc" ]
+      },
       "I live for this stuff.  I'm not really big on books, so this is probably what I'm best at here."
     ],
     "responses": [ { "text": "Well, bye.", "topic": "TALK_DONE" } ]

@@ -2,7 +2,10 @@
   {
     "id": "BGSS_DREAMER_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "OK, this is gonna sound crazy but I, like, I knew this was going to happen.  Like, before it did.  You can even ask my psychic except, like, I think she's dead now.  I told her about my dreams a week before the world ended.  Serious!",
+    "dynamic_line": {
+      "gendered_line": "OK, this is gonna sound crazy but I, like, I knew this was going to happen.  Like, before it did.  You can even ask my psychic except, like, I think she's dead now.  I told her about my dreams a week before the world ended.  Serious!",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What were your dreams?", "topic": "BGSS_DREAMER_STORY2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
@@ -53,7 +56,10 @@
   {
     "id": "BGSS_DREAMER_STORY5",
     "type": "talk_topic",
-    "dynamic_line": "OK, so, sometimes I dream that I am a zombie.  I just don't realize it.  And I just act normal to myself and I see zombies as normal people and normal people as zombies.  When I wake up I know it's fake though because if it were real, there would be way more normal people.  Because they'd actually be zombies.  And everyone is a zombie now.",
+    "dynamic_line": {
+      "gendered_line": "OK, so, sometimes I dream that I am a zombie.  I just don't realize it.  And I just act normal to myself and I see zombies as normal people and normal people as zombies.  When I wake up I know it's fake though because if it were real, there would be way more normal people.  Because they'd actually be zombies.  And everyone is a zombie now.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "I think we all have dreams like that now.", "topic": "BGSS_DREAMER_STORY6" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
@@ -72,7 +78,10 @@
   {
     "id": "CWH_DREAMER_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "So, like, there were some really bad riots, okay?  Everyone got really violent and nasty, and to be honest, I was on a bit of a spirit journey for a lot of it and I don't really remember too well.  But the weirdest part is, nobody even *cared* about each other.  It's like all our caring got sucked away.  I think it was some kind of negative energy thing.  And also that made the dead, like, come back to life and stuff.  Plus, like, there were some monsters?  I'm not really sure how they fit in.",
+    "dynamic_line": {
+      "gendered_line": "So, like, there were some really bad riots, okay?  Everyone got really violent and nasty, and to be honest, I was on a bit of a spirit journey for a lot of it and I don't really remember too well.  But the weirdest part is, nobody even *cared* about each other.  It's like all our caring got sucked away.  I think it was some kind of negative energy thing.  And also that made the dead, like, come back to life and stuff.  Plus, like, there were some monsters?  I'm not really sure how they fit in.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "You seem to know a lot, what do you think caused it all?", "topic": "CWH_DREAMER_IDEAS2" },
       { "text": "<done_conversation_section>", "topic": "TALK_NONE" },

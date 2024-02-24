@@ -40,21 +40,6 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
-    "id": "santa_ear",
-    "type": "ARMOR",
-    "name": { "str": "pair of candycane earrings", "str_pl": "pairs of candycane earrings" },
-    "description": "A festive, lightweight and simple pair of earrings made of string and tiny plastic candycanes.  For Mrs Claus style.",
-    "weight": "400 mg",
-    "volume": "1 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "symbol": "[",
-    "looks_like": "gold_ear",
-    "color": "brown",
-    "flags": [ "NO_WEAR_EFFECT" ]
-  },
-  {
     "id": "bead_necklace",
     "type": "ARMOR",
     "name": { "str": "beaded necklace" },
@@ -62,22 +47,6 @@
     "looks_like": "silver_necklace",
     "weight": "18 g",
     "volume": "30 ml",
-    "price": 100,
-    "price_postapoc": 10,
-    "material": [ "wood" ],
-    "symbol": "u",
-    "color": "brown",
-    "use_action": [ "MEDITATE" ],
-    "flags": [ "NO_WEAR_EFFECT" ]
-  },
-  {
-    "id": "santa_necklace",
-    "type": "ARMOR",
-    "name": { "str": "Christmas holly necklace" },
-    "description": "A festive, lightweight ans simple necklace made of string and a bunch of preserved Christmas holly, for keeping the Christmas Spirit alive.",
-    "looks_like": "silver_necklace",
-    "weight": "8 g",
-    "volume": "20 ml",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
@@ -124,6 +93,36 @@
     "looks_like": "copper_locket",
     "color": "brown",
     "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "cowrie_bracelet",
+    "copy-from": "bead_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "cowrie bracelet" },
+    "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
+    "id": "cowrie_hair_beads",
+    "copy-from": "wooden_hair_beads",
+    "type": "ARMOR",
+    "name": { "str": "cowrie hair beads", "str_pl": "sets of cowrie hair beads" },
+    "description": "An assortment of cowrie shells used to decorate locs or braids.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
+    "id": "cowrie_necklace",
+    "copy-from": "bead_necklace",
+    "type": "ARMOR",
+    "name": { "str": "cowrie necklace" },
+    "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
   },
   {
     "id": "diamond_dental_grill",
@@ -1155,6 +1154,19 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
+    "id": "wooden_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "wooden hair beads", "str_pl": "sets of wooden hair beads" },
+    "description": "An assortment of wooden beads used to decorate locs or braids.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "material": [ "wood" ],
+    "symbol": ".",
+    "color": "brown",
+    "delete": { "flags": [ "SUPER_FANCY" ] }
+  },
+  {
     "id": "holy_symbol",
     "type": "ARMOR",
     "name": { "str": "holy symbol" },
@@ -1271,7 +1283,7 @@
       {
         "id": "adventist_necklace",
         "name": { "str": "Adventist Bible necklace" },
-        "description": "A necklace made of a fine gold chain with the Adventist Bible symbol as a pendant.  It is a symbol of the Adventist Christian faith.  The cross means the Sacrifice of Christ for humanity and also the Gospel of Salvation, the open book means the Holy Bible, placed prominently at the bottom to represent how God’s word is fundamental to Adventism, and the flame is the symbolic meaning of the Holy Spirit, the Messenger of Truth.",
+        "description": "A necklace made of a fine gold chain with the Adventist Bible symbol as a pendant.  It is a symbol of the Adventist Christian faith.  The cross means the Sacrifice of Christ for humanity and also the Gospel of Salvation, the open book means the Holy Bible, placed prominently at the bottom to represent how God's word is fundamental to Adventism, and the flame is the symbolic meaning of the Holy Spirit, the Messenger of Truth.",
         "color": "yellow",
         "weight": 15
       },
@@ -1937,24 +1949,6 @@
     "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
   },
   {
-    "id": "santa_wristwatch",
-    "type": "ARMOR",
-    "name": { "str": "Christmas wrist watch", "str_pl": "Christmas wrist watches" },
-    "description": "A festive, good-quality red and white wristwatch on a red leather band.  Tells the time and has an alarm clock feature, for Santa Claus not to miss Christmas.",
-    "weight": "100 g",
-    "volume": "100 ml",
-    "price": 5000,
-    "price_postapoc": 100,
-    "to_hit": -1,
-    "material": [ "leather", "steel" ],
-    "ascii_picture": "wristwatch",
-    "symbol": "[",
-    "color": "dark_gray",
-    "sided": true,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
-  },
-  {
     "id": "rad_badge",
     "type": "ARMOR",
     "name": { "str": "radiation badge" },
@@ -2037,17 +2031,6 @@
     "weight": "50 g",
     "volume": "50 ml",
     "description": "A star-shaped plastic badge.  \"Foodkid\" is printed on it in bold letters.  This badge marks its wearer as Foodperson's trusty sidekick, and comes included with every kid's meal at Foodplace."
-  },
-  {
-    "id": "badge_santa",
-    "copy-from": "badge_abstract",
-    "type": "ARMOR",
-    "name": { "str": "Santa badge" },
-    "material": [ "plastic" ],
-    "weight": "50 g",
-    "volume": "50 ml",
-    "price_postapoc": 10,
-    "description": "A official badge for identification, authority and recognition of someone who portrait Santa Claus or Mrs Claus.  This is a symbol of respect and care for those who once worked to keep the Christmas Spirit alive."
   },
   {
     "id": "fur_cat_ears",
@@ -4086,6 +4069,18 @@
     "color": "dark_gray"
   },
   {
+    "id": "gold_hair_beads",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
+    "description": "an assortment of gold beads used to decorate locs or braids.",
+    "weight": "15 g",
+    "volume": "25 ml",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow"
+  },
+  {
     "id": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and silver tiara" },
@@ -4237,5 +4232,18 @@
       { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
+  },
+  {
+    "id": "silver_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "silver hair beads", "str_pl": "sets of silver hair beads" },
+    "description": "An assortment of shiny silver beads used to decorate locs or braids.",
+    "weight": "10 g",
+    "volume": "20 ml",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "white",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   }
 ]

@@ -26,7 +26,7 @@
         ".#@@C|s~~H~~|||++#......",
         ".#@@ |R~~l~~+L|zz#///...",
         ".o   +~~~~~~|||||#///...",
-        ".o   |b~~~~~+____o///...",
+        ".o   |b~~~~~+----o///...",
         ".#D  ||+||~~|98St#///...",
         ".#d y|Z_W|~~|||||#///...",
         ".#######||~~+U|qq#####..",
@@ -39,14 +39,14 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_adobe_brick_wall",
         "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],
         "=": "t_shrub_lilac",
-        "_": "t_linoleum_gray",
+        "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ",": "t_dirt",
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "%": [ [ "t_region_tree_nut", 5 ], [ "t_region_tree_shade", 4 ], [ "t_region_tree_fruit", 2 ] ],
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray",
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "~": "t_carpet_red",
         "R": "t_carpet_red",
         "!": "t_carpet_red",
@@ -64,7 +64,7 @@
       },
       "furniture": { "!": [ "f_indoor_plant", "f_indoor_plant_y" ], "$": "f_table", "&": "f_region_flower" },
       "items": { "$": { "item": "table_foyer", "chance": 50 }, "/": { "item": "hydro", "chance": 40 } },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 7, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 7, "y": 1 } ],
       "place_loot": [
         { "item": "television", "x": 6, "y": 9 },
         { "group": "tools_earthworking", "x": [ 18, 20 ], "y": [ 10, 10 ], "chance": 50, "repeat": [ 1, 2 ] }

@@ -1001,6 +1001,7 @@
     "effect": [
       {
         "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLOW_BLEEDING",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALTH_POWER",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_BLEEDING",
           "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HURT_TOUCH",
@@ -1020,6 +1021,12 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLOW_BLEEDING",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_slow_bleeding" } ]
   },
   {
     "type": "effect_on_condition",

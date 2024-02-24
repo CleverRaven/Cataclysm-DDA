@@ -21,7 +21,10 @@
   {
     "id": "BGSS_HUNTER_2_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Yeah… the… the accident got him, but when I came to he was already coming back.  Thank god for seatbelts, right?  He was screeching and flapping around, hanging upside down.  I thought he was just hurt at first, but he just kept coming at me while I tried to talk to him.  His arm was badly hurt already and instead of unbuckling himself he started… he was ripping it right off pulling against the seatbelt.  That, and the crazy shit with the chopper, was when I realized just how fucked up things had got.  I grabbed my hunting knife and ran, but my brother got out and started crawling after me.",
+    "dynamic_line": {
+      "gendered_line": "Yeah… the… the accident got him, but when I came to he was already coming back.  Thank god for seatbelts, right?  He was screeching and flapping around, hanging upside down.  I thought he was just hurt at first, but he just kept coming at me while I tried to talk to him.  His arm was badly hurt already and instead of unbuckling himself he started… he was ripping it right off pulling against the seatbelt.  That, and the crazy shit with the chopper, was when I realized just how fucked up things had got.  I grabbed my hunting knife and ran, but my brother got out and started crawling after me.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Did you keep running?", "topic": "BGSS_HUNTER_2_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
@@ -31,7 +34,10 @@
   {
     "id": "BGSS_HUNTER_2_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "I ran for a little bit, but then I saw soldier zombies crawling out of that chopper.  They had the same look about them as my brother did, and it was them on one side and him on the other.  I'm no genius but I've seen a few movies: I figured out what was happening.  I didn't want to take on Kevlar armor with my knife, so I turned back and faced the other zombie.  I couldn't let my brother stay… like that.  So I did what I had to, and I guess I'll live with that forever.",
+    "dynamic_line": {
+      "gendered_line": "I ran for a little bit, but then I saw soldier zombies crawling out of that chopper.  They had the same look about them as my brother did, and it was them on one side and him on the other.  I'm no genius but I've seen a few movies: I figured out what was happening.  I didn't want to take on Kevlar armor with my knife, so I turned back and faced the other zombie.  I couldn't let my brother stay… like that.  So I did what I had to, and I guess I'll live with that forever.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Thanks for telling me your story.  <done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }

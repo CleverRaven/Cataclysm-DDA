@@ -1,6 +1,104 @@
 [
   {
     "type": "mutation",
+    "id": "COMPOUND_EYES",
+    "name": { "str": "Compound Eyes" },
+    "points": 2,
+    "visibility": 9,
+    "ugliness": 5,
+    "description": "Your eyes are compound, like those of an insect.  This increases your Perception by 2 whenever you aren't wearing eyewear.",
+    "types": [ "EYES" ],
+    "prereqs": [ "EYEBULGE" ],
+    "valid": false
+  },
+  {
+    "type": "mutation_type",
+    "id": "CHANGING_LIMB_EYES",
+    "//": "One changing limb per changed area"
+  },
+  {
+    "type": "mutation_type",
+    "id": "CHANGING_LIMB_HEAD"
+  },
+  {
+    "type": "mutation_type",
+    "id": "HEAD"
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_TORSO",
+    "name": { "str": "Debug Torso Replacement" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college what make me smart, this is a lot to lug around!",
+    "enchantments": [ "ENCH_DEBUG_TORSO" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "EYEBULGE",
+    "name": { "str": "Bulging Eyes" },
+    "types": [ "EYES" ],
+    "points": 0,
+    "visibility": 8,
+    "ugliness": 4,
+    "description": "Your eyes bulge out several inches from your skull.  This does not affect your vision in any way.",
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_bulging" } ] } ],
+    "leads_to": [ "MEMBRANE", "PRE_EYES_INSECT" ],
+    "changes_to": [ "EYES_INSECT", "COMPOUND_EYES", "EYESTALKS1", "CEPH_EYES", "FROG_EYES" ],
+    "category": [ "BATRACHIAN", "INSECT", "GASTROPOD", "FISH", "CEPHALOPOD", "CRUSTACEAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRE_EYES_INSECT",
+    "name": { "str": "Changing Eyes" },
+    "types": [ "CHANGING_LIMB_EYES" ],
+    "prereqs": [ "EYEBULGE" ],
+    "prereqs2": [ "CHITIN2", "CHITIN2_MOLTED" ],
+    "description": "Something is shifting painfully behind your eyeballs.  <color_red>This change will be reversible.  The next one might not be, should you continue.</color>",
+    "points": 0,
+    "time": "2 h",
+    "processed_eocs": [ "EOC_CHANGING_LIMB_SETUP", "EOC_PRE_EYES_INSECT" ],
+    "category": [ "INSECT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "EYES_INSECT",
+    "name": { "str": "Compound Eyes" },
+    "types": [ "EYES", "CHANGING_LIMB_EYES", "CHANGING_LIMB_HEAD" ],
+    "prereqs": [ "EYEBULGE", "PRE_EYES_INSECT" ],
+    "prereqs2": [ "CHITIN2", "CHITIN2_MOLTED" ],
+    "points": -2,
+    "description": "Your eyes have turned into iridiscent spheres bulging out of their original sockets.  Your detail vision suffered terribly, and the expanded field of view is dizzying.  <color_red>You can still go back to how you used to be.  If you continue changing in this direction you will be permanently changed.  Progress from this state will need the matching threshold.</color>",
+    "category": [ "INSECT" ],
+    "cancels": [ "PRE_EYES_INSECT" ],
+    "changes_to": [ "EYES_INSECT_2" ],
+    "time": "2 h",
+    "processed_eocs": [ "EOC_EYES_INSECT" ],
+    "valid": false,
+    "vitamin_cost": 300,
+    "enchantments": [ { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "gain": "eyes_insect_1" } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "EYES_INSECT_2",
+    "name": { "str": "Dragonfly Eyes" },
+    "types": [ "EYES", "HEAD" ],
+    "prereqs": [ "EYES_INSECT" ],
+    "prereqs2": [ "CHITIN2", "CHITIN2_MOLTED" ],
+    "points": 2,
+    "description": "You remember having tiny, unassuming eyes condemned into cramped slits in your face.  No more.  Since your last molt your eyes take up most of your head, giving you unparalelled reactions at the cost of fine vision.  You wouldn't want to cover up too much of the view, however.  <color_red>This change is permanent.</color>",
+    "category": [ "INSECT" ],
+    "threshreq": [ "THRESH_INSECT" ],
+    "valid": false,
+    "purifiable": false,
+    "vitamin_cost": 500,
+    "enchantments": [
+      { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "lose": "head" }, { "gain": "eyes_insect_2" } ] }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "GASTROPOD_FOOT",
     "name": { "str": "Gastropod Foot" },
     "points": 1,

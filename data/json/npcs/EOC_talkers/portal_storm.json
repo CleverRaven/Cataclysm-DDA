@@ -25,7 +25,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_PORTAL_STORM_DO_FOR_ME",
-    "dynamic_line": "You are limited.  Here outside there are no limits.  I could free you from your bonds.  Or bring you halfway here to get a taste.",
+    "dynamic_line": {
+      "gendered_line": "You are limited.  Here outside there are no limits.  I could free you from your bonds.  Or bring you halfway here to get a taste.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Free me, would such a thing even be me?", "topic": "TALK_PORTAL_STORM_BE_ME" },
       { "text": "What is halfway between us?", "topic": "TALK_PORTAL_STORM_HALFWAY" },
@@ -58,7 +61,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_PORTAL_STORM_GROW_INTO",
-    "dynamic_line": "Language is too weak to describe it.  You are too limited to understand freedom yet.  What is mortality when time is a choice?  What is weakness when limits are an illusion?  What is up when there is no down, wrong when there is no right?",
+    "dynamic_line": {
+      "gendered_line": "Language is too weak to describe it.  You are too limited to understand freedom yet.  What is mortality when time is a choice?  What is weakness when limits are an illusion?  What is up when there is no down, wrong when there is no right?",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Would such a thing even be me?", "topic": "TALK_PORTAL_STORM_BE_ME" },
       { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }
@@ -76,7 +82,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_PORTAL_STORM_WHAT_DO_YOU_GET",
-    "dynamic_line": "There is no me.  I don't exist yet, but time is a lie.  The barriers are weak and your presence is potent enough to reflect.  I am the you that said yes.",
+    "dynamic_line": {
+      "gendered_line": "There is no me.  I don't exist yet, but time is a lie.  The barriers are weak and your presence is potent enough to reflect.  I am the you that said yes.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "What do I need to do?", "topic": "TALK_PORTAL_STORM_I_NEED_TO_DO" },
       { "text": "Leave me alone.", "topic": "TALK_PORTAL_STORM_IGNORE" }

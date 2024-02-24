@@ -3,7 +3,7 @@
     "type": "SPELL",
     "id": "voidmage_final_grasp",
     "name": "Final Grasp",
-    "description": "In the end, everything succumbs to the grasp of nonexistence and stasis.  This spell gives the target a foretaste of that.",
+    "description": "In the end, everything succumbs to the grasp of nothingness and stasis.  This spell gives the target a foretaste of that.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
@@ -13,7 +13,7 @@
     "min_range": 5,
     "max_range": 25,
     "range_increment": 0.7,
-    "damage_type": "pure",
+    "damage_type": "necrotic",
     "min_dot": 5,
     "max_dot": 55,
     "dot_increment": 1.5,
@@ -73,7 +73,7 @@
       { "id": "horizon_vortex_fire" },
       { "id": "horizon_vortex_acid" },
       { "id": "horizon_vortex_bash" },
-      { "id": "horizon_vortex_pure" },
+      { "id": "horizon_vortex_nether" },
       { "id": "horizon_vortex_cold" },
       { "id": "horizon_vortex_cut" },
       { "id": "horizon_vortex_electric" },
@@ -122,12 +122,12 @@
     "damage_type": "bash"
   },
   {
-    "id": "horizon_vortex_pure",
+    "id": "horizon_vortex_nether",
     "copy-from": "horizon_vortex_abstract",
     "type": "SPELL",
     "name": "Horizon Vortex Pure Damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
-    "damage_type": "pure"
+    "damage_type": "nether"
   },
   {
     "id": "horizon_vortex_cold",

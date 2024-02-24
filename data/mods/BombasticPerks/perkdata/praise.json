@@ -1,0 +1,27 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_praise",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "condition": { "and": [ { "u_has_trait": "perk_praise" }, { "x_in_y_chance": { "x": 1, "y": 10 } } ] },
+    "effect": [ { "u_message": "<good_job>", "type": "good", "snippet": true } ]
+  },
+  {
+    "type": "snippet",
+    "category": "<good_job>",
+    "text": [
+      "You deserve a pat on the back!",
+      "Groovy!",
+      "Bitchin'!",
+      "Hip hip hurray!",
+      "Gee that's swell!",
+      "Good for you!",
+      "I say, smashing job!",
+      "Like, totally gnarly!",
+      "Nice, <u_name>!",
+      "Good job, <u_name>!",
+      "Awesome!"
+    ]
+  }
+]

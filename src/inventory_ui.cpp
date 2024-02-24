@@ -30,6 +30,7 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "popup.h"
 #include "ret_val.h"
 #include "sdltiles.h"
 #include "localized_comparator.h"
@@ -78,7 +79,12 @@ void debug_print_timer( startup_timer const &tp, std::string const &msg = "inv_u
     add_msg_debug( debugmode::DF_GAME, "%s: %i ms", msg, ( tp_now - tp ).count() );
 }
 
-using item_name_t = std::pair<std::string, std::string>;
+// using item_name_t = std::pair<std::string, std::string>;
+struct item_name_t {
+    std::string sort_key;
+    std::string full_name;
+    unsigned int contents_count{};
+};
 using name_cache_t = std::unordered_map<item const *, item_name_t>;
 name_cache_t item_name_cache;
 int item_name_cache_users = 0;
@@ -88,8 +94,9 @@ item_name_t &get_cached_name( item const *it )
     auto iter = item_name_cache.find( it );
     if( iter == item_name_cache.end() ) {
         return item_name_cache
-               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, false ) ),
-                                          remove_color_tags( it->tname( 1, true ) ) } )
+               .emplace( it, item_name_t{ remove_color_tags( it->tname( 1, tname::tname_sort_key ) ),
+                                          remove_color_tags( it->tname( 1, true ) ),
+                                          it->aggregated_contents().count } )
                .first->second;
     }
 
@@ -581,8 +588,9 @@ nc_color inventory_entry::get_invlet_color() const
 void inventory_entry::update_cache()
 {
     item_name_t &names = get_cached_name( &*any_item() );
-    cached_name = &names.first;
-    cached_name_full = &names.second;
+    cached_name = &names.sort_key;
+    contents_count = names.contents_count;
+    cached_name_full = &names.full_name;
 }
 
 void inventory_entry::cache_denial( inventory_selector_preset const &preset ) const
@@ -673,7 +681,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
     auto const sort_key = []( inventory_entry const & e ) {
-        return std::make_tuple( *e.cached_name, *e.cached_name_full,
+        return std::make_tuple( *e.cached_name, e.contents_count, *e.cached_name_full,
                                 e.any_item()->link_sort_key(), e.generation );
     };
     return localized_compare( sort_key( lhs ), sort_key( rhs ) );
@@ -768,7 +776,7 @@ std::string inventory_selector_preset::get_cell_text( const inventory_entry &ent
     } else if( cell_index != 0 ) {
         return replace_colors( cells[cell_index].title );
     } else {
-        return entry.get_category_ptr()->name();
+        return entry.get_category_ptr()->name_header();
     }
 }
 
@@ -1660,15 +1668,23 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const std::string &denial = *entry.denial;
 
         if( !denial.empty() ) {
+            // Determine the width available for the first cell to print, then use that to trim the denial
+            const size_t first_cell_width = std::min( get_entry_cell_width( entry, 0 ),
+                                            x2 + cells[0].current_width - min_denial_gap );
             const size_t max_denial_width = std::max( static_cast<int>( get_width() - ( min_denial_gap +
-                                            get_entry_cell_width( entry, 0 ) ) ), 0 );
+                                            first_cell_width ) ), 0 );
             const size_t denial_width = std::min( max_denial_width, static_cast<size_t>( utf8_width( denial,
                                                   true ) ) );
 
             if( denial_width > 0 ) {
-                trim_and_print( win, point( p.x + get_width() - denial_width, yy ),
-                                denial_width,
-                                c_red, denial );
+                /* Need to determine exact point to start printing from the left, since just trimming produces
+                 * artifacts on languages with wide characters, and right_print expects only a second column */
+                std::string trimmed = trim_by_length( denial, denial_width );
+                const int x = p.x + get_width() - utf8_width( remove_color_tags( trimmed ) );
+                nc_color temp = c_red;
+                print_colored_text( win, point( x, yy ), temp, c_red,
+                                    selected ? hilite_string( colorize( trimmed, c_red ) ) : trimmed );
+                entry.cached_denial_space = denial_width;
             }
         }
 
@@ -1780,7 +1796,7 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( id, no_translation( name ), 0 )
+    selected_cat( id, no_translation( name ), translation(), 0 )
 {
     hide_entries_override = { false };
 }
@@ -1870,9 +1886,9 @@ const item_category *inventory_selector::naturalize_category( const item_categor
             return existing;
         }
 
-        const std::string name = string_format( "%s %s", category.name(), suffix.c_str() );
+        const std::string name = string_format( "%s %s", category.name_header(), suffix.c_str() );
         const int sort_rank = category.sort_rank() + dist;
-        const item_category new_category( id, no_translation( name ), sort_rank );
+        const item_category new_category( id, no_translation( name ), translation(), sort_rank );
 
         categories.push_back( new_category );
     } else {
@@ -2083,7 +2099,7 @@ void inventory_selector::add_map_items( const tripoint &target )
     if( here.accessible_items( target ) ) {
         map_stack items = here.i_at( target );
         const std::string name = to_upper_case( here.name( target ) );
-        const item_category map_cat( name, no_translation( name ), 100 );
+        const item_category map_cat( name, no_translation( name ), translation(), 100 );
         _add_map_items( target, map_cat, items, [target]( item & it ) {
             return item_location( map_cursor( target ), &it );
         } );
@@ -2099,7 +2115,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle_part &vp = ovp->part();
     vehicle_stack items = ovp->items();
     const std::string name = to_upper_case( remove_color_tags( vp.name() ) );
-    const item_category vehicle_cat( name, no_translation( name ), 200 );
+    const item_category vehicle_cat( name, no_translation( name ), translation(), 200 );
     const vehicle_cursor cursor( ovp->vehicle(), ovp->part_index() );
     _add_map_items( target, vehicle_cat, items, [&cursor]( item & it ) {
         return item_location( cursor, &it );
@@ -2147,7 +2163,7 @@ void inventory_selector::add_remote_map_items( tinymap *remote_map, const tripoi
 {
     map_stack items = remote_map->i_at( target );
     const std::string name = to_upper_case( remote_map->name( target ) );
-    const item_category map_cat( name, no_translation( name ), 100 );
+    const item_category map_cat( name, no_translation( name ), translation(), 100 );
     _add_map_items( target, map_cat, items, [target]( item & it ) {
         return item_location( map_cursor( target ), &it );
     } );
@@ -2896,7 +2912,7 @@ drop_location inventory_selector::get_only_choice() const
     for( const inventory_column *col : columns ) {
         const std::vector<inventory_entry *> ent = col->get_entries( return_item, true );
         if( !ent.empty() ) {
-            return { ent.front()->any_item(), ent.front()->get_available_count() };
+            return { ent.front()->any_item(), static_cast<int>( ent.front()->get_available_count() ) };
         }
     }
 
@@ -3137,7 +3153,7 @@ void inventory_selector::_uncategorize( inventory_column &col )
         const item_category *custom_category = nullptr;
         if( ancestor.where() != item_location::type::character ) {
             const std::string name = to_upper_case( remove_color_tags( ancestor.describe() ) );
-            const item_category map_cat( name, no_translation( name ), 100 );
+            const item_category map_cat( name, no_translation( name ), translation(), 100 );
             custom_category = naturalize_category( map_cat, ancestor.position() );
         } else {
             custom_category = wielded_worn_category( ancestor, u );
@@ -3362,9 +3378,14 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
     for( inventory_column *col : columns ) {
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-                if( loc->can_reload_with( *entry->any_item(), true ) ) {
-                    item::reload_option tmp_opt( &u, loc, entry->any_item() );
-                    tmp_opt.qty( entry->get_available_count() );
+                item_location it = entry->any_item();
+                if( loc->can_reload_with( *it, true ) ) {
+                    item::reload_option tmp_opt( &u, loc, it );
+                    int count = entry->get_available_count();
+                    if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
+                        count = it->ammo_remaining();
+                    }
+                    tmp_opt.qty( count );
                     entry->chosen_count = tmp_opt.qty();
                     break;
                 }
@@ -3375,6 +3396,9 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
 
 void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int value )
 {
+    if( !entry.any_item()->is_ammo() ) {
+        return;
+    }
     for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
         if( loc->can_reload_with( *entry.any_item(), true ) ) {
             item::reload_option tmp_opt( &u, loc, entry.any_item() );
@@ -3593,7 +3617,25 @@ void inventory_multiselector::toggle_entries( int &count, const toggle_mode mode
         }
     }
 
-    if( selected.empty() || !selected.front()->is_selectable() ) {
+    // Deal with entries that can be highlighted but not selected (e.g. items too large to pick up)
+    inventory_entry &highlighted_entry = get_active_column().get_highlighted();
+    if( !highlighted_entry.is_selectable() && highlighted_entry.is_item() ) {
+        cata_assert( highlighted_entry.denial.has_value() );
+        const std::string &denial = *highlighted_entry.denial;
+
+        if( !denial.empty() ) {
+            const std::string assembled = highlighted_entry.any_item().get_item()->display_name() + ":\n"
+                                          + colorize( denial, c_red );
+            if( static_cast<size_t>( utf8_width( denial ) ) > highlighted_entry.cached_denial_space ) {
+                popup( assembled, PF_GET_KEY );
+            }
+        }
+        count = 0;
+        return;
+    }
+
+    // Deal with anything else that can't be selected
+    if( selected.empty() ) {
         count = 0;
         return;
     }

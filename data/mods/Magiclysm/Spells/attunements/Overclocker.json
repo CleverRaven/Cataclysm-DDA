@@ -3,7 +3,7 @@
     "id": "overaccelerate",
     "type": "SPELL",
     "name": { "str": "Overaccelerate" },
-    "description": "This drastically increases one target's metabolism to dangerous levels, causing its body to tear itself apart.",
+    "description": "This drastically increases the target's metabolism to dangerous levels, causing their body to tear itself apart.",
     "effect": "attack",
     "effect_str": "neuro_boost",
     "shape": "blast",

@@ -134,7 +134,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 13, "cut": 45 }
+    "melee_damage": { "bash": 13, "cut": 45, "light": 15 }
   },
   {
     "id": "dagger_judgement",
@@ -163,7 +163,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 10, "stab": 28 }
+    "melee_damage": { "bash": 10, "stab": 28, "light": 12 }
   },
   {
     "id": "zwei_judgement",
@@ -202,7 +202,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 18, "cut": 51 }
+    "melee_damage": { "bash": 18, "cut": 51, "light": 22 }
   },
   {
     "id": "qiang_judgement",
@@ -241,7 +241,7 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 7, "stab": 34 }
+    "melee_damage": { "bash": 7, "stab": 34, "light": 10 }
   },
   {
     "id": "mace_judgement",
@@ -270,6 +270,6 @@
         "need_wielding": true
       }
     ],
-    "melee_damage": { "bash": 45 }
+    "melee_damage": { "bash": 45, "light": 20 }
   }
 ]

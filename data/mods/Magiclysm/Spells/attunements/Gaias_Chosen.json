@@ -23,7 +23,7 @@
     "id": "dust_reborn",
     "type": "SPELL",
     "name": "Dust Reborn",
-    "description": "Create a cast of your own body and soul, hidden inside the earth's lines.  When times come, and your body will be close to destruction, you can abandon it, transferring your consciousness into undamaged one.  But it has the huge price, and for body immortality you pay with temporary body weakness.",
+    "description": "Create a cast of your own body and soul, hidden inside the earth's lines.  When the times come and your body is close to destruction, you can abandon it, transferring your consciousness into the cast.  But it brings with it a great price, and for your immortality, you pay with temporary bodily weakness.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_DUST_REBORN_INITIAL",

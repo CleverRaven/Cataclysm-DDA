@@ -27,7 +27,7 @@
     "id": "cold_heart",
     "type": "SPELL",
     "name": "Cold Heart",
-    "description": "Harshly drop the temperature of your enemies from the inside, slowing down their bloodstreams or even shattering organs.",
+    "description": "Harshly drop the temperature inside of your enemies, slowing down their bloodstreams or even shattering organs.",
     "valid_targets": [ "hostile" ],
     "flags": [ "SOMATIC", "NO_PROJECTILE", "SILENT" ],
     "effect": "attack",

@@ -401,6 +401,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "snack_bread",
+    "name": { "str": "wheat snack bread" },
+    "copy-from": "crackers",
+    "description": "Wheat Snack Bread, a delicious snack made from wheat.",
+    "quench": 0
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "oyster_crackers",
     "name": { "str": "oyster cracker" },
     "copy-from": "crackers",

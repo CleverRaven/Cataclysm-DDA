@@ -34,6 +34,7 @@ aetherically
 affixes
 affordability
 affordably
+afro
 afterbirth
 aftereffect
 aftereffects
@@ -108,8 +109,6 @@ androgynes
 androgyny
 anechoic
 angelfish
-angelologist
-angelologists
 anglerfish
 anglicized
 anhaltende
@@ -261,7 +260,7 @@ barghest
 barleycorn
 barony
 barosaurus
-barotrarumatic
+barotraumatic
 basecamp
 basecamps
 baselard
@@ -314,6 +313,7 @@ biohacker
 biokinesis
 biokinetic
 biollante
+bioluminescent
 biomachine
 biomancer
 biomancers
@@ -352,6 +352,7 @@ bloodhunting
 bloodstreams
 bloomery
 bloop
+blowback
 blued
 bluegill
 blup
@@ -377,6 +378,7 @@ boomin
 boonie
 booo
 booorrrring
+boop
 bootable
 bootup
 boozeberry
@@ -516,6 +518,7 @@ cere
 cerium
 cervine
 cestus
+ch
 chachalaca
 chainmail
 chambering
@@ -530,7 +533,6 @@ chaturanga
 chausses
 cheapshot
 checkerboard
-checkerboards
 checkmarks
 cheescutter
 chelator
@@ -539,6 +541,7 @@ chestpiece
 chestplate
 chestplates
 chestwrap
+chhk
 chicharrones
 chickenbot
 chickenwire
@@ -553,6 +556,8 @@ chitin
 chitinous
 chitinworking
 chk
+chkch
+chkchh
 chlorination
 cholla
 chonker
@@ -671,8 +676,6 @@ craftwork
 crappie
 creasing
 creeply
-crenellation
-crenellations
 creped
 criniere
 cripplingly
@@ -771,8 +774,6 @@ demihuman
 demining
 demisexuality
 demoed
-demonologist
-demonologists
 denarius
 denatonium
 dentata
@@ -946,13 +947,13 @@ electrolyzer
 electromancy
 electrophoresis
 electroreceptors
-elementalist
-elementalists
 eles
 elete
 elongates
 elopements
 elsewheres
+elven
+elves
 elytra
 embrasure
 emode
@@ -1401,8 +1402,6 @@ hemostatic
 hemostatics
 henge
 herbivorous
-herbologist
-herbologists
 hesperosaurus
 heterochromia
 hevel
@@ -1588,6 +1587,7 @@ jirts
 johnnycake
 jointer
 jointing
+jolter
 jort
 jorts
 jpg
@@ -1802,6 +1802,8 @@ macrophenotypic
 macuahuitl
 macuahuitls
 maculata
+mage
+mages
 magick
 magickal
 magicks
@@ -1863,6 +1865,7 @@ megacorporations
 megafauna
 megalith
 megastore
+melee
 membranous
 mendacium
 menorah
@@ -1949,6 +1952,7 @@ modifier
 modifiers
 modularity
 modulations
+mohawk
 mohawks
 moisturized
 mokorotlo
@@ -2153,6 +2157,8 @@ ophanim
 ophanims
 optimality
 opy
+orc
+orcs
 orgs
 orichalcum
 orld
@@ -2164,6 +2170,8 @@ orthogonally
 oryctodromeus
 oscillated
 osho
+osteoderm
+osteoderms
 osteokinesis
 oter
 otes
@@ -2307,6 +2315,7 @@ pictograms
 pictographic
 pidgeon
 piezomechanical
+pii
 pileus
 pinita
 pinnata
@@ -2519,6 +2528,7 @@ rashy
 ratatosk
 ratlike
 rattigan
+ravenfolk
 rayed
 razorbar
 razorclaw
@@ -2822,6 +2832,7 @@ sluglike
 smallmouth
 smartcard
 smartgun
+smartphone
 smg
 smithing
 smokable
@@ -3071,6 +3082,7 @@ tazed
 tazer
 tazers
 tearjerker
+tech
 techn
 technologist
 technomancer
@@ -3102,6 +3114,7 @@ themm
 therizinosaurus
 thermochemistry
 thermoplastics
+thermoreceptors
 theropod
 thescelosaurus
 thicknesses
@@ -3413,6 +3426,7 @@ warhammers
 warmouth
 warpglass
 warpstream
+warted
 wastebread
 watchband
 waterfowl
@@ -3531,8 +3545,6 @@ z
 zahir
 zaibatsu
 zandcrawler
-zangbeto
-zangbetos
 zapback
 zaptor
 zbrojovka
@@ -3544,11 +3556,15 @@ zentai
 zeriatric
 zincite
 zischt
+zoad
+zoads
 zolpidem
 zombaby
 zombear
 zombeaver
 zombeavers
+zombfrog
+zombfrogs
 zombiespawn
 zombiethustra
 zombification
