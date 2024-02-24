@@ -350,7 +350,6 @@
       "place_loot": [
         { "item": "binoculars", "x": 1, "y": 0 },
         { "item": "survivormap", "x": 1, "y": 0 },
-        { "item": "3006", "x": 1, "y": 0, "chance": 40 }
       ]
     }
   }
