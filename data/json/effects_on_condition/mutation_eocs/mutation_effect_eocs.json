@@ -794,6 +794,7 @@
       { "u_add_trait": "HYDE_inactive" },
       { "u_message": "Your anger subsides, and you return to normal.", "type": "warning" },
       { "u_lose_trait": "HYDE" }
+    ]
   },
   {
     "type": "effect_on_condition",
