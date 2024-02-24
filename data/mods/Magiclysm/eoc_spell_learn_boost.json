@@ -48,7 +48,13 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spell_exp(_spell)", "+=", "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 2, 10) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))" ] }
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 2, 10) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      }
     ]
   },
   {
@@ -59,7 +65,10 @@
     "//": "Attuned classes levels faster since they have no any books, and needs 1-5 spellcasts to level up depends on spell cost",
     "condition": {
       "or": [
-        { "compare_string": [ "NONE", { "context_val": "school" } ], "//todo": "Should we check somehow 0 mana cost (for stamina cost spells etc)?" },
+        {
+          "compare_string": [ "NONE", { "context_val": "school" } ],
+          "//todo": "Should we check somehow 0 mana cost (for stamina cost spells etc)?"
+        },
         { "compare_string": [ "MANA_CRYST_MANA", { "context_val": "school" } ] },
         { "compare_string": [ "MANA_SEEKER_BOLTS", { "context_val": "school" } ] },
         { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
@@ -102,7 +111,13 @@
       ]
     },
     "effect": [
-      { "math": [ "u_spell_exp(_spell)", "+=", "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 1, 5) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))" ] }
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 1, 5) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      }
     ]
   },
   {
@@ -111,11 +126,15 @@
     "eoc_type": "EVENT",
     "required_event": "character_casts_spell",
     "//": "Biotek levels faster since it need an energy to cast, so factor is always is energy_cost/1000 * focus_factor",
-    "condition": {
-      "compare_string": [ "BIOTEK", { "context_val": "school" } ]
-    },
+    "condition": { "compare_string": [ "BIOTEK", { "context_val": "school" } ] },
     "effect": [
-      { "math": [ "u_spell_exp(_spell)", "+=", "mc_spell_exp_diff(u_spell_level(_spell)) * (_cost / 1000) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))" ] }
+      {
+        "math": [
+          "u_spell_exp(_spell)",
+          "+=",
+          "mc_spell_exp_diff(u_spell_level(_spell)) * (_cost / 1000) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+        ]
+      }
     ]
   }
 ]
