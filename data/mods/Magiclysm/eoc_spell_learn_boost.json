@@ -30,7 +30,10 @@
     "//": "Regular classes levels some faster and needs 2-10 spellcasts to level up depends on spell cost",
     "condition": {
       "or": [
-        { "compare_string": [ "NONE", { "context_val": "school" } ], "//todo": "Should we check somehow 0 mana cost (for stamina cost spells etc)?" },
+        {
+          "compare_string": [ "NONE", { "context_val": "school" } ],
+          "//todo": "Should we check somehow 0 mana cost (for stamina cost spells etc)?"
+        },
         { "compare_string": [ "MANA_CRYST_MANA", { "context_val": "school" } ] },
         { "compare_string": [ "MANA_SEEKER_BOLTS", { "context_val": "school" } ] },
         { "compare_string": [ "ANIMIST", { "context_val": "school" } ] },
