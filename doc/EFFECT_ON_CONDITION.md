@@ -1075,6 +1075,22 @@ You can see selected location.
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
 
+### `test_eoc`
+- type: string or [variable object](##variable-object)
+- return true if the provided eoc's condition returns true
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+Check whether the eoc `test_condition` would use its true or false effect 
+```json
+{ "test_eoc": "test_condition" }
+```
+
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
 
