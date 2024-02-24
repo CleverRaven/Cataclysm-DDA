@@ -10,6 +10,7 @@
 *.apk
 *.log
 /WinDepend/
+/achievements/
 /bindist/
 /build/
 /build-start-time

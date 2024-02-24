@@ -272,6 +272,10 @@ static void WinCreate()
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
 #endif
+#if defined(EMSCRIPTEN)
+    // Without this, the game only displays in the top-left 1/4 of the window.
+    window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
+#endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
     if( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
@@ -1008,17 +1012,22 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                 }
             }
 
-            if( blink && uistate.overmap_show_map_notes && overmap_buffer.has_note( omp ) ) {
+            if( blink && uistate.overmap_show_map_notes ) {
+                if( overmap_buffer.has_note( omp ) ) {
+                    nc_color ter_color = c_black;
+                    std::string ter_sym = " ";
+                    // Display notes in all situations, even when not seen
+                    std::tie( ter_sym, ter_color, std::ignore ) =
+                        overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
 
-                nc_color ter_color = c_black;
-                std::string ter_sym = " ";
-                // Display notes in all situations, even when not seen
-                std::tie( ter_sym, ter_color, std::ignore ) =
-                    overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
+                    std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
+                    draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
+                                         omp.raw(), 0, 0, lit_level::LIT, false );
+                } else if( overmap_buffer.is_marked_dangerous( omp ) ) {
+                    draw_from_id_string( "note_X_red", TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
+                                         omp.raw(), 0, 0, lit_level::LIT, false );
 
-                std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
-                draw_from_id_string( note_name, TILE_CATEGORY::OVERMAP_NOTE, "overmap_note",
-                                     omp.raw(), 0, 0, lit_level::LIT, false );
+                }
             }
         }
     }

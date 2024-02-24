@@ -15,6 +15,7 @@
 #include "magic.h"
 #include "type_id.h"
 #include "units_fwd.h"
+#include <monster.h>
 
 class Character;
 class Creature;
@@ -169,6 +170,11 @@ class enchantment
         // @active means the container for the enchantment is active, for comparison to active flag.
         bool is_active( const Character &guy, bool active ) const;
 
+        // same as above except for monsters. Much more limited.
+        bool is_active( const monster &mon ) const;
+
+        bool is_monster_relevant() const;
+
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
         bool active_wield() const;
@@ -238,6 +244,7 @@ class enchant_cache : public enchantment
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 
         // modifies character stats, or does other passive effects
@@ -258,6 +265,8 @@ class enchant_cache : public enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+        //Clears all the maps and vectors in the cache.
+        void clear();
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;

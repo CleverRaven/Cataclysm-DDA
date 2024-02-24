@@ -351,11 +351,6 @@
   },
   {
     "type": "recipe",
-    "result": "m2browning_sawn",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "40x46mm_buckshot_m118",
     "obsolete": true
   },
@@ -937,11 +932,6 @@
   {
     "type": "recipe",
     "result": "bp_556_incendiary",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_700nx",
     "obsolete": true
   },
   {
@@ -1632,11 +1622,6 @@
   {
     "type": "recipe",
     "result": "bp_556_incendiary",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
-    "result": "reloaded_700nx",
     "obsolete": true
   },
   {

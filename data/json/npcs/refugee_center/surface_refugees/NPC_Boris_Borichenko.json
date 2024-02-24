@@ -188,7 +188,10 @@
     "dynamic_line": {
       "concatenate": [
         "*stares at you for a moment before nodding in recognition.  \"",
-        [ "Well, well.  You are back.", "So, you have survived." ],
+        [
+          { "gendered_line": "Well, well.  You are back.", "relevant_genders": [ "u" ] },
+          { "gendered_line": "So, you have survived.", "relevant_genders": [ "u" ] }
+        ],
         "\""
       ]
     },
@@ -204,7 +207,11 @@
     "dynamic_line": {
       "concatenate": [
         "*nods at you, his eyes lighting up a little as you approach.  \"",
-        [ "Well, well.  I'm glad you are back.", "It is good to see you again, my friend.", "Hello, my friend." ],
+        [
+          { "gendered_line": "Well, well.  I'm glad you are back.", "relevant_genders": [ "u" ] },
+          { "gendered_line": "It is good to see you again, my friend.", "relevant_genders": [ "u" ] },
+          { "gendered_line": "Hello, my friend.", "relevant_genders": [ "u" ] }
+        ],
         "\""
       ]
     },
@@ -387,7 +394,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Teach",
-    "dynamic_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
+    "dynamic_line": {
+      "gendered_line": "Yes, my friend.  You have done so much for me, I would be glad to teach you what I can.  I must ask a small amount in trade, for materials.  I hope you understand.",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": { "effect": { "math": [ "n_timer_flag_Boris_teach", "=", "time('now')" ] } },
     "responses": [
       { "text": "Great!  Let's get started.", "topic": "TALK_TRAIN" },
@@ -449,7 +459,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Refuse_Boris_Mission_1",
-    "dynamic_line": "Have you had a problem with memory, friend?  I was the one who asked you this, I thought I explained why I could not.",
+    "dynamic_line": {
+      "gendered_line": "Have you had a problem with memory, friend?  I was the one who asked you this, I thought I explained why I could not.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Oh.  Right.  It's been a long apocalypse.  What were you saying?", "topic": "TALK_NONE" },
       {
@@ -461,7 +474,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_MakeDoWith2",
-    "dynamic_line": "Hmm, well it is not ideal but I appreciate you trying and being willing to help.  I will have to do my best despite the bad memories.  Thank you, my friend.",
+    "dynamic_line": {
+      "gendered_line": "Hmm, well it is not ideal but I appreciate you trying and being willing to help.  I will have to do my best despite the bad memories.  Thank you, my friend.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
@@ -474,7 +490,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_MakeDoWith3",
-    "dynamic_line": "Thank you for trying, my friend.  With you and me that will be five, I will do my best to be strong and assist in the cleanup.",
+    "dynamic_line": {
+      "gendered_line": "Thank you for trying, my friend.  With you and me that will be five, I will do my best to be strong and assist in the cleanup.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "OK, let's get to work.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [
@@ -487,7 +506,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_MakeDoWith4",
-    "dynamic_line": "That is quite alright, four should be enough though I appreciate your offer.  Four people will make the job much easier and I will do my best even if it is painful.  My thanks, friend.",
+    "dynamic_line": {
+      "gendered_line": "That is quite alright, four should be enough though I appreciate your offer.  Four people will make the job much easier and I will do my best even if it is painful.  My thanks, friend.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Good to hear.  I'm sure everyone will appreciate that place being cleaned up.", "topic": "TALK_DONE" } ],
     "speaker_effect": {
       "effect": [

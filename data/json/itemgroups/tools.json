@@ -263,7 +263,9 @@
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
       { "item": "teargas_sprayer", "prob": 15, "charges": 10 },
       { "group": "book_mag_surv", "prob": 10 },
-      { "group": "vfw_books", "prob": 20 }
+      { "group": "vfw_books", "prob": 20 },
+      [ "camping_multitool", 2 ],
+      [ "utility_knife_folding", 2 ]
     ]
   },
   {
@@ -682,7 +684,9 @@
       [ "lifestraw", 3 ],
       [ "light_snare_kit", 3 ],
       { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] },
-      { "item": "propane_cooker", "prob": 15, "charges": [ 2000, 3000 ] }
+      { "item": "propane_cooker", "prob": 15, "charges": [ 2000, 3000 ] },
+      [ "camping_multitool", 2 ],
+      [ "utility_knife_folding", 2 ]
     ]
   },
   {

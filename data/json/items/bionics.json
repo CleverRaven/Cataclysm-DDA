@@ -311,6 +311,18 @@
     "difficulty": 6
   },
   {
+    "id": "bio_sonar",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Subaquatic Navigation System CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A tiny device implanted in the inner ear.  When active, it will periodically generate ultrasonic pulses which aid in navigation, provided the user is underwater and able to hear.",
+    "price": 250000,
+    "price_postapoc": 1250,
+    "weight": "50 g",
+    "difficulty": 4
+  },
+  {
     "id": "bio_emp",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -338,7 +350,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Ethanol Burner CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500ml and accepts ethanol, methanol and denatured alcohol as fuel.",
+    "description": "A reactor that burns alcohol as fuel in an extremely efficient reaction.  It can store up to 500 ml and accepts ethanol, methanol and denatured alcohol as fuel.",
     "price": 120000,
     "price_postapoc": 2000,
     "difficulty": 4
@@ -1316,7 +1328,7 @@
     "type": "BIONIC_ITEM",
     "name": { "str": "Oil Generator CBM" },
     "looks_like": "bio_int_enhancer",
-    "description": "A CBM that generates power out of kerosene or motor oil.  It is fairly efficient and can store up to 750ml of fuel, but works somewhat slowly.",
+    "description": "A CBM that generates power out of kerosene or motor oil.  It is fairly efficient and can store up to 750 ml of fuel, but works somewhat slowly.",
     "price": 120000,
     "price_postapoc": 3500,
     "difficulty": 4

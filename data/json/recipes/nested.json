@@ -4137,7 +4137,7 @@
     "skill_used": "fabrication",
     "nested_category_data": [
       "m26_mass_mod",
-      "knife_combat_mod",
+      "knife_combat",
       "knife_combat_army_mod",
       "knife_combat_marine_mod",
       "m203_mod",
@@ -5247,7 +5247,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "planks",
-    "description": "Recipes related to constructing 4ft planks.",
+    "description": "Recipes related to constructing 4 ft planks.",
     "skill_used": "fabrication",
     "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools", "2x4_from logs with powertools" ]
   },
@@ -5258,7 +5258,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "short planks",
-    "description": "Recipes related to constructing 2ft planks.",
+    "description": "Recipes related to constructing 2 ft planks.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "plank_short_from long planks by hand",
@@ -5274,7 +5274,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "wooden posts",
-    "description": "Recipes related to constructing 4ft wooden posts.",
+    "description": "Recipes related to constructing 4 ft wooden posts.",
     "skill_used": "fabrication",
     "nested_category_data": [ "wooden_post_from long posts by hand", "wooden_post_from long posts with powertools" ]
   },
@@ -5285,7 +5285,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "name": "short wooden posts",
-    "description": "Recipes related to constructing 2ft wooden posts.",
+    "description": "Recipes related to constructing 2 ft wooden posts.",
     "skill_used": "fabrication",
     "nested_category_data": [
       "wooden_post_short_from long posts by hand",
@@ -6915,6 +6915,7 @@
       "iv_purifier",
       "iv_mutagen",
       "iv_mutagen_rat",
+      "iv_mutagen_chiropteran",
       "iv_mutagen_fish",
       "iv_mutagen_bird",
       "iv_mutagen_mouse",
@@ -6955,6 +6956,7 @@
       "purifier",
       "mutagen",
       "mutagen_rat",
+      "mutagen_chiropteran",
       "mutagen_fish",
       "mutagen_bird",
       "mutagen_mouse",
@@ -7097,5 +7099,34 @@
       "qt_esbi_plate"
     ],
     "difficulty": 5
+  },
+  {
+    "id": "nested_bullet_necklaces",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "casing necklaces",
+    "description": "Recipes dealing with the manufacture of necklaces made with bullet casings, including ones made through simple techniques or more refined workmanship.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "simple_pistol_cartridge_necklace",
+      "simple_rifle_cartridge_necklace",
+      "simple_ordnance_cartridge_necklace",
+      "fancy_pistol_cartridge_necklace",
+      "fancy_rifle_cartridge_necklace",
+      "fancy_ordinance_cartridge_necklace"
+    ]
+  },
+  {
+    "id": "nested_bullet_jewelry",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "name": "cartridge accoutrements",
+    "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewelry formed from spent munitions.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_bullet_necklaces" ]
   }
 ]

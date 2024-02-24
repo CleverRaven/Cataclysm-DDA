@@ -191,6 +191,20 @@ nutrients &nutrients::operator*=( int r )
     return *this;
 }
 
+nutrients &nutrients::operator*=( double r )
+{
+    if( !finalized ) {
+        debugmsg( "Nutrients not finalized when *= called!" );
+    }
+    calories *= r;
+    for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
+        std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
+        // Note well: This truncates the result!
+        here = static_cast<int>( std::get<int>( here ) * r );
+    }
+    return *this;
+}
+
 nutrients &nutrients::operator/=( int r )
 {
     if( !finalized ) {
@@ -202,6 +216,25 @@ nutrients &nutrients::operator/=( int r )
         here = divide_round_up( std::get<int>( here ), r );
     }
     return *this;
+}
+
+void nutrients::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "calories", calories );
+    jsout.member( "vitamins", vitamins() );
+    jsout.end_object();
+}
+
+void nutrients::deserialize( const JsonObject &jo )
+{
+    jo.read( "calories", calories );
+    std::map<vitamin_id, int> vit_map;
+    jo.read( "vitamins", vit_map );
+    for( auto &vit : vit_map ) {
+        //rebuild vitamins_
+        set_vitamin( vit.first, vit.second );
+    }
 }
 
 stomach_contents::stomach_contents() = default;

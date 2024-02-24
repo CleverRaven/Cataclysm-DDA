@@ -573,8 +573,8 @@
   {
     "id": "electrokinetic_lightning_aura",
     "type": "SPELL",
-    "name": "[Ψ]Galvanic Aura",
-    "description": "Charge the air around you with power, unleashing blasts at anyone nearby.  This power does not discriminate between friend and foe.  It will also protect you from EMP attacks while active.",
+    "name": "[Ψ]Galvanic Aura (C)",
+    "description": "Charge the air around you with power, unleashing blasts at anyone nearby.  This power does not discriminate between friend and foe.  It will also protect you from electricity while active.",
     "message": "The air around you hums with power.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -583,9 +583,8 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
-    "effect_str": "effect_electrokinetic_lightning_aura",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ELECTROKIN_LIGHTNING_AURA_INITIATE",
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -597,13 +596,67 @@
         "( (u_spell_level('electrokinetic_lightning_aura') * 2500) + 25000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
-    "energy_source": "STAMINA",
-    "base_energy_cost": 9000,
-    "final_energy_cost": 4500,
-    "energy_increment": -200,
-    "base_casting_time": 150,
-    "final_casting_time": 55,
-    "casting_time_increment": -8.5
+    "base_energy_cost": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 0 : max((9000 - (u_spell_level('electrokinetic_lightning_aura') * 200)), 4500)"
+      ]
+    },
+    "base_casting_time": {
+      "math": [
+        "u_effect_intensity('effect_electrokinetic_lightning_aura') > -1 ? 10 : max((150 -(u_spell_level('electrokinetic_lightning_aura') * 8.5)), 55)"
+      ]
+    },
+    "energy_source": "STAMINA"
+  },
+  {
+    "id": "electrokinetic_lightning_aura_spark",
+    "type": "SPELL",
+    "name": "[Ψ]Galvanic Aura Sparks",
+    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "PSIONIC", "LOUD", "NO_EXPLOSION_SFX", "NO_HANDS", "NO_LEGS" ],
+    "effect": "emit",
+    "effect_str": "emit_shock_cloud_big",
+    "shape": "blast",
+    "damage_type": "electric",
+    "max_level": { "math": [ "int_to_level(1)" ] }
+  },
+  {
+    "id": "electrokinetic_lightning_aura_attack_placeholder",
+    "//": "Currently galvanic aura successfully calls this spell to attack enemies.  However, it does not 'draw a line' towards the enemy, merely spawning ontop of them.  Still not fully functional.",
+    "type": "SPELL",
+    "name": "[Ψ]Galvanic Aura Bolt",
+    "description": "Galvanic Aura attacks.  It's a bug if you have it.",
+    "message": "",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "ELECTROKINETIC",
+    "skill": "metaphysics",
+    "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_CRITTER", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "line",
+    "damage_type": "electric",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "min_damage": {
+      "math": [ "( (u_spell_level('electrokinetic_lightning_aura') * 1) + 5) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('electrokinetic_lightning_bolt') * 1.5) + 20) * (scaling_factor(u_val('intelligence') ) )" ]
+    },
+    "min_range": {
+      "math": [
+        "min( ( (u_spell_level('electrokinetic_lightning_aura') * 0.33) + 2) * (scaling_factor(u_val('intelligence') ) ), 10)"
+      ]
+    },
+    "max_range": 10,
+    "field_id": "fd_electricity",
+    "min_field_intensity": 1,
+    "max_field_intensity": 4,
+    "field_chance": 1
   },
   {
     "id": "electrokinetic_lightning_blast",

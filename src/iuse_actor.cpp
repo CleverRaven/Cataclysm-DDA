@@ -134,6 +134,8 @@ static const itype_id itype_power_cord( "power_cord" );
 static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
@@ -3544,6 +3546,11 @@ static bodypart_id pick_part_to_heal(
                                   bleed_stop, bite_chance, infect_chance, bandage_power, disinfectant_power );
         if( healed_part == bodypart_id( "bp_null" ) ) {
             return bodypart_id( "bp_null" );
+        }
+
+        if( healed_part->has_flag( json_flag_BIONIC_LIMB ) ) {
+            add_msg( m_info, _( "You can't use first aid on a bionic limb." ) );
+            continue;
         }
 
         if( ( infect && patient.has_effect( effect_infected, healed_part ) ) ||

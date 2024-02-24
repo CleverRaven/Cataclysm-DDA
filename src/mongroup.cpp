@@ -599,7 +599,7 @@ static void check_group_def( const mongroup_id &g )
 
 void MonsterGroupManager::check_group_definitions()
 {
-    for( auto &e : monsterGroupMap ) {
+    for( const auto &e : monsterGroupMap ) {
         const MonsterGroup &mg = e.second;
         for( const MonsterGroupEntry &mge : mg.monsters ) {
             if( mge.is_group() ) {

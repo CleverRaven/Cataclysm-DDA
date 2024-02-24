@@ -189,7 +189,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1a",
-    "dynamic_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous\"",
+    "dynamic_line": {
+      "gendered_line": "*leans casually against the brick wall of the shelter.  \"Hello again, gorgeous\"",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Hi, Alonso.  What's up?", "topic": "TALK_REFUGEE_Alonso_2" },
       { "text": "Hi Alonso.  I can't stay to talk.", "topic": "TALK_DONE" }
@@ -378,7 +381,7 @@
       "context": "none",
       "value": "asked",
       "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
+      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
     },
     "speaker_effect": {
       "sentinel": "service_provided",
@@ -418,7 +421,7 @@
       "context": "none",
       "value": "asked",
       "no": "My jewel of the New England, I give to you my biggest prize.",
-      "yes": "Yo, you're crazy hot!  I'm not stupid!"
+      "yes": { "gendered_line": "Yo, you're crazy hot!  I'm not stupid!", "relevant_genders": [ "u" ] }
     },
     "speaker_effect": {
       "sentinel": "service_provided",

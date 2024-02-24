@@ -842,38 +842,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "rag",
-    "id_suffix": "knitting",
-    "category": "CC_OTHER",
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": "6 m",
-    "autolearn": true,
-    "using": [ [ "filament", 80 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "rag",
-    "id_suffix": "spinningwheel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "batch_time_factors": [ 70, 1 ],
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
-    "time": "18 s",
-    "autolearn": true,
-    "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "using": [ [ "filament", 80 ] ],
-    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sheet",
     "category": "CC_OTHER",
@@ -1717,19 +1685,6 @@
     "using": [ [ "forging_standard", 4 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [ [ [ "budget_steel_chunk", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "result": "cotton_patchwork",
-    "id_suffix": "from_rags",
-    "//": "This should be obsoleted once we're sure nobody has any rags left and they're removed from any recipes i missed.",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "tailor",
-    "time": "0 s",
-    "autolearn": true,
-    "components": [ [ [ "rag", 1 ] ] ]
   },
   {
     "result": "plastic_sheet",

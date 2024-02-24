@@ -26,6 +26,8 @@ class effect;
 class item;
 struct itype;
 
+extern const matec_id tec_none;
+
 class weapon_category
 {
     public:

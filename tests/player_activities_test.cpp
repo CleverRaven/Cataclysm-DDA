@@ -1708,7 +1708,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, get_avatar().pos() + tripoint_north ) ); },
-    [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos() ) ); },
+    [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos_bub() ) ); },
     //player_activity( oxytorch_activity_actor( p, loc ) ),
     [] { return player_activity( pickup_activity_actor( {}, {}, std::nullopt, false ) ); },
     [] { return player_activity( play_with_pet_activity_actor() ); },

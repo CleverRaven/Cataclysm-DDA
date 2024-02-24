@@ -1,8 +1,36 @@
 [
   {
+    "copy-from": "heli_crash",
+    "type": "scenario",
+    "extend": { "map_special": "mx_helicopter", "professions": [ "psi_telekinetic_testsubject", "psi_telepath_interrogater" ] },
+    "id": "heli_crash"
+  },
+  {
     "copy-from": "portal_dependent",
     "type": "scenario",
     "extend": { "professions": [ "psi_new_psychic", "psi_telekinetic_testsubject", "psi_teleporter_slider" ] },
     "id": "portal_dependent"
+  },
+  {
+    "type": "scenario",
+    "id": "dimension_lost_fifth_sun",
+    "name": "Dimension-Lost",
+    "points": 0,
+    "description": "You don't understand what happened.  You were readying for a routine jump at the Far Hebrides transfer point when there was a power cascade in the drive and now you're here, on some other version of Tlalticpactli that may as well be one of the worse levels of Mictlān.  You need to find your way back home, but first you need to find a way to survive.",
+    "start_name": "???",
+    "allowed_locs": [
+      "sloc_forest",
+      "sloc_middle_of_nowhere",
+      "sloc_mine_finale",
+      "sloc_apartments_rooftop2",
+      "sloc_office_tower_rooftop",
+      "sloc_apartment_complex_roof",
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_mall_food_court"
+    ],
+    "professions": [ "psi_teleporter_slider" ],
+    "reveal_locale": false,
+    "flags": [ "LONE_START" ]
   }
 ]

@@ -1463,6 +1463,7 @@ struct fixed_overmap_special_data : overmap_special_data {
                             om.build_connection(
                                 nearby_point.xy(), rp.xy(), elem.p.z, *elem.connection,
                                 must_be_unexplored, initial_dir );
+                            break;
                         }
                     }
                 }
@@ -2152,6 +2153,12 @@ struct mutable_overmap_phase_remainder {
         // so to aid that we provide a human-readable description here which is
         // only used in the event of a placement error.
         std::string description;
+
+        explicit satisfy_result( const tripoint_om_omt origin, const om_direction::type dir,
+                                 mutable_overmap_placement_rule_remainder *rule,
+                                 std::vector<om_pos_dir> suppressed_joins, std::string description ) :
+            origin( origin ), dir( dir ), rule( rule ),
+            suppressed_joins( std::move( suppressed_joins ) ), description( std::move( description ) ) {}
     };
 
     bool all_rules_exhausted() const {
@@ -2261,9 +2268,7 @@ struct mutable_overmap_phase_remainder {
                             best_result = *result;
                         }
                         if( *result == best_result ) {
-                            pos_dir_options.push_back(
-                                satisfy_result{ origin, dir, &rule, result.value().supressed_joins,
-                                                {} } );
+                            pos_dir_options.emplace_back( origin, dir, &rule, result.value().supressed_joins, std::string{} );
                         }
                     }
                 }
@@ -2310,7 +2315,7 @@ struct mutable_overmap_phase_remainder {
                     om.ter( pos + point_north ).id().str(), om.ter( pos + point_east ).id().str(),
                     om.ter( pos + point_south ).id().str(), om.ter( pos + point_west ).id().str(),
                     joins_s, rules_s );
-            return { {}, om_direction::type::invalid, nullptr, {}, std::move( message ) };
+            return satisfy_result{ {}, om_direction::type::invalid, nullptr, std::vector<om_pos_dir>{}, std::move( message ) };
         }
     }
 };
@@ -3136,13 +3141,10 @@ bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
         if( i.danger_radius == 0 && i.p != p.xy() ) {
             continue;
         }
-        for( int x = -radius; x <= radius; x++ ) {
-            for( int y = -radius; y <= radius; y++ ) {
-                const tripoint_om_omt rad_point = tripoint_om_omt( i.p, p.z() ) + point( x, y );
-                if( p.xy() == rad_point.xy() ) {
-                    return true;
-                }
-            }
+
+        int dist = rl_dist( i.p, p.xy() );
+        if( dist <= radius ) {
+            return true;
         }
     }
     return false;
@@ -3194,6 +3196,20 @@ void overmap::mark_note_dangerous( const tripoint_om_omt &p, int radius, bool is
             return;
         }
     }
+}
+
+int overmap::note_danger_radius( const tripoint_om_omt &p ) const
+{
+    if( p.z() < -OVERMAP_DEPTH || p.z() > OVERMAP_HEIGHT ) {
+        return -1;
+    }
+
+    const auto &notes = layer[p.z() + OVERMAP_DEPTH].notes;
+    const auto it = std::find_if( begin( notes ), end( notes ), [&]( const om_note & n ) {
+        return n.p == p.xy();
+    } );
+
+    return ( it != std::end( notes ) ) && it->dangerous ? it->danger_radius : -1;
 }
 
 void overmap::delete_note( const tripoint_om_omt &p )
@@ -6833,7 +6849,22 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             point_abs_om new_om_addr = random_entry( nearest_candidates );
             overmap_buffer.create_custom_overmap( new_om_addr, custom_overmap_specials );
         } else {
-            add_msg( _( "Unable to place all configured specials, some missions may fail to initialize." ) );
+            std::string msg =
+                "The following specials could not be placed, some missions may fail to initialize: ";
+            int n = 0;
+            for( auto iter = custom_overmap_specials.begin(); iter != custom_overmap_specials.end(); ) {
+                if( iter->instances_placed < iter->special_details->get_constraints().occurrences.min ) {
+                    msg.append( iter->special_details->id.c_str() ).append( ", " );
+                    n++;
+                }
+                ++iter;
+            }
+            if( n > 0 ) {
+                msg = msg.substr( 0, msg.length() - 2 );
+            } else {
+                msg = msg.append( "<unknown>" );
+            }
+            add_msg( _( msg ) );
         }
     }
     // Then fill in non-mandatory specials.

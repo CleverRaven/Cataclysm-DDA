@@ -10,7 +10,7 @@
     "size": 15,
     "power": 20,
     "currency": "crypto_coin",
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -91,7 +91,7 @@
       { "item": "UICA_1000d", "fixed_adj": 0 },
       { "item": "UICA_10000d", "fixed_adj": 0 }
     ],
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -172,7 +172,7 @@
     "size": 100,
     "power": 100,
     "currency": "",
-    "food_supply": 115200,
+    "fac_food_supply": { "calories": 115200, "vitamins": {  } },
     "wealth": 75000,
     "relations": {
       "free_merchants": {
@@ -252,7 +252,7 @@
     "known_by_u": false,
     "size": 15,
     "power": 20,
-    "food_supply": 1200,
+    "fac_food_supply": { "calories": 1200, "vitamins": {  } },
     "wealth": 7500,
     "relations": {
       "free_merchants": {

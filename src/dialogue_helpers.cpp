@@ -4,7 +4,9 @@
 
 #include "dialogue.h"
 
-std::optional<std::string> maybe_read_var_value( const var_info &info, const dialogue &d )
+template<class T>
+std::optional<std::string> maybe_read_var_value(
+    const abstract_var_info<T> &info, const dialogue &d )
 {
     global_variables &globvars = get_globals();
     switch( info.type ) {
@@ -28,9 +30,21 @@ std::optional<std::string> maybe_read_var_value( const var_info &info, const dia
     return std::nullopt;
 }
 
+template
+std::optional<std::string> maybe_read_var_value( const var_info &, const dialogue & );
+template
+std::optional<std::string> maybe_read_var_value( const translation_var_info &, const dialogue & );
+
+template<>
 std::string read_var_value( const var_info &info, const dialogue &d )
 {
     return maybe_read_var_value( info, d ).value_or( info.default_val );
+}
+
+template<>
+std::string read_var_value( const translation_var_info &info, const dialogue &d )
+{
+    return maybe_read_var_value( info, d ).value_or( info.default_val.translated() );
 }
 
 var_info process_variable( const std::string &type )
@@ -122,6 +136,13 @@ std::string translation_or_var::evaluate( dialogue const &d ) const
     }
     debugmsg( "No valid value for str_or_var_part.  %s", d.get_callstack() );
     return "";
+}
+
+std::string str_translation_or_var::evaluate( dialogue const &d ) const
+{
+    return std::visit( [&d]( auto &&val ) {
+        return val.evaluate( d );
+    }, val );
 }
 
 double dbl_or_var_part::evaluate( dialogue &d ) const

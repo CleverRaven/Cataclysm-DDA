@@ -65,8 +65,8 @@
   {
     "id": "photokinetic_create_light_01",
     "type": "SPELL",
-    "name": "[Ψ]Field of Light Subspell #1",
-    "description": "The first create light subspell.  If you have this, it's a bug.",
+    "name": "[Ψ]Field of Light",
+    "description": "Create photons to illuminate an entire area.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
@@ -97,8 +97,8 @@
   {
     "id": "photokinetic_create_light_02",
     "type": "SPELL",
-    "name": "[Ψ]Field of Light Subspell #2",
-    "description": "The second create light subspell.  If you have this, it's a bug.",
+    "name": "[Ψ]Field of Light",
+    "description": "Create photons to illuminate an entire area.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],
@@ -129,8 +129,8 @@
   {
     "id": "photokinetic_create_light_03",
     "type": "SPELL",
-    "name": "[Ψ]Field of Light Subspell #3",
-    "description": "The third create light subspell.  If you have this, it's a bug.",
+    "name": "[Ψ]Field of Light",
+    "description": "Create photons to illuminate an entire area.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self", "ground", "ally", "hostile" ],

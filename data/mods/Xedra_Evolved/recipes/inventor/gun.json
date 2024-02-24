@@ -295,7 +295,7 @@
     "components": [
       [
         [ "ar10", 1 ],
-        [ "fn_fal", 1 ],
+        [ "fn_fal_semi", 1 ],
         [ "hk417_13", 1 ],
         [ "m14ebr", 1 ],
         [ "M24", 1 ],
@@ -305,7 +305,7 @@
       ],
       [
         [ "ar10", 1 ],
-        [ "fn_fal", 1 ],
+        [ "fn_fal_semi", 1 ],
         [ "hk417_13", 1 ],
         [ "m14ebr", 1 ],
         [ "M24", 1 ],
@@ -786,7 +786,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "inventor_pistol",
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_gunsmithing_improv", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 }
     ],

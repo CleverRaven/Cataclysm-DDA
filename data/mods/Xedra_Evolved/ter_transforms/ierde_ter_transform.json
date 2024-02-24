@@ -86,5 +86,164 @@
     "type": "ter_furn_transform",
     "id": "ierde_create_pits_transform",
     "terrain": [ { "result": "t_pit", "valid_flags": [ "DIGGABLE" ], "message": "The ground opens up!" } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_make_destroy_walls",
+    "terrain": [
+      {
+        "result": "t_rock",
+        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble" ],
+        "message": "The stone rises up into a stone wall."
+      },
+      { "result": "t_rock_floor", "valid_terrain": [ "t_rock" ], "message": "The stone wall sinks away." },
+      {
+        "result": "t_rock",
+        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble" ],
+        "message": "The stone rises up into a stone wall."
+      },
+      { "result": "t_soil", "valid_flags": [ "DIGGABLE" ], "message": "The ground rises into a wall of solid earth." },
+      { "result": "t_dirt", "valid_terrain": [ "t_soil" ], "message": "The solid earth sinks away." }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_make_pits",
+    "terrain": [
+      { "result": "t_dirt", "valid_terrain": [ "t_soil" ], "message": "The solid earth sinks away." },
+      { "result": "t_pit", "valid_flags": [ "DIGGABLE" ], "message": "The ground opens up!" },
+      { "result": "t_hole", "valid_terrain": [ "t_pit" ], "message": "The pit deepens!" }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_raise_earth",
+    "terrain": [
+      {
+        "result": "t_earthen_stairs_up",
+        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble", "t_rock" ],
+        "message": "The ground rises up into a set of earthen stairs."
+      },
+      {
+        "result": "t_earthen_stairs_up",
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "The dirt rises up into a set of earthen stairs."
+      },
+      {
+        "result": "t_earthen_stairs_up",
+        "valid_terrain": [ "t_soil" ],
+        "message": "The dirt rises up into a set of earthen stairs."
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_lower_earth",
+    "terrain": [
+      {
+        "result": "t_earthen_stairs_down",
+        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble", "t_rock" ],
+        "message": "The ground sinks down into a set of earthen stairs."
+      },
+      {
+        "result": "t_earthen_stairs_down",
+        "valid_flags": [ "DIGGABLE" ],
+        "message": "The dirt sinks down into a set of earthen stairs."
+      },
+      {
+        "result": "t_earthen_stairs_down",
+        "valid_terrain": [ "t_soil" ],
+        "message": "The dirt sinks down into a set of earthen stairs."
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_smoothing_stone",
+    "terrain": [
+      {
+        "result": "t_rock_smooth",
+        "valid_terrain": [ "t_rock" ],
+        "message": "All imperfections in the stone are smoothed away."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_churn_earth",
+    "terrain": [
+      {
+        "result": "t_dirtmound",
+        "valid_terrain": [ "t_dirt", "t_dirtfloor", "t_grass", "t_grass_long", "t_grass_tall", "t_grass_dead", "t_grass_white", "t_pit_shallow" ],
+        "message": "The ground churns as a long straight furrow suitable for planting appears."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_earth_to_stone",
+    "terrain": [
+      {
+        "result": "t_rock_floor_no_roof",
+        "valid_terrain": [ "t_dirt", "t_dirtfloor_no_roof", "t_dirtmound" ],
+        "message": "The earth hardens into solid rock."
+      },
+      {
+        "result": "t_rock_floor",
+        "valid_terrain": [ "t_dirt_underground" ],
+        "message": "The earth hardens into solid rock."
+      },
+      { "result": "t_rock", "valid_terrain": [ "t_soil" ], "message": "The earth hardens into solid rock." },
+      {
+        "result": "t_rock",
+        "valid_terrain": [ "t_wall_rammed_earth" ],
+        "message": "The earth hardens into solid rock."
+      }
+    ],
+    "furniture": [
+      {
+        "result": "f_rubble_rock",
+        "valid_furniture": [
+          "f_dirtmound_tall",
+          "f_dirtmound_shallow",
+          "f_dirtmound_pile_seed",
+          "f_dirtmound_pile_mature",
+          "f_dirtmound_shallow_seed",
+          "f_dirtmound_pile_harvest",
+          "f_dirtmound_pile_seedling",
+          "f_dirtmound_shallow_mature",
+          "f_dirtmound_shallow_harvest",
+          "f_dirtmound_shallow_seedling"
+        ],
+        "message": "The pile of dirt hardens into a large pile of stones."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_ierde_stone_to_earth",
+    "terrain": [
+      {
+        "result": "t_dirt",
+        "valid_terrain": [ "t_rock_floor", "t_rock_floor_no_roof", "t_railroad_rubble" ],
+        "message": "The earth hardens into solid rock."
+      },
+      {
+        "result": "t_dirt_underground",
+        "valid_terrain": [ "t_rock_floor" ],
+        "message": "The earth hardens into solid rock."
+      },
+      { "result": "t_soil", "valid_terrain": [ "t_rock" ], "message": "The earth hardens into solid rock." }
+    ],
+    "furniture": [
+      {
+        "result": "f_dirtmound_shallow",
+        "valid_furniture": [ "f_rubble_rock" ],
+        "message": "The loose rock falls apart into a pile of dirt."
+      }
+    ]
   }
 ]

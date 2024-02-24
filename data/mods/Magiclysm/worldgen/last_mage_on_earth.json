@@ -1,0 +1,215 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "lmoe_under_empty" ],
+    "//": "Empty LMOE shelter built for a wizard.",
+    "weight": 40,
+    "object": {
+      "fill_ter": "t_carpet_metal_purple",
+      "rows": [
+        "##|||||########||||||###",
+        "##|,,<|||||||##|β🜍🜍β|###",
+        "##|Y,<|w,BBd|##|/ØØ/|###",
+        "||||+||},BB,||||/ØØ/|###",
+        "|A,,,E|,,,,,:__+//X/|###",
+        "|f,,,,|+|||||||||||+||||",
+        "|f,,,e|,,,,b|_____|,☿,Ƀ|",
+        "|f,,,,|,,h,,|_____|,,,Ƀ|",
+        "|Dh,,P|,hLh,|_____|M,,Ƀ|",
+        "|☿,,,,|,hLh,|_____|,,,Ƀ|",
+        "|,,,,,+,,h,,|_____|ɃɃ,Ƀ|",
+        "|,|||||~,,,☿|_____|||+||",
+        "|,+,,B|K,,,u:_____||y_y|",
+        "|,|d,B|COC,u|_____||y_y|",
+        "|,||||||||+||_____||y_y|",
+        "|,+,,B|t,,,K|_____||y_y|",
+        "|}|d,B|WAv,s|_____||y_y|",
+        "|;|||||||||:|||+|||||:||",
+        "|__|_____|__|_______=__|",
+        "|__|_____||+|_______*__|",
+        "|__|________|_______=__|",
+        "|__|________+_______=__|",
+        "|__+________|_______=__|",
+        "||||||||||||||||||||||||"
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "terrain": {
+        "M": "t_carpet_metal_purple",
+        "y": "t_metal_floor",
+        "X": "t_magiconc_floor",
+        "β": "t_magiconc_floor",
+        "Ø": "t_magiconc_floor",
+        "🜍": "t_magiconc_floor",
+        "/": "t_magiconc_floor"
+      },
+      "furniture": {
+        "M": "f_armchair",
+        "y": "f_utility_shelf",
+        "Ƀ": "f_bookcase",
+        "☿": "f_everburning_torch_candelabra",
+        "🜍": "f_everburning_torch_candelabra",
+        "β": "f_magic_bench",
+        "Ø": "f_magic_circle"
+      },
+      "items": {
+        "Ƀ": [
+          { "item": "magic_shop_books", "chance": 40, "repeat": [ 1, 4 ] },
+          { "item": "spellbook_loot_0", "chance": 25, "repeat": [ 1, 2 ] },
+          { "item": "homebooks", "chance": 80, "repeat": [ 1, 3 ] },
+          { "item": "novels", "chance": 100, "repeat": [ 1, 3 ] }
+        ],
+        "β": [
+          { "item": "potions_common", "chance": 75, "repeat": [ 3, 6 ] },
+          { "item": "enchanted_small_items", "chance": 50, "repeat": [ 1, 4 ] },
+          { "item": "magical_reagents", "chance": 80, "repeat": [ 1, 2 ] }
+        ],
+        "y": [
+          { "item": "magical_reagents", "chance": 80, "repeat": [ 2, 3 ] },
+          { "item": "magic_plants_common", "chance": 85, "repeat": [ 2, 4 ] },
+          { "item": "magic_plants_uncommon", "chance": 35, "repeat": [ 2, 3 ] },
+          { "item": "magic_plants_rare", "chance": 5, "repeat": [ 1, 3 ] },
+          { "item": "potions_common", "chance": 80, "repeat": [ 1, 3 ] },
+          { "item": "potions_uncommon", "chance": 40, "repeat": [ 1, 3 ] }
+        ],
+        "w": [
+          { "item": "allclothes", "chance": 80, "repeat": [ 2, 4 ] },
+          { "item": "enchanted_worn_items", "chance": 50, "repeat": [ 1, 3 ] },
+          { "item": "enchanted_rings_common", "chance": 20 },
+          { "item": "enchanted_rings_uncommon", "chance": 5 },
+          { "item": "enchanted_masks", "chance": 2 }
+        ]
+      },
+      "place_item": [
+        { "item": "crystallized_mana", "x": 20, "y": 12, "chance": 10 },
+        { "item": "crystallized_mana", "x": 22, "y": 12, "chance": 10 },
+        { "item": "crystallized_mana", "x": 20, "y": 13, "chance": 10 },
+        { "item": "crystallized_mana", "x": 22, "y": 13, "chance": 10 },
+        { "item": "crystallized_mana", "x": 20, "y": 14, "chance": 10 },
+        { "item": "crystallized_mana", "x": 22, "y": 14, "chance": 10 },
+        { "item": "crystallized_mana", "x": 20, "y": 15, "chance": 10 },
+        { "item": "crystallized_mana", "x": 22, "y": 15, "chance": 10 },
+        { "item": "crystallized_mana", "x": 20, "y": 16, "chance": 10 },
+        { "item": "crystallized_mana", "x": 22, "y": 16, "chance": 10 }
+      ],
+      "place_items": [
+        { "item": "enchanted_wands_disposable_combat", "x": 2, "y": 18, "chance": 40 },
+        { "item": "enchanted_wands_disposable_combat", "x": 2, "y": 19, "chance": 40 },
+        { "item": "enchanted_wands_disposable_combat", "x": 2, "y": 20, "chance": 40 },
+        { "item": "enchanted_wands_disposable_combat", "x": 2, "y": 21, "chance": 40 }
+      ],
+      "nested": { "X": { "chunks": [ [ "lmoe_dead_mage", 1 ], [ "null", 5 ] ] } },
+      "place_nested": [
+        { "chunks": [ "lmoe3_storage_mage_11x11" ], "x": 13, "y": 6 },
+        { "chunks": [ "lmoe3_tankroom_mage_11x11" ], "x": 1, "y": 18 },
+        { "chunks": [ "lmoe3_crafting_11x11" ], "x": 13, "y": 18 }
+      ],
+      "place_monster": [
+        { "monster": "mon_irongolem", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 20, "repeat": [ 1, 3 ] },
+        { "monster": "mon_irongolem", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 100 },
+        { "monster": "mon_darkman", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 10, "repeat": [ 1, 3 ] },
+        { "monster": "mon_star_vampire", "x": [ 2, 11 ], "y": [ 4, 16 ], "chance": 15, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_storage_mage_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "lllll|     ",
+        "u___U|     ",
+        "u_u_U|     ",
+        "u_u_U|     ",
+        "u_u_U|     ",
+        "u_u_U|     ",
+        "__v_U|     ",
+        "u_v_U|     ",
+        "u_v_U|     ",
+        "u___U|     ",
+        "AV_VU|     "
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_monster": [ { "monster": "mon_irongolem", "x": 0, "y": 6, "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe_dead_mage",
+    "//": "lore: a dead mage.  Maybe killed in some kind of magical ritual that the portal storms messed up, maybe they went feral and their defense golems killed them, maybe they tried to summon a star vampire and it went out of control.",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "X": "t_magiconc_floor" },
+      "place_fields": [
+        { "field": "fd_blood", "x": 0, "y": 0, "intensity": 2, "age": 0 },
+        { "field": "fd_gibs_flesh", "x": 0, "y": 0, "intensity": 3, "age": 0 }
+      ],
+      "place_monster": [ { "monster": "mon_star_vampire", "x": 0, "y": 0, "chance": 50 } ],
+      "place_items": [
+        { "item": "corpse_bloody", "x": 0, "y": 0 },
+        { "item": "enchanted_worn_items", "x": 0, "y": 0, "chance": 100 },
+        { "item": "default_zombie_death_drops", "x": 0, "y": 0, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_tankroom_mage_11x11",
+    "//": "This is done in a nested map to make the flooring under the furniture look right, nothing much else.",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "_{|l__aa|{_",
+        "_{|l__aa||+",
+        "_{|l____ll_",
+        "_{|l_______",
+        "__+________",
+        "|||||||||||",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           "
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "place_monster": [ { "monster": "mon_krabgek", "x": [ 4, 10 ], "y": [ 0, 4 ], "chance": 40, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lmoe3_tankroom_mage_11x11",
+    "weight": 650,
+    "//": "Translocator gate variant.",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "_{|l__aa|M_",
+        "_{|l__aa||+",
+        "_{|l____ll_",
+        "_{|l_______",
+        "__+________",
+        "|||||||||||",
+        "           ",
+        "           ",
+        "           ",
+        "           ",
+        "           "
+      ],
+      "palettes": [ "bunker", "empty_bunker_items" ],
+      "terrain": { "M": "t_metal_floor" },
+      "furniture": { "M": "f_magiclysm_translocator_gate" },
+      "place_monster": [
+        { "monster": "mon_krabgek", "x": 10, "y": 0, "chance": 100 },
+        { "monster": "mon_krabgek", "x": [ 4, 10 ], "y": [ 0, 4 ], "chance": 40, "repeat": [ 1, 2 ] }
+      ]
+    }
+  }
+]

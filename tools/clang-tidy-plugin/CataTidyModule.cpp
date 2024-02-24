@@ -30,6 +30,7 @@
 #include "TranslationsInDebugMessagesCheck.h"
 #include "TranslatorCommentsCheck.h"
 #include "U8PathCheck.h"
+#include "UnitOverflowCheck.h"
 #include "UnsequencedCallsCheck.h"
 #include "UnusedStaticsCheck.h"
 #include "UseLocalizedSortingCheck.h"
@@ -100,6 +101,7 @@ class CataModule : public ClangTidyModule
                 "cata-translations-in-debug-messages" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );
             CheckFactories.registerCheck<U8PathCheck>( "cata-u8-path" );
+            CheckFactories.registerCheck<UnitOverflowCheck>( "cata-unit-overflow" );
             CheckFactories.registerCheck<UnsequencedCallsCheck>( "cata-unsequenced-calls" );
             CheckFactories.registerCheck<UnusedStaticsCheck>( "cata-unused-statics" );
             CheckFactories.registerCheck<UseLocalizedSortingCheck>( "cata-use-localized-sorting" );

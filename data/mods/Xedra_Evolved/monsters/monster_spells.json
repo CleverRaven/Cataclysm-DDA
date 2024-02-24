@@ -109,5 +109,22 @@
     "max_range": 40,
     "min_duration": 360000,
     "max_duration": 1080000
+  },
+  {
+    "id": "mon_shabriri_blind_spell",
+    "type": "SPELL",
+    "name": "Shabriri Blinding Spell",
+    "description": "This is a monster only spell.  My mother told me, Shabriri bariri riri iri ri, in my white cup.",
+    "message": "",
+    "teachable": false,
+    "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "valid_targets": [ "ground", "hostile" ],
+    "effect": "attack",
+    "effect_str": "blind",
+    "shape": "blast",
+    "min_range": 20,
+    "max_range": 20,
+    "min_duration": 3000,
+    "max_duration": 18000
   }
 ]

@@ -31,7 +31,7 @@
     "special_attacks": [ { "id": "bite_grab", "attack_upper": false, "cooldown": 5 }, { "id": "scratch_grab_required", "max_mul": 1.5 } ],
     "death_drops": "mon_dog_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "REVIVES", "POISON", "FILTHY" ],
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 1 }
   },
   {
@@ -241,6 +241,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_stream", "delay": "1 s" } ],
     "death_function": { "effect": { "id": "death_tearburst", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_drops": "explode_zed_beast",
     "special_attacks": [ { "id": "impale" } ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
@@ -276,7 +277,7 @@
     "vision_night": 3,
     "harvest": "puppy_bones",
     "upgrades": { "half_life": 42, "into": "mon_dog_skeleton_brute" },
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "NO_BREATHE", "REVIVES", "POISON", "FILTHY" ],
     "armor": { "cut": 15, "stab": 30, "acid": 3, "bullet": 12, "electric": 3 }
   },
   {
@@ -330,7 +331,7 @@
       { "id": "bite_grab", "move_cost": 150, "cooldown": 5, "min_mul": 1, "max_mul": 1.8 },
       { "id": "scratch", "cooldown": 10, "min_mul": 1, "max_mul": 1.8 }
     ],
-    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "GRABS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "GRABS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ],
     "armor": { "bash": 2, "cut": 17, "stab": 30, "acid": 3, "bullet": 32, "electric": 3 }
   },
   {

@@ -277,6 +277,26 @@
     "melee_damage": { "stab": 12 }
   },
   {
+    "id": "utility_knife_folding",
+    "type": "TOOL",
+    "name": { "str": "utility folding knife", "str_pl": "utility folding knives" },
+    "description": "A 'Hideman' brand folding knife, this model includes extra utility options such as a screwdriver, awl, and small pry bar.",
+    "looks_like": "knife_folding",
+    "weight": "155 g",
+    "volume": "40 ml",
+    "longest_side": "10 cm",
+    "price": 2500,
+    "price_postapoc": 150,
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ], [ "SCREW", 1 ], [ "PRYING_NAIL", 1 ], [ "LEATHER_AWL", 2 ] ],
+    "flags": [ "BELT_CLIP", "ALLOWS_BODY_BLOCK", "CONDUCTIVE" ],
+    "weapon_category": [ "KNIVES" ],
+    "melee_damage": { "stab": 12 }
+  },
+  {
     "id": "knife_combat_marine",
     "type": "TOOL",
     "category": "weapons",
@@ -2878,9 +2898,9 @@
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "combatsaw_on",
-              "success_message": "With a snarl, the <npc_name> screams to life!",
+              "success_message": { "i18n": true, "str": "With a snarl, the <npc_name> screams to life!" },
               "volume": "30",
-              "failure_message": "You yank the cord, but nothing happens."
+              "failure_message": { "i18n": true, "str": "You yank the cord, but nothing happens." }
             }
           }
         }
@@ -2918,7 +2938,12 @@
           "id": "EOC_toolweapon_running__combatsaw",
           "effect": {
             "run_eoc_with": "EOC_toolweapon_running",
-            "variables": { "sound_chance": "12", "sound_message": "Your combat chainsaw growls.", "volume": "18", "revert_to": "combatsaw_off" }
+            "variables": {
+              "sound_chance": "12",
+              "sound_message": { "i18n": true, "str": "Your combat chainsaw growls." },
+              "volume": "18",
+              "revert_to": "combatsaw_off"
+            }
           }
         }
       ]
@@ -2954,9 +2979,9 @@
             "variables": {
               "turn_cost": "0.6",
               "transform_target": "e_combatsaw_on",
-              "success_message": "With a snarl, the <npc_name> screams to life!",
+              "success_message": { "i18n": true, "str": "With a snarl, the <npc_name> screams to life!" },
               "volume": "30",
-              "failure_message": "You flip the switch, but nothing happens."
+              "failure_message": { "i18n": true, "str": "You flip the switch, but nothing happens." }
             }
           }
         }
@@ -3004,7 +3029,7 @@
             "run_eoc_with": "EOC_toolweapon_running",
             "variables": {
               "sound_chance": "12",
-              "sound_message": "Your electric combat chainsaw growls.",
+              "sound_message": { "i18n": true, "str": "Your electric combat chainsaw growls." },
               "volume": "18",
               "revert_to": "e_combatsaw_off"
             }
@@ -3127,7 +3152,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "Type 30 bayonet" },
-    "description": "An essential tool within any 20th-century Japanese soldier’s toolbox, the Type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent’s weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
+    "description": "An essential tool within any 20th-century Japanese soldier's toolbox, the Type 30 is a massive, single-edged sword-style bayonet intended for use with Arisaka rifles and even light machineguns.  Possessing a J-shaped quillon guard for hooking an opponent's weapon during combat, the bayonet, when dismounted, acts like a particularly sizable machete.",
     "weight": "700 g",
     "volume": "380 ml",
     "longest_side": "514 mm",

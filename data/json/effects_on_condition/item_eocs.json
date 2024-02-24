@@ -9,7 +9,7 @@
     "type": "effect_on_condition",
     "id": "get_deagle_44",
     "global": true,
-    "effect": { "u_spawn_item": "deagle_44" }
+    "effect": { "u_spawn_item": "modular_deagle_44", "use_item_group": true }
   },
   {
     "type": "effect_on_condition",

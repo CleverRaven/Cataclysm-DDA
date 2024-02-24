@@ -2,7 +2,21 @@
   {
     "copy-from": "heli_crash",
     "type": "scenario",
-    "extend": { "map_special": "mx_helicopter", "professions": [ "zebra_investigator", "spy", "fbi_investigator" ] },
+    "extend": {
+      "map_special": "mx_helicopter",
+      "professions": [
+        "zebra_investigator",
+        "spy",
+        "fbi_investigator",
+        "xe_jotunn_hunter",
+        "xe_troll_slayer",
+        "xe_specter",
+        "xe_eater",
+        "xe_dreamer",
+        "xe_inventor",
+        "xe_dreamsmith"
+      ]
+    },
     "id": "heli_crash"
   },
   {

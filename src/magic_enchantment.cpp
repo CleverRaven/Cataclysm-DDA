@@ -251,6 +251,58 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
     return false;
 }
 
+bool enchantment::is_active( const monster &mon ) const
+{
+    //This is very limited at the moment. Basically, we can't use any conditions except "ALWAYS"
+    if( active_conditions.second == condition::ALWAYS && !mon.is_fake() ) {
+        return true;
+    }
+    // Dialogue conditions for monsters seems like overkill.
+    // Definitely not an excuse for not knowing how to add them. Nope! Sure isn't!
+    return false;
+}
+
+// Returns true if this enchantment is relevant to monsters. Enchantments that are not relevant to monsters are not processed by monsters.
+bool enchantment::is_monster_relevant() const
+{
+    // Check add values.
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         values_add ) {
+        if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_BASH ||
+            pair_values.first == enchant_vals::mod::ARMOR_BIO ||
+            pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
+            pair_values.first == enchant_vals::mod::ARMOR_COLD ||
+            pair_values.first == enchant_vals::mod::ARMOR_CUT ||
+            pair_values.first == enchant_vals::mod::ARMOR_ELEC ||
+            pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
+            pair_values.first == enchant_vals::mod::ARMOR_STAB ||
+            pair_values.first == enchant_vals::mod::REGEN_HP ||
+            pair_values.first == enchant_vals::mod::SPEED ) {
+            return true;
+        }
+    }
+
+    // Check mult values.
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         values_multiply ) {
+        if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_BASH ||
+            pair_values.first == enchant_vals::mod::ARMOR_BIO ||
+            pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
+            pair_values.first == enchant_vals::mod::ARMOR_COLD ||
+            pair_values.first == enchant_vals::mod::ARMOR_CUT ||
+            pair_values.first == enchant_vals::mod::ARMOR_ELEC ||
+            pair_values.first == enchant_vals::mod::ARMOR_HEAT ||
+            pair_values.first == enchant_vals::mod::ARMOR_STAB ||
+            pair_values.first == enchant_vals::mod::REGEN_HP ||
+            pair_values.first == enchant_vals::mod::SPEED ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool enchantment::active_wield() const
 {
     return active_conditions.first == has::HELD || active_conditions.first == has::WIELD;
@@ -629,6 +681,58 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
     details.emplace_back( rhs.name.translated(), rhs.description.translated() );
 }
 
+void enchant_cache::force_add( const enchantment &rhs )
+{
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_add ) {
+        values_add[pair_values.first] += pair_values.second.constant();
+    }
+    for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
+         rhs.values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        values_multiply[pair_values.first] += pair_values.second.constant();
+    }
+
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_add ) {
+        skill_values_add[pair_values.first] += pair_values.second.constant();
+    }
+    for( const std::pair<const skill_id, dbl_or_var> &pair_values :
+         rhs.skill_values_multiply ) {
+        // values do not multiply against each other, they add.
+        // so +10% and -10% will add to 0%
+        skill_values_multiply[pair_values.first] += pair_values.second.constant();
+    }
+
+    hit_me_effect.insert( hit_me_effect.end(), rhs.hit_me_effect.begin(), rhs.hit_me_effect.end() );
+
+    hit_you_effect.insert( hit_you_effect.end(), rhs.hit_you_effect.begin(), rhs.hit_you_effect.end() );
+
+    ench_effects.insert( rhs.ench_effects.begin(), rhs.ench_effects.end() );
+
+    if( rhs.emitter ) {
+        emitter = rhs.emitter;
+    }
+
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
+    }
+
+    for( const trait_id &branch : rhs.mutations ) {
+        mutations.emplace( branch );
+    }
+
+    for( const std::pair<const time_duration, std::vector<fake_spell>> &act_pair :
+         rhs.intermittent_activation ) {
+        for( const fake_spell &fake : act_pair.second ) {
+            intermittent_activation[act_pair.first].emplace_back( fake );
+        }
+    }
+
+    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
+}
+
 void enchant_cache::set_has( enchantment::has value )
 {
     active_conditions.first = value;
@@ -849,6 +953,19 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
 
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }
+}
+
+void enchant_cache::clear()
+{
+    //I'm trusting all of these vectors and maps to have clear functions that avoid memory leaks.
+    //Fingers crossed!
+    values_add.clear();
+    values_multiply.clear();
+    skill_values_add.clear();
+    skill_values_multiply.clear();
+    hit_me_effect.clear();
+    hit_you_effect.clear();
+    ench_effects.clear();
 }
 
 bool enchant_cache::operator==( const enchant_cache &rhs ) const

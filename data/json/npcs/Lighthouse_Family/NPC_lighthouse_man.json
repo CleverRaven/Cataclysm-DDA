@@ -226,7 +226,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_lighthouse_man_family",
-    "dynamic_line": "Did you find them, <name_g>?",
+    "dynamic_line": { "gendered_line": "Did you find them, <name_g>?", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "We did it.  All safe.",
