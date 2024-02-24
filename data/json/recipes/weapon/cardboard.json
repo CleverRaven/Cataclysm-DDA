@@ -1,0 +1,40 @@
+[
+  {
+    "result": "sword_cardboard",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_BASHING",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "skills_required": [ "fabrication", 0 ],
+    "time": "30 m",
+    "autolearn": false,
+    "book_learn": [ [ "recipe_dave_manual", 0 ] ],
+    "using": [ [ "adhesive", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "Grip, handguard, and 'blade', respectively.",
+    "components": [
+      [ [ "cardboard_roll", 1 ], [ "wrapper_foil_roll", 1 ] ],
+      [ [ "cardboard", 5 ], [ "box_small", 1 ], [ "box_small_folded", 1 ] ],
+      [ [ "wrapper_foil_roll", 2 ] ]
+    ]
+  },
+  {
+    "result": "spear_cardboard",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "fabrication", 0 ],
+    "time": "30 m",
+    "autolearn": false,
+    "book_learn": [ [ "recipe_dave_manual", 0 ] ],
+    "using": [ [ "adhesive", 6 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "//": "The shaft and then the cardboard tip.",
+    "components": [ [ [ "wrapper_foil_roll", 6 ] ], [ [ "cardboard", 5 ], [ "box_small", 1 ], [ "box_small_folded", 1 ] ] ]
+  }
+]

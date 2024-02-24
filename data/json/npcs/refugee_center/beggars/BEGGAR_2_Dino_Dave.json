@@ -246,7 +246,9 @@
         { "npc_first_topic": "TALK_DINODAVE_1" },
         { "mapgen_update": "cardboard_castle_1_main", "om_terrain": "evac_center_13_z1" },
         { "mapgen_update": "cardboard_castle_1_roof", "om_terrain": "evac_center_13_z2" },
-        { "npc_teleport": { "global_val": "dave_castle" } }
+        { "npc_teleport": { "global_val": "dave_castle" } },
+        { "character_wears_item": { "avatar_id": "npc" }, "itype": "cardboard_crown" },
+        { "character_wield_item": { "avatar_id": "npc" }, "itype": "spear_cardboard" }
       ]
     },
     "responses": [ { "text": "I'll see you on the rooftop.  Good luck, Dave.", "topic": "TALK_DONE" } ]

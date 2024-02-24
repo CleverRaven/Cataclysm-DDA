@@ -1,0 +1,42 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "sword_cardboard",
+    "symbol": "!",
+    "color": "brown",
+    "looks_like": "sword_wood",
+    "name": { "str": "cardboard \"sword\"" },
+    "description": "A roll that formerly housed toilet paper or duct tape functions as the grip, with a single piece of cardboard acting as the handguard that separates two aluminium foil rolls, which pretend to be a blade. Needless to say, this is not a particularly useful weapon. ",
+    "material": [ "cardboard" ],
+    "volume": "2400 ml",
+    "weight": "500 g",
+    "longest_side": "100 cm",
+    "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "neutral" },
+    "price_postapoc": 0,
+    "flags": [ "BELT_CLIP", "WATER_DISSOLVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "MEDIUM_SWORDS" ],
+    "techniques": [ "WBLOCK_1" ],
+    "melee_damage": { "bash": 1, "cut": 0 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "spear_cardboard",
+    "symbol": "!",
+    "color": "brown",
+    "looks_like": "spear_wood",
+    "name": { "str": "cardboard \"spear\"" },
+    "description": "Six aluminium foil rolls glued together, with a tip made out of cardboard sheets shaped to resemble a point. Not very practical.",
+    "material": [ "cardboard" ],
+    "volume": "2400 ml",
+    "weight": "700 g",
+    "longest_side": "180 cm",
+    "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "neutral" },
+    "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR", "WATER_DISSOLVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "POLEARMS", "SPEARS" ],
+    "price": 400,
+    "qualities": [ [ "COOK", 1 ] ],
+    "price_postapoc": 0,
+    "techniques": [ "WBLOCK_1" ],
+    "melee_damage": { "bash": 1, "cut": 1 }
+  }
+]
