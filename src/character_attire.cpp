@@ -2077,7 +2077,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             // Breathability and coverage let fluid soak through, but some is lost, weakening the attack as it goes.
             liquid_remaining = std::max( 0,
                                          liquid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
-            damage.amount *= liquid_remaining / liquid_amount;
+        damage.amount = static_cast<float>( liquid_remaining ) / static_cast<float>( liquid_amount );
         }
         ++iter;
     }
