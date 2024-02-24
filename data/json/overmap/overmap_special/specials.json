@@ -3651,7 +3651,7 @@
     "rotate": false,
     "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN", "MAN_MADE", "GLOBALLY_UNIQUE" ]
   },
-    {
+   {
     "type": "overmap_special",
     "id": "isolated_road",
     "overmaps": [
