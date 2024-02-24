@@ -1974,33 +1974,81 @@
   {
     "id": "mon_nether_unviable_butterfly",
     "type": "MONSTER",
-    "name": { "str": "abnormal butterfly" },
-    "description": "There is barely anything there, but you do notice hints of a faint, translucent veiled creature that you can only describe as butterfly-like.  While strangely alluring, it seems unsuited to the atmosphere and is slowly falling apart."
+    "name": { "str": "abnormal butterfly", "str_pl": "abnormal butterflies" },
+    "description": "There is barely anything there, but you do notice hints of a faint, translucent veiled creature that you can only describe as butterfly-like.  While strangely alluring, it seems unsuited to the atmosphere and is slowly falling apart.",
+    "species": "INSECT",
+    "hp": "20",
+    "speed": "85",
+    "diff": "2",
+    "weight": "200 g",
+    "volume": "5 l",
+    "symbol": "l",
+    "color": "light_red",
+    "default_faction": "nether",
+    "bodytype": "flying insect"
   },
   {
     "id": "mon_nether_unviable_root",
     "type": "MONSTER",
     "name": { "str": "writhing root" },
-    "bodytype": "blob",
-    "description": "A small chunk of curious looking roots, constantly trying to grow and expand but failing miserably.  It has grown weak, as if incompatible with the very soil it is in."
+    "description": "A small chunk of curious looking roots, constantly trying to grow and expand but failing miserably.  It has grown weak, as if incompatible with the very soil it is in.",
+    "species": "PLANT",
+    "hp": "20",
+    "speed": "20",
+    "diff": "2",
+    "weight": "1 kg",
+    "volume": "2 l",
+    "default_faction": "nether",
+    "symbol": "v",
+    "color": "gray",
+    "bodytype": "blob"
   },
   {
     "id": "mon_nether_unviable_stomper",
     "type": "MONSTER",
     "name": { "str": "eldritch stomper" },
-    "description": "Mostly covered in wet-looking, long strands that remind you firmly of hair, this abomination has a single but very pronounced leg.  It keeps its balance with its odd hair on the rear.  Yet it seems to shrivel and die with each gust of wind it is hit with."
+    "description": "Mostly covered in wet-looking, long strands that remind you firmly of hair, this abomination has a single but very pronounced leg.  It keeps its balance with its odd hair on the rear.  Yet it seems to shrivel and die with each gust of wind it is hit with.",
+    "species": "ABERRATION",
+    "hp": "80",
+    "speed": "80",
+    "diff": "6",
+    "weight": "30 kg",
+    "volume": "50 l",
+    "default_faction": "nether",
+    "symbol": "e",
+    "color": "blue",
+    "bodytype": "kangaroo"
   },
   {
     "id": "mon_nether_unviable_bug",
     "type": "MONSTER",
     "name": { "str": "strange bug" },
-    "description": "This amorphous, three legged bug-like creature curiously wriggles its 5 antennae.  It looks like a fish out of water and is getting weaker by the minute."
+    "description": "This amorphous, three legged bug-like creature curiously wriggles its 5 antennae.  It looks like a fish out of water and is getting weaker by the minute.",
+    "species": "INSECT",
+    "hp": "20",
+    "speed": "80",
+    "diff": "2",
+    "weight": "2 kg",
+    "volume": "5 l",
+    "default_faction": "nether",
+    "symbol": "a",
+    "color": "pink",
+    "bodytype": "insect"
   },
   {
     "id": "mon_nether_unviable_chunk",
     "type": "MONSTER",
     "name": { "str": "chunk of alien flesh" },
     "description": "A writhing mass of strange flesh and something that oddly resembles tentacles.  It is getting more pale by the minute.",
+    "species": "NETHER",
+    "hp": "20",
+    "speed": "0",
+    "diff": "2",
+    "weight": "2 kg",
+    "volume": "5 l",
+    "symbol": "v",
+    "color": "pink",
+    "default_faction": "nether",
     "bodytype": "blob"
   }
 ]
