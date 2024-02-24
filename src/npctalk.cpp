@@ -2802,7 +2802,6 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
     Character *guy = d.actor( is_npc )->get_character();
     guy = guy ? guy : &get_player_character();
     std::vector<item_location> true_items;
-    std::vector<item_location> false_items;
     for( const item_location &loc : items ) {
         // Check if item matches any search_data.
         bool true_tgt = data.empty();
@@ -2814,8 +2813,6 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
         }
         if( true_tgt ) {
             true_items.push_back( loc );
-        } else {
-            false_items.push_back( loc );
         }
     }
     const auto run_eoc = [&d, is_npc]( item_location & loc,
@@ -2841,32 +2838,22 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
         for( item_location target : true_items ) {
             run_eoc( target, true_eocs );
         }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        if( true_items.empty() ) {
+            run_eoc_vector( false_eocs, d );
         }
     } else if( option == "random" ) {
         if( !true_items.empty() ) {
             std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
             run_eoc( true_items.back(), true_eocs );
             true_items.pop_back();
-        }
-
-        for( item_location target : true_items ) {
-            run_eoc( target, false_eocs );
-        }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        } else {
+            run_eoc_vector( false_eocs, d );
         }
     } else if( option == "manual" ) {
         item_location selected = f( filter );
         run_eoc( selected, true_eocs );
-        for( item_location target : true_items ) {
-            if( target != selected ) {
-                run_eoc( target, false_eocs );
-            }
-        }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        if( selected.get_item() == nullptr ) {
+            run_eoc_vector( false_eocs, d );
         }
     } else if( option == "manual_mult" ) {
         const drop_locations &selected = f_mul( filter );
@@ -2880,12 +2867,10 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
             }
             if( true_eoc ) {
                 run_eoc( target, true_eocs );
-            } else {
-                run_eoc( target, false_eocs );
             }
         }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        if( true_items.empty() ) {
+            run_eoc_vector( false_eocs, d );
         }
     }
 }
