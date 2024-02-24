@@ -25,8 +25,10 @@ static const enchantment_id enchantment_ENCH_TEST_LIZARD_TAIL( "ENCH_TEST_LIZARD
 
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
-static const sub_bodypart_str_id sub_limb_test_bird_foot_r( "sub_limb_test_bird_foot_r" );
-static const sub_bodypart_str_id sub_limb_test_bird_foot_l( "sub_limb_test_bird_foot_l" );
+static const sub_bodypart_str_id
+sub_body_part_sub_limb_test_bird_foot_r( "sub_limb_test_bird_foot_r" );
+static const sub_bodypart_str_id
+sub_body_part_sub_limb_test_bird_foot_l( "sub_limb_test_bird_foot_l" );
 
 static const trait_id trait_DEBUG_BIG_HEAD( "DEBUG_BIG_HEAD" );
 static const trait_id trait_DEBUG_ONLY_HEAD( "DEBUG_ONLY_HEAD" );
@@ -173,8 +175,10 @@ TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
     CHECK( !test_jumpsuit_cotton.covers( body_part_test_bird_wing_l ) );
 
     // Sublimb substitution works the same
-    CHECK( bird_boots.covers( sub_limb_test_bird_foot_l ) );
-    CHECK( bird_boots.covers( sub_limb_test_bird_foot_r ) );
-    CHECK( bird_boots.portion_for_bodypart( sub_limb_test_bird_foot_l )->coverage == 100 );
-    CHECK( bird_boots.portion_for_bodypart( sub_limb_test_bird_foot_r )->coverage == 100 );
+    CHECK( bird_boots.covers( sub_body_part_sub_limb_test_bird_foot_l ) );
+    CHECK( bird_boots.covers( sub_body_part_sub_limb_test_bird_foot_r ) );
+    CHECK( bird_boots.portion_for_bodypart( sub_body_part_sub_limb_test_bird_foot_l )->coverage ==
+           100 );
+    CHECK( bird_boots.portion_for_bodypart( sub_body_part_sub_limb_test_bird_foot_r )->coverage ==
+           100 );
 }
