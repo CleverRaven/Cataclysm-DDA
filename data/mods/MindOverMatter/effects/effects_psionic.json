@@ -767,31 +767,31 @@
         "values": [
           {
             "value": "ARMOR_CUT",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_BASH",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_STAB",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_BULLET",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_ELEC",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_HEAT",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_COLD",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           }
         ]
       }
