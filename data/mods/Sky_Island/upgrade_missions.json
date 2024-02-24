@@ -1913,6 +1913,7 @@
       "effect": [
         { "math": [ "labsunlocked", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_labsunlock" },
+        { "u_learn_recipe": "warp_labs_catalyst" },
         {
           "u_message": "With this upgrade, you're guaranteed to begin your expedition at an underground lab.  Be aware that you will need to have a Labs Catalyst on you when activating the warp obelisk, and these will be consumed on leaving.",
           "type": "mixed"
