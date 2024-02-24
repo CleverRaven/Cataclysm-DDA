@@ -237,8 +237,8 @@
     "type": "TOOL",
     "//": "Based on the TLR-1, this can go on a pistol or a long-arm",
     "looks_like": "flashlight",
-    "name": { "str": "compact tactical flashlight (off)", "str_pl": "compact tactical flashlights (off)" },
-    "description": "A flashlight designed to endure rough conditions.  You could attach it to a firearm with a mount.  This one is shorter than a regular flashlight.",
+    "name": { "str": "compact weaponlight (off)", "str_pl": "compact weaponlights (off)" },
+    "description": "A flashlight designed to endure rough conditions.  You could attach it to a firearm with a mount.  This one is shorter than a regular weaponlight.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "black",
@@ -256,7 +256,7 @@
       "target": "compact_tac_flashlight_on",
       "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead."
+      "need_charges_msg": "The weaponlight's batteries are dead."
     },
     "pocket_data": [
       {
@@ -272,7 +272,7 @@
     "copy-from": "compact_tac_flashlight",
     "looks_like": "flashlight_on",
     "type": "TOOL",
-    "name": { "str": "compact tactical flashlight (on)", "str_pl": "compact tactical flashlights (on)" },
+    "name": { "str": "compact weaponlight (on)", "str_pl": "compact weaponlights (on)" },
     "power_draw": "10 W",
     "revert_to": "compact_tac_flashlight",
     "use_action": [
@@ -300,7 +300,7 @@
     "type": "TOOL",
     "//": "Based on the Streamlight HLX",
     "looks_like": "flashlight",
-    "name": { "str": "tactical flashlight (off)", "str_pl": "tactical flashlights (off)" },
+    "name": { "str": "weaponlight (off)", "str_pl": "weaponlights (off)" },
     "description": "A bright flashlight designed to endure rough conditions.  You could attach it to a firearm with a mount.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
@@ -319,7 +319,7 @@
       "target": "tac_flashlight_on_low",
       "active": true,
       "need_charges": 1,
-      "need_charges_msg": "The flashlight's batteries are dead."
+      "need_charges_msg": "The weaponlight's batteries are dead."
     },
     "pocket_data": [
       {
@@ -335,7 +335,7 @@
     "copy-from": "tac_flashlight",
     "looks_like": "flashlight_on",
     "type": "TOOL",
-    "name": { "str": "tactical flashlight (on) (low)", "str_pl": "tactical flashlights (on) (low)" },
+    "name": { "str": "weaponlight (on) (low)", "str_pl": "weaponlights (on) (low)" },
     "power_draw": "10 W",
     "revert_to": "tac_flashlight",
     "use_action": [
@@ -350,7 +350,7 @@
         "menu_text": "Turn off",
         "type": "delayed_transform",
         "transform_age": 1,
-        "msg": "You turn the flashlight off.",
+        "msg": "You turn the weaponlight off.",
         "not_ready_msg": "You shouldn't see this message.",
         "target": "tac_flashlight",
         "ammo_scale": 0
@@ -372,7 +372,7 @@
     "copy-from": "tac_flashlight",
     "looks_like": "flashlight_on",
     "type": "TOOL",
-    "name": { "str": "tactical flashlight (on) (high)", "str_pl": "tactical flashlights (on) (high)" },
+    "name": { "str": "weaponlight (on) (high)", "str_pl": "weaponlights (on) (high)" },
     "power_draw": "15 W",
     "revert_to": "tac_flashlight",
     "use_action": [

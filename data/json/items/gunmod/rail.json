@@ -99,8 +99,8 @@
   {
     "id": "rail_mount_light",
     "type": "GUNMOD",
-    "name": { "str": "tactical flashlight mount" },
-    "description": "A small mount for firearms that allows for the attachment of tactical flashlights.",
+    "name": { "str": "weaponlight mount" },
+    "description": "A small mount for firearms that allows for the attachment of weaponlights.",
     "weight": "20 g",
     "volume": "11 ml",
     "longest_side": "5 cm",
@@ -130,7 +130,7 @@
     "id": "underbarrel_mount_light",
     "type": "GUNMOD",
     "copy-from": "rail_mount_light",
-    "name": { "str": "underbarrel flashlight mount" },
+    "name": { "str": "underbarrel weaponlight mount" },
     "description": "A small device for mounting flashlights to the underbarrel of firearms.",
     "location": "underbarrel mount"
   },
