@@ -1884,7 +1884,7 @@
       [ [ "feather", 40 ], [ "down_feather", 40 ] ],
       [ [ "eggs_any_shape", 6, "LIST" ] ],
       [ [ "golf_ball", 1 ] ],
-      [ [ "chair_folding", 1 ] ],
+      [ [ "camp_chair", 1 ] ],
       [ [ "tourist_table", 1 ] ],
       [ [ "stepladder", 1 ], [ "aluminum_stepladder", 1 ] ]
     ]
