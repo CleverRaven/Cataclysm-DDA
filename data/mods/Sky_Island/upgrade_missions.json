@@ -1398,7 +1398,7 @@
       [ [ "bat", 1 ], [ "bwirebat", 1 ], [ "nailbat", 1 ] ],
       [ [ "warptoken", 2 ] ],
       [ [ "bandages", 10 ] ],
-      [ [ "liq_bandage", 80 ] ],
+      [ [ "liq_bandage_spray", 1 ] ],
       [ [ "9mm", 50 ], [ "9mmfmj", 50 ], [ "9mmP", 30 ], [ "9mmP2", 20 ] ]
     ]
   },
@@ -1950,7 +1950,7 @@
       [ [ "id_science", 1 ] ],
       [ [ "plut_cell", 5 ] ],
       [ [ "oxy_torch", 1 ] ],
-      [ [ "oxyacetylene", 120 ] ],
+      [ [ "tinyweldtank", 1 ], [ "weldtank", 1 ],
       [ [ "mutagen", 2 ], [ "iv_mutagen", 1 ] ],
       [ [ "jackhammer", 1 ], [ "elec_jackhammer", 1 ] ]
     ]
