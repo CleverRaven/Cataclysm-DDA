@@ -22,7 +22,6 @@
     "//": "accept the spell _cost, return how much spellcasts required to level the spell; formula assumes 10 spellcasts at 100% manapool cost, and 2 spellcasts at 1% manapool cost",
     "return": "max(_1, min(_2, (_2 - (_1 * max(0, _0) / u_val('mana_max') * _2 / _1 ))))"
   },
-
   {
     "type": "effect_on_condition",
     "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST",
