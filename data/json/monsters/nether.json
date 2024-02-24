@@ -2023,7 +2023,7 @@
     "id": "mon_nether_unviable_bug",
     "type": "MONSTER",
     "name": { "str": "strange bug" },
-    "description": "This amorphous, three legged bug-like creature curiously wriggles its 5 antennae.  It looks like a fish out of water and is getting weaker by the minute.",
+    "description": "This small, three legged bug-like creature curiously wriggles its 5 antennae.  Its body somewhat reminds you of a stink bug.  It looks like a fish out of water and is getting weaker by the minute.",
     "species": "INSECT",
     "hp": "20",
     "speed": "80",
