@@ -615,6 +615,22 @@
         ],
         "topic": "TALK_DONE"
       },
+      {
+        "text": "Get an body-length cut.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_hair_types" },
+          {
+            "u_add_morale": "morale_haircut",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "run_eoc_with": "reset_natural_hair_color", "variables": { "trait_id": "hair_body_length" } }
+        ],
+        "topic": "TALK_DONE"
+      },
       { "text": "Don't cut anything.", "topic": "TALK_DONE" }
     ]
   },
@@ -1884,6 +1900,22 @@
             "decay_start": "30 minutes"
           },
           { "u_add_trait": "FACIAL_HAIR_BEARD_LONG" }
+        ],
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Get a very long beard.",
+        "condition": { "not": { "u_has_trait": "natural_hair_growth" } },
+        "effect": [
+          { "run_eocs": "reset_all_beard_types" },
+          {
+            "u_add_morale": "morale_shave",
+            "bonus": 3,
+            "max_bonus": 5,
+            "duration": "30 minutes",
+            "decay_start": "30 minutes"
+          },
+          { "u_add_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
         ],
         "topic": "TALK_DONE"
       },
