@@ -27,6 +27,7 @@ if (BUILD_TESTING)
             add_dependencies(cata_test-tiles test_mo)
         endif()
         target_link_libraries(cata_test-tiles PRIVATE cataclysm-tiles-common)
+	target_compile_definitions(cata_test-tiles PUBLIC SDL_MAIN_HANDLED)
         add_test(NAME cata.tiles.default
                 COMMAND cata_test-tiles --rng-seed time
                 WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})

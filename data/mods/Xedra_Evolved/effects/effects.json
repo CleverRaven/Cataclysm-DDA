@@ -883,6 +883,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_earthen_shield",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "Impenetrable Earthen Shield" ],
+    "desc": [ "You are protected by the living earth." ],
+    "remove_message": "Your earthen shield finally crumbles.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_sense_nearby_monsters",
     "name": [ "Earth-Sensing" ],
     "desc": [ "You are sensing the movements of nearby creatures upon the living earth." ],
@@ -938,6 +947,16 @@
     "desc": [ "You are immune to heat and fire." ],
     "rating": "good",
     "show_in_info": true,
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hidden_flame_immunity",
+    "//": "name and description hidden because it's explained in the mutation",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
     "removes_effects": [ "onfire", "blisters" ],
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
   },
@@ -1048,6 +1067,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_phoenix_healing",
+    "name": [ "Phoenix's Rejuvenation" ],
+    "desc": [ "Like the phoenix, the flames are renewing your flesh." ],
+    "remove_message": "The aftereffects of the phoenix fire finally fade.",
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 2 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lucid_dream",
     "name": [ "Lucid Dreaming" ],
     "rating": "good",
@@ -1093,6 +1120,17 @@
     "remove_message": "Your feet touch the ground once again.",
     "rating": "good",
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_cloud_body",
+    "name": [ "Body of Clouds" ],
+    "desc": [ "You are mist and cloud and wind." ],
+    "apply_message": "",
+    "remove_message": "Your body regains its solidity.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
   },
   {
     "type": "effect_type",

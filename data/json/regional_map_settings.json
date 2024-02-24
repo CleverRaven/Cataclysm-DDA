@@ -484,7 +484,15 @@
           "ws_giant_sinkhole_1_north",
           "ws_giant_sinkhole_1_east",
           "ws_giant_sinkhole_1_south",
-          "ws_giant_sinkhole_1_west"
+          "ws_giant_sinkhole_1_west",
+          "triffid_grove_north",
+          "triffid_grove_east",
+          "triffid_grove_south",
+          "triffid_grove_west",
+          "triffid_field_north",
+          "triffid_field_east",
+          "triffid_field_south",
+          "triffid_field_west"
         ],
         "sparseness_adjacency_factor": 4,
         "item_group": "forest",

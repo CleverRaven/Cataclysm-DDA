@@ -428,6 +428,8 @@
     "name": "Anointed with Incandescence",
     "description": "You draw on your own fiery nature and infuse a portion of it into an ally, rendering them immune to warm temperatures and fire.",
     "valid_targets": [ "ally" ],
+    "teachable": false,
+    "spell_class": "SALAMANDER",
     "skill": "deduction",
     "effect": "attack",
     "effect_str": "effect_flame_immunity",
@@ -446,5 +448,65 @@
     "min_duration": 30000,
     "max_duration": 1080000,
     "duration_increment": 16500
+  },
+  {
+    "id": "salamander_explosion_and_heal_spell",
+    "type": "SPELL",
+    "name": "The Phoenix's Last Cry",
+    "description": "Like the rebirth of the legendary phoenix, you explode into flames, causing fire to engulf the entire nearby area.  You will heal faster for six hours after casting this spell.",
+    "teachable": false,
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "spell_class": "SALAMANDER",
+    "skill": "deduction",
+    "flags": [ "LOUD", "VERBAL", "IGNITE_FLAMMABLE", "RANDOM_DAMAGE", "NO_HANDS", "NO_LEGS" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "attack",
+    "extra_effects": [ { "id": "salamander_explosion_and_heal_spell_self_heal", "hit_self": true } ],
+    "shape": "blast",
+    "damage_type": "heat",
+    "min_damage": {
+      "math": [ "( (u_spell_level('salamander_explosion_and_heal_spell') * 5) + 65) * (scaling_factor(u_val('perception') ) ) " ]
+    },
+    "max_damage": {
+      "math": [ "( (u_spell_level('salamander_explosion_and_heal_spell') * 8.5) + 169) * (scaling_factor(u_val('perception') ) )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( (( (u_spell_level('salamander_explosion_and_heal_spell') * 0.9) + 4) * (scaling_factor(u_val('perception') ) )), 35)"
+      ]
+    },
+    "max_aoe": 35,
+    "field_id": "fd_fire",
+    "min_field_intensity": 2,
+    "max_field_intensity": 2,
+    "field_intensity_increment": 1,
+    "field_intensity_variance": 1,
+    "field_chance": 2,
+    "energy_source": "MANA",
+    "base_energy_cost": 2250,
+    "final_energy_cost": 1750,
+    "energy_increment": -15,
+    "base_casting_time": 175,
+    "final_casting_time": 55,
+    "casting_time_increment": -8,
+    "sound_type": "combat",
+    "sound_id": "fire_spell",
+    "sound_description": "the roar of flames!"
+  },
+  {
+    "id": "salamander_explosion_and_heal_spell_self_heal",
+    "type": "SPELL",
+    "name": "The Phoenix's Last Cry Healing Effect",
+    "description": "The healing effect of The Phoenix's Last Cry.  It's a bug if you have it directly.",
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "spell_class": "SALAMANDER",
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "effect_salamander_phoenix_healing",
+    "shape": "blast",
+    "min_duration": 1440000,
+    "max_duration": 2880000
   }
 ]
