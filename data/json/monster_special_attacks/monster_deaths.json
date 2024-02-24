@@ -32,7 +32,7 @@
     "name": { "str": "Boomer Clothes" },
     "description": "Triggers EoC to drop filthy clothing.",
     "shape": "blast",
-    "valid_targets": [ "ground", "self" ],
+    "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_BOOMER_CLOTHING"
@@ -271,7 +271,7 @@
     "description": "Causes a small explosion of toxic gas and leave clothing.",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
-	"effect": "noise",
+    "effect": "noise",
     "shape": "blast",
     "extra_effects": [ { "id": "death_gas", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
@@ -306,7 +306,7 @@
     "description": "Calls a small explosion of teargas and boomer clothes.",
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
-	"effect": "noise",
+    "effect": "noise",
     "shape": "blast",
     "extra_effects": [ { "id": "death_tearburst", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
@@ -330,7 +330,7 @@
     "flags": [ "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "self" ],
     "shape": "blast",
-	"effect": "noise",
+    "effect": "noise",
     "extra_effects": [ { "id": "death_relax_gas", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
   {
@@ -354,7 +354,7 @@
     "valid_targets": [ "self" ],
     "flags": [ "NO_EXPLOSION_SFX" ],
     "shape": "blast",
-	"effect": "noise",
+    "effect": "noise",
     "extra_effects": [ { "id": "death_fungalburst", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
   {
@@ -396,7 +396,7 @@
     "valid_targets": [ "self" ],
     "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
-	"effect": "noise",
+    "effect": "noise",
     "extra_effects": [ { "id": "death_fungus", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
   {
@@ -468,7 +468,7 @@
     "name": { "str": "Gasoline Boomer Death" },
     "valid_targets": [ "self" ],
     "description": "Calls Conflagration Death and Boomer Clothes",
-	"effect": "noise",
+    "effect": "noise",
     "shape": "blast",
     "extra_effects": [ { "id": "death_conflagration" }, { "id": "boomer_clothes" } ]
   },
