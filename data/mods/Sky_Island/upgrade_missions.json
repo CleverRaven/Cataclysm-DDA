@@ -1950,7 +1950,7 @@
       [ [ "id_science", 1 ] ],
       [ [ "plut_cell", 5 ] ],
       [ [ "oxy_torch", 1 ] ],
-      [ [ "tinyweldtank", 1 ], [ "weldtank", 1 ],
+      [ [ "tinyweldtank", 1 ], [ "weldtank", 1 ] ],
       [ [ "mutagen", 2 ], [ "iv_mutagen", 1 ] ],
       [ [ "jackhammer", 1 ], [ "elec_jackhammer", 1 ] ]
     ]
