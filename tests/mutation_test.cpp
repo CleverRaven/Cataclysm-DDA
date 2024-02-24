@@ -342,7 +342,7 @@ TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mut
     clear_avatar();
 
     WHEN( "character has Scout trait" ) {
-        dummy.toggle_trait( trait_EAGLEEYED );
+        dummy.toggle_trait( trait_EAGLEEYED_DAY );
         THEN( "they have increased overmap sight range" ) {
             CHECK( dummy.mutation_value( "overmap_sight" ) == 5 );
         }
