@@ -541,5 +541,10 @@
     "sym": "F",
     "color": "green",
     "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "last_mage_on_earth_shelter" ],
+    "copy-from": "lmoe_under_empty"
   }
 ]

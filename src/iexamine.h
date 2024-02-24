@@ -133,7 +133,7 @@ void attunement_altar( Character &you, const tripoint &examp );
 void translocator( Character &you, const tripoint &examp );
 void on_smoke_out( const tripoint &examp,
                    const time_point &start_time ); //activates end of smoking effects
-void mill_finalize( Character &, const tripoint &examp, const time_point &start_time );
+void mill_finalize( Character &, const tripoint &examp );
 void quern_examine( Character &you, const tripoint &examp );
 void smoker_options( Character &you, const tripoint &examp );
 void open_safe( Character &you, const tripoint &examp );

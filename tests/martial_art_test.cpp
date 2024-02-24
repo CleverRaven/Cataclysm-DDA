@@ -156,7 +156,7 @@ TEST_CASE( "Martial_art_technique_conditionals", "[martial_arts]" )
         // test throwing a monster grabbing you (succeed)
         dude.add_effect( effect_grabbed, 1_days );
         target_3.add_effect( effect_grabbing, 1_days );
-        REQUIRE( target_3.get_size() == 4 );
+        REQUIRE( target_3.get_size() == 3 );
         REQUIRE( target_3.get_grab_strength() == 0 );
         CHECK( dude.evaluate_techniques( target_3, dude.used_weapon() ).size() == 1 );
     }

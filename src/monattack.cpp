@@ -136,6 +136,7 @@ static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
 
@@ -4615,6 +4616,11 @@ bool mattack::slimespring( monster *z )
     if( player_character.get_morale_level() <= 1 ) {
         add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
         player_character.add_morale( MORALE_SUPPORT, 10, 50 );
+    }
+    // They will stave off loneliness, but aren't a substitute for real friends.
+    if( player_character.has_effect( effect_social_dissatisfied ) ) {
+        add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
+        player_character.remove_effect( effect_social_dissatisfied );
     }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
         if( player_character.has_effect( effect_bleed ) ||

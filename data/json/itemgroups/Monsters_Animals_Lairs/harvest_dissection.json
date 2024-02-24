@@ -168,6 +168,30 @@
     "entries": [ { "item": "chimera_sample", "count-min": 10, "count-max": 20 } ]
   },
   {
+    "id": "chiropteran_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chiropteran_sample" } ]
+  },
+  {
+    "id": "chiropteran_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chiropteran_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "chiropteran_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chiropteran_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "chiropteran_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "chiropteran_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
     "id": "elfa_sample_single",
     "type": "item_group",
     "subtype": "collection",

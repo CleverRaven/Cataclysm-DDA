@@ -245,12 +245,7 @@
     "ugliness": 0,
     "description": "The winds surge around the Sylph as they attack, guiding their projectiles to the target.  The range of the Sylph's weapons is increased.",
     "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH') * 0.1)" ] } } ]
-      }
-    ],
+    "enchantments": [ "sylph_wind_weapons" ],
     "category": [ "SYLPH" ]
   },
   {
@@ -282,6 +277,18 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_EXTRA_DODGE_INCREASE",
+    "name": { "str": "Gusting Evasion" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph slips away from attacks as easily as the wind finds its way through cracks in a wall.  They gain +1 bonus dodge attempt per turn (+2 if they have the Sylph trait).",
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
+    "category": [ "SYLPH" ],
+    "enchantments": [ "sylph_extra_dodges" ]
   },
   {
     "type": "mutation",
@@ -487,6 +494,21 @@
     "processed_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
     "time": "1 s",
     "//": "This should have a mana cost here instead of within the EoC once that's possible."
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CLOUD_FORM",
+    "name": { "str": "Body of Cloud" },
+    "points": 11,
+    "description": "The Sylph may transform into misty cloud.  They will be insubstantial and unable to interact with the environment, but also able to move incredibly quickly and attacks will simply pass through them.  Each second in the cloud form will cost 10 mana.",
+    "prereqs": [ "SYLPH_FLY_AT_WILL" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SYLPH_CLOUD_FORM_ON" ],
+    "processed_eocs": [ "EOC_SYLPH_CLOUD_FORM_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_SYLPH_CLOUD_FORM_OFF" ]
   },
   {
     "type": "mutation",

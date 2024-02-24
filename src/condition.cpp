@@ -2014,7 +2014,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
             throw std::invalid_argument( "Can't get allies count for NPCs" );
         }
         return []( dialogue const & ) {
-            return  g->allies().size();
+            return static_cast<double>( g->allies().size() );
         };
     } else if( checked_value == "dodge" ) {
         return [is_npc]( dialogue const & d ) {
@@ -2058,12 +2058,12 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
     } else if( checked_value == "power" ) {
         return [is_npc]( dialogue const & d ) {
             // Energy in milijoule
-            return d.actor( is_npc )->power_cur().value();
+            return static_cast<double>( d.actor( is_npc )->power_cur().value() );
         };
     } else if( checked_value == "power_max" ) {
         return [is_npc]( dialogue const & d ) {
             // Energy in milijoule
-            return d.actor( is_npc )->power_max().value();
+            return static_cast<double>( d.actor( is_npc )->power_max().value() );
         };
     }
 

@@ -12,7 +12,7 @@
         "id": "calico",
         "name": { "str": "Calico M960 carbine" },
         "//": "Automatic variant.  Cyclic fire rate: 750 rpm",
-        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of lead down range for a long time providing that it doesn’t choke, jam, and die."
+        "description": "A compact submachine gun designed evidently under the 'spray and pray' mentality, this Calico M960 automatic carbine is not notably powerful, or dependable, or even particularly accurate to shoot.  Intended for military and law enforcement use, it never saw any noteworthy service due to its poor reliability and overall performance, and would be an unremarkable weapon in all respects, save for its enormous magazine capacity.  Making use of uniquely designed 50 or 100 round circular magazines, the Calico might not be a particularly good gun, but will throw an overwhelming amount of lead down range for a long time providing that it doesn't choke, jam, and die."
       }
     ],
     "weight": "2270 g",
@@ -367,7 +367,7 @@
       {
         "id": "mp18",
         "name": { "str": "Bergmann MP 18 submachine gun" },
-        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP 18 holds the reputation of being the world’s first proper and practical submachine gun.  Chambered for 9x19mm and designed for use in close quarters trench-based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century-old grandfather to most classic SMGs just might be better off coming out of retirement now that the world’s entered the true greatest war."
+        "description": "An incredibly rare German automatic firearm developed by Hugo Schmeisser whilst working under Bergmann Waffenfabrik during 1918; the MP 18 holds the reputation of being the world's first proper and practical submachine gun.  Chambered for 9x19mm and designed for use in close quarters trench-based combat by assault troops, a role in which it excelled, the weapon was outlawed from military use by the Versailles treaty and was relegated to police and counterinsurgency use in the interwar period.  More than likely entering the US as a personal holdover from the Great War, this century-old grandfather to most classic SMGs just might be better off coming out of retirement now that the world's entered the true greatest war."
       }
     ],
     "weight": "4180 g",
@@ -409,13 +409,13 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Broomhandle pistol" },
-    "description": "A semi-automatic German pistol developed prior to 1900, the firearm features a burned and painted number ‘9’ on its broom handle-shaped grip to signify its chambering, 9x19mm parabellum, and makes use of appropriate stripper clips or single round loading.  Quite possibly the most aesthetically steampunk weapon that one could ever possibly get their hands on, this example likely found its way into the US via early import or as a holdover from the Great War.",
+    "description": "A semi-automatic German pistol developed prior to 1900, the firearm features a burned and painted number '9' on its broom handle-shaped grip to signify its chambering, 9x19mm parabellum, and makes use of appropriate stripper clips or single round loading.  Quite possibly the most aesthetically steampunk weapon that one could ever possibly get their hands on, this example likely found its way into the US via early import or as a holdover from the Great War.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "mauser_c96",
         "name": { "str": "Mauser C96 Broomhandle pistol" },
-        "description": "A late 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it’s only fitting that one of the globe’s first produced and oldest semi-automatic handguns gets reinstated into service now that the planet’s facing its end."
+        "description": "A late 19th century semi-automatic German pistol with an integral magazine loaded from the top via stripper clips, and quite possibly the most steampunk gun one could ever possibly lay their hands on.  A red number '9' burned and painted into the weapon's broom handle-shaped grip marks it as a variant chambered for 9x19mm rounds.  Both exported for commercial use and produced for the German military during the First World War to make up for production shortages of the standard Luger, this example likely entered the US as a holdover from the Great War.  You suppose that it's only fitting that one of the globe's first produced and oldest semi-automatic handguns gets reinstated into service now that the planet's facing its end."
       }
     ],
     "weight": "1134 g",
@@ -467,7 +467,7 @@
       {
         "id": "mauser_m714",
         "name": { "str": "M714 Broomhandle pistol" },
-        "description": "Recognized the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship.  However, what rests before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser’s own 7.63x25mm cartridge."
+        "description": "Recognized the world over as one of the first practical self-loading pistols, the Mauser C96 and its derivatives are nearly universally regarded as some of the most classic and rugged guns in history, with the model being praised as a true marvel of industrial craftsmanship.  However, what rests before you is not an original production C96, but rather a modern American spin on the original Mauser recipe.  Feeding from detachable box magazines rather than an internal clip, the M714 is crafted out of a mix of modern and surplus parts, being chambered for 9x19mm rounds, with some other models being offered in the Mauser's own 7.63x25mm cartridge."
       }
     ],
     "weight": "1070 g",
@@ -558,12 +558,12 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "Kel-Tec SUB-2000 carbine" },
-    "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon’s extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded.",
+    "description": "With its claim to fame being its ease of portability when compared to other conventional rifles and carbines, the Kel-Tec SUB-2000 is a uniquely-designed pistol caliber carbine sporting an integral folding mechanism and chambered for 9x19mm cartridges, making use of regular Glock compatible magazines.  With its mechanism engaged, the barrel assembly swings rearwards and causes the firearm to fold to half its regular length, packing up into a very compact package with ergonomics unfortunately having to take a backseat to allow for the weapon's extreme portability.  With a mainly polymer constructed receiver, the carbine is relatively light and incredibly transportable when fully folded.",
     "weight": "1930 g",
     "volume": "1240 ml",
     "longest_side": "410 mm",
     "barrel_length": "274 mm",
-    "//": "The actual gun is around 30 cm longer than what’s depicted here, but the inbuilt accessory adds 35 cm, which ends up totalling to the same length. IRL the SUB-2000 folds literally in half, which is a greatly smaller size than what our folding stocks can collapse to, so like this the length stays the same as far as the player can see, and you still get the same largely folded effect as you’d have on the real gun.",
+    "//": "The actual gun is around 30 cm longer than what's depicted here, but the inbuilt accessory adds 35 cm, which ends up totalling to the same length. IRL the SUB-2000 folds literally in half, which is a greatly smaller size than what our folding stocks can collapse to, so like this the length stays the same as far as the player can see, and you still get the same largely folded effect as you'd have on the real gun.",
     "price": 75000,
     "price_postapoc": 3000,
     "to_hit": -1,
@@ -768,7 +768,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str": "STEN Mk II submachine gun" },
-    "description": "The standard issue 9mm submachine gun of the British military throughout most of the Second World War.  The STEN is aesthetically far from pretty.  Featuring an iconic side mounted magazine well and a design optimized for mass production using unskilled labor, the STEN was developed to make up for drastic supply shortages during the early days of the war.  Likely entering the US prior to the 1960s, either as a war time holdover or a museum purchase; you suppose that if you were to try and defend your nation, whatever the cost may be, and fight the undead ‘on the beaches, fight on the landing grounds, fight in the fields and in the streets, fight in the hills; and never surrender’, then it might be the time for the STEN to come back into frontline service.",
+    "description": "The standard issue 9mm submachine gun of the British military throughout most of the Second World War.  The STEN is aesthetically far from pretty.  Featuring an iconic side mounted magazine well and a design optimized for mass production using unskilled labor, the STEN was developed to make up for drastic supply shortages during the early days of the war.  Likely entering the US prior to the 1960s, either as a war time holdover or a museum purchase; you suppose that if you were to try and defend your nation, whatever the cost may be, and fight the undead 'on the beaches, fight on the landing grounds, fight in the fields and in the streets, fight in the hills; and never surrender', then it might be the time for the STEN to come back into frontline service.",
     "weight": "3200 g",
     "volume": "1240 ml",
     "longest_side": "765 mm",
@@ -1074,7 +1074,7 @@
     "copy-from": "m17",
     "type": "GUN",
     "name": { "str": "compact service handgun" },
-    "description": "A more petite version of the United States army’s general issue sidearm, this is a modestly-sized pistol firing 9x19mm rounds.  Making use of the same magazines as its larger brother, the weapon features a shorter barrel and frame which helps to reduce its overall profile and make it more concealable as a result.",
+    "description": "A more petite version of the United States army's general issue sidearm, this is a modestly-sized pistol firing 9x19mm rounds.  Making use of the same magazines as its larger brother, the weapon features a shorter barrel and frame which helps to reduce its overall profile and make it more concealable as a result.",
     "variant_type": "gun",
     "variants": [
       {

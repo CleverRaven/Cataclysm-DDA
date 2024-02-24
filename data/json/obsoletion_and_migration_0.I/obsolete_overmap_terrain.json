@@ -100,5 +100,20 @@
       "trailerparksmall2_south": "omt_obsolete",
       "trailerparksmall2_west": "omt_obsolete"
     }
+  },
+  {
+    "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "house_05ab": "house_05",
+      "house_05ab_basement_north": "house_05_basement_north",
+      "house_05ab_basement_east": "house_05_basement_east",
+      "house_05ab_basement_south": "house_05_basement_south",
+      "house_05ab_basement_west": "house_05_basement_west",
+      "house_05ab_north": "house_05_north",
+      "house_05ab_east": "house_05_east",
+      "house_05ab_south": "house_05_south",
+      "house_05ab_west": "house_05_west"
+    }
   }
 ]

@@ -2402,5 +2402,40 @@
     "id": "BLEEDSLOW2",
     "type": "json_flag",
     "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
+  },
+  {
+    "id": "PSEUDOPOD_GRASP",
+    "type": "json_flag",
+    "//": "Removes some penalties for melee attacks made while prone or crouching."
+  },
+  {
+    "id": "HEMOVORE",
+    "type": "json_flag",
+    "//": "You eat blood to survive."
+  },
+  {
+    "id": "BLOODFEEDER",
+    "type": "json_flag",
+    "//": "You really like blood, and get less enjoyment out of other foods."
+  },
+  {
+    "id": "HEMOVORE_FUN",
+    "type": "json_flag",
+    "//": "This item contains blood and satisfies a hemovore's requirements."
+  },
+  {
+    "id": "QUADRUPED_CROUCH",
+    "type": "json_flag",
+    "//": "This character goes down on all fours when they crouch, if their hands are free.  Used for paw mutations."
+  },
+  {
+    "id": "QUADRUPED_RUN",
+    "type": "json_flag",
+    "//": "This character can run or crouch on all fours if they have QUADRUPED_CROUCH, and gains the natural_stance effect.  Used for paw mutations."
+  },
+  {
+    "id": "HEARING_PROTECTION",
+    "type": "json_flag",
+    "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
   }
 ]

@@ -36,7 +36,7 @@
       { "group": "EXODII_CBM_Store_Tier4", "rigid": true, "trust": 40, "strict": true }
     ],
     "shopkeeper_consumption_rates": "basic_shop_rates",
-    "carry_override": "NC_EXODII_TYPE_1_carried",
+    "weapon_override": "NC_EXODII_TYPE_1_carried",
     "worn_override": "EMPTY_GROUP",
     "skills": [
       {
@@ -56,7 +56,7 @@
     "type": "item_group",
     "id": "NC_EXODII_TYPE_1_carried",
     "//": "Weapon for Rubik.",
-    "items": [ { "item": "pamd68rubik", "ammo-item": "123ln", "charges": 10 } ]
+    "items": [ { "item": "pamd68rubik", "ammo-item": "123ln", "charges": 60 } ]
   },
   {
     "id": "pamd68rubik",

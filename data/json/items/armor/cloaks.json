@@ -1527,7 +1527,7 @@
       {
         "id": "maine_flag",
         "name": { "str": "Maine flag" },
-        "description": "A large blue flag featuring a moose and pine tree emblem on a shield supported by a farmer and a sailor, above is the north star and the Latin motto “Dirigo” (“I direct”), below the shield reads out the state of “Maine”.",
+        "description": "A large blue flag featuring a moose and pine tree emblem on a shield supported by a farmer and a sailor, above is the north star and the Latin motto \"Dirigo\" (\"I direct\"), below the shield reads out the state of \"Maine\".",
         "weight": 5
       },
       {

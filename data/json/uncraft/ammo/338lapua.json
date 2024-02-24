@@ -10,7 +10,7 @@
       [ [ "lead", 5 ] ],
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 26 ] ]
+      [ [ "gunpowder_large_rifle", 58 ] ]
     ]
   },
   {
@@ -23,7 +23,7 @@
       [ [ "copper", 6 ] ],
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 29 ] ],
+      [ [ "gunpowder_large_rifle", 58 ] ],
       [ [ "scrap", 1 ] ]
     ]
   },
@@ -37,7 +37,7 @@
       [ [ "copper", 3 ] ],
       [ [ "338lapua_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder_large_rifle", 29 ] ],
+      [ [ "gunpowder_large_rifle", 58 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "incendiary", 6 ] ]
     ]

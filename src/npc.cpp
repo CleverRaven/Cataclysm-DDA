@@ -3279,7 +3279,7 @@ std::unordered_set<tripoint> npc::get_path_avoid() const
     }
     if( rules.has_flag( ally_rule::avoid_locks ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( doors::can_unlock_door( here, *this, p ) ) {
+            if( doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
                 ret.insert( p );
             }
         }

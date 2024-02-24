@@ -348,6 +348,55 @@ nc_color faction::food_supply_color()
     }
 }
 
+std::pair<nc_color, std::string> faction::vitamin_stores( vitamin_type vit_type )
+{
+    bool is_toxin = vit_type == vitamin_type::TOXIN;
+    const double days_of_food = food_supply.kcal() / 3000.0;
+    std::map<vitamin_id, int> stored_vits = food_supply.vitamins();
+    // First, pare down our search to only the relevant type
+    for( auto it = stored_vits.cbegin(); it != stored_vits.cend(); ) {
+        if( it->first->type() != vit_type ) {
+            it = stored_vits.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    if( stored_vits.empty() ) {
+        return std::pair<nc_color, std::string>( !is_toxin ? c_red : c_green, _( "None present (NONE)" ) );
+    }
+    std::vector<std::pair<vitamin_id, double>> vitamins;
+    // Iterate the map's content into a sortable container...
+    for( auto &vit : stored_vits ) {
+        int units_per_day = vit.first.obj().units_absorption_per_day();
+        double relative_intake = static_cast<double>( vit.second ) / static_cast<double>
+                                 ( units_per_day ) / days_of_food;
+        // We use the inverse value for toxins, since they are bad.
+        if( is_toxin ) {
+            relative_intake = 1 / relative_intake;
+        }
+        vitamins.emplace_back( vit.first, relative_intake );
+    }
+    // Sort to find the worst-case scenario, lowest relative_intake is first
+    std::sort( vitamins.begin(), vitamins.end(), []( const auto & x, const auto & y ) {
+        return x.second > y.second;
+    } );
+    const double worst_intake = vitamins.at( 0 ).second;
+    std::string vit_name = vitamins.at( 0 ).first.obj().name();
+    std::string msg = is_toxin ? _( "(TRACE)" ) : _( "(PLENTY)" );
+    if( worst_intake <= 0.3 ) {
+        msg = is_toxin ? _( "(POISON)" ) : _( "(LACK)" );
+        return std::pair<nc_color, std::string>( c_red, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    if( worst_intake <= 1.0 ) {
+        msg = is_toxin ? _( "(DANGER)" ) : _( "(MEAGER)" );
+        return std::pair<nc_color, std::string>( c_yellow, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    return std::pair<nc_color, std::string>( c_green, string_format( _( "%1$s %2$s" ), vit_name,
+            msg ) );
+}
+
 faction_price_rule const *faction::get_price_rules( item const &it, npc const &guy ) const
 {
     auto const el = std::find_if(
@@ -519,6 +568,10 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
                                            yours->food_supply_text(), yours->food_supply.kcal() );
     nc_color food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
+    std::pair<nc_color, std::string> vitamins = yours->vitamin_stores( vitamin_type::VITAMIN );
+    mvwprintz( fac_w, point( width, ++y ), vitamins.first, _( "Worst vitamin:" ) + vitamins.second );
+    std::pair<nc_color, std::string> toxins = yours->vitamin_stores( vitamin_type::TOXIN );
+    mvwprintz( fac_w, point( width, ++y ), toxins.first, _( "Worst toxin:" ) + toxins.second );
     std::string bldg = next_upgrade( base_camps::base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade: " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );

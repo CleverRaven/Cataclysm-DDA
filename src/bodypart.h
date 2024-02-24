@@ -22,7 +22,6 @@
 #include "type_id.h"
 #include "subbodypart.h"
 #include "localized_comparator.h"
-#include "type_id.h"
 #include "weather.h"
 
 class JsonObject;

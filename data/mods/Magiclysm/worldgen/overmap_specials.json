@@ -293,5 +293,20 @@
     "occurrences": [ 0, 2 ],
     "spawns": { "group": "GROUP_OGRE", "population": [ 1, 10 ], "radius": [ 1, 6 ] },
     "flags": [ "WILDERNESS", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "last_mage_on_earth_shelter_start",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lmoe_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lmoe_roof_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "last_mage_on_earth_shelter_north" }
+    ],
+    "locations": [ "forest_without_trail" ],
+    "city_distance": [ 25, -1 ],
+    "//": "Meant for the Last Mage on Earth start",
+    "city_sizes": [ 0, 13 ],
+    "occurrences": [ 10, 100 ],
+    "flags": [ "MAN_MADE", "GLOBALLY_UNIQUE", "WILDERNESS" ]
   }
 ]

@@ -57,13 +57,13 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 8,
     "harvest": "mammal_tiny",
-    "dissect": "dissect_beast_sample_single",
+    "dissect": "dissect_chiropteran_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_flying" ],
     "vision_day": 20,
     "vision_night": 20,
     "special_attacks": [ { "type": "bite", "cooldown": 15 } ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "SMALL_HIDER" ]
   },
   {
     "id": "mon_bear_cub",
@@ -195,7 +195,7 @@
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ], [ "BROWSE", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1", "EATS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_lab_rat",
@@ -246,7 +246,8 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "CAN_BE_CULLED",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -282,7 +283,7 @@
     "upgrades": { "age_grow": 38, "into": "mon_boar_wild" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ], [ "EAT_CARRION", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_boar_wild",
@@ -294,7 +295,7 @@
     "bodytype": "pig",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "volume": "100 L",
+    "volume": "108500 ml",
     "weight": "100 kg",
     "hp": 60,
     "speed": 110,
@@ -363,7 +364,7 @@
     "harvest": "cat_medium_with_skull",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "dissect": "dissect_feline_sample_single",
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "SMALL_HIDER" ]
   },
   {
     "id": "mon_cat_kitten",
@@ -677,7 +678,7 @@
     "dissect": "dissect_mouse_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SMALL_HIDER" ]
   },
   {
     "id": "mon_cougar",
@@ -704,14 +705,43 @@
     "vision_night": 10,
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "scratch", 10 ], { "type": "leap", "cooldown": 5, "max_range": 5 } ],
-    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_zougar",
     "harvest": "cougar_with_skull",
     "dissect": "dissect_feline_sample_small",
     "families": [ "prof_intro_biology", "prof_physiology" ],
+    "reproduction": { "baby_monster": "mon_cougar_kitten", "baby_count": 6, "baby_timer": 92 },
+    "//": "Cougars can breed all year, but mainly do so between January and August, they can have between 1 to 6 kittens at a time.",
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ],
     "armor": { "bash": 1 }
+  },
+  {
+    "id": "mon_cougar_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cougar",
+    "looks_like": "mon_cat_kitten",
+    "name": { "str": "cougar kitten" },
+    "description": "A cute and currently defenseless cougar kitten, meowing at its surroundings in search of its mother.  Be careful, these kittens grow quite big and ferocious in just a few months.",
+    "volume": "900 ml",
+    "weight": "1200 g",
+    "hp": 10,
+    "speed": 98,
+    "harvest": "mammal_tiny",
+    "aggression": -25,
+    "morale": -10,
+    "aggro_character": false,
+    "melee_skill": 2,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "dodge": 9,
+    "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
+    "extend": { "flags": [ "NO_BREED" ] },
+    "upgrades": { "age_grow": 180, "into": "mon_cougar" },
+    "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
+    "armor": { "cold": 0 }
   },
   {
     "id": "mon_tiger",
@@ -936,7 +966,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "volume": "87000 ml",
+    "volume": "108500 ml",
     "weight": "87 kg",
     "hp": 60,
     "speed": 300,
@@ -1049,7 +1079,7 @@
     "vision_night": 4,
     "harvest": "dog_small_with_skull",
     "upgrades": { "age_grow": 42, "into": "mon_dog" },
-    "extend": { "flags": [ "NO_BREED" ] },
+    "extend": { "flags": [ "NO_BREED", "SMALL_HIDER" ] },
     "delete": { "flags": [ "CORNERED_FIGHTER" ] }
   },
   {
@@ -1138,7 +1168,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1228,7 +1259,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1272,7 +1304,8 @@
       "SWARMS",
       "WARM",
       "CORNERED_FIGHTER",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1325,7 +1358,8 @@
       "SMELLS",
       "SWARMS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1415,7 +1449,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1489,7 +1524,8 @@
       "SMELLS",
       "SWARMS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1532,7 +1568,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1584,7 +1621,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1627,7 +1665,8 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1680,7 +1719,8 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1768,7 +1808,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1864,7 +1905,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -1959,7 +2001,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -2051,7 +2094,8 @@
       "SEES",
       "SMELLS",
       "WARM",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -2110,7 +2154,18 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "CLIMBS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "CLIMBS",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_fox_red",
@@ -2142,7 +2197,7 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_groundhog",
@@ -2172,7 +2227,7 @@
     "stomach_size": 30,
     "special_attacks": [ [ "GRAZE", 100 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "EATS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_hare",
@@ -2358,7 +2413,18 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "SWIMS" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN",
+      "KEENNOSE",
+      "SWIMS",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_moose",
@@ -2369,7 +2435,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "volume": "386000 ml",
+    "volume": "386 L",
     "weight": "386 kg",
     "hp": 120,
     "speed": 200,
@@ -2543,7 +2609,7 @@
     "dissect": "dissect_rat_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "SMALL_HIDER" ]
   },
   {
     "id": "mon_opossum",
@@ -2574,7 +2640,7 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_otter",
@@ -2601,7 +2667,7 @@
     "harvest": "mammal_small_fur",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "WATER_CAMOUFLAGE", "SMALL_HIDER" ]
   },
   {
     "id": "mon_pig_piglet",
@@ -2646,7 +2712,8 @@
       "WARM",
       "KEENNOSE",
       "CAN_BE_CULLED",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -2736,7 +2803,8 @@
       "WARM",
       "CAN_BE_CULLED",
       "GOODHEARING",
-      "EATS"
+      "EATS",
+      "SMALL_HIDER"
     ]
   },
   {
@@ -2820,7 +2888,7 @@
     "upgrades": { "half_life": 30, "into": "mon_raccoon_mutant" },
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "BROWSE", 50 ], [ "EAT_CARRION", 60 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_sewer_rat",
@@ -2856,7 +2924,7 @@
     "upgrades": { "half_life": 42, "into_group": "GROUP_RATKIN_EVOLVED" },
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "EATS" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_sheep_lamb",
@@ -3015,7 +3083,7 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "special_attacks": [ [ "BROWSE", 120 ] ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_squirrel_red",
@@ -3046,7 +3114,7 @@
     "dissect": "dissect_mouse_sample_single",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM", "EATS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM", "EATS", "SMALL_HIDER" ]
   },
   {
     "id": "mon_weasel",
@@ -3073,7 +3141,7 @@
     "harvest": "mammal_tiny",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "SMALL_HIDER" ]
   },
   {
     "id": "mon_wolf",
@@ -3145,7 +3213,7 @@
     "bodytype": "horse",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],
-    "volume": "889000 ml",
+    "volume": "889 L",
     "weight": "240 kg",
     "hp": 120,
     "speed": 325,
@@ -3196,7 +3264,8 @@
     "harvest": "mammal_fur",
     "dissect": "dissect_cattle_sample_single",
     "special_attacks": [ [ "EAT_CROP", 60 ], [ "GRAZE", 60 ] ],
-    "upgrades": { "age_grow": 500, "into": "mon_reindeer" }
+    "upgrades": { "age_grow": 500, "into": "mon_reindeer" },
+    "extend": { "flags": [ "SMALL_HIDER" ] }
   },
   {
     "id": "mon_llama_calf",
@@ -3314,7 +3383,18 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_monster": "mon_ferret_kit", "baby_count": 5, "baby_timer": 100 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "CANPLAY", "CAN_BE_CULLED" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "SWIMS",
+      "WARM",
+      "CANPLAY",
+      "CAN_BE_CULLED",
+      "SMALL_HIDER"
+    ]
   },
   {
     "id": "mon_ferret_kit",
