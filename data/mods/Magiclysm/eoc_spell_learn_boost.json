@@ -105,7 +105,6 @@
       { "math": [ "u_spell_exp(_spell)", "+=", "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 1, 5) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))" ] }
     ]
   },
-
   {
     "type": "effect_on_condition",
     "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST_BIOTEK",
