@@ -1077,6 +1077,17 @@
   },
   {
     "type": "city_building",
+    "id": "urban_22_house_pool",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "urban_22_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_22_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_22_1_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_22_2_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "house_08",
     "locations": [ "land" ],
     "overmaps": [
