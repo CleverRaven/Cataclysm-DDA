@@ -122,6 +122,45 @@
   },
   {
     "type": "mutation",
+    "id": "PRE_ARM_FEATHERS",
+    "name": { "str": "Changing Arms" },
+    "types": [ "ARMS" ],
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Your arms feel…different.  Occasionally something shifts under the skin - sometimes it does so without pain.  Whatever is happening in there, it's far from done.  <color_red>This change will be reversible.  The next one might not be, should you continue.</color>",
+    "time": "2 h",
+    "changes_to": [ "ARM_FEATHERS" ],
+    "prereqs": [ "FEATHERS", "SPARSE_SCALES" ],
+    "processed_eocs": [ "EOC_CHANGING_LIMB_SETUP", "EOC_PRE_ARM_FEATHERS" ],
+    "category": [ "BIRD", "RAPTOR" ]
+  },
+  {
+    "type": "mutation",
+    "id": "ARM_FEATHERS",
+    "name": { "str": "Feathered Arms" },
+    "types": [ "ARMS" ],
+    "points": 2,
+    "visibility": 8,
+    "mixed_effect": true,
+    "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.   <color_red>You can still go back to how you used to be.  If you continue changing in this direction you will be permanently changed.  Progress from this state will need the matching threshold.</color>",
+    "category": [ "RAPTOR", "BIRD" ],
+    "prereqs": [ "FEATHERS", "SPARSE_SCALES" ],
+    "prereqs2": [ "PRE_ARM_FEATHERS" ],
+    "valid": false,
+    "changes_to": [ "WINGS_BIRD" ],
+    "time": "2 h",
+    "processed_eocs": [ "EOC_ARM_FEATHERS" ],
+    "vitamin_cost": 150,
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "arm_r" }, { "gain": "arm_feathers_l" }, { "gain": "arm_feathers_r" } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "WINGS_BIRD",
     "name": { "str": "Bird Wings" },
     "points": 2,
@@ -129,13 +168,58 @@
     "ugliness": 2,
     "description": "Your arms have mostly transformed into a huge pair of feathered wings.  Though you retain a few fingers, your fine manipulation is greatly hampered.  On the other hand, you can glide from ledges and will take less damage if you fall, provided you're healthy and unburdened.",
     "types": [ "ARMS", "HANDS" ],
-    "enchantments": [ "ench_wings_bird" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [
+          { "lose": "arm_l" },
+          { "lose": "arm_r" },
+          { "lose": "hand_r" },
+          { "lose": "hand_l" },
+          { "gain": "arm_wing_bird_l" },
+          { "gain": "arm_wing_bird_r" }
+        ]
+      }
+    ],
     "prereqs": [ "ARM_FEATHERS" ],
     "prereqs2": [ "HOLLOW_BONES" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "restricts_gear": [ "arm_l", "arm_r", "hand_l", "hand_r", "arm_stub_r", "arm_stub_l" ],
-    "flags": [ "WINGS_2", "WING_GLIDE" ]
+    "vitamin_cost": 300,
+    "valid": false,
+    "flags": [ "WINGS_2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIRD_LEGS",
+    "name": { "str": "Avian Legs" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 2,
+    "mixed_effect": true,
+    "description": "Your legs and feet have become bird-like, with long talons arranged three ahead and one behind.  They probably won't fit in human shoes, but they're perfect for gripping onto precarious perches.",
+    "active": true,
+    "activated_is_setup": false,
+    "activated_eocs": [ "EOC_AVIAN_LEAP" ],
+    "types": [ "LEGS", "FEET" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "category": [ "BIRD" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
+    "destroys_gear": true,
+    "allowed_items": [ "ALLOWS_TALONS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "WINGS_STUB",
+    "name": { "str": "Wing Stubs" },
+    "points": 0,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "You have a pair of stubby little wings projecting from your shoulderblades.  They can be wiggled at will, but are useless.",
+    "types": [ "WINGS" ],
+    "changes_to": [ "WINGS_INSECT", "WINGS_BUTTERFLY" ],
+    "category": [ "INSECT" ]
   },
   {
     "type": "mutation",

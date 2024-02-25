@@ -20,6 +20,99 @@
   },
   {
     "type": "snippet",
+    "category": "<arm_itch>",
+    "text": [
+      "Your arms start itching.",
+      "Something is crawling under your skin.",
+      "You pause for a moment.  The movement under your skin doesn't."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<arm_pain>",
+    "text": [ "Your arms hurt!", "Your arms cramp!", "Something shifts in your arm, painfully." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<arm_drop>",
+    "text": [
+      "Your hands seize up for a moment, and you drop your weapon!",
+      "Your arms fall down paralyzed, and your weapon tumbles to the ground!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bird_dream>",
+    "text": [
+      "You are but a child again, fighting over the dinner's remains with your brothers and sisters.  There were times for mirth and playfulness, but this is not one of those - the time nears when the smallest will be cast aside, and you're all terrified of being chosen.",
+      "You soar above the plains, but the pickings are slim today.  The shadows lengthen already, and you turn homewards with a flick of your wings, steeling yourself to the disappointed cries of your chicks and another hungry night.  You must do better tomorrow, lest this year's brood will be lost too."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bird_failure>",
+    "text": [
+      "You long for the skies, to watch the tiny problems of the ground disappear below you.",
+      "You remember feeling less attached to the ground.  What are you missing?",
+      "You need more if you are to fly South before the cold comes.  Much more.",
+      "Is your beak strong enough?  Your feathers long?  No, you need more.",
+      "You need enough bird primer and catalyst in your system while you are sleeping to complete your change.",
+      "You won't be able to change without enough catalyst, the right primer and being asleep."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<raptor_dream>",
+    "text": [
+      "You prowl the forest with your nestmates in search of prey - you're a strong brood with bright feathers and sharp talons, but fortune seems to elude you lately.  You take them towards the edge of the forest, where the air always smells of smoke, and sneak up on a pack of monkeys with too-colorful fur sitting on a fallen tree and chattering amongst themselves.  The smallest notices you and waves excitedly, just before you pounce.",
+      "You dream of blood on your talons, and the air catching your feathers as you try to balance on your struggling prey.  It feels almost like a game, something you'd have played in a previous life.  Lost in thought you almost miss the moment when the threshing grows still, until your brothers' screech brings you back to the present - time to eat."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<raptor_failure>",
+    "text": [
+      "Slow.  Too slow.  Slower than prey.",
+      "You'll never wet your talons at this rate.  You need to become better.",
+      "Scenes of a chase, claws, blood on the leaves flash before your eyes.  You need more to truly understand it.",
+      "Not a care in the world, only the hunt.  How you wish you were that far gone already.",
+      "You need enough raptor primer and catalyst in your system while you are sleeping to complete your change.",
+      "You won't be able to change without enough catalyst, the right primer and being asleep."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<arm_feathers_dream>",
+    "text": [
+      "<bird_dream>",
+      "<raptor_dream>",
+      "You are desperate to stop your disgusting ape hands from pulling out handfuls of your beautiful feathers, but they move on their own accord.  You manage to hold one of the useless things between your talons, and bring your beak down on it…Just a dream.  Still, food for thought."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<arm_feathers_success>",
+    "text": [
+      "You wake to a sudden itch in your arms, and you shake them vigorously.  To your painful surprise a new cover of long, strong feathers broke the surface, bloody dead skin and plumage falling on the ground."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<wings_bird_dream>",
+    "text": [
+      "<bird_dream>",
+      "Clouds surround you as you soar through the sky.  You look down and see the wilderness stretching out as far as the eye can see, but you can't stay here.  You need to go somewhere else, to the land of warmth and plenty.  Your eyes wander over your beautiful wings propelling you along, and you're mesmerized by their rhytmic beating.  Much better than your…hands.  You have hands, not wings.  Not yet."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<wings_bird_success>",
+    "text": [
+      "You dream of jumping from a cliff for your first flight, but the feathers on your clumsy arms can't hold you.  You hit the ground, and your hands are mangled beyond recognition.  After waking, the pain persists, and you're startled to see your useless fingers snap and disappear in your rich plumage.  Good riddance, you think, before falling unconscious."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<insect_failure>",
     "text": [
       "You need the right nectar, otherwise you will never be queen.",
