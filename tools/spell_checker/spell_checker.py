@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import re
 from . import Tokenizer, KnownWords
+import unicodedata
 
 
 def not_in_known_words(word):
-    return word not in KnownWords
+    return unicodedata.normalize('NFC', word) not in KnownWords
 
 
 def spell_check(message):

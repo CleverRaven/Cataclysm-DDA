@@ -2,6 +2,7 @@
 import os
 import regex
 from spellchecker import SpellChecker
+import unicodedata
 
 
 _latin_and_diacritic = r"\p{Script=Latin}|[\u0300-\u036F\u1AB0-\u1AC0\u1DC0-\u1DFF\u20D0-\u20F0\uFE20-\uFE2D]"
@@ -43,14 +44,17 @@ KnownWords = set()
 
 
 def init_known_words(DefaultKnownWords, KnownWords):
-    default_dict = SpellChecker(case_sensitive=True).word_frequency
+    default_dict = {
+        unicodedata.normalize('NFC', word) for word in
+        SpellChecker(case_sensitive=True).word_frequency
+    }
 
     custom_dict = set()
     dict_path = os.path.join(os.path.dirname(__file__), 'dictionary.txt')
     with open(dict_path, 'r', encoding='utf-8') as fp:
         for line in fp:
             line = line.rstrip('\n').rstrip('\r')
-            custom_dict.add(line)
+            custom_dict.add(unicodedata.normalize('NFC', line))
 
     for dictionary, knownwords in [
             (default_dict, DefaultKnownWords), (custom_dict, KnownWords)]:
