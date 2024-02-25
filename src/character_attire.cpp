@@ -1953,30 +1953,32 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
 std::string outfit::get_liquid_descriptor( int liquid_remaining )
 {
     std::string liquid_descriptor;
+    std::string liquid_descriptor_string;
     if( liquid_remaining <= 10 ) {
-        liquid_descriptor += string_format( _( "droplets of", liquid_descriptor  ) );
+        liquid_descriptor = "droplets of";
     } else if( liquid_remaining <= 20 ) {
-        liquid_descriptor += string_format( _( "a glob of", liquid_descriptor  ) );
+        liquid_descriptor = "a glob of";
     } else if( liquid_remaining <= 30 ) {
-        liquid_descriptor += string_format( _( "a spurt of", liquid_descriptor  ) );
+        liquid_descriptor = "a spurt of";
     } else if( liquid_remaining <= 50 ) {
-        liquid_descriptor += string_format( _( "a splatter of", liquid_descriptor  ) );
+        liquid_descriptor = "a splatter of";
     } else if( liquid_remaining <= 75 ) {
-        liquid_descriptor += string_format( _( "a spray of", liquid_descriptor  ) );
+        liquid_descriptor = "a spray of";
     } else if( liquid_remaining <= 100 ) {
-        liquid_descriptor += string_format( _( "quite a lot of", liquid_descriptor  ) );
+        liquid_descriptor = "quite a lot of";
     } else if( liquid_remaining <= 125 ) {
-        liquid_descriptor += string_format( _( "copious amounts of", liquid_descriptor  ) );
+        liquid_descriptor = "copious amounts of";
     } else if( liquid_remaining <= 150 ) {
-        liquid_descriptor += string_format( _( "a cascade of", liquid_descriptor  ) );
+        liquid_descriptor = "a cascade of";
     } else if( liquid_remaining <= 175 ) {
-        liquid_descriptor += string_format( _( "a torrent of", liquid_descriptor  ) );
+        liquid_descriptor = "a torrent of";
     } else if( liquid_remaining <= 200 ) {
-        liquid_descriptor += string_format( _( "a flood of", liquid_descriptor  ) );
+        liquid_descriptor = "a flood of";
     } else {
-        liquid_descriptor += string_format( _( "a deluge of", liquid_descriptor  ) );
+        liquid_descriptor = "a great deluge of";
     }
-    return liquid_descriptor;
+    liquid_descriptor_string += string_format( _( "%s" ), liquid_descriptor );
+    return liquid_descriptor_string;
 }
 
 void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp )
@@ -1995,7 +1997,6 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
     const int dur_moves = sp.duration( caster );
     const efftype_id spell_effect = efftype_id( sp.effect_data() );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
-    std::list<item> worn_remains;
     // Liquid will splash on the outermost items first.
     int liquid_remaining = liquid_amount;
     for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
@@ -2006,10 +2007,10 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
         }
         const std::string pre_damage_name = armor.tname();
         if( rng( 1, 100 ) <= armor.get_coverage( bp ) && liquid_remaining > 0 ) {
+            guy.add_msg_if_player( m_warning, _( "Your %1s is splashed with %2s of liquid." ),
+                      armor.tname(), get_liquid_descriptor( liquid_remaining ) );
             // The item has intercepted the splash to protect its wearer,
             // now we roll to see if it's affected.
-            guy.add_msg_if_player( m_warning, _( "Your %1s is splashed with %2s of liquid." ),
-                                   armor.tname(), get_liquid_descriptor( liquid_remaining ) );
             // A droplet of bile is less likely to ruin a shirt than a whole bucket.
             if( rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
                 // Apply filth to the item. Currently hardcoded because we don't have other item
