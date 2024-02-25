@@ -719,6 +719,7 @@
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 } ],
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -0.75 } ] } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -3333,6 +3334,7 @@
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": -0.9 } ] } ],
     "blood_analysis_description": "Intoxicant: THC"
   },
   {
