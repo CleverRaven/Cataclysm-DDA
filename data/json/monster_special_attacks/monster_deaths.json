@@ -507,7 +507,7 @@
     "liquid_volume_increment": 14,
     "max_liquid_volume": 140,
     "min_aoe": 1,
-    "aoe_increment": 0.6,
+    "aoe_increment": 0.4,
     "max_aoe": 4,
     "min_duration": 800,
     "duration_increment": 800,
