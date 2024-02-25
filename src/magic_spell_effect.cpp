@@ -584,7 +584,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         if( !sp.effect_data().empty() && ( !liquid || cr->is_monster() ) ) {
             add_effect_to_target( target, sp, caster );
         }
-        if( sp.damage( caster ) > 0 || liquid ) {
+        if( sp.damage( caster ) > 0 || ( liquid && !cr->is_monster() ) ) {
             // calculate damage mitigation from various sources
             // 5% per point (linear) ranging from 0-33%, capped at block score
             // skip if the attack was dodgeable as you'd have evaded it already
