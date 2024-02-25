@@ -1128,6 +1128,8 @@
         [ "corn_kernels", 1 ],
         [ "cucumber", 1 ],
         [ "cucumber_cut", 1 ],
+        [ "gherkin_cut", 1 ],
+        [ "gherkin", 1 ],
         [ "lettuce", 1 ],
         [ "onion", 1 ],
         [ "plant_sac", 1 ],
