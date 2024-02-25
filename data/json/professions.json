@@ -1065,8 +1065,8 @@
     "id": "football_player",
     "name": "Soccer Player",
     "description": {
-      "male": "Soccer, rugby, American football — whatever you term it, you'd played it extensively before the Cataclysm and were quite the sportsman.  Now, your trade has left you with a set of football armour that you'd packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you'd been able to hold on to through the end of days, you suppose that it's time to hustle.",
-      "female": "Soccer, rugby, American football — whatever you term it, you'd played it extensively before the Cataclysm and were quite the sportswoman.  Now, your trade has left you with a set of football armour that you'd packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you'd been able to hold on to through the end of days, you suppose that it's time to hustle."
+      "male": "Soccer, rugby — whatever you term it, you'd played it extensively before the Cataclysm and were quite the sportsman.  Now, your trade has left you with a set of football armour that you'd packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you'd been able to hold on to through the end of days, you suppose that it's time to hustle.",
+      "female": "Soccer, rugby — whatever you term it, you'd played it extensively before the Cataclysm and were quite the sportswoman.  Now, your trade has left you with a set of football armour that you'd packed along during the evacuation, a strong throwing arm, and experience in pitch-side tussling.  With your ball at your side, the only keepsake you'd been able to hold on to through the end of days, you suppose that it's time to hustle."
     },
     "points": 3,
     "skills": [
@@ -3060,7 +3060,7 @@
     "type": "profession",
     "id": "trucker",
     "name": "Trucker",
-    "description": "You once ruled the road in your big rig.  Long-haul deliveries had grown scarce by the riots’ height, and when nightmares had joined the mix in strength, you’d conveniently assumed ownership of your vehicle and scrammed, taking it to the remotest location possible and using it as a makeshift mobile home, hiding away from the madness.  Now it's just you and your truck against the world.",
+    "description": "You once ruled the road in your big rig.  Long-haul deliveries had grown scarce by the riots'' height, and when nightmares had joined the mix in strength, you''d conveniently assumed ownership of your vehicle and scrammed, taking it to the remotest location possible and using it as a makeshift mobile home, hiding away from the madness.  Now it's just you and your truck against the world.",
     "points": 4,
     "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 6, "name": "driving" }, { "level": 3, "name": "mechanics" } ],
@@ -3087,7 +3087,7 @@
     "id": "car_survivor",
     "type": "profession",
     "name": "Rideshare Driver",
-    "description": "You love driving, and decided to start making some money doing it.  On your way to pick up a customer, a riot broke out around you.  You took a long detour to safety, only to find yourself somewhere unfamiliar.",
+    "description": "You''d loved driving and had decided to start making some extra money doing it; when the end reached its zenith, it seemed only natural to use your skills to ferry yourself out of harm''s way.  Since the government, military, and nation collapsed, you''ve been doing just that; though, with every failed strongpoint you''ve passed, one question has gnawed at the back of your mind.  Is there even a safe place to drive towards anymore?",
     "points": 3,
     "proficiencies": [ "prof_driver" ],
     "skills": [ { "level": 5, "name": "driving" }, { "level": 2, "name": "speech" } ],
@@ -3112,7 +3112,7 @@
     "id": "emt_firefighter",
     "type": "profession",
     "name": "Paramedic Firefighter",
-    "description": "On your way to respond to an emergency call, you nearly drove straight into a riot in the city.  Turning off of the burning, debris-covered streets, you took a long detour only to find yourself lost.  That call will have to wait - you're in an emergency of your own now.",
+    "description": "During your evacuation, when your fire brigade had been in the process of loading its heavy emergency vehicles with as many wounded as could fit, your colleagues had wondered what they''d do if the monsters outside breached the station''s barricades.  They needn''t have wondered for long.  You''d fled, foot pressed to the accelerator of an empty fire truck, as the windows stained red.  Now, days later, the screams of friends and patients alike begging you to 'WAIT' haunt your mind.",
     "points": 5,
     "skills": [
       { "level": 6, "name": "firstaid" },
