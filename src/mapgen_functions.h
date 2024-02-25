@@ -17,7 +17,7 @@ class mission;
 struct mapgen_arguments;
 struct mapgen_parameters;
 struct point;
-struct tinymap;
+class tinymap;
 struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
