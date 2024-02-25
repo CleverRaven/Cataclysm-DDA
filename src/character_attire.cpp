@@ -2032,6 +2032,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             liquid_remaining = std::max( 0,
                                          liquid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
         }
+                        guy.add_msg_if_player( m_good, _( "we iterate" ) );
         ++iter;
     }
     if( spell_effect != effect_null ) {
