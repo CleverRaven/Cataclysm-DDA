@@ -2992,7 +2992,7 @@
     "type": "profession",
     "id": "hillbilly",
     "name": { "male": "Hillbilly", "female": "Hillbilly Girl" },
-    "description": "You'd never been one for the cities, and that spared you after the first weeks of rioting, when the going really got rough.  The nightmares didn't overlook you for long, however, and when they came, you'd hightailed it in the family truck.  Days later, you can't count the number of overrun sanctuaries you've passed, and a reliance on drinking to stave off impending dejection has left the case of boos in the back mostly empty.",
+    "description": "You'd never been one for the cities, and that spared you after the first weeks of rioting, when the going really got rough.  The nightmares didn't overlook you for long, however, and when they came, you'd hightailed it in the family truck.  Days later, you can't count the number of overrun sanctuaries you've passed, and a reliance on drinking to stave off impending dejection has left the case of booze in the back mostly empty.",
     "points": 4,
     "proficiencies": [ "prof_driver" ],
     "skills": [
