@@ -224,7 +224,7 @@ struct islot_brewable {
 /** Material data for individual armor body parts */
 struct part_material {
     material_id id; //material type
-    int cover = 100; //portion coverage % of this material
+    int cover; //portion coverage % of this material
     float thickness; //portion thickness of this material
     bool ignore_sheet_thickness = false; //if the def should ignore thickness of materials sheets
 
