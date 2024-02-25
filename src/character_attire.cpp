@@ -2002,14 +2002,14 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
             // The item has intercepted the splash to protect its wearer,
             // now we roll to see if it's affected.
             // A droplet of bile is less likely to ruin a shirt than a whole bucket.
-            if( rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
+            if( rng( 1, std::max( 2, 200 - armor.breathability( bp ) ) ) < liquid_remaining ) {
                 // Apply filth to the item. Currently hardcoded because we don't have other item
                 // flags that would make sense for this. It gets its own probability roll here
                 // because it can't use armor_absorb's.
                 if( sp.has_flag( spell_flag::MAKE_FILTHY ) && !armor.has_flag( flag_INTEGRATED ) &&
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
                     !armor.has_flag( flag_AURA ) &&
-                    rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
+                    rng( 1, std::max( 2, 200 - armor.breathability( bp ) ) ) < liquid_remaining ) {
                     add_msg_if_player_sees( guy, m_bad, _( "%1$s %2$s is covered in filth!" ), guy.disp_name( true,
                                             true ),
                                             armor.tname() );
