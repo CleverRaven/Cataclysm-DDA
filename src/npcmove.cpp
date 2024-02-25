@@ -4239,7 +4239,7 @@ void npc::pretend_heal( Character &patient, item used )
     add_msg_if_player_sees( *this, _( "%1$s heals %2$s." ), disp_name(),
                             patient.disp_name() );
     consume_charges( used, 1 ); // empty hallucination's inventory to avoid spammming
-    set_moves( 0 ); // consumes moves to avoid infinite loop
+    mod_moves( -get_speed() ); // consumes moves to avoid infinite loop
 }
 
 void npc::heal_self()
