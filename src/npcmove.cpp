@@ -219,11 +219,11 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-bool good_for_pickup( const item &it, npc &I, const tripoint &there )
+bool good_for_pickup( const item &it, npc &who, const tripoint &there )
 {
-    return I.can_take_that( it ) &&
-           I.wants_take_that( it ) &&
-           I.would_take_that( it, there );
+    return who.can_take_that( it ) &&
+           who.wants_take_that( it ) &&
+           who.would_take_that( it, there );
 }
 
 } // namespace
