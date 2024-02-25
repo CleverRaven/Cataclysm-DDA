@@ -1675,6 +1675,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "raw_tainted_leather_scraps",
+    "copy-from": "raw_leather",
+    "name": { "str_sp": "tainted skin scraps" },
+    "weight": "1 g",
+    "volume": "5 ml",
+    "spoils_in": "3 hours",
+    "calories": 3,
+    "use_action": [ "POISON" ],
+    "price_postapoc": 0,
+    "description": "Shredded scraps of raw skin from an unnatural creature.  It can't have much use.",
+    "price": 0
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "raw_hleather",
     "copy-from": "raw_leather",
     "name": { "str_sp": "raw human skin" },

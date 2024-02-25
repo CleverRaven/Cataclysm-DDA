@@ -1581,7 +1581,7 @@
   },
   {
     "id": "zombie_humanoid_multiple",
-    "//": "your bog standard humanoid zombie",
+    "//": "multiple humanoid zombies fused together",
     "type": "harvest",
     "message": "<zombie_humanoid_generic_harvest>",
     "entries": [

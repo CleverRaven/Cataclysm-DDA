@@ -145,7 +145,12 @@
     "type": "item_group",
     "id": "zed_skin",
     "subtype": "collection",
-    "entries": [ { "item": "raw_tainted_leather", "count": [ 5, 12 ] } ]
+    "entries": [
+      { "item": "raw_tainted_leather_scraps", "prob": 100, "damage": [ 2, 3 ], "count": [ 5, 12 ] },
+      { "item": "fat_tainted", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 4 ] },
+      { "item": "bone_tainted", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 4 ] },
+      { "item": "sinew", "prob": 50, "damage": [ 2, 3 ], "count": [ 1, 2 ] }
+    ]
   },
   {
     "type": "item_group",

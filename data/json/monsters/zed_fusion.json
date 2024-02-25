@@ -205,7 +205,7 @@
     "vision_night": 3,
     "harvest": "exempt",
     "special_attacks": [ [ "SUICIDE", 20 ] ],
-    "death_drops": "explode_gasbag",
+    "death_drops": { "subtype": "collection", "groups": [ "default_zombie_death_drops", "explode_gasbag" ] },
     "upgrades": { "half_life": 24, "into": "mon_zombie_gasbag_crawler" },
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],

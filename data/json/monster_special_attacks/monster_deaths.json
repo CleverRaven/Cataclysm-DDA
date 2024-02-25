@@ -27,27 +27,11 @@
     "effect": "upgrade"
   },
   {
-    "id": "boomer_clothes",
-    "type": "SPELL",
-    "name": { "str": "Boomer Clothes" },
-    "description": "Triggers EoC to drop filthy clothing.",
-    "shape": "blast",
-    "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_BOOMER_CLOTHING"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BOOMER_CLOTHING",
-    "effect": [ { "map_spawn_item": "default_zombie_death_drops", "use_item_group": true, "flags": [ "FILTHY" ] } ]
-  },
-  {
     "id": "necro_boomer_death",
     "type": "SPELL",
     "name": { "str": "Necro Boomer Death" },
     "description": "Revives and then upgrades zombies in a large area.",
-    "valid_targets": [ "ground", "ally", "self" ],
+    "valid_targets": [ "ground", "ally" ],
     "shape": "blast",
     "effect": "noise",
     "flags": [ "NO_EXPLOSION_SFX" ],
@@ -56,27 +40,7 @@
     "sound_type": "combat",
     "sound_id": "explosion",
     "sound_variant": "small",
-    "extra_effects": [
-      { "id": "necro_boomer_revive", "hit_self": true },
-      { "id": "necro_boomer_upgrade", "hit_self": true },
-      { "id": "boomer_clothes", "hit_self": true }
-    ]
-  },
-  {
-    "id": "boomer_clothes_child",
-    "type": "SPELL",
-    "name": { "str": "Boomer Child Clothes" },
-    "description": "Triggers EoC to drop filthy clothing.",
-    "shape": "blast",
-    "valid_targets": [ "ground" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_BOOMER_CHILD_CLOTHING"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_BOOMER_CHILD_CLOTHING",
-    "effect": [ { "map_spawn_item": "default_zombie_children_clothes", "use_item_group": true, "flags": [ "FILTHY" ] } ]
+    "extra_effects": [ { "id": "necro_boomer_revive", "hit_self": true }, { "id": "necro_boomer_upgrade", "hit_self": true } ]
   },
   {
     "id": "death_guilt",
@@ -281,17 +245,6 @@
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
-    "id": "death_gas_clothes",
-    "type": "SPELL",
-    "name": { "str": "Gas Explosion With Clothes" },
-    "description": "Causes a small explosion of toxic gas and leave clothing.",
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "self" ],
-    "effect": "noise",
-    "shape": "blast",
-    "extra_effects": [ { "id": "death_gas", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
-  },
-  {
     "id": "death_smokeburst",
     "type": "SPELL",
     "name": { "str": "Smoke Explosion" },
@@ -316,17 +269,6 @@
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
-    "id": "death_tear_boomer",
-    "type": "SPELL",
-    "name": { "str": "Teargas Boomer Death" },
-    "description": "Calls a small explosion of teargas and boomer clothes.",
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "self" ],
-    "effect": "noise",
-    "shape": "blast",
-    "extra_effects": [ { "id": "death_tearburst", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
-  },
-  {
     "id": "death_relax_gas",
     "type": "SPELL",
     "name": { "str": "Relaxation Gas Explosion" },
@@ -337,17 +279,6 @@
     "effect": "emit",
     "effect_str": "emit_relax_gas_blast",
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
-  },
-  {
-    "id": "death_relax_boomer",
-    "type": "SPELL",
-    "name": { "str": "Relaxation Gas Boomer Death" },
-    "description": "Calls a small explosion of relaxation gas and boomer clothes.",
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "valid_targets": [ "self" ],
-    "shape": "blast",
-    "effect": "noise",
-    "extra_effects": [ { "id": "death_relax_gas", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
   {
     "id": "death_fungalburst",
@@ -361,17 +292,6 @@
     "//": "TODO: Add the ability to check if there's anti-fungal gas here to negate this effect.",
     "effect_str": "emit_fungal_blast",
     "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
-  },
-  {
-    "id": "death_fungalburst_clothes",
-    "type": "SPELL",
-    "name": { "str": "Fungal Explosion with Clothes" },
-    "description": "Causes a small explosion of fungus and leaves boomer clothes.",
-    "valid_targets": [ "self" ],
-    "flags": [ "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "effect": "noise",
-    "extra_effects": [ { "id": "death_fungalburst", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
   {
     "id": "death_pouf",
@@ -403,17 +323,6 @@
     "max_aoe": 1,
     "shape": "blast",
     "extra_effects": [ { "id": "death_pouf", "hit_self": true } ]
-  },
-  {
-    "id": "death_fungus_boomer",
-    "type": "SPELL",
-    "name": { "str": "Fungal Boomer Death" },
-    "description": "Calls death fungus and boomer clothes.",
-    "valid_targets": [ "self" ],
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
-    "shape": "blast",
-    "effect": "noise",
-    "extra_effects": [ { "id": "death_fungus", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
   },
   {
     "id": "death_darkman",
@@ -477,16 +386,6 @@
       { "id": "death_fakespell" },
       { "id": "death_conflagration", "hit_self": true }
     ]
-  },
-  {
-    "id": "death_fire_boomer",
-    "type": "SPELL",
-    "name": { "str": "Gasoline Boomer Death" },
-    "valid_targets": [ "self" ],
-    "description": "Calls Conflagration Death and Boomer Clothes",
-    "effect": "noise",
-    "shape": "blast",
-    "extra_effects": [ { "id": "death_conflagration" }, { "id": "boomer_clothes" } ]
   },
   {
     "id": "death_conflagration",
@@ -613,30 +512,7 @@
     "max_field_intensity": 2,
     "min_field_intensity": 2,
     "affected_body_parts": [ "eyes" ],
-    "extra_effects": [ { "id": "death_explosion", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
-  },
-  {
-    "id": "death_boomer_child",
-    "type": "SPELL",
-    "name": { "str": "Boomer Child Death" },
-    "description": "Vomitous explosion.",
-    "valid_targets": [ "ground", "hostile", "ally", "self" ],
-    "flags": [ "NO_EXPLOSION_SFX", "LIQUID" ],
-    "min_aoe": 1,
-    "max_aoe": 2,
-    "aoe_increment": 1,
-    "max_level": 1,
-    "min_duration": 2400,
-    "max_duration": 2400,
-    "shape": "blast",
-    "effect": "attack",
-    "effect_str": "boomered",
-    "field_chance": 1,
-    "field_id": "fd_bile",
-    "max_field_intensity": 2,
-    "min_field_intensity": 2,
-    "affected_body_parts": [ "eyes" ],
-    "extra_effects": [ { "id": "death_explosion", "hit_self": true }, { "id": "boomer_clothes_child", "hit_self": true } ]
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true } ]
   },
   {
     "id": "death_boomer_glow",
