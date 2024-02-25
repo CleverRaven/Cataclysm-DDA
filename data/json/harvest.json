@@ -1177,6 +1177,7 @@
     "type": "harvest",
     "message": "You messily hack apart the hulking mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
+      { "drop": "skull_human_tainted", "type": "bone", "base_num": [ 0, 2 ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
@@ -1192,11 +1193,11 @@
     "type": "harvest",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
     "entries": [
-      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 0, 3 ] },
-      { "drop": "skull_moose_tusked", "type": "bone", "scale_num": [ 0, 1 ] },
-      { "drop": "skull_cervine_spideer", "type": "bone", "scale_num": [ 0, 1 ] },
-      { "drop": "skull_canis_triclopean", "type": "bone", "scale_num": [ 0, 1 ] },
-      { "drop": "skull_rodent", "type": "bone", "scale_num": [ 0, 6 ] },
+      { "drop": "skull_human_tainted", "type": "bone", "base_num": [ 0, 3 ] },
+      { "drop": "skull_moose", "type": "bone", "base_num": [ 0, 1 ] },
+      { "drop": "skull_cervine_spideer", "type": "bone", "base_num": [ 0, 1 ] },
+      { "drop": "skull_canis_triclopean", "type": "bone", "base_num": [ 0, 1 ] },
+      { "drop": "skull_rodent", "type": "bone", "base_num": [ 0, 6 ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "tainted_marrow", "type": "bone", "mass_ratio": 0.005 },
@@ -1585,7 +1586,7 @@
     "type": "harvest",
     "message": "<zombie_humanoid_generic_harvest>",
     "entries": [
-      { "drop": "skull_human_tainted", "type": "bone", "scale_num": [ 2, 5 ] },
+      { "drop": "skull_human_tainted", "type": "bone", "base_num": [ 2, 5 ] },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "blood_tainted", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },

@@ -638,7 +638,7 @@
     "vision_night": 2,
     "weakpoint_sets": [ "wps_humanoid_body_headless" ],
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie", "prof_wp_hulk" ],
-    "harvest": "zombie_humanoid",
+    "harvest": "zombie_humanoid_headless",
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "death_drops": "default_zombie_death_drops",
@@ -1492,7 +1492,7 @@
     "description": "At first this creature looks like nothing more than a grotesque and oleaginous husk, bloated and punctured by jet-black pustules.  When approached, its glowing red eyes and an aching grin take form; its skin tears and its guts teem with unmatched fecundity, as its gaze inspires fear of nothing less than cosmic, inhuman ecstasy.",
     "copy-from": "mon_zombie_necro",
     "diff": 25,
-    "death_drops": "zed_dust",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 65 ], [ "zed_dust", 100 ] ] },
     "death_function": {
       "effect": { "id": "necro_boomer_death", "hit_self": true },
       "corpse_type": "NO_CORPSE",
