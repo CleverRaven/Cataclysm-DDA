@@ -63,7 +63,7 @@
     "id": "mon_graboid",
     "type": "MONSTER",
     "name": { "str": "graboid" },
-    "description": "A monstrous beast the size of a semi truck with a tripartite mouth that opens to reveal hundreds of writhing tongues with razor sharp edges.  It keeps most of its enormous body hidden underground.",
+    "description": "This huge subterranean creature is a far cry from its earthworm ancestors.  Despite only seeing its head, you can tell its grown to a mind-boggling size.  While the image may be quite unsettling, it doesn't appear to pay you any mind.",
     "default_faction": "worm",
     "bodytype": "snake",
     "species": [ "WORM" ],
