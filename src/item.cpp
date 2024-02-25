@@ -8686,7 +8686,7 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                                    const std::vector<const part_material *> &armor_mats ) const
 {
     if( to_self && !dmg_type->physical ) {
-        // Fire does damage to items elsewhere. Cold, bio, etc. do not deal damage to items as they're non-physical.
+        // Fire does damage to items elsewhere. Cold, etc. do not deal damage to items as they're non-physical.
         return std::numeric_limits<float>::max();
     }
 
@@ -8742,7 +8742,7 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
                 }
             }
             // Acid ( being both enviro and physical, 'cause it's a liquid ) cares about breathability rather than environmental protection.
-            // Gas/plasma/cold/etc attacks still care about enviro.
+            // Gas/etc attacks still care about enviro.
             if( !dmg_type->physical ) {
                 const int env = get_env_resist( resist_value );
                 if( env < 10 ) {
