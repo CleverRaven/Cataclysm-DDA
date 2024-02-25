@@ -223,6 +223,7 @@ std::optional<int> disassemble( Character *, item *, const tripoint & );
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
 void play_music( Character *p, const tripoint &source, int volume, int max_morale );
+std::optional<int> purify_water( Character *p, item *purifier, item_location &water );
 int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential target of robot control

@@ -281,6 +281,7 @@ static const itype_id itype_multi_cooker( "multi_cooker" );
 static const itype_id itype_multi_cooker_filled( "multi_cooker_filled" );
 static const itype_id itype_nicotine_liquid( "nicotine_liquid" );
 static const itype_id itype_paper( "paper" );
+static const itype_id itype_pur_tablets( "pur_tablets" );
 static const itype_id itype_radio_car( "radio_car" );
 static const itype_id itype_radio_car_on( "radio_car_on" );
 static const itype_id itype_radio_on( "radio_on" );
@@ -2485,6 +2486,52 @@ std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint & )
     return 0;
 }
 
+// Part of iuse::water_purifier, but with the user interaction split out so it can be unit tested
+std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
+{
+    const std::vector<item *> liquids = water->items_with( []( const item & it ) {
+        return it.typeId() == itype_water;
+    } );
+    int charges_of_water = 0;
+    for( const item *water : liquids ) {
+        charges_of_water += water->charges;
+    }
+    if( !purifier->ammo_sufficient( p, charges_of_water ) ) {
+        p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
+        return std::nullopt;
+    }
+
+    if( purifier->typeId() == itype_pur_tablets ) {
+        const int available = p->crafting_inventory().count_item( itype_pur_tablets );
+        if( available >= charges_of_water ) {
+            p->add_msg_if_player( m_info, _( "Purifying water using %s" ), purifier->tname() );
+            // Pull from surrounding map first because it will update to_consume
+            int to_consume = charges_of_water;
+            get_map().use_amount( p->pos(), PICKUP_RANGE, itype_pur_tablets, to_consume );
+            // Then pull from inventory
+            if( to_consume > 0 ) {
+                p->use_amount( itype_pur_tablets, to_consume );
+            }
+        } else {
+            p->add_msg_if_player( m_info,
+                                  _( "You need %1i tablets to purify that.  You only have %2i" ), charges_of_water,  available );
+            return std::nullopt;
+        }
+    }
+
+    p->moves -= to_moves<int>( 2_seconds );
+
+    for( item *water : liquids ) {
+        water->convert( itype_water_clean, p ).poison = 0;
+    }
+    if( purifier->typeId() == itype_pur_tablets ) {
+        // We've already consumed the tablets, so don't try to consume them again
+        return std::nullopt;
+    } else {
+        return charges_of_water;
+    }
+}
+
 std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint & )
 {
     if( p->cant_do_mounted() ) {
@@ -2501,24 +2548,7 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint 
         return std::nullopt;
     }
 
-    const std::vector<item *> liquids = obj->items_with( []( const item & it ) {
-        return it.typeId() == itype_water;
-    } );
-    int charges_of_water = 0;
-    for( const item *water : liquids ) {
-        charges_of_water += water->charges;
-    }
-    if( !it->ammo_sufficient( p, charges_of_water ) ) {
-        p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
-        return std::nullopt;
-    }
-
-    p->moves -= to_moves<int>( 2_seconds );
-
-    for( item *water : liquids ) {
-        water->convert( itype_water_clean, p ).poison = 0;
-    }
-    return charges_of_water;
+    return purify_water( p, it, obj );
 }
 
 std::optional<int> iuse::radio_off( Character *p, item *it, const tripoint & )
