@@ -63,6 +63,22 @@
     ]
   },
   {
+    "id": "boomer_clothes_child",
+    "type": "SPELL",
+    "name": { "str": "Boomer Child Clothes" },
+    "description": "Triggers EoC to drop filthy clothing.",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BOOMER_CHILD_CLOTHING"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BOOMER_CHILD_CLOTHING",
+    "effect": [ { "map_spawn_item": "default_zombie_children_clothes", "use_item_group": true, "flags": [ "FILTHY" ] } ]
+  },
+  {
     "id": "death_guilt",
     "type": "SPELL",
     "name": { "str": "Death Guilt" },
@@ -598,6 +614,29 @@
     "min_field_intensity": 2,
     "affected_body_parts": [ "eyes" ],
     "extra_effects": [ { "id": "death_explosion", "hit_self": true }, { "id": "boomer_clothes", "hit_self": true } ]
+  },
+  {
+    "id": "death_boomer_child",
+    "type": "SPELL",
+    "name": { "str": "Boomer Child Death" },
+    "description": "Vomitous explosion.",
+    "valid_targets": [ "ground", "hostile", "ally", "self" ],
+    "flags": [ "NO_EXPLOSION_SFX", "LIQUID" ],
+    "min_aoe": 1,
+    "max_aoe": 2,
+    "aoe_increment": 1,
+    "max_level": 1,
+    "min_duration": 2400,
+    "max_duration": 2400,
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "boomered",
+    "field_chance": 1,
+    "field_id": "fd_bile",
+    "max_field_intensity": 2,
+    "min_field_intensity": 2,
+    "affected_body_parts": [ "eyes" ],
+    "extra_effects": [ { "id": "death_explosion", "hit_self": true }, { "id": "boomer_clothes_child", "hit_self": true } ]
   },
   {
     "id": "death_boomer_glow",

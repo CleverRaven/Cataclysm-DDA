@@ -124,7 +124,8 @@
     },
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "harvest": "moldy_bones",
-    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
+    "death_drops": "explode_zed_fungal_bone",
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus_boomer", "hit_self": true } },
     "armor": { "bash": 0, "electric": 5 }
   },
   {
@@ -145,7 +146,8 @@
       "families": [ "prof_wp_skeleton" ]
     },
     "harvest": "moldy_bones",
-    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } }
+    "death_drops": "explode_zed_fungal_bone",
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus_boomer", "hit_self": true } }
   },
   {
     "id": "mon_skeleton_hulk_fungus",
@@ -177,8 +179,8 @@
     "vision_night": 5,
     "harvest": "big_mr_bones",
     "special_attacks": [ { "id": "smash", "throw_strength": 54 } ],
-    "death_drops": "mon_zombie_hulk_death_drops",
-    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
+    "death_drops": "explode_zed_fungal_bone",
+    "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus_boomer", "hit_self": true } },
     "burn_into": "mon_zombie_fiend",
     "flags": [ "HEARS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FILTHY" ],
     "armor": { "bash": 20, "cut": 45, "bullet": 36, "electric": 8 }
