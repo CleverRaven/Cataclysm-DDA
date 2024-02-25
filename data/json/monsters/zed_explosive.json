@@ -67,7 +67,7 @@
     "id": "mon_boomer_huge",
     "type": "MONSTER",
     "name": { "str": "huge boomer" },
-    "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified.",
+    "description": "This boomer, normally swollen and ready to burst, has strengthened and solidified. The bile dribbling from its mouth also appears to have changed…",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -95,8 +95,8 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "bile_spew", "min_level": 5 },
-        "monster_message": "The %s spews bile!",
+        "spell_data": { "id": "bioluminescent_spew", "min_level": 5 },
+        "monster_message": "The %s spews glowing bile!",
         "cooldown": 20,
         "condition": { "and": [ { "not": { "u_is_underwater": "true" } }, { "not": { "npc_is_underwater": "true" } } ] }
       },

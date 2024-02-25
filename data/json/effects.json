@@ -2069,10 +2069,12 @@
     "id": "glowing",
     "name": [ "Glowing" ],
     "desc": [ "You are covered in glowing goo!" ],
-    "max_duration": "6 m",
+    "max_duration": "30 s",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
-    "base_mods": { "vomit_chance": [ 500 ] }
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
+    "flags": [ "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",
