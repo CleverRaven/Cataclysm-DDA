@@ -9266,6 +9266,7 @@
         [ "seed_carrot", 3 ],
         [ "seed_chili_pepper", 3 ],
         [ "seed_cucumber", 3 ],
+        [ "seed_gherkin", 3 ],
         [ "seed_weed", 3 ],
         [ "seed_thyme", 3 ],
         [ "seed_canola", 1 ],

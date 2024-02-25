@@ -32,6 +32,14 @@
     "components": [ [ [ "seed_cucumber", 2 ] ], [ [ "cucumber_cut", 1 ] ] ]
   },
   {
+    "result": "gherkin",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "seed_gherkin", 2 ] ], [ [ "gherkin_cut", 1 ] ] ]
+  },
+  {
     "result": "chili_pepper",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
