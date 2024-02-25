@@ -89,7 +89,13 @@
     "type": "effect_on_condition",
     "id": "bile_stink",
     "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": { "and": [ { "u_has_flag": "BILE_AFFLICTED" }, { "not": { "u_has_trait": "BILE_STINK" } } ] },
+    "condition": {
+      "and": [
+        { "u_has_flag": "BILE_AFFLICTED" },
+        { "not": { "u_has_trait": "BILE_STINK" } },
+        { "not": { "u_has_trait": "CHLOROMORPH" } }
+      ]
+    },
     "effect": [ { "u_add_trait": "BILE_STINK" } ]
   },
   {
