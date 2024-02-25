@@ -1,0 +1,35 @@
+[
+  {
+    "result": "everburning_torch_candelabra",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "qualities": [ { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "wooden_post", 3 ] ],
+      [ [ "wooden_post_short", 4 ] ],
+      [ [ "plank_short", 12 ] ],
+      [ [ "nuts_bolts", 30 ] ],
+      [ [ "scrap", 15 ] ],
+      [ [ "mtorch_everburning", 4 ] ]
+    ]
+  },
+  {
+    "result": "everburning_sconce",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "5 m",
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "PRY", "level": 1} ],
+    "components": [
+      [ [ "plank_short", 1 ] ],
+      [ [ "nuts_bolts", 4 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "mtorch_everburning", 1 ] ],
+      [ [ "nail", 4 ] ]
+    ]
+  }
+]
