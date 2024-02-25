@@ -19,7 +19,7 @@
     "id": "mc_spell_cost_train_factor",
     "num_args": 3,
     "//args": "_0=cost,_1=min_spellcasts,_2=max_spellcasts",
-    "//": "accept the spell _cost, return how much spellcasts required to level the spell; formula assumes 2 spellcasts at 100% manapool cost, and 10 spellcasts at 1% manapool cost",
+    "//": "accept the spell _cost, return how many spellcasts are required to level the spell; formula assumes 2 spellcasts at 100% manapool cost, and 10 spellcasts at 1% manapool cost",
     "return": "max(_1, min(_2, (_2 - (_1 * max(0, _0) / u_val('mana_max') * _2 / _1 ))))"
   },
   {
