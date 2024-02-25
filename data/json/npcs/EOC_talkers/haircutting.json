@@ -2,11 +2,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_CUT_HAIR_OR_BEARD",
-    "dynamic_line": "Do you want a shave or a cut?",
+    "dynamic_line": "Do you want to shave, or cut your hair?",
     "responses": [
-      { "text": "A shave.", "topic": "TALK_CUT_YOUR_BEARD" },
-      { "text": "A cut.", "topic": "TALK_CUT_YOUR_HAIR" },
-      { "text": "Neither.", "topic": "TALK_DONE" }
+      { "text": "Shave your beard.", "topic": "TALK_CUT_YOUR_BEARD" },
+      { "text": "Cut your hair.", "topic": "TALK_CUT_YOUR_HAIR" },
+      { "text": "Don't do either.", "topic": "TALK_DONE" }
     ]
   },
   {
