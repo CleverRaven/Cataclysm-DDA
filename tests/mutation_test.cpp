@@ -25,7 +25,7 @@ static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
 static const mutation_category_id mutation_category_REMOVAL_TEST( "REMOVAL_TEST" );
 
-static const trait_id trait_EAGLEEYED( "EAGLEEYED_DAY" );
+static const trait_id trait_EAGLEEYED_DAY( "EAGLEEYED_DAY" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_TEST_REMOVAL_0( "TEST_REMOVAL_0" );
