@@ -1981,14 +1981,6 @@ std::string outfit::get_liquid_descriptor( int liquid_remaining )
 
 void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp )
 {
-    sub_bodypart_id sbp;
-    sub_bodypart_id secondary_sbp;
-    // if this body part has sub part locations, roll one
-    if( !bp->sub_parts.empty() ) {
-        sbp = bp->random_sub_part( false );
-        // the torso and legs have a second layer of hanging body parts
-        secondary_sbp = bp->random_sub_part( true );
-    }
     const bool permanent = sp.has_flag( spell_flag::PERMANENT );
     int intensity = sp.effect_intensity( caster );
     int liquid_amount = sp.liquid_volume( caster );
@@ -2005,7 +1997,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
         }
         const std::string pre_damage_name = armor.tname();
         if( rng( 1, 100 ) <= armor.get_coverage( bp ) && liquid_remaining > 0 ) {
-            guy.add_msg_if_player( m_warning, _( "Your %1s is splashed with %2s of liquid." ),
+            guy.add_msg_if_player( m_warning, _( "Your %1$s is splashed with %2$s liquid." ),
                                    armor.tname(), get_liquid_descriptor( liquid_remaining ) );
             // The item has intercepted the splash to protect its wearer,
             // now we roll to see if it's affected.
@@ -2018,7 +2010,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
                     !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
                     !armor.has_flag( flag_AURA ) &&
                     rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
-                    add_msg_if_player_sees( guy, m_bad, _( "%1s %2s is covered in filth!" ), guy.disp_name( true,
+                    add_msg_if_player_sees( guy, m_bad, _( "%1$s %2$s is covered in filth!" ), guy.disp_name( true,
                                             true ),
                                             armor.tname() );
                     armor.set_flag( json_flag_FILTHY );
@@ -2040,8 +2032,9 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
     }
     if( liquid_remaining == liquid_amount ) {
         // You took the whole attack without any being blocked!
-        guy.add_msg_if_player( m_bad, _( "You are splashed with %1s of liquid!" ),
-                               get_liquid_descriptor( liquid_remaining ) );
+        add_msg_if_player_sees( guy, m_bad, _( "%1$s %2$s is splashed with %3$s liquid!" ),
+                                guy.disp_name( true,
+                                               true ), body_part_name_accusative( bp ), get_liquid_descriptor( liquid_remaining ) );
     }
 }
 
