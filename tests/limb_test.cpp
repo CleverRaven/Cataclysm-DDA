@@ -26,9 +26,9 @@ static const enchantment_id enchantment_ENCH_TEST_LIZARD_TAIL( "ENCH_TEST_LIZARD
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
 
 static const sub_bodypart_str_id
-sub_body_part_sub_limb_test_bird_foot_r( "sub_limb_test_bird_foot_r" );
-static const sub_bodypart_str_id
 sub_body_part_sub_limb_test_bird_foot_l( "sub_limb_test_bird_foot_l" );
+static const sub_bodypart_str_id
+sub_body_part_sub_limb_test_bird_foot_r( "sub_limb_test_bird_foot_r" );
 
 static const trait_id trait_DEBUG_BIG_HEAD( "DEBUG_BIG_HEAD" );
 static const trait_id trait_DEBUG_ONLY_HEAD( "DEBUG_ONLY_HEAD" );
