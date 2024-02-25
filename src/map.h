@@ -2509,7 +2509,7 @@ class tinymap : private map
             return map::spawn_items( p, new_items );    // TODO: Make it typed
         }
         item &add_item( const tripoint &p, item new_item ) {
-            return map::add_item( p, new_item );    // TODO: Make it typed
+            return map::add_item( p, std::move( new_item ) );  // TODO: Make it typed
         }
         item &add_item_or_charges( const point &p, const item &obj,
                                    bool overflow = true ) { // TODO: Make it typed
@@ -2521,7 +2521,7 @@ class tinymap : private map
             return map::put_items_from_loc( group_id, p, turn ); // TODO: Make it typed
         }
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true ) {
-            return map::add_item_or_charges( pos, obj, overflow );    // TODO: Make it typed
+            return map::add_item_or_charges( pos, std::move( obj ), overflow );  // TODO: Make it typed
         }
         std::vector<item *> place_items( // TODO: Make it typed
             const item_group_id &group_id, int chance, const tripoint &p1, const tripoint &p2,
