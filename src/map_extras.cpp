@@ -412,14 +412,6 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
-{
-    tripoint tri_target( target, m.get_abs_sub().z() );
-    if( m.ter( tri_target ).obj().trap == tr_null ) {
-        mtrap_set( &m, target, trap_type );
-    }
-}
-
 static void place_trap_if_clear( tinymap &m, const point &target, trap_id trap_type )
 {
     tripoint tri_target( target, m.get_abs_sub().z() );
