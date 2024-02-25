@@ -219,8 +219,8 @@
     "category": "armor",
     "name": { "str_sp": "barkskin" },
     "description": "A thin layer of bark covers your body.",
-    "weight": "12 kg",
-    "volume": "15 L",
+    "weight": "4 kg",
+    "volume": "400 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "mut_wood" ],
@@ -228,7 +228,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2 } ],
@@ -404,6 +404,22 @@
         "cover_vitals": 100
       }
     ]
+  },
+  {
+    "id": "item_salamander_cooking_heat",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "stove's caress" },
+    "description": "Heat from your hands.  You may cook with it at will.",
+    "weight": "0 g",
+    "volume": "0 L",
+    "price": 1,
+    "price_postapoc": 1,
+    "symbol": "$",
+    "color": "red",
+    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP", "TRANSPARENT" ],
+    "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
+    "use_action": [ { "type": "HEAT_FOOD" } ],
+    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   },
   {
     "id": "integrated_gelatinous_skin",

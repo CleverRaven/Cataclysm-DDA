@@ -2,8 +2,12 @@
   {
     "type": "palette",
     "id": "triffid",
+    "nested": {
+      "0": { "chunks": [ [ "1x1_triffid_field_furniture", 25 ], [ "null", 175 ] ] },
+      "1": { "chunks": [ [ "1x1_triffid_field_terrain", 9 ], [ "1x1_triffid_field_furniture", 25 ], [ "null", 166 ] ] },
+      "2": { "chunks": [ [ "1x1_triffid_field_terrain", 15 ], [ "1x1_triffid_field_furniture", 35 ], [ "null", 150 ] ] }
+    },
     "terrain": {
-      " ": [ "t_region_groundcover_urban", "t_mega_fern" ],
       "#": "t_triffid_bark_wall",
       "C": "t_barkfloor",
       "~": "t_triffid_wood_wall",
@@ -11,35 +15,26 @@
       "P": "t_root_wall",
       ".": "t_root_floor",
       "D": [ "t_bramble_door_c", "t_bramble_door_o" ],
-      "*": "t_puddle",
-      "[": "t_water_dp",
-      "I": [
-        "t_tree",
-        "t_tree_apple",
-        "t_tree_apple",
-        "t_tree_pear",
-        "t_tree_pear",
-        "t_tree_cherry",
-        "t_tree_peach",
-        "t_tree_apricot",
-        "t_tree_plum",
-        "t_tree_pine",
-        "t_tree_birch",
-        "t_tree_maple",
-        "t_tree_willow",
-        "t_tree_hickory",
-        "t_tree_young",
-        "t_mega_fern",
-        "t_underbrush",
-        "t_shrub"
-      ]
+      "I": [ [ "t_region_tree_fruit", 2 ], [ "t_mega_fern", 8 ], [ "t_region_tree", 1 ], [ "t_underbrush", 1 ], [ "t_shrub", 1 ] ]
     },
-    "furniture": {
-      "^": [ "f_rubble_rock", "f_boulder_small", "f_boulder_medium" ],
-      "?": [ "f_dandelion", "f_flower_spurge", "f_burdock", "f_flower_tulip", "f_lily", "f_bluebell", "f_dahlia", "f_datura" ],
-      "T": "f_glowingbulb",
-      "@": "f_brambles",
-      "X": "f_mutpoppy"
+    "furniture": { "T": "f_glowingbulb", "@": "f_brambles", "i": [ "f_mutpoppy", "f_region_flower" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_triffid_field_terrain",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "I" ], "palettes": [ "triffid" ], "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_triffid_field_furniture",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "i" ],
+      "palettes": [ "triffid" ],
+      "place_ter_furn_transforms": [ { "transform": "remove_forest_terrain_plants", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]
