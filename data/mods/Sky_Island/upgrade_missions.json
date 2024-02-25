@@ -860,7 +860,7 @@
       [ [ "geiger_off", 1 ] ],
       [ [ "scalpel", 1 ] ],
       [ [ "stethoscope", 1 ] ],
-      [ [ "meth", 10 ] ],
+      [ [ "pure_meth", 1 ] ],
       [ [ "transponder", 4 ] ],
       [ [ "receiver", 4 ] ],
       [
