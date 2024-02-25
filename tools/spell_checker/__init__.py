@@ -4,7 +4,6 @@ import regex
 from spellchecker import SpellChecker
 
 
-Speller = SpellChecker()
 Tokenizer = regex.compile(
     r"(?<="
         r"(?:" # a word can be after...
@@ -32,19 +31,36 @@ Tokenizer = regex.compile(
         r")"
     r")"
 )
+DefaultKnownWords = set()
 KnownWords = set()
 
 
-def init_known_words():
-    dictionary = os.path.join(os.path.dirname(__file__), 'dictionary.txt')
-    with open(dictionary, 'r', encoding='utf-8') as fp:
+def init_known_words(DefaultKnownWords, KnownWords):
+    default_dict = SpellChecker(case_sensitive=True).word_frequency
+
+    custom_dict = set()
+    dict_path = os.path.join(os.path.dirname(__file__), 'dictionary.txt')
+    with open(dict_path, 'r', encoding='utf-8') as fp:
         for line in fp:
             line = line.rstrip('\n').rstrip('\r')
-            KnownWords.add(line.split(' ')[0])
+            custom_dict.add(line)
+
+    for dictionary, knownwords in [
+            (default_dict, DefaultKnownWords), (custom_dict, KnownWords)]:
+        for word in dictionary:
+            # For words in full lower case, allow capitalization and all caps
+            # (e.g. word, Word, & WORD); for other words, allow the word itself and
+            # all caps (e.g. George & GEORGE or pH & PH)
+            knownwords.add(word)
+            if word == word.lower():
+                knownwords.add(word.capitalize())
+            knownwords.add(word.upper())
+
+    KnownWords |= DefaultKnownWords
 
 
 if not KnownWords:
-    init_known_words()
+    init_known_words(DefaultKnownWords, KnownWords)
 
 
 def unit_test__tokenizer():

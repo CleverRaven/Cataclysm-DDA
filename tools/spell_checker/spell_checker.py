@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import re
-from . import Speller, Tokenizer, KnownWords
+from . import Tokenizer, KnownWords
 
 
 def not_in_known_words(word):
@@ -9,5 +9,5 @@ def not_in_known_words(word):
 
 def spell_check(message):
     words = Tokenizer.findall(message)
-    unknowns = filter(not_in_known_words, Speller.unknown(words))
+    unknowns = filter(not_in_known_words, words)
     return list(unknowns)

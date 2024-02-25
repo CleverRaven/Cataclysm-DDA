@@ -23,8 +23,7 @@ for message in diff["added"]:
     message = message.replace('\n', "\\n")
     for typo in typos:
         bold = "**" + typo + "**"
-        message = re.sub(re.escape(typo), lambda _: bold, message,
-                         flags=re.IGNORECASE)
+        message = re.sub(re.escape(typo), lambda _: bold, message)
     errors.append(message)
 if errors:
     print("Spell checker encountered unrecognized words in the in-game text"
