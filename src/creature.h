@@ -65,15 +65,15 @@ using anatomy_id = string_id<anatomy>;
 
 enum class creature_size : int {
     // Keep it starting at 1 - damage done to monsters depends on it
-    // Squirrel
+    // Squirrel, cat, human toddler
     tiny = 1,
-    // Dog
+    // Labrador, human child
     small,
-    // Human
+    // Human adult
     medium,
-    // Cow
+    // Bear, tiger
     large,
-    // TAAAANK
+    // Cow, moose, shoggoth
     huge,
     // must always be at the end, is actually number + 1 since we start counting at 1
     num_sizes

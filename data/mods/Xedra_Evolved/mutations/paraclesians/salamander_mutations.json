@@ -147,7 +147,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to emit large quantities of heat.",
-    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs": [ "SALAMANDER_COOKING_HEAT" ],
     "prereqs2": [ "SALAMANDER_SLEEP_LESS2", "SALAMANDER_SLEEP_LESS3" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_emit_heat", 1 ] ]
@@ -415,7 +415,7 @@
     "name": { "str": "Searing Footsteps" },
     "points": 6,
     "description": "The Salamander can enhance their inner fire to the point where they leave fiery footprints everywhere they travel.  Activate this trait to leave a trail of fire in your wake at the cost of mana for every footstep.",
-    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "prereqs2": [ "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
     "active": true,
@@ -553,7 +553,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SALAMANDER_STR_BONUS_1" ],
-    "prereqs2": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs2": [ "SALAMANDER_EMIT_HEAT" ],
     "description": "Like the bonfire that will burn through the night, you have greatly increased strength.  +3 Strength.",
     "category": [ "SALAMANDER" ],
     "passive_mods": { "str_mod": 3 }
@@ -617,8 +617,24 @@
     "active": true,
     "category": [ "SALAMANDER" ],
     "activated_eocs": [ "EOC_SALAMANDER_REMOVE_STUN" ],
-    "cost": 1,
+    "cost": 75,
     "kcal": true
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_COOKING_HEAT",
+    "name": { "str": "Stove's Caress" },
+    "points": 4,
+    "description": "Instead of simply causing a burst of heat, the Salamander can emit heat from their hands at will, allowing them to use it to cook.",
+    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "category": [ "SALAMANDER" ],
+    "cost": 1,
+    "active": true,
+    "kcal": true,
+    "activated_is_setup": true,
+    "time": 60,
+    "activated_eocs": [ "EOC_SALAMANDER_GRANT_COOKING_HEAT" ],
+    "deactivated_eocs": [ "EOC_SALAMANDER_GRANT_COOKING_HEAT" ]
   },
   {
     "type": "mutation",
@@ -638,7 +654,8 @@
           { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
           { "value": "ARMOR_HEAT", "add": -1000 },
           { "value": "ARMOR_COLD", "multiply": 0.5 }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_hidden_flame_immunity", "intensity": 1 } ]
       }
     ],
     "flags": [ "HEAT_IMMUNE" ]
@@ -729,7 +746,7 @@
     "id": "SALAMANDER_PREVENT_DEATH",
     "name": { "str": "In Flames, Reborn Like the Phoenix" },
     "points": 12,
-    "description": "Like the bird of legend, you can recreate yourself from the heat and smoke of a fire.  If your body takes fatal damage while standing in a fire, your fae spirit will use those flames to renew yourself.  This can generally occur no more often than once every 14 days, though there is a small chance it can occur more often.",
+    "description": "Like the bird of legend, the Salamander can recreate themselves from the heat and smoke of a fire.  If their body takes fatal damage while standing in a fire, their fae spirit will use those flames to renew themselves.  This can generally occur no more often than once every 14 days, though there is a small chance it can occur more often.",
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
     "prereqs2": "SALAMANDER_SMOKE_FORM",
     "category": [ "SALAMANDER" ],
@@ -750,10 +767,23 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_EXPLOSION_AND_HEAL",
+    "name": { "str": "The Phoenix's Last Cry" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to make an ally immune to heat and flame.",
+    "prereqs": [ "SALAMANDER_PREVENT_DEATH" ],
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "spells_learned": [ [ "salamander_explosion_and_heal_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_SMOKE_FORM",
     "name": { "str": "Form of Billowing Smoke" },
     "points": 8,
-    "description": "You may transform into smoke.  You will have only a dim awareness of your surroundings, but can freely move including through the air and will be nearly immune to attack.  You will be unable to attack yourself, however.",
+    "description": "The Salamander may transform into smoke.  They will have only a dim awareness of your surroundings, but can freely move including through the air and will be nearly immune to attack.  They will be unable to attack anyone else themselves, however.",
     "prereqs": [ "SALAMANDER_SUMMON_WINGS", "SALAMANDER_SUMMON_WINGS_ON" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],

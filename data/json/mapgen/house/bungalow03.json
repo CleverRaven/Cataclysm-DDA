@@ -39,7 +39,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_wall_r",
         ",": "t_floor_noroof",
         "'": "t_shrub_lilac",
         "!": "t_railing_v",

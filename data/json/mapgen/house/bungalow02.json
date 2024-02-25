@@ -39,7 +39,6 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_wall_b",
         "'": "t_floor_noroof",
         "!": "t_railing_v",
         "}": "t_door_metal_locked",

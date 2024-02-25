@@ -935,7 +935,7 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "hflesh" ],
-    "volume": "2 L",
+    "volume": "4500 ml",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ] ]
   },
@@ -956,8 +956,32 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "hflesh" ],
-    "volume": "5 L",
+    "volume": "12 L",
     "fun": -20,
     "vitamins": [ [ "mutagenic_slurry", 10 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "arm_zed",
+    "name": { "str": "tainted limb" },
+    "description": "A rotted and then shredded arm.  Not much use unless you want to scrape the meat from the bones.",
+    "copy-from": "arm",
+    "use_action": [ "POISON" ],
+    "color": "red",
+    "material": [ "flesh" ],
+    "vitamins": [  ],
+    "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "leg_zed",
+    "name": { "str": "tainted limb" },
+    "description": "What's left of some zombie's limb.  Most likely a leg based on the proportions.  Though it's rotted, there is quite a bit of meat still on it.",
+    "copy-from": "leg",
+    "use_action": [ "POISON" ],
+    "color": "red",
+    "material": [ "flesh" ],
+    "vitamins": [  ],
+    "extend": { "flags": [ "NO_REPAIR" ] }
   }
 ]

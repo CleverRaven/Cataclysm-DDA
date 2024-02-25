@@ -296,6 +296,33 @@
     "max_aoe": 15
   },
   {
+    "id": "ierde_earthen_shield_spell",
+    "type": "SPELL",
+    "name": "Impenetrable Earthen Shield",
+    "description": "While standing on the living earth or stone, infuse your skin with the hardness of bedrock.  You will take no damage at all while the spell is in effect, though repeated blows can wear through the shield until it breaks.",
+    "flags": [ "SOMATIC", "VERBAL", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "self" ],
+    "teachable": false,
+    "skill": "deduction",
+    "spell_class": "IERDE",
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_IERDE_EARTHEN_SHIELD_SPELL",
+    "shape": "blast",
+    "difficulty": 8,
+    "min_duration": {
+      "math": [ "( ( (u_spell_level('ierde_earthen_shield_spell') * 1500) + 30000) * (scaling_factor(u_val('strength') ) ) )" ]
+    },
+    "max_duration": {
+      "math": [ "( ( (u_spell_level('ierde_earthen_shield_spell') * 1500) + 30000) * (scaling_factor(u_val('strength') ) ) )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 850,
+    "final_energy_cost": 650,
+    "energy_increment": -10,
+    "base_casting_time": 1500
+  },
+  {
     "id": "ierde_summon_earth_spirit",
     "type": "SPELL",
     "name": "Calling the Children of the Stones",
