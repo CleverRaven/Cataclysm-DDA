@@ -566,7 +566,8 @@ static void damage_targets( const spell &sp, Creature &caster,
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );
         const int spell_accuracy = sp.accuracy( caster );
         if( cr->is_underwater() && liquid ) {
-            caster.add_msg_if_player( m_bad, _( "The liquid is harmlessly dispersed into the surrounding water." ) );
+            caster.add_msg_if_player( m_bad,
+                                      _( "The liquid is harmlessly dispersed into the surrounding water." ) );
             continue;
         }
         if( dodgeable ) {

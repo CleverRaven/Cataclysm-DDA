@@ -1953,32 +1953,30 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
 std::string outfit::get_liquid_descriptor( int liquid_remaining )
 {
     std::string liquid_descriptor;
-    std::string liquid_descriptor_string;
     if( liquid_remaining <= 10 ) {
-        liquid_descriptor = "droplets of";
+        liquid_descriptor = _( "droplets of" );
     } else if( liquid_remaining <= 20 ) {
-        liquid_descriptor = "a glob of";
+        liquid_descriptor = _( "a glob of" );
     } else if( liquid_remaining <= 30 ) {
-        liquid_descriptor = "a spurt of";
+        liquid_descriptor = _( "a spurt of" );
     } else if( liquid_remaining <= 50 ) {
-        liquid_descriptor = "a splatter of";
+        liquid_descriptor = _( "a splatter of" );
     } else if( liquid_remaining <= 75 ) {
-        liquid_descriptor = "a spray of";
+        liquid_descriptor = _( "a spray of" );
     } else if( liquid_remaining <= 100 ) {
-        liquid_descriptor = "quite a lot of";
+        liquid_descriptor = _( "quite a lot of" );
     } else if( liquid_remaining <= 125 ) {
-        liquid_descriptor = "copious amounts of";
+        liquid_descriptor = _( "copious amounts of" );
     } else if( liquid_remaining <= 150 ) {
-        liquid_descriptor = "a cascade of";
+        liquid_descriptor = _( "a cascade of" );
     } else if( liquid_remaining <= 175 ) {
-        liquid_descriptor = "a torrent of";
+        liquid_descriptor = _( "a torrent of" );
     } else if( liquid_remaining <= 200 ) {
-        liquid_descriptor = "a flood of";
+        liquid_descriptor = _( "a flood of" );
     } else {
-        liquid_descriptor = "a great deluge of";
+        liquid_descriptor = _( "a deluge of" );
     }
-    liquid_descriptor_string += string_format( _( "%s" ), liquid_descriptor );
-    return liquid_descriptor_string;
+    return liquid_descriptor;
 }
 
 void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp )
@@ -2008,7 +2006,7 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
         const std::string pre_damage_name = armor.tname();
         if( rng( 1, 100 ) <= armor.get_coverage( bp ) && liquid_remaining > 0 ) {
             guy.add_msg_if_player( m_warning, _( "Your %1s is splashed with %2s of liquid." ),
-                      armor.tname(), get_liquid_descriptor( liquid_remaining ) );
+                                   armor.tname(), get_liquid_descriptor( liquid_remaining ) );
             // The item has intercepted the splash to protect its wearer,
             // now we roll to see if it's affected.
             // A droplet of bile is less likely to ruin a shirt than a whole bucket.
@@ -2016,23 +2014,23 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
                 // Apply filth to the item. Currently hardcoded because we don't have other item
                 // flags that would make sense for this. It gets its own probability roll here
                 // because it can't use armor_absorb's.
-                    if( sp.has_flag( spell_flag::MAKE_FILTHY ) && !armor.has_flag( flag_INTEGRATED ) &&
-                        !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
-                        !armor.has_flag( flag_AURA ) &&
-                        rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
-                        add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true,
-                                                true ),
-                                                armor.tname() );
-                        armor.set_flag( json_flag_FILTHY );
-                        guy.on_worn_item_soiled( armor );
-                    }
+                if( sp.has_flag( spell_flag::MAKE_FILTHY ) && !armor.has_flag( flag_INTEGRATED ) &&
+                    !armor.has_flag( flag_SEMITANGIBLE ) && !armor.has_flag( flag_PERSONAL ) &&
+                    !armor.has_flag( flag_AURA ) &&
+                    rng( 1, 200 - armor.breathability( bp ) ) < liquid_remaining ) {
+                    add_msg_if_player_sees( guy, m_warning, _( "%1s %2s is covered in filth!" ), guy.disp_name( true,
+                                            true ),
+                                            armor.tname() );
+                    armor.set_flag( json_flag_FILTHY );
+                    guy.on_worn_item_soiled( armor );
                 }
+            }
             // Whether or not the item was affected by the fluid, it still blocked some or all of it.
             // Breathability and coverage let fluid soak through, but some is lost, weakening the attack as it goes.
             liquid_remaining = std::max( 0,
                                          liquid_remaining - ( ( armor.get_coverage( bp ) + armor.breathability( bp ) ) / 2 ) );
         }
-                        guy.add_msg_if_player( m_good, _( "we iterate" ) );
+        guy.add_msg_if_player( m_good, _( "we iterate" ) );
         ++iter;
     }
     if( spell_effect != effect_null ) {
@@ -2043,7 +2041,8 @@ void outfit::splash_attack( Character &guy, const spell &sp, Creature &caster, b
     }
     if( liquid_remaining == liquid_amount ) {
         // You took the whole attack without any being blocked!
-        guy.add_msg_if_player( m_bad, _( "You are splashed with %1s of liquid!" ), get_liquid_descriptor( liquid_remaining ) );
+        guy.add_msg_if_player( m_bad, _( "You are splashed with %1s of liquid!" ),
+                               get_liquid_descriptor( liquid_remaining ) );
     }
 }
 
