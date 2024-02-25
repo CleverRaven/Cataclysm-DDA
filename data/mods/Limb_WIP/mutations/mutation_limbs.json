@@ -7,7 +7,7 @@
     "limb_type": "head",
     "limb_scores": [ [ "reaction", 0.3 ] ],
     "is_vital": true,
-    "similar_bodyparts": [ "eyes_insect_2" ]
+    "similar_bodyparts": [ "head_dragonfly" ]
   },
   {
     "id": "eyes",
@@ -176,7 +176,7 @@
     "opposite": "sub_limb_debug",
     "side": 0,
     "name": "forehead",
-    "similar_bodyparts": [ "eyes_dragonfly_forehead" ]
+    "similar_bodyparts": [ "head_dragonfly_forehead" ]
   },
   {
     "id": "head_crown",
@@ -186,7 +186,7 @@
     "opposite": "sub_limb_debug",
     "side": 0,
     "name": "crown",
-    "similar_bodyparts": [ "eyes_dragonfly_crown" ]
+    "similar_bodyparts": [ "head_dragonfly_crown" ]
   },
   {
     "id": "head_nape",
@@ -196,7 +196,7 @@
     "opposite": "sub_limb_debug",
     "side": 0,
     "name": "nape",
-    "similar_bodyparts": [ "eyes_dragonfly_nape" ]
+    "similar_bodyparts": [ "head_dragonfly_nape" ]
   },
   {
     "id": "head_throat",
@@ -206,7 +206,7 @@
     "opposite": "sub_limb_debug",
     "side": 0,
     "name": "throat",
-    "similar_bodyparts": [ "eyes_dragonfly_throat" ]
+    "similar_bodyparts": [ "head_dragonfly_throat" ]
   },
   {
     "id": "head_ear_r",
@@ -217,7 +217,7 @@
     "side": 2,
     "name": "right ear",
     "name_multiple": "ears",
-    "similar_bodyparts": [ "eyes_dragonfly_ear_r" ]
+    "similar_bodyparts": [ "head_dragonfly_ear_r" ]
   },
   {
     "id": "head_ear_l",
@@ -228,7 +228,7 @@
     "side": 1,
     "name": "left ear",
     "name_multiple": "ears",
-    "similar_bodyparts": [ "eyes_dragonfly_ear_l" ]
+    "similar_bodyparts": [ "head_dragonfly_ear_l" ]
   },
   {
     "type": "sub_body_part",
@@ -537,33 +537,49 @@
   },
   {
     "type": "body_part",
-    "id": "eyes_insect_2",
-    "//": "Head replacement.  Superhuman reaction score, raised but still suboptimal vision score (getting used to it), a large target.",
-    "name": "dragonfly eyes",
+    "id": "eyes_dragonfly",
+    "name": "dragonfly eyes (front)",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "dragonfly eyes (front)" },
+    "heading": "dragonfly eyes (front)",
+    "heading_multiple": "dragonfly eyes (front)",
+    "//": "Differentiated to allow eyewear on them without too high coverage, and to suppress multiple portion errors",
+    "//score": "Most of the fine/night vision, lower proportion of the reaction score (peripheral vision)",
+    "copy-from": "eyes_insect_1",
+    "opposite_part": "eyes_dragonfly",
+    "main_part": "head_dragonfly",
+    "limb_type": "sensor",
+    "limb_scores": [ [ "vision", 0.4 ], [ "night_vis", 0.5 ], [ "reaction", 0.7 ] ],
+    "sub_parts": [ "eyes_dragonfly_mono_l", "eyes_dragonfly_mono_r" ]
+  },
+  {
+    "type": "body_part",
+    "id": "head_dragonfly",
+    "//": "Head replacement.  TOgether with the eye replacement superhuman reaction score, raised but still suboptimal vision score (getting used to it), a large target.",
+    "name": "dragonfly head",
     "accusative": { "ctxt": "bodypart_accusative", "str": "dragonfly eyes" },
     "hp_bar_ui_text": "DRGFL HEAD",
-    "heading": "dragonfly eyes",
-    "heading_multiple": "dragonfly eyes",
+    "heading": "dragonfly head",
+    "heading_multiple": "dragonfly head",
     "copy-from": "head",
     "limb_types": [ "sensor", "head" ],
     "encumbrance_text": "Your vision is impaired!",
     "hit_size": 7,
     "is_vital": true,
     "hit_difficulty": 1.2,
-    "main_part": "eyes_insect_2",
-    "connected_to": "eyes_insect_2",
-    "opposite_part": "eyes_insect_2",
-    "limb_scores": [ [ "vision", 0.9 ], [ "night_vis", 1.0 ], [ "reaction", 1.8 ] ],
+    "main_part": "head_dragonfly",
+    "connected_to": "head_dragonfly",
+    "opposite_part": "head_dragonfly",
+    "limb_scores": [ [ "vision", 0.5 ], [ "night_vis", 0.5 ], [ "reaction", 1.1 ] ],
+    "encumbrance_threshold": 0,
+    "encumbrance_limit": 75,
     "armor": { "cut": 3 },
     "sub_parts": [
-      "eyes_dragonfly_mono_l",
-      "eyes_dragonfly_mono_r",
-      "eyes_dragonfly_forehead",
-      "eyes_dragonfly_crown",
-      "eyes_dragonfly_nape",
-      "eyes_dragonfly_throat",
-      "eyes_dragonfly_ear_r",
-      "eyes_dragonfly_ear_l"
+      "head_dragonfly_forehead",
+      "head_dragonfly_crown",
+      "head_dragonfly_nape",
+      "head_dragonfly_throat",
+      "head_dragonfly_ear_r",
+      "head_dragonfly_ear_l"
     ],
     "effects_on_hit": [
       {
@@ -651,8 +667,8 @@
     "type": "sub_body_part",
     "name": "gigantic compound eye (front left)",
     "name_multiple": "gigantic compound eye (front)",
-    "parent": "eyes_insect_2",
-    "max_coverage": 10,
+    "parent": "eyes_dragonfly",
+    "max_coverage": 50,
     "side": 1,
     "opposite": "eyes_dragonfly_mono_r"
   },
@@ -661,62 +677,62 @@
     "type": "sub_body_part",
     "name": "gigantic compound eye (front right)",
     "name_multiple": "gigantic compound eye (front)",
-    "parent": "eyes_insect_2",
-    "max_coverage": 10,
+    "parent": "eyes_dragonfly",
+    "max_coverage": 50,
     "side": 2,
     "opposite": "eyes_dragonfly_mono_l"
   },
   {
-    "id": "eyes_dragonfly_forehead",
+    "id": "head_dragonfly_forehead",
     "type": "sub_body_part",
     "name": "gigantic compound eye (forehead)",
-    "parent": "eyes_insect_2",
-    "max_coverage": 15,
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
     "side": 0
   },
   {
-    "id": "eyes_dragonfly_crown",
+    "id": "head_dragonfly_crown",
     "type": "sub_body_part",
     "name": "gigantic compound eye (crown)",
-    "parent": "eyes_insect_2",
-    "max_coverage": 15,
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
     "side": 0
   },
   {
-    "id": "eyes_dragonfly_nape",
+    "id": "head_dragonfly_nape",
     "type": "sub_body_part",
     "name": "nape",
-    "parent": "eyes_insect_2",
-    "max_coverage": 15,
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
     "side": 0
   },
   {
-    "id": "eyes_dragonfly_throat",
+    "id": "head_dragonfly_throat",
     "type": "sub_body_part",
     "name": "throat",
-    "parent": "eyes_insect_2",
-    "max_coverage": 15,
+    "parent": "head_dragonfly",
+    "max_coverage": 20,
     "side": 0
   },
   {
-    "id": "eyes_dragonfly_ear_l",
+    "id": "head_dragonfly_ear_l",
     "type": "sub_body_part",
     "name": "left ear",
     "name_multiple": "ears",
-    "parent": "eyes_insect_2",
+    "parent": "head_dragonfly",
     "max_coverage": 10,
     "side": 1,
-    "opposite": "eyes_dragonfly_ear_r"
+    "opposite": "head_dragonfly_ear_r"
   },
   {
-    "id": "eyes_dragonfly_ear_r",
+    "id": "head_dragonfly_ear_r",
     "type": "sub_body_part",
     "name": "right ear",
     "name_multiple": "ears",
-    "parent": "eyes_insect_2",
+    "parent": "head_dragonfly",
     "max_coverage": 10,
     "side": 2,
-    "opposite": "eyes_dragonfly_ear_l"
+    "opposite": "head_dragonfly_ear_l"
   },
   {
     "id": "gastropod_foot",

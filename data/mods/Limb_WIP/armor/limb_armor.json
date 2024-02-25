@@ -44,17 +44,7 @@
         "material": [ { "type": "kevlar_rigid", "covered_by_mat": 100, "thickness": 1.0 } ],
         "encumbrance": 300,
         "coverage": 100,
-        "covers": [ "eyes_insect_2" ],
-        "specifically_covers": [
-          "eyes_dragonfly_mono_l",
-          "eyes_dragonfly_mono_r",
-          "eyes_dragonfly_forehead",
-          "eyes_dragonfly_crown",
-          "eyes_dragonfly_nape",
-          "eyes_dragonfly_throat",
-          "eyes_dragonfly_ear_r",
-          "eyes_dragonfly_ear_l"
-        ]
+        "covers": [ "head_dragonfly", "eyes_dragonfly" ]
       }
     ]
   },

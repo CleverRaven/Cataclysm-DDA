@@ -417,7 +417,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
 
-    optional( jo, was_loaded, "similar_bodyparts", similar_bodyparts );
+    optional( jo, false, "similar_bodyparts", similar_bodyparts );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
