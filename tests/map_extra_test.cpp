@@ -78,7 +78,7 @@ TEST_CASE( "mx_minefield_theoretical_spawn", "[map_extra][overmap]" )
         const map_extra_pointer mx_func = MapExtras::get_function( map_extra_mx_minefield );
 
         // TODO: fix point types
-        return mx_func( tm, tm.get_abs_sub().raw() );
+        return mx_func( *tm.cast_to_map(), tm.get_abs_sub().raw() );
     };
 
     // Pick a point in the middle of the overmap so we don't go out of bounds when setting up
