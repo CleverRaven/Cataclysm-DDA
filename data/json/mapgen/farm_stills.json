@@ -160,9 +160,9 @@
         "#0........J.}#~~~~~~~~~~",
         "#??.......J.}#~~~####^~~",
         "#|||.....||||#####HH####",
-        "#qq|.....|8~~t~B|r...@@#",
-        "#w.|.....|S~~~~B|rE..@@#",
-        "#w.+.....|8~~~~w|T....I#",
+        "#qq|.....|8__t_B|r...@@#",
+        "#w.|.....|S____B|rE..@@#",
+        "#w.+.....|8____w|T....I#",
         "#U.|.....|||+||||||+|||#",
         "#U.|..................>#",
         "#||||||+|||+|||+||||+||#",
@@ -198,7 +198,13 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "~": "t_open_air", ".": "t_floor", "#": "t_wall_wood", "!": "t_shingle_flat_roof" },
+      "terrain": {
+        "~": "t_open_air",
+        ".": "t_floor",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "#": "t_wall_wood",
+        "!": "t_shingle_flat_roof"
+      },
       "furniture": { "}": "f_glass_fridge" },
       "items": {
         "}": { "item": "wines_worthy", "chance": 70, "repeat": [ 1, 2 ] },
