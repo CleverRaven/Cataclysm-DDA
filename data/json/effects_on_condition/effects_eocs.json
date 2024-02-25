@@ -69,7 +69,8 @@
     "id": "bile_in_eyes",
     "recurrence": [ "1 seconds", "1 seconds" ],
     "condition": {
-      "and": [ { "or": [  { "u_has_effect": "bile", "bodypart": "eyes" }, { "u_has_effect": "glowing", "bodypart": "eyes" } ] },
+      "and": [
+        { "or": [ { "u_has_effect": "bile", "bodypart": "eyes" }, { "u_has_effect": "glowing", "bodypart": "eyes" } ] },
         {
           "and": [
             { "not": { "u_has_trait": "COMPOUND_EYES" } },
