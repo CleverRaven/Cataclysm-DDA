@@ -1,8 +1,9 @@
-#if defined(TILES)
+﻿#if defined( TILES )
 #include "sdl_font.h"
 
 #include "font_loader.h"
 #include "output.h"
+#include "imgui/imgui.h"
 #include "sdl_utils.h"
 
 #if defined(_WIN32)
@@ -19,9 +20,9 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-// bitmap font size test
-// return face index that has this size or below
-static int test_face_size( const std::string &f, int size, int faceIndex )
+    // bitmap font size test
+    // return face index that has this size or below
+    static int test_face_size( const std::string &f, int size, int faceIndex )
 {
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
@@ -224,7 +225,6 @@ CachedTTFFont::CachedTTFFont(
     std::vector<std::string> known_prefixes = {
         PATH_INFO::user_font(), PATH_INFO::fontdir()
     };
-
 #if defined(_WIN32)
     constexpr UINT max_dir_len = 256;
     char buf[max_dir_len];
@@ -299,6 +299,22 @@ CachedTTFFont::CachedTTFFont(
         throw std::runtime_error( TTF_GetError() );
     }
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
+
+    ImGuiIO &io = ImGui::GetIO();
+    if( io.FontDefault == nullptr && typeface.find( "unifont" ) != std::string::npos ) {
+        static const std::array<ImWchar, 17> ranges = {
+            0x0020, 0x052F,
+            0x1D00, 0x1DFF,
+            0x2000, 0x20CF,
+            0x2100, 0x214F,
+            0x2190, 0x22FF,
+            0x2500, 0x27BF,
+            0xC900, 0xC9FF,
+            //0x0020, 0xCFFF,
+            0
+        };
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( typeface.c_str(), fontsize, nullptr, ranges.data() );
+    }
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
