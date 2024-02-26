@@ -38,7 +38,7 @@
         "........................"
       ],
       "terrain": {
-        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "?": "t_railing_v",
         "=": "t_floor_noroof",
         ",": "t_carpet_red",
