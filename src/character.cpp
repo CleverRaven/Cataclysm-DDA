@@ -401,7 +401,6 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_AQUEOUS( "AQUEOUS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_BOOMING_VOICE( "BOOMING_VOICE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
