@@ -103,6 +103,10 @@ Allow whitelisting and blacklisting hobbies in scenarios, professions, and globa
 EoCs support mutate_towards directly
 make `u_spawn_item` to support the item group whose subtype is `collection`
 Add u_wants_to_talk/npc_wants_to_talk EOC effects
+Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
+Adds Chiropteran (bat) mutation line, and the subaquatic navigation system CBM
+Allow monster corpse teeth to be used to make traps and weapons
+Adds social/asocial mutations
 
 
 ## Content:
@@ -202,6 +206,19 @@ Add 7 new frog zombie varities and audit existing frog zombies
 Cinnamon for Deluxe Oatmeal
 Soldiers' rifles have more/various weapon mods
 readd heavy ballistic vest
+More trash in rolling trash cans
+410 craft adjust, 357 primer fix, XL holster length fix, add onion dish
+Overhaul the open-air market
+added missing bronze fileset recipe
+New Utility Tools
+Remove final mentions of Valhallists.
+Simulate hair growth over time.
+Add earthworms to the game, as a food source
+Added bronze chisel
+Add cougar kittens and fix cougar taming in mods
+Boomers now leave fleshy gibs on detonation
+Add a fancy house with pool
+ adds the capability for players to craft simple and more advanced necklaces and pendants from spent bullet casings.
 
 
 ## Interface:
@@ -255,6 +272,8 @@ Hide AIM during directional prompts
 Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
+Mutations list selector starts in the active column
+Set priority for containers that have auto whitelisting.
 
 
 ## Mods:
@@ -370,6 +389,17 @@ Fix Brackenwight special attack message
 [Magiclysm] Add spells that allow you to gain the various +mana traits
 [Magiclysm] Last Mage on Earth start
 Tamable Wildlife: add Cougars to list of tameables
+Change screw driving and fine screw driving qualities to bolt turning and fine bolt turning for XE's blocky pistol.
+[MoM] Remove obsolete files
+[Magiclysm] Fun with Flags, spell edition
+Update Sky Island to include expedition timer support for new zenfs siedbars
+[Xedra Evolved] Adjust Barkskin
+[Xedra Evolved] Consolidate some Arvore traits
+[Bombastic Perks] Add overwriting perkchain support
+[Xedra Evolved] Paraclesians start with a single dose of their ascension potion
+[Xedra Evolved] More Paraclesian powers
+[Magiclysm] Add spellcasting proficiencies.
+[MoM] Doc updates + increase effects of Discern Weakness
 
 
 ## Balance:
@@ -428,6 +458,7 @@ Bring ice axe in line with reality
 Audit remaining magazines (.223, 9mm, .308)
 Update books.json to rebalance religious book spawning
 Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
+Changed leather vambrace encumberance from 5 to 2
 
 
 ## Bugfixes:
@@ -555,6 +586,13 @@ Say which specials could not be placed.
 Fix assignment ID's with NECC mapgen EOCs.
 Allows Infrared vision to see through smoke
 [Magiclysm] Fix Peaceful Rest hobby
+[Magiclysm] Fix Peaceful Rest hobby
+Increase search range for important locations and quest hubs
+Fix erroneous mapgen monster names in non-English games
+Fix printf format showing up in message log
+NPCs can overeat, starve, and dehydrate to death
+Adds missing samples to some XEDRA Evolved and Magiclysm monsters
+Fixes minor seed count inconsistencies
 
 
 ## Performance:
@@ -579,6 +617,7 @@ Optimizing mostly item to reduce load-time allocation by over 20%
 Optimize creature vision checks.
 Optimize hot item function to save ~6.7% of game load time
 Skip MGOAL_Find_Item if the player is busy.
+Avoid wasteful loop in map special road connections
 
 
 ## Infrastructure:
@@ -626,6 +665,7 @@ Migrate names to snippets & add weighted snippets
 Effect enchantments can now apply to monsters
 Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
+Added SMALL_HIDER flag to various monsters.
 
 
 ## Build:
@@ -641,6 +681,7 @@ Enable tests for merge queue
 Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
+Use one precompiled header
 
 
 ## I18N and A11Y:
