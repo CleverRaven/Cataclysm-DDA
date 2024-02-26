@@ -753,7 +753,7 @@
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.  Also, you can see further when you're standing in a forest.",
     "category": [ "ARVORE" ],
-    "enchantments": [ "arvore_forest_detect_enemies" ]
+    "enchantments": [ "arvore_forest_detect_enemies_and_overmap" ]
   },
   {
     "type": "mutation",

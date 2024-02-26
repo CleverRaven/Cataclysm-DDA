@@ -24,6 +24,26 @@
         }
       ]
     },
+    "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "arvore_forest_detect_enemies_and_overmap",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
     "values": [
       { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
       {
