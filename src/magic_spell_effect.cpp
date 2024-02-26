@@ -544,8 +544,8 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         sp.make_sound( target, caster );
         sp.create_field( target, caster );
-        bool dodgeable = ( sp.has_flag( spell_flag::DODGEABLE ) );
-        bool liquid = ( sp.has_flag( spell_flag::LIQUID ) );
+        bool dodgeable = sp.has_flag( spell_flag::DODGEABLE );
+        bool liquid = sp.has_flag( spell_flag::LIQUID );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
             here.add_field( target, fd_fire, 1, 10_minutes );
 
