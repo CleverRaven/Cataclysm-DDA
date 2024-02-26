@@ -572,11 +572,11 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         if( dodgeable ) {
             const float dodge_training = sp.dodge_training( caster );
-            if( cr->dodge_check( spell_accuracy, dodge_training ) ) {
+            if( cr->dodge_check( static_cast<float>( spell_accuracy ), dodge_training ) ) {
                 cr->add_msg_if_player( m_good, _( "You dodge out of the way!" ) );
                 add_msg_if_player_sees( cr->pos(), m_good, _( "%s dodges out of the way!" ),
                                         cr->disp_name( true ) );
-                cr->on_dodge( &caster, spell_accuracy, dodge_training );
+                cr->on_dodge( &caster, static_cast<float>( spell_accuracy ), dodge_training );
                 continue;
             }
         }
