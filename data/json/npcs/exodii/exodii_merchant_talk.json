@@ -525,9 +525,7 @@
       "//~": "Great, I'll put that in the dictionary.  Here's a token of my gratitude for your explanation.",
       "str": "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation."
     },
-    "speaker_effect": {
-      "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" }
-    },
+    "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
     "responses": [
       {
         "text": "Now that we've sorted that out, I have to ask.  You're from a place where this happened before, and you escaped to our world?",
