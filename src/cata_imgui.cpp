@@ -105,12 +105,14 @@ void cataimgui::client::process_input( void *input )
                     case MouseInput::RightButtonReleased:
                         new_mouse_event.bstate |= BUTTON3_RELEASED;
                         break;
+#if defined(BUTTON5_PRESSED) /* If curses version is prepared for a 5-button mouse, enable mousewheel */
                     case MouseInput::ScrollWheelUp:
                         new_mouse_event.bstate |= BUTTON4_PRESSED;
                         break;
                     case MouseInput::ScrollWheelDown:
                         new_mouse_event.bstate |= BUTTON5_PRESSED;
                         break;
+#endif
                     default:
                         break;
                 }
