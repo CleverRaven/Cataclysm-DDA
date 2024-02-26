@@ -1235,7 +1235,7 @@
             "value": "STEALTH_MODIFIER",
             "add": {
               "math": [
-                "min((( 15 + ( u_spell_level('photokinetic_camouflage') * 2 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 60)"
+                "min((( 10 + ( u_spell_level('photokinetic_camouflage') * 3 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 60)"
               ]
             }
           }
