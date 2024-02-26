@@ -382,8 +382,7 @@
         "1": "t_dirt",
         "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
-        "#": "t_rock_wall",
-        "|": "t_solid_fog"
+        "#": "t_rock_wall"
       },
       "furniture": {
         "b": "f_bench",
@@ -394,6 +393,7 @@
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
       },
+      "fields": { "|": { "field": "fd_sylph_solid_fog", "intensity": 1 } },
       "item": { "X": { "item": "mutagen_airkin" } }
     }
   },
