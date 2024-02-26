@@ -842,9 +842,9 @@ Character status value  | Description
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
 `MOVE_COST`             | How much moves you spend to move 1 tile (doesn't affect any another actions); default 100; `"add": 100` would make you spend twice as much moves to move 1 tile
-`MOVECOST_SWIM_MOD`     | How much moves you spend to move 1 tile in water
-`MOVECOST_OBSTACLE_MOD` | How much moves you spend to move 1 tile, if this tile has movecost more than 105 moves 
-`MOVECOST_FLATGROUND_MOD`| How much moves you spend to move 1 tile at flat ground
+`MOVECOST_SWIM_MOD`     | How much moves you spend to move 1 tile in water; not shown in UI
+`MOVECOST_OBSTACLE_MOD` | How much moves you spend to move 1 tile, if this tile has movecost more than 105 moves; not shown in UI
+`MOVECOST_FLATGROUND_MOD`| How much moves you spend to move 1 tile at flat ground; shown in UI
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
 `PAIN`                  | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
@@ -871,7 +871,7 @@ Character status value  | Description
 `THIRST`                | 
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 `NIGHT_VIS`             | How good you can see in the darkness.
-`HEARING_MULT`          | How good you can hear.
+`HEARING_MULT`          | How good you can hear. Remember that increased hearing means you would have a bigger "noise" written in UI; default step noise of 6, multiplied 10 times, would show it as 60
 `BANDAGE_BONUS`         | Affects the `bandages_power` you have when apply the medicine.
 `DISINFECTANT_BONUS`    | Affects the `disinfectant_power` you have when apply the medicine.
 `BLEED_STOP_BONUS`      | Affects the `bleed` level when apply the medicine.
