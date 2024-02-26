@@ -13,7 +13,7 @@
     "longest_side": "100 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "any", "balance": "neutral" },
     "price_postapoc": 0,
-    "flags": [ "BELT_CLIP", "WATER_DISSOLVE", "FRAGILE_MELEE" ],
+    "flags": [ "BELT_CLIP", "WATER_DISSOLVE" ],
     "weapon_category": [ "MEDIUM_SWORDS" ],
     "techniques": [ "WBLOCK_1" ],
     "melee_damage": { "bash": 1, "cut": 0 }
@@ -31,7 +31,7 @@
     "weight": "700 g",
     "longest_side": "180 cm",
     "to_hit": { "grip": "none", "length": "long", "surface": "point", "balance": "neutral" },
-    "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR", "WATER_DISSOLVE", "FRAGILE_MELEE" ],
+    "flags": [ "SPEAR", "REACH_ATTACK", "NPC_THROWN", "SHEATH_SPEAR", "WATER_DISSOLVE" ],
     "weapon_category": [ "POLEARMS", "SPEARS" ],
     "price": 400,
     "qualities": [ [ "COOK", 1 ] ],

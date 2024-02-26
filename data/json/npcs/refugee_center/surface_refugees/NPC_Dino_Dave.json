@@ -26,7 +26,7 @@
         "condition": {
           "and": [
             { "u_has_var": "u_cardboard_gift", "type": "dialogue", "context": "dave", "value": "in_progress" },
-            { "math": [ "time_since(u_timer_dave_creating_gift)", "<", "time('1 d')" ] }
+            { "math": [ "time_since(u_timer_dave_creating_gift)", ">", "time('1 d')" ] }
           ]
         }
       }
@@ -74,7 +74,7 @@
     "responses": [
       { "text": "You seem different.", "topic": "TALK_DINODAVE_Different" },
       {
-        "text": "You know, this place is surprisingly nice, for a cardboart fortress.",
+        "text": "You know, this place is surprisingly nice, for a cardboard fortress.",
         "topic": "TALK_DINODAVE_Cardboard",
         "effect": [
           { "u_add_var": "u_cardboard_gift", "type": "dialogue", "context": "dave", "value": "in_progress" },
