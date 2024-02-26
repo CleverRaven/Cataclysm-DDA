@@ -23,7 +23,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "5 m",
-    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "PRY", "level": 1} ],
+    "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "PRY", "level": 1 } ],
     "components": [
       [ [ "plank_short", 1 ] ],
       [ [ "nuts_bolts", 4 ] ],
