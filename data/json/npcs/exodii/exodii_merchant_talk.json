@@ -508,7 +508,10 @@
       {
         "text": "[INT 7] Sounds like you mean a fusilly is a gun, and a mobbing is a car?",
         "condition": { "u_has_intelligence": 7 },
-        "effect": { "u_add_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" },
+        "effect": [
+          { "u_add_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" },
+          { "u_spawn_item": "rubik_farthing" }
+        ],
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro6"
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -523,10 +526,7 @@
       "str": "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation."
     },
     "speaker_effect": {
-      "effect": [
-        { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" },
-        { "u_spawn_item": "rubik_farthing" }
-      ]
+      "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" }
     },
     "responses": [
       {
