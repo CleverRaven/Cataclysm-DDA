@@ -3901,7 +3901,7 @@ void item::armor_protection_info( std::vector<iteminfo> &info, const iteminfo_qu
                                _( "Protection when active" ) ) );
             info.emplace_back( bp_cat, space + _( "Acid: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
-                               resist( damage_acid, false, sbp, get_base_env_resist_w_filter() ) );
+                               resist( damage_acid, false, sbp ) );
             info.emplace_back( bp_cat, space + _( "Fire: " ), "",
                                iteminfo::no_newline | iteminfo::is_decimal,
                                resist( damage_heat, false, sbp, get_base_env_resist_w_filter() ) );
@@ -8603,8 +8603,7 @@ float item::resist( const damage_type_id &dmg_type, const bool to_self,
     }
 
     // Implicit item damage immunity for damage types listed prior to bash
-    // Acid/fire immunity would be handled in _environmental_resist, but there are more
-    // dmg types that do not affect items such as PURE/COLD etc..
+    // There are dmg types that do not affect items such as PURE/COLD etc..
     if( to_self && !damage_type_can_damage_items( dmg_type ) ) {
         return std::numeric_limits<float>::max();
     }
@@ -8674,7 +8673,7 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
             }
             resist += tmp_add;
         }
-        // Average based portion of materials
+        // Average by portion of materials
         resist /= total;
     }
 
@@ -8682,12 +8681,12 @@ float item::_resist( const damage_type_id &dmg_type, bool to_self, int resist_va
 }
 
 float item::_environmental_resist( const damage_type_id &dmg_type, const bool to_self,
-                                   int base_env_resist,
+                                   int resist_value,
                                    const bool bp_null,
                                    const std::vector<const part_material *> &armor_mats ) const
 {
-    if( to_self ) {
-        // Currently no items are damaged by acid, and fire is handled elsewhere
+    if( to_self && !dmg_type->physical ) {
+        // Fire does damage to items elsewhere. Cold, etc. do not deal damage to items as they're non-physical.
         return std::numeric_limits<float>::max();
     }
 
@@ -8700,49 +8699,77 @@ float item::_environmental_resist( const damage_type_id &dmg_type, const bool to
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
     if( !bp_null ) {
-        // If we have armour portion materials for this body part, use that instead
+        // If we have armour portion materials for this body part, use them.
+        int total_coverage = 0;
         if( !armor_mats.empty() ) {
-            for( const part_material *m : armor_mats ) {
-                float tmp_add = 0.f;
-                if( derived.has_value() && !m->id->has_dedicated_resist( dmg_type ) ) {
-                    tmp_add = m->id->resist( derived->first ) * m->cover * 0.01f * derived->second;
-                } else {
-                    tmp_add = m->id->resist( dmg_type ) * m->cover * 0.01f;
+            // Physical enviro attacks (ie acid) try to damage the surface layers of armor and do not respect
+            // thickness - when it comes to chemicals, a material burns, or it does not. Nonphysical attacks
+            // don't respect thickness, but average the protection of all layers, surface or no. Acid rolls
+            // for portion total (and thus can bypass layers that dont fully cover), other stuff doesn't.
+            const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
+            // Iterate through armor_mats in reverse order (outermost layers go last in the vector)
+            for( auto it = armor_mats.rbegin(); it != armor_mats.rend(); ++it ) {
+                const part_material *m = *it;
+                int internal_roll;
+                resist_value < 0 ? internal_roll = rng( 0, 99 ) : internal_roll = resist_value;
+                if( internal_roll < m->cover || !dmg_type->physical ) {
+                    float tmp_add = 0.f;
+                    if( derived.has_value() && !m->id->has_dedicated_resist( dmg_type ) ) {
+                        if( dmg_type->physical ) {
+                            if( total_coverage + m->cover <= 100 || !dmg_type->physical ) {
+                                total_coverage += m->cover;
+                                tmp_add = m->id->resist( derived->first );
+                            } else { // The physical damage is only reduced by this material layer through gaps where it isn't covered by ones above
+                                tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( derived->first ) *
+                                          derived->second );
+                            }
+                        } else { // The damage is nonphysical
+                            tmp_add = m->id->resist( derived->first ) * m->cover * 0.01f * derived->second;
+                        }
+                    } else {
+                        if( dmg_type->physical ) {
+                            if( total_coverage + m->cover <= 100 ) {
+                                total_coverage += m->cover;
+                                tmp_add = m->id->resist( dmg_type );
+                            } else { // The physical damage is only reduced by this material layer through gaps where it isn't covered by ones above
+                                tmp_add = ( ( 100 - total_coverage ) / 100 ) * ( m->id->resist( dmg_type ) );
+                            }
+                        } else { // The damage is nonphysical
+                            tmp_add = m->id->resist( dmg_type ) * m->cover * 0.01f;
+                        }
+                    }
+                    resist += tmp_add;
                 }
-                resist += tmp_add;
             }
-            const int env = get_env_resist( base_env_resist );
-            if( env < 10 ) {
-                resist *= env / 10.0f;
+            // Acid ( being both enviro and physical, 'cause it's a liquid ) cares about breathability rather than environmental protection.
+            // Gas/etc attacks still care about enviro.
+            if( !dmg_type->physical ) {
+                const int env = get_env_resist( resist_value );
+                if( env < 10 ) {
+                    resist *= env / 10.0f;
+                }
+                // Average by portion of materials
+                resist /= total;
             }
         }
         return resist + mod;
     }
-
+    // If we don't have armor portion materials for this body part, we just look at the item's general values.
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
         const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
-        // Not sure why cut and bash get an armor thickness bonus but acid/fire doesn't,
-        // but such is the way of the code.
+        float tmp_add = 0.f;
         for( const auto &m : mats ) {
-            float tmp_add = 0.f;
             if( derived.has_value() && !m.first->has_dedicated_resist( dmg_type ) ) {
                 tmp_add = m.first->resist( derived->first ) * m.second * derived->second;
             } else {
                 tmp_add = m.first->resist( dmg_type ) * m.second;
             }
-            resist += tmp_add;
         }
-        // Average based portion of materials
+        resist += tmp_add;
+        // Average by portion of materials
         resist /= total;
     }
-
-    const int env = get_env_resist( base_env_resist );
-    if( env < 10 ) {
-        // Low env protection means it doesn't prevent acid seeping in.
-        resist *= env / 10.0f;
-    }
-
     return resist + mod;
 }
 
@@ -8905,8 +8932,9 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
     // before becoming ineffective or being destroyed.
-    const int num_parts_covered = get_covered_body_parts().count();
-    if( !one_in( num_parts_covered ) ) {
+    int num_parts_covered = get_covered_body_parts().count();
+    // Acid spreads out to cover the surface of the item, ignoring this mitigation.
+    if( !one_in( num_parts_covered ) && !du.type->env ) {
         return armor_status::UNDAMAGED;
     }
 
@@ -8930,7 +8958,6 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
             return armor_status::UNDAMAGED;
         }
     }
-
     return mod_damage( itype::damage_scale ) ? armor_status::DESTROYED : armor_status::DAMAGED;
 }
 

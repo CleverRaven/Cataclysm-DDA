@@ -62,7 +62,8 @@ std::string enum_to_string<breathability_rating>( breathability_rating data )
 material_type::material_type() :
     id( material_id::NULL_ID() ),
     _bash_dmg_verb( to_translation( "damages" ) ),
-    _cut_dmg_verb( to_translation( "damages" ) )
+    _cut_dmg_verb( to_translation( "damages" ) ),
+    _acid_dmg_verb( to_translation( "damages" ) )
 {
     _dmg_adj = { to_translation( "lightly damaged" ), to_translation( "damaged" ), to_translation( "very damaged" ), to_translation( "thoroughly damaged" ) };
 }
@@ -120,6 +121,7 @@ void material_type::load( const JsonObject &jsobj, const std::string_view )
 
     mandatory( jsobj, was_loaded, "bash_dmg_verb", _bash_dmg_verb );
     mandatory( jsobj, was_loaded, "cut_dmg_verb", _cut_dmg_verb );
+    mandatory( jsobj, was_loaded, "acid_dmg_verb", _acid_dmg_verb );
 
     mandatory( jsobj, was_loaded, "dmg_adj", _dmg_adj );
 
@@ -225,6 +227,11 @@ bool material_type::has_dedicated_resist( const damage_type_id &dmg_type ) const
 std::string material_type::bash_dmg_verb() const
 {
     return _bash_dmg_verb.translated();
+}
+
+std::string material_type::acid_dmg_verb() const
+{
+    return _acid_dmg_verb.translated();
 }
 
 std::string material_type::cut_dmg_verb() const

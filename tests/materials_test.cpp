@@ -45,9 +45,9 @@ TEST_CASE( "Resistance_vs_material_portions", "[material]" )
     REQUIRE( mostly_plastic.get_base_material().id == material_plastic );
 
     CHECK( mostly_steel.resist( damage_cut ) > mostly_plastic.resist( damage_cut ) );
-    CHECK( mostly_steel.resist( damage_acid ) == mostly_plastic.resist( damage_acid ) );
+    CHECK( mostly_steel.resist( damage_acid ) < mostly_plastic.resist( damage_acid ) );
     CHECK( mostly_steel.resist( damage_bash ) > mostly_plastic.resist( damage_bash ) );
-    CHECK( mostly_steel.resist( damage_heat ) == mostly_plastic.resist( damage_heat ) );
+    CHECK( mostly_steel.resist( damage_heat ) > mostly_plastic.resist( damage_heat ) );
     CHECK( mostly_steel.resist( damage_stab ) > mostly_plastic.resist( damage_stab ) );
     CHECK( mostly_steel.resist( damage_bullet ) > mostly_plastic.resist( damage_bullet ) );
     CHECK( mostly_steel.chip_resistance() > mostly_plastic.chip_resistance() );

@@ -1288,17 +1288,17 @@ class item : public visitable
                        const std::vector<const part_material *> &armor_mats = {},
                        float avg_thickness = 1.0f ) const;
         /**
-         * Handles the special rules regarding environmental type damage such as fire and acid.
-         * Currently does not damage items as damage to items from fire is handled elsewhere, and
-         * acid is currently not intended to cause item damage.
+         * Handles the special rules regarding environmental type damage, such as acid and heat.
+         * Currently only damages items if the damage is both environmental and physical, such as acid.
+         * Fire damages items elsewhere, and cold/bio/electric can't harm items.
          * @param dmg_type The type of incoming damage
          * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
          * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
-         * @param base_env_resist Will override the base environmental
+         * @param resist_value Will override the base environmental
          * resistance (to allow hypothetical calculations for gas masks).
          */
         float _environmental_resist( const damage_type_id &dmg_type, bool to_self = false,
-                                     int base_env_resist = 0,
+                                     int resist_value = 0,
                                      bool bp_null = true,
                                      const std::vector<const part_material *> &armor_mats = {} ) const;
         /*@}*/

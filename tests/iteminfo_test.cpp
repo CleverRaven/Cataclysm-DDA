@@ -1203,7 +1203,7 @@ TEST_CASE( "armor_fit_and_sizing", "[iteminfo][armor][fit]" )
            "--\n"
            "* This clothing <color_c_cyan>can be refitted</color>.\n" );
 
-    // Sided armor is show as sided
+    // Items with "covers" LEG_EITHER, ARM_EITHER, FOOT_EITHER, HAND_EITHER are "sided"
     item briefcase( "test_briefcase" );
     CHECK( item_info_str( briefcase, sided ) ==
            "--\n"
@@ -1230,9 +1230,9 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
 
 TEST_CASE( "armor_stats", "[armor][protection]" )
 {
-    expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f );
-    expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f );
-    expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f );
+    expected_armor_values( item( itype_zentai ), 0.1f, 0.1f, 0.08f, 0.1f, 9.0f, 2.0f );
+    expected_armor_values( item( itype_tshirt ), 0.1f, 0.1f, 0.08f, 0.1f, 3.0f );
+    expected_armor_values( item( itype_dress_shirt ), 0.1f, 0.1f, 0.08f, 0.1f, 3.0f );
 }
 
 // Armor protction is based on materials, thickness, and/or environmental protection rating.
@@ -1240,7 +1240,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 //
 // - "materials" determine the resistance factors (bash, cut, fire etc.)
 // - "material_thickness" multiplies bash, cut, and bullet resistance
-// - "environmental_protection" gives acid and fire resist (N/10 if less than 10)
+// - "environmental_protection" gives fire resist (N/10 if less than 10)
 //
 // See doc/DEVELOPER_FAQ.md "How armor protection is calculated" for more.
 //
@@ -1261,9 +1261,9 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
     SECTION( "no protection from physical, no protection from environmental" ) {
         // Long-sleeved shirt, material:cotton, thickness:0.2
         // 1/1/1 bash/cut/bullet x 1 thickness
-        // 0/0/0 acid/fire/env
+        // 3/0/0 acid/fire/env
         item longshirt( "test_longshirt" );
-        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f );
+        expected_armor_values( longshirt, 0.2f, 0.2f, 0.16f, 0.2f, 3.0f );
         REQUIRE( longshirt.get_covered_body_parts().any() );
 
         // Protection info displayed on two lines
@@ -1273,7 +1273,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "<color_c_white>Coverage</color>: <color_c_light_blue>Normal</color>.\n"
                "  Default:  <color_c_yellow>90</color>\n"
                "<color_c_white>Protection</color>:\n"
-               "  Negligible Protection\n"
+               "  Acid: <color_c_yellow>3.00</color>\n"
              );
     }
 
@@ -1330,7 +1330,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
         item super_tanktop( "test_complex_tanktop" );
         REQUIRE( super_tanktop.get_covered_body_parts().any() );
         // these values are averaged values but test that assumed armor portion is working at all
-        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f );
+        expected_armor_values( super_tanktop, 15.33333f, 15.33333f, 12.26667f, 10.66667f, 1.0f );
 
         // Protection info displayed on two lines
         CHECK( item_info_str( super_tanktop, more_protection ) ==
@@ -1345,6 +1345,7 @@ TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
                "  Cut:  <color_c_red>1.00</color>, <color_c_yellow>12.00</color>, <color_c_green>23.00</color>\n"
                "  Ballistic:  <color_c_red>1.00</color>, <color_c_yellow>8.50</color>, <color_c_green>16.00</color>\n"
                "  Pierce:  <color_c_red>0.80</color>, <color_c_yellow>9.60</color>, <color_c_green>18.40</color>\n"
+               "  Acid:  <color_c_red>3.00</color>, <color_c_yellow>3.00</color>, <color_c_green>14.00</color>\n"
              );
     }
 
@@ -2997,7 +2998,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         "  Cut: <color_c_yellow>16.00</color>\n"
         "  Ballistic: <color_c_yellow>5.60</color>\n"
         "  Pierce: <color_c_yellow>12.80</color>\n"
-        "  Acid: <color_c_yellow>3.60</color>\n"
+        "  Acid: <color_c_yellow>6.00</color>\n"
         "  Fire: <color_c_yellow>1.50</color>\n"
         "  Environmental: <color_c_yellow>6</color>\n";
 
@@ -3015,7 +3016,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         "  Cut: <color_c_yellow>19.20</color>\n"
         "  Ballistic: <color_c_yellow>6.72</color>\n"
         "  Pierce: <color_c_yellow>15.36</color>\n"
-        "  Acid: <color_c_yellow>4.20</color>\n"
+        "  Acid: <color_c_yellow>6.00</color>\n"
         "  Fire: <color_c_yellow>1.75</color>\n"
         "  Environmental: <color_c_yellow>7</color>\n";
 
@@ -3032,7 +3033,7 @@ TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protecti
         "  Cut: <color_c_yellow>24.00</color>\n"
         "  Ballistic: <color_c_yellow>8.40</color>\n"
         "  Pierce: <color_c_yellow>19.20</color>\n"
-        "  Acid: <color_c_yellow>4.80</color>\n"
+        "  Acid: <color_c_yellow>6.00</color>\n"
         "  Fire: <color_c_yellow>2.00</color>\n"
         "  Environmental: <color_c_yellow>8</color>\n";
 

@@ -100,7 +100,7 @@
     "//": "corrosive damage, e.g. acid",
     "id": "acid",
     "type": "damage_type",
-    "physical": false,
+    "physical": true,
     "environmental": true,
     "magic_color": "light_green",
     "name": "acid",
@@ -112,7 +112,7 @@
   {
     "id": "acid",
     "type": "damage_info_order",
-    "info_display": "basic",
+    "info_display": "detailed",
     "verb": "corroding",
     "bionic_info": { "order": 500, "show_type": true },
     "protection_info": { "order": 800, "show_type": true },
