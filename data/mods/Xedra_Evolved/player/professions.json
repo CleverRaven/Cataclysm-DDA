@@ -217,7 +217,7 @@
           { "group": "military_ballistic_vest_light" },
           {
             "item": "rm2000_smg",
-            "ammo-item": "8mm_hvp",
+            "ammo-item": "8mm_jhp",
             "charges": 25,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           },
