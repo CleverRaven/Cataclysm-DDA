@@ -140,7 +140,6 @@
   {
     "id": "fd_pollen_arvore_weaken",
     "type": "field_type",
-    "legacy_enum_id": 51,
     "intensity_levels": [
       {
         "name": "pollen cloud",
