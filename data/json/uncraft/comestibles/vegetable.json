@@ -16,14 +16,6 @@
     "components": [ [ [ "seed_tomato", 1 ] ], [ [ "tomato_cut", 1 ] ] ]
   },
   {
-    "result": "mayapple",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "seed_mayapple", 1 ] ] ]
-  },
-  {
     "result": "zucchini",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
