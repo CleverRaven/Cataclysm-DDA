@@ -222,7 +222,7 @@
         "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
         "#": "t_rock_wall",
-        "|": [ [ "t_tree", 10 ], [ "t_tree_willow", 5 ], [ "t_tree_hawthorn", 1 ] ]
+        "|": "t_region_tree_shade"
       },
       "furniture": {
         "b": "f_bench",
