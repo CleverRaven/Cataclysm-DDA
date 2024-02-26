@@ -1230,8 +1230,13 @@
         "search_data": [ { "id": "item_druid_disinfectant" } ],
         "true_eocs": [ { "id": "EOC_DRUID_DISINFECTANT_ITEM_ACTIVATE", "effect": { "u_activate": "heal" } } ]
       },
-      { "u_remove_item_with": "item_druid_disinfectant" }
+      { "queue_eocs": "EOC_DRUID_DISINFECTANT_REMOVE", "time_in_future": [ "1 seconds", "1 seconds" ] }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_DRUID_DISINFECTANT_REMOVE",
+    "effect": [ { "u_remove_item_with": "item_druid_disinfectant" } ]
   },
   {
     "id": "druid_water_walking",
