@@ -1063,7 +1063,10 @@
         },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_mutate_towards": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "--" ] } ]
+        "effect": [
+          { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
+          { "math": [ "u_num_perks", "--" ] }
+        ]
       },
       {
         "text": "Go Back.",
@@ -1089,7 +1092,10 @@
         },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
-        "effect": [ { "u_mutate_towards": { "context_val": "trait_id" } }, { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] } ]
+        "effect": [
+          { "u_mutate_towards": { "context_val": "trait_id" }, "category": "ANY", "use_vitamins": false },
+          { "math": [ "u_num_perks", "-=", "u_playstyle_cost + 1" ] }
+        ]
       },
       {
         "text": "Go Back.",
