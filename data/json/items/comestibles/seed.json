@@ -379,25 +379,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "garlic_clove",
-    "name": { "str": "garlic clove" },
-    "weight": "3 g",
-    "color": "white",
-    "spoils_in": "360 days",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -3,
-    "calories": 4,
-    "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
-    "price": "8 cent",
-    "material": [ "garlic" ],
-    "volume": "25 ml",
-    "fun": -3,
-    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
-    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" }
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "seed_carrot",
     "copy-from": "seed",
     "price": 50,
@@ -894,6 +875,16 @@
     "category": "seeds",
     "seed_data": { "plant_name": "oats", "fruit": "oat_stalks", "seeds": false, "grow": "65 days" },
     "milling": { "into": "null", "recipe": "" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_garlic_clove",
+    "copy-from": "garlic",
+    "name": { "str_sp": "seed garlic" },
+    "category": "seeds",
+    "description": "Several cloves of garlic, ready for planting.",
+    "seed_data": { "plant_name": "garlic", "fruit": "garlic", "byproducts": [ "withered" ], "grow": "65 days" },
+    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] }
   },
   {
     "id": "seed_wheat",

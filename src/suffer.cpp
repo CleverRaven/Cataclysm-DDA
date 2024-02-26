@@ -1958,6 +1958,9 @@ void Character::mend( int rate_multiplier )
 
     healing_factor *= mutation_value( "mending_modifier" );
 
+    healing_factor = enchantment_cache->modify_value( enchant_vals::mod::MENDING_MODIFIER,
+                     healing_factor );
+
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
         // The section below assumes positive healing rate
