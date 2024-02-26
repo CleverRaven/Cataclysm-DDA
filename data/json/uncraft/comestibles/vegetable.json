@@ -91,5 +91,21 @@
     "activity_level": "NO_EXERCISE",
     "time": "30 s",
     "components": [ [ [ "cattlefodder", 36 ] ] ]
+  },
+  {
+    "result": "lettuce_head",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "lettuce", 7 ] ] ]
+  },
+  {
+    "result": "cabbage_head",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "cabbage", 13 ] ] ]
   }
 ]
