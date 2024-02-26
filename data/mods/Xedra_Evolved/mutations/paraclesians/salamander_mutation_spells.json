@@ -51,7 +51,7 @@
         }
       ]
     },
-    "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.15 } ]
+    "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
   },
   {
     "id": "salamander_aoe_explosion",

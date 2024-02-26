@@ -875,7 +875,7 @@ Character status value  | Description
 `OBTAIN_COST_MULTIPLIER`    | same as `obtain_cost_multiplier`, modifier for pulling an item from a container and storing it back, as a handling penalty. `"add": 100` add 100 additional moves to item wield (1 second)
 `STOMACH_SIZE_MULTIPLIER`   | Same as mutation `stomach_size_multiplier` field, changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
 `CASTING_TIME_MULTIPLIER`   | Same as mutation `casting_time_multiplier` field, changes your casting speed. Since it's a percent, using `multiply` is recommended. `"multiply": 2"` triples the casting speed 
-`CRAFTING_SPEED_MULTIPLIER` | Same as mutation `crafting_speed_multiplier` field, changes your crafting speed. Since it's a percent, using `multiply` is recommended.
+`CRAFTING_SPEED_MULTIPLIER` | Same as mutation `crafting_speed_multiplier` field, changes your crafting speed. Since it's a percent, using `multiply` is recommended.  Positive values decrease crafting time, negative values increase it.
 `BIONIC_MANA_PENALTY`       | same as mutation `bionic_mana_penalty` field, changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
 
 
