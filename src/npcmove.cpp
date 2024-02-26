@@ -1638,23 +1638,61 @@ void npc::execute_action( npc_action action )
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
-            int best_sleepy = sleep_spot( best_spot );
-            for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
-                if( !could_move_onto( p ) || !g->is_empty( p ) ) {
-                    continue;
-                }
+            int best_comfort = sleep_spot( best_spot );
+            int is_in_camp = within_boundaries_of_camp() ? 1 : 0;
+            switch( is_in_camp ) {
+                case 1:
+                    if( is_friendly( player_character ) ) {
+                        zone_manager &zone_manager = zone_manager::get_manager();
+                        faction *player_faction = player_character.get_faction();
+                        zone_type_id zone_type( "SLEEP_ZONE" );
+                        std::vector<const zone_data *> zone_info = zone_manager.get_near_zones( zone_type,
+                                get_location(),
+                                120,
+                                player_faction->id );
 
-                // TODO: Blankets when it's cold
-                const int sleepy = sleep_spot( p );
-                if( sleepy > best_sleepy ) {
-                    best_sleepy = sleepy;
-                    best_spot = p;
-                }
+                        for( const zone_data *zone : zone_info ) {
+                            for( const tripoint_abs_ms &p : tripoint_range<tripoint_abs_ms>(
+                                     zone->get_start_point(), zone->get_end_point() ) ) {
+                                tripoint_bub_ms local_pos = here.bub_from_abs( p );
+
+                                if( g->is_empty( local_pos ) && could_move_onto( local_pos ) ) {
+                                    int sleepy = sleep_spot( local_pos );
+                                    if( sleepy > best_comfort ) {
+                                        best_comfort = sleepy;
+                                        best_spot = local_pos;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if( best_comfort > 0 ) {
+                        break;
+                    }
+                /* Fall-through if no rest spots found */
+                //leave in only the contents of false case to restore original logic
+                case 0:
+                    for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
+                        if( !could_move_onto( p ) || !g->is_empty( p ) ) {
+                            continue;
+                        }
+
+                        // TODO: Blankets when it's cold
+                        const int sleepy = sleep_spot( p );
+                        if( sleepy > best_comfort ) {
+                            best_comfort = sleepy;
+                            best_spot = p;
+                        }
+                    }
+                    break;
+                default:
+                    best_spot = pos_bub();
+                    break;
             }
+            update_path( best_spot );
             if( is_walking_with() ) {
                 complain_about( "napping", 30_minutes, chat_snippets().snip_warn_sleep.translated() );
             }
-            update_path( best_spot );
             // TODO: Handle empty path better
             if( best_spot == pos_bub() || path.empty() ) {
                 move_pause();

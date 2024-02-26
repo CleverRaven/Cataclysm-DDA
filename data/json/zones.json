@@ -145,5 +145,12 @@
     "name": "Vehicle Repair Zone",
     "display_field": "fd_vehicle_repair_zone",
     "description": "Any vehicles in this area are marked for repair work."
+  },
+  {
+    "id": "SLEEP_ZONE",
+    "type": "LOOT_ZONE",
+    "name": "NPC Sleep Zone",
+    "display_field": "fd_npc_sleep_zone",
+    "description": "Allied NPCs will prefer this area for sleeping."
   }
 ]
