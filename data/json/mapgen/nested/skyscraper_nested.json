@@ -176,8 +176,8 @@
         "U": "f_trashcan"
       },
       "set": [
-        { "square": "terrain", "id": "t_floor", "x": 4, "y": 16, "x2": 19, "y2": 20 },
-        { "square": "terrain", "id": "t_floor", "x": 12, "y": 21, "x2": 19, "y2": 23 }
+        { "square": "terrain", "id": "t_linoleum_white", "x": 4, "y": 16, "x2": 19, "y2": 20 },
+        { "square": "terrain", "id": "t_linoleum_white", "x": 12, "y": 21, "x2": 19, "y2": 23 }
       ],
       "items": {
         "C": { "item": "behindcounter", "chance": 40 },
