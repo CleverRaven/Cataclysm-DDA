@@ -1227,6 +1227,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+    spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
     return true;
 }
 
