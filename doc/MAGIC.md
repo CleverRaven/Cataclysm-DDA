@@ -828,7 +828,7 @@ Character status value  | Description
 `FATIGUE`               | 
 `FOOTSTEP_NOISE`        | 
 `FORCEFIELD`            | Chance your character reduces incoming damage to 0. From 0.0 (no chance), to 1.0 (100% chance to avoid attacks).
-`HUNGER`                | 
+`HUNGER`                | Affects how fast you hunger level changes. Do not affect actual calorie burn, `METABOLISM` field respond for this
 `KNOCKBACK_RESIST`      | The amount knockback effects you, 0 is the regular amount, -100 would be double effect, 100 would be no effect.
 `KNOCKDOWN_RESIST`      | The amount knockdown effects you, currently *only* having 100 or greater knockdown_resist makes you immune to knockdown.
 `LEARNING_FOCUS`        | Amount of bonus focus you have for learning purposes.
@@ -838,14 +838,19 @@ Character status value  | Description
 `MAX_STAMINA`           | 
 `MELEE_DAMAGE`          | 
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
-`METABOLISM`            | 
+`METABOLISM`            | Affects your bmr
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
-`MOVE_COST`             | 
+`MOVE_COST`             | How much moves you spend to move 1 tile (doesn't affect any another actions); default 100; `"add": 100` would make you spend twice as much moves to move 1 tile
+`MOVECOST_SWIM_MOD`     | How much moves you spend to move 1 tile in water; not shown in UI
+`MOVECOST_OBSTACLE_MOD` | How much moves you spend to move 1 tile, if this tile has movecost more than 105 moves; not shown in UI
+`MOVECOST_FLATGROUND_MOD`| How much moves you spend to move 1 tile at flat ground; shown in UI
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
 `PAIN`                  | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
-`SHOUT_NOISE`           | 
+`SHOUT_NOISE`           | Formula for shout noise level is `noise = base + (str_cur * shout_multiplier)`; `SHOUT_NOISE` modifies `noise`, after all calculations are done
+`SHOUT_NOISE_BASE`      | `SHOUT_NOISE_BASE` modifies `base`
+`SHOUT_NOISE_STR_MULT`  | `SHOUT_NOISE_STR_MULT` modifies the `shout_multiplier`, that affect how much your strength affects the noise level
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
 `SIGHT_RANGE_FAE`       | How many tiles away creatures with the FAE_CREATURE monster flag or FAERIECREATURE trait are visible from.
 `SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
@@ -865,6 +870,13 @@ Character status value  | Description
 `REGEN_STAMINA`         | 
 `THIRST`                | 
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
+`NIGHT_VIS`             | How good you can see in the darkness.
+`HEARING_MULT`          | How good you can hear. Remember that increased hearing means you would have a bigger "noise" written in UI; default step noise of 6, multiplied 10 times, would show it as 60
+`BANDAGE_BONUS`         | Affects the `bandages_power` you have when apply the medicine.
+`DISINFECTANT_BONUS`    | Affects the `disinfectant_power` you have when apply the medicine.
+`BLEED_STOP_BONUS`      | Affects the `bleed` level when apply the medicine.
+`UGLINESS`              | Affects your `ugliness` stat, that respond for NPCs opinion about you.
+`VOMIT_MUL`             | Affects your chances to vomit.
 `OVERMAP_SIGHT`         | Increases the amount of overmap tiles you can see around.
 `STEALTH_MODIFIER`      | Same as mutation `stealth_modifier` value, amount to be subtracted from player's visibility range, capped to 60.  Negative values work, but are not very effective due to the way vision ranges are capped.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
@@ -872,7 +884,7 @@ Character status value  | Description
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `READING_SPEED_MULTIPLIER`  | Changes how fast you can read books; Lesser value means faster book reading, with cap of 1 second.
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
-`OBTAIN_COST_MULTIPLIER`    | same as `obtain_cost_multiplier`, modifier for pulling an item from a container and storing it back, as a handling penalty. `"add": 100` add 100 additional moves to item wield (1 second)
+`OBTAIN_COST_MULTIPLIER`    | Same as `obtain_cost_multiplier`, modifier for pulling an item from a container and storing it back, as a handling penalty. `"add": 100` add 100 additional moves to item wield (1 second)
 `STOMACH_SIZE_MULTIPLIER`   | Same as mutation `stomach_size_multiplier` field, changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
 `CASTING_TIME_MULTIPLIER`   | Same as mutation `casting_time_multiplier` field, changes your casting speed. Since it's a percent, using `multiply` is recommended. `"multiply": 2"` triples the casting speed 
 `CRAFTING_SPEED_MULTIPLIER` | Same as mutation `crafting_speed_multiplier` field, changes your crafting speed. Since it's a percent, using `multiply` is recommended.  Positive values decrease crafting time, negative values increase it.

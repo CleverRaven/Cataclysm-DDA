@@ -818,7 +818,8 @@
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "mutation_conflicts": [ "BATEARS" ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
-    "active_flags": [ "SUPER_HEARING" ],
+    "active_flags": [ "SAFECRACK_NO_TOOL" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "HEARING_MULT", "multiply": 2.5 } ] } ],
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true

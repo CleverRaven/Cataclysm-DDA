@@ -1477,6 +1477,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         }
         u_ugly += bp->ugliness_mandatory;
         u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
     }
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;

@@ -219,7 +219,6 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
@@ -266,7 +265,6 @@ static const efftype_id effect_subaquatic_sonar( "subaquatic_sonar" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_transition_contacts( "transition_contacts" );
-static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_winded( "winded" );
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -329,7 +327,6 @@ static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WALK_UNDERWATER( "WALK_UNDERWATER" );
@@ -404,7 +401,6 @@ static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_AQUEOUS( "AQUEOUS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
-static const trait_id trait_BOOMING_VOICE( "BOOMING_VOICE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
@@ -1435,8 +1431,10 @@ int Character::swim_speed() const
                             ( usable.test( body_part_hand_r ) ? 0.5f : 0.0f );
 
     // base swim speed.
-    ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
-          ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
+    float swim_speed_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_SWIM_MOD,
+                            mutation_value( "movecost_swim_modifier" ) );
+    ret = ( 440 * swim_speed_mult ) + weight_carried() /
+          ( 60_gram / swim_speed_mult ) - 50 * get_skill_level( skill_swimming );
     /** @EFFECT_STR increases swim speed bonus from PAWS */
     if( has_trait( trait_PAWS ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
@@ -2652,6 +2650,8 @@ float Character::get_vision_threshold( float light_level ) const
     if( vision_mode_cache[BIRD_EYE] ) {
         range++;
     }
+
+    range = enchantment_cache->modify_value( enchant_vals::mod::NIGHT_VIS, range );
 
     // Clamp range to 1+, so that we can always see where we are
     range = std::max( 1.0f, range * get_limb_score( limb_score_night_vis ) );
@@ -7538,17 +7538,9 @@ int Character::get_shout_volume() const
     int base = 10;
     int shout_multiplier = 2;
 
-    // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT3 ) ) {
-        shout_multiplier = 4;
-        base = 20;
-    } else if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        shout_multiplier = 3;
-    }
-    if( has_trait( trait_BOOMING_VOICE ) ) {
-        base += 10;
-    }
+    base = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE_BASE, base );
+    shout_multiplier = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE_STR_MULT,
+                       shout_multiplier );
 
     // You can't shout without your face
     if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_foodperson_mask ) ||
@@ -10421,8 +10413,9 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     }
 
     if( movecost > 105 ) {
-        run_cost_effect_mul( mutation_value( "movecost_obstacle_modifier" ),
-                             _( "Obstacle Muts" ) );
+        float obstacle_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_OBSTACLE_MOD,
+                              mutation_value( "movecost_obstacle_modifier" ) );
+        run_cost_effect_mul( obstacle_mult, _( "Obstacle Muts." ) );
 
         if( has_proficiency( proficiency_prof_parkour ) ) {
             run_cost_effect_mul( 0.5, _( "Parkour" ) );
@@ -10452,8 +10445,9 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     run_cost_effect_mul( mutation_value( "movecost_modifier" ), _( "Mutations" ) );
 
     if( flatground ) {
-        run_cost_effect_mul( mutation_value( "movecost_flatground_modifier" ),
-                             _( "Flat Ground Mut." ) );
+        float flatground_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_FLATGROUND_MOD,
+                                mutation_value( "movecost_flatground_modifier" ) );
+        run_cost_effect_mul( flatground_mult, _( "Flat Ground Mut." ) );
     }
 
     if( has_trait( trait_PADDED_FEET ) && is_barefoot() ) {
@@ -10873,26 +10867,14 @@ float Character::hearing_ability() const
 {
     float volume_multiplier = 1.0f;
 
-    // Mutation/Bionic volume modifiers
-    if( has_flag( json_flag_SUPER_HEARING ) ) {
-        volume_multiplier *= 3.5f;
-    }
-    if( has_trait( trait_PER_SLIME ) ) {
-        // Random hearing :-/
-        // (when it's working at all, see player.cpp)
-        // changed from 0.5 to fix Mac compiling error
-        volume_multiplier *= rng( 1, 2 );
-    }
-
     volume_multiplier *= Character::mutation_value( "hearing_modifier" );
+
+    volume_multiplier = enchantment_cache->modify_value( enchant_vals::mod::HEARING_MULT,
+                        volume_multiplier );
 
     if( has_effect( effect_deaf ) ) {
         // Scale linearly up to 30 minutes
         volume_multiplier *= ( 30_minutes - get_effect_dur( effect_deaf ) ) / 30_minutes;
-    }
-
-    if( has_effect( effect_earphones ) ) {
-        volume_multiplier *= 0.25f;
     }
 
     return volume_multiplier;
@@ -11448,10 +11430,11 @@ void Character::stagger()
 
 double Character::vomit_mod()
 {
-    double mod = mutation_value( "vomit_multiplier" );
-    if( has_effect( effect_weed_high ) ) {
-        mod *= .1;
-    }
+    double mod = 1;
+    mod *= mutation_value( "vomit_multiplier" );
+
+    mod = enchantment_cache->modify_value( enchant_vals::mod::VOMIT_MUL, mod );
+
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
     if( stomach.contains() != 0_ml && has_effect( effect_nausea ) ) {

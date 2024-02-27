@@ -49,7 +49,7 @@
     "max_duration": "30 hours",
     "max_intensity": 1,
     "base_mods": { "per_mod": [ 4 ] },
-    "flags": [ "SEESLEEP", "SUPER_HEARING", "IMMUNE_HEARING_DAMAGE" ],
+    "flags": [ "SEESLEEP", "SAFECRACK_NO_TOOL", "IMMUNE_HEARING_DAMAGE" ],
     "enchantments": [ "enchant_clair_potion" ]
   },
   {
