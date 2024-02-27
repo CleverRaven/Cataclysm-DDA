@@ -170,7 +170,7 @@
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
     "passive_mods": { "str_mod": 2, "dex_mod": -1 },
-    "movecost_modifier": 1.05
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 } ] } ]
   },
   {
     "type": "mutation",

@@ -197,7 +197,6 @@
       "base_damage": { "damage_type": "cut", "amount": 20 },
       "strength_damage": { "damage_type": "cut", "amount": 0.25 }
     },
-    "movecost_modifier": 1.05,
     "enchantments": [ "dragon_leg_strength" ]
   },
   {

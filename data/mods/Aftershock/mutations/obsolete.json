@@ -322,8 +322,7 @@
     "valid": false,
     "types": [ "RUNNING" ],
     "changes_to": [ "DELIBERATE2" ],
-    "cancels": [ "FLEET" ],
-    "movecost_modifier": 1.1
+    "cancels": [ "FLEET" ]
   },
   {
     "type": "mutation",
@@ -334,7 +333,6 @@
     "valid": false,
     "types": [ "RUNNING" ],
     "prereqs": [ "DELIBERATE1" ],
-    "cancels": [ "QUICK" ],
-    "movecost_modifier": 1.25
+    "cancels": [ "QUICK" ]
   }
 ]

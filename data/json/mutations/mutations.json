@@ -839,7 +839,7 @@
     "prereqs": [ "DENSE_BONES" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
-    "movecost_modifier": 1.02,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.02 } ] } ],
     "movecost_swim_modifier": 1.3,
     "hp_adjustment": 14
   },
@@ -852,7 +852,7 @@
     "types": [ "BUILD" ],
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
-    "movecost_modifier": 1.04,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.04 } ] } ],
     "movecost_swim_modifier": 1.7,
     "hp_adjustment": 21
   },
@@ -1110,7 +1110,7 @@
     "kcal": true,
     "thirst": true,
     "dodge_modifier": 2,
-    "movecost_modifier": 0.9
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -2785,10 +2785,14 @@
     "types": [ "BONES" ],
     "category": [ "MOUSE", "RABBIT", "BIRD", "SLIME", "ELFA", "SPIDER", "CHIROPTERAN" ],
     "changes_to": [ "HOLLOW_BONES" ],
-    "movecost_modifier": 0.9,
     "attackcost_modifier": 0.9,
     "weight_capacity_modifier": 0.8,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EXTRA_BASH", "multiply": 0.4 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "EXTRA_BASH", "multiply": 0.4 }, { "value": "MOVE_COST", "multiply": -0.1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4308,7 +4312,7 @@
     "types": [ "LEGS" ],
     "leads_to": [ "LEAPING_LEGS", "FELINE_LEAP" ],
     "prereqs": [ "PADDED_FEET" ],
-    "movecost_modifier": 0.88,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.12 } ] } ],
     "category": [ "BATRACHIAN", "RABBIT", "FELINE", "LUPINE", "SPIDER" ]
   },
   {
@@ -4324,7 +4328,7 @@
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
-    "movecost_modifier": 1.38,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.38 } ] } ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "//": "Uses bespoke stuff here rather than the quadruped enchantments as bat-crawling gives different buffs.",
     "triggers": [
@@ -5437,7 +5441,6 @@
     "description": "You're fluttering your wings as fast as you can.  This doesn't generate enough lift to move you, but it does increase your movement speed.  If you're not burdened, you can fall short distances without harm.",
     "copy-from": "WINGS_INSECT",
     "valid": false,
-    "movecost_modifier": 0.75,
     "flags": [ "WINGS_1", "MUSCLE_VEH_BOOST" ],
     "enchantments": [ "ench_wings_insect_active" ],
     "transform": { "target": "WINGS_INSECT", "msg_transform": "Your wings go still.", "active": false, "moves": 0 }
@@ -5784,7 +5787,7 @@
     "category": [ "URSINE" ],
     "movecost_swim_modifier": 0.95,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ],
-    "movecost_modifier": 1.05
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 } ] } ]
   },
   {
     "type": "mutation",
@@ -6340,8 +6343,12 @@
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
     "stealth_modifier": 40,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15 } ] } ],
-    "movecost_modifier": 0.75
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "SPEED", "multiply": 0.15 }, { "value": "MOVE_COST", "multiply": -0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6539,7 +6546,7 @@
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
     "dodge_modifier": -4,
-    "movecost_modifier": 0.9,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ],
     "flags": [ "WINGS_1" ]
   },
   {
@@ -6850,10 +6857,9 @@
     "types": [ "BONES" ],
     "prereqs": [ "LIGHT_BONES" ],
     "category": [ "BIRD", "SLIME", "ELFA" ],
-    "movecost_modifier": 0.8,
     "attackcost_modifier": 0.8,
     "weight_capacity_modifier": 0.6,
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "EXTRA_BASH", "multiply": 0.8 } ] } ]
+    "enchantments": [ { "values": [ { "value": "EXTRA_BASH", "multiply": 0.8 }, { "value": "MOVE_COST", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6864,7 +6870,7 @@
     "description": "Your bones are particularly dense and durable.  Your tougher frame grants 5% more HP and 15% more carry capacity plus bashing attacks injure you less, but your higher weight makes attacking and moving 5% slower.  Also, dodging and swimming are harder.",
     "types": [ "BONES" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "CRUSTACEAN" ],
-    "movecost_modifier": 1.05,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 } ] } ],
     "movecost_swim_modifier": 1.2,
     "attackcost_modifier": 1.05,
     "weight_capacity_modifier": 1.15,
@@ -7481,7 +7487,7 @@
         "bash": 4
       }
     ],
-    "movecost_modifier": 1.25
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -7562,7 +7568,7 @@
     "types": [ "RUNNING" ],
     "changes_to": [ "PONDEROUS2" ],
     "category": [ "URSINE", "CATTLE", "PLANT" ],
-    "movecost_modifier": 1.1
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -7574,7 +7580,7 @@
     "prereqs": [ "PONDEROUS1" ],
     "changes_to": [ "PONDEROUS3" ],
     "category": [ "CATTLE", "PLANT" ],
-    "movecost_modifier": 1.2
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -7585,7 +7591,7 @@
     "types": [ "RUNNING" ],
     "prereqs": [ "PONDEROUS2" ],
     "category": [ "PLANT" ],
-    "movecost_modifier": 1.3
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -8193,7 +8199,7 @@
       { "part": "foot_r", "neutral": 6 }
     ],
     "restricts_gear": [ "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
-    "movecost_modifier": 1.2,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.2 } ] } ],
     "noise_modifier": 0.0,
     "flags": [ "TOUGH_FEET" ]
   },
