@@ -869,19 +869,19 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), point( 0, 7 ), c_white, true );
-        const int legend_lines = 1 + fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
         const auto item_color = []( const int index_to_draw, int index_highlighted ) {
             return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
         };
-        right_print( w_help, legend_lines, 2,
+        right_print( w_help, 1, 2,
                      item_color( static_cast<int>( kb_btn_idx::remove ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
                                     fallback_keys.at( fallback_action::remove ) ) );
-        right_print( w_help, legend_lines, 26,
+        right_print( w_help, 2, 2,
                      item_color( static_cast<int>( kb_btn_idx::add_local ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
                                     fallback_keys.at( fallback_action::add_local ) ) );
-        right_print( w_help, legend_lines, 54,
+        right_print( w_help, 3, 2,
                      item_color( static_cast<int>( kb_btn_idx::add_global ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
                                     fallback_keys.at( fallback_action::add_global ) ) );
@@ -970,14 +970,12 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
                 if( window_contains_point_relative( w_help, p ) ) {
                     if( p.y >= 7 && p.y < TERMY && status != kb_menu_status::show ) {
                         highlight_row_index = p.y - 7;
-                    } else if( p.y == 4 ) {
-                        if( p.x >= 17 && p.x <= 43 ) {
-                            highlighted_btn_index = kb_btn_idx::add_global;
-                        } else if( p.x >= 46 && p.x < 72 ) {
-                            highlighted_btn_index = kb_btn_idx::add_local;
-                        } else if( p.x >= 73 && p.x < 96 ) {
-                            highlighted_btn_index = kb_btn_idx::remove;
-                        }
+                    } else if( p.y == 1 ) {
+                        highlighted_btn_index = kb_btn_idx::remove;
+                    } else if( p.y == 2 ) {
+                        highlighted_btn_index = kb_btn_idx::add_local;
+                    } else if( p.y == 3 ) {
+                        highlighted_btn_index = kb_btn_idx::add_global;
                     }
                 }
             }
