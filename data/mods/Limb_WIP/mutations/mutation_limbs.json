@@ -480,6 +480,7 @@
     "sub_parts": [ "eyes_bulging_l", "eyes_bulging_r" ],
     "limb_type": "sensor",
     "limb_scores": [ [ "vision", 1.0 ], [ "night_vis", 1.0 ], [ "reaction", 0.7 ] ],
+    "similar_bodyparts": [  ],
     "hit_size": 0.9,
     "hit_difficulty": 1.25
   },
