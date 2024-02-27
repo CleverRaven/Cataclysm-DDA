@@ -26,7 +26,7 @@ rm -rf $DATA_DIR/mods/MA
 echo "Removing Ultica_iso tileset..."
 rm -rf $BUNDLE_DIR/gfx/Ultica_iso
 
-$EMSDK/upstream/emscripten/tools/file_packager cataclysm-tiles.data --js-output=cataclysm-tiles.data.js --no-node --preload "$BUNDLE_DIR""@/"
+$EMSDK/upstream/emscripten/tools/file_packager cataclysm-tiles.data --js-output=cataclysm-tiles.data.js --no-node --preload "$BUNDLE_DIR""@/" --lz4
 
 mkdir -p build/
 cp \
