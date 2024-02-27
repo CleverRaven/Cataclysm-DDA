@@ -1,0 +1,44 @@
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOLUM1_active",
+    "//": "Failsafe to prevent old saves with this mutation active from losing it when https://github.com/CleverRaven/Cataclysm-DDA/pull/71921 kicks in.",
+    "trait": "BIOLUM1"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "BIOLUM2_active",
+    "//": "Failsafe to prevent old saves with this mutation active from losing it when https://github.com/CleverRaven/Cataclysm-DDA/pull/71921 kicks in.",
+    "trait": "BIOLUM2"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "CLAWS_RETRACT_active",
+    "//": "Failsafe to prevent old saves with this mutation active from losing it when https://github.com/CleverRaven/Cataclysm-DDA/pull/71921 kicks in.",
+    "trait": "CLAWS_RETRACT"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "WINGS_INSECT_active",
+    "//": "Failsafe to prevent old saves with this mutation active from losing it when https://github.com/CleverRaven/Cataclysm-DDA/pull/71921 kicks in.",
+    "trait": "WINGS_INSECT"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "EAGLEEYED_DAY",
+    "//": "Failsafe to prevent old saves with this mutation active from losing it when https://github.com/CleverRaven/Cataclysm-DDA/pull/71921 kicks in.",
+    "trait": "EAGLEEYED"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "EAGLEEYED_NIGHT",
+    "//": "Failsafe to prevent old saves with this mutation active from losing it when https://github.com/CleverRaven/Cataclysm-DDA/pull/71921 kicks in.",
+    "trait": "EAGLEEYED"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "HYDE",
+    "//": "Failsafe to prevent old saves with this mutation active from losing it when https://github.com/CleverRaven/Cataclysm-DDA/pull/71921 kicks in.",
+    "trait": "JEKYLL"
+  }
+]
