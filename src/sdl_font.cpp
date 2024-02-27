@@ -22,9 +22,9 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-// bitmap font size test
-// return face index that has this size or below
-static int test_face_size( const std::string &f, int size, int faceIndex )
+    // bitmap font size test
+    // return face index that has this size or below
+    static int test_face_size( const std::string &f, int size, int faceIndex )
 {
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
