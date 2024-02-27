@@ -1667,6 +1667,7 @@ void npc::execute_action( npc_action action )
                         }
                     }
                     if( best_comfort > 0 ) {
+                    /* intentional fallthrough */
                         break;
                     }
                 /* Fall-through if no rest spots found */
