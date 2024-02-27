@@ -1648,7 +1648,7 @@ void npc::execute_action( npc_action action )
                         zone_type_id zone_type( "SLEEP_ZONE" );
                         std::vector<const zone_data *> zone_info = zone_manager.get_near_zones( zone_type,
                                 get_location(),
-                                120,
+                                ACTIVITY_SEARCH_DISTANCE,
                                 player_faction->id );
 
                         for( const zone_data *zone : zone_info ) {
