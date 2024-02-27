@@ -1667,9 +1667,9 @@ void npc::execute_action( npc_action action )
                         }
                     }
                     if( best_comfort > 0 ) {
-                    /* intentional fallthrough */
                         break;
                     }
+                    [[fallthrough]];
                 /* Fall-through if no rest spots found */
                 //leave in only the contents of false case to restore original logic
                 case 0:
