@@ -86,6 +86,8 @@ jobs:
 
         ./build-scripts/build-emscripten.sh
 
+        ls -R $CCACHE_DEBUGDIR
+
     - name: Upload ccache debug
       uses: actions/upload-artifact@v4
       with:
