@@ -156,8 +156,8 @@
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
-        "condition": { "and": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
-        "effect": [ { "math": [ "u_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+        "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
+        "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
         "//": "Governs the special CBM stock availability and restock, also adds a little extra faction rep.",
@@ -274,8 +274,8 @@
       { "//~": "That was a good exchange", "str": "For a card an' a wink, eh?" }
     ],
     "speaker_effect": {
-      "condition": { "and": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
-      "effect": [ { "math": [ "u_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+      "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
+      "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
