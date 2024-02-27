@@ -1,9 +1,15 @@
-#include "cata_catch.h"
+#include <cstddef>
+#include <iosfwd>
+#include <utility>
 
 #include "bodypart.h"
+#include "cata_catch.h"
+#include "character.h"
 #include "item.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "npc.h"
+#include "player_helpers.h"
 #include "calendar.h"
 #include "type_id.h"
 
@@ -157,7 +163,7 @@ TEST_CASE( "player_morale_bad_temper", "[player_morale]" )
     }
 }
 
-TEST_CASE( "player_morale_killed_innocent", "[player_morale]" )
+TEST_CASE( "player_morale_killed_innocent_affected_by_prozac", "[player_morale]" )
 {
     player_morale m;
 
@@ -180,6 +186,29 @@ TEST_CASE( "player_morale_killed_innocent", "[player_morale]" )
             }
         }
     }
+}
+
+TEST_CASE( "player_morale_murdered_innocent", "[player_morale]" )
+{
+    clear_avatar();
+    Character &player = get_player_character();
+    player_morale &m = *player.morale;
+    tripoint next_to = player.adjacent_tile();
+    standard_npc innocent( "Lapin", next_to, {}, 0, 8, 8, 8, 7 );
+    // Innocent as could be.
+    innocent.set_fac_id( "lapin" );
+    innocent.setpos( next_to );
+    innocent.set_all_parts_hp_cur( 1 );
+    CHECK( m.get_total_positive_value() == 0 );
+    CHECK( m.get_total_negative_value() == 0 );
+    CHECK( innocent.hit_by_player == false );
+    while( !innocent.is_dead_state() ) {
+        player.mod_moves( 1000 );
+        player.melee_attack( innocent, true );
+    }
+    // Death is just a data state, we can still do useful checks even after they're dead.
+    CHECK( innocent.hit_by_player == true );
+    REQUIRE( m.get_total_negative_value() == 90 );
 }
 
 TEST_CASE( "player_morale_fancy_clothes", "[player_morale]" )
