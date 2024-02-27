@@ -800,15 +800,18 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
-    // Add similar bodyparts
     for( armor_portion_data &data : obj.armor->sub_data ) {
+        body_part_set similar_bp;
         if( data.covers.has_value() ) {
             for( const bodypart_str_id &bp : data.covers.value() ) {
                 for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
-                    data.covers->set( similar );
+                    debugmsg( "Substituted similar bodypart %s (similar to %s) while loading coverage on item %s",
+                              similar->name, bp->name, obj.name );
+                    similar_bp.set( similar );
                 }
             }
         }
+        data.covers->unify_set( similar_bp );
     }
 
     for( armor_portion_data &data : obj.armor->sub_data ) {
@@ -827,13 +830,15 @@ void Item_factory::finalize_post_armor( itype &obj )
 
     // Include similar sublimbs as well (after populating sub coverage)
     for( armor_portion_data &data : obj.armor->sub_data ) {
+        std::set<sub_bodypart_str_id> similar_sbp;
         if( !data.sub_coverage.empty() ) {
             for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
                 for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
-                    data.sub_coverage.insert( similar );
+                    similar_sbp.emplace( similar );
                 }
             }
         }
+        data.sub_coverage.merge( similar_sbp );
     }
 
     // if this armor doesn't have material info should try to populate it with base item materials
