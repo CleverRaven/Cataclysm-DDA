@@ -3,7 +3,9 @@
 
 #include "font_loader.h"
 #include "output.h"
+#if !defined(__ANDROID)
 #include "imgui/imgui.h"
+#endif
 #include "sdl_utils.h"
 
 #if defined(_WIN32)
@@ -20,9 +22,9 @@
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
-    // bitmap font size test
-    // return face index that has this size or below
-    static int test_face_size( const std::string &f, int size, int faceIndex )
+// bitmap font size test
+// return face index that has this size or below
+static int test_face_size( const std::string &f, int size, int faceIndex )
 {
     const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
     if( fnt ) {
@@ -299,7 +301,7 @@ CachedTTFFont::CachedTTFFont(
         throw std::runtime_error( TTF_GetError() );
     }
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
-
+#if !defined(__ANDROID__)
     ImGuiIO &io = ImGui::GetIO();
     if( io.FontDefault == nullptr && typeface.find( "unifont" ) != std::string::npos ) {
         static const std::array<ImWchar, 17> ranges = {
@@ -315,6 +317,7 @@ CachedTTFFont::CachedTTFFont(
         };
         io.FontDefault = io.Fonts->AddFontFromFileTTF( typeface.c_str(), fontsize, nullptr, ranges.data() );
     }
+#endif
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,

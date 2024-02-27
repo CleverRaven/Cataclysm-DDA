@@ -1,3 +1,4 @@
+#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 
 #include <stack>
@@ -472,3 +473,4 @@ cataimgui::bounds cataimgui::window::get_bounds()
 {
     return { -1.f, -1.f, -1.f, -1.f };
 }
+#endif // #if defined(__ANDROID__)
