@@ -2146,7 +2146,6 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
                 break;
             } else if( !ter_has_flag && mod.move_penalty ) {
                 move_mod += mod.move_penalty;
-                break;
             }
         }
 
