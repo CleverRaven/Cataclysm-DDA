@@ -1751,8 +1751,8 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), danger_assessment() > 5 ? 16 : 6, sounds::sound_t::speech, sound, false,
-                       "speech",
+        sounds::sound( pos(), danger_assessment() > NPC_DANGER_VERY_LOW ? 16 : 6, sounds::sound_t::speech,
+                       sound, false, "speech",
                        male ? "NPC_m_loud" : "NPC_f_loud" );
     }
 }
