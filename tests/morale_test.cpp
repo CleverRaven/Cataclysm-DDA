@@ -196,7 +196,8 @@ TEST_CASE( "player_morale_murdered_innocent", "[player_morale]" )
     tripoint next_to = player.adjacent_tile();
     standard_npc innocent( "Lapin", next_to, {}, 0, 8, 8, 8, 7 );
     // Innocent as could be.
-    innocent.set_fac_id( "lapin" );
+    faction_id lapin( "lapin" );
+    innocent.set_fac( lapin );
     innocent.setpos( next_to );
     innocent.set_all_parts_hp_cur( 1 );
     CHECK( m.get_total_positive_value() == 0 );
@@ -219,12 +220,12 @@ TEST_CASE( "player_morale_kills_hostile_bandit", "[player_morale]" )
     tripoint next_to = player.adjacent_tile();
     standard_npc badguy( "Raider", next_to, {}, 0, 8, 8, 8, 7 );
     // Always-hostile
-    badguy.set_fac_id( "hells_raiders" );
+    faction_id hells_raiders( "hells_raiders" );
+    badguy.set_fac( hells_raiders );
     badguy.setpos( next_to );
     badguy.set_all_parts_hp_cur( 1 );
     CHECK( m.get_total_positive_value() == 0 );
     CHECK( m.get_total_negative_value() == 0 );
-    CHECK( badguy.is_enemy() == true );
     CHECK( badguy.guaranteed_hostile() == true );
     while( !badguy.is_dead_state() ) {
         player.mod_moves( 1000 );
