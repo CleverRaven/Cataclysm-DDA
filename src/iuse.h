@@ -196,6 +196,7 @@ std::optional<int> wash_hard_items( Character *, item *, const tripoint & );
 std::optional<int> wash_items( Character *p, bool soft_items, bool hard_items );
 std::optional<int> wash_soft_items( Character *, item *, const tripoint & );
 std::optional<int> water_purifier( Character *, item *, const tripoint & );
+std::optional<int> water_tablets( Character *, item *, const tripoint & );
 std::optional<int> weak_antibiotic( Character *, item *, const tripoint & );
 std::optional<int> weather_tool( Character *, item *, const tripoint & );
 std::optional<int> sextant( Character *, item *, const tripoint & );

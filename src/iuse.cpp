@@ -298,6 +298,7 @@ static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_water_purifying( "water_purifying" );
 static const itype_id itype_wax( "wax" );
 static const itype_id itype_weather_reader( "weather_reader" );
 
@@ -2486,52 +2487,6 @@ std::optional<int> iuse::pack_item( Character *p, item *it, const tripoint & )
     return 0;
 }
 
-// Part of iuse::water_purifier, but with the user interaction split out so it can be unit tested
-std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
-{
-    const std::vector<item *> liquids = water->items_with( []( const item & it ) {
-        return it.typeId() == itype_water;
-    } );
-    int charges_of_water = 0;
-    for( const item *water : liquids ) {
-        charges_of_water += water->charges;
-    }
-    if( !purifier->ammo_sufficient( p, charges_of_water ) ) {
-        p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
-        return std::nullopt;
-    }
-
-    if( purifier->typeId() == itype_pur_tablets ) {
-        const int available = p->crafting_inventory().count_item( itype_pur_tablets );
-        if( available >= charges_of_water ) {
-            p->add_msg_if_player( m_info, _( "Purifying water using %s" ), purifier->tname() );
-            // Pull from surrounding map first because it will update to_consume
-            int to_consume = charges_of_water;
-            get_map().use_amount( p->pos(), PICKUP_RANGE, itype_pur_tablets, to_consume );
-            // Then pull from inventory
-            if( to_consume > 0 ) {
-                p->use_amount( itype_pur_tablets, to_consume );
-            }
-        } else {
-            p->add_msg_if_player( m_info,
-                                  _( "You need %1i tablets to purify that.  You only have %2i" ), charges_of_water,  available );
-            return std::nullopt;
-        }
-    }
-
-    p->moves -= to_moves<int>( 2_seconds );
-
-    for( item *water : liquids ) {
-        water->convert( itype_water_clean, p ).poison = 0;
-    }
-    if( purifier->typeId() == itype_pur_tablets ) {
-        // We've already consumed the tablets, so don't try to consume them again
-        return std::nullopt;
-    } else {
-        return charges_of_water;
-    }
-}
-
 std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint & )
 {
     if( p->cant_do_mounted() ) {
@@ -2541,6 +2496,91 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint 
         return !e.empty() && e.has_item_with( []( const item & it ) {
             return it.typeId() == itype_water;
         } );
+    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
+
+    if( !obj ) {
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
+        return std::nullopt;
+    }
+
+    const std::vector<item *> liquids = obj->items_with( []( const item & it ) {
+        return it.typeId() == itype_water;
+    } );
+    int charges_of_water = 0;
+    for( const item *water : liquids ) {
+        charges_of_water += water->charges;
+    }
+    if( !it->ammo_sufficient( p, charges_of_water ) ) {
+        p->add_msg_if_player( m_info, _( "That volume of water is too large to purify." ) );
+        return std::nullopt;
+    }
+
+    p->moves -= to_moves<int>( 2_seconds );
+
+    for( item *water : liquids ) {
+        water->convert( itype_water_clean, p ).poison = 0;
+    }
+    return charges_of_water;
+}
+
+
+// Part of iuse::water_tablets, but with the user interaction split out so it can be unit tested
+std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
+{
+    // TODO: Find a way to move this to json:
+    const int max_water_per_tablet = 4;
+
+    const std::vector<item *> liquids = water->items_with( []( const item & it ) {
+        return it.typeId() == itype_water;
+    } );
+    int charges_of_water = 0;
+    for( const item *water : liquids ) {
+        charges_of_water += water->charges;
+    }
+    float to_consume_f = charges_of_water;
+    to_consume_f /= max_water_per_tablet;
+
+    const int available = p->crafting_inventory().count_item( itype_pur_tablets );
+    if( available * max_water_per_tablet >= charges_of_water ) {
+        int to_consume = std::ceil( to_consume_f );
+        p->add_msg_if_player( m_info, _( "Purifying %1i water using %2i %s" ), charges_of_water, to_consume,
+                              purifier->tname( to_consume ) );;
+        // Pull from surrounding map first because it will update to_consume
+        get_map().use_amount( p->pos(), PICKUP_RANGE, itype_pur_tablets, to_consume );
+        // Then pull from inventory
+        if( to_consume > 0 ) {
+            p->use_amount( itype_pur_tablets, to_consume );
+        }
+    } else {
+        p->add_msg_if_player( m_info,
+                              _( "You need %1i tablets to purify that.  You only have %2i" ),
+                              charges_of_water / max_water_per_tablet,  available );
+        return std::nullopt;
+    }
+
+    // Try to match crafting recipe at 5m for 1, 90% batch time savings:
+    int req_moves = to_moves<int>( 5_minutes );
+    req_moves = req_moves * 0.1 * to_consume_f;
+    p->moves -= req_moves;
+
+    for( item *water : liquids ) {
+        water->convert( itype_water_purifying, p ).poison = 0;
+    }
+    // We've already consumed the tablets, so don't try to consume them again
+    return std::nullopt;
+}
+
+std::optional<int> iuse::water_tablets( Character *p, item *it, const tripoint & )
+{
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+
+    item_location obj = g->inv_map_splice( []( const item_location & e ) {
+        return ( !e->empty() && e->has_item_with( []( const item & it ) {
+            return it.typeId() == itype_water;
+        } ) ) || ( e->typeId() == itype_water &&
+                   get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, e.position() ) );
     }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     if( !obj ) {
