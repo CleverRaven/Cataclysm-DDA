@@ -88,7 +88,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_rv_basement",
-    "weight": 200,
+    "weight": 190,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -135,7 +135,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_rv_basement",
-    "weight": 50,
+    "weight": 10,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -152,7 +152,7 @@
         "           |..........| ",
         "           |..........| ",
         " |||||||||||..........| ",
-        " |2...................| ",
+        " |....................| ",
         " |....................| ",
         " |...................F| ",
         " |....................| ",
@@ -165,7 +165,7 @@
         "                        "
       ],
       "palettes": [ "basement_empty_flooded" ],
-      "nested": { "1": { "chunks": [ [ "room_10x10_woodworker_S", 30 ] ] }, "2": { "chunks": [ [ "room_9x9_cellar_E", 20 ] ] } }
+      "nested": { "1": { "chunks": [ [ "room_10x10_woodworker_S", 30 ] ] } }
     }
   }
 ]

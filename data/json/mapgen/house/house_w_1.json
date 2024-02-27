@@ -134,7 +134,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_w_1_basement",
-    "weight": 200,
+    "weight": 190,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -206,7 +206,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "house_w_1_basement",
-    "weight": 50,
+    "weight": 10,
     "object": {
       "fill_ter": "t_water_sh_flood",
       "rows": [
