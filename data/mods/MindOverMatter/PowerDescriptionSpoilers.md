@@ -120,7 +120,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
-*Effects*: Greatly increases the psion’s metabolic efficiency.  Hunger, thirst, fatigue grow 25% more slowly and the basal metabolic rate is reduced by 25%.  All of these bonuses increase by 2% per level to a maximum of 70% increase.<br />
+*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitmins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
 *Prerequisites*: Temperature Adaptability 8, Adrenaline Trigger 6 *or* Physical Enhancement 12<br />
 
 ## Combat Dance
