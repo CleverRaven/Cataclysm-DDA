@@ -1026,6 +1026,7 @@ class npc : public Character
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
         void say( const std::string &line, sounds::sound_t spriority = sounds::sound_t::speech ) const;
+        int indoor_voice() const;
         void decide_needs();
         void reboot();
         void die( Creature *killer ) override;
