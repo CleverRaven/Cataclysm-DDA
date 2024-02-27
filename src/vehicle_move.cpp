@@ -2150,7 +2150,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
             }
         }
 
-        if(wheel_ter_mod == 0 ) {
+        if( wheel_ter_mod == 0 ) {
             wheel_ter_mod = 1;
         }
 
