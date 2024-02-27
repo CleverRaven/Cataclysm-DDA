@@ -805,8 +805,6 @@ void Item_factory::finalize_post_armor( itype &obj )
         if( data.covers.has_value() ) {
             for( const bodypart_str_id &bp : data.covers.value() ) {
                 for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
-                    debugmsg( "Substituted similar bodypart %s (similar to %s) while loading coverage on item %s",
-                              similar->name, bp->name, obj.name );
                     similar_bp.set( similar );
                 }
             }
