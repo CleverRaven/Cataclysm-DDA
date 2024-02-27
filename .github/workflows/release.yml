@@ -88,7 +88,7 @@ jobs:
             ext: zip
             content: application/zip
           - name: Linux Tiles x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -98,7 +98,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -108,7 +108,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             libbacktrace: 1
@@ -118,7 +118,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux object creator x64
-            os: ubuntu-20.04
+            os: ubuntu-22.04
             mxe: none
             android: none
             artifact: linux-objectcreator-x64
