@@ -612,7 +612,7 @@ keybindings_ui::keybindings_ui( bool permit_execute_action,
     legend.push_back( colorize( _( "Unbound keys" ), unbound_key ) );
     legend.push_back( colorize( _( "Keybinding active only on this screen" ), local_key ) );
     legend.push_back( colorize( _( "Keybinding active globally" ), global_key ) );
-    legend.push_back( colorize( _( "* User created" ), global_key ) );
+    legend.push_back( colorize( _( "* User customized" ), global_key ) );
     if( permit_execute_action ) {
         legend.push_back( string_format(
                               _( "Press %c to execute action\n" ),
@@ -915,7 +915,7 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
     legend += colorize( _( "Unbound keys" ), unbound_key ) + "\n";
     legend += colorize( _( "Keybinding active only on this screen" ), local_key ) + "\n";
     legend += colorize( _( "Keybinding active globally" ), global_key ) + "\n";
-    legend += colorize( _( "* User created" ), global_key ) + "\n";
+    legend += colorize( _( "* User customized" ), global_key ) + "\n";
     if( permit_execute_action ) {
         legend += string_format(
                       _( "Press %c to execute action\n" ),
