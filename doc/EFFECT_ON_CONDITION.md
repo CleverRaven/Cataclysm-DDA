@@ -2160,7 +2160,20 @@ Run EoC multiple times, until specific condition would be met
     "type": "effect_on_condition",
     "id": "EOC_until_nested",
     "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+  }
+```
+A loop of 10 iterations.
+```
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_until",
+    "effect": { "run_eoc_until": "EOC_until_nested", "iteration": 10 }
   },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": { "u_message": "!!!" }
+  }
 ```
 
 ## Character effects
