@@ -31,13 +31,14 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#if !defined(__ANDROID__)
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 enum class kb_menu_status {
     remove, add, add_global, execute, show
 };
+
+#if !defined(__ANDROID__)
+#include "cata_imgui.h"
+#include "imgui/imgui.h"
 
 class keybindings_ui : public cataimgui::window
 {

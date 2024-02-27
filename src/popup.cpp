@@ -519,7 +519,6 @@ std::shared_ptr<query_popup_impl> query_popup::create_or_get_impl()
     }
     return impl;
 }
-#endif
 
 query_popup::result query_popup::query_once_imgui()
 {
@@ -615,18 +614,13 @@ query_popup::result query_popup::query_once_imgui()
     return res;
 }
 
-
 query_popup::result query_popup::query()
 {
-#if defined(__ANDROID__)
-    return query_legacy();
-#else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         return query_imgui();
     } else {
         return query_legacy();
     }
-#endif
 }
 
 query_popup::result query_popup::query_imgui()
@@ -639,7 +633,13 @@ query_popup::result query_popup::query_imgui()
     } while( res.wait_input );
     return res;
 }
+#else
 
+query_popup::result query_popup::query()
+{
+    return query_legacy();
+}
+#endif
 
 query_popup::result query_popup::query_legacy()
 {
