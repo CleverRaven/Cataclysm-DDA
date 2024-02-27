@@ -48,6 +48,12 @@
     ]
   },
   {
+    "type": "enchantment",
+    "id": "undine_water_form_hiding",
+    "condition": "u_is_underwater",
+    "values": [ { "value": "STEALTH_MODIFIER", "add": 60 } ]
+  },
+  {
     "id": "create_fog",
     "type": "SPELL",
     "name": "Create Fog",

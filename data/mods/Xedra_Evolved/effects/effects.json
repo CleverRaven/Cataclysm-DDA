@@ -765,6 +765,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_subtle_spell_flag",
+    "//": "Hidden, but provides flags for powers using SUBTLE_SPELL",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "flags": [ "SUBTLE_SPELL" ]
+  },
+  {
+    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],

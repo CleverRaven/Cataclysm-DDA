@@ -309,5 +309,125 @@
       ]
     ],
     "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FAST_CAST_ON",
+    "name": { "str": "Zephyr Chant (active)" },
+    "points": 7,
+    "description": "Like the blowing winds, the Sylph's mana races from of their body at their command.  -20% spell casting speed when outdoors.",
+    "prereqs": [ "SYLPH_INT_BONUS_2" ],
+    "changes_to": [ "SYLPH_FAST_CAST2" ],
+    "category": [ "SYLPH" ],
+    "valid": false,
+    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
+    "casting_time_multiplier": 0.8
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_FAST_CAST2_ON",
+    "name": { "str": "Whistling Zephyr Chant (active)" },
+    "points": 10,
+    "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
+    "prereqs": [ "SYLPH_FAST_CAST", "SYLPH_FAST_CAST_ON" ],
+    "prereqs2": [ "SYLPH_SKIN_3" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "valid": false,
+    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
+    "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
+    "casting_time_multiplier": 0.8,
+    "flags": [ "SUBTLE_SPELL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_HEAT_HEAL_ON",
+    "name": { "str": "Heat Fuels the Flames (active)" },
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  The heat is speeding your healing.",
+    "category": [ "SALAMANDER" ],
+    "healing_awake": 0.44,
+    "healing_multiplier": 1.5,
+    "mending_modifier": 4,
+    "//": "Numbers taken from Very Fast Healer",
+    "temperature_speed_modifier": 1,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
+              {
+                "or": [
+                  { "u_is_in_field": "fd_hot_air1" },
+                  { "u_is_in_field": "fd_hot_air2" },
+                  { "u_is_in_field": "fd_hot_air3" },
+                  { "u_is_in_field": "fd_hot_air4" },
+                  { "u_is_in_field": "fd_fire" },
+                  { "u_is_in_field": "fd_salamander_heat" },
+                  { "u_is_in_field": "fd_migo_atmosphere" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "SALAMANDER_HEAT_HEAL", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_FAST_CRAFT_ON",
+    "name": { "str": "Incandescent Artisan's Alacrity (active)" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed is increased.",
+    "category": [ "SALAMANDER" ],
+    "crafting_speed_multiplier": 1.15,
+    "triggers": [
+      [
+        {
+          "condition": {
+            "or": [
+              { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
+              {
+                "or": [
+                  { "u_is_in_field": "fd_hot_air1" },
+                  { "u_is_in_field": "fd_hot_air2" },
+                  { "u_is_in_field": "fd_hot_air3" },
+                  { "u_is_in_field": "fd_hot_air4" },
+                  { "u_is_in_field": "fd_fire" },
+                  { "u_is_in_field": "fd_salamander_heat" },
+                  { "u_is_in_field": "fd_migo_atmosphere" }
+                ]
+              }
+            ]
+          },
+          "msg_on": { "text": "", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "SALAMANDER_FAST_CRAFT", "msg_transform": "", "active": false, "moves": 0 }
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM_CAMOUFLAGE_ON",
+    "name": { "str": "Watery Camouflage (active)" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "valid": false,
+    "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater, such as right now.",
+    "category": [ "UNDINE" ],
+    "stealth_modifier": 60,
+    "triggers": [ [ { "condition": "u_is_underwater" } ] ],
+    "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE", "msg_transform": "", "active": false, "moves": 0 }
   }
 ]
