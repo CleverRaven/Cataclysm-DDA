@@ -2155,7 +2155,7 @@ float map::vehicle_wheel_traction( const vehicle &veh, bool ignore_movement_modi
         }
 
         // normalize mc with base terrain move cost 2
-        traction_wheel_area += 2.0f * vpi.wheel_info->contact_area / (mc * wheel_ter_mod);
+        traction_wheel_area += 2.0f * vpi.wheel_info->contact_area / ( mc * wheel_ter_mod );
     }
 
     return traction_wheel_area;
