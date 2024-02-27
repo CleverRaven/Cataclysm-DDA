@@ -17,6 +17,8 @@
 #include "point.h"
 #include "translation.h"
 
+enum class kb_menu_status;
+
 class hotkey_queue;
 #if !defined(__ANDROID__)
 class keybindings_ui;
@@ -303,6 +305,21 @@ class input_context
          * @returns action_id of any action the user specified to execute, or ACTION_NULL if none
          */
         action_id display_menu( bool permit_execute_action = false );
+    private:
+        /**
+         * Prompt the user to add an event to an action.
+         * Prompt the user to resolve conflicts if they arise.
+         * @return true if keybinding changed
+         */
+        bool action_add( const std::string &name, const std::string &action_id, bool is_local,
+                         kb_menu_status status );
+        /**
+         * Remove an action.
+         * @return true if keybinding changed
+         */
+        bool action_remove( const std::string &name, const std::string &action_id, bool is_local,
+                            bool is_empty );
+    public:
 
         /**
          * Temporary method to retrieve the raw input received, so that input_contexts

@@ -752,6 +752,66 @@ void keybindings_ui::init()
 }
 #endif
 
+bool input_context::action_remove( const std::string &name, const std::string &action_id,
+                                   bool is_local, bool is_empty )
+{
+    // We don't want to completely delete a global context entry.
+    // Only attempt removal for a local context, or when there's
+    // bindings for the default context.
+    if( get_option<bool>( "QUERY_KEYBIND_REMOVAL" )
+        && !query_yn( is_local && is_empty
+                      ? _( "Reset to global bindings for %s?" )
+                      : _( "Clear keys for %s?" ), name )
+      ) {
+        return false;
+    }
+    // If it's global, reset the global actions.
+    std::string category_to_access = is_local ? category : default_context_id;
+
+    inp_mngr.remove_input_for_action( action_id, category_to_access );
+    return true;
+}
+
+bool input_context::action_add( const std::string &name, const std::string &action_id,
+                                bool is_local, kb_menu_status status )
+{
+    const input_event new_event = query_popup()
+                                  .preferred_keyboard_mode( preferred_keyboard_mode )
+                                  .message( _( "New key for %s" ), name )
+                                  .allow_anykey( true )
+                                  .query()
+                                  .evt;
+
+    if( action_uses_input( action_id, new_event )
+        // Allow adding keys already used globally to local bindings
+        && ( status == kb_menu_status::add_global || is_local ) ) {
+        popup_getkey( _( "This key is already used for %s." ), name );
+        return false;
+    }
+
+    const std::string conflicts = get_conflicts( new_event, action_id );
+    const bool has_conflicts = !conflicts.empty();
+
+    if( has_conflicts ) {
+        bool resolve_conflicts = query_yn(
+                                     _( "This key conflicts with %s. Remove this key from the conflicting command(s), and continue?" ),
+                                     conflicts.c_str() );
+        if( !resolve_conflicts ) {
+            return false;
+        }
+        clear_conflicting_keybindings( new_event );
+    }
+
+    // We might be adding a local or global action.
+    std::string category_to_access = category;
+    if( status == kb_menu_status::add_global ) {
+        category_to_access = default_context_id;
+    }
+
+    inp_mngr.add_input_for_action( action_id, category_to_access, new_event );
+    return true;
+}
+
 action_id input_context::display_menu_legacy( const bool permit_execute_action )
 {
     action_id action_to_execute = ACTION_NULL;
@@ -1086,61 +1146,12 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
             // Only attempt removal for a local context, or when there's
             // bindings for the default context.
             if( status == kb_menu_status::remove && ( is_local || !is_empty ) ) {
-                if( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) || query_yn( is_local &&
-                        is_empty ? _( "Reset to global bindings for %s?" ) : _( "Clear keys for %s?" ), name ) ) {
-
-                    // If it's global, reset the global actions.
-                    std::string category_to_access = category;
-                    if( !is_local ) {
-                        category_to_access = default_context_id;
-                    }
-
-                    inp_mngr.remove_input_for_action( action_id, category_to_access );
-                    changed = true;
-                }
+                changed = action_remove( name, action_id, is_local, is_empty );
             } else if( status == kb_menu_status::add_global && is_local ) {
                 // Disallow adding global actions to an action that already has a local defined.
                 popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
             } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ) {
-                const input_event new_event = query_popup()
-                                              .preferred_keyboard_mode( preferred_keyboard_mode )
-                                              .message( _( "New key for %s" ), name )
-                                              .allow_anykey( true )
-                                              .query()
-                                              .evt;
-
-                if( action_uses_input( action_id, new_event )
-                    // Allow adding keys already used globally to local bindings
-                    && ( status == kb_menu_status::add_global || is_local ) ) {
-                    popup_getkey( _( "This key is already used for %s." ), name );
-                    status = kb_menu_status::show;
-                    continue;
-                }
-
-                const std::string conflicts = get_conflicts( new_event, action_id );
-                const bool has_conflicts = !conflicts.empty();
-                bool resolve_conflicts = false;
-
-                if( has_conflicts ) {
-                    resolve_conflicts = query_yn(
-                                            _( "This key conflicts with %s. Remove this key from the conflicting command(s), and continue?" ),
-                                            conflicts.c_str() );
-                }
-
-                if( !has_conflicts || resolve_conflicts ) {
-                    if( resolve_conflicts ) {
-                        clear_conflicting_keybindings( new_event );
-                    }
-
-                    // We might be adding a local or global action.
-                    std::string category_to_access = category;
-                    if( status == kb_menu_status::add_global ) {
-                        category_to_access = default_context_id;
-                    }
-
-                    inp_mngr.add_input_for_action( action_id, category_to_access, new_event );
-                    changed = true;
-                }
+                changed = action_add( name, action_id, is_local, status );
             } else if( status == kb_menu_status::execute && permit_execute_action ) {
                 action_to_execute = look_up_action( action_id );
                 break;
@@ -1307,62 +1318,13 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
             // Only attempt removal for a local context, or when there's
             // bindings for the default context.
             if( kb_menu.status == kb_menu_status::remove && ( is_local || !is_empty ) ) {
-                if( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) || query_yn( is_local &&
-                        is_empty ? _( "Reset to global bindings for %s?" ) : _( "Clear keys for %s?" ), name ) ) {
-
-                    // If it's global, reset the global actions.
-                    std::string category_to_access = category;
-                    if( !is_local ) {
-                        category_to_access = default_context_id;
-                    }
-
-                    inp_mngr.remove_input_for_action( action_id, category_to_access );
-                    changed = true;
-                }
+                changed = action_remove( name, action_id, is_local, is_empty );
             } else if( kb_menu.status == kb_menu_status::add_global && is_local ) {
                 // Disallow adding global actions to an action that already has a local defined.
                 popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
             } else if( kb_menu.status == kb_menu_status::add ||
                        kb_menu.status == kb_menu_status::add_global ) {
-                const input_event new_event = query_popup()
-                                              .preferred_keyboard_mode( preferred_keyboard_mode )
-                                              .message( _( "New key for %s" ), name )
-                                              .allow_anykey( true )
-                                              .query()
-                                              .evt;
-
-                if( action_uses_input( action_id, new_event )
-                    // Allow adding keys already used globally to local bindings
-                    && ( kb_menu.status == kb_menu_status::add_global || is_local ) ) {
-                    popup_getkey( _( "This key is already used for %s." ), name );
-                    kb_menu.status = kb_menu_status::show;
-                    continue;
-                }
-
-                const std::string conflicts = get_conflicts( new_event, action_id );
-                const bool has_conflicts = !conflicts.empty();
-                bool resolve_conflicts = false;
-
-                if( has_conflicts ) {
-                    resolve_conflicts = query_yn(
-                                            _( "This key conflicts with %s. Remove this key from the conflicting command(s), and continue?" ),
-                                            conflicts.c_str() );
-                }
-
-                if( !has_conflicts || resolve_conflicts ) {
-                    if( resolve_conflicts ) {
-                        clear_conflicting_keybindings( new_event );
-                    }
-
-                    // We might be adding a local or global action.
-                    std::string category_to_access = category;
-                    if( kb_menu.status == kb_menu_status::add_global ) {
-                        category_to_access = default_context_id;
-                    }
-
-                    inp_mngr.add_input_for_action( action_id, category_to_access, new_event );
-                    changed = true;
-                }
+                changed = action_add( name, action_id, is_local, kb_menu.status );
             } else if( kb_menu.status == kb_menu_status::execute && permit_execute_action ) {
                 action_to_execute = look_up_action( action_id );
                 break;
