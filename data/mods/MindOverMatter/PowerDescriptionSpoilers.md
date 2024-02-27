@@ -500,7 +500,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 11 minutes and 30 seconds to 23 minutes and 50 seconds, plus 48 seconds to 1 minute and 53 seconds per power level<br />
 *Stamina Cost*: 3500, minus 75 per level to a minimum of 1500<br />
 *Channeling Time*: 150 moves, minus 8 moves per level to a minimum of 75<br />
-*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 15% from levels 1-3, 25% from levels 4-7, 35% from levels 8-11, 43% from levels 12-15, 50% from levels 16-19, and 55% at level 20+.<br />
+*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 10% plus 3% per power level to a maximum of 60%.<br />
 *Prerequisites*: Trick of the Light 6<br />
 
 ## Lucent Barrier (C)
