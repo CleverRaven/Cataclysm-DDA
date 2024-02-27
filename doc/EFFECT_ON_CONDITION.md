@@ -2163,7 +2163,7 @@ Run EoC multiple times, until specific condition would be met
   }
 ```
 A loop of 10 iterations.
-```
+```json
   {
     "type": "effect_on_condition",
     "id": "EOC_run_until",
