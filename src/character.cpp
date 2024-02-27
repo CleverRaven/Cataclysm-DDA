@@ -6378,7 +6378,6 @@ mutation_value_map = {
     { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
     { "cardio_multiplier", calc_mutation_value_multiplicative<&mutation_branch::cardio_multiplier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
-    { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
     { "movecost_swim_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_swim_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_additive<&mutation_branch::overmap_sight> },
@@ -10866,8 +10865,6 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
 float Character::hearing_ability() const
 {
     float volume_multiplier = 1.0f;
-
-    volume_multiplier *= Character::mutation_value( "hearing_modifier" );
 
     volume_multiplier = enchantment_cache->modify_value( enchant_vals::mod::HEARING_MULT,
                         volume_multiplier );

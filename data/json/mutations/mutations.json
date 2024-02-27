@@ -479,7 +479,7 @@
     "types": [ "HEARING" ],
     "changes_to": [ "BATEARS" ],
     "category": [ "ALPHA", "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN" ],
-    "hearing_modifier": 1.25
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -490,11 +490,11 @@
     "visibility": 8,
     "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and are less likely to be deafened by loud noises.",
     "types": [ "HEARING" ],
-    "//": "Super_hearing multiplies hearing by 3.5 and let you crack safes. A bat mutant is a bit better at hearing overall than someone with GOODHEARING and a CBM.",
+    "//": "A bat mutant is a bit better at hearing overall than someone with GOODHEARING and a CBM.",
     "flags": [ "HEARING_PROTECTION", "SAFECRACK_NO_TOOL" ],
     "prereqs": [ "GOODHEARING" ],
     "category": [ "CHIROPTERAN" ],
-    "hearing_modifier": 1.8
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -549,7 +549,7 @@
     "prereqs2": [ "ELFA_EARS" ],
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ],
-    "hearing_modifier": 1.75
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.75 } ] } ]
   },
   {
     "type": "mutation",
@@ -1590,7 +1590,7 @@
     "types": [ "HEARING" ],
     "category": [ "PLANT", "GASTROPOD" ],
     "changes_to": [ "DEAF" ],
-    "hearing_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -1601,7 +1601,7 @@
     "starting_trait": true,
     "types": [ "HEARING" ],
     "prereqs": [ "BADHEARING" ],
-    "hearing_modifier": 0.0,
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -1 } ] } ],
     "flags": [ "DEAF" ]
   },
   {
@@ -5616,7 +5616,7 @@
     "types": [ "EARS" ],
     "category": [ "BEAST", "CATTLE", "CHIMERA", "LUPINE" ],
     "changes_to": [ "LUPINE_EARS" ],
-    "hearing_modifier": 1.5
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -5629,7 +5629,7 @@
     "types": [ "EARS" ],
     "prereqs": [ "CANINE_EARS" ],
     "category": [ "LUPINE" ],
-    "hearing_modifier": 1.75
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.75 } ] } ]
   },
   {
     "type": "mutation",
@@ -5640,7 +5640,7 @@
     "description": "Your ears have extended into long, pointed, velvety ones, like those of a feline.  You find it easier to tune in on sounds from afar.",
     "types": [ "EARS" ],
     "category": [ "FELINE" ],
-    "hearing_modifier": 1.25
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -5652,7 +5652,7 @@
     "description": "Your ears have grown longer and rounder, much like those of a bear.  You can hear things a little farther away.",
     "types": [ "EARS" ],
     "category": [ "URSINE" ],
-    "hearing_modifier": 1.25
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -5676,7 +5676,7 @@
     "types": [ "EARS" ],
     "category": [ "MOUSE", "RAT" ],
     "threshreq": [ "THRESH_MOUSE", "THRESH_RAT" ],
-    "hearing_modifier": 2.0
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -9314,7 +9314,7 @@
     "description": "Your ears have grown into tall and flexible rabbit ears.  They're are slender and enhance your hearing beyond the normal range.",
     "types": [ "EARS" ],
     "category": [ "RABBIT" ],
-    "hearing_modifier": 1.8
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.8 } ] } ]
   },
   {
     "type": "mutation",

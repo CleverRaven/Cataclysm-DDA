@@ -85,7 +85,7 @@
     "ugliness": 0,
     "description": "The Ierde's ears are longer and pointed, like the peak of a high mountain.  They can hear slightly better and are unphased by loud sounds.",
     "category": [ "IERDE" ],
-    "hearing_modifier": 1.3,
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.3 } ] } ],
     "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {

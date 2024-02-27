@@ -333,7 +333,7 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SAFECRACK_NO_TOOL" ],
-    "hearing_modifier": 1.75
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.1 } ] } ]
   },
   {
     "type": "mutation",

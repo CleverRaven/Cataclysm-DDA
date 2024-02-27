@@ -95,7 +95,7 @@
     "ugliness": 0,
     "description": "The Sylph's ears are longer and pointed, like a wisp of cloud trailing across the sky.  They can hear better and no matter how loud the thunder, their ears will not ring from it.",
     "category": [ "SYLPH" ],
-    "hearing_modifier": 1.5,
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.5 } ] } ],
     "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {

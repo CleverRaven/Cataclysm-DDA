@@ -306,7 +306,7 @@
     "types": [ "EARS" ],
     "category": [ "MIGO" ],
     "ugliness": 4,
-    "hearing_modifier": 1.4
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
