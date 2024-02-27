@@ -1002,12 +1002,7 @@
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 4 ] ],
     "//": "513 mg gunpowder rounded to 5 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "45_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 5 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 5 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_454_Casull",
@@ -1179,12 +1174,7 @@
     "//": "Unable to find load data, used 5.7 data as cartridges are similar. 388 mg gunpowder rounded to 4 100 mg 'pieces'",
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "46mm_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 4 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder_pistol", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_460_fmj",
@@ -1323,12 +1313,7 @@
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 1 ] ],
     "//": "388 mg gunpowder rounded to 4 100 mg 'pieces'",
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
-    "components": [
-      [ [ "57mm_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder_pistol", 4 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_pistol", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_762_25",

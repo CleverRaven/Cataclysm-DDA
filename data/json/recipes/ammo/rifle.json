@@ -1162,11 +1162,7 @@
     "components": [
       [ [ "762R_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [
-        [ "gunpowder_magnum_pistol", 29 ],
-        [ "gunpowder_rifle", 29 ],
-        [ "gunpowder_large_rifle", 29 ]
-      ],
+      [ [ "gunpowder_magnum_pistol", 29 ], [ "gunpowder_rifle", 29 ], [ "gunpowder_large_rifle", 29 ] ],
       [ [ "copper", 2 ] ]
     ]
   },
