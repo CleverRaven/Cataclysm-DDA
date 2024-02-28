@@ -254,7 +254,7 @@
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
     "spells_learned": [ [ "holy_shield", 5 ], [ "judgement_sword", 5 ] ],
     "passive_mods": { "dex_mod": 5 },
-    "hp_modifier": 1,
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 1 } ] } ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",

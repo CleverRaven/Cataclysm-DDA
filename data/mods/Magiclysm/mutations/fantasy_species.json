@@ -495,8 +495,7 @@
     "flags": [ "TINY" ],
     "passive_mods": { "str_mod": -3, "dex_mod": 2 },
     "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.25,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ],
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 }, { "value": "MAX_HP", "multiply": -0.25 } ] } ],
     "weight_capacity_modifier": 0.7,
     "noise_modifier": 0
   },

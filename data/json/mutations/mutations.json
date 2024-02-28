@@ -874,7 +874,7 @@
     "changes_to": [ "TOUGH2" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3" ],
     "social_modifiers": { "intimidate": 2 },
-    "hp_modifier": 0.2
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -886,7 +886,7 @@
     "prereqs": [ "TOUGH" ],
     "changes_to": [ "TOUGH3" ],
     "social_modifiers": { "intimidate": 3 },
-    "hp_modifier": 0.3
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -897,7 +897,7 @@
     "valid": false,
     "prereqs": [ "TOUGH2" ],
     "social_modifiers": { "intimidate": 4 },
-    "hp_modifier": 0.4
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -2044,7 +2044,7 @@
     "category": [ "MOUSE", "ELFA", "RABBIT", "CHIROPTERAN" ],
     "changes_to": [ "FLIMSY2" ],
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
-    "hp_modifier": -0.25
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -2059,7 +2059,7 @@
     "prereqs": [ "FLIMSY" ],
     "changes_to": [ "FLIMSY3" ],
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
-    "hp_modifier": -0.5
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -2073,7 +2073,7 @@
     "types": [ "DURABILITY" ],
     "prereqs": [ "FLIMSY2" ],
     "cancels": [ "TOUGH", "TOUGH2", "TOUGH3" ],
-    "hp_modifier": -0.75
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.75 } ] } ]
   },
   {
     "type": "mutation",
@@ -6262,7 +6262,7 @@
     "changes_to": [ "SMALL" ],
     "category": [ "MOUSE", "RABBIT" ],
     "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.05,
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.05 } ] } ],
     "weight_capacity_modifier": 0.8
   },
   {
@@ -6294,8 +6294,7 @@
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE", "RABBIT" ],
     "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.05,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ],
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "MAX_HP", "multiply": -0.05 } ] } ],
     "weight_capacity_modifier": 0.8
   },
   {
@@ -6312,8 +6311,7 @@
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
     "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.3,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ],
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 }, { "value": "MAX_HP", "multiply": -0.3 } ] } ],
     "weight_capacity_modifier": 0.5,
     "noise_modifier": 0.0
   },
@@ -6332,8 +6330,7 @@
     "leads_to": [ "CRAFTY" ],
     "category": [ "MOUSE" ],
     "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.25,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ],
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 }, { "value": "MAX_HP", "multiply": -0.25 } ] } ],
     "weight_capacity_modifier": 0.7,
     "noise_modifier": 0.0
   },

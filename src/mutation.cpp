@@ -496,7 +496,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ) {
+    if( branch.hp_modifier_secondary.has_value() ) {
         recalc_hp();
     }
 
@@ -604,7 +604,7 @@ void Character::mutation_loss_effect( const trait_id &mut )
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ) {
+    if( branch.hp_modifier_secondary.has_value() ) {
         recalc_hp();
     }
 

@@ -2490,7 +2490,7 @@ void Character::recalc_hp()
         str_boost_val = str_boost->calc_bonus( skill_total );
     }
     // Mutated toughness stacks with starting, by design.
-    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" ) +
+    float hp_mod = 1.0f + mutation_value( "hp_modifier_secondary" ) +
                    enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
     float hp_adjustment = ( str_boost_val * 3 ) +
                           enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
@@ -6350,7 +6350,6 @@ mutation_value_map = {
     { "pain_modifier", calc_mutation_value<&mutation_branch::pain_modifier> },
     { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
-    { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
     { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
@@ -6395,9 +6394,9 @@ float Character::mutation_value( const std::string &val ) const
 
 namespace
 {
-float _hp_modified_rate( Character const &who, float rate )
+float _hp_modified_rate( Character const &who, float rate ) 
 {
-    float const primary_hp_mod = who.mutation_value( "hp_modifier" );
+    float const primary_hp_mod = who.enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
     if( primary_hp_mod < 0.0f ) {
         cata_assert( primary_hp_mod >= -1.0f );
         return rate * ( 1.0f + primary_hp_mod );

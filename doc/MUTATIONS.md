@@ -194,7 +194,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "crafting_speed_multiplier": 1,             // changes your crafting speed; 0.5 decrease your crafting speed to 50%, 2 doubles it
   "vomit_multiplier": 3,                      // the modifier for the vomit chance
   "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
-  "hp_modifier": 1.1,                         // percent bonus to HP - `1` =100%, doubles the hp, `-0.5` means -50%, halves the hp.
   "hp_modifier_secondary": 0.1,               // second percent HP modifier, applied after the first one
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
   "noise_modifier": 0.4,                      // changes how much noise you produce while walking, `0.5` halves it, `2` doubles it
