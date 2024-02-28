@@ -157,7 +157,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 1500, minus 65 per level to a minimum of 500<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This is a range multiplier on base night vision, beginning at 2x normal night vision, that increases every 3 power levels: 4x normal at level 6, 6x normal at level 9, and so on.<br />
+*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Speed Reader (C)
