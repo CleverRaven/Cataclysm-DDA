@@ -3992,6 +3992,8 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
             }
         }
         const int old_level = studying.get_level();
+        const int max_level_from_study = 3;
+        if ( old_level < max_level_from_study ) {
         // Gain some experience from studying
         const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
@@ -4006,6 +4008,9 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         if( studying.get_level() > old_level ) {
             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
         }
+} else if ( old_level >= max_level_from_study ) {
+end_activtity_function();
+}
     }
 }
 
