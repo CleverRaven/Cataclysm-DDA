@@ -282,13 +282,16 @@ std::string input_context::get_desc( const std::string &action_descriptor,
             category, &is_local );
 
     if( events.empty() ) {
-        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" );
+        if( is_local ) {
+            bool global_empty = inp_mngr.get_input_for_action( action_descriptor ).empty();
+            return global_empty ? _( "Unbound locally!" ) : _( "Unbound locally!  Underlying global." );
+        } else {
+            return _( "Unbound globally!" );
+        }
     }
 
     std::vector<input_event> inputs_to_show;
-    for( const input_event &events_i : events ) {
-        const input_event &event = events_i;
-
+    for( const input_event &event : events ) {
         if( is_event_type_enabled( event.type ) && evt_filter( event ) ) {
             inputs_to_show.push_back( event );
         }

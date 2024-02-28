@@ -153,7 +153,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "types": [ "ATTRACTIVENESS", "MUZZLE", "TEETH", "TONGUE" ],
-    "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE" ],
+    "cancels": [ "SLIT_NOSTRILS", "LEAFNOSE", "BLOODLETTER" ],
     "description": "You have a human mouth with human teeth."
   },
   {
@@ -2436,52 +2436,6 @@
   },
   {
     "type": "mutation",
-    "id": "FANGS",
-    "name": { "str": "Fangs" },
-    "points": 2,
-    "visibility": 2,
-    "ugliness": 2,
-    "description": "Your teeth have grown into two-inch-long fangs, allowing you to make an extra attack when conditions favor it.",
-    "types": [ "TEETH" ],
-    "changes_to": [ "SABER_TEETH", "SHARKTEETH", "FANGS_VAMPIRE" ],
-    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      },
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "required_mutations": [ "MUZZLE" ],
-        "body_part": "mouth",
-        "chance": 18,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      },
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "required_mutations": [ "MUZZLE_LONG" ],
-        "body_part": "mouth",
-        "chance": 15,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      },
-      {
-        "attack_text_u": "You sink your fangs into %s!",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-        "required_mutations": [ "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 19,
-        "base_damage": { "damage_type": "stab", "amount": 20 }
-      }
-    ]
-  },
-  {
-    "type": "mutation",
     "id": "INCISORS",
     "name": { "str": "Incisors" },
     "points": 2,
@@ -2498,26 +2452,6 @@
       "body_part": "mouth",
       "chance": 18,
       "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 3 } ]
-    }
-  },
-  {
-    "type": "mutation",
-    "id": "FANGS_VAMPIRE",
-    "name": { "str": "Vampire Fangs" },
-    "points": 2,
-    "visibility": 3,
-    "ugliness": 3,
-    "description": "Your teeth are so sharp, you can use them to shave the fur from your victims before you feed.  What's more, anticoagulants in your saliva will keep their blood flowing long after it should have clotted.",
-    "types": [ "TEETH" ],
-    "prereqs": [ "FANGS" ],
-    "threshreq": [ "THRESH_CHIROPTERAN" ],
-    "category": [ "CHIROPTERAN" ],
-    "attacks": {
-      "attack_text_u": "You sink your fangs into %s!",
-      "attack_text_npc": "%1$s sinks their fangs into %2$s!",
-      "body_part": "mouth",
-      "chance": 18,
-      "base_damage": [ { "damage_type": "cut", "amount": 3 }, { "damage_type": "bash", "amount": 2 } ]
     }
   },
   {
@@ -4144,7 +4078,6 @@
     "description": "Your body produces a potent venom.  Cutting or stabbing attacks from mutations have a chance to poison your target.",
     "prereqs": [ "POISRESIST" ],
     "changes_to": [ "POISONOUS2" ],
-    "flags": [ "VENOM1" ],
     "category": [ "SLIME", "TROGLOBITE", "SPIDER", "CEPHALOPOD", "GASTROPOD", "CHIMERA", "BATRACHIAN" ]
   },
   {
@@ -9748,5 +9681,42 @@
     "starting_trait": true,
     "valid": false,
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BLOODLETTER",
+    "name": { "str": "Bloodletter" },
+    "points": 2,
+    "description": "Your saliva contains powerful anticoagulants.  If you have a bite attack, it will prolong the bleeding of most animals, including humans and the undead.  It may be less effective against insects and stranger creatures.",
+    "flags": [ "DRACULIN_VENOM" ],
+    "prereqs": [ "HEMOVORE", "BLOODFEEDER" ],
+    "category": [ "CHIROPTERAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS",
+    "name": { "str": "Fangs" },
+    "points": 2,
+    "visibility": 2,
+    "ugliness": 2,
+    "description": "Your teeth have grown into long, sharp fangs.  If your mouth is uncovered, you'll sometimes bite your enemies.",
+    "types": [ "TEETH" ],
+    "changes_to": [ "SABER_TEETH", "SHARKTEETH", "FANGS_VAMPIRE" ],
+    "category": [ "LIZARD", "FISH", "LUPINE", "FELINE", "CHIMERA", "CHIROPTERAN", "URSINE", "BEAST" ],
+    "integrated_armor": [ "integrated_fangs" ]
+  },
+  {
+    "type": "mutation",
+    "id": "FANGS_VAMPIRE",
+    "name": { "str": "Vampire Fangs" },
+    "points": 2,
+    "visibility": 3,
+    "ugliness": 3,
+    "description": "Your teeth are so sharp, you can use them to shave the fur from your victims before you feed.  What's more, anticoagulants in your saliva will keep their blood flowing long after it should have clotted.",
+    "types": [ "TEETH" ],
+    "prereqs": [ "FANGS" ],
+    "threshreq": [ "THRESH_CHIROPTERAN" ],
+    "category": [ "CHIROPTERAN" ],
+    "integrated_armor": [ "integrated_vampire_fangs" ]
   }
 ]
