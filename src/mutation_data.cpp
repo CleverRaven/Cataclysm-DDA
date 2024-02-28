@@ -424,8 +424,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
     optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, std::nullopt );
-    optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier,
-              std::nullopt );
     optional( jo, was_loaded, "movecost_obstacle_modifier", movecost_obstacle_modifier, std::nullopt );
     optional( jo, was_loaded, "movecost_swim_modifier", movecost_swim_modifier, std::nullopt );
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, std::nullopt );

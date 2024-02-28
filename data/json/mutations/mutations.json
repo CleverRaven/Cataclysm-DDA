@@ -318,7 +318,7 @@
     "changes_to": [ "FLEET2" ],
     "category": [ "SPIDER", "MOUSE", "RABBIT", "BIRD" ],
     "types": [ "RUNNING" ],
-    "movecost_flatground_modifier": 0.85
+    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1925,7 +1925,7 @@
     "description": "You can't move as fast as most, resulting in a 15% speed penalty on flat ground.",
     "starting_trait": true,
     "types": [ "RUNNING" ],
-    "movecost_flatground_modifier": 1.15
+    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -4328,7 +4328,6 @@
     "prereqs": [ "PADDED_FEET", "WINGS_BAT" ],
     "category": [ "CHIROPTERAN" ],
     "threshreq": [ "THRESH_CHIROPTERAN" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.38 } ] } ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
     "//": "Uses bespoke stuff here rather than the quadruped enchantments as bat-crawling gives different buffs.",
     "triggers": [
@@ -4356,7 +4355,8 @@
         "condition": { "and": [ { "u_has_move_mode": "run" }, { "not": "u_can_drop_weapon" }, { "u_has_trait": "WINGS_BAT" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.2 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-      }
+      },
+      { "values": [ { "value": "MOVE_COST", "multiply": 0.38 } ] }
     ]
   },
   {
@@ -4869,7 +4869,7 @@
     "prereqs": [ "FLEET" ],
     "types": [ "RUNNING" ],
     "category": [ "BIRD" ],
-    "movecost_flatground_modifier": 0.7
+    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -5545,7 +5545,7 @@
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "movecost_flatground_modifier": 1.25,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 } ] } ],
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
     "noise_modifier": 0.25,
     "destroys_gear": true

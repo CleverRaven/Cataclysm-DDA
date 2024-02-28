@@ -99,8 +99,7 @@
     "points": -3,
     "description": "You can't move as fast as most, resulting in a 10% speed penalty on flat ground.",
     "valid": false,
-    "types": [ "RUNNING" ],
-    "movecost_flatground_modifier": 1.1
+    "types": [ "RUNNING" ]
   },
   {
     "type": "mutation",
