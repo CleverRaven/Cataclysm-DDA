@@ -94,7 +94,6 @@
     "effect": [
       { "run_eocs": "EOC_POWER_MAINTENANCE_PLUS_ONE" },
       { "u_message": "You feel like sitting down with a good book.", "type": "good" },
-      { "u_add_trait": "CLAIR_SPEED_READ" },
       { "u_cast_spell": { "id": "psionic_drained_difficulty_two", "hit_self": true } },
       { "u_add_effect": "effect_clair_speed_reader", "duration": "PERMANENT" },
       {
