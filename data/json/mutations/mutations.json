@@ -9696,6 +9696,7 @@
     "purifiable": false
   },
   {
+    "type": "mutation",
     "id": "BLOODLETTER",
     "name": { "str": "Bloodletter" },
     "points": 2,
