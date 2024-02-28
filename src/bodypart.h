@@ -321,6 +321,10 @@ struct body_part_type {
         // this is the number of millijoules used per stamina point
         int power_efficiency = 0;
 
+        // These limbs should be covered by armor covering this limb (1:1 coverage)
+        // TODO: Coverage/Encumbrance multiplier
+        std::vector<bodypart_str_id> similar_bodyparts;
+
     private:
         int bionic_slots_ = 0;
         body_part_type::type _primary_limb_type = body_part_type::type::num_types;

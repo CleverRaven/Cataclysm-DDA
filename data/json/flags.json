@@ -2442,5 +2442,9 @@
     "id": "BILE_AFFLICTED",
     "type": "json_flag",
     "//": "The character is afflicted with boomer bile."
+  },
+  {
+    "id": "DRACULIN_VENOM",
+    "type": "json_flag"
   }
 ]
