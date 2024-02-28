@@ -299,10 +299,10 @@ class input_context
         void register_navigate_ui_list();
 
         /**
-         * Displays the possible actions in the current context and their
+         * Display the possible actions in the current context and their
          * keybindings.
          * @param permit_execute_action If `true` the function allows the user to specify an action to execute
-         * @returns action_id of any action the user specified to execute, or ACTION_NULL if none
+         * @return action_id of any action the user specified to execute, or ACTION_NULL if none
          */
         action_id display_menu( bool permit_execute_action = false );
     private:
