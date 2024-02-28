@@ -1393,7 +1393,7 @@
     "starting_trait": true,
     "cancels": [ "STRONGKNEES", "REALLYBADKNEES" ],
     "valid": false,
-    "movecost_obstacle_modifier": 1.25
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -1404,7 +1404,7 @@
     "starting_trait": true,
     "cancels": [ "STRONGKNEES", "BADKNEES" ],
     "valid": false,
-    "movecost_obstacle_modifier": 3.5
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 2.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -1414,7 +1414,7 @@
     "description": "Your knees are strong and capable of angles that you couldn't imagine previously.  Moving over rough terrain will slow you down less than normal.",
     "category": [ "BATRACHIAN" ],
     "cancels": [ "BADKNEES", "REALLYBADKNEES" ],
-    "movecost_obstacle_modifier": 0.9
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -8228,7 +8228,7 @@
     "description": "Your hook-shaped feet curl inward to grip the ground, allowing you to easily walk along the bottom when you're underwater.  They're also a bit quicker at climbing over obstacles, even on dry land.",
     "prereqs": [ "CRAB_LEGS" ],
     "threshreq": [ "THRESH_CRUSTACEAN" ],
-    "movecost_obstacle_modifier": 0.87,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.13 } ] } ],
     "category": [ "CRUSTACEAN" ],
     "flags": [ "WALK_UNDERWATER" ]
   },
@@ -9459,7 +9459,7 @@
     "purifiable": false,
     "threshreq": [ "THRESH_FELINE" ],
     "category": [ "FELINE" ],
-    "movecost_obstacle_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",

@@ -238,7 +238,6 @@ struct mutation_branch {
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         std::optional<float> dodge_modifier = std::nullopt;
-        std::optional<float> movecost_obstacle_modifier = std::nullopt;
         std::optional<float> attackcost_modifier = std::nullopt;
         std::optional<float> cardio_multiplier = std::nullopt;
         std::optional<float> weight_capacity_modifier = std::nullopt;
