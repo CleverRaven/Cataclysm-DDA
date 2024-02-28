@@ -3442,7 +3442,7 @@
     "points": 2,
     "visibility": 8,
     "ugliness": 4,
-    "pierce_dmg_bonus": 2,
+    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 2 } ] } ],
     "description": "Your skin is covered in small, woody thorns.  Whenever an unarmed opponent strikes a part of your body that is not covered by clothing, they will receive minor damage.  Your punches may also deal extra damage.",
     "prereqs": [ "BARK", "BARK2_a", "BARK2_b", "BARK2_c" ],
     "category": [ "PLANT" ]
@@ -3793,7 +3793,7 @@
     "name": { "str": "Long Fingernails" },
     "points": 1,
     "visibility": 1,
-    "pierce_dmg_bonus": 0.5,
+    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 0.5 } ] } ],
     "description": "Your fingernails are long and sharp.  If you aren't wearing gloves, your unarmed attacks deal a minor amount of cutting damage.",
     "types": [ "CLAWS" ],
     "changes_to": [ "CLAWS", "TALONS" ],

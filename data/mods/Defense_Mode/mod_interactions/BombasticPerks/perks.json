@@ -32,7 +32,7 @@
     "name": { "str": "Knifey" },
     "points": 0,
     "description": "You're very in tune with the ways of stabbing somebody.",
-    "pierce_dmg_bonus": 5,
+    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 5 } ] } ],
     "category": [ "perk" ]
   },
   {
@@ -41,8 +41,12 @@
     "name": { "str": "Melee Master" },
     "points": 0,
     "description": "You've become a master of melee, and are skilled with melee weapons.",
-    "pierce_dmg_bonus": 10,
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 } ] } ],
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 }, { "value": "ITEM_DAMAGE_STAB", "add": 10 } ]
+      }
+    ],
     "bash_dmg_bonus": 10,
     "category": [ "perk" ]
   },
