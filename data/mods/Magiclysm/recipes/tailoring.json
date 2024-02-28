@@ -96,7 +96,7 @@
     "using": [ [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
-      [ [ "parabolan_felt_patch", 1777 ] ], 
+      [ [ "parabolan_felt_patch", 1777 ] ],
       [ [ "parabolan_yarn", 1125 ] ]
     ]
   },
