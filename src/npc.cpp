@@ -1779,7 +1779,7 @@ int npc::indoor_voice() const
     // Possible fallthrough: neutral or unaware enemy NPCs talk at default wanted_volume
 
     // Don't wake up friends when using our indoor voice
-    for( auto &bunk_buddy : get_cached_friends() ) {
+    for( const auto &bunk_buddy : get_cached_friends() ) {
         if( !( bunk_buddy.lock() && bunk_buddy.lock()->is_npc() ) ) {
             continue;
         }
