@@ -833,7 +833,7 @@ Character status value  | Description
 `HEARING_MULT`          | How well you can hear. Remember that increased hearing means you would have a bigger "noise" written in UI; default step noise of 6, multiplied 10 times, would show it as 60
 `HUNGER`                | Affects how fast your hunger level changes. Do not affect actual calorie burn, the `METABOLISM` field is responsible for this
 `INTELLIGENCE`          | Affects the intelligence stat.
-`KCAL`                  | Same as bio_digestion effect, increases the amount of calories obrained from the food.
+`KCAL`                  | Same as bio_digestion effect, increases the amount of calories obtained the food.
 `KNOCKBACK_RESIST`      | The amount knockback effects you, 0 is the regular amount, -100 would be double effect, 100 would be no effect.
 `KNOCKDOWN_RESIST`      | The amount knockdown effects you, currently *only* having 100 or greater knockdown_resist makes you immune to knockdown.
 `LEARNING_FOCUS`        | Amount of bonus focus you have for learning purposes.
