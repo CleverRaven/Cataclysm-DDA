@@ -271,71 +271,8 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
     "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  However, cold weather produces a corresponding slowing effect.",
     "category": [ "SALAMANDER" ],
-    "//": "Temperature below is weather only, not local ambient air temperature, hence the field detection.  If local temperature is added, change to that.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-              {
-                "or": [
-                  { "u_is_in_field": "fd_hot_air1" },
-                  { "u_is_in_field": "fd_hot_air2" },
-                  { "u_is_in_field": "fd_hot_air3" },
-                  { "u_is_in_field": "fd_hot_air4" },
-                  { "u_is_in_field": "fd_fire" },
-                  { "u_is_in_field": "fd_salamander_heat" },
-                  { "u_is_in_field": "fd_migo_atmosphere" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_HEAT_HEAL_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "SALAMANDER_HEAT_HEAL_ON",
-    "name": { "str": "Heat Fuels the Flames (active)" },
-    "points": 8,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  The heat is speeding your healing.",
-    "category": [ "SALAMANDER" ],
-    "healing_awake": 0.44,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 4,
-    "//": "Numbers taken from Very Fast Healer",
-    "temperature_speed_modifier": 1,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "math": [ "weather('temperature')", "<", "from_fahrenheit( 79 )" ] },
-              {
-                "and": [
-                  { "not": { "u_is_in_field": "fd_hot_air1" } },
-                  { "not": { "u_is_in_field": "fd_hot_air2" } },
-                  { "not": { "u_is_in_field": "fd_hot_air3" } },
-                  { "not": { "u_is_in_field": "fd_hot_air4" } },
-                  { "not": { "u_is_in_field": "fd_fire" } },
-                  { "not": { "u_is_in_field": "fd_salamander_heat" } },
-                  { "not": { "u_is_in_field": "fd_migo_atmosphere" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_HEAT_HEAL", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_salamander_heat_healing" ],
+    "temperature_speed_modifier": 1
   },
   {
     "type": "mutation",
@@ -347,67 +284,7 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM", "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed will increase while standing in fire or hot air.",
     "category": [ "SALAMANDER" ],
-    "//": "Temperature below is weather only, not local ambient air temperature, hence the field detection.  If local temperature is added, change to that.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-              {
-                "or": [
-                  { "u_is_in_field": "fd_hot_air1" },
-                  { "u_is_in_field": "fd_hot_air2" },
-                  { "u_is_in_field": "fd_hot_air3" },
-                  { "u_is_in_field": "fd_hot_air4" },
-                  { "u_is_in_field": "fd_fire" },
-                  { "u_is_in_field": "fd_salamander_heat" },
-                  { "u_is_in_field": "fd_migo_atmosphere" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_FAST_CRAFT_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "SALAMANDER_FAST_CRAFT_ON",
-    "name": { "str": "Incandescent Artisan's Alacrity (active)" },
-    "points": 5,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed is increased.",
-    "category": [ "SALAMANDER" ],
-    "crafting_speed_multiplier": 1.15,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "math": [ "weather('temperature')", "<", "from_fahrenheit( 79 )" ] },
-              {
-                "and": [
-                  { "not": { "u_is_in_field": "fd_hot_air1" } },
-                  { "not": { "u_is_in_field": "fd_hot_air2" } },
-                  { "not": { "u_is_in_field": "fd_hot_air3" } },
-                  { "not": { "u_is_in_field": "fd_hot_air4" } },
-                  { "not": { "u_is_in_field": "fd_fire" } },
-                  { "not": { "u_is_in_field": "fd_salamander_heat" } },
-                  { "not": { "u_is_in_field": "fd_migo_atmosphere" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_FAST_CRAFT", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_salamander_heat_crafting" ]
   },
   {
     "type": "mutation",

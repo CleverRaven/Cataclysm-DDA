@@ -12,6 +12,48 @@
     "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "ATTACK_SPEED", "multiply": -0.1 } ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_salamander_heat_healing",
+    "condition": {
+      "or": [
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
+        {
+          "or": [
+            { "u_is_in_field": "fd_hot_air1" },
+            { "u_is_in_field": "fd_hot_air2" },
+            { "u_is_in_field": "fd_hot_air3" },
+            { "u_is_in_field": "fd_hot_air4" },
+            { "u_is_in_field": "fd_fire" },
+            { "u_is_in_field": "fd_salamander_heat" },
+            { "u_is_in_field": "fd_migo_atmosphere" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "REGEN_HP", "multiply": 0.4 }, { "value": "MENDING_MODIFIER", "multiply": 3 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_salamander_heat_crafting",
+    "condition": {
+      "or": [
+        { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
+        {
+          "or": [
+            { "u_is_in_field": "fd_hot_air1" },
+            { "u_is_in_field": "fd_hot_air2" },
+            { "u_is_in_field": "fd_hot_air3" },
+            { "u_is_in_field": "fd_hot_air4" },
+            { "u_is_in_field": "fd_fire" },
+            { "u_is_in_field": "fd_salamander_heat" },
+            { "u_is_in_field": "fd_migo_atmosphere" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
+  },
+  {
     "id": "salamander_aoe_explosion",
     "type": "SPELL",
     "name": "Salamander AoE Explosion",

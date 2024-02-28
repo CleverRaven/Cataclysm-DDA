@@ -491,7 +491,7 @@
     "description": "Your broad, pointed ears are like radar dishes.  You can hear even the slightest sounds at great distance, and are less likely to be deafened by loud noises.",
     "types": [ "HEARING" ],
     "//": "Super_hearing multiplies hearing by 3.5 and let you crack safes. A bat mutant is a bit better at hearing overall than someone with GOODHEARING and a CBM.",
-    "flags": [ "HEARING_PROTECTION", "SUPER_HEARING" ],
+    "flags": [ "HEARING_PROTECTION", "SAFECRACK_NO_TOOL" ],
     "prereqs": [ "GOODHEARING" ],
     "category": [ "CHIROPTERAN" ],
     "hearing_modifier": 1.8
@@ -6204,6 +6204,7 @@
     "prereqs2": [ "AMORPHOUS" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": { "math": [ "rng(-0.75, 1)" ] } } ] } ],
     "passive_mods": { "per_mod": -8 }
   },
   {
@@ -7889,6 +7890,7 @@
     "name": { "str": "Shouter" },
     "points": -2,
     "description": "You occasionally shout uncontrollably.",
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 2 } ] } ],
     "changes_to": [ "SHOUT2" ],
     "category": [ "RAPTOR", "BEAST", "CHIMERA", "LUPINE" ]
   },
@@ -7898,6 +7900,7 @@
     "name": { "str": "Screamer" },
     "points": -3,
     "description": "You sometimes scream uncontrollably.",
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 5 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
     "prereqs": [ "SHOUT1" ],
     "changes_to": [ "SHOUT3" ],
     "category": [ "BEAST", "CHIMERA", "LUPINE" ]
@@ -7908,6 +7911,7 @@
     "name": { "str": "Howler" },
     "points": -4,
     "description": "You frequently let out a piercing howl.",
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 10 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
     "prereqs": [ "SHOUT2" ],
     "category": [ "CHIMERA", "LUPINE" ]
   },
@@ -9437,6 +9441,7 @@
     "name": { "str": "Booming Voice" },
     "points": 1,
     "description": "You know how to project your voice.  You are able to shout much louder than the average person.",
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 10 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
     "category": [ "BEAST" ]
   },
   {

@@ -644,22 +644,7 @@
     "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater.",
     "category": [ "UNDINE" ],
     "valid": false,
-    "triggers": [ [ { "condition": "u_is_underwater" } ] ],
-    "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "UNDINE_WATER_FORM_CAMOUFLAGE_ON",
-    "name": { "str": "Watery Camouflage (active)" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater, such as right now.",
-    "category": [ "UNDINE" ],
-    "stealth_modifier": 60,
-    "triggers": [ [ { "condition": { "not": "u_is_underwater" } } ] ],
-    "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "undine_water_form_hiding" ]
   },
   {
     "type": "mutation",

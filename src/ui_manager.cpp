@@ -340,8 +340,9 @@ void ui_adaptor::redraw_invalidated( )
     if( test_mode || ui_stack.empty() ) {
         return;
     }
-
+#if !defined(__ANDROID__)
     imclient->new_frame();
+#endif
 
     restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
     restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
@@ -447,7 +448,9 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
+#if !defined(__ANDROID__)
     imclient->end_frame();
+#endif
 }
 
 void ui_adaptor::screen_resized()

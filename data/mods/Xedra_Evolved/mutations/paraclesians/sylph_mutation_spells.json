@@ -12,6 +12,19 @@
     "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH') * 0.1)" ] } } ]
   },
   {
+    "type": "enchantment",
+    "id": "sylph_fast_cast",
+    "condition": "u_is_outside",
+    "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "sylph_fast_cast2",
+    "condition": "u_is_outside",
+    "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ],
+    "ench_effects": [ { "effect": "effect_subtle_spell_flag", "intensity": 1 } ]
+  },
+  {
     "id": "zap_electrical_emission",
     "type": "SPELL",
     "name": "Zap",

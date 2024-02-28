@@ -117,7 +117,7 @@
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" }
+      { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" }
     ]
   },
   {

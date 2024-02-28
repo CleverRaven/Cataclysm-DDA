@@ -433,23 +433,7 @@
     "prereqs": [ "SYLPH_INT_BONUS_2" ],
     "changes_to": [ "SYLPH_FAST_CAST2" ],
     "category": [ "SYLPH" ],
-    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8
-  },
-  {
-    "type": "mutation",
-    "id": "SYLPH_FAST_CAST_ON",
-    "name": { "str": "Zephyr Chant (active)" },
-    "points": 7,
-    "description": "Like the blowing winds, the Sylph's mana races from of their body at their command.  -20% spell casting speed when outdoors.",
-    "prereqs": [ "SYLPH_INT_BONUS_2" ],
-    "changes_to": [ "SYLPH_FAST_CAST2" ],
-    "category": [ "SYLPH" ],
-    "valid": false,
-    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8
+    "enchantments": [ "sylph_fast_cast" ]
   },
   {
     "type": "mutation",
@@ -457,27 +441,10 @@
     "name": { "str": "Whistling Zephyr Chant" },
     "points": 10,
     "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
-    "prereqs": [ "SYLPH_FAST_CAST", "SYLPH_FAST_CAST_ON" ],
+    "prereqs": [ "SYLPH_FAST_CAST" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
-    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST2_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "SYLPH_FAST_CAST2_ON",
-    "name": { "str": "Whistling Zephyr Chant (active)" },
-    "points": 10,
-    "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
-    "prereqs": [ "SYLPH_FAST_CAST", "SYLPH_FAST_CAST_ON" ],
-    "prereqs2": [ "SYLPH_SKIN_3" ],
-    "category": [ "SYLPH" ],
-    "threshreq": [ "THRESH_SYLPH" ],
-    "valid": false,
-    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8,
-    "flags": [ "SUBTLE_SPELL" ]
+    "enchantments": [ "sylph_fast_cast2" ]
   },
   {
     "type": "mutation",

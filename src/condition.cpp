@@ -1632,6 +1632,19 @@ conditional_t::func f_get_condition( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_test_eoc( const JsonObject &jo, std::string_view member )
+{
+    str_or_var eocToTest = get_str_or_var( jo.get_member( member ), member, true );
+    return [eocToTest]( dialogue & d ) {
+        effect_on_condition_id tested( eocToTest.evaluate( d ) );
+        if( !tested.is_valid() ) {
+            debugmsg( "Invalid eoc id: %s", eocToTest.evaluate( d ) );
+            return false;
+        }
+        return tested->condition( d );
+    };
+}
+
 conditional_t::func f_has_ammo()
 {
     return []( dialogue & d ) {
@@ -2366,6 +2379,7 @@ parsers = {
     {"math", jarg::member, &conditional_fun::f_math },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },
+    {"test_eoc", jarg::member, &conditional_fun::f_test_eoc },
 };
 
 // When updating this, please also update `dynamic_line_string_keys` in
