@@ -197,7 +197,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "casting_time_multiplier": 0.01,            // changes your casting speed; 0.5 means you spend only 50% of the original cast time, 2 means you spend twice as long. Useful only for magic mods
   "crafting_speed_multiplier": 1,             // changes your crafting speed; 0.5 decrease your crafting speed to 50%, 2 doubles it
-  "dodge_modifier": 1,                        // adds or substract flat amount of dodge from character
   "vomit_multiplier": 3,                      // the modifier for the vomit chance
   "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
   "hp_adjustment": 3,                         // flat bonus/penalty to HP - `5` adds 5 hp to all limbs, `-3` subtract 3 hp.

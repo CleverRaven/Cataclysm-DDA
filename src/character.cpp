@@ -3806,7 +3806,6 @@ void Character::reset_stats()
 
     // Trait / mutation buffs
     mod_str_bonus( std::floor( mutation_value( "str_modifier" ) ) );
-    mod_dodge_bonus( std::floor( mutation_value( "dodge_modifier" ) ) );
 
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
     if( str_max >= 16 ) {
@@ -6365,7 +6364,6 @@ mutation_value_map = {
     { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
     { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
     { "str_modifier", calc_mutation_value<&mutation_branch::str_modifier> },
-    { "dodge_modifier", calc_mutation_value_additive<&mutation_branch::dodge_modifier> },
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },

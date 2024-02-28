@@ -1107,8 +1107,7 @@
     "fatigue": true,
     "kcal": true,
     "thirst": true,
-    "dodge_modifier": 2,
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] } ]
   },
   {
     "type": "mutation",
@@ -4913,7 +4912,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "dodge_modifier": 2
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4929,7 +4928,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "dodge_modifier": 1
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4945,7 +4944,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "dodge_modifier": 2
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4968,7 +4967,7 @@
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 8 }
     },
-    "dodge_modifier": 1
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -5007,7 +5006,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "dodge_modifier": 3
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -5023,7 +5022,7 @@
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "social_modifiers": { "lie": -20, "persuade": 10 },
-    "dodge_modifier": 4
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -6287,7 +6286,7 @@
     "category": [ "MOUSE", "RABBIT" ],
     "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.05,
-    "dodge_modifier": 1,
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ],
     "weight_capacity_modifier": 0.8
   },
   {
@@ -6305,7 +6304,7 @@
     "category": [ "MOUSE" ],
     "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.3,
-    "dodge_modifier": 2,
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ],
     "weight_capacity_modifier": 0.5,
     "noise_modifier": 0.0
   },
@@ -6325,7 +6324,7 @@
     "category": [ "MOUSE" ],
     "stomach_size_multiplier": 0.5,
     "hp_modifier": -0.25,
-    "dodge_modifier": 2,
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ],
     "weight_capacity_modifier": 0.7,
     "noise_modifier": 0.0
   },
@@ -6542,8 +6541,7 @@
     "category": [ "INSECT" ],
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
-    "dodge_modifier": -4,
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 } ] } ],
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "BONUS_DODGE", "add": -4 } ] } ],
     "flags": [ "WINGS_1" ]
   },
   {
@@ -6867,11 +6865,18 @@
     "description": "Your bones are particularly dense and durable.  Your tougher frame grants 5% more HP and 15% more carry capacity plus bashing attacks injure you less, but your higher weight makes attacking and moving 5% slower.  Also, dodging and swimming are harder.",
     "types": [ "BONES" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
+          { "value": "BONUS_DODGE", "add": -1 }
+        ]
+      }
+    ],
     "attackcost_modifier": 1.05,
     "weight_capacity_modifier": 1.15,
     "hp_adjustment": 4,
-    "dodge_modifier": -1,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
   },
   {
@@ -9292,7 +9297,7 @@
     "points": 2,
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "dodge_modifier": 3,
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ],
     "category": [ "FELINE" ]
   },
   {
