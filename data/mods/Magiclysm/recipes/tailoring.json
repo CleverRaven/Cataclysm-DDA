@@ -207,7 +207,7 @@
     "copy-from": "gambeson_pants_parabolan",
     "time": "60 h",
     "using": [ [ "fastener_small", 7 ] ],
-    "components": [ [ [ "parabolan_felt_patch", 820 ] ],  [ [ "parabolan_yarn", 600 ] ] ]
+    "components": [ [ [ "parabolan_felt_patch", 820 ] ], [ [ "parabolan_yarn", 600 ] ] ]
   },
   {
     "result": "xs_gambeson_pants_parabolan",
