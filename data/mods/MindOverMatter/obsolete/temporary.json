@@ -1,13 +1,8 @@
 [
   {
-    "type": "mutation",
+    "type": "TRAIT_MIGRATION",
     "id": "CLAIR_SPEED_READ",
-    "name": { "str": "Speed Reader" },
-    "points": 1,
-    "description": "Your powers allow you to absorb knowledge at a greatly accelerated pace.",
-    "reading_speed_multiplier": 0.66,
-    "valid": false,
-    "enchantments": [ "enchant_clair_speed_read" ]
+    "remove": true
   },
   {
     "type": "mutation",
