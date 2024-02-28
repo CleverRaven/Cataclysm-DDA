@@ -4009,7 +4009,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
                 you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), studying.name() );
             }
         } else if( old_level >= max_level_from_study ) {
-            end_activtity_function();
+            act->moves_left = 0;
         }
     }
 }
