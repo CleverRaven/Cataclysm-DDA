@@ -11,7 +11,7 @@
     "material": [ "parabolan_wool" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "3 g",
-    "volume": "250 ml",
+    "volume": "6 ml",
     "category": "spare_parts",
     "to_hit": -1
   },
@@ -28,9 +28,9 @@
     "description": "Parabolan wool yarn; could be used to knit iridescent wool clothing.",
     "material": [ "parabolan_wool" ],
     "volume": "250 ml",
-    "weight": "400 mg",
+    "weight": "600 mg",
     "ammo_type": "thread",
-    "count": 10,
+    "count": 50,
     "stack_size": 200
   },
   {
