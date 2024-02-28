@@ -4165,7 +4165,7 @@
     "points": 1,
     "visibility": 5,
     "ugliness": 4,
-    "rand_cut_bonus": { "min": 2, "max": 3 },
+    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_ACID", "add": { "math": [ "rng(2, 3)" ] } } ] } ],
     "description": "The skin on your hands is now a mucous membrane that produces a thick, acrid slime.  Attacks using your hand will cause minor acid damage.  Slightly increases wet benefits.",
     "prereqs": [ "SLIMY" ],
     "category": [ "SLIME" ],

@@ -97,7 +97,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "pierce_dmg_bonus": 3,                      // Bonus to unarmed pierce damage (default: 0.0).
   "bash_dmg_bonus": 3,                        // Bonus to unarmed bash damage (default: 0).
   "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
-  "rand_cut_bonus": { "min": 2, "max": 3 },   // Random bonus to unarmed cut damage between min and max.
   "rand_bash_bonus": { "min": 2, "max": 3 },  // Random bonus to unarmed bash damage between min and max.
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "bodytemp_sleep": 50,                       // Additional units of bodytemp which are applied when sleeping.

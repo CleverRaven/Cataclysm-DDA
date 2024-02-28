@@ -230,7 +230,6 @@ struct mutation_branch {
         std::optional<float> hp_adjustment = std::nullopt;
         //melee bonuses
         float pierce_dmg_bonus = 0.0f;
-        std::pair<int, int> rand_cut_bonus;
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
