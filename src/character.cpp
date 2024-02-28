@@ -6392,7 +6392,7 @@ float Character::mutation_value( const std::string &val ) const
 
 namespace
 {
-float _hp_modified_rate( Character const &who, float rate ) 
+float _hp_modified_rate( Character const &who, float rate )
 {
     float const primary_hp_mod = who.enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
     if( primary_hp_mod < 0.0f ) {
@@ -10397,7 +10397,8 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     }
 
     if( movecost > 105 ) {
-        float obstacle_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_OBSTACLE_MOD, 1 );
+        float obstacle_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_OBSTACLE_MOD,
+                              1 );
         run_cost_effect_mul( obstacle_mult, _( "Obstacle Muts." ) );
 
         if( has_proficiency( proficiency_prof_parkour ) ) {
@@ -10426,7 +10427,8 @@ std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) cons
     }
 
     if( flatground ) {
-        float flatground_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_FLATGROUND_MOD, 1 );
+        float flatground_mult = enchantment_cache->modify_value( enchant_vals::mod::MOVECOST_FLATGROUND_MOD,
+                                1 );
         run_cost_effect_mul( flatground_mult, _( "Flat Ground Mut." ) );
     }
 
