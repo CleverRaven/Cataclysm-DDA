@@ -10,7 +10,6 @@
     "mixed_effect": true,
     "description": "Eating that goblin fruit has made you grow to enormous size!",
     "flags": [ "HUGE" ],
-    "passive_mods": { "str_mod": 6 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "stomach_size_multiplier": 2.0,
     "weight_capacity_modifier": 1.1,
@@ -22,7 +21,7 @@
     "type": "enchantment",
     "id": "ench_giant_growth_size_bonuses",
     "condition": "ALWAYS",
-    "values": [ { "value": "MAX_HP", "multiply": 0.4 } ]
+    "values": [ { "value": "MAX_HP", "multiply": 0.4 }, { "values": [ { "value": "STRENGTH", "add": 6 } ] } ]
   },
   {
     "type": "mutation",

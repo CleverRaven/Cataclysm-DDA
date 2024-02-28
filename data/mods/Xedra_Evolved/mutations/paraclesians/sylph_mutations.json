@@ -371,7 +371,7 @@
     "prereqs": [ "SYLPH_SPEED_INCREASE" ],
     "description": "The Sylph's moves like the wind.  +2 Dexterity.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -384,7 +384,7 @@
     "prereqs2": [ "SYLPH_SPEED_INCREASE2" ],
     "description": "The Sylph's moves like a sudden burst of wind.  +5 Dexterity.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "dex_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -397,7 +397,7 @@
     "prereqs": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
     "description": "The Sylph's mind has the clarity of pure frozen water.  +2 Intelligence.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -409,7 +409,7 @@
     "prereqs": [ "SYLPH_INT_BONUS_1" ],
     "description": "The Sylph's thoughts move as quickly as a bolt of lightning.  +4 Intelligence.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "int_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -421,7 +421,7 @@
     "prereqs": [ "SYLPH_EYES" ],
     "description": "Like a bird soaring on the wind, the Sylph's keen eyes take in their surroundings.  +3 Perception.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "per_mod": 3 },
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ],
     "flags": [ "ENHANCED_VISION" ]
   },
   {

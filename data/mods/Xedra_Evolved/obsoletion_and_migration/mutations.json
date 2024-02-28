@@ -139,7 +139,16 @@
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "mana_regen_multiplier": 1.5,
     "mana_multiplier": 1.5,
-    "passive_mods": { "str_mod": 2, "dex_mod": 2, "int_mod": 2, "per_mod": 2 },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "INTELLIGENCE", "add": 2 },
+          { "value": "PERCEPTION", "add": 2 }
+        ]
+      }
+    ],
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_POWER_MANA_STATS", "msg_transform": "", "active": false, "moves": 0 }
   },

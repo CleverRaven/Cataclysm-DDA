@@ -52,7 +52,7 @@
     "mixed_effect": true,
     "points": 0,
     "crafting_speed_multiplier": 0.5,
-    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] } ],
     "flags": [ "NO_SPELLCASTING" ]
   },
   {

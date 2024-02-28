@@ -253,8 +253,7 @@
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
     "spells_learned": [ [ "holy_shield", 5 ], [ "judgement_sword", 5 ] ],
-    "passive_mods": { "dex_mod": 5 },
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 1 } ] } ],
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 1 }, { "value": "DEXTERITY", "add": 5 } ] } ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -571,7 +570,7 @@
     "valid": false,
     "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your ley lines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
-    "passive_mods": { "int_mod": 5 },
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ],
     "casting_time_multiplier": 0.75,
     "spells_learned": [ [ "overaccelerate", 5 ], [ "overclocker_drive", 5 ] ],
     "cancels": [

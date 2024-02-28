@@ -420,7 +420,7 @@
     "changes_to": [ "SALAMANDER_STR_BONUS_2" ],
     "description": "Like a fire fueled with fresh wood, you have increased strength.  +1 Strength.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -433,7 +433,7 @@
     "prereqs2": [ "SALAMANDER_EMIT_HEAT" ],
     "description": "Like the bonfire that will burn through the night, you have greatly increased strength.  +3 Strength.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -445,7 +445,7 @@
     "changes_to": [ "SALAMANDER_DEX_BONUS_2" ],
     "description": "Like a fire sparks kindling in flame, you have increased speed.  +2 Dexterity.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -458,7 +458,7 @@
     "prereqs2": [ "SALAMANDER_ECTOTHERM" ],
     "description": "Like a forest fire moving faster than a running horse, you have greatly increased speed.  +5 Dexterity.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "dex_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -482,7 +482,7 @@
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "description": "Your thoughts are as fast as a forest fire.  +2 Intelligence.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
