@@ -307,6 +307,12 @@ class input_context
         action_id display_menu( bool permit_execute_action = false );
     private:
         /**
+         * Reset action to default keybindings.
+         * Prompt the user to resolve conflicts if they arise.
+         * @return true if keybinding changed
+         */
+        bool action_reset( const std::string &action_id );
+        /**
          * Prompt the user to add an event to an action.
          * Prompt the user to resolve conflicts if they arise.
          * @return true if keybinding changed

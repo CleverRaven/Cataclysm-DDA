@@ -33,7 +33,7 @@
 #include "ui_manager.h"
 
 enum class kb_menu_status {
-    remove, add, add_global, execute, show
+    remove, reset, add, add_global, execute, show
 };
 
 #if !defined(__ANDROID__)
@@ -52,7 +52,7 @@ class keybindings_ui : public cataimgui::window
         input_context *ctxt;
         char filter_text_impl[255]; // NOLINT(modernize-avoid-c-arrays)
     public:
-        // current status: adding/removing/executing/showing keybindings
+        // current status: adding/removing/reseting/executing/showing keybindings
         kb_menu_status status = kb_menu_status::show, last_status = kb_menu_status::execute;
 
         // keybindings help
@@ -596,6 +596,7 @@ enum class fallback_action {
     add_local,
     add_global,
     remove,
+    reset,
     execute,
 };
 } // namespace
@@ -603,6 +604,7 @@ static const std::map<fallback_action, int> fallback_keys = {
     { fallback_action::add_local, '+' },
     { fallback_action::add_global, '=' },
     { fallback_action::remove, '-' },
+    { fallback_action::reset, '*' },
     { fallback_action::execute, '.' },
 };
 
@@ -634,6 +636,10 @@ keybindings_ui::keybindings_ui( bool permit_execute_action,
         {
             "ADD_GLOBAL", string_format( _( "[<color_yellow>%c</color>] Add global keybinding" ),
                                          fallback_keys.at( fallback_action::add_global ) )
+        },
+        {
+            "RESET", string_format( _( "[<color_yellow>%c</color>] Reset keybinding" ),
+                                    fallback_keys.at( fallback_action::reset ) )
         } } );
 }
 
@@ -646,7 +652,7 @@ void keybindings_ui::draw_controls()
 {
     scroll_offset = SIZE_MAX;
     size_t legend_idx = 0;
-    for( ; legend_idx < 3; legend_idx++ ) {
+    for( ; legend_idx < 4; legend_idx++ ) {
         draw_colored_text( legend[legend_idx], c_white );
         ImGui::SameLine();
         std::string button_text_no_color = remove_color_tags( buttons[legend_idx].second );
@@ -685,6 +691,8 @@ void keybindings_ui::draw_controls()
             bool basic_overwrite_default;
             const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id,
                     ctxt->category, &basic_overwrite_default, true );
+            bool customized_keybinding = overwrite_default != basic_overwrite_default
+                                         || attributes.input_events != basic_attributes.input_events;
 
             ImGui::TableNextColumn();
             ImGui::Text( " " );
@@ -701,12 +709,14 @@ void keybindings_ui::draw_controls()
                 }
             }
             std::string key_text;
-            if( status == kb_menu_status::add_global && overwrite_default ) {
+            if( ( status == kb_menu_status::add_global && overwrite_default )
+                || ( status == kb_menu_status::reset && !customized_keybinding )
+              ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
                 key_text = colorize( string_format( "%c", invlet ), c_dark_gray );
             } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
-                       status == kb_menu_status::remove ) {
+                       status == kb_menu_status::remove || status == kb_menu_status::reset ) {
                 key_text = colorize( string_format( "%c", invlet ), c_light_blue );
             } else if( status == kb_menu_status::execute ) {
                 key_text = colorize( string_format( "%c", invlet ), c_white );
@@ -721,9 +731,7 @@ void keybindings_ui::draw_controls()
             } else {
                 col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
             }
-            if( overwrite_default != basic_overwrite_default
-                || attributes.input_events != basic_attributes.input_events
-              ) {
+            if( customized_keybinding ) {
                 key_text += "*";
             } else {
                 key_text += " ";
@@ -796,6 +804,45 @@ bool input_context::resolve_conflicts( const std::vector<input_event> &events,
     return true;
 }
 
+bool input_context::action_reset( const std::string &action_id )
+{
+    // FIND CONFLICTS
+    std::vector<input_event> conflicting_events;
+    std::array<std::reference_wrapper<const std::string>, 2> contexts = { default_context_id, category };
+    for( const std::string &context : contexts ) {
+        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
+
+        bool is_in_def = def.find( action_id ) != def.end();
+        if( is_in_def ) {
+            for( const input_event &event : def.at( action_id ).input_events ) {
+                conflicting_events.emplace_back( event );
+            }
+        }
+    }
+    if( !resolve_conflicts( conflicting_events, action_id ) ) {
+        return false;
+    }
+
+    // RESET KEY BINDINGS
+    for( const std::string &context : contexts ) {
+        const input_manager::t_actions &def = inp_mngr.basic_action_contexts.at( context );
+        const input_manager::t_actions &cus = inp_mngr.action_contexts.at( context );
+
+        bool is_in_def = def.find( action_id ) != def.end();
+        bool is_in_cus = cus.find( action_id ) != cus.end();
+
+        if( is_in_cus ) {
+            inp_mngr.remove_input_for_action( action_id, context );
+        }
+
+        if( is_in_def ) {
+            for( const input_event &event : def.at( action_id ).input_events ) {
+                inp_mngr.add_input_for_action( action_id, context, event );
+            }
+        }
+    }
+    return true;
+}
 
 bool input_context::action_remove( const std::string &name, const std::string &action_id,
                                    bool is_local, bool is_empty )
@@ -874,6 +921,7 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "REMOVE" );
+    ctxt.register_action( "RESET" );
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
     if( permit_execute_action ) {
@@ -952,7 +1000,7 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
     static const nc_color unbound_key = c_light_red;
     static const nc_color h_unbound_key = h_light_red;
 
-    enum class kb_btn_idx { none, remove, add_local, add_global } highlighted_btn_index =
+    enum class kb_btn_idx { none, remove, reset, add_local, add_global } highlighted_btn_index =
         kb_btn_idx::none;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
@@ -994,6 +1042,10 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
                      item_color( static_cast<int>( kb_btn_idx::add_global ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
                                     fallback_keys.at( fallback_action::add_global ) ) );
+        right_print( w_help, 4, 2,
+                     item_color( static_cast<int>( kb_btn_idx::reset ), int( highlighted_btn_index ) ),
+                     string_format( _( "<[<color_yellow>%c</color>] Reset keybinding>" ),
+                                    fallback_keys.at( fallback_action::reset ) ) );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -1005,6 +1057,8 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
             bool basic_overwrite_default;
             const action_attributes &basic_attributes = inp_mngr.get_action_attributes( action_id, category,
                     &basic_overwrite_default, true );
+            bool customized_keybinding = overwrite_default != basic_overwrite_default
+                                         || attributes.input_events != basic_attributes.input_events;
 
             char invlet;
             if( i < hotkeys.size() ) {
@@ -1013,12 +1067,14 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
                 invlet = ' ';
             }
 
-            if( status == kb_menu_status::add_global && overwrite_default ) {
+            if( ( status == kb_menu_status::add_global && overwrite_default )
+                || ( status == kb_menu_status::reset && !customized_keybinding )
+              ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
                 mvwprintz( w_help, point( 2, i + 7 ), c_dark_gray, "%c ", invlet );
             } else if( status == kb_menu_status::add || status == kb_menu_status::add_global ||
-                       status == kb_menu_status::remove ) {
+                       status == kb_menu_status::remove || status == kb_menu_status::reset ) {
                 mvwprintz( w_help, point( 2, i + 7 ), c_light_blue, "%c ", invlet );
             } else if( status == kb_menu_status::execute ) {
                 mvwprintz( w_help, point( 2, i + 7 ), c_white, "%c ", invlet );
@@ -1033,9 +1089,7 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
             } else {
                 col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
             }
-            if( overwrite_default != basic_overwrite_default
-                || attributes.input_events != basic_attributes.input_events
-              ) {
+            if( customized_keybinding ) {
                 mvwprintz( w_help, point( 3, i + 7 ), col, "*" );
             }
             mvwprintz( w_help, point( 4, i + 7 ), col, "%s:", get_action_name( action_id ) );
@@ -1085,6 +1139,8 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
                         highlighted_btn_index = kb_btn_idx::add_local;
                     } else if( p.y == 3 ) {
                         highlighted_btn_index = kb_btn_idx::add_global;
+                    } else if( p.y == 4 ) {
+                        highlighted_btn_index = kb_btn_idx::reset;
                     }
                 }
             }
@@ -1092,6 +1148,9 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
                 switch( highlighted_btn_index ) {
                     case kb_btn_idx::remove:
                         status = kb_menu_status::remove;
+                        break;
+                    case kb_btn_idx::reset:
+                        status = kb_menu_status::reset;
                         break;
                     case kb_btn_idx::add_local:
                         status = kb_menu_status::add;
@@ -1121,6 +1180,11 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
                    || raw_input_char == fallback_keys.at( fallback_action::remove ) ) {
             if( !filtered_registered_actions.empty() ) {
                 status = kb_menu_status::remove;
+            }
+        } else if( action == "RESET"
+                   || raw_input_char == fallback_keys.at( fallback_action::reset ) ) {
+            if( !filtered_registered_actions.empty() ) {
+                status = kb_menu_status::reset;
             }
         } else if( ( action == "EXECUTE"
                      || raw_input_char == fallback_keys.at( fallback_action::execute ) )
@@ -1193,6 +1257,8 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
             // bindings for the default context.
             if( status == kb_menu_status::remove && ( is_local || !is_empty ) ) {
                 changed = action_remove( name, action_id, is_local, is_empty );
+            } else if( status == kb_menu_status::reset ) {
+                changed = action_reset( action_id );
             } else if( status == kb_menu_status::add_global && is_local ) {
                 // Disallow adding global actions to an action that already has a local defined.
                 popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
@@ -1232,6 +1298,7 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
     ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "SELECT" );
     ctxt.register_action( "REMOVE" );
+    ctxt.register_action( "RESET" );
     ctxt.register_action( "ADD_LOCAL" );
     ctxt.register_action( "ADD_GLOBAL" );
     ctxt.register_action( "TEXT.CLEAR" );
@@ -1313,6 +1380,11 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
             if( !kb_menu.filtered_registered_actions.empty() ) {
                 kb_menu.status = kb_menu_status::remove;
             }
+        } else if( action == "RESET"
+                   || raw_input_char == fallback_keys.at( fallback_action::reset ) ) {
+            if( !kb_menu.filtered_registered_actions.empty() ) {
+                kb_menu.status = kb_menu_status::reset;
+            }
         } else if( ( action == "EXECUTE"
                      || raw_input_char == fallback_keys.at( fallback_action::execute ) )
                    && permit_execute_action ) {
@@ -1365,6 +1437,8 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
             // bindings for the default context.
             if( kb_menu.status == kb_menu_status::remove && ( is_local || !is_empty ) ) {
                 changed = action_remove( name, action_id, is_local, is_empty );
+            } else if( kb_menu.status == kb_menu_status::reset ) {
+                changed = action_reset( action_id );
             } else if( kb_menu.status == kb_menu_status::add_global && is_local ) {
                 // Disallow adding global actions to an action that already has a local defined.
                 popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
