@@ -115,7 +115,7 @@
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
-      [ [ "parabolan_felt_patch", 2096 ] ], 
+      [ [ "parabolan_felt_patch", 2096 ] ],
       [ [ "parabolan_yarn", 1250 ] ]
     ]
   },
