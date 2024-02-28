@@ -285,7 +285,7 @@
     "id": "hair_dye_kit",
     "type": "TOOL",
     "name": { "str": "hair dye kit" },
-    "description": "A kit featuring all the tools needed to dye hair, including an applicator brush, combs, and plastic gloves.  ",
+    "description": "A kit featuring all the tools needed to dye hair, including an applicator brush, combs, and plastic gloves.",
     "ascii_picture": "box_small",
     "weight": "154 g",
     "volume": "2250 ml",
