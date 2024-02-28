@@ -3415,7 +3415,6 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when
 {
     std::vector<std::pair<std::string, std::string>> rval;
     std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
-    int order;
     std::string overlay_id;
     std::string variant;
 
