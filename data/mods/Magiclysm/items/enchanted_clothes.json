@@ -328,7 +328,7 @@
     "id": "gambeson_gloves_parabolan",
     "type": "ARMOR",
     "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
-    "description": "Thick iridescent wool gauntlets worn in lieu of metal or leather armor.  These are much less encumbering and warm thatn conventional wool, but they offer excellent protection against arrows.",
+    "description": "Thick iridescent wool gauntlets worn in lieu of metal or leather armor.  These are much less encumbering and warm than conventional wool, but they offer excellent protection against arrows.",
     "weight": "348 g",
     "volume": "250 ml",
     "price_postapoc": 40000,
