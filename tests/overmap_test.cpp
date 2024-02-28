@@ -18,6 +18,7 @@
 #include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
+#include "test_data.h"
 #include "type_id.h"
 
 static const oter_str_id oter_cabin( "cabin" );
@@ -25,44 +26,6 @@ static const oter_str_id oter_cabin_east( "cabin_east" );
 static const oter_str_id oter_cabin_north( "cabin_north" );
 static const oter_str_id oter_cabin_south( "cabin_south" );
 static const oter_str_id oter_cabin_west( "cabin_west" );
-
-static const oter_type_str_id oter_type_ants_lab( "ants_lab" );
-static const oter_type_str_id oter_type_ants_lab_stairs( "ants_lab_stairs" );
-static const oter_type_str_id oter_type_bandit_drug_lab( "bandit_drug_lab" );
-static const oter_type_str_id oter_type_bunker_shop_b( "bunker_shop_b" );
-static const oter_type_str_id oter_type_bunker_shop_g( "bunker_shop_g" );
-static const oter_type_str_id oter_type_deserter_city_gate( "deserter_city_gate" );
-static const oter_type_str_id oter_type_deserter_city_office_1f( "deserter_city_office_1f" );
-static const oter_type_str_id oter_type_deserter_city_office_1fb( "deserter_city_office_1fb" );
-static const oter_type_str_id oter_type_deserter_city_office_2f( "deserter_city_office_2f" );
-static const oter_type_str_id oter_type_deserter_city_office_2fb( "deserter_city_office_2fb" );
-static const oter_type_str_id oter_type_deserter_city_office_3f( "deserter_city_office_3f" );
-static const oter_type_str_id oter_type_deserter_city_office_3fb( "deserter_city_office_3fb" );
-static const oter_type_str_id oter_type_deserter_city_office_roof( "deserter_city_office_roof" );
-static const oter_type_str_id oter_type_deserter_city_office_roofb( "deserter_city_office_roofb" );
-static const oter_type_str_id oter_type_deserter_city_park( "deserter_city_park" );
-static const oter_type_str_id oter_type_ocean_bed( "ocean_bed" );
-static const oter_type_str_id oter_type_ocean_shore( "ocean_shore" );
-static const oter_type_str_id oter_type_ocean_surface( "ocean_surface" );
-static const oter_type_str_id oter_type_ocean_water_cube( "ocean_water_cube" );
-static const oter_type_str_id oter_type_ravine( "ravine" );
-static const oter_type_str_id oter_type_ravine_edge( "ravine_edge" );
-static const oter_type_str_id oter_type_ravine_floor( "ravine_floor" );
-static const oter_type_str_id oter_type_ravine_floor_edge( "ravine_floor_edge" );
-static const oter_type_str_id oter_type_rock_border( "rock_border" );
-static const oter_type_str_id oter_type_s_gas_b11( "s_gas_b11" );
-static const oter_type_str_id oter_type_s_gas_b20( "s_gas_b20" );
-static const oter_type_str_id oter_type_s_gas_b21( "s_gas_b21" );
-static const oter_type_str_id oter_type_s_gas_g0( "s_gas_g0" );
-static const oter_type_str_id oter_type_s_gas_g0_roof( "s_gas_g0_roof" );
-static const oter_type_str_id oter_type_s_gas_g1( "s_gas_g1" );
-static const oter_type_str_id oter_type_s_gas_g1_roof( "s_gas_g1_roof" );
-static const oter_type_str_id oter_type_s_restaurant_deserted_test( "s_restaurant_deserted_test" );
-static const oter_type_str_id oter_type_unvitrified_farm_0( "unvitrified_farm_0" );
-static const oter_type_str_id oter_type_unvitrified_farm_1( "unvitrified_farm_1" );
-static const oter_type_str_id oter_type_unvitrified_farm_2( "unvitrified_farm_2" );
-static const oter_type_str_id oter_type_unvitrified_farm_neg_1( "unvitrified_farm_neg_1" );
-static const oter_type_str_id oter_type_unvitrified_orchard( "unvitrified_orchard" );
 
 static const overmap_special_id overmap_special_Cabin( "Cabin" );
 static const overmap_special_id overmap_special_Lab( "Lab" );
@@ -316,46 +279,6 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         }
     }
 
-    std::unordered_set<oter_type_id> whitelist = {
-        oter_type_ants_lab.id(), // ant lab is a very improbable spawn
-        oter_type_ants_lab_stairs.id(),
-        oter_type_bandit_drug_lab.id(),
-        oter_type_bunker_shop_b.id(),
-        oter_type_bunker_shop_g.id(),
-        oter_type_deserter_city_gate.id(),
-        oter_type_deserter_city_park.id(),
-        oter_type_deserter_city_office_1f.id(),
-        oter_type_deserter_city_office_2f.id(),
-        oter_type_deserter_city_office_3f.id(),
-        oter_type_deserter_city_office_roof.id(),
-        oter_type_deserter_city_office_1fb.id(),
-        oter_type_deserter_city_office_2fb.id(),
-        oter_type_deserter_city_office_3fb.id(),
-        oter_type_deserter_city_office_roofb.id(),
-        oter_type_ravine.id(), // ravine only in desert & Aftershock
-        oter_type_ravine_edge.id(),
-        oter_type_ravine_floor_edge.id(),
-        oter_type_ravine_floor.id(),
-        oter_type_rock_border.id(), // only in the bordered scenario
-        oter_type_s_gas_b11.id(),
-        oter_type_s_gas_b20.id(),
-        oter_type_s_gas_b21.id(),
-        oter_type_s_gas_g0.id(),
-        oter_type_s_gas_g0_roof.id(),
-        oter_type_s_gas_g1.id(),
-        oter_type_s_gas_g1_roof.id(),
-        oter_type_s_restaurant_deserted_test.id(), // only in the desert test region
-        oter_type_unvitrified_orchard.id(),
-        oter_type_unvitrified_farm_0.id(),
-        oter_type_unvitrified_farm_1.id(),
-        oter_type_unvitrified_farm_2.id(),
-        oter_type_unvitrified_farm_neg_1.id(),
-        oter_type_ocean_shore.id(), // ocean tiles require you to travel to find them.
-        oter_type_ocean_bed.id(),
-        oter_type_ocean_surface.id(),
-        oter_type_ocean_water_cube.id()
-    };
-
     std::unordered_set<oter_type_id> done;
     std::vector<oter_type_id> missing;
 
@@ -387,7 +310,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
 
             if( found ) {
                 FAIL( "oter_type_id was found in map but had SHOULD_NOT_SPAWN flag" );
-            } else if( !whitelist.count( id ) ) {
+            } else if( !test_data::overmap_terrain_coverage_whitelist.count( id ) ) {
                 missing.push_back( id );
             }
         }

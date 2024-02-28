@@ -50,7 +50,7 @@
     "comestible_type": "FOOD",
     "symbol": ",",
     "calories": 30,
-    "description": "Figs are a unique fruit resembling a teardrop.  They’re about the size of your thumb, filled with hundreds of tiny seeds, and have an edible purple or green peel.  The flesh of the fruit is pink and has a mild, sweet taste.  The scientific name for the fig is Ficus carica.",
+    "description": "Figs are a unique fruit resembling a teardrop.  They're about the size of your thumb, filled with hundreds of tiny seeds, and have an edible purple or green peel.  The flesh of the fruit is pink and has a mild, sweet taste.  The scientific name for the fig is Ficus carica.",
     "price": 120,
     "price_postapoc": 300,
     "material": [ "fruit" ],

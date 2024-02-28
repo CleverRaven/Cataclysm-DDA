@@ -1,0 +1,33 @@
+[
+  {
+    "id": "zenfs_spacer",
+    "type": "widget",
+    "style": "layout",
+    "label": "(Spacer)",
+    "description": "One line of empty vertical space.",
+    "arrange": "rows",
+    "width": 1,
+    "widgets": [  ]
+  },
+  {
+    "id": "zenfs_spacer_disabled",
+    "type": "widget",
+    "copy-from": "zenfs_spacer",
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "zenfs_blank_line",
+    "type": "widget",
+    "style": "text",
+    "string": "",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_blank_space",
+    "type": "widget",
+    "style": "text",
+    "string": " ",
+    "flags": [ "W_LABEL_NONE" ],
+    "padding": 1
+  }
+]

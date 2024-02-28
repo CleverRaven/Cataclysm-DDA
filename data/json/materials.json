@@ -253,30 +253,6 @@
   },
   {
     "type": "material",
-    "id": "acidchitin",
-    "name": "Biosilicified Chitin",
-    "density": 4.5,
-    "specific_heat_liquid": 4.186,
-    "specific_heat_solid": 2.108,
-    "latent_heat": 333,
-    "chip_resist": 8,
-    "breathability": "GOOD",
-    "salvaged_into": "acidchitin_piece",
-    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
-    "bash_dmg_verb": "cracked",
-    "cut_dmg_verb": "chipped",
-    "//": "Normal chitin has low but non-zero flammability according to the US NFPA.",
-    "burn_data": [
-      { "fuel": 0, "smoke": 0, "burn": 0.0001 },
-      { "fuel": 0.2, "smoke": 3, "burn": 0.005, "volume_per_turn": "200 ml" },
-      { "fuel": 0.35, "smoke": 5, "burn": 0.015, "volume_per_turn": "200 ml" }
-    ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ],
-    "resist": { "bash": 2.3, "cut": 3.7, "acid": 16, "heat": 4, "bullet": 1.2 },
-    "repair_difficulty": 8
-  },
-  {
-    "type": "material",
     "id": "bone",
     "name": "Bone",
     "density": 1.4,
@@ -485,6 +461,30 @@
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ],
     "resist": { "bash": 2.5, "cut": 4, "acid": 6, "heat": 2.5, "bullet": 1.4 },
+    "repair_difficulty": 5
+  },
+  {
+    "type": "material",
+    "id": "acidchitin",
+    "name": "Biosilicified Chitin",
+    "density": 1.45,
+    "specific_heat_liquid": 4.186,
+    "specific_heat_solid": 2.108,
+    "latent_heat": 333,
+    "chip_resist": 7,
+    "breathability": "GOOD",
+    "wind_resist": 90,
+    "salvaged_into": "acidchitin_piece",
+    "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
+    "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "chipped",
+    "burn_data": [
+      { "fuel": 0, "smoke": 0, "burn": 0.0001 },
+      { "fuel": 0.2, "smoke": 3, "burn": 0.001, "volume_per_turn": "200 ml" },
+      { "fuel": 0.35, "smoke": 5, "burn": 0.05, "volume_per_turn": "200 ml" }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "resist": { "bash": 1, "cut": 6, "acid": 20, "heat": 4, "bullet": 1.2 },
     "repair_difficulty": 5
   },
   {
@@ -2189,6 +2189,20 @@
   },
   {
     "type": "material",
+    "id": "quicklime",
+    "name": "Quicklime",
+    "copy-from": "stone",
+    "density": 3.34
+  },
+  {
+    "type": "material",
+    "id": "cement",
+    "name": "Cement",
+    "copy-from": "stone",
+    "density": 1.44
+  },
+  {
+    "type": "material",
     "id": "monolith",
     "name": "Monolith",
     "density": 28,
@@ -2861,7 +2875,7 @@
     "id": "sand",
     "name": "Sand",
     "copy-from": "soil",
-    "density": 1.52
+    "density": 1.6
   },
   {
     "type": "material",

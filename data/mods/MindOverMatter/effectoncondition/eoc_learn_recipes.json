@@ -1,140 +1,133 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES",
-    "effect": [ { "u_learn_recipe": "practice_biokin_physical_enhance" }, { "u_learn_recipe": "practice_biokin_overcome_pain" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_clair_night_vision" },
-      { "u_learn_recipe": "practice_clair_danger_sense" },
-      { "u_learn_recipe": "practice_clair_speed_reading" },
-      { "u_learn_recipe": "practice_clair_aura_sight" },
-      { "u_learn_recipe": "practice_clair_spot_weakness" },
-      { "u_learn_recipe": "practice_clair_ranged_enhance" },
-      { "u_learn_recipe": "practice_clair_voyance" },
-      { "u_learn_recipe": "practice_clair_dodge_power" },
-      { "u_learn_recipe": "practice_clair_craft_bonus" },
-      { "u_learn_recipe": "practice_clair_see_map" },
-      { "u_learn_recipe": "practice_clair_perfect_shot" },
-      { "u_learn_recipe": "practice_clair_clear_sight" },
-      { "u_learn_recipe": "practice_clair_group_tactics" },
-      { "u_learn_recipe": "practice_clair_omniscience" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_electrokinetic_see_electric" },
-      { "u_learn_recipe": "practice_electrokinetic_shock_touch" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_photokinetic_light_local" },
-      { "u_learn_recipe": "practice_photokinetic_create_light" },
-      { "u_learn_recipe": "practice_photokinetic_snuff_light" },
-      { "u_learn_recipe": "practice_photokinetic_light_dodge" },
-      { "u_learn_recipe": "practice_photokinetic_light_beam" },
-      { "u_learn_recipe": "practice_photokinetic_camouflage" },
-      { "u_learn_recipe": "practice_photokinetic_rad_immunity" },
-      { "u_learn_recipe": "practice_photokinetic_light_arms" },
-      { "u_learn_recipe": "practice_photokinetic_hide_ugly" },
-      { "u_learn_recipe": "practice_photokinetic_light_image" },
-      { "u_learn_recipe": "practice_photokinetic_radio" },
-      { "u_learn_recipe": "practice_photokinetic_invisibility" },
-      { "u_learn_recipe": "practice_photokinetic_light_flash" },
-      { "u_learn_recipe": "practice_photokinetic_light_blinding_glare" },
-      { "u_learn_recipe": "practice_photokinetic_light_disintegrate" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_pyrokinetic_flash" },
-      { "u_learn_recipe": "practice_pyrokinetic_eruption" },
-      { "u_learn_recipe": "practice_pyrokinetic_cauterize" },
-      { "u_learn_recipe": "practice_pyrokinetic_call_flames" },
-      { "u_learn_recipe": "practice_pyrokinetic_quell_flames" },
-      { "u_learn_recipe": "practice_pyrokinetic_cloak" },
-      { "u_learn_recipe": "practice_pyrokinetic_lance" },
-      { "u_learn_recipe": "practice_pyrokinetic_thermogenesis" },
-      { "u_learn_recipe": "practice_pyrokinetic_flamethrower" },
-      { "u_learn_recipe": "practice_pyrokinetic_aura" },
-      { "u_learn_recipe": "practice_pyrokinetic_flame_immunity" },
-      { "u_learn_recipe": "practice_pyrokinetic_blast" },
-      { "u_learn_recipe": "practice_pyrokinetic_aoe_blast" },
-      { "u_learn_recipe": "practice_pyrokinetic_incineration" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_telekinetic_pull" },
-      { "u_learn_recipe": "practice_telekinetic_push" },
-      { "u_learn_recipe": "improve_telekinesis_lifting_field" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_telepathic_concentration" },
-      { "u_learn_recipe": "practice_telepathic_shield" },
-      { "u_learn_recipe": "practice_telepathic_morale" },
-      { "u_learn_recipe": "practice_telepathic_mind_sense" },
-      { "u_learn_recipe": "practice_telepathic_blast" },
-      { "u_learn_recipe": "practice_telepathic_beastmaster" },
-      { "u_learn_recipe": "practice_telepathic_confusion" },
-      { "u_learn_recipe": "practice_telepathic_invisibility" },
-      { "u_learn_recipe": "practice_telepathic_fear" },
-      { "u_learn_recipe": "practice_telepathic_scream" },
-      { "u_learn_recipe": "practice_telepathic_beast_taming" },
-      { "u_learn_recipe": "practice_telepathic_mind_control" },
-      { "u_learn_recipe": "practice_telepathic_network" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES",
-    "effect": [ { "u_learn_recipe": "practice_teleport_blink" }, { "u_learn_recipe": "practice_teleport_slow" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES",
-    "effect": [
-      { "u_learn_recipe": "practice_vita_health_power" },
-      { "u_learn_recipe": "practice_vita_stop_bleeding" },
-      { "u_learn_recipe": "practice_vita_healing_touch" },
-      { "u_learn_recipe": "practice_vita_remove_poison" },
-      { "u_learn_recipe": "practice_vita_hurt_touch" },
-      { "u_learn_recipe": "practice_vita_cure_disease" },
-      { "u_learn_recipe": "practice_vita_sleeping_trance" },
-      { "u_learn_recipe": "practice_vita_pain_split" },
-      { "u_learn_recipe": "practice_vita_stop_infection" },
-      { "u_learn_recipe": "practice_vita_healing_trance" },
-      { "u_learn_recipe": "practice_vita_attack_touch" },
-      { "u_learn_recipe": "practice_vita_blood_purge" },
-      { "u_learn_recipe": "practice_vita_banish_illness" },
-      { "u_learn_recipe": "practice_vita_super_heal" },
-      { "u_learn_recipe": "practice_vita_limb_restore" },
-      { "u_learn_recipe": "practice_vita_return_from_death" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_BIOKIN_RECIPE_TEACHER",
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "BIOKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_BIOKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_PHYSICAL_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_OVERCOME_PAIN",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_BREATH_SKIN",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_DASH",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_FLEXIBILITY",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ADRENALINE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ARMOR_SKIN",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_CLIMATE_CONTROL",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ENHANCE_MOBILITY",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_HAMMERHAND",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_REFLEX_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_SEALED_SYSTEM",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_METABOLISM_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_COMBAT_DANCE",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_PERFECTED_MOTION",
+          "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_HURRICANE_BLOWS"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_PHYSICAL_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_physical_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_OVERCOME_PAIN",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_overcome_pain')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_overcome_pain" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_BREATH_SKIN",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_breathe_skin')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_breathe_skin" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_DASH",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_dash')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_dash" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_FLEXIBILITY",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_flexibility')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_flexibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ADRENALINE",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_adrenaline" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ARMOR_SKIN",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_armor_skin')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_armor_skin" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_CLIMATE_CONTROL",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_climate_control')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_climate_control" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_ENHANCE_MOBILITY",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_enhance_mobility')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_enhance_mobility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_HAMMERHAND",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_hammerhand')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_hammerhand" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_REFLEX_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_reflex_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_SEALED_SYSTEM",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_sealed_system')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_sealed_system" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_METABOLISM_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_metabolism_enhance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_metabolism_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_COMBAT_DANCE",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_combat_dance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_combat_dance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_PERFECTED_MOTION",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_perfected_motion')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_perfected_motion" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_BIOKIN_RECIPE_HURRICANE_BLOWS",
+    "condition": { "and": [ { "u_has_trait": "BIOKINETIC" }, { "math": [ "u_spell_level('biokin_hurricane_blows')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_biokin_hurricane_blows" } ]
   },
   {
     "type": "effect_on_condition",
@@ -142,7 +135,115 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "CLAIRSENTIENT" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_CLAIR_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_NIGHT_VISION",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPEED_READING",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DANGER_SENSE",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPOT_WEAKNESS",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_AURA_SIGHT",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_RANGED_ENHANCE",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_VOYANCE",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DODGE_POWER",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_CRAFT_BONUS",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SEE_MAP",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_PERFECT_SHOT",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_CLEAR_SIGHT",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_GROUP_TACTICS",
+          "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_OMNISCIENCE"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_NIGHT_VISION",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_night_vision')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_night_vision" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPEED_READING",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_speed_reading')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_speed_reading" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DANGER_SENSE",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_danger_sense')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_danger_sense" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SPOT_WEAKNESS",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_spot_weakness')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_spot_weakness" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_AURA_SIGHT",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_see_auras')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_aura_sight" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_RANGED_ENHANCE",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_ranged_enhance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_ranged_enhance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_VOYANCE",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_voyance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_voyance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_DODGE_POWER",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_dodge_power')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_dodge_power" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_CRAFT_BONUS",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_craft_bonus')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_craft_bonus" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_SEE_MAP",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_see_map')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_see_map" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_PERFECT_SHOT",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_perfect_shot')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_perfect_shot" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_CLEAR_SIGHT",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_clear_sight')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_clear_sight" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_GROUP_TACTICS",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_group_tactics')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_group_tactics" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_CLAIR_RECIPE_OMNISCIENCE",
+    "condition": { "and": [ { "u_has_trait": "CLAIRSENTIENT" }, { "math": [ "u_spell_level('clair_omniscience')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_clair_omniscience" } ]
   },
   {
     "type": "effect_on_condition",
@@ -150,7 +251,168 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "ELECTROKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_ELECTROKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_SEE_ELECTRIC",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_SHOCK_TOUCH",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_ZAP_ENEMIES",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_MELEE_ATTACKS",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_HACKING_INTERFACE",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_ROBOT_INTERFACE",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PARALYSIS",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_REDUCE_PAIN",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_LIGHTNING_BOLT",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_RECHARGE_VEHICLE",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PAIN_IMMUNE",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_SPEED_BOOST",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_KILL_ROBOT",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_LIGHTNING_AURA",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_LIGHTNING_BLAST",
+          "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_REVIVE"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_SEE_ELECTRIC",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_see_electric')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_see_electric" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_SHOCK_TOUCH",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_shock_touch')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_shock_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_ZAP_ENEMIES",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_zap_enemies')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_zap_enemies" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_MELEE_ATTACKS",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_melee_attacks')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_melee_attacks" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_HACKING_INTERFACE",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_hacking_interface')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_hacking_interface" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_ROBOT_INTERFACE",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_robot_interface')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_robot_interface" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PERSONAL_BATTERY",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_personal_battery')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_personal_battery" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PARALYSIS",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_paralysis')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_paralysis" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_REDUCE_PAIN",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_reduce_pain')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_reduce_pain" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_LIGHTNING_BOLT",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_lightning_bolt')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_lightning_bolt" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_RECHARGE_VEHICLE",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_recharge_vehicle')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_recharge_vehicle" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_PAIN_IMMUNE",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_pain_immune')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_pain_immune" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_SPEED_BOOST",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_speed_boost')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_speed_boost" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_KILL_ROBOT",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_kill_robot')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_kill_robot" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_LIGHTNING_AURA",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_lightning_aura')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_lightning_aura" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_LIGHTNING_BLAST",
+    "condition": {
+      "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_lightning_blast')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_lightning_blast" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_ELECTROKIN_RECIPE_REVIVE",
+    "condition": { "and": [ { "u_has_trait": "ELECTROKINETIC" }, { "math": [ "u_spell_level('electrokinetic_revive')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_electrokinetic_revive" } ]
   },
   {
     "type": "effect_on_condition",
@@ -158,7 +420,132 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "PHOTOKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_PHOTOKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_LOCAL",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_CREATE_LIGHT",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_SNUFF_LIGHT",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DODGE",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_BEAM",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_CAMOUFLAGE",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RAD_IMMUNITY",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMS",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
+          "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_LOCAL",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_local')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_local" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_CREATE_LIGHT",
+    "condition": {
+      "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_create_light')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_create_light" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_SNUFF_LIGHT",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_snuff_light')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_snuff_light" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DODGE",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_dodge')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_dodge" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_BEAM",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_beam')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_beam" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_CAMOUFLAGE",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_camouflage')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_camouflage" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RAD_IMMUNITY",
+    "condition": {
+      "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_rad_immunity')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_rad_immunity" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_ARMS",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_arms')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_arms" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_HIDE_UGLY",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_hide_ugly')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_hide_ugly" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_IMAGE",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_image')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_image" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_RADIO",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_radio')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_radio" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_INVISIBILITY",
+    "condition": {
+      "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_invisibility')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_invisibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_FLASH",
+    "condition": { "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_flash')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_flash" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_BLINDING_GLARE",
+    "condition": {
+      "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_blinding_glare')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_blinding_glare" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PHOTOKIN_RECIPE_LIGHT_DISINTEGRATE",
+    "condition": {
+      "and": [ { "u_has_trait": "PHOTOKINETIC" }, { "math": [ "u_spell_level('photokinetic_light_disintegrate')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_photokinetic_light_disintegrate" } ]
   },
   {
     "type": "effect_on_condition",
@@ -166,7 +553,117 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "PYROKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_PYROKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_ERUPTION",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLASH",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CAUTERIZE",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CALL_FLAMES",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_QUELL_FLAMES",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CLOAK",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_LANCE",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLAMETHROWER",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_THERMOGENESIS",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_AURA",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLAME_IMMUNITY",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_BLAST",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_AOE_BLAST",
+          "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INCINERATION"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_ERUPTION",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_eruption')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_eruption" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLASH",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_flash')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_flash" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CAUTERIZE",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_cauterize')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_cauterize" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CALL_FLAMES",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_call_flames')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_call_flames" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_QUELL_FLAMES",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_quell_flames')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_quell_flames" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_CLOAK",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_cloak')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_cloak" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_LANCE",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_lance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_lance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLAMETHROWER",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_flamethrower')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_flamethrower" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_THERMOGENESIS",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_thermogenesis')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_thermogenesis" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_AURA",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_aura')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_aura" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_FLAME_IMMUNITY",
+    "condition": {
+      "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_flame_immunity')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_flame_immunity" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_BLAST",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_blast')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_blast" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_AOE_BLAST",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_aoe_blast')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_aoe_blast" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_PYROKIN_RECIPE_INCINERATION",
+    "condition": { "and": [ { "u_has_trait": "PYROKINETIC" }, { "math": [ "u_spell_level('pyrokinetic_incineration')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_pyrokinetic_incineration" } ]
   },
   {
     "type": "effect_on_condition",
@@ -174,7 +671,115 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_TELEKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PUSH",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PULL",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLAM_DOWN",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_MOMENTUM",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLOWFALL",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_STRENGTH",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_HAMMER",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_VEHICLE_LIFT",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SHIELD",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EXPLOSION",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LEVITATION",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_AEGIS",
+          "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EARTHSHAKER"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PUSH",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_push')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_push" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_PULL",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_pull')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_pull" }, { "u_learn_recipe": "improve_telekinesis_lifting_field" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLAM_DOWN",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_slam_down')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_slam_down" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_MOMENTUM",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_momentum" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SLOWFALL",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_slowfall" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_WAVE",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_wave')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_wave" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_STRENGTH",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_strength')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_strength" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_HAMMER",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_hammer" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_VEHICLE_LIFT",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_vehicle_lift" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_SHIELD",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_shield')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_shield" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EXPLOSION",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_explosion" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_LEVITATION",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_levitation" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_AEGIS",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_aegis" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEKIN_RECIPE_EARTHSHAKER",
+    "condition": { "and": [ { "u_has_trait": "TELEKINETIC" }, { "math": [ "u_spell_level('telekinetic_earthshaker')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telekinetic_earthshaker" } ]
   },
   {
     "type": "effect_on_condition",
@@ -182,7 +787,110 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPATH" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_TELEPATH_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONCENTRATION",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_SHIELD",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MORALE",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MIND_SENSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BLAST",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_ANIMAL_MIND_CONTROL",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONFUSION",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_INVISIBILITY",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_FEAR",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BLAST_RADIUS",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BEAST_TAMING",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MIND_CONTROL",
+          "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_NETWORK"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONCENTRATION",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_concentration')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_concentration" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_SHIELD",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_shield')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_shield" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MORALE",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_morale')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_morale" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MIND_SENSE",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_mind_sense')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_mind_sense" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BLAST",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_blast')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_blast" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_ANIMAL_MIND_CONTROL",
+    "condition": {
+      "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_animal_mind_control')", ">=", "0" ] } ]
+    },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_beastmaster" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_CONFUSION",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_confusion')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_confusion" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_INVISIBILITY",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_invisibility')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_invisibility" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_FEAR",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_fear')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_fear" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BLAST_RADIUS",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_blast_radius')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_scream" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_BEAST_TAMING",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_beast_taming')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_beast_taming" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_MIND_CONTROL",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_mind_control')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_mind_control" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPATH_RECIPE_NETWORK",
+    "condition": { "and": [ { "u_has_trait": "TELEPATH" }, { "math": [ "u_spell_level('telepathic_network')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_telepathic_network" } ]
   },
   {
     "type": "effect_on_condition",
@@ -190,7 +898,94 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "TELEPORTER" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES", "time_in_future": [ "1 seconds", "1 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_TELEPORT_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BLINK",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_SLOW",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_STRIDE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_TRANSPOSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_DISPLACEMENT",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_COLLAPSE",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+          "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BLINK",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_blink')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_blink" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_SLOW",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_slow')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_slow" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_PHASE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_phase')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_phase" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_STRIDE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_stride')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_stride" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_TRANSPOSE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_transpose')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_transpose" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_DISPLACEMENT",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_displacement')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_displacement" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_COLLAPSE",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_collapse')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_collapse" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_FARSTEP",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_farstep')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_farstep" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BANISH",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_banish')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_banish" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_GATEWAY",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_gateway')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_gateway" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_TELEPORTER_RECIPE_BREACH",
+    "condition": { "and": [ { "u_has_trait": "TELEPORTER" }, { "math": [ "u_spell_level('teleport_breach')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_teleport_breach" } ]
   },
   {
     "type": "effect_on_condition",
@@ -198,7 +993,136 @@
     "eoc_type": "EVENT",
     "required_event": "game_begin",
     "condition": { "u_has_trait": "VITAKINETIC" },
-    "effect": [ { "queue_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES", "time_in_future": [ "10 seconds", "15 seconds" ] } ]
+    "effect": [ { "run_eocs": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEACH_VITAKIN_CONTEMPLATE_RECIPES",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLOW_BLEEDING",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALTH_POWER",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_BLEEDING",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HURT_TOUCH",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TOUCH",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_REMOVE_POISON",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CURE_DISEASE",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLEEPING_TRANCE",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_PAIN_SPLIT",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_INFECTION",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TRANCE",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_ATTACK_TOUCH",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BLOOD_PURGE",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BANISH_ILLNESS",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SUPER_HEAL",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_LIMB_RESTORE",
+          "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_RETURN_FROM_DEATH"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLOW_BLEEDING",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_slow_bleeding')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_slow_bleeding" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALTH_POWER",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_health_power')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_health_power" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_BLEEDING",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_stop_bleeding')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_stop_bleeding" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HURT_TOUCH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_hurt_touch')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_hurt_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TOUCH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_health_power_ally')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_healing_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_REMOVE_POISON",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_remove_poison')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_remove_poison" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_CURE_DISEASE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_cure_disease')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_cure_disease" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SLEEPING_TRANCE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_sleeping_trance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_sleeping_trance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_PAIN_SPLIT",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_pain_split')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_pain_split" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_STOP_INFECTION",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_stop_infection')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_stop_infection" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_HEALING_TRANCE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_healing_trance')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_healing_trance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_ATTACK_TOUCH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_attack_touch')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_attack_touch" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BLOOD_PURGE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_blood_purge')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_blood_purge" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_BANISH_ILLNESS",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_banish_illness')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_banish_illness" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_SUPER_HEAL",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_super_heal')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_super_heal" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_LIMB_RESTORE",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_limb_restore')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_limb_restore" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHECK_GAMEBEGIN_VITAKIN_RECIPE_RETURN_FROM_DEATH",
+    "condition": { "and": [ { "u_has_trait": "VITAKINETIC" }, { "math": [ "u_spell_level('vita_return_from_death')", ">=", "0" ] } ] },
+    "effect": [ { "u_learn_recipe": "practice_vita_return_from_death" } ]
   },
   {
     "type": "effect_on_condition",

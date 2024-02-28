@@ -619,7 +619,6 @@
       { "item": "sf_watch", "prob": 5 },
       { "item": "pocketwatch", "prob": 30 },
       { "item": "diving_watch", "prob": 20 },
-      { "item": "santa_wristwatch", "prob": 1 },
       { "item": "game_watch", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "fitness_band", "prob": 10 },
       { "item": "smart_watch", "prob": 10, "charges": [ 0, 80 ] }
@@ -757,7 +756,10 @@
       { "group": "clothing_work_gloves", "prob": 75 },
       { "group": "clothing_work_hat", "prob": 60 },
       { "group": "clothing_work_mask", "prob": 40 },
-      { "item": "ear_plugs", "prob": 15 },
+      {
+        "distribution": [ { "item": "ear_plugs" }, { "item": "attached_ear_plugs_off" }, { "item": "attachable_ear_muffs" } ],
+        "prob": 60
+      },
       { "item": "tool_belt", "prob": 25 },
       {
         "distribution": [

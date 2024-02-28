@@ -1,14 +1,11 @@
 #include "dialogue_win.h"
 
-#include <algorithm>
 #include <string>
 #include <vector>
 
-#include "catacharset.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
-#include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
 

@@ -60,14 +60,17 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "byproducts": [ [ "cucumber_cut", 1 ] ],
-    "components": [ [ [ "cucumber", 1 ] ] ]
+    "components": [ [ [ "cucumber", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_eggplant",
+    "id_suffix": "with_cutting_tool",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "byproducts": [ [ "eggplant_cut", 1 ] ],
-    "components": [ [ [ "eggplant", 1 ] ] ]
+    "components": [ [ [ "eggplant", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_oats",
@@ -119,7 +122,8 @@
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "byproducts": [ [ "zucchini_cut", 1 ] ],
-    "components": [ [ [ "zucchini", 1 ] ] ]
+    "components": [ [ [ "zucchini", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_barley",
@@ -163,15 +167,13 @@
     "result": "seed_salsify_raw",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "salsify_raw", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "salsify_raw", 1 ] ] ]
   },
   {
     "result": "seed_chicory",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "chicory_raw", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "chicory_raw", 1 ] ] ]
   },
   {
     "result": "seed_wildcarrot",
@@ -219,13 +221,22 @@
     "result": "seed_rose",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "rose_hips", 1 ] ] ]
+    "components": [ [ [ "rose_hips", 1 ] ] ],
+    "byproducts": [ [ "rose_hips_cut", 1 ] ]
   },
   {
     "result": "seed_chili_pepper",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "chili_pepper", 1 ] ] ]
+    "components": [ [ [ "chili_pepper", 1 ] ] ],
+    "charges": 2
+  },
+  {
+    "result": "seed_bell_pepper",
+    "type": "recipe",
+    "copy-from": "seed_extraction_cutting",
+    "components": [ [ [ "bell_pepper", 1 ] ] ],
+    "charges": 2
   },
   {
     "result": "seed_wheat",
@@ -244,8 +255,7 @@
     "result": "seed_bee_balm",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "bee_balm", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "bee_balm", 1 ] ] ]
   },
   {
     "result": "seed_buckwheat",
@@ -257,29 +267,34 @@
     "result": "buckwheat",
     "type": "recipe",
     "id_suffix": "seed_designation",
-    "copy-from": "seed_extraction_base",
+    "copy-from": "seed_extraction_designation",
     "components": [ [ [ "seed_buckwheat", 1 ] ] ]
   },
   {
     "result": "seed_dogbane",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "dogbane", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "dogbane", 1 ] ] ]
   },
   {
-    "result": "seed_garlic",
+    "result": "seed_garlic_clove",
     "type": "recipe",
-    "copy-from": "seed_extraction_base",
-    "components": [ [ [ "garlic", 1 ] ] ],
-    "charges": 8
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "garlic_clove", 6 ] ] ]
+  },
+  {
+    "result": "garlic_clove",
+    "type": "recipe",
+    "id_suffix": "seed_designation",
+    "copy-from": "seed_extraction_designation",
+    "components": [ [ [ "seed_garlic_clove", 1 ] ] ],
+    "charges": 6
   },
   {
     "result": "seed_mugwort",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "mugwort", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "mugwort", 1 ] ] ]
   },
   {
     "result": "seed_mushroom",
@@ -299,22 +314,20 @@
     "result": "seed_raw_dandelion",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "raw_dandelion", 4 ] ] ],
+    "components": [ [ [ "raw_dandelion", 1 ] ] ],
     "charges": 2
   },
   {
     "result": "seed_raw_burdock",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "raw_burdock", 4 ] ] ],
-    "charges": 2
+    "components": [ [ [ "raw_burdock", 1 ] ] ]
   },
   {
     "result": "seed_japanese_knotweed",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "japanese_knotweed_stem", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "japanese_knotweed_stem", 1 ] ] ]
   },
   {
     "result": "seed_wild_rice",
@@ -333,22 +346,19 @@
     "result": "seed_jerusalem_artichoke",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "jerusalem_artichoke", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "jerusalem_artichoke", 1 ] ] ]
   },
   {
     "result": "seed_maianthemum_stellatum",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "m_stellatum_berries", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "m_stellatum_berries", 1 ] ] ]
   },
   {
     "result": "seed_wild_sarsaparilla",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "wild_sarsaparilla_root", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "wild_sarsaparilla_root", 1 ] ] ]
   },
   {
     "result": "seed_mayapple",
@@ -366,43 +376,37 @@
     "result": "seed_groundnut",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "groundnut", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "groundnut", 1 ] ] ]
   },
   {
     "result": "seed_wild_garlic",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "wild_garlic", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "wild_garlic", 1 ] ] ]
   },
   {
     "result": "seed_rhubarb",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "rhubarb", 4 ] ] ],
-    "charges": 2
+    "components": [ [ [ "rhubarb", 1 ] ] ]
   },
   {
     "result": "seed_thyme",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "thyme", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "thyme", 1 ] ] ]
   },
   {
     "result": "seed_veggy_wild",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "veggy_wild", 1 ] ] ],
-    "charges": 2
+    "components": [ [ [ "veggy_wild", 1 ] ] ]
   },
   {
     "result": "seed_wild_herbs",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
-    "components": [ [ [ "wild_herbs", 20 ] ] ],
-    "charges": 2
+    "components": [ [ [ "wild_herbs", 10 ] ] ]
   },
   {
     "result": "seed_potato_raw",
@@ -472,13 +476,6 @@
     "result": "seed_bottle_gourd",
     "type": "recipe",
     "copy-from": "seed_extraction_base",
-    "components": [ [ [ "raw_bottle_gourd", 1 ] ] ]
-  },
-  {
-    "result": "seed_eggplant",
-    "type": "recipe",
-    "copy-from": "seed_extraction_base",
-    "components": [ [ [ "eggplant", 1 ] ] ],
-    "charges": 8
+    "components": [ [ [ "raw_bottle_gourd", 3 ] ] ]
   }
 ]

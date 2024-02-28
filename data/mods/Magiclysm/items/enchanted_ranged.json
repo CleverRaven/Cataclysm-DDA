@@ -224,5 +224,60 @@
     "count": 10,
     "show_stats": true,
     "melee_damage": { "bash": 6, "cut": 2 }
+  },
+  {
+    "id": "bow_of_elvenkind",
+    "looks_like": "longbow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": { "str": "bow of elvenkind", "str_pl": "bows of elvenkind" },
+    "description": "One of the traditional items of the ancient elven warrior societies, this bow is enchanted to fire further, hit harder, and last longer than any normal wooden bow of its design could.  Before the Cataclysm they were still made in small quantities for ceremonial purposes but no longer saw battlefield use, since the special forces of Tokoyo, Hy-Brasil, Alfheim, and the other elven nations long ago switched to using firearms.",
+    "price": 42000,
+    "//": "based on a light composite bow.  The actual enchantments are 50% increased range and higher damage and durability, the relic_data is just to make it purple.",
+    "material": [ "wood" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "DURABLE_MELEE",
+      "SHEATH_BOW",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "archery",
+    "ammo": [ "arrow" ],
+    "min_strength": 8,
+    "weight": "400 g",
+    "volume": "1500 ml",
+    "longest_side": "183 cm",
+    "price_postapoc": 30000,
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 1 } ],
+          "encumbrance": 14,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "reload_noise_volume": 3,
+    "loudness": 6,
+    "ranged_damage": { "damage_type": "stab", "amount": 8 },
+    "range": 18,
+    "dispersion": 950,
+    "sight_dispersion": 3000,
+    "durability": 8,
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "arrow rest", 1 ] ],
+    "reload": 50,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ],
+    "melee_damage": { "bash": 12 },
+    "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
   }
 ]

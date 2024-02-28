@@ -8,6 +8,7 @@
 #include "json.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "npctalk.h"
 
 const static flag_id json_flag_W_DISABLED_BY_DEFAULT( "W_DISABLED_BY_DEFAULT" );
 const static flag_id json_flag_W_DISABLED_WHEN_EMPTY( "W_DISABLED_WHEN_EMPTY" );
@@ -293,6 +294,9 @@ void widget_clause::load( const JsonObject &jo )
         read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
+    if( jo.has_bool( "parse_tags" ) ) {
+        should_parse_tags = jo.get_bool( "parse_tags" );
+    }
 
     optional( jo, false, "widgets", widgets, string_id_reader<::widget> {} );
 }
@@ -300,7 +304,8 @@ void widget_clause::load( const JsonObject &jo )
 bool widget_clause::meets_condition( const std::string &opt_var ) const
 {
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    d.reason = opt_var;
+    d.reason = opt_var; // TODO: remove since it's replaced by context var
+    write_var_value( var_type::context, "npctalk_var_widget", nullptr, &d, opt_var );
     return !has_condition || condition( d );
 }
 
@@ -1407,8 +1412,13 @@ std::string widget::text_cond( bool no_join, int width )
     std::vector<std::string> strings;
     strings.reserve( wplist.size() );
     for( const widget_clause *wp : wplist ) {
-        strings.emplace_back( wp->color == c_unset ? wp->text.translated() : colorize(
-                                  wp->text.translated(), wp->color ) );
+        std::string txt = wp->text.translated();
+        if( wp->should_parse_tags ) {
+            parse_tags( txt, get_player_character(), get_player_character() );
+        }
+        txt = wp->color == c_unset ? txt : colorize(
+                  txt, wp->color );
+        strings.emplace_back( txt );
     }
     int h = 0;
     std::string ret = format_widget_multiline( strings, _height_max, width, h, !no_join );
@@ -1456,7 +1466,11 @@ std::string widget::sym_text_cond( bool no_join, int width )
     strings.reserve( wplist.size() );
     for( const widget_clause *wp : wplist ) {
         std::string s = wp->color == c_unset ? wp->sym : colorize( wp->sym, wp->color );
-        std::string txt = string_format( "%s %s", s, wp->text.translated() );
+        std::string txt_str = wp->text.translated();
+        if( wp->should_parse_tags ) {
+            parse_tags( txt_str, get_player_character(), get_player_character() );
+        }
+        std::string txt = string_format( "%s %s", s, txt_str );
         strings.emplace_back( txt );
     }
     int h = 0;

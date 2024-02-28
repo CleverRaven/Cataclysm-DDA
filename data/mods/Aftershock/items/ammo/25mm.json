@@ -10,7 +10,7 @@
     "material": [ "superalloy", "powder", "lead" ],
     "symbol": "=",
     "color": "pink",
-    "count": 25,
+    "count": 15,
     "stack_size": 1,
     "ammo_type": "afs_25mm",
     "casing": "afs_25_casing",

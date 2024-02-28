@@ -1,0 +1,87 @@
+[
+  {
+    "id": "zenfs_thirst_label",
+    "type": "widget",
+    "style": "text",
+    "string": "  <color_dark_gray>Thirst</color>",
+    "width": 7,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_thirst_no_label",
+    "type": "widget",
+    "//": "Instant thirst takes stomach contents into account",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "parched",
+        "text": "  Parched",
+        "color": "c_white_red",
+        "condition": { "math": [ "u_val('instant_thirst')", ">", "520" ] }
+      },
+      {
+        "id": "dehydrated",
+        "text": "Dehydrated",
+        "color": "light_red",
+        "condition": {
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "240" ] }, { "math": [ "u_val('instant_thirst')", "<=", "520" ] } ]
+        }
+      },
+      {
+        "id": "very_thirsty",
+        "text": "V. thirsty",
+        "color": "red",
+        "condition": {
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "80" ] }, { "math": [ "u_val('instant_thirst')", "<=", "240" ] } ]
+        }
+      },
+      {
+        "id": "thirsty",
+        "text": " Thirsty",
+        "color": "yellow",
+        "condition": {
+          "and": [ { "math": [ "u_val('instant_thirst')", ">", "40" ] }, { "math": [ "u_val('instant_thirst')", "<=", "80" ] } ]
+        }
+      },
+      {
+        "id": "neutral",
+        "text": "   Okay",
+        "color": "light_gray",
+        "condition": {
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "0" ] }, { "math": [ "u_val('instant_thirst')", "<=", "40" ] } ]
+        }
+      },
+      {
+        "id": "slaked",
+        "text": "  Slaked",
+        "color": "green",
+        "condition": {
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-20" ] }, { "math": [ "u_val('instant_thirst')", "<", "0" ] } ]
+        }
+      },
+      {
+        "id": "hydrated",
+        "text": " Hydrated",
+        "color": "light_green",
+        "condition": {
+          "and": [ { "math": [ "u_val('instant_thirst')", ">=", "-60" ] }, { "math": [ "u_val('instant_thirst')", "<", "-20" ] } ]
+        }
+      },
+      {
+        "id": "turgid",
+        "text": "  Turgid",
+        "color": "green",
+        "condition": { "math": [ "u_val('instant_thirst')", "<", "-60" ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_thirst_desc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 10,
+    "widgets": [ "zenfs_thirst_no_label" ]
+  }
+]

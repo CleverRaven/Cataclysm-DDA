@@ -130,7 +130,8 @@
       "mil_base_8f1",
       "mil_base_8h1",
       "mil_base_8i1",
-      "mil_base_8j1"
+      "mil_base_8j1",
+      "s_gas_g0_roof"
     ],
     "copy-from": "generic_air"
   },

@@ -115,6 +115,7 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_ALBINO( "ALBINO" );
 static const json_character_flag json_flag_DAYFEAR( "DAYFEAR" );
+static const json_character_flag json_flag_ETHEREAL( "ETHEREAL" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -567,7 +568,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     }
 
     you.add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
-                               "<npcname> starts wheezing and coughing." );
+                               _( "<npcname> starts wheezing and coughing." ) );
 
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
@@ -1099,7 +1100,7 @@ void suffer::from_sunburn( Character &you, bool severe )
 
 void suffer::from_item_dropping( Character &you )
 {
-    if( you.has_effect( effect_incorporeal ) ) {
+    if( you.has_effect( effect_incorporeal ) && !you.has_flag( json_flag_ETHEREAL ) ) {
         std::vector<item *> dump = you.inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {
@@ -1957,9 +1958,8 @@ void Character::mend( int rate_multiplier )
 
     healing_factor *= mutation_value( "mending_modifier" );
 
-    if( has_flag( json_flag_MEND_ALL ) ) {
-        needs_splint = false;
-    }
+    healing_factor = enchantment_cache->modify_value( enchant_vals::mod::MENDING_MODIFIER,
+                     healing_factor );
 
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
@@ -1969,6 +1969,7 @@ void Character::mend( int rate_multiplier )
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
         const bool broken = is_limb_broken( bp );
+        needs_splint = !has_flag( json_flag_MEND_ALL );
         if( !broken ) {
             continue;
         }

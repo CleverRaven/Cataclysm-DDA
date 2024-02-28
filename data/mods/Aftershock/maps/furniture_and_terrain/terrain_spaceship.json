@@ -24,6 +24,38 @@
   },
   {
     "type": "terrain",
+    "id": "t_afs_augustmoon_diamond_glass",
+    "name": "diamond-matrix glass",
+    "description": "The diamond cubic lattice distorts distant light sources into eight pointed stars.  The galactic core is visible through the glass, but no spacer would ever give it more than a passing glance.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_reinforced_glass",
+    "symbol": "LINE_XOXO",
+    "color": "light_cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "bash": {
+      "str_min": 4000,
+      "str_max": 8000,
+      "sound": "whump!",
+      "sound_fail": "whump!",
+      "ter_set": "t_afs_augustmoon_diamond_glass"
+    },
+    "flags": [ "TRANSPARENT", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_afs_augustmoon_hull_wall",
+    "name": "Port Augustmoon hull",
+    "description": "The ancient hull of Port Augustmoon, spun into orbit several lifetimes ago.",
+    "roof": "t_metal_flat_roof",
+    "copy-from": "t_wall_metal",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "symbol": "LINE_OXOX",
+    "bash": { "str_min": 4000, "str_max": 8000, "sound": "whump!", "sound_fail": "whump!", "ter_set": "t_afs_augustmoon_hull_wall" },
+    "color": "white"
+  },
+  {
+    "type": "terrain",
     "id": "t_afs_escapepod_g",
     "name": "escape pod guidance system",
     "description": "The rudimentary descent guidance system and easy-use control console of an escape pod.  It apparently broke during the descent.",
@@ -201,6 +233,53 @@
       "success_msg": "You opened the door!",
       "redundant_msg": "The door is already open."
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_augustmoon_shuttle_console",
+    "name": "Shuttle Guidance Console",
+    "description": "Thie simplifed guidance interface of a drone shuttle.  Activating it will transport you to Port Augustmoon.",
+    "symbol": "6",
+    "looks_like": "t_afs_shuttlepod_g",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 50,
+    "roof": "t_flat_roof",
+    "flags": [ "NOITEM", "INDOORS" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_AFS_AUGUSTMOON_SHUTTLE_TP" ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_intermodal_crate_scripted_source",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.  Any items placed inside will be taken with you to and from Port Augustmoon.",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_intermodal_crate_scripted_destination",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT", "SMALL_HIDE" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_intermodal_crate",
+    "name": "intermodal shipping crate",
+    "description": "A sealed metal crate used to ferry cargo to and from orbit.",
+    "symbol": "O",
+    "bgcolor": "brown",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "SMALL_HIDE" ]
   },
   {
     "type": "terrain",

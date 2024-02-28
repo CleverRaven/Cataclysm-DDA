@@ -488,7 +488,7 @@
     "vision_night": 40,
     "luminance": 25,
     "harvest": "zombie_meatslug",
-    "special_attacks": [ [ "STARE", 12 ] ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "stare" }, "monster_message": "", "cooldown": 12 } ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ],
     "armor": { "bash": 4 }
   },

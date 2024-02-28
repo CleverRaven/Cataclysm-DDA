@@ -46,15 +46,15 @@
     "triggers": [
       [
         {
-          "condition": { "compare_num": [ { "u_val": "morale" }, ">", { "const": 20 } ] },
+          "condition": { "math": [ "u_val('morale')", ">", "20" ] },
           "msg_on": { "text": "Your mood is above 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "and": [ { "compare_num": [ "moon", ">", { "const": 3 } ] }, { "compare_num": [ "moon", "<", { "const": 5 } ] } ] },
+          "condition": { "and": [ { "math": [ "moon_phase() > 3" ] }, { "math": [ "moon_phase() < 5" ] } ] },
           "msg_on": { "text": "This is the full moon and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "hunger" }, ">", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('hunger')", ">", "110" ] },
           "msg_on": { "text": "You're very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -62,15 +62,20 @@
           "msg_on": { "text": "You're in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('thirst')", ">", "110" ] },
           "msg_on": { "text": "You're thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "stamina" }, "<", { "const": 1 } ] },
+          "condition": { "math": [ "u_val('stamina')", "<", "1" ] },
           "msg_on": { "text": "You're low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "and": [ { "compare_num": [ "hour", ">", { "const": 1 } ] }, { "compare_num": [ "hour", "<", { "const": 3 } ] } ] },
+          "condition": {
+            "and": [
+              { "math": [ "time_since('midnight', 'unit': 'hours') > 1" ] },
+              { "math": [ "time_since('midnight', 'unit': 'hours') < 3" ] }
+            ]
+          },
           "msg_on": { "text": "It's 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
@@ -87,15 +92,15 @@
     "triggers": [
       [
         {
-          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": 20 } ] },
+          "condition": { "math": [ "u_val('morale')", "<", "20" ] },
           "msg_off": { "text": "Your mood is below 20 and triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "or": [ { "compare_num": [ "moon", "<", { "const": 3 } ] }, { "compare_num": [ "moon", ">", { "const": 5 } ] } ] },
+          "condition": { "or": [ { "math": [ "moon_phase() < 3" ] }, { "math": [ "moon_phase() > 5" ] } ] },
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "hunger" }, "<", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('hunger')", "<", "110" ] },
           "msg_on": { "text": "You're no longer very hungry and it triggers the trigger.", "rating": "mixed" }
         },
         {
@@ -103,15 +108,20 @@
           "msg_on": { "text": "You're no longer in pain and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "thirst" }, "<", { "const": 110 } ] },
+          "condition": { "math": [ "u_val('thirst')", "<", "110" ] },
           "msg_on": { "text": "You're no longer thirsty and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "compare_num": [ { "u_val": "stamina" }, ">", { "const": 1 } ] },
+          "condition": { "math": [ "u_val('stamina')", ">", "1" ] },
           "msg_on": { "text": "You're no longer low on stamina and it triggers the trigger.", "rating": "mixed" }
         },
         {
-          "condition": { "or": [ { "compare_num": [ "hour", "<", { "const": 1 } ] }, { "compare_num": [ "hour", ">", { "const": 2 } ] } ] },
+          "condition": {
+            "or": [
+              { "math": [ "time_since('midnight') < time('1 hours')" ] },
+              { "math": [ "time_since('midnight') > time('2 hours')" ] }
+            ]
+          },
           "msg_on": { "text": "It's no longer 2 am and it triggers the trigger.", "rating": "mixed" }
         }
       ]
@@ -125,11 +135,7 @@
     "points": 1,
     "description": "This mutation is meant to test the trigger system.  It is currently off.",
     "triggers": [
-      [
-        {
-          "condition": { "and": [ { "compare_num": [ "moon", ">", { "const": 3 } ] }, { "compare_num": [ "moon", "<", { "const": 5 } ] } ] }
-        }
-      ],
+      [ { "condition": { "and": [ { "math": [ "moon_phase() > 3" ] }, { "math": [ "moon_phase() < 5" ] } ] } } ],
       [ { "condition": { "math": [ "u_pain()", ">", "110" ] } } ]
     ],
     "transform": { "target": "TEST_TRIGGER_2_active", "msg_transform": "The trigger is triggered.", "active": true, "moves": 10 }
@@ -144,7 +150,7 @@
     "triggers": [
       [
         {
-          "condition": { "or": [ { "compare_num": [ "moon", "<", { "const": 3 } ] }, { "compare_num": [ "moon", ">", { "const": 5 } ] } ] },
+          "condition": { "or": [ { "math": [ "moon_phase() < 3" ] }, { "math": [ "moon_phase() > 5" ] } ] },
           "msg_on": { "text": "This is not the full moon anymore and it triggers the trigger.", "rating": "mixed" }
         },
         {

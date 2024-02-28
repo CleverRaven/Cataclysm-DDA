@@ -226,6 +226,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     // automatically set contained if we specify as container
     assign( jo, "contained", contained, strict );
     contained |= assign( jo, "container", container, strict );
+    optional( jo, false, "container_variant", container_variant );
     assign( jo, "sealed", sealed, strict );
 
     if( jo.has_array( "batch_time_factors" ) ) {
@@ -598,6 +599,9 @@ void recipe::finalize()
 
     if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( itype_null );
+        if( item::find_type( result_ )->default_container_variant.has_value() ) {
+            container_variant = item::find_type( result_ )->default_container_variant.value();
+        }
     }
 
     std::set<proficiency_id> required;
@@ -751,7 +755,7 @@ std::vector<item> recipe::create_result( bool set_components, bool is_food,
     }
 
     if( contained ) {
-        newit = newit.in_container( container, amount, sealed );
+        newit = newit.in_container( container, amount, sealed, container_variant );
         return { newit };
     } else if( newit.count_by_charges() ) {
         newit.charges = amount;

@@ -1923,5 +1923,10 @@
     "type": "construction_group",
     "id": "pipe_bulk",
     "name": "Build a Stack of Pipes"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_piano",
+    "name": "Place Piano"
   }
 ]

@@ -18,7 +18,28 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 9 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "8400 μg" ], [ "iron", "200 μg" ], [ "calcium", "10900 μg" ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "crabapple",
+    "name": { "str": "crabapple" },
+    "weight": "50 g",
+    "color": "red",
+    "spoils_in": "6 days 16 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 1,
+    "calories": 38,
+    "description": "A term used to describe both wild apples native to North America as well as less appetizing feral varieties, these are rather small and far too sour.",
+    "price": 40,
+    "price_postapoc": 100,
+    "material": [ "fruit" ],
+    "volume": "64 ml",
+    "fun": -1,
+    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "smoking_result": "dry_fruit",
+    "vitamins": [ [ "vitC", "4 mg" ], [ "iron", "200 μg" ], [ "calcium", "9 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -38,40 +59,40 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 11 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "10300 μg" ], [ "iron", "300 μg" ], [ "calcium", "5900 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "orange",
     "name": { "str": "orange" },
-    "weight": "159 g",
+    "weight": "131 g",
     "color": "light_red",
     "spoils_in": "21 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 8,
-    "calories": 100,
+    "calories": 131,
     "description": "A sweet citrus fruit.  Also comes in juice form.  In case you were wondering, the color is named after the fruit, not the other way around.",
     "price": 35,
     "price_postapoc": 100,
     "material": [ "fruit" ],
-    "volume": "204 ml",
+    "volume": "156 ml",
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 125 ], [ "calcium", 8 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitC", "69700 μg" ], [ "iron", "100 μg" ], [ "calcium", "52400 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "lemon",
     "name": { "str": "lemon" },
-    "weight": "84 g",
+    "weight": "108 g",
     "color": "yellow",
     "spoils_in": "21 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
-    "calories": 24,
+    "calories": 21,
     "description": "A very sour citrus fruit.  Can be eaten if you're desperate, but you should probably look for some other cooking application for this.",
     "price": 38,
     "price_postapoc": 100,
@@ -79,7 +100,7 @@
     "volume": "115 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 49 ], [ "calcium", 1 ], [ "iron", 2 ] ],
+    "vitamins": [ [ "vitC", "83200 μg" ], [ "iron", "800 μg" ], [ "calcium", "65900 μg" ] ],
     "fun": -4
   },
   {
@@ -101,7 +122,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 16 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "14400 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -122,13 +143,13 @@
     "fun": 5,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 94 ], [ "calcium", 1 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", "84700 μg" ], [ "iron", "600 μg" ], [ "calcium", "23 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "cranberries",
     "name": { "str": "handful of cranberries", "str_pl": "handfuls of cranberries" },
-    "weight": "106 g",
+    "weight": "100 g",
     "color": "red",
     "spoils_in": 640,
     "comestible_type": "FOOD",
@@ -143,7 +164,7 @@
     "fun": -5,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "13300 μg" ], [ "iron", "300 μg" ], [ "calcium", "8 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -164,7 +185,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 35 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "32200 μg" ], [ "iron", "800 μg" ], [ "calcium", "30800 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -185,7 +206,7 @@
     "fun": 2,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 5 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "4100 μg" ], [ "iron", "400 μg" ], [ "calcium", "8900 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -267,7 +288,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 56 ], [ "calcium", 4 ], [ "iron", 14 ] ]
+    "vitamins": [ [ "vitC", "51 mg" ], [ "iron", "2600 μg" ], [ "calcium", "54600 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -289,34 +310,55 @@
     "fun": -2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 58 ], [ "calcium", 4 ], [ "iron", 13 ] ]
+    "vitamins": [ [ "vitC", "52200 μg" ], [ "iron", "2300 μg" ], [ "calcium", "55100 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "rose_hips",
     "name": { "str": "handful of rose hips", "str_pl": "handfuls of rose hips" },
-    "weight": "127 g",
+    "weight": "128 g",
     "color": "red",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 1,
-    "calories": 205,
-    "description": "A handful of fruits grown from pollinated rose flowers.",
-    "price": 400,
-    "price_postapoc": 100,
+    "//": "Volume/calorie ratio is different from most online nutrition facts as the unprepared fruits are about 50% inedible matter by volume.",
+    "calories": 102,
+    "description": "A handful of fruits grown from pollinated rose flowers.  Full of irritating hairs and hard seeds, they'll need to be disassembled before eating.",
+    "price": 200,
+    "price_postapoc": 50,
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 2,
+    "flags": [ "RAW", "EDIBLE_FROZEN", "INEDIBLE", "CATTLE", "RABBIT", "BIRD" ],
+    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "rose_hips_cut",
+    "name": { "str_sp": "cut rose hips" },
+    "weight": "64 g",
+    "color": "red",
+    "spoils_in": "2 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 1,
+    "calories": 103,
+    "description": "Tart little fruits grown from a rose bush, now separated from their inedible seeds and spines.",
+    "price": 200,
+    "price_postapoc": 50,
+    "material": [ "fruit" ],
+    "volume": "125 ml",
+    "fun": 2,
     "flags": [ "SMOKABLE", "RAW", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 601 ], [ "calcium", 16 ], [ "iron", 7 ] ]
+    "vitamins": [ [ "vitC", "272640 μg" ], [ "iron", "678 μg" ], [ "calcium", "108160 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "juice_pulp",
     "name": { "str_sp": "juice pulp" },
-    "weight": "62 g",
+    "weight": "20 g",
     "color": "light_red",
     "spoils_in": "2 days 12 hours",
     "comestible_type": "FOOD",
@@ -325,7 +367,7 @@
     "calories": 25,
     "description": "A handful of stringy pulp, left-over from juicing some kind of fruit.  It's not very tasty, but contains a lot of healthy fiber.",
     "price": 25,
-    "price_postapoc": 25,
+    "price_postapoc": 20,
     "material": [ "fruit" ],
     "volume": "100 ml",
     "flags": [ "SMOKABLE" ],
@@ -352,7 +394,7 @@
     "fun": 4,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 8 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "7700 μg" ], [ "iron", "300 μg" ], [ "calcium", "16 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -373,12 +415,12 @@
     "fun": 4,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 139 ] ]
+    "vitamins": [ [ "vitC", "125600 μg" ], [ "iron", "100 μg" ], [ "calcium", "9900 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "maracuya",
-    "name": { "str": "passionfruit" },
+    "name": { "str": "handful of passionfruit", "str_pl": "handfuls of passionfruit" },
     "weight": "236 g",
     "color": "brown",
     "spoils_in": "14 days",
@@ -393,7 +435,7 @@
     "volume": "250 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 70 ], [ "iron", 21 ] ],
+    "vitamins": [ [ "vitC", "70800 μg" ], [ "iron", "3800 μg" ], [ "calcium", "28300 μg" ] ],
     "fun": 3
   },
   {
@@ -415,7 +457,7 @@
     "fun": 3,
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "3800 μg" ], [ "iron", "400 μg" ], [ "calcium", "9600 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -435,7 +477,7 @@
     "volume": "455 ml",
     "flags": [ "FREEZERBURN", "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 101 ], [ "calcium", 2 ], [ "iron", 1 ] ],
+    "vitamins": [ [ "vitC", "91 mg" ], [ "iron", "300 μg" ], [ "calcium", "36900 μg" ] ],
     "fun": 2
   },
   {
@@ -457,7 +499,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "9700 μg" ], [ "iron", "500 μg" ], [ "calcium", "17900 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -478,19 +520,19 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 7 ] ]
+    "vitamins": [ [ "vitC", "6300 μg" ], [ "iron", "100 μg" ], [ "calcium", "4 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
     "id": "grapes",
     "name": { "str": "handful of grapes", "str_pl": "handfuls of grapes" },
-    "weight": "92 g",
+    "weight": "151 g",
     "color": "light_green",
     "spoils_in": "5 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
-    "calories": 61,
+    "calories": 104,
     "description": "A handful of juicy grapes.  Quite calorie-dense compared to most fruit, and you might be able to make them into wine if you're ambitious enough.",
     "price": 29,
     "price_postapoc": 100,
@@ -499,7 +541,7 @@
     "fun": 4,
     "flags": [ "FREEZERBURN", "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 4 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "4800 μg" ], [ "iron", "500 μg" ], [ "calcium", "15100 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -520,7 +562,7 @@
     "fun": -4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 480 ], [ "calcium", 9 ], [ "iron", 14 ] ],
+    "vitamins": [ [ "vitC", "432600 μg" ], [ "iron", "2600 μg" ], [ "calcium", "117700 μg" ] ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -542,7 +584,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 87 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "78900 μg" ], [ "iron", "500 μg" ], [ "calcium", "21500 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -560,7 +602,7 @@
     "price_postapoc": 100,
     "material": [ "fruit" ],
     "volume": "1850 ml",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 4 ], [ "iron", 36 ] ],
+    "vitamins": [ [ "vitC", "16200 μg" ], [ "iron", "8300 μg" ], [ "calcium", "102400 μg" ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -573,16 +615,16 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
-    "calories": 82,
+    "calories": 283,
     "description": "A handful of coconut flesh.  It's surprisingly calorie-dense.",
-    "price": 283,
+    "price": 82,
     "price_postapoc": 50,
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 2 ], [ "iron", 10 ] ]
+    "vitamins": [ [ "vitC", "2600 μg" ], [ "iron", "1900 μg" ], [ "calcium", "11200 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -603,7 +645,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 11 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "9900 μg" ], [ "iron", "400 μg" ], [ "calcium", "9 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -622,9 +664,8 @@
     "price_postapoc": 600,
     "material": [ "fruit" ],
     "volume": "7150 ml",
-    "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE", "INEDIBLE" ],
-    "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 406 ], [ "calcium", 24 ], [ "iron", 60 ] ],
+    "flags": [ "EATEN_COLD", "FREEZERBURN", "INEDIBLE" ],
+    "vitamins": [ [ "vitC", "366 mg" ], [ "iron", "10800 μg" ], [ "calcium", "316300 μg" ] ],
     "melee_damage": { "bash": 2 }
   },
   {
@@ -646,7 +687,7 @@
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
     "fun": 4,
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 25 ], [ "calcium", 1 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "23200 μg" ], [ "iron", "700 μg" ], [ "calcium", "20 mg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -664,10 +705,9 @@
     "price_postapoc": 100,
     "material": [ "fruit" ],
     "volume": "1100 ml",
-    "flags": [ "EATEN_COLD", "SMOKABLE", "INEDIBLE" ],
+    "flags": [ "EATEN_COLD", "INEDIBLE" ],
     "fun": 4,
-    "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 225 ], [ "calcium", 3 ], [ "iron", 6 ] ],
+    "vitamins": [ [ "vitC", "202600 μg" ], [ "iron", "1200 μg" ], [ "calcium", "49700 μg" ] ],
     "melee_damage": { "bash": 1 }
   },
   {
@@ -689,7 +729,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EATEN_COLD" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 65 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "50650 μg" ], [ "iron", "300 μg" ], [ "calcium", "12425 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -710,7 +750,7 @@
     "fun": 4,
     "flags": [ "SMOKABLE", "EDIBLE_FROZEN" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 33 ], [ "calcium", 3 ], [ "iron", 5 ] ]
+    "vitamins": [ [ "vitC", "30200 μg" ], [ "iron", "900 μg" ], [ "calcium", "41800 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -731,7 +771,7 @@
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 83 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "75300 μg" ], [ "iron", "300 μg" ], [ "calcium", "22800 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -752,7 +792,7 @@
     "fun": 7,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 32 ], [ "calcium", 2 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "28800 μg" ], [ "iron", "800 μg" ], [ "calcium", "28200 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -764,16 +804,16 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 24,
-    "calories": 496,
+    "calories": 130,
     "description": "A very sweet and soft tropical fruit.",
     "price": 118,
     "price_postapoc": 300,
     "material": [ "fruit" ],
-    "volume": "400 ml",
+    "volume": "594 ml",
     "fun": 5,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 205 ], [ "calcium", 4 ], [ "iron", 4 ] ]
+    "vitamins": [ [ "vitC", "185100 μg" ], [ "iron", "800 μg" ], [ "calcium", "60800 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -794,7 +834,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 71 ], [ "calcium", 1 ], [ "iron", 1 ] ]
+    "vitamins": [ [ "vitC", "64 mg" ], [ "iron", "200 μg" ], [ "calcium", "23500 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -816,7 +856,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 2 ] ]
+    "vitamins": [ [ "vitC", "14 mg" ], [ "iron", "500 μg" ], [ "calcium", "18200 μg" ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -842,22 +882,22 @@
   {
     "type": "COMESTIBLE",
     "id": "cactus_pad",
-    "name": { "str": "cactus pad" },
-    "weight": "149 g",
+    "name": { "str": "handful of nopales", "str_pl": "handfuls of nopales" },
+    "weight": "86 g",
     "color": "green",
     "spoils_in": "1 days",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 15,
-    "calories": 15,
-    "description": "An edible pad from a cactus.",
+    "calories": 14,
+    "description": "A handful of edible pads from a cactus.",
     "price": 50,
     "price_postapoc": 25,
     "material": [ "fruit" ],
     "volume": "250 ml",
     "fun": -1,
     "flags": [ "RAW" ],
-    "vitamins": [ [ "vitC", 9 ], [ "calcium", 16 ], [ "iron", 3 ] ]
+    "vitamins": [ [ "vitC", "8 mg" ], [ "iron", "500 μg" ], [ "calcium", "141 mg" ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -351,7 +351,7 @@ enum game_message_type : int {
     m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
     m_info,    /* informs the player about something, e.g. on examination, seeing an item,
                   about how to use a certain function, etc. */
-    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
+    m_neutral,  /* neutral or indifferent events which aren't informational or nothing really happened e.g.
                   a miss, a non-critical failure. May also effect for good or bad effects which are
                   just very slight to be notable. This is the default message type. */
 

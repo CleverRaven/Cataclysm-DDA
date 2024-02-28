@@ -10,7 +10,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <map>
-#include <new>
 #include <sstream>
 #include <stack>
 #include <stdexcept>
@@ -25,6 +24,7 @@
 #include "cursesdef.h"
 #include "game_constants.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "line.h"
 #include "game.h"

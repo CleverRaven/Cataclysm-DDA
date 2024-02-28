@@ -2,12 +2,10 @@
 
 #include <algorithm>
 #include <array>
-#include <cstdio>
-#include <cstdlib>
+#include <exception>
 #include <iterator>
 #include <memory>
 #include <set>
-#include <type_traits>
 #include <unordered_map>
 #include <utility>
 
@@ -19,7 +17,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
 #include "mod_manager.h"
@@ -714,10 +712,16 @@ void worldfactory::load_last_world_info()
         return;
     }
 
-    JsonValue jsin = json_loader::from_path( lastworld_path );
-    JsonObject data = jsin.get_object();
-    last_world_name = data.get_string( "world_name" );
-    last_character_name = data.get_string( "character_name" );
+    try {
+        JsonValue jsin = json_loader::from_path( lastworld_path );
+        JsonObject data = jsin.get_object();
+        last_world_name = data.get_string( "world_name" );
+        last_character_name = data.get_string( "character_name" );
+    } catch( std::exception const &e ) {
+        DebugLog( D_INFO, DC_ALL ) <<  e.what();
+        last_world_name = std::string{};
+        last_character_name = std::string{};
+    }
 }
 
 void worldfactory::save_last_world_info() const
@@ -1075,15 +1079,14 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         std::string id;
         std::vector<mod_id> mods;
         std::vector<mod_id> mods_unfiltered;
+
+        explicit mod_tab( std::string id, std::vector<mod_id> mods, std::vector<mod_id> mods_unfiltered ) :
+            id( std::move( id ) ), mods( std::move( mods ) ), mods_unfiltered( std::move( mods_unfiltered ) ) {}
     };
     std::vector<mod_tab> all_tabs;
 
     for( const std::pair<std::string, translation> &tab : get_mod_list_tabs() ) {
-        all_tabs.push_back( {
-            tab.first,
-            std::vector<mod_id>(),
-            std::vector<mod_id>()
-        } );
+        all_tabs.emplace_back( tab.first, std::vector<mod_id> {}, std::vector<mod_id> {} );
     }
 
     const std::map<std::string, std::string> &cat_tab_map = get_mod_list_cat_tab();

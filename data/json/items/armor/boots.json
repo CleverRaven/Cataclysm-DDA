@@ -103,54 +103,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "santa_boots",
-    "type": "ARMOR",
-    "name": { "str": "pair of Santa boots", "str_pl": "pairs of Santa boots" },
-    "description": "A tough pair of black leather boots, trimmered with white faux fur.  For tough everyday work at the North Pole.",
-    "weight": "1100 g",
-    "volume": "2700 ml",
-    "price": 10000,
-    "price_postapoc": 750,
-    "to_hit": -2,
-    "symbol": "[",
-    "looks_like": "dress_shoes",
-    "color": "black",
-    "warmth": 20,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l"
-        ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "faux_fur", "covered_by_mat": 10, "thickness": 0.5 }
-        ],
-        "encumbrance": 12,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
-        "coverage": 100
-      }
-    ],
-    "melee_damage": { "bash": 1 }
-  },
-  {
     "id": "boots_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -310,9 +262,7 @@
     "description": "Boots crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "melee_damage": { "bash": 2 } },
-    "material_thickness": 5
+    "relative": { "melee_damage": { "bash": 2 } }
   },
   {
     "id": "xl_boots_acidchitin",
@@ -326,7 +276,6 @@
     "id": "xs_boots_acidchitin",
     "type": "ARMOR",
     "copy-from": "boots_acidchitin",
-    "looks_like": "boots_acidchitin",
     "name": { "str": "pair of XS biosilicified chitin boots", "str_pl": "pairs of XS biosilicified chitin boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -555,7 +504,6 @@
     "id": "xs_boots_fur",
     "type": "ARMOR",
     "copy-from": "boots_fur",
-    "looks_like": "boots_fur",
     "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -572,7 +520,7 @@
     "to_hit": -1,
     "material": [ "cotton", "faux_fur" ],
     "symbol": "[",
-    "looks_like": "boots",
+    "looks_like": "boots_fur",
     "color": "brown",
     "warmth": 40,
     "material_thickness": 3,
@@ -622,7 +570,6 @@
     "id": "xs_boots_faux_fur",
     "type": "ARMOR",
     "copy-from": "boots_faux_fur",
-    "looks_like": "boots_fur",
     "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -707,7 +654,6 @@
     "id": "xs_boots_larmor",
     "type": "ARMOR",
     "copy-from": "boots_larmor",
-    "looks_like": "boots_larmor",
     "name": { "str": "pair of XS leather armor boots", "str_pl": "pairs of XS leather armor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -774,7 +720,6 @@
     "id": "xs_boots_plate",
     "type": "ARMOR",
     "copy-from": "boots_plate",
-    "looks_like": "boots_plate",
     "name": { "str": "pair of XS armored boots", "str_pl": "pairs of XS armored boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -882,7 +827,6 @@
     "id": "xs_boots_scrap",
     "type": "ARMOR",
     "copy-from": "boots_scrap",
-    "looks_like": "boots_scrap",
     "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -922,8 +866,8 @@
     "id": "ch_sabaton_metal_sheets",
     "type": "ARMOR",
     "copy-from": "sabaton_metal_sheets",
-    "name": { "str": "pair of case hardened sheet metal sabatons", "str_pl": "pairs of case hardened sheet metal sabatons" },
-    "description": "Sabatons made of sheet metal, case hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
+    "name": { "str": "pair of hardened steel sheet metal sabatons", "str_pl": "pairs of hardened steel sheet metal sabatons" },
+    "description": "Sabatons made of sheet metal, hardened to protect your feet if you drop something heavy on them.  No relation to the band, aside from being very metal.",
     "material": [ "ch_steel" ],
     "extend": { "flags": [ "STURDY" ] },
     "armor": [
@@ -1143,7 +1087,6 @@
     "id": "xs_boots_winter",
     "type": "ARMOR",
     "copy-from": "boots_winter",
-    "looks_like": "boots_winter",
     "name": { "str": "pair of XS winter boots", "str_pl": "pairs of XS winter boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -1655,13 +1598,13 @@
       {
         "id": "heels_stiletto",
         "name": { "str": "pair of stiletto heels", "str_pl": "pairs of stiletto heels" },
-        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they’d probably be more useful to stab a zombie’s eyes out than as footwear.",
+        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they'd probably be more useful to stab a zombie's eyes out than as footwear.",
         "weight": 10
       },
       {
         "id": "heels_block",
         "name": { "str": "pair of block heels", "str_pl": "pairs of block heels" },
-        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don’t do you any favors in the mobility department, they’re at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
+        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don't do you any favors in the mobility department, they're at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
         "weight": 10
       },
       {
@@ -1678,8 +1621,8 @@
       },
       {
         "id": "heels_flag",
-        "name": { "str": "pair of liberty’s heels", "str_pl": "pairs of liberty’s heels" },
-        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear’s heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe’s heels.  Each of the statues’ dresses is inscribed with the legend, \"America Gives You Wings!\""
+        "name": { "str": "pair of liberty's heels", "str_pl": "pairs of liberty's heels" },
+        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear's heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe's heels.  Each of the statues' dresses is inscribed with the legend, \"America Gives You Wings!\""
       }
     ]
   },
@@ -1753,7 +1696,7 @@
       {
         "id": "chelsea_boots",
         "name": { "str": "pair of chelsea boots", "str_pl": "pairs of chelsea boots" },
-        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that’s designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
+        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that's designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
         "weight": 10
       }
     ]
@@ -2300,47 +2243,6 @@
     ]
   },
   {
-    "id": "santa_shoes",
-    "type": "ARMOR",
-    "name": { "str": "pair of Santa shoes", "str_pl": "pairs of Santa shoes" },
-    "description": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs Claus or Santa style and comfort.",
-    "weight": "850 g",
-    "volume": "1500 ml",
-    "price": 10000,
-    "price_postapoc": 250,
-    "material": [ "cotton", "rubber" ],
-    "symbol": "[",
-    "looks_like": "shoes_bowling",
-    "color": "light_blue",
-    "warmth": 20,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
-        "encumbrance": 4,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
-        "coverage": 60
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
-        "coverage": 100
-      }
-    ]
-  },
-  {
     "id": "straw_sandals",
     "type": "ARMOR",
     "name": { "str": "pair of straw sandals", "str_pl": "pairs of straw sandals" },
@@ -2770,7 +2672,6 @@
     "id": "xlnomex_socks",
     "type": "ARMOR",
     "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
-    "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
@@ -2780,9 +2681,7 @@
     "id": "xsnomex_socks",
     "type": "ARMOR",
     "copy-from": "nomex_socks",
-    "looks_like": "nomex_socks",
     "name": { "str": "pair of XS flame-resistant socks", "str_pl": "pairs of XS flame-resistant socks" },
-    "description": "A snug-fitting pair of stockings made from thin and lightweight Nomex fabric.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2808,7 +2707,6 @@
     "id": "xlsocks",
     "type": "ARMOR",
     "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
-    "description": "Socks.  Big ones.  Put 'em on your feet.",
     "weight": "58 g",
     "volume": "250 ml",
     "copy-from": "socks",
@@ -2818,9 +2716,7 @@
     "id": "xssocks",
     "type": "ARMOR",
     "copy-from": "socks",
-    "looks_like": "socks",
     "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
-    "description": "Socks.  Put 'em on your feet.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -2942,7 +2838,6 @@
     "id": "xlsocks_wool",
     "type": "ARMOR",
     "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
-    "description": "Warm socks made of wool for a human larger than previously thought possible.",
     "weight": "77 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
@@ -2953,7 +2848,6 @@
     "type": "ARMOR",
     "copy-from": "socks_wool",
     "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
-    "description": "Warm socks made of wool for a human smaller than previously thought possible.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -3326,17 +3220,6 @@
         "name": { "str": "pair of polysexual flag stockings", "str_pl": "pairs of polysexual flag stockings" },
         "description": "This one has patterns akin to the polysexual flag.",
         "weight": 25,
-        "color": "green",
-        "append": true
-      },
-      {
-        "id": "santa_stockings",
-        "name": { "str": "pair of Christmas stockings", "str_pl": "pairs of Christmas stockings" },
-        "description": {
-          "str": "A comfortable pair of red, white and green stockings with Christmas patterns on it, for Mrs. Claus style.",
-          "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
-        },
-        "weight": 1,
         "color": "green",
         "append": true
       }

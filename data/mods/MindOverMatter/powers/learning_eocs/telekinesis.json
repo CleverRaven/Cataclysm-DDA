@@ -73,7 +73,7 @@
       { "math": [ "u_vitamin('vitamin_psi_learning_counter')", "=", "0" ] },
       { "u_learn_recipe": "practice_telekinetic_slam_down" },
       {
-        "u_message": "Use of your powers has led to an insight.  Instead of just shoving someone away from your location, you could direct the force orthagonally to knock someone to the ground, if you can figure out the proper technique.",
+        "u_message": "Use of your powers has led to an insight.  Instead of just shoving someone away from your location, you could direct the force orthogonally to knock someone to the ground, if you can figure out the proper technique.",
         "popup": true
       }
     ]

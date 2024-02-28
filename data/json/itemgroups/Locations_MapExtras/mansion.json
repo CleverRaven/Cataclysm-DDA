@@ -317,7 +317,6 @@
       { "group": "manuals", "prob": 10 },
       { "group": "textbooks", "prob": 5 },
       { "group": "exotic_books", "prob": 5 },
-      { "group": "loose_chess_pieces", "prob": 1 },
       [ "necronomicon", 1 ]
     ]
   },
@@ -553,7 +552,6 @@
       [ "fc_hairpin", 30 ],
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
-      { "group": "loose_chess_pieces", "prob": 10, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
       [ "backpack_denim", 5 ],
       [ "pom_poms", 30 ],
@@ -899,7 +897,6 @@
       { "group": "tinware", "prob": 20 },
       [ "bone_tainted", 5 ],
       { "group": "corpse_mansion", "prob": 5 },
-      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "writing_utensils", "prob": 10 }
     ]
   },
@@ -940,7 +937,8 @@
       [ "fanny", 20 ],
       [ "straw_fedora", 10 ],
       [ "barrette", 10 ],
-      { "item": "contacts", "prob": 10, "count": 6 },
+      { "group": "box_of_contact_lens_any", "prob": 10 },
+      { "item": "transition_contacts", "prob": 2, "count": 6 },
       [ "fedora", 10 ],
       [ "firecracker", 5 ],
       [ "fc_hairpin", 5 ],
@@ -1297,7 +1295,8 @@
     "items": [
       [ "mirror", 50 ],
       { "group": "softdrugs", "prob": 50 },
-      { "item": "contacts", "prob": 40, "count": 6 },
+      { "group": "box_of_contact_lens_any", "prob": 40 },
+      { "item": "transition_contacts", "prob": 8, "count": 6 },
       [ "hairpin", 40 ],
       [ "fc_hairpin", 30 ],
       { "group": "jewelry_front", "prob": 30 },
@@ -1621,7 +1620,7 @@
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],
       { "group": "fertilizer_commercial_bag_canvas_60", "prob": 30 },
-      [ "material_quicklime", 30 ],
+      { "group": "quicklime_bag", "prob": 30 },
       [ "seed_sunflower", 30 ],
       [ "straw_basket", 30 ],
       { "item": "trimmer_off", "prob": 20, "charges-min": 0 },

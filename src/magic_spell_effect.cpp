@@ -567,7 +567,8 @@ static void damage_targets( const spell &sp, Creature &caster,
 
             for( damage_unit &val : atk.proj.impact.damage_units ) {
                 if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    val.amount = cr->get_hp( cr->get_root_body_part() ) * sp.damage( caster ) / 100.0;
+                    // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respecive %
+                    val.amount = cr->get_hp( cr->get_max_hitsize_bodypart() ) * sp.damage( caster ) / 100.0;
                 }
                 val.amount *= damage_mitigation_multiplier;
             }
@@ -1145,7 +1146,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         you->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            you->mod_power_level( units::from_kilojoule( healing ) );
+            you->mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( healing ) ) );
         } else {
             you->mod_stamina( healing );
         }
@@ -1226,6 +1227,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+    spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
     return true;
 }
 
@@ -1509,19 +1511,20 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         }
         // there used to be a MAX_GUILT_DISTANCE here, but the spell's range will do this instead.
         monster &z = *caster.as_monster();
-        const int kill_count = g->get_kill_tracker().kill_count( z.type->id );
+        const int kill_count = g->get_kill_tracker().guilt_kill_count( z.type->id );
         // this is when the player stops caring altogether.
         const int max_kills = sp.damage( caster );
         // this determines how strong the morale penalty will be
         const int guilt_mult = sp.get_effective_level();
 
         // different message as we kill more of the same monster
-        std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
+        std::string msg;
         game_message_type msgtype = m_bad; // default guilt message type
         std::map<int, std::string> guilt_thresholds;
-        guilt_thresholds[75] = _( "You feel ashamed for killing %s." );
-        guilt_thresholds[50] = _( "You regret killing %s." );
-        guilt_thresholds[25] = _( "You feel remorse for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.25 ) ] = _( "You feel guilty for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.5 ) ] = _( "You feel remorse for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.75 ) ] = _( "You regret killing %s." );
+        guilt_thresholds[max_kills] = _( "You feel ashamed for killing %s." );
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
@@ -1544,7 +1547,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             msgtype = m_neutral;
         } else {
             for( const std::pair<const int, std::string> &guilt_threshold : guilt_thresholds ) {
-                if( kill_count >= guilt_threshold.first ) {
+                if( kill_count < guilt_threshold.first ) {
                     msg = guilt_threshold.second;
                     break;
                 }
@@ -1686,7 +1689,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
                     --walk_point;
                 }
                 break;
-            } else {
+            } else if( walk_point != trajectory.begin() ) {
                 sp.create_field( here.getlocal( *( walk_point - 1 ) ), caster );
                 g->draw_ter();
             }

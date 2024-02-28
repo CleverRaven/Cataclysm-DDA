@@ -69,6 +69,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_DIGS,
             mon_flag_DOGFOOD,
             mon_flag_DORMANT,
+            mon_flag_DRACULIN_IMMUNE,
             mon_flag_GEN_DORMANT,
             mon_flag_DRIPS_GASOLINE,
             mon_flag_DRIPS_NAPALM,
@@ -77,6 +78,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_ELECTRIC,
             mon_flag_ELECTRIC_FIELD,
             mon_flag_ELECTRONIC,
+            mon_flag_FAE_CREATURE,
             mon_flag_FILTHY,
             mon_flag_FIREPROOF,
             mon_flag_FIREY,
@@ -86,6 +88,10 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_GRABS,
             mon_flag_GROUP_BASH,
             mon_flag_GROUP_MORALE,
+            mon_flag_GUILT_ANIMAL,
+            mon_flag_GUILT_CHILD,
+            mon_flag_GUILT_HUMAN,
+            mon_flag_GUILT_OTHERS,
             mon_flag_HARDTOSHOOT,
             mon_flag_HAS_MIND,
             mon_flag_HEARS,
@@ -129,6 +135,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_PUSH_VEH,
             mon_flag_QUEEN,
             mon_flag_QUIETDEATH,
+            mon_flag_QUIETMOVES,
             mon_flag_RANGED_ATTACKER,
             mon_flag_REVIVES,
             mon_flag_REVIVES_HEALTHY,
@@ -136,6 +143,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_SEES,
             mon_flag_SHORTACIDTRAIL,
             mon_flag_SILENT_DISAPPEAR,
+            mon_flag_SILENTMOVES,
             mon_flag_SLUDGEPROOF,
             mon_flag_SLUDGETRAIL,
             mon_flag_SMALLSLUDGETRAIL,
@@ -187,6 +195,7 @@ void set_mon_flag_ids()
     mon_flag_DIGS = mon_flag_id( "DIGS" );
     mon_flag_DOGFOOD = mon_flag_id( "DOGFOOD" );
     mon_flag_DORMANT = mon_flag_id( "DORMANT" );
+    mon_flag_DRACULIN_IMMUNE = mon_flag_id( "DRACULIN_IMMUNE" );
     mon_flag_GEN_DORMANT = mon_flag_id( "GEN_DORMANT" );
     mon_flag_DRIPS_GASOLINE = mon_flag_id( "DRIPS_GASOLINE" );
     mon_flag_DRIPS_NAPALM = mon_flag_id( "DRIPS_NAPALM" );
@@ -195,6 +204,7 @@ void set_mon_flag_ids()
     mon_flag_ELECTRIC = mon_flag_id( "ELECTRIC" );
     mon_flag_ELECTRIC_FIELD = mon_flag_id( "ELECTRIC_FIELD" );
     mon_flag_ELECTRONIC = mon_flag_id( "ELECTRONIC" );
+    mon_flag_FAE_CREATURE = mon_flag_id( "FAE_CREATURE" );
     mon_flag_FILTHY = mon_flag_id( "FILTHY" );
     mon_flag_FIREPROOF = mon_flag_id( "FIREPROOF" );
     mon_flag_FIREY = mon_flag_id( "FIREY" );
@@ -204,6 +214,10 @@ void set_mon_flag_ids()
     mon_flag_GRABS = mon_flag_id( "GRABS" );
     mon_flag_GROUP_BASH = mon_flag_id( "GROUP_BASH" );
     mon_flag_GROUP_MORALE = mon_flag_id( "GROUP_MORALE" );
+    mon_flag_GUILT_ANIMAL = mon_flag_id( "GUILT_ANIMAL" );
+    mon_flag_GUILT_CHILD = mon_flag_id( "GUILT_CHILD" );
+    mon_flag_GUILT_HUMAN = mon_flag_id( "GUILT_HUMAN" );
+    mon_flag_GUILT_OTHERS = mon_flag_id( "GUILT_OTHERS" );
     mon_flag_HARDTOSHOOT = mon_flag_id( "HARDTOSHOOT" );
     mon_flag_HAS_MIND = mon_flag_id( "HAS_MIND" );
     mon_flag_HEARS = mon_flag_id( "HEARS" );

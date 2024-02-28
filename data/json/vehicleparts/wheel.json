@@ -38,7 +38,7 @@
     "folded_volume": "250 ml",
     "durability": 120,
     "description": "A piece of metal with holes suitable for a bike or motorbike wheel.",
-    "//": "25cm weld as a conservative estimate (not much welding going on to affix bike parts).",
+    "//": "25 cm weld as a conservative estimate (not much welding going on to affix bike parts).",
     "item": "wheel_mount_light",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 25 ] ] },
@@ -67,7 +67,7 @@
     "durability": 120,
     "description": "Connection where wheels can be connected on.  This particular one is fit for normal car wheels.",
     "item": "wheel_mount_medium",
-    "//": "100cm weld",
+    "//": "100 cm weld",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 4 ] ],
@@ -103,7 +103,7 @@
     "durability": 120,
     "description": "Connection where wheels can be connected on.  This particular one is fit for large car wheels.",
     "item": "wheel_mount_heavy",
-    "//": "150cm weld",
+    "//": "150 cm weld",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 5 ] ],
@@ -194,7 +194,7 @@
       { "item": "scrap", "count": [ 50, 150 ] }
     ],
     "rolling_resistance": 0.125,
-    "//": "really big steel drum, assuming 100cm of weld per quadrant of damage.",
+    "//": "really big steel drum, assuming 100 cm of weld per quadrant of damage.",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },

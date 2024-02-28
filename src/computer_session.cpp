@@ -4,10 +4,8 @@
 #include <cstdlib>
 #include <functional>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
@@ -32,8 +30,8 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
-#include "item_factory.h"
 #include "item_location.h"
 #include "line.h"
 #include "map.h"

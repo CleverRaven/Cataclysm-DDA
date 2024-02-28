@@ -37,17 +37,67 @@ jobs:
   build_catatclysm:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      CCACHE: 1
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - uses: mymindstorm/setup-emsdk@v13
+    - uses: mymindstorm/setup-emsdk@v14
 
-    - name: Prepare web data
-      run: ./build-scripts/prepare-web-data.sh
+    - name: Install ccache
+      run: |
+        emsdk install ccache-git-emscripten-64bit
+        emsdk activate ccache-git-emscripten-64bit
+
+    - name: Get ccache vars
+      id: get-vars
+      run: |
+        echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
+        echo "ccache-path=$(echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
+
+    - name: ccache cache files
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.get-vars.outputs.ccache-path }}
+        # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
+        key: ccache-${{ github.ref_name }}-emscripten--${{ steps.get-vars.outputs.datetime }}
+        restore-keys: |
+          ccache-master-emscripten--
 
     - name: Build with emcc (emscripten)
-      run: ./build-scripts/build-emscripten.sh
+      run: |
+        emsdk activate ccache-git-emscripten-64bit
+        # This $PATH manipulation is to work around a bug in emsdk, see
+        # https://github.com/emscripten-core/emsdk/pull/1345
+        # Once that bug is fixed, we should be able to drop this weird PATH
+        # stuff.
+        export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
+        # The forked ccache seems to crash unless EM_CONFIG is defined, I'm not
+        # sure why this isn't figured out automatically.
+        export EM_CONFIG=$EMSDK/.emscripten
+        export CCACHE_COMPILERCHECK=string:3.1.51
+        ccache --zero-stats
+        ccache -M 5G
+        ccache --show-stats
+
+        ./build-scripts/build-emscripten.sh
+
+    - name: post-build ccache manipulation
+      run: |
+        emsdk activate ccache-git-emscripten-64bit
+        export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
+        ccache --show-stats
+        ccache -M 5G
+        ccache -c
+        ccache --show-stats
+
+    - name: clear ccache on PRs
+      if: ${{ github.ref_name != 'master' && !failure() }}
+      run: |
+        emsdk activate ccache-git-emscripten-64bit
+        export PATH="${PATH%%:*}/../../ccache/git-emscripten_64bit/bin":$PATH
+        ccache -C
 
     - name: Assemble web bundle
       run: ./build-scripts/prepare-web.sh

@@ -1,0 +1,109 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_solid_fog",
+    "name": "wall of fog",
+    "looks_like": "fd_fog",
+    "description": "A wall of swirling fog.  Despite its constant movement, it never spreads out or escapes the rough wall-shape it's in.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "BLOCK_WIND" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_obsidian_wall",
+    "name": "obsidian rock",
+    "looks_like": "t_rock",
+    "description": "A rough wall of igneous stone.  It does not look like polished obsidian but you can see some resemblance.",
+    "symbol": "LINE_OXOX",
+    "//": "use pillars, 't_column_obsidian', as a compliment.",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_obsidian_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "CONNECT_WITH_WALL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_rock_floor",
+      "items": [ { "item": "obsidian_rock", "count": [ 6, 12 ] }, { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_obsidian_floor",
+    "name": "obsidian floor",
+    "description": "A relatively flat area of igneous rock.  Looks stable enough to be mined with the proper mining gear.",
+    "symbol": ".",
+    "color": "light_gray",
+    "connect_groups": "OBSIDIANFLOOR",
+    "connects_to": "OBSIDIANFLOOR",
+    "move_cost": 2,
+    "roof": "t_obsidian_roof",
+    "flags": [ "TRANSPARENT", "INDOORS", "COLLAPSES", "SUPPORTS_ROOF", "FLAT", "ROAD" ],
+    "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_column_obsidian",
+    "name": "column",
+    "looks_like": "t_rock_wall",
+    "description": "A natural column of igneous rock.",
+    "symbol": "1",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "obsidian_rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_obsidian_roof",
+    "name": "obsidian roof",
+    "description": "A section of flat igneous rock.",
+    "looks_like": "t_rock_floor",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "bash": { "str_min": 100, "str_max": 210, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_hole", "bash_below": false }
+  },
+  {
+    "type": "terrain",
+    "id": "t_salamander_veins",
+    "name": "salamander vein",
+    "looks_like": "t_pillar",
+    "description": "A vein of rare materials that appear during an eruption.",
+    "symbol": "1",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "WALL", "PERMEABLE", "MINEABLE" ],
+    "bash": {
+      "str_min": 120,
+      "str_max": 200,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_obsidian_floor",
+      "items": [
+        { "item": "obsidian_rock", "count": [ 10, 22 ] },
+        { "item": "copper", "count": [ 0, 750 ], "prob": 80 },
+        { "item": "silver_small", "count": [ 0, 250 ], "prob": 60 },
+        { "item": "gold_small", "count": [ 0, 100 ], "prob": 40 },
+        { "item": "platinum_small", "count": [ 0, 25 ], "prob": 20 },
+        { "item": "scrap_moon_tears", "count": [ 0, 10 ], "prob": 10 }
+      ]
+    }
+  }
+]

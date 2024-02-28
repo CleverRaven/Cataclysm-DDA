@@ -10,7 +10,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <tuple>
@@ -31,7 +30,7 @@
 #include "cursesdef.h"
 #include "enum_conversions.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
@@ -90,6 +89,7 @@ static const matype_id style_none( "style_none" );
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
 
+static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
@@ -601,6 +601,8 @@ void avatar::randomize_cosmetics()
     //arbitrary 50% chance to add beard to male characters
     if( male && one_in( 2 ) ) {
         randomize_cosmetic_trait( type_facial_hair );
+    } else {
+        set_mutation( trait_FACIAL_HAIR_NONE );
     }
 }
 
@@ -981,6 +983,12 @@ void avatar::initialize( character_type type )
     }
 
     prof->learn_spells( *this );
+
+    // Also learn spells from hobbies
+    for( const profession *profession : hobbies ) {
+        profession->learn_spells( *this );
+    }
+
 }
 
 static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,
@@ -2043,7 +2051,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += "\n";
         }
         if( !prof_ma_choices.empty() ) {
-            assembled += colorize( _( string_format( "Choose %s:", ma_amount ) ), c_cyan ) + "\n";
+            assembled += colorize( string_format( _( "Choose %d:" ), ma_amount ), c_cyan ) + "\n";
             for( const matype_id &ma : prof_ma_choices ) {
                 const martialart &style = ma.obj();
                 assembled += style.name.translated() + "\n";
@@ -2657,7 +2665,15 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_hobbies ) {
-            std::vector<profession_id> new_hobbies = profession::get_all_hobbies();
+            std::vector<profession_id> new_hobbies = get_scenario()->permitted_hobbies();
+            new_hobbies.erase( std::remove_if( new_hobbies.begin(), new_hobbies.end(),
+            [&u]( const string_id<profession> &hobby ) {
+                return !u.prof->allows_hobby( hobby );
+            } ), new_hobbies.end() );
+            if( new_hobbies.empty() ) {
+                debugmsg( "Why would you blacklist all hobbies?" );
+                new_hobbies = profession::get_all_hobbies();
+            }
             profession_sorter.male = u.male;
             if( ( hobbies_length = filter_entries( u, cur_id, sorted_hobbies, new_hobbies,
                                                    u.hobbies.empty() ? string_id<profession>() : ( *u.hobbies.begin() )->ident(), filterstring,

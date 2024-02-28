@@ -388,27 +388,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "candycane",
-    "name": { "str_sp": "candycane" },
-    "weight": "80 g",
-    "longest_side": "15 cm",
-    "color": "red",
-    "spoils_in": "360 days",
-    "comestible_type": "FOOD",
-    "symbol": "%",
-    "quench": -3,
-    "healthy": -1,
-    "calories": 180,
-    "description": "A iconic red and white striped candy, also a popular Christmas treat.  This one is peppermint flavoured",
-    "price": "24 cent",
-    "price_postapoc": "60 cent",
-    "material": [ "junk" ],
-    "volume": "104 ml",
-    "flags": [ "EDIBLE_FROZEN" ],
-    "fun": 7
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "candy_bracelet",
     "name": { "str": "candy bracelet" },
     "looks_like": "copper_bracelet",
@@ -416,7 +395,10 @@
     "description": "A candy bracelet made by stringing candies onto a thread.  In theory, you could both wear and eat the bracelet.",
     "copy-from": "candy4",
     "material": [ "junk" ],
-    "armor_data": { "covers": [ "HAND_EITHER" ] }
+    "armor_data": {
+      "sided": true,
+      "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    }
   },
   {
     "type": "COMESTIBLE",

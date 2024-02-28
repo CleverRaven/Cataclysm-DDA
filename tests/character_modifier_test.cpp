@@ -67,7 +67,7 @@ static void create_bird_char( Character &dude )
     REQUIRE( !dude.has_part( body_part_foot_r ) );
 }
 
-TEST_CASE( "Basic_limb_score_test", "[character][encumbrance]" )
+TEST_CASE( "Basic_limb_score_test", "[character][encumbrance][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -109,7 +109,7 @@ TEST_CASE( "Basic_limb_score_test", "[character][encumbrance]" )
     }
 }
 
-TEST_CASE( "Basic_character_modifier_test", "[character][encumbrance]" )
+TEST_CASE( "Basic_character_modifier_test", "[character][encumbrance][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -153,7 +153,7 @@ TEST_CASE( "Basic_character_modifier_test", "[character][encumbrance]" )
     }
 }
 
-TEST_CASE( "Body_part_armor_vs_damage", "[character]" )
+TEST_CASE( "Body_part_armor_vs_damage", "[character][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -208,7 +208,7 @@ static double get_limbtype_modval( const double &val, const bodypart_id &id,
     return ret;
 }
 
-TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation]" )
+TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation][limb]" )
 {
     standard_npc dude( "Test NPC" );
     clear_character( dude, true );
@@ -350,7 +350,7 @@ TEST_CASE( "Mutation_armor_vs_damage", "[character][mutation]" )
     }
 }
 
-TEST_CASE( "Multi-limbscore_modifiers", "[character]" )
+TEST_CASE( "Multi-limbscore_modifiers", "[character][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -402,7 +402,7 @@ TEST_CASE( "Multi-limbscore_modifiers", "[character]" )
     }
 }
 
-TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[character]" )
+TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[character][limb]" )
 {
     standard_npc dude( "Test NPC" );
     create_char( dude );
@@ -450,7 +450,7 @@ TEST_CASE( "Slip_prevention_modifier_/_weighted-list_multi-score_modifiers", "[c
     }
 }
 
-TEST_CASE( "Weighted_limb_types", "[character]" )
+TEST_CASE( "Weighted_limb_types", "[character][limb]" )
 {
     item boxing_gloves( "test_boxing_gloves" );
     item wing_covers( "test_winglets" );

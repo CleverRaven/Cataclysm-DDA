@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: install dependencies (ubuntu)
         run: |
@@ -36,7 +36,7 @@ jobs:
           name: formatter
           path: formatter.html
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: gh-pages
 
@@ -54,7 +54,6 @@ jobs:
           commit-message: JSON linter gh-pages file update
           base: gh-pages
           branch: gh-pages-json-linter-update
-          branch-suffix: short-commit-hash
           delete-branch: true
           add-paths: formatter.html
           title: Update Github Pages JSON linter page

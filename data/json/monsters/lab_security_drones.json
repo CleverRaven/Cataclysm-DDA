@@ -120,7 +120,7 @@
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
-    "revert_to_itype": "bot_manhack",
+    "revert_to_itype": "bot_lab_security_drone_YM",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
@@ -180,7 +180,7 @@
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
-    "revert_to_itype": "bot_manhack",
+    "revert_to_itype": "bot_lab_security_drone_BM",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
@@ -266,7 +266,7 @@
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
-    "revert_to_itype": "bot_manhack",
+    "revert_to_itype": "bot_lab_security_drone_BM2",
     "extend": { "flags": [ "COLDPROOF", "PRIORITIZE_TARGETS" ] },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },

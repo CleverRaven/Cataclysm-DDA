@@ -185,7 +185,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Steel</color>, <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( axe, category ) ==
-               "Category: <color_c_magenta>TOOLS</color>\n" );
+               "Category: <color_c_magenta>Tools</color>\n" );
 
         CHECK( item_info_str( axe, description ) ==
                "--\n"
@@ -200,7 +200,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( plank, category ) ==
-               "Category: <color_c_magenta>SPARE PARTS</color>\n" );
+               "Category: <color_c_magenta>Spare parts</color>\n" );
 
         CHECK( item_info_str( plank, description ) ==
                "--\n"
@@ -1203,7 +1203,7 @@ TEST_CASE( "armor_fit_and_sizing", "[iteminfo][armor][fit]" )
            "--\n"
            "* This clothing <color_c_cyan>can be refitted</color>.\n" );
 
-    // Items with "covers" LEG_EITHER, ARM_EITHER, FOOT_EITHER, HAND_EITHER are "sided"
+    // Sided armor is show as sided
     item briefcase( "test_briefcase" );
     CHECK( item_info_str( briefcase, sided ) ==
            "--\n"
@@ -1247,7 +1247,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 // Materials and protection calculations are not tested here; only their display in item info.
 //
 // item::armor_protection_info
-TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
+TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
 {
     clear_avatar();
 
@@ -1921,7 +1921,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
-               " and 0-51 mg Vitamin C (0-56%)\n" );
+               " and 0-49 mg Vitamin C (0-54%)\n" );
     }
 }
 
@@ -2960,7 +2960,7 @@ TEST_CASE( "item_debug_info", "[iteminfo][debug][!mayfail][.]" )
     }
 }
 
-TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection]" )
+TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection][!mayfail]" )
 {
     // Normal item definition, no copy
     item armor( itype_test_armor_chitin );

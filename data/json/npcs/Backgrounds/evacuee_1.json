@@ -2,21 +2,24 @@
   {
     "id": "BGSS_EVACUEE_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I made it to one of those <swear> evac shelters, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
+    "dynamic_line": {
+      "gendered_line": "I made it to one of those <swear> evac shelters, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "How did you survive on the run?",
         "topic": "BGSS_EVACUEE_1_STORY2",
-        "condition": { "not": { "days_since_cataclysm": 90 } },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') < 90" ] },
         "effect": { "npc_add_effect": "BGSS_EVACUEE_1_earlymeeting", "duration": "PERMANENT" },
         "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options"
       },
       {
         "text": "How did you survive on the run?",
-        "condition": { "days_since_cataclysm": 90 },
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 90" ] },
         "topic": "BGSS_EVACUEE_1_STORY2"
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -28,37 +31,55 @@
   {
     "id": "BGSS_EVACUEE_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "I spent a lot of time rummaging for rhubarb and bits of vegetables in the forest before I found the courage to start picking off some of those dead monsters.  I guess I was getting desperate.",
+    "dynamic_line": {
+      "gendered_line": "I spent a lot of time rummaging for rhubarb and bits of vegetables in the forest before I found the courage to start picking off some of those dead monsters.  I guess I was getting desperate.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "And that's it?  You spent months just living off the land?",
         "topic": "BGSS_EVACUEE_1_STORY3",
         "condition": { "not": { "npc_has_effect": "BGSS_EVACUEE_1_earlymeeting" } }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_EVACUEE_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Not exactly.  After a while, I got brave.  I started venturing towards the outskirts of town, picking off zombies here and there.  I learned about traveling in at night to avoid all but those <swear> shadow-zombies, and that got me pretty far.  Eventually I cleared out a cozy little nook for myself and started really feeling comfortable.  I guess I got a bit complacent.",
+    "dynamic_line": {
+      "gendered_line": "Not exactly.  After a while, I got brave.  I started venturing towards the outskirts of town, picking off zombies here and there.  I learned about traveling in at night to avoid all but those <swear> shadow-zombies, and that got me pretty far.  Eventually I cleared out a cozy little nook for myself and started really feeling comfortable.  I guess I got a bit complacent.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Complacent?", "topic": "BGSS_EVACUEE_1_STORY4" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_EVACUEE_1_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "I thought I had those damned <zombies> figured out.  I got braver, started heading out by day more and more.  One of those screamer zombies spotted me and called in a horde, with a giant <swear> beastie at the head of it, the size of a volkswagen and all covered in bone plates.  I know when I'm outclassed.  The big guy was held back by his own horde of buddies, and I managed to book it back to my place.  I closed the windows, locked it down, but it was too late.  The giant followed me and just started hammering right through the walls.  I grabbed what I could and made for the horizon.  Last I saw of my squat, it was collapsing on the bastard.  For all I know, it died in the crash, but I am not going back to find out.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "I thought I had those damned <zombies> figured out.  I got braver, started heading out by day more and more.  One of those screamer zombies spotted me and called in a horde, with a giant <swear> beastie at the head of it, the size of a volkswagen and all covered in bone plates.  I know when I'm outclassed.  The big guy was held back by his own horde of buddies, and I managed to book it back to my place.  I closed the windows, locked it down, but it was too late.  The giant followed me and just started hammering right through the walls.  I grabbed what I could and made for the horizon.  Last I saw of my squat, it was collapsing on the bastard.  For all I know, it died in the crash, but I am not going back to find out.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "CWH_EVACUEE_1_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "What happened?  I'm not really sure.  You must know about the riots and all that, that the government and the police totally failed to contain.  I don't have a good guess what caused that.  I thought it was the usual stuff at first, and I gotta admit, I was sort of excited and scared it was the start of a revolution.  Not excited enough to join in though, and I guess anyone who was is probably dead now.  I tried to wait it out at home, packed a little bug-out bag, but then the internet started showing videos of rioters getting back up and fighting with crazy injuries.  I don't know how many people really believed it at first, but I took that as my sign and ditched town for the evac shelter.  I don't know exactly what happened after that.  The center I was in was heavily vandalized and empty, and I never saw anyone else.  The cell phone grid was locked up, except for one emergency message that came through around a day later saying the government had fallen.  Power went out a few days later.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "What happened?  I'm not really sure.  You must know about the riots and all that, that the government and the police totally failed to contain.  I don't have a good guess what caused that.  I thought it was the usual stuff at first, and I gotta admit, I was sort of excited and scared it was the start of a revolution.  Not excited enough to join in though, and I guess anyone who was is probably dead now.  I tried to wait it out at home, packed a little bug-out bag, but then the internet started showing videos of rioters getting back up and fighting with crazy injuries.  I don't know how many people really believed it at first, but I took that as my sign and ditched town for the evac shelter.  I don't know exactly what happened after that.  The center I was in was heavily vandalized and empty, and I never saw anyone else.  The cell phone grid was locked up, except for one emergency message that came through around a day later saying the government had fallen.  Power went out a few days later.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

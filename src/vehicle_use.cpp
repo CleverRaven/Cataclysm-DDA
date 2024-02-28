@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <list>
 #include <memory>
-#include <sstream>
 #include <string>
 #include <tuple>
 
@@ -25,13 +24,11 @@
 #include "game.h"
 #include "gates.h"
 #include "iexamine.h"
-#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"
 #include "iuse.h"
 #include "game_inventory.h"
-#include "json.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -39,9 +36,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
-#include "output.h"
 #include "overmapbuffer.h"
-#include "pickup.h"
 #include "player_activity.h"
 #include "pocket_type.h"
 #include "requirements.h"
@@ -509,7 +504,10 @@ void vehicle::toggle_autopilot()
         autopilot_on = true;
         is_following = true;
         is_patrolling = false;
-        if( !engine_on ) start_engines();
+        if( !engine_on )
+        {
+            start_engines();
+        }
     } );
 
     menu.add( _( "Stop…" ) )
@@ -1774,7 +1772,8 @@ int vehicle::prepare_tool( item &tool ) const
     return ammo_count;
 }
 
-static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type )
+bool vehicle::use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type,
+                                bool no_invoke )
 {
     item tool( tool_type, calendar::turn );
     const auto &[ammo_type_id, avail_ammo_amount] = veh.tool_ammo_available( tool_type );
@@ -1783,7 +1782,9 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     if( tool.ammo_required() > avail_ammo_amount ) {
         return false;
     }
-    get_player_character().invoke_item( &tool );
+    if( !no_invoke ) {
+        get_player_character().invoke_item( &tool, vp_pos );
+    }
 
     // HACK: Evil hack incoming
     player_activity &act = get_player_character().activity;
@@ -2384,13 +2385,13 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             menu.add( string_format( _( "Lock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "LOCK_DOOR" )
             .on_submit( [p] {
-                doors::lock_door( get_map(), get_player_character(), p );
+                doors::lock_door( get_map(), get_player_character(), tripoint_bub_ms( p ) );
             } );
         } else if( player_inside && vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Unlock %s" ), vp_lockable_door->part().name() ) )
             .hotkey( "UNLOCK_DOOR" )
             .on_submit( [p] {
-                doors::unlock_door( get_map(), get_player_character(), p );
+                doors::unlock_door( get_map(), get_player_character(), tripoint_bub_ms( p ) );
             } );
         } else if( vp_lockable_door->part().locked ) {
             menu.add( string_format( _( "Check the lock on %s" ), vp_lockable_door->part().name() ) )

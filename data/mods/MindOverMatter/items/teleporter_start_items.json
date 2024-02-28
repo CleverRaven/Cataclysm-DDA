@@ -22,7 +22,7 @@
     "range": 45,
     "ammo_effects": [ "PLASMA", "PLASMA_BUBBLE", "INCENDIARY" ],
     "ammo": [ "mom_fusion_ammo" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mom_fusion_mag" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "25 ml", "item_restriction": [ "mom_fusion_mag" ] } ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
@@ -45,8 +45,8 @@
     "type": "AMMO",
     "name": { "str": "Ch47 power cartridge" },
     "description": "Power cartridges for the Ch47.  You had better make every shot count, because there's no way you're finding any more of these.",
-    "weight": "20 g",
-    "volume": "192 ml",
+    "weight": "1 g",
+    "volume": "1 ml",
     "price": 160,
     "price_postapoc": 800,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
@@ -84,7 +84,19 @@
     "copy-from": "holster",
     "type": "ARMOR",
     "name": { "str": "Ch47 holster" },
-    "description": "A holster for the Ch47.  You could put one of the primitive local ranged weapons in here too, if you had to."
+    "description": "A holster for the Ch47.  You could put one of the primitive local ranged weapons in here too, if you had to.",
+    "pocket_data": [
+      {
+        "magazine_well": "350 ml",
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "250 ml",
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 50
+      }
+    ]
   },
   {
     "id": "itzcuauhtli_tunic",

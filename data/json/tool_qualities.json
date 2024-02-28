@@ -2,7 +2,7 @@
   {
     "type": "tool_quality",
     "id": "CUT",
-    "name": { "str": "cutting" },
+    "name": { "ctxt": "tool_quality", "str": "cutting" },
     "usages": [ [ 1, [ "salvage", "inscribe" ] ] ]
   },
   {
@@ -72,6 +72,11 @@
     "type": "tool_quality",
     "id": "WELD",
     "name": { "str": "welding" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "HACK",
+    "name": { "str": "hacking" }
   },
   {
     "type": "tool_quality",

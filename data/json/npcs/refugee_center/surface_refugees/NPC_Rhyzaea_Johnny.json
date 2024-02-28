@@ -180,25 +180,13 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Rhyzaea_Situation",
     "dynamic_line": {
-      "u_compare_var": "refugee_happiness",
-      "type": "counter",
-      "context": "refugee_center",
-      "op": ">=",
-      "value": 1,
+      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "1" ],
       "no": "People up here are barely hanging on.  I've seen trauma before, a lot, but this is pretty much the worst imaginable.  Everyone has lost everything, with a huge dose of nightmare on top of it all.  We're putting on a brave face, but without help, things are going to break, really soon.",
       "yes": {
-        "u_compare_var": "refugee_happiness",
-        "type": "counter",
-        "context": "refugee_center",
-        "op": ">=",
-        "value": 3,
+        "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "3" ],
         "no": "Things are maybe looking up, a tiny bit.  At least there's been some positive change.  Still, people up here are barely hanging on.  I've seen trauma before, a lot, but this is pretty much the worst imaginable.  Everyone has lost everything, with a huge dose of nightmare on top of it all.  We're putting on a brave face, and a little bit of hope is going a long way.",
         "yes": {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 5,
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
           "no": "There have been a lot of improvements around here, and I think the pressure has gone off a bit.  There's a lot that still needs to be done, of course.  I don't think we're out of the woods yet.  We've all seen things that are hard to even wrap your head around; you know how that is.",
           "yes": "It's tense here.  Maybe it always will be.  Still, things have been getting a bit better lately, and it's showing in a bit of a cascade effect.  It's hard to say what will be the ongoing effects of the trauma we've been through, but in the short term, people are starting to settle into whatever this new life we've got is.  I hope we can keep that going."
         }

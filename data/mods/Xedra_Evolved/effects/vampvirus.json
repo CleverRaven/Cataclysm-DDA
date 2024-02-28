@@ -15,7 +15,7 @@
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] },
+            "condition": { "math": [ "u_effect_intensity('vampire_virus')", "==", "1" ] },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
@@ -28,7 +28,7 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS1",
-            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] },
+            "condition": { "math": [ "u_effect_intensity('vampire_virus')", "==", "2" ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE2" },
@@ -42,7 +42,7 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS2",
-            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] },
+            "condition": { "math": [ "u_effect_intensity('vampire_virus')", "==", "3" ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE3" },
@@ -60,9 +60,7 @@
             "condition": {
               "and": [
                 { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
-                {
-                  "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ]
-                }
+                { "math": [ "u_effect_intensity('vampire_virus_ascendant')", "==", "1" ] }
               ]
             },
             "effect": [
@@ -78,9 +76,7 @@
             "condition": {
               "and": [
                 { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
-                {
-                  "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ]
-                }
+                { "math": [ "u_effect_intensity('vampire_virus_post_mortal')", "==", "1" ] }
               ]
             },
             "effect": [
@@ -148,7 +144,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+              { "math": [ "u_effect_intensity('vampire_virus')", "==", "1" ] }
             ]
           },
           "effect": {
@@ -178,7 +174,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 2 },
-              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
+              { "math": [ "u_effect_intensity('vampire_virus')", "==", "2" ] }
             ]
           },
           "effect": {
@@ -208,7 +204,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 3 },
-              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
+              { "math": [ "u_effect_intensity('vampire_virus')", "==", "3" ] }
             ]
           },
           "effect": {
@@ -240,12 +236,7 @@
     "id": "EOC_vampire_virus_blood_needs",
     "//": "This EOC works on telling the vampire whether they need to consume blood or not.",
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
-    "condition": {
-      "and": [
-        { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": -450 } ] },
-        { "u_has_effect": "vampire_virus" }
-      ]
-    },
+    "condition": { "and": [ { "math": [ "u_vitamin('human_blood_vitamin')", "<=", "-450" ] }, { "u_has_effect": "vampire_virus" } ] },
     "deactivate_condition": { "not": { "u_has_effect": "vampire_virus" } },
     "effect": {
       "run_eocs": [
@@ -254,7 +245,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, ">=", { "const": 1 } ] }
+              { "math": [ "u_effect_intensity('vampire_virus')", ">=", "1" ] }
             ]
           },
           "effect": {

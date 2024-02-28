@@ -185,6 +185,11 @@
     "//": "Ignores the effect of sludge trails"
   },
   {
+    "id": "FAE_CREATURE",
+    "type": "monster_flag",
+    "//": "Is a faerie creature"
+  },
+  {
     "id": "SLUDGETRAIL",
     "type": "monster_flag",
     "//": "Causes monster to leave a sludge trap trail when moving"
@@ -500,6 +505,16 @@
     "//": "This monster makes move noises as if ~2 sizes louder, even if flying"
   },
   {
+    "id": "QUIETMOVES",
+    "type": "monster_flag",
+    "//": "This monster makes move noises as if ~2 sizes quieter"
+  },
+  {
+    "id": "SILENTMOVES",
+    "type": "monster_flag",
+    "//": "This monster makes no move noise at all"
+  },
+  {
     "id": "CAN_OPEN_DOORS",
     "type": "monster_flag",
     "//": "This monster can open doors"
@@ -603,5 +618,30 @@
     "id": "SMALL_HIDER",
     "type": "monster_flag",
     "//": "This small monster can hide under or behind furniture such as beds, refrigerators, and underbrush"
+  },
+  {
+    "id": "GUILT_ANIMAL",
+    "type": "monster_flag",
+    "//": "Warning: Do not use without death_guilt function. This helps count the amount of animals (e.g hatchlings, kittens) before player goes numb."
+  },
+  {
+    "id": "GUILT_CHILD",
+    "type": "monster_flag",
+    "//": "Boss, you killed a child! Warning: Do not use without a death_guilt function. This helps count the children kills before player goes numb."
+  },
+  {
+    "id": "GUILT_HUMAN",
+    "type": "monster_flag",
+    "//": "Warning: Do not use without death_guilt function. This helps count the non-npc human (e.g civilian/futile fighter) kills before player goes numb."
+  },
+  {
+    "id": "GUILT_OTHERS",
+    "type": "monster_flag",
+    "//": "Warning: Do not use without death_guilt function. This helps count the all the other kills that do not fit the other three (e.g blood sacrifice) before player goes numb."
+  },
+  {
+    "id": "DRACULIN_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to Chiropteran saliva. Use for any creature with nonstandard blood (ie mi-go, insects, but probably not zombies or fungalized animals, unless they have acid blood or something)."
   }
 ]

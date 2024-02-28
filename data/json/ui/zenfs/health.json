@@ -1,0 +1,363 @@
+[
+  {
+    "id": "zenfs_mood_focus_speed_sound",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 9,
+    "widgets": [ "mood_desc_label", "focus_num", "speed_num", "sound_num" ]
+  },
+  {
+    "id": "zenfs_weariness_trans_malus",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus", "zenfs_malus_trans_bar" ]
+  },
+  {
+    "id": "zenfs_weariness_trans_malus_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus", "zenfs_malus_trans_bar_alt" ]
+  },
+  {
+    "id": "zenfs_weariness_trans_malus_num",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus_trunc", "zenfs_malus_trans_num" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_weariness_trans_malus_num_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_weary_malus", "zenfs_malus_trans_num" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_fatigue_bar",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_bar_12" ]
+  },
+  {
+    "id": "zenfs_fatigue_num",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_num_no_label" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_stamina_bar_12",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_stamina_bar_label", "zenfs_stamina_bar_only_12" ]
+  },
+  {
+    "id": "zenfs_stamina_bar_14",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_stamina_bar_label", "zenfs_stamina_bar_only_14" ]
+  },
+  {
+    "id": "zenfs_stamina_num",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_stamina_bar_label", "zenfs_stamina_num_no_label" ],
+    "padding": 0
+  },
+  {
+    "//": "Remove 'i_red' when stamina label math is complete.",
+    "id": "zenfs_stamina_bar_template",
+    "type": "widget",
+    "copy-from": "stamina_widget",
+    "style": "graph",
+    "symbols": "·−=≡≣",
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "zenfs_stamina_bar_only_12",
+    "type": "widget",
+    "copy-from": "zenfs_stamina_bar_template",
+    "width": 12,
+    "flags": [ "W_NO_LABEL" ]
+  },
+  {
+    "id": "zenfs_stamina_bar_only_14",
+    "type": "widget",
+    "copy-from": "zenfs_stamina_bar_template",
+    "width": 14,
+    "flags": [ "W_NO_LABEL" ]
+  },
+  {
+    "id": "zenfs_stamina_num_no_label",
+    "type": "widget",
+    "copy-from": "stamina_num_label",
+    "width": 5,
+    "text_align": "right",
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_weariness_bar_10",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "style": "graph",
+    "fill": "pool",
+    "width": 10,
+    "symbols": "·−=≡≣",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red", "i_red" ]
+  },
+  {
+    "id": "zenfs_weariness_num",
+    "type": "widget",
+    "label": "Weary",
+    "var": "weariness_level",
+    "style": "number",
+    "width": 4,
+    "text_align": "right",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red", "i_red" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_fatigue_bar_template",
+    "type": "widget",
+    "var": "fatigue",
+    "style": "graph",
+    "fill": "pool",
+    "symbols": "·−=≡≣",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red" ]
+  },
+  {
+    "id": "zenfs_fatigue_num_no_label",
+    "type": "widget",
+    "var": "fatigue",
+    "style": "number",
+    "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red" ],
+    "text_align": "right",
+    "flags": [ "W_NO_LABEL" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_fatigue_bar_12",
+    "type": "widget",
+    "copy-from": "zenfs_fatigue_bar_template",
+    "width": 12
+  },
+  {
+    "//": "Can't autoswitch coloring until 'stamina_max' is accessible.",
+    "id": "zenfs_stamina_bar_label",
+    "type": "widget",
+    "style": "text",
+    "width": 7,
+    "clauses": [
+      {
+        "id": "label_normal",
+        "text": "Stamina",
+        "color": "c_blue",
+        "condition": { "math": [ "u_val('stamina')", ">", "1000000" ] }
+      },
+      {
+        "id": "label_tired",
+        "text": "Stamina",
+        "color": "c_cyan",
+        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "0" ] } ] }
+      },
+      {
+        "id": "label_very_tired",
+        "text": "Stamina",
+        "color": "c_light_cyan",
+        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "1000000" ] } ] }
+      },
+      {
+        "id": "label_exhausted",
+        "text": "Stamina",
+        "color": "c_light_cyan_red",
+        "condition": { "math": [ "u_val('stamina')", "<=", "1000000" ] }
+      }
+    ]
+  },
+  {
+    "//": "Can't autoswitch coloring until 'stamina_max' is accessible.",
+    "id": "zenfs_stamina_num_label",
+    "type": "widget",
+    "style": "text",
+    "width": 4,
+    "clauses": [
+      {
+        "id": "label_normal",
+        "text": "Stam",
+        "color": "c_blue",
+        "condition": { "math": [ "u_val('stamina')", ">", "1000000" ] }
+      },
+      {
+        "id": "label_tired",
+        "text": "Stam",
+        "color": "c_cyan",
+        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "0" ] } ] }
+      },
+      {
+        "id": "label_very_tired",
+        "text": "Stam",
+        "color": "c_light_cyan",
+        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "1000000" ] } ] }
+      },
+      {
+        "id": "label_exhausted",
+        "text": "Stam",
+        "color": "c_light_cyan_red",
+        "condition": { "math": [ "u_val('stamina')", "<=", "1000000" ] }
+      }
+    ]
+  },
+  {
+    "id": "zenfs_fatigue_bar_label",
+    "type": "widget",
+    "style": "text",
+    "width": 7,
+    "clauses": [
+      {
+        "id": "label_normal",
+        "text": "Fatigue",
+        "color": "c_brown",
+        "condition": { "math": [ "u_val('fatigue')", "<", "191" ] }
+      },
+      {
+        "id": "label_tired",
+        "text": "Fatigue",
+        "color": "c_yellow",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "191" ] }, { "math": [ "u_val('fatigue')", "<", "383" ] } ] }
+      },
+      {
+        "id": "label_very_tired",
+        "text": "Fatigue",
+        "color": "c_light_red",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "383" ] }, { "math": [ "u_val('fatigue')", "<", "575" ] } ] }
+      },
+      {
+        "id": "label_exhausted",
+        "text": "Fatigue",
+        "color": "c_yellow_red",
+        "condition": { "math": [ "u_val('fatigue')", ">=", "575" ] }
+      }
+    ]
+  },
+  {
+    "id": "zenfs_fatigue_num_label",
+    "type": "widget",
+    "style": "text",
+    "width": 5,
+    "clauses": [
+      {
+        "id": "label_normal",
+        "text": "Fatig",
+        "color": "c_brown",
+        "condition": { "math": [ "u_val('fatigue')", "<", "191" ] }
+      },
+      {
+        "id": "label_tired",
+        "text": "Fatig",
+        "color": "c_yellow",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "191" ] }, { "math": [ "u_val('fatigue')", "<", "383" ] } ] }
+      },
+      {
+        "id": "label_very_tired",
+        "text": "Fatig",
+        "color": "c_light_red",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "383" ] }, { "math": [ "u_val('fatigue')", "<", "575" ] } ] }
+      },
+      {
+        "id": "label_exhausted",
+        "text": "Fatig",
+        "color": "c_yellow_red",
+        "condition": { "math": [ "u_val('fatigue')", ">=", "575" ] }
+      }
+    ]
+  },
+  {
+    "id": "zenfs_malus_trans_bar_8",
+    "type": "widget",
+    "label": "Malus",
+    "var": "weary_transition_level",
+    "style": "graph",
+    "fill": "pool",
+    "symbols": "≣≡=−·",
+    "width": 8,
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green", "c_dark_gray" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_malus_trans_bar_10",
+    "type": "widget",
+    "copy-from": "zenfs_malus_trans_bar_8",
+    "width": 10
+  },
+  {
+    "id": "zenfs_malus_trans_bar",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 14,
+    "widgets": [ "zenfs_malus_trans_bar_8" ]
+  },
+  {
+    "id": "zenfs_malus_trans_bar_alt",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "width": 14,
+    "widgets": [ "zenfs_malus_trans_bar_10" ]
+  },
+  {
+    "id": "zenfs_malus_trans_num",
+    "type": "widget",
+    "label": "Malus",
+    "var": "weary_transition_level",
+    "style": "number",
+    "width": 5,
+    "colors": [ "i_red", "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green", "c_dark_gray" ],
+    "text_align": "right",
+    "flags": [ "W_LABEL_NONE" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_weary_malus",
+    "type": "widget",
+    "label": "Malus",
+    "style": "text",
+    "var": "weary_malus_text",
+    "width": 11
+  },
+  {
+    "id": "zenfs_weary_malus_trunc",
+    "type": "widget",
+    "label": "",
+    "style": "text",
+    "var": "weary_malus_text",
+    "width": 5,
+    "flags": [ "W_NO_LABEL" ]
+  },
+  {
+    "id": "zenfs_cardio_fit",
+    "type": "widget",
+    "style": "number",
+    "var": "cardio_fit",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_cardio_acc",
+    "type": "widget",
+    "style": "number",
+    "var": "cardio_acc",
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

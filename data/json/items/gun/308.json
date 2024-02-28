@@ -4,13 +4,13 @@
     "copy-from": "rifle_semi_vintage",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "Belgian battle rifle" },
+    "name": { "str": "Belgian battle rifle" },
     "description": "Originally designed during the Cold War, this gun is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone built by a domestic manufacturer.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "fal_dsa",
-        "name": { "str_sp": "DSA SA-58" },
+        "name": { "str": "DSA SA-58 rifle" },
         "description": "Originally designed during the Cold War, the FAL is probably the most successful battle rifle ever designed.  Despite being labeled as obsolete, its tunable gas system ensures both reliability and low recoil, allowing the FAL to keep up even amongst modern competitors.  This is a semi-automatic clone of the SA-58 pattern built by DSA."
       }
     ],
@@ -41,17 +41,17 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "variant_type": "gun",
-    "name": { "str_sp": "German battle rifle" },
+    "name": { "str": "German battle rifle" },
     "description": "A semi-automatic, domestically produce clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired.",
     "variants": [
       {
         "id": "g3_ptr",
-        "name": { "str_sp": "PTR 91" },
+        "name": { "str": "PTR 91 rifle" },
         "description": "A semi-automatic, domestically produced clone of an early battle rifle developed after the end of WWII.  The PTR 91 is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
       },
       {
         "id": "g3_cetme",
-        "name": { "str_sp": "Century C308" },
+        "name": { "str": "Century C308 rifle" },
         "description": "A semi-automatic, domestically produced clone of the CETME Model C, the progenitor of the famous H&K G3 battle rifle.  The CETME is a fantastically reliable, cheap to produce rifle that continues to serve in conflict regions.  Though the action is legendary, its handling characteristics and harsher recoil leave something to be desired."
       }
     ],
@@ -109,7 +109,7 @@
     "id": "m14ebr",
     "copy-from": "m1a",
     "type": "GUN",
-    "name": { "str_sp": "M14 EBR-RI" },
+    "name": { "str": "M14 EBR-RI rifle" },
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
     "weight": "5070 g",
     "volume": "3672 ml",
@@ -140,13 +140,13 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "American battle rifle" },
+    "name": { "str": "American battle rifle" },
     "description": "This civilian variant of an American battle rifle is essentially a rifle from World War 2 with a detachable magazine stuck in it that was sold to the military as a cheap, do-all rifle that could replace many other weapon systems.  While it delivered none of those things, it was an acceptable rifle, if marginally inferior to its contemporaries.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "m1a",
-        "name": { "str_sp": "M1A" },
+        "name": { "str": "M1A rifle" },
         "description": "This civilian variant of the M14 is essentially the M1 Garand from World War 2 with a detachable magazine stuck in it that was sold to the military as a cheap, do-all rifle that could replace many other weapon systems.  While it delivered none of those things, it was an acceptable rifle, if marginally inferior to its contemporaries."
       }
     ],
@@ -186,7 +186,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M240" },
+    "name": { "str": "M240 machine gun" },
     "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
     "ascii_picture": "m240",
     "weight": "12500 g",
@@ -227,7 +227,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M60" },
+    "name": { "str": "M60 machine gun" },
     "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
     "weight": "10500 g",
     "volume": "10900 ml",
@@ -266,7 +266,7 @@
     "id": "m60_semi",
     "type": "GUN",
     "copy-from": "m60",
-    "name": { "str": "M60 Semi Auto" },
+    "name": { "str": "M60 semi auto machine gun" },
     "description": "A semi-automatic civilian variant of the M60 machine gun, retaining the ability to be belt fed, an uncommon feature in civilian firearms.",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
@@ -275,7 +275,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str_sp": "Savage 111F" },
+    "name": { "str": "Savage 111F rifle" },
     "description": "A very accurate rifle chambered for the powerful .308 round.  Its very low ammo capacity is offset by its accuracy and near-complete lack of recoil.",
     "weight": "3630 g",
     "volume": "2875 ml",
@@ -302,7 +302,7 @@
     "copy-from": "scar_l",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "FN SCAR-H" },
+    "name": { "str": "FN SCAR-H rifle" },
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ascii_picture": "scar-H",
     "weight": "3630 g",
@@ -324,7 +324,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "M24" },
+    "name": { "str": "M24 rifle" },
     "description": "The M24 Sniper is the military and police version of the Remington Model 700 rifle, M24 being the model name assigned by the United States Army after adoption as their standard sniper rifle in 1988.  The M24 is referred to as a 'weapon system' because it consists of not only a rifle, but also a detachable telescopic sight and other accessories.",
     "weight": "4990 g",
     "volume": "4084 ml",
@@ -365,7 +365,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "HK417 A2" },
+    "name": { "str": "HK417 A2 rifle" },
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas-operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
     "weight": "4220 g",
     "volume": "4000 ml",
@@ -391,7 +391,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M110A1" },
+    "name": { "str": "M110A1 rifle" },
     "description": "A derivative of H&K's G28 with an aluminum upper receiver to meet US Army weight requirements.  It is a gas-operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
     "weight": "3800 g",
     "volume": "4000 ml",
@@ -416,13 +416,13 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "7.62x51mm AK" },
+    "name": { "str": "7.62x51mm AK rifle" },
     "description": "A civilian AK pattern rifle, chambered in 7.62x51mm NATO.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "papm77",
-        "name": { "str": "PAP M77" },
+        "name": { "str": "PAP M77 rifle" },
         "description": "A Serbian-made AK pattern rifle made by Zastava in 7.62x51mm NATO.  To avoid import restrictions, Zastava USA has added a number of American-made parts."
       }
     ],
@@ -461,7 +461,7 @@
     "copy-from": "rifle_semi",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "AR-10" },
+    "name": { "str": "AR-10 rifle" },
     "description": "Somewhat similar to the later AR-15, the AR-10 is a gas-operated, rotating bolt rifle chambered for 7.62x51mm rounds.",
     "weight": "3290 g",
     "volume": "4250 ml",
@@ -496,7 +496,7 @@
     "variants": [
       {
         "id": "rfb_308",
-        "name": { "str_sp": "Kel-Tec RFB" },
+        "name": { "str": "Kel-Tec RFB rifle" },
         "description": "This is a semi-automatic bullpup rifle with a lightweight, polymer frame, using magazines from the FN FAL and the .308 Winchester cartridge.  The rifle, forward-ejection, bullpup (abbreviated as RFB) features forward case ejection, ambidextrous controls, and structural use of the barrel, uncommon in modern designs."
       }
     ],

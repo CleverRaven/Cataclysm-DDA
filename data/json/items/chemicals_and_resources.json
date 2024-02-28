@@ -80,11 +80,11 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Portland is most likely long gone, but its memory persists in cement.  This ubiquitous binder can be used for all kinds of advanced masonry.  Just add water.",
-    "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "20 g",
+    "material": [ "cement" ],
+    "volume": "5 ml",
+    "weight": "7200 mg",
     "ammo_type": "components",
-    "count": 50
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -97,8 +97,9 @@
     "color": "dark_gray",
     "description": "A handful of gravel, smaller than pebbles but larger than sand.",
     "material": [ "stone" ],
+    "//": "density: 1.6 g/cm3",
     "volume": "5 ml",
-    "weight": "5 g",
+    "weight": "8 g",
     "ammo_type": "components",
     "count": 1,
     "melee_damage": { "bash": 1 }
@@ -146,13 +147,11 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "The product of burning limestone, this white powder is a crucial ingredient in making cement.  That said, it is also extremely caustic and will cause severe burns to any tissue it comes in contact with.  This property could probably be exploited.",
-    "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "15 g",
-    "//1": "50 units × 15g / density 3.34g/cm³ = 224.55 ml; powder taking up more volume is reasonable",
-    "//2": "15g @ 56.0774g/mol = 0.267487437 moles of CaO",
+    "material": [ "quicklime" ],
+    "volume": "5 ml",
+    "weight": "16700 mg",
     "ammo_type": "components",
-    "count": 50
+    "count": 1
   },
   {
     "type": "AMMO",
@@ -181,8 +180,8 @@
     "color": "dark_gray",
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
     "material": [ "sand" ],
-    "volume": "8 ml",
-    "weight": "5 g",
+    "volume": "5 ml",
+    "weight": "8 g",
     "ammo_type": "components",
     "count": 1
   },
@@ -197,7 +196,7 @@
     "color": "brown",
     "description": "A pile of loosely-packed, slightly damp loamy soil.  This mixture of sand, silt and clay is ideal for growing plants.",
     "material": [ "soil" ],
-    "volume": "5L",
+    "volume": "5 L",
     "weight": "6500 g",
     "ammo_type": "components",
     "stack_size": 1
@@ -1144,7 +1143,7 @@
     "use_action": [ "WATER_PURIFIER" ],
     "comestible_type": "MED",
     "symbol": "!",
-    "description": "Intended for the clarification and disinfection of unsafe drinking water, this halazone-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water (250ml).",
+    "description": "Intended for the clarification and disinfection of unsafe drinking water, this halazone-based purification tablet removes dangerous contaminants using powerful chemicals.  The label says to use one tablet per unit of water (250 ml).",
     "price": "9 cent",
     "price_postapoc": "20 cent",
     "volume": "2 ml",
@@ -1423,7 +1422,7 @@
     "color": "light_gray",
     "description": "A handful of almost-weightless residue left after the burning of some substance.",
     "material": [ "powder_nonflam" ],
-    "volume": "164ml",
+    "volume": "164 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 100
@@ -1440,7 +1439,7 @@
     "color": "light_gray",
     "description": "The burnt remains of a person or animal.",
     "material": [ "powder_nonflam" ],
-    "volume": "104ml",
+    "volume": "104 ml",
     "weight": "1 g",
     "ammo_type": "components",
     "count": 100
@@ -1699,36 +1698,6 @@
     "ammo_type": "components",
     "stack_size": 200,
     "looks_like": "bb"
-  },
-  {
-    "id": "gravelbag",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "gravelbag" },
-    "description": "A canvas sack filled with gravel.  It can be used to construct simple barricades.",
-    "weight": "19200 g",
-    "volume": "16L",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": [ "canvas", "powder" ],
-    "symbol": ")",
-    "color": "brown",
-    "looks_like": "bag_canvas"
-  },
-  {
-    "id": "earthbag",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "earthbag" },
-    "description": "A canvas sack filled with soil.  It can be used to construct simple barricades.",
-    "weight": "19500 g",
-    "volume": "16L",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": [ "canvas", "powder" ],
-    "symbol": ")",
-    "color": "brown",
-    "looks_like": "bag_canvas"
   },
   {
     "id": "rosin",

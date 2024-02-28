@@ -25,7 +25,7 @@ For the official way to build CataclysmDDA, see:
 You'll need to have these libraries and their development headers installed in order to build CataclysmDDA:
 
 * General
-  * `cmake`                     >= 3.0.0
+  * `cmake`                     >= 3.20.0
   * `gcc-libs`
   * `glibc`
   * `zlib`
@@ -72,28 +72,7 @@ Obtain the packages listed above with your system package manager.
 
 ## Windows Environment (MSYS2)
 
-1. Follow steps from here: <https://msys2.github.io/>
-2. Install CataclysmDDA build deps:
-
-   ```
-   pacman -S mingw-w64-i686-toolchain msys/git \
-   	  mingw-w64-i686-cmake \
-   	  mingw-w64-i686-SDL2_{image,mixer,ttf} \
-   	  ncurses-devel \
-   	  gettext-devel
-   ```
-
-   This should get your environment set up to build both the console and tiles versions for Windows.
-
-   **NOTE**: This is only for 32bit builds. 64bit builds require the x86_64 instead of the i686 packages listed above:
-
-   ```
-   pacman -S mingw-w64-x86_64-toolchain msys/git \
-   	  mingw-w64-x86_64-cmake \
-   	  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
-   	  ncurses-devel \
-   	  gettext-devel
-   ```
+Please refer to `COMPILING-MSYS.md`
 
    **NOTE**: If you're trying to test with Jetbrains CLion, point to the CMake version in the msys32/mingw32 path instead of using the built in. This will let CMake detect the installed packages.
 
@@ -138,74 +117,13 @@ $ cmake-gui ..
 
 ## CMake Build for MSYS2 (MinGW)
 
-**NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell` instead of `MSYS2 Shell`. In the other case, you will need to set the `PATH` variable manually.
+1. Follow `COMPILING-MSYS.md` 
 
-For MinGW, MSYS, or MSYS2 you should set [Makefiles generator](https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html) to "MSYS Makefiles". Setting it to "MinGW Makefiles" might work as well, but might also require some additional hackery.
-
-Example:
-
+2. Run
 ```
-$ cd <Path-to-CataclysmDDA-Sources>
-$ mkdir build
-$ cd build
-$ cmake .. -G "MSYS Makefiles"
-$ make  # or $ cmake --build .
+cmake --preset windows-tiles-sounds-x64
+cmake --build --preset windows-tiles-sounds-x64
 ```
-
-The resulting binary will be placed inside the source code directory.
-
-Shared libraries:
-
-If you got a `libgcc_s_dw2-1.dll not found` error, you need to copy shared libraries to the directory with the CataclysmDDA executables.
-
-**NOTE**: For `-DRELEASE=OFF` development builds, you can automate the copy process with:
-
-```
-$ make install
-```
-
-However, it will likely fail because you have a different build environment setup. :)
-
-Currently known dependencies (may be outdated; use `ldd.exe` to correct it for your system):
-
-* MINGW deps:
-  * `libwinpthread-1.dll`
-  * `libgcc_s_dw2-1.dll`
-  * `libstdc++-6.dll`
-
-* LOCALIZE deps:
-  * `libintl-8.dll`
-  * `libiconv-2.dll`
-
-* TILES deps:
-  * `SDL2.dll`
-  * `SDL2_ttf.dll`
-  * `libfreetype-6.dll`
-  * `libbz2-1.dll`
-  * `libharfbuzz-0.dll`
-  * `SDL2_image.dll`
-  * `libpng16-16.dll`
-  * `libjpeg-8.dll`
-  * `libtiff-5.dll`
-  * `libjbig-0.dll`
-  * `liblzma-5.dll`
-  * `libwebp-5.dll`
-  * `zlib1.dll`
-  * `libglib-2.0-0.dll`
-
-* SOUND deps:
-  * `SDL2_mixer.dll`
-  * `libFLAC-8.dll`
-  * `libogg-0.dll`
-  * `libfluidsynth-1.dll`
-  * `libportaudio-2.dll`
-  * `libsndfile-1.dll`
-  * `libvorbis-0.dll`
-  * `libvorbisenc-2.dll`
-  * `libmodplug-1.dll`
-  * `smpeg2.dll`
-  * `libvorbisfile-3.dll`
-
 
 ## CMake Build for Visual Studio / MSBuild
 

@@ -4,7 +4,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str_sp": "Browning BLR" },
+    "name": { "str": "Browning BLR rifle" },
     "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube.",
     "weight": "3290 g",
     "volume": "3610 ml",
@@ -45,7 +45,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "reload_noise_volume": 10,
-    "name": { "str": "M1 Garand" },
+    "name": { "str": "M1 Garand rifle" },
     "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
     "ascii_picture": "m1_garand",
     "weight": "4280 g",
@@ -87,7 +87,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str": "M1903 Springfield" },
+    "name": { "str": "M1903 Springfield rifle" },
     "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  It served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
     "weight": "3910 g",
     "volume": "2840 ml",
@@ -173,7 +173,7 @@
     "copy-from": "rifle_manual",
     "looks_like": "modular_ar15",
     "type": "GUN",
-    "name": { "str_sp": "Remington 700 .30-06" },
+    "name": { "str": "Remington 700 .30-06 rifle" },
     "description": "A very popular and durable hunting or sniping rifle.  Popular among SWAT and US Marine snipers.  Highly damaging, but perhaps not as accurate as the competing Browning BLR.",
     "ascii_picture": "rem700_3006",
     "weight": "3350 g",
@@ -206,7 +206,7 @@
     "variants": [
       {
         "id": "ruger_m77",
-        "name": "Ruger M77 Hawkeye",
+        "name": { "str": "Ruger M77 Hawkeye rifle" },
         "description": "A popular bolt-action hunting rifle first introduced in 2006, the Ruger M77 was originally intended to be a modernized Mauser 98-style long gun.  To this end, the weapon features a Mauser-type fixed blade extractor and an angled large screw that tightly beds the action into the stock.  This particular rifle is a variant with additional features, a smoother trigger, and a recontoured buttstock."
       }
     ],

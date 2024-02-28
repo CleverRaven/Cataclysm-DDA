@@ -2,7 +2,7 @@
 
 All of the C++ code in the project is styled. You should run any changes you make through astyle before pushing a pull request.
 
-We are using astyle version 3.0.1. Version 3.1 should also work, though there are a few cases where they disagree and require annotation.
+We are using astyle version 3.1. Other versions of astyle produce different formatting and should not be used.
 
 Blocks of code can be passed through astyle to ensure that their formatting is correct:
 

@@ -3,10 +3,10 @@
     "id": "ballistic_vest_esapi",
     "type": "ARMOR",
     "category": "armor",
-    "//": "Based on US Army MTV",
+    "//": "Based on US Army SPCS. Used weight of size M cummerband configuration, data from: https://ciehub.info/ref/TM/10-8470-209-10_2013.pdf ",
     "name": { "str": "US ballistic vest" },
     "description": "A ballistic vest with specialized pockets on the front, back, and sides to hold armor plates.  While this plate carrier is still protective even without inserts, it's too soft to effectively stop high-energy projectiles on its own.",
-    "weight": "2911 g",
+    "weight": "3533 g",
     "volume": "6 L",
     "variant_type": "generic",
     "variants": [
@@ -89,7 +89,20 @@
         "coverage": 100,
         "cover_vitals": 90,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
         "volume_encumber_modifier": 0.3
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 80,
+        "cover_vitals": 90,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_lower" ],
+        "volume_encumber_modifier": 0
       }
     ]
   },
@@ -384,7 +397,7 @@
     "repairs_like": "hsurvivor_jumpsuit",
     "name": { "str": "mild ESAPI plate" },
     "//": "Similar to scrap plates, except made with higher quality steel. A goal for blacksmithing.",
-    "description": "Medium carbon steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "Mild steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "weight": "1300 g",
     "volume": "262 ml",
     "longest_side": "30 cm",
@@ -410,7 +423,7 @@
     "copy-from": "lc_esapi_plate",
     "looks_like": "scrap_esapi_plate",
     "name": { "str": "medium ESAPI plate" },
-    "description": "Medium carbon steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "Medium steel forged into a ballistic plate.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "mc_steel" },
     "repairs_with": [ "mc_steel" ]
   },
@@ -420,7 +433,7 @@
     "copy-from": "lc_esapi_plate",
     "looks_like": "scrap_esapi_plate",
     "name": { "str": "high ESAPI plate" },
-    "description": "High carbon steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "High steel forged into a ballistic plate.  While it is more professionally done than most scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "hc_steel" },
     "repairs_with": [ "hc_steel" ]
   },
@@ -531,7 +544,7 @@
     "repairs_like": "hsurvivor_jumpsuit",
     "name": { "str": "mild ESBI plate" },
     "//": "These will probably be in higher demand since there is no steel version of ESBI plates.",
-    "description": "A hexagonal piece of mild carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "A hexagonal piece of mild steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "weight": "1300 g",
     "volume": "262 ml",
     "longest_side": "20 cm",
@@ -557,7 +570,7 @@
     "copy-from": "lc_esbi_plate",
     "looks_like": "scrap_esbi_plate",
     "name": { "str": "medium ESBI plate" },
-    "description": "A hexagonal piece of medium carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "A hexagonal piece of medium steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "mc_steel" },
     "repairs_with": [ "mc_steel" ]
   },
@@ -567,7 +580,7 @@
     "copy-from": "lc_esbi_plate",
     "looks_like": "scrap_esbi_plate",
     "name": { "str": "high ESBI plate" },
-    "description": "A hexagonal piece of high carbon steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
+    "description": "A hexagonal piece of high steel forged into a side plate and padded with synthetic fabric.  While it is more professionally done than scrap plates, it still has a fair amount of jerry-rigging.",
     "replace_materials": { "lc_steel": "hc_steel" },
     "repairs_with": [ "hc_steel" ]
   },
@@ -615,18 +628,18 @@
   {
     "id": "ballistic_vest_heavy",
     "type": "ARMOR",
-    "copy-from": "ballistic_vest_esapi",
-    "name": { "str": "heavy ballistic vest" },
-    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors, as well as protection for the neck and groin.",
-    "weight": "7 kg",
-    "volume": "8 L",
-    "material": [ "nylon", "kevlar_layered" ],
+    "category": "armor",
+    "//": "Based on US Army IOTV. Weight from size M base piece plus lower back protector, data from: https://www.moore.army.mil/tenant/lrc/content/pdf/IOTV%20GEN%20III%20TM%2010-8470-210-10.pdf ",
+    "name": { "str": "US heavy ballistic vest" },
+    "description": "Heavier ballistic armor used by the US Army, known as the IOTV.  It has pockets on the front, back, and sides for armor plates; additional protection for the lower back; and attachment points for optional shoulder, groin, and neck protection.",
+    "weight": "4976 g",
+    "volume": "6 L",
     "variant_type": "generic",
     "variants": [
       {
         "id": "ballistic_vest_heavy_military",
         "name": { "str": "heavy ballistic vest" },
-        "description": "It's styled in a dark olive color.",
+        "description": "It's a dark olive color.",
         "color": "light_green",
         "weight": 4,
         "append": true
@@ -640,6 +653,13 @@
         "append": true
       }
     ],
+    "price": "1600 USD",
+    "price_postapoc": "10 USD",
+    "symbol": "[",
+    "material": [ "nylon", "kevlar_layered" ],
+    "color": "light_gray",
+    "warmth": 15,
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY" ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
@@ -651,6 +671,7 @@
         "max_item_length": "33 cm",
         "moves": 800,
         "description": "Pocket for a large armor plate.",
+        "//": "Should fit a medium ESAPI plate snugly",
         "flag_restriction": [ "ABLATIVE_LARGE" ]
       },
       {
@@ -685,6 +706,39 @@
         "moves": 800,
         "description": "Pocket for a medium armor plate.",
         "flag_restriction": [ "ABLATIVE_MEDIUM" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "1200 kg",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for shoulder protectors.",
+        "item_restriction": [ "iotv_shoulder_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for a groin protector.",
+        "item_restriction": [ "iotv_groin_plate" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "800 g",
+        "max_item_length": "21 cm",
+        "moves": 800,
+        "description": "Attachment for a collar.",
+        "item_restriction": [ "iotv_neck_plate" ]
       }
     ],
     "armor": [
@@ -695,106 +749,21 @@
         ],
         "encumbrance": 6,
         "coverage": 100,
-        "cover_vitals": 100,
+        "cover_vitals": 90,
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
         "volume_encumber_modifier": 0.3
       },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 5,
-        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 95,
-        "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "volume_encumber_modifier": 0
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 2,
-        "coverage": 75,
-        "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
-        "volume_encumber_modifier": 0
-      }
-    ]
-  },
-  {
-    "id": "ballistic_vest_heavy_arms",
-    "type": "ARMOR",
-    "copy-from": "ballistic_vest_heavy",
-    "name": { "str": "legless heavy ballistic vest" },
-    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds shoulder protectors as well as neck protection.",
-    "weight": "5 kg",
-    "volume": "7 L",
-    "armor": [
       {
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
-        "encumbrance": 6,
-        "coverage": 100,
-        "cover_vitals": 100,
+        "encumbrance": 0,
+        "coverage": 90,
+        "cover_vitals": 90,
         "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.3
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 5,
-        "//": "an enemy could get under the protection in melee but ranged shots should almost always be blocked",
-        "coverage": 80,
-        "cover_melee": 80,
-        "cover_ranged": 95,
-        "cover_vitals": 100,
-        "covers": [ "arm_l", "arm_r" ],
-        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
-        "volume_encumber_modifier": 0
-      }
-    ]
-  },
-  {
-    "id": "ballistic_vest_heavy_legs",
-    "type": "ARMOR",
-    "copy-from": "ballistic_vest_heavy",
-    "name": { "str": "sleeveless heavy ballistic vest" },
-    "description": "Heavy ballistic armor with specialized pockets on the front, back, and sides for armored plates.  This configuration adds groin and neck protection.",
-    "weight": "5 kg",
-    "volume": "7 L",
-    "armor": [
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
-        ],
-        "encumbrance": 6,
-        "coverage": 100,
-        "cover_vitals": 100,
-        "covers": [ "torso" ],
-        "volume_encumber_modifier": 0.3
-      },
-      {
-        "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
-        ],
-        "encumbrance": 2,
-        "coverage": 75,
-        "cover_vitals": 100,
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "specifically_covers": [ "torso_lower" ],
         "volume_encumber_modifier": 0
       }
     ]
@@ -859,7 +828,7 @@
     "weight": "900 g",
     "volume": "4 L",
     "warmth": 0,
-    "material": [ "nylon" ],
+    "material": [ "nylon", "kevlar_layered" ],
     "use_action": [ { "type": "attach_molle", "size": 6 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
@@ -1469,5 +1438,94 @@
       }
     ],
     "looks_like": "ballistic_vest_esapi"
+  },
+  {
+    "id": "iotv_shoulder_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of ballistic shoulder protectors", "str_pl": "pairs of ballistic shoulder protectors" },
+    "description": "Nylon armor with soft armor inserts protecting the deltoid and upper arm.  Designed to be attached to heavy military body armor.",
+    "weight": "1034 g",
+    "volume": "812 ml",
+    "//": "Density test expects 1.275, so volume derived from this",
+    "price": 60000,
+    "price_postapoc": 100,
+    "symbol": ",",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 3,
+        "coverage": 80,
+        "cover_ranged": 95,
+        "cover_vitals": 100,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "iotv_groin_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ballistic groin protector" },
+    "description": "Front and back nylon armor with soft armor inserts for groin and butt protection.  Designed to be attached to heavy military body armor.",
+    "weight": "417 g",
+    "volume": "392 ml",
+    "//": "33cm x 22cm x 5.4mm",
+    "price": 60000,
+    "price_postapoc": 100,
+    "symbol": ",",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 2,
+        "coverage": 75,
+        "cover_vitals": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
+  },
+  {
+    "id": "iotv_neck_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ballistic collar" },
+    "description": "Front and back nylon collar assemblies with soft armor inserts for neck protection.  Designed to be attached to heavy military body armor.",
+    "weight": "621 g",
+    "volume": "488 ml",
+    "price": 60000,
+    "price_postapoc": 100,
+    "symbol": ",",
+    "material": [ "kevlar_layered", "nylon" ],
+    "color": "dark_gray",
+    "flags": [ "STURDY", "OUTER", "WATER_FRIENDLY", "CANT_WEAR" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "kevlar_layered", "covered_by_mat": 100, "thickness": 4.4 }
+        ],
+        "encumbrance": 0,
+        "coverage": 30,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_throat", "head_nape" ],
+        "volume_encumber_modifier": 0
+      }
+    ]
   }
 ]

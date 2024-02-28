@@ -14,7 +14,7 @@
     "has": "WIELD",
     "name": { "str": "Active Motion Detector" },
     "description": "Actively detects nearby movement.",
-    "condition": { "u_compare_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "op": ">=", "value": 1 },
+    "condition": { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping", ">=", "1" ] },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": 24 } ]
   },
   {

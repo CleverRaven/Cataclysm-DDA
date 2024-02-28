@@ -50,6 +50,45 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_UNDINE_DRAG_INWARD_SELECTOR",
+    "effect": [
+      {
+        "switch": { "math": [ "u_spell_level('undine_drag_inward_spell')" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_01", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 4,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_02", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 8,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_03", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 12,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_04", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 16,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_05", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 20,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_06", "hit_self": false }, "targeted": true } ]
+          },
+          {
+            "case": 24,
+            "effect": [ { "u_cast_spell": { "id": "undine_drag_inward_spell_07", "hit_self": false }, "targeted": true } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_UNDINE_GOBLIN_FRUIT",
     "condition": {
       "or": [
@@ -94,6 +133,101 @@
         "u_message": "You must be standing in water or near a large body of water to call forth a goblin fruit.",
         "type": "bad"
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_ESCAPE_GRABS",
+    "effect": [
+      { "u_lose_effect": "effect_undine_escape_grabs" },
+      { "u_add_effect": "effect_undine_escape_grabs", "duration": { "math": [ "rng(2,8)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_RIVER_MAPPING",
+    "condition": {
+      "and": [
+        "u_is_underwater",
+        {
+          "or": [
+            { "u_at_om_location": "generic_river_bank" },
+            { "u_at_om_location": "generic_river" },
+            { "u_at_om_location": "river_center" },
+            { "u_at_om_location": "river" },
+            { "u_at_om_location": "river_c_not_ne" },
+            { "u_at_om_location": "river_c_not_nw" },
+            { "u_at_om_location": "river_c_not_se" },
+            { "u_at_om_location": "river_c_not_sw" },
+            { "u_at_om_location": "river_ne" },
+            { "u_at_om_location": "river_se" },
+            { "u_at_om_location": "river_sw" },
+            { "u_at_om_location": "river_nw" },
+            { "u_at_om_location": "lake_shore" },
+            { "u_at_om_location": "lake_surface" },
+            { "u_at_om_location": "ocean" },
+            { "u_at_om_location": "ocean_shore" },
+            { "u_at_om_location": "ocean_surface" },
+            { "u_at_om_location": "ocean_bed" },
+            { "u_at_om_location": "ocean_water_cube" },
+            { "u_at_om_location": "ocean_surface" }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_spawn_item": "undine_waters_map" },
+      {
+        "u_run_inv_eocs": "random",
+        "search_data": [ { "id": "undine_waters_map" } ],
+        "true_eocs": [ { "id": "EOC_UNDINE_RIVER_MAPPING_ACTIVATE", "effect": { "u_activate": "reveal_map" } } ]
+      },
+      { "u_remove_item_with": "undine_waters_map" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_PUSH_AWAY",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": {
+      "and": [
+        { "u_has_trait": "UNDINE_WATER_PUSH_AWAY" },
+        {
+          "x_in_y_chance": { "x": { "math": [ "1 + u_has_trait('THRESH_UNDINE') + u_has_trait('THRESH_UNDINE')" ] }, "y": 40 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_cast_spell": { "id": "undine_water_push_away", "hit_self": false } },
+      { "u_cast_spell": { "id": "undine_water_push_away", "hit_self": false } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_FORM_TRAITS_LOSE_WATER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_trait": "UNDINE_WATER_FORM_TRAITS" },
+    "effect": [ { "math": [ "u_val('thirst')", "+=", "4" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_FORM_ON",
+    "effect": [
+      { "u_add_trait": "UNDINE_WATER_FORM_TRAITS" },
+      { "u_add_trait": "UNDINE_WATER_FORM_CAMOUFLAGE" },
+      { "u_message": "Your body falls apart in a rush of water." },
+      { "u_spawn_item": "water", "count": { "math": [ "rng(30,100)" ] } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNDINE_WATER_FORM_OFF",
+    "effect": [
+      { "u_lose_trait": "UNDINE_WATER_FORM_TRAITS" },
+      { "u_lose_trait": "UNDINE_WATER_FORM_CAMOUFLAGE" },
+      { "u_message": "Your body reconstitutes itself from the waters." }
     ]
   }
 ]

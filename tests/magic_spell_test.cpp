@@ -16,6 +16,7 @@
 
 static const spell_id spell_test_spell_box( "test_spell_box" );
 static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
+static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
 
 // Magic Spell tests
 // -----------------
@@ -596,6 +597,24 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
+    spell_id ghost_id( "test_spell_tp_ghost" );
+
+    spell ghost_spell( ghost_id );
+    REQUIRE( dummy.magic->has_enough_energy( dummy, ghost_spell ) );
+
+    // Summon the ghost in the adjacent space
+    ghost_spell.cast_spell_effect( dummy, mummy_loc );
+
+    CHECK( creatures.creature_at( mummy_loc ) );
+    CHECK( g->num_creatures() == 2 );
+
+    //kill the ghost
+    creatures.creature_at( mummy_loc )->die( nullptr );
+    g->cleanup_dead();
+
+    //a corpse was not created
+    CHECK( get_map().i_at( mummy_loc ).empty() );
+
     spell_id mummy_id( "test_spell_tp_mummy" );
 
     spell mummy_spell( mummy_id );
@@ -606,6 +625,14 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
 
     CHECK( creatures.creature_at( mummy_loc ) );
     CHECK( g->num_creatures() == 2 );
+
+    //kill the mummy
+    creatures.creature_at( mummy_loc )->die( nullptr );
+    g->cleanup_dead();
+
+    //a corpse was created
+    CHECK( !get_map().i_at( mummy_loc ).empty() );
+
 }
 
 // spell_effect::recover_energy

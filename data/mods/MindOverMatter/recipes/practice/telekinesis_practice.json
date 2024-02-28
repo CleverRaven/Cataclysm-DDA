@@ -39,6 +39,7 @@
     "difficulty": 0,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -67,6 +68,7 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -95,6 +97,7 @@
     "difficulty": 1,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
@@ -170,17 +173,13 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_MOMENTUM",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_momentum')", "<=", "(difficulty_three_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_momentum')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_momentum')", "+=", "(contemplation_factor(1))" ] },
@@ -250,18 +249,14 @@
     "difficulty": 2,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_SLOWFALL",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_slowfall')", "<=", "(difficulty_three_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_slowfall')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_slowfall')", "+=", "(contemplation_factor(1))" ] },
@@ -331,18 +326,14 @@
     "difficulty": 3,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_FORCE_WAVE",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_wave')", "<=", "(difficulty_four_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_wave')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_wave')", "+=", "(contemplation_factor(1))" ] },
@@ -412,18 +403,14 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_ENHANCE_STRENGTH",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_strength')", "<=", "(difficulty_five_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_strength')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_strength')", "+=", "(contemplation_factor(1))" ] },
@@ -493,18 +480,14 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_MINDHAMMER",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_hammer')", "<=", "(difficulty_five_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_hammer')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_hammer')", "+=", "(contemplation_factor(1))" ] },
@@ -574,18 +557,14 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_VEHICLE_LIFT",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "<=", "(difficulty_six_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_vehicle_lift')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_vehicle_lift')", "+=", "(contemplation_factor(1))" ] },
@@ -655,18 +634,14 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_BARRIER",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_shield')", "<=", "(difficulty_six_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_shield')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_shield')", "+=", "(contemplation_factor(1))" ] },
@@ -736,18 +711,14 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_BLAST",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_explosion')", "<=", "(difficulty_seven_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_explosion')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_explosion')", "+=", "(contemplation_factor(1))" ] },
@@ -817,18 +788,14 @@
     "difficulty": 6,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_LEVITATION",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_levitation')", "<=", "(difficulty_seven_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_levitation')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_levitation')", "+=", "(contemplation_factor(1))" ] },
@@ -898,18 +865,14 @@
     "difficulty": 8,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],
     "result_eocs": [
       {
         "id": "EOC_PRACTICE_TELEKIN_AEGIS",
-        "condition": {
-          "and": [
-            { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] },
-            { "math": [ "u_spell_exp('telekinetic_aegis')", "<=", "(difficulty_nine_contemplation(1))" ] }
-          ]
-        },
+        "condition": { "math": [ "u_spell_level('telekinetic_aegis')", ">=", "1" ] },
         "effect": [
           { "u_message": "You spend some time meditating and contemplating your powers and emerge with new knowledge." },
           { "math": [ "u_spell_exp('telekinetic_aegis')", "+=", "(contemplation_factor(1))" ] },
@@ -979,6 +942,7 @@
     "difficulty": 9,
     "time": "30 m",
     "autolearn": false,
+    "proficiencies": [ { "proficiency": "prof_contemplation_telekinesis", "required": false } ],
     "tools": [ [ [ "matrix_crystal_drained", -1 ], [ "matrix_crystal_telekinesis", -1 ] ] ],
     "components": [ [ [ "matrix_crystal_telekin_dust", 1 ] ] ],
     "flags": [ "SECRET", "BLIND_HARD" ],

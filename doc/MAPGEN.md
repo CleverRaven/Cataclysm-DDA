@@ -260,7 +260,7 @@ Examples:
     "//3": "evaluated dynamically from global variable"
     "weight": { "global_val": "my_weight" },
     "//4": "evaluated dynamically from math expression"
-    "weight": { "math": [ "my_weight * u_val('time_since_cataclysm: days')" ] }
+    "weight": { "math": [ "my_weight * time_since('cataclysm', 'unit': 'days')" ] }
 ```
 
 

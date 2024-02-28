@@ -84,7 +84,8 @@
     "price": 1000,
     "material": [ "steel", "plastic" ],
     "weight": "1023850 g",
-    "volume": "1100 L",
+    "//": "Former volume: 1100 L. Adjusted to 1000L so it can actually be placed. TODO(?): Re-add old volume with some sort of flag",
+    "volume": "1000 L",
     "to_hit": -3,
     "use_action": {
       "type": "place_monster",
@@ -277,5 +278,25 @@
     "price_postapoc": 250,
     "material": [ "steel" ],
     "category": "spare_parts"
+  },
+  {
+    "id": "lobotomizer_weapon",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "lobotomizer" },
+    "description": "A hand-forged collapsible tool with two axe heads and a sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
+    "weight": "2722 g",
+    "volume": "1750 ml",
+    "price": 25000,
+    "price_postapoc": 1250,
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "neutral" },
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "melee_damage": { "bash": 18, "cut": 37 }
   }
 ]

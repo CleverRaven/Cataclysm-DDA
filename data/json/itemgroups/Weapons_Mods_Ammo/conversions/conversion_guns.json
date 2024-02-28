@@ -141,13 +141,13 @@
     "id": "axmc_300",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "axmc_300", "contents-item": "retool_axmc_300win" } ]
+    "entries": [ { "item": "axmc", "contents-item": "retool_axmc_300win" } ]
   },
   {
     "id": "axmc_308",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "axmc_308", "contents-item": "retool_axmc_308win" } ]
+    "entries": [ { "item": "axmc", "contents-item": "retool_axmc_308win" } ]
   },
   {
     "id": "cz600",
@@ -178,5 +178,23 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [ { "item": "modular_deagle", "contents-item": "retool_deagle_50" } ]
+  },
+  {
+    "id": "modular_ump_9",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_9" } ]
+  },
+  {
+    "id": "modular_ump_40",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_40" } ]
+  },
+  {
+    "id": "modular_ump_45",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "modular_ump", "contents-item": "retool_ump_45" } ]
   }
 ]

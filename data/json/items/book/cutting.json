@@ -57,12 +57,12 @@
     "id": "manual_cutting",
     "type": "BOOK",
     "category": "manuals",
-    "name": { "str_sp": "knife fighter's notes" },
+    "name": { "str": "knife fighter's notes", "str_pl": "collections of knife fighter's notes" },
     "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for beginners.",
     "variants": [
       {
         "id": "manual_cutting",
-        "name": { "str_sp": "knife fighter's notes" },
+        "name": { "str": "knife fighter's notes", "str_pl": "collections of knife fighter's notes" },
         "description": "It seems to be a guide to edged weapon combat, poorly photocopied and released on spiral-bound paper.  Still, there are lots of useful tips for beginners."
       },
       {

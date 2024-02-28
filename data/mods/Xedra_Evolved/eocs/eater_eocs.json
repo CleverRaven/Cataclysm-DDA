@@ -1,0 +1,18 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LIEUTENANT_SPAWN_SHADOW",
+    "condition": { "u_has_trait": "EATER" },
+    "effect": [
+      {
+        "u_message": "The night closes in… but you were born to destroy what's coming",
+        "type": "bad",
+        "popup": true,
+        "popup_w_interrupt_query": true
+      }
+    ],
+    "false_effect": [
+      { "u_message": "You shiver as the night closes in…", "type": "bad", "popup": true, "popup_w_interrupt_query": true }
+    ]
+  }
+]

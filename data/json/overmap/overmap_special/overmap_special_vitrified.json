@@ -13,7 +13,8 @@
       { "point": [ 0, 0, 1 ], "overmap": "unvitrified_farm_1" },
       { "point": [ 0, 0, -1 ], "overmap": "unvitrified_farm_neg_1" },
       { "point": [ 0, 0, 2 ], "overmap": "unvitrified_farm_2" },
-      { "point": [ 1, 0, 0 ], "overmap": "unvitrified_orchard", "locations": [ "forest" ] }
+      { "point": [ 1, 0, 0 ], "overmap": "unvitrified_orchard", "locations": [ "forest" ] },
+      { "point": [ 4, -2, 0 ], "locations": [ "land", "road" ] }
     ],
     "connections": [ { "point": [ 4, -2, 0 ], "terrain": "road", "connection": "local_road", "existing": true, "from": [ 3, -2, 0 ] } ],
     "city_distance": [ 5, 40 ],

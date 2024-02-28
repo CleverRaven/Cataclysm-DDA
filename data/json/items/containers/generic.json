@@ -161,5 +161,21 @@
         "moves": 1000
       }
     ]
+  },
+  {
+    "id": "box_paper_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small paper box", "str_pl": "small paper boxes" },
+    "looks_like": "box_tea",
+    "description": "A very small paper box.",
+    "weight": "20 g",
+    "volume": "210 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 ml", "max_contains_weight": "400 g" } ]
   }
 ]

@@ -1,0 +1,168 @@
+[
+  {
+    "id": "NETHER_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "POISON_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "id": "PSIONIC_IMMUNE",
+    "type": "json_flag"
+  },
+  {
+    "//": "not bio - this is not inhaled poison.",
+    "id": "poison",
+    "type": "damage_type",
+    "melee_only": false,
+    "physical": false,
+    "magic_color": "green",
+    "name": "poison",
+    "mon_difficulty": true,
+    "material_required": false,
+    "immune_flags": { "character": [ "POISON_IMMUNE" ], "monster": [ "POISONPROOF" ] }
+  },
+  {
+    "id": "poison",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "poisoning",
+    "bionic_info": { "order": 850, "show_type": true },
+    "protection_info": { "order": 550, "show_type": true },
+    "pet_prot_info": { "order": 850, "show_type": true },
+    "melee_combat_info": { "order": 850, "show_type": true },
+    "ablative_info": { "order": 850, "show_type": true }
+  },
+  {
+    "id": "light",
+    "type": "damage_type",
+    "melee_only": false,
+    "physical": false,
+    "magic_color": "yellow",
+    "name": "light",
+    "derived_from": [ "heat", 2 ],
+    "mon_difficulty": true,
+    "material_required": false
+  },
+  {
+    "id": "light",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "light",
+    "bionic_info": { "order": 710, "show_type": true },
+    "protection_info": { "order": 910, "show_type": true },
+    "pet_prot_info": { "order": 610, "show_type": true },
+    "melee_combat_info": { "order": 710, "show_type": true },
+    "ablative_info": { "order": 710, "show_type": true }
+  },
+  {
+    "id": "necrotic",
+    "type": "damage_type",
+    "melee_only": false,
+    "physical": false,
+    "magic_color": "black_green",
+    "name": "necrotic",
+    "mon_difficulty": true,
+    "material_required": false,
+    "immune_flags": { "monster": [ "TIMELESS" ] }
+  },
+  {
+    "id": "necrotic",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "necrotizing",
+    "bionic_info": { "order": 890, "show_type": true },
+    "protection_info": { "order": 590, "show_type": true },
+    "pet_prot_info": { "order": 890, "show_type": true },
+    "melee_combat_info": { "order": 890, "show_type": true },
+    "ablative_info": { "order": 890, "show_type": true }
+  },
+  {
+    "id": "sonic",
+    "type": "damage_type",
+    "melee_only": false,
+    "physical": false,
+    "magic_color": "h_white",
+    "name": "sonic",
+    "derived_from": [ "bash", 0.4 ],
+    "mon_difficulty": true,
+    "material_required": false
+  },
+  {
+    "id": "sonic",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "sonic",
+    "bionic_info": { "order": 990, "show_type": true },
+    "protection_info": { "order": 690, "show_type": true },
+    "pet_prot_info": { "order": 990, "show_type": true },
+    "melee_combat_info": { "order": 990, "show_type": true },
+    "ablative_info": { "order": 990, "show_type": true }
+  },
+  {
+    "id": "psionic",
+    "type": "damage_type",
+    "melee_only": false,
+    "physical": false,
+    "magic_color": "pink",
+    "name": "psionic",
+    "mon_difficulty": true,
+    "material_required": false,
+    "immune_flags": { "character": [ "PSIONIC_IMMUNE" ], "monster": [ "PSIONICPROOF" ] }
+  },
+  {
+    "id": "psionic",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "psionic",
+    "bionic_info": { "order": 1000, "show_type": true },
+    "protection_info": { "order": 700, "show_type": true },
+    "pet_prot_info": { "order": 1000, "show_type": true },
+    "melee_combat_info": { "order": 1000, "show_type": true },
+    "ablative_info": { "order": 1000, "show_type": true }
+  },
+  {
+    "id": "gravity",
+    "type": "damage_type",
+    "melee_only": false,
+    "physical": false,
+    "magic_color": "white_magenta",
+    "name": "gravity",
+    "mon_difficulty": true,
+    "material_required": false
+  },
+  {
+    "id": "gravity",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "gravity",
+    "bionic_info": { "order": 1100, "show_type": true },
+    "protection_info": { "order": 800, "show_type": true },
+    "pet_prot_info": { "order": 1100, "show_type": true },
+    "melee_combat_info": { "order": 1100, "show_type": true },
+    "ablative_info": { "order": 1100, "show_type": true }
+  },
+  {
+    "id": "nether",
+    "type": "damage_type",
+    "melee_only": false,
+    "physical": false,
+    "magic_color": "i_pink",
+    "name": "nether",
+    "mon_difficulty": true,
+    "material_required": false,
+    "immune_flags": { "character": [ "NETHER_IMMUNE" ], "monster": [ "NETHERPROOF" ] }
+  },
+  {
+    "id": "nether",
+    "type": "damage_info_order",
+    "info_display": "basic",
+    "verb": "nether",
+    "bionic_info": { "order": 1200, "show_type": true },
+    "protection_info": { "order": 800, "show_type": true },
+    "pet_prot_info": { "order": 1200, "show_type": true },
+    "melee_combat_info": { "order": 1200, "show_type": true },
+    "ablative_info": { "order": 1200, "show_type": true }
+  }
+]

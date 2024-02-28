@@ -4,71 +4,70 @@
     "type": "TOOL",
     "name": { "str": "butchery tree pseudo item" },
     "description": "This is a pseudo item to represent the support of a tree or butchery rack without a hook.",
-    "weight": "1 g",
-    "volume": "1 ml",
+    "copy-from": "fake_item",
     "symbol": "[",
     "color": "dark_gray",
-    "qualities": [ [ "SUSPENDING", 2 ] ],
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "qualities": [ [ "SUSPENDING", 2 ] ]
   },
   {
     "id": "fake_butcher_rack",
     "type": "TOOL",
     "name": { "str": "fake butcher rack (pseudo item)", "str_pl": "fake butcher racks (pseudo items)" },
     "description": "This is a pseudo item to represent the support of a tree or butchery rack with a hook.",
-    "weight": "1 g",
-    "volume": "1 ml",
+    "copy-from": "fake_item",
     "symbol": "[",
     "color": "dark_gray",
-    "qualities": [ [ "SUSPENDING", 2 ], [ "ROPE", 2 ] ],
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "qualities": [ [ "SUSPENDING", 2 ], [ "ROPE", 2 ] ]
   },
   {
     "id": "medium_surface_pseudo",
     "type": "TOOL",
     "name": { "str": "medium surface pseudo item" },
     "description": "This is a pseudo item to represent a surface large enough to butcher a medium animal on.",
-    "weight": "1 g",
-    "volume": "1 ml",
+    "copy-from": "fake_item",
     "symbol": "[",
     "color": "dark_gray",
-    "qualities": [ [ "SURFACE", 2 ] ],
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "qualities": [ [ "SURFACE", 2 ] ]
   },
   {
     "id": "large_surface_pseudo",
     "type": "TOOL",
     "name": { "str": "large surface pseudo item" },
     "description": "This is a pseudo item to represent a surface large enough to butcher a large animal on.",
-    "weight": "1 g",
-    "volume": "1 ml",
+    "copy-from": "fake_item",
     "symbol": "[",
     "color": "dark_gray",
-    "qualities": [ [ "SURFACE", 3 ] ],
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "qualities": [ [ "SURFACE", 3 ] ]
   },
   {
     "id": "fake_stove",
     "type": "TOOL",
-    "copy-from": "fake_item",
     "name": { "str": "basecamp stove" },
     "description": "A fake stove used for basecamps.",
+    "copy-from": "fake_item",
     "sub": "hotplate",
     "ammo": [ "tinder" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 50000 } } ],
-    "charge_factor": 10,
-    "flags": [ "ZERO_WEIGHT" ]
+    "charge_factor": 10
   },
   {
     "id": "brick_oven_pseudo",
     "type": "TOOL",
     "name": { "str": "brick oven" },
-    "description": "This is a pseudo item to represent t_brick_oven.  If you see it, it's a bug.",
-    "weight": "1 g",
-    "volume": "1 ml",
+    "description": "This is a pseudo item to represent t_brick_oven.",
+    "copy-from": "fake_item",
     "symbol": "[",
     "color": "dark_gray",
-    "qualities": [ [ "OVEN", 2 ] ],
-    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "qualities": [ [ "OVEN", 2 ] ]
+  },
+  {
+    "id": "butter_churn",
+    "type": "TOOL",
+    "name": { "str": "pseudo butter churn" },
+    "copy-from": "fake_item",
+    "qualities": [ [ "CHURN", 1 ] ],
+    "symbol": "H",
+    "color": "light_cyan",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] }
   }
 ]

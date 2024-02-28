@@ -366,7 +366,7 @@
     "type": "effect_type",
     "id": "effect_biokin_metabolism_enhance",
     "name": [ "Hyperenhanced Metabolism" ],
-    "desc": [ "c ." ],
+    "desc": [ "Your metabolism is far more efficient than before." ],
     "apply_message": "",
     "remove_message": "Your stomach rumbles.",
     "rating": "good",
@@ -375,18 +375,18 @@
       {
         "values": [
           {
-            "value": "HUNGER",
+            "value": "KCAL",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "min((( 0.33 + ( u_spell_level('biokin_metabolism_enhance') * 0.07 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 3)"
               ]
             }
           },
           {
-            "value": "THIRST",
+            "value": "VITAMIN_ABSORB_MOD",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "min((( 0.33 + ( u_spell_level('biokin_metabolism_enhance') * 0.07 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 3)"
               ]
             }
           },
@@ -394,7 +394,7 @@
             "value": "METABOLISM",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "max((( -0.10 + ( u_spell_level('biokin_metabolism_enhance') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.4)"
               ]
             }
           },
@@ -506,7 +506,7 @@
             "value": "SPEED",
             "add": {
               "math": [
-                "min( ( ( ( ( u_val('spell_level', 'spell: biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
+                "min( ( ( ( ( u_spell_level('biokin_hurricane_blows') * 75) + 400 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 1800)"
               ]
             }
           }
@@ -564,7 +564,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 3 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 2 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -581,7 +581,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 5 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 4 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -598,7 +598,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 7 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -615,7 +615,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 9 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 8 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -632,7 +632,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 11 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -649,7 +649,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 13 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 12 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -666,7 +666,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 15 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 14 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -683,7 +683,7 @@
     "rating": "good",
     "max_duration": "7 days",
     "max_intensity": 106,
-    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 17 } ],
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 16 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -767,31 +767,31 @@
         "values": [
           {
             "value": "ARMOR_CUT",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_BASH",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_STAB",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_BULLET",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_ELEC",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_HEAT",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           },
           {
             "value": "ARMOR_COLD",
-            "add": { "math": [ "( ( u_spell_level('clair_spot_weakness') * 0.5) * (scaling_factor(u_val('intelligence') ) ) )" ] }
+            "add": { "math": [ "( ( ( u_spell_level('clair_spot_weakness') * 1) + 4) * (scaling_factor(u_val('intelligence') ) ) )" ] }
           }
         ]
       }
@@ -1041,6 +1041,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_electrokin_hacking_interface",
+    "name": [ "Hacking Interface" ],
+    "desc": [ "You have constructed an electrical interface to hack nearby devices." ],
+    "apply_message": "",
+    "remove_message": "You can no longer manipulate the circuitry of nearby devices.",
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_electrokin_personal_battery",
     "name": [ "Electron Overflow" ],
     "desc": [ "You are generating a wireless aura of electrical power." ],
@@ -1153,8 +1163,20 @@
     "max_intensity": 36,
     "dur_add_perc": 10,
     "int_dur_factor": "17 s",
-    "enchantments": [ "enchant_electrokin_lightning_aura" ],
-    "flags": [ "EMP_IMMUNE" ]
+    "flags": [ "EMP_IMMUNE", "ELECTRIC_IMMUNE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_electrokinetic_lightning_aura_aftershock",
+    "name": [ "Galvanic Aftershock" ],
+    "desc": [ "You still remain immune to the effects of electricity, if only briefly." ],
+    "apply_message": "",
+    "remove_message": "",
+    "rating": "good",
+    "max_duration": "5 seconds",
+    "max_intensity": 1,
+    "dur_add_perc": 0,
+    "flags": [ "EMP_IMMUNE", "ELECTRIC_IMMUNE" ]
   },
   {
     "type": "effect_type",
@@ -1205,7 +1227,21 @@
     "apply_message": "",
     "remove_message": "You stop bending light around your location.",
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min((( 10 + ( u_spell_level('photokinetic_camouflage') * 3 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 60)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1384,7 +1420,7 @@
     "max_duration": "7 days",
     "max_intensity": 95,
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "multiply": -1.0 } ] } ],
-    "flags": [ "HEAT_IMMUNE" ]
+    "flags": [ "HEAT_IMMUNE", "HEATSINK" ]
   },
   {
     "type": "effect_type",
@@ -1818,6 +1854,46 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding",
+    "//": "Hidden effect, used as a tracker",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
+    "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed less than normal." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_01",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "flags": [ "BLEEDSLOW2" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_slow_bleeding_03",
+    "name": [ "Coagulation" ],
+    "desc": [ "You bleed much less than normal and sometimes not at all." ],
+    "rating": "good",
+    "remove_message": "For just a moment, you feel your blood rushing through your veins.",
+    "max_duration": "7 days",
+    "blocks_effects": [ "bleed" ],
+    "flags": [ "BLEEDSLOW2" ]
   },
   {
     "type": "effect_type",

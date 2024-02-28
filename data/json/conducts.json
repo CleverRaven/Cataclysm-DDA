@@ -169,7 +169,7 @@
         "event_statistic": "max_velocity_gndv",
         "is": "<=",
         "target": 3500,
-        "description": "Do not exceed 35mph when driving land vehicles"
+        "description": "Do not exceed 35 mph when driving land vehicles"
       }
     ]
   },
@@ -182,7 +182,7 @@
         "event_statistic": "max_velocity_gndv",
         "is": "<=",
         "target": 5000,
-        "description": "Do not exceed 50mph when driving land vehicles"
+        "description": "Do not exceed 50 mph when driving land vehicles"
       }
     ],
     "hidden_by": [ "conduct_speed_limit_35" ]
@@ -196,7 +196,7 @@
         "event_statistic": "max_velocity_gndv",
         "is": "<=",
         "target": 6500,
-        "description": "Do not exceed 65mph when driving land vehicles"
+        "description": "Do not exceed 65 mph when driving land vehicles"
       }
     ],
     "hidden_by": [ "conduct_speed_limit_50" ]

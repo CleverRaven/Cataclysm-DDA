@@ -19,12 +19,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "clair_night_vision", 2 ],
-      [ "clair_danger_sense", 2 ],
-      [ "clair_speed_reading", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_speed_reading", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -46,12 +41,16 @@
     "id": "PHOTOKINETIC",
     "name": "Awakened Photokinetic",
     "points": 0,
-    "description": "You have the power to control the light around you with your mind.",
+    "description": "Mental control of visible light and electromagnetic waves.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "flags": [ "PHOTOKINETIC" ],
-    "spells_learned": [ [ "photokinetic_snuff_light", 2 ], [ "photokinetic_light_dodge", 2 ], [ "photokinetic_light_local", 2 ] ]
+    "spells_learned": [
+      [ "photokinetic_create_light", 2 ],
+      [ "photokinetic_light_local", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -62,12 +61,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "pyrokinetic_eruption", 2 ],
-      [ "pyrokinetic_flash", 2 ],
-      [ "pyrokinetic_quell_flames", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -78,12 +72,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telepathic_concentration", 2 ],
-      [ "telepathic_shield", 2 ],
-      [ "telepathic_morale", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "telepathic_concentration", 2 ], [ "telepathic_mind_sense", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -116,12 +105,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "vita_stop_bleeding", 2 ],
-      [ "vita_health_power", 2 ],
-      [ "vita_hurt_touch", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "vita_slow_bleeding", 2 ], [ "vita_health_power", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",

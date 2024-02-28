@@ -600,7 +600,7 @@
     "subtype": "hobby",
     "id": "sewing_expert",
     "name": "Sewing (Expert)",
-    "description": "Despite modern technology making career tailors obsolete you've spent much of your life hand-making clothing of all sorts, whether for historical purposes or to sell as artisinal goods.  Too bad you can't stitch the holes in reality closed.",
+    "description": "Despite modern technology making career tailors obsolete you've spent much of your life hand-making clothing of all sorts, whether for historical purposes or to sell as artisanal goods.  Too bad you can't stitch the holes in reality closed.",
     "points": 8,
     "proficiencies": [
       "prof_closures",

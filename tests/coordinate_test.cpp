@@ -26,7 +26,7 @@ coords::coord_point<Point, Origin, Scale, InBounds> assert_not_ib( const
     return p;
 }
 
-TEST_CASE( "coordinate_strings", "[point][coords]" )
+TEST_CASE( "coordinate_strings", "[point][coords][nogame]" )
 {
     CHECK( point_abs_omt( point( 3, 4 ) ).to_string() == "(3,4)" );
 
@@ -37,7 +37,7 @@ TEST_CASE( "coordinate_strings", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_operations", "[point][coords]" )
+TEST_CASE( "coordinate_operations", "[point][coords][nogame]" )
 {
     SECTION( "construct_from_raw_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -193,7 +193,7 @@ TEST_CASE( "coordinate_operations", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_comparison", "[point][coords]" )
+TEST_CASE( "coordinate_comparison", "[point][coords][nogame]" )
 {
     SECTION( "compare_points" ) {
         point p0 = GENERATE( take( num_trials, random_points() ) );
@@ -224,7 +224,7 @@ TEST_CASE( "coordinate_comparison", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_hash", "[point][coords]" )
+TEST_CASE( "coordinate_hash", "[point][coords][nogame]" )
 {
     SECTION( "point_hash" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -239,7 +239,7 @@ TEST_CASE( "coordinate_hash", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coordinate_conversion_consistency", "[point][coords]" )
+TEST_CASE( "coordinate_conversion_consistency", "[point][coords][nogame]" )
 {
     // Verifies that the new coord_point-based conversions yield the same
     // results as the legacy conversion functions.
@@ -384,7 +384,7 @@ TEST_CASE( "coordinate_conversion_consistency", "[point][coords]" )
     }
 }
 
-TEST_CASE( "combine_is_opposite_of_remain", "[point][coords]" )
+TEST_CASE( "combine_is_opposite_of_remain", "[point][coords][nogame]" )
 {
     SECTION( "point_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -438,7 +438,7 @@ TEST_CASE( "combine_is_opposite_of_remain", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coord_point_distances", "[point][coords]" )
+TEST_CASE( "coord_point_distances", "[point][coords][nogame]" )
 {
     point_abs_omt p0;
     point_abs_omt p1( 10, 10 );
@@ -460,7 +460,7 @@ TEST_CASE( "coord_point_distances", "[point][coords]" )
     }
 }
 
-TEST_CASE( "coord_point_midpoint", "[point][coords]" )
+TEST_CASE( "coord_point_midpoint", "[point][coords][nogame]" )
 {
     point_abs_omt p0( 2, 2 );
     point_abs_omt p1( 8, 17 );

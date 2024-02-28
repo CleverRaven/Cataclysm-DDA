@@ -913,7 +913,7 @@ void basecamp_action_components::consume_components()
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
-                                         is_empty_crafting_component, src );
+                                         is_preferred_crafting_component, src );
         int left_to_consume = 0;
 
         if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {

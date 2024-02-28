@@ -1,0 +1,119 @@
+[
+  {
+    "id": "zenfs_health_label",
+    "type": "widget",
+    "style": "text",
+    "string": "  <color_dark_gray>Health</color>",
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_health_desc",
+    "type": "widget",
+    "style": "text",
+    "clauses": [
+      { "id": "horrible", "text": " Horrible", "color": "h_red", "condition": { "math": [ "u_val('health')", "<", "-100" ] } },
+      {
+        "id": "very_bad",
+        "text": "Very poor",
+        "color": "red",
+        "condition": { "and": [ { "math": [ "u_val('health')", ">=", "-100" ] }, { "math": [ "u_val('health')", "<", "-50" ] } ] }
+      },
+      {
+        "id": "bad",
+        "text": "   Poor",
+        "color": "brown",
+        "condition": { "and": [ { "math": [ "u_val('health')", ">=", "-50" ] }, { "math": [ "u_val('health')", "<", "-10" ] } ] }
+      },
+      {
+        "id": "ok",
+        "text": "   Okay",
+        "color": "light_gray",
+        "condition": { "and": [ { "math": [ "u_val('health')", ">=", "-10" ] }, { "math": [ "u_val('health')", "<", "10" ] } ] }
+      },
+      {
+        "id": "good",
+        "text": "   Good",
+        "color": "blue",
+        "condition": { "and": [ { "math": [ "u_val('health')", ">=", "10" ] }, { "math": [ "u_val('health')", "<", "50" ] } ] }
+      },
+      {
+        "id": "very_good",
+        "text": "Very good",
+        "color": "green",
+        "condition": { "and": [ { "math": [ "u_val('health')", ">=", "50" ] }, { "math": [ "u_val('health')", "<", "100" ] } ] }
+      },
+      {
+        "id": "excellent",
+        "text": "Excellent",
+        "color": "light_green",
+        "condition": { "math": [ "u_val('health')", ">=", "100" ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_weight_health_clause",
+    "type": "widget",
+    "label": "Weight",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "skeletal",
+        "text": " Skeletal",
+        "color": "h_red",
+        "//": "between 1 and 2 points of BMI from bodyfat (4-8% of normal healthy weight is fat)",
+        "condition": { "math": [ "u_val('bmi_permil')", "<=", "1000" ] }
+      },
+      {
+        "id": "emaciated",
+        "text": " Emaciated",
+        "color": "red",
+        "//": "between 0 and 1 points of BMI from bodyfat (0-4% of normal healthy weight is fat)",
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "1000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "2000" ] } ] }
+      },
+      {
+        "id": "underweight",
+        "text": "   Lean",
+        "color": "brown",
+        "//": "between 2 and 3 points of BMI from bodyfat (8-12% of normal healthy weight is fat)",
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "2000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "3000" ] } ] }
+      },
+      {
+        "id": "normal",
+        "text": " ",
+        "color": "black",
+        "//": "3-5 points of BMI from fat (12-20% of body weight is fat)",
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "3000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "5000" ] } ] }
+      },
+      {
+        "id": "overweight",
+        "text": "Overweight",
+        "color": "brown",
+        "//": "5-10 points of BMI from fat (20-33% of body weight is fat)",
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "5000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "10000" ] } ] }
+      },
+      {
+        "id": "obese",
+        "text": "   Obese",
+        "color": "yellow",
+        "//": "10-15 points of BMI from fat (33-43% of body weight is fat)",
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "10000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "15000" ] } ] }
+      },
+      {
+        "id": "very_obese",
+        "text": "Very Obese",
+        "color": "red",
+        "//": "15-20 points of BMI from fat (43-50% of normal healthy body weight is fat)",
+        "condition": { "and": [ { "math": [ "u_val('bmi_permil')", ">", "15000" ] }, { "math": [ "u_val('bmi_permil')", "<=", "20000" ] } ] }
+      },
+      {
+        "id": "morbidly_obese",
+        "text": "Morb.Obese",
+        "color": "h_red",
+        "//": "20+ points of BMI from fat (more than half your bodyweight is fat)",
+        "condition": { "math": [ "u_val('bmi_permil')", ">", "20000" ] }
+      }
+    ],
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

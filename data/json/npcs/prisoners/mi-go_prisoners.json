@@ -40,7 +40,10 @@
       "Hallelujah, rescue!",
       "I can't believe my eyes.  Thank you, thank you!",
       "You're… you're actually real!",
-      "How are you here?  Are you one of them, somehow?  What's going on?"
+      {
+        "gendered_line": "How are you here?  Are you one of them, somehow?  What's going on?",
+        "relevant_genders": [ "u" ]
+      }
     ],
     "responses": [
       {
