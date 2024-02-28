@@ -70,7 +70,7 @@ enum class TILE_CATEGORY {
     last
 };
 
-static const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
+const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
     {"none", TILE_CATEGORY::NONE},
     {"vehicle_part", TILE_CATEGORY::VEHICLE_PART},
     {"terrain", TILE_CATEGORY::TERRAIN},
