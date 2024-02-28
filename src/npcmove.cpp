@@ -219,24 +219,11 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
-bool good_for_pickup( const item &it, npc &who )
+bool good_for_pickup( const item &it, npc &who, const tripoint &there )
 {
-    bool good = false;
-
-    const bool whitelisting = who.has_item_whitelist();
-    auto weight_allowed = who.weight_capacity() - who.weight_carried();
-    int min_value = who.minimum_item_value();
-
-    item &weap = who.get_wielded_item() ? *who.get_wielded_item() : null_item_reference();
-    if( ( !it.made_of_from_type( phase_id::LIQUID ) ) &&
-        ( ( !whitelisting && who.value( it ) > min_value ) || who.item_whitelisted( it ) ) &&
-        ( it.weight() <= weight_allowed ) &&
-        ( who.can_stash( it ) ||
-          who.weapon_value( it ) > who.weapon_value( weap ) ) ) {
-        good = true;
-    }
-
-    return good;
+    return who.can_take_that( it ) &&
+           who.wants_take_that( it ) &&
+           who.would_take_that( it, there );
 }
 
 } // namespace
@@ -3493,6 +3480,7 @@ void npc::find_item()
     }
 
     fetching_item = false;
+    wanted_item = nullptr;
     int best_value = minimum_item_value();
     // Not perfect, but has to mirror pickup code
     units::volume volume_allowed = volume_capacity() - volume_carried();
@@ -3502,7 +3490,7 @@ void npc::find_item()
     //int range = sight_range( g->light_level( posz() ) );
     //range = std::max( 1, std::min( 12, range ) );
 
-    const item *wanted = nullptr;
+    const item *wanted = wanted_item;
 
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s considered picking something up, but no storage left.",
@@ -3513,26 +3501,10 @@ void npc::find_item()
     const auto consider_item =
         [&wanted, &best_value, this]
     ( const item & it, const tripoint & p ) {
-        std::vector<npc *> followers;
-        for( const character_id &elem : g->get_follower_list() ) {
-            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
-            if( !npc_to_get ) {
-                continue;
-            }
-            npc *npc_to_add = npc_to_get.get();
-            followers.push_back( npc_to_add );
-        }
-        viewer &player_view = get_player_view();
-        for( npc *&elem : followers ) {
-            if( !it.is_owned_by( *this, true ) && ( player_view.sees( this->pos() ) ||
-                                                    player_view.sees( wanted_item_pos ) ||
-                                                    elem->sees( this->pos() ) || elem->sees( wanted_item_pos ) ) ) {
-                return;
-            }
-        }
-        if( ::good_for_pickup( it, *this ) ) {
+        if( ::good_for_pickup( it, *this, p ) ) {
             wanted_item_pos = p;
-            wanted = &it;
+            wanted_item = &it;
+            wanted = wanted_item;
             best_value = has_item_whitelist() ? 1000 : value( it );
         }
     };
@@ -3644,6 +3616,7 @@ void npc::find_item()
     if( path.empty() && dist_to_item > 1 ) {
         // Item not reachable, let's just totally give up for now
         fetching_item = false;
+        wanted_item = nullptr;
     }
 
     if( fetching_item && rl_dist( wanted_item_pos, pos() ) > 1 && is_walking_with() ) {
@@ -3660,6 +3633,7 @@ void npc::pick_up_item()
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
         add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", get_name() );
         fetching_item = false;
+        wanted_item = nullptr;
         moves -= 1;
         return;
     }
@@ -3675,9 +3649,23 @@ void npc::pick_up_item()
         // Items we wanted no longer exist and we can see it
         // Or player who is leading us doesn't want us to pick it up
         fetching_item = false;
+        wanted_item = nullptr;
         move_pause();
         add_msg_debug( debugmode::DF_NPC, "Canceling pickup - no items or new zone" );
         return;
+    }
+
+    // Check: Is the item owned? Has the situation changed since we last moved? Am 'I' now
+    // standing in front of the shopkeeper/player that I am about to steal from?
+    if( wanted_item != nullptr ) {
+        if( !::good_for_pickup( *wanted_item, *this, wanted_item_pos ) ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                           "%s canceling pickup - situation changed since they decided to take item", get_name() );
+            fetching_item = false;
+            wanted_item = nullptr;
+            move_pause();
+            return;
+        }
     }
 
     add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); [ % d, % d, % d] => [ % d, % d, % d]",
@@ -3698,6 +3686,7 @@ void npc::pick_up_item()
         add_msg_debug( debugmode::DF_NPC, "Can't find path" );
         // This can happen, always do something
         fetching_item = false;
+        wanted_item = nullptr;
         move_pause();
         return;
     }
@@ -3716,6 +3705,7 @@ void npc::pick_up_item()
             // Note: we didn't actually pick up anything, just spawned items
             // but we want the item picker to find new items
             fetching_item = false;
+            wanted_item = nullptr;
             return;
         }
     }
@@ -3745,6 +3735,7 @@ void npc::pick_up_item()
 
     moves -= 100;
     fetching_item = false;
+    wanted_item = nullptr;
     has_new_items = true;
 }
 
@@ -3755,7 +3746,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( ::good_for_pickup( it, who ) ) {
+        if( who.can_take_that( it ) && who.wants_take_that( it ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
         } else {
@@ -3764,6 +3755,95 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
     }
 
     return picked_up;
+}
+
+bool npc::can_take_that( const item &it )
+{
+    bool good = false;
+
+    auto weight_allowed = weight_capacity() - weight_carried();
+
+    if( !it.made_of_from_type( phase_id::LIQUID ) && ( it.weight() <= weight_allowed ) &&
+        can_stash( it ) ) {
+        good = true;
+    }
+
+    return good;
+}
+
+bool npc::wants_take_that( const item &it )
+{
+    bool good = false;
+    int min_value = minimum_item_value();
+    const bool whitelisting = has_item_whitelist();
+
+    item &weap = get_wielded_item() ? *get_wielded_item() : null_item_reference();
+    if( ( ( !whitelisting && value( it ) > min_value ) || item_whitelisted( it ) ) ||
+        weapon_value( it ) > weapon_value( weap ) ) {
+        good = true;
+    }
+
+    return good;
+}
+
+bool npc::would_take_that( const item &it, const tripoint &p )
+{
+    const bool is_stealing = !it.is_owned_by( *this, true );
+    if( !is_stealing ) {
+        return true;
+    }
+    Character &player = get_player_character();
+    // Actual numeric relations are only relative to player faction
+    if( it.is_owned_by( player ) ) {
+        bool would_always_steal = false;
+        int stealing_threshold = 10;
+        // Trust = less likely to steal. Distrust? more likely!
+        stealing_threshold += ( get_faction()->trusts_u / 5 );
+        // We've already decided we want the item. So the primary motivator for stealing is aggression, not hoarding.
+        stealing_threshold -= personality.aggression;
+        stealing_threshold -= static_cast<int>( personality.collector / 3 );
+        if( stealing_threshold < 0 ) {
+            would_always_steal = true;
+        }
+        // Anyone willing to kill you no longer cares for your property rights
+        if( has_faction_relationship( player, npc_factions::kill_on_sight ) ) {
+            would_always_steal = true;
+        }
+        if( would_always_steal ) {
+            add_msg_debug( debugmode::DF_NPC_ITEMAI, "%s attempting to steal %s (owned by player).", get_name(),
+                           it.tname() );
+            return true;
+        }
+
+        /*Handle player and follower vision*/
+        viewer &player_view = get_player_view();
+        if( player_view.sees( this->pos() ) || player_view.sees( p ) ) {
+            return false;
+        }
+        std::vector<npc *> followers;
+        for( const character_id &elem : g->get_follower_list() ) {
+            shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        for( npc *&elem : followers ) {
+            if( elem->sees( this->pos() ) || elem->sees( p ) ) {
+                return false;
+            }
+        }
+        //Fallthrough, no consequences if you won't be caught!
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                       "%s attempting to steal %s (owned by player) because it isn't guarded.",
+                       get_name(), it.tname() );
+        return true;
+    }
+
+
+    // Currently always willing to steal from other NPCs
+    return true;
 }
 
 std::list<item> npc::pick_up_item_map( const tripoint &where )
