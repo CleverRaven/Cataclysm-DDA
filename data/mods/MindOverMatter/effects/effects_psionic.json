@@ -709,7 +709,7 @@
           {
             "value": "READING_SPEED_MULTIPLIER",
             "multiply": {
-               "math": [
+              "math": [
                 "max((( -0.15 + ( u_spell_level('clair_speed_reading') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.6)"
               ]
             }
