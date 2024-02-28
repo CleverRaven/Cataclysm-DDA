@@ -628,7 +628,7 @@
     "passive_mods": { "str_mod": 1, "dex_mod": 1 },
     "stomach_size_multiplier": 1.25,
     "weight_capacity_modifier": 1.05,
-    "movecost_swim_modifier": 0.9
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",

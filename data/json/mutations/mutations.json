@@ -839,8 +839,7 @@
     "prereqs": [ "DENSE_BONES" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.02 } ] } ],
-    "movecost_swim_modifier": 1.3,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.02 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.3 } ] } ],
     "hp_adjustment": 14
   },
   {
@@ -852,8 +851,7 @@
     "types": [ "BUILD" ],
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.04 } ] } ],
-    "movecost_swim_modifier": 1.7,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.04 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 } ] } ],
     "hp_adjustment": 21
   },
   {
@@ -2758,7 +2756,7 @@
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "category": [ "FISH" ],
-    "movecost_swim_modifier": 0.75,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ] } ],
     "threshreq": [ "THRESH_FISH" ],
     "wet_protection": [
       { "part": "head", "good": 7 },
@@ -2947,7 +2945,7 @@
     "ugliness": 6,
     "bodytemp_sleep": 50,
     "description": "Your skin has mutated into an amalgamation of fur and scales.",
-    "movecost_swim_modifier": 0.95,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 5 },
@@ -2975,7 +2973,7 @@
     "ugliness": 8,
     "bodytemp_sleep": 100,
     "description": "Your skin has mutated into an amalgamation of thickened fur, scales, and more.",
-    "movecost_swim_modifier": 0.9,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 3 },
       { "part": "leg_l", "ignored": 8 },
@@ -3003,7 +3001,7 @@
     "ugliness": 12,
     "bodytemp_sleep": 125,
     "description": "Your skin has warped into a highly protective but inconsistent medley of chitin, scales, fur, bone, and even something close to Kevlar.",
-    "movecost_swim_modifier": 0.85,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 3 },
       { "part": "leg_l", "ignored": 10 },
@@ -4895,7 +4893,7 @@
     "prereqs": [ "TAIL_STUB" ],
     "category": [ "FISH" ],
     "wet_protection": [ { "part": "leg_l", "good": 3 }, { "part": "leg_r", "good": 3 } ],
-    "movecost_swim_modifier": 0.75,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.25 } ] } ],
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true
@@ -5785,9 +5783,8 @@
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "leads_to": [ "HIBERNATE" ],
     "category": [ "URSINE" ],
-    "movecost_swim_modifier": 0.95,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.05 } ] } ]
   },
   {
     "type": "mutation",
@@ -6870,8 +6867,7 @@
     "description": "Your bones are particularly dense and durable.  Your tougher frame grants 5% more HP and 15% more carry capacity plus bashing attacks injure you less, but your higher weight makes attacking and moving 5% slower.  Also, dodging and swimming are harder.",
     "types": [ "BONES" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 } ] } ],
-    "movecost_swim_modifier": 1.2,
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 } ] } ],
     "attackcost_modifier": 1.05,
     "weight_capacity_modifier": 1.15,
     "hp_adjustment": 4,
@@ -8190,7 +8186,6 @@
     "description": "Your legs have transformed into six tentacles.  This decreases your speed on land by 20%, makes your movement silent, increases your swimming speed and reduces wet penalties, but you can't use footwear any more.",
     "types": [ "LEGS", "FEET", "SOLES" ],
     "leads_to": [ "LEG_TENT_BRACE" ],
-    "movecost_swim_modifier": 0.85,
     "category": [ "CEPHALOPOD" ],
     "wet_protection": [
       { "part": "leg_l", "neutral": 21 },
@@ -8199,7 +8194,7 @@
       { "part": "foot_r", "neutral": 6 }
     ],
     "restricts_gear": [ "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.2 } ] } ],
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.2 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 } ] } ],
     "noise_modifier": 0.0,
     "flags": [ "TOUGH_FEET" ]
   },
@@ -8550,7 +8545,7 @@
     "description": "You're as comfortable in water as on land, and your body has adapted around that fact.  Your base swimming speed is greatly increased, and weight will hinder you much less while swimming.",
     "category": [ "FISH", "BATRACHIAN" ],
     "threshreq": [ "THRESH_FISH", "THRESH_BATRACHIAN" ],
-    "movecost_swim_modifier": 0.45,
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.55 } ] } ],
     "purifiable": false
   },
   {

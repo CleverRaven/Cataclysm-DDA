@@ -342,7 +342,7 @@
     "prereqs": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
     "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
-    "movecost_swim_modifier": 0.3
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.7 } ] } ]
   },
   {
     "type": "mutation",
@@ -630,8 +630,11 @@
     "description": "You are a mass of pure water.  It is much harder to damage you, and you can move over any terrain without penalty, but you cannot attack.",
     "points": 10,
     "valid": false,
-    "movecost_swim_modifier": 0.6,
-    "enchantments": [ "ench_undine_water_form_no_attack", "ench_undine_water_form_armor" ],
+    "enchantments": [
+      "ench_undine_water_form_no_attack",
+      "ench_undine_water_form_armor",
+      { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.4 } ] }
+    ],
     "flags": [ "STEADY", "WALK_UNDERWATER", "BULLET_IMMUNE" ]
   },
   {
