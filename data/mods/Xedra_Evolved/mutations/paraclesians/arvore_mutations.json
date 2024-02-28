@@ -335,12 +335,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [
-      "ARVORE_FOREST_DETECT",
-      "ARVORE_FOREST_DETECT_ON",
-      "ARVORE_FOREST_DETECT_AND_OVERMAP",
-      "ARVORE_FOREST_DETECT_AND_OVERMAP_ON"
-    ],
+    "prereqs": [ "ARVORE_FOREST_DETECT", "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "description": "The Arvore are closely tied with the forests and may commune with the trees to learn the layout of the land.  Activate this ability to enter the communion.",
     "category": [ "ARVORE" ],
     "active": true,
@@ -412,7 +407,7 @@
     "enchantments": [
       {
         "condition": { "and": [ "is_day", "u_is_outside" ] },
-        "values": [ { "value": "REGEN_HP", "multiply": 0.5 } ],
+        "values": [ { "value": "REGEN_HP", "multiply": 0.5 }, { "value": "MENDING_MODIFIER", "multiply": 1 } ],
         "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
       }
     ],
@@ -432,7 +427,11 @@
     "enchantments": [
       {
         "condition": { "and": [ "is_day", "u_is_outside" ] },
-        "values": [ { "value": "REGEN_HP", "multiply": 0.5 }, { "value": "REGEN_MANA", "multiply": 0.5 } ],
+        "values": [
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_MANA", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 }
+        ],
         "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
       }
     ],
@@ -618,12 +617,7 @@
     "ugliness": 0,
     "description": "When one tree in a grove is attacked by insects, soon all trees will produce the deterrent.  +3 Perception.",
     "prereqs": [ "ARVORE_COMMUNE_WITH_NATURE" ],
-    "prereqs2": [
-      "ARVORE_FOREST_DETECT",
-      "ARVORE_FOREST_DETECT_ON",
-      "ARVORE_FOREST_DETECT_AND_OVERMAP",
-      "ARVORE_FOREST_DETECT_AND_OVERMAP_ON"
-    ],
+    "prereqs2": [ "ARVORE_FOREST_DETECT", "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
     "category": [ "ARVORE" ],
     "passive_mods": { "per_mod": 3 }
   },
@@ -634,68 +628,10 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "The forest recognizes your kinship and will hide you beneath its boughs.",
+    "description": "The forest recognizes your kinship and will hide you beneath its boughs.  When in a forest or in thick foliage, enemies will have a harder time spotting you.",
     "category": [ "ARVORE" ],
     "//": "Ideally there'd be some way to detect what sort of terrain was nearby and you'd need a critical mass of foliage, but the below will work for now.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              "u_is_outside",
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_is_on_terrain": "t_grass_long" },
-                  { "u_at_om_location": "forest" },
-                  { "u_at_om_location": "forest_thick" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_STEALTH_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "//2": "No messages so you aren't constantly spammed while you're walking around the overmap."
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_FOREST_STEALTH_ON",
-    "name": { "str": "Shadow of the Trees (active)" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "The forest is hiding you from your enemies.",
-    "category": [ "ARVORE" ],
-    "stealth_modifier": 60,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "not": "u_is_outside" },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_is_on_terrain": "t_grass_long" } },
-                  { "not": { "u_at_om_location": "forest" } },
-                  { "not": { "u_at_om_location": "forest_thick" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_STEALTH", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_arvore_forest_stealth" ]
   },
   {
     "type": "mutation",
@@ -804,66 +740,7 @@
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.",
     "category": [ "ARVORE" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              "u_is_outside",
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_at_om_location": "forest" },
-                  { "u_at_om_location": "forest_thick" },
-                  { "u_at_om_location": "forest_water" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_DETECT_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_FOREST_DETECT_ON",
-    "name": { "str": "The Forests' Warning (active)" },
-    "points": 2,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "prereqs": [ "ARVORE_EYES" ],
-    "changes_to": [ "ARVORE_FOREST_DETECT_AND_OVERMAP" ],
-    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby.",
-    "category": [ "ARVORE" ],
-    "enchantments": [ "arvore_forest_detect_enemies" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "not": "u_is_outside" },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_at_om_location": "forest" } },
-                  { "not": { "u_at_om_location": "forest_thick" } },
-                  { "not": { "u_at_om_location": "forest_water" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_DETECT", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "arvore_forest_detect_enemies" ]
   },
   {
     "type": "mutation",
@@ -872,71 +749,11 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "prereqs": [ "ARVORE_FOREST_DETECT", "ARVORE_FOREST_DETECT_ON" ],
+    "prereqs": [ "ARVORE_FOREST_DETECT" ],
     "leads_to": [ "ARVORE_FOREST_MAPPING" ],
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  When outside and near thick foliage, you can detect your enemies.  Also, you can see further when you're standing in a forest.",
     "category": [ "ARVORE" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              "u_is_outside",
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_at_om_location": "forest" },
-                  { "u_at_om_location": "forest_thick" },
-                  { "u_at_om_location": "forest_water" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_DETECT_AND_OVERMAP_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_FOREST_DETECT_AND_OVERMAP_ON",
-    "name": { "str": "The Whispers of the Leaves (active)" },
-    "points": 2,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "prereqs": [ "ARVORE_FOREST_DETECT", "ARVORE_FOREST_DETECT_ON" ],
-    "leads_to": [ "ARVORE_FOREST_MAPPING" ],
-    "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby and revealing the lay of the land to you.",
-    "category": [ "ARVORE" ],
-    "enchantments": [ "arvore_forest_detect_enemies" ],
-    "overmap_sight": 5,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "not": "u_is_outside" },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_at_om_location": "forest" } },
-                  { "not": { "u_at_om_location": "forest_thick" } },
-                  { "not": { "u_at_om_location": "forest_water" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_FOREST_DETECT_AND_OVERMAP", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "arvore_forest_detect_enemies_and_overmap" ]
   },
   {
     "type": "mutation",
@@ -1052,107 +869,7 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "flags": [ "MEND_ALL" ],
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              {
-                "or": [
-                  "u_is_outside",
-                  { "u_is_on_terrain": "t_barkfloor" },
-                  { "u_is_on_terrain": "t_bramble_door_c" },
-                  { "u_is_on_terrain": "t_bramble_door_o" },
-                  { "u_is_on_terrain": "t_root_floor" }
-                ]
-              },
-              {
-                "or": [
-                  { "u_is_on_terrain_with_flag": "SHRUB" },
-                  { "u_is_on_terrain": "t_tree_young" },
-                  { "u_is_on_terrain": "t_bamboo_tall" },
-                  { "u_is_on_terrain": "t_dirt" },
-                  { "u_is_on_terrain": "t_dirtmound" },
-                  { "u_is_on_terrain": "t_clay" },
-                  { "u_is_on_terrain": "t_sand" },
-                  { "u_is_on_terrain": "t_sandmound" },
-                  { "u_is_on_terrain": "t_grave" },
-                  { "u_is_on_terrain": "t_forestfloor" },
-                  { "u_is_on_terrain": "t_grass" },
-                  { "u_is_on_terrain": "t_grass_long" },
-                  { "u_is_on_terrain": "t_grass_tall" },
-                  { "u_is_on_terrain": "t_grass_dead" },
-                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-                  { "u_is_on_terrain": "t_mud" },
-                  { "u_is_on_terrain": "t_dirtfloor_no_roof" },
-                  { "u_is_on_terrain": "t_moss" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "ARVORE_HEAL_LIMB_REGEN_ON",
-    "name": { "str": "Leaves Return When Winter Ends (active)" },
-    "//": "Once limb loss is possible, this mutation should allow the Arvore to regrow lost limbs.",
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "When in wild areas, you can draw on the revitalizing power of the land to heal yourself.  In this natural areas, your limbs are regenerating.",
-    "category": [ "ARVORE" ],
-    "threshreq": [ "THRESH_ARVORE" ],
-    "flags": [ "MEND_ALL" ],
-    "mending_modifier": 20.0,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              {
-                "and": [
-                  { "not": "u_is_outside" },
-                  { "not": { "u_is_on_terrain": "t_barkfloor" } },
-                  { "not": { "u_is_on_terrain": "t_bramble_door_c" } },
-                  { "not": { "u_is_on_terrain": "t_bramble_door_o" } },
-                  { "not": { "u_is_on_terrain": "t_root_floor" } }
-                ]
-              },
-              {
-                "and": [
-                  { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
-                  { "not": { "u_is_on_terrain": "t_tree_young" } },
-                  { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
-                  { "not": { "u_is_on_terrain": "t_dirt" } },
-                  { "not": { "u_is_on_terrain": "t_dirtmound" } },
-                  { "not": { "u_is_on_terrain": "t_clay" } },
-                  { "not": { "u_is_on_terrain": "t_sand" } },
-                  { "not": { "u_is_on_terrain": "t_sandmound" } },
-                  { "not": { "u_is_on_terrain": "t_grave" } },
-                  { "not": { "u_is_on_terrain": "t_forestfloor" } },
-                  { "not": { "u_is_on_terrain": "t_grass" } },
-                  { "not": { "u_is_on_terrain": "t_grass_long" } },
-                  { "not": { "u_is_on_terrain": "t_grass_tall" } },
-                  { "not": { "u_is_on_terrain": "t_grass_dead" } },
-                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
-                  { "not": { "u_is_on_terrain": "t_mud" } },
-                  { "not": { "u_is_on_terrain": "t_dirtfloor_no_roof" } },
-                  { "not": { "u_is_on_terrain": "t_moss" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "ARVORE_HEAL_LIMB_REGEN", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_arvore_wilds_super_mending" ]
   },
   {
     "type": "mutation",
@@ -1227,7 +944,10 @@
       "ROBOT",
       "HORROR",
       "ABERRATION",
-      "HUMAN"
+      "HUMAN",
+      "VAMPIRE",
+      "NIGHTMARE",
+      "HOMULLUS"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
     "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
@@ -1250,7 +970,8 @@
         "values": [
           { "value": "REGEN_HP", "multiply": 0.5 },
           { "value": "REGEN_MANA", "multiply": 0.5 },
-          { "value": "MAX_MANA", "multiply": 0.5 }
+          { "value": "MAX_MANA", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 }
         ],
         "ench_effects": [ { "effect": "effect_arvore_vitamin_bonus", "intensity": 1 } ]
       }
@@ -1275,6 +996,7 @@
           { "value": "REGEN_HP", "multiply": 0.5 },
           { "value": "REGEN_MANA", "multiply": 0.5 },
           { "value": "MAX_MANA", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 1 },
           { "value": "STRENGTH", "add": 2 },
           { "value": "DEXTERITY", "add": 2 },
           { "value": "INTELLIGENCE", "add": 2 },

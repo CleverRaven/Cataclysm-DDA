@@ -332,7 +332,7 @@
     "types": [ "HEARING" ],
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
-    "flags": [ "SUPER_HEARING" ],
+    "flags": [ "SAFECRACK_NO_TOOL" ],
     "hearing_modifier": 1.75
   },
   {

@@ -120,7 +120,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
-*Effects*: Greatly increases the psion’s metabolic efficiency.  Hunger, thirst, fatigue grow 25% more slowly and the basal metabolic rate is reduced by 25%.  All of these bonuses increase by 2% per level to a maximum of 70% increase.<br />
+*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitmins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
 *Prerequisites*: Temperature Adaptability 8, Adrenaline Trigger 6 *or* Physical Enhancement 12<br />
 
 ## Combat Dance
@@ -500,7 +500,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 11 minutes and 30 seconds to 23 minutes and 50 seconds, plus 48 seconds to 1 minute and 53 seconds per power level<br />
 *Stamina Cost*: 3500, minus 75 per level to a minimum of 1500<br />
 *Channeling Time*: 150 moves, minus 8 moves per level to a minimum of 75<br />
-*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 15% from levels 1-3, 25% from levels 4-7, 35% from levels 8-11, 43% from levels 12-15, 50% from levels 16-19, and 55% at level 20+.<br />
+*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 10% plus 3% per power level to a maximum of 60%.<br />
 *Prerequisites*: Trick of the Light 6<br />
 
 ## Lucent Barrier (C)

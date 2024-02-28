@@ -1168,6 +1168,9 @@ int get_terminal_height();
  */
 bool is_draw_tiles_mode();
 
+int get_window_width();
+int get_window_height();
+
 /**
  * Make changes made to the display visible to the user immediately.
  *

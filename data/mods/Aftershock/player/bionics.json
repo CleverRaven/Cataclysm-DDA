@@ -57,6 +57,7 @@
     "type": "bionic",
     "name": { "str": "Linguistic Coprocessor" },
     "description": "The left hemisphere of your brain has been augmented with a microcomputer that moderately increases the speed that language and written words are processed, granting a 15% increase to reading speed.",
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.15 } ] } ],
     "occupied_bodyparts": [ [ "head", 2 ] ]
   },
   {

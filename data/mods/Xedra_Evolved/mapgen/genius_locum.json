@@ -60,12 +60,13 @@
         ".": "t_rock_floor",
         "X": "t_rock_floor",
         "b": "t_rock_floor",
-        "1": "t_rock_floor",
+        "1": "t_dirt",
+        "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
-        "#": "t_rock_wall"
+        "#": "t_rock_wall",
+        "|": [ [ "t_rock", 1 ], [ "t_soil", 1 ] ]
       },
       "furniture": {
-        "|": "f_hedge_tall",
         "b": "f_bench",
         "h": "f_bench",
         "X": "f_elemental_altar",
@@ -138,12 +139,13 @@
         ".": "t_rock_floor",
         "X": "t_rock_floor",
         "b": "t_rock_floor",
-        "1": "t_rock_floor",
+        "1": "t_dirt",
+        "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
-        "#": "t_rock_wall"
+        "#": "t_rock_wall",
+        "|": "t_water_cube"
       },
       "furniture": {
-        "|": "f_hedge_tall",
         "b": "f_bench",
         "h": "f_bench",
         "X": "f_elemental_altar",
@@ -216,12 +218,13 @@
         ".": "t_rock_floor",
         "X": "t_rock_floor",
         "b": "t_rock_floor",
-        "1": "t_rock_floor",
+        "1": "t_dirt",
+        "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
-        "#": "t_rock_wall"
+        "#": "t_rock_wall",
+        "|": "t_region_tree_shade"
       },
       "furniture": {
-        "|": "f_hedge_tall",
         "b": "f_bench",
         "h": "f_bench",
         "X": "f_elemental_altar",
@@ -297,12 +300,13 @@
         ".": "t_rock_floor",
         "X": "t_rock_floor",
         "b": "t_rock_floor",
-        "1": "t_rock_floor",
+        "1": "t_dirt",
+        "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
-        "#": "t_rock_wall"
+        "#": "t_rock_wall",
+        "|": [ [ "t_obsidian_wall", 50 ], [ "t_salamander_veins", 10 ], [ "t_lava", 1 ] ]
       },
       "furniture": {
-        "|": "f_hedge_tall",
         "b": "f_bench",
         "h": "f_bench",
         "X": "f_elemental_altar",
@@ -375,12 +379,12 @@
         ".": "t_rock_floor",
         "X": "t_rock_floor",
         "b": "t_rock_floor",
-        "1": "t_rock_floor",
+        "1": "t_dirt",
+        "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
         "#": "t_rock_wall"
       },
       "furniture": {
-        "|": "f_hedge_tall",
         "b": "f_bench",
         "h": "f_bench",
         "X": "f_elemental_altar",
@@ -389,6 +393,7 @@
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
       },
+      "fields": { "|": { "field": "fd_sylph_solid_fog", "intensity": 1 } },
       "item": { "X": { "item": "mutagen_airkin" } }
     }
   },
@@ -453,12 +458,13 @@
         ".": "t_rock_floor",
         "X": "t_rock_floor",
         "b": "t_rock_floor",
-        "1": "t_rock_floor",
+        "1": "t_dirt",
+        "4": "t_dirt",
         "-": [ [ "t_region_groundcover_urban", 5 ], "t_region_tree_shade", 2 ],
-        "#": "t_rock_wall"
+        "#": "t_rock_wall",
+        "|": [ [ "t_scrap_wall", 10 ], [ "t_scrap_wall_halfway", 2 ], [ "t_brick_wall", 10 ], [ "t_brick_wall_halfway", 2 ] ]
       },
       "furniture": {
-        "|": "f_hedge_tall",
         "b": "f_bench",
         "h": "f_bench",
         "X": "f_elemental_altar",

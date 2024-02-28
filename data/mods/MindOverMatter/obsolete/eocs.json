@@ -1,0 +1,19 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_CAMOUFLAGE_SWITCHER",
+    "effect": [
+      {
+        "switch": { "math": [ "u_spell_level('photokinetic_camouflage')" ] },
+        "cases": [
+          { "case": 0, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_1" } },
+          { "case": 4, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_2" } },
+          { "case": 8, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_3" } },
+          { "case": 12, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_4" } },
+          { "case": 16, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_5" } },
+          { "case": 20, "effect": { "u_add_trait": "PHOTOKINETIC_CAMOUFLAGE_6" } }
+        ]
+      }
+    ]
+  }
+]

@@ -375,18 +375,18 @@
       {
         "values": [
           {
-            "value": "HUNGER",
+            "value": "KCAL",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "min((( 0.33 + ( u_spell_level('biokin_metabolism_enhance') * 0.07 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 3)"
               ]
             }
           },
           {
-            "value": "THIRST",
+            "value": "VITAMIN_ABSORB_MOD",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "min((( 0.33 + ( u_spell_level('biokin_metabolism_enhance') * 0.07 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 3)"
               ]
             }
           },
@@ -394,7 +394,7 @@
             "value": "METABOLISM",
             "multiply": {
               "math": [
-                "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
+                "max((( -0.10 + ( u_spell_level('biokin_metabolism_enhance') * -0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.4)"
               ]
             }
           },
@@ -1227,7 +1227,21 @@
     "apply_message": "",
     "remove_message": "You stop bending light around your location.",
     "rating": "good",
-    "max_duration": "7 days"
+    "max_duration": "7 days",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "STEALTH_MODIFIER",
+            "add": {
+              "math": [
+                "min((( 10 + ( u_spell_level('photokinetic_camouflage') * 3 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), 60)"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
