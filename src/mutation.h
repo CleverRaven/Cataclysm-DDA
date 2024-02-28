@@ -226,8 +226,6 @@ struct mutation_branch {
         std::optional<float> hp_modifier = std::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.
         std::optional<float> hp_modifier_secondary = std::nullopt;
-        // Flat bonus/penalty to hp.
-        std::optional<float> hp_adjustment = std::nullopt;
         // Additional bonuses
         std::optional<float> attackcost_modifier = std::nullopt;
         std::optional<float> cardio_multiplier = std::nullopt;

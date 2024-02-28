@@ -2492,7 +2492,7 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" ) +
                    enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
-    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 ) +
+    float hp_adjustment = ( str_boost_val * 3 ) +
                           enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
@@ -6352,7 +6352,6 @@ mutation_value_map = {
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
-    { "hp_adjustment", calc_mutation_value<&mutation_branch::hp_adjustment> },
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
     { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
     { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },

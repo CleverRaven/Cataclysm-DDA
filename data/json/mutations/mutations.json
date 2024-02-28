@@ -839,8 +839,15 @@
     "prereqs": [ "DENSE_BONES" ],
     "changes_to": [ "BOVINE_BULK2" ],
     "category": [ "CATTLE" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.02 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.3 } ] } ],
-    "hp_adjustment": 14
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.02 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": 0.3 },
+          { "value": "MAX_HP", "add": 14 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -851,8 +858,10 @@
     "types": [ "BUILD" ],
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.04 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 } ] } ],
-    "hp_adjustment": 21
+    "enchantments": [
+      { "values": [ { "value": "MOVE_COST", "multiply": 0.04 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 } ] },
+      { "value": "MAX_HP", "add": 21 }
+    ]
   },
   {
     "type": "mutation",
@@ -4200,7 +4209,7 @@
     "leads_to": [ "AMORPHOUS" ],
     "category": [ "SLIME" ],
     "passive_mods": { "dex_mod": 3, "str_mod": -2 },
-    "hp_adjustment": 3
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -4219,7 +4228,7 @@
     "category": [ "SLIME" ],
     "flags": [ "PSEUDOPOD_GRASP" ],
     "passive_mods": { "dex_mod": 4, "str_mod": -4 },
-    "hp_adjustment": 6
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": 6 } ] } ]
   },
   {
     "type": "mutation",
@@ -5839,7 +5848,7 @@
     "changes_to": [ "HUGE_OK" ],
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 4 },
-    "hp_adjustment": -6,
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 } ] } ],
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
@@ -6869,6 +6878,7 @@
       {
         "values": [
           { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "MAX_HP", "add": 4 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
           { "value": "BONUS_DODGE", "add": -1 }
         ]
@@ -6876,7 +6886,6 @@
     ],
     "attackcost_modifier": 1.05,
     "weight_capacity_modifier": 1.15,
-    "hp_adjustment": 4,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
   },
   {
