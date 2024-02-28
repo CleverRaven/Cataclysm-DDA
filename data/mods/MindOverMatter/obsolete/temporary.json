@@ -1,6 +1,16 @@
 [
   {
     "type": "mutation",
+    "id": "CLAIR_SPEED_READ",
+    "name": { "str": "Speed Reader" },
+    "points": 1,
+    "description": "Your powers allow you to absorb knowledge at a greatly accelerated pace.",
+    "reading_speed_multiplier": 0.66,
+    "valid": false,
+    "enchantments": [ "enchant_clair_speed_read" ]
+  },
+  {
+    "type": "mutation",
     "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
     "id": "PHOTOKINETIC_CAMOUFLAGE_1",
     "name": { "str": "Chameleoflage" },
