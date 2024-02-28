@@ -91,6 +91,54 @@
     "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY" ]
   },
   {
+    "id": "parabolan_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "parabolan wool gambeson" },
+    "description": "A padded greatcoat assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered aketon or gambeson it still offers decent protection.",
+    "weight": "1185 g",
+    "volume": "7500 ml",
+    "price": 20000,
+    "price_postapoc": 15000,
+    "to_hit": -5,
+    "material": [ "parabolan_wool" ],
+    "symbol": "[",
+    "looks_like": "jacket_light",
+    "color": "light_gray",
+    "warmth": 5,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "BLOCK_WHILE_WORN" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "parabolan_wool", "covered_by_mat": 100, "thickness": 2.5 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.5 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.5 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 5
+      },
+      {
+        "material": [
+          { "type": "parabolan_wool", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 7
+      },
+      {
+        "material": [ { "type": "parabolan_wool", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 2,
+        "layers": [ "BELTED" ],
+        "//warmth": 2
+      }
+    ]
+  },
+  {
     "id": "coat_lab_plus_one",
     "copy-from": "coat_lab",
     "type": "ARMOR",
