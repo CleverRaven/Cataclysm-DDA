@@ -67,16 +67,6 @@ bool string_id<Trait_group>::is_valid() const
     return trait_groups.count( *this );
 }
 
-static void extract_mod(
-    const JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &data,
-    const std::string_view mod_type, bool active, const std::string &type_key )
-{
-    int val = j.get_int( mod_type, 0 );
-    if( val != 0 ) {
-        data[std::make_pair( active, type_key )] = val;
-    }
-}
-
 void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
