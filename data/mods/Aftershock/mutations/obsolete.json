@@ -147,7 +147,7 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TANK2" ],
-    "hp_modifier_secondary": 0.2
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -161,7 +161,7 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TANK3" ],
-    "hp_modifier_secondary": 0.3
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -174,7 +174,7 @@
     "prereqs": [ "MUT_TANK2" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
-    "hp_modifier_secondary": 0.4
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",

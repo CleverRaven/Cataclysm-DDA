@@ -5102,7 +5102,7 @@
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_LIZARD", "THRESH_BEAST", "THRESH_CRUSTACEAN" ],
     "changes_to": [ "MUT_TOUGH2" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "BEAST", "LIZARD", "CRUSTACEAN" ],
-    "hp_modifier_secondary": 0.2
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -5116,7 +5116,7 @@
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_CRUSTACEAN" ],
     "changes_to": [ "MUT_TOUGH3" ],
     "category": [ "URSINE", "CATTLE", "CHIMERA", "CRUSTACEAN" ],
-    "hp_modifier_secondary": 0.3
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -5130,7 +5130,7 @@
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "category": [ "URSINE", "CATTLE" ],
-    "hp_modifier_secondary": 0.4
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -9510,7 +9510,7 @@
     "changes_to": [ "TOUGH2_MEDICAL" ],
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
-    "hp_modifier_secondary": 0.2
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.2 } ] } ]
   },
   {
     "//": "Like Solidly Built, but Medical-flavored, and doesn't need huge/strong",
@@ -9523,7 +9523,7 @@
     "prereqs": [ "TOUGH_MEDICAL" ],
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
-    "hp_modifier_secondary": 0.3
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
