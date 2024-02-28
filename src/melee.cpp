@@ -1338,13 +1338,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
                 float unarmed_bonus = 0.0f;
                 int bonus_dmg = 0;
                 std::pair<int, int> bonus_rand = { 0, 0 };
-                // FIXME: Hardcoded damage types
-                if( dt == damage_bash ) {
-                    bonus_dmg = mut->bash_dmg_bonus;
-                    bonus_rand = mut->rand_bash_bonus;
-                } else if( dt == damage_stab ) {
-                    bonus_dmg = mut->pierce_dmg_bonus;
-                }
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bonus_dmg > 0 ) {
                     unarmed_bonus += std::min( u.get_skill_level( skill_unarmed ) / 2, 4.0f );
                 }

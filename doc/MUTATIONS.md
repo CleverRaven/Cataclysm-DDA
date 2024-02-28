@@ -95,7 +95,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
   "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
-  "rand_bash_bonus": { "min": 2, "max": 3 },  // Random bonus to unarmed bash damage between min and max.
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "bodytemp_sleep": 50,                       // Additional units of bodytemp which are applied when sleeping.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
