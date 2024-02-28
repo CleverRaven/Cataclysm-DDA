@@ -98,7 +98,7 @@ static year_of_weather_data collect_weather_data( unsigned seed )
 }
 
 // Try a few randomly selected seeds.
-static const std::array<unsigned, 3> seeds = { {317'024'741, 870'078'684, 1'192'447'748} };
+static const std::array<unsigned, 3> seeds = { {317024741, 870078684, 1192447748} };
 
 TEST_CASE( "weather_realism", "[weather]" )
 // Check our simulated weather against numbers from real data

@@ -2169,7 +2169,7 @@ conditional_t::get_set_dbl( std::string_view checked_value, char scope )
             d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
         };
     } else if( checked_value == "stored_kcal_percentage" ) {
-        // 100% is 55'000 kcal, which is considered healthy.
+        // 100% is 55000 kcal, which is considered healthy.
         return [is_npc]( dialogue & d, double input ) {
             d.actor( is_npc )->set_stored_kcal( input * 5500 );
         };

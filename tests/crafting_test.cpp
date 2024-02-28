@@ -552,7 +552,7 @@ TEST_CASE( "proficiency_gain_short_crafts", "[crafting][proficiency]" )
     REQUIRE( ch.get_proficiency_practice( proficiency_prof_carving ) == 0.0f );
 
     int turns_taken = 0;
-    const int max_turns = 100'000;
+    const int max_turns = 100000;
 
     float time_malus = rec->proficiency_time_maluses( ch );
 
@@ -591,8 +591,8 @@ TEST_CASE( "proficiency_gain_long_craft", "[crafting][proficiency]" )
     // Check exactly one 5% tick has passed
     // 500k counter = 5% progress
     // If counter is 0, this means the craft finished before we gained the proficiency
-    CHECK( craft->item_counter >= 500'000 );
-    CHECK( craft->item_counter < 501'000 );
+    CHECK( craft->item_counter >= 500000 );
+    CHECK( craft->item_counter < 501000 );
 }
 
 static float craft_aggregate_fail_chance( const recipe_id &rid )

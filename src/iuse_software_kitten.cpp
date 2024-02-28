@@ -288,11 +288,11 @@ void robot_finds_kitten::process_input()
                 refresh_display();
                 // Sleep for 1 s
                 const auto sleep_till = std::chrono::steady_clock::now()
-                                        + std::chrono::nanoseconds( 1'000'000'000 );
+                                        + std::chrono::nanoseconds( 1000000000 );
                 do {
                     const auto sleep_for = std::min( sleep_till - std::chrono::steady_clock::now(),
                                                      // Pump events every 100 ms
-                                                     std::chrono::nanoseconds( 100'000'000 ) );
+                                                     std::chrono::nanoseconds( 100000000 ) );
                     if( sleep_for > std::chrono::nanoseconds( 0 ) ) {
                         std::this_thread::sleep_for( sleep_for );
                         inp_mngr.pump_events();

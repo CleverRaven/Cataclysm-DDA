@@ -3635,7 +3635,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const double cur_total_moves = cached_cur_total_moves;
 
     // item_counter represents the percent progress relative to the base batch time
-    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6'732'000 )
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = craft.item_counter;
 
     // Delta progress in moves adjusted for current crafting speed /
@@ -3644,21 +3644,21 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                           exertion_level() );
     const double delta_progress = spent_moves * base_total_moves / cur_total_moves;
     // Current progress in moves
-    const double current_progress = craft.item_counter * base_total_moves / 10'000'000.0 +
+    const double current_progress = craft.item_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    craft.item_counter = std::round( current_progress / base_total_moves * 10'000'000.0 );
+    craft.item_counter = std::round( current_progress / base_total_moves * 10000000.0 );
     crafter.set_moves( 0 );
 
     // This is to ensure we don't over count skill steps
-    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+    craft.item_counter = std::min( craft.item_counter, 10000000 );
 
     // This nominal craft time is also how many practice ticks to perform
     // spread out evenly across the actual duration.
     const double total_practice_ticks = rec.time_to_craft_moves( crafter,
                                         recipe_time_flag::ignore_proficiencies ) / 100.0;
 
-    const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
+    const int ticks_per_practice = 10000000.0 / total_practice_ticks;
     int num_practice_ticks = craft.item_counter / ticks_per_practice -
                              old_counter / ticks_per_practice;
     bool level_up = false;
@@ -3666,7 +3666,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
         level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
     // Proficiencies and tools are gained/consumed after every 5% progress
-    int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
+    int five_percent_steps = craft.item_counter / 500000 - old_counter / 500000;
     if( five_percent_steps > 0 ) {
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
@@ -3678,21 +3678,21 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         --five_percent_steps;
     }
 
     if( five_percent_steps > 0 ) {
         if( !crafter.craft_consume_tools( craft, five_percent_steps, false ) ) {
             // So we don't skip over any tool comsuption
-            craft.item_counter -= craft.item_counter % 500'000 + 1;
+            craft.item_counter -= craft.item_counter % 500000 + 1;
             crafter.cancel_activity();
             return;
         }
     }
 
     // if item_counter has reached 100% or more
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
             if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
@@ -5170,15 +5170,15 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( moves_total == 0 ) {
-        craft.item_counter = 10'000'000;
+        craft.item_counter = 10000000;
     } else {
         const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
-        craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
-        craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+        craft.item_counter += std::round( spent_moves * crafting_speed * 10000000.0 / moves_total );
+        craft.item_counter = std::min( craft.item_counter, 10000000 );
         who.set_moves( 0 );
     }
 
-    if( craft.item_counter >= 10'000'000 ) {
+    if( craft.item_counter >= 10000000 ) {
         who.complete_disassemble( target );
     }
 }
