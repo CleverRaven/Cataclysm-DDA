@@ -91,14 +91,14 @@
     "flags": [ "VARSIZE", "FANCY", "WATER_FRIENDLY" ]
   },
   {
-    "id": "parabolan_gambeson",
+    "id": "gambeson_parabolan",
     "type": "ARMOR",
     "name": { "str": "parabolan wool gambeson" },
-    "description": "A padded greatcoat assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered aketon or gambeson it still offers decent protection.",
+    "description": "A padded greatcoat assembled by quilting rarely available iridescent wool that was intended as standalone armor, this is half the thickness of a historical gambeson due to the quality of its material. Famed for its resistance to arrows in olden times, one might wonder how effective it might be against modern projectiles",
     "weight": "1185 g",
-    "volume": "7500 ml",
-    "price": 20000,
-    "price_postapoc": 15000,
+    "volume": "3750 ml",
+    "price": 400000,
+    "price_postapoc": 300000,
     "to_hit": -5,
     "material": [ "parabolan_wool" ],
     "symbol": "[",
@@ -109,34 +109,284 @@
     "armor": [
       {
         "material": [
-          { "type": "parabolan_wool", "covered_by_mat": 100, "thickness": 2.5 },
-          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.5 },
-          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.5 }
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.75 }
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 9
       },
       {
         "material": [
-          { "type": "parabolan_wool", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2 },
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1 },
           { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2 }
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 7
+        "encumbrance": 13
       },
       {
-        "material": [ { "type": "parabolan_wool", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "material": [ { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 } ],
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
         "coverage": 72,
-        "encumbrance": 2,
+        "encumbrance": 3,
         "layers": [ "BELTED" ],
         "//warmth": 2
       }
     ]
+  },
+  {
+    "id": "xl_gambeson_parabolan",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL parabolan wool gambeson" },
+    "copy-from": "gambeson_parabolan",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_parabolan",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS wool gambeson" },
+    "copy-from": "gambeson_parabolan",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_parabolan_thinsleeved",
+    "type": "ARMOR",
+    "name": { "str": "thin-sleeved parabolan wool gambeson" },
+    "description": "A thick iridescent wool greatcoat famed for its resistance to arrows in olden times.  Compared to conventional wool, this is much lighter and less warm.  The sleeves are a lot thinner for flexibility and it drapes below your legs, providing additional protection there.",
+    "weight": "1048 g",
+    "volume": "3750 ml",
+    "price_postapoc": 150000,
+    "to_hit": -5,
+    "material": [ "parabolan_wool" ],
+    "symbol": "[",
+    "looks_like": "gambeson_parabolan",
+    "color": "light_gray",
+    "warmth": 6,
+    "material_thickness": 3.75,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.75 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 9
+      },
+      {
+        "material": [
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": 12,
+        "layers": [ "NORMAL" ],
+        "//warmth": 3
+      },
+      {
+        "material": [ { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 3,
+        "layers": [ "BELTED" ],
+        "//warmth": 2
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_parabolan_thinsleeved",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL thin-sleeved parabolan wool gambeson" },
+    "copy-from": "gambeson_parabolan_thinsleeved",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_parabolan_thinsleeved",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS thin-sleeved parabolan wool gambeson" },
+    "copy-from": "gambeson_parabolan_thinsleeved",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_parabolan_vest",
+    "type": "ARMOR",
+    "name": { "str": "sleeveless parabolan wool gambeson" },
+    "description": "A thick iridescent wool surcoat famed for its resistance to arrows in the olden times.  Compared to conventional wool, this is much lighter and less warm.  It drapes below your legs, providing additional protection there, and it lacks sleeves entirely.",
+    "weight": "780 g",
+    "volume": "3000 ml",
+    "price_postapoc": 100000,
+    "to_hit": -5,
+    "material": [ "parabolan_wool" ],
+    "symbol": "[",
+    "looks_like": "sleeveless_tunic",
+    "color": "light_gray",
+    "warmth": 6,
+    "material_thickness": 3.75,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.75 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 9
+      },
+      {
+        "material": [ { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 3,
+        "layers": [ "BELTED" ],
+        "//warmth": 2
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_parabolan_vest",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL sleeveless parabolan wool gambeson" },
+    "copy-from": "gambeson_parabolan_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_parabolan_vest",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS sleeveless parabolan wool gambeson" },
+    "copy-from": "gambeson_parabolan_vest",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_pants_parabolan",
+    "type": "ARMOR",
+    "name": { "str": "parabolan wool heavy arming pants", "str_pl": "pairs of parabolan wool heavy arming pants" },
+    "description": "Tough, fairly thick iridescent wool pants worn on their own alongside a gambeson.  These are made of layered wool quilting offering very solid protection, specifically for the purposes of stopping arrows.",
+    "weight": "468 g",
+    "volume": "1875 ml",
+    "price_postapoc": 100000,
+    "to_hit": -5,
+    "material": [ "parabolan_wool" ],
+    "symbol": "[",
+    "looks_like": "fencing_pants",
+    "color": "light_gray",
+    "warmth": 6,
+    "material_thickness": 3.0,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.0 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 13
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_pants_parabolan",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL parabolan wool heavy arming pants", "str_pl": "pairs of XL parabolan wool heavy arming pants" },
+    "copy-from": "gambeson_pants_parabolan",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_pants_parabolan",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS parabolan wool heavy arming pants", "str_pl": "pairs of XS parabolan wool heavy arming pants" },
+    "copy-from": "gambeson_pants_parabolan",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "gambeson_gloves_parabolan",
+    "type": "ARMOR",
+    "name": { "str": "parabolan wool arming mittens", "str_pl": "pairs of parabolan wool arming mittens" },
+    "description": "Thick iridescent wool gauntlets worn in lieu of metal or leather armor.  These are much less encumbering and warm thatn conventional wool, but they offer excellent protection against arrows.",
+    "weight": "58 g",
+    "volume": "250 ml",
+    "price_postapoc": 40000,
+    "to_hit": -1,
+    "material": [ "parabolan_wool" ],
+    "symbol": "[",
+    "looks_like": "mittens",
+    "color": "light_gray",
+    "warmth": 5,
+    "material_thickness": 3.0,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "parabolan_wool", "covered_by_mat": 90, "thickness": 2.0 }
+        ],
+        "//a": "technically, only covering 60% ish - inner hand is thinner - but fist will be clenched so inner hand should not really be hit",
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [
+          { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 },
+          { "type": "parabolan_wool", "covered_by_mat": 95, "thickness": 2.0 }
+        ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "coverage": 100
+      },
+      {
+        "material": [ { "type": "parabolan_wool_quilted", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "coverage": 100
+      }
+    ]
+  },
+  {
+    "id": "xl_gambeson_gloves_parabolan",
+    "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
+    "type": "ARMOR",
+    "name": { "str": "XL parabolan wool arming mittens", "str_pl": "pairs of XL parabolan wool arming mittens" },
+    "copy-from": "gambeson_gloves_parabolan",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_gambeson_gloves_parabolan",
+    "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
+    "type": "ARMOR",
+    "name": { "str": "XS parabolan wool arming mittens", "str_pl": "pairs of XS parabolan wool arming mittens" },
+    "copy-from": "gambeson_gloves_parabolan",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "coat_lab_plus_one",
