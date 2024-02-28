@@ -1162,7 +1162,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
 
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
-        if( !win->line[j].touched ){
+        if( !win->line[j].touched ) {
             continue;
         }
 
