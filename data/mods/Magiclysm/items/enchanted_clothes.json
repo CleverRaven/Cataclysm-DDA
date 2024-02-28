@@ -149,7 +149,7 @@
     "id": "xs_gambeson_parabolan",
     "//": "surface area of XL body assumed to be 75% size and materials used are also 75% as much.",
     "type": "ARMOR",
-    "name": { "str": "XS wool gambeson" },
+    "name": { "str": "XS parabolan wool gambeson" },
     "copy-from": "gambeson_parabolan",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
