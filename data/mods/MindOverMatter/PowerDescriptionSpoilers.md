@@ -105,7 +105,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 5500, minus 205 per level to a minimum of 2250<br />
 *Channeling Time*: 175 moves, minus 5.5 moves per level to a minimum of 100<br />
 *Effects*: Adds +1 Perception and +5 Speed, plus 1 Perception per 5 levels and plus 1 Speed per level (to a maximum bonus of +30 speed).<br />
-*Prerequisites*: Flexibility 8 *or* Burst of Speed 8, Physical Enhancement 6, Adrenaline Trigger 6<br />
+*Prerequisites*: Flexibility 8 *or* Burst of Speed 8, Physical Enhancement 6, Adrenaline Trigger 8<br />
 
 ## Sealed System
 *Difficulty*: 7<br />
