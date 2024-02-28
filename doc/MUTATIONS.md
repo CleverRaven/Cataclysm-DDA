@@ -94,7 +94,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
-  "cut_dmg_bonus": 3,                         // Bonus to unarmed cut damage (default: 0).
   "pierce_dmg_bonus": 3,                      // Bonus to unarmed pierce damage (default: 0.0).
   "bash_dmg_bonus": 3,                        // Bonus to unarmed bash damage (default: 0).
   "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).

@@ -62,7 +62,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 4,
-    "cut_dmg_bonus": 10,
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 } ] } ],
     "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
     "valid": false,

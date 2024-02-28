@@ -1343,7 +1343,6 @@ static void roll_melee_damage_internal( const Character &u, const damage_type_id
                     bonus_dmg = mut->bash_dmg_bonus;
                     bonus_rand = mut->rand_bash_bonus;
                 } else if( dt == damage_cut ) {
-                    bonus_dmg = mut->cut_dmg_bonus;
                     bonus_rand = mut->rand_cut_bonus;
                 } else if( dt == damage_stab ) {
                     bonus_dmg = mut->pierce_dmg_bonus;
