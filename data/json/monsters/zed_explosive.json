@@ -377,7 +377,6 @@
         "monster_message": "A bombardier boomer explodes!"
       }
     ],
-    "death_drops": "explode_zed",
     "death_function": {
       "effect": { "id": "death_boomer", "hit_self": true, "min_level": 4 },
       "message": "A %s explodes!",
