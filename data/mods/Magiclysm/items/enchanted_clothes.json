@@ -104,7 +104,7 @@
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "light_gray",
-    "warmth": 5,
+    "warmth": 6,
     "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
