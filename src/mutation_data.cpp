@@ -77,24 +77,6 @@ static void extract_mod(
     }
 }
 
-static void load_mutation_mods(
-    const JsonObject &jsobj, const std::string &member,
-    std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> &mods )
-{
-    if( jsobj.has_object( member ) ) {
-        JsonObject j = jsobj.get_object( member );
-        bool active = false;
-        if( member == "active_mods" ) {
-            active = true;
-        }
-        //                   json field             type key
-        extract_mod( j, mods, "str_mod",     active, "STR" );
-        extract_mod( j, mods, "dex_mod",     active, "DEX" );
-        extract_mod( j, mods, "per_mod",     active, "PER" );
-        extract_mod( j, mods, "int_mod",     active, "INT" );
-    }
-}
-
 void mutation_category_trait::load( const JsonObject &jsobj )
 {
     mutation_category_trait new_category;
@@ -461,10 +443,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
     }
-
-    load_mutation_mods( jo, "passive_mods", mods );
-    /* Not currently supported due to inability to save active mutation state
-    load_mutation_mods(jsobj, "active_mods", new_mut.mods); */
 
     optional( jo, was_loaded, "prereqs", prereqs, trait_reader{} );
     optional( jo, was_loaded, "prereqs2", prereqs2, trait_reader{} );

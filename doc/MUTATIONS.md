@@ -141,10 +141,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
   "prevented_by": [ "LEAVES2" ],            // Can't mutate toward this mutation if you have the listed one.
-  "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
-    "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
-    "str_mod": 2
-  },
   "wet_protection": [ { "part": "head", "good": 1 } ],    // Wet Protection on specific bodyparts.  Possible values: "neutral/good/ignored".  Good increases pos and cancels neg, neut cancels neg, ignored cancels both.
   "vitamin_rates": [ [ "vitC", -1200 ] ],     // How much extra vitamins do you consume, one point per this many seconds.  Negative values mean production.
   "vitamins_absorb_multi": [                  // Multiplier of vitamin absorption based on material.  "all" includes every material.  Supports multiple materials.

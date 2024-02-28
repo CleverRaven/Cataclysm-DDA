@@ -454,7 +454,7 @@
       ]
     ],
     "transform": { "target": "JEKYLL", "msg_transform": "The anger subsides.", "active": false, "moves": 10 },
-    "passive_mods": { "int_mod": -8, "str_mod": 3 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 }, { "value": "INTELLIGENCE", "add": -8 } ] } ],
     "ugliness": 8,
     "visibility": 8,
     "social_modifiers": { "intimidate": 4 }
@@ -2331,7 +2331,7 @@
     "prereqs": [ "PER_UP_4" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
-    "passive_mods": { "per_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -3139,7 +3139,10 @@
     "points": 2,
     "visibility": 8,
     "ugliness": 5,
-    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 4 } ] } ],
+    "enchantments": [
+      { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 4 } ] },
+      { "values": [ { "value": "DEXTERITY", "add": -1 } ] }
+    ],
     "description": "You've grown a sclerotin exoskeleton, akin to an organic suit of platemail.  It provides excellent physical protection and makes your punches hit harder, but reduces your Dexterity by 1 and encumbers all body parts but your eyes and mouth.  Greatly reduces wet effects.",
     "types": [ "BODY_ARMOR" ],
     "prereqs": [ "CHITIN2" ],
@@ -3157,8 +3160,7 @@
       { "part": "hand_l", "ignored": 3 },
       { "part": "hand_r", "ignored": 3 },
       { "part": "torso", "ignored": 26 }
-    ],
-    "passive_mods": { "dex_mod": -1 }
+    ]
   },
   {
     "type": "mutation",
@@ -3211,7 +3213,7 @@
       { "part": "hand_r", "ignored": 9 },
       { "part": "torso", "ignored": 34 }
     ],
-    "passive_mods": { "dex_mod": -2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ]
   },
   {
     "type": "mutation",
@@ -3237,7 +3239,7 @@
       { "part": "hand_r", "ignored": 6 },
       { "part": "torso", "ignored": 20 }
     ],
-    "passive_mods": { "dex_mod": -1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4191,7 +4193,7 @@
     "cancels": [ "HUMAN_ARMS", "HUMAN_LEGS" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_ELFA" ],
     "category": [ "SLIME", "ELFA" ],
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4208,8 +4210,11 @@
     "threshreq": [ "THRESH_SLIME" ],
     "leads_to": [ "AMORPHOUS" ],
     "category": [ "SLIME" ],
-    "passive_mods": { "dex_mod": 3, "str_mod": -2 },
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": 3 } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "MAX_HP", "add": 3 }, { "value": "STRENGTH", "add": -2 }, { "value": "DEXTERITY", "add": 3 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4227,8 +4232,11 @@
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
     "flags": [ "PSEUDOPOD_GRASP" ],
-    "passive_mods": { "dex_mod": 4, "str_mod": -4 },
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": 6 } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "MAX_HP", "add": 6 }, { "value": "STRENGTH", "add": -4 }, { "value": "DEXTERITY", "add": 4 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -4239,7 +4247,7 @@
     "description": "Your extremities have gained strength but lost fine motor skills.  -1 Dexterity +2 Strength.",
     "changes_to": [ "GASTROPOD_EXTREMITY2" ],
     "category": [ "GASTROPOD" ],
-    "passive_mods": { "dex_mod": -1, "str_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4570,7 +4578,7 @@
     "//": "Trading X for Y usually means reducing X to gain Y, so I switched the order.",
     "threshreq": [ "THRESH_TROGLOBITE" ],
     "category": [ "TROGLOBITE" ],
-    "passive_mods": { "str_mod": 2, "dex_mod": -2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -2 } ] } ]
   },
   {
     "type": "mutation",
@@ -5343,9 +5351,8 @@
     ],
     "cancels": [ "PACIFIST" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
-    "passive_mods": { "int_mod": -1 },
     "flags": [ "PRED3" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 2.0 } ] } ]
+    "enchantments": [ { "values": [ { "value": "COMBAT_CATCHUP", "multiply": 2.0 }, { "value": "INTELLIGENCE", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -5360,9 +5367,8 @@
     "prereqs2": [ "PRED3" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_RAPTOR", "THRESH_CHIMERA", "THRESH_URSINE" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE" ],
-    "passive_mods": { "int_mod": -3 },
     "flags": [ "PRED4" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "COMBAT_CATCHUP", "multiply": 3.0 } ] } ]
+    "enchantments": [ { "values": [ { "value": "COMBAT_CATCHUP", "multiply": 3.0 }, { "value": "INTELLIGENCE", "add": -3 } ] } ]
   },
   {
     "type": "mutation",
@@ -5810,7 +5816,7 @@
     "prereqs2": [ "DENSE_BONES" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
-    "passive_mods": { "str_mod": 2 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
     "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
@@ -5828,7 +5834,7 @@
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_CHIMERA", "THRESH_CRUSTACEAN" ],
     "changes_to": [ "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
-    "passive_mods": { "str_mod": 2 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
     "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
   },
@@ -5847,8 +5853,7 @@
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "changes_to": [ "HUGE_OK" ],
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
-    "passive_mods": { "str_mod": 4 },
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 } ] } ],
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 }, { "value": "STRENGTH", "add": 4 } ] } ],
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
@@ -5870,7 +5875,7 @@
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CRUSTACEAN" ],
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
-    "passive_mods": { "str_mod": 4 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 } ] } ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "stomach_size_multiplier": 2.0,
@@ -5898,7 +5903,7 @@
       "URSINE",
       "CRUSTACEAN"
     ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -5910,7 +5915,7 @@
     "prereqs": [ "STR_UP" ],
     "changes_to": [ "STR_UP_3", "STR_ALPHA" ],
     "category": [ "LIZARD", "CATTLE", "PLANT", "ALPHA", "CHIMERA", "LUPINE", "TROGLOBITE", "BEAST", "URSINE", "CRUSTACEAN" ],
-    "passive_mods": { "str_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -5932,7 +5937,7 @@
       "THRESH_CATTLE",
       "THRESH_CRUSTACEAN"
     ],
-    "passive_mods": { "str_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -5946,7 +5951,7 @@
     "prereqs": [ "STR_UP_3" ],
     "threshreq": [ "THRESH_BEAST", "THRESH_URSINE", "THRESH_CRUSTACEAN" ],
     "category": [ "BEAST", "URSINE", "CRUSTACEAN" ],
-    "passive_mods": { "str_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -5958,7 +5963,7 @@
     "prereqs": [ "STR_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "str_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -5984,7 +5989,7 @@
       "CEPHALOPOD",
       "FISH"
     ],
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -6010,7 +6015,7 @@
       "ALPHA",
       "CHIROPTERAN"
     ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6023,7 +6028,7 @@
     "changes_to": [ "DEX_UP_4" ],
     "category": [ "BIRD", "ELFA", "FELINE", "CEPHALOPOD", "FISH", "CHIROPTERAN" ],
     "threshreq": [ "THRESH_BIRD", "THRESH_ELFA", "THRESH_FELINE", "THRESH_CEPHALOPOD", "THRESH_FISH", "THRESH_CHIROPTERAN" ],
-    "passive_mods": { "dex_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -6035,7 +6040,7 @@
     "prereqs": [ "DEX_UP_3" ],
     "threshreq": [ "THRESH_CEPHALOPOD", "THRESH_FISH" ],
     "category": [ "CEPHALOPOD", "FISH" ],
-    "passive_mods": { "dex_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -6047,7 +6052,7 @@
     "prereqs": [ "DEX_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6058,7 +6063,7 @@
     "types": [ "INT" ],
     "changes_to": [ "INT_UP_2", "INT_SLIME" ],
     "category": [ "SLIME", "ALPHA", "ELFA", "CEPHALOPOD" ],
-    "passive_mods": { "int_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -6070,7 +6075,7 @@
     "prereqs": [ "INT_UP" ],
     "changes_to": [ "INT_UP_3", "INT_ALPHA" ],
     "category": [ "CEPHALOPOD", "ALPHA" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6085,7 +6090,7 @@
     "changes_to": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ],
-    "passive_mods": { "int_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -6099,7 +6104,7 @@
     "prereqs": [ "INT_UP_3" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
     "category": [ "CEPHALOPOD" ],
-    "passive_mods": { "int_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -6111,7 +6116,7 @@
     "prereqs": [ "INT_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6144,7 +6149,7 @@
     "types": [ "PER" ],
     "changes_to": [ "PER_UP_2" ],
     "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER" ],
-    "passive_mods": { "per_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -6156,7 +6161,7 @@
     "prereqs": [ "PER_UP" ],
     "changes_to": [ "PER_UP_3", "PER_ALPHA" ],
     "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SPIDER" ],
-    "passive_mods": { "per_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6169,7 +6174,7 @@
     "changes_to": [ "PER_UP_4" ],
     "threshreq": [ "THRESH_ELFA", "THRESH_RAPTOR", "THRESH_BIRD" ],
     "category": [ "ELFA", "RAPTOR", "BIRD" ],
-    "passive_mods": { "per_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -6182,7 +6187,7 @@
     "leads_to": [ "BIRD_EYE" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
-    "passive_mods": { "per_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -6194,7 +6199,7 @@
     "prereqs": [ "PER_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "passive_mods": { "per_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6212,8 +6217,11 @@
     "prereqs2": [ "AMORPHOUS" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
-    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": { "math": [ "rng(-0.75, 1)" ] } } ] } ],
-    "passive_mods": { "per_mod": -8 }
+    "enchantments": [
+      {
+        "values": [ { "value": "HEARING_MULT", "multiply": { "math": [ "rng(-0.75, 1)" ] } }, { "value": "PERCEPTION", "add": -8 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6231,7 +6239,7 @@
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
     "flags": [ "EYE_MEMBRANE" ],
-    "passive_mods": { "per_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -6457,7 +6465,7 @@
     "category": [ "GASTROPOD", "CRUSTACEAN" ],
     "restricts_gear": [ "eyes" ],
     "allow_soft_gear": true,
-    "passive_mods": { "per_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -6472,7 +6480,7 @@
     "category": [ "GASTROPOD" ],
     "armor": [ { "parts": "eyes", "cut": 3, "bash": 1 } ],
     "restricts_gear": [ "eyes" ],
-    "passive_mods": { "per_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6487,7 +6495,7 @@
     "category": [ "CRUSTACEAN" ],
     "restricts_gear": [ "eyes" ],
     "allow_soft_gear": true,
-    "passive_mods": { "per_mod": 1 },
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 1 } ] } ],
     "flags": [ "EYE_MEMBRANE" ]
   },
   {
@@ -7197,7 +7205,7 @@
     "changes_to": [ "WINGS_BAT" ],
     "wet_protection": [ { "part": "hand_l", "good": 3 }, { "part": "hand_r", "good": 3 } ],
     "encumbrance_covered": [ [ "hand_l", 50 ], [ "hand_r", 50 ] ],
-    "passive_mods": { "dex_mod": -1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -7965,7 +7973,7 @@
     "threshreq": [ "THRESH_INSECT", "THRESH_SPIDER" ],
     "category": [ "INSECT", "SPIDER" ],
     "restricts_gear": [ "torso" ],
-    "passive_mods": { "dex_mod": -2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -2 } ] } ]
   },
   {
     "type": "mutation",
@@ -7999,7 +8007,7 @@
     "threshreq": [ "THRESH_SPIDER" ],
     "category": [ "SPIDER" ],
     "restricts_gear": [ "torso" ],
-    "passive_mods": { "dex_mod": -4 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -4 } ] } ]
   },
   {
     "type": "mutation",
@@ -8054,7 +8062,7 @@
         "hardcoded_effect": true
       }
     ],
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -8093,7 +8101,7 @@
         "hardcoded_effect": true
       }
     ],
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -8131,7 +8139,7 @@
         "hardcoded_effect": true
       }
     ],
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -9748,7 +9756,7 @@
     "description": "You can hear your heartbeat in your ears, feel the blood sloshing around in your veins.  The uneven hitches in your breath, the aches in your joints, the rumbling of your stomach.  It's nasty and messy and ugly.  And you are extremely grateful for that.",
     "starting_trait": false,
     "valid": false,
-    "passive_mods": { "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
