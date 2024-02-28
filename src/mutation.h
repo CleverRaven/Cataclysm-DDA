@@ -228,8 +228,6 @@ struct mutation_branch {
         std::optional<float> hp_modifier_secondary = std::nullopt;
         // Flat bonus/penalty to hp.
         std::optional<float> hp_adjustment = std::nullopt;
-        // Modify strength stat without changing HP
-        std::optional<float> str_modifier = std::nullopt;
         //melee bonuses
         int cut_dmg_bonus = 0;
         float pierce_dmg_bonus = 0.0f;
