@@ -1,0 +1,152 @@
+[
+  {
+    "type": "snippet",
+    "category": "<sketch_concept_description>",
+    "text": [
+      { "id": "sketch_concept_description_0001", "text": "<physical_build_adjective> <character_gender_adjective>" },
+      { "id": "sketch_concept_description_0002", "text": "<physical_build_adjective> <character_gender_adjective>" },
+      {
+        "id": "sketch_concept_description_0003",
+        "text": "<physical_build_adjective>, <physical_appearance_adjective> <character_gender_adjective>"
+      },
+      {
+        "id": "sketch_concept_description_0004",
+        "text": "<physical_appearance_adjective> <character_gender_adjective>"
+      },
+      {
+        "id": "sketch_concept_description_0005",
+        "text": "<physical_appearance_adjective> anthropomorphic <nonhuman_species_noun> <character_gender_adjective>"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<physical_build_adjective>",
+    "//": "More objective adjectives of someone's physical build.",
+    "text": [
+      { "id": "physical_build_adjective_0001", "text": "buff" },
+      { "id": "physical_build_adjective_0002", "text": "scrawny" },
+      { "id": "physical_build_adjective_0003", "text": "tall" },
+      { "id": "physical_build_adjective_0004", "text": "short" },
+      { "id": "physical_build_adjective_0005", "text": "diminutive" },
+      { "id": "physical_build_adjective_0006", "text": "broad" },
+      { "id": "physical_build_adjective_0007", "text": "stocky" },
+      { "id": "physical_build_adjective_0008", "text": "thick" },
+      { "id": "physical_build_adjective_0009", "text": "strong" },
+      { "id": "physical_build_adjective_0010", "text": "weak" },
+      { "id": "physical_build_adjective_0011", "text": "well-built" },
+      { "id": "physical_build_adjective_0012", "text": "plump" },
+      { "id": "physical_build_adjective_0013", "text": "thin" },
+      { "id": "physical_build_adjective_0014", "text": "fat" },
+      { "id": "physical_build_adjective_0015", "text": "slim" },
+      { "id": "physical_build_adjective_0016", "text": "petite" },
+      { "id": "physical_build_adjective_0017", "text": "athletic" },
+      { "id": "physical_build_adjective_0018", "text": "lanky" },
+      { "id": "physical_build_adjective_0019", "text": "stout" },
+      { "id": "physical_build_adjective_0020", "text": "curvy" },
+      { "id": "physical_build_adjective_0021", "text": "slender" },
+      { "id": "physical_build_adjective_0022", "text": "muscular" },
+      { "id": "physical_build_adjective_0023", "text": "chubby" },
+      { "id": "physical_build_adjective_0024", "text": "skinny" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<physical_appearance_adjective>",
+    "//": "This is a biased description of how someone looks to you, like pretty.",
+    "text": [
+      { "id": "physical_appearance_adjective_0001", "text": "beautiful" },
+      { "id": "physical_appearance_adjective_0002", "text": "handsome" },
+      { "id": "physical_appearance_adjective_0003", "text": "sexy" },
+      { "id": "physical_appearance_adjective_0004", "text": "ugly" },
+      { "id": "physical_appearance_adjective_0005", "text": "attractive" },
+      { "id": "physical_appearance_adjective_0006", "text": "stunning" },
+      { "id": "physical_appearance_adjective_0007", "text": "gorgeous" },
+      { "id": "physical_appearance_adjective_0008", "text": "pretty" },
+      { "id": "physical_appearance_adjective_0009", "text": "cute" },
+      { "id": "physical_appearance_adjective_0010", "text": "lovely" },
+      { "id": "physical_appearance_adjective_0011", "text": "elegant" },
+      { "id": "physical_appearance_adjective_0012", "text": "charming" },
+      { "id": "physical_appearance_adjective_0013", "text": "striking" },
+      { "id": "physical_appearance_adjective_0014", "text": "radiant" },
+      { "id": "physical_appearance_adjective_0015", "text": "dashing" },
+      { "id": "physical_appearance_adjective_0016", "text": "sophisticated" },
+      { "id": "physical_appearance_adjective_0017", "text": "exquisite" },
+      { "id": "physical_appearance_adjective_0018", "text": "alluring" },
+      { "id": "physical_appearance_adjective_0019", "text": "fashionable" },
+      { "id": "physical_appearance_adjective_0020", "text": "trendy" },
+      { "id": "physical_appearance_adjective_0021", "text": "stylish" },
+      { "id": "physical_appearance_adjective_0022", "text": "classy" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<character_gender_adjective>",
+    "//": "Think describing someone you saw on the street passing by.",
+    "text": [
+      { "id": "character_gender_adjective_0001", "text": "man" },
+      { "id": "character_gender_adjective_0002", "text": "woman" },
+      { "id": "character_gender_adjective_0004", "text": "girl" },
+      { "id": "character_gender_adjective_0005", "text": "boy" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<nonhuman_species_noun>",
+    "text": [
+      { "id": "nonhuman_species_noun_0001", "text": "shark" },
+      { "id": "nonhuman_species_noun_0002", "text": "wolf" },
+      { "id": "nonhuman_species_noun_0003", "text": "fox" },
+      { "id": "nonhuman_species_noun_0004", "text": "dog" },
+      { "id": "nonhuman_species_noun_0005", "text": "snake" },
+      { "id": "nonhuman_species_noun_0006", "text": "chicken" },
+      { "id": "nonhuman_species_noun_0007", "text": "otter" },
+      { "id": "nonhuman_species_noun_0008", "text": "cat" },
+      { "id": "nonhuman_species_noun_0009", "text": "lion" },
+      { "id": "nonhuman_species_noun_0010", "text": "leopard" },
+      { "id": "nonhuman_species_noun_0011", "text": "falcon" },
+      { "id": "nonhuman_species_noun_0012", "text": "pigeon" },
+      { "id": "nonhuman_species_noun_0013", "text": "hawk" },
+      { "id": "nonhuman_species_noun_0014", "text": "goose" },
+      { "id": "nonhuman_species_noun_0015", "text": "fish" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<random_character_pose>",
+    "text": [
+      { "id": "random_character_pose_0001", "text": "drawn from various perspectives across the page" },
+      { "id": "random_character_pose_0002", "text": "standing proudly, with head held high" },
+      { "id": "random_character_pose_0003", "text": "sitting at a table" },
+      { "id": "random_character_pose_0004", "text": "sitting upright in a chair" },
+      { "id": "random_character_pose_0005", "text": "laying down on a sofa" },
+      { "id": "random_character_pose_0006", "text": "smiling at the viewer" },
+      { "id": "random_character_pose_0007", "text": "angrily shouting at an unknown subject" },
+      { "id": "random_character_pose_0008", "text": "angrily shouting at a <sketch_concept_description>" },
+      { "id": "random_character_pose_0009", "text": "casting magical powers of some sort" },
+      { "id": "random_character_pose_0010", "text": "gripping weapons, ready for battle" },
+      { "id": "random_character_pose_0011", "text": "taking a selfie with a <sketch_concept_description>" },
+      { "id": "random_character_pose_0012", "text": "gently embracing a <sketch_concept_description>" },
+      { "id": "random_character_pose_0013", "text": "kissing a <sketch_concept_description>" },
+      { "id": "random_character_pose_0014", "text": "staring at the viewer with a blank expression" },
+      { "id": "random_character_pose_0015", "text": "at a business meeting, dressed in a suit" },
+      { "id": "random_character_pose_0016", "text": "locked in bloody combat with a <sketch_concept_description>" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<artist_identifying_info>",
+    "text": [
+      {
+        "id": "artist_identifying_info_0001",
+        "text": "The artist's name is signed at the bottom in cursive, \"<full_name>\""
+      },
+      { "id": "artist_identifying_info_0002", "text": "The artist's name is written nearby, \"<full_name>\"" },
+      {
+        "id": "artist_identifying_info_0003",
+        "text": "This work was once signed, but the name has been smuged to illegibility"
+      },
+      { "id": "artist_identifying_info_0004", "text": "The artist's name is signed in blood, \"<given_name>\"" }
+    ]
+  }
+]

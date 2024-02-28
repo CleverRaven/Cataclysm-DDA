@@ -1567,5 +1567,38 @@
     "to_hit": -1,
     "melee_damage": { "cut": 6 },
     "weapon_category": [ "SHIVS" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sketch",
+    "copy-from": "paper",
+    "name": { "str_sp": "sketch" },
+    "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
+    "price": 0,
+    "price_postapoc": 500,
+    "variants": [
+      {
+        "id": "sketch_goofy_doodles",
+        "name": { "str": "goofy doodles" },
+        "description": "This one is a collection of assorted doodles of goofy cartoon characters in varying styles.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "sketch_dark_doodles",
+        "name": { "str": "disturbing sketches" },
+        "description": "This one is a collection of assorted doodles, many have dark imagery and shadowy figures.  It's kind of distrubing.",
+        "append": true,
+        "weight": 1
+      },
+      {
+        "id": "sketch_concept_doodles",
+        "name": { "str": "concept sketches" },
+        "description": "This one is a <sketch_concept_description> <random_character_pose>.  <artist_identifying_info>.  It would appear that this is some sort of concept art.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      }
+    ]
   }
 ]
