@@ -315,6 +315,7 @@ class input_context
                          kb_menu_status status );
         /**
          * Remove an action.
+         * Prompt the user to resolve conflicts if they arise.
          * @return true if keybinding changed
          */
         bool action_remove( const std::string &name, const std::string &action_id, bool is_local,
@@ -427,13 +428,23 @@ class input_context
          */
         std::string get_conflicts( const input_event &event, const std::string &ignore_action ) const;
         /**
-         * Clear an input_event from all conflicting keybindings that are
-         * registered by this input_context.
+         * Clear an input_event from all conflicting keybindings (excluding conflicts for `ignore_action`) that are
+         * registered by this input_context in default and current context (see `category`).
          *
          * @param event The input event to be cleared from conflicting
          * keybindings.
          */
-        void clear_conflicting_keybindings( const input_event &event );
+        void clear_conflicting_keybindings( const input_event &event, const std::string &ignore_action );
+        /**
+         * Find all conflicts for all `events` (excluding conflicts for `ignore_action`).
+         * If there are any, prompt the user "Should they be cleared?".
+         * Then, clear all input_events from all conflicting keybindings (actions)
+         * in both the default and current context (see `category`).
+         *
+         * @param events The input events to be cleared from conflicting actions
+         * @return true if cleared (user agreed) or if no conflicts found
+         */
+        bool resolve_conflicts( const std::vector<input_event> &events, const std::string &ignore_action );
         /**
          * Filter a vector of strings by a phrase, returning only strings that contain the phrase.
          *

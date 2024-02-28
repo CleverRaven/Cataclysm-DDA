@@ -110,7 +110,8 @@ std::string input_context::get_conflicts(
     } );
 }
 
-void input_context::clear_conflicting_keybindings( const input_event &event )
+void input_context::clear_conflicting_keybindings( const input_event &event,
+        const std::string &ignore_action )
 {
     // The default context is always included to cover cases where the same
     // keybinding exists for the same action in both the global and local
@@ -118,7 +119,10 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     input_manager::t_actions &default_actions = inp_mngr.action_contexts[default_context_id];
     input_manager::t_actions &category_actions = inp_mngr.action_contexts[category];
 
-    for( const auto &registered_action : registered_actions ) {
+    for( const std::string &registered_action : registered_actions ) {
+        if( registered_action == ignore_action ) {
+            continue;
+        }
         input_manager::t_actions::iterator default_action = default_actions.find( registered_action );
         input_manager::t_actions::iterator category_action = category_actions.find( registered_action );
         if( default_action != default_actions.end() ) {
@@ -751,6 +755,47 @@ void keybindings_ui::init()
     width = TERMX >= 100 ? 100 : 80;
 }
 #endif
+bool input_context::resolve_conflicts( const std::vector<input_event> &events,
+                                       const std::string &ignore_action )
+{
+    // FIND CONFLICTS
+    std::map<std::string, std::vector<input_event>> conflicting_actions_events;
+    // for events we want to add
+    for( const input_event &event : events ) {
+        const std::string conflicting_action = get_conflicts( event, ignore_action );
+        const bool has_conflicts = !conflicting_action.empty();
+        if( has_conflicts ) {
+            conflicting_actions_events[conflicting_action].emplace_back( event );
+        }
+    }
+    // HUMAN READABLE
+    std::string conflict_list;
+    for( const auto &[action, events] : conflicting_actions_events ) {
+        conflict_list += action + ": ";
+        std::string sep;
+        for( const input_event &event : events ) {
+            conflict_list += sep + event.long_description();
+            sep = ", ";
+        }
+        conflict_list += "\n";
+    }
+    // RESOLVE CONFLICTS
+    if( !conflicting_actions_events.empty() &&
+        !query_yn(
+            _( "Conflict.  The following keybinding(s) will be removed from the respective action(s):\n" )
+            + conflict_list + "\n"
+            + _( "Continue?" ) )
+      ) {
+        return false;
+    }
+    for( const auto &action_events : conflicting_actions_events ) {
+        for( const input_event &event : action_events.second ) {
+            clear_conflicting_keybindings( event, ignore_action );
+        }
+    }
+    return true;
+}
+
 
 bool input_context::action_remove( const std::string &name, const std::string &action_id,
                                    bool is_local, bool is_empty )
@@ -768,7 +813,17 @@ bool input_context::action_remove( const std::string &name, const std::string &a
     // If it's global, reset the global actions.
     std::string category_to_access = is_local ? category : default_context_id;
 
-    inp_mngr.remove_input_for_action( action_id, category_to_access );
+    // Clear potential conflicts for keys this would uncover
+    input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
+    bool uncovered_global = inp_mngr.remove_input_for_action( action_id, category_to_access );
+    if( uncovered_global ) {
+        const std::vector<input_event> &conflicting_events = inp_mngr.get_or_create_event_list( action_id,
+                default_context_id );
+        if( !resolve_conflicts( conflicting_events, action_id ) ) {
+            inp_mngr.action_contexts.swap( old_action_contexts );
+            return false;
+        }
+    }
     return true;
 }
 
@@ -789,17 +844,8 @@ bool input_context::action_add( const std::string &name, const std::string &acti
         return false;
     }
 
-    const std::string conflicts = get_conflicts( new_event, action_id );
-    const bool has_conflicts = !conflicts.empty();
-
-    if( has_conflicts ) {
-        bool resolve_conflicts = query_yn(
-                                     _( "This key conflicts with %s. Remove this key from the conflicting command(s), and continue?" ),
-                                     conflicts.c_str() );
-        if( !resolve_conflicts ) {
-            return false;
-        }
-        clear_conflicting_keybindings( new_event );
+    if( !resolve_conflicts( { new_event }, action_id ) ) {
+        return false;
     }
 
     // We might be adding a local or global action.
