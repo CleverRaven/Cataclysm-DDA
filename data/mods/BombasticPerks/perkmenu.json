@@ -734,10 +734,13 @@
           },
           { "set_string_var": "perk_bedtime_reader", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "Cannot have the Hates Books trait",
+            "set_string_var": "Cannot have the Hates Books or Illiterate traits",
             "target_var": { "context_val": "trait_requirement_description" }
           },
-          { "set_condition": "perk_condition", "condition": { "math": { "not": { "u_has_trait": "HATES_BOOKS" } } } }
+          {
+            "set_condition": "perk_condition",
+            "condition": { "math": { "and": [ { "not": { "u_has_trait": "HATES_BOOKS" } }, { "not": { "u_has_trait": "ILLITERATE" } } ] } }
+          }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
       },
