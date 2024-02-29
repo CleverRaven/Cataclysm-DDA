@@ -1579,22 +1579,39 @@
     "variants": [
       {
         "id": "sketch_goofy_doodles",
-        "name": { "str": "goofy doodles" },
+        "name": { "str": "goofy doodle" },
         "description": "This one is a collection of assorted doodles of goofy cartoon characters in varying styles.",
         "append": true,
         "weight": 1
       },
       {
         "id": "sketch_dark_doodles",
-        "name": { "str": "disturbing sketches" },
+        "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
         "description": "This one is a collection of assorted doodles, many have dark imagery and shadowy figures.  It's kind of distrubing.",
         "append": true,
         "weight": 1
       },
       {
+        "id": "sketch_dark_character_doodles",
+        "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
+        "description": "This one is a <sketch_concept_description> <random_character_pose_dark>.  <artist_identifying_info>.  It gives off a sense of unease.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
         "id": "sketch_concept_doodles",
-        "name": { "str": "concept sketches" },
+        "name": { "str": "concept sketch", "str_pl": "concept sketches" },
         "description": "This one is a <sketch_concept_description> <random_character_pose>.  <artist_identifying_info>.  It would appear that this is some sort of concept art.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "sketch_character_doodles",
+        "//": "This is supposed to be a more finished drawing than concept sketches above.",
+        "name": { "str": "character portrait", "str_pl": "character portrait" },
+        "description": "This one is a <sketch_concept_description> <random_character_pose>.  <artist_identifying_info>.  This looks to be painstakingly made, and is very high-quality.",
         "append": true,
         "expand_snippets": true,
         "weight": 1
