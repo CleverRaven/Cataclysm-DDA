@@ -94,8 +94,8 @@
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": "5 m",
-      "batch_time_factors": [ 90, 2 ],
-      "charges": 4,
+    "batch_time_factors": [ 90, 2 ],
+    "charges": 4,
     "//": "See pur_tablets item definition for documentation and discussion",
     "autolearn": true,
     "components": [ [ [ "water", 4 ] ], [ [ "pur_tablets", 1 ] ] ]
