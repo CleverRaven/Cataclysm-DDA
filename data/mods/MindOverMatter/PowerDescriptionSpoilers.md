@@ -166,7 +166,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 4 minutes 50 seconds to 16 minutes 20 seconds, plus 2 minutes 30 seconds to 4 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 1000<br />
 *Channeling Time*: 500 moves, minus 12 moves per level to a minimum of 250<br />
-*Effects*: Increases the psion's ability to read and retain information. The psion reads 33% faster and gains 0.15% additional XP per reading increment per power level.<br />
+*Effects*: Increases the psion's ability to read and retain information. The psion reads 20% faster, plus 2% per power level to a maximum of 60% faster, and gains 0.15% additional XP per reading increment per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Premonition (C)
