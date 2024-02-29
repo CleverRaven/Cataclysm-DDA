@@ -2441,5 +2441,13 @@
   {
     "id": "DRACULIN_VENOM",
     "type": "json_flag"
+  },
+  {
+    "id": "VENOM1",
+    "type": "json_flag"
+  },
+  {
+    "id": "VENOM2",
+    "type": "json_flag"
   }
 ]

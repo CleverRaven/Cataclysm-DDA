@@ -561,7 +561,9 @@
     "symbol": ";",
     "color": "dark_gray",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE" ],
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "techniques": [ "MANDIBLES_BITE", "MANDIBLES_BITE_NATURAL" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -576,7 +578,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "folding fangs" },
-    "description": "Your fangs have properly developed, and are prepared for the kill.",
+    "description": "Your fangs have properly developed, and are prepared for the kill.  They are easier to use against prey that is vulnerable or webbed.",
     "weight": "300 g",
     "volume": "200 ml",
     "price": 0,
@@ -585,7 +587,8 @@
     "symbol": ";",
     "color": "brown",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "NO_SALVAGE", "PROVIDES_TECHNIQUES" ],
+    "techniques": [ "FOLDING_FANGS_BITE", "FOLDING_FANGS_BITE_NATURAL" ],
     "armor": [
       {
         "material": [ { "type": "sclerotin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1584,6 +1587,31 @@
     }
   },
   {
+    "id": "integrated_sharkteeth",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "fangs" },
+    "description": "Rows of jagged teeth, essentially a biological chainsaw.  They're best used in deep water.",
+    "weight": "100 g",
+    "volume": "150 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "SHARKTEETH_BITE", "SHARKTEETH_BITE_NATURAL" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 5 } ],
+        "covers": [ "mouth" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
     "id": "integrated_fangs",
     "type": "ARMOR",
     "category": "armor",
@@ -1596,7 +1624,6 @@
     "material": [ "bone" ],
     "symbol": ",",
     "color": "white",
-    "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
     "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
@@ -1622,13 +1649,37 @@
     "material": [ "bone" ],
     "symbol": ",",
     "color": "white",
-    "warmth": 5,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
     "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL" ],
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "integrated_saber_teeth",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "saber teeth" },
+    "description": "A pair of enormous fangs, strong enough to punch through bone.",
+    "weight": "200 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "SABER_TEETH_BITE", "SABER_TEETH_BITE_NATURAL" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 10 } ],
         "covers": [ "mouth" ],
         "coverage": 0,
         "encumbrance": 0
