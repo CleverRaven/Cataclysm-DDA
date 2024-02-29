@@ -21,7 +21,7 @@
     "type": "enchantment",
     "id": "ench_giant_growth_size_bonuses",
     "condition": "ALWAYS",
-    "values": [ { "value": "MAX_HP", "multiply": 0.4 }, { "values": [ { "value": "STRENGTH", "add": 6 } ] } ]
+    "values": [ { "value": "MAX_HP", "multiply": 0.4 }, { "value": "STRENGTH", "add": 6 } ]
   },
   {
     "type": "mutation",
