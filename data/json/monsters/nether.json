@@ -1985,7 +1985,8 @@
     "symbol": "l",
     "color": "light_red",
     "default_faction": "nether",
-    "bodytype": "flying insect"
+    "bodytype": "flying insect",
+    "flags": [ "FLIES", "HIT_AND_RUN", "NO_BREATHE", "NO_FUNG_DMG", "SEES" ]
   },
   {
     "id": "mon_nether_unviable_root",
@@ -2001,7 +2002,8 @@
     "default_faction": "nether",
     "symbol": "v",
     "color": "gray",
-    "bodytype": "blob"
+    "bodytype": "blob",
+    "flags": [ "GRABS" ]
   },
   {
     "id": "mon_nether_unviable_stomper",
@@ -2017,7 +2019,8 @@
     "default_faction": "nether",
     "symbol": "e",
     "color": "blue",
-    "bodytype": "kangaroo"
+    "bodytype": "kangaroo",
+    "flags": [ "BASHES", "HEARS", "SEES", "LOUDMOVES" ]
   },
   {
     "id": "mon_nether_unviable_bug",
@@ -2033,7 +2036,8 @@
     "default_faction": "nether",
     "symbol": "a",
     "color": "pink",
-    "bodytype": "insect"
+    "bodytype": "insect",
+    "flags": [ "SEES", "HEARS" ]
   },
   {
     "id": "mon_nether_unviable_chunk",
@@ -2049,6 +2053,7 @@
     "symbol": "v",
     "color": "pink",
     "default_faction": "nether",
-    "bodytype": "blob"
+    "bodytype": "blob",
+    "flags": [ "WARM", "GRABS" ]
   }
 ]
