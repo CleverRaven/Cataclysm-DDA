@@ -642,7 +642,7 @@ void ImGui_ImplSDL2_NewFrame()
     }
 
     ImGui_ImplSDL2_UpdateMouseData();
-    ImGui_ImplSDL2_UpdateMouseCursor();
+    //ImGui_ImplSDL2_UpdateMouseCursor();
 
     // Update game controllers (if enabled and available)
     ImGui_ImplSDL2_UpdateGamepads();
