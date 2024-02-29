@@ -2618,7 +2618,7 @@ class Character : public Creature, public visitable
         std::vector<trait_id> get_mutations(
             bool include_hidden = true,
             bool ignore_enchantment = false,
-            std::function<bool( const mutation_branch & )> filter = nullptr ) const;
+            const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
         /** Same as above, but also grab the variant ids (or empty string if none) */
         std::vector<trait_and_var> get_mutations_variants( bool include_hidden = true,
                 bool ignore_enchantment = false ) const;

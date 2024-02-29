@@ -4227,7 +4227,8 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
                                  height_3d );
         }
     } else {
-        auto override_look = override_look_muts.at( 0 ).obj().override_look.value();
+        mutation_branch::OverrideLook override_look = override_look_muts.at(
+                    0 ).obj().override_look.value();
         if( ch.facing == FacingDirection::RIGHT ) {
             draw_from_id_string( override_look.id, override_look.tile_category, "", p, corner, 0, ll, false,
                                  height_3d );

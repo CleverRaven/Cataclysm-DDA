@@ -4461,7 +4461,7 @@ std::vector<trait_id> Character::get_base_traits() const
 }
 
 std::vector<trait_id> Character::get_mutations( bool include_hidden,
-        bool ignore_enchantments, std::function<bool( const mutation_branch & )> filter ) const
+        bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
     result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
