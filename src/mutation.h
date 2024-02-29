@@ -374,7 +374,7 @@ struct mutation_branch {
         struct OverrideLook {
             std::string id;
             std::string tile_category;
-            OverrideLook( const std::string &_id, std::string _tile_category )
+            OverrideLook( const std::string &_id, const std::string &_tile_category )
                 : id( _id ), tile_category( _tile_category ) {}
         };
         /** ID, tile category, and variant
