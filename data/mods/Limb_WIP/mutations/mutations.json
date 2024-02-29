@@ -94,7 +94,10 @@
     "purifiable": false,
     "vitamin_cost": 500,
     "enchantments": [
-      { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "lose": "head" }, { "gain": "eyes_insect_2" } ] }
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "eyes" }, { "lose": "head" }, { "gain": "eyes_dragonfly" }, { "gain": "head_dragonfly" } ]
+      }
     ]
   },
   {
