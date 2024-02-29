@@ -2061,6 +2061,10 @@
     "subtype": "distribution",
     "entries": [
       { "item": "fn57", "prob": 1, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
+      { "item": "m11", "prob": 5, "charges": [ 13, 13 ], "contents-group": "police_pistol_mods" },
+      { "item": "m17", "prob": 5, "charges": [ 17, 17 ], "contents-group": "police_pistol_mods" },
+      { "item": "m18", "prob": 5, "charges": [ 17, 17 ], "contents-group": "police_pistol_mods" },
+      { "item": "p226_9mm", "prob": 5, "charges": [ 17, 17 ], "contents-group": "police_pistol_mods" },
       { "item": "glock_19", "prob": 50, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
       { "item": "glock_17", "prob": 60, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
       { "item": "m9", "variant": "m9", "prob": 3, "charges": [ 0, 6 ], "contents-group": "police_pistol_mods" },
