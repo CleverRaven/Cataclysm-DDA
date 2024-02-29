@@ -94,7 +94,7 @@
     "id": "gambeson_parabolan",
     "type": "ARMOR",
     "name": { "str": "parabolan wool gambeson" },
-    "description": "A padded greatcoat assembled by quilting rarely available iridescent wool that was intended as standalone armor, this is half the thickness of a historical gambeson due to the quality of its material. Famed for its resistance to arrows in olden times, one might wonder how effective it might be against modern projectiles",
+    "description": "A padded greatcoat assembled by quilting rarely available iridescent wool that was intended as standalone armor, this is half the thickness of a historical gambeson due to the quality of its material.  Famed for its resistance to arrows in olden times, one might wonder how effective it might be against modern projectiles.",
     "weight": "7110 g",
     "volume": "3750 ml",
     "price": 400000,
