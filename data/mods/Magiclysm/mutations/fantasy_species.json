@@ -564,16 +564,7 @@
     "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it was considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
     "types": [ "TEETH" ],
     "category": [ "SPECIES_GOBLIN" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your teeth into %s!",
-        "attack_text_npc": "%1$s sinks their teeth into %2$s!",
-        "blocker_mutations": [ "FANGS", "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 6 }
-      }
-    ]
+    "integrated_armor": [ "integrated_goblin_teeth" ]
   },
   {
     "type": "mutation",

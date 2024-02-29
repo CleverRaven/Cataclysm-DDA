@@ -1,0 +1,11 @@
+[
+  {
+    "id": "integrated_goblin_teeth",
+    "copy-from": "integrated_fangs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "goblin teeth" },
+    "description": "A set of goblin teeth, small but needle-sharp.",
+    "techniques": [ "FANGS_BITE_GOBLIN" ]
+  }
+]
