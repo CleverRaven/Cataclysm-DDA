@@ -249,7 +249,7 @@
     "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "GUNLIGHT" ],
+    "flags": [ "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the light on.",
@@ -288,10 +288,8 @@
       "LIGHT_300",
       "CHARGEDIM",
       "TRADER_AVOID",
-      "BELT_CLIP",
       "WATER_BREAK",
       "HELMET_HEAD_ATTACHMENT",
-      "HEAD_STRAP_MOUNT",
       "GUNLIGHT"
     ]
   },
@@ -312,7 +310,7 @@
     "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": [ "battery" ],
-    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT", "GUNLIGHT" ],
+    "flags": [ "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the light on.",
@@ -360,10 +358,8 @@
       "LIGHT_300",
       "CHARGEDIM",
       "TRADER_AVOID",
-      "BELT_CLIP",
       "WATER_BREAK",
       "HELMET_HEAD_ATTACHMENT",
-      "HEAD_STRAP_MOUNT",
       "GUNLIGHT"
     ]
   },
@@ -397,10 +393,8 @@
       "LIGHT_500",
       "CHARGEDIM",
       "TRADER_AVOID",
-      "BELT_CLIP",
       "WATER_BREAK",
       "HELMET_HEAD_ATTACHMENT",
-      "HEAD_STRAP_MOUNT",
       "GUNLIGHT"
     ]
   },

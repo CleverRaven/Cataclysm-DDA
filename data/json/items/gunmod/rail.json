@@ -139,7 +139,7 @@
     "type": "GUNMOD",
     "//": "Based on the AN/PEQ-15.",
     "name": { "str": "laser aiming module" },
-    "description": "A military issued rail module that has a visible laser, as well an infrared laser/illuminator.",
+    "description": "A military-issued rail module that has a visible laser, as well an infrared laser/illuminator.",
     "weight": "213 g",
     "volume": "349 ml",
     "longest_side": "117 mm",
