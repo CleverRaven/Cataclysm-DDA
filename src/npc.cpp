@@ -1780,14 +1780,16 @@ int npc::indoor_voice() const
 
     // Don't wake up friends when using our indoor voice
     for( const auto &bunk_buddy : get_cached_friends() ) {
-        if( !( bunk_buddy.lock() && bunk_buddy.lock()->is_npc() ) ) {
+        Character *char_buddy = nullptr;
+        Creature *buddy = bunk_buddy.lock().get();
+        if( buddy ) {
+            char_buddy = dynamic_cast<Character *>( buddy );
+        }
+        if( !char_buddy ) {
             continue;
         }
-        if( !( bunk_buddy.lock() && bunk_buddy.lock()->is_avatar() ) ) {
-            continue;
-        }
-        if( dynamic_cast<const Character &>( *bunk_buddy.lock() ).has_effect( effect_sleep ) ) {
-            int distance_to_sleeper = rl_dist( pos(), bunk_buddy.lock().get()->pos() );
+        if( char_buddy->has_effect( effect_sleep ) ) {
+            int distance_to_sleeper = rl_dist( pos(), char_buddy->pos() );
             if( wanted_volume >= distance_to_sleeper ) {
                 // Speak just quietly enough to not disturb anyone
                 wanted_volume = distance_to_sleeper - 1;
