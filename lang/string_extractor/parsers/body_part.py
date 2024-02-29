@@ -9,6 +9,8 @@ def parse_body_part(json, origin):
     if "name" in json:
         name = get_singular_name(json["name"])
         write_text(json["name"], origin, comment="Name of body part")
+    else:
+        name = json["id"]
 
     if "name_multiple" in json:
         write_text(json["name_multiple"], origin, comment="Name of body part")
