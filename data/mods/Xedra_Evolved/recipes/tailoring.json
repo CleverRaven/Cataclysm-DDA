@@ -132,7 +132,7 @@
     "result": "sleeveless_trenchcoat_glimmer_fur",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "id_suffix": "from_trenchcoat_glimmer_fur",
+    "id_suffix": "from_trenchcoat_fur",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
