@@ -215,6 +215,8 @@ jobs:
       - name: Install dependencies (Linux)
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && !matrix.wasm
         run: |
+          sudo apt-get update
+          sudo apt-get install libsdl2-dev
           git clone https://github.com/libsdl-org/SDL.git --branch release-2.0.20 --depth 1
           cd SDL
           mkdir build
@@ -223,7 +225,6 @@ jobs:
           make -j$((`nproc`+0))
           sudo make install
           cp ../LICENSE.txt ${{ github.workspace }}/LICENSE-SDL.txt
-          sudo apt-get update
           sudo apt-get install libncursesw5-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
       - name: Install Emscripten (WebAssembly)
