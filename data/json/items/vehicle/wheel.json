@@ -496,6 +496,25 @@
     "melee_damage": { "bash": 6 }
   },
   {
+    "id": "wheel_caster_large",
+    "category": "veh_parts",
+    "type": "WHEEL",
+    "name": { "str": "set of casters", "str_pl": "sets of casters" },
+    "description": "A set of casters, like you'd find on a shopping cart.",
+    "weight": "1500 g",
+    "volume": "1250 ml",
+    "longest_side": "102 mm",
+    "price": 14000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 4,
+    "width": 1,
+    "melee_damage": { "bash": 6 }
+  },
+  {
     "id": "wheel_10",
     "category": "veh_parts",
     "type": "WHEEL",
