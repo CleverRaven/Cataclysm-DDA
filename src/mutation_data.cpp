@@ -363,13 +363,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         std::string override_look_tile_category;
         mandatory( jv, was_loaded, "id", override_look_id );
         mandatory( jv, was_loaded, "tile_category", override_look_tile_category );
-        auto it = to_TILE_CATEGORY.find( override_look_tile_category );
-        if( it == to_TILE_CATEGORY.end() ) {
-            debugmsg( "invalid tile category %s", override_look_tile_category );
-            override_look.emplace( override_look_id, TILE_CATEGORY::NONE );
-        } else {
-            override_look.emplace( override_look_id, it->second );
-        }
+        override_look.emplace( override_look_id, override_look_tile_category );
     }
     if( jo.has_object( "spawn_item" ) ) {
         JsonObject si = jo.get_object( "spawn_item" );

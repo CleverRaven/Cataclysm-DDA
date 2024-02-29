@@ -4229,11 +4229,18 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
     } else {
         mutation_branch::OverrideLook override_look = override_look_muts.at(
                     0 ).obj().override_look.value();
+        TILE_CATEGORY category;
+        if( to_TILE_CATEGORY.find( override_look.tile_category ) != to_TILE_CATEGORY.end() ) {
+            category = to_TILE_CATEGORY.at( override_look.tile_category );
+        } else {
+            debugmsg( "invalid tile category %s", override_look.tile_category );
+            category = TILE_CATEGORY::NONE;
+        }
         if( ch.facing == FacingDirection::RIGHT ) {
-            draw_from_id_string( override_look.id, override_look.tile_category, "", p, corner, 0, ll, false,
+            draw_from_id_string( override_look.id, category, "", p, corner, 0, ll, false,
                                  height_3d );
         } else if( ch.facing == FacingDirection::LEFT ) {
-            draw_from_id_string( override_look.id, override_look.tile_category, "", p, corner, -1, ll, false,
+            draw_from_id_string( override_look.id, category, "", p, corner, -1, ll, false,
                                  height_3d );
         }
     }

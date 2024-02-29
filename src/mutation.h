@@ -15,7 +15,6 @@
 
 #include "calendar.h"
 #include "character.h"
-#include "cata_tiles.h"
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
@@ -374,8 +373,8 @@ struct mutation_branch {
 
         struct OverrideLook {
             std::string id;
-            TILE_CATEGORY tile_category;
-            OverrideLook( const std::string &_id, TILE_CATEGORY _tile_category )
+            std::string tile_category;
+            OverrideLook( const std::string &_id, std::string _tile_category )
                 : id( _id ), tile_category( _tile_category ) {}
         };
         /** ID, tile category, and variant
