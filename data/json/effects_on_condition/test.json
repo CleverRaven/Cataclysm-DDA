@@ -1,0 +1,11 @@
+[
+  {
+    "type": "mutation",
+    "id": "TRAIT_looks_like_cat",
+    "name": { "str": "cat look" },
+    "description": "You looks like a cat",
+    "points": 99,
+    "valid": false,
+    "override_look": { "id": "mon_cat_black", "tile_category": "monster" }
+  }
+]
