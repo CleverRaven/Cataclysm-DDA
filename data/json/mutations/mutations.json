@@ -859,8 +859,13 @@
     "prereqs": [ "BOVINE_BULK" ],
     "category": [ "CATTLE" ],
     "enchantments": [
-      { "values": [ { "value": "MOVE_COST", "multiply": 0.04 }, { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 } ] },
-      { "value": "MAX_HP", "add": 21 }
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.04 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": 0.7 },
+          { "value": "MAX_HP", "add": 21 }
+        ]
+      }
     ]
   },
   {
@@ -1116,7 +1121,7 @@
     "fatigue": true,
     "kcal": true,
     "thirst": true,
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "BONUS_DODGE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
