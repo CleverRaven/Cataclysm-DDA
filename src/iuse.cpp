@@ -2543,7 +2543,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
     const int available = p->crafting_inventory().count_item( itype_pur_tablets );
     if( available * max_water_per_tablet >= charges_of_water ) {
         int to_consume = std::ceil( to_consume_f );
-        p->add_msg_if_player( m_info, _( "Purifying %1i water using %2i %s" ), charges_of_water, to_consume,
+        p->add_msg_if_player( m_info, _( "Purifying %i water using %i %s" ), charges_of_water, to_consume,
                               purifier->tname( to_consume ) );;
         // Pull from surrounding map first because it will update to_consume
         get_map().use_amount( p->pos(), PICKUP_RANGE, itype_pur_tablets, to_consume );
@@ -2553,7 +2553,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
         }
     } else {
         p->add_msg_if_player( m_info,
-                              _( "You need %1i tablets to purify that.  You only have %2i" ),
+                              _( "You need %i tablets to purify that.  You only have %i" ),
                               charges_of_water / max_water_per_tablet,  available );
         return std::nullopt;
     }
