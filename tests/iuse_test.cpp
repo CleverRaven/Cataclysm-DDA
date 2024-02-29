@@ -22,6 +22,7 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cureall( "cureall" );
 static const efftype_id effect_dermatik( "dermatik" );
+static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_hallu( "hallu" );
@@ -719,7 +720,7 @@ static item_location give_water( avatar &dummy, int count, bool in_inventory )
     return item_location( dummy, &container_loc->only_item() );
 }
 
-TEST_CASE( "water_purification_tablets", "[iuse][pur_tablets]" )
+TEST_CASE( "water_purification_tablet_activation", "[iuse][pur_tablets]" )
 {
     avatar dummy;
     dummy.normalize();
@@ -887,9 +888,6 @@ TEST_CASE( "water_purification_tablets", "[iuse][pur_tablets]" )
         CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 2 );
     }
 
-    /*
-      Currently fails, and has odd behaviour in-game where it's possible to
-      convert purifying water in a toilet to clean water instantly rather than waiting.
     SECTION( "6 tablets will purify a toilet tank" ) {
         item_location tablet = give_tablets( dummy, 6, true );
         get_map().furn_set( dummy.pos() + tripoint_north, f_toilet );
@@ -897,21 +895,26 @@ TEST_CASE( "water_purification_tablets", "[iuse][pur_tablets]" )
         water.charges = 24;
         get_map().add_item( dummy.pos() + tripoint_north, water );
         item_location water_location( map_cursor( dummy.pos() + tripoint_north ), &water );
-        dummy.invalidate_crafting_inventory();
 
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water ) == 24 );
         REQUIRE( water_location );
+        REQUIRE( water_location.get_item()->typeId() == itype_water );
+        REQUIRE( water_location.get_item()->charges == 24 );
+        REQUIRE( water_location.where_recursive() == item_location::type::map );
 
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
-        dummy.invalidate_crafting_inventory();
-        CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 24 );
-        CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );
-    }*/
+        // TODO: Figure out why the crafting inventory doesn't update to show water_purifying
+        /*dummy.invalidate_crafting_inventory();
+            CHECK( dummy.crafting_inventory().charges_of( itype_water ) == 0 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 24 );
+            CHECK( dummy.crafting_inventory().count_item( itype_pur_tablets ) == 0 );*/
+        // Until then, show that it works by checking the item directly:
+        CHECK( water_location.get_item()->typeId() == itype_water_purifying );
+        CHECK( water_location.get_item()->charges == 24 );
+    }
 }
 
-TEST_CASE( "water_purifying", "[iuse][pur_tablets]" )
+TEST_CASE( "water_tablet_purification_test", "[iuse][pur_tablets]" )
 {
     avatar dummy;
     dummy.normalize();
@@ -919,7 +922,7 @@ TEST_CASE( "water_purifying", "[iuse][pur_tablets]" )
     const tripoint test_origin( 20, 20, 0 );
     dummy.setpos( test_origin );
 
-    SECTION( "Still purifying at ten minutes" ) {
+    SECTION( "Test purifying time" ) {
         item_location tablet = give_tablets( dummy, 1, true );
         item_location water_location = give_water( dummy, 4, false );
 
@@ -928,42 +931,87 @@ TEST_CASE( "water_purifying", "[iuse][pur_tablets]" )
         REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
         REQUIRE( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
 
-        calendar::turn += 10_minutes;
-        dummy.invoke_item( water_location.get_item() );
+        SECTION( "Still purifying at ten minutes" ) {
+            calendar::turn += 10_minutes;
+            dummy.invoke_item( water_location.get_item() );
 
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        }
+
+        SECTION( "Still purifying at thirty minutes" ) {
+            calendar::turn += 30_minutes;
+            dummy.invoke_item( water_location.get_item() );
+
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        }
+
+        SECTION( "Clean water at forty minutes" ) {
+            calendar::turn += 40_minutes;
+            dummy.invoke_item( water_location.get_item() );
+
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+        }
     }
 
-    SECTION( "Still purifying at thirty minutes" ) {
+    SECTION( "Test purifying time with old water" ) {
         item_location tablet = give_tablets( dummy, 1, true );
         item_location water_location = give_water( dummy, 4, false );
 
+        calendar::turn += 24_hours;
+
         iuse::purify_water( &dummy, tablet.get_item(), water_location );
 
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        SECTION( "Still purifying ten minutes later" ) {
+            calendar::turn += 10_minutes;
+            dummy.invoke_item( water_location.get_item() );
 
-        calendar::turn += 30_minutes;
-        dummy.invoke_item( water_location.get_item() );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        }
 
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        SECTION( "Still purifying thirty minutes later" ) {
+            calendar::turn += 30_minutes;
+            dummy.invoke_item( water_location.get_item() );
+
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+        }
+
+        SECTION( "Clean water forty minutes later" ) {
+            calendar::turn += 40_minutes;
+            dummy.invoke_item( water_location.get_item() );
+
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
+            CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+        }
     }
 
-    SECTION( "Clean water at forty minutes" ) {
-        item_location tablet = give_tablets( dummy, 1, true );
+    SECTION( "Test purifying known bad water" ) {
         item_location water_location = give_water( dummy, 4, false );
+        water_location.get_item()->poison = 100;
 
-        iuse::purify_water( &dummy, tablet.get_item(), water_location );
+        SECTION( "The water will poison us before purification" ) {
+            dummy.consume( water_location, true );
+            REQUIRE( water_location.get_item()->charges == 3 );
+            REQUIRE( water_location.get_item()->poison > 0 );
 
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 0 );
-        REQUIRE( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 4 );
+            CHECK( dummy.has_effect( effect_foodpoison ) );
+        }
 
-        calendar::turn += 40_minutes;
-        dummy.invoke_item( water_location.get_item() );
+        SECTION( "The water is safe after purification" ) {
+            item_location tablet = give_tablets( dummy, 1, true );
+            iuse::purify_water( &dummy, tablet.get_item(), water_location );
+            calendar::turn += 40_minutes;
+            dummy.invoke_item( water_location.get_item() );
+            REQUIRE( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
+            dummy.consume( water_location, true );
+            REQUIRE( water_location.get_item()->charges == 3 );
 
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_clean ) == 4 );
-        CHECK( dummy.crafting_inventory().charges_of( itype_water_purifying ) == 0 );
+            CHECK_FALSE( dummy.has_effect( effect_foodpoison ) );
+        }
+
     }
 }

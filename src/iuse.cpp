@@ -1112,6 +1112,11 @@ std::optional<int> iuse::blech( Character *p, item *it, const tripoint & )
 std::optional<int> iuse::blech_because_unclean( Character *p, item *it, const tripoint & )
 {
     if( !p->is_npc() ) {
+        if( test_mode ) {
+            p->add_msg_if_player( m_info,
+                                  _( "Automatically eating the gross food because a test told us to." ) );
+            return 1;
+        }
         if( it->made_of( phase_id::LIQUID ) ) {
             if( !p->query_yn( _( "This looks unclean; are you sure you want to drink it?" ) ) ) {
                 return std::nullopt;
@@ -2565,6 +2570,7 @@ std::optional<int> iuse::purify_water( Character *p, item *purifier, item_locati
 
     for( item *water : liquids ) {
         water->convert( itype_water_purifying, p ).poison = 0;
+        water->set_birthday( calendar::turn );
     }
     // We've already consumed the tablets, so don't try to consume them again
     return std::nullopt;
