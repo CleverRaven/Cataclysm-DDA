@@ -284,14 +284,7 @@
         "ammo_scale": 0
       }
     ],
-    "flags": [
-      "LIGHT_300",
-      "CHARGEDIM",
-      "TRADER_AVOID",
-      "WATER_BREAK",
-      "HELMET_HEAD_ATTACHMENT",
-      "GUNLIGHT"
-    ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ]
   },
   {
     "id": "tac_flashlight",
@@ -354,14 +347,7 @@
         "ammo_scale": 0
       }
     ],
-    "flags": [
-      "LIGHT_300",
-      "CHARGEDIM",
-      "TRADER_AVOID",
-      "WATER_BREAK",
-      "HELMET_HEAD_ATTACHMENT",
-      "GUNLIGHT"
-    ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ]
   },
   {
     "id": "tac_flashlight_on_high",
@@ -389,14 +375,7 @@
         "ammo_scale": 0
       }
     ],
-    "flags": [
-      "LIGHT_500",
-      "CHARGEDIM",
-      "TRADER_AVOID",
-      "WATER_BREAK",
-      "HELMET_HEAD_ATTACHMENT",
-      "GUNLIGHT"
-    ]
+    "flags": [ "LIGHT_500", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ]
   },
   {
     "id": "diving_flashlight_small",
