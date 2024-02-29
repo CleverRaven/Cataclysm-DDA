@@ -266,8 +266,17 @@
     "points": 0,
     "description": "You've always loved reading, especially before you fall asleep, and have gotten very good at tearing through books as a way to wind down.  You read books 50% faster, but only when you read them between 8 p.m. and 1 a.m.",
     "category": [ "perk" ],
-    "enchantments": [ { "condition": { "or": [ { "math": [ "time_since('midnight', 'unit': 'hours') >= 20" ] },
-        { "math": [ "time_since('midnight', 'unit': 'hours') <= 1" ] }]}, "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.5 } ] } ]
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') >= 20" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') <= 1" ] }
+          ]
+        },
+        "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
