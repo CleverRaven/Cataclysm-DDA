@@ -247,25 +247,25 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "vz. 58 combat rifle" },
-    "description": "A Cold War-era Czechoslovak assault rifle, likely constructed stateside from a pre-1986 imported parts kit or brought back from a third world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former’s 7.62x39mm chambering.  Featuring no interchangeable parts with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
+    "description": "A Cold War-era Czechoslovak assault rifle, likely constructed stateside from a pre-1986 imported parts kit or brought back from a third world war zone.  Externally similar to the AK family of rifles, this weapon nevertheless only shares the former's 7.62x39mm chambering.  Featuring no interchangeable parts with its Russian doppelganger, this firearm makes use of a completely different internal operating system, is far more svelte than its other Warsaw Pact counterparts, and feeds from proprietary box magazines.",
     "weight": "2900 g",
     "volume": "2000 ml",
     "longest_side": "845 mm",
     "barrel_length": "390 mm",
     "price": 200000,
-    "//": "Couldn’t find exact price information on original VZ assault rifles, so did some guestimation based off of prices for similar Russian automatic weapon’s's parts kits.",
+    "//": "Couldn't find exact price information on original VZ assault rifles, so did some guestimation based off of prices for similar Russian automatic weapon's's parts kits.",
     "price_postapoc": 4000,
     "variant_type": "gun",
     "variants": [
       {
         "id": "vz58_p",
         "name": { "str": "Samopal vz. 58 P rifle" },
-        "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov’s lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable wood impregnated plastic buttstock and a 'P' suffixed designation, which both mark it as an original infantry model."
+        "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov's lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable wood impregnated plastic buttstock and a 'P' suffixed designation, which both mark it as an original infantry model."
       },
       {
         "id": "vz58_v",
         "name": { "str": "Samopal VZ 58 V rifle" },
-        "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov’s lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable side-folding buttstock and a 'V' suffixed designation, which both mark it as an original airborne or crew issued model."
+        "description": "This lightweight and relatively svelte Cold War assault rifle was originally developed for use by the Czechoslovak army, in place of the various licensed Kalashnikov rifles which were then prevalent around eastern Europe.  Bearing more than a passing resemblance to the AK-47, this weapon nevertheless features a completely different array of internals and possesses no interchangeable parts with its Russian counterpart.  Making use of proprietary magazines and a 15.4 inch barrel, the vz. 58 was regarded by some to be the Kalashnikov's lesser-known superior.  Likely reconstructed from a pre-1986 imported parts kit, or brought back from a third world war zone, this particular weapon features a removable side-folding buttstock and a 'V' suffixed designation, which both mark it as an original airborne or crew issued model."
       }
     ],
     "to_hit": -1,
@@ -300,7 +300,7 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "vz. 58 tactical rifle" },
-    "description": "Inspired and built primarily from older Czechoslovak military combat rifles, this weapon bears an uncanny resemblance to the Kalashnikov despite sharing no components with it, including magazines.  Chambering the Soviet 7.62x39mm cartridge and featuring an American produced folding buttstock, receiver, and barrel in order to comply with US importation laws, the weapon is equipped with a side mounted rail assembly as well as a detachable muzzle brake.  Despite the firearm’s Cold War design being nearly 80 years old, this modern iteration makes for a relatively portable and serviceable cataclysmic problem solver.",
+    "description": "Inspired and built primarily from older Czechoslovak military combat rifles, this weapon bears an uncanny resemblance to the Kalashnikov despite sharing no components with it, including magazines.  Chambering the Soviet 7.62x39mm cartridge and featuring an American produced folding buttstock, receiver, and barrel in order to comply with US importation laws, the weapon is equipped with a side mounted rail assembly as well as a detachable muzzle brake.  Despite the firearm's Cold War design being nearly 80 years old, this modern iteration makes for a relatively portable and serviceable cataclysmic problem solver.",
     "variant_type": "gun",
     "variants": [
       {
@@ -321,18 +321,18 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Bren 7.62mm carbine" },
-    "description": "A semi-automatic clone of the Czech Republic’s standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "bren2_762",
         "name": { "str": "CZ Bren 2 carbine" },
-        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 7.62x39mm Soviet cartridge, this particular weapon possesses a compact 11-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
+        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former's features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 7.62x39mm Soviet cartridge, this particular weapon possesses a compact 11-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       },
       {
         "id": "805_bren",
         "name": { "str": "CZ 805 Bren rifle" },
-        "description": "Strongly resembling the FN SCAR, with features and ergonomics inspired by the AR-18, this semi-automatic rifle is a civilian clone of the Czech Republic’s formerly standard infantry carbine and was produced by the same company.  Discontinued in 2018, the rifle features an included muzzle break and adjustable folding buttstock, with this particular version being chambered in 7.62x39mm."
+        "description": "Strongly resembling the FN SCAR, with features and ergonomics inspired by the AR-18, this semi-automatic rifle is a civilian clone of the Czech Republic's formerly standard infantry carbine and was produced by the same company.  Discontinued in 2018, the rifle features an included muzzle break and adjustable folding buttstock, with this particular version being chambered in 7.62x39mm."
       }
     ],
     "weight": "2870 g",

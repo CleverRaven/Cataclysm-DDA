@@ -1632,6 +1632,19 @@ conditional_t::func f_get_condition( const JsonObject &jo, std::string_view memb
     };
 }
 
+conditional_t::func f_test_eoc( const JsonObject &jo, std::string_view member )
+{
+    str_or_var eocToTest = get_str_or_var( jo.get_member( member ), member, true );
+    return [eocToTest]( dialogue & d ) {
+        effect_on_condition_id tested( eocToTest.evaluate( d ) );
+        if( !tested.is_valid() ) {
+            debugmsg( "Invalid eoc id: %s", eocToTest.evaluate( d ) );
+            return false;
+        }
+        return tested->condition( d );
+    };
+}
+
 conditional_t::func f_has_ammo()
 {
     return []( dialogue & d ) {
@@ -2014,7 +2027,7 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
             throw std::invalid_argument( "Can't get allies count for NPCs" );
         }
         return []( dialogue const & ) {
-            return  g->allies().size();
+            return static_cast<double>( g->allies().size() );
         };
     } else if( checked_value == "dodge" ) {
         return [is_npc]( dialogue const & d ) {
@@ -2058,12 +2071,12 @@ std::function<double( dialogue & )> conditional_t::get_get_dbl( std::string_view
     } else if( checked_value == "power" ) {
         return [is_npc]( dialogue const & d ) {
             // Energy in milijoule
-            return d.actor( is_npc )->power_cur().value();
+            return static_cast<double>( d.actor( is_npc )->power_cur().value() );
         };
     } else if( checked_value == "power_max" ) {
         return [is_npc]( dialogue const & d ) {
             // Energy in milijoule
-            return d.actor( is_npc )->power_max().value();
+            return static_cast<double>( d.actor( is_npc )->power_max().value() );
         };
     }
 
@@ -2366,6 +2379,7 @@ parsers = {
     {"math", jarg::member, &conditional_fun::f_math },
     {"compare_string", jarg::member, &conditional_fun::f_compare_string },
     {"get_condition", jarg::member, &conditional_fun::f_get_condition },
+    {"test_eoc", jarg::member, &conditional_fun::f_test_eoc },
 };
 
 // When updating this, please also update `dynamic_line_string_keys` in

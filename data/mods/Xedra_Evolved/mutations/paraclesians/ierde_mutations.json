@@ -216,6 +216,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_EARTH_SHIELD",
+    "name": { "str": "Impenetrable Earthen Shield" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "While standing on natural earth or stone, the Ierde can summon up an earthen shield to protect themselves.  They will be invulnerable until the shield breaks.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_earthen_shield_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_NO_SCENT_AND_IRON",
     "name": {
       "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
@@ -326,6 +338,16 @@
         "values": [ { "value": "REGEN_STAMINA", "multiply": 0.5 }, { "value": "REGEN_HP", "multiply": 0.33 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_FEEL_HALF_PAIN",
+    "name": { "str": "Stone Does Not Cry Out" },
+    "points": 5,
+    "description": "Like the stone, the Ierde suffers little from blows.  All pain is halved.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_REGAIN_STAMINA_UNDERGROUND", "IERDE_HEAL_FASTER_UNDERGROUND" ],
+    "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -474,6 +496,38 @@
     "description": "Like an observer on a mountaintop, the Ierde sees more than most.  +3 Perception.",
     "category": [ "IERDE" ],
     "passive_mods": { "per_mod": 3 }
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_FEEL_NO_PAIN",
+    "name": { "str": "The Mountain Is Unflinching" },
+    "points": 12,
+    "description": "While on living earth or stone or underground, the Ierde is as impassive as the mountains and feels no pain at all.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_FEEL_HALF_PAIN" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "PAIN", "multiply": -1.0 } ]
+      }
+    ]
   },
   {
     "type": "mutation",

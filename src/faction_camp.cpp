@@ -53,6 +53,7 @@
 #include "npc.h"
 #include "npctalk.h"
 #include "omdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
@@ -350,6 +351,9 @@ static std::string mission_ui_activity_of( const mission_id &miss_id )
 
         case Camp_Determine_Leadership:
             return _( "Choose New Leader" );
+
+        case Camp_Have_Meal:
+            return _( "Have A Meal" );
 
         case Camp_Hide_Mission:
             return _( "Hide Mission(s)" );
@@ -1496,6 +1500,16 @@ void basecamp::get_available_missions( mission_data &mission_key, map &here )
                              entry );
         }
         {
+            const mission_id miss_id = { Camp_Have_Meal, "", {}, base_dir };
+            entry = string_format( _( "Notes:\n"
+                                      "Eat some food from the larder.\n"
+                                      "Nutritional value depends on food stored in the larder.\n"
+                                      "Difficulty: N/A\n"
+                                      "Risk: None\n" ) );
+            mission_key.add( { miss_id, false }, name_display_of( miss_id ),
+                             entry );
+        }
+        {
             validate_assignees();
             const mission_id miss_id = { Camp_Assign_Jobs, "", {}, base_dir };
             entry = string_format( _( "Notes:\n"
@@ -1658,6 +1672,26 @@ void basecamp::choose_new_leader()
     }
 }
 
+void basecamp::player_eats_meal()
+{
+    int kcal_to_eat = 3000;
+    Character &you = get_player_character();
+    const int &food_available = you.get_faction()->food_supply.kcal();
+    if( you.stomach.contains() >= ( you.stomach.capacity( you ) / 2 ) ) {
+        popup( _( "You're way too full to eat a full meal right now." ) );
+        return;
+    }
+    if( food_available <= 0 ) {
+        popup( _( "You check storage for some food, but there is nothing but dust and cobwebs…" ) );
+        return;
+    } else if( food_available <= kcal_to_eat ) {
+        add_msg( _( "There's only one meal left.  Guess that's dinner!" ) );
+        kcal_to_eat = food_available;
+    }
+    nutrients dinner = camp_food_supply( -kcal_to_eat );
+    feed_workers( you, dinner, true );
+}
+
 bool basecamp::handle_mission( const ui_mission_id &miss_id )
 {
     if( miss_id.id.id == No_Mission ) {
@@ -1676,6 +1710,10 @@ bool basecamp::handle_mission( const ui_mission_id &miss_id )
 
         case Camp_Determine_Leadership:
             choose_new_leader();
+            break;
+
+        case Camp_Have_Meal:
+            player_eats_meal();
             break;
 
         case Camp_Hide_Mission:
@@ -1928,7 +1966,7 @@ npc_ptr basecamp::start_mission( const mission_id &miss_id, time_duration durati
     if( comp != nullptr ) {
         comp->companion_mission_time_ret = calendar::turn + duration;
         if( must_feed ) {
-            camp_food_supply( duration, exertion_level );
+            feed_workers( *comp.get()->as_character(), camp_food_supply( duration, exertion_level ) );
         }
         if( !equipment.empty() ) {
             map &target_map = get_camp_map();
@@ -2014,7 +2052,11 @@ comp_list basecamp::start_multi_mission( const mission_id &miss_id,
             comp->companion_mission_time_ret = calendar::turn + work_days;
         }
         if( must_feed ) {
-            camp_food_supply( work_days * result.size(), making.exertion_level() );
+            std::vector<std::reference_wrapper <Character>> work_party;
+            for( npc_ptr &comp : result ) {
+                work_party.emplace_back( *comp.get()->as_character() );
+            }
+            feed_workers( work_party, camp_food_supply( work_days * result.size(), making.exertion_level() ) );
         }
         return result;
     }
@@ -3722,14 +3764,12 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
         talk_function::companion_skill_trainer( comp, skill, mission_time, difficulty );
     }
 
-    // companions subtracted food when they started the mission, but didn't mod their hunger for
-    // that food.  so add it back in.
+    // Missions that are not fixed_time pay their food costs at the end, instead of up-front.
     int need_food = time_to_food( mission_time - reserve_time );
     faction *yours = get_player_character().get_faction();
     if( yours->food_supply.kcal() < need_food ) {
         popup( _( "Your companion seems disappointed that your pantry is empty…" ) );
     }
-    int avail_food = std::min( need_food, yours->food_supply.kcal() ) + time_to_food( reserve_time );
     // movng all the logic from talk_function::companion return here instead of polluting
     // mission_companion
     comp.reset_companion_mission();
@@ -3750,9 +3790,8 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     g->reload_npcs();
     validate_assignees();
 
-    camp_food_supply( -need_food );
-    comp.mod_hunger( -avail_food );
-    comp.mod_stored_kcal( avail_food );
+    // Missions that are not fixed_time can try to draw more food than is in the food supply
+    feed_workers( comp, camp_food_supply( -need_food ) );
     if( has_water() ) {
         comp.set_thirst( 0 );
     }
@@ -5458,21 +5497,22 @@ nutrients basecamp::camp_food_supply( nutrients &change )
         double percent_consumed = std::abs( static_cast<double>( change.calories ) ) /
                                   yours->food_supply.calories;
         consumed = yours->food_supply;
+        if( std::abs( change.calories ) > yours->food_supply.calories ) {
+            //Whoops, we don't have enough food. Empty the larder! No crumb shall go un-eaten!
+            yours->food_supply.calories -= change.calories;
+            yours->likes_u += yours->food_supply.kcal() / 1250;
+            yours->respects_u += yours->food_supply.kcal() / 625;
+            yours->trusts_u += yours->food_supply.kcal() / 625;
+            yours->food_supply *= 0;
+            return consumed;
+        }
         consumed *= percent_consumed;
         // Subtraction since we use the absolute value of change's calories to get the percent
         yours->food_supply -= consumed;
         return consumed;
     }
     yours->food_supply += change;
-    if( yours->food_supply.kcal() < 0 ) {
-        yours->likes_u += yours->food_supply.kcal() / 1250;
-        yours->respects_u += yours->food_supply.kcal() / 625;
-        yours->trusts_u += yours->food_supply.kcal() / 625;
-        yours->food_supply.calories = 0;
-    }
-
     consumed = change;
-    //TODO: This return value is so that nutrients can actually be consumed by the workers instead of vanishing.
     return consumed;
 }
 
@@ -5487,6 +5527,40 @@ nutrients basecamp::camp_food_supply( int change )
 nutrients basecamp::camp_food_supply( time_duration work, float exertion_level )
 {
     return camp_food_supply( -time_to_food( work, exertion_level ) );
+}
+
+void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character>> &workers,
+                             nutrients food, bool is_player_meal )
+{
+    const int num_workers = workers.size();
+    if( num_workers == 0 ) {
+        debugmsg( "feed_workers called without any workers to feed!" );
+        return;
+    }
+    if( !is_player_meal && get_option<bool>( "NO_NPC_FOOD" ) ) {
+        return;
+    }
+
+    // Split the food into equal sized portions.
+    food /= num_workers;
+    for( const auto &worker_reference : workers ) {
+        Character &worker = worker_reference.get();
+        worker.add_msg_if_player( _( "You grab a prepared meal from storage and chow down." ) );
+        units::volume filling_vol = std::max( 0_ml,
+                                              worker.stomach.capacity( worker ) / 2 - worker.stomach.contains() );
+        worker.stomach.ingest( food_summary{
+            0_ml,
+            filling_vol,
+            food
+        } );
+    }
+}
+
+void basecamp::feed_workers( Character &worker, nutrients food, bool is_player_meal )
+{
+    std::vector<std::reference_wrapper <Character>> work_party;
+    work_party.emplace_back( worker );
+    feed_workers( work_party, std::move( food ), is_player_meal );
 }
 
 int time_to_food( time_duration work, float exertion_level )
@@ -5642,6 +5716,7 @@ std::string basecamp::name_display_of( const mission_id &miss_id )
         //  Faction camp tasks
         case Camp_Distribute_Food:
         case Camp_Determine_Leadership:
+        case Camp_Have_Meal:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:

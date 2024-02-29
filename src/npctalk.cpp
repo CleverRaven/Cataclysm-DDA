@@ -2802,7 +2802,6 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
     Character *guy = d.actor( is_npc )->get_character();
     guy = guy ? guy : &get_player_character();
     std::vector<item_location> true_items;
-    std::vector<item_location> false_items;
     for( const item_location &loc : items ) {
         // Check if item matches any search_data.
         bool true_tgt = data.empty();
@@ -2814,8 +2813,6 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
         }
         if( true_tgt ) {
             true_items.push_back( loc );
-        } else {
-            false_items.push_back( loc );
         }
     }
     const auto run_eoc = [&d, is_npc]( item_location & loc,
@@ -2841,32 +2838,22 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
         for( item_location target : true_items ) {
             run_eoc( target, true_eocs );
         }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        if( true_items.empty() ) {
+            run_eoc_vector( false_eocs, d );
         }
     } else if( option == "random" ) {
         if( !true_items.empty() ) {
             std::shuffle( true_items.begin(), true_items.end(), rng_get_engine() );
             run_eoc( true_items.back(), true_eocs );
             true_items.pop_back();
-        }
-
-        for( item_location target : true_items ) {
-            run_eoc( target, false_eocs );
-        }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        } else {
+            run_eoc_vector( false_eocs, d );
         }
     } else if( option == "manual" ) {
         item_location selected = f( filter );
         run_eoc( selected, true_eocs );
-        for( item_location target : true_items ) {
-            if( target != selected ) {
-                run_eoc( target, false_eocs );
-            }
-        }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        if( selected.get_item() == nullptr ) {
+            run_eoc_vector( false_eocs, d );
         }
     } else if( option == "manual_mult" ) {
         const drop_locations &selected = f_mul( filter );
@@ -2880,12 +2867,10 @@ static void run_item_eocs( const dialogue &d, bool is_npc, const std::vector<ite
             }
             if( true_eoc ) {
                 run_eoc( target, true_eocs );
-            } else {
-                run_eoc( target, false_eocs );
             }
         }
-        for( item_location target : false_items ) {
-            run_eoc( target, false_eocs );
+        if( true_items.empty() ) {
+            run_eoc_vector( false_eocs, d );
         }
     }
 }
@@ -4246,12 +4231,7 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
             }
         }
         if( popup_msg ) {
-            const auto new_win = [translated_message]() {
-                query_popup pop;
-                pop.message( "%s", translated_message );
-                return pop.get_window();
-            };
-            scrollable_text( new_win, "", replace_colors( translated_message ) );
+            popup( translated_message );
             g->cancel_activity_or_ignore_query( distraction_type::eoc, "" );
         }
         if( popup_w_interrupt_query_msg ) {
@@ -4887,30 +4867,24 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
 talk_effect_fun_t::func f_run_eoc_until( const JsonObject &jo, std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+    std::function<bool( dialogue & )> cond;
+    read_condition( jo, "condition", cond, true ); // The default result of this condition is true
 
-    str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
+    dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration", false, 100 );
 
-    dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
-
-    return [eoc, condition, iteration_count]( dialogue & d ) {
-        auto itt = d.get_conditionals().find( condition.evaluate( d ) );
-        if( itt == d.get_conditionals().end() ) {
-            debugmsg( string_format( "No condition with the name %s", condition.evaluate( d ) ) );
-            return;
-        }
-
+    return [eoc, cond, iteration_count]( dialogue & d ) {
         int max_iteration = iteration_count.evaluate( d );
 
         int curr_iteration = 0;
-
-        while( itt->second( d ) ) {
+        // Amend the eoc to the callstack before the iteration.
+        // In the interation, the eoc doesn't need to be amended repeatedly in activate().
+        d.amend_callstack( "EOC: " + eoc->id.str() );
+        while( cond( d ) ) {
             curr_iteration++;
             if( curr_iteration > max_iteration ) {
-                debugmsg( string_format( "EOC loop ran for more instances than the max allowed: %d. Exiting loop.",
-                                         max_iteration ) );
                 break;
             }
-            eoc->activate( d );
+            eoc->activate( d, false );
         }
     };
 }

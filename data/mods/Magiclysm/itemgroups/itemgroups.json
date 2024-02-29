@@ -1198,7 +1198,8 @@
           { "item": "magus_spellbook_move", "prob": 25 },
           { "item": "magus_spellbook", "prob": 25 },
           { "item": "spell_scroll_magus_mana_blast", "prob": 50 },
-          { "item": "spell_scroll_magus_haste", "prob": 50 }
+          { "item": "spell_scroll_magus_haste", "prob": 50 },
+          { "item": "spell_scroll_magus_diamond_imbuement", "prob": 30 }
         ],
         "prob": 10
       },
@@ -1239,7 +1240,8 @@
           { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
           { "item": "spell_scroll_recover_pain", "prob": 50 },
           { "item": "spell_scroll_animist_spirit_walking", "prob": 40 },
-          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 }
+          { "item": "spell_scroll_animist_mass_hiding_aoe", "prob": 30 },
+          { "item": "spell_scroll_animist_slow_food_rotting_spell", "prob": 50 }
         ],
         "prob": 10
       },
@@ -1274,7 +1276,8 @@
           { "item": "spell_scroll_kelvinist_anti_cold", "prob": 40 },
           { "item": "spell_scroll_kelvinist_anti_heat", "prob": 40 },
           { "item": "spell_scroll_kelvinist_persuasion_spell", "prob": 30 },
-          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 }
+          { "item": "spell_scroll_kelvinist_firebolt", "prob": 50 },
+          { "item": "spell_scroll_kelvinist_heat_food", "prob": 40 }
         ],
         "prob": 45
       },
@@ -1339,7 +1342,8 @@
           { "item": "spell_scroll_technomancer_robot_shutdown", "prob": 50 },
           { "item": "spell_scroll_technomancer_conjure_ups", "prob": 25 },
           { "item": "spell_scroll_technomancer_welder", "prob": 35 },
-          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 }
+          { "item": "spell_scroll_technomancer_recharge_vehicle", "prob": 20 },
+          { "item": "spell_scroll_technomancer_create_ups_connection", "prob": 25 }
         ],
         "prob": 35
       },
@@ -1372,7 +1376,8 @@
           { "item": "spell_scroll_eshaper_rockbolt", "prob": 50 },
           { "item": "spell_scroll_earthshaper_danger_sense", "prob": 50 },
           { "item": "spell_scroll_earthshaper_fortitude_of_stone", "prob": 50 },
-          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 }
+          { "item": "spell_scroll_earthshaper_turning_of_earth", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_repair_metal_stone", "prob": 25 }
         ],
         "prob": 45
       },

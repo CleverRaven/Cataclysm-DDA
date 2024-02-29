@@ -18,6 +18,9 @@
 #include "translation.h"
 
 class hotkey_queue;
+#if !defined(__ANDROID__)
+class keybindings_ui;
+#endif
 namespace catacurses
 {
 class window;
@@ -35,6 +38,9 @@ class window;
  */
 class input_context
 {
+#if !defined(__ANDROID__)
+        friend class keybindings_ui;
+#endif
     public:
 #if defined(__ANDROID__)
         // Whatever's on top is our current input context.
@@ -273,7 +279,9 @@ class input_context
          * the delta vector associated with it. Otherwise returns an empty value.
          * The returned vector will always have a z component of 0.
          */
+        // TODO: Get rid of untyped version and change name of the typed one.
         std::optional<tripoint> get_direction( const std::string &action ) const;
+        std::optional<tripoint_rel_ms> get_direction_rel_ms( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
@@ -418,6 +426,11 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 std::string_view phrase ) const;
+
+        action_id display_menu_legacy( bool permit_execute_action );
+#if !defined(__ANDROID__)
+        action_id display_menu_imgui( bool permit_execute_action );
+#endif
 };
 
 class hotkey_queue

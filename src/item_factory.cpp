@@ -800,6 +800,45 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        body_part_set similar_bp;
+        if( data.covers.has_value() ) {
+            for( const bodypart_str_id &bp : data.covers.value() ) {
+                for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+                    similar_bp.set( similar );
+                }
+            }
+        }
+        data.covers->unify_set( similar_bp );
+    }
+
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        // if no sub locations are specified assume it covers everything
+        if( data.covers.has_value() && data.sub_coverage.empty() ) {
+            for( const bodypart_str_id &bp : data.covers.value() ) {
+                for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
+                    // only assume to add the non hanging locations
+                    if( !sbp->secondary ) {
+                        data.sub_coverage.insert( sbp );
+                    }
+                }
+            }
+        }
+    }
+
+    // Include similar sublimbs as well (after populating sub coverage)
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        std::set<sub_bodypart_str_id> similar_sbp;
+        if( !data.sub_coverage.empty() ) {
+            for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
+                for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+                    similar_sbp.emplace( similar );
+                }
+            }
+        }
+        data.sub_coverage.merge( similar_sbp );
+    }
+
     // if this armor doesn't have material info should try to populate it with base item materials
     for( armor_portion_data &data : obj.armor->sub_data ) {
         if( data.materials.empty() ) {
@@ -2208,7 +2247,7 @@ void Item_factory::check_definitions() const
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
             msg += "has use_action MA_MANUAL but is not a book\n";
         }
-        if( type->milling_data ) {
+        if( type->milling_data && !type->milling_data->into_.is_null() ) {
             if( !has_template( type->milling_data->into_ ) ) {
                 msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
             }
@@ -2560,7 +2599,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
 void islot_milling::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "into", into_ );
-    optional( jo, was_loaded, "conversion_rate", conversion_rate_ );
+    optional( jo, was_loaded, "recipe", recipe_ );
 }
 
 void islot_milling::deserialize( const JsonObject &jo )
@@ -2871,18 +2910,6 @@ void armor_portion_data::deserialize( const JsonObject &jo )
         breathability = material_type::breathability_to_rating( temp_enum );
     }
     optional( jo, false, "specifically_covers", sub_coverage );
-
-    // if no sub locations are specified assume it covers everything
-    if( covers.has_value() && sub_coverage.empty() ) {
-        for( const bodypart_str_id &bp : covers.value() ) {
-            for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-                // only assume to add the non hanging locations
-                if( !sbp->secondary ) {
-                    sub_coverage.insert( sbp );
-                }
-            }
-        }
-    }
 
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
@@ -3568,7 +3595,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 31> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
@@ -3601,7 +3628,9 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_iflesh, flag_CARNIVORE_OK },
             { material_blood, flag_CARNIVORE_OK },
             { material_hblood, flag_CARNIVORE_OK },
-            { material_honey, flag_URSINE_HONEY }
+            { material_honey, flag_URSINE_HONEY },
+            { material_blood, flag_HEMOVORE_FUN },
+            { material_hblood, flag_HEMOVORE_FUN }
         }
     };
 

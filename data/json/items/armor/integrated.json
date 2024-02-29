@@ -1582,5 +1582,57 @@
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": -20 } ] } ]
     }
+  },
+  {
+    "id": "integrated_fangs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "fangs" },
+    "description": "A pair of fangs sharp and sturdy enough to use in combat.",
+    "weight": "50 g",
+    "volume": "100 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "FANGS_BITE", "FANGS_BITE_NATURAL" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ]
+  },
+  {
+    "id": "integrated_vampire_fangs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "vampire fangs" },
+    "description": "A wicked pair of fangs, pointed and surgically sharp.",
+    "weight": "100 g",
+    "volume": "200 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "bone" ],
+    "symbol": ",",
+    "color": "white",
+    "warmth": 5,
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 4 ] ],
+    "techniques": [ "VAMPIRE_BITE", "VAMPIRE_BITE_NATURAL" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "PADDED", "PROVIDES_TECHNIQUES" ],
+    "armor": [
+      {
+        "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 3.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 0,
+        "encumbrance": 0
+      }
+    ]
   }
 ]

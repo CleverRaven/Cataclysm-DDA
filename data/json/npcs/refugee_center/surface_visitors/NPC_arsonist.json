@@ -30,6 +30,7 @@
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "trait": "hair_long_over_eye", "variant": "brown" },
+      { "trait": "natural_hair_color_brown" },
       { "trait": "eye_color", "variant": "blue" },
       { "trait": "SKIN_LIGHT" },
       { "trait": "QUICK" },

@@ -13,6 +13,7 @@
       { "trait": "SKIN_DARK" },
       { "trait": "seer_mark" },
       { "trait": "hair_mohawk", "variant": "black" },
+      { "trait": "natural_hair_color_black" },
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" }
     ],

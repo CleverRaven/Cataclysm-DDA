@@ -55,6 +55,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "cata_imgui.h"
 #if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
 #endif
@@ -167,6 +168,9 @@ void exit_handler( int s )
         } else
 #endif
         {
+#if !defined(__ANDROID__)
+            imclient.reset();
+#endif
             exit( exit_status );
         }
     }

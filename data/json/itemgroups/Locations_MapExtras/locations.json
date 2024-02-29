@@ -271,7 +271,13 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "striped_shirt", "prob": 35 }, { "item": "striped_shirt", "prob": 35 } ]
+    "entries": [
+      { "item": "blanket", "prob": 25 },
+      { "item": "striped_shirt", "prob": 35 },
+      { "item": "striped_shirt", "prob": 35 },
+      { "item": "striped_pants", "prob": 35 },
+      { "item": "striped_pants", "prob": 35 }
+    ]
   },
   {
     "id": "boxing_misc",
@@ -625,7 +631,6 @@
       { "group": "religious_books", "prob": 10 },
       { "group": "kids_books", "prob": 20 },
       { "item": "wrapper_foil_roll", "prob": 25 },
-      [ "recipe_elfa", 15 ],
       [ "recipe_bows", 15 ],
       [ "manual_stabbing", 20 ],
       [ "manual_dodge", 20 ],
@@ -1247,7 +1252,6 @@
       { "item": "water_purifier", "prob": 5, "charges": [ 0, 100 ] },
       [ "flyer", 10 ],
       [ "decoy_elfa", 10 ],
-      [ "recipe_elfa", 1 ],
       [ "tongs", 10 ],
       [ "boots_rubber", 20 ],
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
@@ -1828,7 +1832,6 @@
       [ "textbook_carpentry", 6 ],
       [ "mag_mechanics", 25 ],
       [ "decoy_elfa", 8 ],
-      [ "recipe_elfa", 1 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },

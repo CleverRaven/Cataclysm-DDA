@@ -430,7 +430,8 @@ int islot_ammo::dispersion_considering_length( units::length barrel_length ) con
     std::vector<std::pair<float, float>> lerp_points;
     lerp_points.reserve( disp_mod_by_barrels.size() );
     for( const disp_mod_by_barrel &b : disp_mod_by_barrels ) {
-        lerp_points.emplace_back( static_cast<float>( b.barrel_length.value() ), b.dispersion_modifier );
+        lerp_points.emplace_back( static_cast<float>( b.barrel_length.value() ),
+                                  static_cast<float>( b.dispersion_modifier ) );
     }
     return multi_lerp( lerp_points, barrel_length.value() ) + dispersion;
 }
