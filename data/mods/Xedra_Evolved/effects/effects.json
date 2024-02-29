@@ -765,14 +765,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_subtle_spell_flag",
-    "//": "Hidden, but provides flags for powers using SUBTLE_SPELL",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "flags": [ "SUBTLE_SPELL" ]
-  },
-  {
-    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
@@ -843,14 +835,6 @@
     "rating": "good",
     "removes_effects": [ "effect_pollen_arvore_weaken" ],
     "enchantments": [ { "emitter": "emit_arvore_poison_pollen" } ]
-  },
-  {
-    "type": "effect_type",
-    "id": "effect_arvore_sense_sun",
-    "//": "Hidden, but provides flags for Sensing the Sun",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "flags": [ "WATCH", "ALARMCLOCK" ]
   },
   {
     "type": "effect_type",
