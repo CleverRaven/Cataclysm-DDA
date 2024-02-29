@@ -159,23 +159,6 @@
     "items": [ { "group": "longguns_cop", "prob": 10 } ]
   },
   {
-    "id": "cop_holster",
-    "type": "item_group",
-    "subtype": "distribution",
-    "entries": [ { "item": "holster", "contents-group": "sidearms_cop", "prob": 10 }, { "item": "holster", "prob": 90 } ]
-  },
-  {
-    "id": "cop_holster_field",
-    "type": "item_group",
-    "subtype": "distribution",
-    "//": "same as above but with the assumption that you have storage for magazines",
-    "entries": [
-      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field" } ], "prob": 20 },
-      { "collection": [ { "item": "holster" }, { "group": "sidearms_cop_in_field_no_gun" } ], "prob": 60 },
-      { "item": "holster", "prob": 60 }
-    ]
-  },
-  {
     "id": "mon_zombie_swat_death_drops",
     "type": "item_group",
     "subtype": "collection",
