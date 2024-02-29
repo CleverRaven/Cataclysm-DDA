@@ -4957,5 +4957,16 @@
     "desc": [
       "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back."
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "anticoagulant_draculin",
+    "max_intensity": 3,
+    "max_duration": "20 m",
+    "rating": "bad",
+    "blood_analysis_description": "Draculin",
+    "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
+    "immune_flags": [ "DRACULIN_IMMUNE" ],
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
   }
 ]

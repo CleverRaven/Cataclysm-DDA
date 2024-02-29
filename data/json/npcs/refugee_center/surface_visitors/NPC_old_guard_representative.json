@@ -323,7 +323,7 @@
       },
       "update_mapgen": { "place_npcs": [ { "class": "bandit", "x": 17, "y": 9, "target": true } ] },
       "effect": [
-        { "u_spawn_item": "ruger_redhawk" },
+        { "u_spawn_item": "sw629" },
         { "u_spawn_item": "44magnum", "count": 17 },
         { "u_spawn_item": "western_holster" },
         { "u_spawn_item": "badge_marshal" },
