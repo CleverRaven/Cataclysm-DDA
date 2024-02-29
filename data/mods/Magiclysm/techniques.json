@@ -40,7 +40,7 @@
       }
     ],
     "flat_bonuses": [
-      { "stat": "damage", "type": "stab", "scale": 7 },
+      { "stat": "damage", "type": "stab", "scale": 6 },
       { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.2 },
       { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.8 },
       { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.09 },
