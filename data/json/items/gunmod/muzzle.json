@@ -182,7 +182,7 @@
     "id": "suppressor_compact",
     "type": "GUNMOD",
     "name": { "str": "pistol suppressor" },
-    "description": "A suppressor designed for pistols, submachine guns, and pistol caliber carbines. Gunfire is extremely loud and can damage your hearing without protection; a suppressor will bring the loudness of a report down to generally safe levels.",
+    "description": "A suppressor designed for pistols, submachine guns, and pistol caliber carbines.  Gunfire is extremely loud and can damage your hearing without protection; a suppressor will bring the loudness of a report down to generally safe levels.",
     "weight": "303 g",
     "//": "SilencerCo Omega 45K",
     "volume": "179 ml",
