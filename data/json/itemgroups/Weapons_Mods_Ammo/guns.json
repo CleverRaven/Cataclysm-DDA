@@ -2100,7 +2100,7 @@
             "charges": [ 0, 20 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_fn57" }
         ],
@@ -2108,14 +2108,14 @@
       },
       {
         "collection": [
-          { "item": "glock_19", "prob": 100, "charges": [ 0, 15 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 7050 ] },
+          { "item": "glock_19", "prob": 100, "charges": [ 0, 15 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 1000 ] },
           { "group": "field_glock_19" }
         ],
         "prob": 50
       },
       {
         "collection": [
-          { "item": "glock_17", "prob": 100, "charges": [ 0, 17 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 7050 ] },
+          { "item": "glock_17", "prob": 100, "charges": [ 0, 17 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 1000 ] },
           { "group": "field_glock_17" }
         ],
         "prob": 60
@@ -2128,7 +2128,7 @@
             "prob": 100,
             "charges": [ 0, 15 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_m9" }
         ],
@@ -2142,7 +2142,7 @@
             "charges": [ 0, 15 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_sp2022_9mm" }
         ],
@@ -2156,7 +2156,7 @@
             "charges": [ 0, 17 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_px4_9mm" }
         ],
@@ -2170,7 +2170,7 @@
             "charges": [ 0, 15 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_usp_9mm" }
         ],
@@ -2185,7 +2185,7 @@
             "charges": [ 0, 15 ],
             "damage": [ 0, 1 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_glock_31" }
         ],
@@ -2199,7 +2199,7 @@
             "charges": [ 0, 12 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_p226_357sig" }
         ],
@@ -2213,11 +2213,39 @@
             "charges": [ 0, 13 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_p320_357sig" }
         ],
         "prob": 2
+      },
+      {
+        "collection": [
+          { "item": "m11", "prob": 100, "charges": [ 0, 13 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 1000 ] },
+          { "group": "field_m11" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "m17", "prob": 100, "charges": [ 0, 17 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 1000 ] },
+          { "group": "field_m17" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "m18", "prob": 100, "charges": [ 0, 17 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 1000 ] },
+          { "group": "field_m18" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "p226_9mm", "prob": 100, "charges": [ 0, 15 ], "contents-group": "police_pistol_mods", "dirt": [ 0, 1000 ] },
+          { "group": "field_p226_9mm" }
+        ],
+        "prob": 5
       },
       {
         "collection": [
@@ -2228,7 +2256,7 @@
             "charges": [ 0, 15 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_glock_22" }
         ],
@@ -2242,7 +2270,7 @@
             "charges": [ 0, 14 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_px4_40" }
         ],
@@ -2256,7 +2284,7 @@
             "charges": [ 0, 12 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_sig_40" }
         ],
@@ -2270,7 +2298,7 @@
             "charges": [ 0, 13 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_glock_21" }
         ],
@@ -2285,7 +2313,7 @@
             "charges": [ 0, 12 ],
             "damage": [ 0, 3 ],
             "contents-group": "police_pistol_mods",
-            "dirt": [ 0, 7050 ]
+            "dirt": [ 0, 1000 ]
           },
           { "group": "field_usp_45" }
         ],
