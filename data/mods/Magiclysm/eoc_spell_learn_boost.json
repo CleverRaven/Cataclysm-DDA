@@ -27,7 +27,7 @@
     "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST",
     "eoc_type": "EVENT",
     "required_event": "character_casts_spell",
-    "//": "Regular classes levels some faster and needs 2-10 spellcasts to level up depends on spell cost",
+    "//": "Regular classes levels some faster and needs 16-65 spellcasts to level up depends on spell cost",
     "condition": {
       "or": [
         { "compare_string": [ "MANA_CRYST_MANA", { "context_val": "school" } ] },
@@ -48,7 +48,7 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 2, 10) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       }
     ]
@@ -58,7 +58,7 @@
     "id": "EOC_MC_CASTED_A_SPELL_LEARN_BOOST_ATTUNED",
     "eoc_type": "EVENT",
     "required_event": "character_casts_spell",
-    "//": "Attuned classes levels faster since they have no any books, and needs 1-5 spellcasts to level up depends on spell cost",
+    "//": "Attuned classes need 20 to 75 casts to level",
     "condition": {
       "or": [
         { "compare_string": [ "MANA_CRYST_MANA", { "context_val": "school" } ] },
@@ -107,7 +107,7 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 1, 5) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 20, 75) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       }
     ]
@@ -124,7 +124,7 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) * (_cost / 1000) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "mc_spell_exp_diff(u_spell_level(_spell)) * (_cost / 5000) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       }
     ]
@@ -165,14 +165,14 @@
         "math": [
           "u_spell_exp(_spell)",
           "+=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 2, 10) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       },
       {
         "math": [
           "debug_mc_additional_spell_xp",
           "=",
-          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 2, 10) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
+          "mc_spell_exp_diff(u_spell_level(_spell)) / mc_spell_cost_train_factor(_cost, 16, 65) * mc_spell_train_focus_factor(u_val('focus'),u_spell_level(_spell))"
         ]
       },
       { "u_message": "debug_mc_additional_spell_xp: <global_val:debug_mc_additional_spell_xp>", "type": "debug" }
