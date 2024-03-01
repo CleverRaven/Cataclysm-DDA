@@ -760,7 +760,7 @@
     "id": "MISSION_SAFETY",
     "type": "mission_definition",
     "name": { "str": "A Lite in the Dark" },
-    "description": "After witnessing the riots, the dead rising, and living by the skin of your teeth, you’re overdue to find some safety in this world of nightmares.  Hit the roads and track down a surviving human holdout that weathered the cataclysm, where you can rest your head and muster some hope.",
+    "description": "After witnessing the riots, the dead rising, and living by the skin of your teeth, you''re overdue to find some safety in this world of nightmares.  Hit the roads and track down a surviving human holdout that weathered the cataclysm, where you can rest your head and muster some hope.",
     "goal": "MGOAL_CONDITION",
     "goal_condition": {
       "or": [
