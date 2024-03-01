@@ -3207,23 +3207,10 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
 units::mass Character::weight_capacity() const
 {
     // Get base capacity from creature,
-    // then apply player-only mutation and trait effects.
+    // then apply enchantment.
     units::mass ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
     ret += get_str() * 4_kilogram;
-    ret *= mutation_value( "weight_capacity_modifier" );
-
-    units::mass worn_weight_bonus = 0_gram;
-    ret *= worn.weight_capacity_modifier();
-    worn_weight_bonus += worn.weight_capacity_bonus();
-
-    units::mass bio_weight_bonus = 0_gram;
-    for( const bionic_id &bid : get_bionics() ) {
-        ret *= bid->weight_capacity_modifier;
-        bio_weight_bonus +=  bid->weight_capacity_bonus;
-    }
-
-    ret += bio_weight_bonus + worn_weight_bonus;
 
     ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
@@ -6370,7 +6357,6 @@ mutation_value_map = {
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
     { "bionic_mana_penalty", calc_mutation_value_multiplicative<&mutation_branch::bionic_mana_penalty> },
     { "casting_time_multiplier", calc_mutation_value_multiplicative<&mutation_branch::casting_time_multiplier> },
-    { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_additive<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },

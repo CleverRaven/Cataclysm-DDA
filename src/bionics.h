@@ -61,10 +61,6 @@ struct bionic_data {
     * If true, this bionic is included with another.
     */
     bool included = false;
-    /**Factor modifying weight capacity*/
-    float weight_capacity_modifier = 1.0f;
-    /**Bonus to weight capacity*/
-    units::mass weight_capacity_bonus = 0_gram;
     /**Map of stats and their corresponding bonuses passively granted by a bionic*/
     std::map<character_stat, int> stat_bonus;
     /**This bionic draws power through a cable*/

@@ -507,11 +507,11 @@
           { "value": "MAX_HP", "multiply": -0.25 },
           { "value": "STRENGTH", "add": -3 },
           { "value": "DEXTERITY", "add": 2 },
-          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 }
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.7 }
         ]
       }
     ],
-    "weight_capacity_modifier": 0.7,
     "noise_modifier": 0
   },
   {
@@ -639,14 +639,14 @@
     "category": [ "SPECIES_LIZARDFOLK" ],
     "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "flags": [ "LARGE" ],
-    "weight_capacity_modifier": 1.05,
     "enchantments": [
       {
         "values": [
           { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
           { "value": "STRENGTH", "add": 1 },
           { "value": "DEXTERITY", "add": 1 },
-          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.25 }
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 }
         ]
       }
     ]

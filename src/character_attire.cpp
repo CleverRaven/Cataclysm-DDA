@@ -1148,23 +1148,6 @@ std::list<item> outfit::remove_worn_items_with( const std::function<bool( item &
     return result;
 }
 
-units::mass outfit::weight_capacity_bonus() const
-{
-    units::mass ret = 0_gram;
-    for( const item &clothing : worn ) {
-        ret += clothing.get_weight_capacity_bonus();
-    }
-    return ret;
-}
-
-float outfit::weight_capacity_modifier() const
-{
-    float ret = 1.0f;
-    for( const item &clothing : worn ) {
-        ret *= clothing.get_weight_capacity_modifier();
-    }
-    return ret;
-}
 
 units::mass outfit::weight() const
 {

@@ -11,12 +11,15 @@
     "description": "Eating that goblin fruit has made you grow to enormous size!",
     "flags": [ "HUGE" ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "weight_capacity_modifier": 1.1,
     "social_modifiers": { "intimidate": 15 },
     "enchantments": [
       "ench_giant_growth_size_bonuses",
       {
-        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 }, { "value": "CARDIO_MULTIPLIER", "multiply": 0.25 } ]
+        "values": [
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
       }
     ]
   },

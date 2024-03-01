@@ -533,7 +533,7 @@ Some armor with custom abilities can be handled as enchantments. This is a new w
   "valid": false,
   "purifiable": false,
   "types": [ "Equipment" ],
-  "weight_capacity_modifier": 1.1
+  "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.1 } ] } ]
 }
 ```
 
