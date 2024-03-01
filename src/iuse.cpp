@@ -2532,8 +2532,14 @@ std::optional<int> iuse::water_purifier( Character *p, item *it, const tripoint 
 // Part of iuse::water_tablets, but with the user interaction split out so it can be unit tested
 std::optional<int> iuse::purify_water( Character *p, item *purifier, item_location &water )
 {
-    // TODO: Find a way to move this to json:
-    const int max_water_per_tablet = 4;
+    const double default_ratio = 4; // Existing pur_tablets will not have the var
+    const int max_water_per_tablet = static_cast<int>( purifier->get_var( "water_per_tablet",
+                                     default_ratio ) );
+    if( max_water_per_tablet < 1 ) {
+        debugmsg( "ERROR: %s set to purify only %i water each.  Nothing was purified.",
+                  purifier->typeId().str(), max_water_per_tablet );
+        return std::nullopt;
+    }
 
     const std::vector<item *> liquids = water->items_with( []( const item & it ) {
         return it.typeId() == itype_water;

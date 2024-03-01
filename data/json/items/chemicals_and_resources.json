@@ -1152,7 +1152,9 @@
     "price": "9 cent",
     "price_postapoc": "20 cent",
     "volume": "2 ml",
-    "flags": [ "NO_INGEST" ]
+    "flags": [ "NO_INGEST" ],
+    "//6": "The ratio of how much water can be purified per tablet (maximum).  Should match the water_purifying recipe",
+    "variables": { "water_per_tablet": "4" }
   },
   {
     "type": "GENERIC",
