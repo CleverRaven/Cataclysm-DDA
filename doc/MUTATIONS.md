@@ -202,7 +202,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
     "type": "water_clean",                    // item to spawn
     "message": "You spawn a bottle of water." // message, that would be shown upon activation
   },
-  "stomach_size_multiplier": 2.0,             // modifier for the stomach size, increases how much food you can consume at once
   "scent_modifier": 0.0,                      // float affecting the intensity of your smell (default: 1.0).
   "scent_intensity": 800,                     // int affecting the target scent toward which you current smell gravitates (default: 500).
   "scent_mask": -200,                         // int added to your target scent value (default: 0).

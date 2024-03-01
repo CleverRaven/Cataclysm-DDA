@@ -322,7 +322,7 @@
     "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "changes_to": "SALAMANDER_BIGGER_STOMACH2",
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 2.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -332,7 +332,7 @@
     "description": "Like a coal furnace, the Salamander devours food to keep functioning.  They may eat three times as much at once and eat food 50% faster.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH" ],
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 3.0,
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
     "consume_time_modifier": 0.66
   },
   {
