@@ -893,9 +893,6 @@
     "name": { "str": "Ancient Tree" },
     "points": 10,
     "description": "You are a tree.  You will heal much more quickly and resting is more beneficial.  You are unable to see, hear, or move, but have a dim awareness of nearby movement.",
-    "restricts_gear": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
-    "remove_rigid": [ "head", "torso", "arm_l", "arm_r", "leg_r", "leg_l" ],
-    "allow_soft_gear": true,
     "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
@@ -906,6 +903,7 @@
     "mending_modifier": 16,
     "//": "Healing values copied from the Regeneration mutation",
     "attackcost_modifier": 900,
+    "override_look": { "id": "t_tree", "tile_category": "terrain" },
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
     "wet_protection": [
       { "part": "head", "ignored": 40 },

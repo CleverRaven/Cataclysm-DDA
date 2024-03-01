@@ -630,6 +630,7 @@
     "description": "You are a mass of pure water.  It is much harder to damage you, and you can move over any terrain without penalty, but you cannot attack.",
     "points": 10,
     "valid": false,
+    "override_look": { "id": "mon_water_sprite", "tile_category": "monster" },
     "enchantments": [
       "ench_undine_water_form_no_attack",
       "ench_undine_water_form_armor",
