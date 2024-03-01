@@ -351,6 +351,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "zoo_3_2_basement", "zoo_3_3_basement" ],
+    "copy-from": "generic_city_building",
+    "name": "zoo cave",
+    "sym": "Z",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "zoo_0_0_roof",
       "zoo_1_0_roof",
