@@ -2730,12 +2730,15 @@
     "types": [ "BONES" ],
     "category": [ "MOUSE", "RABBIT", "BIRD", "SLIME", "ELFA", "SPIDER", "CHIROPTERAN" ],
     "changes_to": [ "HOLLOW_BONES" ],
-    "attackcost_modifier": 0.9,
     "weight_capacity_modifier": 0.8,
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "EXTRA_BASH", "multiply": 0.4 }, { "value": "MOVE_COST", "multiply": -0.1 } ]
+        "values": [
+          { "value": "EXTRA_BASH", "multiply": 0.4 },
+          { "value": "MOVE_COST", "multiply": -0.1 },
+          { "value": "ATTACK_SPEED", "multiply": -0.1 }
+        ]
       }
     ]
   },
@@ -6807,9 +6810,16 @@
     "types": [ "BONES" ],
     "prereqs": [ "LIGHT_BONES" ],
     "category": [ "BIRD", "SLIME", "ELFA" ],
-    "attackcost_modifier": 0.8,
     "weight_capacity_modifier": 0.6,
-    "enchantments": [ { "values": [ { "value": "EXTRA_BASH", "multiply": 0.8 }, { "value": "MOVE_COST", "multiply": -0.2 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "EXTRA_BASH", "multiply": 0.8 },
+          { "value": "MOVE_COST", "multiply": -0.2 },
+          { "value": "ATTACK_SPEED", "multiply": -0.2 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6824,13 +6834,13 @@
       {
         "values": [
           { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "ATTACK_SPEED", "multiply": 0.05 },
           { "value": "MAX_HP", "add": 4 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
           { "value": "BONUS_DODGE", "add": -1 }
         ]
       }
     ],
-    "attackcost_modifier": 1.05,
     "weight_capacity_modifier": 1.15,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
   },

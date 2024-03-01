@@ -905,7 +905,6 @@
     "healing_multiplier": 2.5,
     "mending_modifier": 16,
     "//": "Healing values copied from the Regeneration mutation",
-    "attackcost_modifier": 900,
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
     "wet_protection": [
       { "part": "head", "ignored": 40 },
@@ -950,7 +949,11 @@
       "HOMULLUS"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
+    "enchantments": [
+      "ench_arvore_tree_form",
+      "ench_arvore_tree_reduce_thirst",
+      { "values": [ { "value": "ATTACK_SPEED", "multiply": 900 } ] }
+    ]
   },
   {
     "type": "mutation",

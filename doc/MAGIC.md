@@ -798,7 +798,7 @@ Character status value  | Description
 `ARMOR_HEAT`            | 
 `ARMOR_STAB`            | 
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
-`ATTACK_SPEED`          | Affects attack speed of item even if it's not the one you're wielding.
+`ATTACK_SPEED`          | Affects attack speed of item, even if it's not the one you're wielding, and throwing cost (capped at 25 moves). `"add": 10` adds 10 moves to each attack (makes it longer), `"add": -10` makes each attack faster for 10 moves; `"multiply": 1` doubles the speed of each attack
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
 `BANDAGE_BONUS`         | Affects the `bandages_power` you have when applying medicine.
 `BIONIC_MANA_PENALTY`       | same as mutation `bionic_mana_penalty` field, changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
