@@ -84,6 +84,28 @@
     "effects": [ "COOKOFF" ]
   },
   {
+    "type": "AMMO",
+    "id": "obsidian_rock",
+    "symbol": "*",
+    "color": "black_red",
+    "name": { "str": "obsidian rock" },
+    "description": "Am obsidian rock the size of a baseball which chips in a semi-predictable way if struck, leaving a sharp edge.  Makes a decent melee weapon, and is also good for throwing at enemies.  Looks like black glass.",
+    "category": "spare_parts",
+    "material": [ "obsidian" ],
+    "ammo_type": "rock",
+    "flags": [ "TRADER_AVOID", "NPC_THROWN" ],
+    "weight": "657 g",
+    "volume": "250 ml",
+    "longest_side": "8 cm",
+    "damage": { "damage_type": "stab", "amount": 9 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_60" ],
+    "melee_damage": { "stab": 9 }
+  },
+  {
     "id": "aetheric_charge",
     "type": "AMMO",
     "name": { "str_sp": "aetheric charge" },
