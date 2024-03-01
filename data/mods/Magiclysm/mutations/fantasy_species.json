@@ -624,12 +624,13 @@
   {
     "type": "mutation",
     "id": "WEBBED_LIZ_FEET",
-    "name": { "str": "Webbed Feet" },
+    "name": { "str": "Lizardfolk Feet" },
     "//": "Alternate so webbed hands are not a prerequisite",
     "points": 1,
     "types": [ "FEET" ],
-    "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
+    "description": "Your feet are heavily webbed, with three large scaled toes and a dewclaw in the back, allowing you to swim faster.  However, your feet are not designed for human footwear.",
     "category": [ "SPECIES_LIZARDFOLK" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
     "flags": [ "WEBBED_FEET", "TOUGH_FEET" ],
     "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
   },
