@@ -342,7 +342,7 @@
     "prereqs": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
     "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
-    "movecost_swim_modifier": 0.3
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.7 } ] } ]
   },
   {
     "type": "mutation",
@@ -397,7 +397,7 @@
     "prereqs": [ "UNDINE_WATER_PUSH_AWAY" ],
     "changes_to": [ "UNDINE_STR_UP_2" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -409,7 +409,7 @@
     "description": "Year by year, meter by meter, the waves gradually erode the beaches.  +3 Strength.",
     "prereqs": [ "UNDINE_STR_UP_1" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -422,7 +422,7 @@
     "prereqs": [ "UNDINE_SKIN_1" ],
     "changes_to": [ "UNDINE_DEX_UP_2" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -435,7 +435,7 @@
     "prereqs": [ "UNDINE_DEX_UP_1" ],
     "changes_to": [ "UNDINE_DEX_UP_3" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "dex_mod": 4 },
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ],
     "thirst_modifier": 0.15
   },
   {
@@ -449,7 +449,7 @@
     "prereqs": [ "UNDINE_DEX_UP_2" ],
     "prereqs2": [ "UNDINE_WATER_BODY" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "dex_mod": 6 },
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 } ] } ],
     "thirst_modifier": 0.25
   },
   {
@@ -462,7 +462,7 @@
     "description": "The Undine's senses take in their environment like a fisher gazing to the bottom of a clear pond.  +2 Perception.",
     "prereqs": [ "UNDINE_RIVER_MAPPING" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "per_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -630,8 +630,11 @@
     "description": "You are a mass of pure water.  It is much harder to damage you, and you can move over any terrain without penalty, but you cannot attack.",
     "points": 10,
     "valid": false,
-    "movecost_swim_modifier": 0.6,
-    "enchantments": [ "ench_undine_water_form_no_attack", "ench_undine_water_form_armor" ],
+    "enchantments": [
+      "ench_undine_water_form_no_attack",
+      "ench_undine_water_form_armor",
+      { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.4 } ] }
+    ],
     "flags": [ "STEADY", "WALK_UNDERWATER", "BULLET_IMMUNE" ]
   },
   {

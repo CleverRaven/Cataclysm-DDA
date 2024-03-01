@@ -222,30 +222,10 @@ struct mutation_branch {
         // Limb mending bonus
         std::optional<float> mending_modifier = std::nullopt;
         std::optional<float> pain_modifier = std::nullopt;
-        // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
-        std::optional<float> hp_modifier = std::nullopt;
-        // Second HP modifier that stacks with first but is otherwise identical.
-        std::optional<float> hp_modifier_secondary = std::nullopt;
-        // Flat bonus/penalty to hp.
-        std::optional<float> hp_adjustment = std::nullopt;
-        // Modify strength stat without changing HP
-        std::optional<float> str_modifier = std::nullopt;
-        //melee bonuses
-        int cut_dmg_bonus = 0;
-        float pierce_dmg_bonus = 0.0f;
-        std::pair<int, int> rand_cut_bonus;
-        int bash_dmg_bonus = 0;
-        std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
-        std::optional<float> dodge_modifier = std::nullopt;
-        std::optional<float> movecost_modifier = std::nullopt;
-        std::optional<float> movecost_flatground_modifier = std::nullopt;
-        std::optional<float> movecost_obstacle_modifier = std::nullopt;
         std::optional<float> attackcost_modifier = std::nullopt;
         std::optional<float> cardio_multiplier = std::nullopt;
         std::optional<float> weight_capacity_modifier = std::nullopt;
-        std::optional<float> hearing_modifier = std::nullopt;
-        std::optional<float> movecost_swim_modifier = std::nullopt;
         std::optional<float> noise_modifier = std::nullopt;
         float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;

@@ -94,12 +94,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
-  "cut_dmg_bonus": 3,                         // Bonus to unarmed cut damage (default: 0).
-  "pierce_dmg_bonus": 3,                      // Bonus to unarmed pierce damage (default: 0.0).
-  "bash_dmg_bonus": 3,                        // Bonus to unarmed bash damage (default: 0).
   "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
-  "rand_cut_bonus": { "min": 2, "max": 3 },   // Random bonus to unarmed cut damage between min and max.
-  "rand_bash_bonus": { "min": 2, "max": 3 },  // Random bonus to unarmed bash damage between min and max.
   "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "bodytemp_sleep": 50,                       // Additional units of bodytemp which are applied when sleeping.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
@@ -146,10 +141,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
   "prevented_by": [ "LEAVES2" ],            // Can't mutate toward this mutation if you have the listed one.
-  "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
-    "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
-    "str_mod": 2
-  },
   "wet_protection": [ { "part": "head", "good": 1 } ],    // Wet Protection on specific bodyparts.  Possible values: "neutral/good/ignored".  Good increases pos and cancels neg, neut cancels neg, ignored cancels both.
   "vitamin_rates": [ [ "vitC", -1200 ] ],     // How much extra vitamins do you consume, one point per this many seconds.  Negative values mean production.
   "vitamins_absorb_multi": [                  // Multiplier of vitamin absorption based on material.  "all" includes every material.  Supports multiple materials.
@@ -197,12 +188,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "casting_time_multiplier": 0.01,            // changes your casting speed; 0.5 means you spend only 50% of the original cast time, 2 means you spend twice as long. Useful only for magic mods
   "crafting_speed_multiplier": 1,             // changes your crafting speed; 0.5 decrease your crafting speed to 50%, 2 doubles it
-  "dodge_modifier": 1,                        // adds or substract flat amount of dodge from character
   "vomit_multiplier": 3,                      // the modifier for the vomit chance
   "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
-  "hp_adjustment": 3,                         // flat bonus/penalty to HP - `5` adds 5 hp to all limbs, `-3` subtract 3 hp.
-  "hp_modifier": 1.1,                         // percent bonus to HP - `1` =100%, doubles the hp, `-0.5` means -50%, halves the hp.
-  "hp_modifier_secondary": 0.1,               // second percent HP modifier, applied after the first one
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
   "noise_modifier": 0.4,                      // changes how much noise you produce while walking, `0.5` halves it, `2` doubles it
   "obtain_cost_multiplier": 1.1,              // modifier for pulling an item from a container and storing it back, as a handling penalty
@@ -246,10 +233,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.
   "mending_modifier": 1.2,                    // Multiplier on how fast your limbs mend (1.2 is 20% faster).
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
-  "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
-  "movecost_flatground_modifier": 0.9,        // Movement speed cost modifier on flat terrain, free from obstacles (0.9 is 10% faster, 1.1 is 10% slower).
-  "movecost_obstacle_modifier": 0.9,          // Movement speed cost modifier on rough, uneven terrain (0.9 is 10% faster, 1.1 is 10% slower).
-  "movecost_swim_modifier": 0.9,              // Swimming speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "weight_capacity_modifier": 0.9,            // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
