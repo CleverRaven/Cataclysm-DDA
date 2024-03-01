@@ -838,14 +838,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sense_sun",
-    "//": "Hidden, but provides flags for Sensing the Sun",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "flags": [ "WATCH", "ALARMCLOCK" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_arvore_vitamin_bonus",
     "//": "Hidden, but provides vitamins for being out in the sun",
     "name": [ "" ],

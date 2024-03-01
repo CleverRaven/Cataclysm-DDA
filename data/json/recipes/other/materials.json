@@ -1207,6 +1207,7 @@
   },
   {
     "result": "tin",
+    "id_suffix": "from_bowl",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
@@ -1317,6 +1318,7 @@
   },
   {
     "result": "tin",
+    "id_suffix": "from_scrap",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -1689,6 +1691,7 @@
   },
   {
     "result": "plastic_sheet",
+    "id_suffix": "with_duct_tape",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -1717,6 +1720,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_sheet",
+    "id_suffix": "with_heat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",

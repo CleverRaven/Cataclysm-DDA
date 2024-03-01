@@ -146,7 +146,7 @@
     "changes_to": [ "THICKSKIN3" ],
     "armor": [ { "part_types": [ "tail" ], "cut": 14, "bash": 10 } ],
     "integrated_armor": [ "integrated_reptilescales" ],
-    "passive_mods": { "dex_mod": -1 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -390,7 +390,7 @@
       "base_damage": { "damage_type": "bash", "amount": 24 },
       "strength_damage": { "damage_type": "stab", "amount": 2 }
     },
-    "dodge_modifier": 1
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",

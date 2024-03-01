@@ -1415,6 +1415,7 @@ These can be read or written to with `val()`.
 | `thirst` | ✅ | Current thirst. |
 | `volume` | ❌ | Current volume in mL. Only works for monsters |
 | `weight` | ❌ | Current weight in mg. |
+| `count`  | ❌ | Count of an item. |
 
 
 #### Math functions defined in JSON

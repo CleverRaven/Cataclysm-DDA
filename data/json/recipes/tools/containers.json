@@ -840,7 +840,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "skull_human", 1 ] ] ]
+    "components": [ [ [ "skull_human", 1 ], [ "skull_human_tainted", 1 ] ] ]
   },
   {
     "type": "recipe",

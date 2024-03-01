@@ -31,13 +31,14 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#if !defined(__ANDROID__)
-#include "cata_imgui.h"
-#include "imgui/imgui.h"
 
 enum class kb_menu_status {
     remove, add, add_global, execute, show
 };
+
+#if !defined(__ANDROID__)
+#include "cata_imgui.h"
+#include "imgui/imgui.h"
 
 class keybindings_ui : public cataimgui::window
 {
@@ -281,13 +282,16 @@ std::string input_context::get_desc( const std::string &action_descriptor,
             category, &is_local );
 
     if( events.empty() ) {
-        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" );
+        if( is_local ) {
+            bool global_empty = inp_mngr.get_input_for_action( action_descriptor ).empty();
+            return global_empty ? _( "Unbound locally!" ) : _( "Unbound locally!  Underlying global." );
+        } else {
+            return _( "Unbound globally!" );
+        }
     }
 
     std::vector<input_event> inputs_to_show;
-    for( const input_event &events_i : events ) {
-        const input_event &event = events_i;
-
+    for( const input_event &event : events ) {
         if( is_event_type_enabled( event.type ) && evt_filter( event ) ) {
             inputs_to_show.push_back( event );
         }
@@ -722,8 +726,10 @@ void keybindings_ui::draw_controls()
             }
             key_text += string_format( "%s:", ctxt->get_action_name( action_id ) );
             bool is_selected = false;
-            draw_colored_text( key_text, col, 0.0f, &is_selected );
-            if( ( is_selected || ImGui::IsItemHovered() ) && invlet != ' ' ) {
+            bool is_hovered = false;
+            draw_colored_text( key_text, col, 0.0f, status == kb_menu_status::show ? nullptr : &is_selected,
+                               nullptr, &is_hovered );
+            if( ( is_selected || is_hovered ) && invlet != ' ' ) {
                 highlight_row_index = i;
             }
             //ImGui::SameLine();
@@ -868,19 +874,19 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
         draw_border( w_help, BORDER_COLOR, _( "Keybindings" ), c_light_red );
         draw_scrollbar( w_help, scroll_offset, display_height,
                         filtered_registered_actions.size(), point( 0, 7 ), c_white, true );
-        const int legend_lines = 1 + fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
+        fold_and_print( w_help, point( 2, 1 ), legwidth, c_white, legend );
         const auto item_color = []( const int index_to_draw, int index_highlighted ) {
             return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
         };
-        right_print( w_help, legend_lines, 2,
+        right_print( w_help, 1, 2,
                      item_color( static_cast<int>( kb_btn_idx::remove ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
                                     fallback_keys.at( fallback_action::remove ) ) );
-        right_print( w_help, legend_lines, 26,
+        right_print( w_help, 2, 2,
                      item_color( static_cast<int>( kb_btn_idx::add_local ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
                                     fallback_keys.at( fallback_action::add_local ) ) );
-        right_print( w_help, legend_lines, 54,
+        right_print( w_help, 3, 2,
                      item_color( static_cast<int>( kb_btn_idx::add_global ), int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
                                     fallback_keys.at( fallback_action::add_global ) ) );
@@ -969,14 +975,12 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
                 if( window_contains_point_relative( w_help, p ) ) {
                     if( p.y >= 7 && p.y < TERMY && status != kb_menu_status::show ) {
                         highlight_row_index = p.y - 7;
-                    } else if( p.y == 4 ) {
-                        if( p.x >= 17 && p.x <= 43 ) {
-                            highlighted_btn_index = kb_btn_idx::add_global;
-                        } else if( p.x >= 46 && p.x < 72 ) {
-                            highlighted_btn_index = kb_btn_idx::add_local;
-                        } else if( p.x >= 73 && p.x < 96 ) {
-                            highlighted_btn_index = kb_btn_idx::remove;
-                        }
+                    } else if( p.y == 1 ) {
+                        highlighted_btn_index = kb_btn_idx::remove;
+                    } else if( p.y == 2 ) {
+                        highlighted_btn_index = kb_btn_idx::add_local;
+                    } else if( p.y == 3 ) {
+                        highlighted_btn_index = kb_btn_idx::add_global;
                     }
                 }
             }
@@ -1281,15 +1285,16 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
             kb_menu.hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
         } else if( !kb_menu.filtered_registered_actions.empty() &&
                    kb_menu.status != kb_menu_status::show ) {
-            size_t hotkey_index = kb_menu.hotkeys.find_first_of( raw_input_char );
-            if( hotkey_index == std::string::npos ) {
-                if( action == "SELECT" && kb_menu.highlight_row_index != -1 ) {
-                    hotkey_index = size_t( kb_menu.highlight_row_index );
-                } else {
+            size_t action_index = SIZE_MAX;
+            if( action == "SELECT" && kb_menu.highlight_row_index != -1 ) {
+                action_index = kb_menu.highlight_row_index;
+            } else {
+                size_t hotkey_index = kb_menu.hotkeys.find_first_of( raw_input_char );
+                if( hotkey_index == std::string::npos ) {
                     continue;
                 }
+                action_index = hotkey_index + kb_menu.scroll_offset;
             }
-            const size_t action_index = hotkey_index + kb_menu.scroll_offset;
             if( action_index >= kb_menu.filtered_registered_actions.size() ) {
                 continue;
             }
@@ -1471,7 +1476,8 @@ std::string input_context::get_action_name( const std::string &action_id ) const
     }
 
     // 2) Check if the hotkey has a name
-    const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category );
+    const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category, nullptr,
+                                          true );
     if( !attributes.name.empty() ) {
         return attributes.name.translated();
     }
@@ -1480,7 +1486,7 @@ std::string input_context::get_action_name( const std::string &action_id ) const
     // this context that is masking the global hotkey. Fallback to the global
     // hotkey's name.
     const action_attributes &default_attributes = inp_mngr.get_action_attributes( action_id,
-            default_context_id );
+            default_context_id, nullptr, true );
     if( !default_attributes.name.empty() ) {
         return default_attributes.name.translated();
     }
