@@ -2439,6 +2439,11 @@
     "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
   },
   {
+    "id": "BILE_AFFLICTED",
+    "type": "json_flag",
+    "//": "The character is afflicted with boomer bile."
+  },
+  {
     "id": "DRACULIN_VENOM",
     "type": "json_flag"
   }
