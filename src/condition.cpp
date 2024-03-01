@@ -1196,6 +1196,16 @@ conditional_t::func f_is_alive( bool is_npc )
     };
 }
 
+conditional_t::func f_exists( bool is_npc )
+{
+    return [is_npc]( dialogue const & d ) {
+        if( ( is_npc && !d.has_beta ) || ( !is_npc && !d.has_alpha ) ) {
+            return false;
+        } else {
+            return true;
+        }
+    };
+}
 conditional_t::func f_is_avatar( bool is_npc )
 {
     return [is_npc]( dialogue const & d ) {
@@ -2008,6 +2018,7 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "thirst", &talker::get_thirst },
     { "volume", &talker::get_volume },
     { "weight", &talker::get_weight },
+    { "count", &talker::get_count }
 };
 } // namespace
 
@@ -2434,6 +2445,7 @@ parsers_simple = {
     {"u_can_see", "npc_can_see", &conditional_fun::f_can_see },
     {"u_is_deaf", "npc_is_deaf", &conditional_fun::f_is_deaf },
     {"u_is_alive", "npc_is_alive", &conditional_fun::f_is_alive },
+    {"u_exists", "npc_exists", &conditional_fun::f_exists },
     {"u_is_avatar", "npc_is_avatar", &conditional_fun::f_is_avatar },
     {"u_is_npc", "npc_is_npc", &conditional_fun::f_is_npc },
     {"u_is_character", "npc_is_character", &conditional_fun::f_is_character },

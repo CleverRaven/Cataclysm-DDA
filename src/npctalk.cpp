@@ -4891,11 +4891,8 @@ talk_effect_fun_t::func f_run_eoc_until( const JsonObject &jo, std::string_view 
 
 talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_view member )
 {
-    std::vector<str_or_var> eocs;
-    for( const JsonValue &jv : jo.get_array( member ) ) {
-        eocs.push_back( get_str_or_var( jv, member, true ) );
-    }
 
+    std::vector<eoc_entry> eocs = load_eoc_vector_id_and_var( jo, member );
     if( eocs.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
@@ -4984,8 +4981,9 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         parse_tags( eoc_list.text, alpha, beta, d );
 
         for( size_t i = 0; i < eocs.size(); i++ ) {
-            effect_on_condition_id eoc_id = effect_on_condition_id( eocs[i].evaluate( d ) );
 
+            effect_on_condition_id eoc_id =
+                eocs[i].var ? effect_on_condition_id( eocs[i].var->evaluate( d ) ) : eocs[i].id;
             // check and set condition
             bool display = false;
             if( eoc_id->has_condition ) {
@@ -5043,7 +5041,10 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             }
         }
 
-        effect_on_condition_id( eocs[eoc_list.ret].evaluate( d ) )->activate( newDialog );
+        effect_on_condition_id chosen_eoc_id =
+            eocs[eoc_list.ret].var ? effect_on_condition_id( eocs[eoc_list.ret].var->evaluate(
+                        d ) ) : eocs[eoc_list.ret].id;
+        chosen_eoc_id->activate( newDialog );
     };
 }
 
@@ -5109,9 +5110,9 @@ talk_effect_fun_t::func f_run_eoc_with( const JsonObject &jo, std::string_view m
                 } else if( str.empty() ) {
                     guy = nullptr;
                 } else if( str == "u" ) {
-                    guy = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+                    guy = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
                 } else if( str == "npc" ) {
-                    guy = d.has_beta ? d.actor( true )->get_character() : nullptr;
+                    guy = d.has_beta ? d.actor( true )->get_creature() : nullptr;
                 } else if( str == "avatar" ) {
                     guy = &get_avatar();
                 } else {
