@@ -350,6 +350,17 @@ struct mutation_branch {
         std::vector<effect_on_condition_id> deactivated_eocs;
         /** mutation enchantments */
         std::vector<enchantment_id> enchantments;
+
+        struct OverrideLook {
+            std::string id;
+            std::string tile_category;
+            OverrideLook( const std::string &_id, const std::string &_tile_category )
+                : id( _id ), tile_category( _tile_category ) {}
+        };
+        /** ID, tile category, and variant
+        This will make the player appear as another entity (such as a non-humanoid creature).
+        The texture will override all other textures, including the character's body. */
+        std::optional<OverrideLook> override_look;
     private:
         translation raw_spawn_item_message;
     public:

@@ -3408,6 +3408,25 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     return rval;
 }
 
+std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids_when_override_look()
+        const
+{
+    std::vector<std::pair<std::string, std::string>> rval;
+    std::multimap<int, std::pair<std::string, std::string>> mutation_sorting;
+    std::string overlay_id;
+    std::string variant;
+
+    // first get effects
+    for( const auto &eff_pr : *effects ) {
+        rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
+    }
+    // then move_move sign
+    if( !is_walking() ) {
+        rval.emplace_back( move_mode.str(), "" );
+    }
+    return rval;
+}
+
 SkillLevelMap Character::get_all_skills() const
 {
     SkillLevelMap skills = *_skills;

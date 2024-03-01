@@ -2371,6 +2371,13 @@ class Character : public Creature, public visitable
          * Only required for rendering.
          */
         std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
+        /**
+         * Returns a list of the IDs of overlays on this character if the character has override look mutations
+         * sorted from "lowest" to "highest".
+         *
+         * Only required for rendering.
+         */
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look() const;
 
         // --------------- Skill Stuff ---------------
         float get_skill_level( const skill_id &ident ) const;
@@ -2608,8 +2615,10 @@ class Character : public Creature, public visitable
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true,
-                                             bool ignore_enchantment = false ) const;
+        std::vector<trait_id> get_mutations(
+            bool include_hidden = true,
+            bool ignore_enchantment = false,
+            const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
         /** Same as above, but also grab the variant ids (or empty string if none) */
         std::vector<trait_and_var> get_mutations_variants( bool include_hidden = true,
                 bool ignore_enchantment = false ) const;

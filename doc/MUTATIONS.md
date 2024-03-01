@@ -274,7 +274,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "mana_regen_multiplier": 1.5,               // Multiplier on your mana regeneration.  0.5 is 50% of normal, 1.5 is 150% of normal.
   "mana_multiplier": 1.25,                    // Multiplier on your total mana amount, after mana_modifier and any other bonuses. 0.75 is 75% of normal, 1.5 is 150% of normal. 
   "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
-  "moncams": [ [ "mon_player_blob", 16 ] ]    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
+  "moncams": [ [ "mon_player_blob", 16 ] ],    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
+  "override_look": { "id": "mon_cat_black", "tile_category": "monster" } // Change the character's appearance to another specified thing with a specified ID and tile category. Please ensure that the ID corresponds to the tile category. The valid tile category are "none", "vehicle_part", "terrain", "item", "furniture", "trap", "field", "lighting", "monster", "bullet", "hit_entity", "weather", "overmap_terrain", "map_extra", "overmap_note".
 }
 
 ```
