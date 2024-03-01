@@ -271,7 +271,7 @@
     "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
     "description": "You have gained a portion of the might of your fae ancestors.  +1 Strength and Dexterity.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
-    "passive_mods": { "str_mod": 1, "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 }, { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -285,7 +285,7 @@
     "description": "You have gained the might of your fae ancestors.  +2 Strength and Dexterity.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
-    "passive_mods": { "str_mod": 2, "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -298,7 +298,7 @@
     "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
     "description": "You have gained a portion of the wits of your fae ancestors.  +1 Intelligence and Perception.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
-    "passive_mods": { "int_mod": 1, "per_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 }, { "value": "PERCEPTION", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -312,7 +312,7 @@
     "description": "You have gained the wits of your fae ancestors.  +2 Intelligence and Perception.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
-    "passive_mods": { "int_mod": 2, "per_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 }, { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",

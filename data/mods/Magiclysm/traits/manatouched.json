@@ -70,7 +70,7 @@
     "id": "WEAK",
     "type": "mutation",
     "name": { "str": "Weak" },
-    "passive_mods": { "str_mod": -2 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": -2 } ] } ],
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
     "types": [ "STR" ],
