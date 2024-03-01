@@ -886,6 +886,15 @@ NPC is dead
 ```json
 { "not": "npc_is_alive" }
 ```
+### `u_exists`, `npc_exists`
+- type: simple string
+- return true if alpha or beta talker is not null
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### `u_is_on_terrain`, `npc_is_on_terrain`
 - type: string or [variable object](##variable-object)
@@ -2116,7 +2125,7 @@ Open a menu, that allow to select one of multiple options
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eoc_selector" | **mandatory** | array of strings or [variable objects](#variable-object) | list of EoCs, that could be picked; conditions of the listed EoCs would be checked, and one that do not pass would be grayed out |
+| "run_eoc_selector" | **mandatory** | array of strings or [variable objects](#variable-object) or inline EOCs| list of EoCs, that could be picked; conditions of the listed EoCs would be checked, and one that do not pass would be grayed out |
 | "names" | optional | array of strings or [variable objects](#variable-object) | name of the option, that would be shown on the list; amount of names should be equal amount of EoCs | 
 | "descriptions" | optional | array of strings or [variable objects](#variable-object) | description of the options, that would be shown on the list; amount of descriptions should be equal amount of EoCs | 
 | "keys" | optional | single character | a character, that would be used as a shortcut to pick each EoC; amount of keys should be equal amount of EoCs | 

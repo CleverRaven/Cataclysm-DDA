@@ -518,5 +518,15 @@
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_enchanting_master",
+    "name": { "str": "Enchanting Master" },
+    "points": 0,
+    "description": "You can temporarily enchant your weapons with magic, imbuing them with powerful capabilities.",
+    "category": [ "perk" ],
+    "spells_learned": [ [ "spell_enchanting_master", 0 ] ],
+    "enchantments": [ "ench_enchanting_master" ]
   }
 ]
