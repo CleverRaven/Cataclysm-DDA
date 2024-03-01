@@ -5002,5 +5002,19 @@
       { "limb_score": "reaction", "modifier": 0.9 }
     ],
     "base_mods": { "dex_mod": [ -2 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "mood_regulator_hangover",
+    "name": [ "Bionic Mood Regulator Hangover" ],
+    "max_duration": "10 m",
+    "desc": [
+      "After experiencing the serenity of the mood regulator, the world without it seems much too intense.  It will take you a few minutes to adjust."
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.95 }
+    ],
+    "base_mods": { "dex_mod": [ -1 ] }
   }
 ]

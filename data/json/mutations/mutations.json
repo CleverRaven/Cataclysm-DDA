@@ -4108,6 +4108,7 @@
     "id": "SLOB",
     "name": { "str": "Slob" },
     "points": 1,
+    "cancels": [ "SQUEAMISH" ],
     "description": "Your system is adapted to wallowing in filth.  Filthy clothing and environments won't affect your mood or your overall health, though on its own this won't prevent you from acquiring any infection or disease.",
     "prereqs": [ "SAPROVORE", "VOMITOUS" ],
     "category": [ "SLIME", "TROGLOBITE", "CRUSTACEAN", "INSECT", "CHIMERA", "GASTROPOD" ]
@@ -4510,7 +4511,7 @@
     "name": { "str": "Saprovore" },
     "points": 2,
     "description": "Your digestive system is specialized to allow you to consume decaying material.  You can eat rotten food, albeit for less nutrition than usual.",
-    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD", "MOUSE" ],
+    "category": [ "TROGLOBITE", "CHIMERA", "GASTROPOD", "MOUSE", "INSECT" ],
     "flags": [ "IMMUNE_SPOIL" ]
   },
   {
@@ -9146,6 +9147,7 @@
     "id": "SQUEAMISH",
     "name": { "str": "Squeamish" },
     "points": -1,
+    "cancels": [ "SLOB" ],
     "starting_trait": true,
     "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
   },
