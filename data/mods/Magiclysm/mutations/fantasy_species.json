@@ -681,7 +681,7 @@
     "types": [ "METABOLISM" ],
     "category": [ "SPECIES_LIZARDFOLK" ],
     "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",

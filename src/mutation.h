@@ -261,8 +261,6 @@ struct mutation_branch {
 
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
         std::optional<float> temperature_speed_modifier = std::nullopt;
-        // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        std::optional<float> metabolism_modifier = std::nullopt;
         // As above but for thirst.
         std::optional<float> thirst_modifier = std::nullopt;
         // As above but for fatigue.

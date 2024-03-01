@@ -699,7 +699,7 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "GIZZARD" ],
     "category": [ "FISH", "BIRD", "TROGLOBITE", "CHIROPTERAN", "GASTROPOD", "CEPHALOPOD", "RAPTOR" ],
-    "metabolism_modifier": -0.333
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -6930,7 +6930,7 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "HUNGER2", "MET_RAT" ],
     "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE", "RABBIT" ],
-    "metabolism_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.5 } ] } ],
     "stamina_regen_modifier": 0.1
   },
   {
@@ -6947,7 +6947,7 @@
     "healing_multiplier": 1.5,
     "fatigue_modifier": 0.5,
     "fatigue_regen_modifier": 0.333,
-    "metabolism_modifier": 0.333
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -6959,7 +6959,7 @@
     "changes_to": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "category": [ "BEAST", "SLIME", "RAPTOR", "CHIMERA" ],
-    "metabolism_modifier": 1.0,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 1 } ] } ],
     "stamina_regen_modifier": 0.3
   },
   {
@@ -6972,7 +6972,7 @@
     "leads_to": [ "EATHEALTH" ],
     "types": [ "METABOLISM" ],
     "category": [ "CHIMERA" ],
-    "metabolism_modifier": 2.0,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 2 } ] } ],
     "stamina_regen_modifier": 0.5
   },
   {
@@ -7751,7 +7751,7 @@
     "changes_to": [ "COLDBLOOD2" ],
     "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
     "temperature_speed_modifier": 0.2,
-    "metabolism_modifier": -0.333
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -7766,7 +7766,7 @@
     "changes_to": [ "COLDBLOOD3" ],
     "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
     "temperature_speed_modifier": 0.333,
-    "metabolism_modifier": -0.5
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -7781,7 +7781,7 @@
     "changes_to": [ "COLDBLOOD4" ],
     "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": -0.5
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -7797,7 +7797,7 @@
     "purifiable": false,
     "category": [ "LIZARD", "PLANT", "BATRACHIAN" ],
     "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": -0.5
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",

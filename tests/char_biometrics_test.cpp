@@ -499,7 +499,7 @@ TEST_CASE( "mutations_may_affect_character_metabolic_rate", "[biometrics][metabo
     // game balance JSON, the below tests are likely to fail and need adjustment.
     REQUIRE( normal_metabolic_rate == 1.0f );
 
-    // Mutations with a "metabolism_modifier" in mutations.json add/subtract to the base rate.
+    // Mutations with "METABOLISM" enchantment in mutations.json add/subtract to the base rate.
     // For example the rapid / fast / very fast / extreme metabolisms:
     //
     //     MET_RAT (+0.333), HUNGER (+0.5), HUNGER2 (+1.0), HUNGER3 (+2.0)

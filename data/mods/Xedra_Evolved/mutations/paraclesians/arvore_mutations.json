@@ -899,7 +899,6 @@
     "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "metabolism_modifier": -0.5,
     "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
@@ -952,7 +951,7 @@
     "enchantments": [
       "ench_arvore_tree_form",
       "ench_arvore_tree_reduce_thirst",
-      { "values": [ { "value": "ATTACK_SPEED", "multiply": 900 } ] }
+      { "values": [ { "value": "ATTACK_SPEED", "multiply": 900 }, { "value": "METABOLISM", "multiply": -0.5 } ] }
     ]
   },
   {

@@ -267,7 +267,7 @@
     "valid": false,
     "types": [ "METABOLISM" ],
     "changes_to": [ "LARGE_DIET" ],
-    "metabolism_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.5 } ] } ],
     "stamina_regen_modifier": 0.1
   },
   {
@@ -283,7 +283,7 @@
     "healing_multiplier": 0.25,
     "fatigue_modifier": 0.75,
     "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 0.4
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",

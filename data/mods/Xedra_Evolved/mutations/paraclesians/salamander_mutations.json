@@ -360,7 +360,7 @@
     "category": [ "SALAMANDER" ],
     "fatigue_modifier": -0.25,
     "fatigue_regen_modifier": 0.25,
-    "metabolism_modifier": 0.33,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.33 } ] } ],
     "stamina_regen_modifier": 0.1
   },
   {
@@ -375,7 +375,7 @@
     "category": [ "SALAMANDER" ],
     "fatigue_modifier": -0.5,
     "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 0.66,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.66 } ] } ],
     "stamina_regen_modifier": 0.2
   },
   {
@@ -392,7 +392,7 @@
     "threshreq": [ "THRESH_SALAMANDER" ],
     "fatigue_modifier": -0.5,
     "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 1,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 1 } ] } ],
     "stamina_regen_modifier": 0.3,
     "activated_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "processed_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],

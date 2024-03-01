@@ -220,7 +220,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allowed_category": [ "ALPHA" ],            // List of categories you can mutate into (default: empty).
   "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ],  // List of body parts that can't receive CBMs (default: empty).
   "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ],              // List of glowing bodypart and the intensity of the glow as a float (default: empty).
-  "metabolism_modifier": 0.333,               // Extra metabolism rate multiplier (1.0 doubles, -0.5 halves).
   "thirst_modifier": 0.1,                     // Extra thirst modifier (1.0 doubles, -0.5 halves).
   "fatigue_modifier": 0.5,                    // Extra fatigue rate multiplier (1.0 doubles usage, -0.5 halves).
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
