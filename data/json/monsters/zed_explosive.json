@@ -26,9 +26,24 @@
     "vision_night": 3,
     "harvest": "exempt",
     "grab_strength": 25,
-    "special_attacks": [ [ "BOOMER", 20 ], { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "bile_spew", "min_level": 3 },
+        "monster_message": "The %s spews bile!",
+        "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_is_underwater": "true" } }, { "not": { "npc_is_underwater": "true" } } ] }
+      },
+      { "id": "grab" },
+      { "id": "bite_humanoid" },
+      { "id": "scratch_humanoid" }
+    ],
+    "death_function": {
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 3 },
+      "message": "A %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_fungus",
     "flags": [
@@ -77,10 +92,21 @@
     "harvest": "zombie",
     "fungalize_into": "mon_boomer_fungus",
     "grab_strength": 30,
-    "special_attacks": [ [ "BOOMER_GLOW", 20 ], { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "bioluminescent_spew", "min_level": 5 },
+        "monster_message": "The %s spews glowing bile!",
+        "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_is_underwater": "true" } }, { "not": { "npc_is_underwater": "true" } } ] }
+      },
+      { "id": "grab" },
+      { "id": "bite_humanoid" },
+      { "id": "scratch_humanoid" }
+    ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "death_function": {
-      "effect": { "id": "death_boomer_glow", "hit_self": true, "min_level": 1 },
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 5 },
       "message": "A %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
@@ -299,8 +325,12 @@
         "monster_message": "The glutton vomits sludge!"
       }
     ],
+    "death_function": {
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 6 },
+      "message": "A %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -347,8 +377,12 @@
         "monster_message": "A bombardier boomer explodes!"
       }
     ],
+    "death_function": {
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 4 },
+      "message": "A %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 10, "cut": 5, "bullet": 5, "electric": 2 }
   }

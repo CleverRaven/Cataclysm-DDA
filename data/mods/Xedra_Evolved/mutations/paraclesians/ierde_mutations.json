@@ -85,7 +85,7 @@
     "ugliness": 0,
     "description": "The Ierde's ears are longer and pointed, like the peak of a high mountain.  They can hear slightly better and are unphased by loud sounds.",
     "category": [ "IERDE" ],
-    "hearing_modifier": 1.3,
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.3 } ] } ],
     "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {
@@ -440,7 +440,7 @@
     "changes_to": [ "IERDE_STR_BONUS_2" ],
     "description": "Like the bountiful soil, the Ierde is filled with power.  +3 Strength.",
     "category": [ "IERDE" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -454,7 +454,7 @@
     "changes_to": [ "IERDE_STR_BONUS_3" ],
     "description": "Like the stone, the Ierde can withstand any punishment.  +5 Strength.",
     "category": [ "IERDE" ],
-    "passive_mods": { "str_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -469,7 +469,7 @@
     "description": "Like the mountain, the Ierde is unmoved by calamity.  +7 Strength.",
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
-    "passive_mods": { "str_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -483,7 +483,7 @@
     "description": "Like the bedrock, the Ierde's might can support the entire world.  +9 Strength.",
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
-    "passive_mods": { "str_mod": 9 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 9 } ] } ]
   },
   {
     "type": "mutation",
@@ -495,7 +495,7 @@
     "prereqs": [ "IERDE_EYES" ],
     "description": "Like an observer on a mountaintop, the Ierde sees more than most.  +3 Perception.",
     "category": [ "IERDE" ],
-    "passive_mods": { "per_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
