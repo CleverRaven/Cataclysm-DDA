@@ -7840,28 +7840,6 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
     return 0;
 }
 
-std::optional<int> iuse::shavekit( Character *p, item *it, const tripoint & )
-{
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "You need soap to use this." ) );
-    } else {
-        p->assign_activity( shave_activity_actor() );
-    }
-    return 1;
-}
-
-std::optional<int> iuse::hairkit( Character *p, item *, const tripoint & )
-{
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    p->assign_activity( haircut_activity_actor() );
-    return 1;
-}
-
 std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & )
 {
     weather_manager &weather = get_weather();

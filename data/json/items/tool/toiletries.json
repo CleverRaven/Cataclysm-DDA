@@ -78,7 +78,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "use_action": [ "HAIRKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -184,7 +184,7 @@
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": [ "SHAVEKIT" ]
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] }
   },
   {
     "id": "sponge",
@@ -225,7 +225,7 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": [ "HAIRKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -245,7 +245,7 @@
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": [ "SHAVEKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] },
     "melee_damage": { "bash": 1 }
   },
   {
