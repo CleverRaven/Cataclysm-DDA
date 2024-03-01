@@ -920,7 +920,7 @@
     "name": { "str": "Packmule" },
     "points": 1,
     "description": "You pack things very efficiently!  You can retrieve things from containers 10% faster.",
-    "obtain_cost_multiplier": 0.9,
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.1 } ] } ],
     "starting_trait": true,
     "valid": false,
     "cancels": [ "DISORGANIZED" ]
@@ -1577,7 +1577,7 @@
     "name": { "str": "Disorganized" },
     "points": -1,
     "description": "You are terrible at organizing and storing your possessions.  You retrieve things from containers 10% slower.",
-    "obtain_cost_multiplier": 1.1,
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 0.1 } ] } ],
     "valid": false,
     "cancels": [ "PACKMULE" ]
   },

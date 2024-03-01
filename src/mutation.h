@@ -269,8 +269,6 @@ struct mutation_branch {
         std::optional<float> fatigue_regen_modifier = std::nullopt;
         // Modifier for the rate at which stamina regenerates.
         std::optional<float> stamina_regen_modifier = std::nullopt;
-        // the modifier for obtaining an item from a container as a handling penalty
-        std::optional<float> obtain_cost_multiplier = std::nullopt;
         // the modifier for the stomach size
         std::optional<float> stomach_size_multiplier = std::nullopt;
         // the modifier for the vomit chance
