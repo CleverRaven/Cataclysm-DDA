@@ -41,7 +41,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "LIXA_stairshaft_1", "LIXA_stairshaft_2", "LIXA_elevatorshaft_1", "LIXA_elevatorshaft_2" ],
+    "id": [ "LIXA_stairshaft_1a", "LIXA_stairshaft_1b", "LIXA_stairshaft_1c", "LIXA_stairshaft_1d", "LIXA_stairshaft_2a", "LIXA_stairshaft_2b", "LIXA_stairshaft_2c", "LIXA_stairshaft_2d" ],
     "name": "LIXA experiment floor access",
     "sym": "l",
     "color": "light_gray",
