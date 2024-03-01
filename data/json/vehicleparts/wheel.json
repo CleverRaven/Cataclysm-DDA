@@ -392,7 +392,7 @@
     "rolling_resistance": 14.0,
     "wheel_offroad_rating": 0.4,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
-    "contact_area":12,
+    "contact_area": 12,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
