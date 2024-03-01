@@ -1,5 +1,10 @@
 [
   {
+    "type": "TRAIT_MIGRATION",
+    "id": "CLAIR_SPEED_READ",
+    "remove": true
+  },
+  {
     "type": "mutation",
     "//": "This and following are all necessary because stealth_modifier is mutation only.  Redo the whole thing once it isn't.",
     "id": "PHOTOKINETIC_CAMOUFLAGE_1",

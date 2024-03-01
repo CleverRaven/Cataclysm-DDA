@@ -636,7 +636,8 @@ class Creature : public viewer
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
         /** Applies effects by spraying liquid on the creature. Returns false if the liquid was blocked
-         * by waterproof gear. */
+         * by waterproof gear. This is a simple method for effects which deal no damage and don't harm clothing.
+         * For more complex stuff, see outfit::splash */
         bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                 const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
                                 bool force = false );

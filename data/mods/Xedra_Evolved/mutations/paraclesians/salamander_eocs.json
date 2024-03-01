@@ -146,7 +146,8 @@
     "id": "EOC_SALAMANDER_SMOKE_FORM_ON",
     "effect": [
       { "u_add_effect": "effect_salamander_smoke_form", "duration": "PERMANENT" },
-      { "u_add_trait": "SALAMANDER_SMOKE_FORM_ASCEND" }
+      { "u_add_trait": "SALAMANDER_SMOKE_FORM_ASCEND" },
+      { "u_add_trait": "SALAMANDER_SMOKE_FORM_APPEARANCE" }
     ]
   },
   {
@@ -155,6 +156,7 @@
     "effect": [
       { "u_lose_effect": "effect_salamander_smoke_form" },
       { "u_lose_trait": "SALAMANDER_SMOKE_FORM_ASCEND" },
+      { "u_lose_trait": "SALAMANDER_SMOKE_FORM_APPEARANCE" },
       { "u_add_effect": "effect_salamander_smoke_immunity", "duration": "15 s" }
     ]
   },
