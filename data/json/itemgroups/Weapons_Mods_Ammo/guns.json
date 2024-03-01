@@ -2039,7 +2039,7 @@
     "//": "Carbines that US police would have, with used magazines",
     "subtype": "distribution",
     "entries": [ { "group": "p", "prob": 100, "charges": [ 30, 30 ], "contents-group": "police_carbine_mods" } ]
-  },  
+  },
   {
     "type": "item_group",
     "id": "police_carbines_damaged_extramags",
