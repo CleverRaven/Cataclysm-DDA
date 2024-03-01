@@ -293,7 +293,8 @@
       "PARAIMMUNE",
       "POISRESIST",
       "STIMBOOST",
-      "SEASONAL_ALLERGIES"
+      "SEASONAL_ALLERGIES",
+      "SLOB"
     ],
     "description": "Your immune system is more or less normal for a human."
   },
