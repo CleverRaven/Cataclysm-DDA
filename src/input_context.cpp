@@ -1476,7 +1476,8 @@ std::string input_context::get_action_name( const std::string &action_id ) const
     }
 
     // 2) Check if the hotkey has a name
-    const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category );
+    const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category, nullptr,
+                                          true );
     if( !attributes.name.empty() ) {
         return attributes.name.translated();
     }
@@ -1485,7 +1486,7 @@ std::string input_context::get_action_name( const std::string &action_id ) const
     // this context that is masking the global hotkey. Fallback to the global
     // hotkey's name.
     const action_attributes &default_attributes = inp_mngr.get_action_attributes( action_id,
-            default_context_id );
+            default_context_id, nullptr, true );
     if( !default_attributes.name.empty() ) {
         return default_attributes.name.translated();
     }
