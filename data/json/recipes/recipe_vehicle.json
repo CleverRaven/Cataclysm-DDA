@@ -653,11 +653,11 @@
     "difficulty": 5,
     "time": "90 m",
     "autolearn": true,
-    "//": "20cm weld",
-    "using": [ [ "welding_standard", 20 ], [ "steel_tiny", 4 ], [ "plastic_molding", 1 ] ],
+    "//": "22cm weld",
+    "using": [ [ "welding_standard", 22 ], [ "steel_tiny", 5 ], [ "plastic_molding", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 4 ] ] ]
+    "components": [ [ [ "plastic_chunk", 12 ] ] ]
   },
   {
     "result": "mounted_spare_tire",
