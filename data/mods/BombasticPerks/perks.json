@@ -529,6 +529,34 @@
   },
   {
     "type": "mutation",
+    "id": "perk_eating_window",
+    "name": { "str": "Compressed Eating Window" },
+    "points": 0,
+    "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain +150% kcal and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') >= 12" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') <= 18" ] }
+          ]
+        },
+        "values": [ { "value": "KCAL", "multiply": 1.5 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": 1.5 } ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') < 12" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') > 18" ] }
+          ]
+        },
+        "values": [ { "value": "KCAL", "multiply": -1.0 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -1.0 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_chainsaw",
     "name": { "str": "The Great Communicator" },
     "points": 0,

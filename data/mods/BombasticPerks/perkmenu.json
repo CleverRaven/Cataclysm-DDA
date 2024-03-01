@@ -739,7 +739,7 @@
           },
           {
             "set_condition": "perk_condition",
-            "condition": { "math": { "and": [ { "not": { "u_has_trait": "HATES_BOOKS" } }, { "not": { "u_has_trait": "ILLITERATE" } } ] } }
+            "condition": { "and": [ { "not": { "u_has_trait": "HATES_BOOKS" } }, { "not": { "u_has_trait": "ILLITERATE" } } ] }
           }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -889,6 +889,25 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_chainsaw", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_eating_window" } },
+        "text": "Gain [<trait_name:perk_eating_window>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_eating_window>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_eating_window>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_eating_window", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "No Requirements",
             "target_var": { "context_val": "trait_requirement_description" },
