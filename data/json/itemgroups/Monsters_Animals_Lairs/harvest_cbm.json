@@ -83,6 +83,7 @@
         "distribution": [
           { "item": "bio_tools", "prob": 15 },
           { "item": "bio_magnet", "prob": 15 },
+          { "item": "bio_mood_regulator", "prob": 15 },
           { "item": "bio_soporific", "prob": 20 },
           { "item": "bio_sunglasses", "prob": 25 },
           { "item": "bio_syringe", "prob": 10 },

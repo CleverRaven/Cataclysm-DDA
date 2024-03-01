@@ -153,5 +153,30 @@
     "id": "EOC_BIO_SONAR_deactivated",
     "condition": { "u_has_effect": "subaquatic_sonar" },
     "effect": [ { "u_lose_effect": "subaquatic_sonar" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_MOOD_REGULATOR_activated",
+    "condition": { "and": [ { "not": { "u_has_effect": "mood_regulator" } }, { "u_has_bionics": "bio_mood_regulator" } ] },
+    "effect": [ { "u_add_effect": "mood_regulator", "duration": "PERMANENT" },
+    {
+      "u_add_morale": "morale_mood_regulator",
+      "bonus": 10,
+      "max_bonus": 10,
+      "duration": "PERMANENT"
+    }, { "u_lose_morale": "morale_mood_regulator_hangover" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_MOOD_REGULATOR_deactivated",
+    "condition": { "u_has_effect": "mood_regulator" },
+    "effect": [ { "u_lose_effect": "mood_regulator" }, { "u_lose_morale": "morale_mood_regulator" },
+    {
+      "u_add_morale": "morale_mood_regulator_hangover",
+      "bonus": -5,
+      "max_bonus": -5,
+      "duration": "30 minutes",
+      "decay_start": "10 minutes"
+    } ]
   }
 ]

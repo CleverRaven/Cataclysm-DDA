@@ -4105,6 +4105,15 @@
   },
   {
     "type": "mutation",
+    "id": "SLOB",
+    "name": { "str": "Slob" },
+    "points": 1,
+    "description": "Your system is adapted to wallowing in filth.  Filthy clothing and environments won't affect your mood or your overall health, though on its own this won't prevent you from acquiring any infection or disease.",
+    "prereqs": [ "SAPROVORE", "VOMITOUS" ],
+    "category": [ "SLIME", "TROGLOBITE", "CRUSTACEAN", "INSECT", "CHIMERA", "GASTROPOD" ]
+  },
+  {
+    "type": "mutation",
     "id": "BENDY1",
     "name": { "str": "Stretchy Limbs" },
     "points": 1,

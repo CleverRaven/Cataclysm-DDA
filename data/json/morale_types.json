@@ -438,5 +438,15 @@
     "id": "morale_asocial",
     "type": "morale_type",
     "text": "Spent time alone"
+  },
+  {
+    "id": "morale_mood_regulator",
+    "type": "morale_type",
+    "text": "Bionic attitude adjustment"
+  },
+  {
+    "id": "morale_mood_regulator_hangover",
+    "type": "morale_type",
+    "text": "Hangover from bionic attitude adjustment"
   }
 ]

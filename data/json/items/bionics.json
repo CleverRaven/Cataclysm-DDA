@@ -557,6 +557,19 @@
     "difficulty": 6
   },
   {
+    "id": "bio_mood_regulator",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Mood Regulator CBM" },
+    "//": "This is actually a nerve staple to keep semi-autonomous workers happy so they don't break down or rebel.  As a result it should only be dissected from zomborgs etc. and not casually sold to whoever.",
+    "looks_like": "bio_int_enhancer",
+    "description": "A tiny brain implant that can improve the user's mood, though this comes with a -2 penalty to dexterity and a slight loss of reaction speed while active.  It has no effect while inactive, but as it replaces some brain tissue, it cannot be removed once installed.",
+    "price": 450000,
+    "price_postapoc": 6000,
+    "weight": "50 g",
+    "difficulty": 9
+  },
+  {
     "id": "bio_int_enhancer",
     "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",

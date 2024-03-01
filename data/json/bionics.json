@@ -1115,6 +1115,18 @@
     "time": "1 s"
   },
   {
+    "id": "bio_mood_regulator",
+    "type": "bionic",
+    "name": { "str": "Mood Regulator" },
+    "description": "A tiny device implanted in the limbic system that acts as a bridge between neurons.  Inactive, it allows normal brain function, but while active it can measure neurotransmitter levels and compensate for deficiencies, boosting your mood at the cost of some dexterity and reaction speed.",
+    "cant_remove_reason": "The bionic is now critical to the continued functionality of the user's brain.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ],
+    "act_cost": "5 J",
+    "react_cost": "5 J",
+    "time": "1 s"
+  },
+  {
     "id": "bio_int_enhancer",
     "type": "bionic",
     "name": { "str": "Cerebral Booster" },
