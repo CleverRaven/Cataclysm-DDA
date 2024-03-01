@@ -1606,15 +1606,6 @@
         "append": true,
         "expand_snippets": true,
         "weight": 1
-      },
-      {
-        "id": "sketch_character_doodles",
-        "//": "This is supposed to be a more finished drawing than concept sketches above.",
-        "name": { "str": "character portrait", "str_pl": "character portrait" },
-        "description": "This one is a <sketch_concept_description> <random_character_pose>.  <artist_identifying_info>.  This looks to be painstakingly made, and is very high-quality.",
-        "append": true,
-        "expand_snippets": true,
-        "weight": 1
       }
     ]
   }
