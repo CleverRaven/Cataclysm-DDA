@@ -176,7 +176,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "cut": 2
     }
   ],
-  "stealth_modifier": 0,                      // Percentage to be subtracted from player's visibility range, capped to 60.  Negative values work, but are not very effective due to the way vision ranges are capped.
   "active": true,                             // When set the mutation is an active mutation that the player needs to activate (default: false).
   "starts_active": true,                      // When true, this 'active' mutation starts active (default: false, requires 'active').
   "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or fatigue values set to true (default: 0).

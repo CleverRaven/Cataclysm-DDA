@@ -261,9 +261,6 @@ struct mutation_branch {
 
         std::optional<float> crafting_speed_multiplier = std::nullopt;
 
-        // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        std::optional<float> stealth_modifier = std::nullopt;
-
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
         std::optional<float> temperature_speed_modifier = std::nullopt;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.

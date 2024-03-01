@@ -6290,11 +6290,14 @@
     "prereqs": [ "SMALL_OK" ],
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
-    "stealth_modifier": 40,
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "SPEED", "multiply": 0.15 }, { "value": "MOVE_COST", "multiply": -0.25 } ]
+        "values": [
+          { "value": "SPEED", "multiply": 0.15 },
+          { "value": "MOVE_COST", "multiply": -0.25 },
+          { "value": "STEALTH_MODIFIER", "add": 40 }
+        ]
       }
     ]
   },
@@ -9552,7 +9555,7 @@
     "types": [ "SKIN" ],
     "changes_to": [ "CAMO2" ],
     "category": [ "CEPHALOPOD" ],
-    "stealth_modifier": -20
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 20 } ] } ]
   },
   {
     "type": "mutation",
@@ -9567,7 +9570,7 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "CAMO1" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "stealth_modifier": 20
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 20 } ] } ]
   },
   {
     "type": "mutation",

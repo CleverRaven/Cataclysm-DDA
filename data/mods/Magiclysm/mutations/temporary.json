@@ -107,6 +107,6 @@
     "name": { "str": "Cloak of Elvenkind: Forest Stealth" },
     "description": "You have a much easier time hiding in the forest.",
     "points": 2,
-    "stealth_modifier": 60
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 60 } ] } ]
   }
 ]
