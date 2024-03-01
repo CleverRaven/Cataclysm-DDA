@@ -6364,7 +6364,6 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
-    { "pain_modifier", calc_mutation_value<&mutation_branch::pain_modifier> },
     { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
@@ -12676,12 +12675,6 @@ void Character::mod_pain( int npain )
         }
         if( mult < 0 ) {
             npain = roll_remainder( npain * ( 1 + mult ) );
-        }
-        if( mutation_value( "pain_modifier" ) != 0 ) {
-            npain = roll_remainder( npain + mutation_value( "pain_modifier" ) );
-            if( npain < 0 ) {
-                return;
-            }
         }
         npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
 

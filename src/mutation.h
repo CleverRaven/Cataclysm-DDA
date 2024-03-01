@@ -221,7 +221,6 @@ struct mutation_branch {
         std::optional<float> healing_multiplier = std::nullopt;
         // Limb mending bonus
         std::optional<float> mending_modifier = std::nullopt;
-        std::optional<float> pain_modifier = std::nullopt;
         // Additional bonuses
         std::optional<float> cardio_multiplier = std::nullopt;
         std::optional<float> weight_capacity_modifier = std::nullopt;
