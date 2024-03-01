@@ -3857,7 +3857,7 @@
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
     "relic_data": {
-      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 190000 } ] } ]
+      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 215000 } ] } ]
     },
     "armor": [
       {

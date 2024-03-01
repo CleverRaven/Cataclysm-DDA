@@ -6635,8 +6635,8 @@ int Character::base_bmr() const
 int Character::get_bmr() const
 {
     int base_bmr_calc = base_bmr();
-    base_bmr_calc *= clamp( activity_history.average_activity(), NO_EXERCISE,
-                            maximum_exertion_level() );
+    return base_bmr_calc *= std::ceil( clamp( activity_history.average_activity(), NO_EXERCISE,
+                                       maximum_exertion_level() ) );
 }
 
 void Character::set_activity_level( float new_level )
