@@ -524,7 +524,7 @@
     "volume": "4 L",
     "weight": "3500 g",
     "hp": 12,
-    "speed": 80,
+    "speed": 160,
     "material": [ "fae_flesh" ],
     "symbol": "v",
     "color": "red",
@@ -554,7 +554,7 @@
       "message": "The %s bursts into flames!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FIREY", "SWARMS" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "WARM", "FIREY", "SWARMS" ]
   },
   {
     "id": "mon_elemental_saraph",
