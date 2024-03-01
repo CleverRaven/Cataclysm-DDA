@@ -3309,7 +3309,7 @@
     "prereqs": [ "JAUNDICE" ],
     "leads_to": [ "BARK", "THORNS", "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
-    "thirst_modifier": -0.2,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.2 } ] } ],
     "integrated_armor": [ "integrated_plantskin" ]
   },
   {
@@ -3880,7 +3880,7 @@
     "visibility": 4,
     "ugliness": 3,
     "description": "You develop a reservoir of fluids that bulges out of your abdomen.  Your body has adapted to containing extra liquids in event of shortfalls.",
-    "thirst_modifier": -0.25,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.25 } ] } ],
     "types": [ "THIRST" ],
     "leads_to": [ "BOMBADIER_BLAST" ],
     "category": [ "INSECT" ]
@@ -6985,7 +6985,7 @@
     "types": [ "THIRST" ],
     "changes_to": [ "THIRST2" ],
     "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD", "FISH", "BATRACHIAN", "CRUSTACEAN" ],
-    "thirst_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -6997,7 +6997,7 @@
     "prereqs": [ "THIRST" ],
     "changes_to": [ "THIRST3" ],
     "category": [ "FISH", "SLIME", "CEPHALOPOD", "BATRACHIAN", "CRUSTACEAN" ],
-    "thirst_modifier": 1.0
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -7009,7 +7009,7 @@
     "prereqs": [ "THIRST2" ],
     "category": [ "BATRACHIAN", "CRUSTACEAN" ],
     "threshreq": [ "THRESH_BATRACHIAN", "THRESH_CRUSTACEAN" ],
-    "thirst_modifier": 2.0
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 2 } ] } ]
   },
   {
     "type": "mutation",

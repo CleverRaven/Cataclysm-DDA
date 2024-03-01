@@ -294,7 +294,7 @@
     "valid": false,
     "changes_to": [ "H20NEEDS" ],
     "cancels": [ "NO_THIRST" ],
-    "thirst_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -305,7 +305,7 @@
     "valid": false,
     "prereqs": [ "THIRST" ],
     "cancels": [ "NO_THIRST" ],
-    "thirst_modifier": 1.0
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",

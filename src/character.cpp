@@ -5172,8 +5172,6 @@ needs_rates Character::calc_needs_rates() const
 
     static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );
-    static const std::string thirst_modifier( "thirst_modifier" );
-    rates.thirst *= 1.0f + mutation_value( thirst_modifier );
     if( worn_with_flag( flag_SLOWS_THIRST ) ) {
         rates.thirst *= 0.7f;
     }
@@ -6367,7 +6365,6 @@ mutation_value_map = {
     { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
-    { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
     { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },
     { "fatigue_modifier", calc_mutation_value<&mutation_branch::fatigue_modifier> },
     { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },

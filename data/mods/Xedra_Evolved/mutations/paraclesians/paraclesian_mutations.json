@@ -143,7 +143,7 @@
     "weakness_to_water": -2,
     "ignored_by": [ "UNDINE" ],
     "scent_type": "sc_fae",
-    "thirst_modifier": -1.0,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -1 } ] } ],
     "cancels": [
       "THIRST",
       "THIRST2",

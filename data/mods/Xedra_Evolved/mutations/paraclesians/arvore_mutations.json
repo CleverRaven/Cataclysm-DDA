@@ -23,7 +23,7 @@
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SKIN_1" ],
     "changes_to": [ "ARVORE_SKIN_3" ],
-    "thirst_modifier": -0.3,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.3 } ] } ],
     "integrated_armor": [ "integrated_vegital_cuticle" ],
     "flags": [ "TOUGH_FEET" ]
   },

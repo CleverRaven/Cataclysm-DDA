@@ -435,8 +435,7 @@
     "prereqs": [ "UNDINE_DEX_UP_1" ],
     "changes_to": [ "UNDINE_DEX_UP_3" ],
     "category": [ "UNDINE" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ],
-    "thirst_modifier": 0.15
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 }, { "value": "THIRST", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -449,8 +448,7 @@
     "prereqs": [ "UNDINE_DEX_UP_2" ],
     "prereqs2": [ "UNDINE_WATER_BODY" ],
     "category": [ "UNDINE" ],
-    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 } ] } ],
-    "thirst_modifier": 0.25
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 }, { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -486,8 +484,7 @@
     "description": "Even the Undine's internal organs are becoming more liquid.  Bashing and cutting damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
     "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ],
-    "thirst_modifier": 0.25,
-    "enchantments": [ "ench_undine_water_body" ]
+    "enchantments": [ "ench_undine_water_body", { "values": [ { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
