@@ -869,6 +869,7 @@ Character status value  | Description
 `REGEN_HP`              | Affects the rate you recover hp.
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
+`SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
 `SHOUT_NOISE`           | 
 `SHOUT_NOISE_BASE`      | `SHOUT_NOISE_BASE` modifies `base`
 `SHOUT_NOISE_STR_MULT`  | `SHOUT_NOISE_STR_MULT` modifies the `shout_multiplier`, that affect how much strength affects noise level

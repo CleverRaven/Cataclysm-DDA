@@ -156,6 +156,7 @@ enum class mod : int {
     BLEED_STOP_BONUS,
     UGLINESS,
     VOMIT_MUL,
+    SCENT_MASK,
     NUM_MOD
 };
 } // namespace enchant_vals

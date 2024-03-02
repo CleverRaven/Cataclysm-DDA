@@ -229,7 +229,6 @@ struct mutation_branch {
         std::optional<float> noise_modifier = std::nullopt;
         float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
-        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 

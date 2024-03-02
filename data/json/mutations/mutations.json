@@ -3542,7 +3542,7 @@
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
     "changes_to": [ "ROSEBUDS" ],
-    "scent_mask": -200,
+    "enchantments": [ { "values": [ { "value": "SCENT_MASK", "add": -200 } ] } ],
     "social_modifiers": { "lie": 10 },
     "prevented_by": [
       "FLOWERS_WINTER",

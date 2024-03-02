@@ -178,6 +178,7 @@ namespace io
             case enchant_vals::mod::BLEED_STOP_BONUS: return "BLEED_STOP_BONUS";
             case enchant_vals::mod::UGLINESS: return "UGLINESS";
             case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
+            case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
