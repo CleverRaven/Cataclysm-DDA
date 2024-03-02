@@ -32,7 +32,7 @@
     "symbol": "/",
     "color": "light_gray",
     "flags": [ "BELT_CLIP" ],
-    "use_action": [ "WASH_HARD_ITEMS" ],
+    "use_action": [ "WASH_SOFT_ITEMS" ],
     "melee_damage": { "bash": 1 }
   },
   {
