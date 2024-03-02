@@ -9,6 +9,7 @@
     "type": "enchantment",
     "id": "ENCH_GASTROPOD_FOOT",
     "condition": "ALWAYS",
+    "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 } ],
     "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
   },
   {
@@ -115,10 +116,10 @@
     "modified_bodyparts": [
       { "lose": "hand_l" },
       { "lose": "hand_r" },
-      { "gain": "bionic_basic_arm_l" },
-      { "gain": "bionic_basic_arm_r" },
-      { "gain": "bionic_basic_hand_l" },
-      { "gain": "bionic_basic_hand_r" }
+      { "gain": "arm_bionic_basic_l" },
+      { "gain": "arm_bionic_basic_r" },
+      { "gain": "hand_bionic_basic_l" },
+      { "gain": "hand_bionic_basic_r" }
     ]
   },
   {
@@ -130,10 +131,10 @@
       { "lose": "leg_r" },
       { "lose": "foot_l" },
       { "lose": "foot_r" },
-      { "gain": "bionic_basic_leg_l" },
-      { "gain": "bionic_basic_leg_r" },
-      { "gain": "bionic_basic_foot_l" },
-      { "gain": "bionic_basic_foot_r" }
+      { "gain": "leg_bionic_basic_l" },
+      { "gain": "leg_bionic_basic_r" },
+      { "gain": "foot_bionic_basic_l" },
+      { "gain": "foot_bionic_basic_r" }
     ]
   },
   {
@@ -145,31 +146,31 @@
       { "lose": "leg_r" },
       { "lose": "foot_l" },
       { "lose": "foot_r" },
-      { "gain": "bionic_treads_leg" }
+      { "gain": "leg_bionic_treads" }
     ]
   },
   {
     "type": "enchantment",
     "id": "ENCH_BIONIC_ARM_L",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "bionic_basic_arm_l" }, { "gain": "bionic_basic_hand_l" } ]
+    "modified_bodyparts": [ { "lose": "arm_l" }, { "lose": "hand_l" }, { "gain": "arm_bionic_basic_l" }, { "gain": "hand_bionic_basic_l" } ]
   },
   {
     "type": "enchantment",
     "id": "ENCH_BIONIC_ARM_R",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "bionic_basic_arm_r" }, { "gain": "bionic_basic_hand_r" } ]
+    "modified_bodyparts": [ { "lose": "arm_r" }, { "lose": "hand_r" }, { "gain": "arm_bionic_basic_r" }, { "gain": "hand_bionic_basic_r" } ]
   },
   {
     "type": "enchantment",
     "id": "ENCH_BIONIC_LEG_L",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "bionic_basic_leg_l" }, { "gain": "bionic_basic_foot_l" } ]
+    "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "foot_l" }, { "gain": "leg_bionic_basic_l" }, { "gain": "foot_bionic_basic_l" } ]
   },
   {
     "type": "enchantment",
     "id": "ENCH_BIONIC_LEG_R",
     "condition": "ALWAYS",
-    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "bionic_basic_leg_r" }, { "gain": "bionic_basic_foot_r" } ]
+    "modified_bodyparts": [ { "lose": "leg_r" }, { "lose": "foot_r" }, { "gain": "leg_bionic_basic_r" }, { "gain": "foot_bionic_basic_r" } ]
   }
 ]

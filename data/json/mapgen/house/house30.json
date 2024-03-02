@@ -22,7 +22,7 @@
         "......#  |rh    y#^%%...",
         "...##### |||   ||##o##..",
         "...#9Qt|       +  y@@#..",
-        "...oS--+ hfh   |    so..",
+        "...oS~~+ hfh   |    so..",
         "...##||| hfh   |dbD###..",
         "....#347   J|+|||||#....",
         "....#2     J|     d#....",
@@ -34,7 +34,6 @@
         "........................"
       ],
       "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "-": "t_linoleum_gray" },
       "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 6, "y": 1 } ]
     }
   },

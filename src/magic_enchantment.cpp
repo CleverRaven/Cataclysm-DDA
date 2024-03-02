@@ -99,6 +99,18 @@ namespace io
             case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
             case enchant_vals::mod::READING_EXP: return "READING_EXP";
             case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
+            case enchant_vals::mod::OVERMAP_SIGHT: return "OVERMAP_SIGHT";
+            case enchant_vals::mod::READING_SPEED_MULTIPLIER: return "READING_SPEED_MULTIPLIER";
+            case enchant_vals::mod::KCAL: return "KCAL";
+            case enchant_vals::mod::VITAMIN_ABSORB_MOD: return "VITAMIN_ABSORB_MOD";
+            case enchant_vals::mod::MELEE_STAMINA_CONSUMPTION: return "MELEE_STAMINA_CONSUMPTION";
+            case enchant_vals::mod::OBTAIN_COST_MULTIPLIER: return "OBTAIN_COST_MULTIPLIER";
+            case enchant_vals::mod::CASTING_TIME_MULTIPLIER: return "CASTING_TIME_MULTIPLIER";
+            case enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER: return "CRAFTING_SPEED_MULTIPLIER";
+            case enchant_vals::mod::BIONIC_MANA_PENALTY: return "BIONIC_MANA_PENALTY";
+            case enchant_vals::mod::STEALTH_MODIFIER: return "STEALTH_MODIFIER";
+            case enchant_vals::mod::MENDING_MODIFIER: return "MENDING_MODIFIER";
+            case enchant_vals::mod::STOMACH_SIZE_MULTIPLIER: return "STOMACH_SIZE_MULTIPLIER";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::RECOIL_MODIFIER: return "RECOIL_MODIFIER";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
@@ -151,6 +163,18 @@ namespace io
             case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
             case enchant_vals::mod::RANGE: return "RANGE";
             case enchant_vals::mod::AVOID_FRIENDRY_FIRE: return "AVOID_FRIENDRY_FIRE";
+            case enchant_vals::mod::MOVECOST_SWIM_MOD: return "MOVECOST_SWIM_MOD";
+            case enchant_vals::mod::MOVECOST_OBSTACLE_MOD: return "MOVECOST_OBSTACLE_MOD";
+            case enchant_vals::mod::MOVECOST_FLATGROUND_MOD: return "MOVECOST_FLATGROUND_MOD";
+            case enchant_vals::mod::SHOUT_NOISE_BASE: return "SHOUT_NOISE_BASE";
+            case enchant_vals::mod::SHOUT_NOISE_STR_MULT: return "SHOUT_NOISE_STR_MULT";
+            case enchant_vals::mod::NIGHT_VIS: return "NIGHT_VIS";
+            case enchant_vals::mod::HEARING_MULT: return "HEARING_MULT";
+            case enchant_vals::mod::BANDAGE_BONUS: return "BANDAGE_BONUS";
+            case enchant_vals::mod::DISINFECTANT_BONUS: return "DISINFECTANT_BONUS";
+            case enchant_vals::mod::BLEED_STOP_BONUS: return "BLEED_STOP_BONUS";
+            case enchant_vals::mod::UGLINESS: return "UGLINESS";
+            case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -840,6 +864,22 @@ units::mass enchant_cache::modify_value( const enchant_vals::mod mod_val,
         units::mass value ) const
 {
     value += units::from_gram<double>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::volume enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        units::volume value ) const
+{
+    value += units::from_milliliter<double>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+time_duration enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        time_duration value ) const
+{
+    value += time_duration::from_seconds<double>( get_value_add( mod_val ) );
     value *= 1.0 + get_value_multiply( mod_val );
     return value;
 }

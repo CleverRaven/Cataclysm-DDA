@@ -34,6 +34,7 @@ aetherically
 affixes
 affordability
 affordably
+afro
 afterbirth
 aftereffect
 aftereffects
@@ -351,6 +352,7 @@ bloodhunting
 bloodstreams
 bloomery
 bloop
+blowback
 blued
 bluegill
 blup
@@ -1950,6 +1952,7 @@ modifier
 modifiers
 modularity
 modulations
+mohawk
 mohawks
 moisturized
 mokorotlo
@@ -2829,6 +2832,7 @@ sluglike
 smallmouth
 smartcard
 smartgun
+smartphone
 smg
 smithing
 smokable

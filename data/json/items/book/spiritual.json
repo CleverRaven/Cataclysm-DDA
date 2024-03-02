@@ -237,7 +237,7 @@
   {
     "id": "holybook_orthodox",
     "type": "BOOK",
-    "name": { "str": "The Orthodox Church", "str_pl": "copies of the The Orthodox Church" },
+    "name": { "str": "The Orthodox Church", "str_pl": "copies of The Orthodox Church" },
     "description": "A paperback edition of 'The Orthodox Church: An Introduction to Eastern Christianity', written by Timothy Ware.  This book provides a comprehensive overview of the history, theology, and practices of the Eastern Orthodox Church, and an introduction to the Orthodox faith for those unfamiliar with it, as well as a deeper exploration for those seeking to deepen their understanding.",
     "weight": "269 g",
     "volume": "1 L",
@@ -255,7 +255,7 @@
   {
     "id": "holybook_ladder",
     "type": "BOOK",
-    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of the The Ladder of Divine Ascent" },
+    "name": { "str": "The Ladder of Divine Ascent", "str_pl": "copies of The Ladder of Divine Ascent" },
     "description": "A commercial-grade, hardcover English edition of The Ladder of Divine Ascent, a well-known spiritual guidebook written in the 6th century by John Climacus, an Orthodox Christian monk.  This book is composed of many chapters, each representing a rung on the ladder, symbolizing the spiritual journey towards union with God.",
     "weight": "540 g",
     "volume": "1 L",
@@ -522,8 +522,8 @@
   {
     "id": "holybook_helliand",
     "type": "BOOK",
-    "name": { "str": "Helliand", "str_pl": "copies of the Helliand" },
-    "description": "A English translation of the Helliand, an Old Saxon epic poem that narrates the life and Passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus's childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm..",
+    "name": { "str": "Heliand", "str_pl": "copies of the Heliand" },
+    "description": "A English translation of the Heliand, an Old Saxon epic poem that narrates the life and passion of Jesus Christ.  It begins with the Annunciation to the Virgin Mary and continues with the birth of Jesus.  It then narrates the story of Jesus' childhood, his baptism by John the Baptist, and his public ministry.  This poem also includes various miracles performed by Jesus, such as healing the sick, raising the dead, and calming the storm.",
     "weight": "368 g",
     "volume": "1 L",
     "copy-from": "holybook_abstract"

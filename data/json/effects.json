@@ -719,6 +719,7 @@
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 } ],
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -0.75 } ] } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -2034,26 +2035,47 @@
     "id": "boomered",
     "name": [ "Boomered" ],
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
-    "apply_message": "You're covered in bile!",
+    "apply_message": "Bile gets in your eyes!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": {
+      "per_mod": [ -3, -3 ],
+      "vomit_chance": [ 500, 0 ],
+      "health_chance": [ 1 ],
+      "health_min": [ -1 ],
+      "health_chance_bot": [ 300, 0 ]
+    },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BILE_AFFLICTED" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "bile",
+    "name": [ "Bile Splashed" ],
+    "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "apply_message": "You're covered in bile!",
+    "rating": "bad",
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
+    "max_duration": "30 s",
+    "flags": [ "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",
     "id": "glowing",
     "name": [ "Glowing" ],
     "desc": [ "You are covered in glowing goo!" ],
-    "max_duration": "6 m",
+    "max_duration": "30 s",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
-    "base_mods": { "vomit_chance": [ 500 ] }
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
+    "flags": [ "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",
@@ -3333,6 +3355,7 @@
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": -0.9 } ] } ],
     "blood_analysis_description": "Intoxicant: THC"
   },
   {
@@ -4887,6 +4910,48 @@
   },
   {
     "type": "effect_type",
+    "id": "social_satisfied",
+    "name": [ "Good Company" ],
+    "desc": [ "It feels good to spend time around others." ],
+    "max_duration": "6 h",
+    "max_intensity": 1,
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "social_dissatisfied",
+    "name": [ "Lonely", "Very Lonely", "All Alone" ],
+    "desc": [
+      "You feel a little lonely.",
+      "You could really use a friend right now.",
+      "What's the point of surviving if you're all alone?"
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_satisfied",
+    "name": [ "Alone" ],
+    "desc": [ "Being on your own makes you feel good." ],
+    "max_intensity": 1,
+    "max_duration": "6 h",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_dissatisfied",
+    "name": [ "Irritable", "Annoyed", "Crowded" ],
+    "desc": [
+      "Being around others has left you feeling drained.",
+      "OK, that's enough social time.  You'd really rather be alone now.",
+      "Your nerves are frayed from all this socializing.  You need some alone time to recharge."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
     "id": "quadruped_full",
     "name": [ "" ],
     "//": "Allows fully-quadrupedal mutants to run and crouch on all fours.  For annoying reasons, this is handled via enchantments."
@@ -4913,5 +4978,16 @@
     "desc": [
       "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back."
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "anticoagulant_draculin",
+    "max_intensity": 3,
+    "max_duration": "20 m",
+    "rating": "bad",
+    "blood_analysis_description": "Draculin",
+    "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
+    "immune_flags": [ "DRACULIN_IMMUNE" ],
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
   }
 ]

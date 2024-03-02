@@ -121,7 +121,7 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 2 ] ] ]
   },
@@ -137,7 +137,7 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 8 ] ] ]
   },
@@ -153,7 +153,7 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 10 ] ] ]
   },
@@ -169,7 +169,7 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "copper", 9 ] ] ]
   },
@@ -185,7 +185,7 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "copper", 6 ] ] ]
   },
@@ -201,7 +201,7 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "silver_small", 6 ] ] ]
   },
@@ -217,7 +217,7 @@
     "book_learn": [ [ "jewelry_book", 6 ] ],
     "using": [ [ "blacksmithing_standard", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
-    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "silver_small", 6 ] ] ]
   },

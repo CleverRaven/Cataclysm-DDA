@@ -83,6 +83,7 @@ class CachedTTFFont : public Font
                          const std::string &ch,
                          const point &p,
                          unsigned char color, float opacity = 1.0f ) override;
+
     protected:
         SDL_Texture_Ptr create_glyph( const SDL_Renderer_Ptr &renderer, const std::string &ch, int color );
 

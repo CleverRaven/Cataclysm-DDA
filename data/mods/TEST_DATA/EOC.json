@@ -183,8 +183,12 @@
     "type": "effect_on_condition",
     "id": "EOC_run_until_test",
     "effect": [
-      { "set_condition": "to_test", "condition": { "math": [ "u_context", "<", "10" ] } },
-      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+      { "math": [ "u_context", "=", "0" ] },
+      {
+        "run_eoc_until": "EOC_until_nested",
+        "condition": { "math": [ "u_context", "<", "10000" ] },
+        "iteration": 10000
+      }
     ]
   },
   {
