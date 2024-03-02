@@ -215,6 +215,37 @@
   },
   {
     "type": "terrain",
+    "id": "t_card_LIXA_3",
+    "name": "PPE lockup card reader",
+    "description": "A smartcard reader.  The label above it reads 'SECURE PPE LOCKER'.",
+    "//": "Science",
+    "symbol": "6",
+    "color": "pink",
+    "looks_like": "t_card_science",
+    "move_cost": 0,
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "INDOORS", "CONNECT_WITH_WALL" ],
+    "examine_action": {
+      "type": "cardreader",
+      "flags": [ "LIXA_SCIENCE_CARD_3" ],
+      "consume_card": false,
+      "allow_hacking": false,
+      "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
+      "query_msg": "Swipe your ID card?",
+      "success_msg": "You insert your ID card.\n<color_light_green>The nearby doors unlock.</color>",
+      "redundant_msg": "The nearby doors are already opened."
+    },
+    "bash": {
+      "str_min": 14,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_card_reader_broken",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_card_LIXA_mil",
     "name": "card reader",
     "description": "A smartcard reader.  Ii is a forbidding black, with no symbols of any sort to identify it.",

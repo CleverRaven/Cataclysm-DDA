@@ -248,7 +248,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "LIXA_stairshaft_1a", "LIXA_stairshaft_1b" ], [ "LIXA_stairshaft_1c", "LIXA_stairshaft_1d" ] ],
-    "object": {		
+    "object": {
       "fill_ter": "t_soil",
       "rows": [
         "////                                            ",
@@ -307,7 +307,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "LIXA_stairshaft_2a", "LIXA_stairshaft_2b" ], [ "LIXA_stairshaft_2c", "LIXA_stairshaft_2d" ] ],
-    "object": {		
+    "object": {
       "fill_ter": "t_rock",
       "rows": [
         "////                                            ",
@@ -357,7 +357,7 @@
         "                                                ",
         "                                                ",
         "                                                ",
-        "                                                "		
+        "                                                "
       ],
       "terrain": { "<": "t_stairs_up", ">": "t_stairs_down", "/": "t_strconc_wall", "_": "t_open_air" }
     }
@@ -436,13 +436,13 @@
         "   /./ ////////+///+//8888/                     ",
         "   /./ /KK,,B/A,,B,,A/8888/                     ",
         "   /./ /,jQh,+,,jE,,A/888X/                     ",
-        "   /./ /q,,#,/,,h,,,A//dd//////////             ",
-        "   /./ ///////B,tth,4/6.../.llll../             ",
-        "   /./ /#h,fa/,,tth,o/i..i/......u/             ",
-        "   /./ /B,j,,+,,jh,,c/....d...i..u/             ",
-        "   /./ /q,,KK/Ba,,,FF/....d......u/             ",
-        "   /./ //////////+////...e/....7../             ",
-        "   /./ /T/T/./,!#,,$$/....///DD////             ",
+        "   /./ /q,,#,/,,h,,,A//dd////////////////       ",
+        "   /./ ///////B,tth,4/6.../lllluuu/bbbbb/       ",
+        "   /./ /#h,fa/,,tth,o/i..i/......9/....R/       ",
+        "   /./ /B,j,,+,,jh,,c/....d...i...D..i.l/       ",
+        "   /./ /q,,KK/Ba,,,FF/....d......./....O/       ",
+        "   /./ //////////+////...e/....7../bbbbb/       ",
+        "   /./ /T/T/./,!#,,$$/....///DD//////////       ",
         " ///d///+/+/.+,,h,,,,d..../****7**/             ",
         " /V...V/..i../,,,j,,,/i..i/*******/             ",
         " /V...V/LL.SS/,,,#,,,/..../*******//////////////",
@@ -537,7 +537,9 @@
           { "item": "software_electronics_reference", "chance": 4, "repeat": 2 }
         ],
         "q": [ { "item": "adderall", "amount": [ 2, 5 ] } ],
-        "E": [ { "item": "television", "amount": 1 } ]
+        "E": [ { "item": "television", "amount": 1 } ],
+        "R": [ { "item": "rm13_armor", "amount": 1 } ],
+        "O": [ { "item": "phase_immersion_suit", "amount": 1 } ]
       },
       "place_item": [
         { "item": "heroin", "x": 11, "y": 11, "amount": [ 3, 7 ] },

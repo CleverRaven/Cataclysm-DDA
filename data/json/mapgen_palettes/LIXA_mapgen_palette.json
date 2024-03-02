@@ -120,6 +120,7 @@
       "e": "t_card_LIXA",
       "6": "t_card_LIXA_mil",
       "7": "t_card_LIXA_2",
+      "9": "t_card_LIXA_3",
       "8": "t_elevator",
       "X": "t_elevator_control_off"
     },
@@ -151,7 +152,10 @@
       "S": "f_sink",
       "F": "f_fridge",
       "C": "f_control_station",
-      "f": "f_fridge"
+      "f": "f_fridge",
+      "R": "f_locker",
+      "O": "f_locker",
+      "b": "f_bench"
     },
     "toilets": { "T": {  } }
   },
