@@ -9,8 +9,48 @@
   {
     "type": "enchantment",
     "id": "arvore_forest_detect_enemies",
-    "condition": "ALWAYS",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "arvore_forest_detect_enemies_and_overmap",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [
+      { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
+      {
+        "value": "OVERMAP_SIGHT",
+        "add": { "math": [ "(u_has_trait('ARVORE_FOREST_DETECT_AND_OVERMAP') * 2) + (u_has_trait('THRESH_ARVORE') * 2)" ] }
+      }
+    ]
   },
   {
     "type": "enchantment",
@@ -40,9 +80,57 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_arvore_forest_stealth",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "40 + ( u_has_trait('THRESH_ARVORE') * 20)" ] } } ]
+  },
+  {
+    "type": "enchantment",
     "id": "ench_arvore_sense_sun",
     "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] },
     "ench_effects": [ { "effect": "effect_arvore_sense_sun", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_wilds_super_mending",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "values": [ { "value": "MENDING_MODIFIER", "multiply": 10 } ]
   },
   {
     "type": "enchantment",

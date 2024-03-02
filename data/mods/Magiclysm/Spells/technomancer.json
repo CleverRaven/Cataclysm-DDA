@@ -811,6 +811,7 @@
     "name": "Machine Mind",
     "description": "This spell grants the caster an intuitive understanding of electronics and computers, making their use, repair, and construction much easier.",
     "valid_targets": [ "self" ],
+    "spell_class": "TECHNOMANCER",
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
     "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "effect": "attack",

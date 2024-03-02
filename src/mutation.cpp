@@ -496,10 +496,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
-        branch.hp_adjustment.has_value() ) {
-        recalc_hp();
-    }
 
     for( const itype_id &armor : branch.integrated_armor ) {
         item tmparmor( armor );
@@ -605,10 +601,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
-        branch.hp_adjustment.has_value() ) {
-        recalc_hp();
-    }
 
     for( const itype_id &popped_armor : branch.integrated_armor ) {
         remove_worn_items_with( [&]( item & armor ) {

@@ -749,7 +749,7 @@
     "name": { "str_sp": "mixed smokeless gunpowder" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate, or shape.  It has been slightly ground to make its properties more uniform.  Only the truly desperate would attempt to reload with this.",
+    "description": "Firearm-quality gunpowder, mixed without concern for composition, burn rate, or shape, making it thoroughly useless for reloading ammunition.  It has been slightly ground to make its properties more uniform.",
     "container": "bottle_plastic",
     "sealed": false,
     "material": [ "powder" ],

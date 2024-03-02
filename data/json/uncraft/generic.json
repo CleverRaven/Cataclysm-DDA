@@ -476,15 +476,6 @@
     "components": [ [ [ "paper", 3 ] ] ]
   },
   {
-    "result": "scrap_cotton",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "tailor",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 1 ] ] ]
-  },
-  {
     "result": "sole_rubber",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
