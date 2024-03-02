@@ -23,7 +23,7 @@
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
-    "weakness_to_water": 1,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 1 } ] } ],
     "integrated_armor": [ "integrated_coal_skin" ],
     "flags": [ "TOUGH_FEET" ]
   },
@@ -41,7 +41,7 @@
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
-    "weakness_to_water": 4,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 4 } ] } ],
     "integrated_armor": [ "integrated_flameskin" ]
   },
   {

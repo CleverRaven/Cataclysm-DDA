@@ -222,13 +222,14 @@ void suffer::water_damage( Character &you, const trait_id &mut_id )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : you.get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
-        const int dmg = mut_id->weakness_to_water * wetness_percentage;
+        const int dmg = you.enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                        0 ) * wetness_percentage;
         if( dmg > 0 ) {
             you.apply_damage( nullptr, elem.first, dmg );
             you.add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                        _( "<npcname>'s %s is damaged by the water." ),
                                        body_part_name( elem.first ) );
-        } else if( dmg < 0 && elem.second.is_at_max_hp() ) {
+        } else if( dmg < 0 && !elem.second.is_at_max_hp() ) {
             you.heal( elem.first, std::abs( dmg ) );
             you.add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                        _( "<npcname>'s %s is healed by the water." ),
@@ -1770,7 +1771,8 @@ void Character::suffer()
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
-        if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
+        if( calendar::once_every( 1_minutes ) && enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                        0 ) != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
         if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
@@ -2047,8 +2049,10 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         restore_scent();
     }
 
-    if( is_weak_to_water() ) {
+    if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) > 0 ) {
         add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
+    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 ) {
+        add_msg_if_player( m_bad, _( "You feel the water runs on your skin, making you feel better." ) );
     }
 
     // Remove onfire effect

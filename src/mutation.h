@@ -256,9 +256,6 @@ struct mutation_branch {
         /**How fast does lifetsyle tends toward daily_health*/
         float healthy_rate = 1.0f;
 
-        /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
-        int weakness_to_water = 0;
-
         std::optional<float> crafting_speed_multiplier = std::nullopt;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness

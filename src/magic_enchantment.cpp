@@ -109,6 +109,7 @@ namespace io
             case enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER: return "CRAFTING_SPEED_MULTIPLIER";
             case enchant_vals::mod::BIONIC_MANA_PENALTY: return "BIONIC_MANA_PENALTY";
             case enchant_vals::mod::STEALTH_MODIFIER: return "STEALTH_MODIFIER";
+            case enchant_vals::mod::WEAKNESS_TO_WATER: return "WEAKNESS_TO_WATER";
             case enchant_vals::mod::MENDING_MODIFIER: return "MENDING_MODIFIER";
             case enchant_vals::mod::STOMACH_SIZE_MULTIPLIER: return "STOMACH_SIZE_MULTIPLIER";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";

@@ -887,7 +887,9 @@ Character status value  | Description
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
+`WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per minute; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number, so `multiply` is useful in combination with `add`
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
+
 
 Melee-only enchantment values | Description
 ---                           |---
