@@ -251,8 +251,6 @@ struct mutation_branch {
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
 
-        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
-        float fat_to_max_hp = 0.0f;
         /**How fast does lifetsyle tends toward daily_health*/
         float healthy_rate = 1.0f;
 

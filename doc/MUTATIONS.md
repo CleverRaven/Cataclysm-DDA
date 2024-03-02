@@ -210,7 +210,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "scent_mask": -200,                         // int added to your target scent value (default: 0).
   "scent_type": "sc_flower",                  // The scent_types you emit, as defined in scent_types.json (default: empty).
   "consume_time_modifier": 1.0,               // time to eat or drink is multiplied by this.
-  "fat_to_max_hp": 1.0,                       // Amount of hp_max gained for each unit of bmi above character_weight_category::normal (default: 0.0).
   "healthy_rate": 0.0,                        // How fast your health can change.  If set to 0 it never changes (default: 1.0).
   "ignored_by": [ "ZOMBIE" ],                 // List of species ignoring you (default: empty).
   "anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ], // List of species angered by you and how much, negative values calm instead  (default: empty).

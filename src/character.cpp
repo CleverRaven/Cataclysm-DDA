@@ -811,12 +811,9 @@ void Character::mod_stat( const std::string &stat, float modifier )
 
 int Character::get_fat_to_hp() const
 {
-    float mut_fat_hp = 0.0f;
-    for( const trait_id &mut : get_mutations() ) {
-        mut_fat_hp += mut.obj().fat_to_max_hp;
-    }
-
-    return mut_fat_hp * ( get_bmi_fat() - character_weight_category::normal );
+    int fat_to_hp = ( get_bmi_fat() - character_weight_category::normal );
+    fat_to_hp = enchantment_cache->modify_value( enchant_vals::mod::FAT_TO_MAX_HP, fat_to_hp );
+    return fat_to_hp
 }
 
 creature_size Character::get_size() const
