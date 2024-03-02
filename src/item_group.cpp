@@ -396,7 +396,10 @@ void Single_item_creator::check_consistency( bool actually_spawn ) const
     if( modifier ) {
         modifier->check_consistency( context() );
     }
-    Item_spawn_data::check_consistency( actually_spawn );
+    // If this is to create a group and there's no container to restrain it, no need to actually create it,
+    // since groups are processed separately.
+    Item_spawn_data::check_consistency( ( type == S_ITEM_GROUP &&
+                                          !container_item ) ? false : actually_spawn );
 }
 
 bool Single_item_creator::remove_item( const itype_id &itemid )
@@ -893,9 +896,11 @@ void Item_group::check_consistency( bool actually_spawn ) const
     // if type is collection, then spawning itself automatically spawnes all entries,
     // thus no need to spawn them individually.
     for( const auto &elem : items ) {
-        elem->check_consistency( type == G_DISTRIBUTION ? true : false );
+        // Assuming every entry needs to be spawned.
+        elem->check_consistency( true );
     }
-    Item_spawn_data::check_consistency( actually_spawn );
+    // If this group has no container, no need to spawn it as a whole as every entry has been spawned.
+    Item_spawn_data::check_consistency( container_item ? actually_spawn : false );
 }
 
 int Item_spawn_data::get_probability( bool skip_event_check ) const
