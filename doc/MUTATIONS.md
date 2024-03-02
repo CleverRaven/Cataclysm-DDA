@@ -208,7 +208,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "scent_modifier": 0.0,                      // float affecting the intensity of your smell (default: 1.0).
   "scent_intensity": 800,                     // int affecting the target scent toward which you current smell gravitates (default: 500).
   "scent_type": "sc_flower",                  // The scent_types you emit, as defined in scent_types.json (default: empty).
-  "consume_time_modifier": 1.0,               // time to eat or drink is multiplied by this.
   "ignored_by": [ "ZOMBIE" ],                 // List of species ignoring you (default: empty).
   "anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ], // List of species angered by you and how much, negative values calm instead  (default: empty).
   "can_only_eat": [ "junk" ],                 // List of comestible materials (default: empty).

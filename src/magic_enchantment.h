@@ -157,6 +157,7 @@ enum class mod : int {
     UGLINESS,
     VOMIT_MUL,
     SCENT_MASK,
+    CONSUME_TIME_MOD,
     NUM_MOD
 };
 } // namespace enchant_vals

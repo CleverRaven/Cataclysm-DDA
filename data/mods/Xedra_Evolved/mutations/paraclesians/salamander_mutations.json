@@ -333,7 +333,7 @@
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH" ],
     "category": [ "SALAMANDER" ],
     "stomach_size_multiplier": 3.0,
-    "consume_time_modifier": 0.66
+    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",

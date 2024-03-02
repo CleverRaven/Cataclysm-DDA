@@ -288,9 +288,6 @@ struct mutation_branch {
         // Multiplier for skill rust delay, defaulting to 1.
         std::optional<float> skill_rust_multiplier = std::nullopt;
 
-        // Multiplier for consume time, defaulting to 1.
-        std::optional<float> consume_time_modifier = std::nullopt;
-
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
