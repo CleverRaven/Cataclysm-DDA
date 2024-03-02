@@ -2062,8 +2062,7 @@
                   "effect": [
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_A" } },
                     { "mapgen_update": "cleanup_LIXA", "target_var": { "global_val": "LIXA_unfold_B" } },
-                    { "queue_eocs": "EOC_LIXA_unfold_shift_1", "time_in_future": "2 seconds" },
-                    { "u_message": "PREPARING UNFOLD SHIFT 1" }
+                    { "queue_eocs": "EOC_LIXA_unfold_shift_1", "time_in_future": "2 seconds" }
                   ]
                 }
               ]
@@ -2136,7 +2135,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LIXA_unfold_shift_0",
-    "effect": [ { "math": [ "u_LIXA_unfold_level", "=", "1" ] }, { "u_message": "LIXA UNFOLD LEVEL 0 REACHED" } ]
+    "effect": [ { "math": [ "u_LIXA_unfold_level", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -2144,8 +2143,7 @@
     "effect": [
       { "math": [ "u_LIXA_unfold_level", "=", "2" ] },
       { "mapgen_update": "spawn_LIXA_1a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_1b", "target_var": { "global_val": "LIXA_unfold_B" } },
-      { "u_message": "LIXA UNFOLD LEVEL 1 REACHED" }
+      { "mapgen_update": "spawn_LIXA_1b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
   },
   {
@@ -2154,8 +2152,7 @@
     "effect": [
       { "math": [ "u_LIXA_unfold_level", "=", "3" ] },
       { "mapgen_update": "spawn_LIXA_2a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_2b", "target_var": { "global_val": "LIXA_unfold_B" } },
-      { "u_message": "LIXA UNFOLD LEVEL 2 REACHED" }
+      { "mapgen_update": "spawn_LIXA_2b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
   },
   {
@@ -2164,8 +2161,7 @@
     "effect": [
       { "math": [ "u_LIXA_unfold_level", "=", "4" ] },
       { "mapgen_update": "spawn_LIXA_3a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_3b", "target_var": { "global_val": "LIXA_unfold_B" } },
-      { "u_message": "LIXA UNFOLD LEVEL 3 REACHED" }
+      { "mapgen_update": "spawn_LIXA_3b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
   },
   {
@@ -2174,8 +2170,7 @@
     "effect": [
       { "math": [ "u_LIXA_unfold_level", "=", "5" ] },
       { "mapgen_update": "spawn_LIXA_4a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_4b", "target_var": { "global_val": "LIXA_unfold_B" } },
-      { "u_message": "LIXA UNFOLD LEVEL 4 REACHED" }
+      { "mapgen_update": "spawn_LIXA_4b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
   },
   {
@@ -2184,8 +2179,7 @@
     "effect": [
       { "math": [ "u_LIXA_unfold_level", "=", "6" ] },
       { "mapgen_update": "spawn_LIXA_5a", "target_var": { "global_val": "LIXA_unfold_A" } },
-      { "mapgen_update": "spawn_LIXA_5b", "target_var": { "global_val": "LIXA_unfold_B" } },
-      { "u_message": "LIXA UNFOLD LEVEL 5 REACHED" }
+      { "mapgen_update": "spawn_LIXA_5b", "target_var": { "global_val": "LIXA_unfold_B" } }
     ]
   },
   {
