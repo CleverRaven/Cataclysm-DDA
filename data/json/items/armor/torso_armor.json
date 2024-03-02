@@ -24,19 +24,18 @@
   {
     "id": "xl_armor_cuirass",
     "type": "ARMOR",
-    "name": { "str": "XL bell cuirass", "str_pl": "XL bell cuirasses" },
+    "name": { "str": "bell cuirass", "str_pl": "bell cuirasses" },
     "copy-from": "armor_cuirass",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_armor_cuirass",
     "type": "ARMOR",
     "copy-from": "armor_cuirass",
-    "looks_like": "armor_cuirass",
-    "name": { "str": "XS bell cuirass", "str_pl": "XS bell cuirasses" },
+    "name": { "str": "bell cuirass", "str_pl": "bell cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cuirass_bronze",
@@ -63,18 +62,18 @@
   {
     "id": "xl_cuirass_bronze",
     "type": "ARMOR",
-    "name": { "str": "XL bronze cuirass", "str_pl": "XL bronze cuirasses" },
+    "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
     "copy-from": "cuirass_bronze",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_cuirass_bronze",
     "type": "ARMOR",
-    "name": { "str": "XS bronze cuirass", "str_pl": "XS bronze cuirasses" },
+    "name": { "str": "bronze cuirass", "str_pl": "bronze cuirasses" },
     "copy-from": "cuirass_bronze",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_lamellar",
@@ -117,19 +116,18 @@
   {
     "id": "xl_armor_lamellar",
     "type": "ARMOR",
-    "name": { "str": "XL leather lamellar cuirass", "str_pl": "XL leather lamellar cuirasses" },
+    "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "copy-from": "armor_lamellar",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_armor_lamellar",
     "type": "ARMOR",
     "copy-from": "armor_lamellar",
-    "looks_like": "armor_lamellar",
-    "name": { "str": "XS leather lamellar cuirass", "str_pl": "XS leather lamellar cuirasses" },
+    "name": { "str": "leather lamellar cuirass", "str_pl": "leather lamellar cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_lamellar_lc",
@@ -180,20 +178,20 @@
   {
     "id": "xl_armor_lamellar_lc",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel lamellar cuirass", "str_pl": "XL mild steel lamellar cuirasses" },
+    "name": { "str": "mild steel lamellar cuirass", "str_pl": "mild steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  The perfect size for an orc or bipedal grizzly bear.",
     "copy-from": "armor_lamellar_lc",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_armor_lamellar_lc",
     "type": "ARMOR",
     "copy-from": "armor_lamellar_lc",
-    "name": { "str": "XS mild steel lamellar cuirass", "str_pl": "XS mild steel lamellar cuirasses" },
+    "name": { "str": "mild steel lamellar cuirass", "str_pl": "mild steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Perfectly sized for a particularly angry rat-person, yes-yes.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_lamellar_ch",
@@ -201,26 +199,25 @@
     "copy-from": "armor_lamellar_lc",
     "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  This one has been hardened for extra protection.",
-    "looks_like": "armor_lamellar_lc",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
     "id": "xl_armor_lamellar_ch",
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel lamellar cuirass", "str_pl": "XL hardened steel lamellar cuirasses" },
+    "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
     "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Built larger for a minotaur guarding their labyrinth.",
     "copy-from": "armor_lamellar_ch",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_armor_lamellar_ch",
     "type": "ARMOR",
     "copy-from": "armor_lamellar_ch",
-    "name": { "str": "XS hardened steel lamellar cuirass", "str_pl": "XS hardened steel lamellar cuirasses" },
+    "name": { "str": "hardened steel lamellar cuirass", "str_pl": "hardened steel lamellar cuirasses" },
     "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Just the right size for a fantasy dwarf.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "carpet_cuirass",
@@ -311,19 +308,18 @@
   {
     "id": "xl_armor_lorica",
     "type": "ARMOR",
-    "name": { "str_sp": "XL lorica segmentata" },
+    "name": { "str_sp": "lorica segmentata" },
     "copy-from": "armor_lorica",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "OUTER" ]
   },
   {
     "id": "xs_armor_lorica",
     "type": "ARMOR",
     "copy-from": "armor_lorica",
-    "looks_like": "armor_lorica",
-    "name": { "str_sp": "XS lorica segmentata" },
+    "name": { "str_sp": "lorica segmentata" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "armor_thessalonian",
@@ -572,7 +568,7 @@
   {
     "abstract": "xl_chainmail_vest",
     "type": "ARMOR",
-    "name": { "str": "XL chainmail vest" },
+    "name": { "str": "chainmail vest" },
     "copy-from": "base_chainmail_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "pocket_data": [
@@ -588,13 +584,13 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
       }
     ],
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "abstract": "xs_chainmail_vest",
     "type": "ARMOR",
     "copy-from": "base_chainmail_vest",
-    "name": { "str": "XS chainmail vest" },
+    "name": { "str": "chainmail vest" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "pocket_data": [
       {
@@ -609,7 +605,7 @@
         "flag_restriction": [ "ABLATIVE_CHAINMAIL_TORSO" ]
       }
     ],
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "chainmail_junk_vest",
@@ -631,14 +627,14 @@
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL mild steel chainmail vest" }
+    "name": { "str": "mild steel chainmail vest" }
   },
   {
     "id": "xs_lc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS mild steel chainmail vest" }
+    "name": { "str": "mild steel chainmail vest" }
   },
   {
     "id": "mc_chainmail_vest",
@@ -652,14 +648,14 @@
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL medium steel chainmail vest" }
+    "name": { "str": "medium steel chainmail vest" }
   },
   {
     "id": "xs_mc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS medium steel chainmail vest" }
+    "name": { "str": "medium steel chainmail vest" }
   },
   {
     "id": "hc_chainmail_vest",
@@ -673,14 +669,14 @@
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail vest" }
+    "name": { "str": "high steel chainmail vest" }
   },
   {
     "id": "xs_hc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS high steel chainmail vest" }
+    "name": { "str": "high steel chainmail vest" }
   },
   {
     "id": "ch_chainmail_vest",
@@ -694,14 +690,14 @@
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel chainmail vest" }
+    "name": { "str": "hardened steel chainmail vest" }
   },
   {
     "id": "xs_ch_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS hardened steel chainmail vest" }
+    "name": { "str": "hardened steel chainmail vest" }
   },
   {
     "id": "qt_chainmail_vest",
@@ -715,14 +711,14 @@
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel chainmail vest" }
+    "name": { "str": "tempered steel chainmail vest" }
   },
   {
     "id": "xs_qt_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS tempered steel chainmail vest" }
+    "name": { "str": "tempered steel chainmail vest" }
   },
   {
     "id": "cloth_shirt_padded",
@@ -856,18 +852,18 @@
   {
     "id": "xl_cuirass_lightplate",
     "type": "ARMOR",
-    "name": { "str": "XL cuirass", "str_pl": "XL cuirasses" },
+    "name": { "str": "cuirass", "str_pl": "cuirasses" },
     "copy-from": "cuirass_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "PREFIX_XL", "OUTER" ]
   },
   {
     "id": "xs_cuirass_lightplate",
     "type": "ARMOR",
     "copy-from": "cuirass_lightplate",
-    "name": { "str": "XS cuirass", "str_pl": "XS cuirasses" },
+    "name": { "str": "cuirass", "str_pl": "cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cuirass_scrap",
@@ -904,19 +900,18 @@
   {
     "id": "xl_cuirass_scrap",
     "type": "ARMOR",
-    "name": { "str": "XL scrap cuirass", "str_pl": "XL scrap cuirasses" },
+    "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
     "copy-from": "cuirass_scrap",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_cuirass_scrap",
     "type": "ARMOR",
     "copy-from": "cuirass_scrap",
-    "looks_like": "cuirass_scrap",
-    "name": { "str": "XS scrap cuirass", "str_pl": "XS scrap cuirasses" },
+    "name": { "str": "scrap cuirass", "str_pl": "scrap cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cuirass_tire",
@@ -942,19 +937,18 @@
   {
     "id": "xl_cuirass_tire",
     "type": "ARMOR",
-    "name": { "str": "XL tire cuirass", "str_pl": "XL tire cuirasses" },
+    "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
     "copy-from": "cuirass_scrap",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "OVERSIZE", "OUTER", "NONCONDUCTIVE" ]
+    "flags": [ "OVERSIZE", "PREFIX_XL", "OUTER", "NONCONDUCTIVE" ]
   },
   {
     "id": "xs_cuirass_tire",
     "type": "ARMOR",
     "copy-from": "cuirass_tire",
-    "looks_like": "cuirass_tire",
-    "name": { "str": "XS tire cuirass", "str_pl": "XS tire cuirasses" },
+    "name": { "str": "tire cuirass", "str_pl": "tire cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "fencing_jacket",
@@ -1249,7 +1243,6 @@
     "price_postapoc": 2500,
     "material": [ "rubber", "leather" ],
     "copy-from": "jacket_leather_mod",
-    "looks_like": "jacket_leather_mod",
     "color": "light_gray",
     "armor": [
       {
@@ -1519,7 +1512,6 @@
     "description": "An armored vest made from thick leather and metal plates which have been hardened for superb protection.",
     "price_postapoc": 2000,
     "copy-from": "vest_leather_mod",
-    "looks_like": "vest_leather_mod",
     "replace_materials": { "lc_steel": "ch_steel" }
   },
   {
@@ -1569,10 +1561,10 @@
   {
     "id": "xl_armor_lc_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel light chestplate" },
+    "name": { "str": "mild steel light chestplate" },
     "copy-from": "armor_lc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_light_chestplate",
@@ -1585,10 +1577,10 @@
   {
     "id": "xl_armor_mc_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel light chestplate" },
+    "name": { "str": "medium steel light chestplate" },
     "copy-from": "armor_mc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_light_chestplate",
@@ -1601,10 +1593,10 @@
   {
     "id": "xl_armor_hc_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel light chestplate" },
+    "name": { "str": "high steel light chestplate" },
     "copy-from": "armor_hc_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_light_chestplate",
@@ -1617,10 +1609,10 @@
   {
     "id": "xl_armor_ch_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL hardened light chestplate" },
+    "name": { "str": "hardened light chestplate" },
     "copy-from": "armor_ch_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_light_chestplate",
@@ -1633,10 +1625,10 @@
   {
     "id": "xl_armor_qt_light_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered light chestplate" },
+    "name": { "str": "tempered light chestplate" },
     "copy-from": "armor_qt_light_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_chestplate",
@@ -1685,10 +1677,10 @@
   {
     "id": "xl_armor_lc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel chestplate" },
+    "name": { "str": "mild steel chestplate" },
     "copy-from": "armor_lc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_chestplate",
@@ -1701,10 +1693,10 @@
   {
     "id": "xl_armor_mc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel chestplate" },
+    "name": { "str": "medium steel chestplate" },
     "copy-from": "armor_mc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_chestplate",
@@ -1717,10 +1709,10 @@
   {
     "id": "xl_armor_hc_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel chestplate" },
+    "name": { "str": "high steel chestplate" },
     "copy-from": "armor_hc_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_chestplate",
@@ -1733,10 +1725,10 @@
   {
     "id": "xl_armor_ch_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL hardened chestplate" },
+    "name": { "str": "hardened chestplate" },
     "copy-from": "armor_ch_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_chestplate",
@@ -1749,10 +1741,10 @@
   {
     "id": "xl_armor_qt_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered chestplate" },
+    "name": { "str": "tempered chestplate" },
     "copy-from": "armor_qt_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_lc_heavy_chestplate",
@@ -1801,10 +1793,10 @@
   {
     "id": "xl_armor_lc_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel heavy chestplate" },
+    "name": { "str": "mild steel heavy chestplate" },
     "copy-from": "armor_lc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_mc_heavy_chestplate",
@@ -1817,10 +1809,10 @@
   {
     "id": "xl_armor_mc_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel heavy chestplate" },
+    "name": { "str": "medium steel heavy chestplate" },
     "copy-from": "armor_mc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_hc_heavy_chestplate",
@@ -1833,10 +1825,10 @@
   {
     "id": "xl_armor_hc_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL high steel heavy chestplate" },
+    "name": { "str": "high steel heavy chestplate" },
     "copy-from": "armor_hc_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_ch_heavy_chestplate",
@@ -1849,10 +1841,10 @@
   {
     "id": "xl_armor_ch_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL hardened heavy chestplate" },
+    "name": { "str": "hardened heavy chestplate" },
     "copy-from": "armor_ch_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_qt_heavy_chestplate",
@@ -1865,10 +1857,10 @@
   {
     "id": "xl_armor_qt_heavy_chestplate",
     "type": "ARMOR",
-    "name": { "str": "XL tempered heavy chestplate" },
+    "name": { "str": "tempered heavy chestplate" },
     "copy-from": "armor_qt_heavy_chestplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "survivor_adhoc_leather_shirt",
@@ -2036,19 +2028,18 @@
   {
     "id": "xl_armor_larmor_chest",
     "type": "ARMOR",
-    "name": { "str": "XL leather armor cuirass", "str_pl": "XL leather armor cuirasses" },
+    "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "copy-from": "armor_larmor_chest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "armor_larmor_chest_xs",
     "type": "ARMOR",
     "copy-from": "armor_larmor_chest",
-    "looks_like": "cuirass_bronze",
-    "name": { "str": "XS leather armor cuirass", "str_pl": "XS leather armor cuirasses" },
+    "name": { "str": "leather armor cuirass", "str_pl": "leather armor cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "lc_mirror_armor",
@@ -2084,19 +2075,18 @@
   {
     "id": "xl_lc_mirror_armor",
     "type": "ARMOR",
-    "name": { "str": "XL mild steel mirror armor", "str_pl": "sets of XL mild steel mirror armor" },
+    "name": { "str": "mild steel mirror armor", "str_pl": "sets of mild steel mirror armor" },
     "copy-from": "cuirass_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_mirror_armor",
     "type": "ARMOR",
     "copy-from": "lc_mirror_armor",
-    "looks_like": "lc_mirror_armor",
-    "name": { "str": "XS mild steel mirror armor", "str_pl": "sets of XS mild steel mirror armor" },
+    "name": { "str": "mild steel mirror armor", "str_pl": "sets of mild steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_mirror_armor",
@@ -2109,19 +2099,18 @@
   {
     "id": "xl_mc_mirror_armor",
     "type": "ARMOR",
-    "name": { "str": "XL medium steel mirror armor", "str_pl": "sets of XL medium steel mirror armor" },
+    "name": { "str": "medium steel mirror armor", "str_pl": "sets of medium steel mirror armor" },
     "copy-from": "mc_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_mirror_armor",
     "type": "ARMOR",
     "copy-from": "mc_mirror_armor",
-    "looks_like": "mc_mirror_armor",
-    "name": { "str": "XS medium steel mirror armor", "str_pl": "sets of XS medium steel mirror armor" },
+    "name": { "str": "medium steel mirror armor", "str_pl": "sets of medium steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_mirror_armor",
@@ -2134,19 +2123,18 @@
   {
     "id": "xl_hc_mirror_armor",
     "type": "ARMOR",
-    "name": { "str": "XL high steel mirror armor", "str_pl": "sets of XL high steel mirror armor" },
+    "name": { "str": "high steel mirror armor", "str_pl": "sets of high steel mirror armor" },
     "copy-from": "hc_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_mirror_armor",
     "type": "ARMOR",
     "copy-from": "hc_mirror_armor",
-    "looks_like": "hc_mirror_armor",
-    "name": { "str": "XS high steel mirror armor", "str_pl": "sets of XS high steel mirror armor" },
+    "name": { "str": "high steel mirror armor", "str_pl": "sets of high steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_mirror_armor",
@@ -2159,19 +2147,18 @@
   {
     "id": "xl_ch_mirror_armor",
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel mirror armor", "str_pl": "sets of XL hardened steel mirror armor" },
+    "name": { "str": "hardened steel mirror armor", "str_pl": "sets of hardened steel mirror armor" },
     "copy-from": "ch_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_mirror_armor",
     "type": "ARMOR",
     "copy-from": "ch_mirror_armor",
-    "looks_like": "ch_mirror_armor",
-    "name": { "str": "XS hardened steel mirror armor", "str_pl": "sets of XS hardened steel mirror armor" },
+    "name": { "str": "hardened steel mirror armor", "str_pl": "sets of hardened steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_mirror_armor",
@@ -2184,18 +2171,17 @@
   {
     "id": "xl_qt_mirror_armor",
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel mirror armor", "str_pl": "sets of XL tempered steel mirror armor" },
+    "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "copy-from": "qt_mirror_armor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_mirror_armor",
     "type": "ARMOR",
     "copy-from": "qt_mirror_armor",
-    "looks_like": "qt_mirror_armor",
-    "name": { "str": "XS tempered steel mirror armor", "str_pl": "sets of XS tempered steel mirror armor" },
+    "name": { "str": "tempered steel mirror armor", "str_pl": "sets of tempered steel mirror armor" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]
