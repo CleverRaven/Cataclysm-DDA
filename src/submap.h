@@ -418,6 +418,35 @@ class maptile_impl
             return *std::prev( sm->get_items( pos() ).cend() );
         }
 
+        /** Returns the uppermost favorite item if there is a favorite item. Otherwise, returns the item with the greatest volume.
+        *
+        * Assumes there is at least one item.
+        * Used to decide which item to render.
+        * TODO: might be slow enough to justify storing the most visible item for each tile? 
+        */
+        const item &get_most_visible_item() const {
+
+            const item *biggest_item = nullptr;
+            units::volume biggest_volume = 0_ml;
+
+            // uppermost item is at end of the list, so iterate backwards so uppermost item is preferred
+            auto items = get_items();
+            // unsigned int i = get_items().size();
+            for( auto it = items.rbegin(); it != items.rend(); it++ ) {
+                const auto &item = *it;
+
+                if( item.is_favorite ) {
+                    return item;
+                }
+
+                if( item.base_volume() > biggest_volume ) {
+                    biggest_item = &item;
+                    biggest_volume = item.base_volume();
+                }
+            }
+            return *biggest_item;
+        }
+
         // Gets all items
         const cata::colony<item> &get_items() const {
             return sm->get_items( pos() );
