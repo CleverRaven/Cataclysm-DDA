@@ -7122,7 +7122,7 @@
     "description": "Recipes related to the construction of cardboard 'weaponry''.",
     "skill_used": "fabrication",
     "nested_category_data": [ "sword_cardboard", "spear_cardboard" ],
-    "difficulty": 1  
+    "difficulty": 1
   },
   {
     "id": "nested_bullet_necklaces",
