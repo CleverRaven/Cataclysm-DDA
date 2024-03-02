@@ -492,11 +492,6 @@
   },
   {
     "type": "item_action",
-    "id": "HAIRKIT",
-    "name": { "str": "Trim the hair" }
-  },
-  {
-    "type": "item_action",
     "id": "HEATPACK",
     "name": { "str": "Use" }
   },
@@ -759,11 +754,6 @@
     "type": "item_action",
     "id": "SEWAGE",
     "name": { "str": "Consume" }
-  },
-  {
-    "type": "item_action",
-    "id": "SHAVEKIT",
-    "name": { "str": "Shave" }
   },
   {
     "type": "item_action",
