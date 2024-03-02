@@ -5,7 +5,7 @@
     "category": "armor",
     "looks_like": "helmet_larmor",
     "name": { "str": "cardboard 'great' helm" },
-    "description": "A cardboard helmet shaped to look like a medieval great helm. Very unencumbering in comparison to actual helmets, with rather obvious drawbacks in exchange. The interior is lined with aluminum, apparently to 'divert the zombie beta rays'. It sure doesn't help with comfort.",
+    "description": "A cardboard helmet shaped to look like a medieval great helm.  Very unencumbering in comparison to actual helmets, with rather obvious drawbacks in exchange.  The interior is lined with aluminum, apparently to 'divert the zombie beta rays'.  It sure doesn't help with comfort.",
     "weight": "1250 g",
     "volume": "2750 ml",
     "price": 40000,
@@ -31,7 +31,7 @@
     "category": "armor",
     "looks_like": "armor_larmor",
     "name": { "str": "cardboard 'plate' armor" },
-    "description": "A set of cardboard armor that's been duct taped and superglued into place, with paper padding the interior in an unsuccessful attempt to increase comfort. Despite the triple-layering, tensile and shear strength diagrams, and careful design considerations, there's just no way this is going to hold up to a single attack.",
+    "description": "A set of cardboard armor that's been duct taped and superglued into place, with paper padding the interior in an unsuccessful attempt to increase comfort.  Despite the triple-layering, tensile and shear strength diagrams, and careful design considerations, there's just no way this is going to hold up to a single attack.",
     "weight": "3450 g",
     "volume": "17500 ml",
     "price": 0,
@@ -81,7 +81,7 @@
     "looks_like": "hoodie_brown",
     "name": { "str": "cardboard cuirass", "str_pl": "cardboard cuirasses" },
     "category": "armor",
-    "description": "While this isn't quite the 'heavy ballistic vest' the blueprints pretend it is, the layering makes it almost passable as a form of extremely rudimentary armor. It's still nowhere near as good as basically any other choice, while still being hard to move around in.",
+    "description": "While this isn't quite the 'heavy ballistic vest' the blueprints pretend it is, the layering makes it almost passable as a form of extremely rudimentary armor.  It's still nowhere near as good as basically any other choice, while still being hard to move around in.",
     "weight": "2105 g",
     "volume": "6 L",
     "price": 0,
@@ -123,8 +123,8 @@
   {
     "id": "cardboard_crown_loose",
     "type": "ARMOR",
-    "name": { "str": "cardboard crown (loosened)" },
-    "description": "A piece of cardboard crudely bent into shape and cut to look like a crown. This one's been loosened up somewhat, allowing it to be worn over some headgear comfortably.",
+    "name": { "str": "cardboard crown (loosened)", "str_pl": "cardboard crowns (loosened)" },
+    "description": "A piece of cardboard crudely bent into shape and cut to look like a crown.  This one's been loosened up somewhat, allowing it to be worn over some headgear comfortably.",
     "copy-from": "cardboard_crown",
     "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "NO_WEAR_EFFECT", "FRAGILE", "OUTER", "POWERARMOR_COMPATIBLE", "SOFT" ],
     "use_action": { "type": "transform", "menu_text": "Adjust", "target": "cardboard_crown", "msg": "You adjust your cardboard crown." }
@@ -134,7 +134,7 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "cardboard badge" },
-    "description": "An honorable badge identifying the owner as a \"Knight Errant\" of \"House Da\". The large letters slowly dwindle in size as the badge runs out of space, leaving out the last two letters of Dino Dave's name.",
+    "description": "An honorable badge identifying the owner as a \"Knight Errant\" of \"House Da\".  The large letters slowly dwindle in size as the badge runs out of space, leaving out the last two letters of Dino Dave's name.",
     "flags": [ "WATER_DISSOLVE", "FRAGILE_MELEE", "NO_WEAR_EFFECT", "FRAGILE" ]
   }
 ]
