@@ -4348,11 +4348,7 @@ void Character::set_lifestyle( int nhealthy )
 }
 void Character::mod_livestyle( int nhealthy )
 {
-    float mut_rate = 1.0f;
-    for( const trait_id &mut : get_mutations() ) {
-        mut_rate *= mut.obj().healthy_rate;
-    }
-    lifestyle += nhealthy * mut_rate;
+    lifestyle += enchantment_cache->modify_value( enchant_vals::mod::HEALTHY_RATE, nhealthy );
     // Clamp lifestyle between [-200, 200]
     lifestyle = std::max( lifestyle, -200 );
     lifestyle = std::min( lifestyle, 200 );

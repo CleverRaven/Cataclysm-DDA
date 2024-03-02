@@ -251,9 +251,6 @@ struct mutation_branch {
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
 
-        /**How fast does lifetsyle tends toward daily_health*/
-        float healthy_rate = 1.0f;
-
         std::optional<float> crafting_speed_multiplier = std::nullopt;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
