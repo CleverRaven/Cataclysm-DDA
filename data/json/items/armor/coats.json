@@ -211,18 +211,18 @@
   {
     "id": "xl_coat_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur coat" },
+    "name": { "str": "fur coat" },
     "copy-from": "coat_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_fur",
     "type": "ARMOR",
     "copy-from": "coat_fur",
-    "name": { "str": "XS fur coat" },
+    "name": { "str": "fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_faux_fur",
@@ -239,18 +239,18 @@
   {
     "id": "xl_coat_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "copy-from": "coat_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_coat_faux_fur",
     "type": "ARMOR",
     "copy-from": "coat_faux_fur",
-    "name": { "str": "XS faux fur coat" },
+    "name": { "str": "faux fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "coat_lab",
@@ -582,34 +582,34 @@
   {
     "id": "xl_duster_fur",
     "type": "ARMOR",
-    "name": { "str": "XL fur duster" },
+    "name": { "str": "fur duster" },
     "copy-from": "duster_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_fur",
     "type": "ARMOR",
     "copy-from": "duster_fur",
-    "name": { "str": "XS fur duster" },
+    "name": { "str": "fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "xl_duster",
     "type": "ARMOR",
-    "name": { "str": "XL duster" },
+    "name": { "str": "duster" },
     "copy-from": "duster",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster",
     "type": "ARMOR",
     "copy-from": "duster",
-    "name": { "str": "XS duster" },
+    "name": { "str": "duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_faux_fur",
@@ -625,18 +625,18 @@
   {
     "id": "xl_duster_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "XL faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "copy-from": "duster_faux_fur",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_faux_fur",
     "type": "ARMOR",
     "copy-from": "duster_faux_fur",
-    "name": { "str": "XS faux fur duster" },
+    "name": { "str": "faux fur duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "duster_leather",
@@ -715,18 +715,18 @@
   {
     "id": "xl_duster_leather",
     "type": "ARMOR",
-    "name": { "str": "XL leather duster" },
+    "name": { "str": "leather duster" },
     "copy-from": "duster_leather",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_leather",
     "type": "ARMOR",
     "copy-from": "duster_leather",
-    "name": { "str": "XS leather duster" },
+    "name": { "str": "leather duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "greatcoat",

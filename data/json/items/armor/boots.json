@@ -88,19 +88,19 @@
   {
     "id": "xl_boots",
     "type": "ARMOR",
-    "name": { "str": "pair of XL boots", "str_pl": "pairs of XL boots" },
+    "name": { "str": "pair of boots", "str_pl": "pairs of boots" },
     "copy-from": "boots",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots",
     "type": "ARMOR",
     "copy-from": "boots",
     "looks_like": "boots",
-    "name": { "str": "pair of XS boots", "str_pl": "pairs of XS boots" },
+    "name": { "str": "pair of boots", "str_pl": "pairs of boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_bone",
@@ -240,19 +240,19 @@
   {
     "id": "xl_boots_chitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL chitinous boots", "str_pl": "pairs of XL chitinous boots" },
+    "name": { "str": "pair of chitinous boots", "str_pl": "pairs of chitinous boots" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_chitin",
     "type": "ARMOR",
     "copy-from": "boots_chitin",
     "looks_like": "boots_chitin",
-    "name": { "str": "pair of XS chitinous boots", "str_pl": "pairs of XS chitinous boots" },
+    "name": { "str": "pair of chitinous boots", "str_pl": "pairs of chitinous boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_acidchitin",
@@ -267,18 +267,18 @@
   {
     "id": "xl_boots_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "pair of XL biosilicified chitin boots", "str_pl": "pairs of XL biosilicified chitin boots" },
+    "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
     "copy-from": "boots_acidchitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_acidchitin",
     "type": "ARMOR",
     "copy-from": "boots_acidchitin",
-    "name": { "str": "pair of XS biosilicified chitin boots", "str_pl": "pairs of XS biosilicified chitin boots" },
+    "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_combat",
@@ -495,18 +495,18 @@
   {
     "id": "xl_boots_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL fur boots", "str_pl": "pairs of XL fur boots" },
+    "name": { "str": "pair of fur boots", "str_pl": "pairs of fur boots" },
     "copy-from": "boots_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_fur",
     "type": "ARMOR",
     "copy-from": "boots_fur",
-    "name": { "str": "pair of XS fur boots", "str_pl": "pairs of XS fur boots" },
+    "name": { "str": "pair of fur boots", "str_pl": "pairs of fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_faux_fur",
@@ -561,18 +561,18 @@
   {
     "id": "xl_boots_faux_fur",
     "type": "ARMOR",
-    "name": { "str": "pair of XL faux fur boots", "str_pl": "pairs of XL faux fur boots" },
+    "name": { "str": "pair of faux fur boots", "str_pl": "pairs of faux fur boots" },
     "copy-from": "boots_faux_fur",
     "proportional": { "weight": 1.15, "volume": 1.15 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_faux_fur",
     "type": "ARMOR",
     "copy-from": "boots_faux_fur",
-    "name": { "str": "pair of XS faux fur boots", "str_pl": "pairs of XS faux fur boots" },
+    "name": { "str": "pair of faux fur boots", "str_pl": "pairs of faux fur boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_hiking",
@@ -645,18 +645,18 @@
   {
     "id": "xl_boots_larmor",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leather armor boots", "str_pl": "pairs of XL leather armor boots" },
+    "name": { "str": "pair of leather armor boots", "str_pl": "pairs of leather armor boots" },
     "copy-from": "boots_larmor",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_larmor",
     "type": "ARMOR",
     "copy-from": "boots_larmor",
-    "name": { "str": "pair of XS leather armor boots", "str_pl": "pairs of XS leather armor boots" },
+    "name": { "str": "pair of leather armor boots", "str_pl": "pairs of leather armor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_plate",
@@ -711,18 +711,18 @@
   {
     "id": "xl_boots_plate",
     "type": "ARMOR",
-    "name": { "str": "pair of XL armored boots", "str_pl": "pairs of XL armored boots" },
+    "name": { "str": "pair of armored boots", "str_pl": "pairs of armored boots" },
     "copy-from": "boots_plate",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_plate",
     "type": "ARMOR",
     "copy-from": "boots_plate",
-    "name": { "str": "pair of XS armored boots", "str_pl": "pairs of XS armored boots" },
+    "name": { "str": "pair of armored boots", "str_pl": "pairs of armored boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boots_rubber",
@@ -818,18 +818,18 @@
   {
     "id": "xl_boots_scrap",
     "type": "ARMOR",
-    "name": { "str": "pair of XL scrap boots", "str_pl": "pairs of XL scrap boots" },
+    "name": { "str": "pair of scrap boots", "str_pl": "pairs of scrap boots" },
     "copy-from": "boots_scrap",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_scrap",
     "type": "ARMOR",
     "copy-from": "boots_scrap",
-    "name": { "str": "pair of XS scrap boots", "str_pl": "pairs of XS scrap boots" },
+    "name": { "str": "pair of scrap boots", "str_pl": "pairs of scrap boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "sabaton_metal_sheets",
@@ -1078,18 +1078,18 @@
   {
     "id": "xl_boots_winter",
     "type": "ARMOR",
-    "name": { "str": "pair of XL winter boots", "str_pl": "pairs of XL winter boots" },
+    "name": { "str": "pair of winter boots", "str_pl": "pairs of winter boots" },
     "copy-from": "boots_winter",
     "proportional": { "weight": 1.3, "volume": 1.3 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_boots_winter",
     "type": "ARMOR",
     "copy-from": "boots_winter",
-    "name": { "str": "pair of XS winter boots", "str_pl": "pairs of XS winter boots" },
+    "name": { "str": "pair of winter boots", "str_pl": "pairs of winter boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "cleats",
@@ -2539,17 +2539,17 @@
     "id": "xl_lc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
-    "name": { "str": "pair of XL mild steel chainmail chausses", "str_pl": "pairs of XL mild steel chainmail chausses" },
+    "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_lc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "lc_chainmail_feet",
-    "name": { "str": "pair of XS mild steel chainmail chausses", "str_pl": "pairs of XS mild steel chainmail chausses" },
+    "name": { "str": "pair of mild steel chainmail chausses", "str_pl": "pairs of mild steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "mc_chainmail_feet",
@@ -2563,18 +2563,18 @@
     "id": "xl_mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_feet",
-    "name": { "str": "pair of XL medium steel chainmail chausses", "str_pl": "pairs of XL medium steel chainmail chausses" },
+    "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_mc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "mc_chainmail_feet",
     "looks_like": "chainmail_feet",
-    "name": { "str": "pair of XS medium steel chainmail chausses", "str_pl": "pairs of XS medium steel chainmail chausses" },
+    "name": { "str": "pair of medium steel chainmail chausses", "str_pl": "pairs of medium steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "hc_chainmail_feet",
@@ -2588,17 +2588,17 @@
     "id": "xl_hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_feet",
-    "name": { "str": "pair of XL high steel chainmail chausses", "str_pl": "pairs of XL high steel chainmail chausses" },
+    "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_hc_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "hc_chainmail_feet",
-    "name": { "str": "pair of XS high steel chainmail chausses", "str_pl": "pairs of XS high steel chainmail chausses" },
+    "name": { "str": "pair of high steel chainmail chausses", "str_pl": "pairs of high steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "ch_chainmail_feet",
@@ -2612,17 +2612,17 @@
     "id": "xl_ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_feet",
-    "name": { "str": "pair of XL hardened steel chainmail chausses", "str_pl": "pairs of XL hardened steel chainmail chausses" },
+    "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_ch_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "ch_chainmail_feet",
-    "name": { "str": "pair of XS hardened steel chainmail chausses", "str_pl": "pairs of XS hardened steel chainmail chausses" },
+    "name": { "str": "pair of hardened steel chainmail chausses", "str_pl": "pairs of hardened steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "qt_chainmail_feet",
@@ -2636,17 +2636,17 @@
     "id": "xl_qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_feet",
-    "name": { "str": "pair of XL tempered steel chainmail chausses", "str_pl": "pairs of XL tempered steel chainmail chausses" },
+    "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
     "proportional": { "weight": 2, "volume": 2 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_qt_chainmail_feet",
     "type": "ARMOR",
     "copy-from": "qt_chainmail_feet",
-    "name": { "str": "pair of XS tempered steel chainmail chausses", "str_pl": "pairs of XS tempered steel chainmail chausses" },
+    "name": { "str": "pair of tempered steel chainmail chausses", "str_pl": "pairs of tempered steel chainmail chausses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "nomex_socks",
@@ -2671,19 +2671,19 @@
   {
     "id": "xlnomex_socks",
     "type": "ARMOR",
-    "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
+    "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },
     "weight": "300 g",
     "volume": "1000 ml",
     "copy-from": "nomex_socks",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsnomex_socks",
     "type": "ARMOR",
     "copy-from": "nomex_socks",
-    "name": { "str": "pair of XS flame-resistant socks", "str_pl": "pairs of XS flame-resistant socks" },
+    "name": { "str": "pair of flame-resistant socks", "str_pl": "pairs of flame-resistant socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "socks",
@@ -2706,19 +2706,19 @@
   {
     "id": "xlsocks",
     "type": "ARMOR",
-    "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
+    "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
     "weight": "58 g",
     "volume": "250 ml",
     "copy-from": "socks",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xssocks",
     "type": "ARMOR",
     "copy-from": "socks",
-    "name": { "str": "pair of XS socks", "str_pl": "pairs of XS socks" },
+    "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "socks_ankle",
@@ -2837,19 +2837,19 @@
   {
     "id": "xlsocks_wool",
     "type": "ARMOR",
-    "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
+    "name": { "str": "pair of wool socks", "str_pl": "pairs of wool socks" },
     "weight": "77 g",
     "volume": "500 ml",
     "copy-from": "socks_wool",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xssocks_wool",
     "type": "ARMOR",
     "copy-from": "socks_wool",
-    "name": { "str": "pair of XS wool socks", "str_pl": "pairs of XS wool socks" },
+    "name": { "str": "pair of wool socks", "str_pl": "pairs of wool socks" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "stockings",
@@ -3321,9 +3321,9 @@
     "id": "xl_lc_sabaton",
     "type": "ARMOR",
     "copy-from": "lc_sabaton",
-    "name": { "str": "XL mild steel sabaton" },
+    "name": { "str": "mild steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "mc_sabaton",
@@ -3336,9 +3336,9 @@
     "id": "xl_mc_sabaton",
     "type": "ARMOR",
     "copy-from": "mc_sabaton",
-    "name": { "str": "XL medium steel sabaton" },
+    "name": { "str": "medium steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "hc_sabaton",
@@ -3351,9 +3351,9 @@
     "id": "xl_hc_sabaton",
     "type": "ARMOR",
     "copy-from": "hc_sabaton",
-    "name": { "str": "XL high steel sabaton" },
+    "name": { "str": "high steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "ch_sabaton",
@@ -3366,9 +3366,9 @@
     "id": "xl_ch_sabaton",
     "type": "ARMOR",
     "copy-from": "ch_sabaton",
-    "name": { "str": "XL hardened steel sabaton" },
+    "name": { "str": "hardened steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "qt_sabaton",
@@ -3381,8 +3381,8 @@
     "id": "xl_qt_sabaton",
     "type": "ARMOR",
     "copy-from": "qt_sabaton",
-    "name": { "str": "XL tempered steel sabaton" },
+    "name": { "str": "tempered steel sabaton" },
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   }
 ]

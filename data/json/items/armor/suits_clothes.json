@@ -457,7 +457,7 @@
   {
     "id": "jumpsuit_xl",
     "type": "ARMOR",
-    "name": { "str": "XL jumpsuit" },
+    "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit updated for the trans-human who needs full-body clothing.  Provides some storage and is adjustable to minimize encumbrance.",
     "weight": "810 g",
     "volume": "5 L",
@@ -505,17 +505,16 @@
     ],
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "POCKETS", "OVERSIZE" ]
+    "flags": [ "POCKETS", "OVERSIZE", "PREFIX_XL" ]
   },
   {
     "id": "jumpsuit_xs",
     "type": "ARMOR",
     "copy-from": "jumpsuit",
-    "looks_like": "jumpsuit",
-    "name": { "str": "XS jumpsuit" },
+    "name": { "str": "jumpsuit" },
     "description": "A thin, short-sleeved jumpsuit; similar to those worn by prisoners.  Provides decent storage and is not very encumbering.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "jumpsuit_skeleton",

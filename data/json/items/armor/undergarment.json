@@ -27,19 +27,19 @@
   {
     "id": "xl_arm_warmers",
     "type": "ARMOR",
-    "name": { "str": "pair of XL arm warmers", "str_pl": "pairs of XL arm warmers" },
+    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
     "weight": "49 g",
     "volume": "350 ml",
     "copy-from": "arm_warmers",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_arm_warmers",
     "type": "ARMOR",
     "copy-from": "arm_warmers",
-    "name": { "str": "pair of XS arm warmers", "str_pl": "pairs of XS arm warmers" },
+    "name": { "str": "pair of arm warmers", "str_pl": "pairs of arm warmers" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "bellyband",
@@ -292,17 +292,17 @@
     "id": "xl_binder_top",
     "type": "ARMOR",
     "copy-from": "binder_top",
-    "name": { "str": "XL binder" },
+    "name": { "str": "binder" },
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_binder_top",
     "type": "ARMOR",
     "copy-from": "binder_top",
-    "name": { "str": "XS binder" },
+    "name": { "str": "binder" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boxer_briefs",
@@ -325,19 +325,19 @@
   {
     "id": "xlboxer_briefs",
     "type": "ARMOR",
-    "name": { "str": "XL boxer briefs", "str_pl": "pairs of XL boxer briefs" },
+    "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
     "weight": "50 g",
     "volume": "350 ml",
     "copy-from": "boxer_briefs",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsboxer_briefs",
     "type": "ARMOR",
     "copy-from": "boxer_briefs",
-    "name": { "str": "XS boxer briefs", "str_pl": "pairs of XS boxer briefs" },
+    "name": { "str": "boxer briefs", "str_pl": "pairs of boxer briefs" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boxer_shorts",
@@ -378,19 +378,19 @@
   {
     "id": "xlboxer_shorts",
     "type": "ARMOR",
-    "name": { "str": "XL boxer shorts", "str_pl": "pairs of XL boxer shorts" },
+    "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boxer_shorts",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsboxer_shorts",
     "type": "ARMOR",
     "copy-from": "boxer_shorts",
-    "name": { "str": "XS boxer shorts", "str_pl": "pairs of XS boxer shorts" },
+    "name": { "str": "boxer shorts", "str_pl": "pairs of boxer shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "boy_shorts",
@@ -431,19 +431,19 @@
   {
     "id": "xlboy_shorts",
     "type": "ARMOR",
-    "name": { "str": "XL boy shorts", "str_pl": "pairs of XL boy shorts" },
+    "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
     "weight": "72 g",
     "volume": "500 ml",
     "copy-from": "boy_shorts",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xsboy_shorts",
     "type": "ARMOR",
     "copy-from": "boy_shorts",
-    "name": { "str": "XS boy shorts", "str_pl": "pairs of XS boy shorts" },
+    "name": { "str": "boy shorts", "str_pl": "pairs of boy shorts" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "bra",
@@ -467,17 +467,17 @@
     "id": "xl_bra",
     "type": "ARMOR",
     "copy-from": "bra",
-    "name": { "str": "XL bra" },
+    "name": { "str": "bra" },
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_bra",
     "type": "ARMOR",
     "copy-from": "bra",
-    "name": { "str": "XS bra" },
+    "name": { "str": "bra" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "briefs",
@@ -758,7 +758,7 @@
   {
     "id": "leg_warmers_xl",
     "type": "ARMOR",
-    "name": { "str": "pair of XL leg warmers", "str_pl": "pairs of XL leg warmers" },
+    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
     "description": "Large, soft, snug cloth sleeves to keep your exotic anatomy warm.",
     "weight": "90 g",
     "volume": "750 ml",
@@ -770,7 +770,7 @@
     "color": "light_gray",
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE", "PREFIX_XL" ],
     "armor": [
       {
         "encumbrance": 7,
@@ -785,9 +785,9 @@
     "id": "leg_warmers_xs",
     "type": "ARMOR",
     "copy-from": "leg_warmers",
-    "name": { "str": "pair of XS leg warmers", "str_pl": "pairs of XS leg warmers" },
+    "name": { "str": "pair of leg warmers", "str_pl": "pairs of leg warmers" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "long_underpants",
@@ -912,19 +912,19 @@
   {
     "id": "xlsports_bra",
     "type": "ARMOR",
-    "name": { "str": "XL sports bra" },
+    "name": { "str": "sports bra" },
     "weight": "160 g",
     "volume": "750 ml",
     "copy-from": "sports_bra",
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xssports_bra",
     "type": "ARMOR",
     "copy-from": "sports_bra",
-    "name": { "str": "XS sports bra" },
+    "name": { "str": "sports bra" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "tank_top",
