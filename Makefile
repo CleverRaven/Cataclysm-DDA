@@ -955,6 +955,7 @@ SOURCES += $(THIRD_PARTY_SOURCES)
 
 IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
 
+OTHERS += -DIMGUI_DISABLE_OBSOLETE_KEYIO
 ifeq ($(SDL), 1)
 	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_impl_sdl2.cpp $(IMGUI_DIR)/imgui_impl_sdlrenderer2.cpp
 else
