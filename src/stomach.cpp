@@ -210,7 +210,7 @@ nutrients &nutrients::operator/=( int r )
     if( !finalized ) {
         debugmsg( "Nutrients not finalized when -= called!" );
     }
-    calories = divide_round_up( calories, r );
+    calories = divide_round_up<int64_t>( calories, r );
     for( const std::pair<const vitamin_id, std::variant<int, vitamin_units::mass>> &vit : vitamins_ ) {
         std::variant<int, vitamin_units::mass> &here = vitamins_[vit.first];
         here = divide_round_up( std::get<int>( here ), r );
@@ -348,7 +348,7 @@ food_summary stomach_contents::digest( const Character &owner, const needs_rates
     // Digest kCal -- use min_kcal by default, but no more than what's in stomach,
     // and no less than percentage_kcal of what's in stomach.
     int kcal_fraction = std::lround( nutr.kcal() * rates.percent_kcal );
-    digested.nutr.calories = half_hours * clamp( rates.min_calories, kcal_fraction * 1000,
+    digested.nutr.calories = half_hours * clamp<int64_t>( rates.min_calories, kcal_fraction * 1000,
                              nutr.calories );
 
     // Digest vitamins just like we did kCal, but we need to do one at a time.
