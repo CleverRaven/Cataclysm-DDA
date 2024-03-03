@@ -2025,7 +2025,7 @@
       { "math": [ "u_LIXA_tp_back", "=", "0" ] },
       { "math": [ "u_LIXA_entry", "=", "0" ] },
       { "mapgen_update": "LIXA_power_out", "target_var": { "global_val": "LIXA_chamber_1" } },
-	  { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_1" } },
+      { "mapgen_update": "turn_off_LIXA", "target_var": { "global_val": "LIXA_chamber_1" } },
       { "mapgen_update": "LIXA_power_out", "target_var": { "global_val": "LIXA_chamber_2" } },
       { "mapgen_update": "LIXA_power_out", "target_var": { "global_val": "LIXA_chamber_3" } },
       { "mapgen_update": "LIXA_goodbye_cards", "target_var": { "global_val": "LIXA_chamber_3" } },

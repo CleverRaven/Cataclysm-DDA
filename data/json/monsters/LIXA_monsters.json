@@ -1,5 +1,5 @@
 [
-	{
+  {
     "type": "SPELL",
     "id": "mon_LIXA_vector_death",
     "name": { "str": "Unfold Collapse" },
@@ -385,5 +385,5 @@
     "sound_id": "fire_gun",
     "sound_variant": "bio_lightning",
     "sound_description": "snapping geometry"
-  }  
+  }
 ]
