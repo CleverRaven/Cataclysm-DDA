@@ -2600,7 +2600,8 @@ class bionic_install_preset: public inventory_selector_preset
 
             const bool has_install_program = !install_programs.empty();
 
-            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) || get_player_character().has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ||
+                get_player_character().has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, has_install_program ? 10 : -1, difficulty,
@@ -2680,7 +2681,8 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             Character &installer = you;
 
-            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) || get_player_character().has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ||
+                get_player_character().has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, 20, difficulty, installer );
