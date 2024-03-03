@@ -372,11 +372,12 @@
     "teachable": false,
     "valid_targets": [ "ground" ],
     "flags": [ "LOUD", "RANDOM_DAMAGE", "NO_LEGS" ],
-    "effect": "attack",
+    "effect": "bash",
     "shape": "blast",
-    "damage_type": "bash",
     "min_damage": { "math": [ "u_val('strength') * 2.5" ] },
-    "max_damage": { "math": [ "u_val('strength') * 3.5" ] }
+    "max_damage": { "math": [ "u_val('strength') * 3.5" ] },
+    "min_range": 1,
+    "max_range": 1
   },
   {
     "id": "ierde_create_pits_spell",

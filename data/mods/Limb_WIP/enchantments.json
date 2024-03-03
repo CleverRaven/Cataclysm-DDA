@@ -9,6 +9,7 @@
     "type": "enchantment",
     "id": "ENCH_GASTROPOD_FOOT",
     "condition": "ALWAYS",
+    "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 } ],
     "modified_bodyparts": [ { "lose": "leg_l" }, { "lose": "leg_r" }, { "lose": "foot_r" }, { "lose": "foot_l" }, { "gain": "gastropod_foot" } ]
   },
   {

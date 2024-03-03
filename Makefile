@@ -895,6 +895,11 @@ endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
+  ifneq ("$(wildcard LICENSE-SDL.txt)","")
+    SDL2_solib = $(shell ldd $(TARGET) | grep libSDL2-2\.0 | cut -d ' ' -f 3)
+    INSTALL_EXTRAS += $(SDL2_solib)
+    BINDIST_EXTRAS += LICENSE-SDL.txt
+  endif
   ifeq ($(BACKTRACE),1)
     # -rdynamic needed for symbols in backtraces
     LDFLAGS += -rdynamic
@@ -1296,6 +1301,7 @@ endif  # ifeq ($(NATIVE), osx)
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
 	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	$(foreach lib,$(INSTALL_EXTRAS), install --strip $(lib) $(BINDIST_DIR))
 ifdef LANGUAGES
 	cp -R --parents lang/mo $(BINDIST_DIR)
 endif
