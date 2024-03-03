@@ -867,6 +867,15 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_slow_enemies",
+    "name": [ "Lithic Rigidity " ],
+    "desc": [ "It's very hard for you to move." ],
+    "remove_message": "It's easier for you to move again.",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.3 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_no_mind_problems",
     "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "" ],
