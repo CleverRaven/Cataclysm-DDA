@@ -817,7 +817,7 @@ void computer_session::action_list_mutations()
             if( wmenu.ret >= 0 && wmenu.ret < static_cast< int >( category_mutations.size() ) ) {
                 const mutation_branch &mdata = category_mutations[wmenu.ret].obj();
                 reset_terminal();
-                print_text( "Description: %s", colorize( mdata.desc(), c_white ) );
+                print_text( _( "Description: %s" ), colorize( mdata.desc(), c_white ) );
 
                 if( !mdata.replacements.empty() ) {
                     print_indented_line( 1, width - 2, _( "Changes to:" ) );
