@@ -574,5 +574,60 @@
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_ascetic_empowerment",
+    "name": { "str": "Ascetic Empowerment" },
+    "points": 0,
+    "description": "People talk about getting a high from fasting and for you that's true on a more visceral level.  You gain bonuses to all stats that scale with how hungry, thirsty, and tired you are.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_very_hungry" },
+        "values": [
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "DEXTERITY", "add": 1 },
+          { "value": "INTELLIGENCE", "add": 1 },
+          { "value": "PERCEPTION", "add": 1 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_near_starving" },
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "INTELLIGENCE", "add": 2 },
+          { "value": "PERCEPTION", "add": 2 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_starving" },
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "INTELLIGENCE", "add": 3 },
+          { "value": "PERCEPTION", "add": 3 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_famished" },
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "INTELLIGENCE", "add": 4 },
+          { "value": "PERCEPTION", "add": 4 }
+        ]
+      }
+    ]
   }
 ]
