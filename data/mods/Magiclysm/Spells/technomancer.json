@@ -878,8 +878,8 @@
     "base_casting_time": 60000,
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600)" ] },
     "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
-    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-20)" ] }
-    "max_level": 15
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-20)" ] },
+    "max_level": 15,
     "learn_spells": { "technomancer_far_sight_plus": 15 }
   },
   {
