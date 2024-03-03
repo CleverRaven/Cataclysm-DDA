@@ -7,7 +7,7 @@ SDL2_branch=cdda_android
 SDL2_image_URL=https://github.com/libsdl-org/SDL_image.git
 SDL2_image_branch=release-2.8.2
 SDL2_mixer_URL=https://github.com/libsdl-org/SDL_mixer.git
-SDL2_mixer_branch=release-2.8.2
+SDL2_mixer_branch=release-2.8.0
 SDL2_ttf_URL=https://github.com/libsdl-org/SDL_ttf.git
 SDL2_ttf_branch=release-2.22.0
 
@@ -51,7 +51,11 @@ fi
 
 mkdir build
 cd build
-unzip ../app/deps.zip #create deps folder
+
+mkdir deps
+cd deps
+unzip ../../app/deps.zip #create deps folder
+cd ..
 
 git clone $SDL2_URL -b $SDL2_branch --depth=1 SDL2
 
@@ -87,18 +91,18 @@ do
     cd SDL2_mixer
     fix_sdl_mk
 
-	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk \
+	$NDK_DIR/ndk-build -C . NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
-        NDK_OUT=$obj NDK_LIBS_OUT=../deps/SDL2_mixer
+        NDK_OUT=obj NDK_LIBS_OUT=../deps/SDL2_mixer
 
     cd ..
 
     cd SDL2_ttf
     fix_sdl_mk
 
-	$NDK_DIR/ndk-build -C $DIR NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk \
+	$NDK_DIR/ndk-build -C . NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk \
         APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
-        NDK_OUT=$obj NDK_LIBS_OUT=../deps/SDL2_ttf
+        NDK_OUT=obj NDK_LIBS_OUT=../deps/SDL2_ttf
 
     cd ..
 done
