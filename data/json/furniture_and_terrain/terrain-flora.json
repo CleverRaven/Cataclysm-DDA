@@ -1115,7 +1115,7 @@
     "id": "t_tree_fig",
     "name": "fig tree",
     "looks_like": "t_tree_plum",
-    "description": "An example of 'Ficus Carica' - the common edible fig tree. Not normally native to New England, but seems to be doing okay.",
+    "description": "An example of 'Ficus Carica' - the common edible fig tree.  Not normally native to New England, but seems to be doing okay.",
     "symbol": "7",
     "color": [ "light_green", "magenta_green", "light_green", "brown" ],
     "//": "one crop per year, end of summer",
