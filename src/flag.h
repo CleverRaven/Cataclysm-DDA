@@ -426,6 +426,16 @@ class json_flag
             return name_.translated();
         }
 
+        /** Custom prefix that is added to item name. */
+        const translation &item_prefix() const {
+            return item_prefix_;
+        }
+
+        /** Custom suffix that is added to item name. */
+        const translation &item_suffix() const {
+            return item_suffix_;
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -460,6 +470,8 @@ class json_flag
         translation info_;
         translation restriction_;
         translation name_;
+        translation item_prefix_;
+        translation item_suffix_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;

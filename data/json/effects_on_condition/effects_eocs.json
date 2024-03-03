@@ -63,5 +63,47 @@
       }
     ],
     "false_effect": [ { "u_lose_morale": "morale_asocial_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bile_in_eyes",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "bile", "bodypart": "eyes" }, { "u_has_effect": "glowing", "bodypart": "eyes" } ] },
+        {
+          "and": [
+            { "not": { "u_has_trait": "COMPOUND_EYES" } },
+            { "not": { "u_has_trait": "PER_SLIME_OK" } },
+            { "not": { "u_has_bionics": "bio_armor_eyes" } }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "u_add_effect": "boomered", "target_part": "eyes", "duration": "9 seconds" },
+      { "u_lose_effect": "bile", "target_part": "eyes" },
+      { "u_lose_effect": "glowing", "target_part": "eyes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bile_stink",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "BILE_AFFLICTED" },
+        { "not": { "u_has_trait": "BILE_STINK" } },
+        { "not": { "u_has_trait": "CHLOROMORPH" } }
+      ]
+    },
+    "effect": [ { "u_add_trait": "BILE_STINK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bile_unstink",
+    "recurrence": [ "3 minutes", "10 minutes" ],
+    "condition": { "not": { "u_has_flag": "BILE_AFFLICTED" } },
+    "effect": [ { "u_lose_trait": "BILE_STINK" } ]
   }
 ]

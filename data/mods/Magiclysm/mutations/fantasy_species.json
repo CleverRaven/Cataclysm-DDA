@@ -169,8 +169,11 @@
     "flags": [ "SMALL" ],
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "passive_mods": { "str_mod": 2, "dex_mod": -1 },
-    "movecost_modifier": 1.05
+    "enchantments": [
+      {
+        "values": [ { "value": "MOVE_COST", "multiply": 0.05 }, { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": -1 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -306,8 +309,12 @@
     "description": "Elves are more lithe and frail than humans, but possess an almost otherworldly grace (-1 STR, +2 DEX).",
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
-    "passive_mods": { "str_mod": -1, "dex_mod": 2 },
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAX_HP", "multiply": -0.12 } ] } ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "MAX_HP", "multiply": -0.12 }, { "value": "STRENGTH", "add": -1 }, { "value": "DEXTERITY", "add": 2 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -333,7 +340,7 @@
     "category": [ "SPECIES_ELF" ],
     "threshreq": [ "THRESH_SPECIES_ELF" ],
     "flags": [ "SAFECRACK_NO_TOOL" ],
-    "hearing_modifier": 1.75
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 5.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -493,10 +500,17 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "flags": [ "TINY" ],
-    "passive_mods": { "str_mod": -3, "dex_mod": 2 },
     "stomach_size_multiplier": 0.5,
-    "hp_modifier": -0.25,
-    "dodge_modifier": 2,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MAX_HP", "multiply": -0.25 },
+          { "value": "STRENGTH", "add": -3 },
+          { "value": "DEXTERITY", "add": 2 }
+        ]
+      }
+    ],
     "weight_capacity_modifier": 0.7,
     "noise_modifier": 0
   },
@@ -625,10 +639,17 @@
     "category": [ "SPECIES_LIZARDFOLK" ],
     "threshreq": [ "THRESH_SPECIES_LIZARDFOLK" ],
     "flags": [ "LARGE" ],
-    "passive_mods": { "str_mod": 1, "dex_mod": 1 },
     "stomach_size_multiplier": 1.25,
     "weight_capacity_modifier": 1.05,
-    "movecost_swim_modifier": 0.9
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.1 },
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "DEXTERITY", "add": 1 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

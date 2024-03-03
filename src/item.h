@@ -1961,6 +1961,12 @@ class item : public visitable
         /** returns read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
+        /** returns read-only set of flags of this item that will add prefixes to this item. */
+        const FlagsSetType &get_prefix_flags() const;
+
+        /** returns read-only set of flags of this item that will add suffixes to this item. */
+        const FlagsSetType &get_suffix_flags() const;
+
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
@@ -2432,6 +2438,8 @@ class item : public visitable
          */
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
+
+
     private:
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
@@ -3033,6 +3041,11 @@ class item : public visitable
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
         void update_inherited_flags();
+        /**
+        * Update prefix_tags_cache and suffix_tags_cache
+        */
+        void update_prefix_suffix_flags();
+        void update_prefix_suffix_flags( const flag_id &flag );
 
     public:
         enum class sizing : int {
@@ -3083,6 +3096,8 @@ class item : public visitable
         bool requires_tags_processing = true;
         cata::heap<FlagsSetType> item_tags; // generic item specific flags
         cata::heap<FlagsSetType> inherited_tags_cache;
+        cata::heap<FlagsSetType> prefix_tags_cache; // flags that will add prefixes to this item
+        cata::heap<FlagsSetType> suffix_tags_cache; // flags that will add suffixes to this item
         lazy<safe_reference_anchor> anchor;
         cata::heap<std::map<std::string, std::string>> item_vars;
         const mtype *corpse = nullptr;

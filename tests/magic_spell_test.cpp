@@ -15,8 +15,8 @@
 #include "type_id.h"
 
 static const spell_id spell_test_spell_box( "test_spell_box" );
-static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 static const spell_id spell_test_spell_tp_ghost( "test_spell_tp_ghost" );
+static const spell_id spell_test_spell_tp_mummy( "test_spell_tp_mummy" );
 
 // Magic Spell tests
 // -----------------
@@ -597,9 +597,7 @@ TEST_CASE( "spell_effect_-_summon", "[magic][spell][effect][summon]" )
     REQUIRE( creatures.creature_at( dummy_loc ) );
     REQUIRE( g->num_creatures() == 1 );
 
-    spell_id ghost_id( "test_spell_tp_ghost" );
-
-    spell ghost_spell( ghost_id );
+    spell ghost_spell( spell_test_spell_tp_ghost );
     REQUIRE( dummy.magic->has_enough_energy( dummy, ghost_spell ) );
 
     // Summon the ghost in the adjacent space
