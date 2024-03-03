@@ -1882,6 +1882,6 @@
     "name": { "str": "enchanted lens" },
     "description": "This lens has been etched with small symbols and infused with mana.  Holding it up to your eye allows you to see further than any mundane binoculars allow.",
     "flags": [ "ENHANCED_VISION", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_technomancer_far_sight_lens" } ] },
-  },
+    "relic_data": { "passive_effects": [ { "id": "ench_technomancer_far_sight_lens" } ] }
+  }
 ]
