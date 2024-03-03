@@ -54,6 +54,7 @@ class fault
         std::string name() const;
         std::string description() const;
         std::string item_prefix() const;
+        double price_mod() const;
         bool has_flag( const std::string &flag ) const;
 
         const std::set<fault_fix_id> &get_fixes() const;
@@ -71,6 +72,7 @@ class fault
         translation item_prefix_; // prefix added to affected item's name
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
+        double price_modifier = 1.0;
 };
 
 #endif // CATA_SRC_FAULT_H
