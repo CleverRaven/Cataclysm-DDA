@@ -1979,7 +1979,7 @@
     "species": "INSECT",
     "hp": "20",
     "speed": "85",
-    "diff": "2",
+    "diff": 2,
     "weight": "200 g",
     "volume": "5 L",
     "symbol": "l",
