@@ -136,7 +136,7 @@ void start_location::finalize()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const tinymap &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -157,7 +157,7 @@ static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint
     vec.push_back( p );
 }
 
-static void board_up( map &m, const tripoint_range<tripoint> &range )
+static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
 {
     std::vector<tripoint> furnitures1;
     std::vector<tripoint> furnitures2;
