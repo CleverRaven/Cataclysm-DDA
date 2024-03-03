@@ -294,7 +294,7 @@
       "POISRESIST",
       "STIMBOOST",
       "SEASONAL_ALLERGIES",
-      "SLOB"
+      "VERMIN"
     ],
     "description": "Your immune system is more or less normal for a human."
   },
@@ -4123,13 +4123,14 @@
   },
   {
     "type": "mutation",
-    "id": "SLOB",
-    "name": { "str": "Slob" },
+    "id": "VERMIN",
+    "name": { "str": "Vermin" },
     "points": 1,
     "cancels": [ "SQUEAMISH" ],
-    "description": "Your system is adapted to wallowing in filth.  Filthy clothing and environments won't affect your mood or your overall health, though on its own this won't prevent you from acquiring any infection or disease.",
-    "prereqs": [ "SAPROVORE", "VOMITOUS" ],
-    "category": [ "SLIME", "TROGLOBITE", "CRUSTACEAN", "INSECT", "CHIMERA", "GASTROPOD" ]
+    "flags": [ "IGNORE_FILTH" ],
+    "description": "The thought of wallowing in sewage or the stench of carrion hardly bother you at all.  Filthy clothing and environments won't affect your mood or your overall health, though on its own this won't prevent you from acquiring any infection or disease.",
+    "prereqs": [ "SAPROVORE", "VOMITOUS", "EATDEAD" ],
+    "category": [ "TROGLOBITE", "INSECT", "CHIMERA", "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -9173,9 +9174,11 @@
     "id": "SQUEAMISH",
     "name": { "str": "Squeamish" },
     "points": -1,
-    "cancels": [ "SLOB" ],
+    "cancels": [ "VERMIN" ],
+    "flags": [ "HATE_FILTH" ],
+    "category": [ "ALPHA", "ELF-A" ],
     "starting_trait": true,
-    "description": "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
+    "description": "You can't bring yourself to put on filthy clothing, and you'll be very upset if any of that horrible corpse bile gets on your stuff."
   },
   {
     "type": "mutation",

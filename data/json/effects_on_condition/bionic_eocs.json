@@ -158,26 +158,45 @@
     "type": "effect_on_condition",
     "id": "EOC_BIO_MOOD_REGULATOR_activated",
     "condition": { "and": [ { "not": { "u_has_effect": "mood_regulator" } }, { "u_has_bionics": "bio_mood_regulator" } ] },
-    "effect": [ { "u_add_effect": "mood_regulator", "duration": "PERMANENT" },
-    {
-      "u_add_morale": "morale_mood_regulator",
-      "bonus": 10,
-      "max_bonus": 10,
-      "duration": "PERMANENT"
-    }, { "u_lose_morale": "morale_mood_regulator_hangover" } ]
+    "effect": [
+      { "u_add_effect": "mood_regulator", "duration": "PERMANENT" },
+      {
+        "u_add_morale": "morale_mood_regulator",
+        "bonus": 10,
+        "max_bonus": 10,
+        "duration": "1 days",
+        "decay_start": "23 hours"
+      },
+      { "u_lose_morale": "morale_mood_regulator_hangover" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_MOOD_REGULATOR_upkeep",
+    "//": "Permanent morale bonuses are hardcoded, so instead we use this EOC to refresh it periodically.",
+    "condition": { "and": [ { "u_has_effect": "mood_regulator" } ] },
+    "recurrence": [ "12 hours", "18 hours" ],
+    "effect": [
+      { "u_lose_morale": "morale_mood_regulator_hangover" },
+      { "u_lose_morale": "morale_mood_regulator" },
+      { "u_add_morale": "morale_mood_regulator", "bonus": 10, "max_bonus": 10, "duration": "1 days" }
+    ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_BIO_MOOD_REGULATOR_deactivated",
     "condition": { "u_has_effect": "mood_regulator" },
-    "effect": [ { "u_lose_effect": "mood_regulator" }, { "u_lose_effect": "mood_regulator_hangover" }, { "u_lose_morale": "morale_mood_regulator" },
-    {
-      "u_add_morale": "morale_mood_regulator_hangover",
-      "bonus": -5,
-      "max_bonus": -5,
-      "duration": "30 minutes",
-      "max_duration": "30 minutes",
-      "decay_start": "10 minutes"
-    } ]
+    "effect": [
+      { "u_lose_effect": "mood_regulator" },
+      { "u_add_effect": "mood_regulator_hangover", "duration": "15 minutes" },
+      { "u_lose_morale": "morale_mood_regulator" },
+      {
+        "u_add_morale": "morale_mood_regulator_hangover",
+        "bonus": -5,
+        "max_bonus": -5,
+        "duration": "30 minutes",
+        "decay_start": "10 minutes"
+      }
+    ]
   }
 ]

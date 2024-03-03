@@ -188,7 +188,12 @@
     "id": "sewer_morale_debuff",
     "global": false,
     "recurrence": [ "20 minutes", "1 hour" ],
-    "condition": { "and": [ { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] }, { "not": { "u_has_trait": "slob" } } ] },
+    "condition": {
+      "and": [
+        { "or": [ { "u_at_om_location": "sewer_ns" }, { "u_at_om_location": "sewer_ew" } ] },
+        { "not": { "u_has_trait": "slob" } }
+      ]
+    },
     "effect": [
       { "u_message": "<SEWER_MORALE_DEBUFF>", "snippet": true },
       {

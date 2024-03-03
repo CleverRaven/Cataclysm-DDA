@@ -2037,7 +2037,7 @@
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
     "apply_message": "Bile gets in your eyes!",
     "rating": "bad",
-    "resist_traits": [ "SLOB" ],
+    "resist_traits": [ "VERMIN" ],
     "base_mods": {
       "per_mod": [ -3, -3 ],
       "vomit_chance": [ 500, 0 ],
@@ -2060,7 +2060,7 @@
     "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "resist_traits": [ "SLOB" ],
+    "resist_traits": [ "VERMIN" ],
     "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
     "max_duration": "30 s",
     "flags": [ "BILE_AFFLICTED" ]
@@ -2073,7 +2073,7 @@
     "max_duration": "30 s",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
-    "resist_traits": [ "SLOB" ],
+    "resist_traits": [ "VERMIN" ],
     "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
     "flags": [ "BILE_AFFLICTED" ]
   },
@@ -4998,9 +4998,7 @@
       "You are filled with an uncanny sense of calm.  It feels a bit like watching the end of the world happen to somebody else rather than living through it yourself."
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.9 }
-    ],
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 } ],
     "base_mods": { "dex_mod": [ -2 ] }
   },
   {
@@ -5012,9 +5010,7 @@
       "After experiencing the serenity of the mood regulator, the world without it seems much too intense.  It will take you a few minutes to adjust."
     ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "limb_score_mods": [
-      { "limb_score": "reaction", "modifier": 0.95 }
-    ],
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.95 } ],
     "base_mods": { "dex_mod": [ -1 ] }
   }
 ]

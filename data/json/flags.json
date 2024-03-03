@@ -2446,5 +2446,13 @@
   {
     "id": "DRACULIN_VENOM",
     "type": "json_flag"
+  },
+  {
+    "id": "IGNORE_FILTH",
+    "type": "json_flag"
+  },
+  {
+    "id": "HATE_FILTH",
+    "type": "json_flag"
   }
 ]

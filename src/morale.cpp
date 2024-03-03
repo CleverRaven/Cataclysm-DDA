@@ -1183,5 +1183,10 @@ void player_morale::update_squeamish_penalty()
         }
     }
     penalty += 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 );
-    set_permanent( MORALE_PERM_FILTHY, -penalty );
+    if( has_flag( STATIC( json_character_flag( "HATE_FILTH" ) ) ) ) {
+        penalty = static_cast<int>( penalty * 1.5 );
+    }
+    if( !has_flag( STATIC( json_character_flag( "IGNORE_FILTH" ) ) ) ) {
+        set_permanent( MORALE_PERM_FILTHY, -penalty );
+    }
 }
