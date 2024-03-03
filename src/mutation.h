@@ -282,9 +282,6 @@ struct mutation_branch {
         // Multiplier for sight range, defaulting to 1.
         std::optional<float> overmap_multiplier = std::nullopt;
 
-        // Multiplier for reading speed, defaulting to 1.
-        std::optional<float> reading_speed_multiplier = std::nullopt;
-
         // Multiplier for skill rust delay, defaulting to 1.
         std::optional<float> skill_rust_multiplier = std::nullopt;
 
