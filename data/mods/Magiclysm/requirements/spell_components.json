@@ -297,8 +297,8 @@
   },
   {
     "id": "spell_components_technomancer_far_sight",
-    "type": "requirement"
-    "//": "Lens, chisel, and mana focus for the Zoom Lens spell"
+    "type": "requirement",
+    "//": "Lens, chisel, and mana focus for the Zoom Lens spell",
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "MANA_FOCUS", "level": 1 } ],
     "components": [ [ [ "lens", 1 ] ] ]
   }
