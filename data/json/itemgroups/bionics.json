@@ -41,7 +41,6 @@
       [ "bio_water_extractor", 10 ],
       [ "bio_face_mask", 10 ],
       [ "bio_scent_mask", 10 ],
-      [ "bio_mood_regulator", 10 ],
       [ "bio_cloak", 10 ],
       [ "bio_fingerhack", 10 ],
       [ "bio_lockpick", 10 ],
