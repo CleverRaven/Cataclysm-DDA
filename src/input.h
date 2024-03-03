@@ -329,7 +329,10 @@ class input_manager
 
         t_input_event_list &get_or_create_event_list( const std::string &action_descriptor,
                 const std::string &context );
-        void remove_input_for_action( const std::string &action_descriptor, const std::string &context );
+        /**
+         * @return true if `remove_input_for_action` uncovers potentially new global keys. These could cause conflicts.
+         */
+        bool remove_input_for_action( const std::string &action_descriptor, const std::string &context );
         void add_input_for_action( const std::string &action_descriptor, const std::string &context,
                                    const input_event &event );
 

@@ -2482,7 +2482,7 @@ void Item_factory::check_definitions() const
         }
     }
     for( const auto &elem : m_template_groups ) {
-        elem.second->check_consistency();
+        elem.second->check_consistency( true );
         inp_mngr.pump_events();
     }
 }
