@@ -1552,7 +1552,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     const tripoint_abs_omt site = overmap_buffer.find_closest(
                                       player_character.global_omt_location(), place, 20, false );
     tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
+    bay.load( site, false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == t_dirtmound ) {
             empty_plots++;
@@ -1624,7 +1624,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
-    bay.load( project_to<coords::sm>( site ), false );
+    bay.load( site, false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
@@ -2208,7 +2208,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     tripoint_abs_sm sm_tgt = project_to<coords::sm>( om_tgt );
 
     tinymap target_bay;
-    target_bay.load( sm_tgt, false );
+    target_bay.load( om_tgt, false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
@@ -2767,7 +2767,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
         const oter_str_id &looted_replacement )
 {
     tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
+    bay.load( site, false );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
     for( const tripoint &p : bay.points_on_zlevel() ) {

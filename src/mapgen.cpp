@@ -7687,9 +7687,8 @@ bool update_mapgen_function_json::update_map(
 
     std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
     tinymap &update_tmap = *p_update_tmap;
-    const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    update_tmap.load( sm_pos, true );
+    update_tmap.load( omt_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
@@ -7700,7 +7699,7 @@ bool update_mapgen_function_json::update_map(
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
     update_tmap.rotate( rotation );
 
-    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+    if( get_map().inbounds( project_to<coords::ms>( omt_pos ) ) ) {
         // trigger main map cleanup
         p_update_tmap.reset();
         // trigger new traps, etc
@@ -7826,9 +7825,8 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
 
     std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
     tinymap &update_tmap = *p_update_tmap;
-    const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    update_tmap.load( sm_pos, true );
+    update_tmap.load( omt_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
@@ -7846,7 +7844,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
             for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
                 ter_id ter_at_pos = tmp_map.ter( pos );
-                const tripoint level_pos = tripoint( pos.xy(), sm_pos.z() );
+                const tripoint level_pos = tripoint( pos.xy(), omt_pos.z() );
 
                 if( ter_at_pos != t_grass || tmp_map.has_furn( level_pos ) ) {
                     if( apply ) {

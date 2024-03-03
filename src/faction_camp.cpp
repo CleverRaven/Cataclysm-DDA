@@ -2168,7 +2168,7 @@ void basecamp::scan_pseudo_items()
         tripoint_abs_omt tile = tripoint_abs_omt( omt_pos.x() + expansion.first.x,
                                 omt_pos.y() + expansion.first.y, omt_pos.z() );
         tinymap expansion_map;
-        expansion_map.load( project_to<coords::sm>( tile ), false );
+        expansion_map.load( tile, false );
 
         tripoint mapmin = tripoint( 0, 0, omt_pos.z() );
         tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_pos.z() );
@@ -2687,7 +2687,7 @@ void basecamp::start_relay_hide_site( const mission_id &miss_id, float exertion_
 
         //Check items in improvised shelters at hide site
         tinymap target_bay;
-        target_bay.load( project_to<coords::sm>( forest ), false );
+        target_bay.load( forest, false );
 
         units::volume total_import_volume;
         units::mass total_import_mass;
@@ -3548,7 +3548,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
 
     // farm_map is what the area actually looks like
     tinymap farm_map;
-    farm_map.load( project_to<coords::sm>( omt_tgt ), false );
+    farm_map.load( omt_tgt, false );
     // farm_json is what the area should look like according to jsons (loaded on demand)
     std::unique_ptr<fake_map> farm_json;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
@@ -4449,7 +4449,7 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
     }
 
     tinymap target;
-    target.load( project_to<coords::sm>( where ), false );
+    target.load( where, false );
     int mismatch_tiles = 0;
     tripoint mapmin = tripoint( 0, 0, where.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, where.z() );
@@ -4732,7 +4732,7 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
 {
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
@@ -4776,7 +4776,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
                       bool force_cut_trunk )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
@@ -4822,7 +4822,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
                             bool take )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
     units::mass harvested_m = 0_gram;
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
@@ -4999,7 +4999,7 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
 {
     tinymap target_bay;
 
-    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
+    target_bay.load( omt_tgt, false );
     target_bay.ter_set( relay_site_stash, t_improvised_shelter );
     for( drop_location it : itms_rem ) {
         item *i = it.first.get_item();
