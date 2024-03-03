@@ -224,7 +224,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_experiment_flux_limiters",
-    "dynamic_line": "Safe exodimensional flux threshold exceeded! Current flux compression:  ERROR STACK OVERFLOW m/s",
+    "dynamic_line": "Safe exodimensional flux threshold exceeded!  Current flux compression:  ERROR STACK OVERFLOW m/s",
     "responses": [
       { "text": "ERROR: Power Draw", "topic": "LIXA_experiment_power_draw" },
       { "text": "SYSTEM SHUTDOWN", "topic": "LIXA_experiment_system_shutdown" },

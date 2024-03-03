@@ -228,7 +228,7 @@
   {
     "id": "LIXA_living_vector",
     "type": "MONSTER",
-    "name": { "str": "unfolded impossibility" },
+    "name": { "str": "unfolded impossibility", "str_pl": "unfolded impossibilities" },
     "description": "This is the entirety of the infinite chamber you are in, which perfectly contains itself.  If you look very closely, you might see yourself looking back.  You are sure that at any other time, seeing this would crack your brain like an eggshell.  But you understand it just fine right now.  And you can see it breathing.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
