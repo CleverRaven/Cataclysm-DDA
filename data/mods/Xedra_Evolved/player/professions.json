@@ -599,7 +599,7 @@
     "name": { "male": "Dúln", "female": "Dúkka" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
     "points": 5,
-    "traits": [ "HOMULLUS" ],
+    "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
     "items": {
       "both": {
