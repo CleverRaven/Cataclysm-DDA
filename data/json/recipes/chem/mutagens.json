@@ -30,6 +30,7 @@
         [ "tallow_tainted", 2 ],
         [ "meat_tainted", 3 ],
         [ "dry_meat_tainted", 3 ],
+        [ "tainted_innards", 4 ],
         [ "fetus", 1 ],
         [ "arm", 2 ],
         [ "leg", 2 ]

@@ -105,7 +105,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 5500, minus 205 per level to a minimum of 2250<br />
 *Channeling Time*: 175 moves, minus 5.5 moves per level to a minimum of 100<br />
 *Effects*: Adds +1 Perception and +5 Speed, plus 1 Perception per 5 levels and plus 1 Speed per level (to a maximum bonus of +30 speed).<br />
-*Prerequisites*: Flexibility 8 *or* Burst of Speed 8, Physical Enhancement 6, Adrenaline Trigger 6<br />
+*Prerequisites*: Flexibility 8 *or* Burst of Speed 8, Physical Enhancement 6, Adrenaline Trigger 8<br />
 
 ## Sealed System
 *Difficulty*: 7<br />
@@ -120,7 +120,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
-*Effects*: Greatly increases the psion’s metabolic efficiency.  Hunger, thirst, fatigue grow 25% more slowly and the basal metabolic rate is reduced by 25%.  All of these bonuses increase by 2% per level to a maximum of 70% increase.<br />
+*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitmins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
 *Prerequisites*: Temperature Adaptability 8, Adrenaline Trigger 6 *or* Physical Enhancement 12<br />
 
 ## Combat Dance
@@ -157,7 +157,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 1500, minus 65 per level to a minimum of 500<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This is a range multiplier on base night vision, beginning at 2x normal night vision, that increases every 3 power levels: 4x normal at level 6, 6x normal at level 9, and so on.<br />
+*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Speed Reader (C)
@@ -166,7 +166,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 4 minutes 50 seconds to 16 minutes 20 seconds, plus 2 minutes 30 seconds to 4 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 1000<br />
 *Channeling Time*: 500 moves, minus 12 moves per level to a minimum of 250<br />
-*Effects*: Increases the psion's ability to read and retain information. The psion reads 33% faster and gains 0.15% additional XP per reading increment per power level.<br />
+*Effects*: Increases the psion's ability to read and retain information. The psion reads 20% faster, plus 2% per power level to a maximum of 60% faster, and gains 0.15% additional XP per reading increment per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Premonition (C)
@@ -500,7 +500,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 11 minutes and 30 seconds to 23 minutes and 50 seconds, plus 48 seconds to 1 minute and 53 seconds per power level<br />
 *Stamina Cost*: 3500, minus 75 per level to a minimum of 1500<br />
 *Channeling Time*: 150 moves, minus 8 moves per level to a minimum of 75<br />
-*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 15% from levels 1-3, 25% from levels 4-7, 35% from levels 8-11, 43% from levels 12-15, 50% from levels 16-19, and 55% at level 20+.<br />
+*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 10% plus 3% per power level to a maximum of 60%.<br />
 *Prerequisites*: Trick of the Light 6<br />
 
 ## Lucent Barrier (C)

@@ -115,7 +115,7 @@ TEST_CASE( "split_vehicle_during_mapgen", "[vehicle]" )
     tinymap tm;
     // Wherever the main map is, create this tinymap outside its bounds.
     tm.load( here.get_abs_sub() + tripoint( 20, 20, 0 ), false );
-    wipe_map_terrain( &tm );
+    wipe_map_terrain( tm.cast_to_map() );
     REQUIRE( tm.get_vehicles().empty() );
     tripoint vehicle_origin{ 14, 14, 0 };
     vehicle *veh_ptr = tm.add_vehicle( vehicle_prototype_cross_split_test,
