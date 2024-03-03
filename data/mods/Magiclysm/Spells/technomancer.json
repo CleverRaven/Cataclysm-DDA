@@ -875,7 +875,7 @@
     "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(60000)" ] },
     "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-20000)" ] },
     "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] },
-    "difficulty": 7,
+    "difficulty": 4,
     "energy_source": "MANA",
     "spell_class": "TECHNOMANCER"
   }
