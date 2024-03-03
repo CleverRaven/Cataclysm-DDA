@@ -16,10 +16,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "SUS_janitors_closet", "prob": 15 },
-      { "item": "gift_shop_zoo", "prob": 25 },
-      { "item": "tools_general", "prob": 10 },
-      { "item": "spoon", "prob": 60, "count": [ 3, 10 ] }
+      { "group": "SUS_janitors_closet", "prob": 15 },
+      { "group": "gift_shop_zoo", "prob": 25 },
+      { "group": "tools_general", "prob": 10 }
     ]
   }
 ]
