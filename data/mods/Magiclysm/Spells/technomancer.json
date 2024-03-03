@@ -856,5 +856,27 @@
         "true_eocs": [ { "id": "EOC_TECHNOMANCER_POWER_LINKAGE_ITEM", "effect": [ { "npc_set_flag": "USE_UPS" } ] } ]
       }
     ]
+  },
+  {
+    "type": "SPELL",
+    "name": "Ping Devices",
+    "id": "technomancer_reveal_world_map",
+    "description": "You send out a ping to any un- or less-secured devices in the area, then tediously collect the received data into something approximating a map of your surrounding area",
+    "valid_targets": [ "self" ],
+    "shape": "blast",
+    "effect": "map",
+    "min_aoe": 25,
+    "max_aoe": 55,
+    "aoe_increment": 2,
+    "flags": [ "NO_HANDS", "CONCENTRATE", "VERBAL" ],
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "max_level": 15,
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(360000)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(60000)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-20000)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] },
+    "difficulty": 7,
+    "energy_source": "MANA",
+    "spell_class": "TECHNOMANCER"
   }
 ]
