@@ -13,6 +13,7 @@
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "charges": 20,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_limestone", 50 ], [ "chem_slaked_lime", 500 ] ] ]
   },

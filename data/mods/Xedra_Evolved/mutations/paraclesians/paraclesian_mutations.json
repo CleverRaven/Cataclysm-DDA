@@ -467,6 +467,18 @@
   },
   {
     "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "copy-from": "ANIMALEMPATH",
+    "extend": { "category": [ "UNDINE", "ARVORE", "IERDE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "copy-from": "ANIMALEMPATH2",
+    "extend": { "category": [ "UNDINE", "ARVORE", "IERDE" ] }
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_WISHES_TO_CONVERSE",
     "name": { "str": "Desire for Conversation" },
     "points": 0,
