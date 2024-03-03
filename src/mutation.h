@@ -276,12 +276,6 @@ struct mutation_branch {
         // the modifier for sweat amount
         std::optional<float> sweat_multiplier = std::nullopt;
 
-        // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        std::optional<float> overmap_sight = std::nullopt;
-
-        // Multiplier for sight range, defaulting to 1.
-        std::optional<float> overmap_multiplier = std::nullopt;
-
         // Multiplier for skill rust delay, defaulting to 1.
         std::optional<float> skill_rust_multiplier = std::nullopt;
 

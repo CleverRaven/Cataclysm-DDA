@@ -236,7 +236,6 @@
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby and revealing the lay of the land to you.",
     "category": [ "ARVORE" ],
     "enchantments": [ "arvore_forest_detect_enemies" ],
-    "overmap_sight": 5,
     "triggers": [
       [
         {
