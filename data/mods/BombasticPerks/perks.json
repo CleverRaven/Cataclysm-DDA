@@ -599,7 +599,8 @@
           { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
           { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
           { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
-          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } }
+          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
         ]
       },
       {
