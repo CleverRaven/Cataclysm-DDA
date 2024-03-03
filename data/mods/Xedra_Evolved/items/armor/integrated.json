@@ -393,6 +393,7 @@
     "warmth": 0,
     "material_thickness": 1.5,
     "environmental_protection": 10,
+    "qualities": [ [ "GLARE", 1 ] ],
     "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "NO_SALVAGE" ],
     "armor": [
       {
