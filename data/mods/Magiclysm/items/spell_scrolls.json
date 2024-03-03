@@ -2031,5 +2031,14 @@
     "name": { "str": "Scroll of Power Linkage", "str_pl": "Scrolls of Power Linkage" },
     "description": "Enchant a tool to accept power wirelessly from a compatible source.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_create_ups_connection" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_reveal_world_map",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Ping Devices", "str_pl": "Scrolls of Ping Devices" },
+    "description": "Send out a ping to devices in your area, to collect data and create a map of your surroundings",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_reveal_world_map" ] }
   }
 ]
