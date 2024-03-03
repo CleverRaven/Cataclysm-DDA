@@ -1978,7 +1978,7 @@
     "description": "There is barely anything there, but you do notice hints of a faint, translucent veiled creature that you can only describe as butterfly-like.  While strangely alluring, it seems unsuited to the atmosphere and is slowly falling apart.",
     "species": "INSECT",
     "hp": 20,
-    "speed": "85",
+    "speed": 85,
     "diff": 2,
     "weight": "200 g",
     "volume": "5 L",
