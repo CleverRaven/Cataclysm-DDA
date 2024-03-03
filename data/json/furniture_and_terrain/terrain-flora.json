@@ -1112,6 +1112,64 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_fig",
+    "name": "fig tree",
+    "looks_like": "t_tree_plum",
+    "description": "An example of 'Ficus Carica' - the common edible fig tree. Not normally native to New England, but seems to be doing okay.",
+    "symbol": "7",
+    "color": [ "light_green", "magenta_green", "light_green", "brown" ],
+    "//": "one crop per year, end of summer",
+    "move_cost": 10,
+    "coverage": 60,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "TREE", "REDUCE_SCENT", "BROWSABLE" ],
+    "transforms_into": "t_tree_fig_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "fig_harv" } ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick", "count": [ 1, 3 ] },
+        { "item": "stick_long", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 2, 10 ] },
+        { "item": "leaves", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_fig_harvested",
+    "name": "fig tree",
+    "looks_like": "t_tree_plum",
+    "description": "An example of 'Ficus Carica' - the common edible fig tree. Not normally native to New England, but seems to be doing okay. This one appears to have been picked.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "one crop per year, end of summer",
+    "move_cost": 10,
+    "coverage": 60,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "TREE", "REDUCE_SCENT", "BROWSABLE", "HARVESTED" ],
+    "transforms_into": "t_tree_fig",
+    "examine_action": "harvested_plant",
+    "harvest_by_season": [ { "seasons": [ "summer" ], "id": "fig_harv" } ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 80,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick", "count": [ 1, 3 ] },
+        { "item": "stick_long", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 2, 10 ] },
+        { "item": "leaves", "count": [ 10, 20 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_plum",
     "name": "plum tree",
     "looks_like": "t_tree_apple",

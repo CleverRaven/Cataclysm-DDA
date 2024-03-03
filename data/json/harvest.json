@@ -260,6 +260,11 @@
     "entries": [ { "drop": "mulberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "fig_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "figs", "base_num": [ 10, 20 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
     "id": "plum_harv",
     "type": "harvest",
     "entries": [ { "drop": "plums", "base_num": [ 2, 5 ], "scale_num": [ 0, 0.5 ] } ]

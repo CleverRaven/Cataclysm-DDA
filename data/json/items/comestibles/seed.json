@@ -135,6 +135,16 @@
     "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },
   {
+    "id": "seed_fig",
+    "copy-from": "seed_fruit",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "fig seeds" },
+    "description": "Some fig seeds.",
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE", "INEDIBLE" ],
+    "seed_data": { "plant_name": "fig", "fruit": "figs", "seeds": false, "byproducts": [ "withered" ], "grow": "364 days" },
+    "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
+  },
+  {
     "id": "seed_rose",
     "copy-from": "seed_fruit",
     "type": "COMESTIBLE",
