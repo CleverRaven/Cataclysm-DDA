@@ -272,8 +272,7 @@
       "SCHIZOPHRENIC",
       "TOLERANCE",
       "TREE_COMMUNION",
-      "VANITY",
-      "SQUEAMISH"
+      "VANITY"
     ],
     "description": "Your mind and brain chemistry are not mutated."
   },
@@ -9177,7 +9176,6 @@
     "points": -1,
     "cancels": [ "VERMIN" ],
     "flags": [ "HATE_FILTH" ],
-    "category": [ "ALPHA", "ELF-A" ],
     "starting_trait": true,
     "description": "You can't bring yourself to put on filthy clothing, and you'll be very upset if any of that horrible corpse bile gets on your stuff."
   },
