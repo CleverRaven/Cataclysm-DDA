@@ -78,7 +78,7 @@
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
@@ -136,7 +136,7 @@
     "valid_mod_locations": [
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
