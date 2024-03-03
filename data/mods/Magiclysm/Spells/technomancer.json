@@ -892,6 +892,7 @@
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "effect": "spawn_item",
     "effect_str": "technomancer_far_sight_lens",
+    "components": "spell_components_technomancer_far_sight",
     "shape": "blast",
     "base_casting_time": 60000,
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
