@@ -15,7 +15,6 @@ DEPS_ZIP_PATH=$(dir $1)/
 
 # Global Variables #
 NDK_DIR="/home/katie/android-ndk-r26b/"
-NDK_OPTIONS="$NDK_OPTIONS"
 INSTALL_DIR=$(pwd)
 API="26"
 
@@ -23,8 +22,8 @@ function fix_sdl_mk
 {
     MK_ADDON=$'include $(CLEAR_VARS)\\\n'
     MK_ADDON+=$'LOCAL_MODULE := SDL2\\\n'
-    MK_ADDON+=$'LOCAL_SRC_FILES := '"$(realpath ../deps/SDL2/$ARCH)"$'/libSDL2.so\\\n'
-    MK_ADDON+=$'LOCAL_EXPORT_C_INCLUDES += '"$(realpath ../SDL2/include)"$'\\\n'
+    MK_ADDON+=$'LOCAL_SRC_FILES := '"$(realpath ../deps/jni/SDL2/$ARCH)"$'/libSDL2.so\\\n'
+    MK_ADDON+=$'LOCAL_EXPORT_C_INCLUDES += '"$(realpath ../deps/jni/SDL2/include)"$'\\\n'
     MK_ADDON+="include \$(PREBUILT_SHARED_LIBRARY)"
 
     if [[ -e tmp.mk ]]; then mv -f tmp.mk Android.mk; fi
@@ -32,79 +31,70 @@ function fix_sdl_mk
     sed -e $'/(call my-dir)/a\\\n'"$MK_ADDON" Android.mk 1<> Android.mk
 }
 
+function build_proj
+{
+    cd $1
+
+    if [[ ! $1 == SDL2 ]]; then
+        fix_sdl_mk ;
+    fi
+
+    $NDK_DIR/ndk-build -C ./ \
+        NDK_PROJECT_PATH=$NDK_DIR \
+        APP_BUILD_SCRIPT=Android.mk \
+        APP_PLATFORM=android-$API \
+        APP_ABI=$ARCH $NDK_OPTIONS \
+        APP_ALLOW_MISSING_DEPS=$2 \
+        NDK_OUT=obj \
+        NDK_LIBS_OUT=../deps/jni/$1/
+
+    cd ..
+}
+
+function clone_proj
+{
+    if [[ ! -e "$1" ]] then
+        git clone "$2" -b "$3" --depth=1 "$1";
+    fi
+}
+
 #################################################################################
 
-
-echo "Used \"NDK_OPTIONS\":\n$NDK_OPTIONS"
-
 NDK=$NDK_DIR/ndk-build
-
-if [[ -e "build" ]]; then 
-    echo "build dir exists, nothing to do"
-    exit 0; 
-fi
 
 if [[ ! -e "$NDK" ]]; then
     echo "Can not find ndk-build in $NDK"; 
     exit 1;
 fi
 
-mkdir build
-cd build
-
-mkdir deps
-cd deps
+mkdir -p build/deps
+cd build/deps
+rm -rf ./*
 unzip ../../app/deps.zip #create deps folder
 cd ..
 
-git clone $SDL2_URL -b $SDL2_branch --depth=1 SDL2
+clone_proj SDL2 $SDL2_URL $SDL2_branch
 
-git clone $SDL2_image_URL -b $SDL2_image_branch --depth=1 SDL2_image
+clone_proj SDL2_image $SDL2_image_URL $SDL2_image_branch
 
-git clone $SDL2_mixer_URL -b $SDL2_mixer_branch --depth=1 SDL2_mixer
+clone_proj SDL2_mixer $SDL2_mixer_URL $SDL2_mixer_branch
+
+clone_proj SDL2_ttf $SDL2_ttf_URL $SDL2_ttf_branch
+
 ./SDL2_mixer/external/download.sh
-
-git clone $SDL2_ttf_URL -b $SDL2_ttf_branch --depth=1 SDL2_ttf
 ./SDL2_ttf/external/download.sh
 
 for ARCH in armeabi-v7a arm64-v8a x86 x86_64
 do
-    cd SDL2
+    build_proj SDL2 false
 
-    $NDK_DIR/ndk-build -C ./ NDK_PROJECT_PATH=$NDK_DIR \
-        APP_BUILD_SCRIPT=Android.mk \
-        APP_PLATFORM=android-$API APP_ABI=$ARCH $NDK_OPTIONS \
-        NDK_OUT=obj NDK_LIBS_OUT=../deps/SDL2/
+    build_proj SDL2_image true
 
-    cd ..
-    
-    cd SDL2_image
+    build_proj SDL2_image true
 
-    fix_sdl_mk
+    build_proj SDL2_mixer true
 
-	$NDK_DIR/ndk-build -C . NDK_PROJECT_PATH=$NDK_DIR APP_BUILD_SCRIPT=Android.mk \
-        APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
-        NDK_OUT=obj NDK_LIBS_OUT=../deps/SDL2_image
-
-    cd ..
-
-    cd SDL2_mixer
-    fix_sdl_mk
-
-	$NDK_DIR/ndk-build -C . NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk \
-        APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
-        NDK_OUT=obj NDK_LIBS_OUT=../deps/SDL2_mixer
-
-    cd ..
-
-    cd SDL2_ttf
-    fix_sdl_mk
-
-	$NDK_DIR/ndk-build -C . NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk \
-        APP_PLATFORM=android-$API APP_ABI=$ARCH APP_ALLOW_MISSING_DEPS=true $NDK_OPTIONS \
-        NDK_OUT=obj NDK_LIBS_OUT=../deps/SDL2_ttf
-
-    cd ..
+    build_proj SDL2_ttf true
 done
 cd ..
 
