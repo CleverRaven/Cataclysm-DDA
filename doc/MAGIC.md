@@ -801,7 +801,7 @@ Character status value  | Description
 `ATTACK_SPEED`          | Affects attack speed of item even if it's not the one you're wielding.
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
 `BANDAGE_BONUS`         | Affects the `bandages_power` you have when applying medicine.
-`BIONIC_MANA_PENALTY`       | same as mutation `bionic_mana_penalty` field, changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
+`BIONIC_MANA_PENALTY`       | changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
 `BIONIC_POWER`          |
 `BLEED_STOP_BONUS`      | Affects the `bleed` level when applying medicine.
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
