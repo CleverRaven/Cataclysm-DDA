@@ -273,8 +273,6 @@ struct mutation_branch {
         std::optional<float> stomach_size_multiplier = std::nullopt;
         // the modifier for the vomit chance
         std::optional<float> vomit_multiplier = std::nullopt;
-        // the modifier for sweat amount
-        std::optional<float> sweat_multiplier = std::nullopt;
 
         // Multiplier for skill rust delay, defaulting to 1.
         std::optional<float> skill_rust_multiplier = std::nullopt;

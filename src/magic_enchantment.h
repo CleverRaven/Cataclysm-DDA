@@ -158,6 +158,7 @@ enum class mod : int {
     VOMIT_MUL,
     SCENT_MASK,
     CONSUME_TIME_MOD,
+    SWEAT_MULTIPLIER,
     NUM_MOD
 };
 } // namespace enchant_vals
