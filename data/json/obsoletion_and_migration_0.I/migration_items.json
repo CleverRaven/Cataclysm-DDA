@@ -1141,5 +1141,10 @@
     "id": "ak74",
     "type": "MIGRATION",
     "replace": "ak74_semi"
+  },
+  {
+    "id": "antihistamine",
+    "type": "MIGRATION",
+    "replace": "weak_antibiotic"
   }
 ]

@@ -2718,6 +2718,10 @@ float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
             clothing_mult = std::min( clothing_mult, breathability );
         }
     }
+
+    // always some evaporation even if completely covered
+    // doesn't handle things that would be "air tight"
+    clothing_mult = std::max( clothing_mult, .1f );
     return clothing_mult;
 }
 

@@ -338,7 +338,6 @@
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 15, "group": "pills_sleep_bottle_plastic_pill_prescription_1_10" },
       { "prob": 10, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
-      { "prob": 15, "group": "antihistamine_bottle_plastic_pill_supplement_1_30" },
       { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       { "item": "dayquil", "prob": 70, "charges": [ 1, 5 ] },
@@ -738,13 +737,6 @@
     "subtype": "collection",
     "container-item": "bottle_plastic_pill_prescription",
     "entries": [ { "item": "melatonin_tablet", "container-item": "null", "count": 30 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "antihistamine_bottle_full",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antihistamine", "container-item": "null", "count": 30 } ]
   },
   {
     "type": "item_group",
