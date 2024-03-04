@@ -7336,7 +7336,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         add_msg_if_player( m_info, string_format( "Attempting to eat %s", actually_used->display_name() ) );
         assign_activity( consume_activity_actor( item_location( *this, actually_used ) ) );
         // If the character isn't eating, then invoking the item failed somewhere
-        return ( !activity.is_null() );
+        return !activity.is_null();
     }
 
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,

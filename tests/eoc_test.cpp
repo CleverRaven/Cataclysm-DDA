@@ -45,9 +45,9 @@ effect_on_condition_EOC_martial_art_test_1( "EOC_martial_art_test_1" );
 static const effect_on_condition_id
 effect_on_condition_EOC_martial_art_test_2( "EOC_martial_art_test_2" );
 static const effect_on_condition_id
-effect_on_condition_EOC_math_addiction_setup( "EOC_math_addiction_setup" );
-static const effect_on_condition_id
 effect_on_condition_EOC_math_addiction_check( "EOC_math_addiction_check" );
+static const effect_on_condition_id
+effect_on_condition_EOC_math_addiction_setup( "EOC_math_addiction_setup" );
 static const effect_on_condition_id
 effect_on_condition_EOC_math_armor( "EOC_math_armor" );
 static const effect_on_condition_id
