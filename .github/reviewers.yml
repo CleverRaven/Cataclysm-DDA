@@ -14,7 +14,6 @@ files:
     - tenmillimaster
   'data/mods/Magiclysm/**':
     - KorGgenT
-    - GuardianDll
   'data/mods/My_Sweet_Cataclysm/**':
     - Fris0uman
   'data/mods/ruralbiome/**':
@@ -25,7 +24,6 @@ files:
     - KorGgenT
   'data/mods/Xedra_Evolved/**':
     - Maleclypse
-    - GuardianDll
   'data/mods/MindOverMatter/**':
     - Standing-Storm
   'data/mods/innawood/**':

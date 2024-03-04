@@ -6,7 +6,7 @@
     "required_event": "opens_spellbook",
     "condition": { "not": { "u_has_effect": "effect_noetic_resilience" } },
     "effect": {
-      "switch": { "u_val": "vitamin", "name": "vitamin_psionic_drain" },
+      "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
       "cases": [
         { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
         { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
@@ -64,7 +64,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
       {
-        "switch": { "u_val": "vitamin", "name": "vitamin_psionic_drain" },
+        "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
         "cases": [
           {
             "case": 15,

@@ -118,14 +118,12 @@ static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
 static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
 static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
-static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
-static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -138,10 +136,9 @@ static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
-static const efftype_id effect_tindrift( "tindrift" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
@@ -162,6 +159,8 @@ static const itype_id itype_bot_manhack( "bot_manhack" );
 static const itype_id itype_bot_mininuke_hack( "bot_mininuke_hack" );
 static const itype_id itype_bot_pacification_hack( "bot_pacification_hack" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
+
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
 
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_reaction( "reaction" );
@@ -285,7 +284,12 @@ static bool sting_shoot( monster *z, Creature *target, damage_instance &dam, flo
                                   dispersion_sources{ 500 }, z );
     if( atk.dealt_dam.total_damage() > 0 ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart into you!" ), z->name() );
-        return true;
+        // whether this function returns true determines whether it applies a status effect like paralysis or mutation
+        if( atk.dealt_dam.bp_hit->has_flag( json_flag_BIONIC_LIMB ) ) {
+            return false;
+        } else {
+            return true;
+        }
     } else {
         if( atk.missed_by == 1 ) {
             target->add_msg_if_player( m_good,
@@ -1050,7 +1054,7 @@ bool mattack::boomer( monster *z )
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
     for( tripoint &i : line ) {
-        here.add_field( i, fd_bile, 1 );
+        here.add_field( i, fd_bile, 1.0f );
         // If bile hit a solid tile, return.
         if( here.impassable( i ) ) {
             here.add_field( i, fd_bile, 3 );
@@ -1059,13 +1063,13 @@ bool mattack::boomer( monster *z )
         }
     }
 
-    if( !target->dodge_check( z ) ) {
+    if( !target->dodge_check( z, 1.0f ) ) {
         target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
     } else if( u_see ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
     }
-    target->on_dodge( z, 5 );
+    target->on_dodge( z, 5, 1 );
 
     return true;
 }
@@ -1099,9 +1103,9 @@ bool mattack::boomer_glow( monster *z )
         }
     }
 
-    if( !target->dodge_check( z ) ) {
+    if( !target->dodge_check( z, 1.0f ) ) {
         target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
-        target->on_dodge( z, 5 );
+        target->on_dodge( z, 5, 1.0f );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
             const bodypart_id &bp = target->random_body_part();
             target->add_liquid_effect( effect_glowing, bp, 4, 4_minutes );
@@ -2033,8 +2037,8 @@ bool mattack::fungus_inject( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
-
-        if( one_in( 10 - dam ) ) {
+        // do not fungal infect a bionic limb
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 10 - dam ) ) {
             player_character.add_effect( effect_fungus, 10_minutes, true );
             add_msg( m_warning, _( "You feel thousands of live spores pumping into you…" ) );
         }
@@ -2088,8 +2092,8 @@ bool mattack::fungus_bristle( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         target->add_msg_if_player( m_bad, _( "The %1$s sinks several needlelike barbs into your %2$s!" ),
                                    z->name(), body_part_name_accusative( hit ) );
-
-        if( one_in( 15 - dam ) ) {
+        // no fungal infection if it is a bionic limb
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 15 - dam ) ) {
             target->add_effect( effect_fungus, 20_minutes, true );
             target->add_msg_if_player( m_warning,
                                        _( "You feel thousands of live spores pumping into you…" ) );
@@ -2252,7 +2256,8 @@ bool mattack::fungus_fortify( monster *z )
     target->block_hit( z, hit, dam_inst );
 
     int dam = player_character.deal_damage( z, hit, dam_inst ).total_damage();
-    if( dam > 0 ) {
+    // no way to pump spores into a bionic limb
+    if( !hit->has_flag( json_flag_BIONIC_LIMB ) && dam > 0 ) {
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
@@ -2379,9 +2384,10 @@ bool mattack::dermatik( monster *z )
         return true;
     }
 
-    // Can the bug penetrate our armor?
+    // Can the bug penetrate our armor? Or is the limb a bionic one?
     const bodypart_id targeted = target->get_random_body_part();
-    if( 4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
+    if( !targeted->has_flag( json_flag_BIONIC_LIMB ) &&
+        4 < player_character.get_armor_type( damage_cut, targeted ) / 3 ) {
         //~ 1$s monster name(dermatik), 2$s bodypart name in accusative.
         target->add_msg_if_player( _( "The %1$s lands on your %2$s, but can't penetrate your armor." ),
                                    z->name(), body_part_name_accusative( targeted ) );
@@ -2864,73 +2870,6 @@ bool mattack::triffid_growth( monster *z )
     return false;
 }
 
-bool mattack::stare( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    z->moves -= 200;
-    Character &player_character = get_player_character();
-    if( z->sees( player_character ) ) {
-        //dimensional effects don't take against dimensionally anchored foes.
-        if( player_character.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
-            return true;
-        }
-        if( player_character.sees( *z ) ) {
-            add_msg( m_bad, _( "The %s stares at you, and you shudder." ), z->name() );
-        } else {
-            add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
-        }
-        player_character.add_effect( effect_taint, rng( 2_minutes, 5_minutes ) );
-        //Check severity before adding more debuffs
-        if( player_character.get_effect_int( effect_taint ) > 2 ) {
-            player_character.add_effect( effect_hallu, 30_minutes );
-            //Check if target is a player before spawning hallucinations
-            if( player_character.is_avatar() && one_in( 2 ) ) {
-                g->spawn_hallucination( player_character.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
-            }
-            if( one_in( 12 ) ) {
-                player_character.add_effect( effect_blind, 5_minutes );
-                add_msg( m_bad, _( "Your sight darkens as the visions overtake you!" ) );
-            }
-        }
-        if( player_character.get_effect_int( effect_taint ) >= 3 && one_in( 12 ) ) {
-            player_character.add_effect( effect_tindrift, 1_turns );
-        }
-    }
-    return true;
-}
-
-bool mattack::fear_paralyze( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-
-    if( !within_visual_range( z, 10 ) ) {
-        return false;
-    }
-
-    Character &player_character = get_player_character();
-    if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
-        if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {
-            add_msg( _( "The %s probes your mind, but is rebuffed!" ), z->name() );
-            ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if( rng( 0, 20 ) > player_character.get_int() ) {
-            add_msg( m_bad, _( "The terrifying visage of the %s paralyzes you." ), z->name() );
-            player_character.add_effect( effect_fearparalyze, 5_turns );
-            player_character.moves -= 4 * player_character.get_speed();
-        } else {
-            add_msg( _( "You manage to avoid staring at the horrendous %s." ), z->name() );
-        }
-    }
-
-    return true;
-}
 bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
@@ -4212,7 +4151,7 @@ bool mattack::stretch_bite( monster *z )
                                        z->name(),
                                        body_part_name_accusative( hit ) );
 
-        if( one_in( 16 - dam ) ) {
+        if( !hit->has_flag( json_flag_BIONIC_LIMB ) && one_in( 16 - dam ) ) {
             if( target->has_effect( effect_bite, hit.id() ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit, true );
             } else if( target->has_effect( effect_infected, hit.id() ) ) {
@@ -4677,6 +4616,11 @@ bool mattack::slimespring( monster *z )
     if( player_character.get_morale_level() <= 1 ) {
         add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
         player_character.add_morale( MORALE_SUPPORT, 10, 50 );
+    }
+    // They will stave off loneliness, but aren't a substitute for real friends.
+    if( player_character.has_effect( effect_social_dissatisfied ) ) {
+        add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
+        player_character.remove_effect( effect_social_dissatisfied );
     }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
         if( player_character.has_effect( effect_bleed ) ||

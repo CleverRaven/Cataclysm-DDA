@@ -1,0 +1,450 @@
+[
+  {
+    "id": "fd_ammo_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "ammo loot zone", "sym": "a", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_armor_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "armor loot zone", "sym": "A", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_artifacts_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "artifacts loot zone", "sym": "*", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_auto_drink_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "auto drink zone", "sym": "D", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_auto_eat_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "auto eat zone", "sym": "E", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_basecamp_food_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "basecamp food zone", "sym": "F", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_basecamp_storage_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "basecamp storage zone", "sym": "S", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_bionics_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "bionics loot zone", "sym": "b", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_books_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "books loot zone", "sym": "B", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_chemical_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "chemical loot zone", "sym": "C", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_chop_trees_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "chop trees zone", "sym": "T", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_clothing_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "clothing loot zone", "sym": "c", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_construction_blueprint_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "construction blueprint zone", "sym": "#", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_containers_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "containers loot zone", "sym": ">", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_corpses_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "corpses loot zone", "sym": "@", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_currency_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "currency loot zone", "sym": "$", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_custom_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "custom loot zone", "sym": "?", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_default_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "default loot zone", "sym": "!", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_disassembly_work_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "disassembly work zone", "sym": "-", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_drink_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "drink loot zone", "sym": "d", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_drugs_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "drugs loot zone", "sym": "+", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_farm_plot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "farm plot zone", "sym": "P", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_filthy_armor_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "filthy armor loot zone", "sym": "/", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_filthy_clothing_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "filthy clothing loot zone", "sym": "\\", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_firewood_source_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "firewood source zone", "sym": "6", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_fishing_spot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "fishing spot zone", "sym": "W", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_food_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "food loot zone", "sym": "f", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_fuel_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "fuel loot zone", "sym": "'", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_guns_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "guns loot zone", "sym": "g", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_ignore_favorites_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "ignore favorites loot zone", "sym": "I", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_ignore_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "ignore loot zone", "sym": "i", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_item_group_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "item group loot zone", "sym": "9", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_keys_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "keys loot zone", "sym": "k", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_magazines_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "magazines loot zone", "sym": "m", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_manuals_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "manuals loot zone", "sym": "M", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_maps_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "maps loot zone", "sym": "e", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_martial_arts_manuals_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "martial arts manuals loot zone", "sym": "O", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_mine_terrain_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "mine terrain zone", "sym": "x", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_mods_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "mods loot zone", "sym": "h", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_mop_tile_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "mop tile zone", "sym": "~", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_mutagens_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "mutagens loot zone", "sym": "H", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_no_auto_pickup_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "no auto pickup zone", "sym": "1", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_no_npc_pickup_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "no npc pickup zone", "sym": "2", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_npc_ignore_sounds_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "npc_ignore_sounds zone", "sym": "3", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_npc_investigation_area_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "npc investigation area zone", "sym": "4", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_npc_retreat_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "npc retreat zone", "sym": "5", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_other_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "other loot zone", "sym": "o", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_perishable_drink_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "perishable drink loot zone", "sym": "p", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_perishable_food_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "perishable food loot zone", "sym": "P", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_seeds_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "seeds loot zone", "sym": "s", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_spare_parts_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "spare parts loot zone", "sym": "S", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_start_point_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "start point zone", "sym": "7", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_strip_corpses_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "strip_corpses loot zone", "sym": "j", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_tools_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "tools loot zone", "sym": "t", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_tool_magazines_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "tool_magazines loot zone", "sym": "J", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_traps_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "traps loot zone", "sym": "^", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_unload_everything_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "unload everything loot zone", "sym": "u", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_unsorted_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "unsorted loot zone", "sym": "U", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_vehicle_deconstruct_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "vehicle deconstruct zone", "sym": "y", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_vehicle_parts_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "vehicle parts loot zone", "sym": "v", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_vehicle_patrol_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "vehicle patrol zone", "sym": "8", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_vehicle_repair_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "vehicle repair zone", "sym": "Y", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_weapons_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "weapons loot zone", "sym": "w", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  },
+  {
+    "id": "fd_wood_loot_zone",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "wood loot zone", "sym": ";", "dangerous": false } ],
+    "priority": 1,
+    "display_field": true
+  }
+]

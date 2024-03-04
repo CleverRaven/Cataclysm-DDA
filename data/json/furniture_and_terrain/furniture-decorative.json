@@ -16,7 +16,7 @@
     "bash": {
       "str_min": 5,
       "str_max": 16,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "furn_set": "f_bigmirror_b",
@@ -310,7 +310,7 @@
     "bash": {
       "str_min": 7,
       "str_max": 16,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "items": [ { "item": "glass_shard", "count": [ 25, 50 ] }, { "item": "splinter", "count": [ 5, 15 ] } ]

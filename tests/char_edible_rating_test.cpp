@@ -59,10 +59,10 @@ TEST_CASE( "cannot_eat_non-comestible", "[can_eat][will_eat][edible_rating][nonf
 {
     avatar dummy;
     GIVEN( "something not edible" ) {
-        item rag( "rag" );
+        item sheet_cotton( "sheet_cotton" );
 
         THEN( "they cannot eat it" ) {
-            expect_cannot_eat( dummy, rag, "That doesn't look edible.", INEDIBLE );
+            expect_cannot_eat( dummy, sheet_cotton, "That doesn't look edible.", INEDIBLE );
         }
     }
 }

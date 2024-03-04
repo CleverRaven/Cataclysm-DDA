@@ -1720,7 +1720,7 @@ void map::player_in_field( Character &you )
                 const auto &npc_complain_data = ft->npc_complain_data;
                 ( static_cast<npc *>( &you ) )->complain_about( std::get<1>( npc_complain_data ),
                         std::get<2>( npc_complain_data ),
-                        std::get<3>( npc_complain_data ) );
+                        std::get<3>( npc_complain_data ).translated() );
             }
         }
     }

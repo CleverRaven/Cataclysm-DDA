@@ -113,7 +113,14 @@ void wishitem( Character *you, const tripoint & );
 void wishmonster( const std::optional<tripoint> &p );
 void wishmutate( Character *you );
 void wishbionics( Character *you );
+/*
+ * Set skill on any Character object; player character or NPC
+ * Can change skill theory level
+ */
 void wishskill( Character *you, bool change_theory = false );
+/*
+ * Set proficiency on any Character object; player character or NPC
+ */
 void wishproficiency( Character *you );
 
 void debug();

@@ -429,7 +429,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
-                    you->set_max_power_level( units::from_kilojoule( new_value ) );
+                    you->set_max_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
                 }
                 break;
@@ -438,7 +438,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_max ) ) ) {
-                    you->set_max_power_level( units::from_joule( new_value ) );
+                    you->set_max_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                     you->set_power_level( you->get_power_level() );
                 }
                 break;
@@ -447,7 +447,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in kJ)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
-                    you->set_power_level( units::from_kilojoule( new_value ) );
+                    you->set_power_level( units::from_kilojoule( static_cast<std::int64_t>( new_value ) ) );
                 }
                 break;
             }
@@ -455,7 +455,7 @@ void debug_menu::wishbionics( Character *you )
                 int new_value = 0;
                 if( query_int( new_value, _( "Set the value to (in J)?  Currently: %s" ),
                                units::display( power_level ) ) ) {
-                    you->set_power_level( units::from_joule( new_value ) );
+                    you->set_power_level( units::from_joule( static_cast<std::int64_t>( new_value ) ) );
                 }
                 break;
             }
@@ -1136,10 +1136,6 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     } while( wmenu.ret >= 0 );
 }
 
-/*
- * Set skill on any Character object; player character or NPC
- * Can change skill theory level
- */
 void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
@@ -1261,9 +1257,6 @@ void debug_menu::wishskill( Character *you, bool change_theory )
     } while( skmenu.ret != UILIST_CANCEL );
 }
 
-/*
- * Set proficiency on any Character object; player character or NPC
- */
 void debug_menu::wishproficiency( Character *you )
 {
     bool know_all = true;

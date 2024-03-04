@@ -96,9 +96,9 @@
       { "point": [ 1, 0, 0 ], "overmap": "maintenance_outpost_a2_north" },
       { "point": [ 1, 0, 1 ], "overmap": "maintenance_outpost_a2_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "maintenance_outpost_b1_north" },
-      { "point": [ 0, 1, 1 ], "overmap": "maintenance_outpost_b1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "maintenance_outpost_b1_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "maintenance_outpost_b2_north" },
-      { "point": [ 1, 1, 1 ], "overmap": "maintenance_outpost_b2_north" }
+      { "point": [ 1, 1, 1 ], "overmap": "maintenance_outpost_b2_roof_north" }
     ],
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "from": [ 0, 0, 0 ] } ],
     "locations": [ "land" ],

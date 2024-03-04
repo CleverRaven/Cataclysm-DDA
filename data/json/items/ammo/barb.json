@@ -8,7 +8,7 @@
     "color": "green",
     "description": "Tiny droplets of venom trickle out of the sponge-like tissue of this sharp barb.",
     "material": [ "bone" ],
-    "volume": "250ml",
+    "volume": "250 ml",
     "weight": "37 g",
     "ammo_type": "barb",
     "damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 5 },

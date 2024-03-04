@@ -4,7 +4,7 @@
     "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER",
     "//": "Must be in a city or a faction camp",
     "recurrence": [ "6 h", "36 h" ],
-    "condition": { "u_has_trait": "HOMULLUS" },
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS" }, { "u_has_trait": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "HOMULLUS" } },
     "effect": [
       {
@@ -41,7 +41,16 @@
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR",
     "//": "This is a separate EoC to allow looping through until it finds a spell the Homullus knows. Probability is [11-Difficulty]",
-    "condition": { "or": [ { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] } ] },
+    "condition": {
+      "or": [
+        {
+          "and": [
+            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", ">=", "0" ] },
+            { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
+          ]
+        }
+      ]
+    },
     "effect": { "weighted_list_eocs": [ [ "EOC_LEVELER_HOMULLUS_MAKE_GOSSAMER", 4 ] ] }
   },
   {

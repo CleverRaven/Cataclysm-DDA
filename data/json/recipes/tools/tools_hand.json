@@ -207,6 +207,28 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
+    "result": "chisel_bronze",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "45 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "textbook_weparabic", 5 ], [ "bronze_book", 4 ] ],
+    "using": [ [ "forging_standard", 3 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
+    "//": "Specifically avoids blacksmithing requirement groups so that it's craftable without the metal fileset - this process would still be possible, just realistically take slightly longer.",
+    "tools": [ [ [ "metalworking_tongs_any", 1, "LIST" ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "components": [ [ [ "scrap_bronze", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
     "result": "swage",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -840,6 +862,7 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "hammer_sledge",
+    "id_suffix": "from_scratch",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -854,6 +877,22 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "hammer_sledge",
+    "id_suffix": "from_short_sledge",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 4 ] ],
+    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "FILE", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "hammer_sledge_short", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -1498,7 +1537,11 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
+    "components": [
+      [ [ "material_aluminium_ingot", 1 ] ],
+      [ [ "filament", 100, "LIST" ] ],
+      [ [ "cotton_patchwork", 2 ], [ "felt_patch", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+    ]
   },
   {
     "type": "recipe",

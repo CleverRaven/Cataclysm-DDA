@@ -12,12 +12,12 @@
 #include "magic.h"
 #include "map.h"
 #include "math_parser_diag_value.h"
-#include "math_parser_shim.h"
 #include "mtype.h"
 #include "options.h"
 #include "string_input_popup.h"
 #include "units.h"
 #include "weather.h"
+#include "worldfactory.h"
 
 /*
 General guidelines for writing dialogue functions
@@ -50,6 +50,8 @@ std::function<double( dialogue & )> myfunction_eval( char scope,
 - Always throw on errors at parse-time
 - Never throw at run-time. Use a debugmsg() and recover gracefully
 */
+
+static const json_character_flag json_flag_MUTATION_THRESHOLD( "MUTATION_THRESHOLD" );
 
 namespace
 {
@@ -87,27 +89,13 @@ T _read_from_string( std::string_view s, const std::vector<std::pair<std::string
 std::function<double( dialogue & )> u_val( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    kwargs_shim const shim( params, scope );
-    try {
-        return conditional_t::get_get_dbl( shim );
-    } catch( std::exception const &e ) {
-        debugmsg( "shim failed: %s", e.what() );
-        return []( dialogue const & ) {
-            return 0;
-        };
-    }
+    return conditional_t::get_get_dbl( params[0].str(), scope );
 }
 
 std::function<void( dialogue &, double )> u_val_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
-    kwargs_shim const shim( params, scope );
-    try {
-        return conditional_t::get_set_dbl( shim, {}, {}, false );
-    } catch( std::exception const &e ) {
-        debugmsg( "shim failed: %s", e.what() );
-        return []( dialogue const &, double ) {};
-    }
+    return conditional_t::get_set_dbl( params[0].str(), scope );
 }
 
 std::function<double( dialogue & )> option_eval( char /* scope */,
@@ -222,6 +210,60 @@ std::function<double( dialogue & )> encumbrance_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> faction_like_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->likes_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_like_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->likes_u = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_respect_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->respects_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_respect_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->respects_u = val;
+    };
+}
+
+std::function<double( dialogue & )> faction_trust_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue & d ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        return fac->trusts_u;
+    };
+}
+
+std::function<void( dialogue &, double )> faction_trust_ass( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [fac_val = params[0]]( dialogue const & d, double val ) {
+        faction *fac = g->faction_manager_ptr->get( faction_id( fac_val.str( d ) ) );
+        fac->trusts_u = val;
+    };
+}
+
 std::function<double( dialogue & )> field_strength_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
@@ -272,6 +314,20 @@ std::function<double( dialogue & )> has_trait_eval( char scope,
 {
     return [beta = is_beta( scope ), tid = params[0] ]( dialogue const & d ) {
         return d.actor( beta )->has_trait( trait_id( tid.str( d ) ) );
+    };
+}
+
+std::function<double( dialogue & )> has_flag_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope ), fid = params[0] ]( dialogue const & d ) -> double {
+        talker const *actor = d.actor( beta );
+        json_character_flag jcf( fid.str( d ) );
+        if( jcf == json_flag_MUTATION_THRESHOLD )
+        {
+            return actor->crossed_threshold();
+        }
+        return actor->has_flag( jcf );
     };
 }
 
@@ -492,6 +548,123 @@ std::function<double( dialogue & )> melee_damage_eval( char scope,
         return ( *it )->damage_melee( damage_type_id( dt_str ) );
     };
 }
+
+std::function<double( dialogue & )> mod_order_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[mod_val = params[0]]( dialogue const & d ) {
+        int count = 0;
+        mod_id our_mod_id( mod_val.str( d ) );
+        for( const mod_id &mod : world_generator->active_world->active_mod_order ) {
+            if( our_mod_id == mod ) {
+                return count;
+            }
+            count++;
+        }
+        return -1;
+    };
+}
+
+enum class character_filter : int {
+    allies = 0,
+    not_allies,
+    hostile,
+    any,
+};
+
+bool _friend_match_filter_character( Character const &beta, Character const &guy,
+                                     character_filter filter )
+{
+    switch( filter ) {
+        case character_filter::allies:
+            return guy.is_ally( beta );
+        case character_filter::not_allies:
+            return !guy.is_ally( beta );
+        case character_filter::hostile:
+            return guy.attitude_to( beta ) == Creature::Attitude::HOSTILE ||
+                   ( beta.is_avatar() && guy.is_npc() && guy.as_npc()->guaranteed_hostile() );
+        case character_filter::any:
+            return true;
+    }
+    return false;
+}
+
+bool _filter_character( Character const &beta, Character const &guy, int radius,
+                        tripoint_abs_ms const &loc, character_filter filter, bool allow_hallucinations )
+{
+    if( ( !guy.is_hallucination() || allow_hallucinations ) && ( beta.getID() != guy.getID() ) ) {
+        return _friend_match_filter_character( beta, guy, filter ) &&
+               radius >= rl_dist( guy.get_location(), loc );
+    }
+    return false;
+}
+
+std::function<double( dialogue & )> _characters_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value radius_val( 1000.0 );
+    diag_value filter_val( std::string{ "any" } );
+    diag_value allow_hallucinations_val( 0.0 );
+    std::optional<var_info> loc_var;
+    if( kwargs.count( "radius" ) != 0 ) {
+        radius_val = *kwargs.at( "radius" );
+    }
+    if( kwargs.count( "attitude" ) != 0 ) {
+        filter_val = *kwargs.at( "attitude" );
+    }
+    if( kwargs.count( "allow_hallucinations" ) != 0 ) {
+        allow_hallucinations_val = *kwargs.at( "allow_hallucinations" );
+    }
+    if( kwargs.count( "location" ) != 0 ) {
+        loc_var = kwargs.at( "location" )->var();
+    } else if( scope == 'g' ) {
+        throw std::invalid_argument( string_format(
+                                         R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+    }
+
+    return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val,
+         allow_hallucinations_val ]( dialogue & d ) {
+        tripoint_abs_ms loc;
+        if( loc_var.has_value() ) {
+            loc = get_tripoint_from_var( loc_var, d );
+        } else {
+            loc = d.actor( beta )->global_pos();
+        }
+
+        int const radius = static_cast<int>( radius_val.dbl( d ) );
+        std::string const filter_str = filter_val.str( d );
+        character_filter filter = character_filter::any;
+        if( filter_str == "allies" ) {
+            filter = character_filter::allies;
+        } else if( filter_str == "not_allies" ) {
+            filter = character_filter::not_allies;
+        } else if( filter_str == "hostile" ) {
+            filter = character_filter::hostile;
+        } else if( filter_str != "any" ) {
+            debugmsg( R"(Unknown attitude filter "%s" for characters_nearby(), counting all characters)",
+                      filter_str );
+        }
+        bool allow_hallucinations = false;
+        int const hallucinations_int = static_cast<int>( allow_hallucinations_val.dbl( d ) );
+        if( hallucinations_int != 0 ) {
+            allow_hallucinations = true;
+        }
+
+        std::vector<Character *> const targets = g->get_characters_if( [ &beta, &d, &radius,
+               &loc, filter, allow_hallucinations ]( const Character & guy ) {
+            return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter,
+                                      allow_hallucinations );
+        } );
+        return static_cast<double>( targets.size() );
+    };
+}
+
+std::function<double( dialogue & )> characters_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _characters_nearby_eval( scope, params, kwargs );
+}
+
 
 template<class ID>
 using f_monster_match = bool ( * )( Creature const &critter, ID const &id );
@@ -769,6 +942,14 @@ std::function<double( dialogue & )> spell_exp_eval( char scope,
 {
     return[beta = is_beta( scope ), sid = params[0]]( dialogue const & d ) {
         return d.actor( beta )->get_spell_exp( spell_id( sid.str( d ) ) );
+    };
+}
+
+std::function<double( dialogue & )> spell_exp_for_level_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[level = params[0]]( dialogue const & d ) -> double {
+        return spell::exp_for_level( level.dbl( d ) );
     };
 }
 
@@ -1071,6 +1252,20 @@ std::function<double( dialogue & )> value_or_eval( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> vision_range_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() ) {
+            return static_cast<talker const *>( d.actor( beta ) )
+                   ->get_character()
+                   ->unimpaired_range();
+        }
+        return 0;
+    };
+}
+
+
 std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -1174,6 +1369,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "characters_nearby", { "ung", 0, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
@@ -1181,9 +1377,13 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "effect_intensity", { "un", 1, effect_intensity_eval } },
     { "encumbrance", { "un", 1, encumbrance_eval } },
     { "energy", { "g", 1, energy_eval } },
+    { "faction_like", { "g", 1, faction_like_eval } },
+    { "faction_respect", { "g", 1, faction_respect_eval } },
+    { "faction_trust", { "g", 1, faction_trust_eval } },
     { "field_strength", { "ung", 1, field_strength_eval } },
     { "gun_damage", { "un", 1, gun_damage_eval } },
     { "game_option", { "g", 1, option_eval } },
+    { "has_flag", { "un", 1, has_flag_eval } },
     { "has_trait", { "un", 1, has_trait_eval } },
     { "has_proficiency", { "un", 1, knows_proficiency_eval } },
     { "has_var", { "g", 1, has_var_eval } },
@@ -1192,6 +1392,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "item_count", { "un", 1, item_count_eval } },
     { "item_rad", { "un", 1, item_rad_eval } },
     { "melee_damage", { "un", 1, melee_damage_eval } },
+    { "mod_load_order", { "g", 1, mod_order_eval } },
     { "monsters_nearby", { "ung", -1, monsters_nearby_eval } },
     { "mon_species_nearby", { "ung", -1, monster_species_nearby_eval } },
     { "mon_groups_nearby", { "ung", -1, monster_groups_nearby_eval } },
@@ -1204,14 +1405,16 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
+    { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
     { "time", { "g", 1, time_eval } },
     { "time_since", { "g", 1, time_since_eval } },
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
-    { "val", { "un", -1, u_val } },
+    { "val", { "un", 1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
+    { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
@@ -1219,6 +1422,9 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
 
 std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "addiction_turns", { "un", 1, addiction_turns_ass } },
+    { "faction_like", { "g", 1, faction_like_ass } },
+    { "faction_respect", { "g", 1, faction_respect_ass } },
+    { "faction_trust", { "g", 1, faction_trust_ass } },
     { "hp", { "un", 1, hp_ass } },
     { "pain", { "un", 0, pain_ass } },
     { "school_level_adjustment", { "un", 1, school_level_adjustment_ass } },
@@ -1230,7 +1436,7 @@ std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_ass } },
     { "time", { "g", 1, time_ass } },
     { "proficiency", { "un", 1, proficiency_ass } },
-    { "val", { "un", -1, u_val_ass } },
+    { "val", { "un", 1, u_val_ass } },
     { "vitamin", { "un", 1, vitamin_ass } },
     { "weather", { "g", 1, weather_ass } },
 };

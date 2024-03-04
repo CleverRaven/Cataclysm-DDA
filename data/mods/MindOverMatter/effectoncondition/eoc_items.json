@@ -2,10 +2,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ZENER_DECK",
-    "condition": { "math": [ "u_val('spell_level', 'school: CLAIRSENTIENT')", ">=", "10" ] },
+    "condition": { "math": [ "u_school_level('CLAIRSENTIENT')", ">=", "10" ] },
     "effect": [
       {
-        "switch": { "rand": 4 },
+        "switch": { "math": [ "rand(4)" ] },
         "cases": [
           {
             "case": 0,
@@ -52,7 +52,7 @@
     ],
     "false_effect": [
       {
-        "switch": { "rand": 4 },
+        "switch": { "math": [ "rand(4)" ] },
         "cases": [
           {
             "case": 0,

@@ -486,21 +486,6 @@
     "melee_damage": { "bash": 2 }
   },
   {
-    "type": "GENERIC",
-    "id": "santa_staff",
-    "name": { "str": "candy cane" },
-    "description": "A sturdy red and white striped novelty candycane made of wood, originally meant to be used by the Good Old Man as a decorative gear.  Given the circumstances, it works fine as a melee weapon.",
-    "copy-from": "cane",
-    "weight": "500 g",
-    "color": "red",
-    "symbol": "/",
-    "material": [ "wood" ],
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "neutral" },
-    "price_postapoc": 10,
-    "extend": { "flags": [ "CRUTCHES" ] },
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "type": "TOOL",
     "id": "wizard_cane_cheap",
     "name": { "str": "cheap wizard cane (off)", "str_pl": "cheap wizard canes (off)" },
@@ -892,6 +877,25 @@
     "techniques": [ "WBLOCK_1", "WIDE" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
     "melee_damage": { "bash": 16, "cut": 10 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "teeth_macuahuitl",
+    "name": { "str": "teeth-bladed macuahuitl" },
+    "description": "A flat wooden club with impossibly-sharp teeth stuck to both sides.  Fragile yet very sharp.",
+    "weight": "2000 g",
+    "volume": "3800 ml",
+    "price": 1000,
+    "price_postapoc": 250,
+    "color": "brown",
+    "symbol": "/",
+    "material": [ "wood", "bone" ],
+    "longest_side": "100 cm",
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ],
+    "weapon_category": [ "GREAT_HAMMERS" ],
+    "techniques": [ "WBLOCK_1", "WIDE" ],
+    "to_hit": { "grip": "solid", "length": "long", "surface": "line", "balance": "uneven" },
+    "melee_damage": { "bash": 16, "cut": 30 }
   },
   {
     "type": "GENERIC",

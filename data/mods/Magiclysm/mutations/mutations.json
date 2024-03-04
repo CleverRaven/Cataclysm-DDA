@@ -159,8 +159,7 @@
         "bash": 8
       }
     ],
-    "passive_mods": { "dex_mod": -4 },
-    "enchantments": [ "dragon_resist_acid" ],
+    "enchantments": [ "dragon_resist_acid", { "values": [ { "value": "DEXTERITY", "add": 4 } ] } ],
     "anger_relations": [ [ "HUMAN", 20 ] ]
   },
   {
@@ -197,7 +196,6 @@
       "base_damage": { "damage_type": "cut", "amount": 20 },
       "strength_damage": { "damage_type": "cut", "amount": 0.25 }
     },
-    "movecost_modifier": 1.05,
     "enchantments": [ "dragon_leg_strength" ]
   },
   {
@@ -240,7 +238,7 @@
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "LARGE_OK_DRAGON", "HUGE_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 2 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
     "weight_capacity_modifier": 1.05,
     "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 10 ] ]
@@ -260,7 +258,7 @@
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "changes_to": [ "HUGE_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 2 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
     "weight_capacity_modifier": 1.05,
     "stomach_size_multiplier": 1.5,
     "anger_relations": [ [ "HUMAN", 20 ] ]
@@ -281,8 +279,7 @@
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "changes_to": [ "HUGE_OK_DRAGON" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 4 },
-    "hp_adjustment": -6,
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 }, { "value": "STRENGTH", "add": 4 } ] } ],
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
@@ -300,7 +297,7 @@
     "types": [ "STR" ],
     "changes_to": [ "DRAGON_STR2" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -313,7 +310,7 @@
     "prereqs": [ "DRAGON_STR" ],
     "changes_to": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 3, "dex_mod": -1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 }, { "value": "DEXTERITY", "add": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -326,7 +323,7 @@
     "prereqs": [ "DRAGON_STR2" ],
     "changes_to": [ "DRAGON_STR4" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 5, "dex_mod": -2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 5 }, { "value": "DEXTERITY", "add": -2 } ] } ]
   },
   {
     "type": "mutation",
@@ -340,7 +337,7 @@
     "prereqs": [ "DRAGON_STR3" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 8, "dex_mod": -3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 8 }, { "value": "DEXTERITY", "add": -3 } ] } ]
   },
   {
     "type": "mutation",
@@ -358,7 +355,7 @@
     "cancels": [ "SMALL", "SMALL2", "LARGE", "LARGE_OK", "HUGE", "HUGE_OK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "str_mod": 4 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 } ] } ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1,
@@ -475,7 +472,7 @@
     "prereqs": [ "WINGS_STUB" ],
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
-    "dodge_modifier": -3,
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": -3 } ] } ],
     "attacks": {
       "attack_text_u": "You bash %s with your powerful wings!",
       "attack_text_npc": "%1$s bashes %2$s with their powerful wings!",
@@ -606,7 +603,7 @@
     "purifiable": false,
     "mana_modifier": 250,
     "spells_learned": [ [ "dragon_terror", 1 ] ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -619,7 +616,7 @@
     "prereqs": [ "DRAGON_MAGIC" ],
     "spells_learned": [ [ "dragon_terror", 0 ], [ "dragon_boost", 1 ] ],
     "mana_modifier": 750,
-    "passive_mods": { "int_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -734,8 +731,12 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "cut_dmg_bonus": 5,
-    "pierce_dmg_bonus": 5,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 5 }, { "value": "ITEM_DAMAGE_STAB", "add": 5 } ]
+      }
+    ],
     "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
@@ -755,8 +756,12 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 3,
-    "cut_dmg_bonus": 10,
-    "pierce_dmg_bonus": 10,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 }, { "value": "ITEM_DAMAGE_STAB", "add": 10 } ]
+      }
+    ],
     "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
     "mixed_effect": true,
@@ -825,7 +830,7 @@
     "prereqs2": [ "PRED3_DRAGON" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
-    "passive_mods": { "int_mod": 1 },
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ],
     "flags": [ "PRED4" ]
   },
   {

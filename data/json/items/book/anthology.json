@@ -28,7 +28,7 @@
     "id": "book_anthology_sst",
     "type": "BOOK",
     "name": { "str": "Sharp & Sugar Tooth", "str_pl": "copies of Sharp & Sugar Tooth" },
-    "description": "Sharp & Sugar Tooth: Women Up To No Good is a horror anthology of dark fiction and darker appetites, edited by Octavia Cade.  Containing 22 stories of \"bad\" women, and \"good\" women who just haven’t been caught yet, it features 22 fearless writers who identify as female, non-binary, or a marginalized sex or gender identity.  Published by Upper Rubber Boot Books.",
+    "description": "Sharp & Sugar Tooth: Women Up To No Good is a horror anthology of dark fiction and darker appetites, edited by Octavia Cade.  Containing 22 stories of \"bad\" women, and \"good\" women who just haven't been caught yet, it features 22 fearless writers who identify as female, non-binary, or a marginalized sex or gender identity.  Published by Upper Rubber Boot Books.",
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
@@ -39,7 +39,7 @@
     "id": "book_anthology_bk",
     "type": "BOOK",
     "name": { "str": "Broad Knowledge", "str_pl": "copies of Broad Knowledge" },
-    "description": "Broad Knowledge: 35 Women Up To No Good is a feminist anthology of dark fiction and darker knowledge, edited by Joanne Merriam.  Containing 35 stories of \"bad\" women, and \"good\" women who just haven’t been caught yet.  Published by Upper Rubber Boot Books.",
+    "description": "Broad Knowledge: 35 Women Up To No Good is a feminist anthology of dark fiction and darker knowledge, edited by Joanne Merriam.  Containing 35 stories of \"bad\" women, and \"good\" women who just haven't been caught yet.  Published by Upper Rubber Boot Books.",
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
@@ -50,7 +50,7 @@
     "id": "book_anthology_cw",
     "type": "BOOK",
     "name": { "str": "Choose Wisely", "str_pl": "copies of Choose Wisely" },
-    "description": "Choose Wisely: 35 Women Up To No Good is a feminist anthology of dark fiction, co-edited by H. L. Nelson and Joanne Merriam.  Containing 35 stories of \"bad\" women, and \"good\" women who just haven’t been caught yet, it features Joyce Carol Oates, Aimee Bender, Diane Cook, and 33 other fearless women writers.  Published by Upper Rubber Boot Books.",
+    "description": "Choose Wisely: 35 Women Up To No Good is a feminist anthology of dark fiction, co-edited by H. L. Nelson and Joanne Merriam.  Containing 35 stories of \"bad\" women, and \"good\" women who just haven't been caught yet, it features Joyce Carol Oates, Aimee Bender, Diane Cook, and 33 other fearless women writers.  Published by Upper Rubber Boot Books.",
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
@@ -61,7 +61,7 @@
     "id": "book_anthology_an",
     "type": "BOOK",
     "name": { "str": "Apocalypse Now", "str_pl": "copies of Apocalypse Now" },
-    "description": "Every society and every generation has its version of the apocalypse: swine flu, genetic mutation, global warming, nuclear fallout, the second coming, peak oil, mass extinction, giant irradiated ants, zombies… Apocalypse Now: Poems and Prose from the End of Days is the first anthology of its kind to bring together the poetry and prose of some of America’s finest (though not always most well-known) literary voices with an eye for the literary and the popular, for story and lyric, for the past and the future, for the psychological and the physical, for the real and the fantastic.  Published by Upper Rubber Boot Books.",
+    "description": "Every society and every generation has its version of the apocalypse: swine flu, genetic mutation, global warming, nuclear fallout, the second coming, peak oil, mass extinction, giant irradiated ants, zombies… Apocalypse Now: Poems and Prose from the End of Days is the first anthology of its kind to bring together the poetry and prose of some of America's finest (though not always most well-known) literary voices with an eye for the literary and the popular, for story and lyric, for the past and the future, for the psychological and the physical, for the real and the fantastic.  Published by Upper Rubber Boot Books.",
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
@@ -75,11 +75,20 @@
       "str": "How to Live on Other Planets: A Handbook for Aspiring Aliens",
       "str_pl": "copies of How to Live on Other Planets"
     },
-    "description": "How to Live on Other Planets: A Handbook for Aspiring Aliens explores the immigrant experience in a science fiction setting, with exciting fiction and poetry from some of the genre’s best writers.  Published by Upper Rubber Boot Books.",
+    "description": "How to Live on Other Planets: A Handbook for Aspiring Aliens explores the immigrant experience in a science fiction setting, with exciting fiction and poetry from some of the genre's best writers.  Published by Upper Rubber Boot Books.",
     "weight": "225 g",
     "volume": "408 ml",
     "longest_side": "20 cm",
     "material": [ "paper" ],
+    "copy-from": "book_antho_tpl"
+  },
+  {
+    "id": "poetic_edda",
+    "type": "BOOK",
+    "name": { "str": "Poetic Edda", "str_pl": "copies of the Poetic Edda" },
+    "description": "The Poetic Edda is a collection of Old Norse narrative poems in alliterative verse recounting some of the stories of Norse mythology.",
+    "weight": "672 g",
+    "volume": "1368 ml",
     "copy-from": "book_antho_tpl"
   }
 ]

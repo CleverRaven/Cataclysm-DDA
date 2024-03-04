@@ -64,7 +64,7 @@
     "id": "TALK_REFUGEE_BEGGAR_4",
     "dynamic_line": {
       "npc_has_effect": "beggar_has_eaten",
-      "yes": "Thanks again for the grub, my friend.",
+      "yes": { "gendered_line": "Thanks again for the grub, my friend.", "relevant_genders": [ "u" ] },
       "no": "Hey, are you a big fan of survival of the fittest?"
     },
     "responses": [
@@ -118,7 +118,10 @@
     "dynamic_line": {
       "npc_has_effect": "beggar_has_eaten",
       "yes": "That's awful kind of you, you really are a wonderful person.",
-      "no": "Oh, wow!  You're a real gem, you know that?  Thanks for even thinking of it."
+      "no": {
+        "gendered_line": "Oh, wow!  You're a real gem, you know that?  Thanks for even thinking of it.",
+        "relevant_genders": [ "u" ]
+      }
     },
     "responses": [
       { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
@@ -289,7 +292,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT2",
-    "dynamic_line": "Well… I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't… entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
+    "dynamic_line": {
+      "gendered_line": "Well… I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't… entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": [ { "effect": { "u_add_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },

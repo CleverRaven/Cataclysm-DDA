@@ -72,7 +72,7 @@ TEST_CASE( "simple_item_layers", "[item]" )
     CHECK( item( "arm_warmers" ).get_layer().front() == layer_level::SKINTIGHT );
     CHECK( item( "10gal_hat" ).get_layer().front() == layer_level::NORMAL );
     // intentionally no waist layer check since it is obsoleted
-    CHECK( item( "armor_lightplate" ).get_layer().front() == layer_level::OUTER );
+    CHECK( item( "armor_mc_lightplate" ).get_layer().front() == layer_level::OUTER );
     CHECK( item( "legrig" ).get_layer().front() == layer_level::BELTED );
 }
 

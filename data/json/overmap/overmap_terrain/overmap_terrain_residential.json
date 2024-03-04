@@ -84,7 +84,6 @@
       "house_03",
       "house_04",
       "house_05",
-      "house_05ab",
       "house_06",
       "house_07",
       "house_08",
@@ -216,7 +215,11 @@
       "urban_17_1",
       "urban_17_2",
       "urban_18_3",
-      "urban_18_4"
+      "urban_18_4",
+      "urban_22_1",
+      "urban_22_2",
+      "urban_22_1_roof",
+      "urban_22_2_roof"
     ],
     "copy-from": "generic_city_house",
     "see_cost": 10
@@ -507,7 +510,6 @@
       "garden_house_1_basement",
       "house_04_basement",
       "house_05_basement",
-      "house_05ab_basement",
       "house_08_basement",
       "house_10_basement",
       "house_11_basement",

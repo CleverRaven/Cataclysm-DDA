@@ -963,18 +963,12 @@
       {
         "text": "Owed amount equals 14",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('owed')", "==", "14" ] }
+        "condition": { "math": [ "n_val('owed')", "==", "14" ] }
       },
       {
         "text": "Driving skill more than or equal to 5",
         "topic": "TALK_DONE",
         "condition": { "math": [ "u_skill('driving')", ">=", "5" ] }
-      },
-      {
-        "text": "A random number between 0 and 10 equals 11.",
-        "topic": "TALK_DONE",
-        "//": "Should never be true, kept here to show how the syntax is used.",
-        "condition": { "math": [ "rand(10)", "==", "11" ] }
       },
       {
         "text": "Temperature is 21.",
@@ -1000,11 +994,7 @@
       { "text": "Pos_y is -2.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_y')", "==", "-2" ] } },
       { "text": "Pos_z is -3.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('pos_z')", "==", "-3" ] } },
       { "text": "Pain level is 21.", "topic": "TALK_DONE", "condition": { "math": [ "u_pain()", "==", "21" ] } },
-      {
-        "text": "Bionic power is 22.",
-        "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "power" }, "=", { "const": 22 } ] }
-      },
+      { "text": "Bionic power is 22.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('power') == 22" ] } },
       {
         "text": "Bionic power max is 44.",
         "topic": "TALK_DONE",
@@ -1026,7 +1016,7 @@
       {
         "text": "Mana is at 2%.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('mana_percentage')", "==", "2" ] }
+        "condition": { "math": [ "round( u_val('mana_percentage') )", "==", "3" ] }
       },
       { "text": "Hunger is 26.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('hunger')", "==", "26" ] } },
       { "text": "Thirst is 27.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('thirst')", "==", "27" ] } },
@@ -1038,7 +1028,7 @@
       {
         "text": "Stored kcal is at 100% of healthy.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('stored_kcal_percentage')", "==", "100" ] }
+        "condition": { "math": [ "round( u_val('stored_kcal_percentage') )", "==", "100" ] }
       },
       {
         "text": "Has 3 glass bottles.",
@@ -1163,7 +1153,7 @@
         "topic": "TALK_DONE",
         "effect": { "math": [ "u_test_var_time_test_test", "=", "10" ] }
       },
-      { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('owed')", "=", "12" ] } },
+      { "text": "Sets owed to 12.", "topic": "TALK_DONE", "effect": { "math": [ "n_val('owed')", "=", "12" ] } },
       {
         "text": "Sets skill level in driving to 10.",
         "topic": "TALK_DONE",
@@ -1173,11 +1163,7 @@
       { "text": "Sets pos_y to -2.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_y')", "=", "-2" ] } },
       { "text": "Sets pos_z to -3.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('pos_z')", "=", "-3" ] } },
       { "text": "Sets pain to 17.", "topic": "TALK_DONE", "effect": { "math": [ "u_pain()", "=", "17" ] } },
-      {
-        "text": "Sets power to 18.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "u_val": "power" }, "=", { "const": 18 } ] }
-      },
+      { "text": "Sets power to 18.", "topic": "TALK_DONE", "effect": { "math": [ "u_val('power')", "=", "18" ] } },
       {
         "text": "Sets power to 20%.",
         "topic": "TALK_DONE",

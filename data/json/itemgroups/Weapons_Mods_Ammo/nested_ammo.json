@@ -584,13 +584,7 @@
       { "item": "20x66_shot", "prob": 30, "charges": [ 44, 80 ] },
       { "item": "20x66_beanbag", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "20x66_exp", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "20x66_flechette", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "20x66_flechette", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "20x66_flechette", "prob": 30, "charges": [ 44, 80 ] },
       { "item": "20x66_frag", "prob": 30, "charges": [ 1, 20 ] },
-      { "item": "20x66_inc", "prob": 100, "charges": [ 1, 20 ] },
-      { "item": "20x66_inc", "prob": 75, "charges": [ 22, 40 ] },
-      { "item": "20x66_inc", "prob": 30, "charges": [ 44, 80 ] },
       { "item": "20x66_slug", "prob": 100, "charges": [ 1, 20 ] },
       { "item": "20x66_slug", "prob": 75, "charges": [ 22, 40 ] },
       { "item": "20x66_slug", "prob": 30, "charges": [ 44, 80 ] }

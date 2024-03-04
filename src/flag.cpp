@@ -151,6 +151,7 @@ const flag_id flag_GIBBED( "GIBBED" );
 const flag_id flag_GNV_EFFECT( "GNV_EFFECT" );
 const flag_id flag_HARD( "HARD" );
 const flag_id flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
+const flag_id flag_HEMOVORE_FUN( "HEMOVORE_FUN" );
 const flag_id flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 const flag_id flag_HIDDEN_POISON( "HIDDEN_POISON" );
 const flag_id flag_HOOD( "HOOD" );
@@ -196,6 +197,7 @@ const flag_id flag_MYCUS_OK( "MYCUS_OK" );
 const flag_id flag_NANOFAB_REPAIR( "NANOFAB_REPAIR" );
 const flag_id flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE( "NANOFAB_TEMPLATE_SINGLE_USE" );
+const flag_id flag_NATURAL_WEAPON( "NATURAL_WEAPON" );
 const flag_id flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
 const flag_id flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
 const flag_id flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
@@ -248,6 +250,7 @@ const flag_id flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 const flag_id flag_PROCESSING( "PROCESSING" );
 const flag_id flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 const flag_id flag_PSEUDO( "PSEUDO" );
+const flag_id flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 const flag_id flag_PSYSHIELD_PARTIAL( "PSYSHIELD_PARTIAL" );
 const flag_id flag_PULPED( "PULPED" );
 const flag_id flag_PUMP_ACTION( "PUMP_ACTION" );
@@ -416,6 +419,8 @@ void json_flag::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
     optional( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "item_prefix", item_prefix_ );
+    optional( jo, was_loaded, "item_suffix", item_suffix_ );
 }
 
 void json_flag::check_consistency()

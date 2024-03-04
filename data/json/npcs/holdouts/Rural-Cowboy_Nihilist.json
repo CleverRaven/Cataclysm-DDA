@@ -70,8 +70,11 @@
       "type": "dialogue",
       "context": "cowboyn",
       "value": "yes",
-      "no": "Lived in a nearby town.  Normal life.  9 to 5 job.  When it all happened, we ran away to find some safety.  But there's no safety anymore, is there?",
-      "yes": "I already told you.  Don't want to go through it again."
+      "no": {
+        "gendered_line": "Lived in a nearby town.  Normal life.  9 to 5 job.  When it all happened, we ran away to find some safety.  But there's no safety anymore, is there?",
+        "relevant_genders": [ "npc" ]
+      },
+      "yes": { "gendered_line": "I already told you.  Don't want to go through it again.", "relevant_genders": [ "npc" ] }
     },
     "responses": [
       {
@@ -99,7 +102,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_COWBOYN_PARTNER",
-    "dynamic_line": "I didn't leave the town alone.  I arrived here alone.",
+    "dynamic_line": { "gendered_line": "I didn't leave the town alone.  I arrived here alone.", "relevant_genders": [ "npc" ] },
     "responses": [
       {
         "text": "I'm sorry for your loss.  But you still can't give up.  You have a lot to live for!",
@@ -170,7 +173,7 @@
       "context": "cowboyn",
       "value": "yes",
       "yes": "I dunno.  Maybe.  Might give me something to do while I think about all this.",
-      "no": "I told you to just leave me alone."
+      "no": { "gendered_line": "I told you to just leave me alone.", "relevant_genders": [ "npc" ] }
     },
     "responses": [
       {

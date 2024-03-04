@@ -86,6 +86,7 @@ static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );
 static const activity_id ACT_MULTIPLE_CRAFT( "ACT_MULTIPLE_CRAFT" );
 
 static const efftype_id effect_contacts( "contacts" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_plut_cell( "plut_cell" );
@@ -280,9 +281,13 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
-    const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec ) *
-                         get_limb_score( limb_score_manip );
+    float crafting_speed = morale_crafting_speed_multiplier( rec ) *
+                           lighting_craft_speed_multiplier( rec ) *
+                           get_limb_score( limb_score_manip );
+
+    const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
+                         crafting_speed );
+
     add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
                    get_limb_score( limb_score_manip ), result );
 
@@ -1058,7 +1063,8 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
     // farsightedness can impose a penalty on electronics and tailoring success
     // This should be changed to a json-defined penalty by skill (vision_penalty) in skills.json
     if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !has_effect( effect_contacts ) ) {
+        !has_effect( effect_contacts ) &&
+        !has_effect( effect_transition_contacts ) ) {
         float vision_penalty = 0.0f;
         if( making.skill_used == skill_electronics ) {
             vision_penalty = 2.0f;
@@ -2371,7 +2377,7 @@ void Character::consume_tools( map &m, const comp_selection<tool_comp> &tool, in
         m.use_charges( reachable_pts, tool.comp.type, quantity, return_true<item>, bcp );
         // Map::use_charges() does not handle UPS charges.
         if( quantity > 0 ) {
-            m.consume_ups( reachable_pts, units::from_kilojoule( quantity ) );
+            m.consume_ups( reachable_pts, units::from_kilojoule( static_cast<std::int64_t>( quantity ) ) );
         }
     }
 

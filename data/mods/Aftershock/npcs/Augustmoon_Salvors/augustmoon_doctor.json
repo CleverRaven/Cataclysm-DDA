@@ -60,7 +60,7 @@
       "value": "yes",
       "yes": [
         "Try not to touch anything.  Keeping this place clean is a full time job.",
-        "I'm free at the moment if you need something."
+        { "gendered_line": "I'm free at the moment if you need something.", "relevant_genders": [ "npc" ] }
       ],
       "no": "Clinic is open, yes.  If you need medical assistance, this is the place."
     },
@@ -146,7 +146,10 @@
     "id": "TALK_MERCURIAL_DOCTOR_AID_DONE",
     "dynamic_line": [
       "Take it easy now, or come back soon.  All the same to me.",
-      "Now try not to do whatever you did again.  No, don't tell me more."
+      {
+        "gendered_line": "Now try not to do whatever you did again.  No, don't tell me more.",
+        "relevant_genders": [ "u" ]
+      }
     ],
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   }

@@ -197,7 +197,7 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -491,8 +491,8 @@ bool aim_activity_actor::load_RAS_weapon()
     }
 
     // Burn 0.6% max base stamina without cardio/BMI factored in x the strength required to fire.
-    you.mod_stamina( gun->get_min_str() * static_cast<int>( 0.006f *
-                     get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
+    you.burn_energy_arms( gun->get_min_str() * static_cast<int>( 0.006f *
+                          get_option<int>( "PLAYER_MAX_STAMINA_BASE" ) ) );
     // At low stamina levels, firing starts getting slow.
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
@@ -581,7 +581,6 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
     update_player_vehicle( who );
 
     who.add_msg_if_player( m_info, _( "Auto drive canceled." ) );
-    who.omt_path.clear();
     if( player_vehicle ) {
         player_vehicle->stop_autodriving( false );
     }
@@ -1776,6 +1775,11 @@ void read_activity_actor::start( player_activity &act, Character &who )
     add_msg_debug( debugmode::DF_ACT_READ, "reading time = %s",
                    to_string_writable( time_duration::from_moves( moves_total ) ) );
 
+    // starting the activity should cost a charge to boot up the ebook app
+    if( using_ereader ) {
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
+    }
+
     act.moves_total = moves_total;
     act.moves_left = moves_total;
 }
@@ -1799,7 +1803,7 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     if( bktype.value() == book_type::martial_art && one_in( 3 ) ) {
-        who.mod_stamina( -1 );
+        who.burn_energy_all( -1 );
     }
 
     // do not spam the message log
@@ -1814,7 +1818,9 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
             _( "<npcname> no longer has the e-book!" ) );
         who.cancel_activity();
         return;
-    } else if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+    }
+
+    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
         add_msg_if_player_sees(
             who,
             _( "%1$s %2$s ran out of batteries." ),
@@ -1822,6 +1828,17 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
             item::nname( ereader->typeId() ) );
         who.cancel_activity();
         return;
+    }
+
+    if( using_ereader && calendar::once_every( 5_minutes ) ) {
+        /** Expected battery life while reading with common ereaders:
+                integrated_ar       - implant                                         = potentially infinite
+                ar_glasses_advanced - max 300 charges from disposable light battery   = 25 hours of reading
+                eink_tablet_pc      - max 300 charges from disposable light battery   = 25 hours of reading
+                laptop              - max 1200 charges from disposable medium battery = 100 hours of reading
+                smart_phone         - 120 UPS charges                                 = 10 hours of reading
+        */
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
     }
 }
 
@@ -3078,7 +3095,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_zero );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms( tripoint_zero ) );
 
     JsonObject data = jsin.get_object();
 
@@ -3215,6 +3232,7 @@ void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
+    get_event_bus().send<event_type::character_attempt_to_fall_asleep>( who.getID() );
     who.set_movement_mode( move_mode_prone );
     who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }
@@ -3343,7 +3361,7 @@ void safecracking_activity_actor::start( player_activity &act, Character &who )
 
 void safecracking_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    bool can_crack = who.has_flag( json_flag_SUPER_HEARING );
+    bool can_crack = who.has_flag( json_flag_SAFECRACK_NO_TOOL );
     // short-circuit to avoid the more expensive iteration over items
     can_crack = can_crack || who.cache_has_item_with( flag_SAFECRACK );
 

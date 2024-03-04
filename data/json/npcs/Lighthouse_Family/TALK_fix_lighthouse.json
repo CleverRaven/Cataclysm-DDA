@@ -55,10 +55,16 @@
       "math": [ "time_since(n_time_lighthouse_wait)", ">", "time('2 d')" ],
       "yes": {
         "npc_has_trait": "Exp_Eng_Electrical1Fake2",
-        "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+        "yes": {
+          "gendered_line": "Boss, here's the thing… just don't be mad, please.  I lied that I'm good at this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+          "relevant_genders": [ "npc" ]
+        },
         "no": {
           "npc_has_trait": "Exp_Eng_Electrical0Fake2",
-          "yes": "Boss, here's the thing… just don't be mad, please.  I lied that I know something about this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+          "yes": {
+            "gendered_line": "Boss, here's the thing… just don't be mad, please.  I lied that I know something about this… I thought I could figure it out, but it's far beyond my comprehension.  I'm sorry.",
+            "relevant_genders": [ "npc" ]
+          },
           "no": "All done, boss.  Tell that fisherman to try it in action."
         }
       },

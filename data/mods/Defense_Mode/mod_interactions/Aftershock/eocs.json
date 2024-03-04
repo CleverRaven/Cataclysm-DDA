@@ -6,7 +6,7 @@
     "effect": [
       {
         "u_spawn_monster": "AFS_GROUP_DM",
-        "real_count": { "math": [ "wave_spawn_number() * 3" ], "default": 3 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,

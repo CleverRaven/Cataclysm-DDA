@@ -197,7 +197,7 @@ void fault_fix::finalize()
 
 void fault_fix::check_consistency()
 {
-    for( auto &[fix_id, fix] : fault_fixes_all ) {
+    for( const auto &[fix_id, fix] : fault_fixes_all ) {
         if( fix.time < 0_turns ) {
             debugmsg( "fault_fix '%s' has negative time", fix_id.str() );
         }

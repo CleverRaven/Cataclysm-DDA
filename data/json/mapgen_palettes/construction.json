@@ -1,13 +1,305 @@
 [
   {
     "type": "palette",
-    "id": "construction_palette",
-    "//": "intended for in-construction homes",
+    "id": "construction_general_palette",
+    "//": "phase 1: 6-8 weeks, phase 2: 6-10 weeks, phase 3: 14-20 weeks, phase 0 usually takes ~4-8 weeks depending on weather. This is based on what I could find on multiple construction company websites, feel free to change if you find a better source for these",
+    "//2": "Construction projects last ~12 months in the northeast according to https://eyeonhousing.org/2023/06/home-building-takes-longer-in-2022/",
     "parameters": {
-      "interior_wall_type": {
+      "variant_construction_palette": {
+        "type": "palette_id",
+        "scope": "overmap_special",
+        "default": {
+          "distribution": [
+            [ "construction_phase_0_palette", 225 ],
+            [ "construction_phase_1_palette", 194 ],
+            [ "construction_phase_2_palette", 275 ],
+            [ "construction_phase_3_palette", 306 ]
+          ]
+        }
+      }
+    },
+    "palettes": [ { "param": "variant_construction_palette" }, "construction_all_variants" ]
+  },
+  {
+    "type": "palette",
+    "id": "construction_all_variants",
+    "//": "Palette shared by all in-construction houses",
+    "terrain": {
+      ",": "t_floor",
+      "a": "t_thconc_floor",
+      "'": "t_concrete",
+      "`": "t_thconc_floor",
+      "X": "t_floor",
+      "x": "t_thconc_floor"
+    },
+    "nested": {
+      "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
+      ",": {
+        "chunks": [
+          [ "corpse_blood_1x1", 1 ],
+          [ "blood_field", 2 ],
+          [ "bile_field", 1 ],
+          [ "construction_supplies", 8 ],
+          [ "construction_paint", 4 ],
+          [ "null", 188 ]
+        ]
+      },
+      "`": {
+        "chunks": [
+          [ "corpse_blood_1x1", 1 ],
+          [ "blood_field", 2 ],
+          [ "bile_field", 1 ],
+          [ "construction_supplies", 8 ],
+          [ "construction_paint", 4 ],
+          [ "null", 188 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "construction_phase_0_palette",
+    "//": "intended for in-construction homes that just had interior walls framed",
+    "parameters": {
+      "construction0_exterior_wall_type": {
         "type": "ter_str_id",
         "default": {
           "distribution": [
+            [ "t_brick_wall", 6 ],
+            [ "t_rock_wall", 3 ],
+            [ "t_wall_wood", 3 ],
+            [ "t_concrete_wall", 4 ],
+            [ "t_adobe_brick_wall", 1 ]
+          ]
+        }
+      },
+      "construction0_interior_wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_wall_half", 6 ], [ "t_brick_wall_halfway", 2 ] ] } },
+      "construction0_house_concrete_outside_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_pit_shallow", 2 ], [ "t_region_soil", 3 ] ] } }
+    },
+    "terrain": {
+      "b": "t_floor",
+      "c": { "param": "construction0_house_concrete_outside_type", "fallback": "t_region_soil" },
+      "f": "t_region_soil",
+      "g": "t_region_soil",
+      "o": "t_floor",
+      "p": {
+        "switch": { "param": "construction0_house_concrete_outside_type", "fallback": "t_region_soil" },
+        "cases": { "t_pit_shallow": "t_pit_shallow", "t_region_soil": "t_region_soil" }
+      },
+      "s": "t_floor",
+      "t": "t_floor",
+      "M": "t_floor",
+      "F": "t_floor",
+      "O": "t_floor",
+      "S": "t_floor",
+      "5": "t_floor",
+      "6": "t_floor",
+      "7": "t_floor",
+      "8": "t_floor",
+      "9": "t_floor",
+      ".": [ [ "t_region_groundcover_urban", 1 ], [ "t_region_soil", 10 ] ],
+      "+": "t_floor",
+      "*": "t_floor",
+      "=": "t_floor",
+      "&": "t_floor",
+      "^": "t_region_soil",
+      "#": { "param": "construction0_exterior_wall_type", "fallback": "t_brick_wall" },
+      "|": { "param": "construction0_interior_wall_type", "fallback": "t_wall_half" },
+      ":": "t_floor",
+      "-": {
+        "switch": { "param": "construction0_house_concrete_outside_type", "fallback": "t_region_soil" },
+        "cases": { "t_pit_shallow": "t_pit_shallow", "t_region_soil": "t_region_soil" }
+      },
+      "~": "t_floor",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down"
+    },
+    "furniture": {
+      "C": [
+        [ "f_null", 10 ],
+        [ "f_pallet_brick", 2 ],
+        [ "f_pallet_brick_adobe", 2 ],
+        [ "f_pallet_cement", 2 ],
+        [ "f_stack_plank", 6 ]
+      ],
+      "{": "f_null"
+    },
+    "nested": {
+      "X": { "chunks": [ [ "null", 5 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] },
+      "x": { "chunks": [ [ "null", 5 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "construction_phase_1_palette",
+    "//": "intended for in-construction homes that were done framing windows, doors and finishing the exteriors",
+    "parameters": {
+      "construction1_exterior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 6 ],
+            [ "t_rock_wall", 3 ],
+            [ "t_wall_wood", 3 ],
+            [ "t_concrete_wall", 4 ],
+            [ "t_adobe_brick_wall", 1 ]
+          ]
+        }
+      },
+      "construction1_interior_wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_wall_half", 6 ], [ "t_brick_wall_halfway", 2 ] ] } },
+      "construction1_house_concrete_outside_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_thconc_floor_no_roof", 3 ], [ "t_pit_shallow", 2 ] ] } }
+    },
+    "terrain": {
+      "b": "t_floor",
+      "c": { "param": "construction1_house_concrete_outside_type", "fallback": "t_pit_shallow" },
+      "f": "t_region_soil",
+      "g": "t_region_soil",
+      "o": "t_window_empty",
+      "p": {
+        "switch": { "param": "construction1_house_concrete_outside_type", "fallback": "t_pit_shallow" },
+        "cases": { "t_thconc_floor_no_roof": "t_pavement", "t_pit_shallow": "t_pit_shallow" }
+      },
+      "s": "t_floor",
+      "t": "t_floor",
+      "F": "t_floor",
+      "O": "t_floor",
+      "S": "t_floor",
+      "5": "t_floor",
+      "6": "t_floor",
+      "7": "t_floor",
+      "8": "t_floor",
+      "9": "t_floor",
+      ".": [ [ "t_region_groundcover_urban", 1 ], [ "t_region_soil", 10 ] ],
+      "+": "t_door_frame",
+      "*": "t_door_frame",
+      "=": "t_floor",
+      "&": "t_floor",
+      "^": "t_gutter_downspout",
+      "#": { "param": "construction1_exterior_wall_type", "fallback": "t_brick_wall" },
+      "|": { "param": "construction1_interior_wall_type", "fallback": "t_wall_half" },
+      ":": "t_window_empty",
+      "~": "t_floor",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "-": {
+        "switch": { "param": "construction1_house_concrete_outside_type", "fallback": "t_pit_shallow" },
+        "cases": { "t_thconc_floor_no_roof": "t_sidewalk", "t_pit_shallow": "t_pit_shallow" }
+      }
+    },
+    "furniture": {
+      "C": [
+        [ "f_null", 8 ],
+        [ "f_pallet_brick", 2 ],
+        [ "f_pallet_brick_adobe", 2 ],
+        [ "f_pallet_cement", 4 ],
+        [ "f_stack_plank", 6 ]
+      ],
+      "M": "f_null",
+      "{": "f_null"
+    },
+    "nested": {
+      "X": { "chunks": [ [ "null", 4 ], [ "construction_crate_open", 4 ], [ "construction_crate_closed", 1 ] ] },
+      "x": { "chunks": [ [ "null", 4 ], [ "construction_crate_open", 4 ], [ "construction_crate_closed", 1 ] ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "construction_phase_2_palette",
+    "//": "intended for in-construction homes that were done with most plumbing and cabling (appliances, inner walls unpainted) and installed fence posts",
+    "parameters": {
+      "construction2_exterior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 6 ],
+            [ "t_rock_wall", 3 ],
+            [ "t_wall_wood", 3 ],
+            [ "t_concrete_wall", 4 ],
+            [ "t_adobe_brick_wall", 1 ]
+          ]
+        }
+      },
+      "construction2_interior_wall_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_brick_wall", 1 ], [ "t_wall_wood", 6 ] ] } },
+      "construction2_house_fence_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_fence_post", 8 ], [ "t_chainfence_posts", 4 ] ] } }
+    },
+    "toilets": { "t": {  } },
+    "terrain": {
+      "b": "t_floor",
+      "c": "t_thconc_floor_no_roof",
+      "f": { "param": "construction2_house_fence_type", "fallback": "t_region_soil" },
+      "g": "t_region_soil",
+      "h": "t_pit_shallow",
+      "o": "t_window_empty",
+      "p": "t_pavement",
+      "s": "t_floor",
+      "t": "t_floor",
+      "F": "t_floor",
+      "O": "t_floor",
+      "S": "t_floor",
+      "5": "t_floor",
+      "6": "t_floor",
+      "7": "t_floor",
+      "8": "t_floor",
+      "9": "t_floor",
+      ".": [ [ "t_region_groundcover_urban", 3 ], [ "t_region_soil", 10 ] ],
+      "+": "t_door_frame",
+      "*": "t_door_frame",
+      "=": "t_floor",
+      "&": "t_floor",
+      "^": "t_gutter_downspout",
+      "#": { "param": "construction2_exterior_wall_type", "fallback": "t_brick_wall" },
+      "|": { "param": "construction2_interior_wall_type", "fallback": "t_wall_half" },
+      ":": "t_window_empty",
+      "-": "t_sidewalk",
+      "~": "t_floor",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down"
+    },
+    "furniture": {
+      "b": "f_bathtub",
+      "s": "f_sink",
+      "C": [
+        [ "f_null", 20 ],
+        [ "f_pallet_brick", 2 ],
+        [ "f_pallet_brick_adobe", 2 ],
+        [ "f_pallet_cement", 2 ],
+        [ "f_stack_plank", 3 ]
+      ],
+      "M": "f_mailbox",
+      "F": "f_fridge",
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
+      "S": "f_sink",
+      "9": "f_shower",
+      "{": "f_dumpster"
+    },
+    "nested": {
+      "X": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] },
+      "x": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 5 ], [ "construction_crate_closed", 1 ] ] },
+      "~": { "chunks": [ [ "null", 9 ], [ "construction_bathroom_plumbing", 3 ], [ "construction_bathroom_tools", 1 ] ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "construction_phase_3_palette",
+    "//": "intended for in-construction homes that were practically ready to move in to",
+    "parameters": {
+      "construction3_exterior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 6 ],
+            [ "t_rock_wall", 3 ],
+            [ "t_wall_wood", 3 ],
+            [ "t_concrete_wall", 4 ],
+            [ "t_adobe_brick_wall", 1 ]
+          ]
+        }
+      },
+      "construction3_interior_wall_type": {
+        "type": "ter_str_id",
+        "default": {
+          "distribution": [
+            [ "t_brick_wall", 1 ],
             [ "t_wall_b", 1 ],
             [ "t_wall_g", 1 ],
             [ "t_wall_p", 1 ],
@@ -23,19 +315,8 @@
           ]
         }
       },
-      "exterior_wall_type": {
-        "type": "ter_str_id",
-        "default": {
-          "distribution": [
-            [ "t_brick_wall", 6 ],
-            [ "t_rock_wall", 3 ],
-            [ "t_wall_wood", 3 ],
-            [ "t_concrete_wall", 4 ],
-            [ "t_adobe_brick_wall", 1 ]
-          ]
-        }
-      },
-      "house_fence_type": {
+      "construction3_house_linoleum_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_linoleum_white", 1 ], [ "t_linoleum_gray", 1 ] ] } },
+      "construction3_house_fence_type": {
         "type": "ter_str_id",
         "default": {
           "distribution": [
@@ -50,10 +331,29 @@
     },
     "toilets": { "t": {  } },
     "terrain": {
-      ".": [ [ "t_region_groundcover_urban", 20 ], "t_region_shrub_decorative" ],
-      "+": [ [ "t_door_b", 2 ], [ "t_door_frame", 2 ], [ "t_door_c", 5 ], [ "t_door_o", 5 ], [ "t_door_locked_interior", 1 ] ],
+      "c": "t_thconc_floor_no_roof",
+      "f": { "param": "construction3_house_fence_type", "fallback": "t_region_soil" },
+      "g": {
+        "switch": { "param": "construction3_house_fence_type", "fallback": "t_region_soil" },
+        "cases": {
+          "t_splitrail_fence": "t_splitrail_fencegate_c",
+          "t_chainfence": "t_chaingate_c",
+          "t_fence": "t_fencegate_c",
+          "t_privacy_fence": "t_privacy_fencegate_c",
+          "t_drystone_wall_half": "t_chaingate_l"
+        }
+      },
+      "o": [ "t_window", "t_window_no_curtains", "t_window_open", "t_window_no_curtains_open" ],
+      "p": "t_pavement",
+      "b": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      "t": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      "s": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      "5": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      "6": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      "9": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      ".": [ [ "t_region_groundcover_urban", 6 ], [ "t_region_soil", 10 ] ],
+      "+": "t_door_o",
       "*": [
-        [ "t_door_b", 5 ],
         [ "t_door_locked_peep", 2 ],
         "t_door_locked_alarm",
         [ "t_door_locked", 10 ],
@@ -63,30 +363,38 @@
         "t_door_c",
         [ "t_door_o", 2 ]
       ],
+      "=": "t_door_metal_locked",
+      "&": "t_gates_control_brick",
       "^": "t_gutter_downspout",
-      "|": { "param": "interior_wall_type", "fallback": "t_wall_w" },
-      "#": { "param": "exterior_wall_type", "fallback": "t_brick_wall" },
+      "#": { "param": "construction3_exterior_wall_type", "fallback": "t_brick_wall" },
+      "|": { "param": "construction3_interior_wall_type", "fallback": "t_wall_w" },
       ":": "t_wall_glass",
       "-": "t_sidewalk",
-      "o": [ "t_window", "t_window_frame" ],
+      "~": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       "<": "t_stairs_up",
-      ">": "t_stairs_down",
-      "`": "t_sidewalk",
-      "c": "t_thconc_floor",
-      "p": "t_pavement"
+      ">": "t_stairs_down"
     },
     "furniture": {
-      "S": "f_sink",
+      "a": "f_fireplace",
+      "b": "f_bathtub",
+      "k": "f_woodstove",
+      "s": "f_sink",
+      "C": "f_null",
+      "M": "f_mailbox",
       "F": "f_fridge",
+      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
+      "S": "f_sink",
+      "5": "f_cupboard",
+      "6": "f_counter",
       "7": "f_counter",
       "8": "f_cupboard",
       "9": "f_shower",
-      "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
-      "X": "f_crate_c"
+      "{": "f_dumpster"
     },
     "nested": {
-      "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
-      " ": { "chunks": [ [ "corpse_blood_1x1", 1 ], [ "blood_field", 2 ], [ "bile_field", 1 ], [ "null", 196 ] ] }
+      "X": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 2 ] ] },
+      "x": { "chunks": [ [ "null", 6 ], [ "construction_crate_open", 2 ] ] },
+      "~": { "chunks": [ [ "null", 10 ], [ "construction_bathroom_plumbing", 3 ], [ "construction_bathroom_tools", 1 ] ] }
     }
   }
 ]

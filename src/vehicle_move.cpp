@@ -211,8 +211,9 @@ void vehicle::smart_controller_handle_turn( const std::optional<float> &k_tracti
     if( max_battery_level == 0 || !discharge_forbidden_soft ) {
         target_charging_rate = 0_W;
     } else {
-        target_charging_rate = units::from_watt( ( max_battery_level * cfg.battery_hi / 100 -
-                               cur_battery_level ) * 10 / ( 6 * 3 ) );
+        target_charging_rate = units::from_watt( static_cast<std::int64_t>( ( max_battery_level *
+                               cfg.battery_hi / 100 -
+                               cur_battery_level ) * 10 / ( 6 * 3 ) ) );
     }
     //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
     //                                ^ battery_hi%                  bat to W ^         ^ 30 minutes

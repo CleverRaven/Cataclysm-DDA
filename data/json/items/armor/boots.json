@@ -103,54 +103,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "id": "santa_boots",
-    "type": "ARMOR",
-    "name": { "str": "pair of Santa boots", "str_pl": "pairs of Santa boots" },
-    "description": "A tough pair of black leather boots, trimmered with white faux fur.  For tough everyday work at the North Pole.",
-    "weight": "1100 g",
-    "volume": "2700 ml",
-    "price": 10000,
-    "price_postapoc": 750,
-    "to_hit": -2,
-    "symbol": "[",
-    "looks_like": "dress_shoes",
-    "color": "black",
-    "warmth": 20,
-    "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [
-          "foot_toes_r",
-          "foot_toes_l",
-          "foot_ankle_r",
-          "foot_ankle_l",
-          "foot_heel_r",
-          "foot_heel_l",
-          "foot_arch_r",
-          "foot_arch_l"
-        ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "faux_fur", "covered_by_mat": 10, "thickness": 0.5 }
-        ],
-        "encumbrance": 12,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 }
-        ],
-        "coverage": 100
-      }
-    ],
-    "melee_damage": { "bash": 1 }
-  },
-  {
     "id": "boots_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -1646,13 +1598,13 @@
       {
         "id": "heels_stiletto",
         "name": { "str": "pair of stiletto heels", "str_pl": "pairs of stiletto heels" },
-        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they’d probably be more useful to stab a zombie’s eyes out than as footwear.",
+        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they'd probably be more useful to stab a zombie's eyes out than as footwear.",
         "weight": 10
       },
       {
         "id": "heels_block",
         "name": { "str": "pair of block heels", "str_pl": "pairs of block heels" },
-        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don’t do you any favors in the mobility department, they’re at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
+        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don't do you any favors in the mobility department, they're at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
         "weight": 10
       },
       {
@@ -1669,8 +1621,8 @@
       },
       {
         "id": "heels_flag",
-        "name": { "str": "pair of liberty’s heels", "str_pl": "pairs of liberty’s heels" },
-        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear’s heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe’s heels.  Each of the statues’ dresses is inscribed with the legend, \"America Gives You Wings!\""
+        "name": { "str": "pair of liberty's heels", "str_pl": "pairs of liberty's heels" },
+        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear's heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe's heels.  Each of the statues' dresses is inscribed with the legend, \"America Gives You Wings!\""
       }
     ]
   },
@@ -1744,7 +1696,7 @@
       {
         "id": "chelsea_boots",
         "name": { "str": "pair of chelsea boots", "str_pl": "pairs of chelsea boots" },
-        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that’s designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
+        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that's designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
         "weight": 10
       }
     ]
@@ -2255,47 +2207,6 @@
     "name": { "str": "pair of sneakers", "str_pl": "pairs of sneakers" },
     "description": "Guaranteed to make you run faster and jump higher!",
     "weight": "840 g",
-    "volume": "1500 ml",
-    "price": 10000,
-    "price_postapoc": 250,
-    "material": [ "cotton", "rubber" ],
-    "symbol": "[",
-    "looks_like": "shoes_bowling",
-    "color": "light_blue",
-    "warmth": 20,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_heel_r", "foot_heel_l", "foot_arch_r", "foot_arch_l", "foot_toes_r", "foot_toes_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1 } ],
-        "encumbrance": 4,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_ankle_r", "foot_ankle_l" ],
-        "material": [ { "type": "cotton", "covered_by_mat": 100, "thickness": 1.0 } ],
-        "coverage": 60
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.1 },
-          { "type": "rubber", "covered_by_mat": 100, "thickness": 4.0 }
-        ],
-        "coverage": 100
-      }
-    ]
-  },
-  {
-    "id": "santa_shoes",
-    "type": "ARMOR",
-    "name": { "str": "pair of Santa shoes", "str_pl": "pairs of Santa shoes" },
-    "description": "A delightful pair of comfortable red and white shoes with Christmas adornments.  For either Mrs Claus or Santa style and comfort.",
-    "weight": "850 g",
     "volume": "1500 ml",
     "price": 10000,
     "price_postapoc": 250,
@@ -3309,17 +3220,6 @@
         "name": { "str": "pair of polysexual flag stockings", "str_pl": "pairs of polysexual flag stockings" },
         "description": "This one has patterns akin to the polysexual flag.",
         "weight": 25,
-        "color": "green",
-        "append": true
-      },
-      {
-        "id": "santa_stockings",
-        "name": { "str": "pair of Christmas stockings", "str_pl": "pairs of Christmas stockings" },
-        "description": {
-          "str": "A comfortable pair of red, white and green stockings with Christmas patterns on it, for Mrs. Claus style.",
-          "//NOLINT(cata-text-style)": "Mrs. does not end with a period"
-        },
-        "weight": 1,
         "color": "green",
         "append": true
       }

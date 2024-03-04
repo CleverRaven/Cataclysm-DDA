@@ -71,6 +71,8 @@ class inventory_entry
         int custom_invlet = INT_MIN;
         std::string *cached_name = nullptr;
         std::string *cached_name_full = nullptr;
+        unsigned int contents_count = 0;
+        size_t cached_denial_space = 0;
 
         inventory_entry() = default;
 

@@ -33,6 +33,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "item.h"
@@ -482,9 +483,31 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     return targets;
 }
 
+static void splash_target( const tripoint &target, const spell &sp, Creature &caster )
+{
+    if( sp.liquid_volume( caster ) < 1 ) {
+        debugmsg( "LIQUID flagged spell cast with liquid volume < 1" );
+        return;
+    }
+    creature_tracker &creatures = get_creature_tracker();
+    Character *const guy = creatures.creature_at<Character>( target );
+    if( sp.get_spell_type()->affected_bps.none() ) {
+        bodypart_id bp = guy->random_body_part( false );
+        guy->worn.splash_attack( *guy, sp, caster, bp );
+    } else {
+        body_part_set parts = sp.get_spell_type()->affected_bps;
+        for( auto iter = parts.begin(); iter != parts.end(); ) {
+            bodypart_str_id bp = *iter;
+            guy->worn.splash_attack( *guy, sp, caster, bp );
+            iter++;
+        }
+    }
+}
+
 static void add_effect_to_target( const tripoint &target, const spell &sp, Creature &caster )
 {
     const int dur_moves = sp.duration( caster );
+    const int effect_intensity = sp.effect_intensity( caster );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
 
     creature_tracker &creatures = get_creature_tracker();
@@ -496,10 +519,10 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
                 if( sp.has_flag( spell_flag::LIQUID ) ) {
-                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
+                    splash_target( target, sp, caster );
                     bodypart_effected = true;
                 } else {
-                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ), effect_intensity );
                     bodypart_effected = true;
                 }
             }
@@ -521,6 +544,8 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         sp.make_sound( target, caster );
         sp.create_field( target, caster );
+        bool dodgeable = sp.has_flag( spell_flag::DODGEABLE );
+        bool liquid = sp.has_flag( spell_flag::LIQUID );
         if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && here.is_flammable( target ) ) {
             here.add_field( target, fd_fire, 1, 10_minutes );
 
@@ -539,21 +564,38 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
 
         dealt_projectile_attack atk = sp.get_projectile_attack( target, *cr, caster );
-        const int spell_accuracy = sp.accuracy( caster );
-
-        if( !sp.effect_data().empty() ) {
+        const float spell_accuracy = static_cast<float>( sp.accuracy( caster ) );
+        if( cr->is_underwater() && liquid ) {
+            caster.add_msg_if_player( m_bad,
+                                      _( "The liquid is harmlessly dispersed into the surrounding water." ) );
+            continue;
+        }
+        if( dodgeable ) {
+            const float dodge_training = sp.dodge_training( caster );
+            if( cr->dodge_check( spell_accuracy, dodge_training ) ) {
+                cr->add_msg_if_player( m_good, _( "You dodge out of the way!" ) );
+                add_msg_if_player_sees( cr->pos(), m_good, _( "%s dodges out of the way!" ),
+                                        cr->disp_name( true ) );
+                cr->on_dodge( &caster, spell_accuracy, dodge_training );
+                continue;
+            }
+        }
+        // Liquid attacks add their effects to characters via splash_target further down
+        if( !sp.effect_data().empty() && ( !liquid || cr->is_monster() ) ) {
             add_effect_to_target( target, sp, caster );
         }
-        if( sp.damage( caster ) > 0 ) {
+        if( sp.damage( caster ) > 0 || ( liquid && !cr->is_monster() ) ) {
             // calculate damage mitigation from various sources
             // 5% per point (linear) ranging from 0-33%, capped at block score
+            // skip if the attack was dodgeable as you'd have evaded it already
             double damage_mitigation_multiplier = 1.0;
-            if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 ) {
+            if( const int spell_block = cr->get_block_bonus() - spell_accuracy > 0 &&
+                                        !dodgeable ) {
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_block ) ) / 3.0;
             }
 
-            if( cr->dodge_check( spell_accuracy ) ) {
+            if( !dodgeable && cr->dodge_check( spell_accuracy ) ) {
                 const int spell_dodge = cr->get_dodge() - spell_accuracy;
                 const int roll = std::round( rng( 1, 20 ) );
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_dodge ) ) / 3.0;
@@ -565,9 +607,16 @@ static void damage_targets( const spell &sp, Creature &caster,
                 damage_mitigation_multiplier -= ( 1 - 0.05 * std::max( roll, spell_resist ) ) / 3.0;
             }
 
+            // If it's a liquid attack and the target is a character, splash_target will handle the rest
+            if( liquid && !cr->is_monster() ) {
+                splash_target( target, sp, caster );
+                continue;
+            }
+
             for( damage_unit &val : atk.proj.impact.damage_units ) {
                 if( sp.has_flag( spell_flag::PERCENTAGE_DAMAGE ) ) {
-                    val.amount = cr->get_hp( cr->get_root_body_part() ) * sp.damage( caster ) / 100.0;
+                    // TODO: Change once spells don't always target get_max_hitsize_bodypart(). Should target each bodypart with it's respecive %
+                    val.amount = cr->get_hp( cr->get_max_hitsize_bodypart() ) * sp.damage( caster ) / 100.0;
                 }
                 val.amount *= damage_mitigation_multiplier;
             }
@@ -1145,7 +1194,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         you->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            you->mod_power_level( units::from_kilojoule( healing ) );
+            you->mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( healing ) ) );
         } else {
             you->mod_stamina( healing );
         }
@@ -1226,6 +1275,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+    spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
     return true;
 }
 
@@ -1516,12 +1566,13 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         const int guilt_mult = sp.get_effective_level();
 
         // different message as we kill more of the same monster
-        std::string msg = _( "You feel guilty for killing %s." ); // default guilt message
+        std::string msg;
         game_message_type msgtype = m_bad; // default guilt message type
         std::map<int, std::string> guilt_thresholds;
-        guilt_thresholds[75] = _( "You feel ashamed for killing %s." );
-        guilt_thresholds[50] = _( "You regret killing %s." );
-        guilt_thresholds[25] = _( "You feel remorse for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.25 ) ] = _( "You feel guilty for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.5 ) ] = _( "You feel remorse for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.75 ) ] = _( "You regret killing %s." );
+        guilt_thresholds[max_kills] = _( "You feel ashamed for killing %s." );
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||
@@ -1544,7 +1595,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
             msgtype = m_neutral;
         } else {
             for( const std::pair<const int, std::string> &guilt_threshold : guilt_thresholds ) {
-                if( kill_count >= guilt_threshold.first ) {
+                if( kill_count < guilt_threshold.first ) {
                     msg = guilt_threshold.second;
                     break;
                 }

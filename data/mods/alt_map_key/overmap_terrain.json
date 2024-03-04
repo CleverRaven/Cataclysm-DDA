@@ -869,13 +869,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "copy-from": "megastore_parking",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "megastore_0_0_0",
     "copy-from": "megastore_0_0_0",
     "sym": "m",
@@ -2102,12 +2095,6 @@
     "type": "overmap_terrain",
     "id": "basement",
     "copy-from": "basement",
-    "sym": "b"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "basement_bionic",
-    "copy-from": "basement_bionic",
     "sym": "b"
   },
   {

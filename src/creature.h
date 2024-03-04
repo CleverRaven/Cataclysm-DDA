@@ -65,15 +65,15 @@ using anatomy_id = string_id<anatomy>;
 
 enum class creature_size : int {
     // Keep it starting at 1 - damage done to monsters depends on it
-    // Squirrel
+    // Squirrel, cat, human toddler
     tiny = 1,
-    // Dog
+    // Labrador, human child
     small,
-    // Human
+    // Human adult
     medium,
-    // Cow
+    // Bear, tiger
     large,
-    // TAAAANK
+    // Cow, moose, shoggoth
     huge,
     // must always be at the end, is actually number + 1 since we start counting at 1
     num_sizes
@@ -497,9 +497,13 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
-        bool dodge_check( float hit_roll, bool force_try = false );
-        bool dodge_check( monster *z );
-        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst );
+        /**
+         * If training_level is anything but 0, the check will only train target's skill to that level
+        */
+        bool dodge_check( float hit_roll, bool force_try = false, float training_level = 0.0f );
+        bool dodge_check( monster *z, float training_level = 0.0f );
+        bool dodge_check( monster *z, bodypart_id bp, const damage_instance &dam_inst,
+                          float training_level = 0.0f );
 
         // Temporarily reveals an invisible player when a monster tries to enter their location
         bool stumble_invis( const Creature &player, bool stumblemsg = true );
@@ -510,7 +514,7 @@ class Creature : public viewer
          * This creature just dodged an attack - possibly special/ranged attack - from source.
          * Players should train dodge, monsters may use some special defenses.
          */
-        virtual void on_dodge( Creature *source, float difficulty ) = 0;
+        virtual void on_dodge( Creature *source, float difficulty, float training_level = 0.0f ) = 0;
         /**
          * Invoked when the creature attempts to dodge, regardless of success or failure.
          */
@@ -632,7 +636,8 @@ class Creature : public viewer
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
         /** Applies effects by spraying liquid on the creature. Returns false if the liquid was blocked
-         * by waterproof gear. */
+         * by waterproof gear. This is a simple method for effects which deal no damage and don't harm clothing.
+         * For more complex stuff, see outfit::splash */
         bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                 const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
                                 bool force = false );
@@ -1250,6 +1255,8 @@ class Creature : public viewer
         // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
         int archery_aim_counter = 0;
 
+        // Find the body part with the biggest hitsize - we will treat this as the center of mass for targeting
+        bodypart_id get_max_hitsize_bodypart() const;
         // Select a bodypart depending on the attack's hitsize/limb restrictions
         bodypart_id select_body_part( int min_hit, int max_hit, bool can_attack_high, int hit_roll ) const;
         bodypart_id select_blocking_part( bool arm, bool leg, bool nonstandard ) const;

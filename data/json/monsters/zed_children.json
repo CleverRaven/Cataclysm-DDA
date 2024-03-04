@@ -145,11 +145,9 @@
     "harvest": "zombie_humanoid",
     "special_attacks": [ [ "SHRIEK", 5 ], { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
-    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "GUILT_CHILD" ],
-    "//": "GUILT because it still looks enough like a child to evoke pity",
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "electric": 1 }
   },
   {
@@ -183,7 +181,10 @@
     "//grab": "Half as grabby as a base zombie",
     "grab_strength": 10,
     "special_attacks": [ { "id": "grab" } ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ], [ "explode_innards_small", 100 ] ]
+    },
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
@@ -260,27 +261,15 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "HARDTOSHOOT",
-      "FILTHY",
-      "GUILT_CHILD"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "GUILT_CHILD" ],
     "//": "GUILT because it still looks enough like a child to evoke pity",
-    "armor": { "cut": 5, "bullet": 4, "electric": 1 }
+    "armor": { "electric": 1 }
   },
   {
     "id": "mon_zombie_wretch",
     "type": "MONSTER",
     "name": { "str": "wretched hatchery", "str_pl": "wretched hatcheries" },
-    "description": "Lethargically resting on its back, this hideous mass of sagging flesh and writhing organs, which used to be a child, twitches feebly as its midsection churns.  Almost bursting from its skin, the child’s ribcage has arched outward, forming a hive-like construct covered by severely stretched epidermis.  Through the wretched organism’s taut abdominal flesh, you witness small forms swarming within its ribcage—its guts roiling as new beings are sculpted from pilfered flesh and bone.  The creature’s limbs rest haphazardly on the ground, contorted in ways that suggest the absence of bones or any interior construct.",
+    "description": "Lethargically resting on its back, this hideous mass of sagging flesh and writhing organs, which used to be a child, twitches feebly as its midsection churns.  Almost bursting from its skin, the child's ribcage has arched outward, forming a hive-like construct covered by severely stretched epidermis.  Through the wretched organism's taut abdominal flesh, you witness small forms swarming within its ribcage—its guts roiling as new beings are sculpted from pilfered flesh and bone.  The creature's limbs rest haphazardly on the ground, contorted in ways that suggest the absence of bones or any interior construct.",
     "default_faction": "zombie",
     "bodytype": "blob",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -308,7 +297,7 @@
         "type": "spell",
         "spell_data": { "id": "wretch_raptor_spawn", "hit_self": true },
         "cooldown": 50,
-        "monster_message": "Ripping and tearing, a small beast burrows free of the wretch’s abdomen!"
+        "monster_message": "Ripping and tearing, a small beast burrows free of the wretch's abdomen!"
       }
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
