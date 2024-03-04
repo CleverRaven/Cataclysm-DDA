@@ -5414,7 +5414,6 @@
     "purifiable": false,
     "points": 0,
     "player_display": false,
-    "movecost_modifier": 0.75,
     "flags": [ "MUSCLE_VEH_BOOST" ],
     "enchantments": [ "ench_wings_insect_active" ]
   },
