@@ -185,7 +185,7 @@
     "purifiable": false,
     "category": [ "SPECIES_DWARF" ],
     "threshreq": [ "THRESH_SPECIES_DWARF" ],
-    "crafting_speed_multiplier": 1.1
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",

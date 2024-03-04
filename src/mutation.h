@@ -249,8 +249,6 @@ struct mutation_branch {
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
 
-        std::optional<float> crafting_speed_multiplier = std::nullopt;
-
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         std::optional<float> stealth_modifier = std::nullopt;
 
