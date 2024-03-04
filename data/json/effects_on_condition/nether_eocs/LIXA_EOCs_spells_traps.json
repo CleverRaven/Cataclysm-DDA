@@ -2048,7 +2048,6 @@
     "type": "effect_on_condition",
     "id": "EOC_LIXA_UNFOLD_SHIFT",
     "effect": [
-      { "u_message": "SHIFT INITIATED" },
       {
         "switch": { "math": [ "u_LIXA_unfold_level" ] },
         "cases": [
