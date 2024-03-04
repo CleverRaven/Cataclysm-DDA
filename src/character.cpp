@@ -1296,8 +1296,8 @@ int Character::overmap_sight_range( float light_level ) const
 
     sight = enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT )
 
-    float multiplier = 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
-    
+            float multiplier = 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
+
     // If sight got changed due OVERMAP_SIGHT, process the rest of the modifiers, otherwise skip them
     if( sight > 0 ) {
         // The higher your perception, the farther you can see.
@@ -5201,7 +5201,8 @@ needs_rates Character::calc_needs_rates() const
 void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
 {
     const effect &sleep = get_effect( effect_sleep );
-    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN, rates.recovery );
+    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN,
+                     rates.recovery );
 
     // -5% sleep recovery rate for every main part below cold
     float temp_mod = 0.0f;
@@ -7119,8 +7120,8 @@ void Character::update_stamina( int turns )
     const int current_stim = get_stim();
     // Values above or below normal will increase or decrease stamina regen
     const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STAMINA_REGEN_MOD, 0 )
-    // Mutated stamina works even when winded
-    const float base_multiplier = mod_regen + ( has_effect( effect_winded ) ? 0.1f : 1.0f );
+                            // Mutated stamina works even when winded
+                            const float base_multiplier = mod_regen + ( has_effect( effect_winded ) ? 0.1f : 1.0f );
     // Ensure multiplier is at least 0.1
     const float stamina_multiplier = std::max<float>( 0.1f, base_multiplier );
 
@@ -10977,7 +10978,8 @@ void Character::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "PERSPIRATION", val, reduced, mod ) ) {
             // multiplier to balance values around drench capacity of different body parts
-            int mult = enchantment_cache->modify_value( enchant_vals::mod::SWEAT_MULTIPLIER, 1 ) * get_part_drench_capacity( bp ) / 100;
+            int mult = enchantment_cache->modify_value( enchant_vals::mod::SWEAT_MULTIPLIER,
+                       1 ) * get_part_drench_capacity( bp ) / 100;
             mod_part_wetness( bp, bound_mod_to_vals( get_part_wetness( bp ), val * mult,
                               it.get_max_val( "PERSPIRATION", reduced ) * mult,
                               it.get_min_val( "PERSPIRATION", reduced ) * mult ) );
