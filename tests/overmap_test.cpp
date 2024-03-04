@@ -13,6 +13,7 @@
 #include "map.h"
 #include "mapbuffer.h"
 #include "omdata.h"
+#include "options.h"
 // #include "options_helpers.h"
 #include "output.h"
 #include "overmap.h"
@@ -263,6 +264,9 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     std::unordered_map<oter_type_id, omt_stats> stats;
     point_abs_omt origin;
     map &main_map = get_map();
+
+    // Geography scaling is disabled when the TEST_DATA mod is loaded, this test performs very poorly otherwise.
+    REQUIRE( get_option<bool>( "OVERMAP_GEOGRAPHY_CHANGE" ) );
 
     for( const point_abs_omt &p : closest_points_first( origin, 0, 10 * OMAPX - 1 ) ) {
         // We need to avoid OMTs that overlap with the 'main' map, so we start at a
