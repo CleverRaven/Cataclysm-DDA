@@ -646,7 +646,7 @@
   {
     "type": "profession",
     "id": "hedge_magic_knower",
-    "name": { "male": "hedge wizard", "female": "hedge witch" },
+    "name": { "male": "Hedge Wizard", "female": "Hedge Witch" },
     "description": "In the years and decades leading up to the Cataclysm, things got weirder and weirder.  The government tried their best to cover it up but they couldn't entirely stop all knowledge from leaking out.  You were one of the people who responded to the weirdness by becoming weird yourself; you spent time combing through old books and found some of the charms and spells written in them actually worked.  When you had the right ingredients and were in the right place, you could make the impossible possible.  Maybe lighting a fire without a match won't help you kill a zombie, but it's kept you warm and safe when you're sure other survivors had to shiver as the night closed in.",
     "points": 5,
     "traits": [ "HEDGE_MAGIC" ],
