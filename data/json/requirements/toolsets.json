@@ -124,7 +124,7 @@
     "id": "pickaxe_list",
     "type": "requirement",
     "//": "Pickaxe tools",
-    "tools": [ [ [ "pickaxe", -1 ] ], [ [ "bronze_pickaxe", -1 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ] ] ]
   },
   {
     "id": "serum_production_standard",
