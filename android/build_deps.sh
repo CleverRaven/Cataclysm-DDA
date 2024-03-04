@@ -48,6 +48,10 @@ function build_proj
         NDK_OUT=obj \
         NDK_LIBS_OUT=../deps/jni/$1/
 
+    if [[ ! $1 == SDL2 ]]; then
+        rm ../deps/jni/$1/$ARCH/libSDL2.so
+    fi
+
     cd ..
 }
 
@@ -84,6 +88,11 @@ clone_proj SDL2_ttf $SDL2_ttf_URL $SDL2_ttf_branch
 ./SDL2_mixer/external/download.sh
 ./SDL2_ttf/external/download.sh
 
+cp -f SDL2/include/*.h deps/jni/SDL2/include/
+cp -f SDL2_image/include/*.h deps/jni/SDL2_image/
+cp -f SDL2_mixer/include/*.h deps/jni/SDL2_mixer/
+cp -f SDL2_ttf/SDL_ttf.h deps/jni/SDL2_ttf/
+
 for ARCH in armeabi-v7a arm64-v8a x86 x86_64
 do
     build_proj SDL2 false
@@ -96,7 +105,9 @@ do
 
     build_proj SDL2_ttf true
 done
-cd ..
+cd deps
+zip ../deps.zip jni/ -r
+cd ../..
 
 
 echo "******** DONE ********"
