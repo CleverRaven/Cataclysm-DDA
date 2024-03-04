@@ -72,7 +72,7 @@
             "effect": [
               { "u_spawn_item": "item_hedge_make_plants_grow", "suppress_message": true },
               {
-                "u_message": "As you finish the words of the charm, the magic takes hold. (E)xamine a nearby crop to fertilize it.",
+                "u_message": "As you finish the words of the charm, the magic takes hold.  (E)xamine a nearby crop to fertilize it.",
                 "type": "good"
               },
               { "queue_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
