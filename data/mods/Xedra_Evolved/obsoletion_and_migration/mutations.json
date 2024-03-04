@@ -115,7 +115,6 @@
     "healing_multiplier": 1.5,
     "mending_modifier": 3.0,
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_multiplier": 1.5,
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
   },
@@ -135,7 +134,6 @@
     "healing_multiplier": 1.5,
     "mending_modifier": 3.0,
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_multiplier": 1.5,
     "enchantments": [
       {
         "values": [

@@ -576,7 +576,7 @@
     "changes_to": "SALAMANDER_FAST_CAST",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "mana_multiplier": 1.25
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -587,8 +587,9 @@
     "prereqs": [ "SALAMANDER_INT_BONUS" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "mana_multiplier": 1.25,
-    "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ] } ]
+    "enchantments": [
+      { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 }, { "value": "MAX_MANA", "multiply": 0.25 } ] }
+    ]
   },
   {
     "type": "mutation",

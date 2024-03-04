@@ -14,7 +14,7 @@
     "name": { "str": "Manatouched" },
     "points": 1,
     "description": "Magic is in you.  Magic is you.",
-    "mana_multiplier": 1.5,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.5 } ] } ],
     "valid": false,
     "purifiable": false,
     "threshold": true
@@ -254,7 +254,7 @@
     "types": [ "MANA_MULT" ],
     "category": [ "MANATOUCHED" ],
     "prereqs": [ "MANA_MULT3" ],
-    "mana_multiplier": 2.65
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 1.65 } ] } ]
   },
   {
     "type": "mutation",

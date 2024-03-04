@@ -237,7 +237,7 @@
     ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
-    "mana_multiplier": 1.25
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -252,7 +252,7 @@
     "prereqs": [ "MANA_MULT1" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
-    "mana_multiplier": 1.9
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.9 } ] } ]
   },
   {
     "type": "mutation",
@@ -266,7 +266,7 @@
     "category": [ "SLIME", "CATTLE", "CEPHALOPOD", "MANATOUCHED", "DRAGON_BLACK" ],
     "prereqs": [ "MANA_MULT2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_multiplier": 2.5
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 1.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -293,7 +293,7 @@
     ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
-    "mana_multiplier": 0.85
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -307,7 +307,7 @@
     "category": [ "BEAST", "INSECT", "TROGLOBITE", "MOUSE", "MEDICAL", "CHIMERA", "RAPTOR", "SPECIES_DWARF" ],
     "prereqs": [ "BAD_MANA_MULT1" ],
     "flags": [ "NON_THRESH" ],
-    "mana_multiplier": 0.65
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": -0.35 } ] } ]
   },
   {
     "type": "mutation",
@@ -320,7 +320,7 @@
     "category": [ "INSECT", "MEDICAL", "CHIMERA" ],
     "prereqs": [ "BAD_MANA_MULT2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_multiplier": 0.35
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": -0.65 } ] } ]
   },
   {
     "type": "mutation",
