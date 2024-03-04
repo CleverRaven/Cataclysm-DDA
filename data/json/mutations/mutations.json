@@ -435,7 +435,7 @@
     "cancels": [ "HYDE_inactive" ],
     "name": { "str": "Violent Monster" },
     "description": "Anger clouds your mind; you can't think straight, but you feel strong.",
-    "passive_mods": { "int_mod": -8, "str_mod": 3 },
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 }, { "value": "INTELLIGENCE", "add": -8 } ] } ],
     "ugliness": 8,
     "visibility": 8,
     "social_modifiers": { "intimidate": 4 }
