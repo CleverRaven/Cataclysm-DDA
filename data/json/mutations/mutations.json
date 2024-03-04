@@ -1133,7 +1133,7 @@
     "types": [ "SLEEP" ],
     "starting_trait": true,
     "category": [ "ALPHA", "ELFA", "PLANT", "BATRACHIAN" ],
-    "fatigue_modifier": -0.15
+    "enchantments": [ { "values": [ { "value": "FATIGUE", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1513,8 +1513,7 @@
     "starting_trait": true,
     "types": [ "SLEEP" ],
     "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
-    "fatigue_modifier": 0.333,
-    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.333 } ] } ]
+    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.333 }, { "value": "FATIGUE", "multiply": 0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -2414,7 +2413,7 @@
     "changes_to": [ "WAKEFUL3" ],
     "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA", "THRESH_BATRACHIAN" ],
     "category": [ "ALPHA", "ELFA", "BATRACHIAN" ],
-    "fatigue_modifier": -0.25
+    "enchantments": [ { "values": [ { "value": "FATIGUE", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -2427,8 +2426,7 @@
     "prereqs": [ "WAKEFUL2" ],
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ],
-    "fatigue_modifier": -0.5,
-    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.5 } ] } ]
+    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.5 }, { "value": "FATIGUE", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -5776,8 +5774,11 @@
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "changes_to": [ "HUGE_OK" ],
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 }, { "value": "STRENGTH", "add": 4 } ] } ],
-    "fatigue_modifier": 0.15,
+    "enchantments": [
+      {
+        "values": [ { "value": "MAX_HP", "add": -6 }, { "value": "STRENGTH", "add": 4 }, { "value": "FATIGUE", "multiply": 0.15 } ]
+      }
+    ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "stomach_size_multiplier": 2.0,
@@ -6876,8 +6877,7 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "PERSISTENCE_HUNTER2" ],
     "category": [ "LUPINE" ],
-    "fatigue_modifier": -0.1,
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "FATIGUE", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -6889,8 +6889,7 @@
     "prereqs": [ "PERSISTENCE_HUNTER" ],
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
-    "fatigue_modifier": -0.2,
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "FATIGUE", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -6917,8 +6916,7 @@
     "category": [ "RAT", "MOUSE", "RABBIT" ],
     "healing_awake": 0.133,
     "healing_multiplier": 1.5,
-    "fatigue_modifier": 0.5,
-    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.333 } ] } ],
+    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.333 }, { "value": "FATIGUE", "multiply": 0.5 } ] } ],
     "metabolism_modifier": 0.333
   },
   {
@@ -7013,7 +7011,7 @@
     "prereqs": [ "SLEEPY" ],
     "types": [ "SLEEP" ],
     "category": [ "FELINE" ],
-    "fatigue_modifier": 1.0
+    "enchantments": [ { "values": [ { "value": "FATIGUE", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",

@@ -261,8 +261,6 @@ struct mutation_branch {
         std::optional<float> metabolism_modifier = std::nullopt;
         // As above but for thirst.
         std::optional<float> thirst_modifier = std::nullopt;
-        // As above but for fatigue.
-        std::optional<float> fatigue_modifier = std::nullopt;
         // the modifier for obtaining an item from a container as a handling penalty
         std::optional<float> obtain_cost_multiplier = std::nullopt;
         // the modifier for the stomach size

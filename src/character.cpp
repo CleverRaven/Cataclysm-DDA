@@ -5164,8 +5164,6 @@ needs_rates Character::calc_needs_rates() const
 
     static const std::string player_fatigue_rate( "PLAYER_FATIGUE_RATE" );
     rates.fatigue = get_option< float >( player_fatigue_rate );
-    static const std::string fatigue_modifier( "fatigue_modifier" );
-    rates.fatigue *= 1.0f + mutation_value( fatigue_modifier );
 
     if( asleep ) {
         calc_sleep_recovery_rate( rates );
@@ -6354,7 +6352,6 @@ mutation_value_map = {
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
     { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
     { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
-    { "fatigue_modifier", calc_mutation_value<&mutation_branch::fatigue_modifier> },
     { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },

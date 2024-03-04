@@ -216,7 +216,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ],              // List of glowing bodypart and the intensity of the glow as a float (default: empty).
   "metabolism_modifier": 0.333,               // Extra metabolism rate multiplier (1.0 doubles, -0.5 halves).
   "thirst_modifier": 0.1,                     // Extra thirst modifier (1.0 doubles, -0.5 halves).
-  "fatigue_modifier": 0.5,                    // Extra fatigue rate multiplier (1.0 doubles usage, -0.5 halves).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
   "crafting_speed_multiplier": 0.5,           // Multiplies your total crafting speed. 0.5 is 50% of normal speed, 1.2 is 20% faster than normal speed.
   "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
