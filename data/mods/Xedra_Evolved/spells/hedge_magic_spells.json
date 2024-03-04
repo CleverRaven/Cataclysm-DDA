@@ -146,15 +146,15 @@
     "type": "SPELL",
     "name": "To Befuddle As the Thunderstrike Real",
     "description": "The actual spell that causes the effect.  It's a bug if you have it.",
-    "valid_targets": [ "hostile", "ground", "self", "ally" ],
+    "valid_targets": [ "hostile", "ground", "ally" ],
     "teachable": false,
     "effect": "flashbang",
     "shape": "blast",
     "flags": [ "LOUD" ],
     "min_damage": 30,
     "max_damage": 30,
-    "min_aoe": 5,
-    "max_aoe": 5
+    "min_aoe": 4,
+    "max_aoe": 4
   },
   {
     "id": "hedge_cure_cold_or_flu",
