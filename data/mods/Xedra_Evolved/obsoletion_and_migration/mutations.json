@@ -329,8 +329,7 @@
     "category": [ "SYLPH" ],
     "valid": false,
     "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8
+    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -345,7 +344,6 @@
     "valid": false,
     "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8,
     "flags": [ "SUBTLE_SPELL" ]
   },
   {
@@ -466,7 +464,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "casting_time_multiplier": 0.85,
     "flags": [ "SUBTLE_SPELL" ]
   },
   {

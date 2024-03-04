@@ -420,7 +420,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mana_multiplier", mana_multiplier, std::nullopt );
     optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, std::nullopt );
     optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, std::nullopt );
-    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, std::nullopt );
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );

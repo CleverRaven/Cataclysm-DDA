@@ -297,7 +297,6 @@ struct mutation_branch {
         std::optional<float> mana_regen_multiplier = std::nullopt;
         // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
         std::optional<float> bionic_mana_penalty = std::nullopt;
-        std::optional<float> casting_time_multiplier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations

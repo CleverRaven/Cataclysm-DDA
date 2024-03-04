@@ -588,7 +588,7 @@
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "mana_multiplier": 1.25,
-    "casting_time_multiplier": 0.85
+    "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
