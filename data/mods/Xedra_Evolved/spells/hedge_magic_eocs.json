@@ -77,7 +77,7 @@
               },
               { "queue_eocs": "EOC_HEDGE_MAKE_PLANTS_GROW_REMOVE", "time_in_future": 3 }
             ],
-            "false_effect": [ { "u_message": "You must complete the charm within one hour of need for it to be effective.", "type": "bad" } ]
+            "false_effect": [ { "u_message": "You must complete the charm within one hour of noon for it to be effective.", "type": "bad" } ]
           }
         ]
       }
@@ -98,7 +98,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_STUNNING_SPELL",
     "condition": "u_is_outside",
-    "effect": [ { "u_cast_spell": { "id": "hedge_stunning_spell_real", "hit_self": false } } ],
+    "effect": [ { "u_cast_spell": { "id": "hedge_stunning_spell_real", "hit_self": false }, "targeted": true } ],
     "false_effect": [ { "u_message": "You must be outside to use the charm.", "type": "bad" } ]
   },
   {

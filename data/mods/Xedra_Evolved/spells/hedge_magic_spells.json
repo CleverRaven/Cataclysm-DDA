@@ -153,8 +153,10 @@
     "flags": [ "LOUD" ],
     "min_damage": 30,
     "max_damage": 30,
-    "min_aoe": 4,
-    "max_aoe": 4
+    "min_range": 5,
+    "max_range": 5,
+    "min_aoe": 3,
+    "max_aoe": 3
   },
   {
     "id": "hedge_cure_cold_or_flu",
