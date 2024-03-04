@@ -89,7 +89,7 @@
     "description": "You make more noise while walking.  You're also more likely to set off traps.",
     "valid": false,
     "cancels": [ "LIGHTSTEP" ],
-    "noise_modifier": 1.7
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.7 } ] } ]
   },
   {
     "type": "mutation",

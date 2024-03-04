@@ -2195,7 +2195,6 @@ int Character::footstep_sound() const
     }
 
     double volume = is_stealthy() ? 3 : 6;
-    volume *= mutation_value( "noise_modifier" );
     if( volume > 0 ) {
         volume *= current_movement_mode()->sound_mult();
         if( is_mounted() ) {
@@ -6361,7 +6360,6 @@ mutation_value_map = {
     { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
     { "cardio_multiplier", calc_mutation_value_multiplicative<&mutation_branch::cardio_multiplier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
-    { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
     { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },

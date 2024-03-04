@@ -478,7 +478,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "noise_modifier": 0.4,
     "flags": [ "STEADY", "SLUDGE_IMMUNE" ]
   }
 ]

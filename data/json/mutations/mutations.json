@@ -1174,7 +1174,7 @@
     "starting_trait": true,
     "cancels": [ "CLUMSY" ],
     "category": [ "BIRD", "ELFA", "FELINE", "CHIROPTERAN" ],
-    "noise_modifier": 0.4
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -1863,7 +1863,7 @@
     "starting_trait": true,
     "category": [ "CRUSTACEAN" ],
     "cancels": [ "LIGHTSTEP" ],
-    "noise_modifier": 1.7
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.7 } ] } ]
   },
   {
     "type": "mutation",
@@ -5458,7 +5458,7 @@
     "visibility": 8,
     "ugliness": 9,
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
-    "noise_modifier": 0.9,
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.1 } ] } ],
     "destroys_gear": true,
     "flags": [ "TOUGH_FEET" ]
   },
@@ -5478,9 +5478,12 @@
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "enchantments": [ { "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 } ] } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": 0.25 }, { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ]
+      }
+    ],
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
-    "noise_modifier": 0.25,
     "destroys_gear": true
   },
   {
@@ -6243,9 +6246,16 @@
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
     "stomach_size_multiplier": 0.5,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 }, { "value": "MAX_HP", "multiply": -0.3 } ] } ],
-    "weight_capacity_modifier": 0.5,
-    "noise_modifier": 0.0
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MAX_HP", "multiply": -0.3 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 }
+        ]
+      }
+    ],
+    "weight_capacity_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -6262,9 +6272,16 @@
     "leads_to": [ "CRAFTY" ],
     "category": [ "MOUSE" ],
     "stomach_size_multiplier": 0.5,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 }, { "value": "MAX_HP", "multiply": -0.25 } ] } ],
-    "weight_capacity_modifier": 0.7,
-    "noise_modifier": 0.0
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MAX_HP", "multiply": -0.25 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 }
+        ]
+      }
+    ],
+    "weight_capacity_modifier": 0.7
   },
   {
     "type": "mutation",
@@ -8133,8 +8150,15 @@
       { "part": "foot_r", "neutral": 6 }
     ],
     "restricts_gear": [ "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 0.2 }, { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 } ] } ],
-    "noise_modifier": 0.0,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 0.2 },
+          { "value": "MOVECOST_SWIM_MOD", "multiply": -0.15 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 }
+        ]
+      }
+    ],
     "flags": [ "TOUGH_FEET" ]
   },
   {

@@ -506,12 +506,12 @@
           { "value": "BONUS_DODGE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.25 },
           { "value": "STRENGTH", "add": -3 },
-          { "value": "DEXTERITY", "add": 2 }
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "FOOTSTEP_NOISE", "multiply": -1 }
         ]
       }
     ],
-    "weight_capacity_modifier": 0.7,
-    "noise_modifier": 0
+    "weight_capacity_modifier": 0.7
   },
   {
     "type": "mutation",
