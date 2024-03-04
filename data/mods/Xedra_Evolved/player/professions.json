@@ -669,7 +669,6 @@
           { "item": "water_clean" },
           { "item": "wristwatch" },
           { "group": "charged_smart_phone" },
-          { "group": "charged_matches" },
           { "item": "leaves", "count": 4 },
           { "item": "cotton_patchwork", "count": 4 },
           { "item": "ash", "count": 48 },
