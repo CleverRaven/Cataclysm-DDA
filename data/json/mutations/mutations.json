@@ -1514,7 +1514,7 @@
     "types": [ "SLEEP" ],
     "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
     "fatigue_modifier": 0.333,
-    "fatigue_regen_modifier": 0.333
+    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -2428,7 +2428,7 @@
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ],
     "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -6918,7 +6918,7 @@
     "healing_awake": 0.133,
     "healing_multiplier": 1.5,
     "fatigue_modifier": 0.5,
-    "fatigue_regen_modifier": 0.333,
+    "enchantments": [ { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.333 } ] } ],
     "metabolism_modifier": 0.333
   },
   {

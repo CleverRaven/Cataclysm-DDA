@@ -897,7 +897,6 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "metabolism_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
     "mending_modifier": 16,
@@ -948,7 +947,11 @@
       "HOMULLUS"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
+    "enchantments": [
+      "ench_arvore_tree_form",
+      "ench_arvore_tree_reduce_thirst",
+      { "values": [ { "value": "FATIGUE_REGEN", "multiply": 0.5 } ] }
+    ]
   },
   {
     "type": "mutation",

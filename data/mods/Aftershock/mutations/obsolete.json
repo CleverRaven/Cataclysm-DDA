@@ -281,7 +281,6 @@
     "prereqs": [ "HUNGER" ],
     "healing_multiplier": 0.25,
     "fatigue_modifier": 0.75,
-    "fatigue_regen_modifier": 0.5,
     "metabolism_modifier": 0.4
   },
   {

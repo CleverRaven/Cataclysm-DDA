@@ -359,9 +359,8 @@
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
     "fatigue_modifier": -0.25,
-    "fatigue_regen_modifier": 0.25,
     "metabolism_modifier": 0.33,
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "FATIGUE_REGEN", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -374,9 +373,8 @@
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
     "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
     "metabolism_modifier": 0.66,
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.2 }, { "value": "FATIGUE_REGEN", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -391,9 +389,8 @@
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
     "metabolism_modifier": 1,
-    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.3 }, { "value": "FATIGUE_REGEN", "multiply": 0.5 } ] } ],
     "activated_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "processed_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "time": "6 h"
