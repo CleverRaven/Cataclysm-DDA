@@ -6372,7 +6372,6 @@ mutation_value_map = {
     { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
     { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
     { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
-    { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
 };
 
 float Character::mutation_value( const std::string &val ) const
@@ -11417,7 +11416,6 @@ void Character::stagger()
 double Character::vomit_mod()
 {
     double mod = 1;
-    mod *= mutation_value( "vomit_multiplier" );
 
     mod = enchantment_cache->modify_value( enchant_vals::mod::VOMIT_MUL, mod );
 
