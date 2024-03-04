@@ -214,8 +214,7 @@
     ],
     "can_heal_with": [ "doll_repair_paste" ],
     "description": "A spirit of the image of humans given life.",
-    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
-    "allowed_category": [ "HOMULLUS" ]
+    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
   },
   {
     "type": "mutation",

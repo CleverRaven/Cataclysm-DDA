@@ -463,7 +463,7 @@
     "type": "TOOL",
     "name": { "str": "permanent marker" },
     "description": "A King Size™ industrial-strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Activate it to write something down.  However, writing \"Elbereth\" probably won't help you.",
-    "weight": "113 g",
+    "weight": "28 g",
     "volume": "50 ml",
     "price": 500,
     "price_postapoc": 10,
