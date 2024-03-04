@@ -4772,7 +4772,12 @@
       [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
       [ [ "rope_natural", 1, "LIST" ] ]
     ],
-    "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ], [ [ "rope_natural", 1, "LIST" ] ] ],
+    "components": [
+      [ [ "2x4", 18 ] ],
+      [ [ "wood_beam", 2 ] ],
+      [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ]
+    ],
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 40 } ],
     "activity_level": "EXTRA_EXERCISE",
     "pre_flags": "DIGGABLE",
