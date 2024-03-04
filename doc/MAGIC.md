@@ -850,7 +850,7 @@ Character status value  | Description
 `METABOLISM`            | 
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
-`MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.
+`MOTION_VISION_RANGE`  | Reveals all monsters as a red `?` within the specified radius.
 `MOVE_COST`             | 
 `MOVECOST_FLATGROUND_MOD`| How many moves you spend to move 1 tile on flat ground; shown in UI
 `MOVECOST_OBSTACLE_MOD` | How many moves you spend to move 1 tile, if this tile has a movecost more than 105 moves; not shown in UI
@@ -884,6 +884,7 @@ Character status value  | Description
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
 `SPEED`                 | Affects your base speed.
+`STAMINA_REGEN_MOD`     | Modifier to how fast you regen your stamina. It is a percent with default value of 0, so `multiply` is useful only in combination with `add`. `add: 0.1` makes regen 10% bigger, `add: 1` doubles it
 `STEALTH_MODIFIER`      | Same as mutation `stealth_modifier` value, amount to be subtracted from player's visibility range, capped to 60.  Negative values work, but are not very effective due to the way vision ranges are capped.
 `STOMACH_SIZE_MULTIPLIER`   | Same as mutation `stomach_size_multiplier` field, changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
 `STRENGTH`              | Affects the strength stat.
@@ -892,7 +893,7 @@ Character status value  | Description
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
-`WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per minute; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number, so `multiply` is useful in combination with `add`
+`WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per minute; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 
 

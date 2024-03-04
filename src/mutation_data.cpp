@@ -405,7 +405,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, std::nullopt );
     optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, std::nullopt );
     optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, std::nullopt );
     optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, std::nullopt );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, std::nullopt );

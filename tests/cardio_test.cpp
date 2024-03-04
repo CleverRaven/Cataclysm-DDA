@@ -178,7 +178,7 @@ TEST_CASE( "base_cardio", "[cardio][base]" )
 //
 // Some traits affect stamina regen and total running distance without affecting cardio:
 //
-// - stamina_regen_modifier
+// - STAMINA_REGEN_MOD
 //   - Fast Metabolism, Persistence Hunter: Increased stamina regeneration
 //
 TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]" )
@@ -225,7 +225,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "GOODCARDIO2", 1.6 * base_cardio, 11500, 121 );
     }
 
-    SECTION( "Traits with metabolism_modifier AND stamina_regen_modifier" ) {
+    SECTION( "Traits with metabolism_modifier AND STAMINA_REGEN_MOD" ) {
         // Fast Metabolism
         check_trait_cardio_stamina_run( they, "HUNGER", base_cardio, base_stamina, 83 );
         // Very Fast Metabolism
@@ -234,7 +234,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "HUNGER3", base_cardio, base_stamina, 88 );
     }
 
-    SECTION( "Traits with ONLY stamina_regen_modifier" ) {
+    SECTION( "Traits with ONLY STAMINA_REGEN_MOD" ) {
         check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER", base_cardio, base_stamina, 83 );
         check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER2", base_cardio, base_stamina, 84 );
     }

@@ -6357,7 +6357,6 @@ mutation_value_map = {
     { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
     { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },
     { "fatigue_modifier", calc_mutation_value<&mutation_branch::fatigue_modifier> },
-    { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
     { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
@@ -7131,9 +7130,8 @@ void Character::update_stamina( int turns )
     // recover stamina faster.
     const float effective_regen_rate = base_regen_rate * get_cardiofit() / get_cardio_acc_base();
     const int current_stim = get_stim();
-    // Mutations can affect stamina regen via stamina_regen_modifier (0.0 is normal)
     // Values above or below normal will increase or decrease stamina regen
-    const float mod_regen = mutation_value( "stamina_regen_modifier" );
+    const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STAMINA_REGEN_MOD, 0 )
     // Mutated stamina works even when winded
     const float base_multiplier = mod_regen + ( has_effect( effect_winded ) ? 0.1f : 1.0f );
     // Ensure multiplier is at least 0.1

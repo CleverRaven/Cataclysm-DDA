@@ -267,8 +267,7 @@
     "valid": false,
     "types": [ "METABOLISM" ],
     "changes_to": [ "LARGE_DIET" ],
-    "metabolism_modifier": 0.5,
-    "stamina_regen_modifier": 0.1
+    "metabolism_modifier": 0.5
   },
   {
     "type": "mutation",
