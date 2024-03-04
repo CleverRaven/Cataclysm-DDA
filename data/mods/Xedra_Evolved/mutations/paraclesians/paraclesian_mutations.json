@@ -401,7 +401,7 @@
     "types": [ "MANA_ADD" ],
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 500 } ] } ]
   },
   {
     "type": "mutation",
@@ -414,7 +414,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA1" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 1000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
   },
   {
     "type": "mutation",
@@ -426,7 +426,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 2000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2000 } ] } ]
   },
   {
     "type": "mutation",

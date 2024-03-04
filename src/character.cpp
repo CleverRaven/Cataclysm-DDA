@@ -6352,7 +6352,6 @@ mutation_value_map = {
     { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
     { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
     { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
-    { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
     { "cardio_multiplier", calc_mutation_value_multiplicative<&mutation_branch::cardio_multiplier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },

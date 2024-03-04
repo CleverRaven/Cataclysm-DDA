@@ -291,8 +291,6 @@ struct mutation_branch {
         /**List of body parts locked out of bionics*/
         std::set<bodypart_str_id> no_cbm_on_bp;
 
-        // amount of mana added or subtracted from max
-        std::optional<float> mana_modifier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations

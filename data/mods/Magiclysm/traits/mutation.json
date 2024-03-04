@@ -57,7 +57,7 @@
     "category": [ "DRAGON_BLACK", "MANATOUCHED", "SPECIES_ELF", "SPECIES_RAVENFOLK" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 500 } ] } ]
   },
   {
     "type": "mutation",
@@ -72,7 +72,7 @@
     "starting_trait": true,
     "prereqs": [ "MANA_ADD1" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 1000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
   },
   {
     "type": "mutation",
@@ -86,7 +86,7 @@
     "changes_to": [ "MANA_ADD_MANATOUCHED" ],
     "prereqs": [ "MANA_ADD2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 2000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2000 } ] } ]
   },
   {
     "type": "mutation",
@@ -99,7 +99,7 @@
     "category": [ "SPECIES_DWARF", "SPECIES_GOBLIN" ],
     "types": [ "MANA_ADD" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": -500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": -500 } ] } ]
   },
   {
     "type": "mutation",
@@ -112,7 +112,7 @@
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_SUB1" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": -1000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": -1000 } ] } ]
   },
   {
     "type": "mutation",
@@ -124,7 +124,7 @@
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_SUB2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": -2000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": -2000 } ] } ]
   },
   {
     "type": "mutation",

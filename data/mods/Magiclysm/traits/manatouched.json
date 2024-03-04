@@ -35,7 +35,7 @@
     "name": { "str": "Seeker Bolts" },
     "description": "Your hands glow with mana energy.  You can fire seeker bolts from your fingertips.",
     "points": 2,
-    "mana_modifier": 250,
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 250 } ] } ],
     "lumination": [ [ "hand_r", 8 ], [ "hand_l", 8 ] ],
     "prereqs": [ "MANA_LUM" ],
     "category": [ "MANATOUCHED" ],
@@ -228,7 +228,7 @@
     "types": [ "MANA_ADD" ],
     "prereqs": [ "MANA_ADD3" ],
     "category": [ "MANATOUCHED" ],
-    "mana_modifier": 2500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2500 } ] } ]
   },
   {
     "type": "mutation",
