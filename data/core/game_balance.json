@@ -302,6 +302,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_GEOGRAPHY_CHANGE",
+    "info": "Controls whether or not density of forests and urban areas will be modified with distance from the 0,0 overmap. False disables this scaling completely.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "OVERMAP_FOREST_INCREASE_NORTH",
     "info": "Rate at which forest coverage of the map increases to the North, based on regional map settings thresholds.  0=no increase.",
     "stype": "float",

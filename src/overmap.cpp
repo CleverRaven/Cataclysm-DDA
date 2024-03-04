@@ -5333,17 +5333,19 @@ void overmap::calculate_forestosity()
     float western_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_WEST" );
     float southern_forest_increase = get_option<float>( "OVERMAP_FOREST_INCREASE_SOUTH" );
     const point_abs_om this_om = pos();
-    if( western_forest_increase != 0 && this_om.x() < 0 ) {
-        forest_size_adjust -= this_om.x() * western_forest_increase;
-    }
-    if( northern_forest_increase != 0 && this_om.y() < 0 ) {
-        forest_size_adjust -= this_om.y() * northern_forest_increase;
-    }
-    if( eastern_forest_increase != 0 && this_om.x() > 0 ) {
-        forest_size_adjust += this_om.x() * eastern_forest_increase;
-    }
-    if( southern_forest_increase != 0 && this_om.y() > 0 ) {
-        forest_size_adjust += this_om.y() * southern_forest_increase;
+    if( get_option<bool>( "OVERMAP_GEOGRAPHY_CHANGE" ) ) {
+        if( western_forest_increase != 0 && this_om.x() < 0 ) {
+            forest_size_adjust -= this_om.x() * western_forest_increase;
+        }
+        if( northern_forest_increase != 0 && this_om.y() < 0 ) {
+            forest_size_adjust -= this_om.y() * northern_forest_increase;
+        }
+        if( eastern_forest_increase != 0 && this_om.x() > 0 ) {
+            forest_size_adjust += this_om.x() * eastern_forest_increase;
+        }
+        if( southern_forest_increase != 0 && this_om.y() > 0 ) {
+            forest_size_adjust += this_om.y() * southern_forest_increase;
+        }
     }
     forestosity = forest_size_adjust * 25.0f;
     //debugmsg( "forestosity = %1.2f at OM %i, %i", forestosity, this_om.x(), this_om.y() );
@@ -5370,42 +5372,44 @@ void overmap::calculate_urbanity()
     float urbanity_adj = 0.0f;
 
     const point_abs_om this_om = pos();
-    if( northern_urban_increase != 0 && this_om.y() < 0 ) {
-        urbanity_adj -= this_om.y() * northern_urban_increase / 10.0f;
-        // add some falloff to the sides, keeping cities larger but breaking up the megacity a bit.
-        // Doesn't apply if we expect megacity in those directions as well.
-        if( this_om.x() < 0 && western_urban_increase == 0 ) {
-            urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
+    if( get_option<bool>( "OVERMAP_GEOGRAPHY_CHANGE" ) ) {
+        if( northern_urban_increase != 0 && this_om.y() < 0 ) {
+            urbanity_adj -= this_om.y() * northern_urban_increase / 10.0f;
+            // add some falloff to the sides, keeping cities larger but breaking up the megacity a bit.
+            // Doesn't apply if we expect megacity in those directions as well.
+            if( this_om.x() < 0 && western_urban_increase == 0 ) {
+                urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
+            }
+            if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
+                urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+            }
         }
-        if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
-            urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+        if( eastern_urban_increase != 0 && this_om.x() > 0 ) {
+            urbanity_adj += this_om.x() * eastern_urban_increase / 10.0f;
+            if( this_om.y() < 0 && northern_urban_increase == 0 ) {
+                urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
+            }
+            if( this_om.y() > 0 && southern_urban_increase == 0 ) {
+                urbanity_adj /= std::max( this_om.y() / 2.0f, 1.0f );
+            }
         }
-    }
-    if( eastern_urban_increase != 0 && this_om.x() > 0 ) {
-        urbanity_adj += this_om.x() * eastern_urban_increase / 10.0f;
-        if( this_om.y() < 0 && northern_urban_increase == 0 ) {
-            urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
+        if( western_urban_increase != 0 && this_om.x() < 0 ) {
+            urbanity_adj -= this_om.x() * western_urban_increase / 10.0f;
+            if( this_om.y() < 0 && northern_urban_increase == 0 ) {
+                urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
+            }
+            if( this_om.y() > 0 && southern_urban_increase == 0 ) {
+                urbanity_adj /=  std::max( this_om.y() / 2.0f, 1.0f );
+            }
         }
-        if( this_om.y() > 0 && southern_urban_increase == 0 ) {
-            urbanity_adj /= std::max( this_om.y() / 2.0f, 1.0f );
-        }
-    }
-    if( western_urban_increase != 0 && this_om.x() < 0 ) {
-        urbanity_adj -= this_om.x() * western_urban_increase / 10.0f;
-        if( this_om.y() < 0 && northern_urban_increase == 0 ) {
-            urbanity_adj /=  std::max( this_om.y() / -2.0f, 1.0f );
-        }
-        if( this_om.y() > 0 && southern_urban_increase == 0 ) {
-            urbanity_adj /=  std::max( this_om.y() / 2.0f, 1.0f );
-        }
-    }
-    if( southern_urban_increase != 0 && this_om.y() > 0 ) {
-        urbanity_adj += this_om.y() * southern_urban_increase / 10.0f;
-        if( this_om.x() < 0 && western_urban_increase == 0 ) {
-            urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
-        }
-        if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
-            urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+        if( southern_urban_increase != 0 && this_om.y() > 0 ) {
+            urbanity_adj += this_om.y() * southern_urban_increase / 10.0f;
+            if( this_om.x() < 0 && western_urban_increase == 0 ) {
+                urbanity_adj /=  std::max( this_om.x() / -2.0f, 1.0f );
+            }
+            if( this_om.x() > 0 && eastern_urban_increase == 0 ) {
+                urbanity_adj /=  std::max( this_om.x() / 2.0f, 1.0f );
+            }
         }
     }
     urbanity = static_cast<int>( urbanity_adj );
