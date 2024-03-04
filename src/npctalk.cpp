@@ -3910,14 +3910,18 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
         // maptile is 4 submaps so queue up 4 submap reverts
         const tripoint_abs_sm revert_sm_base = project_to<coords::sm>( omt_pos );
 
-        tinymap tm;
-        tm.load( omt_pos,
-                 true ); // This creates the submaps if they didn't already exist, so we know they're valid in the loop.
-
         for( int x = 0; x < 2; x++ ) {
             for( int y = 0; y < 2; y++ ) {
                 const tripoint_abs_sm revert_sm = revert_sm_base + point( x, y );
                 submap *sm = MAPBUFFER.lookup_submap( revert_sm );
+                if( sm == nullptr ) {
+                    tinymap tm;
+                    // This creates the submaps if they didn't already exist.
+                    // Note that all four submaps are loaded/created by this
+                    // call, so the submap lookup can fail at most once.
+                    tm.load( omt_pos, true );
+                    sm = MAPBUFFER.lookup_submap( revert_sm );
+                }
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
                                         project_to<coords::ms>( revert_sm ), 0, "",
                                         sm->get_revert_submap(), key.evaluate( d ) );
