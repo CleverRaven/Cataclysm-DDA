@@ -127,7 +127,7 @@
     "id": "spell_components_hedge_stunning_spell",
     "type": "requirement",
     "tools": [  ],
-    "components": [ [ [ "copper", 1 ] ], [ [ "copper_ring", 1 ], [ "copper_ear", 1 ] ] ]
+    "components": [ [ [ "copper", 2 ], [ "copper_ring", 1 ], [ "copper_ear", 1 ] ] ]
   },
   {
     "id": "spell_components_hedge_cure_cold_or_flu",

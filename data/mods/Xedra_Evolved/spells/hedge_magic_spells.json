@@ -127,7 +127,7 @@
     "id": "hedge_stunning_spell",
     "type": "SPELL",
     "name": "To Befuddle As the Thunderstrike",
-    "description": "While outdoors, recite a quick charm to produce a flash of light like unto a thunderbolt, bedazzling a single target.",
+    "description": "While outdoors, recite a quick charm to produce a flash of light like unto a thunderbolt, bedazzling anyone around you.",
     "message": "You call out the words of the charm to the sky and there is a burst of light.",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
     "valid_targets": [ "self" ],
@@ -153,10 +153,8 @@
     "flags": [ "LOUD" ],
     "min_damage": 30,
     "max_damage": 30,
-    "min_range": 5,
-    "max_range": 5,
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 5,
+    "max_aoe": 5
   },
   {
     "id": "hedge_cure_cold_or_flu",
