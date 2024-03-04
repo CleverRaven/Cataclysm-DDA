@@ -1557,6 +1557,10 @@
     "type": "json_flag"
   },
   {
+    "id": "MANUAL_CBM_INSTALLATION",
+    "type": "json_flag"
+  },
+  {
     "id": "MECH_BAT",
     "type": "json_flag"
   },
