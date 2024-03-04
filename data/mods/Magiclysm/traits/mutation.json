@@ -138,7 +138,7 @@
     "category": [ "FISH", "ELFA", "ALPHA", "PLANT", "CEPHALOPOD", "MANATOUCHED", "DRAGON_BLACK", "SPECIES_ELF", "SPECIES_LIZARDFOLK" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
-    "mana_regen_multiplier": 1.1
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -153,7 +153,7 @@
     "category": [ "FISH", "ELFA", "PLANT", "MANATOUCHED", "DRAGON_BLACK", "SPECIES_ELF" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
-    "mana_regen_multiplier": 1.25
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -167,7 +167,7 @@
     "threshreq": [ "THRESH_PLANT", "THRESH_MANA", "THRESH_DRAGON_BLACK", "THRESH_SPECIES_ELF" ],
     "category": [ "PLANT", "DRAGON_BLACK", "SPECIES_ELF" ],
     "flags": [ "NON_THRESH" ],
-    "mana_regen_multiplier": 1.5
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -181,7 +181,7 @@
     "category": [ "LIZARD", "BEAST", "LUPINE", "URSINE", "CATTLE", "SLIME", "MEDICAL", "CHIMERA", "SPECIES_GOBLIN" ],
     "starting_trait": true,
     "flags": [ "NON_THRESH" ],
-    "mana_regen_multiplier": 0.9
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -195,7 +195,7 @@
     "types": [ "MANA_REGEN" ],
     "category": [ "BEAST", "CATTLE", "SLIME", "MEDICAL", "CHIMERA" ],
     "flags": [ "NON_THRESH" ],
-    "mana_regen_multiplier": 0.75
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -208,7 +208,7 @@
     "types": [ "MANA_REGEN" ],
     "category": [ "BEAST", "MEDICAL" ],
     "flags": [ "NON_THRESH" ],
-    "mana_regen_multiplier": 0.5
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",

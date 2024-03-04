@@ -294,7 +294,6 @@ struct mutation_branch {
         // amount of mana added or subtracted from max
         std::optional<float> mana_modifier = std::nullopt;
         std::optional<float> mana_multiplier = std::nullopt;
-        std::optional<float> mana_regen_multiplier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations

@@ -241,7 +241,7 @@
     "threshreq": [ "THRESH_MANA" ],
     "types": [ "MANA_REGEN" ],
     "category": [ "MANATOUCHED" ],
-    "mana_regen_multiplier": 2
+    "enchantments": [ { "values": [ { "value": "REGEN_MANA", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
