@@ -578,16 +578,7 @@
     "description": "Your teeth are longer and more pointed than not.  Before the Cataclysm it was considered extremely gauche to bite anything in a fight; it was a mark of the goblins' uncivilized past.  But, needs must.",
     "types": [ "TEETH" ],
     "category": [ "SPECIES_GOBLIN" ],
-    "attacks": [
-      {
-        "attack_text_u": "You sink your teeth into %s!",
-        "attack_text_npc": "%1$s sinks their teeth into %2$s!",
-        "blocker_mutations": [ "FANGS", "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "mouth",
-        "chance": 20,
-        "base_damage": { "damage_type": "stab", "amount": 6 }
-      }
-    ]
+    "integrated_armor": [ "integrated_goblin_teeth" ]
   },
   {
     "type": "mutation",
@@ -654,12 +645,13 @@
   {
     "type": "mutation",
     "id": "WEBBED_LIZ_FEET",
-    "name": { "str": "Webbed Feet" },
+    "name": { "str": "Lizardfolk Feet" },
     "//": "Alternate so webbed hands are not a prerequisite",
     "points": 1,
     "types": [ "FEET" ],
-    "description": "Your feet are heavily webbed, allowing you to swim faster if you aren't wearing footwear.",
+    "description": "Your feet are heavily webbed, with three large scaled toes and a dewclaw in the back, allowing you to swim faster.  However, your feet are not designed for human footwear.",
     "category": [ "SPECIES_LIZARDFOLK" ],
+    "restricts_gear": [ "foot_l", "foot_r" ],
     "flags": [ "WEBBED_FEET", "TOUGH_FEET" ],
     "wet_protection": [ { "part": "foot_l", "good": 6 }, { "part": "foot_r", "good": 6 } ]
   },
@@ -728,9 +720,19 @@
   },
   {
     "type": "mutation",
-    "id": "MUZZLE_LONG",
-    "copy-from": "MUZZLE_LONG",
-    "extend": { "category": [ "SPECIES_LIZARDFOLK" ] }
+    "id": "MUZZLE_LONG_LIZ",
+    "name": { "str": "Lizardfolk Muzzle" },
+    "points": 0,
+    "visibility": 8,
+    "ugliness": 8,
+    "mixed_effect": true,
+    "description": "Your face and jaws are those of a predatory lizard, with a set of sharp teeth to go with them.  They look NASTY--as do the bite wounds they can inflict--but prevent wearing mouthgear.",
+    "types": [ "MUZZLE" ],
+    "prereqs": [ "SNOUT" ],
+    "category": [ "SPECIES_LIZARDFOLK" ],
+    "restricts_gear": [ "mouth" ],
+    "social_modifiers": { "intimidate": 10 },
+    "integrated_armor": [ "integrated_lizardfolk_teeth" ]
   },
   {
     "type": "mutation",

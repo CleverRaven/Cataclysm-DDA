@@ -3564,7 +3564,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
             case farm_ops::plow: {
                 if( !farm_json ) {
                     farm_json = std::make_unique<fake_map>();
-                    mapgendata dat( omt_tgt, *farm_json, 0, calendar::turn, nullptr );
+                    mapgendata dat( omt_tgt, *farm_json->cast_to_map(), 0, calendar::turn, nullptr );
                     if( !run_mapgen_func( dat.terrain_type()->get_mapgen_id(), dat ) ) {
                         debugmsg( "Failed to run mapgen for farm map" );
                         break;
