@@ -23,7 +23,6 @@ These sites are owned and managed by the project directly.
 * [Forums](https://discourse.cataclysmdda.org)
 * [Development-oriented Discord](https://discord.gg/jFEc7Yp)
 * IRC channel: #CataclysmDDA on Libera Chat, [webchat](https://web.libera.chat/#CataclysmDDA)
-* [Lemmy](https://cdda.social/)
 
 ## Community Managed Resources
 These are resources provided by third parties, or managed by *some* members of the development team. The project does not provide support for these directly.
