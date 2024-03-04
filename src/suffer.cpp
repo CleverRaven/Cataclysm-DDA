@@ -222,8 +222,9 @@ void suffer::water_damage( Character &you, const trait_id &mut_id )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : you.get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
-        const int dmg = you.enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
-                        0 ) * wetness_percentage;
+        float dmg_float = you.enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                          0 ) * wetness_percentage;
+        const int dmg = roll_remainder( dmg_float );
         if( dmg > 0 ) {
             you.apply_damage( nullptr, elem.first, dmg );
             you.add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
@@ -1771,8 +1772,8 @@ void Character::suffer()
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
-        if( calendar::once_every( 1_minutes ) && enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
-                        0 ) != 0 ) {
+        if( calendar::once_every( 1_seconds ) && enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                                             0 ) != 0 ) {
             suffer::water_damage( *this, mut_id );
         }
         if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
