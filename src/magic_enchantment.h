@@ -15,6 +15,7 @@
 #include "magic.h"
 #include "type_id.h"
 #include "units_fwd.h"
+#include <monster.h>
 
 class Character;
 class Creature;
@@ -75,6 +76,18 @@ enum class mod : int {
     MOD_HEALTH_CAP,
     READING_EXP,
     SKILL_RUST_RESIST,
+    READING_SPEED_MULTIPLIER,
+    OVERMAP_SIGHT,
+    KCAL,
+    VITAMIN_ABSORB_MOD,
+    MELEE_STAMINA_CONSUMPTION,
+    OBTAIN_COST_MULTIPLIER,
+    CASTING_TIME_MULTIPLIER,
+    CRAFTING_SPEED_MULTIPLIER,
+    BIONIC_MANA_PENALTY,
+    STEALTH_MODIFIER,
+    MENDING_MODIFIER,
+    STOMACH_SIZE_MULTIPLIER,
     LEARNING_FOCUS,
     ARMOR_BASH,
     ARMOR_CUT,
@@ -128,6 +141,18 @@ enum class mod : int {
     OVERKILL_DAMAGE,
     RANGE,
     AVOID_FRIENDRY_FIRE,
+    MOVECOST_SWIM_MOD,
+    MOVECOST_OBSTACLE_MOD,
+    MOVECOST_FLATGROUND_MOD,
+    SHOUT_NOISE_BASE,
+    SHOUT_NOISE_STR_MULT,
+    NIGHT_VIS,
+    HEARING_MULT,
+    BANDAGE_BONUS,
+    DISINFECTANT_BONUS,
+    BLEED_STOP_BONUS,
+    UGLINESS,
+    VOMIT_MUL,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -168,6 +193,11 @@ class enchantment
         // this enchantment has a valid item independent conditions
         // @active means the container for the enchantment is active, for comparison to active flag.
         bool is_active( const Character &guy, bool active ) const;
+
+        // same as above except for monsters. Much more limited.
+        bool is_active( const monster &mon ) const;
+
+        bool is_monster_relevant() const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -236,8 +266,11 @@ class enchant_cache : public enchantment
         double modify_value( const skill_id &mod_val, double value ) const;
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
+        units::volume modify_value( enchant_vals::mod mod_val, units::volume value ) const;
+        time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 
         // modifies character stats, or does other passive effects
@@ -258,6 +291,8 @@ class enchant_cache : public enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+        //Clears all the maps and vectors in the cache.
+        void clear();
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;

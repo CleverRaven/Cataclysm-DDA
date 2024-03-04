@@ -87,7 +87,7 @@
       { "group": "cotton_ball_bag_full", "prob": 50 },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25 },
-      { "item": "contacts", "prob": 10, "count": 6 },
+      { "group": "box_of_contact_lens_any", "prob": 10 },
       { "prob": 75, "group": "vitamins_bottle_plastic_pill_supplement_20" },
       { "prob": 75, "group": "calcium_tablet_bottle_plastic_pill_supplement_20" },
       { "prob": 85, "group": "bottle_otc_painkiller_20" },

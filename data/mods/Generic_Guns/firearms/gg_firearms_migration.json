@@ -30,7 +30,7 @@
     "replace": "grenade_pistol"
   },
   {
-    "id": [ "mgl", "rm802", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
+    "id": [ "mgl", "sapra", "robofac_gun_40mm", "triple_launcher_simple", "pseudo_m203" ],
     "type": "MIGRATION",
     "replace": "grenade_revolver"
   },
@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "sw_619", "mr73", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "sw_619", "mr73", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -243,7 +243,7 @@
     "replace": "rifle_huge_amr"
   },
   {
-    "id": [ "m2browning_sawn", "win70_458", "bfg50" ],
+    "id": [ "win70_458", "bfg50" ],
     "type": "MIGRATION",
     "replace": "rifle_huge_double"
   },
@@ -253,7 +253,7 @@
     "replace": "rifle_huge_hmg"
   },
   {
-    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg", "rm298" ],
+    "id": [ "m134", "m249", "m240", "m60", "rm614_lmg" ],
     "type": "MIGRATION",
     "replace": "rifle_lmg"
   },
@@ -305,6 +305,7 @@
       "ar10",
       "1895sbl",
       "ak74",
+      "ak74_semi",
       "vz58ts",
       "ruger_m77",
       "ruger_pr",

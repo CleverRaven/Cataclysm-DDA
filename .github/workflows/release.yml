@@ -40,7 +40,7 @@ jobs:
           echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
       - run: |
-          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
   builds:
     needs: release
@@ -216,7 +216,16 @@ jobs:
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && !matrix.wasm
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+          sudo apt-get install libsdl2-dev
+          git clone https://github.com/libsdl-org/SDL.git --branch release-2.0.20 --depth 1
+          cd SDL
+          mkdir build
+          cd build
+          ../configure
+          make -j$((`nproc`+0))
+          sudo make install
+          cp ../LICENSE.txt ${{ github.workspace }}/LICENSE-SDL.txt
+          sudo apt-get install libncursesw5-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
       - name: Install Emscripten (WebAssembly)
         if: matrix.wasm
@@ -232,7 +241,7 @@ jobs:
       - name: Install build dependencies (mac)
         if: runner.os == 'macOS'
         run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel dylibbundler
           pip3 install dmgbuild biplist
       - name: Create VERSION.TXT
         shell: bash
@@ -266,7 +275,6 @@ jobs:
       - name: Build CDDA (WebAssembly)
         if: matrix.wasm
         run: |
-          ./build-scripts/prepare-web-data.sh
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)
@@ -281,8 +289,9 @@ jobs:
         if: matrix.artifact == 'windows-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
-          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-cross-compile
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-cross-compile
+          configFile: ./.devcontainer/cross-compile/devcontainer.json
           push: always
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
@@ -291,9 +300,10 @@ jobs:
         if: matrix.artifact == 'linux-objectcreator-x64'
         uses: devcontainers/ci@v0.3
         with:
-          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
-          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer
-          push: never
+          imageName: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-graphical
+          cacheFrom: ghcr.io/cleverraven/cataclysm-dda/cataclysm-dda-devcontainer-graphical
+          configFile: ./.devcontainer/graphical/devcontainer.json
+          push: always
           runCmd: |
             git config --global --add safe.directory /workspaces/Cataclysm-DDA
             make -j$((`nproc`+0)) TILES=1 LINTJSON=0 RELEASE=1 object_creator

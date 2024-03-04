@@ -61,8 +61,12 @@
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
       { "group": "enchanted_rings_common", "prob": 20 },
       { "group": "enchanted_rings_uncommon", "prob": 5 },
+      { "group": "enchanted_arrows", "prob": 15, "count": [ 1, 2 ] },
+      { "group": "group_potion_fruits", "prob": 10, "count": [ 1, 4 ] },
       { "group": "enchanted_bracelets", "prob": 4 },
       { "group": "enchanted_belts", "prob": 2 },
+      { "group": "items_of_elvenkind", "prob": 1 },
+      { "group": "parabolan_armor", "prob": 15 },
       { "group": "spellbook_loot_1", "prob": 35, "count": [ 1, 3 ] }
     ]
   },

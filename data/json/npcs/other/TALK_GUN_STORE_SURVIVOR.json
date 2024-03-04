@@ -8,7 +8,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "<greet>",
-      "no": "Hey stranger.  How's life treatin' ya these days?"
+      "no": { "gendered_line": "Hey stranger.  How's life treatin' ya these days?", "relevant_genders": [ "u" ] }
     },
     "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -71,7 +71,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_GUN_STORE_SURVIVOR_WHO",
-    "dynamic_line": "I'm just an average person, really.  When a horde of those <swear> <zombies> came knockin' on my door, I ran for it.  Good for me that someone left this store open in the chaos, I ran inside and locked the place down.  There isn't a thing in all of <city> that can bust through these walls and barred windows, I'd reckon I'm the luckiest <name_b> in town.",
+    "dynamic_line": {
+      "gendered_line": "I'm just an average person, really.  When a horde of those <swear> <zombies> came knockin' on my door, I ran for it.  Good for me that someone left this store open in the chaos, I ran inside and locked the place down.  There isn't a thing in all of <city> that can bust through these walls and barred windows, I'd reckon I'm the luckiest <name_b> in town.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Why would someone leave a gun store open in all this chaos?",

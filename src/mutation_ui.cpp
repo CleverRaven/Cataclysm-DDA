@@ -48,14 +48,14 @@ static const auto shortcut_desc = []( const std::string_view comment, const std:
 
 // needs extensive improvement
 
-static trait_id GetTrait( const std::vector<trait_id> &active,
-                          const std::vector<trait_id> &passive,
-                          int cursor, mutation_tab_mode tab_mode )
+static std::optional<trait_id> GetTrait( const std::vector<trait_id> &active,
+        const std::vector<trait_id> &passive,
+        int cursor, mutation_tab_mode tab_mode )
 {
-    trait_id mut_id;
+    std::optional<trait_id> mut_id;
     if( tab_mode == mutation_tab_mode::active ) {
         mut_id = active[cursor];
-    } else {
+    } else if( tab_mode == mutation_tab_mode::passive ) {
         mut_id = passive[cursor];
     }
     return mut_id;
@@ -159,10 +159,10 @@ void avatar::power_mutations()
     int half_list_view_location = 0;
     mutation_menu_mode menu_mode = mutation_menu_mode::activating;
     mutation_tab_mode tab_mode;
-    if( !passive.empty() ) {
-        tab_mode = mutation_tab_mode::passive;
-    } else if( !active.empty() ) {
+    if( !active.empty() ) {
         tab_mode = mutation_tab_mode::active;
+    } else if( !passive.empty() ) {
+        tab_mode = mutation_tab_mode::passive;
     } else {
         tab_mode = mutation_tab_mode::none;
     }

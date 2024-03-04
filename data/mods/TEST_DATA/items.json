@@ -4107,6 +4107,60 @@
     "material_thickness": 0.2
   },
   {
+    "id": "test_shackles",
+    "//": "Only for the test wing body parts",
+    "type": "ARMOR",
+    "name": { "str": "pair of shackles", "str_pl": "pairs of shackles" },
+    "description": "A pair of big, red, 8 oz. gauntlets.  These are made from thick leather.",
+    "weight": "453 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "gloves_leather",
+    "color": "red",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 70,
+        "coverage": 100,
+        "covers": [ "test_arm_l", "test_arm_r" ]
+      }
+    ]
+  },
+  {
+    "id": "test_bird_boots",
+    "type": "ARMOR",
+    "name": { "str": "pair of bird boots", "str_pl": "pairs of bird boots" },
+    "description": "What is this, a boot for birds?!",
+    "weight": "453 g",
+    "volume": "1 L",
+    "price": 4000,
+    "price_postapoc": 10,
+    "to_hit": 1,
+    "symbol": "[",
+    "looks_like": "gloves_leather",
+    "color": "red",
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 70,
+        "coverage": 100,
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "test_foot_l", "test_foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "test_winglets",
     "//": "Only for the test wing body parts",
     "type": "ARMOR",
@@ -4125,7 +4179,14 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance": 70, "coverage": 100, "covers": [ "test_bird_wing_l", "test_bird_wing_r" ] } ]
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 } ],
+        "encumbrance": 70,
+        "coverage": 100,
+        "covers": [ "test_bird_wing_l", "test_bird_wing_r" ]
+      }
+    ]
   },
   {
     "id": "test_winglets_left",
@@ -4837,6 +4898,26 @@
     "weight": "100 g",
     "volume": "250 ml",
     "to_hit": -3,
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "test_500_kcal",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "TEST 500kcal" },
+    "description": "This one's 500kcal, and some vitamins.",
+    "price": 0,
+    "spoils_in": 0,
+    "calories": 500,
+    "material": [ "stone" ],
+    "weight": "100 g",
+    "volume": "250 ml",
+    "to_hit": -3,
+    "//": "Do not use calcium, iron or vitamin C! Those are calculated as RDAs, and you only get 96% of the listed value! No, that doesn't make any sense! But that's how it is. So use a normal vitamin. This is for a camp test, not a vitamin test...",
+    "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 200 ] ],
     "melee_damage": { "bash": 1 }
   }
 ]

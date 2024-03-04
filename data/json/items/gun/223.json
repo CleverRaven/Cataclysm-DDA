@@ -9,7 +9,7 @@
     "weight": "902 g",
     "volume": "1550 ml",
     "longest_side": "520 mm",
-    "//2": "Numbers for weight, volume, and length calculations are based upon an AR-15’s complete lower receiver. The difference will be made up for with integrated stats from the installable modular upper receivers.",
+    "//2": "Numbers for weight, volume, and length calculations are based upon an AR-15's complete lower receiver. The difference will be made up for with integrated stats from the installable modular upper receivers.",
     "price": 125000,
     "price_postapoc": 4000,
     "to_hit": -1,
@@ -244,7 +244,7 @@
     "weight": "1222 g",
     "volume": "3407 ml",
     "longest_side": "388 mm",
-    "//2": "Numbers for weight, volume, and length calculations are based upon an AR-15’s complete lower receiver. The difference will be made up for with integrated stats from the installable modular upper receivers.",
+    "//2": "Numbers for weight, volume, and length calculations are based upon an AR-15's complete lower receiver. The difference will be made up for with integrated stats from the installable modular upper receivers.",
     "price": 540000,
     "price_postapoc": 2250,
     "variant_type": "gun",
@@ -470,7 +470,7 @@
     "weight": "880 g",
     "volume": "1760 ml",
     "longest_side": "470 mm",
-    "//": "The volume, weight, and overall length of an average AR-15’s complete upper receiver module have been deducted and will be made up for by the installable upper assemblies.",
+    "//": "The volume, weight, and overall length of an average AR-15's complete upper receiver module have been deducted and will be made up for by the installable upper assemblies.",
     "price": 240000,
     "price_postapoc": 5000,
     "variant_type": "gun",
@@ -514,7 +514,7 @@
     "weight": "992 g",
     "volume": "3480 ml",
     "longest_side": "495 mm",
-    "//": "The volume, weight, and overall length of an average AR-15’s complete upper receiver module with a 20-inch barrel have been deducted and will be made up for by the installable upper assemblies.",
+    "//": "The volume, weight, and overall length of an average AR-15's complete upper receiver module with a 20-inch barrel have been deducted and will be made up for by the installable upper assemblies.",
     "price": 240000,
     "price_postapoc": 5000,
     "variant_type": "gun",
@@ -530,7 +530,6 @@
     "material": [ "aluminum", "steel", "plastic" ],
     "ammo": [ "NULL" ],
     "default_mods": [ "adjustable_stock", "retool_ar15_223rem_extended" ],
-    "dispersion": 150,
     "durability": 7,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ],
@@ -945,7 +944,7 @@
       {
         "id": "mdrx",
         "name": { "str": "Desert Tech MDRX carbine" },
-        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout."
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle's most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either .223 Remington, .308 Winchester, or .300 AAC Blackout."
       }
     ],
     "weight": "3080 g",
@@ -1012,13 +1011,13 @@
     "looks_like": "modular_ar15",
     "type": "GUN",
     "name": { "str": "Bren 5.56x45mm carbine" },
-    "description": "A semi-automatic clone of the Czech Republic’s standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "description": "A semi-automatic clone of the Czech Republic's standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "bren2_556",
         "name": { "str": "CZ Bren 2 carbine" },
-        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 5.56x45mm NATO cartridge, this particular weapon possesses a 16.5-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
+        "description": "Hailing from the Czech Republic, this modular carbine supplanted the older CZ 805 rifle within Czech military use, improving upon the former's features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 5.56x45mm NATO cartridge, this particular weapon possesses a 16.5-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles."
       }
     ],
     "weight": "3450 g",

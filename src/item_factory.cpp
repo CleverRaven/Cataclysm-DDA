@@ -800,6 +800,45 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        body_part_set similar_bp;
+        if( data.covers.has_value() ) {
+            for( const bodypart_str_id &bp : data.covers.value() ) {
+                for( const bodypart_str_id &similar : bp->similar_bodyparts ) {
+                    similar_bp.set( similar );
+                }
+            }
+        }
+        data.covers->unify_set( similar_bp );
+    }
+
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        // if no sub locations are specified assume it covers everything
+        if( data.covers.has_value() && data.sub_coverage.empty() ) {
+            for( const bodypart_str_id &bp : data.covers.value() ) {
+                for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
+                    // only assume to add the non hanging locations
+                    if( !sbp->secondary ) {
+                        data.sub_coverage.insert( sbp );
+                    }
+                }
+            }
+        }
+    }
+
+    // Include similar sublimbs as well (after populating sub coverage)
+    for( armor_portion_data &data : obj.armor->sub_data ) {
+        std::set<sub_bodypart_str_id> similar_sbp;
+        if( !data.sub_coverage.empty() ) {
+            for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
+                for( const sub_bodypart_str_id &similar : sbp->similar_bodyparts ) {
+                    similar_sbp.emplace( similar );
+                }
+            }
+        }
+        data.sub_coverage.merge( similar_sbp );
+    }
+
     // if this armor doesn't have material info should try to populate it with base item materials
     for( armor_portion_data &data : obj.armor->sub_data ) {
         if( data.materials.empty() ) {
@@ -1679,7 +1718,6 @@ void Item_factory::init()
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CLEAR_RUBBLE", &iuse::clear_rubble );
     add_iuse( "COKE", &iuse::coke );
-    add_iuse( "CONTACTS", &iuse::contacts );
     add_iuse( "CROWBAR", &iuse::crowbar );
     add_iuse( "CROWBAR_WEAK", &iuse::crowbar_weak );
     add_iuse( "DATURA", &iuse::datura );
@@ -1731,7 +1769,6 @@ void Item_factory::init()
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
-    add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
     add_iuse( "HEATPACK", &iuse::heatpack );
     add_iuse( "HEAT_FOOD", &iuse::heat_food );
@@ -1744,6 +1781,7 @@ void Item_factory::init()
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MACE", &iuse::mace );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
+    add_iuse( "MEASURE_RESONANCE", &iuse::measure_resonance );
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
@@ -1796,7 +1834,6 @@ void Item_factory::init()
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
-    add_iuse( "SHAVEKIT", &iuse::shavekit );
     add_iuse( "SHOCKTONFA_OFF", &iuse::shocktonfa_off );
     add_iuse( "SHOCKTONFA_ON", &iuse::shocktonfa_on );
     add_iuse( "SIPHON", &iuse::siphon );
@@ -2208,7 +2245,7 @@ void Item_factory::check_definitions() const
         if( type->can_use( "MA_MANUAL" ) && !type->book ) {
             msg += "has use_action MA_MANUAL but is not a book\n";
         }
-        if( type->milling_data ) {
+        if( type->milling_data && !type->milling_data->into_.is_null() ) {
             if( !has_template( type->milling_data->into_ ) ) {
                 msg += "type to mill into is invalid: " + type->milling_data->into_.str() + "\n";
             }
@@ -2445,7 +2482,7 @@ void Item_factory::check_definitions() const
         }
     }
     for( const auto &elem : m_template_groups ) {
-        elem.second->check_consistency();
+        elem.second->check_consistency( true );
         inp_mngr.pump_events();
     }
 }
@@ -2560,7 +2597,7 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
 void islot_milling::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "into", into_ );
-    optional( jo, was_loaded, "conversion_rate", conversion_rate_ );
+    optional( jo, was_loaded, "recipe", recipe_ );
 }
 
 void islot_milling::deserialize( const JsonObject &jo )
@@ -2613,6 +2650,7 @@ void islot_ammo::load( const JsonObject &jo )
     assign( jo, "range", range, strict, 0 );
     assign( jo, "range_multiplier", range_multiplier, strict, 1.0f );
     assign( jo, "dispersion", dispersion, strict, 0 );
+    optional( jo, was_loaded, "dispersion_modifier", disp_mod_by_barrels, {} );
     assign( jo, "recoil", recoil, strict, 0 );
     assign( jo, "count", def_charges, strict, 1 );
     assign( jo, "loudness", loudness, strict, 0 );
@@ -2870,18 +2908,6 @@ void armor_portion_data::deserialize( const JsonObject &jo )
         breathability = material_type::breathability_to_rating( temp_enum );
     }
     optional( jo, false, "specifically_covers", sub_coverage );
-
-    // if no sub locations are specified assume it covers everything
-    if( covers.has_value() && sub_coverage.empty() ) {
-        for( const bodypart_str_id &bp : covers.value() ) {
-            for( const sub_bodypart_str_id &sbp : bp->sub_parts ) {
-                // only assume to add the non hanging locations
-                if( !sbp->secondary ) {
-                    sub_coverage.insert( sbp );
-                }
-            }
-        }
-    }
 
     optional( jo, false, "cover_melee", cover_melee, coverage );
     optional( jo, false, "cover_ranged", cover_ranged, coverage );
@@ -3464,6 +3490,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
             slot.add_mod.emplace( gunmod_location( curr.get_string( 0 ) ), curr.get_int( 1 ) );
         }
     }
+
+    assign( jo, "is_bayonet", slot.is_bayonet );
     assign( jo, "blacklist_mod", slot.blacklist_mod );
     assign( jo, "blacklist_slot", slot.blacklist_slot );
     assign( jo, "barrel_length", slot.barrel_length );
@@ -3565,7 +3593,7 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 31> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
             { material_hflesh, flag_CANNIBALISM },
@@ -3598,7 +3626,9 @@ void Item_factory::set_allergy_flags( itype &item_template )
             { material_iflesh, flag_CARNIVORE_OK },
             { material_blood, flag_CARNIVORE_OK },
             { material_hblood, flag_CARNIVORE_OK },
-            { material_honey, flag_URSINE_HONEY }
+            { material_honey, flag_URSINE_HONEY },
+            { material_blood, flag_HEMOVORE_FUN },
+            { material_hblood, flag_HEMOVORE_FUN }
         }
     };
 

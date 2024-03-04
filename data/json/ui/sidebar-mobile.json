@@ -1232,7 +1232,7 @@
     "id": "l_str",
     "width": 2,
     "copy-from": "t_label",
-    "string": "S:",
+    "string": { "ctxt": "label_strength", "str": "S:" },
     "type": "widget"
   },
   {
@@ -1843,7 +1843,7 @@
     "id": "l_stamina",
     "width": 2,
     "copy-from": "t_label",
-    "string": "S:",
+    "string": { "ctxt": "label_stamina", "str": "S:" },
     "type": "widget"
   },
   {

@@ -1,5 +1,109 @@
 [
   {
+    "id": "box_of_contact_lens_any",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "contain either used or pristine boxes with any contact lenses",
+    "items": [
+      { "group": "box_of_contact_lens_weekly_pristine", "prob": 25 },
+      { "group": "box_of_contact_lens_weekly_used", "prob": 100 },
+      { "group": "box_of_contact_lens_daily_pristine", "prob": 35 },
+      { "group": "box_of_contact_lens_daily_used", "prob": 100 },
+      { "group": "box_of_contact_lens_daily_big_pristine", "prob": 8 },
+      { "group": "box_of_contact_lens_daily_big_used", "prob": 30 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_weekly_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "myopia_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "myopia_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "hyperopia_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "hyperopia_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "bifocal_contacts_weekly", "prob": 100, "count": 6 },
+      { "item": "bifocal_transition_contacts_weekly", "prob": 25, "count": 6 },
+      { "item": "plano_transition_contacts_weekly", "prob": 15, "count": 6 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_weekly_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_paper_small",
+    "items": [
+      { "item": "myopia_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "myopia_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "hyperopia_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "hyperopia_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "bifocal_contacts_weekly", "prob": 100, "count": [ 0, 6 ] },
+      { "item": "bifocal_transition_contacts_weekly", "prob": 25, "count": [ 0, 6 ] },
+      { "item": "plano_transition_contacts_weekly", "prob": 15, "count": [ 0, 6 ] }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": 30 },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": 30 },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": 30 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": [ 0, 30 ] },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": [ 0, 30 ] },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": [ 0, 30 ] }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_big_pristine",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": 90 },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": 90 },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": 90 }
+    ]
+  },
+  {
+    "id": "box_of_contact_lens_daily_big_used",
+    "type": "item_group",
+    "subtype": "distribution",
+    "container-item": "box_small",
+    "items": [
+      { "item": "myopia_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "myopia_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "hyperopia_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "hyperopia_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "bifocal_contacts_daily", "prob": 100, "count": [ 0, 90 ] },
+      { "item": "bifocal_transition_contacts_daily", "prob": 25, "count": [ 0, 90 ] },
+      { "item": "plano_transition_contacts_daily", "prob": 15, "count": [ 0, 90 ] }
+    ]
+  },
+  {
     "id": "adhesive_bandages_box_full",
     "type": "item_group",
     "subtype": "collection",
@@ -225,7 +329,8 @@
       { "group": "cotton_ball_bag_full", "prob": 5 },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25, "charges": [ 1, 5 ] },
-      [ "contacts", 10 ],
+      { "group": "box_of_contact_lens_any", "prob": 10 },
+      [ "transition_contacts", 1 ],
       { "prob": 75, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       { "item": "gummy_vitamins", "prob": 25, "count": [ 1, 10 ] },
       { "prob": 75, "group": "calcium_tablet_bottle_plastic_pill_supplement_1_20" },

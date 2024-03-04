@@ -92,6 +92,7 @@
 #include "gates.h"
 #include "get_version.h"
 #include "harvest.h"
+#include "help.h"
 #include "iexamine.h"
 #include "init.h"
 #include "input.h"
@@ -143,6 +144,7 @@
 #include "overmapbuffer.h"
 #include "panels.h"
 #include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "path_info.h"
 #include "pathfinding.h"
 #include "pickup.h"
@@ -239,6 +241,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_xanax( "took_xanax" );
+static const efftype_id effect_transition_contacts( "transition_contacts" );
 static const efftype_id effect_winded( "winded" );
 
 static const faction_id faction_no_faction( "no_faction" );
@@ -368,8 +371,7 @@ static void achievement_attained( const achievement *a, bool achievements_enable
         } else if( popup_option == "always" ) {
             show_popup = true;
         } else if( popup_option == "first" ) {
-            const achievement_completion_info *past_info = get_past_games().achievement( a->id );
-            show_popup = !past_info || past_info->games_completed.empty();
+            show_popup = !get_past_achievements().is_completed( a->id );
         } else {
             debugmsg( "Unexpected ACHIEVEMENT_COMPLETED_POPUP option value %s", popup_option );
             show_popup = false;
@@ -732,6 +734,7 @@ void game::reenter_fullscreen()
 void game::setup()
 {
     loading_ui ui( true );
+    new_game = true;
     {
         background_pane background;
         static_popup popup;
@@ -749,7 +752,6 @@ void game::setup()
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
-    new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -1406,9 +1408,6 @@ static bool cancel_auto_move( Character &you, const std::string &text )
     g->invalidate_main_ui_adaptor();
     if( query_yn( _( "%s Cancel auto move?" ), text ) )  {
         add_msg( m_warning, _( "%s Auto move canceled." ), text );
-        if( !you.omt_path.empty() ) {
-            you.omt_path.clear();
-        }
         you.clear_destination();
         return true;
     }
@@ -3332,6 +3331,54 @@ bool game::save_player_data()
            ;
 }
 
+
+bool game::save_achievements()
+{
+    const std::string &achievement_dir = PATH_INFO::achievementdir();
+
+    //Check if achievement dir exists
+    if( !assure_dir_exist( achievement_dir ) ) {
+        dbg( D_ERROR ) << "game:save_achievements: Unable to make achievement directory.";
+        debugmsg( "Could not make '%s' directory", achievement_dir );
+        return false;
+    }
+
+    // This sets the maximum length for the filename
+    constexpr size_t suffix_len = 24 + 1;
+    constexpr size_t max_name_len = FILENAME_MAX - suffix_len;
+
+    const size_t name_len = u.name.size();
+    // Here -1 leaves space for the ~
+    const size_t truncated_name_len = ( name_len >= max_name_len ) ? ( max_name_len - 1 ) : name_len;
+
+    std::ostringstream achievement_file_path;
+
+    achievement_file_path << achievement_dir;
+
+    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
+        // Use the default locale to replace non-printable characters with _ in the player name.
+        std::locale locale{ "C" };
+        std::replace_copy_if( std::begin( u.name ), std::begin( u.name ) + truncated_name_len,
+                              std::ostream_iterator<char>( achievement_file_path ),
+        [&]( const char c ) {
+            return !std::isgraph( c, locale );
+        }, '_' );
+    } else {
+        achievement_file_path << u.name;
+    }
+
+    // Add a ~ if the player name was actually truncated.
+    achievement_file_path << ( ( truncated_name_len != name_len ) ? "~-" : "-" );
+    const int character_id = get_player_character().getID().get_value();
+    const std::string json_path_string = achievement_file_path.str() + std::to_string(
+            character_id ) + ".json";
+
+    return write_to_file( json_path_string, [&]( std::ostream & fout ) {
+        get_achievements().write_json_achievements( fout, u.name );
+    }, _( "player achievements" ) );
+
+}
+
 event_bus &game::events()
 {
     return *event_bus_ptr;
@@ -3391,6 +3438,7 @@ bool game::save()
     events().send<event_type::game_save>( time_since_load, total_time_played );
     try {
         if( !save_player_data() ||
+            !save_achievements() ||
             !save_factions_missions_npcs() ||
             !save_maps() ||
             !get_auto_pickup().save_character() ||
@@ -5005,7 +5053,7 @@ void game::use_computer( const tripoint &p )
         return;
     }
     if( u.has_flag( json_flag_HYPEROPIC ) && !u.worn_with_flag( flag_FIX_FARSIGHT ) &&
-        !u.has_effect( effect_contacts ) &&
+        !u.has_effect( effect_contacts ) && !u.has_effect( effect_transition_contacts ) &&
         !u.has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
         add_msg( m_info, _( "You'll need to put on reading glasses before you can see the screen." ) );
         return;
@@ -5705,7 +5753,17 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     return true;
 }
 
+bool game::forced_door_closing( const tripoint_bub_ms &p, const ter_id &door_type, int bash_dmg )
+{
+    return forced_door_closing( p.raw(), door_type, bash_dmg );
+}
+
 void game::open_gate( const tripoint &p )
+{
+    open_gate( tripoint_bub_ms( p ) );
+}
+
+void game::open_gate( const tripoint_bub_ms &p )
 {
     gates::open_gate( p, u );
 }
@@ -6486,7 +6544,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string tile = uppercase_first_letter( m.tername( lp ) );
     std::string area = uppercase_first_letter( area_name );
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
-        area = _( e->string_id );
+        area = e->string_id;
     }
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
@@ -6773,23 +6831,26 @@ static void zones_manager_shortcuts( const catacurses::window &w_info, faction_i
     shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                            _( "<Z>-Enable personal" ) ) + 2;
     shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
+                    _( "<T>-Toggle zone display" ) );
+
+    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
+                            _( "<Z>-Enable personal" ) ) + 2;
+    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
                     _( "<X>-Disable personal" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
+    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
                             _( "<+-> Move up/down" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
+    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
 
     tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
+    tmpx += shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
+    shortcut_print( w_info, point( tmpx, 5 ), c_white, c_light_green, _( "<M>ap" ) );
 
     if( debug_mode ) {
-        shortcut_print( w_info, point( 1, 5 ), c_light_red, c_light_green,
+        shortcut_print( w_info, point( 1, 6 ), c_light_red, c_light_green,
                         string_format( _( "Shown <F>action: %s" ), faction.str() ) );
     }
 
@@ -6844,7 +6905,7 @@ void game::zones_manager()
 
     u.view_offset = tripoint_zero;
 
-    const int zone_ui_height = 13;
+    const int zone_ui_height = 14;
     const int zone_options_height = debug_mode ? 6 : 7;
 
     const int width = 45;
@@ -6897,6 +6958,7 @@ void game::zones_manager()
     ctxt.register_action( "SHOW_ZONE_ON_MAP" );
     ctxt.register_action( "ENABLE_ZONE" );
     ctxt.register_action( "DISABLE_ZONE" );
+    ctxt.register_action( "TOGGLE_ZONE_DISPLAY" );
     ctxt.register_action( "ENABLE_PERSONAL_ZONES" );
     ctxt.register_action( "DISABLE_PERSONAL_ZONES" );
     ctxt.register_action( "SHOW_ALL_ZONES" );
@@ -7169,12 +7231,30 @@ void game::zones_manager()
                     break;
                 }
 
+                int vehicle_zones_pre = 0;
+                for( zone_manager::ref_zone_data zone : get_zones() ) {
+                    if( zone.get().get_is_vehicle() ) {
+                        vehicle_zones_pre++;
+                    }
+                }
+
                 // TODO: fix point types
                 mgr.add( name, id, get_player_character().get_faction()->id, false, true,
                          position->first, position->second, options, false );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
+
+                int vehicle_zones_post = 0;
+                for( zone_manager::ref_zone_data zone : zones ) {
+                    if( zone.get().get_is_vehicle() ) {
+                        vehicle_zones_post++;
+                    }
+                }
+
+                if( vehicle_zones_post == vehicle_zones_pre ) {
+                    active_index -= vehicle_zones_post;
+                }
 
                 stuff_changed = true;
             } while( false );
@@ -7215,6 +7295,15 @@ void game::zones_manager()
                          position->first, position->second, options, true );
                 zones = get_zones();
                 active_index = zone_cnt - 1;
+
+                int vehicle_zones = 0;
+                for( zone_manager::ref_zone_data zone : zones ) {
+                    if( zone.get().get_is_vehicle() ) {
+                        vehicle_zones++;
+                    }
+                }
+
+                active_index -= vehicle_zones;
 
                 stuff_changed = true;
             } while( false );
@@ -7389,6 +7478,11 @@ void game::zones_manager()
                 zones[active_index].get().set_enabled( false );
 
                 stuff_changed = true;
+
+            } else if( action == "TOGGLE_ZONE_DISPLAY" ) {
+                zones[active_index].get().toggle_display();
+                stuff_changed = true;
+
             } else if( action == "ENABLE_PERSONAL_ZONES" ) {
                 bool zones_changed = false;
 
@@ -7569,7 +7663,7 @@ look_around_result game::look_around(
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "COORDINATE" );
-    if( change_lv ) {
+    if( change_lv && fov_3d_z_range > 0 ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
@@ -7603,7 +7697,7 @@ look_around_result game::look_around(
 
     const int old_levz = m.get_abs_sub().z();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
-    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT );
+    const int max_levz = std::min( old_levz + fov_3d_z_range, OVERMAP_HEIGHT - 1 );
 
     m.update_visibility_cache( old_levz );
     const visibility_variables &cache = m.get_visibility_variables_cache();
@@ -7743,8 +7837,8 @@ look_around_result game::look_around(
             }
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             const int dz = action == "LEVEL_UP" ? 1 : -1;
-            lz = clamp( lz + dz, min_levz, max_levz - 1 );
-            center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
+            lz = clamp( lz + dz, min_levz, max_levz );
+            center.z = clamp( center.z + dz, min_levz, max_levz );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
@@ -8619,7 +8713,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             for( int i = std::max( 0, highPEnd );
                  i < std::min( lowPStart, static_cast<int>( filtered_items.size() ) ); i++ ) {
                 const std::string &cat_name =
-                    filtered_items[i].example->get_category_of_contents().name();
+                    filtered_items[i].example->get_category_of_contents().name_header();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
@@ -11852,7 +11946,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             climbing = true;
             climbing_aid = climbing_aid_ability_WALL_CLING;
             u.set_activity_level( EXTRA_EXERCISE );
-            u.mod_stamina( -750 );
+            u.burn_energy_all( -750 );
             move_cost += 500;
         } else {
             add_msg( m_info, _( "You can't go down here!" ) );
@@ -11874,8 +11968,11 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     // TODO: Use u.posz() instead of m.abs_sub
     const int z_after = m.get_abs_sub().z() + movez;
-    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to move outside allowed range of z-levels" );
+    if( z_after < -OVERMAP_DEPTH ) {
+        add_msg( m_info, _( "Halfway down, the way down becomes blocked off." ) );
+        return;
+    } else if( z_after >= OVERMAP_HEIGHT ) {
+        add_msg( m_info, _( "Halfway up, the way up becomes blocked off." ) );
         return;
     }
 
@@ -12014,7 +12111,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     } else {
         u.moves -= move_cost;
-        u.mod_stamina( -move_cost );
+        u.burn_energy_all( -move_cost );
     }
 
     if( surfacing || submerging ) {

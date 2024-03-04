@@ -469,20 +469,368 @@
     "fun": 30
   },
   {
-    "id": "contacts",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "pair of contact lenses", "str_pl": "pairs of contact lenses" },
-    "description": "A pair of extended-wear contacts with soft lenses designed to be discarded after a week of use.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.",
-    "weight": "1 g",
-    "volume": "6 ml",
+    "id": "myopia_contacts_weekly",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str_sp": "myopia contact lenses (weekly)" },
+    "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "//": "6 * 4 * 0.9 cm, someone need to confirm",
+    "weight": "2600 mg",
+    "volume": "22 ml",
     "price": "72 cent",
-    "price_postapoc": "250 cent",
+    "price_postapoc": "25 cent",
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "cyan",
-    "use_action": [ "CONTACTS" ],
-    "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_myopia_contacts_weekly",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "604800" }
+            }
+          }
+        ]
+      }
+    ],
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ]
+  },
+  {
+    "id": "myopia_transition_contacts_weekly",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "myopia transition contact lenses (weekly)" },
+    "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "price": "6 USD",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_myopia_transition_contacts_weekly",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "604800" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "myopia_contacts_daily",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "myopia contact lenses (daily)" },
+    "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_myopia_contacts_daily",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "contacts", "time": "57600" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "myopia_transition_contacts_daily",
+    "type": "GENERIC",
+    "copy-from": "myopia_transition_contacts_weekly",
+    "name": { "str_sp": "myopia transition contact lenses (daily)" },
+    "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>nearsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_myopia_transition_contacts_daily",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "effect": "transition_contacts", "time": "57600" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hyperopia_contacts_weekly",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "hyperopia contact lenses (weekly)" },
+    "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_hyperopia_contacts_weekly",
+            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "604800" } }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hyperopia_transition_contacts_weekly",
+    "type": "GENERIC",
+    "copy-from": "myopia_transition_contacts_weekly",
+    "name": { "str_sp": "hyperopia transition contact lenses (weekly)" },
+    "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_hyperopia_transition_contacts_weekly",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "604800" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hyperopia_contacts_daily",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "hyperopia contact lenses (daily)" },
+    "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_hyperopia_contacts_daily",
+            "effect": { "run_eoc_with": "EOC_CONTACTS", "variables": { "flag1": "HYPEROPIC", "effect": "contacts", "time": "57600" } }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hyperopia_transition_contacts_daily",
+    "type": "GENERIC",
+    "copy-from": "myopia_transition_contacts_weekly",
+    "name": { "str_sp": "hyperopia transition contact lenses (daily)" },
+    "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_hyperopia_transition_contacts_daily",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "HYPEROPIC", "effect": "transition_contacts", "time": "57600" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bifocal_contacts_weekly",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "bifocal contact lenses (weekly)" },
+    "description": "Small plastic case with two extended-wear soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  They sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_bifocal_contacts_weekly",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "604800" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bifocal_transition_contacts_weekly",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "bifocal transition contact lenses (weekly)" },
+    "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>a week</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_bifocal_transition_contacts_weekly",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": {
+                "flag1": "MYOPIC",
+                "flag2": "MYOPIC_IN_LIGHT",
+                "flag3": "HYPEROPIC",
+                "effect": "transition_contacts",
+                "time": "604800"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bifocal_contacts_daily",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "bifocal contact lenses (daily)" },
+    "description": "Small plastic case with two daily-use soft contact lenses, buffered in saline solution.  They are a great replacement for wearing glasses and sit comfortably on the surface of the eye.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_bifocal_contacts_daily",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "flag1": "MYOPIC", "flag2": "MYOPIC_IN_LIGHT", "flag3": "HYPEROPIC", "effect": "contacts", "time": "57600" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bifocal_transition_contacts_daily",
+    "type": "GENERIC",
+    "copy-from": "myopia_transition_contacts_weekly",
+    "name": { "str_sp": "bifocal transition contact lenses (daily)" },
+    "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments.  The lenses are designed to help anyone with <color_light_blue>both nearsightedness and farsightedness</color>, and should be discarded after <color_light_blue>16 hours</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your nearsightedness or farsightedness.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_bifocal_transition_contacts_daily",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": {
+                "flag1": "MYOPIC",
+                "flag2": "MYOPIC_IN_LIGHT",
+                "flag3": "HYPEROPIC",
+                "effect": "transition_contacts",
+                "time": "57600"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "plano_transition_contacts_weekly",
+    "type": "GENERIC",
+    "copy-from": "myopia_contacts_weekly",
+    "name": { "str_sp": "plano transition contact lenses (weekly)" },
+    "description": "Small plastic case with two transition extended-wear soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>a week</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate your the bright light discomfort.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_plano_transition_contacts_weekly",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "effect": "transition_contacts_plano", "plano": "1", "time": "604800" }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "plano_transition_contacts_daily",
+    "type": "GENERIC",
+    "copy-from": "myopia_transition_contacts_weekly",
+    "name": { "str_sp": "plano transition contact lenses (daily)" },
+    "description": "Small plastic case with two transition daily-use soft contact lenses, buffered in saline solution.  This high-tech pair darkens in response to light, making it easier to see in bright environments, but it doesn't help with any sight issues.  Essentially a pair of temporary sunglasses, this lenses should be discarded after <color_light_blue>16 hours</color> of use.",
+    "symbol": "[",
+    "color": "cyan",
+    "use_action": [
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Apply contact lenses",
+        "description": "You can use this to mitigate the bright light discomfort.",
+        "effect_on_conditions": [
+          {
+            "id": "EOC_plano_transition_contacts_daily",
+            "effect": {
+              "run_eoc_with": "EOC_CONTACTS",
+              "variables": { "plano": "1", "effect": "transition_contacts_plano", "time": "57600" }
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "crack",

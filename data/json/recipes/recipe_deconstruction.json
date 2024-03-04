@@ -56,14 +56,6 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
-    "result": "elec_shears",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "time": "2 m",
-    "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
-  },
-  {
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "result": "can_opener",
@@ -2110,14 +2102,6 @@
     ]
   },
   {
-    "result": "splatter_guard",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "1 m",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 7 ] ] ]
-  },
-  {
     "result": "ceramic_bowl",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -2349,7 +2333,39 @@
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 12 ] ] ]
+    "components": [ [ [ "sheet_cotton", 11 ] ] ]
+  },
+  {
+    "result": "national_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
+  },
+  {
+    "result": "pride_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
+  },
+  {
+    "result": "american_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
+  },
+  {
+    "result": "state_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
   },
   {
     "result": "sheet_cotton_patchwork",
@@ -3238,7 +3254,7 @@
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "material_limestone", 10 ] ] ]
+    "components": [ [ [ "material_limestone", 150 ] ] ]
   },
   {
     "result": "mess_kit",
@@ -3528,25 +3544,6 @@
     "time": "10 m",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "e_scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "radio_car",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "time": "20 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "antenna", 1 ] ],
-      [ [ "cable", 8 ] ],
-      [ [ "motor_micro", 2 ] ],
-      [ [ "amplifier", 2 ] ],
-      [ [ "plastic_chunk", 8 ] ],
-      [ [ "receiver", 1 ] ],
-      [ [ "e_scrap", 2 ] ],
-      [ [ "scrap_aluminum", 3 ] ],
-      [ [ "radio_car_wheel", 1 ] ]
-    ]
   },
   {
     "result": "radiocontrol",
@@ -4976,16 +4973,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "nomex",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "skill_used": "fabrication",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "time": "1 h",
-    "components": [ [ [ "thread_nomex", 50 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "garlic",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -6061,7 +6048,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [ [ [ "nylon", 6 ] ] ]
+    "components": [ [ [ "nylon", 6 ] ], [ [ "sheet_kevlar_layered", 7 ] ] ]
   },
   {
     "result": "towel",
@@ -7842,5 +7829,23 @@
       [ [ "steel_chunk", 3 ] ],
       [ [ "plastic_chunk", 10 ] ]
     ]
+  },
+  {
+    "result": "arm_zed",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "survival",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "meat_tainted", 3 ] ], [ [ "bone_tainted", 2 ] ], [ [ "sinew", 1 ] ] ]
+  },
+  {
+    "result": "leg_zed",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "survival",
+    "time": "4 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "meat_tainted", 6 ] ], [ [ "bone_tainted", 3 ] ], [ [ "sinew", 2 ] ] ]
   }
 ]

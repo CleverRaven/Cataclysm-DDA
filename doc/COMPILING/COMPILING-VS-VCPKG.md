@@ -146,8 +146,8 @@ It is possible to use `llvm-lib.exe` and `lld-link.exe` to speed up your local b
 <Project>
   <PropertyGroup>
     <CDDA_ENABLE_THIN_ARCHIVES>true</CDDA_ENABLE_THIN_ARCHIVES>
-    <CDDA_LLVM_LIB_PATH>C:\Program Files\LLVM\</CDDA_LLVM_LIB_PATH>
-    <CDDA_LLD_LINK_PATH>C:\Program Files\LLVM\</CDDA_LLD_LINK_PATH>
+    <CDDA_LLVM_LIB_PATH>C:\Program Files\LLVM\bin\</CDDA_LLVM_LIB_PATH>
+    <CDDA_LLD_LINK_PATH>C:\Program Files\LLVM\bin\</CDDA_LLD_LINK_PATH>
   </PropertyGroup>
 </Project>
 ```

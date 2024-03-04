@@ -923,9 +923,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const needs_rates rates = calc_needs_rates();
     // No food/thirst/fatigue clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
-    // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = !needs_food();
-    const bool foodless = debug_ls || npc_no_food;
+    const bool foodless = debug_ls || !needs_food();
     const bool no_thirst = has_flag( json_flag_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
@@ -965,8 +963,8 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             mod_stored_calories( -std::floor( five_mins * kcal_per_time * 1000 ) );
         }
     }
-    // if npc_no_food no need to calc hunger, and set hunger_effect
-    if( npc_no_food ) {
+    // if foodless no need to calc hunger, and set hunger_effect
+    if( foodless ) {
         return;
     }
     if( stomach.time_since_ate() > 10_minutes ) {

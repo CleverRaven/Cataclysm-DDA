@@ -155,8 +155,16 @@
     "id": "marlin_tubeloader",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".22 19-round tube loader" },
+    "name": { "str": "small game rifle 19-round tube loader" },
     "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "marlin_tubeloader",
+        "name": { "str": "Marlin 39A 19-round tube loader" },
+        "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine."
+      }
+    ],
     "weight": "10 g",
     "volume": "14 ml",
     "longest_side": "49 cm",
@@ -253,7 +261,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": ".22 10-round S&W magazine" },
-    "description": "A 10-round handgun magazine for use with Smith and Wesson’s .22 caliber pocket pistol.",
+    "description": "A 10-round handgun magazine for use with Smith and Wesson's .22 caliber pocket pistol.",
     "variant_type": "gun",
     "variants": [
       {

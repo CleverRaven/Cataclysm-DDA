@@ -578,27 +578,27 @@
     "shape": "blast",
     "min_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 15) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_beast_taming') * 15) + 200) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 35) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_beast_taming') * 35) + 500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 8640000) + 241920000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_beast_taming') * 8640000) + 241920000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 25920000) + 483840000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_beast_taming') * 25920000) + 483840000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: telepathic_beast_taming') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+        "min( (( (u_spell_level('telepathic_beast_taming') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
@@ -625,17 +625,17 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 8640000) + 241920000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_beast_taming') * 8640000) + 241920000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_val('spell_level', 'spell: telepathic_beast_taming') * 25920000) + 483840000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('telepathic_beast_taming') * 25920000) + 483840000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_val('spell_level', 'spell: telepathic_beast_taming') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+        "min( (( (u_spell_level('telepathic_beast_taming') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,

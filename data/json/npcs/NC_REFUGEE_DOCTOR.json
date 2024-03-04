@@ -87,7 +87,7 @@
       { "item": "cotton_ball", "prob": 50 },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25 },
-      { "item": "contacts", "prob": 10 },
+      { "group": "box_of_contact_lens_any", "prob": 10 },
       { "item": "vitamins", "prob": 75 },
       { "item": "calcium_tablet", "prob": 75 },
       { "item": "caffeine", "prob": 25 },

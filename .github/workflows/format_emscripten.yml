@@ -54,7 +54,6 @@ jobs:
           commit-message: JSON linter gh-pages file update
           base: gh-pages
           branch: gh-pages-json-linter-update
-          branch-suffix: short-commit-hash
           delete-branch: true
           add-paths: formatter.html
           title: Update Github Pages JSON linter page

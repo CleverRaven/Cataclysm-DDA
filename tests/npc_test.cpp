@@ -97,6 +97,16 @@ static std::string get_list_of_npcs( const std::string &title )
     return npc_list.str();
 }
 
+static std::string get_list_of_monsters( const std::string &title )
+{
+    std::ostringstream mon_list;
+    mon_list << title << ":\n";
+    for( const shared_ptr_fast<monster> &m : get_creature_tracker().get_monsters_list() ) {
+        mon_list << "  " << m.get() << ": " << m->name() << '\n';
+    }
+    return mon_list.str();
+}
+
 TEST_CASE( "on_load-sane-values", "[.]" )
 {
     SECTION( "Awake for 10 minutes, gaining hunger/thirst/fatigue" ) {
@@ -547,7 +557,6 @@ TEST_CASE( "npc_can_target_player" )
     clear_map();
     clear_avatar();
     set_time_to_day();
-    g->place_player( tripoint_zero );
 
     Character &player_character = get_player_character();
     npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );
@@ -556,6 +565,7 @@ TEST_CASE( "npc_can_target_player" )
     hostile.name = "Enemy NPC";
 
     INFO( get_list_of_npcs( "NPCs after spawning one" ) );
+    INFO( get_list_of_monsters( "Monsters after spawning NPC" ) );
 
     hostile.regen_ai_cache();
     REQUIRE( hostile.current_target() != nullptr );

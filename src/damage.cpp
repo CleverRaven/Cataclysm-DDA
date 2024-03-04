@@ -418,8 +418,9 @@ void damage_instance::ondamage_effects( Creature *source, Creature *target,
         if( predamageunit != premitigated.end() ) {
             premit = predamageunit->amount;
         }
-
-        du.type->ondamage_effects( source, target, bp, premit, du.amount );
+        if( !target->is_immune_damage( du.type ) ) {
+            du.type->ondamage_effects( source, target, bp, premit, du.amount );
+        }
     }
 }
 
@@ -811,6 +812,16 @@ void finalize_damage_map( std::unordered_map<damage_type_id, float> &damage_map,
         damage_map[td] = iter == damage_map.end() ? ( td->physical ? physical : non_phys ) :
                          iter->second * td->derived_from.second;
     }
+}
+
+resistances extend_resistances_instance( resistances ret, const JsonObject &jo )
+{
+    resistances ext;
+    ext.resist_vals = load_damage_map( jo );
+    for( const std::pair<const damage_type_id, float> &damage_pair : ext.resist_vals ) {
+        ret.resist_vals[damage_pair.first] += damage_pair.second;
+    }
+    return ret;
 }
 
 resistances load_resistances_instance( const JsonObject &jo,

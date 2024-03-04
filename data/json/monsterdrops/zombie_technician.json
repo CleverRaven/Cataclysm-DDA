@@ -6,11 +6,13 @@
     "entries": [
       { "group": "clothing_work_set", "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 2 ] },
       {
-        "distribution": [ { "group": "tools_carpentry", "prob": 30 }, { "group": "tools_common", "prob": 70 } ],
-        "prob": 30
+        "distribution": [ { "group": "tools_workshop", "prob": 30 }, { "group": "tools_toolbox", "prob": 70 } ],
+        "prob": 50
       },
-      { "group": "supplies_electronics", "prob": 50 },
+      { "group": "supplies_electronics", "count": [ 1, 3 ], "prob": 70 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 60 },
       { "item": "id_industrial", "prob": 20 }
     ]
   },
@@ -44,6 +46,7 @@
       { "group": "clothing_work_gloves", "prob": 50, "damage": [ 1, 4 ] },
       { "group": "clothing_work_mask", "prob": 40, "damage": [ 1, 4 ] },
       { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 2 ] },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 40 },
       { "item": "tool_belt", "prob": 25, "damage": [ 1, 4 ] },
       {
         "distribution": [ { "item": "pickaxe", "prob": 10, "damage": [ 1, 3 ] }, { "item": "shovel", "prob": 50, "damage": [ 1, 3 ] } ],

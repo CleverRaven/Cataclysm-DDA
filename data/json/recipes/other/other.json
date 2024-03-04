@@ -22,7 +22,9 @@
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "macaroni_raw", 1 ],
-        [ "spaghetti_raw", 1 ]
+        [ "spaghetti_raw", 1 ],
+        [ "earthworm", 10 ],
+        [ "earthworm_handful", 1 ]
       ]
     ]
   },
@@ -37,18 +39,6 @@
     "autolearn": true,
     "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
     "components": [ [ [ "cardboard", 10 ] ] ]
-  },
-  {
-    "result": "checkpaper",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "10 m",
-    "autolearn": true,
-    "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
-    "components": [ [ [ "paper", 1 ] ] ]
   },
   {
     "result": "tic_tac",
@@ -82,116 +72,6 @@
     "components": [ [ [ "cardboard", 28 ] ], [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ] ]
   },
   {
-    "result": "makeshift_chess",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "10 s",
-    "reversible": { "time": "10 s" },
-    "autolearn": true,
-    "components": [
-      [ [ "checkpaper", 1 ] ],
-      [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "wchess_pawn", 8 ] ],
-      [ [ "bchess_pawn", 8 ] ],
-      [ [ "wchess_knight", 2 ] ],
-      [ [ "bchess_knight", 2 ] ],
-      [ [ "wchess_bishop", 2 ] ],
-      [ [ "bchess_bishop", 2 ] ],
-      [ [ "wchess_rook", 2 ] ],
-      [ [ "bchess_rook", 2 ] ],
-      [ [ "wchess_queen", 1 ] ],
-      [ [ "bchess_queen", 1 ] ],
-      [ [ "wchess_king", 1 ] ],
-      [ [ "bchess_king", 1 ] ]
-    ]
-  },
-  {
-    "result": "chess",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "autolearn": true,
-    "components": [
-      [ [ "checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wchess_pawn", 8 ] ],
-      [ [ "bchess_pawn", 8 ] ],
-      [ [ "wchess_knight", 2 ] ],
-      [ [ "bchess_knight", 2 ] ],
-      [ [ "wchess_bishop", 2 ] ],
-      [ [ "bchess_bishop", 2 ] ],
-      [ [ "wchess_rook", 2 ] ],
-      [ [ "bchess_rook", 2 ] ],
-      [ [ "wchess_queen", 1 ] ],
-      [ [ "bchess_queen", 1 ] ],
-      [ [ "wchess_king", 1 ] ],
-      [ [ "bchess_king", 1 ] ]
-    ]
-  },
-  {
-    "result": "small_chess",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "autolearn": true,
-    "components": [
-      [ [ "small_checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wchess_pawn", 8 ] ],
-      [ [ "bchess_pawn", 8 ] ],
-      [ [ "wchess_knight", 2 ] ],
-      [ [ "bchess_knight", 2 ] ],
-      [ [ "wchess_bishop", 2 ] ],
-      [ [ "bchess_bishop", 2 ] ],
-      [ [ "wchess_rook", 2 ] ],
-      [ [ "bchess_rook", 2 ] ],
-      [ [ "wchess_queen", 1 ] ],
-      [ [ "bchess_queen", 1 ] ],
-      [ [ "wchess_king", 1 ] ],
-      [ [ "bchess_king", 1 ] ]
-    ]
-  },
-  {
-    "result": "handmade_chess",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 h",
-    "reversible": { "time": "30 s" },
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "checkpaper", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "superglue", 1 ], [ "bone_glue", 1 ] ],
-      [ [ "wchess_pawn", 8 ] ],
-      [ [ "bchess_pawn", 8 ] ],
-      [ [ "wchess_knight", 2 ] ],
-      [ [ "bchess_knight", 2 ] ],
-      [ [ "wchess_bishop", 2 ] ],
-      [ [ "bchess_bishop", 2 ] ],
-      [ [ "wchess_rook", 2 ] ],
-      [ [ "bchess_rook", 2 ] ],
-      [ [ "wchess_queen", 1 ] ],
-      [ [ "bchess_queen", 1 ] ],
-      [ [ "wchess_king", 1 ] ],
-      [ [ "bchess_king", 1 ] ]
-    ]
-  },
-  {
     "result": "makeshift_checkers",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -201,64 +81,11 @@
     "time": "10 s",
     "reversible": { "time": "10 s" },
     "autolearn": true,
+    "tools": [ [ [ "drawing_tool", 5, "LIST" ] ] ],
     "components": [
-      [ [ "checkpaper", 1 ] ],
+      [ [ "paper", 1 ] ],
       [ [ "box_small", 1 ], [ "plastic_shopping_bag", 1 ] ],
-      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
-      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
-    ]
-  },
-  {
-    "result": "checkers",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "autolearn": true,
-    "components": [
-      [ [ "checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
-      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
-    ]
-  },
-  {
-    "result": "small_checkers",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 m",
-    "autolearn": true,
-    "components": [
-      [ [ "small_checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
-      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
-    ]
-  },
-  {
-    "result": "handmade_checkers",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "time": "1 h",
-    "reversible": { "time": "30 s" },
-    "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [
-      [ [ "checkpaper", 1 ] ],
-      [ [ "2x4", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "superglue", 1 ], [ "bone_glue", 1 ] ],
-      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
-      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
+      [ [ "button_wood", 24 ], [ "button_steel", 24 ], [ "button_bronze", 24 ], [ "button_plastic", 24 ] ]
     ]
   },
   {

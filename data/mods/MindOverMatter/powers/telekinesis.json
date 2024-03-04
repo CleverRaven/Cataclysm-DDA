@@ -18,17 +18,17 @@
     "damage_type": "psi_telekinetic_damage",
     "min_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_pull') * -0.5) - 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('telekinetic_pull') * -1.5) - 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling * -1), 40)"
       ]
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
+        "min( (( (u_spell_level('telekinetic_pull') * 0.9) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 40)"
       ]
     },
     "max_range": 40,

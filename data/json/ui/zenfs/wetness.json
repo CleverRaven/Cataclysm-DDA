@@ -76,5 +76,56 @@
     "bodypart": "leg_r",
     "width": 5,
     "copy-from": "zenfs_wetness_graph"
+  },
+  {
+    "id": "zenfs_wetness_num",
+    "type": "widget",
+    "style": "number",
+    "colors": [ "c_dark_gray", "c_light_gray", "c_white", "c_white_white" ],
+    "text_align": "right",
+    "width": 5,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_wetness_head_num",
+    "type": "widget",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "copy-from": "zenfs_wetness_num"
+  },
+  {
+    "id": "zenfs_wetness_torso_num",
+    "type": "widget",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "copy-from": "zenfs_wetness_num"
+  },
+  {
+    "id": "zenfs_wetness_larm_num",
+    "type": "widget",
+    "var": "bp_wetness",
+    "bodypart": "arm_l",
+    "copy-from": "zenfs_wetness_num"
+  },
+  {
+    "id": "zenfs_wetness_rarm_num",
+    "type": "widget",
+    "var": "bp_wetness",
+    "bodypart": "arm_r",
+    "copy-from": "zenfs_wetness_num"
+  },
+  {
+    "id": "zenfs_wetness_lleg_num",
+    "type": "widget",
+    "var": "bp_wetness",
+    "bodypart": "leg_l",
+    "copy-from": "zenfs_wetness_num"
+  },
+  {
+    "id": "zenfs_wetness_rleg_num",
+    "type": "widget",
+    "var": "bp_wetness",
+    "bodypart": "leg_r",
+    "copy-from": "zenfs_wetness_num"
   }
 ]

@@ -12,22 +12,31 @@
   {
     "type": "item_group",
     "id": "molle_accessories",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "item": "chestpouch", "prob": 40 },
-      { "item": "radio_pouch", "prob": 20 },
-      { "item": "gadget_pouch", "prob": 10 },
-      { "item": "h2o_pouch", "prob": 10 },
-      { "item": "tool_pouch", "prob": 10 },
-      { "item": "flashlight_pouch", "prob": 20 },
-      { "item": "tactical_holster", "prob": 20 },
-      { "item": "gas_mask_pouch", "prob": 10 },
-      { "item": "tactical_grenade_pouch", "prob": 40 },
-      { "item": "tactical_shotshell_pouch", "prob": 40 },
-      { "item": "grenade_pouch", "prob": 10 },
-      { "item": "triple_stacker_pouch", "prob": 10 },
-      { "item": "dump_pouch", "prob": 20 },
-      { "item": "canteen_pouch", "prob": 30 },
+      {
+        "distribution": [ { "item": "dump_pouch", "count": [ 1, 2 ] }, { "item": "gadget_pouch", "count": [ 1, 2 ] } ],
+        "prob": 40
+      },
+      { "distribution": [ { "item": "tool_pouch" }, { "item": "radio_pouch" } ], "prob": 70 },
+      {
+        "collection": [
+          { "item": "tactical_holster", "prob": 40 },
+          {
+            "distribution": [
+              { "item": "grenade_pouch" },
+              { "item": "tactical_shotshell_pouch" },
+              { "item": "tactical_grenade_pouch", "count": [ 1, 3 ] }
+            ],
+            "prob": 70
+          },
+          { "item": "flashlight_pouch", "prob": 40 }
+        ]
+      },
+      {
+        "distribution": [ { "item": "canteen_pouch" }, { "item": "h2o_pouch" }, { "item": "gas_mask_pouch" } ],
+        "prob": 80
+      },
       { "item": "deployment_bag", "prob": 10 }
     ]
   },
@@ -37,10 +46,8 @@
     "id": "custom_light_lbv",
     "subtype": "collection",
     "entries": [
-      { "item": "chestpouch" },
-      { "group": "molle_accessories" },
-      { "group": "molle_accessories", "prob": 60 },
-      { "group": "molle_accessories", "prob": 20 }
+      { "distribution": [ { "item": "chestpouch", "count": [ 1, 2 ] }, { "item": "triple_stacker_pouch" } ] },
+      { "group": "molle_accessories", "count": [ 1, 2 ] }
     ]
   },
   {
@@ -49,11 +56,8 @@
     "//": "generic spawns for a generic vest",
     "subtype": "collection",
     "entries": [
-      { "item": "chestpouch" },
-      { "item": "chestpouch" },
-      { "group": "molle_accessories" },
-      { "group": "molle_accessories", "prob": 60 },
-      { "group": "molle_accessories", "prob": 20 }
+      { "distribution": [ { "item": "chestpouch", "count": [ 1, 2 ] }, { "item": "triple_stacker_pouch" } ] },
+      { "group": "molle_accessories", "count": [ 1, 3 ] }
     ]
   },
   {
@@ -62,13 +66,10 @@
     "//": "generic spawns for a generic vest",
     "subtype": "collection",
     "entries": [
-      { "item": "chestpouch" },
-      { "item": "chestpouch" },
-      { "item": "chestpouch" },
-      { "group": "molle_accessories" },
-      { "group": "molle_accessories" },
-      { "group": "molle_accessories", "prob": 60 },
-      { "group": "molle_accessories", "prob": 20 }
+      {
+        "distribution": [ { "item": "chestpouch", "count": [ 1, 2 ] }, { "item": "triple_stacker_pouch", "count": [ 1, 2 ] } ]
+      },
+      { "group": "molle_accessories", "count": [ 1, 4 ] }
     ]
   },
   {
@@ -86,11 +87,6 @@
     "id": "molle_backpacks_contents",
     "//": "stuff that might be in a molle pack",
     "subtype": "collection",
-    "entries": [
-      { "item": "camelbak", "prob": 40 },
-      { "group": "molle_accessories" },
-      { "group": "molle_accessories", "prob": 60 },
-      { "group": "molle_accessories", "prob": 20 }
-    ]
+    "entries": [ { "item": "camelbak", "prob": 40 }, { "group": "molle_accessories", "count": [ 1, 2 ] } ]
   }
 ]

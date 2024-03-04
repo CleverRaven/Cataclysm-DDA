@@ -70,6 +70,7 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_BURROWLARGE( "BURROWLARGE" );
 static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_DEX_ALPHA( "DEX_ALPHA" );
+static const trait_id trait_ECHOLOCATION( "ECHOLOCATION" );
 static const trait_id trait_GASTROPOD_EXTREMITY2( "GASTROPOD_EXTREMITY2" );
 static const trait_id trait_GASTROPOD_EXTREMITY3( "GASTROPOD_EXTREMITY3" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
@@ -495,10 +496,6 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
-        branch.hp_adjustment.has_value() ) {
-        recalc_hp();
-    }
 
     for( const itype_id &armor : branch.integrated_armor ) {
         item tmparmor( armor );
@@ -604,10 +601,6 @@ void Character::mutation_loss_effect( const trait_id &mut )
     recalculate_size();
 
     const mutation_branch &branch = mut.obj();
-    if( branch.hp_modifier.has_value() || branch.hp_modifier_secondary.has_value() ||
-        branch.hp_adjustment.has_value() ) {
-        recalc_hp();
-    }
 
     for( const itype_id &popped_armor : branch.integrated_armor ) {
         remove_worn_items_with( [&]( item & armor ) {
@@ -876,6 +869,9 @@ void Character::activate_mutation( const trait_id &mut )
         blossoms();
         tdata.powered = false;
         return;
+    } else if( mut == trait_ECHOLOCATION ) {
+        echo_pulse();
+        deactivate_mutation( mut );
     } else if( mut == trait_TREE_COMMUNION || mut == trait_ARVORE_FOREST_MAPPING ) {
         tdata.powered = false;
         // Check for adjacent trees.

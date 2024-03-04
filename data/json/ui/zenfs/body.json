@@ -29,15 +29,15 @@
     "type": "widget",
     "style": "layout",
     "width": 29,
-    "arrange": "columns",
+    "arrange": "minimum_columns",
     "widgets": [ "zenfs_body_graph_wetness", "zenfs_body_graph_temp", "zenfs_body_graph_encumb" ]
   },
   {
     "id": "zenfs_body_graph_layout",
     "type": "widget",
     "style": "layout",
-    "width": 8,
-    "arrange": "columns",
+    "width": 7,
+    "arrange": "minimum_columns",
     "widgets": [ "compact_body_graph" ]
   }
 ]

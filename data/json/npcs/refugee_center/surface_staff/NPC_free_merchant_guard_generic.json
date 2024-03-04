@@ -47,7 +47,10 @@
     "dynamic_line": [
       "Nothing too fancy.  We have a rota of anyone able bodied that can handle themselves.",
       "None of your business really, is it.",
-      "I've seen my share of zombies, I'm one of the ones that's ready to take em on.  Nothing more.",
+      {
+        "gendered_line": "I've seen my share of zombies, I'm one of the ones that's ready to take em on.  Nothing more.",
+        "relevant_genders": [ "npc" ]
+      },
       "Gotta earn my keep.",
       "It's honest work, and now and then I get to take a zombie down."
     ],

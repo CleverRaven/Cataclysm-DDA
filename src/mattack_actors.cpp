@@ -62,6 +62,8 @@ static const efftype_id effect_zombie_virus( "zombie_virus" );
 static const flag_id json_flag_GRAB( "GRAB" );
 static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_throw( "throw" );
 
@@ -362,6 +364,7 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
     optional( obj, was_loaded, "uncanny_dodgeable", uncanny_dodgeable, dodgeable );
     optional( obj, was_loaded, "blockable", blockable, true );
     optional( obj, was_loaded, "effects_require_dmg", effects_require_dmg, true );
+    optional( obj, was_loaded, "effects_require_organic", effects_require_organic, false );
     optional( obj, was_loaded, "grab", is_grab, false );
     optional( obj, was_loaded, "range", range, 1 );
     optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
@@ -872,9 +875,11 @@ bool melee_actor::call( monster &z ) const
             for( const mon_effect_data &eff : effects ) {
                 if( x_in_y( eff.chance, 100 ) ) {
                     const bodypart_id affected_bp = eff.affect_hit_bp ? bp_id : eff.bp.id();
-                    target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
-                                        eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
-                                                eff.intensity.second ) );
+                    if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
+                        target->add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                            eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                                    eff.intensity.second ) );
+                    }
                 }
             }
         }
@@ -935,9 +940,11 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     for( const mon_effect_data &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
             const bodypart_id affected_bp = eff.affect_hit_bp ? bp : eff.bp.id();
-            target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
-                               eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
-                                       eff.intensity.second ) );
+            if( !( effects_require_organic && affected_bp->has_flag( json_flag_BIONIC_LIMB ) ) ) {
+                target.add_effect( eff.id, time_duration::from_turns( rng( eff.duration.first,
+                                   eff.duration.second ) ), affected_bp, eff.permanent, rng( eff.intensity.first,
+                                           eff.intensity.second ) );
+            }
         }
     }
 
@@ -975,33 +982,36 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     add_msg_debug( debugmode::DF_MATTACK, "Bite-type attack, infection chance %d", infection_chance );
+    const bodypart_id &hit = dealt.bp_hit;
 
-    if( x_in_y( infection_chance, 100 ) ) {
-        const bodypart_id &hit = dealt.bp_hit;
-        if( target.has_effect( effect_bite, hit.id() ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
-            target.add_effect( effect_bite, 40_minutes, hit, true );
-        } else if( target.has_effect( effect_infected, hit.id() ) ) {
-            add_msg_debug( debugmode::DF_MATTACK, "Incrementing infected effect on %s", hit->name );
-            target.add_effect( effect_infected, 25_minutes, hit, true );
-        } else {
-            add_msg_debug( debugmode::DF_MATTACK, "Added bitten effect to %s", hit->name );
-            target.add_effect( effect_bite, 1_turns, hit, true );
+    // only do bitey things if the limb is fleshy
+    if( !hit->has_flag( json_flag_BIONIC_LIMB ) ) {
+        // first, do regular zombie infections
+        if( x_in_y( infection_chance, 100 ) ) {
+            if( target.has_effect( effect_bite, hit.id() ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Incrementing bitten effect on %s", hit->name );
+                target.add_effect( effect_bite, 40_minutes, hit, true );
+            } else if( target.has_effect( effect_infected, hit.id() ) ) {
+                add_msg_debug( debugmode::DF_MATTACK, "Incrementing infected effect on %s", hit->name );
+                target.add_effect( effect_infected, 25_minutes, hit, true );
+            } else {
+                add_msg_debug( debugmode::DF_MATTACK, "Added bitten effect to %s", hit->name );
+                target.add_effect( effect_bite, 1_turns, hit, true );
+            }
         }
-    }
-
-    // Flag only set for zombies in the deadly_bites mod
-    if( x_in_y( infection_chance, 20 ) ) {
-        if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
-            target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
-        } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
-            target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+        // Flag only set for zombies in the deadly_bites mod
+        if( x_in_y( infection_chance, 20 ) ) {
+            if( z.has_flag( mon_flag_DEADLY_VIRUS ) && !target.has_effect( effect_zombie_virus ) ) {
+                target.add_effect( effect_zombie_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+            } else if( z.has_flag( mon_flag_VAMP_VIRUS ) && !target.has_trait( trait_VAMPIRE ) ) {
+                target.add_effect( effect_vampire_virus, 1_turns, bodypart_str_id::NULL_ID(), true );
+            }
         }
-    }
-
-    if( target.has_trait( trait_TOXICFLESH ) ) {
-        z.add_effect( effect_poison, 5_minutes );
-        z.add_effect( effect_badpoison, 5_minutes );
+        // lastly, poison it if we're yucky
+        if( target.has_trait( trait_TOXICFLESH ) ) {
+            z.add_effect( effect_poison, 5_minutes );
+            z.add_effect( effect_badpoison, 5_minutes );
+        }
     }
 }
 

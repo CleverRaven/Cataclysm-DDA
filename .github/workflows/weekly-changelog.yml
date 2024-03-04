@@ -39,7 +39,7 @@ jobs:
           committer: David Seguin <davidseguin@live.ca>
           author: David Seguin <davidseguin@live.ca>
           token: ${{ secrets.TX_PR_CREATOR }}
-          branch: changelog-weekly-${{ steps.getting-changes.outputs.date }}
+          branch: weekly-changelog
           delete-branch: true
           base: master
           title: Weekly Changelog ${{ steps.getting-changes.outputs.old_date }} to ${{ steps.getting-changes.outputs.date }}

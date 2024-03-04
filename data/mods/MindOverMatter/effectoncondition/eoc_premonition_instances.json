@@ -45,7 +45,7 @@
     "effect": [
       { "math": [ "u_Shadow_Lurking", "--" ] },
       { "u_spawn_monster": "mon_lieutenant_shadow", "real_count": 1, "min_radius": 10, "max_radius": 15 },
-      { "queue_eocs": "EOC_LIEUTENANT_SHADOW_SPAWN_MESSAGE", "time_in_future": 1 }
+      { "queue_eocs": "EOC_LIEUTENANT_SPAWN_SHADOW_MESSAGE", "time_in_future": 1 }
     ]
   },
   {
@@ -110,8 +110,8 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('faction_like: hells_raiders')", "<", "-40" ] },
-        { "math": [ "u_val('faction_like: hells_raiders')", ">", "-60" ] },
+        { "math": [ "faction_like('hells_raiders')", "<", "-40" ] },
+        { "math": [ "faction_like('hells_raiders')", ">", "-60" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },
@@ -183,8 +183,8 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('faction_like: hells_raiders')", "<", "-60" ] },
-        { "math": [ "u_val('faction_like: hells_raiders')", ">", "-90" ] },
+        { "math": [ "faction_like('hells_raiders')", "<", "-60" ] },
+        { "math": [ "faction_like('hells_raiders')", ">", "-90" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 15" ] },
         { "not": { "is_weather": "portal_storm" } },
@@ -258,7 +258,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('faction_like: hells_raiders')", "<", "-90" ] },
+        { "math": [ "faction_like('hells_raiders')", "<", "-90" ] },
         { "math": [ "u_bandit_assassins_sent", "<=", "10" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ] },
         { "not": { "is_weather": "portal_storm" } },
@@ -332,7 +332,7 @@
     "global": true,
     "condition": {
       "and": [
-        { "math": [ "u_val('faction_like: old_guard')", "<", "-45" ] },
+        { "math": [ "faction_like('old_guard')", "<", "-45" ] },
         { "math": [ "u_government_assassins_sent", "<=", "6" ] },
         { "math": [ "time_since('cataclysm', 'unit':'days') >= 9" ] },
         { "not": { "is_weather": "portal_storm" } },

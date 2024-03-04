@@ -235,13 +235,13 @@
       },
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "left_peg_leg", "worn_only": true } ],
-        "true_eocs": [ "EOC_left_peg_leg_hp_set" ]
+        "search_data": [ { "id": "left_peg_leg_old", "worn_only": true } ],
+        "true_eocs": [ "EOC_left_peg_leg_old_hp_set" ]
       },
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "right_peg_leg", "worn_only": true } ],
-        "true_eocs": [ "EOC_right_peg_leg_hp_set" ]
+        "search_data": [ { "id": "right_peg_leg_old", "worn_only": true } ],
+        "true_eocs": [ "EOC_right_peg_leg_old_hp_set" ]
       },
       {
         "u_run_inv_eocs": "random",
@@ -255,12 +255,12 @@
       },
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "left_arm_prosthetic_steel", "worn_only": true } ],
+        "search_data": [ { "id": "left_arm_prosthetic_steel_old", "worn_only": true } ],
         "true_eocs": [ "EOC_left_arm_hp_set" ]
       },
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "right_arm_prosthetic_steel", "worn_only": true } ],
+        "search_data": [ { "id": "right_arm_prosthetic_steel_old", "worn_only": true } ],
         "true_eocs": [ "EOC_right_arm_hp_set" ]
       },
       {
@@ -275,12 +275,12 @@
       },
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "left_arm_prosthetic_wood", "worn_only": true } ],
+        "search_data": [ { "id": "left_arm_prosthetic_wood_old", "worn_only": true } ],
         "true_eocs": [ "EOC_left_cosmetic_arm_hp_set" ]
       },
       {
         "u_run_inv_eocs": "random",
-        "search_data": [ { "id": "right_arm_prosthetic_wood", "worn_only": true } ],
+        "search_data": [ { "id": "right_arm_prosthetic_wood_old", "worn_only": true } ],
         "true_eocs": [ "EOC_right_cosmetic_arm_hp_set" ]
       }
     ]
@@ -297,12 +297,12 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_left_peg_leg_hp_set",
+    "id": "EOC_left_peg_leg_old_hp_set",
     "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('leg_peg_l') * n_hp_max('bp_null') / u_hp_max('leg_peg_l')" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_right_peg_leg_hp_set",
+    "id": "EOC_right_peg_leg_old_hp_set",
     "effect": [ { "math": [ "n_hp('ALL')", "=", "u_hp('leg_peg_r') * n_hp_max('bp_null') / u_hp_max('leg_peg_r')" ] } ]
   },
   {

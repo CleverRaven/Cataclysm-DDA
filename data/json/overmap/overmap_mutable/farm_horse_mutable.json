@@ -4,7 +4,7 @@
     "id": "Horse Farm Mutable",
     "subtype": "mutable",
     "locations": [ "forest_without_trail", "field", "open_air" ],
-    "city_distance": [ 5, 40 ],
+    "city_distance": [ 5, -1 ],
     "city_sizes": [ 1, -1 ],
     "occurrences": [ 80, 100 ],
     "flags": [ "CLASSIC", "MAN_MADE", "FARM", "UNIQUE" ],
