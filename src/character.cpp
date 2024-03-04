@@ -10021,14 +10021,6 @@ void Character::on_worn_item_washed( const item &it )
     }
 }
 
-void Character::on_worn_item_soiled( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_soiled( it );
-    }
-}
-
-
 void Character::on_item_wear( const item &it )
 {
     invalidate_inventory_validity_cache();

@@ -9773,19 +9773,6 @@
   },
   {
     "type": "mutation",
-    "id": "BILE_STINK",
-    "name": { "str": "Bile Stink" },
-    "points": -2,
-    "visibility": 5,
-    "ugliness": 6,
-    "description": "You absolutely reek.  The bile you were splashed with seems to be reacting with your body chemistry to produce a smell that's somehow even worse.  If anything that hunts by scent is around, it's sure to notice you.",
-    "scent_intensity": 1600,
-    "prevented_by": [ "CHLOROMORPH" ],
-    "valid": false,
-    "purifiable": false
-  },
-  {
-    "type": "mutation",
     "id": "BLOODLETTER",
     "name": { "str": "Bloodletter" },
     "points": 2,
