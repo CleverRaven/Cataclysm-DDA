@@ -21,6 +21,9 @@
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 
+#if !defined(__ANDROID__)
+static bool imgui_frame_started = false;
+#endif
 static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
@@ -340,8 +343,13 @@ void ui_adaptor::redraw_invalidated( )
     if( test_mode || ui_stack.empty() ) {
         return;
     }
-
-    imclient->new_frame();
+#if !defined(__ANDROID__)
+    // This boolean is needed when a debug error is thrown inside redraw_invalidated
+    if( !imgui_frame_started ) {
+        imclient->new_frame();
+    }
+    imgui_frame_started = true;
+#endif
 
     restore_on_out_of_scope<bool> prev_redraw_in_progress( redraw_in_progress );
     restore_on_out_of_scope<bool> prev_restart_redrawing( restart_redrawing );
@@ -447,7 +455,10 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
+#if !defined(__ANDROID__)
     imclient->end_frame();
+    imgui_frame_started = false;
+#endif
 }
 
 void ui_adaptor::screen_resized()

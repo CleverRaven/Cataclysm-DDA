@@ -120,28 +120,34 @@
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "VERDANT_HELMET" ]
+    "ench_effects": [
+      { "effect": "effect_enhanced_vision_flag", "intensity": 1 },
+      { "effect": "effect_glare_resist_flag", "intensity": 1 }
+    ]
   },
   {
     "id": "ench_verdant_body",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "VERDANT_BODY" ]
+    "values": [ { "value": "REGEN_MANA", "multiply": 0.15 } ],
+    "ench_effects": [ { "effect": "effect_no_scent_flag", "intensity": 1 } ]
   },
   {
     "id": "ench_verdant_gauntlets",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "VERDANT_GAUNTLETS" ]
+    "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ],
+    "ench_effects": [ { "effect": "effect_subtle_spell_flag", "intensity": 1 } ]
   },
   {
     "id": "ench_verdant_boots",
     "type": "enchantment",
     "has": "WORN",
     "condition": "ALWAYS",
-    "mutations": [ "VERDANT_BOOTS" ]
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
+    "ench_effects": [ { "effect": "effect_steady_flag", "intensity": 1 }, { "effect": "effect_sludge_immune_flag", "intensity": 1 } ]
   },
   {
     "id": "ench_verdant_cloak",

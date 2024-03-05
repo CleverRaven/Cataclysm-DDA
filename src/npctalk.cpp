@@ -4221,8 +4221,8 @@ talk_effect_fun_t::func f_message( const JsonObject &jo, std::string_view member
             map &here = get_map();
             if( !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
                 if( !outdoor_only || here.get_abs_sub().z() >= 0 ||
-                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
-                                                      target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                    one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() / target->hearing_ability() ),
+                                      1 ) ) ) {
                     display = true;
                 }
             }
@@ -4363,9 +4363,9 @@ talk_effect_fun_t::func f_sound_effect( const JsonObject &jo, std::string_view m
                 sfx::play_variant_sound( id.evaluate( d ), variant.evaluate( d ), local_volume,
                                          random_direction() );
             } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z() /
-                                         target->mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                                         target->hearing_ability() ), 1 ) ) ) {
                 if( local_volume == -1 ) {
-                    local_volume = 80 * target->mutation_value( "hearing_modifier" );
+                    local_volume = 80 * target->hearing_ability();
                 }
                 sfx::play_variant_sound( id.evaluate( d ), variant.evaluate( d ), local_volume,
                                          random_direction() );
@@ -4867,41 +4867,32 @@ talk_effect_fun_t::func f_run_eocs( const JsonObject &jo, std::string_view membe
 talk_effect_fun_t::func f_run_eoc_until( const JsonObject &jo, std::string_view member )
 {
     effect_on_condition_id eoc = effect_on_conditions::load_inline_eoc( jo.get_member( member ), "" );
+    std::function<bool( dialogue & )> cond;
+    read_condition( jo, "condition", cond, true ); // The default result of this condition is true
 
-    str_or_var condition = get_str_or_var( jo.get_member( "condition" ), "condition" );
+    dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration", false, 100 );
 
-    dbl_or_var iteration_count = get_dbl_or_var( jo, "iteration_count", false, 100 );
-
-    return [eoc, condition, iteration_count]( dialogue & d ) {
-        auto itt = d.get_conditionals().find( condition.evaluate( d ) );
-        if( itt == d.get_conditionals().end() ) {
-            debugmsg( string_format( "No condition with the name %s", condition.evaluate( d ) ) );
-            return;
-        }
-
+    return [eoc, cond, iteration_count]( dialogue & d ) {
         int max_iteration = iteration_count.evaluate( d );
 
         int curr_iteration = 0;
-
-        while( itt->second( d ) ) {
+        // Amend the eoc to the callstack before the iteration.
+        // In the interation, the eoc doesn't need to be amended repeatedly in activate().
+        d.amend_callstack( "EOC: " + eoc->id.str() );
+        while( cond( d ) ) {
             curr_iteration++;
             if( curr_iteration > max_iteration ) {
-                debugmsg( string_format( "EOC loop ran for more instances than the max allowed: %d. Exiting loop.",
-                                         max_iteration ) );
                 break;
             }
-            eoc->activate( d );
+            eoc->activate( d, false );
         }
     };
 }
 
 talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_view member )
 {
-    std::vector<str_or_var> eocs;
-    for( const JsonValue &jv : jo.get_array( member ) ) {
-        eocs.push_back( get_str_or_var( jv, member, true ) );
-    }
 
+    std::vector<eoc_entry> eocs = load_eoc_vector_id_and_var( jo, member );
     if( eocs.empty() ) {
         jo.throw_error( "Invalid input for run_eocs" );
     }
@@ -4990,8 +4981,9 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
         parse_tags( eoc_list.text, alpha, beta, d );
 
         for( size_t i = 0; i < eocs.size(); i++ ) {
-            effect_on_condition_id eoc_id = effect_on_condition_id( eocs[i].evaluate( d ) );
 
+            effect_on_condition_id eoc_id =
+                eocs[i].var ? effect_on_condition_id( eocs[i].var->evaluate( d ) ) : eocs[i].id;
             // check and set condition
             bool display = false;
             if( eoc_id->has_condition ) {
@@ -5049,7 +5041,10 @@ talk_effect_fun_t::func f_run_eoc_selector( const JsonObject &jo, std::string_vi
             }
         }
 
-        effect_on_condition_id( eocs[eoc_list.ret].evaluate( d ) )->activate( newDialog );
+        effect_on_condition_id chosen_eoc_id =
+            eocs[eoc_list.ret].var ? effect_on_condition_id( eocs[eoc_list.ret].var->evaluate(
+                        d ) ) : eocs[eoc_list.ret].id;
+        chosen_eoc_id->activate( newDialog );
     };
 }
 
@@ -5115,9 +5110,9 @@ talk_effect_fun_t::func f_run_eoc_with( const JsonObject &jo, std::string_view m
                 } else if( str.empty() ) {
                     guy = nullptr;
                 } else if( str == "u" ) {
-                    guy = d.has_alpha ? d.actor( false )->get_character() : nullptr;
+                    guy = d.has_alpha ? d.actor( false )->get_creature() : nullptr;
                 } else if( str == "npc" ) {
-                    guy = d.has_beta ? d.actor( true )->get_character() : nullptr;
+                    guy = d.has_beta ? d.actor( true )->get_creature() : nullptr;
                 } else if( str == "avatar" ) {
                     guy = &get_avatar();
                 } else {

@@ -74,7 +74,9 @@
 #include "wcwidth.h"
 #include "cata_imgui.h"
 
+#if !defined(__ANDROID__)
 std::unique_ptr<cataimgui::client> imclient;
+#endif
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -421,9 +423,11 @@ static void WinCreate()
         geometry = std::make_unique<DefaultGeometryRenderer>();
     }
 
+#if !defined(__ANDROID__)
     cataimgui::client::sdl_renderer = renderer.get();
     cataimgui::client::sdl_window = window.get();
     imclient = std::make_unique<cataimgui::client>();
+#endif
 
     //io.Fonts->AddFontDefault();
     //io.Fonts->Build();
@@ -434,7 +438,9 @@ static void WinDestroy()
 #if defined(__ANDROID__)
     touch_joystick.reset();
 #endif
+#if !defined(__ANDROID__)
     imclient.reset();
+#endif
     shutdown_sound();
     tilecontext.reset();
     gamepad::quit();
@@ -1149,7 +1155,6 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                                   WindowHeight / scaling_factor );
     }
 
-    clear_window_area( w );
     cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
 
     // TODO: Get this from UTF system to make sure it is exactly the kind of space we need
@@ -1157,6 +1162,18 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
 
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
+        if( !win->line[j].touched ) {
+            continue;
+        }
+
+        // Although it would be simpler to clear the whole window at
+        // once, the code sometimes creates overlapping windows. By
+        // only clearing those lines that are touched, we avoid
+        // clearing lines that were already drawn in a previous
+        // window but are untouched in this one.
+        geometry->rect( renderer, point( win->pos.x * fontwidth, ( win->pos.y + j ) * fontheight ),
+                        win->width * fontwidth, fontheight,
+                        color_as_sdl( catacurses::black ) );
         update = true;
         win->line[j].touched = false;
         for( int i = 0; i < win->width; i++ ) {
@@ -2857,7 +2874,9 @@ static void CheckMessages()
     bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
+#if !defined(__ANDROID__)
         imclient->process_input( &ev );
+#endif
         switch( ev.type ) {
             case SDL_WINDOWEVENT:
                 switch( ev.window.event ) {

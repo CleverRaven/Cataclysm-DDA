@@ -168,7 +168,9 @@ void exit_handler( int s )
         } else
 #endif
         {
+#if !defined(__ANDROID__)
             imclient.reset();
+#endif
             exit( exit_status );
         }
     }

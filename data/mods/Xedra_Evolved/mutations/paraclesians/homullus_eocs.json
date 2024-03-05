@@ -58,5 +58,20 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "HOMULLUS_MIGRATE_TO_MIMIMIZED_MUTATIONS",
+    "//": "For pre-existing homullus characters that don't have the mutation blocker mutation.",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": {
+      "and": [
+        { "u_has_trait": "HOMULLUS" },
+        { "not": { "u_has_trait": "HOMULLUS_MINIMIZED_MUTATIONS" } },
+        { "not": { "u_has_trait": "HOMULLUS_EXPANDED_MUTATIONS" } }
+      ]
+    },
+    "effect": [ { "u_add_trait": "HOMULLUS_MINIMIZED_MUTATIONS" } ]
   }
 ]

@@ -163,6 +163,18 @@ namespace io
             case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
             case enchant_vals::mod::RANGE: return "RANGE";
             case enchant_vals::mod::AVOID_FRIENDRY_FIRE: return "AVOID_FRIENDRY_FIRE";
+            case enchant_vals::mod::MOVECOST_SWIM_MOD: return "MOVECOST_SWIM_MOD";
+            case enchant_vals::mod::MOVECOST_OBSTACLE_MOD: return "MOVECOST_OBSTACLE_MOD";
+            case enchant_vals::mod::MOVECOST_FLATGROUND_MOD: return "MOVECOST_FLATGROUND_MOD";
+            case enchant_vals::mod::SHOUT_NOISE_BASE: return "SHOUT_NOISE_BASE";
+            case enchant_vals::mod::SHOUT_NOISE_STR_MULT: return "SHOUT_NOISE_STR_MULT";
+            case enchant_vals::mod::NIGHT_VIS: return "NIGHT_VIS";
+            case enchant_vals::mod::HEARING_MULT: return "HEARING_MULT";
+            case enchant_vals::mod::BANDAGE_BONUS: return "BANDAGE_BONUS";
+            case enchant_vals::mod::DISINFECTANT_BONUS: return "DISINFECTANT_BONUS";
+            case enchant_vals::mod::BLEED_STOP_BONUS: return "BLEED_STOP_BONUS";
+            case enchant_vals::mod::UGLINESS: return "UGLINESS";
+            case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );

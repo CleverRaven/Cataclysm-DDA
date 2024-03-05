@@ -140,7 +140,6 @@
   {
     "id": "fd_pollen_arvore_weaken",
     "type": "field_type",
-    "legacy_enum_id": 51,
     "intensity_levels": [
       {
         "name": "pollen cloud",
@@ -194,5 +193,16 @@
     "display_items": false,
     "display_field": true,
     "looks_like": "fd_nuke_gas"
+  },
+  {
+    "id": "fd_sylph_solid_fog",
+    "type": "field_type",
+    "looks_like": "fd_fog",
+    "intensity_levels": [ { "name": "solid fog", "sym": "*", "translucency": 99, "move_cost": -1, "transparent": false, "light_override": 0 } ],
+    "half_life": 999999999999,
+    "percent_spread": 0,
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true
   }
 ]

@@ -1,3 +1,4 @@
+#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 
 #include <stack>
@@ -45,6 +46,9 @@ cataimgui::client::client()
     ImTui_ImplText_Init();
 
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+
+    ImGui::GetIO().IniFilename = nullptr;
+    ImGui::GetIO().LogFilename = nullptr;
 }
 
 cataimgui::client::~client()
@@ -105,12 +109,14 @@ void cataimgui::client::process_input( void *input )
                     case MouseInput::RightButtonReleased:
                         new_mouse_event.bstate |= BUTTON3_RELEASED;
                         break;
+#if defined(BUTTON5_PRESSED) /* If curses version is prepared for a 5-button mouse, enable mousewheel */
                     case MouseInput::ScrollWheelUp:
                         new_mouse_event.bstate |= BUTTON4_PRESSED;
                         break;
                     case MouseInput::ScrollWheelDown:
                         new_mouse_event.bstate |= BUTTON5_PRESSED;
                         break;
+#endif
                     default:
                         break;
                 }
@@ -165,6 +171,9 @@ cataimgui::client::client()
     ( void )io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    io.IniFilename = nullptr;
+    io.LogFilename = nullptr;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
@@ -275,23 +284,18 @@ void cataimgui::window::draw_colored_text( std::string const &text, nc_color &co
             ImGui::TextColored( { static_cast<float>( rgbCol.Red / 255. ), static_cast<float>( rgbCol.Green / 255. ),
                                   static_cast<float>( rgbCol.Blue / 255. ), static_cast<float>( 255. ) },
                                 "%s", seg.c_str() );
-            GImGui->LastItemData.ID = itemId;
 #else
             SDL_Color c = curses_color_to_SDL( color );
             ImGui::TextColored( { static_cast<float>( c.r / 255. ), static_cast<float>( c.g / 255. ),
                                   static_cast<float>( c.b / 255. ), static_cast<float>( c.a / 255. ) },
                                 "%s", seg.c_str() );
-            GImGui->LastItemData.ID = itemId;
 #endif
+            GImGui->LastItemData.ID = itemId;
             if( is_focused && !*is_focused ) {
                 *is_focused = ImGui::IsItemFocused();
             }
             if( is_hovered && !*is_hovered ) {
-#if defined(TILES) || defined(WIN32)
-                *is_hovered = ImGui::IsItemHovered( ImGuiHoveredFlags_NoNavOverride );
-#else
-                *is_hovered = ImGui::IsItemHovered();
-#endif
+                *is_hovered = GImGui->HoveredId == itemId;
             }
 
         }
@@ -472,3 +476,4 @@ cataimgui::bounds cataimgui::window::get_bounds()
 {
     return { -1.f, -1.f, -1.f, -1.f };
 }
+#endif // #if defined(__ANDROID__)

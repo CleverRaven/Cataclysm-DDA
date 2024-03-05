@@ -65,6 +65,7 @@
   },
   {
     "result": "seed_eggplant",
+    "id_suffix": "with_cutting_tool",
     "type": "recipe",
     "copy-from": "seed_extraction_cutting",
     "byproducts": [ [ "eggplant_cut", 1 ] ],

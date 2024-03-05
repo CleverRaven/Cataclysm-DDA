@@ -135,6 +135,7 @@ static const itype_id itype_stock_none( "stock_none" );
 static const itype_id itype_syringe( "syringe" );
 
 static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
@@ -3350,7 +3351,10 @@ int heal_actor::get_bandaged_level( const Character &healer ) const
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return round( bandages_power + bandages_scaling * prof_bonus );
+        float total_bonus = bandages_power + bandages_scaling * prof_bonus;
+        total_bonus = healer.enchantment_cache->modify_value( enchant_vals::mod::BANDAGE_BONUS,
+                      total_bonus );
+        return round( total_bonus );
     }
 
     return bandages_power;
@@ -3365,7 +3369,10 @@ int heal_actor::get_disinfected_level( const Character &healer ) const
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
-        return round( disinfectant_power + disinfectant_scaling * prof_bonus );
+        float total_bonus = disinfectant_power + disinfectant_scaling * prof_bonus;
+        total_bonus = healer.enchantment_cache->modify_value( enchant_vals::mod::DISINFECTANT_BONUS,
+                      total_bonus );
+        return round( total_bonus );
     }
 
     return disinfectant_power;
@@ -3380,7 +3387,10 @@ int heal_actor::get_stopbleed_level( const Character &healer ) const
                      prof_bonus + 1 : prof_bonus;
         prof_bonus = healer.has_proficiency( proficiency_prof_wound_care_expert ) ?
                      prof_bonus + 2 : prof_bonus;
-        return round( bleed + prof_bonus );
+        float total_bonus = bleed * prof_bonus;
+        total_bonus = healer.enchantment_cache->modify_value( enchant_vals::mod::BLEED_STOP_BONUS,
+                      total_bonus );
+        return round( total_bonus );
     }
 
     return bleed;
@@ -4140,7 +4150,7 @@ std::optional<int> install_bionic_actor::use( Character *p, item &it,
         const tripoint & ) const
 {
     if( p->can_install_bionics( *it.type, *p, false ) ) {
-        if( !p->has_trait( trait_DEBUG_BIONICS ) ) {
+        if( !p->has_trait( trait_DEBUG_BIONICS ) && !p->has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
             p->consume_installation_requirement( it.type->bionic->id );
             p->consume_anesth_requirement( *it.type, *p );
         }
@@ -4162,7 +4172,7 @@ ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it,
         return ret_val<void>::make_failure( _( "You can't install bionics while mounted." ) );
     }
     if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
-        if( bid->installation_requirement.is_empty() ) {
+        if( bid->installation_requirement.is_empty() && !p.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
             return ret_val<void>::make_failure( _( "You can't self-install this CBM." ) );
         } else  if( it.has_flag( flag_FILTHY ) ) {
             return ret_val<void>::make_failure( _( "You can't install a filthy CBM!" ) );

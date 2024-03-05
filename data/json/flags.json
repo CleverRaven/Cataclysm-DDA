@@ -1557,6 +1557,10 @@
     "type": "json_flag"
   },
   {
+    "id": "MANUAL_CBM_INSTALLATION",
+    "type": "json_flag"
+  },
+  {
     "id": "MECH_BAT",
     "type": "json_flag"
   },
@@ -2437,5 +2441,14 @@
     "id": "HEARING_PROTECTION",
     "type": "json_flag",
     "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
+  },
+  {
+    "id": "BILE_AFFLICTED",
+    "type": "json_flag",
+    "//": "The character is afflicted with boomer bile."
+  },
+  {
+    "id": "DRACULIN_VENOM",
+    "type": "json_flag"
   }
 ]
