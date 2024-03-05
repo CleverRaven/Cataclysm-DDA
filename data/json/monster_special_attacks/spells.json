@@ -1188,35 +1188,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STARE2",
-    "condition": {
-      "and": [
-        { "u_has_trait": "SCHIZOPHRENIC" },
-        { "not": { "u_has_effect": "took_thorazine" } },
-        { "x_in_y_chance": { "x": 2, "y": 3 } }
-      ]
-    },
-    "effect": [
-      {
-        "if": "player_see_u",
-        "then": { "u_message": "The <npc_name> quickly looks away from you.", "type": "warning" },
-        "else": { "u_message": "A chorus of whispers chatter raucously around you.", "type": "warning" }
-      }
-    ],
-    "false_effect": { "run_eocs": [ "EOC_STARE3" ] }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_STARE3",
-    "condition": { "math": [ "rand(6) < u_effect_intensity('drunk')" ] },
-    "effect": [
-      { "u_message": "The world lurches drunkenly around you.", "type": "warning" },
-      { "u_add_effect": "stunned", "duration": 4 }
-    ],
-    "false_effect": { "run_eocs": [ "EOC_STARE4" ] }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_STARE4",
     "condition": "player_see_npc",
     "effect": [
       { "u_message": "The <npc_name> stares at you, and you shudder.", "type": "bad" },
