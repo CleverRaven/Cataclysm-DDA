@@ -2043,13 +2043,16 @@ int npc::evaluate_sleep_spot( tripoint_bub_ms p )
 {
     // Base evaluation is based on ability to actually fall sleep there
     int sleep_eval = sleep_spot( p );
-    // ...but our snooty NPCs also want the closest thing to a real bed they can find.
-    units::temperature_delta ideal_bed_value = 2_C_delta;
-    const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p.raw() );
-    if( sleep_spot_value < ideal_bed_value ) {
-        double bed_similarity = sleep_spot_value / ideal_bed_value;
-        // bed_similarity^2, exponentially diminishing the value of non-bed sleeping spots the more not-bed-like they are
-        sleep_eval *= pow( bed_similarity, 2 );
+    // Only evaluate further if the possible bed isn't already considered very comfortable.
+    // This opt-out is necessary to allow mutant NPCs to find desired non-bed sleeping spaces
+    if( sleep_eval < static_cast<int>( comfort_level::very_comfortable ) - 1 ) {
+        const units::temperature_delta ideal_bed_value = 2_C_delta;
+        const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p.raw() );
+        if( sleep_spot_value < ideal_bed_value ) {
+            double bed_similarity = sleep_spot_value / ideal_bed_value;
+            // bed_similarity^2, exponentially diminishing the value of non-bed sleeping spots the more not-bed-like they are
+            sleep_eval *= pow( bed_similarity, 2 );
+        }
     }
     return sleep_eval;
 }
