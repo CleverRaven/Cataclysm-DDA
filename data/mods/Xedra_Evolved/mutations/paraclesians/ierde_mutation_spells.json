@@ -7,6 +7,21 @@
     "ench_effects": [ { "effect": "effect_ierde_no_mind_problems", "intensity": 1 } ]
   },
   {
+    "type": "enchantment",
+    "id": "ench_ierde_stone_form",
+    "has": "HELD",
+    "condition": "ALWAYS",
+    "skills": [ { "value": "dodge", "multiply": -1 } ],
+    "values": [
+      { "value": "ATTACK_SPEED", "multiply": 2 },
+      { "value": "MOVE_COST", "multiply": 1 },
+      { "value": "BONUS_DODGE", "multiply": -1 },
+      { "value": "FOOTSTEP_NOISE", "multiply": 4 },
+      { "value": "ARMOR_CUT", "multiply": -0.66 },
+      { "value": "ARMOR_BASH", "multiply": -0.5 }
+    ]
+  },
+  {
     "id": "ierde_stomp_ground_smash_spell",
     "type": "SPELL",
     "name": "Earthquake Stomp",
@@ -294,6 +309,35 @@
       "math": [ "min( (( (u_spell_level('ierde_stomp_ground_smash') * 0.7) + 5) * (scaling_factor(u_val('strength') ) ) ), 15)" ]
     },
     "max_aoe": 15
+  },
+  {
+    "id": "ierde_slow_enemies_spell",
+    "type": "SPELL",
+    "name": "Rigidity of Stone",
+    "description": "Infuse your enemies with the rigidity of stone, slowing their movements.",
+    "teachable": false,
+    "valid_targets": [ "ground", "hostile" ],
+    "spell_class": "IERDE",
+    "skill": "deduction",
+    "flags": [ "SILENT", "VERBAL", "SOMATIC", "RANDOM_DURATION", "NO_LEGS", "NO_EXPLOSION_SFX" ],
+    "difficulty": 6,
+    "max_level": { "math": [ "str_to_level(1)" ] },
+    "effect": "attack",
+    "effect_str": "effect_ierde_slow_enemies",
+    "shape": "blast",
+    "min_aoe": { "math": [ "( (u_spell_level('ierde_slow_enemies_spell') * 0.3) + 0) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_aoe": { "math": [ "( (u_spell_level('ierde_slow_enemies_spell') * 0.3) + 0) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_range": { "math": [ "( (u_spell_level('ierde_slow_enemies_spell') * 0.9) + 2) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_range": { "math": [ "( (u_spell_level('ierde_slow_enemies_spell') * 0.9) + 2) * (scaling_factor(u_val('strength') ) )" ] },
+    "min_duration": { "math": [ "( (u_spell_level('ierde_slow_enemies_spell') * 150) + 300) * (scaling_factor(u_val('strength') ) )" ] },
+    "max_duration": { "math": [ "( (u_spell_level('ierde_slow_enemies_spell') * 350) + 1000) * (scaling_factor(u_val('strength') ) )" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "final_energy_cost": 250,
+    "energy_increment": -4,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -4
   },
   {
     "id": "ierde_earthen_shield_spell",

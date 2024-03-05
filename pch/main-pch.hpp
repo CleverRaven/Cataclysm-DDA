@@ -1,5 +1,3 @@
-#pragma once
-
 // Workaround to a bug in libstdc++ prior to GCC 11 causing
 // Error: attempt to self move assign.
 // when compiling with _GLIBCXX_DEBUG
