@@ -40,8 +40,14 @@ class query_popup_impl : public cataimgui::window
     protected:
         void draw_controls() override;
         cataimgui::bounds get_bounds() override {
+            float height = float( str_height_to_pixels( parent->folded_msg.size() ) ) +
+                           ( ImGui::GetStyle().ItemSpacing.y * 2 );
+            if( !parent->buttons.empty() ) {
+                height += float( str_height_to_pixels( 1 ) ) + ( ImGui::GetStyle().ItemInnerSpacing.y * 2 ) +
+                          ( ImGui::GetStyle().ItemSpacing.y * 2 );
+            }
             return { -1.f, parent->ontop ? 0 : -1.f,
-                     float( msg_width ) + ( ImGui::GetStyle().WindowBorderSize * 2 ), -1.f };
+                     float( msg_width ) + ( ImGui::GetStyle().WindowBorderSize * 2 ), height };
         }
 };
 
@@ -702,7 +708,6 @@ static_popup::static_popup()
 #else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         ui_imgui = create_or_get_impl();
-        ui_manager::redraw();
     } else {
         ui = create_or_get_adaptor();
     }

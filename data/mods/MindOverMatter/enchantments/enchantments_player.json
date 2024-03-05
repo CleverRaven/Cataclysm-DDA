@@ -28,22 +28,6 @@
   },
   {
     "type": "enchantment",
-    "id": "enchant_clair_speed_read",
-    "condition": "ALWAYS",
-    "has": "HELD",
-    "values": [
-      {
-        "value": "READING_EXP",
-        "add": {
-          "math": [
-            "( ( u_spell_level('clair_speed_reading') * 0.15) * (scaling_factor(u_val('intelligence') ))) * u_nether_attunement_power_scaling"
-          ]
-        }
-      }
-    ]
-  },
-  {
-    "type": "enchantment",
     "id": "ench_clair_group_tactics",
     "condition": "ALWAYS",
     "has": "HELD",

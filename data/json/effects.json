@@ -2035,26 +2035,47 @@
     "id": "boomered",
     "name": [ "Boomered" ],
     "desc": [ "Your vision is obscured by a disgusting splatter of bile." ],
-    "apply_message": "You're covered in bile!",
+    "apply_message": "Bile gets in your eyes!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": {
+      "per_mod": [ -3, -3 ],
+      "vomit_chance": [ 500, 0 ],
+      "health_chance": [ 1 ],
+      "health_min": [ -1 ],
+      "health_chance_bot": [ 300, 0 ]
+    },
     "max_duration": "30 s",
     "limb_score_mods": [
       { "limb_score": "vision", "modifier": 0.1 },
       { "limb_score": "night_vis", "modifier": 0.0 },
       { "limb_score": "reaction", "modifier": 0.2 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BILE_AFFLICTED" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "bile",
+    "name": [ "Bile Splashed" ],
+    "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "apply_message": "You're covered in bile!",
+    "rating": "bad",
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
+    "max_duration": "30 s",
+    "flags": [ "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",
     "id": "glowing",
     "name": [ "Glowing" ],
     "desc": [ "You are covered in glowing goo!" ],
-    "max_duration": "6 m",
+    "max_duration": "30 s",
     "apply_message": "You're covered in a glowing goo!",
     "rating": "bad",
-    "base_mods": { "vomit_chance": [ 500 ] }
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
+    "flags": [ "BILE_AFFLICTED" ]
   },
   {
     "type": "effect_type",

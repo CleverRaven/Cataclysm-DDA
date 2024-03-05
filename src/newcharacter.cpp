@@ -4461,13 +4461,16 @@ std::vector<trait_id> Character::get_base_traits() const
 }
 
 std::vector<trait_id> Character::get_mutations( bool include_hidden,
-        bool ignore_enchantments ) const
+        bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
     result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
-        if( include_hidden || t.first.obj().player_display ) {
-            result.push_back( t.first );
+        const mutation_branch &mut = t.first.obj();
+        if( include_hidden || mut.player_display ) {
+            if( filter == nullptr || filter( mut ) ) {
+                result.push_back( t.first );
+            }
         }
     }
     if( !ignore_enchantments ) {
@@ -4481,7 +4484,9 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
                     }
                 }
                 if( !found ) {
-                    result.push_back( ench_trait );
+                    if( filter == nullptr || filter( ench_trait.obj() ) ) {
+                        result.push_back( ench_trait );
+                    }
                 }
             }
         }
@@ -4733,11 +4738,6 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.per_max = 8;
     set_scenario( scen );
     u.prof = &default_prof.obj();
-    for( auto &t : u.get_mutations() ) {
-        if( t.obj().hp_modifier.has_value() ) {
-            u.toggle_trait_deps( t );
-        }
-    }
 
     u.hobbies.clear();
     u.add_default_background();

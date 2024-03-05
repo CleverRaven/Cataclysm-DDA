@@ -765,14 +765,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_subtle_spell_flag",
-    "//": "Hidden, but provides flags for powers using SUBTLE_SPELL",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "flags": [ "SUBTLE_SPELL" ]
-  },
-  {
-    "type": "effect_type",
     "id": "natures_commune",
     "name": [ "Commune with Nature" ],
     "desc": [ "You are in tune with the natural world, drawing strength from it and calming natural animals." ],
@@ -846,14 +838,6 @@
   },
   {
     "type": "effect_type",
-    "id": "effect_arvore_sense_sun",
-    "//": "Hidden, but provides flags for Sensing the Sun",
-    "name": [ "" ],
-    "desc": [ "" ],
-    "flags": [ "WATCH", "ALARMCLOCK" ]
-  },
-  {
-    "type": "effect_type",
     "id": "effect_arvore_vitamin_bonus",
     "//": "Hidden, but provides vitamins for being out in the sun",
     "name": [ "" ],
@@ -880,6 +864,15 @@
     "show_in_info": true,
     "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.6 } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_slow_enemies",
+    "name": [ "Lithic Rigidity " ],
+    "desc": [ "It's very hard for you to move." ],
+    "remove_message": "It's easier for you to move again.",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.3 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1273,6 +1266,33 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_nether_eye_paste",
+    "name": [ "Blood-and-Ash Paste" ],
+    "desc": [ "You rubbed the paste of blood and herbs and ashes on your eyes.  It stings.  A lot." ],
+    "rating": "mixed",
+    "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 40 } ] } ],
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.6 } ],
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 60 ], "pain_tick": [ 180 ] },
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_cure_cold_or_flu",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_magic_no_evil_eye",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_evil_eye" ]
   },
   {
     "type": "effect_type",

@@ -89,6 +89,11 @@ int talker_item_const::get_hp_max( const bodypart_id & ) const
     return me_it_const->get_item()->max_damage();
 }
 
+int talker_item_const::get_count() const
+{
+    return me_it_const->get_item()->count();
+}
+
 int talker_item_const::coverage_at( bodypart_id &id ) const
 {
     return me_it_const->get_item()->get_coverage( id );

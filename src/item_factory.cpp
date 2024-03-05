@@ -1769,7 +1769,6 @@ void Item_factory::init()
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
     add_iuse( "HACKSAW", &iuse::hacksaw );
-    add_iuse( "HAIRKIT", &iuse::hairkit );
     add_iuse( "HAMMER", &iuse::hammer );
     add_iuse( "HEATPACK", &iuse::heatpack );
     add_iuse( "HEAT_FOOD", &iuse::heat_food );
@@ -1835,7 +1834,6 @@ void Item_factory::init()
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
-    add_iuse( "SHAVEKIT", &iuse::shavekit );
     add_iuse( "SHOCKTONFA_OFF", &iuse::shocktonfa_off );
     add_iuse( "SHOCKTONFA_ON", &iuse::shocktonfa_on );
     add_iuse( "SIPHON", &iuse::siphon );
@@ -2484,7 +2482,7 @@ void Item_factory::check_definitions() const
         }
     }
     for( const auto &elem : m_template_groups ) {
-        elem.second->check_consistency();
+        elem.second->check_consistency( true );
         inp_mngr.pump_events();
     }
 }

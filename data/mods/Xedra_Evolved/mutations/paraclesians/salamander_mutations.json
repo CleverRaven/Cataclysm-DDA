@@ -116,6 +116,19 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_SUMMON_FIREBIRD",
+    "name": { "str": "Flame of the Firebird" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to summon a bird made of roaring flames to their aid.",
+    "prereqs": [ "SALAMANDER_FLAME_BREATH" ],
+    "prereqs2": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_summon_firebird_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_INCREASE_SPEED",
     "name": { "str": "Fanning the Spark" },
     "points": 3,
@@ -412,6 +425,16 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_NO_SMOKE_DAMAGE",
+    "name": { "str": "Breathing in Cinders" },
+    "points": 6,
+    "description": "Smoke is the breath of fire and a Salamander is born of flames.  You suffer no negative effects from smoke inhalation.",
+    "prereqs": [ "SALAMANDER_NO_WATER" ],
+    "category": [ "SALAMANDER" ],
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_salamander_smoke_immunity", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_STR_BONUS_1",
     "name": { "str": "Strength of the Crackling Fire" },
     "points": 1,
@@ -420,7 +443,7 @@
     "changes_to": [ "SALAMANDER_STR_BONUS_2" ],
     "description": "Like a fire fueled with fresh wood, you have increased strength.  +1 Strength.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -433,7 +456,7 @@
     "prereqs2": [ "SALAMANDER_EMIT_HEAT" ],
     "description": "Like the bonfire that will burn through the night, you have greatly increased strength.  +3 Strength.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -445,7 +468,7 @@
     "changes_to": [ "SALAMANDER_DEX_BONUS_2" ],
     "description": "Like a fire sparks kindling in flame, you have increased speed.  +2 Dexterity.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -458,7 +481,7 @@
     "prereqs2": [ "SALAMANDER_ECTOTHERM" ],
     "description": "Like a forest fire moving faster than a running horse, you have greatly increased speed.  +5 Dexterity.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "dex_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -482,7 +505,7 @@
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "description": "Your thoughts are as fast as a forest fire.  +2 Intelligence.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -521,6 +544,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SALAMANDER_SKIN_3" ],
+    "prereqs2": [ "SALAMANDER_NO_SMOKE_DAMAGE" ],
     "description": "A creature born and bred of fire, the Salamander is utterly immune to heat and flame of any kind.  However, they will take additional damage from cold.",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
@@ -649,8 +673,9 @@
     "points": 9,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Salamander gains the ability to make an ally immune to heat and flame.",
+    "description": "Upon gaining this ability the Salamander gains the ability create a massive explosion of flames around themselves and draw on its energy to increase their healing rate.",
     "prereqs": [ "SALAMANDER_PREVENT_DEATH" ],
+    "prereqs2": [ "SALAMANDER_SUMMON_FIREBIRD" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "spells_learned": [ [ "salamander_explosion_and_heal_spell", 1 ] ]
@@ -660,7 +685,7 @@
     "id": "SALAMANDER_SMOKE_FORM",
     "name": { "str": "Form of Billowing Smoke" },
     "points": 8,
-    "description": "The Salamander may transform into smoke.  They will have only a dim awareness of your surroundings, but can freely move including through the air and will be nearly immune to attack.  They will be unable to attack anyone else themselves, however.",
+    "description": "The Salamander may transform into smoke.  They will have only a dim awareness of their surroundings, but can freely move including through the air and will be nearly immune to attack.  They will be unable to attack anyone else themselves, however.",
     "prereqs": [ "SALAMANDER_SUMMON_WINGS", "SALAMANDER_SUMMON_WINGS_ON" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
@@ -671,6 +696,18 @@
     "kcal": true,
     "cost": 1,
     "deactivated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SMOKE_FORM_APPEARANCE",
+    "name": { "str": "Form of Billowing Smoke Appearance" },
+    "points": 1,
+    "description": "This mutation carries the sprite override info for Form of Billowing Smoke.  You shouldn't be able to see it in game.",
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "fd_nuke_gas", "tile_category": "field" },
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ]
   },
   {
     "type": "mutation",
