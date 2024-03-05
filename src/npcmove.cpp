@@ -1625,14 +1625,14 @@ void npc::execute_action( npc_action action )
             // TODO: Allow stims when not too tired
             // Find a nice spot to sleep
             tripoint_bub_ms best_spot = pos_bub();
-            int best_sleepy = sleep_spot( best_spot );
+            int best_sleepy = evaluate_sleep_spot( best_spot );
             for( const tripoint_bub_ms &p : closest_points_first( pos_bub(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
 
                 // TODO: Blankets when it's cold
-                const int sleepy = sleep_spot( p );
+                const int sleepy = evaluate_sleep_spot( p );
                 if( sleepy > best_sleepy ) {
                     best_sleepy = sleepy;
                     best_spot = p;
@@ -2035,6 +2035,21 @@ void npc::evaluate_best_weapon( const Creature *target )
 npc_action npc::address_needs()
 {
     return address_needs( ai_cache.danger );
+}
+
+int npc::evaluate_sleep_spot( tripoint_bub_ms p )
+{
+    // Base evaluation is based on ability to actually fall sleep there
+    int sleep_eval = sleep_spot( p );
+    // ...but our snooty NPCs also want the closest thing to a real bed they can find.
+    units::temperature_delta ideal_bed_value = 2_C_delta;
+    const units::temperature_delta sleep_spot_value = floor_bedding_warmth( p.raw() );
+    if( sleep_spot_value < ideal_bed_value ) {
+        double bed_similarity = sleep_spot_value / ideal_bed_value;
+        // bed_similarity^2, exponentially diminishing the value of non-bed sleeping spots the more not-bed-like they are
+        sleep_eval *= pow( bed_similarity, 2 );
+    }
+    return sleep_eval;
 }
 
 static bool wants_to_reload( const npc &guy, const item &candidate )
