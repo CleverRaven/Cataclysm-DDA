@@ -467,7 +467,7 @@
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY" ],
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_WATER", "MURKY" ],
     "examine_action": "finite_water_source"
   },
   {
@@ -479,7 +479,7 @@
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_WATER", "MURKY", "INDOORS" ],
     "examine_action": "finite_water_source"
   },
   {
