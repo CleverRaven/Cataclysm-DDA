@@ -107,13 +107,5 @@
     "player_display": false,
     "points": 0,
     "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 9 } ] } ]
-  },
-  {
-    "type": "mutation",
-    "id": "FOREST_STEALTH",
-    "name": { "str": "Cloak of Elvenkind: Forest Stealth" },
-    "description": "You have a much easier time hiding in the forest.",
-    "points": 2,
-    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 60 } ] } ]
   }
 ]
