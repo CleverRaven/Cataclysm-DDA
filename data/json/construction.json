@@ -4906,11 +4906,11 @@
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
     "components": [
-       [ [ "2x4", 18 ] ],
-       [ [ "wood_beam", 2 ] ],
-       [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ],
-       [ [ "rope_natural", 1, "LIST" ] ]
-       ],
+      [ [ "2x4", 18 ] ],
+      [ [ "wood_beam", 2 ] ],
+      [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ],
+      [ [ "rope_natural", 1, "LIST" ] ]
+    ],
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
     "post_special": "done_mine_upstair",
