@@ -187,7 +187,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
   "casting_time_multiplier": 0.01,            // changes your casting speed; 0.5 means you spend only 50% of the original cast time, 2 means you spend twice as long. Useful only for magic mods
-  "crafting_speed_multiplier": 1,             // changes your crafting speed; 0.5 decrease your crafting speed to 50%, 2 doubles it
   "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
   "obtain_cost_multiplier": 1.1,              // modifier for pulling an item from a container and storing it back, as a handling penalty
@@ -216,7 +215,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "metabolism_modifier": 0.333,               // Extra metabolism rate multiplier (1.0 doubles, -0.5 halves).
   "thirst_modifier": 0.1,                     // Extra thirst modifier (1.0 doubles, -0.5 halves).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
-  "crafting_speed_multiplier": 0.5,           // Multiplies your total crafting speed. 0.5 is 50% of normal speed, 1.2 is 20% faster than normal speed.
   "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
   "healing_awake": 1.0,                       // Healing rate per turn while awake. Positives will increase healing while negatives will decrease healing.
   "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.

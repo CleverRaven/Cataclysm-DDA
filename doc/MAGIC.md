@@ -812,7 +812,7 @@ Character status value  | Description
 `CONSUME_TIME_MOD`      | Changes how long you consume `FOOD` and `DRINK` or something from `chems` itemgroup. `"add": 10` adds 10 seconds to food consumption, `multiply: 1` doubles it
 `CLIMATE_CONTROL_HEAT`  | Moves body temperature up towards comfortable by number of warmth units up to value.
 `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
-`CRAFTING_SPEED_MULTIPLIER` | Same as mutation `crafting_speed_multiplier` field, changes your crafting speed. Since it's a percent, using `multiply` is recommended.  Positive values decrease crafting time, negative values increase it.
+`CRAFTING_SPEED_MULTIPLIER` | Changes your crafting speed. Since it's a percent, using `multiply` is recommended.  Positive values decrease crafting time, negative values increase it.
 `DEXTERITY`             | Affects the dexterity stat.
 `DISINFECTANT_BONUS`    | Affects the `disinfectant_power` you have when applying medicine.
 `EFFECTIVE_HEALTH_MOD`  | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
