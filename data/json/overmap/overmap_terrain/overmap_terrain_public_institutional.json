@@ -88,7 +88,16 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ],
+    "id": [
+      "s_library",
+      "s_library_1",
+      "s_library_2",
+      "s_library_3",
+      "urban_library_1",
+      "urban_library_2",
+      "urban_library_3",
+      "urban_library_4"
+    ],
     "name": "library",
     "copy-from": "generic_city_building",
     "color": "i_brown",
