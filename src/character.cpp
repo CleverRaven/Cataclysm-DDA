@@ -1294,7 +1294,7 @@ int Character::overmap_sight_range( float light_level ) const
         sight = 6;
     }
 
-    sight = enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
+    sight += enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
 
     float multiplier = 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
 
