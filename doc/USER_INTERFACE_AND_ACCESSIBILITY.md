@@ -3,13 +3,13 @@
 Cataclysm: Dark Days Ahead uses ncurses, or in the case of the tiles build, an
 ncurses port, for user interface. Window management is achieved by `ui_adaptor`,
 which requires a resizing callback and a redrawing callback for each UI to handle
-resizing and redrawing. A migration effort is underway for user interface code 
+resizing and redrawing. A migration effort is underway for user interface code
 to be moved to ImGui, which uses SDL on the tiled build, and ncurses on non-tiled
 Linux builds.
 
 Some good examples of the usage of `ui_adaptor` can be found within the following
 files:
-- `string_input_popup` in `string_input_popup.cpp`, specifically in 
+- `string_input_popup` in `string_input_popup.cpp`, specifically in
  `string_input_popup::query_string()`
 - `Messages::dialog` in `messages.cpp`
 
@@ -18,17 +18,17 @@ Details on how to use `ui_adaptor` can be found within `ui_manager.h`.
 New user interfaces should be coded using ImGui. ImGui-backed windows are created
 using `cataimgui::window` as a base, see `cata_imgui.h/cpp`. `cataimgui::window`
 still uses `ui_adaptor` but it is handled internally. `cataimgui::window` handles
-creating the ImGui window itself, but any widgets (i.e. text boxes, tables, input 
-fields) must be created using the correct function under the `ImGui` namespace. 
+creating the ImGui window itself, but any widgets (i.e. text boxes, tables, input
+fields) must be created using the correct function under the `ImGui` namespace.
 Examples of creating any ImGui widget can be found in `src/third-party/imgui_demo.cpp`
 
 Good examples of implementating an ImGui-based UI in cataclysm:
 - `query_popup` and `static_popup` in `popup.h/cpp`, specifically `query_popup_impl`
  which is a private implementation class used by the aforementioned classes.
-- `keybindings_ui` in `input.cpp`, which is a private implementation class used 
+- `keybindings_ui` in `input.cpp`, which is a private implementation class used
  by `input_context::display_menu()`.
 
-## SDL version requirement of the tiles build 
+## SDL version requirement of the tiles build
 
 Some functions used by this project require SDL 2.0.6, and the actual version
 requirement might be higher. While using a newer version is optional, new versions add
