@@ -5710,8 +5710,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
                 }
             }
         }
-        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) ||
-            ( watersleep && here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) ) {
+        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, p.raw() ) ) ||
+            ( watersleep && here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p.raw() ) ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -11467,12 +11467,12 @@ int Character::sleep_spot( const tripoint_bub_ms &p ) const
 
     sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
 
-    if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
+    if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, p.raw() ) ) {
         sleepy += 10; //comfy water!
     }
 
     if( has_trait( trait_CHLOROMORPH ) &&
-        get_map().has_flag_ter( ter_furn_flag::TFLAG_PLOWABLE, pos() ) ) {
+        get_map().has_flag_ter( ter_furn_flag::TFLAG_PLOWABLE, p.raw() ) ) {
         sleepy += 25; // It's time for a nice nap.
     }
 
