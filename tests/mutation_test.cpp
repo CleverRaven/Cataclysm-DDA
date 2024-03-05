@@ -341,29 +341,29 @@ TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mut
 {
     Character &dummy = get_player_character();
     clear_avatar();
-    int &sight = dummy.enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
+    double &sight = dummy.enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
     sight *= dummy.enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
     WHEN( "character has Scout trait" ) {
         dummy.toggle_trait( trait_EAGLEEYED );
         THEN( "they have increased overmap sight range" ) {
-            CHECK( sight == 5 );
+            CHECK( sight == 5.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the Scout trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( sight == 5 );
+            CHECK( sight == 5.0 );
         }
     }
 
     WHEN( "character has Topographagnosia trait" ) {
         dummy.toggle_trait( trait_UNOBSERVANT );
         THEN( "they have reduced overmap sight range" ) {
-            CHECK( sight == -10 );
+            CHECK( sight == -10.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the Topographagnosia trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( sight == -10 );
+            CHECK( sight == -10.0 );
         }
     }
 }
