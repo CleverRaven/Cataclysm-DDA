@@ -337,33 +337,38 @@ TEST_CASE( "Mutation/starting_trait_interactions", "[mutations]" )
 }
 
 TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mutations][overmap]" )
-// TODO: move this to enchantment test, since overmap_sight was ported to OVERMAP_SIGHT enchantment
 {
     Character &dummy = get_player_character();
     clear_avatar();
-    double &sight = dummy.enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
-    sight *= dummy.enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
+    double OM_sight = dummy.overmap_sight_range( 100.0f );
+
+    WHEN( "character has no traits, that change overmap sight range" ) {
+        THEN( "unchanged sight range" ) {
+            CHECK( OM_sight == 2.0 );
+        }
+    }
+
     WHEN( "character has Scout trait" ) {
         dummy.toggle_trait( trait_EAGLEEYED );
         THEN( "they have increased overmap sight range" ) {
-            CHECK( sight == 5.0 );
+            CHECK( OM_sight == 3.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the Scout trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( sight == 5.0 );
+            CHECK( OM_sight == 4.0 );
         }
     }
 
     WHEN( "character has Topographagnosia trait" ) {
         dummy.toggle_trait( trait_UNOBSERVANT );
         THEN( "they have reduced overmap sight range" ) {
-            CHECK( sight == -10.0 );
+            CHECK( OM_sight == 5.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the Topographagnosia trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( sight == -10.0 );
+            CHECK( OM_sight == 6.0 );
         }
     }
 }
