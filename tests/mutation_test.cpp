@@ -340,35 +340,35 @@ TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mut
 {
     Character &dummy = get_player_character();
     clear_avatar();
-    double OM_sight = dummy.overmap_sight_range( 100.0f );
+    // 100.0f is light value equal to daylight
 
     WHEN( "character has no traits, that change overmap sight range" ) {
         THEN( "unchanged sight range" ) {
-            CHECK( OM_sight == 2.0 );
+            CHECK( dummy.overmap_sight_range( 100.0f ) == 10.0 );
         }
     }
 
     WHEN( "character has Scout trait" ) {
         dummy.toggle_trait( trait_EAGLEEYED );
         THEN( "they have increased overmap sight range" ) {
-            CHECK( OM_sight == 3.0 );
+            CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the Scout trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( OM_sight == 4.0 );
+            CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
         }
     }
 
     WHEN( "character has Topographagnosia trait" ) {
         dummy.toggle_trait( trait_UNOBSERVANT );
         THEN( "they have reduced overmap sight range" ) {
-            CHECK( OM_sight == 5.0 );
+            CHECK( dummy.overmap_sight_range( 100.0f ) == 1.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the Topographagnosia trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( OM_sight == 6.0 );
+            CHECK( dummy.overmap_sight_range( 100.0f ) == 1.0 );
         }
     }
 }
