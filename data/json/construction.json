@@ -4767,9 +4767,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [
-      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ]
-    ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
     "components": [
       [ [ "2x4", 18 ] ],
       [ [ "wood_beam", 2 ] ],
@@ -4795,9 +4793,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [
-      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ]
-    ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
     "components": [
       [ [ "2x4", 18 ] ],
       [ [ "wood_beam", 2 ] ],
