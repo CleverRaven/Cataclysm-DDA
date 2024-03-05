@@ -341,8 +341,8 @@ TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mut
 {
     Character &dummy = get_player_character();
     clear_avatar();
-    int &sight = enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
-    sight *= enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
+    int &sight = dummy.enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
+    sight *= dummy.enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
     WHEN( "character has Scout trait" ) {
         dummy.toggle_trait( trait_EAGLEEYED );
         THEN( "they have increased overmap sight range" ) {
