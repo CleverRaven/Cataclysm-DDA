@@ -1775,7 +1775,7 @@ void Character::suffer()
         if( calendar::once_every( 1_seconds ) &&
             enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
                                              0 ) != 0 ) {
-            suffer::water_damage( *this, mut_id );
+            suffer::water_damage( *this );
         }
         if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
             suffer::mutation_power( *this, mut_id );
