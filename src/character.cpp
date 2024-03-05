@@ -1296,7 +1296,7 @@ int Character::overmap_sight_range( float light_level ) const
 
     sight = enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
 
-            float multiplier = 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
+    float multiplier = 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
 
     // If sight got changed due OVERMAP_SIGHT, process the rest of the modifiers, otherwise skip them
     if( sight > 0 ) {
@@ -7120,8 +7120,8 @@ void Character::update_stamina( int turns )
     const int current_stim = get_stim();
     // Values above or below normal will increase or decrease stamina regen
     const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STAMINA_REGEN_MOD, 0 );
-                            // Mutated stamina works even when winded
-                            const float base_multiplier = mod_regen + ( has_effect( effect_winded ) ? 0.1f : 1.0f );
+    // Mutated stamina works even when winded
+    const float base_multiplier = mod_regen + ( has_effect( effect_winded ) ? 0.1f : 1.0f );
     // Ensure multiplier is at least 0.1
     const float stamina_multiplier = std::max<float>( 0.1f, base_multiplier );
 
