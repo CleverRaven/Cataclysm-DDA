@@ -3073,6 +3073,14 @@
   },
   {
     "type": "effect_type",
+    "id": "took_antihistamine",
+    "name": [ "Took Antihistamine Drugs" ],
+    "desc": [ "You have taken an antihistamine drug recently." ],
+    "rating": "good",
+    "blood_analysis_description": "Antihistamines"
+  },
+  {
+    "type": "effect_type",
     "id": "cureall",
     "removes_effects": [
       "fungus",
