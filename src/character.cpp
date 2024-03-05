@@ -813,7 +813,7 @@ int Character::get_fat_to_hp() const
 {
     int fat_to_hp = ( get_bmi_fat() - character_weight_category::normal );
     fat_to_hp = enchantment_cache->modify_value( enchant_vals::mod::FAT_TO_MAX_HP, fat_to_hp );
-    return fat_to_hp
+    return fat_to_hp;
 }
 
 creature_size Character::get_size() const
@@ -1294,7 +1294,7 @@ int Character::overmap_sight_range( float light_level ) const
         sight = 6;
     }
 
-    sight = enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT )
+    sight = enchantment_cache->get_value_add( enchant_vals::mod::OVERMAP_SIGHT );
 
             float multiplier = 1 + enchantment_cache->get_value_multiply( enchant_vals::mod::OVERMAP_SIGHT );
 
@@ -7119,7 +7119,7 @@ void Character::update_stamina( int turns )
     const float effective_regen_rate = base_regen_rate * get_cardiofit() / get_cardio_acc_base();
     const int current_stim = get_stim();
     // Values above or below normal will increase or decrease stamina regen
-    const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STAMINA_REGEN_MOD, 0 )
+    const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STAMINA_REGEN_MOD, 0 );
                             // Mutated stamina works even when winded
                             const float base_multiplier = mod_regen + ( has_effect( effect_winded ) ? 0.1f : 1.0f );
     // Ensure multiplier is at least 0.1

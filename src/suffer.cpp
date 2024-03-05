@@ -188,7 +188,7 @@ namespace suffer
 {
 static void from_sunburn( Character &you, bool severe );
 static void in_sunlight( Character &you, outfit &worn );
-static void water_damage( Character &you, const trait_id &mut_id );
+static void water_damage( Character &you );
 static void mutation_power( Character &you, const trait_id &mut_id );
 static void while_underwater( Character &you );
 static void while_grabbed( Character &you );
@@ -218,7 +218,7 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
     return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
 }
 
-void suffer::water_damage( Character &you, const trait_id &mut_id )
+void suffer::water_damage( Character &you )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : you.get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
