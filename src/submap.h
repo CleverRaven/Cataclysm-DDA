@@ -420,35 +420,30 @@ class maptile_impl
 
         /** Returns the uppermost favorite item if there is a favorite item. Otherwise, returns the item with the greatest volume.
         *
-        * Requires that there is at least one item, otherwise throws.
+        * Assumes there is at least one item.
         * Used to decide which item to render.
+        * TODO: might be slow enough to justify storing the most visible item for each tile? 
         */
-        const item& get_most_visible_item() const {
-            
-            const cata::colony<item> & items = get_items();
+        const item &get_most_visible_item() const {
 
-            // make sure there is at least one item
-            if( items.size() == 0 ) {
-                throw std::runtime_error("Call to get_most_visible_item() with no visible item!\n");
-            }
-
-            const item *biggest_item = &*items.begin(); 
+            const item *biggest_item = nullptr;
             units::volume biggest_volume = 0_ml;
 
-            // uppermost item is at end of the list, so iterate backwards so uppermost (last dropped) item is preferred
+            // uppermost item is at end of the list, so iterate backwards so uppermost item is preferred
+            auto items = get_items();
+            // unsigned int i = get_items().size();
             for( auto it = items.rbegin(); it != items.rend(); it++ ) {
-                const item &current_item = *it;
+                const auto &item = *it;
 
-                if( current_item.is_favorite ) {
-                    return current_item;
+                if( item.is_favorite ) {
+                    return item;
                 }
 
-                if( current_item.base_volume() > biggest_volume ) {
-                    biggest_item = &current_item;
-                    biggest_volume = current_item.base_volume();
+                if( item.base_volume() > biggest_volume ) {
+                    biggest_item = &item;
+                    biggest_volume = item.base_volume();
                 }
             }
-
             return *biggest_item;
         }
 
