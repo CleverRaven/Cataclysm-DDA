@@ -1781,10 +1781,8 @@ int npc::indoor_voice() const
     // Don't wake up friends when using our indoor voice
     for( const auto &bunk_buddy : get_cached_friends() ) {
         Character *char_buddy = nullptr;
-        std::shared_ptr<Creature>maybe_buddy = bunk_buddy.lock();
-        Creature *buddy = maybe_buddy.get();
-        if( buddy ) {
-            char_buddy = dynamic_cast<Character *>( buddy );
+        if( auto buddy = bunk_buddy.lock() ) {
+            char_buddy = dynamic_cast<Character *>( buddy.get() );
         }
         if( !char_buddy ) {
             continue;
