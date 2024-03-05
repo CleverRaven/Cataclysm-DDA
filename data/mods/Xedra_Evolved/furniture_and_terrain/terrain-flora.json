@@ -165,5 +165,60 @@
         { "item": "leaves", "count": [ 50, 150 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_spring",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.  Odd-looking fruit hang from some of the branches.",
+    "symbol": "#",
+    "color": "light_blue_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "SMALL_HIDE", "BROWSABLE" ],
+    "transforms_into": "t_shrub_goblin_fruit_spring_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "light_emitted": 15,
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "shrub_goblin_fruits_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_goblin_fruit_spring_harvested",
+    "name": "strange bush",
+    "looks_like": "t_shrub",
+    "description": "A strange plant, faintly luminous, with waxy purple leaves and flowers like chiming bells.",
+    "symbol": "#",
+    "color": "blue_green",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "SHRUB", "SHORT", "HARVESTED", "SMALL_HIDE" ],
+    "transforms_into": "t_shrub_goblin_fruit_spring",
+    "examine_action": "harvested_plant",
+    "light_emitted": 15,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "withered", "prob": 50, "count": [ 1, 2 ] },
+        { "item": "leaves", "count": [ 1, 10 ] },
+        { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
+      ]
+    }
   }
 ]
