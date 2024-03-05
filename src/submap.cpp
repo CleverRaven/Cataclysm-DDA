@@ -296,6 +296,8 @@ void submap::rotate( int turns )
     computers = rot_comp;
 }
 
+
+
 void submap::mirror( bool horizontally )
 {
     if( is_uniform() ) {
