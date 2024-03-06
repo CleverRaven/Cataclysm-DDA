@@ -6,7 +6,7 @@
     "color": "brown",
     "looks_like": "sword_wood",
     "name": { "str": "cardboard \"sword\"", "str_pl": "cardboard \"swords\"" },
-    "description": "A roll that formerly housed toilet paper or duct tape functions as the grip, with a single piece of cardboard acting as the handguard that separates two aluminium foil rolls, which pretend to be a blade.  Needless to say, this is not a particularly useful weapon.  ",
+    "description": "A roll that formerly housed toilet paper or duct tape functions as the grip, with a single piece of cardboard acting as the handguard that separates two aluminium foil rolls, which pretend to be a blade.  Needless to say, this is not a particularly useful weapon.",
     "material": [ "cardboard" ],
     "volume": "2400 ml",
     "weight": "500 g",
