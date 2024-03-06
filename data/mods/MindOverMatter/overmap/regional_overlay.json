@@ -92,8 +92,14 @@
         }
       },
       "build": { "chance": 90, "extras": { "mx_phavian_science": 5 } },
-      "subway": { "chance": 75, "extras": { "mx_nether_pond": 25, "mx_glass_and_crystal": 25, "mx_phavian_science": 8 } },
-      "lab_subway": { "chance": 25, "extras": { "mx_nether_pond": 25, "mx_glass_and_crystal": 25, "mx_phavian_science": 5 } },
+      "subway": {
+        "chance": 75,
+        "extras": { "mx_alien_grass_3": 15, "mx_nether_pond": 25, "mx_glass_and_crystal": 25, "mx_phavian_science": 8 }
+      },
+      "lab_subway": {
+        "chance": 25,
+        "extras": { "mx_alien_grass_3": 15, "mx_nether_pond": 25, "mx_glass_and_crystal": 25, "mx_phavian_science": 5 }
+      },
       "phavian_lab_lot": {
         "chance": 3,
         "extras": {
