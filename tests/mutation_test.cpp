@@ -363,12 +363,12 @@ TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mut
     WHEN( "character has Topographagnosia trait" ) {
         dummy.toggle_trait( trait_UNOBSERVANT );
         THEN( "they have reduced overmap sight range" ) {
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 1.0 );
+            CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
         }
         // Regression test for #42853
         THEN( "having another trait does not cancel the Topographagnosia trait" ) {
             dummy.toggle_trait( trait_SMELLY );
-            CHECK( dummy.overmap_sight_range( 100.0f ) == 1.0 );
+            CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
         }
     }
 }

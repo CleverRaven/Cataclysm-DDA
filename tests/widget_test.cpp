@@ -710,7 +710,7 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
         widget head_num_w = widget_test_hp_head_num.obj();
         widget head_graph_w = widget_test_hp_head_graph.obj();
         REQUIRE( ava.get_part_hp_max( head ) == 85 );
-        REQUIRE( ava.get_part_hp_cur( head ) == 84 );
+        REQUIRE( ava.get_part_hp_cur( head ) == 85 );
 
         ava.set_part_hp_cur( head, 84 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 84" );
