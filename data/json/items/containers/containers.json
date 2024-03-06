@@ -3216,7 +3216,7 @@
     "symbol": ",",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "6 kg" } ],
-    "flags": [ "COLLAPSE_CONTENTS" ]
+    "flags": [ "COLLAPSE_CONTENTS", "TINDER" ]
   },
   {
     "id": "wrapper_foil",
