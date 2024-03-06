@@ -667,7 +667,7 @@
           [ "t_shrub_goblin_fruit_summer", 1 ],
           [ "t_shrub_goblin_fruit_autumn", 1 ],
           [ "t_shrub_goblin_fruit_winter", 1 ],
-          [ "t_null", 15 ]
+          [ "t_null", 25 ]
         ],
         " ": "t_null"
       }
