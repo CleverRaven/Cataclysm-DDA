@@ -43,7 +43,10 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_GACHA",
-    "effect": [ { "u_spawn_item": "spell_spawned_goblin_fruit", "use_item_group": true, "suppress_message": true } ]
+    "effect": [
+      { "u_spawn_item": "spell_spawned_goblin_fruit", "use_item_group": true, "suppress_message": true },
+      { "u_message": "You peel open the mysterious fruit and find another whole fruit inside.", "type": "info" }
+    ]
   },
   {
     "type": "COMESTIBLE",
