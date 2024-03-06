@@ -9743,5 +9743,14 @@
     "starting_trait": true,
     "valid": false,
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+  },
+  {
+    "type": "mutation",
+    "id": "bad_dreams",
+    "name": { "str": "Troubled Sleep" },
+    "points": 1,
+    "description": "Disturbing events tend to stick to your psyche, and the collapse of society probably qualifies as the most traumatic event in your life.  When you strive for the release of sleep, your dreams will be plagued by your recollections.  It seems like not even slumber can rest you from your fear.",
+    "starting_trait": true,
+    "valid": false
   }
 ]
