@@ -37,7 +37,7 @@
               ]
             },
             {
-              "or": [
+              "and": [
                 { "not": { "u_at_om_location": "field" } },
                 { "not": { "u_at_om_location": "forest" } },
                 { "not": { "u_at_om_location": "forest_thick" } },
