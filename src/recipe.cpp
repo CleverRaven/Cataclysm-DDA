@@ -1226,8 +1226,7 @@ std::string recipe::result_name( const bool decorated ) const
             name = iter_var->alt_name.translated();
         }
     } else {
-        item option( result_, calendar::turn_zero );
-        name = option.tname( 1, false );
+        name = item::tname( result_, 1 );
     }
     if( decorated &&
         uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
