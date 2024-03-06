@@ -41,6 +41,7 @@
                 { "not": { "u_at_om_location": "field" } },
                 { "not": { "u_at_om_location": "forest" } },
                 { "not": { "u_at_om_location": "forest_thick" } },
+                { "not": { "u_at_om_location": "forest_water" } },
                 { "not": { "u_at_om_location": "forest_water" } }
               ]
             }
@@ -53,7 +54,14 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_INVISIBLE_TO_HUMANS",
-    "condition": { "or": [ "u_is_npc", { "or": [ { "u_has_species": "FERAL" }, { "u_has_species": "HUMAN" } ] } ] },
+    "condition": {
+      "or": [
+        "u_is_npc",
+        {
+          "or": [ { "u_has_species": "FERAL" }, { "and": [ { "not": { "u_has_species": "ZOMBIE" } }, { "u_has_species": "HUMAN" } ] } ]
+        }
+      ]
+    },
     "effect": [
       {
         "u_add_effect": "telepathic_ignorance",
