@@ -13,7 +13,7 @@
     "batch_time_factors": [ 75, 4 ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_limestone", 50 ] ] ],
-    "charges": 20,
+    "charges": 20
   },
   {
     "type": "recipe",
