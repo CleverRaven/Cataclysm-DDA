@@ -151,7 +151,7 @@
     "active": false,
     "valid": false,
     "player_display": false,
-    "anger_relations": [ [ "HUMAN", -50 ], [ "FERAL", -50 ] ],
+    "anger_relations": [ [ "HUMAN", -100 ], [ "FERAL", -100 ] ],
     "enchantments": [
       {
         "values": [
@@ -345,6 +345,7 @@
     "prereqs": [ "HOMULLUS_CRAFTING_BONUS_2" ],
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
+    "//": "This should also reduce Construction times once there's some way to do so.",
     "enchantments": [
       {
         "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
