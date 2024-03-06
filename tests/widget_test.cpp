@@ -714,10 +714,10 @@ TEST_CASE( "widgets_showing_avatar_attributes", "[widget][avatar]" )
 
         ava.set_part_hp_cur( head, 84 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 84" );
-        CHECK( head_graph_w.layout( ava ) == "HEAD: |||||" );
+        CHECK( head_graph_w.layout( ava ) == "HEAD: ||||\" );
         ava.set_part_hp_cur( head, 42 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 42" );
-        CHECK( head_graph_w.layout( ava ) == "HEAD: ||\\,," );
+        CHECK( head_graph_w.layout( ava ) == "HEAD: ||,,," );
         ava.set_part_hp_cur( head, 17 );
         CHECK( head_num_w.layout( ava ) == "HEAD: 17" );
         CHECK( head_graph_w.layout( ava ) == "HEAD: |,,,," );
