@@ -35,6 +35,14 @@
                 { "u_near_om_location": "dirt_road", "range": 3 },
                 { "u_near_om_location": "subway", "range": 3 }
               ]
+            },
+            {
+              "or": [
+                { "not": { "u_at_om_location": "field" } },
+                { "not": { "u_at_om_location": "forest" } },
+                { "not": { "u_at_om_location": "forest_thick" } },
+                { "not": { "u_at_om_location": "forest_water" } }
+              ]
             }
           ]
         }
