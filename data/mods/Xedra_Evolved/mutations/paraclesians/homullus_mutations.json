@@ -128,6 +128,36 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_GAIN_BIONIC_POWER",
+    "name": "Echoes of the Streets",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power.",
+    "changes_to": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA",
+    "name": "The Pulse of the Invisible",
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power and mana.",
+    "prereqs": [ "HOMULLUS_GAIN_BIONIC_POWER" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_CITY_STRIDER",
     "name": { "str": "City Strider" },
     "points": 3,
@@ -179,31 +209,7 @@
     "category": [ "HOMULLUS" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            { "u_near_om_location": "road_curved", "range": 3 },
-            { "u_near_om_location": "road_four_way", "range": 3 },
-            { "u_near_om_location": "road_tee", "range": 3 },
-            { "u_near_om_location": "road_straight", "range": 3 },
-            { "u_near_om_location": "road_end", "range": 3 },
-            { "u_near_om_location": "road_sw", "range": 3 },
-            { "u_near_om_location": "road_ne", "range": 3 },
-            { "u_near_om_location": "road_ew", "range": 3 },
-            { "u_near_om_location": "road_ns", "range": 3 },
-            { "u_near_om_location": "road_nesw", "range": 3 },
-            { "u_near_om_location": "road", "range": 3 },
-            { "u_near_om_location": "dirt_road", "range": 3 },
-            { "u_near_om_location": "subway", "range": 3 },
-            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
-            { "u_near_om_location": "evac_center_18", "range": 6 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
-            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
-            { "u_near_om_location": "ranch_camp_41", "range": 6 },
-            { "u_near_om_location": "godco_5", "range": 6 },
-            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
         "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.15 } ]
       }
     ]
@@ -221,31 +227,7 @@
     "category": [ "HOMULLUS" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            { "u_near_om_location": "road_curved", "range": 3 },
-            { "u_near_om_location": "road_four_way", "range": 3 },
-            { "u_near_om_location": "road_tee", "range": 3 },
-            { "u_near_om_location": "road_straight", "range": 3 },
-            { "u_near_om_location": "road_end", "range": 3 },
-            { "u_near_om_location": "road_sw", "range": 3 },
-            { "u_near_om_location": "road_ne", "range": 3 },
-            { "u_near_om_location": "road_ew", "range": 3 },
-            { "u_near_om_location": "road_ns", "range": 3 },
-            { "u_near_om_location": "road_nesw", "range": 3 },
-            { "u_near_om_location": "road", "range": 3 },
-            { "u_near_om_location": "dirt_road", "range": 3 },
-            { "u_near_om_location": "subway", "range": 3 },
-            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
-            { "u_near_om_location": "evac_center_18", "range": 6 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
-            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
-            { "u_near_om_location": "ranch_camp_41", "range": 6 },
-            { "u_near_om_location": "godco_5", "range": 6 },
-            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
         "skills": [
           { "value": "electronics", "add": 1 },
           { "value": "fabrication", "add": 1 },
@@ -264,36 +246,12 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed and ability are greatly increased.",
-    "prereqs": [ "HOMULLUS_CRAFTING_BONUS_3" ],
+    "prereqs": [ "HOMULLUS_CRAFTING_BONUS_2" ],
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "enchantments": [
       {
-        "condition": {
-          "or": [
-            { "u_near_om_location": "road_curved", "range": 3 },
-            { "u_near_om_location": "road_four_way", "range": 3 },
-            { "u_near_om_location": "road_tee", "range": 3 },
-            { "u_near_om_location": "road_straight", "range": 3 },
-            { "u_near_om_location": "road_end", "range": 3 },
-            { "u_near_om_location": "road_sw", "range": 3 },
-            { "u_near_om_location": "road_ne", "range": 3 },
-            { "u_near_om_location": "road_ew", "range": 3 },
-            { "u_near_om_location": "road_ns", "range": 3 },
-            { "u_near_om_location": "road_nesw", "range": 3 },
-            { "u_near_om_location": "road", "range": 3 },
-            { "u_near_om_location": "dirt_road", "range": 3 },
-            { "u_near_om_location": "subway", "range": 3 },
-            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
-            { "u_near_om_location": "evac_center_18", "range": 6 },
-            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
-            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
-            { "u_near_om_location": "ranch_camp_41", "range": 6 },
-            { "u_near_om_location": "godco_5", "range": 6 },
-            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
-            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
-          ]
-        },
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
         "skills": [
           { "value": "electronics", "add": 2 },
           { "value": "fabrication", "add": 2 },
