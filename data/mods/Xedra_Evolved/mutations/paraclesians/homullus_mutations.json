@@ -169,6 +169,143 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_CRAFTING_BONUS_1",
+    "name": { "str": "The Tool-Maker" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed is increased.",
+    "changes_to": [ "HOMULLUS_CRAFTING_BONUS_2" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_near_om_location": "road_curved", "range": 3 },
+            { "u_near_om_location": "road_four_way", "range": 3 },
+            { "u_near_om_location": "road_tee", "range": 3 },
+            { "u_near_om_location": "road_straight", "range": 3 },
+            { "u_near_om_location": "road_end", "range": 3 },
+            { "u_near_om_location": "road_sw", "range": 3 },
+            { "u_near_om_location": "road_ne", "range": 3 },
+            { "u_near_om_location": "road_ew", "range": 3 },
+            { "u_near_om_location": "road_ns", "range": 3 },
+            { "u_near_om_location": "road_nesw", "range": 3 },
+            { "u_near_om_location": "road", "range": 3 },
+            { "u_near_om_location": "dirt_road", "range": 3 },
+            { "u_near_om_location": "subway", "range": 3 },
+            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
+            { "u_near_om_location": "evac_center_18", "range": 6 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
+            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
+            { "u_near_om_location": "ranch_camp_41", "range": 6 },
+            { "u_near_om_location": "godco_5", "range": 6 },
+            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
+          ]
+        },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.15 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CRAFTING_BONUS_2",
+    "name": { "str": "The Innovator" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed and ability are increased.",
+    "prereqs": [ "HOMULLUS_CRAFTING_BONUS_1" ],
+    "changes_to": [ "HOMULLUS_CRAFTING_BONUS_3" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_near_om_location": "road_curved", "range": 3 },
+            { "u_near_om_location": "road_four_way", "range": 3 },
+            { "u_near_om_location": "road_tee", "range": 3 },
+            { "u_near_om_location": "road_straight", "range": 3 },
+            { "u_near_om_location": "road_end", "range": 3 },
+            { "u_near_om_location": "road_sw", "range": 3 },
+            { "u_near_om_location": "road_ne", "range": 3 },
+            { "u_near_om_location": "road_ew", "range": 3 },
+            { "u_near_om_location": "road_ns", "range": 3 },
+            { "u_near_om_location": "road_nesw", "range": 3 },
+            { "u_near_om_location": "road", "range": 3 },
+            { "u_near_om_location": "dirt_road", "range": 3 },
+            { "u_near_om_location": "subway", "range": 3 },
+            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
+            { "u_near_om_location": "evac_center_18", "range": 6 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
+            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
+            { "u_near_om_location": "ranch_camp_41", "range": 6 },
+            { "u_near_om_location": "godco_5", "range": 6 },
+            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
+          ]
+        },
+        "skills": [
+          { "value": "electronics", "add": 1 },
+          { "value": "fabrication", "add": 1 },
+          { "value": "mechanics", "add": 1 },
+          { "value": "tailor", "add": 1 }
+        ],
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CRAFTING_BONUS_3",
+    "name": { "str": "The Builder of Cities" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed and ability are greatly increased.",
+    "prereqs": [ "HOMULLUS_CRAFTING_BONUS_3" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "u_near_om_location": "road_curved", "range": 3 },
+            { "u_near_om_location": "road_four_way", "range": 3 },
+            { "u_near_om_location": "road_tee", "range": 3 },
+            { "u_near_om_location": "road_straight", "range": 3 },
+            { "u_near_om_location": "road_end", "range": 3 },
+            { "u_near_om_location": "road_sw", "range": 3 },
+            { "u_near_om_location": "road_ne", "range": 3 },
+            { "u_near_om_location": "road_ew", "range": 3 },
+            { "u_near_om_location": "road_ns", "range": 3 },
+            { "u_near_om_location": "road_nesw", "range": 3 },
+            { "u_near_om_location": "road", "range": 3 },
+            { "u_near_om_location": "dirt_road", "range": 3 },
+            { "u_near_om_location": "subway", "range": 3 },
+            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
+            { "u_near_om_location": "evac_center_18", "range": 6 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
+            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
+            { "u_near_om_location": "ranch_camp_41", "range": 6 },
+            { "u_near_om_location": "godco_5", "range": 6 },
+            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
+          ]
+        },
+        "skills": [
+          { "value": "electronics", "add": 2 },
+          { "value": "fabrication", "add": 2 },
+          { "value": "mechanics", "add": 2 },
+          { "value": "tailor", "add": 2 }
+        ],
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.35 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_EXPANDED_MUTATIONS",
     "name": "Mimicry of Biology",
     "points": 10,
