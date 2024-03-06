@@ -300,7 +300,7 @@
           { "value": "mechanics", "add": 2 },
           { "value": "tailor", "add": 2 }
         ],
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.35 } ]
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.35 } ]
       }
     ]
   },
