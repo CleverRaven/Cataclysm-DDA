@@ -7063,6 +7063,10 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
         price = std::max( price - PRICE_FILTHY_MALUS, 0 );
     }
 
+    for( fault_id fault : faults ) {
+        price *= fault->price_mod();
+    }
+
     return price;
 }
 
