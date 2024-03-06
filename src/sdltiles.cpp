@@ -1171,8 +1171,8 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
         // only clearing those lines that are touched, we avoid
         // clearing lines that were already drawn in a previous
         // window but are untouched in this one.
-        geometry->rect( renderer, point( win->pos.x * fontwidth, ( win->pos.y + j ) * fontheight ),
-                        win->width * fontwidth, fontheight,
+        geometry->rect( renderer, point( win->pos.x * font->width, ( win->pos.y + j ) * font->height ),
+                        win->width * font->width, font->height,
                         color_as_sdl( catacurses::black ) );
         update = true;
         win->line[j].touched = false;
