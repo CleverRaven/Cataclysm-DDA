@@ -507,7 +507,7 @@
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
-    "weight": "170 g",
+    "weight": "136 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
     "container": "can_food",
