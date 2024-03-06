@@ -88,7 +88,7 @@
     "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
-    "prereqs2": [ "BACKSTAGE" ],
+    "prereqs2": [ "HOMULLUS_BACKSTAGE" ],
     "spells_learned": [ [ "homullus_invisible_to_humans_spell", 1 ] ]
   },
   {
@@ -122,6 +122,7 @@
     "name": { "str": "No Trace Yet I Wish (on)" },
     "description": "You don't currently produce scent.",
     "copy-from": "NO_TRACE_YET_I_WISH",
+    "active": false,
     "valid": false,
     "player_display": false,
     "flags": [ "NO_SCENT" ]
@@ -147,6 +148,7 @@
     "name": { "str": "Backstage (on)" },
     "description": "You have faded into the background.",
     "copy-from": "HOMULLUS_BACKSTAGE",
+    "active": false,
     "valid": false,
     "player_display": false,
     "anger_relations": [ [ "HUMAN", -50 ], [ "FERAL", -50 ] ],
