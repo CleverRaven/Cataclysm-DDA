@@ -1970,6 +1970,9 @@ class item : public visitable
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
 
+        /** Idempotent filter setting an item specific fault. */
+        item &set_fault( const fault_id &fault_id );
+
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
 

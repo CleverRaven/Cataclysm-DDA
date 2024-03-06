@@ -436,7 +436,7 @@ void cataimgui::window::draw()
     }
     if( ImGui::Begin( id.c_str(), &is_open, window_flags ) ) {
         draw_controls();
-        if( p_impl->window_adaptor->is_on_top ) {
+        if( p_impl->window_adaptor->is_on_top && !force_to_back ) {
             ImGui::BringWindowToDisplayFront( ImGui::GetCurrentWindow() );
         }
     }

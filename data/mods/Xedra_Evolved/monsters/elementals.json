@@ -513,6 +513,50 @@
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
   },
   {
+    "id": "mon_salamander_firebird",
+    "type": "MONSTER",
+    "name": { "str": "firebird" },
+    "description": "A bird flitting through the air, glowing brightly.  Its outline is obscured by the flames that ripple along its wings and body.",
+    "default_faction": "salamander",
+    "bodytype": "bird",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "BIRD" ],
+    "volume": "4 L",
+    "weight": "3500 g",
+    "hp": 12,
+    "speed": 160,
+    "material": [ "fae_flesh" ],
+    "symbol": "v",
+    "color": "red",
+    "aggression": 100,
+    "morale": 90,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "heat", "amount": 3 } ],
+    "dodge": 6,
+    "luminance": 100,
+    "weakpoint_sets": [ "wps_alien_biology" ],
+    "families": [ "prof_alien_biology" ],
+    "harvest": "fae_flying",
+    "dissect": "dissect_salamander_single",
+    "special_attacks": [
+      {
+        "id": "mon_salamander_firebird_death_explosion",
+        "type": "spell",
+        "spell_data": { "id": "mon_firebird_explosion", "min_level": 0 },
+        "cooldown": 1,
+        "monster_message": "The firebird lets out a cry and explodes in a burst of flames!"
+      }
+    ],
+    "death_function": {
+      "effect": { "id": "mon_firebird_explosion", "hit_self": true },
+      "message": "The %s bursts into flames!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "WARM", "FIREY", "SWARMS" ]
+  },
+  {
     "id": "mon_elemental_saraph",
     "type": "MONSTER",
     "name": {

@@ -352,7 +352,7 @@
     "categories": [ "movement" ],
     "color": "dark_gray",
     "durability": 70,
-    "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair or grocery cart.",
+    "description": "A set of small wheels, mounted on pivots, like the ones on a rolling office chair.",
     "damage_modifier": 50,
     "folded_volume": "1250 ml",
     "breaks_into": [
@@ -364,6 +364,35 @@
     "wheel_offroad_rating": 0.1,
     "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
     "contact_area": 4,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "soldering_standard", 15 ] ] }
+    },
+    "flags": [ "WHEEL", "NEEDS_JACKING", "STABLE", "STEERABLE" ],
+    "variants": [ { "symbols": "o", "symbols_broken": "x" } ]
+  },
+  {
+    "id": "wheel_caster_large",
+    "type": "vehicle_part",
+    "name": { "str": "large casters" },
+    "item": "wheel_caster_large",
+    "location": "under",
+    "categories": [ "movement" ],
+    "color": "dark_gray",
+    "description": "A set of wheels, mounted on pivots, like the ones on a grocery cart.",
+    "durability": 70,
+    "damage_modifier": 50,
+    "folded_volume": "3150 ml",
+    "breaks_into": [
+      { "item": "steel_lump", "prob": 50 },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "rolling_resistance": 14.0,
+    "wheel_offroad_rating": 0.4,
+    "wheel_terrain_modifiers": { "FLAT": [ 0, 6 ], "ROAD": [ 0, 3 ] },
+    "contact_area": 12,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_1", 1 ] ] },

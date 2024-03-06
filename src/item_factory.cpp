@@ -800,6 +800,7 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    // Tally up all the hard-defined similar BPs
     for( armor_portion_data &data : obj.armor->sub_data ) {
         body_part_set similar_bp;
         if( data.covers.has_value() ) {
@@ -812,6 +813,7 @@ void Item_factory::finalize_post_armor( itype &obj )
         data.covers->unify_set( similar_bp );
     }
 
+    // Add sublimb coverage when missing explicit definition
     for( armor_portion_data &data : obj.armor->sub_data ) {
         // if no sub locations are specified assume it covers everything
         if( data.covers.has_value() && data.sub_coverage.empty() ) {
@@ -837,7 +839,17 @@ void Item_factory::finalize_post_armor( itype &obj )
             }
         }
         data.sub_coverage.merge( similar_sbp );
+        // We populated substitutes
+        // Handle incomplete matches (ie defined sub coverage without parent coverage)
+        if( !data.sub_coverage.empty() ) {
+            for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
+                if( !data.covers->test( sbp->parent ) ) {
+                    data.covers->set( sbp->parent );
+                }
+            }
+        }
     }
+
 
     // if this armor doesn't have material info should try to populate it with base item materials
     for( armor_portion_data &data : obj.armor->sub_data ) {
