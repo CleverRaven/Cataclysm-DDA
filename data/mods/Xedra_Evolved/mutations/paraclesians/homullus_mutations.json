@@ -204,7 +204,7 @@
             { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
           ]
         },
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.15 } ]
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
       }
     ]
   },
