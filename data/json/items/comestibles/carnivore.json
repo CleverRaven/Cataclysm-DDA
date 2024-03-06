@@ -727,7 +727,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "raw offal" },
     "description": "A selection of uncooked internal organs and entrails.  Filled with essential vitamins, but most people consider it a bit gross unless it's very carefully prepared.",
-    "proportional": { "parasites": 2.0 },
+    "proportional": { "parasites": 0.5 },
     "price_postapoc": 25,
     "delete": { "flags": [ "SMOKABLE" ] },
     "relative": { "vitamins": [ [ "iron", 4 ] ], "fun": -5 }
