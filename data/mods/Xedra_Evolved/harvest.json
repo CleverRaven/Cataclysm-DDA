@@ -85,6 +85,6 @@
   {
     "id": "shrub_goblin_fruits_harv",
     "type": "harvest",
-    "entries": [ { "drop": "spell_spawned_goblin_fruit", "type": "goblin_fruit_harv_type", "base_num": [ 1, 3 ] } ]
+    "entries": [ { "drop": "goblin_fruit_gacha", "base_num": [ 1, 3 ] } ]
   }
 ]
