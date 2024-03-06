@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
-    "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.",
+    "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
     "condition": {
       "or": [
         {
@@ -49,6 +49,19 @@
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_INVISIBLE_TO_HUMANS",
+    "condition": { "or": [ "u_is_npc", { "or": [ { "u_has_species": "FERAL" }, { "u_has_species": "HUMAN" } ] } ] },
+    "effect": [
+      {
+        "u_add_effect": "telepathic_ignorance",
+        "duration": {
+          "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+        }
+      }
+    ]
   },
   {
     "type": "effect_on_condition",

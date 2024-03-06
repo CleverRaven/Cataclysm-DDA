@@ -80,6 +80,18 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_INVISIBLE_TO_HUMANS",
+    "name": { "str": "A Face in the Crowd" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_SKIN_1" ],
+    "spells_learned": [ [ "homullus_invisible_to_humans_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
