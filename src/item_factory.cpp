@@ -65,9 +65,6 @@ static const ammotype ammo_NULL( "NULL" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
-static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
-static const furn_str_id furn_f_plant_mature( "f_plant_mature" );
-static const furn_str_id furn_f_plant_seedling( "f_plant_seedling" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
@@ -800,6 +797,7 @@ void Item_factory::finalize_post( itype &obj )
 
 void Item_factory::finalize_post_armor( itype &obj )
 {
+    // Tally up all the hard-defined similar BPs
     for( armor_portion_data &data : obj.armor->sub_data ) {
         body_part_set similar_bp;
         if( data.covers.has_value() ) {
@@ -812,6 +810,7 @@ void Item_factory::finalize_post_armor( itype &obj )
         data.covers->unify_set( similar_bp );
     }
 
+    // Add sublimb coverage when missing explicit definition
     for( armor_portion_data &data : obj.armor->sub_data ) {
         // if no sub locations are specified assume it covers everything
         if( data.covers.has_value() && data.sub_coverage.empty() ) {
@@ -837,7 +836,17 @@ void Item_factory::finalize_post_armor( itype &obj )
             }
         }
         data.sub_coverage.merge( similar_sbp );
+        // We populated substitutes
+        // Handle incomplete matches (ie defined sub coverage without parent coverage)
+        if( !data.sub_coverage.empty() ) {
+            for( const sub_bodypart_str_id &sbp : data.sub_coverage ) {
+                if( !data.covers->test( sbp->parent ) ) {
+                    data.covers->set( sbp->parent );
+                }
+            }
+        }
     }
+
 
     // if this armor doesn't have material info should try to populate it with base item materials
     for( armor_portion_data &data : obj.armor->sub_data ) {
@@ -3411,9 +3420,6 @@ void islot_seed::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "fruit", fruit_id );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
-    optional( jo, was_loaded, "seedling_form", seedling_form, furn_f_plant_seedling );
-    optional( jo, was_loaded, "mature_form", mature_form, furn_f_plant_mature );
-    optional( jo, was_loaded, "harvestable_form", harvestable_form, furn_f_plant_harvest );
     optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
               ter_furn_flag::TFLAG_PLANTABLE );
 }
