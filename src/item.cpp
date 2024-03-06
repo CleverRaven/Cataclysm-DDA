@@ -14531,7 +14531,7 @@ std::string item::nname( const itype_id &id, unsigned int quantity )
 }
 
 std::string item::tname( const itype_id &id, unsigned int quantity,
-                         const tname::segment_bitset const &segments )
+                         const tname::segment_bitset &segments )
 {
     item item_temp( id );
     return item_temp.tname( quantity, segments );
