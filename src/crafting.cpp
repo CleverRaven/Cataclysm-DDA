@@ -2045,6 +2045,9 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     if( is.use_from & usage_from::player ) {
         if( by_charges ) {
             std::list<item> tmp = use_charges( selected_comp.type, real_count, preferred_filter );
+            for( const item &it : tmp ) {
+                real_count -= it.charges;  // The use_charges operation above doesn't deduct what's been used...
+            }
             ret.splice( ret.end(), tmp );
         } else {
             std::list<item> tmp = use_amount( selected_comp.type, real_count, preferred_filter, select_ind );
@@ -2069,10 +2072,11 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         if( is.use_from & usage_from::player ) {
             if( by_charges ) {
                 std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+                // The use_charges operation above doesn't deduct what's been used, but we're not going to use real_count again.
                 ret.splice( ret.end(), tmp );
             } else {
                 std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
-                real_count -= tmp.size();  // The use_amount operation above doesn't deduct what's been used...
+                // The use_amount operation above doesn't deduct what's been used, but we're not going to use real_count again.
                 remove_ammo( tmp, *this );
                 ret.splice( ret.end(), tmp );
             }
