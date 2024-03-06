@@ -158,9 +158,9 @@ std::string tool_comp::to_string( const int batch, const int ) const
         //~ %1$s: tool name, %2$d: charge requirement
         return string_format( npgettext( "requirement", "%1$s (%2$d charge)", "%1$s (%2$d charges)",
                                          charge_total ),
-                              item::nname( type ), charge_total );
+                              item( type ).tname( 1 ), charge_total );
     } else {
-        return item::nname( type, std::abs( count ) );
+        return item( type ).tname( std::abs( count ) );
     }
 }
 
