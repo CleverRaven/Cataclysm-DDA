@@ -104,6 +104,13 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_GAIN_BIONIC_POWER_IN_CITIES",
+    "recurrence": "30 seconds",
+    "condition": { "or": [ { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } ] },
+    "effect": [ { "math": [ "u_val('power')", "+=", "energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "HOMULLUS_MIGRATE_TO_MIMIMIZED_MUTATIONS",
     "//": "For pre-existing homullus characters that don't have the mutation blocker mutation.",
     "eoc_type": "EVENT",
