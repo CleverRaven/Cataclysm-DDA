@@ -7580,7 +7580,15 @@ void line( map *m, const ter_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_ter( type, p1, p2 );
 }
+void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 )
+{
+    m->draw_line_ter( type, p1, p2 );
+}
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+{
+    m->draw_line_furn( type, p1, p2 );
+}
+void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }
@@ -7597,6 +7605,10 @@ void square( map *m, const ter_id &type, const point &p1, const point &p2 )
     m->draw_square_ter( type, p1, p2 );
 }
 void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+{
+    m->draw_square_furn( type, p1, p2 );
+}
+void square_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }
@@ -7681,7 +7693,7 @@ bool update_mapgen_function_json::update_map(
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
-    mapgendata md_base( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
+    mapgendata md_base( omt_pos, *update_tmap.cast_to_map(), 0.0f, calendar::start_of_cataclysm, miss );
     mapgendata md( md_base, args );
 
     bool const u = update_map( md, offset, verify );
@@ -7808,7 +7820,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
 
     fake_map tmp_map( t_grass );
 
-    mapgendata base_fake_md( tmp_map, mapgendata::dummy_settings );
+    mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, args );
     fake_md.skip = { mapgen_phase::zones };
 
@@ -7825,7 +7837,8 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         // "outer scope" mirroring/rotation is undone. It's unlikely inherent map rotation will
         // be present at the same time as construction rotation/mirroring is, but better safe than sorry.
 
-        mapgendata md_base( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, nullptr );
+        mapgendata md_base( omt_pos, *update_tmap.cast_to_map(), 0.0f, calendar::start_of_cataclysm,
+                            nullptr );
         mapgendata md( md_base, args );
 
         rotation_guard rot( md );
@@ -7867,7 +7880,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     fake_map tmp_map( base_ter );
 
-    mapgendata base_fake_md( tmp_map, mapgendata::dummy_settings );
+    mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 
