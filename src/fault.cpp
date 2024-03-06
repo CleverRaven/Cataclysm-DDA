@@ -9,6 +9,8 @@
 
 static std::map<fault_id, fault> faults_all;
 static std::map<fault_fix_id, fault_fix> fault_fixes_all;
+// Have a list of faults by type, the type right now is item prefix to avoid adding more JSON data
+static std::map<std::string, std::list<fault_id>> faults_by_type;
 
 /** @relates string_id */
 template<>
@@ -70,6 +72,11 @@ std::string fault::item_prefix() const
     return item_prefix_.translated();
 }
 
+std::string fault::type() const
+{
+    return type_;
+}
+
 bool fault::has_flag( const std::string &flag ) const
 {
     return flags.count( flag );
@@ -88,10 +95,14 @@ void fault::load( const JsonObject &jo )
     mandatory( jo, false, "name", f.name_ );
     mandatory( jo, false, "description", f.description_ );
     optional( jo, false, "item_prefix", f.item_prefix_ );
+    optional( jo, false, "fault_type", f.type_ );
     optional( jo, false, "flags", f.flags );
 
     if( !faults_all.emplace( f.id_, f ).second ) {
         jo.throw_error_at( "id", "parsed fault overwrites existing definition" );
+    }
+    if( !f.type_.empty() ) {
+        faults_by_type[ std::string( f.type_ ) ].push_back( f.id() );
     }
 }
 
@@ -120,6 +131,11 @@ void fault::check_consistency()
 const std::map<fault_fix_id, fault_fix> &fault_fix::all()
 {
     return fault_fixes_all;
+}
+
+const std::list<fault_id> &fault::get_by_type( const std::string &type )
+{
+    return faults_by_type.at( type );
 }
 
 const requirement_data &fault_fix::get_requirements() const

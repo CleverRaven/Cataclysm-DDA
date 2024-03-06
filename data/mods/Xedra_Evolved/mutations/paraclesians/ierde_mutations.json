@@ -108,7 +108,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to rest and recover energy as though sleeping, while underground.  Activate to to begin the vigil.",
+    "description": "Upon gaining this ability the Ierde gains the ability to, while underground, rest and recover energy as though sleeping.  Activate to to begin the vigil.",
     "prereqs": [ "IERDE_EYES" ],
     "category": [ "IERDE" ],
     "activated_is_setup": false,
@@ -122,7 +122,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as the Ierde maintains contact with natural earth or stone, or is underground.",
+    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as they maintains contact with natural earth or stone, or are underground.",
     "prereqs": [ "IERDE_EYES" ],
     "prereqs2": [ "IERDE_EARS" ],
     "category": [ "IERDE" ],
@@ -178,6 +178,18 @@
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_RESHAPE_THE_EARTH" ],
     "spells_learned": [ [ "ierde_create_pits_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_SLOW_ENEMIES",
+    "name": { "str": "Rigidity of Stone" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde may infuse the rigidity of stone into their enemies, slowing their movements.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_RESHAPE_THE_EARTH" ],
+    "spells_learned": [ [ "ierde_slow_enemies_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -555,5 +567,32 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "enchantments": [ "ench_ierde_no_mind_problems" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_FORM",
+    "name": { "str": "Form of the Solid Earth" },
+    "points": 8,
+    "description": "The Ierde may transform into rock and earth.  They become incredibly resilient and nearly immune to some forms of damage, but will be much, much slower.",
+    "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_FEEL_NO_PAIN" ],
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_IERDE_STONE_FORM_ON" ],
+    "processed_eocs": [ "EOC_IERDE_STONE_FORM_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_IERDE_STONE_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_FORM_TRAITS",
+    "name": { "str": "Earthen Form" },
+    "description": "You are a mass of stone and earth.  You are incredibly resilient, but you are extremely slow.",
+    "points": 10,
+    "valid": false,
+    "enchantments": [ "ench_ierde_stone_form" ],
+    "override_look": { "id": "mon_stonegolem", "tile_category": "monster" },
+    "flags": [ "ACID_IMMUNE", "BIO_IMMUNE", "COLD_IMMUNE", "STAB_IMMUNE", "BULLET_IMMUNE" ]
   }
 ]
