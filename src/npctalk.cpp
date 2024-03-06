@@ -3122,6 +3122,7 @@ void receive_item( itype_id &item_name, int count, std::string_view container_na
             for( const std::string &flag : flags ) {
                 new_item.set_flag( flag_id( flag ) );
             }
+            new_item.set_birthday( calendar::turn );
             if( add_talker ) {
                 d.actor( false )->i_add_or_drop( new_item, force_equip );
             } else {
