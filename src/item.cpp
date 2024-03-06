@@ -14530,10 +14530,11 @@ std::string item::nname( const itype_id &id, unsigned int quantity )
     return t->nname( quantity );
 }
 
-std::string item::tname( const itype_id &id, unsigned int quantity )
+std::string item::tname( const itype_id &id, unsigned int quantity,
+                         const tname::segment_bitset const &segments )
 {
     item item_temp( id );
-    return item_temp.tname( quantity );
+    return item_temp.tname( quantity, segments );
 }
 
 bool item::count_by_charges( const itype_id &id )
