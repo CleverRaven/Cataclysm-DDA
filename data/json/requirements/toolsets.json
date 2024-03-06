@@ -507,5 +507,11 @@
     "//2": "The comment called for adequate protection. When a way to check for that without writing down and keeping updated a list of anything that can protect the arms in the requirements, add arm protection requirement",
     "//3": "Can instead add arm damage risk, mitigated by skill and reduced by armor, when such a thing becomes possible",
     "qualities": [ { "id": "CUT_FINE", "level": 2 } ]
+  },
+  {
+    "id": "tool_rope_long",
+    "type": "requirement",
+    "//": "Long rope used as a tool, in constuction process and so on",
+    "tools": [ [ [ "rope_30", -1 ], [ "rope_makeshift_30", -1 ], [ "vine_30", -1 ], [ "grapnel", -1 ], [ "chain", -1 ], [ "hd_tow_cable", -1 ] ] ]
   }
 ]
