@@ -594,7 +594,7 @@ void recipe_dictionary::finalize()
         if( e->book && !recipe_dict.uncraft.count( rid ) && e->volume > 0_ml ) {
             int pages = e->volume / 12.5_ml;
             recipe &bk = recipe_dict.uncraft[rid];
-            bk.ident_ = rid;
+            bk.id = rid;
             bk.result_ = id;
             bk.reversible = true;
             bk.requirements_ = *requirement_data_uncraft_book * pages;
