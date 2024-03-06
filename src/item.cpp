@@ -7600,6 +7600,12 @@ item &item::set_flag( const flag_id &flag )
     return *this;
 }
 
+item &item::set_fault( const fault_id &fault_id )
+{
+    faults.insert( fault_id );
+    return *this;
+}
+
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
@@ -9748,12 +9754,14 @@ bool item::is_irremovable() const
 
 bool item::is_broken() const
 {
-    return has_flag( flag_ITEM_BROKEN );
+    return has_flag( flag_ITEM_BROKEN ) || has_fault_flag( std::string( "ITEM_BROKEN" ) );
 }
 
 bool item::is_broken_on_active() const
 {
-    return has_flag( flag_ITEM_BROKEN ) || ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
+    return has_flag( flag_ITEM_BROKEN ) ||
+           has_fault_flag( std::string( "ITEM_BROKEN" ) ) ||
+           ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
 }
 
 int item::wind_resist() const
@@ -14020,7 +14028,10 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_flag( flag_ITEM_BROKEN );
+            set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            if( has_flag( flag_ELECTRONIC ) ) {
+                set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+            }
         }
 
         if( !is_food() && item_counter > 0 ) {
