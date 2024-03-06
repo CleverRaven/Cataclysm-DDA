@@ -144,6 +144,14 @@
       {
         "id": "physical_appearance_adjective_0022",
         "text": { "str": "classy", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0023",
+        "text": { "str": "regal", "ctxt": "physical appearance adjective" }
+      },
+      {
+        "id": "physical_appearance_adjective_0024",
+        "text": { "str": "royal", "ctxt": "physical appearance adjective" }
       }
     ]
   },
@@ -268,32 +276,6 @@
         "id": "random_character_pose_dark_0011",
         "text": "being slain by a <sketch_concept_description>, viscera flying from the wound"
       }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<artist_identifying_info>",
-    "text": [
-      {
-        "id": "artist_identifying_info_0001",
-        "text": "The artist's name is signed at the bottom in cursive, \"<full_name>\""
-      },
-      { "id": "artist_identifying_info_0002", "text": "The artist's name is written nearby, \"<full_name>\"" },
-      {
-        "id": "artist_identifying_info_0003",
-        "text": "This work was once signed, but the name has been smuged to illegibility"
-      },
-      { "id": "artist_identifying_info_0004", "text": "The artist's name is signed in ink, \"<given_name>\"" }
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<painting_type>",
-    "text": [
-      { "id": "painting_type_0001", "text": "painted using water colors" },
-      { "id": "painting_type_0002", "text": "painted using oil-based pigments" },
-      { "id": "painting_type_0003", "text": "created using gouche coloring" },
-      { "id": "painting_type_0004", "text": "created with a spray-painting technique" }
     ]
   }
 ]

@@ -1608,5 +1608,41 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "painting",
+    "copy-from": "sheet_canvas",
+    "name": { "str_sp": "painting" },
+    "description": "A painting that someone has made.",
+    "price": 10000,
+    "price_postapoc": 20000,
+    "variants": [
+      {
+        "id": "painting_character",
+        "//": "This is a moreso side project someone made, rather than an official project.",
+        "name": { "str": "character portrait" },
+        "description": "This painting depicts a <sketch_concept_description> <random_character_pose>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "painting_landscape",
+        "name": { "str": "landscape painting" },
+        "description": "This painting depicts a <landscape_description>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "painting_abstract",
+        "name": { "str": "abstract painting" },
+        "description": "This painting depicts <abstract_art_type>.  It seems to have been <painting_type>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      }
+    ]
   }
 ]
