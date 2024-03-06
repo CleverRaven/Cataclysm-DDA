@@ -427,8 +427,7 @@
       "math": [
         "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 10 : max((500 -(u_spell_level('clair_craft_bonus') * 3)), 300)"
       ]
-    },
-    "learn_spells": { "clair_clear_sight": 8, "clair_omniscience": 12 }
+    }
   },
   {
     "id": "clair_perfect_shot",
