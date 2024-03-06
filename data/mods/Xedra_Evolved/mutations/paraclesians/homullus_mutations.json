@@ -270,6 +270,29 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_THE_HUNTER",
+    "name": { "str": "Endurance Hunter" },
+    "points": 2,
+    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
+    "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_EAT_DEMIHUMANS",
+    "name": { "str": "The Top of the Food Chain" },
+    "points": 5,
+    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
+    "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "flags": [ "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_CRAFTING_BONUS_1",
     "name": { "str": "The Tool-Maker" },
     "points": 3,
@@ -361,6 +384,18 @@
     "allowed_category": [ "HOMULLUS" ],
     "changes_to": [ "HOMULLUS_EXPANDED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_THE_HUNTER2",
+    "name": { "str": "Running to Marathon" },
+    "points": 2,
+    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "HOMULLUS_THE_HUNTER" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
   },
   {
     "type": "mutation",

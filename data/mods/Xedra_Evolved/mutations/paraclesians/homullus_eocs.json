@@ -74,6 +74,16 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_RUNNING_GIVE_STAMINA",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [ { "u_has_trait": "HOMULLUS_THE_HUNTER2" }, { "compare_string": [ "run", { "context_val": "movement_mode" } ] } ]
+    },
+    "effect": [ { "math": [ "u_val('stamina')", "+=", "rng(40,65)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_INVISIBLE_TO_HUMANS",
     "condition": {
       "or": [
