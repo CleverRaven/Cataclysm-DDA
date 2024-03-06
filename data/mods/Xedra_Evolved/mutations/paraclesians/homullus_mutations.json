@@ -210,7 +210,7 @@
     "enchantments": [
       {
         "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.15 } ]
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
       }
     ]
   },
@@ -234,7 +234,7 @@
           { "value": "mechanics", "add": 1 },
           { "value": "tailor", "add": 1 }
         ],
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.25 } ]
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.25 } ]
       }
     ]
   },
@@ -258,7 +258,7 @@
           { "value": "mechanics", "add": 2 },
           { "value": "tailor", "add": 2 }
         ],
-        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.35 } ]
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.35 } ]
       }
     ]
   },
