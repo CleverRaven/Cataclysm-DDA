@@ -88,6 +88,7 @@
     "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
+    "prereqs2": [ "BACKSTAGE" ],
     "spells_learned": [ [ "homullus_invisible_to_humans_spell", 1 ] ]
   },
   {
@@ -100,6 +101,64 @@
     "description": "Upon gaining this ability the Homullus gains the ability to find a goblin fruit when in the remnants of civilization.",
     "category": [ "HOMULLUS" ],
     "spells_learned": [ [ "homullus_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_TRACE_YET_I_WISH",
+    "name": { "str": "No Trace Yet I Wish" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Homullus gains the ability to stop emitting scent at will.  They can use this to control when scent-tracking creatures will be able to find them.",
+    "category": [ "HOMULLUS" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_HOMULLUS_NO_TRACE_ON" ],
+    "deactivated_eocs": [ "EOC_HOMULLUS_NO_TRACE_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_TRACE_YET_I_WISH_active",
+    "name": { "str": "No Trace Yet I Wish (on)" },
+    "description": "You don't currently produce scent.",
+    "copy-from": "NO_TRACE_YET_I_WISH",
+    "valid": false,
+    "player_display": false,
+    "flags": [ "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_BACKSTAGE",
+    "name": { "str": "Backstage" },
+    "points": 0,
+    "visibility": -1,
+    "ugliness": 0,
+    "description": "At will, you can recede from the foreground of people's perceptions.  They will still notice you if you make yourself known.  Conversation with actual humans will be harder while this trait is active.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "NO_TRACE_YET_I_WISH" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_HOMULLUS_BACKSTAGE_ON" ],
+    "deactivated_eocs": [ "EOC_HOMULLUS_BACKSTAGE_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_BACKSTAGE_active",
+    "name": { "str": "Backstage (on)" },
+    "description": "You have faded into the background.",
+    "copy-from": "HOMULLUS_BACKSTAGE",
+    "valid": false,
+    "player_display": false,
+    "anger_relations": [ [ "HUMAN", -50 ], [ "FERAL", -50 ] ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_LIE", "add": -20 },
+          { "value": "SOCIAL_PERSUADE", "add": -20 },
+          { "value": "SOCIAL_INTIMIDATE", "add": -30 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

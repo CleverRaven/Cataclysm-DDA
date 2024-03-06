@@ -42,7 +42,8 @@
                 { "not": { "u_at_om_location": "forest" } },
                 { "not": { "u_at_om_location": "forest_thick" } },
                 { "not": { "u_at_om_location": "forest_water" } },
-                { "not": { "u_at_om_location": "forest_water" } }
+                { "not": { "u_at_om_location": "lake_surface" } },
+                { "not": { "u_at_om_location": "river_center" } }
               ]
             }
           ]
@@ -50,6 +51,26 @@
       ]
     },
     "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_NO_TRACE_ON",
+    "condition": { "not": { "u_has_trait": "NO_TRACE_YET_I_WISH_active" } },
+    "effect": [ { "u_add_trait": "NO_TRACE_YET_I_WISH_active" }, { "u_message": "Your body stops producing scent.", "type": "good" } ],
+    "false_effect": [
+      { "u_lose_trait": "NO_TRACE_YET_I_WISH_active" },
+      { "u_message": "Your body begins producing scent.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_BACKSTAGE_ON",
+    "condition": { "not": { "u_has_trait": "HOMULLUS_BACKSTAGE_active" } },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_BACKSTAGE_active" },
+      { "u_message": "You seem to fade into the background.", "type": "good" }
+    ],
+    "false_effect": [ { "u_lose_trait": "HOMULLUS_BACKSTAGE_active" }, { "u_message": "You become more noticeable.", "type": "neutral" } ]
   },
   {
     "type": "effect_on_condition",
