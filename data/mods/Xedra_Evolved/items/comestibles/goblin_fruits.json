@@ -21,6 +21,35 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "goblin_fruit_gacha",
+    "name": { "str": "mysterious fruit" },
+    "description": "Some sort of fruit sealed in a thick shell.  The shell is rigid but seems surprisingly brittle; you could easily peel it open to see what's inside with your bare hands.",
+    "weight": "364 g",
+    "volume": "464 ml",
+    "color": "magenta",
+    "spoils_in": "60 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "price": 40,
+    "price_postapoc": 100,
+    "material": [ "fruit" ],
+    "flags": [ "INEDIBLE", "NO_AUTO_CONSUME", "SINGLE_USE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Peel open the mysterious fruit.",
+      "effect_on_conditions": [ "EOC_GOBLIN_FRUIT_GACHA" ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GOBLIN_FRUIT_GACHA",
+    "effect": [
+      { "u_spawn_item": "spell_spawned_goblin_fruit", "use_item_group": true, "suppress_message": true },
+      { "u_message": "You peel open the mysterious fruit and find another whole fruit inside.", "type": "info" }
+    ]
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "goblin_fruit_healing",
     "name": { "str": "sweet goblin fruit" },
     "description": "This round goblin fruit is reddish-orange with a waxy texture.  It smells sweet with a hint of petrichor.",

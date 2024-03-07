@@ -81,5 +81,10 @@
       { "drop": "fae_fur", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
     ]
+  },
+  {
+    "id": "shrub_goblin_fruits_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "goblin_fruit_gacha", "base_num": [ 1, 3 ] } ]
   }
 ]
