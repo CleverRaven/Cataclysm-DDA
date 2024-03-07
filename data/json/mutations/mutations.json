@@ -6138,7 +6138,7 @@
     "prereqs": [ "PER_UP_2" ],
     "threshreq": [ "THRESH_ALPHA" ],
     "category": [ "ALPHA" ],
-    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": { "math": [ "alpha_stat_bonus(u_val('pereception_base'))" ] } } ] } ]
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": { "math": [ "alpha_stat_bonus(u_val('perception_base'))" ] } } ] } ]
   },
   {
     "type": "mutation",
