@@ -916,11 +916,6 @@
     "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
   },
   {
-    "id": "SLOWS_THIRST",
-    "type": "json_flag",
-    "info": "This clothing <good>slows your thirst</good> by reducing moisture loss."
-  },
-  {
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",

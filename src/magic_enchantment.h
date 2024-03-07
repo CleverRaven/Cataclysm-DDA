@@ -46,6 +46,7 @@ enum class mod : int {
     MAX_STAMINA,
     REGEN_STAMINA,
     FAT_TO_MAX_HP,
+    CARDIO_MULTIPLIER,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     HUNGER,        // hunger rate

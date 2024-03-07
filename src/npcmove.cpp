@@ -4054,14 +4054,19 @@ bool npc::wield_better_weapon()
     const auto compare_weapon =
     [this, &weap, &best, &best_value, can_use_gun, use_silent]( const item & it ) {
         bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
-        double val;
-        if( !allowed ) {
-            val = weapon_value( it, 0 );
-        } else {
-            int ammo_count = it.shots_remaining( this );
-            val = weapon_value( it, ammo_count );
-        }
-
+        // According to unmodified evaluation score, NPCs almost always prioritize wielding guns if they have one.
+        // This is relatively reasonable, as players can issue commands to NPCs when we do not want them to use ranged weapons.
+        // Conversely, we cannot directly issue commands when we want NPCs to prioritize ranged weapons.
+        // Note that the scoring method here is different from the 'weapon_value' used elsewhere.
+        double val_gun = allowed ? gun_value( it, it.shots_remaining( this ) ) : 0;
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                       "%s %s valued at <color_light_cyan>%1.2f as a ranged weapon to wield</color>.",
+                       disp_name( true ), it.type->get_id().str(), val_gun );
+        double val_melee = melee_value( it );
+        add_msg_debug( debugmode::DF_NPC_ITEMAI,
+                       "%s %s valued at <color_light_cyan>%1.2f as a melee weapon to wield</color>.", disp_name( true ),
+                       it.type->get_id().str(), val_melee );
+        double val = std::max( val_gun, val_melee );
         bool using_same_type_bionic_weapon = is_using_bionic_weapon()
                                              && &it != &weap
                                              && it.type->get_id() == weap.type->get_id();

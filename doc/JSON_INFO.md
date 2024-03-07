@@ -1298,8 +1298,6 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `available_upgrades`         | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | `encumbrance`                | (_optional_) A list of body parts and how much this bionic encumber them.
 | `known_ma_styles`            | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
-| `weight_capacity_bonus`      | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
-| `weight_capacity_modifier`   | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | `canceled_mutations`         | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | `mutation_conflicts`         | (_optional_) A list of mutations that prevent this bionic from being installed.
 | `included_bionics`           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
@@ -3616,8 +3614,6 @@ Armor can be defined like this:
 "environmental_protection" : 0,     //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,                  // Base encumbrance (unfitted value)
 "max_encumbrance" : 0,              // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
-"weight_capacity_bonus": "20 kg",   // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
-"weight_capacity_modifier": 1.5,    // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.
 "coverage": 80,                     // What percentage of body part is covered (in general)
 "cover_melee": 60,                  // What percentage of body part is covered (against melee)
