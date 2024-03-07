@@ -49,11 +49,11 @@
         "/   VV   e/                           /.H;;;H../",
         "///////////                           ////////+/",
         "/                                     ///S.S.../",
-        "/                  /      /////       /T+.....l/",
-        "/                  /DDDDDDDe../       ///..i.../",
-        "/                  /      w{../       ///....../",
-        "/                  /      w{H.d       /T+.l/L/L/",
-        "////////////////////      //////////////////////"
+        "/                         /////       /T+.....l/",
+        "/              //d//DDDDDD/e../       ///..i.../",
+        "/              /          w{../       ///....../",
+        "/              /          w{H.d       /T+.l/L/L/",
+        "////////////////          //////////////////////"
       ],
       "palettes": [ "LIXA_ground_palette" ],
       "items": {
@@ -150,6 +150,7 @@
         "                          .........yy.........  ",
         "                          .........yy.........  "
       ],
+      "palettes": [ "LIXA_ground_palette" ],
       "terrain": {
         ".": "t_pavement",
         "y": "t_pavement_y",
@@ -188,15 +189,16 @@
         "  .........yy.........  ",
         "  .........yy.........  ",
         "  /////d///yy........./ ",
-        "  /T/ll,,,eDDDDDDDDDDD/ ",
+        "  /T/ll,,e/DDDDDDDDDDD/ ",
         "  /,/,,,,,/yy........./ ",
         "  /,d,,,,hwyy.........P ",
-        "  /s/,,,,,wyy.........  ",
+        "  /S/,,,,,wyy.........  ",
         "  //////ww/yy.........  ",
         "  ....P....yy.........  ",
         "  .........yy.........  ",
         "  .........yy.........  "
       ],
+      "palettes": [ "LIXA_ground_palette" ],
       "terrain": {
         ".": "t_pavement",
         "y": "t_pavement_y",
@@ -210,6 +212,9 @@
         "e": "t_gates_mech_control",
         "D": "t_door_metal_locked",
         "d": [ "t_door_metal_c", "t_door_metal_o" ]
+      },
+      "items": {
+        "l": [ { "item": "army_personal_locker", "chance": 50, "repeat": [ 5, 10 ] }, { "item": "mil_base_coats", "chance": 10 } ]
       },
       "signs": { "P": { "signage": "NO TRESPASSING:  By order of the United States Department of Energy" } }
     }
