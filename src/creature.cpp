@@ -2076,6 +2076,29 @@ void Creature::decrement_summon_timer()
     }
 }
 
+Creature *Creature::get_summoner() const
+{
+    if( !summoner ) {
+        return nullptr;
+    } else if( summoner.value() == get_player_character().getID() ) {
+        return &get_player_character();
+    } else {
+        return g->find_npc( summoner.value() );
+    }
+}
+
+void Creature::set_summoner( Creature *const summoner )
+{
+    if( summoner->as_character() != nullptr ) {
+        this->summoner = summoner->as_character()->getID();
+    }
+}
+
+void Creature::set_summoner( character_id summoner )
+{
+    this->summoner = summoner;
+}
+
 int Creature::get_num_blocks() const
 {
     return num_blocks + num_blocks_bonus;

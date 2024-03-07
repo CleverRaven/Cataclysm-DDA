@@ -2743,6 +2743,9 @@ void monster::die( Creature *nkiller )
     set_killer( nkiller );
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
+        if( ch == nullptr && get_killer()->get_summoner() != nullptr ) {
+            ch = get_killer()->get_summoner()->as_character();
+        }
         if( !is_hallucination() && ch != nullptr ) {
             cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
                             compute_kill_xp( type->id ) );
