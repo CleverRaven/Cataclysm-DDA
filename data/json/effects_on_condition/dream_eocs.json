@@ -7,6 +7,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TROUBLED_SLEEP_MESSAGE",
+    "eoc_type": "EVENT",
+    "required_event": "character_falls_asleep",
+    "condition": { "and": [ { "u_has_trait": "bad_dreams" }, { "not": { "u_has_effect": "took_prozac" } } ] },
+    "effect": [
+      {
+        "u_message": "As your eyes close, unease brews in your mind, anxiety swirling in your gut.  You know the nightmares won't leave you at peace.",
+        "type": "bad"
+      }
+    ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_TROUBLED_SLEEP_SAFE",
+          "condition": { "and": [ { "u_has_trait": "bad_dreams" }, { "u_has_effect": "took_prozac" } ] },
+          "effect": {
+            "u_message": "Surrendering yourself to the arms of sleep, you hope your medication will let you have a good night’s rest."
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TROUBLED_SLEEP_NIGHTMARES",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
