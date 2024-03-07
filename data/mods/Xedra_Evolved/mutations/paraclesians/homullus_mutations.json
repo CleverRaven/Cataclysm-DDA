@@ -80,6 +80,19 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_INVISIBLE_TO_HUMANS",
+    "name": { "str": "A Face in the Crowd" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_SKIN_1" ],
+    "prereqs2": [ "HOMULLUS_BACKSTAGE" ],
+    "spells_learned": [ [ "homullus_invisible_to_humans_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -88,6 +101,66 @@
     "description": "Upon gaining this ability the Homullus gains the ability to find a goblin fruit when in the remnants of civilization.",
     "category": [ "HOMULLUS" ],
     "spells_learned": [ [ "homullus_cultivate_goblin_fruit", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_TRACE_YET_I_WISH",
+    "name": { "str": "No Trace Yet I Wish" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Homullus gains the ability to stop emitting scent at will.  They can use this to control when scent-tracking creatures will be able to find them.",
+    "category": [ "HOMULLUS" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_HOMULLUS_NO_TRACE_ON" ],
+    "deactivated_eocs": [ "EOC_HOMULLUS_NO_TRACE_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "NO_TRACE_YET_I_WISH_active",
+    "name": { "str": "No Trace Yet I Wish (on)" },
+    "description": "You don't currently produce scent.",
+    "copy-from": "NO_TRACE_YET_I_WISH",
+    "active": false,
+    "valid": false,
+    "player_display": false,
+    "flags": [ "NO_SCENT" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_BACKSTAGE",
+    "name": { "str": "Backstage" },
+    "points": 0,
+    "visibility": -1,
+    "ugliness": 0,
+    "description": "At will, you can recede from the foreground of people's perceptions.  They will still notice you if you make yourself known.  Conversation with actual humans will be harder while this trait is active.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "NO_TRACE_YET_I_WISH" ],
+    "activated_is_setup": true,
+    "active": true,
+    "activated_eocs": [ "EOC_HOMULLUS_BACKSTAGE_ON" ],
+    "deactivated_eocs": [ "EOC_HOMULLUS_BACKSTAGE_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_BACKSTAGE_active",
+    "name": { "str": "Backstage (on)" },
+    "description": "You have faded into the background.",
+    "copy-from": "HOMULLUS_BACKSTAGE",
+    "active": false,
+    "valid": false,
+    "player_display": false,
+    "anger_relations": [ [ "HUMAN", -100 ], [ "FERAL", -100 ] ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "SOCIAL_LIE", "add": -20 },
+          { "value": "SOCIAL_PERSUADE", "add": -20 },
+          { "value": "SOCIAL_INTIMIDATE", "add": -30 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -125,6 +198,36 @@
     "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_GAIN_BIONIC_POWER",
+    "name": "Echoes of the Streets",
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power.",
+    "changes_to": [ "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ],
+    "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
+    "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA",
+    "name": "The Pulse of the Invisible",
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though much of humanity has died, their echoes remain in the places they once called home.  The Homullus can draw on those echoes to restore their bionic power and mana.",
+    "prereqs": [ "HOMULLUS_GAIN_BIONIC_POWER" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -169,6 +272,95 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_THE_HUNTER",
+    "name": { "str": "Endurance Hunter" },
+    "points": 2,
+    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
+    "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_EAT_DEMIHUMANS",
+    "name": { "str": "The Top of the Food Chain" },
+    "points": 5,
+    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
+    "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "flags": [ "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CRAFTING_BONUS_1",
+    "name": { "str": "The Tool-Maker" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed is increased.",
+    "changes_to": [ "HOMULLUS_CRAFTING_BONUS_2" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.15 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CRAFTING_BONUS_2",
+    "name": { "str": "The Innovator" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed and ability are increased.",
+    "prereqs": [ "HOMULLUS_CRAFTING_BONUS_1" ],
+    "changes_to": [ "HOMULLUS_CRAFTING_BONUS_3" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
+        "skills": [
+          { "value": "electronics", "add": 1 },
+          { "value": "fabrication", "add": 1 },
+          { "value": "mechanics", "add": 1 },
+          { "value": "tailor", "add": 1 }
+        ],
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.25 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_CRAFTING_BONUS_3",
+    "name": { "str": "The Builder of Cities" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Though they had no claws or fangs or armored skin, humanity mastered the world through their tools.  When near civilization, your crafting speed and ability are greatly increased.",
+    "prereqs": [ "HOMULLUS_CRAFTING_BONUS_2" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "//": "This should also reduce Construction times once there's some way to do so.",
+    "enchantments": [
+      {
+        "condition": { "test_eoc": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION" },
+        "skills": [
+          { "value": "electronics", "add": 2 },
+          { "value": "fabrication", "add": 2 },
+          { "value": "mechanics", "add": 2 },
+          { "value": "tailor", "add": 2 }
+        ],
+        "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.35 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_EXPANDED_MUTATIONS",
     "name": "Mimicry of Biology",
     "points": 10,
@@ -195,6 +387,18 @@
     "allowed_category": [ "HOMULLUS" ],
     "changes_to": [ "HOMULLUS_EXPANDED_MUTATIONS" ],
     "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_THE_HUNTER2",
+    "name": { "str": "Running to Marathon" },
+    "points": 2,
+    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
+    "types": [ "METABOLISM" ],
+    "prereqs": [ "HOMULLUS_THE_HUNTER" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
   },
   {
     "type": "mutation",

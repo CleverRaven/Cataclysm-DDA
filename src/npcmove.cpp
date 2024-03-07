@@ -151,10 +151,6 @@ static const trait_id trait_RETURN_TO_START_POS( "RETURN_TO_START_POS" );
 static const zone_type_id zone_type_NO_NPC_PICKUP( "NO_NPC_PICKUP" );
 static const zone_type_id zone_type_NPC_RETREAT( "NPC_RETREAT" );
 
-static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
-static constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
-static constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
-static constexpr float NPC_COWARDICE_MODIFIER = 0.25f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
 
 // TODO: These would be much better using common code or constants from character.cpp,
@@ -1445,10 +1441,12 @@ void npc::move()
     if( action == npc_undecided && is_walking_with() && player_character.in_vehicle &&
         !in_vehicle ) {
         action = npc_follow_embarked;
+        path.clear();
     }
 
     if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
-        rl_dist( pos(), player_character.pos() ) > follow_distance() ) {
+        rl_dist( pos(), player_character.pos() ) > follow_distance() && !( player_character.in_vehicle &&
+                in_vehicle ) ) {
         action = npc_follow_player;
     }
 
@@ -1524,6 +1522,7 @@ void npc::move()
         // check if in vehicle before rushing off to fetch things
         if( is_walking_with() && player_character.in_vehicle ) {
             action = npc_follow_embarked;
+            path.clear();
         } else if( fetching_item ) {
             // Set to true if find_item() found something
             action = npc_pickup;

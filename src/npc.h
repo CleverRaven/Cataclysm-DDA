@@ -59,6 +59,10 @@ class vehicle;
 
 constexpr int8_t NPC_PERSONALITY_MIN = -10;
 constexpr int8_t NPC_PERSONALITY_MAX = 10;
+constexpr float NPC_DANGER_VERY_LOW = 5.0f;
+constexpr float NPC_MONSTER_DANGER_MAX = 150.0f;
+constexpr float NPC_CHARACTER_DANGER_MAX = 250.0f;
+constexpr float NPC_COWARDICE_MODIFIER = 0.25f;
 
 namespace catacurses
 {
@@ -1022,6 +1026,7 @@ class npc : public Character
             return say( string_format( line, std::forward<Args>( args )... ) );
         }
         void say( const std::string &line, sounds::sound_t spriority = sounds::sound_t::speech ) const;
+        int indoor_voice() const;
         void decide_needs();
         void reboot();
         void die( Creature *killer ) override;

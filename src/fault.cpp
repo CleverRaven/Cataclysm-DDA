@@ -72,6 +72,12 @@ std::string fault::item_prefix() const
     return item_prefix_.translated();
 }
 
+
+double fault::price_mod() const
+{
+    return price_modifier;
+}
+
 std::string fault::type() const
 {
     return type_;
@@ -97,6 +103,7 @@ void fault::load( const JsonObject &jo )
     optional( jo, false, "item_prefix", f.item_prefix_ );
     optional( jo, false, "fault_type", f.type_ );
     optional( jo, false, "flags", f.flags );
+    optional( jo, false, "price_modifier", f.price_modifier );
 
     if( !faults_all.emplace( f.id_, f ).second ) {
         jo.throw_error_at( "id", "parsed fault overwrites existing definition" );

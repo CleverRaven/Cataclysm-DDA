@@ -418,6 +418,8 @@ class item : public visitable
         std::string tname( unsigned int quantity = 1,
                            tname::segment_bitset const &segments = tname::default_tname ) const;
         std::string tname( unsigned int quantity, bool with_prefix ) const;
+        static std::string tname( const itype_id &id, unsigned int quantity = 1,
+                                  tname::segment_bitset const &segments = tname::default_tname );
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
