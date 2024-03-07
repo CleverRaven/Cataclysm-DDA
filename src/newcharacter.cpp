@@ -898,7 +898,6 @@ void Character::initialize( bool learn_recipes )
     }
 
     set_bionics_from_hobbies();
-    
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
 
