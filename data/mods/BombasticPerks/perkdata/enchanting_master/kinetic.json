@@ -1,21 +1,21 @@
 [
   {
-    "id": "ITEM_ENCHANTMENT_KINETIC",
+    "id": "ITEM_ENCHANTMENT_kinetic",
     "type": "json_flag",
     "info": "<color_pink>Kinetic Enchantment</color>",
-    "item_suffix": " (Kinetic)"
+    "item_suffix": " (kinetic)"
   },
   {
     "id": "EOC_enchanting_master_init_kinetic",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_KINETIC" }
+    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_kinetic" }
   },
   {
     "id": "EOC_enchanting_master_remove_kinetic",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": [ { "npc_unset_flag": "ITEM_ENCHANTMENT_KINETIC" }, { "u_lose_effect": "conserved_damage" } ]
+    "effect": [ { "npc_unset_flag": "ITEM_ENCHANTMENT_kinetic" }, { "u_lose_effect": "conserved_damage" } ]
   },
   {
     "type": "effect_type",
@@ -36,7 +36,7 @@
     "type": "effect_on_condition",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "u_has_wielded_with_flag": "ITEM_ENCHANTMENT_KINETIC" },
+    "condition": { "u_has_wielded_with_flag": "ITEM_ENCHANTMENT_kinetic" },
     "effect": [ { "u_add_effect": "conserved_damage", "intensity": 100, "duration": "PERMANENT" } ]
   },
   {
@@ -44,7 +44,7 @@
     "type": "effect_on_condition",
     "eoc_type": "EVENT",
     "required_event": "character_kills_character",
-    "condition": { "u_has_wielded_with_flag": "ITEM_ENCHANTMENT_KINETIC" },
+    "condition": { "u_has_wielded_with_flag": "ITEM_ENCHANTMENT_kinetic" },
     "effect": [ { "u_add_effect": "conserved_damage", "intensity": 100, "duration": "PERMANENT" } ]
   },
   {

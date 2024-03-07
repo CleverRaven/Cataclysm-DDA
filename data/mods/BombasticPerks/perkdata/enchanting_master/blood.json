@@ -1,24 +1,24 @@
 [
   {
-    "id": "ITEM_ENCHANTMENT_VAMPIRIC",
+    "id": "ITEM_ENCHANTMENT_blood",
     "type": "json_flag",
-    "info": "<color_pink>Vampiric Enchantment</color>",
-    "item_suffix": " (Vampiric)"
+    "info": "<color_pink>Blood Enchantment</color>",
+    "item_suffix": " (blood)"
   },
   {
-    "id": "EOC_enchanting_master_init_vampiric",
+    "id": "EOC_enchanting_master_init_blood",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_VAMPIRIC" }
+    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_blood" }
   },
   {
-    "id": "EOC_enchanting_master_remove_vampiric",
+    "id": "EOC_enchanting_master_remove_blood",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_VAMPIRIC" }
+    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_blood" }
   },
   {
-    "id": "EOC_enchanting_master_vampiric",
+    "id": "EOC_enchanting_master_blood",
     "//": "triggered when a character attacks",
     "//1": "u is avatar, npc is the victim",
     "type": "effect_on_condition",

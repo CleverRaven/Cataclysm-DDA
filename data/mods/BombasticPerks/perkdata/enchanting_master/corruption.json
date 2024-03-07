@@ -1,28 +1,28 @@
 [
   {
-    "id": "ITEM_ENCHANTMENT_CORRUPTING",
+    "id": "ITEM_ENCHANTMENT_corruption",
     "type": "json_flag",
-    "info": "<color_pink>Corrupting Enchantment</color>",
-    "item_suffix": " (Corrupting)"
+    "info": "<color_pink>Corruption Enchantment</color>",
+    "item_suffix": " (corruption)"
   },
   {
-    "id": "EOC_enchanting_master_init_corrupting",
+    "id": "EOC_enchanting_master_init_corruption",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_CORRUPTING" }
+    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_corruption" }
   },
   {
-    "id": "EOC_enchanting_master_remove_corrupting",
+    "id": "EOC_enchanting_master_remove_corruption",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_CORRUPTING" }
+    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_corruption" }
   },
   {
-    "id": "EOC_enchanting_master_corrupting_on_kill_monster",
+    "id": "EOC_enchanting_master_corruption_on_kill_monster",
     "type": "effect_on_condition",
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
-    "condition": { "u_has_wielded_with_flag": "ITEM_ENCHANTMENT_CORRUPTING" },
+    "condition": { "u_has_wielded_with_flag": "ITEM_ENCHANTMENT_corruption" },
     "effect": [
       {
         "u_spawn_monster": { "context_val": "victim_type" },

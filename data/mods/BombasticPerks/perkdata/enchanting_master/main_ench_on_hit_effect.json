@@ -31,31 +31,31 @@
     "effect": [
       {
         "run_eoc_with": "EOC_enchanting_master_ench_effect",
-        "variables": { "flag": "ITEM_ENCHANTMENT_BLAZING", "eoc": "EOC_enchanting_master_blazing" }
+        "variables": { "flag": "ITEM_ENCHANTMENT_fire", "eoc": "EOC_enchanting_master_fire" }
       },
       {
         "run_eoc_with": "EOC_enchanting_master_ench_effect",
-        "variables": { "flag": "ITEM_ENCHANTMENT_CHILLING", "eoc": "EOC_enchanting_master_chilling" }
+        "variables": { "flag": "ITEM_ENCHANTMENT_ice", "eoc": "EOC_enchanting_master_ice" }
       },
       {
         "run_eoc_with": "EOC_enchanting_master_ench_effect",
-        "variables": { "flag": "ITEM_ENCHANTMENT_SHOCKING", "eoc": "EOC_enchanting_master_shocking" }
+        "variables": { "flag": "ITEM_ENCHANTMENT_lightning", "eoc": "EOC_enchanting_master_lightning" }
       },
       {
         "run_eoc_with": "EOC_enchanting_master_ench_effect",
-        "variables": { "flag": "ITEM_ENCHANTMENT_KINETIC", "eoc": "EOC_enchanting_master_kinetic" }
+        "variables": { "flag": "ITEM_ENCHANTMENT_kinetic", "eoc": "EOC_enchanting_master_kinetic" }
       },
       {
         "run_eoc_with": "EOC_enchanting_master_ench_effect",
-        "variables": { "flag": "ITEM_ENCHANTMENT_PROJECTING", "eoc": "EOC_enchanting_master_projecting" }
+        "variables": { "flag": "ITEM_ENCHANTMENT_wind", "eoc": "EOC_enchanting_master_wind" }
       },
       {
         "run_eoc_with": "EOC_enchanting_master_ench_effect",
-        "variables": { "flag": "ITEM_ENCHANTMENT_GRIM", "eoc": "EOC_enchanting_master_grim" }
+        "variables": { "flag": "ITEM_ENCHANTMENT_death", "eoc": "EOC_enchanting_master_death" }
       },
       {
         "run_eoc_with": "EOC_enchanting_master_ench_effect",
-        "variables": { "flag": "ITEM_ENCHANTMENT_VAMPIRIC", "eoc": "EOC_enchanting_master_vampiric" }
+        "variables": { "flag": "ITEM_ENCHANTMENT_blood", "eoc": "EOC_enchanting_master_blood" }
       }
     ]
   },

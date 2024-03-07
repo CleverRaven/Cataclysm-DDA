@@ -3,14 +3,14 @@
     "id": "spell_enchanting_master",
     "type": "SPELL",
     "name": "Enchating Weapon",
-    "description": "Enchant the weapon you wield.  Mana cost is 500.  You can choose from 3 random enchantments.",
+    "description": "Enchant the weapon you wield with elements.  Mana cost is 500.  You can choose from 3 random elements.",
     "valid_targets": [ "self" ],
     "effect": "effect_on_condition",
     "effect_str": "EOC_enchanting_master",
     "spell_class": "perk_enchanting_master",
     "flags": [ "SILENT", "NO_PROJECTILE", "NO_FAIL", "NO_HANDS", "NO_LEGS" ],
     "shape": "blast",
-    "base_casting_time": 1000,
+    "base_casting_time": 100000,
     "base_energy_cost": 0,
     "energy_source": "MANA",
     "difficulty": 0,
@@ -110,77 +110,78 @@
           { "math": [ "_rand_3", "=", "(_rand_3 < max(_rand_1, _rand_2)) ? _rand_3 : _rand_3 + 1" ] },
           {
             "title": "Enchantment (Total trigger count)",
+            "title": "Element (Total trigger count)",
             "hide_failing": true,
             "allow_cancel": false,
             "names": [
-              "Blazing (10)",
-              "Chilling (20)",
-              "Shocking (20)",
+              "Fire (10)",
+              "Ice (20)",
+              "Lightning (20)",
               "Kinetic (10)",
-              "Projecting (50)",
-              "Lucky (∞)",
-              "Grim (1)",
-              "Vampiric (15)",
-              "Corrupting (3)",
+              "Wind (50)",
+              "Luck (∞)",
+              "Death (1)",
+              "Blood (15)",
+              "Corruption (3)",
               "Canceled"
             ],
             "descriptions": [
-              "Blazing: Engulf your enemies and the surrounding in flames with each attack.",
-              "Chilling: Your weapon emits a chilling aura, slowing the movements of your enemies.",
-              "Shocking: Electric currents surge through your weapon, shocking your foes.",
+              "Fire: Engulf your enemies and the surrounding in flames with each attack.",
+              "Ice: Your weapon emits a chilling aura, slowing the movements of your enemies.",
+              "Lightning: Electric currents surge through your weapon, shocking your foes.",
               "Kinetic: Accumulate additional damage with each enemy slain, unleashing it with your next strike.",
-              "Projecting: Extend the reach of your weapon with this enchantment.",
-              "Lucky: Reap the rewards of fortune by slaying enemies with this enchantment.",
-              "Grim: Infused with deathly power, your weapon has a chance to execute enemies with each strike, dealing significant damage.  The likelihood increases against weakened foes.",
-              "Vampiric: Your attacks will leech life from your enemies.",
-              "Corrupting: Your slain enemies will rise corrupted, serving you as minions.",
+              "Wind: Extend the reach of your weapon with this enchantment.",
+              "Luck: Reap the rewards of fortune by slaying enemies with this enchantment.",
+              "Death: Infused with deathly power, your weapon has a chance to execute enemies with each strike, dealing significant damage.  The likelihood increases against weakened foes.",
+              "Blood: Your attacks will leech life from your enemies.",
+              "Corruption: Your slain enemies will rise corrupted, serving you as minions.",
               "Cancel this effect will <color_red>not</color> return your mana."
             ],
             "run_eoc_selector": [
               {
-                "id": "EOC_enchanting_master_sel_blazing",
+                "id": "EOC_enchanting_master_sel_1",
                 "condition": { "math": [ "is_valid_ench_option(1)" ] },
-                "effect": { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "blazing", "trigger_count": "10" } }
+                "effect": { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "fire", "trigger_count": "10" } }
               },
               {
-                "id": "EOC_enchanting_master_sel_chilling",
+                "id": "EOC_enchanting_master_sel_2",
                 "condition": { "math": [ "is_valid_ench_option(2)" ] },
-                "effect": { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "chilling", "trigger_count": "20" } }
+                "effect": { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "ice", "trigger_count": "20" } }
               },
               {
-                "id": "EOC_enchanting_master_sel_shocking",
+                "id": "EOC_enchanting_master_sel_3",
                 "condition": { "math": [ "is_valid_ench_option(3)" ] },
-                "effect": { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "shocking", "trigger_count": "20" } }
+                "effect": { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "lightning", "trigger_count": "20" } }
               },
               {
-                "id": "EOC_enchanting_master_sel_kinetic",
+                "id": "EOC_enchanting_master_sel_4",
                 "condition": { "math": [ "is_valid_ench_option(4)" ] },
                 "effect": { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "kinetic", "trigger_count": "10" } }
               },
               {
-                "id": "EOC_enchanting_master_sel_projecting",
+                "id": "EOC_enchanting_master_sel_5",
                 "condition": { "math": [ "is_valid_ench_option(5)" ] },
-                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "projecting", "trigger_count": "50" } } ]
+                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "wind", "trigger_count": "50" } } ]
               },
               {
-                "id": "EOC_enchanting_master_sel_lucky",
+                "id": "EOC_enchanting_master_sel_6",
                 "condition": { "math": [ "is_valid_ench_option(6)" ] },
-                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "lucky", "trigger_count": "-999" } } ]
+                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "luck", "trigger_count": "-999" } } ]
               },
               {
-                "id": "EOC_enchanting_master_sel_grim",
+                "id": "EOC_enchanting_master_sel_7",
                 "condition": { "math": [ "is_valid_ench_option(7)" ] },
-                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "grim", "trigger_count": "1" } } ]
+                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "death", "trigger_count": "1" } } ]
               },
               {
-                "id": "EOC_enchanting_master_sel_vampiric",
+                "id": "EOC_enchanting_master_sel_8",
                 "condition": { "math": [ "is_valid_ench_option(8)" ] },
-                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "vampiric", "trigger_count": "15" } } ]
+                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "blood", "trigger_count": "15" } } ]
               },
               {
-                "id": "EOC_enchanting_master_sel_corrupting",
+                "id": "EOC_enchanting_master_sel_9",
                 "condition": { "math": [ "is_valid_ench_option(9)" ] },
-                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "corrupting", "trigger_count": "3" } } ]
+                "effect": [ { "run_eoc_with": "EOC_enchanting_master_init_ench", "variables": { "type": "corruption", "trigger_count": "3" } } ]
               },
               { "id": "EOC_enchanting_master_sel_canceled", "effect": [  ] }
             ]

@@ -1,24 +1,24 @@
 [
   {
-    "id": "ITEM_ENCHANTMENT_GRIM",
+    "id": "ITEM_ENCHANTMENT_death",
     "type": "json_flag",
-    "info": "<color_pink>Grim Enchantment</color>",
-    "item_suffix": " (Grim)"
+    "info": "<color_pink>Death Enchantment</color>",
+    "item_suffix": " (death)"
   },
   {
-    "id": "EOC_enchanting_master_init_grim",
+    "id": "EOC_enchanting_master_init_death",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_GRIM" }
+    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_death" }
   },
   {
-    "id": "EOC_enchanting_master_remove_grim",
+    "id": "EOC_enchanting_master_remove_death",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_GRIM" }
+    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_death" }
   },
   {
-    "id": "EOC_enchanting_master_grim",
+    "id": "EOC_enchanting_master_death",
     "//": "triggered when a character attacks",
     "//1": "u is avatar, npc is the victim",
     "type": "effect_on_condition",
@@ -30,7 +30,7 @@
         "then": [
           { "npc_location_variable": { "context_val": "loc" } },
           {
-            "u_cast_spell": { "id": "spell_enchanting_master_grim", "min_level": 0, "max_level": 0 },
+            "u_cast_spell": { "id": "spell_enchanting_master_death", "min_level": 0, "max_level": 0 },
             "loc": { "context_val": "loc" }
           },
           { "u_message": "You executed your enemy." },
@@ -40,9 +40,9 @@
     ]
   },
   {
-    "id": "spell_enchanting_master_grim",
+    "id": "spell_enchanting_master_death",
     "type": "SPELL",
-    "name": "grim effect",
+    "name": "death effect",
     "description": "",
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "min_damage": { "math": [ "u_val('strength') * 50" ] },

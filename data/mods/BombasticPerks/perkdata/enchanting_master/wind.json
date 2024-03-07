@@ -1,18 +1,18 @@
 [
   {
-    "id": "ITEM_ENCHANTMENT_PROJECTING",
+    "id": "ITEM_ENCHANTMENT_wind",
     "type": "json_flag",
-    "info": "<color_pink>Projecting Enchantment</color>",
-    "item_suffix": " (Projecting)"
+    "info": "<color_pink>Wind Enchantment</color>",
+    "item_suffix": " (wind)"
   },
   {
-    "id": "EOC_enchanting_master_init_projecting",
+    "id": "EOC_enchanting_master_init_wind",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
     "//1": "normal weapon -> REACH_ATTACK weapon",
     "//2": "REACH_ATTACK weapon -> REACH3 weapon",
     "effect": [
-      { "npc_set_flag": "ITEM_ENCHANTMENT_PROJECTING" },
+      { "npc_set_flag": "ITEM_ENCHANTMENT_wind" },
       {
         "if": { "npc_has_flag": "REACH_ATTACK" },
         "then": [
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "id": "EOC_enchanting_master_remove_projecting",
+    "id": "EOC_enchanting_master_remove_wind",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
     "effect": [
@@ -44,11 +44,11 @@
         ],
         "else": { "npc_unset_flag": "REACH_ATTACK" }
       },
-      { "npc_unset_flag": "ITEM_ENCHANTMENT_PROJECTING" }
+      { "npc_unset_flag": "ITEM_ENCHANTMENT_wind" }
     ]
   },
   {
-    "id": "EOC_enchanting_master_projecting",
+    "id": "EOC_enchanting_master_wind",
     "//": "triggered when a character attacks",
     "type": "effect_on_condition",
     "effect": { "run_eocs": "EOC_enchanting_master_item_ench_trigger_count_minus_one" }

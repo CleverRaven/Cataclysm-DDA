@@ -1,40 +1,40 @@
 [
   {
-    "id": "ITEM_ENCHANTMENT_SHOCKING",
+    "id": "ITEM_ENCHANTMENT_lightning",
     "type": "json_flag",
-    "info": "<color_pink>Shocking Enchantment</color>",
-    "item_suffix": " (Shocking)"
+    "info": "<color_pink>Lightning Enchantment</color>",
+    "item_suffix": " (lightning)"
   },
   {
-    "id": "EOC_enchanting_master_init_shocking",
+    "id": "EOC_enchanting_master_init_lightning",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_SHOCKING" }
+    "effect": { "npc_set_flag": "ITEM_ENCHANTMENT_lightning" }
   },
   {
-    "id": "EOC_enchanting_master_remove_shocking",
+    "id": "EOC_enchanting_master_remove_lightning",
     "type": "effect_on_condition",
     "//": "u is avatar, npc is item",
-    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_SHOCKING" }
+    "effect": { "npc_unset_flag": "ITEM_ENCHANTMENT_lightning" }
   },
   {
-    "id": "EOC_enchanting_master_shocking",
+    "id": "EOC_enchanting_master_lightning",
     "//": "triggered when a character attacks",
     "//1": "u is avatar, npc is the victim",
     "type": "effect_on_condition",
     "effect": [
       { "npc_location_variable": { "context_val": "loc" } },
       {
-        "u_cast_spell": { "id": "spell_enchanting_master_shocking", "min_level": 10, "max_level": 10 },
+        "u_cast_spell": { "id": "spell_enchanting_master_lightning", "min_level": 10, "max_level": 10 },
         "loc": { "context_val": "loc" }
       },
       { "run_eocs": "EOC_enchanting_master_item_ench_trigger_count_minus_one" }
     ]
   },
   {
-    "id": "spell_enchanting_master_shocking_base",
+    "id": "spell_enchanting_master_lightning_base",
     "type": "SPELL",
-    "name": "shocking effect base",
+    "name": "lightning effect base",
     "description": "",
     "effect": "attack",
     "shape": "blast",
@@ -53,22 +53,22 @@
     "damage_type": "electric"
   },
   {
-    "id": "spell_enchanting_master_shocking",
+    "id": "spell_enchanting_master_lightning",
     "type": "SPELL",
-    "name": "shocking effect",
-    "copy-from": "spell_enchanting_master_shocking_base",
+    "name": "lightning effect",
+    "copy-from": "spell_enchanting_master_lightning_base",
     "extra_effects": [
-      { "id": "spell_enchanting_master_shocking_2" },
-      { "id": "spell_enchanting_master_shocking_2" },
-      { "id": "spell_enchanting_master_shocking_2" }
+      { "id": "spell_enchanting_master_lightning_2" },
+      { "id": "spell_enchanting_master_lightning_2" },
+      { "id": "spell_enchanting_master_lightning_2" }
     ],
     "field_id": "none"
   },
   {
-    "id": "spell_enchanting_master_shocking_2",
+    "id": "spell_enchanting_master_lightning_2",
     "type": "SPELL",
-    "name": "shocking effect 2",
-    "copy-from": "spell_enchanting_master_shocking_base",
+    "name": "lightning effect 2",
+    "copy-from": "spell_enchanting_master_lightning_base",
     "field_id": "none",
     "flags": [ "RANDOM_TARGET" ],
     "min_range": 2,
