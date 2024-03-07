@@ -1,6 +1,109 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_IN_CIVILIZATION_CHECKER_CONDITION",
+    "//": "map_in_city cannot check talker location directly, so this is a substitute for enchantment conditions until that is possible.  It does work on random roads in the middle of nowhere, but that's not such a bad thing.",
+    "condition": {
+      "or": [
+        {
+          "or": [
+            { "u_near_om_location": "FACTION_CAMP_ANY", "range": 6 },
+            { "u_near_om_location": "evac_center_18", "range": 6 },
+            { "u_near_om_location": "isolated_road_field_0", "range": 6 },
+            { "u_near_om_location": "lumbermill_0_0_ocu", "range": 6 },
+            { "u_near_om_location": "ranch_camp_41", "range": 6 },
+            { "u_near_om_location": "godco_5", "range": 6 },
+            { "u_near_om_location": "smallscrapyard_ocu", "range": 4 },
+            { "u_near_om_location": "robofachq_surface_entrance", "range": 6 }
+          ]
+        },
+        {
+          "and": [
+            {
+              "or": [
+                { "u_near_om_location": "road_curved", "range": 3 },
+                { "u_near_om_location": "road_four_way", "range": 3 },
+                { "u_near_om_location": "road_tee", "range": 3 },
+                { "u_near_om_location": "road_straight", "range": 3 },
+                { "u_near_om_location": "road_end", "range": 3 },
+                { "u_near_om_location": "road_sw", "range": 3 },
+                { "u_near_om_location": "road_ne", "range": 3 },
+                { "u_near_om_location": "road_ew", "range": 3 },
+                { "u_near_om_location": "road_ns", "range": 3 },
+                { "u_near_om_location": "road_nesw", "range": 3 },
+                { "u_near_om_location": "road", "range": 3 },
+                { "u_near_om_location": "dirt_road", "range": 3 },
+                { "u_near_om_location": "subway", "range": 3 }
+              ]
+            },
+            {
+              "and": [
+                { "not": { "u_at_om_location": "field" } },
+                { "not": { "u_at_om_location": "forest" } },
+                { "not": { "u_at_om_location": "forest_thick" } },
+                { "not": { "u_at_om_location": "forest_water" } },
+                { "not": { "u_at_om_location": "lake_surface" } },
+                { "not": { "u_at_om_location": "river_center" } }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_NO_TRACE_ON",
+    "condition": { "not": { "u_has_trait": "NO_TRACE_YET_I_WISH_active" } },
+    "effect": [ { "u_add_trait": "NO_TRACE_YET_I_WISH_active" }, { "u_message": "Your body stops producing scent.", "type": "good" } ],
+    "false_effect": [
+      { "u_lose_trait": "NO_TRACE_YET_I_WISH_active" },
+      { "u_message": "Your body begins producing scent.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_BACKSTAGE_ON",
+    "condition": { "not": { "u_has_trait": "HOMULLUS_BACKSTAGE_active" } },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_BACKSTAGE_active" },
+      { "u_message": "You seem to fade into the background.", "type": "good" }
+    ],
+    "false_effect": [ { "u_lose_trait": "HOMULLUS_BACKSTAGE_active" }, { "u_message": "You become more noticeable.", "type": "neutral" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_RUNNING_GIVE_STAMINA",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [ { "u_has_trait": "HOMULLUS_THE_HUNTER2" }, { "compare_string": [ "run", { "context_val": "movement_mode" } ] } ]
+    },
+    "effect": [ { "math": [ "u_val('stamina')", "+=", "rng(40,65)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_INVISIBLE_TO_HUMANS",
+    "condition": {
+      "or": [
+        "u_is_npc",
+        {
+          "or": [ { "u_has_species": "FERAL" }, { "and": [ { "not": { "u_has_species": "ZOMBIE" } }, { "u_has_species": "HUMAN" } ] } ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "telepathic_ignorance",
+        "duration": {
+          "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_DREAMWALKER_GAIN_DREAMDROSS",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
@@ -58,6 +161,13 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_GAIN_BIONIC_POWER_IN_CITIES",
+    "recurrence": "30 seconds",
+    "condition": { "or": [ { "u_has_any_trait": [ "HOMULLUS_GAIN_BIONIC_POWER", "HOMULLUS_GAIN_BIONIC_POWER_AND_MANA" ] } ] },
+    "effect": [ { "math": [ "u_val('power')", "+=", "energy('1 kJ') + (energy('1 kJ') * u_has_trait('THRESH_HOMULLUS'))" ] } ]
   },
   {
     "type": "effect_on_condition",

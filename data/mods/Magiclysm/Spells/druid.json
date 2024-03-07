@@ -1180,7 +1180,7 @@
   {
     "id": "druid_breathing_underwater",
     "type": "SPELL",
-    "name": "Aquatic Mantle ",
+    "name": "Aquatic Mantle",
     "description": "Cover yourself in a thin layer of magical seaweed, preventing you from getting wet and allowing you to breathe underwater.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
