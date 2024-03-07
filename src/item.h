@@ -1983,6 +1983,9 @@ class item : public visitable
         void unset_flags();
         /*@}*/
 
+        /**Does this item have the specified vitamin*/
+        bool has_vitamin( const vitamin_id &vitamin ) const;
+
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
 
