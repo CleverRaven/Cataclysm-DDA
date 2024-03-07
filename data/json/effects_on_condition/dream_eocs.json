@@ -7,10 +7,16 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_GIVE_NIGHTMARES",
+    "id": "EOC_TROUBLED_SLEEP_NIGHTMARES",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
-    "condition": { "and": [ { "u_has_trait": "bad_dreams" }, { "math": [ "dream_counter", "==", "0" ] } ] },
+    "condition": {
+      "and": [
+        { "math": [ "dream_counter", "==", "0" ] },
+        { "u_has_trait": "bad_dreams" },
+        { "not": { "u_has_effect": "took_prozac" } }
+      ]
+    },
     "effect": [
       { "u_message": "nightmares_cataclysm_general", "snippet": true, "popup": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },

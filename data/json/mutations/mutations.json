@@ -9747,9 +9747,9 @@
   {
     "type": "mutation",
     "id": "bad_dreams",
-    "name": { "str": "Troubled Sleep" },
-    "points": 1,
-    "description": "Disturbing events tend to stick to your psyche, and the collapse of society probably qualifies as the most traumatic event in your life.  When you strive for the release of sleep, your dreams will be plagued by your recollections.  It seems like not even slumber can rest you from your fear.",
+    "name": { "str": "Troubled Sleeper" },
+    "points": -2,
+    "description": "Disturbing events tend to stick to your psyche, and the cataclysm has left you with more than your fair share of psychological trauma.  Now, not even slumber can rest you from your fears; nightmares will plague your sleep if you don’t keep them at bay with anti-depressants.",
     "starting_trait": true,
     "valid": false
   }
