@@ -25,9 +25,10 @@ static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
 static const mutation_category_id mutation_category_REMOVAL_TEST( "REMOVAL_TEST" );
 
-static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_TEST_OVERMAP_SIGHT_5( "TEST_OVERMAP_SIGHT_5" );
+static const trait_id trait_TEST_OVERMAP_SIGHT_MINUS_10( "TEST_OVERMAP_SIGHT_MINUS_10" );
 static const trait_id trait_TEST_REMOVAL_0( "TEST_REMOVAL_0" );
 static const trait_id trait_TEST_REMOVAL_1( "TEST_REMOVAL_1" );
 static const trait_id trait_TEST_TRIGGER( "TEST_TRIGGER" );
@@ -35,7 +36,6 @@ static const trait_id trait_TEST_TRIGGER_2( "TEST_TRIGGER_2" );
 static const trait_id trait_TEST_TRIGGER_2_active( "TEST_TRIGGER_2_active" );
 static const trait_id trait_TEST_TRIGGER_active( "TEST_TRIGGER_active" );
 static const trait_id trait_UGLY( "UGLY" );
-static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 
 static const vitamin_id vitamin_instability( "instability" );
 static const vitamin_id vitamin_mutagen( "mutagen" );
@@ -336,7 +336,7 @@ TEST_CASE( "Mutation/starting_trait_interactions", "[mutations]" )
     }
 }
 
-TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mutations][overmap]" )
+TEST_CASE( "OVERMAP_SIGHT_enchantment_affect_overmap_sight_range", "[mutations][overmap]" )
 {
     Character &dummy = get_player_character();
     clear_avatar();
@@ -348,25 +348,25 @@ TEST_CASE( "Scout_and_Topographagnosia_traits_affect_overmap_sight_range", "[mut
         }
     }
 
-    WHEN( "character has Scout trait" ) {
-        dummy.toggle_trait( trait_EAGLEEYED );
+    WHEN( "character has TEST_OVERMAP_SIGHT_5" ) {
+        dummy.toggle_trait( trait_TEST_OVERMAP_SIGHT_5 );
         THEN( "they have increased overmap sight range" ) {
             CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
         }
         // Regression test for #42853
-        THEN( "having another trait does not cancel the Scout trait" ) {
+        THEN( "having another trait does not cancel the TEST_OVERMAP_SIGHT_5 trait" ) {
             dummy.toggle_trait( trait_SMELLY );
             CHECK( dummy.overmap_sight_range( 100.0f ) == 15.0 );
         }
     }
 
-    WHEN( "character has Topographagnosia trait" ) {
-        dummy.toggle_trait( trait_UNOBSERVANT );
+    WHEN( "character has TEST_OVERMAP_SIGHT_MINUS_10 trait" ) {
+        dummy.toggle_trait( trait_TEST_OVERMAP_SIGHT_MINUS_10 );
         THEN( "they have reduced overmap sight range" ) {
             CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
         }
         // Regression test for #42853
-        THEN( "having another trait does not cancel the Topographagnosia trait" ) {
+        THEN( "having another trait does not cancel the TEST_OVERMAP_SIGHT_MINUS_10 trait" ) {
             dummy.toggle_trait( trait_SMELLY );
             CHECK( dummy.overmap_sight_range( 100.0f ) == 3.0 );
         }
