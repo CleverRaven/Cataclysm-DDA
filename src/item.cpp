@@ -302,6 +302,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
     item_vars = type->item_variables;
 
+    update_prefix_suffix_flags();
     if( has_flag( flag_CORPSE ) ) {
         corpse = &type->source_monster.obj();
         if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
@@ -652,6 +653,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         carrier->on_item_acquire( *this );
     }
 
+    update_prefix_suffix_flags();
     return *this;
 }
 
@@ -1674,6 +1676,9 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
         bits.set( tname::segments::TEMPERATURE, is_same_temperature( rhs ) );
         bits.set( tname::segments::TAGS, item_tags == rhs.item_tags );
     }
+
+    bits.set( tname::segments::CUSTOM_ITEM_PREFIX, bits[tname::segments::TAGS] );
+    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, bits[tname::segments::TAGS] );
 
     bits.set( tname::segments::FAULTS, faults == rhs.faults );
     bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
@@ -6680,6 +6685,31 @@ void item::update_inherited_flags()
             }
         }
     }
+    update_prefix_suffix_flags();
+}
+
+void item::update_prefix_suffix_flags()
+{
+    prefix_tags_cache.clear();
+    suffix_tags_cache.clear();
+    auto const insert_prefix_suffix_flags = [this]( FlagsSetType const & Flags ) {
+        for( flag_id const &f : Flags ) {
+            update_prefix_suffix_flags( f );
+        }
+    };
+    insert_prefix_suffix_flags( get_flags() );
+    insert_prefix_suffix_flags( type->get_flags() );
+    insert_prefix_suffix_flags( inherited_tags_cache );
+}
+
+void item::update_prefix_suffix_flags( const flag_id &f )
+{
+    if( !f->item_prefix().empty() ) {
+        prefix_tags_cache.emplace( f );
+    }
+    if( !f->item_suffix().empty() ) {
+        suffix_tags_cache.emplace( f );
+    }
 }
 
 void item::on_contents_changed()
@@ -7031,6 +7061,10 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
         // with no value (it's *everywhere*), but valuable items retain most of their value.
         // https://github.com/CleverRaven/Cataclysm-DDA/issues/49469
         price = std::max( price - PRICE_FILTHY_MALUS, 0 );
+    }
+
+    for( fault_id fault : faults ) {
+        price *= fault->price_mod();
     }
 
     return price;
@@ -7562,6 +7596,7 @@ item &item::set_flag( const flag_id &flag )
 {
     if( flag.is_valid() ) {
         item_tags.insert( flag );
+        update_prefix_suffix_flags( flag );
         requires_tags_processing = true;
     } else {
         debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
@@ -7569,9 +7604,16 @@ item &item::set_flag( const flag_id &flag )
     return *this;
 }
 
+item &item::set_fault( const fault_id &fault_id )
+{
+    faults.insert( fault_id );
+    return *this;
+}
+
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
+    update_prefix_suffix_flags();
     requires_tags_processing = true;
     return *this;
 }
@@ -7590,6 +7632,16 @@ item &item::set_flag_recursive( const flag_id &flag )
 const item::FlagsSetType &item::get_flags() const
 {
     return item_tags;
+}
+
+const item::FlagsSetType &item::get_prefix_flags() const
+{
+    return prefix_tags_cache;
+}
+
+const item::FlagsSetType &item::get_suffix_flags() const
+{
+    return suffix_tags_cache;
 }
 
 bool item::has_property( const std::string &prop ) const
@@ -9706,12 +9758,14 @@ bool item::is_irremovable() const
 
 bool item::is_broken() const
 {
-    return has_flag( flag_ITEM_BROKEN );
+    return has_flag( flag_ITEM_BROKEN ) || has_fault_flag( std::string( "ITEM_BROKEN" ) );
 }
 
 bool item::is_broken_on_active() const
 {
-    return has_flag( flag_ITEM_BROKEN ) || ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
+    return has_flag( flag_ITEM_BROKEN ) ||
+           has_fault_flag( std::string( "ITEM_BROKEN" ) ) ||
+           ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
 }
 
 int item::wind_resist() const
@@ -13978,7 +14032,10 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_flag( flag_ITEM_BROKEN );
+            set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            if( has_flag( flag_ELECTRONIC ) ) {
+                set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+            }
         }
 
         if( !is_food() && item_counter > 0 ) {
@@ -14121,30 +14178,6 @@ std::string item::get_plant_name() const
         return std::string{};
     }
     return type->seed->plant_name.translated();
-}
-
-std::optional<furn_str_id> item::get_plant_seedling_form() const
-{
-    if( !type->seed ) {
-        return std::nullopt;
-    }
-    return type->seed->seedling_form;
-}
-
-std::optional<furn_str_id> item::get_plant_mature_form() const
-{
-    if( !type->seed ) {
-        return std::nullopt;
-    }
-    return type->seed->mature_form;
-}
-
-std::optional<furn_str_id> item::get_plant_harvestable_form() const
-{
-    if( !type->seed ) {
-        return std::nullopt;
-    }
-    return type->seed->harvestable_form;
 }
 
 bool item::is_dangerous() const
@@ -14475,6 +14508,13 @@ std::string item::nname( const itype_id &id, unsigned int quantity )
 {
     const itype *t = find_type( id );
     return t->nname( quantity );
+}
+
+std::string item::tname( const itype_id &id, unsigned int quantity,
+                         const tname::segment_bitset &segments )
+{
+    item item_temp( id );
+    return item_temp.tname( quantity, segments );
 }
 
 bool item::count_by_charges( const itype_id &id )

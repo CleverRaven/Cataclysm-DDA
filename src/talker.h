@@ -139,6 +139,9 @@ class talker
         virtual int get_hp_max( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_count() const {
+            return 0;
+        }
         virtual units::temperature get_cur_part_temp( const bodypart_id & ) const {
             return 0_K;
         }
