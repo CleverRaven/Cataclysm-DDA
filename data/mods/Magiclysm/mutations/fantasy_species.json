@@ -527,27 +527,14 @@
     "category": [ "SPECIES_GOBLIN" ],
     "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
     "enchantments": [
-      { "condition": { "not": "is_day" }, "values": [ { "value": "SLEEPY", "add": -50 } ] },
-      { "condition": "is_day", "values": [ { "value": "SLEEPY", "add": 50 } ] }
-    ]
-  },
-  {
-    "type": "mutation",
-    "id": "NOCTURNAL",
-    "name": { "str": "Nocturnal OverMap Day Vision" },
-    "//": "Invisible to player, sets overmap vision",
-    "points": 0,
-    "ugliness": 0,
-    "visibility": 0,
-    "description": "This adjusts goblin overmap sight so their vision is not as far during the day.",
-    "mixed_effect": true,
-    "valid": false,
-    "player_display": false,
-    "category": [ "SPECIES_GOBLIN" ],
-    "threshreq": [ "THRESH_SPECIES_GOBLIN" ],
-    "enchantments": [
-      { "condition": { "not": "is_day" }, "values": [ { "value": "OVERMAP_SIGHT", "add": 6 } ] },
-      { "condition": "is_day", "values": [ { "value": "OVERMAP_SIGHT", "add": -2 } ] }
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "SLEEPY", "add": -50 }, { "value": "OVERMAP_SIGHT", "add": 6 } ]
+      },
+      {
+        "condition": "is_day",
+        "values": [ { "value": "SLEEPY", "add": 50 }, { "value": "OVERMAP_SIGHT", "add": -2 } ]
+      }
     ]
   },
   {
