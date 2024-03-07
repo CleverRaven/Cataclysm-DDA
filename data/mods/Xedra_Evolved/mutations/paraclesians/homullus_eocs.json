@@ -196,5 +196,18 @@
       ]
     },
     "effect": [ { "u_add_trait": "HOMULLUS_MINIMIZED_MUTATIONS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ON",
+    "condition": { "not": { "u_has_trait": "UHOMULLUS_DOLL_FORM_TRAITS" } },
+    "effect": [
+      { "u_add_trait": "UHOMULLUS_DOLL_FORM_TRAITS" },
+      { "u_message": "Your limbs stiffen and your skin takes on an even more waxen appearance.", "type": "good" }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "UHOMULLUS_DOLL_FORM_TRAITS" },
+      { "u_message": "A small semblance of life returns to you.", "type": "neutral" }
+    ]
   }
 ]

@@ -74,6 +74,7 @@
     "visibility": 2,
     "ugliness": 0,
     "description": "Upon gaining this ability the Homullus's eyes begin change to look like doll's eyes, always staring at the world.  Glare no longer impacts them.",
+    "types": [ "EYES" ],
     "category": [ "HOMULLUS" ],
     "integrated_armor": [ "integrated_homullus_eyes" ]
   },
@@ -331,7 +332,7 @@
     "id": "HOMULLUS_TEMPERATURE_TOLERANCE",
     "name": { "str": "At Home in any Clime" },
     "points": 6,
-    "description": "Before the Cataclysm there were cities all across the world, from above the Arctic Circle to directly on the equator.",
+    "description": "Before the Cataclysm there were cities all across the world.  From above the Arctic Circle to directly on the equator, humanity built their dwellings.  You are more comfortable with temperature extremes.",
     "types": [ "ACCLIMATIZATION" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [
@@ -447,6 +448,76 @@
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DOLL_FORM",
+    "name": { "str": "Mien of the Mannequin" },
+    "points": 8,
+    "description": "You may transform yourself into a doll in truth, ignoring the needs of the flesh and making most monsters less likely to attack you.  However, your stiff limbs will inhibit your movement.",
+    "prereqs": [ "BEAUTIFUL2" ],
+    "prereqs2": [ "HOMULLUS_SKIN_3" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_HOMULLUS_DOLL_FORM_ON" ],
+    "deactivated_eocs": [ "EOC_HOMULLUS_DOLL_FORM_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UHOMULLUS_DOLL_FORM_TRAITS",
+    "name": { "str": "Mannequin Form" },
+    "description": "You are a doll in truth.  You do not need to eat or drink, and monsters will mostly ignore you, but you do not heal at all and crafting, as well as movement over any ground not almost-perfectly flat, is very difficult due to your stiff limbs.",
+    "points": 10,
+    "valid": false,
+    "override_look": { "id": "mon_hallu_mannequin", "tile_category": "monster" },
+    "anger_relations": [
+      [ "HUMAN", -91 ],
+      [ "BIRD", -91 ],
+      [ "MAMMAL", -91 ],
+      [ "ZOMBIE", -91 ],
+      [ "AMPHIBIAN", -91 ],
+      [ "REPTILE", -91 ],
+      [ "FISH", -91 ],
+      [ "KRAKEN", -91 ],
+      [ "MUTANT", -91 ],
+      [ "NETHER", -91 ],
+      [ "SLIME", -91 ],
+      [ "FUNGUS", -91 ],
+      [ "LEECH_PLANT", -91 ],
+      [ "MIGO", -91 ],
+      [ "INSECT", -91 ],
+      [ "CENTIPEDE", -91 ],
+      [ "INSECT_FLYING", -91 ],
+      [ "SPIDER", -91 ],
+      [ "PLANT", -91 ],
+      [ "MOLLUSK", -91 ],
+      [ "WORM", -91 ],
+      [ "FERAL", -91 ],
+      [ "ROBOT", -91 ],
+      [ "HORROR", -91 ],
+      [ "ABERRATION", -91 ],
+      [ "VAMPIRE", -91 ]
+    ],
+    "//": "-91 should be enough that even monsters with 100 aggression won't immediately attack, but they'll be on a hair trigger.",
+    "enchantments": [
+      {
+        "skills": [ { "value": "dodge", "add": -5 } ],
+        "values": [
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "HUNGER", "multiply": -1.0 },
+          { "value": "THIRST", "multiply": -1.0 },
+          { "value": "REGEN_HP", "multiply": -1.0 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
+          { "value": "ATTACK_SPEED", "multiply": 0.8 }
+        ]
+      },
+      {
+        "condition": { "not": { "u_is_on_terrain_with_flag": "ROAD" } },
+        "values": [ { "value": "MOVE_COST", "multiply": 2.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
