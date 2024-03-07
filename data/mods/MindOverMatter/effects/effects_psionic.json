@@ -806,56 +806,6 @@
               ]
             }
           }
-        ],
-        "skills": [
-          {
-            "value": "electronics",
-            "add": {
-              "math": [
-                "min( ( 1 + ( u_spell_level('clair_craft_bonus') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling, 6 )"
-              ]
-            }
-          },
-          {
-            "value": "fabrication",
-            "add": {
-              "math": [
-                "min( ( 1 + ( u_spell_level('clair_craft_bonus') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling, 6 )"
-              ]
-            }
-          },
-          {
-            "value": "mechanics",
-            "add": {
-              "math": [
-                "min( ( 1 + ( u_spell_level('clair_craft_bonus') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling, 6 )"
-              ]
-            }
-          },
-          {
-            "value": "tailor",
-            "add": {
-              "math": [
-                "min( ( 1 + ( u_spell_level('clair_craft_bonus') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling, 6 )"
-              ]
-            }
-          },
-          {
-            "value": "chemistry",
-            "add": {
-              "math": [
-                "min( ( 1 + ( u_spell_level('clair_craft_bonus') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling, 6 )"
-              ]
-            }
-          },
-          {
-            "value": "cooking",
-            "add": {
-              "math": [
-                "min( ( 1 + ( u_spell_level('clair_craft_bonus') * 0.25 ) * scaling_factor( u_val('intelligence') ) ) * u_nether_attunement_power_scaling, 6 )"
-              ]
-            }
-          }
         ]
       }
     ],
