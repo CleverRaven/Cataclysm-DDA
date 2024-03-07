@@ -5545,7 +5545,9 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
         const ret_val<edible_rating> rating = worker.will_eat( food_item, query_player );
         switch( rating.value() ) {
             case EDIBLE:
-                worker.assign_activity( consume_activity_actor( food_item ) );
+                // I'd like to use consume_activity_actor here, but our little trick with make_fake_food() requires that the
+                // item be consumed immediately.
+                worker.consume( food_item );
                 break;
             case TOO_FULL:
                 worker.add_msg_player_or_npc( m_neutral,
