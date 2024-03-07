@@ -14,7 +14,7 @@
           { "value": "WEAKNESS_TO_WATER", "add": 5 },
           { "value": "FAT_TO_MAX_HP", "multiply": -0.9 },
           { "value": "HEALTHY_RATE", "multiply": -1 },
-          { "values": [ { "value": "SWEAT_MULTIPLIER", "multiply": -1 } ] }
+          { "value": "SWEAT_MULTIPLIER", "multiply": -1 }
         ]
       }
     ],
