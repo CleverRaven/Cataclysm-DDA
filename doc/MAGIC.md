@@ -798,7 +798,7 @@ Character status value  | Description
 `ARMOR_HEAT`            | 
 `ARMOR_STAB`            | 
 `ATTACK_NOISE`          | Affects the amount of noise you make while melee attacking.
-`ATTACK_SPEED`          | Affects attack speed of item even if it's not the one you're wielding.
+`ATTACK_SPEED`          | Affects attack speed of item, even if it's not the one you're wielding, and throwing cost (capped at 25 moves). `"add": 10` adds 10 moves to each attack (makes it longer), `"add": -10` makes each attack faster for 10 moves; `"multiply": 1` doubles the speed of each attack
 `AVOID_FRIENDRY_FIRE`   | Flat chance for your character to avoid friendry fire if there is a friend in the line of fire. From 0.0 (no chance) to 1.0 (never frindly fire).
 `BANDAGE_BONUS`         | Affects the `bandages_power` you have when applying medicine.
 `BIONIC_MANA_PENALTY`       | same as mutation `bionic_mana_penalty` field, changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
@@ -806,6 +806,7 @@ Character status value  | Description
 `BLEED_STOP_BONUS`      | Affects the `bleed` level when applying medicine.
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform.
+`CARDIO_MULTIPLIER`     | Affects total cardio fitness by this amount.  Since it's a percent, using `multiply` is recommended.
 `CARRY_WEIGHT`          | Affect the summary weight player can carry. `"add": 1000` adds 1 kg of weight to carry.
 `CASTING_TIME_MULTIPLIER`   | Same as mutation `casting_time_multiplier` field, changes your casting speed. Since it's a percent, using `multiply` is recommended. `"multiply": 2"` triples the casting speed 
 `COMBAT_CATCHUP`        | Affects the rate at which you relearn combat skills (multiplier).
@@ -844,7 +845,7 @@ Character status value  | Description
 `MELEE_DAMAGE`          | Adds damage to melee attacks
 `MELEE_STAMINA_CONSUMPTION` | Changes amount of stamina used when swing in melee; stamina consumption is a negative value, so `"add": 100` decreases amount of stamina consumed, when `"add": -100` increases it; `"multiply": 1` increases, `"multiply": -0.5` decreases it. Can't be bigger than -50.
 `MENDING_MODIFIER`      | Changes the speed of your limb mend. Since it's a percent, using `multiply` is recommended.
-`METABOLISM`            | 
+`METABOLISM`            | Multiplier for `metabolic_rate_base`, which respond for default bmi rate; Formula for basic bmi is `metabolic_rate_base * ( (weight_in_kg / 10 ) + (6.25 * height) - (5 * age) + 5 )`; Since it's a percent, using `multiply` is recommended.
 `MOD_HEALTH`            | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 `MOD_HEALTH_CAP`        | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
 `MOTION_VISION_RANGE `  | Reveals all monsters as a red `?` within the specified radius.
@@ -853,7 +854,7 @@ Character status value  | Description
 `MOVECOST_OBSTACLE_MOD` | How many moves you spend to move 1 tile, if this tile has a movecost more than 105 moves; not shown in UI
 `MOVECOST_SWIM_MOD`     | How many moves you spend to move 1 tile in water; not shown in UI
 `NIGHT_VIS`             | How well you can see in darkness.  `ADD` adds tiles, so `"ADD": 3` increases night vision distance by 3 tiles.
-`OBTAIN_COST_MULTIPLIER`| Same as `obtain_cost_multiplier`, modifier for pulling an item from a container and storing it back, as a handling penalty. `"add": 100` add 100 additional moves to item wield (1 second)
+`OBTAIN_COST_MULTIPLIER`| Modifier for pulling an item from a container, as a handling penalty or bonus. `"add": 100` add 100 additional moves to item wield (1 second)
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
 `OVERMAP_SIGHT`         | Increases the amount of overmap tiles you can see around.
 `PAIN`                  | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
@@ -880,8 +881,8 @@ Character status value  | Description
 `SOCIAL_LIE`            | Affects your ability to lie.
 `SOCIAL_PERSUADE`       | Affects your ability to persuade.
 `SPEED`                 | Affects your base speed.
-`STEALTH_MODIFIER`      | Same as mutation `stealth_modifier` value, amount to be subtracted from player's visibility range, capped to 60.  Negative values work, but are not very effective due to the way vision ranges are capped.
-`STOMACH_SIZE_MULTIPLIER`   | Same as mutation `stomach_size_multiplier` field, changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
+`STEALTH_MODIFIER`      | Amount to be subtracted from player's visibility range, capped to 60.  Negative values work, but are not very effective due to the way vision ranges are capped.
+`STOMACH_SIZE_MULTIPLIER`   | Changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
 `STRENGTH`              | Affects the strength stat.
 `THIRST`                | 
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.

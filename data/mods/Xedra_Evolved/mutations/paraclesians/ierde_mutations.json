@@ -263,7 +263,7 @@
     "changes_to": [ "IERDE_CARDIO2" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -274,7 +274,7 @@
     "changes_to": [ "IERDE_CARDIO3" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 2.4
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 1.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -285,7 +285,7 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "prereqs": [ "IERDE_SKIN_3" ],
-    "cardio_multiplier": 3.5
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 2.5 } ] } ]
   },
   {
     "type": "mutation",

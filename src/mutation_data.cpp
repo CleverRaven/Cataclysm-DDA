@@ -392,22 +392,14 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
-    optional( jo, was_loaded, "pain_modifier", pain_modifier, std::nullopt );
     optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
-    optional( jo, was_loaded, "stealth_modifier", stealth_modifier, std::nullopt );
-    optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, std::nullopt );
-    optional( jo, was_loaded, "cardio_multiplier", cardio_multiplier, std::nullopt );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, std::nullopt );
     optional( jo, was_loaded, "noise_modifier", noise_modifier, std::nullopt );
     optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
-    optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, std::nullopt );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, std::nullopt );
     optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, std::nullopt );
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, std::nullopt );
-    optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, std::nullopt );
     optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, std::nullopt );
     optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, std::nullopt );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, std::nullopt );

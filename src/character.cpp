@@ -3207,23 +3207,10 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
 units::mass Character::weight_capacity() const
 {
     // Get base capacity from creature,
-    // then apply player-only mutation and trait effects.
+    // then apply enchantment.
     units::mass ret = Creature::weight_capacity();
     /** @EFFECT_STR increases carrying capacity */
     ret += get_str() * 4_kilogram;
-    ret *= mutation_value( "weight_capacity_modifier" );
-
-    units::mass worn_weight_bonus = 0_gram;
-    ret *= worn.weight_capacity_modifier();
-    worn_weight_bonus += worn.weight_capacity_bonus();
-
-    units::mass bio_weight_bonus = 0_gram;
-    for( const bionic_id &bid : get_bionics() ) {
-        ret *= bid->weight_capacity_modifier;
-        bio_weight_bonus +=  bid->weight_capacity_bonus;
-    }
-
-    ret += bio_weight_bonus + worn_weight_bonus;
 
     ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
@@ -5172,11 +5159,6 @@ needs_rates Character::calc_needs_rates() const
 
     static const std::string player_thirst_rate( "PLAYER_THIRST_RATE" );
     rates.thirst = get_option< float >( player_thirst_rate );
-    static const std::string thirst_modifier( "thirst_modifier" );
-    rates.thirst *= 1.0f + mutation_value( thirst_modifier );
-    if( worn_with_flag( flag_SLOWS_THIRST ) ) {
-        rates.thirst *= 0.7f;
-    }
 
     static const std::string player_fatigue_rate( "PLAYER_FATIGUE_RATE" );
     rates.fatigue = get_option< float >( player_fatigue_rate );
@@ -6055,9 +6037,8 @@ int Character::visibility( bool, int ) const
     }
     // TODO:
     // if ( dark_clothing() && light check ...
-    int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
-    stealth_modifier = enchantment_cache->modify_value( enchant_vals::mod::STEALTH_MODIFIER,
-                       stealth_modifier );
+    // or add STEALTH_MODIFIER enchantment to dark clothes
+    int stealth_modifier = enchantment_cache->modify_value( enchant_vals::mod::STEALTH_MODIFIER, 1 );
     return clamp( 100 - stealth_modifier, 40, 160 );
 }
 
@@ -6365,32 +6346,23 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
-    { "pain_modifier", calc_mutation_value<&mutation_branch::pain_modifier> },
     { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
-    { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
-    { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
     { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },
     { "fatigue_modifier", calc_mutation_value<&mutation_branch::fatigue_modifier> },
     { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
-    { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
     { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
     { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
     { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
     { "bionic_mana_penalty", calc_mutation_value_multiplicative<&mutation_branch::bionic_mana_penalty> },
     { "casting_time_multiplier", calc_mutation_value_multiplicative<&mutation_branch::casting_time_multiplier> },
-    { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
-    { "cardio_multiplier", calc_mutation_value_multiplicative<&mutation_branch::cardio_multiplier> },
-    { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
     { "overmap_sight", calc_mutation_value_additive<&mutation_branch::overmap_sight> },
     { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> },
     { "reading_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::reading_speed_multiplier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
     { "crafting_speed_multiplier", calc_mutation_value_multiplicative<&mutation_branch::crafting_speed_multiplier> },
-    { "obtain_cost_multiplier", calc_mutation_value_multiplicative<&mutation_branch::obtain_cost_multiplier> },
-    { "stomach_size_multiplier", calc_mutation_value_multiplicative<&mutation_branch::stomach_size_multiplier> },
     { "vomit_multiplier", calc_mutation_value_multiplicative<&mutation_branch::vomit_multiplier> },
     { "consume_time_modifier", calc_mutation_value_multiplicative<&mutation_branch::consume_time_modifier> },
     { "sweat_multiplier", calc_mutation_value_multiplicative<&mutation_branch::sweat_multiplier> },
@@ -6662,11 +6634,10 @@ int Character::base_bmr() const
 
 int Character::get_bmr() const
 {
-    int base_bmr_calc = base_bmr();
-    base_bmr_calc *= clamp( activity_history.average_activity(), NO_EXERCISE,
-                            maximum_exertion_level() );
-    return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
+    return base_bmr() * std::ceil( clamp( activity_history.average_activity(), NO_EXERCISE,
+                                          maximum_exertion_level() ) );
 }
+
 
 void Character::set_activity_level( float new_level )
 {
@@ -7225,7 +7196,7 @@ int Character::get_cardiofit() const
     const int cardio_base = get_cardio_acc();
 
     // Mut mod contains the base 1.0f for all modifiers
-    const float mut_mod = mutation_value( "cardio_multiplier" );
+    const float mut_mod = enchantment_cache->modify_value( enchant_vals::mod::CARDIO_MULTIPLIER, 1 );
     // 1 point of athletics skill = 1% more cardio, up to 10% cardio
     const float athletics_mod = get_skill_level( skill_swimming ) / 100.0f;
     // At some point we might have proficiencies that affect this.
@@ -7240,7 +7211,6 @@ int Character::get_cardiofit() const
 
     // Add up all of our cardio mods.
     float cardio_modifier = mut_mod + athletics_mod + prof_mod + health_mod;
-
     // Modify cardio accumulator by our cardio mods.
     const int cardio_fitness = static_cast<int>( cardio_base * cardio_modifier );
 
@@ -12679,12 +12649,6 @@ void Character::mod_pain( int npain )
         }
         if( mult < 0 ) {
             npain = roll_remainder( npain * ( 1 + mult ) );
-        }
-        if( mutation_value( "pain_modifier" ) != 0 ) {
-            npain = roll_remainder( npain + mutation_value( "pain_modifier" ) );
-            if( npain < 0 ) {
-                return;
-            }
         }
         npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
 

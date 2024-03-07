@@ -212,7 +212,7 @@
     "points": 0,
     "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
     "category": [ "perk" ],
-    "obtain_cost_multiplier": 0.75
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
