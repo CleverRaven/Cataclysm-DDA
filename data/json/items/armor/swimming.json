@@ -702,7 +702,7 @@
     "id": "xl_wetsuit_booties_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties_thick",
-    "name": { "str": "pair of diving socks", "str_pl": "pairs of diving socks" },
+    "name": { "str": "pair of thick diving boots", "str_pl": "pairs of thick diving boots" },
     "proportional": { "weight": 1.25, "volume": 1.25, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
@@ -710,7 +710,7 @@
     "id": "xs_wetsuit_booties_thick",
     "type": "ARMOR",
     "copy-from": "wetsuit_booties_thick",
-    "name": { "str": "pair of diving socks", "str_pl": "pairs of diving socks" },
+    "name": { "str": "pair of thick diving boots", "str_pl": "pairs of thick diving boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.75 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },

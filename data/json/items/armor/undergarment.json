@@ -753,7 +753,7 @@
     "name": { "str": "pair of fetlock furs", "str_pl": "pairs of fetlock furs" },
     "description": "Snug fur sleeves to keep your legs warm.  Simple yet effective since prehistoric times.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "leg_warmers_xl",

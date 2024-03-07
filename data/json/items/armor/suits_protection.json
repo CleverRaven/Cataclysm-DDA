@@ -647,7 +647,7 @@
   {
     "id": "xl_armor_mc_lightplate",
     "type": "ARMOR",
-    "name": { "str": "mild steel light plate armor" },
+    "name": { "str": "medium steel light plate armor" },
     "copy-from": "armor_mc_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }

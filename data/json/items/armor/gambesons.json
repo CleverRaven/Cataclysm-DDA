@@ -1356,7 +1356,7 @@
     "id": "xl_gambeson_gloves_nylon",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
-    "name": { "str": "nylon arming mittens", "str_pl": "pairs of canvas arming mittens" },
+    "name": { "str": "nylon arming mittens", "str_pl": "pairs of nylon arming mittens" },
     "copy-from": "gambeson_gloves_nylon",
     "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }

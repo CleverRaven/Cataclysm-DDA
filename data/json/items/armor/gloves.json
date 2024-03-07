@@ -625,7 +625,7 @@
     "id": "xs_gloves_faux_fur",
     "type": "ARMOR",
     "copy-from": "gloves_faux_fur",
-    "name": { "str": "pair of faux fur gloves", "str_pl": "pairs of fur gloves" },
+    "name": { "str": "pair of faux fur gloves", "str_pl": "pairs of faux fur gloves" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
