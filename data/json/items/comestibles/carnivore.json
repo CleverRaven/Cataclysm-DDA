@@ -1589,12 +1589,13 @@
     "flags": [ "TRADER_AVOID", "RAW" ]
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "bone_human",
     "copy-from": "bone",
     "name": { "str": "human bone" },
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "flags": [ "CANNIBALISM" ]
+    "//": "No extend support for vitamins, we need to overwrite",
+    "vitamins": [ [ "calcium", 96 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "GENERIC",

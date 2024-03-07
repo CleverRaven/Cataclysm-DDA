@@ -1074,7 +1074,8 @@
     "price_postapoc": "1 cent",
     "material": [ "veggy", "bone" ],
     "symbol": ".",
-    "flags": [ "TRADER_AVOID", "CANNIBALISM" ],
+    "flags": [ "TRADER_AVOID" ],
+    "vitamins": [ [ "human_flesh_vitamin", 10 ] ],
     "color": "brown",
     "seed_data": {
       "plant_name": "mutant",
