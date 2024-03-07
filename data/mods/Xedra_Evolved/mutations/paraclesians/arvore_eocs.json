@@ -56,8 +56,16 @@
         "u_add_morale": "morale_forest_unity",
         "bonus": 10,
         "max_bonus": 15,
-        "duration": { "math": [ "( 300 + (u_spell_level('arvore_commune_with_nature') * 165) )" ] },
-        "decay_start": { "math": [ "(( 300 + (u_spell_level('arvore_commune_with_nature') * 165) ) / 2)" ] }
+        "duration": {
+          "math": [
+            "( 300 + (u_spell_level('arvore_commune_with_nature') * 165) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+          ]
+        },
+        "decay_start": {
+          "math": [
+            "(( 300 + (u_spell_level('arvore_commune_with_nature') * 165) ) * scaling_factor(u_val('perception') ) *  paraclesian_post_threshold_doubler(1)) / 2"
+          ]
+        }
       }
     ],
     "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature.", "type": "bad" } ]
