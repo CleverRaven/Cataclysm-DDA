@@ -205,8 +205,6 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_chafing( "chafing" );
 static const efftype_id effect_common_cold( "common_cold" );
-static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
-static const efftype_id effect_conjunctivitis_viral( "conjunctivitis_viral" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
@@ -250,15 +248,12 @@ static const efftype_id effect_pkill1_generic( "pkill1_generic" );
 static const efftype_id effect_pkill1_nsaid( "pkill1_nsaid" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
-static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
-static const efftype_id effect_pre_conjunctivitis_viral( "pre_conjunctivitis_viral" );
 static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_recover( "recover" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
-static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_stumbled_into_invisible( "stumbled_into_invisible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_subaquatic_sonar( "subaquatic_sonar" );
@@ -340,7 +335,6 @@ static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const limb_score_id limb_score_balance( "balance" );
 static const limb_score_id limb_score_breathing( "breathing" );
-static const limb_score_id limb_score_footing( "footing" );
 static const limb_score_id limb_score_grip( "grip" );
 static const limb_score_id limb_score_lift( "lift" );
 static const limb_score_id limb_score_manip( "manip" );
@@ -398,7 +392,6 @@ static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" )
 
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
-static const trait_id trait_AQUEOUS( "AQUEOUS" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
@@ -408,7 +401,6 @@ static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
-static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_DEBUG_LS( "DEBUG_LS" );
@@ -433,14 +425,12 @@ static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MUCUS_SECRETION( "MUCUS_SECRETION" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
@@ -1870,19 +1860,12 @@ void Character::dismount()
     }
 }
 
-float Character::balance_roll() const
-{
-    /** @EFFECT_DEX improves player balance roll */
-    /** Balance and footing influence stability rolls */
-    /** @EFFECT_SWIMMING improves player stability roll */
-    return ( get_dex() + get_skill_level( skill_swimming ) ) * ( ( get_limb_score(
-                limb_score_balance ) * 3 + get_limb_score( limb_score_footing ) ) / 4.0f );
-}
-
 float Character::stability_roll() const
 {
     /** @EFFECT_STR improves player stability roll */
+
     /** Balance and reaction scores influence stability rolls */
+
     /** @EFFECT_MELEE improves player stability roll */
     return ( get_melee() + get_str() ) * ( ( get_limb_score( limb_score_balance ) * 3 + get_limb_score(
             limb_score_reaction ) ) / 4.0f );
@@ -8298,7 +8281,6 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
     enchantment_cache->cast_hit_me( *this, source );
 }
 
-
 /*
     Where damage to character is actually applied to hit body parts
     Might be where to put bleed stuff rather than in player::deal_damage()
@@ -11282,71 +11264,6 @@ void Character::process_effects()
         }
     }
 
-    if( has_effect( effect_boomered ) && ( is_avatar() || is_npc() ) && one_in( 10 ) &&
-        !has_trait( trait_COMPOUND_EYES ) && !has_effect( effect_pre_conjunctivitis_bacterial ) &&
-        !has_effect( effect_pre_conjunctivitis_viral ) && !has_effect( effect_conjunctivitis_bacterial ) &&
-        !has_effect( effect_conjunctivitis_viral ) ) {
-        //Washing your eyes out in time may save you from getting pinkeye.
-        float checked_health = get_lifestyle() + 200.0;
-        //Some animal eyes are more vulnerable to infection.
-        if( has_trait_flag( json_flag_EYE_MEMBRANE ) ) {
-            checked_health -= 50;
-        }
-        //Ditto for contact lenses.
-        if( has_effect( effect_contacts ) || has_effect( effect_transition_contacts ) ) {
-            checked_health -= 50;
-        }
-        if( has_trait( trait_INFRESIST ) ) {
-            checked_health += 50;
-        }
-        float pinkeye_chance = 4.0 + 6.0 / 25.0 * checked_health;
-        if( one_in( pinkeye_chance ) ) {
-            if( one_in( 2 ) ) {
-                add_effect( effect_pre_conjunctivitis_bacterial, 70_hours );
-            } else {
-                add_effect( effect_pre_conjunctivitis_viral, 70_hours );
-            }
-        }
-    }
-
-    map &here = get_map();
-    if( has_effect( effect_slippery_terrain ) && !is_on_ground() && !is_crouching() &&
-        here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
-        int rolls = 0;
-        bool u_see = get_player_view().sees( *this );
-        //ROAD tiles are hard, flat surfaces, so they are extra slippery.
-        if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
-            rolls++;
-        }
-        if( has_trait( trait_DEFT ) ) {
-            rolls--;
-        }
-        if( is_running() || ( ( worn_with_flag( flag_ROLLER_ONE ) || worn_with_flag( flag_ROLLER_INLINE ) ||
-                                worn_with_flag( flag_ROLLER_QUAD ) ) && !has_trait( trait_PROF_SKATER ) ) ) {
-            rolls++;
-        }
-        //Slimy people are used to everything being slippery.
-        if( has_trait( trait_SLIMY ) || has_trait( trait_AQUEOUS ) || has_trait( trait_MUCUS_SECRETION ) ) {
-            rolls--;
-        }
-        if( has_trait( trait_CLUMSY ) ) {
-            rolls++;
-        }
-        int intensity = get_effect_int( effect_slippery_terrain );
-        rolls += intensity;
-        //A healthy unencumbered person with 18 dex can usually walk across a moderately slippery surface without issue.
-        //Survivors rarely meet those qualifications in practice.
-        if( balance_roll() < dice( rolls, 6 ) ) {
-            if( !is_avatar() ) {
-                if( u_see ) {
-                    add_msg( _( "%1$s slips and falls!" ), get_name() );
-                }
-            } else {
-                add_msg( m_bad, _( "You lose your balance and fall on the slippery ground!" ) );
-            }
-            add_effect( effect_downed, rng( 1_turns, 2_turns ) );
-        }
-    }
     Creature::process_effects();
 }
 
