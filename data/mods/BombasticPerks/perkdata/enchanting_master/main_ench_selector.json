@@ -110,7 +110,6 @@
           { "math": [ "_rand_3", "=", "(_rand_3 < max(_rand_1, _rand_2)) ? _rand_3 : _rand_3 + 1" ] },
           {
             "title": "Enchantment (Total trigger count)",
-            "title": "Element (Total trigger count)",
             "hide_failing": true,
             "allow_cancel": false,
             "names": [
