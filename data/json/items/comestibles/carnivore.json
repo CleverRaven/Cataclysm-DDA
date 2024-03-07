@@ -236,6 +236,7 @@
     "name": { "str_sp": "human flesh" },
     "description": "A chunk of raw meat, butchered from a human body.",
     "material": [ "hflesh" ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "human_flesh_vitamin", 100 ] ],
     "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -385,6 +386,7 @@
     "looks_like": "meat_scrap",
     "name": { "str": "scrap of human flesh", "str_pl": "scraps of human flesh" },
     "description": "A tiny scrap of raw human flesh.",
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "human_flesh_vitamin", 10 ] ],
     "material": [ "hflesh" ]
   },
   {
