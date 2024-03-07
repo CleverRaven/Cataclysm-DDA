@@ -219,12 +219,12 @@
     "energy_increment": -12,
     "min_duration": {
       "math": [
-        "( 30000 + (u_spell_level('arvore_commune_with_nature') * 16500) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
       ]
     },
     "max_duration": {
       "math": [
-        "( 30000 + (u_spell_level('arvore_commune_with_nature') * 16500) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000 ) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
       ]
     },
     "learn_spells": { "arvore_summon_preservation_container": 6 }

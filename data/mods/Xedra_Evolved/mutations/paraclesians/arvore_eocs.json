@@ -50,7 +50,11 @@
     "effect": [
       {
         "u_add_effect": "natures_commune",
-        "duration": { "math": [ "( 300 + (u_spell_level('arvore_commune_with_nature') * 165)) " ] }
+        "duration": {
+          "math": [
+            "( 600 + (u_spell_level('arvore_commune_with_nature') * 240)) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1) "
+          ]
+        }
       },
       {
         "u_add_morale": "morale_forest_unity",
@@ -58,12 +62,12 @@
         "max_bonus": 15,
         "duration": {
           "math": [
-            "( 300 + (u_spell_level('arvore_commune_with_nature') * 165) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+            "( 600 + (u_spell_level('arvore_commune_with_nature') * 240) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
           ]
         },
         "decay_start": {
           "math": [
-            "(( 300 + (u_spell_level('arvore_commune_with_nature') * 165) ) * scaling_factor(u_val('perception') ) *  paraclesian_post_threshold_doubler(1)) / 2"
+            "(( 600 + (u_spell_level('arvore_commune_with_nature') * 240) ) * scaling_factor(u_val('perception') ) *  paraclesian_post_threshold_doubler(1)) / 2"
           ]
         }
       }
