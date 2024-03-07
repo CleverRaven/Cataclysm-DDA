@@ -14500,6 +14500,11 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;
+            case condition_type::VITAMIN:
+                if( has_vitamin( vitamin_id( cname.condition ) ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
             case condition_type::COMPONENT_ID:
                 if( component_id_equals( components ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
