@@ -242,6 +242,7 @@ class basecamp
         /// Helper, forwards to above
         void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
         void player_eats_meal();
+        item make_fake_food( nutrients to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
