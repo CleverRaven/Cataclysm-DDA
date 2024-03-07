@@ -103,6 +103,17 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_SUMMON_FERALS",
+    "name": { "str": "The Lost and the Damned" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "A habit of lying is hard to break, even when, or especially when, talking to oneself.  This trait grants the Homullus a spell that allows them to smooth out any negative moods they experience.",
+    "category": [ "HOMULLUS" ],
+    "spells_learned": [ [ "homullus_summon_feral_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_SELF_DECEPTION",
     "name": { "str": "Everything Will Be Fine" },
     "points": 4,
@@ -146,6 +157,7 @@
     "ugliness": 0,
     "description": "The Homullus gains the ability to stop emitting scent at will.  They can use this to control when scent-tracking creatures will be able to find them.",
     "category": [ "HOMULLUS" ],
+    "types": [ "SCENT" ],
     "activated_is_setup": true,
     "active": true,
     "activated_eocs": [ "EOC_HOMULLUS_NO_TRACE_ON" ],
@@ -272,6 +284,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You are at home in the artificial environments constructed by humanity.  You move slightly faster within.",
+    "types": [ "RUNNING" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [
       {
@@ -311,7 +324,7 @@
     "name": { "str": "Endurance Hunter" },
     "points": 2,
     "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina.",
-    "types": [ "METABOLISM" ],
+    "types": [ "CARDIO" ],
     "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
     "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
@@ -323,6 +336,7 @@
     "name": { "str": "The Top of the Food Chain" },
     "points": 5,
     "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.",
+    "types": [ "DIET" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
@@ -443,7 +457,7 @@
     "name": { "str": "Running to Marathon" },
     "points": 2,
     "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
-    "types": [ "METABOLISM" ],
+    "types": [ "CARDIO" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER" ],
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
