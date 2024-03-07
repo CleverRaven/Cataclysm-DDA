@@ -68,6 +68,28 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_EYES",
+    "name": { "str": "Homullus Eyes" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus's eyes begin change to look like doll's eyes, always staring at the world.  Glare no longer impacts them.",
+    "category": [ "HOMULLUS" ],
+    "integrated_armor": [ "integrated_homullus_eyes" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_BETTER_AT_LYING",
+    "name": { "str": "Trust Me" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": " 'Men were deceivers ever,' as the quotation runs.  To be human is to be a liar.  You are much more succesful at lying to people now.",
+    "category": [ "HOMULLUS" ],
+    "social_modifiers": { "lie": 40 }
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_DREAMWALKER",
     "name": { "str": "Dreamwalker" },
     "points": 1,
@@ -77,6 +99,18 @@
     "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
     "category": [ "HOMULLUS" ],
     "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SELF_DECEPTION",
+    "name": { "str": "Everything Will Be Fine" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "A habit of lying is hard to break, even when, or especially when, talking to oneself.  This trait grants the Homullus a spell that allows them to smooth out any negative moods they experience.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_BETTER_AT_LYING" ],
+    "spells_learned": [ [ "homullus_self_deception_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -287,11 +321,25 @@
     "id": "HOMULLUS_EAT_DEMIHUMANS",
     "name": { "str": "The Top of the Food Chain" },
     "points": 5,
-    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
+    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.",
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
-    "threshreq": [ "THRESH_HOMULLUS" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_TEMPERATURE_TOLERANCE",
+    "name": { "str": "At Home in any Clime" },
+    "points": 6,
+    "description": "Before the Cataclysm there were cities all across the world, from above the Arctic Circle to directly on the equator.",
+    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 15 }, { "value": "CLIMATE_CONTROL_HEAT", "add": 15 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
