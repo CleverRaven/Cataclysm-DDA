@@ -7,7 +7,7 @@
   {
     "type": "talk_topic",
     "id": [ "ESPOD_CONTROL_START" ],
-    "dynamic_line": "&Cyma Interface [version 2.85.1004]\n************************************************\n*  Copyright (c) Cyma Enterprise Systems 3013  *\n************************************************\n\nEscape Pod Control\n\n",
+    "dynamic_line": "&Cyma Interface [version 2.85.1004]\n************************************************\n*  Copyright (c) Cyma Enterprise Systems 3013  *\n************************************************\n\nEscape Pod Control:",
     "responses": [ { "text": "Ready escape pod.", "topic": "ESPOD_CONTROL_READY" }, { "text": "Shut down.", "topic": "TALK_DONE" } ]
   },
   {
@@ -25,7 +25,7 @@
   {
     "type": "talk_topic",
     "id": [ "ESPOD_CONTROL_CONTINUE" ],
-    "dynamic_line": "&Escape pod launch procedure:\n\n    1) Ready escape pod. (COMPLETE)\n    2) Secure Passangers/Cargo.\n    3) Launch from pod controls.\n",
+    "dynamic_line": "&Escape pod launch procedure:\n\n    1) Ready escape pod. (COMPLETE)\n    2) Secure Passangers/Cargo.\n    3) Launch from pod controls.",
     "responses": [ { "text": "Shut down.", "topic": "TALK_DONE" } ]
   }
 ]
