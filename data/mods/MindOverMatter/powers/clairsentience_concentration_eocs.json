@@ -407,13 +407,7 @@
     "condition": { "u_has_effect": "effect_clair_craft_bonus" },
     "effect": [
       { "run_eocs": "EOC_POWER_MAINTENANCE_MINUS_ONE" },
-      { "u_lose_effect": "effect_clair_craft_bonus" },
-      { "u_lose_trait": "CLAIR_CRAFT_BONUS_01" },
-      { "u_lose_trait": "CLAIR_CRAFT_BONUS_02" },
-      { "u_lose_trait": "CLAIR_CRAFT_BONUS_03" },
-      { "u_lose_trait": "CLAIR_CRAFT_BONUS_04" },
-      { "u_lose_trait": "CLAIR_CRAFT_BONUS_05" },
-      { "u_lose_trait": "CLAIR_CRAFT_BONUS_06" }
+      { "u_lose_effect": "effect_clair_craft_bonus" }
     ]
   },
   {
