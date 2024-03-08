@@ -952,7 +952,7 @@
     },
     "effect": [
       {
-        "u_message": "As you come out of the darkness and the cold of the teleport, you feel watching eyes on you and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
+        "u_message": "As you come out of the darkness and the cold of the teleport, you feel the prickling sensation of watching eyes and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
         "type": "bad"
       },
       { "u_add_effect": "tindrift", "duration": "1 day" }
@@ -979,7 +979,7 @@
     "//": "This is a separate EoC so you don't see the message until *after* you exit the Gateway",
     "effect": [
       {
-        "u_message": "As you come out of the darkness and the cold of the teleport, you feel watching eyes on you and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
+        "u_message": "As you come out of the darkness and the cold of the teleport, you feel the prickling sensation of watching eyes and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
         "type": "bad"
       },
       { "u_add_effect": "tindrift", "duration": "1 day" }
