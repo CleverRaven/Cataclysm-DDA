@@ -19,7 +19,7 @@
     "visibility": 10,
     "ugliness": -3,
     "description": "Your skin has smoothed and all your prior blemishes have faded away.  This somewhat reduces wet effects and leads to a more durable yet harder to heal body.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR" ],
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "changes_to": [ "HOMULLUS_SKIN_3" ],
@@ -47,7 +47,7 @@
     "ugliness": -6,
     "mixed_effect": true,
     "description": "Your skin has become latex like.  While it provides additional protection and attractiveness it also heals at a much slower rate.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR" ],
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
@@ -482,7 +482,7 @@
     "name": { "str": "Running to Marathon" },
     "points": 2,
     "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
-    "types": [ "CARDIO" ],
+    "types": [ "CARDIO", "RUNNING" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER" ],
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
@@ -558,6 +558,18 @@
         "values": [ { "value": "MOVE_COST", "multiply": 2.5 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "SOCIAL1",
+    "copy-from": "SOCIAL1",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SOCIAL2",
+    "copy-from": "SOCIAL2",
+    "extend": { "category": [ "HOMULLUS" ] }
   },
   {
     "type": "mutation",
