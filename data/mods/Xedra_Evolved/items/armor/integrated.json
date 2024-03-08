@@ -744,6 +744,44 @@
     ]
   },
   {
+    "id": "integrated_homullus_tools",
+    "type": "ARMOR",
+    "category": "armor",
+    "copy-from": "toolset",
+    "name": { "str_sp": "essence of the makers" },
+    "material": [ "fae_flesh" ],
+    "weight": "0 g",
+    "volume": "0 ml",
+    "extend": { "flags": [ "SEMITANGIBLE", "ZERO_WEIGHT" ] }
+  },
+  {
+    "id": "integrated_homullus_electrohack",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "net spider's touch" },
+    "description": "With but a touch, you can override the circuits of electronics and grant yourself access.",
+    "weight": "0 g",
+    "volume": "0 ml",
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "spiral_stone",
+    "flags": [
+      "TRADER_AVOID",
+      "ONLY_ONE",
+      "NO_DROP",
+      "PADDED",
+      "PERSONAL",
+      "SEMITANGIBLE",
+      "NO_SALVAGE",
+      "ZERO_WEIGHT",
+      "NO_UNLOAD",
+      "NO_RELOAD",
+      "TRANSPARENT",
+      "INTEGRATED",
+      "MAGICAL"
+    ],
+    "qualities": [ [ "HACK", 3 ] ]
+  },
+  {
     "id": "integrated_bloodbank",
     "type": "ARMOR",
     "category": "armor",

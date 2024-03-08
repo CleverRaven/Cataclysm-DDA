@@ -53,7 +53,9 @@
     "effect": [  ]
   },
   {
-    "effecT": {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_SELF_DECEPTION",
+    "effect": {
       "u_add_morale": "morale_homullus_self_deception",
       "bonus": 10,
       "max_bonus": 30,
