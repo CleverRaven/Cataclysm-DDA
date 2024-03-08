@@ -194,7 +194,9 @@
     "values": [
       {
         "value": "OVERMAP_SIGHT",
-        "add": { "math": [ "(5 + (0.5 * u_spell_level('technomancer_far_sight')) + (1 * u_spell_level('technomancer_far_sight_plus')))" ] }
+        "add": {
+          "math": [ "(5 + (0.5 * u_spell_level('technomancer_far_sight')) + (1 * u_spell_level('technomancer_far_sight_plus')))" ]
+        }
       }
     ]
   }
