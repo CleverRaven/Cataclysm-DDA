@@ -90,6 +90,7 @@ enum class mod : int {
     MENDING_MODIFIER,
     STOMACH_SIZE_MULTIPLIER,
     LEARNING_FOCUS,
+    ARMOR_ALL,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,

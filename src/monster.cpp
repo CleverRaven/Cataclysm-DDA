@@ -3987,7 +3987,9 @@ double monster::calculate_by_enchantment( double modify, enchant_vals::mod value
         bool round_output ) const
 {
     modify += enchantment_cache->get_value_add( value );
+    modify += enchantment_cache->get_value_add( enchant_vals::mod::ARMOR_ALL );
     modify *= 1.0 + enchantment_cache->get_value_multiply( value );
+    modify *= 1.0 + enchantment_cache->get_value_multiply( enchant_vals::mod::ARMOR_ALL );
     if( round_output ) {
         modify = std::round( modify );
     }

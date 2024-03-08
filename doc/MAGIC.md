@@ -788,7 +788,8 @@ The following is a list of possible enchantment `values`:
 
 Character status value  | Description
 ---                     |---
-`ARMOR_ACID`            | Negative values give armor against the damage, positive values make you accept more damage of this type.
+`ARMOR_ALL`            | Negative values give armor against the damage, positive values make you accept more damage of this type.
+`ARMOR_ACID`            |
 `ARMOR_BASH`            | 
 `ARMOR_BIO`             | 
 `ARMOR_BULLET`          | 
@@ -922,7 +923,8 @@ A small subset of enchantments can be applied to monsters via effects. These are
 
 Character status value  | Description
 ---                     |---
-`ARMOR_ACID`            | Negative values give armor against the damage, positive values make the monster accept more damage of this type.
+`ARMOR_ALL`             | Negative values give armor against the damage, positive values make the monster accept more damage of this type.
+`ARMOR_ACID`            | 
 `ARMOR_BASH`            | 
 `ARMOR_BIO`             | 
 `ARMOR_BULLET`          | 
