@@ -11,6 +11,7 @@
     "locations": [ "land" ],
     "city_distance": [ 40, -1 ],
     "occurrences": [ 100, 100 ],
+    "eoc": { "id": "EOC_DM_CUBICAL_GENERATE", "condition": { "mod_is_loaded": "defense_mode" } },
     "flags": [ "DEFENSE_MODE", "GLOBALLY_UNIQUE" ]
   }
 ]

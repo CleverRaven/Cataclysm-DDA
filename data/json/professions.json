@@ -6058,8 +6058,8 @@
       "prof_auto_pistols_familiar"
     ],
     "skills": [
-      { "level": 5, "name": "gun" },
-      { "level": 5, "name": "rifle" },
+      { "level": 7, "name": "gun" },
+      { "level": 7, "name": "rifle" },
       { "level": 4, "name": "pistol" },
       { "level": 3, "name": "melee" },
       { "level": 3, "name": "stabbing" },
