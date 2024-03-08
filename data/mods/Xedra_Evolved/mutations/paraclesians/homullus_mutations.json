@@ -557,7 +557,8 @@
         "condition": { "not": { "u_is_on_terrain_with_flag": "ROAD" } },
         "values": [ { "value": "MOVE_COST", "multiply": 2.5 } ]
       }
-    ]
+    ],
+    "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ]
   },
   {
     "type": "mutation",
