@@ -754,7 +754,7 @@
     "bleed_rate": 0,
     "harvest": "zombie_animal_mushroom",
     "special_attacks": [ [ "FUNGUS", 160 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE"],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE" ],
     "armor": { "bash": 5, "cut": 1, "electric": 2 }
   },
   {
