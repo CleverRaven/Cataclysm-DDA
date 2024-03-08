@@ -570,7 +570,6 @@
     "built_in_mods": [ "sub2000_folding_mechanism" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ , 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
