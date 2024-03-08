@@ -5574,7 +5574,7 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
                 break;
             case CANNIBALISM:
                 worker.add_msg_if_npc( m_bad,
-                                       _( "%s thanks you for the meal, but when they see what's in the meal their attitude suddenly changes." ),
+                                       _( "%s thanks you for the meal, but when they see what's in the meal their attitude suddenly changes!" ),
                                        worker.get_name() );
                 if( worker.is_npc() ) {
                     worker.as_npc()->mutiny();
@@ -5582,12 +5582,9 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
                 // Food specifically does not go back in the larder.
                 break;
             case PARASITES:
-                // None of these should ever happen.
-                break;
+            // None of these should ever happen.
             case ROTTEN:
-                break;
             case NAUSEA:
-                break;
             case NO_TOOL:
                 break;
         }
@@ -5610,7 +5607,7 @@ int basecamp::time_to_food( time_duration work, float exertion_level ) const
                                    + days * work_day_idle_hours * SLEEP_EXERCISE ) / 24;
 }
 
-item basecamp::make_fake_food( nutrients to_use ) const
+item basecamp::make_fake_food( const nutrients &to_use ) const
 {
     // This is dumb, but effective.
     std::string food_id = "camp_meal_small";
