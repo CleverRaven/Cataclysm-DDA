@@ -4727,12 +4727,15 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
         }
     }
 
-    auto base_group_results = MonsterGroupManager::GetResultFromGroup( GROUP_CAMP_HUNTING,
-                              &results_from_base_group );
-    auto mission_group_results = MonsterGroupManager::GetResultFromGroup( mission_specific_group,
-                                 &results_from_mission_group );
+    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( GROUP_CAMP_HUNTING,
+                            &results_from_base_group ) );
+    make_corpse_from_group( MonsterGroupManager::GetResultFromGroup( mission_specific_group,
+                            &results_from_mission_group ) );
+}
 
-    for( MonsterGroupResult monster : base_group_results ) {
+void basecamp::make_corpse_from_group( std::vector<MonsterGroupResult> group )
+{
+    for( MonsterGroupResult monster : group ) {
         const mtype_id target = monster.name;
         item result = item::make_corpse( target, calendar::turn, "" );
         if( !result.is_null() ) {
@@ -4743,20 +4746,6 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
             } while( num_to_spawn > 0 );
         }
     }
-
-    for( MonsterGroupResult monster : mission_group_results ) {
-        const mtype_id target = monster.name;
-        item result = item::make_corpse( target, calendar::turn, "" );
-        if( !result.is_null() ) {
-            int num_to_spawn = monster.pack_size;
-            do {
-                place_results( result );
-                num_to_spawn--;
-            } while( num_to_spawn > 0 );
-        }
-    }
-
-
 }
 
 int om_harvest_ter_est( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t, int chance )
