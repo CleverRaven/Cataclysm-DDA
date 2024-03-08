@@ -1029,12 +1029,15 @@
     "id": "GOURMAND",
     "name": { "str": "Gourmand" },
     "points": 2,
-    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.25 } ] } ],
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
     "category": [ "MOUSE", "LUPINE" ],
     "starting_trait": true,
     "active": true,
-    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
+    "enchantments": [
+      {
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 }, { "value": "CONSUME_TIME_MOD", "multiply": -0.25 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
