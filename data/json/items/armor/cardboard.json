@@ -102,7 +102,7 @@
     "type": "ARMOR",
     "name": { "str": "cardboard crown" },
     "description": "A piece of cardboard crudely bent into shape and cut to look like a crown.",
-    "weight": "480 g",
+    "weight": "200 g",
     "volume": "100 ml",
     "price": 0,
     "price_postapoc": 0,
