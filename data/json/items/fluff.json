@@ -1644,5 +1644,107 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sculpture_rock",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": { "str": "stone sculpture" },
+    "description": "A medium-sized stone sculpture.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "7884 g",
+    "volume": "20813 ml",
+    "longest_side": "30 cm",
+    "price": 100000,
+    "price_postapoc": 30000,
+    "to_hit": -2,
+    "variants": [
+      {
+        "id": "statue_person",
+        "name": { "str": "stone statue" },
+        "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "statue_releif",
+        "name": { "str": "abstract stone statue" },
+        "description": "This statue depicts <abstract_statue_type>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "stone releif" },
+        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "stone landscape releif" },
+        "description": "This releif depicts a <landscape_description>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      }
+    ],
+    "melee_damage": { "bash": 14 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sculpture_abstract_clay",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "clay sculpture" },
+    "description": "A medium-sized clay sculpture.",
+    "category": "spare_parts",
+    "material": "clay",
+    "weight": "7884 g",
+    "volume": "94 ml",
+    "longest_side": "30 cm",
+    "price": 80000,
+    "price_postapoc": 15000,
+    "to_hit": -2,
+    "variants": [
+      {
+        "id": "statue_person",
+        "name": { "str": "clay sculpture" },
+        "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "statue_releif",
+        "name": { "str": "abstract clay sculpture" },
+        "description": "This statue depicts <abstract_statue_type>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "clay releif" },
+        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "clay landscape releif" },
+        "description": "This releif depicts a <landscape_description>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 1
+      }
+    ],
+    "melee_damage": { "bash": 10 }
   }
 ]

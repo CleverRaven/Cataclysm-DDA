@@ -4,22 +4,21 @@
     "category": "<sketch_concept_description>",
     "text": [
       { "id": "sketch_concept_description_0001", "text": "<physical_build_adjective> <character_gender_adjective>" },
-      { "id": "sketch_concept_description_0002", "text": "<physical_build_adjective> <character_gender_adjective>" },
       {
-        "id": "sketch_concept_description_0003",
+        "id": "sketch_concept_description_0002",
         "text": "<physical_build_adjective>, <physical_appearance_adjective> <character_gender_adjective>"
       },
       {
-        "id": "sketch_concept_description_0004",
+        "id": "sketch_concept_description_0003",
         "text": "<physical_appearance_adjective> <character_gender_adjective>"
       },
       {
-        "id": "sketch_concept_description_0005",
+        "id": "sketch_concept_description_0004",
         "text": "<physical_appearance_adjective> anthropomorphic <nonhuman_species_noun> <character_gender_adjective>"
       },
-      { "id": "sketch_concept_description_0006", "text": "<nonhuman_species_noun>" },
+      { "id": "sketch_concept_description_0005", "text": "<nonhuman_species_noun>" },
       {
-        "id": "sketch_concept_description_0007",
+        "id": "sketch_concept_description_0006",
         "text": "<physical_appearance_adjective> <humanoid_species_noun> <character_gender_adjective>"
       }
     ]
