@@ -118,7 +118,6 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_psi_stunned( "psi_stunned" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
-static const efftype_id effect_slippery_terrain( "slippery_terrain" );
 static const efftype_id effect_spooked( "spooked" );
 static const efftype_id effect_spooked_recent( "spooked_recent" );
 static const efftype_id effect_stunned( "stunned" );
@@ -3324,26 +3323,6 @@ void monster::process_effects()
         apply_damage( nullptr, bodypart_id( "torso" ), 100 );
         if( hp < 0 ) {
             hp = 0;
-        }
-    }
-
-    // Check to see if critter slips on bile or whatever.
-    if( has_effect( effect_slippery_terrain ) && !is_immune_effect( effect_downed ) && !flies() &&
-        !digging() && !has_effect( effect_downed ) ) {
-        map &here = get_map();
-        if( here.has_flag( ter_furn_flag::TFLAG_FLAT, pos() ) ) {
-            int intensity = get_effect_int( effect_slippery_terrain );
-            intensity -= 1;
-            //ROAD tiles are hard, flat surfaces, and easier to slip on.
-            if( here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() ) ) {
-                intensity++;
-            }
-            int slipchance = ( round( get_speed() / 50 ) - round( get_dodge() / 3 ) );
-            if( intensity + slipchance > dice( 1, 12 ) ) {
-                add_effect( effect_downed, rng( 1_turns, 2_turns ) );
-                add_msg_if_player_sees( pos(), m_info, _( "The %1s slips and falls!" ),
-                                        name() );
-            }
         }
     }
 

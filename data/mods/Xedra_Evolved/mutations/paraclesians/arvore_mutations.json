@@ -23,7 +23,7 @@
     "category": [ "ARVORE" ],
     "prereqs": [ "ARVORE_SKIN_1" ],
     "changes_to": [ "ARVORE_SKIN_3" ],
-    "thirst_modifier": -0.3,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.3 } ] } ],
     "integrated_armor": [ "integrated_vegital_cuticle" ],
     "flags": [ "TOUGH_FEET" ]
   },
@@ -896,13 +896,11 @@
     "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "metabolism_modifier": -0.5,
     "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
     "mending_modifier": 16,
     "//": "Healing values copied from the Regeneration mutation",
-    "attackcost_modifier": 900,
     "override_look": { "id": "t_tree", "tile_category": "terrain" },
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
     "wet_protection": [
@@ -948,7 +946,11 @@
       "HOMULLUS"
     ],
     "//2": "NETHER_EMANATION missing from the above list is deliberate--they hone in on mental activity and the transformed Arvore still thinks.",
-    "enchantments": [ "ench_arvore_tree_form", "ench_arvore_tree_reduce_thirst" ]
+    "enchantments": [
+      "ench_arvore_tree_form",
+      "ench_arvore_tree_reduce_thirst",
+      { "values": [ { "value": "ATTACK_SPEED", "multiply": 900 }, { "value": "METABOLISM", "multiply": -0.5 } ] }
+    ]
   },
   {
     "type": "mutation",

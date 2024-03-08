@@ -3058,8 +3058,6 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
     optional( jo, was_loaded, "damage_verb", damage_verb );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
-    optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }

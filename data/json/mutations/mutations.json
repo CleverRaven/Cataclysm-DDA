@@ -591,7 +591,7 @@
     "types": [ "CARDIO" ],
     "changes_to": [ "GOODCARDIO2" ],
     "category": [ "FISH", "LUPINE", "MOUSE", "INSECT", "RABBIT", "CHIROPTERAN" ],
-    "cardio_multiplier": 1.3
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -603,7 +603,7 @@
     "prereqs": [ "GOODCARDIO" ],
     "threshreq": [ "THRESH_MOUSE", "THRESH_RABBIT" ],
     "category": [ "MOUSE", "RABBIT" ],
-    "cardio_multiplier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -699,7 +699,7 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "GIZZARD" ],
     "category": [ "FISH", "BIRD", "TROGLOBITE", "CHIROPTERAN", "GASTROPOD", "CEPHALOPOD", "RAPTOR" ],
-    "metabolism_modifier": -0.333
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -920,7 +920,7 @@
     "name": { "str": "Packmule" },
     "points": 1,
     "description": "You pack things very efficiently!  You can retrieve things from containers 10% faster.",
-    "obtain_cost_multiplier": 0.9,
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.1 } ] } ],
     "starting_trait": true,
     "valid": false,
     "cancels": [ "DISORGANIZED" ]
@@ -934,7 +934,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.35
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.35 } ] } ]
   },
   {
     "type": "mutation",
@@ -1034,7 +1034,7 @@
     "category": [ "MOUSE", "LUPINE" ],
     "starting_trait": true,
     "active": true,
-    "stomach_size_multiplier": 2.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -1436,7 +1436,7 @@
     "starting_trait": true,
     "valid": false,
     "types": [ "CARDIO" ],
-    "cardio_multiplier": 0.7
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": -0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -1559,7 +1559,7 @@
     "starting_trait": true,
     "category": [ "BIRD", "ELFA" ],
     "cancels": [ "STRONGBACK" ],
-    "weight_capacity_modifier": 0.65
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.35 } ] } ]
   },
   {
     "type": "mutation",
@@ -1577,7 +1577,7 @@
     "name": { "str": "Disorganized" },
     "points": -1,
     "description": "You are terrible at organizing and storing your possessions.  You retrieve things from containers 10% slower.",
-    "obtain_cost_multiplier": 1.1,
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": 0.1 } ] } ],
     "valid": false,
     "cancels": [ "PACKMULE" ]
   },
@@ -2730,12 +2730,15 @@
     "types": [ "BONES" ],
     "category": [ "MOUSE", "RABBIT", "BIRD", "SLIME", "ELFA", "SPIDER", "CHIROPTERAN" ],
     "changes_to": [ "HOLLOW_BONES" ],
-    "attackcost_modifier": 0.9,
-    "weight_capacity_modifier": 0.8,
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "EXTRA_BASH", "multiply": 0.4 }, { "value": "MOVE_COST", "multiply": -0.1 } ]
+        "values": [
+          { "value": "EXTRA_BASH", "multiply": 0.4 },
+          { "value": "MOVE_COST", "multiply": -0.1 },
+          { "value": "ATTACK_SPEED", "multiply": -0.1 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.2 }
+        ]
       }
     ]
   },
@@ -3306,7 +3309,7 @@
     "prereqs": [ "JAUNDICE" ],
     "leads_to": [ "BARK", "THORNS", "LEAVES" ],
     "category": [ "PLANT", "ELFA" ],
-    "thirst_modifier": -0.2,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.2 } ] } ],
     "integrated_armor": [ "integrated_plantskin" ]
   },
   {
@@ -3877,7 +3880,7 @@
     "visibility": 4,
     "ugliness": 3,
     "description": "You develop a reservoir of fluids that bulges out of your abdomen.  Your body has adapted to containing extra liquids in event of shortfalls.",
-    "thirst_modifier": -0.25,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -0.25 } ] } ],
     "types": [ "THIRST" ],
     "leads_to": [ "BOMBADIER_BLAST" ],
     "category": [ "INSECT" ]
@@ -4365,9 +4368,9 @@
         "condition": { "and": [ { "u_has_move_mode": "crouch" }, { "not": "u_can_drop_weapon" }, { "u_has_flag": "QUADRUPED_CROUCH" } ] },
         "values": [ { "value": "MOVE_COST", "multiply": -0.35 } ],
         "ench_effects": [ { "effect": "natural_stance", "intensity": 1 } ]
-      }
-    ],
-    "weight_capacity_modifier": 0.8
+      },
+      { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -4550,8 +4553,7 @@
     "points": -5,
     "description": "You seem to get full faster now, and food goes through you more rapidly as well.",
     "purifiable": false,
-    "stomach_size_multiplier": 0.9,
-    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.4 } ] } ],
+    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": -0.4 }, { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.1 } ] } ],
     "prereqs": [ "BEAK", "BEAK_PECK", "BEAK_HUM" ],
     "prereqs2": [ "LIGHTEATER" ],
     "threshreq": [ "THRESH_BIRD" ],
@@ -5034,7 +5036,7 @@
     "category": [ "URSINE" ],
     "active": true,
     "cost": 0,
-    "stomach_size_multiplier": 3.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -5754,9 +5756,15 @@
     "prereqs2": [ "DENSE_BONES" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
-    "stomach_size_multiplier": 1.5,
-    "weight_capacity_modifier": 1.05
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5772,9 +5780,15 @@
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_CHIMERA", "THRESH_CRUSTACEAN" ],
     "changes_to": [ "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 } ] } ],
-    "stomach_size_multiplier": 1.5,
-    "weight_capacity_modifier": 1.05
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.05 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -5791,12 +5805,19 @@
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "changes_to": [ "HUGE_OK" ],
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 }, { "value": "STRENGTH", "add": 4 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_HP", "add": -6 },
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ],
     "fatigue_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
-    "stomach_size_multiplier": 2.0,
-    "weight_capacity_modifier": 1.1
+    "destroys_gear": true
   },
   {
     "type": "mutation",
@@ -5813,11 +5834,17 @@
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_CRUSTACEAN" ],
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
-    "stomach_size_multiplier": 2.0,
-    "weight_capacity_modifier": 1.1
+    "destroys_gear": true
   },
   {
     "type": "mutation",
@@ -6207,9 +6234,15 @@
     "types": [ "SIZE" ],
     "changes_to": [ "SMALL" ],
     "category": [ "MOUSE", "RABBIT" ],
-    "stomach_size_multiplier": 0.5,
-    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": -0.05 } ] } ],
-    "weight_capacity_modifier": 0.8
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MAX_HP", "multiply": -0.05 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.2 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6224,8 +6257,9 @@
     "types": [ "SIZE" ],
     "changes_to": [ "LARGE", "HUGE" ],
     "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA", "CRUSTACEAN" ],
-    "stomach_size_multiplier": 1.5,
-    "weight_capacity_modifier": 1.05
+    "enchantments": [
+      { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 0.5 }, { "value": "CARRY_WEIGHT", "multiply": 0.05 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -6239,9 +6273,16 @@
     "types": [ "SIZE" ],
     "changes_to": [ "SMALL2" ],
     "category": [ "MOUSE", "RABBIT" ],
-    "stomach_size_multiplier": 0.5,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 }, { "value": "MAX_HP", "multiply": -0.05 } ] } ],
-    "weight_capacity_modifier": 0.8
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "MAX_HP", "multiply": -0.05 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.2 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6256,9 +6297,16 @@
     "prereqs": [ "SMALL" ],
     "changes_to": [ "SMALL_OK" ],
     "category": [ "MOUSE" ],
-    "stomach_size_multiplier": 0.5,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 }, { "value": "MAX_HP", "multiply": -0.3 } ] } ],
-    "weight_capacity_modifier": 0.5,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MAX_HP", "multiply": -0.3 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.5 }
+        ]
+      }
+    ],
     "noise_modifier": 0.0
   },
   {
@@ -6275,9 +6323,16 @@
     "threshreq": [ "THRESH_MOUSE" ],
     "leads_to": [ "CRAFTY" ],
     "category": [ "MOUSE" ],
-    "stomach_size_multiplier": 0.5,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 }, { "value": "MAX_HP", "multiply": -0.25 } ] } ],
-    "weight_capacity_modifier": 0.7,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MAX_HP", "multiply": -0.25 },
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.3 }
+        ]
+      }
+    ],
     "noise_modifier": 0.0
   },
   {
@@ -6290,11 +6345,14 @@
     "prereqs": [ "SMALL_OK" ],
     "threshreq": [ "THRESH_MOUSE" ],
     "category": [ "MOUSE" ],
-    "stealth_modifier": 40,
     "enchantments": [
       {
         "condition": "ALWAYS",
-        "values": [ { "value": "SPEED", "multiply": 0.15 }, { "value": "MOVE_COST", "multiply": -0.25 } ]
+        "values": [
+          { "value": "SPEED", "multiply": 0.15 },
+          { "value": "MOVE_COST", "multiply": -0.25 },
+          { "value": "STEALTH_MODIFIER", "add": 40 }
+        ]
       }
     ]
   },
@@ -6804,9 +6862,16 @@
     "types": [ "BONES" ],
     "prereqs": [ "LIGHT_BONES" ],
     "category": [ "BIRD", "SLIME", "ELFA" ],
-    "attackcost_modifier": 0.8,
-    "weight_capacity_modifier": 0.6,
-    "enchantments": [ { "values": [ { "value": "EXTRA_BASH", "multiply": 0.8 }, { "value": "MOVE_COST", "multiply": -0.2 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "EXTRA_BASH", "multiply": 0.8 },
+          { "value": "MOVE_COST", "multiply": -0.2 },
+          { "value": "ATTACK_SPEED", "multiply": -0.2 },
+          { "value": "CARRY_WEIGHT", "multiply": -0.4 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -6821,14 +6886,14 @@
       {
         "values": [
           { "value": "MOVE_COST", "multiply": 0.05 },
+          { "value": "ATTACK_SPEED", "multiply": 0.05 },
           { "value": "MAX_HP", "add": 4 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
-          { "value": "BONUS_DODGE", "add": -1 }
+          { "value": "BONUS_DODGE", "add": -1 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.15 }
         ]
       }
     ],
-    "attackcost_modifier": 1.05,
-    "weight_capacity_modifier": 1.15,
     "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 2 } ]
   },
   {
@@ -6917,7 +6982,7 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "HUNGER2", "MET_RAT" ],
     "category": [ "RAT", "ALPHA", "MEDICAL", "ELFA", "BEAST", "SLIME", "RAPTOR", "CHIMERA", "MOUSE", "RABBIT" ],
-    "metabolism_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.5 } ] } ],
     "stamina_regen_modifier": 0.1
   },
   {
@@ -6934,7 +6999,7 @@
     "healing_multiplier": 1.5,
     "fatigue_modifier": 0.5,
     "fatigue_regen_modifier": 0.333,
-    "metabolism_modifier": 0.333
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -6946,7 +7011,7 @@
     "changes_to": [ "HUNGER3" ],
     "types": [ "METABOLISM" ],
     "category": [ "BEAST", "SLIME", "RAPTOR", "CHIMERA" ],
-    "metabolism_modifier": 1.0,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 1 } ] } ],
     "stamina_regen_modifier": 0.3
   },
   {
@@ -6959,7 +7024,7 @@
     "leads_to": [ "EATHEALTH" ],
     "types": [ "METABOLISM" ],
     "category": [ "CHIMERA" ],
-    "metabolism_modifier": 2.0,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 2 } ] } ],
     "stamina_regen_modifier": 0.5
   },
   {
@@ -6972,7 +7037,7 @@
     "types": [ "THIRST" ],
     "changes_to": [ "THIRST2" ],
     "category": [ "SLIME", "CEPHALOPOD", "CHIMERA", "ELFA", "GASTROPOD", "FISH", "BATRACHIAN", "CRUSTACEAN" ],
-    "thirst_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -6984,7 +7049,7 @@
     "prereqs": [ "THIRST" ],
     "changes_to": [ "THIRST3" ],
     "category": [ "FISH", "SLIME", "CEPHALOPOD", "BATRACHIAN", "CRUSTACEAN" ],
-    "thirst_modifier": 1.0
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -6996,7 +7061,7 @@
     "prereqs": [ "THIRST2" ],
     "category": [ "BATRACHIAN", "CRUSTACEAN" ],
     "threshreq": [ "THRESH_BATRACHIAN", "THRESH_CRUSTACEAN" ],
-    "thirst_modifier": 2.0
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -7451,7 +7516,7 @@
     "ugliness": 10,
     "description": "Your body is more or less one consistent whole: a single, giant, omni-cell that alters itself as needed.",
     "purifiable": false,
-    "stomach_size_multiplier": 3,
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
     "prereqs": [ "INT_SLIME" ],
     "prereqs2": [ "PER_SLIME_OK" ],
     "threshreq": [ "THRESH_SLIME" ],
@@ -7738,7 +7803,7 @@
     "changes_to": [ "COLDBLOOD2" ],
     "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
     "temperature_speed_modifier": 0.2,
-    "metabolism_modifier": -0.333
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.333 } ] } ]
   },
   {
     "type": "mutation",
@@ -7753,7 +7818,7 @@
     "changes_to": [ "COLDBLOOD3" ],
     "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
     "temperature_speed_modifier": 0.333,
-    "metabolism_modifier": -0.5
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -7768,7 +7833,7 @@
     "changes_to": [ "COLDBLOOD4" ],
     "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
     "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": -0.5
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -7784,7 +7849,7 @@
     "purifiable": false,
     "category": [ "LIZARD", "PLANT", "BATRACHIAN" ],
     "temperature_speed_modifier": 0.5,
-    "metabolism_modifier": -0.5
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -9003,7 +9068,7 @@
     "name": { "str": "Debug Cardio" },
     "points": 99,
     "valid": false,
-    "cardio_multiplier": 10000,
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 10000 } ] } ],
     "description": "You can run, but you'll never run out of breath.",
     "debug": true
   },
@@ -9324,8 +9389,7 @@
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 1.5 }
     },
-    "enchantments": [ "ench_quadruped_movement_full" ],
-    "weight_capacity_modifier": 0.8
+    "enchantments": [ "ench_quadruped_movement_full", { "values": [ { "value": "CARRY_WEIGHT", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -9552,7 +9616,7 @@
     "types": [ "SKIN" ],
     "changes_to": [ "CAMO2" ],
     "category": [ "CEPHALOPOD" ],
-    "stealth_modifier": -20
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 20 } ] } ]
   },
   {
     "type": "mutation",
@@ -9567,7 +9631,7 @@
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "CAMO1" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ],
-    "stealth_modifier": 20
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 20 } ] } ]
   },
   {
     "type": "mutation",

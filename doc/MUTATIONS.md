@@ -176,7 +176,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "cut": 2
     }
   ],
-  "stealth_modifier": 0,                      // Percentage to be subtracted from player's visibility range, capped to 60.  Negative values work, but are not very effective due to the way vision ranges are capped.
   "active": true,                             // When set the mutation is an active mutation that the player needs to activate (default: false).
   "starts_active": true,                      // When true, this 'active' mutation starts active (default: false, requires 'active').
   "cost": 8,                                  // Cost to activate this mutation.  Needs one of the hunger, thirst, or fatigue values set to true (default: 0).
@@ -192,7 +191,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
   "noise_modifier": 0.4,                      // changes how much noise you produce while walking, `0.5` halves it, `2` doubles it
-  "obtain_cost_multiplier": 1.1,              // modifier for pulling an item from a container and storing it back, as a handling penalty
   "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer. This will allow the character to see futher on the overmap at night if the mutation is active at all times
   "ranged_mutation": {                        // activation of the mutation allow you to shoot a fake gun
     "type": "pseudo_shotgun",                 // fake gun that is used to shoot
@@ -204,7 +202,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
     "type": "water_clean",                    // item to spawn
     "message": "You spawn a bottle of water." // message, that would be shown upon activation
   },
-  "stomach_size_multiplier": 2.0,             // modifier for the stomach size, increases how much food you can consume at once
   "scent_modifier": 0.0,                      // float affecting the intensity of your smell (default: 1.0).
   "scent_intensity": 800,                     // int affecting the target scent toward which you current smell gravitates (default: 500).
   "scent_mask": -200,                         // int added to your target scent value (default: 0).
@@ -221,19 +218,14 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allowed_category": [ "ALPHA" ],            // List of categories you can mutate into (default: empty).
   "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ],  // List of body parts that can't receive CBMs (default: empty).
   "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ],              // List of glowing bodypart and the intensity of the glow as a float (default: empty).
-  "metabolism_modifier": 0.333,               // Extra metabolism rate multiplier (1.0 doubles, -0.5 halves).
-  "thirst_modifier": 0.1,                     // Extra thirst modifier (1.0 doubles, -0.5 halves).
   "fatigue_modifier": 0.5,                    // Extra fatigue rate multiplier (1.0 doubles usage, -0.5 halves).
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
   "stamina_regen_modifier": 0.1,              // Increase stamina regen by this proportion (1.0 being 100% of normal regen).
-  "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
   "crafting_speed_multiplier": 0.5,           // Multiplies your total crafting speed. 0.5 is 50% of normal speed, 1.2 is 20% faster than normal speed.
   "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
   "healing_awake": 1.0,                       // Healing rate per turn while awake. Positives will increase healing while negatives will decrease healing.
   "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.
   "mending_modifier": 1.2,                    // Multiplier on how fast your limbs mend (1.2 is 20% faster).
-  "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
-  "weight_capacity_modifier": 0.9,            // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
   "transform": {
@@ -269,7 +261,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "deactivated_eocs": [ "eoc_id_1" ],         // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
   "enchantments": [ "ench_id_1" ],            // List of enchantments granted by this mutation.  Can be either IDs or an inline definition of the enchantment (see MAGIC.md)
   "temperature_speed_modifier": 0.5,          // If nonzero, become slower when cold, and faster when hot (1.0 gives +/-1% speed for each degree above or below 65 F).
-  "pain_modifier": 5,                         // Flat increase (for positive numbers)\ reduction (for negative) to the amount of pain recived. Reduction can go all the way to 0. Applies after pain enchantment. (so if you have Pain Resistant trait along with 5 flat pain reduction and recive 20 pain, you would gain 20*(1-0.25)-5=10 pain)
   "mana_modifier": 100,                       // Positive or negative change to total mana pool.
   "mana_regen_multiplier": 1.5,               // Multiplier on your mana regeneration.  0.5 is 50% of normal, 1.5 is 150% of normal.
   "mana_multiplier": 1.25,                    // Multiplier on your total mana amount, after mana_modifier and any other bonuses. 0.75 is 75% of normal, 1.5 is 150% of normal. 

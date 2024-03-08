@@ -45,6 +45,7 @@ enum class mod : int {
     BIONIC_POWER,
     MAX_STAMINA,
     REGEN_STAMINA,
+    CARDIO_MULTIPLIER,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     HUNGER,        // hunger rate
