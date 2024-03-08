@@ -4,7 +4,7 @@
     "id": "TALK_DINODAVE_1",
     "dynamic_line": {
       "concatenate": [
-        "*sits in a surprisingly well-built room made of lovingly assembled cardboard boxes.  The area is quite clean and cozy.  The whole building is built on top of cargo pallets, insulated with scraps, and waterproofed with plastic.  It shows an unexpected amount of design prowess.  \"Hello, my noble knight errant,\" Dave intones, his voice solemn.\u0020",
+        "*sits in a surprisingly well-built room made of lovingly assembled cardboard boxes.  The area is quite clean and cozy.  The whole building is built on top of cargo pallets, insulated with scraps, and waterproofed with plastic.  It shows an unexpected amount of design prowess.  \"Hello, my noble knight errant,\" Dave intones, his voice solemn.",
         {
           "u_has_var": "u_cardboard_gift",
           "type": "dialogue",
@@ -95,8 +95,8 @@
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_Cardboard",
-    "dynamic_line": "* bows deeply. \"Thank you.  Our expertise with the most sacred of materials comes from a past long gone.\"  He gazes off into the distance, lost in thought.  You wait, but he doesn't talk again.",
-    "responses": [ { "text": "Uh,  you there?.", "topic": "TALK_DINODAVE_Gift" } ]
+    "dynamic_line": "* bows deeply.  \"Thank you.  Our expertise with the most sacred of materials comes from a past long gone.\"  He gazes off into the distance, lost in thought.  You wait, but he doesn't talk again.",
+    "responses": [ { "text": "Uh, you there?", "topic": "TALK_DINODAVE_Gift" } ]
   },
   {
     "type": "talk_topic",
