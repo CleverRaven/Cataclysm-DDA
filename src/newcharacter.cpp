@@ -1054,6 +1054,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     const int iHeaderHeight = 6;
     // guessing most likely, but it doesn't matter, it will be recalculated if wrong
     int iHelpHeight = 3;
+    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
 
     ui_adaptor ui;
     catacurses::window w;
@@ -1126,7 +1127,16 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
         werase( w );
         tabs.draw( w );
 
-        const auto &cur_opt = opts[highlighted];
+        std::string title = std::get<1>( opts[highlighted] );
+        std::string description = std::get<2>( opts[highlighted] );
+
+        if( screen_reader_mode ) {
+            // Include option title in option description, and say whether it's active
+            if( std::get<0>( opts[highlighted] ) == pool ) {
+                title.append( _( " - active" ) );
+            }
+            description = title +  "\n" + description;
+        }
 
         draw_points( w, pool, u );
 
@@ -1145,11 +1155,15 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
             if( highlighted == i ) {
                 ui.set_cursor( w, opt_pos );
             }
-            mvwprintz( w, opt_pos, color, std::get<1>( opts[i] ) );
+            if( screen_reader_mode ) {
+                // The list of options only clutters up the screen in screen reader mode
+            } else {
+                mvwprintz( w, opt_pos, color, std::get<1>( opts[i] ) );
+            }
         }
 
         fold_and_print( w_description, point_zero, getmaxx( w_description ),
-                        COL_SKILL_USED, std::get<2>( cur_opt ) );
+                        COL_SKILL_USED, description );
 
         // Helptext points tab
         fold_and_print( w, point( 2, TERMY - foldstring( help_text, getmaxx( w ) - 4 ).size() - 1 ),
