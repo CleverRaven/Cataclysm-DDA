@@ -979,7 +979,13 @@
     "name": "mild steel plate armor",
     "description": "Recipes related to constructing steel plate armor from mild steel.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "xl_armor_lc_plate", "armor_lc_plate", "xl_armor_lc_plate_assembly", "armor_lc_plate_assembly" ],
+    "nested_category_data": [
+      "xl_armor_lc_plate",
+      "armor_lc_plate",
+      "combat_exoskeleton_armor_lc_plate",
+      "xl_armor_lc_plate_assembly",
+      "armor_lc_plate_assembly"
+    ],
     "difficulty": 1
   },
   {
@@ -991,7 +997,13 @@
     "name": "medium steel plate armor",
     "description": "Recipes related to constructing steel plate armor from medium steel.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "xl_armor_mc_plate", "armor_mc_plate", "xl_armor_mc_plate_assembly", "armor_mc_plate_assembly" ],
+    "nested_category_data": [
+      "xl_armor_mc_plate",
+      "armor_mc_plate",
+      "combat_exoskeleton_armor_mc_plate",
+      "xl_armor_mc_plate_assembly",
+      "armor_mc_plate_assembly"
+    ],
     "difficulty": 2
   },
   {
@@ -1003,7 +1015,13 @@
     "name": "high steel plate armor",
     "description": "Recipes related to constructing steel plate armor from high steel.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "xl_armor_hc_plate", "armor_hc_plate", "xl_armor_hc_plate_assembly", "armor_hc_plate_assembly" ],
+    "nested_category_data": [
+      "xl_armor_hc_plate",
+      "armor_hc_plate",
+      "combat_exoskeleton_armor_hc_plate",
+      "xl_armor_hc_plate_assembly",
+      "armor_hc_plate_assembly"
+    ],
     "difficulty": 3
   },
   {
@@ -1015,7 +1033,13 @@
     "name": "hardened steel plate armor",
     "description": "Recipes related to constructing steel plate armor from hardened steel.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "xl_armor_ch_plate", "armor_ch_plate", "xl_armor_ch_plate_assembly", "armor_ch_plate_assembly" ],
+    "nested_category_data": [
+      "xl_armor_ch_plate",
+      "armor_ch_plate",
+      "combat_exoskeleton_armor_ch_plate",
+      "xl_armor_ch_plate_assembly",
+      "armor_ch_plate_assembly"
+    ],
     "difficulty": 4
   },
   {
@@ -1027,7 +1051,13 @@
     "name": "tempered steel plate armor",
     "description": "Recipes related to constructing steel plate armor from tempered steel.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "xl_armor_qt_plate", "armor_qt_plate", "xl_armor_qt_plate_assembly", "armor_qt_plate_assembly" ],
+    "nested_category_data": [
+      "xl_armor_qt_plate",
+      "armor_qt_plate",
+      "combat_exoskeleton_armor_qt_plate",
+      "xl_armor_qt_plate_assembly",
+      "armor_qt_plate_assembly"
+    ],
     "difficulty": 5
   },
   {

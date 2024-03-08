@@ -1,0 +1,158 @@
+[
+  {
+    "id": "combat_exoskeleton_salvaged",
+    "category": "armor",
+    "type": "ARMOR",
+    "name": { "str": "salvaged combat exoskeleton", "str_pl": "salvaged combat exoskeletons" },
+    "description": "This exoskeleton has been severely damaged and its electronic parts are completely fried. You could wear it but the now inactive motors will make moving around very difficult. Utilizing a variety of webbing, magnets, and clips, specialized armor can be attached to the exoskeleton as one sees fit.",
+    "looks_like": "power_armor_heavy",
+    "symbol": "[",
+    "price": 500000,
+    "price_postapoc": 10000,
+    "volume": "16000 ml",
+    "weight": "6350 g",
+    "flags": [ "STURDY" ],
+    "armor": [
+      {
+        "layers": [ "OUTER" ],
+        "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "encumbrance": 10,
+        "coverage": 10,
+        "material": [
+          { "type": "steel", "thickness": 5, "covered_by_mat": 50 },
+          { "type": "aluminum", "thickness": 5, "covered_by_mat": 50 },
+          { "type": "kevlar_rigid", "thickness": 5, "covered_by_mat": 50 },
+          { "type": "nylon", "thickness": 1, "covered_by_mat": 100 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "description": "Compartment for a UPS.",
+        "flag_restriction": [ "IS_UPS" ],
+        "max_contains_volume": "4000 ml",
+        "moves": 500
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "description": "Compartment for a UPS.",
+        "flag_restriction": [ "IS_UPS" ],
+        "max_contains_volume": "4000 ml",
+        "moves": 500
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "ablative": true,
+        "description": "Hooks and straps to attach exoskeleton armor.",
+        "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMOR" ],
+        "max_contains_volume": "30000 ml",
+        "max_item_length": "100 cm",
+        "moves": 3000
+      }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_heavy",
+    "copy-from": "combat_exoskeleton_salvaged",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "combat exoskeleton mk1", "str_pl": "combat exoskeletons mk1" },
+    "description": "Deployed in limited numbers for testing but deemed too expensive for mass production, this exoskeleton focuses on carry weight over fine motor movement. Utilizing a variety of webbing, magnets, and clips, specialized armor can be attached to the exoskeleton as one sees fit.",
+    "looks_like": "power_armor_heavy",
+    "price": 5000000,
+    "price_postapoc": 100000,
+    "extend": { "flags": [ "COMBAT_TOGGLEABLE", "USE_UPS" ] },
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "The exoskeleton turns on, it feels like a great weight has been lifted off your shoulders and the motors whirr softly as you move around.",
+      "target": "combat_exoskeleton_heavy_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The exoskeleton batteries are empty"
+    }
+  },
+  {
+    "copy-from": "combat_exoskeleton_heavy",
+    "id": "combat_exoskeleton_heavy_on",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "combat exoskeleton mk1 (on)", "str_pl": "combat exoskeletons mk1 (on)" },
+    "proportional": { "encumbrance": 0.3 },
+    "power_draw": "68 W",
+    "weight_capacity_modifier": 1.9,
+    "revert_to": "combat_exoskeleton_heavy",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The exoskeleton turns off",
+      "target": "combat_exoskeleton_heavy"
+    }
+  },
+  {
+    "copy-from": "combat_exoskeleton_heavy",
+    "id": "combat_exoskeleton_medium",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "combat exoskeleton mk2", "str_pl": "combat exoskeletons mk2" },
+    "description": "Improving over the first generation, this exoskeleton boasts increased nimbleness at the cost of some motor strength. Utilizing a variety of webbing, magnets, and clips, specialized armor can be attached to the exoskeleton as one sees fit.",
+    "looks_like": "power_armor_basic",
+    "use_action": {
+      "type": "transform",
+      "msg": "The exoskeleton turns on, it feels like a great weight has been lifted off your shoulders and the motors whirr softly as you move around.",
+      "target": "combat_exoskeleton_medium_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The exoskeleton batteries are empty"
+    }
+  },
+  {
+    "copy-from": "combat_exoskeleton_medium",
+    "id": "combat_exoskeleton_medium_on",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "combat exoskeleton mk2 (on)", "str_pl": "combat exoskeletons mk2 (on)" },
+    "proportional": { "encumbrance": 0.2 },
+    "power_draw": "54 W",
+    "weight_capacity_modifier": 1.6,
+    "revert_to": "combat_exoskeleton_medium",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The exoskeleton turns off",
+      "target": "combat_exoskeleton_medium"
+    }
+  },
+  {
+    "copy-from": "combat_exoskeleton_heavy",
+    "id": "combat_exoskeleton_light",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "combat exoskeleton mk3", "str_pl": "combat exoskeletons mk3" },
+    "description": "Designed for mass production and usage, this exoskeleton was praised for its responsiveness and light weight compared to its predecessors despite the sacrifice in carry capacity. Utilizing a variety of webbing, magnets, and clips, specialized armor can be attached to the exoskeleton as one sees fit.",
+    "looks_like": "power_armor_light",
+    "use_action": {
+      "type": "transform",
+      "msg": "The exoskeleton turns on, it feels like a great weight has been lifted off your shoulders and the motors whirr softly as you move around.",
+      "target": "combat_exoskeleton_light_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The exoskeleton batteries are empty"
+    }
+  },
+  {
+    "copy-from": "combat_exoskeleton_light",
+    "id": "combat_exoskeleton_light_on",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "combat exoskeletons mk3 (on)", "str_pl": "light combat exoskeletons mk3 (on)" },
+    "proportional": { "encumbrance": 0.1 },
+    "power_draw": "40 W",
+    "weight_capacity_modifier": 1.3,
+    "revert_to": "combat_exoskeleton_light",
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Turn off",
+      "msg": "The exoskeleton turns off.",
+      "target": "combat_exoskeleton_light"
+    }
+  }
+]

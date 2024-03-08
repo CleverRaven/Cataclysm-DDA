@@ -1,0 +1,78 @@
+[
+  {
+    "id": "combat_exoskeleton_armor_military",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "combat exoskeleton military armor", "str_pl": "combat exoskeleton military armors" },
+    "description": "Nicknamed 'Tank Suit' by soldiers, this armor is designed to absorb shrapnel and small caliber bullets on most of the users body. The awkward attachment points make this armor unusable by itself, it needs to be attached to a combat exoskeleton.",
+    "symbol": "[",
+    "looks_like": "ballistic_vest_heavy",
+    "price": 1600000,
+    "price_postapoc": 32000,
+    "volume": "29500 ml",
+    "weight": "11800 g",
+    "flags": [ "CANT_WEAR", "STURDY", "ABLATIVE_EXOSKELETON_ARMOR" ],
+    "warmth": 20,
+    "environmental_protection": 1,
+    "armor": [
+      {
+        "layers": [ "OUTER" ],
+        "covers": [ "torso" ],
+        "encumbrance": 9,
+        "coverage": 85,
+        "material": [
+          { "type": "kevlar_layered", "thickness": 4.4 },
+          { "type": "nylon", "thickness": 2 },
+          { "type": "qt_steel", "thickness": 2.3 }
+        ]
+      },
+      {
+        "layers": [ "OUTER" ],
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "encumbrance": 6,
+        "coverage": 85,
+        "material": [ { "type": "kevlar_layered", "thickness": 4.4 }, { "type": "nylon", "thickness": 1 } ]
+      }
+    ]
+  },
+  {
+    "id": "combat_exoskeleton_armor_lc_plate",
+    "copy-from": "armor_lc_plate",
+    "type": "ARMOR",
+    "name": { "str": "combat exoskeleton mild steel plate armor", "str_pl": "combat exoskeleton mild steel plate armors" },
+    "description": "This plate armor has oddly shaped plates and articulations and was specially made to accomodate and take advantage of the exoskeleton underneath. The awkward attachment points make this armor unusable by itself, it needs to be attached to a combat exoskeleton.",
+    "extend": { "flags": [ "CANT_WEAR", "ABLATIVE_EXOSKELETON_ARMOR" ] }
+  },
+  {
+    "id": "combat_exoskeleton_armor_mc_plate",
+    "copy-from": "combat_exoskeleton_armor_lc_plate",
+    "type": "ARMOR",
+    "name": { "str": "combat exoskeleton medium steel plate armor", "str_pl": "combat exoskeleton medium steel plate armors" },
+    "description": "This plate armor has oddly shaped plates and articulations and was specially made to accomodate and take advantage of the exoskeleton underneath. The awkward attachment points make this armor unusable by itself, it needs to be attached to a combat exoskeleton.",
+    "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
+  },
+  {
+    "id": "combat_exoskeleton_armor_hc_plate",
+    "copy-from": "combat_exoskeleton_armor_lc_plate",
+    "type": "ARMOR",
+    "name": { "str": "combat exoskeleton high steel plate armor", "str_pl": "combat exoskeleton high steel plate armors" },
+    "description": "This plate armor has oddly shaped plates and articulations and was specially made to accomodate and take advantage of the exoskeleton underneath. The awkward attachment points make this armor unusable by itself, it needs to be attached to a combat exoskeleton.",
+    "replace_materials": { "mc_steel": "hc_steel", "mc_steel_chain": "hc_steel_chain" }
+  },
+  {
+    "id": "combat_exoskeleton_armor_ch_plate",
+    "copy-from": "combat_exoskeleton_armor_lc_plate",
+    "type": "ARMOR",
+    "name": { "str": "combat exoskeleton hardened plate armor", "str_pl": "combat exoskeleton hardened plate armors" },
+    "description": "This plate armor has oddly shaped plates and articulations and was specially made to accomodate and take advantage of the exoskeleton underneath. The awkward attachment points make this armor unusable by itself, it needs to be attached to a combat exoskeleton.",
+    "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
+  },
+  {
+    "id": "combat_exoskeleton_armor_qt_plate",
+    "copy-from": "combat_exoskeleton_armor_lc_plate",
+    "type": "ARMOR",
+    "name": { "str": "combat exoskeleton tempered plate armor", "str_pl": "combat exoskeleton tempered plate armors" },
+    "description": "This plate armor has oddly shaped plates and articulations and was specially made to accomodate and take advantage of the exoskeleton underneath. The awkward attachment points make this armor unusable by itself, it needs to be attached to a combat exoskeleton.",
+    "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
+  }
+]

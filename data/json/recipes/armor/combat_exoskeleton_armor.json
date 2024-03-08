@@ -1,0 +1,27 @@
+[
+  {
+    "copy-from": "armor_lc_plate",
+    "result": "combat_exoskeleton_armor_lc_plate",
+    "type": "recipe"
+  },
+  {
+    "copy-from": "armor_mc_plate",
+    "result": "combat_exoskeleton_armor_mc_plate",
+    "type": "recipe"
+  },
+  {
+    "copy-from": "armor_hc_plate",
+    "result": "combat_exoskeleton_armor_hc_plate",
+    "type": "recipe"
+  },
+  {
+    "copy-from": "armor_ch_plate",
+    "result": "combat_exoskeleton_armor_ch_plate",
+    "type": "recipe"
+  },
+  {
+    "copy-from": "armor_qt_plate",
+    "result": "combat_exoskeleton_armor_qt_plate",
+    "type": "recipe"
+  }
+]
