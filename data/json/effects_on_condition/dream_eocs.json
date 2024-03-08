@@ -7,7 +7,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TROUBLED_SLEEP_FATIGUE_MESSAGES",
+    "//": "Prints a flavour text message to the log about being afraid of sleep if the character has entered the tired status, has the trubbled sleeper trait, and has not taken preventative medication. The EOC’s set to recur every 8 to 20 minutes.",
+    "global": true,
+    "recurrence": [ 480, 1200 ],
+    "condition": {
+      "and": [
+        { "math": [ "u_val('fatigue')", ">", "191" ] },
+        { "u_has_trait": "bad_dreams" },
+        { "not": { "u_has_effect": "took_prozac" } }
+      ]
+    },
+    "effect": [ { "u_message": "troubled_sleep_fatigue_messages", "snippet": true, "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TROUBLED_SLEEP_MESSAGE",
+    "//": "prints a message to the log upon the character falling asleep with the troubled sleeper trait. The text changes based on whether the player has taken preventative medication or not. Primarily intended for immersion and to let the player know if their medication, should they have taken it, is going to work to repress nightmares.",
     "eoc_type": "EVENT",
     "required_event": "character_falls_asleep",
     "condition": { "and": [ { "u_has_trait": "bad_dreams" }, { "not": { "u_has_effect": "took_prozac" } } ] },
@@ -23,7 +39,8 @@
           "id": "EOC_TROUBLED_SLEEP_SAFE",
           "condition": { "and": [ { "u_has_trait": "bad_dreams" }, { "u_has_effect": "took_prozac" } ] },
           "effect": {
-            "u_message": "Surrendering yourself to the arms of sleep, you hope your medication will let you have a good night’s rest."
+            "u_message": "Surrendering yourself to the arms of sleep, you hope your medication will let you have a good night’s rest.",
+            "type": "good"
           }
         }
       ]
@@ -32,6 +49,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_TROUBLED_SLEEP_NIGHTMARES",
+    "//": "Generates a generic, post-cataclysm nightmare for players with the troubled sleeper trait upon the character waking up, presents a pop-up with the nightmare, and provides a mood debuff. The EOC’s set to not fire if the player has taken preventative medication.",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",
     "condition": {
@@ -41,6 +59,7 @@
         { "not": { "u_has_effect": "took_prozac" } }
       ]
     },
+    "//2": "This does not pull from the snippets used when a player gets nightmares as a result of a portal storm.",
     "effect": [
       { "u_message": "nightmares_cataclysm_general", "snippet": true, "popup": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
