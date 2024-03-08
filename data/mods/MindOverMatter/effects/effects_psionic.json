@@ -794,7 +794,21 @@
     ],
     "rating": "good",
     "max_duration": "7 days",
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": 3 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": 3 },
+          {
+            "value": "CRAFTING_SPEED_MULTIPLIER",
+            "multiply": {
+              "math": [
+                "( 0.04 + ( u_spell_level('clair_craft_bonus') * 0.01 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ],
     "flags": [ "MYOPIC" ]
   },
   {
