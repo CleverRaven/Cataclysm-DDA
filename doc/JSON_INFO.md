@@ -4007,7 +4007,7 @@ CBMs can be defined like this:
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
-"parasites": 10,            // (Optional) Probability of becoming parasitized when eating
+"parasites": 10,            // (Optional) one_in(x) chance of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", "60 mg" ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  Some vitamins ("calcium", "iron", "vitC") can be specified with the weight of the vitamins in that food.  Vitamins specified by weight can be in grams ("g"), milligrams ("mg") or micrograms ("μg", "ug", "mcg").  If a vitamin is not specified by weight, it is specified in "units", with meaning according to the vitamin definition.  Nutrition vitamins ("calcium", "iron", "vitC") are an integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitC, mutant_toxin, bad_food, blood, and redcells.
 "material": [                     // All materials (IDs) this food is made of
