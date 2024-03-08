@@ -511,6 +511,34 @@
     "points": 10,
     "valid": false,
     "override_look": { "id": "mon_hallu_mannequin", "tile_category": "monster" },
+    "enchantments": [
+      {
+        "skills": [ { "value": "dodge", "add": -5 } ],
+        "values": [
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "HUNGER", "multiply": -1.0 },
+          { "value": "THIRST", "multiply": -1.0 },
+          { "value": "REGEN_HP", "multiply": -1.0 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
+          { "value": "ATTACK_SPEED", "multiply": 0.8 },
+          { "value": "MENDING_MODIFIER", "multiply": -1.0 }
+        ]
+      },
+      {
+        "condition": { "not": { "u_is_on_terrain_with_flag": "ROAD" } },
+        "values": [ { "value": "MOVE_COST", "multiply": 2.5 } ]
+      }
+    ],
+    "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS",
+    "name": { "str": "Mannequin Form Anger Relations" },
+    "description": "Anger relations are here in a separate mutation so that they're removed on attacking a target.",
+    "points": 2,
+    "valid": false,
+    "player_display": false,
     "anger_relations": [
       [ "HUMAN", -91 ],
       [ "BIRD", -91 ],
@@ -539,26 +567,16 @@
       [ "ABERRATION", -91 ],
       [ "VAMPIRE", -91 ]
     ],
-    "//": "-91 should be enough that even monsters with 100 aggression won't immediately attack, but they'll be on a hair trigger.",
-    "enchantments": [
-      {
-        "skills": [ { "value": "dodge", "add": -5 } ],
-        "values": [
-          { "value": "METABOLISM", "multiply": -1.0 },
-          { "value": "HUNGER", "multiply": -1.0 },
-          { "value": "THIRST", "multiply": -1.0 },
-          { "value": "REGEN_HP", "multiply": -1.0 },
-          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
-          { "value": "ATTACK_SPEED", "multiply": 0.8 },
-          { "value": "MENDING_MODIFIER", "multiply": -1.0 }
-        ]
-      },
-      {
-        "condition": { "not": { "u_is_on_terrain_with_flag": "ROAD" } },
-        "values": [ { "value": "MOVE_COST", "multiply": 2.5 } ]
-      }
-    ],
-    "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ]
+    "//": "-91 should be enough that even monsters with 100 aggression won't immediately attack, but they'll be on a hair trigger."
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER",
+    "name": { "str": "Mannequin Form Anger Relations Attacker" },
+    "description": "This blocks you from gaining the anger relations mutation so you can't just turn Mien of the Mannequin on and off between attacks.",
+    "points": 2,
+    "valid": false,
+    "player_display": false
   },
   {
     "type": "mutation",
