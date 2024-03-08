@@ -4719,8 +4719,8 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
 
     int results_from_base_group = 0;
     int results_from_mission_group = 0;
-    for( successful_hunts; successful_hunts > 0; successful_hunts-- ) {
-        if( rng( base_group_chance, total_chance ) ) {
+    for( ; successful_hunts > 0; successful_hunts-- ) {
+        if( x_in_y( base_group_chance, total_chance ) ) {
             results_from_base_group++;
         } else {
             results_from_mission_group++;
