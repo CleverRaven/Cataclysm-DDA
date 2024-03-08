@@ -172,7 +172,7 @@ TEST_CASE( "base_cardio", "[cardio][base]" )
 //
 // Some traits affect cardio fitness directly:
 //
-// - cardio_multiplier: Multiplies maximum cardio
+// - CARDIO_MULTIPLIER: Multiplies maximum cardio
 //   - Languorous: Bad cardio, less total stamina
 //   - Indefatigable, Hyperactive: Good cardio, more total stamina
 //
@@ -213,7 +213,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "HUGE", base_cardio, base_stamina, 81 );
     }
 
-    SECTION( "Traits with cardio_multiplier" ) {
+    SECTION( "Traits with CARDIO_MULTIPLIER" ) {
         // These traits were formerly implemented by max_stamina_modifier, which multiplied
         // maximum stamina. Now that cardio fitness is actually implemented, these traits
         // directly affect total cardio fitness, and thus maximum stamina (and running distance).

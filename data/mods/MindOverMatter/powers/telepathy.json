@@ -561,7 +561,7 @@
     "id": "telepathic_beast_taming",
     "type": "SPELL",
     "name": "[Ψ]Beast Tamer",
-    "description": "Perform mental surgery on an animal, making it friendly to you for a much longer duration.  The animal must already be friendly, either naturally or through powers such as Beastmastery, or order to be tamed.",
+    "description": "Perform mental surgery on an animal, making it friendly to you for a much longer duration.  The animal must already be friendly, either naturally or through powers such as Beastmastery, in order to be tamed.",
     "message": "The animal sniffs at your palm.",
     "teachable": false,
     "valid_targets": [ "ally" ],

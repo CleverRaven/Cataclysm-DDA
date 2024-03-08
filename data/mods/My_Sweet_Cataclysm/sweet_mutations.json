@@ -11,7 +11,7 @@
     "weakness_to_water": 5,
     "ignored_by": [ "ZOMBIE" ],
     "scent_type": "sc_sugar",
-    "thirst_modifier": -1.0,
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -1 } ] } ],
     "cancels": [
       "THIRST",
       "THIRST2",
