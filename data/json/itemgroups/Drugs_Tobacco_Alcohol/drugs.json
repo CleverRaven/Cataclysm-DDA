@@ -741,13 +741,6 @@
   },
   {
     "type": "item_group",
-    "id": "antihistamine_bottle_full",
-    "subtype": "collection",
-    "container-item": "bottle_plastic_pill_prescription",
-    "entries": [ { "item": "antihistamine", "container-item": "null", "count": 30 } ]
-  },
-  {
-    "type": "item_group",
     "id": "protein_bottle_full",
     "subtype": "collection",
     "container-item": "bottle_plastic",

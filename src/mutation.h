@@ -221,11 +221,7 @@ struct mutation_branch {
         std::optional<float> healing_multiplier = std::nullopt;
         // Limb mending bonus
         std::optional<float> mending_modifier = std::nullopt;
-        std::optional<float> pain_modifier = std::nullopt;
         // Additional bonuses
-        std::optional<float> attackcost_modifier = std::nullopt;
-        std::optional<float> cardio_multiplier = std::nullopt;
-        std::optional<float> weight_capacity_modifier = std::nullopt;
         std::optional<float> noise_modifier = std::nullopt;
         float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
@@ -261,13 +257,8 @@ struct mutation_branch {
 
         std::optional<float> crafting_speed_multiplier = std::nullopt;
 
-        // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        std::optional<float> stealth_modifier = std::nullopt;
-
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
         std::optional<float> temperature_speed_modifier = std::nullopt;
-        // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        std::optional<float> metabolism_modifier = std::nullopt;
         // As above but for thirst.
         std::optional<float> thirst_modifier = std::nullopt;
         // As above but for fatigue.
@@ -276,10 +267,6 @@ struct mutation_branch {
         std::optional<float> fatigue_regen_modifier = std::nullopt;
         // Modifier for the rate at which stamina regenerates.
         std::optional<float> stamina_regen_modifier = std::nullopt;
-        // the modifier for obtaining an item from a container as a handling penalty
-        std::optional<float> obtain_cost_multiplier = std::nullopt;
-        // the modifier for the stomach size
-        std::optional<float> stomach_size_multiplier = std::nullopt;
         // the modifier for the vomit chance
         std::optional<float> vomit_multiplier = std::nullopt;
         // the modifier for sweat amount

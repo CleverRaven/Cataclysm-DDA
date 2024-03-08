@@ -335,7 +335,7 @@
     "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "changes_to": "SALAMANDER_BIGGER_STOMACH2",
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 2.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -345,7 +345,7 @@
     "description": "Like a coal furnace, the Salamander devours food to keep functioning.  They may eat three times as much at once and eat food 50% faster.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH" ],
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 3.0,
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 } ] } ],
     "consume_time_modifier": 0.66
   },
   {
@@ -373,7 +373,7 @@
     "category": [ "SALAMANDER" ],
     "fatigue_modifier": -0.25,
     "fatigue_regen_modifier": 0.25,
-    "metabolism_modifier": 0.33,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.33 } ] } ],
     "stamina_regen_modifier": 0.1
   },
   {
@@ -388,7 +388,7 @@
     "category": [ "SALAMANDER" ],
     "fatigue_modifier": -0.5,
     "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 0.66,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 0.66 } ] } ],
     "stamina_regen_modifier": 0.2
   },
   {
@@ -405,7 +405,7 @@
     "threshreq": [ "THRESH_SALAMANDER" ],
     "fatigue_modifier": -0.5,
     "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 1,
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": 1 } ] } ],
     "stamina_regen_modifier": 0.3,
     "activated_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "processed_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],

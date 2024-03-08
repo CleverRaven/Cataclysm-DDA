@@ -68,6 +68,7 @@ namespace io
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchant_vals::mod::CARDIO_MULTIPLIER: return "CARDIO_MULTIPLIER";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::HUNGER: return "HUNGER";

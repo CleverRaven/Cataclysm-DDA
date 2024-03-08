@@ -68,5 +68,12 @@
     "id": "paraclesian_passive_spell_exp",
     "num_args": 1,
     "return": "u_skill('deduction') * 100 + _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "paraclesian_post_threshold_doubler",
+    "//": "Used to double various factors for a post-threshold bonus.  Should never more than double the initial input.",
+    "num_args": 1,
+    "return": "_0 + (1 * (u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE')) )"
   }
 ]

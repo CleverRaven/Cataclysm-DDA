@@ -162,7 +162,6 @@
     "valid": false,
     "description": "The forest is hiding you from your enemies.",
     "category": [ "ARVORE" ],
-    "stealth_modifier": 60,
     "triggers": [
       [
         {
@@ -435,7 +434,6 @@
     "valid": false,
     "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater, such as right now.",
     "category": [ "UNDINE" ],
-    "stealth_modifier": 60,
     "triggers": [ [ { "condition": "u_is_underwater" } ] ],
     "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE", "msg_transform": "", "active": false, "moves": 0 }
   },
