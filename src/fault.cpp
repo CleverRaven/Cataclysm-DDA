@@ -103,7 +103,7 @@ void fault::load( const JsonObject &jo )
     optional( jo, false, "item_prefix", f.item_prefix_ );
     optional( jo, false, "fault_type", f.type_ );
     optional( jo, false, "flags", f.flags );
-    optional( jo, false, "price_modifier", f.price_modifier );
+    optional( jo, false, "price_modifier", f.price_modifier, 1.0 );
 
     if( !faults_all.emplace( f.id_, f ).second ) {
         jo.throw_error_at( "id", "parsed fault overwrites existing definition" );
