@@ -430,7 +430,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "With their tools, humanity built weapons, grew food, made homes, and tamed the wilderness.  The Homullus has internalized that essence into themselves, allowing them to use their bare hands to accomplish many tasks that would otherwise require tools.",
-    "leads_to": "NET_SPIDERS_TOUCH",
+    "leads_to": "HOMULLUS_GAIN_INTEGRATED_HACKER",
     "prereqs": [ "HOMULLUS_CRAFTING_BONUS_1", "HOMULLUS_CRAFTING_BONUS_2", "HOMULLUS_CRAFTING_BONUS_3" ],
     "category": [ "HOMULLUS" ],
     "integrated_armor": [ "integrated_homullus_tools" ]
@@ -442,7 +442,7 @@
     "points": 4,
     "visibility": 0,
     "ugliness": 0,
-    "description": "While some other animals use simple tools, complex machinery is humanity's legacy alone. The Homullus can log into a computer or hack electronics with but a touch.",
+    "description": "While some other animals use simple tools, complex machinery is humanity's legacy alone.  The Homullus can log into a computer or hack electronics with but a touch.",
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_GAIN_INTEGRATED_TOOLS" ],
     "integrated_armor": [ "integrated_homullus_electrohack" ]
@@ -494,7 +494,7 @@
     "name": { "str": "Mien of the Mannequin" },
     "points": 8,
     "description": "You may transform yourself into a doll in truth, ignoring the needs of the flesh and making most monsters less likely to attack you.  However, your stiff limbs will inhibit your movement.",
-    "prereqs": [ "BEAUTIFUL2" ],
+    "prereqs": [ "BEAUTIFUL2", "BEAUTIFUL3" ],
     "prereqs2": [ "HOMULLUS_SKIN_3" ],
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
@@ -505,7 +505,7 @@
   },
   {
     "type": "mutation",
-    "id": "UHOMULLUS_DOLL_FORM_TRAITS",
+    "id": "HOMULLUS_DOLL_FORM_TRAITS",
     "name": { "str": "Mannequin Form" },
     "description": "You are a doll in truth.  You do not need to eat or drink, and monsters will mostly ignore you, but you do not heal at all and crafting, as well as movement over any ground not almost-perfectly flat, is very difficult due to your stiff limbs.",
     "points": 10,
