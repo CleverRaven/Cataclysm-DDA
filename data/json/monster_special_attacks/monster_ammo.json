@@ -1,0 +1,57 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "bile",
+    "name": "boomer bile",
+    "default": "boomer_bile"
+  },
+  {
+    "id": "boomer_bile",
+    "type": "AMMO",
+    "name": { "str_sp": "boomer bile" },
+    "description": "Boomer bile, if you see this it's a bug",
+    "weight": "3 g",
+    "volume": "250 ml",
+    "price": 600,
+    "price_postapoc": 500,
+    "material": [ "water" ],
+    "symbol": "=",
+    "color": "pink",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "phase": "liquid",
+    "ammo_type": "bile",
+    "range": 4,
+    "count": 100,
+    "effects": [ "NEVER_MISFIRES", "JET" ]
+  },
+  {
+    "id": "boomer_stomach",
+    "looks_like": "pressurized_tank",
+    "type": "MAGAZINE",
+    "name": { "str": "boomer stomach" },
+    "description": "Boomer stomach, if you see this it's a bug.",
+    "weight": "800 g",
+    "volume": "2 L",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "pink",
+    "ammo_type": [ "bile" ],
+    "reload_time": 3,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "bile": 800 }, "watertight": true } ]
+  },
+  {
+    "id": "BILE_BOMB",
+    "type": "ammo_effect",
+    "//": "Leaves a pool of bile on detonation",
+    "aoe": { "field_type": "fd_bile", "intensity_min": 3, "intensity_max": 3 }
+  },
+  {
+    "id": "BILE_JET",
+    "type": "ammo_effect",
+    "//": "Creates a trail of bile",
+    "trail": { "field_type": "fd_bile", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+  }
+]
