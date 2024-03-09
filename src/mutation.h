@@ -216,8 +216,6 @@ struct mutation_branch {
         units::temperature_delta bodytemp_min = 0_C_delta;
         units::temperature_delta bodytemp_max = 0_C_delta;
         units::temperature_delta bodytemp_sleep = 0_C_delta;
-        // Healing per turn
-        std::optional<float> healing_awake = std::nullopt;
         // Additional bonuses
         std::optional<int> scent_intensity;
 

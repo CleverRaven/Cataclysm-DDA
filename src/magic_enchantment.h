@@ -49,6 +49,7 @@ enum class mod : int {
     CARDIO_MULTIPLIER,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
+    REGEN_HP_AWAKE,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate

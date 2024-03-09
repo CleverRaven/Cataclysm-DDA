@@ -684,8 +684,15 @@
     "types": [ "HEALING" ],
     "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
     "category": [ "MEDICAL", "PLANT", "BATRACHIAN", "LIZARD", "SLIME", "TROGLOBITE", "CRUSTACEAN" ],
-    "healing_awake": 0.133,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 1 }, { "value": "REGEN_HP", "multiply": 0.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": 1 },
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.133 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2366,8 +2373,15 @@
     "prereqs": [ "FASTHEALER" ],
     "changes_to": [ "REGEN" ],
     "category": [ "PLANT", "BATRACHIAN", "SLIME", "TROGLOBITE" ],
-    "healing_awake": 0.44,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 3 }, { "value": "REGEN_HP", "multiply": 0.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": 3 },
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.44 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2379,8 +2393,15 @@
     "prereqs": [ "FASTHEALER2" ],
     "threshreq": [ "THRESH_SLIME", "THRESH_TROGLOBITE" ],
     "category": [ "SLIME", "TROGLOBITE" ],
-    "healing_awake": 0.8,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 15 }, { "value": "REGEN_HP", "multiply": 1.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -2393,8 +2414,15 @@
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
     "category": [ "LIZARD" ],
-    "healing_awake": 0.2,
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 19 }, { "value": "REGEN_HP", "multiply": 0.5 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MENDING_MODIFIER", "multiply": 19 },
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.2 }
+        ]
+      }
+    ],
     "flags": [ "MEND_ALL" ]
   },
   {
@@ -4691,8 +4719,7 @@
     "cost": 9,
     "time": "1 s",
     "kcal": true,
-    "healing_awake": 0.85,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 349 } ] } ],
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 349 }, { "value": "REGEN_HP_AWAKE", "multiply": 0.85 } ] } ],
     "transform": { "target": "EATHEALTH", "msg_transform": "Your hyper-metabolism slows down.", "active": false, "moves": 0 }
   },
   {
@@ -6974,14 +7001,14 @@
     "prereqs": [ "HUNGER" ],
     "prereqs2": [ "SLEEPY" ],
     "category": [ "RAT", "MOUSE", "RABBIT" ],
-    "healing_awake": 0.133,
     "enchantments": [
       {
         "values": [
           { "value": "FATIGUE_REGEN", "multiply": 0.333 },
           { "value": "FATIGUE", "multiply": 0.5 },
           { "value": "METABOLISM", "multiply": 0.333 },
-          { "value": "REGEN_HP", "multiply": 0.5 }
+          { "value": "REGEN_HP", "multiply": 0.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.133 }
         ]
       }
     ]
@@ -7088,8 +7115,7 @@
     "types": [ "HEALING" ],
     "changes_to": [ "ROT2" ],
     "category": [ "ELFA", "CHIMERA", "ALPHA" ],
-    "healing_awake": -0.166,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": -0.166 } ] } ]
   },
   {
     "type": "mutation",
@@ -7102,8 +7128,7 @@
     "prereqs": [ "ROT1" ],
     "changes_to": [ "ROT3" ],
     "category": [ "CHIMERA", "ALPHA" ],
-    "healing_awake": -0.266,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": -0.266 } ] } ]
   },
   {
     "type": "mutation",
@@ -7117,8 +7142,7 @@
     "prereqs2": [ "STR_ALPHA", "DEX_ALPHA", "PER_ALPHA", "INT_ALPHA" ],
     "category": [ "ALPHA" ],
     "threshreq": [ "THRESH_ALPHA" ],
-    "healing_awake": -1.0,
-    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.25 } ] } ]
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.25 }, { "value": "REGEN_HP_AWAKE", "multiply": -1 } ] } ]
   },
   {
     "type": "mutation",

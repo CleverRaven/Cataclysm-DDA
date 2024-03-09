@@ -870,7 +870,8 @@ Character status value  | Description
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `READING_SPEED_MULTIPLIER`  | Changes how fast you can read books; Lesser value means faster book reading, with cap of 1 second.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.
-`REGEN_HP`              | Affects the rate you recover hp, at all time, both natural and using medicine.
+`REGEN_HP`              | Affects the rate you recover hp, at all time, both natural and using medicine. Default 1; Negative value (so `multiply: -1.1` or smaller) would cause character lose it's HP all the time 
+`REGEN_HP_AWAKE`        | Affects the rate you recover hp when you do not sleep. Default value is 0, meaning if this enchantment is not specified, character can not regenerate hp when awake. Negative value causes character to lost HP over time when awake. Since it's a percent, using `multiply` is recommended; `multiply: 0.2` would make character able to regenerate at 20% of it's default regen
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly

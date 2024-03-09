@@ -391,7 +391,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
         vitamin_absorb_multi.emplace( material_id( pair.get_string( 0 ) ), vit );
     }
 
-    optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
     optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, std::nullopt );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );

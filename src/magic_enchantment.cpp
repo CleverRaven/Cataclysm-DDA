@@ -72,6 +72,7 @@ namespace io
             case enchant_vals::mod::CARDIO_MULTIPLIER: return "CARDIO_MULTIPLIER";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";

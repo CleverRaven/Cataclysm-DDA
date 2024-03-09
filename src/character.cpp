@@ -6321,7 +6321,6 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 
 static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
 mutation_value_map = {
-    { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
 };
@@ -6361,7 +6360,9 @@ float Character::healing_rate( float at_rest_quality ) const
                                  : get_option<float>( "NPC_HEALING_RATE" );
     float const heal_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
                             base_heal_rate );
-    float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
+    float awake_rate = ( 1.0f - rest ) * heal_rate;
+    awake_rate *= enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP_AWAKE,
+                  1 ) - 1;
     float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
     float final_rate = awake_rate + asleep_rate;
     // Most common case: awake player with no regenerative abilities

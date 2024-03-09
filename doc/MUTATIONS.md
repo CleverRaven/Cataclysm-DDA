@@ -208,7 +208,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allowed_category": [ "ALPHA" ],            // List of categories you can mutate into (default: empty).
   "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ],  // List of body parts that can't receive CBMs (default: empty).
   "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ],              // List of glowing bodypart and the intensity of the glow as a float (default: empty).
-  "healing_awake": 1.0,                       // Healing rate per turn while awake. Positives will increase healing while negatives will decrease healing.
   "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
