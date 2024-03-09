@@ -68,12 +68,14 @@ namespace io
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchant_vals::mod::FAT_TO_MAX_HP: return "FAT_TO_MAX_HP";
             case enchant_vals::mod::CARDIO_MULTIPLIER: return "CARDIO_MULTIPLIER";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
+            case enchant_vals::mod::FATIGUE_REGEN: return "FATIGUE_REGEN";
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
@@ -98,6 +100,7 @@ namespace io
             case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
             case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
             case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::HEALTHY_RATE: return "HEALTHY_RATE";
             case enchant_vals::mod::READING_EXP: return "READING_EXP";
             case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
             case enchant_vals::mod::OVERMAP_SIGHT: return "OVERMAP_SIGHT";
@@ -110,6 +113,7 @@ namespace io
             case enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER: return "CRAFTING_SPEED_MULTIPLIER";
             case enchant_vals::mod::BIONIC_MANA_PENALTY: return "BIONIC_MANA_PENALTY";
             case enchant_vals::mod::STEALTH_MODIFIER: return "STEALTH_MODIFIER";
+            case enchant_vals::mod::WEAKNESS_TO_WATER: return "WEAKNESS_TO_WATER";
             case enchant_vals::mod::MENDING_MODIFIER: return "MENDING_MODIFIER";
             case enchant_vals::mod::STOMACH_SIZE_MULTIPLIER: return "STOMACH_SIZE_MULTIPLIER";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
@@ -177,6 +181,10 @@ namespace io
             case enchant_vals::mod::BLEED_STOP_BONUS: return "BLEED_STOP_BONUS";
             case enchant_vals::mod::UGLINESS: return "UGLINESS";
             case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
+            case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
+            case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
+            case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
+            case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );

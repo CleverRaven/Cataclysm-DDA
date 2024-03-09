@@ -474,7 +474,7 @@
     "points": 0,
     "description": "You really like to do stuff with your own hands.  +10% for crafting speed.",
     "category": [ "perk" ],
-    "crafting_speed_multiplier": 1.1
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",

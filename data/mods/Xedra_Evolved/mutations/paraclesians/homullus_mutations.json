@@ -228,7 +228,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Your leylines have begun adapting to electronic interference.  Halves the mana penalty caused by stored bionic power.",
-    "bionic_mana_penalty": 0.5,
+    "enchantments": [ { "values": [ { "value": "BIONIC_MANA_PENALTY", "multiply": -0.5 } ] } ],
     "prereqs": [ "HOMULLUS_CBM_INSTALL" ],
     "changes_to": "HOMULLUS_CBM_MANA_2",
     "category": [ "HOMULLUS" ]
@@ -241,7 +241,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Your leylines have fully adapted to electronic interference.  You no longer suffer any mana penalty for stored bionic power.",
-    "bionic_mana_penalty": 0,
+    "enchantments": [ { "values": [ { "value": "BIONIC_MANA_PENALTY", "multiply": -1 } ] } ],
     "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ]

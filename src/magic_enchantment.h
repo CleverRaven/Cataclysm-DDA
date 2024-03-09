@@ -45,12 +45,14 @@ enum class mod : int {
     BIONIC_POWER,
     MAX_STAMINA,
     REGEN_STAMINA,
+    FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
+    FATIGUE_REGEN,
     PAIN,
     PAIN_REMOVE,
     BONUS_DODGE,
@@ -75,6 +77,7 @@ enum class mod : int {
     EFFECTIVE_HEALTH_MOD,
     MOD_HEALTH,
     MOD_HEALTH_CAP,
+    HEALTHY_RATE,
     READING_EXP,
     SKILL_RUST_RESIST,
     READING_SPEED_MULTIPLIER,
@@ -87,6 +90,7 @@ enum class mod : int {
     CRAFTING_SPEED_MULTIPLIER,
     BIONIC_MANA_PENALTY,
     STEALTH_MODIFIER,
+    WEAKNESS_TO_WATER,
     MENDING_MODIFIER,
     STOMACH_SIZE_MULTIPLIER,
     LEARNING_FOCUS,
@@ -155,6 +159,10 @@ enum class mod : int {
     BLEED_STOP_BONUS,
     UGLINESS,
     VOMIT_MUL,
+    SCENT_MASK,
+    CONSUME_TIME_MOD,
+    SWEAT_MULTIPLIER,
+    STAMINA_REGEN_MOD,
     NUM_MOD
 };
 } // namespace enchant_vals

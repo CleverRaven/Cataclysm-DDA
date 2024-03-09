@@ -394,26 +394,12 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "healing_awake", healing_awake, std::nullopt );
     optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
-    optional( jo, was_loaded, "noise_modifier", noise_modifier, std::nullopt );
     optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, std::nullopt );
-    optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, std::nullopt );
-    optional( jo, was_loaded, "sweat_multiplier", sweat_multiplier, std::nullopt );
-    optional( jo, was_loaded, "overmap_sight", overmap_sight, std::nullopt );
-    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, std::nullopt );
-    optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, std::nullopt );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, std::nullopt );
-    optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, std::nullopt );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
-    optional( jo, was_loaded, "scent_mask", scent_mask, std::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, std::nullopt );
-    optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
-    optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
-    optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
     optional( jo, was_loaded, "ignored_by", ignored_by );
     optional( jo, was_loaded, "can_only_eat", can_only_eat );
     optional( jo, was_loaded, "can_only_heal_with", can_only_heal_with );
@@ -422,12 +408,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "butchering_quality", butchering_quality, 0 );
 
     optional( jo, was_loaded, "allowed_category", allowed_category );
-    optional( jo, was_loaded, "crafting_speed_multiplier", crafting_speed_multiplier );
-    optional( jo, was_loaded, "mana_modifier", mana_modifier, std::nullopt );
-    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, std::nullopt );
-    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, std::nullopt );
-    optional( jo, was_loaded, "bionic_mana_penalty", bionic_mana_penalty, std::nullopt );
-    optional( jo, was_loaded, "casting_time_multiplier", casting_time_multiplier, std::nullopt );
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );

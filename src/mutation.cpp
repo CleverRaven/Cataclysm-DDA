@@ -645,16 +645,6 @@ bool Character::is_category_allowed( const mutation_category_id &category ) cons
     return allowed;
 }
 
-bool Character::is_weak_to_water() const
-{
-    for( const trait_id &mut : get_mutations() ) {
-        if( mut.obj().weakness_to_water > 0 ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool Character::can_use_heal_item( const item &med ) const
 {
     const itype_id heal_id = med.typeId();
