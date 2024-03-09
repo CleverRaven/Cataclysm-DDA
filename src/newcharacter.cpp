@@ -3134,7 +3134,7 @@ static struct {
 } scenario_sorter;
 
 static std::string assemble_scenario_details( const avatar &u, const input_context &ctxt,
-        const scenario *current_scenario )
+        const scenario *current_scenario, const std::string &notes )
 {
     std::string assembled;
     // Display Origin
@@ -3144,8 +3144,12 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
     }, enumeration_conjunction::arrow );
     assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
 
+    std::string scenario_name = current_scenario->gender_appropriate_name( !u.male );
+    if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {
+        scenario_name = scenario_name.append( string_format( " - %s", notes ) );
+    }
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
-                                current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
+                                scenario_name ) + "\n";
     assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
     assembled += string_format(
@@ -3253,6 +3257,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     const int iHeaderHeight = 6;
     scrollbar list_sb;
 
+    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
+
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = TERMY - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
@@ -3295,10 +3301,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_scens.size();
         if( cur_id_is_valid ) {
-            if( details_recalc ) {
-                details.set_text( assemble_scenario_details( u, ctxt, sorted_scens[cur_id] ) );
-                details_recalc = false;
-            }
             int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
             ret_val<void> can_afford = sorted_scens[cur_id]->can_afford(
                                            *get_scenario(),
@@ -3333,6 +3335,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
         const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
+        std::string current_scenario_notes = "";
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( get_scenario() != sorted_scens[i] ) {
@@ -3340,23 +3343,39 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                     ( ( sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ||
                       !sorted_scens[i]->can_pick().success() ) ) {
                     col = h_dark_gray;
+                    if( i == cur_id ) {
+                        current_scenario_notes = _( "unavailable" );
+                    }
                 } else if( cur_id_is_valid && sorted_scens[i] != sorted_scens[cur_id] &&
                            ( ( sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ||
                              !sorted_scens[i]->can_pick().success() ) ) {
                     col = c_dark_gray;
+                    if( i == cur_id ) {
+                        current_scenario_notes = _( "unavailable" );
+                    }
                 } else {
                     col = ( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] ? COL_SELECT : c_light_gray );
                 }
             } else {
                 col = ( cur_id_is_valid &&
                         sorted_scens[i] == sorted_scens[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
+                if( i == cur_id ) {
+                    current_scenario_notes = _( "active" );
+                }
             }
             const point opt_pos( 2, iHeaderHeight + i - iStartPos );
-            if( i == cur_id ) {
-                ui.set_cursor( w, opt_pos );
+            if( screen_reader_mode ) {
+                // The list of options only clutters up the screen in screen reader mode
+            } else {
+                mvwprintz( w, opt_pos, col,
+                           sorted_scens[i]->gender_appropriate_name( u.male ) );
             }
-            mvwprintz( w, opt_pos, col,
-                       sorted_scens[i]->gender_appropriate_name( u.male ) );
+        }
+
+        if( details_recalc && cur_id_is_valid ) {
+            details.set_text( assemble_scenario_details( u, ctxt, sorted_scens[cur_id],
+                              current_scenario_notes ) );
+            details_recalc = false;
         }
 
         list_sb.offset_x( 0 )
@@ -3367,6 +3386,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
+        ui.set_cursor( w_details_pane, point_zero );
         details.draw( c_light_gray );
     } );
 
