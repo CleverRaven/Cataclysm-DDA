@@ -113,8 +113,6 @@ static const ammotype ammo_battery( "battery" );
 
 static const damage_type_id damage_bash( "bash" );
 
-static const diseasetype_id disease_bad_food( "bad_food" );
-
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_fake_common_cold( "fake_common_cold" );
