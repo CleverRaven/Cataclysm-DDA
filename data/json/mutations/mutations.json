@@ -7920,7 +7920,7 @@
     "name": { "str": "Shouter" },
     "points": -2,
     "description": "You occasionally shout uncontrollably.",
-    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 2 } ] } ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 2 } ] } ],
     "changes_to": [ "SHOUT2" ],
     "category": [ "RAPTOR", "BEAST", "CHIMERA", "LUPINE" ]
   },
@@ -7930,7 +7930,7 @@
     "name": { "str": "Screamer" },
     "points": -3,
     "description": "You sometimes scream uncontrollably.",
-    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 5 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 5 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
     "prereqs": [ "SHOUT1" ],
     "changes_to": [ "SHOUT3" ],
     "category": [ "BEAST", "CHIMERA", "LUPINE" ]
@@ -7941,7 +7941,7 @@
     "name": { "str": "Howler" },
     "points": -4,
     "description": "You frequently let out a piercing howl.",
-    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 10 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 10 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 2 } ] } ],
     "prereqs": [ "SHOUT2" ],
     "category": [ "CHIMERA", "LUPINE" ]
   },
@@ -9479,7 +9479,7 @@
     "name": { "str": "Booming Voice" },
     "points": 1,
     "description": "You know how to project your voice.  You are able to shout much louder than the average person.",
-    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE_BASE", "add": 10 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
+    "enchantments": [ { "values": [ { "value": "SHOUT_NOISE", "add": 10 }, { "value": "SHOUT_NOISE_STR_MULT", "add": 1 } ] } ],
     "category": [ "BEAST" ]
   },
   {

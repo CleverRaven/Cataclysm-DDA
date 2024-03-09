@@ -875,9 +875,8 @@ Character status value  | Description
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
-`SHOUT_NOISE`           | 
-`SHOUT_NOISE_BASE`      | `SHOUT_NOISE_BASE` modifies `base`
-`SHOUT_NOISE_STR_MULT`  | `SHOUT_NOISE_STR_MULT` modifies the `shout_multiplier`, that affect how much strength affects noise level
+`SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
+`SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
 `SIGHT_RANGE_FAE`       | How many tiles away creatures with the FAE_CREATURE monster flag or FAERIECREATURE trait are visible from.
 `SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.

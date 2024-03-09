@@ -7469,7 +7469,7 @@ int Character::get_shout_volume() const
     int base = 10;
     int shout_multiplier = 2;
 
-    base = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE_BASE, base );
+    base = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE, base );
     shout_multiplier = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE_STR_MULT,
                        shout_multiplier );
 
@@ -7493,8 +7493,6 @@ int Character::get_shout_volume() const
     if( noise <= base ) {
         noise = std::max( minimum_noise, noise );
     }
-
-    noise = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE, noise );
 
     // Screaming underwater is not good for oxygen and harder to do overall
     if( underwater ) {
