@@ -1425,7 +1425,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     }
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
-    moves -= mv;
+    mod_moves( -mv );
 
     if( has_item( target ) ) {
         item removed = i_rem( &target );
@@ -1528,7 +1528,7 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {
-        pre_obtain_moves = moves;
+        pre_obtain_moves = get_moves();
     }
     return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }

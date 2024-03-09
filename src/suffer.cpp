@@ -499,7 +499,7 @@ void suffer::from_chemimbalance( Character &you )
     }
     if( one_turn_in( 6_hours ) && !you.has_effect( effect_sleep ) ) {
         you.add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
-        you.moves -= rng( 10, 30 );
+        you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.1, 0.3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
         int hungadd = 5 * rng( -1, 3 );
@@ -619,7 +619,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     } else if( auto_use ) {
         int charges = 0;
         if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
-            you.moves -= 40;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
             charges = you.charges_of( itype_inhaler );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
@@ -633,7 +633,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
         } else if( you.use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                    you.use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
-            you.moves -= 500; // synched with use action
+            you.mod_moves( -to_moves<int>( 5_seconds ) ); // synched with use action
             charges = you.charges_of( itype_oxygen_tank ) + you.charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
@@ -1347,7 +1347,7 @@ void suffer::from_bad_bionics( Character &you )
         } else {
             you.add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
         }
-        you.moves -= 150;
+        you.mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
         item_location weapon = you.get_wielded_item();
@@ -1573,7 +1573,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
         }
         if( one_turn_in( 100_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
@@ -1588,7 +1588,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
-            you.moves -= rng( 20, 80 );
+            you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.2, 0.8 ) );
         }
         if( one_turn_in( 125_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
@@ -1616,7 +1616,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
                                              "trouble keeping your balance." ) );
             you.add_effect( effect_shakes, 15_minutes );
         } else if( you.has_effect( effect_shakes ) && one_turn_in( 75_seconds ) ) {
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
             you.add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
                                        _( "<npcname> stumbles." ) );
             if( !you.is_on_ground() && one_in( 10 ) ) {

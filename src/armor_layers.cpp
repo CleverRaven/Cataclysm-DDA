@@ -914,7 +914,7 @@ void outfit::sort_armor( Character &guy )
     while( !exit ) {
         if( guy.is_avatar() ) {
             // Totally hoisted this from advanced_inv
-            if( player_character.moves < 0 ) {
+            if( player_character.get_moves() < 0 ) {
                 do_return_entry();
                 return;
             }
