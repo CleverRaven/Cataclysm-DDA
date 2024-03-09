@@ -201,7 +201,8 @@
       [ "camera_bag", 10 ],
       [ "chem_hexamine", 5 ],
       { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
-      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 }
+      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 },
+      { "group": "pillbox_any_used", "prob": 10 }
     ]
   },
   {
