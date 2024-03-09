@@ -222,7 +222,6 @@ struct mutation_branch {
         // Limb mending bonus
         std::optional<float> mending_modifier = std::nullopt;
         // Additional bonuses
-        float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
 
         int butchering_quality = 0;

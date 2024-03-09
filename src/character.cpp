@@ -2368,10 +2368,6 @@ void Character::process_turn()
         if( scent > norm_scent ) {
             scent--;
         }
-
-        for( const trait_id &mut : get_mutations() ) {
-            scent *= mut.obj().scent_modifier;
-        }
     }
 
     // We can dodge again! Assuming we can actually move...
