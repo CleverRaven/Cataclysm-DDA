@@ -1491,10 +1491,7 @@
     "color": "light_blue",
     "container": "bottle_plastic",
     "sealed": false,
-    "contamination": [
-      { "disease": "highly_contaminated_food", "probability": 0.1 },
-      { "disease": "bad_food", "probability": 1 }
-    ]
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
   },
   {
     "id": "water_murky",
