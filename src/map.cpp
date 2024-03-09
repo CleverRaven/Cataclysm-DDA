@@ -2245,7 +2245,8 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     }
 
     if( new_t.has_flag( "SPAWN_WITH_WATER" ) ) {
-        itype_id water_type = new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ? itype_water_murky : itype_water;
+        itype_id water_type = new_t.has_flag( ter_furn_flag::TFLAG_MURKY ) ? itype_water_murky :
+                              itype_water;
         item water( water_type, calendar::start_of_cataclysm );
         // TODO: Move all numeric values to json
         water.charges = rng( 40, 240 );
@@ -5308,7 +5309,8 @@ item map::water_from( const tripoint &p )
     }
 
     // iexamine::water_source requires a valid liquid from this function.
-    if( terrain_id->has_examine( iexamine::water_source ) || furn( p )->has_examine( iexamine::water_source ) ) {
+    if( terrain_id->has_examine( iexamine::water_source ) ||
+        furn( p )->has_examine( iexamine::water_source ) ) {
         itype_id liquid_id = has_flag( ter_furn_flag::TFLAG_MURKY, p ) ? itype_water_murky : itype_water;
         item ret( liquid_id, calendar::turn, item::INFINITE_CHARGES );
         ret.set_item_temperature( std::max( weather.get_temperature( p ),
