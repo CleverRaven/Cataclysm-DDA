@@ -193,7 +193,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
     "type": "pseudo_shotgun",                 // fake gun that is used to shoot
     "message": "SUDDEN SHOTGUN!."             // message that would be printed when you use it
   },
-  "skill_rust_multiplier": 0.66,              // multiplier for skill rust delay
   "spawn_item": {                             // activation of this mutation spawns an item
     "type": "water_clean",                    // item to spawn
     "message": "You spawn a bottle of water." // message, that would be shown upon activation

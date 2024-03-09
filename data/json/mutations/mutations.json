@@ -994,7 +994,7 @@
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual.",
     "types": [ "MEMORY" ],
-    "skill_rust_multiplier": 0.66,
+    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": -0.34 } ] } ],
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FORGETFUL" ]
@@ -1751,7 +1751,7 @@
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual.",
     "types": [ "MEMORY" ],
     "social_modifiers": { "lie": -5 },
-    "skill_rust_multiplier": 1.33,
+    "enchantments": [ { "values": [ { "value": "SKILL_RUST_RESIST", "multiply": 0.33 } ] } ],
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT", "RABBIT" ]
   },
@@ -9659,8 +9659,7 @@
     "purifiable": false,
     "types": [ "HUMAN_EMPATHY" ],
     "social_modifiers": { "lie": -5, "persuade": -5 },
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 17 } ] } ],
-    "skill_rust_multiplier": 1.5,
+    "enchantments": [ { "values": [ { "value": "LEARNING_FOCUS", "add": 17 }, { "value": "SKILL_RUST_RESIST", "multiply": 0.5 } ] } ],
     "category": [ "CEPHALOPOD" ],
     "prereqs": [ "INT_UP_4" ],
     "threshreq": [ "THRESH_CEPHALOPOD" ]

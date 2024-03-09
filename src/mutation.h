@@ -242,9 +242,6 @@ struct mutation_branch {
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
         std::optional<float> temperature_speed_modifier = std::nullopt;
 
-        // Multiplier for skill rust delay, defaulting to 1.
-        std::optional<float> skill_rust_multiplier = std::nullopt;
-
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
