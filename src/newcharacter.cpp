@@ -1348,6 +1348,10 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
     unsigned char sel = 0;
 
+    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
+    std::string warning_text; // Used to move warnings from the header to the details pane
+    std::string last_stat; // Used to ensure text is read out when increasing/decreasing stats
+
     int iSecondColumn;
     const int iHeaderHeight = 6;
     // guessing most likely, but it doesn't matter, it will be recalculated if wrong
@@ -1395,41 +1399,62 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                         help_text );
 
         const point opt_pos( 2, sel + iHeaderHeight );
-        ui.set_cursor( w, opt_pos );
-        for( int i = 0; i < 4; i++ ) {
-            mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
-                       stat_labels[i].translated() );
-            mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
+        if( screen_reader_mode ) {
+            // This list only clutters up the screen in screen reader mode
+        } else {
+            for( int i = 0; i < 4; i++ ) {
+                mvwprintz( w, point( 2, i + iHeaderHeight ), i == sel ? COL_SELECT : c_light_gray, "%s:",
+                           stat_labels[i].translated() );
+                mvwprintz( w, point( 16, i + iHeaderHeight ), c_light_gray, "%2d", *stats[i] );
+            }
         }
 
         draw_points( w, pool, u );
         const point desc_line = point( iSecondColumn, 3 );
+        warning_text = "";
         if( *stats[sel] <= min_stat_points ) {
-            mvwprintz( w, desc_line, c_red,
-                       //~ %s - stat
-                       string_format( _( "%s cannot be further decreased" ),
-                                      stat_labels[sel].translated() ) );
+            //~ %s - stat
+            warning_text = string_format( _( "%s cannot be further decreased" ),
+                                          stat_labels[sel].translated() );
         } else if( *stats[sel] >= max_stat_points ) {
-            mvwprintz( w, desc_line, c_red,
-                       //~ %s - stat
-                       string_format( _( "%s cannot be further increased" ),
-                                      stat_labels[sel].translated() ) );
+            //~ %s - stat
+            warning_text = string_format( _( "%s cannot be further increased" ),
+                                          stat_labels[sel].translated() );
         } else if( *stats[sel] >= HIGH_STAT && pool != pool_type::FREEFORM ) {
-            mvwprintz( w, desc_line, c_light_red,
-                       //~ %s - stat
-                       string_format( _( "Increasing %s further costs 2 points" ),
-                                      stat_labels[sel].translated() ) );
+            //~ %s - stat
+            warning_text = string_format( _( "Increasing %s further costs 2 points" ),
+                                          stat_labels[sel].translated() );
+        }
+        if( !warning_text.empty() && !screen_reader_mode ) {
+            nc_color dummy = c_red;
+            print_colored_text( w, desc_line, dummy, c_red, warning_text );
         }
 
         u.reset_stats();
         u.set_stored_kcal( u.get_healthy_kcal() );
         u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         if( details_recalc ) {
-            details.set_text( assemble_stat_details( u, sel ) );
+            std::string stat_details;
+            if( screen_reader_mode ) {
+                stat_details = string_format( "%s: %i\n", stat_labels[sel].translated(), *stats[sel] );
+                if( !last_stat.empty() && !stat_details.empty() && last_stat[0] == stat_details[0] ) {
+                    // Shift the text to force the screen reader to read it
+                    stat_details = " " + stat_details;
+                }
+                last_stat = stat_details;
+                if( !warning_text.empty() ) {
+                    stat_details.append( warning_text + "\n" );
+                }
+                stat_details.append( assemble_stat_details( u, sel ) );
+            } else {
+                stat_details = assemble_stat_details( u, sel );
+            }
+            details.set_text( stat_details );
             details_recalc = false;
         }
 
         wnoutrefresh( w );
+        ui.set_cursor( w_details_pane, point_zero );
         details.draw( COL_STAT_NEUTRAL );
     } );
 
