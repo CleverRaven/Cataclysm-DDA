@@ -740,7 +740,7 @@ task_reason veh_interact::cant_do( char mode )
             return task_reason::UNKNOWN_TASK;
     }
 
-    if( std::abs( veh->velocity ) > 100 || player_character.controlling_vehicle ) {
+    if( veh->velocity || veh->cruise_velocity || veh->is_flying_in_air() ) {
         return task_reason::MOVING_VEHICLE;
     }
     if( !valid_target ) {
@@ -1038,7 +1038,7 @@ void veh_interact::do_install()
                     msg = _( "It's too dark to see what you are doing…" );
                     return;
                 case task_reason::MOVING_VEHICLE:
-                    msg = _( "You can't install parts while driving." );
+                    msg = _( "You can't install parts while the vehicle is in motion." );
                     return;
                 default:
                     break;
@@ -1128,7 +1128,7 @@ void veh_interact::do_repair()
                 msg = _( "It's too dark to see what you are doing…" );
                 return false;
             case task_reason::MOVING_VEHICLE:
-                msg = _( "You can't repair stuff while driving." );
+                msg = _( "You can't repair stuff while the vehicle is in motion." );
                 return false;
             case task_reason::INVALID_TARGET:
                 msg = _( "There are no damaged parts on this vehicle." );
@@ -1260,7 +1260,7 @@ void veh_interact::do_mend()
             msg = _( "No faulty parts require mending." );
             return;
         case task_reason::MOVING_VEHICLE:
-            msg = _( "You can't mend stuff while driving." );
+            msg = _( "You can't mend stuff while the vehicle is in motion." );
             return;
         default:
             break;
@@ -1854,7 +1854,7 @@ void veh_interact::do_remove()
                     msg = _( "You cannot remove that part while something is attached to it." );
                     return;
                 case task_reason::MOVING_VEHICLE:
-                    msg = _( "Better not remove something while driving." );
+                    msg = _( "Better not remove something while the vehicle is in motion." );
                     return;
                 default:
                     break;
