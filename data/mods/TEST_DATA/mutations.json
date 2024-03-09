@@ -296,6 +296,14 @@
     "description": "Test threshold for instability test"
   },
   {
+    "type": "mutation",
+    "id": "TEST_ZERO_METABOLIC",
+    "name": { "str": "TEST_ZERO_METABOLIC" },
+    "points": 1,
+    "description": "Turns off your metabolism.",
+    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -1 } ] } ]
+  },
+  {
     "type": "mutation_category",
     "id": "INST_TEST",
     "name": "Instability test",
