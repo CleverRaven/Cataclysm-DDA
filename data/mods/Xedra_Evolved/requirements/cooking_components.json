@@ -3,7 +3,7 @@
     "id": "sweet_fruit_fresh",
     "type": "requirement",
     "//": "Sweet, unprocessed fruit, roughly by mass.",
-    "extend": { "components": [ [ [ "hawthorn_berries", 1 ], [ "fig", 1 ] ] ] }
+    "extend": { "components": [ [ [ "hawthorn_berries", 1 ] ] ] }
   },
   {
     "id": "veggy_green",
