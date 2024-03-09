@@ -252,6 +252,34 @@
   },
   {
     "type": "mutation",
+    "id": "perk_perfect_time",
+    "name": { "str": "Perfect Timing" },
+    "points": 0,
+    "description": "You used to annoy your friends before the Cataclysm by always being *exactly* on time and you've maintained that characteristic to this day.  You always know what time it is and can set alarms even without a watch or a phone.",
+    "category": [ "perk" ],
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_bedtime_reader",
+    "name": { "str": "Bedtime Stories" },
+    "points": 0,
+    "description": "You've always loved reading, especially before you fall asleep, and have gotten very good at tearing through books as a way to wind down.  You read books 50% faster, but only when you read them between 8 p.m. and 1 a.m.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') >= 20" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') <= 1" ] }
+          ]
+        },
+        "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tingly",
     "name": { "str": "Tingly" },
     "points": 0,
@@ -501,6 +529,34 @@
   },
   {
     "type": "mutation",
+    "id": "perk_eating_window",
+    "name": { "str": "Compressed Eating Window" },
+    "points": 0,
+    "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain +150% kcal and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') >= 12" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') <= 18" ] }
+          ]
+        },
+        "values": [ { "value": "KCAL", "multiply": 1.5 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": 1.5 } ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') < 12" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') > 18" ] }
+          ]
+        },
+        "values": [ { "value": "KCAL", "multiply": -1.0 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -1.0 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_chainsaw",
     "name": { "str": "The Great Communicator" },
     "points": 0,
@@ -521,12 +577,58 @@
   },
   {
     "type": "mutation",
-    "id": "perk_enchanting_master",
-    "name": { "str": "Enchanting Master" },
+    "id": "perk_ascetic_empowerment",
+    "name": { "str": "Ascetic Empowerment" },
     "points": 0,
-    "description": "You can temporarily enchant your weapons with magic, imbuing them with powerful capabilities.",
+    "description": "People talk about getting a high from fasting and for you that's true on a more visceral level.  You gain bonuses to all stats that scale with how hungry, thirsty, and tired you are.",
     "category": [ "perk" ],
-    "spells_learned": [ [ "spell_enchanting_master", 0 ] ],
-    "enchantments": [ "ench_enchanting_master" ]
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_very_hungry" },
+        "values": [
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "DEXTERITY", "add": 1 },
+          { "value": "INTELLIGENCE", "add": 1 },
+          { "value": "PERCEPTION", "add": 1 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_near_starving" },
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "INTELLIGENCE", "add": 2 },
+          { "value": "PERCEPTION", "add": 2 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_starving" },
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "INTELLIGENCE", "add": 3 },
+          { "value": "PERCEPTION", "add": 3 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_famished" },
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "INTELLIGENCE", "add": 4 },
+          { "value": "PERCEPTION", "add": 4 }
+        ]
+      }
+    ]
   }
 ]
