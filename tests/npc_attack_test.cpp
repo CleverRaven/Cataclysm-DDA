@@ -15,9 +15,9 @@ static const ammotype ammo_battery( "battery" );
 
 static const faction_id faction_your_followers( "your_followers" );
 
-static const itype_id itype_knife_chef( "knife_chef" );
 static const itype_id itype_combat_exoskeleton_medium( "combat_exoskeleton_medium" );
 static const itype_id itype_combat_exoskeleton_medium_on( "combat_exoskeleton_medium_on" );
+static const itype_id itype_knife_chef( "knife_chef" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_wearable_light( "wearable_light" );
 
