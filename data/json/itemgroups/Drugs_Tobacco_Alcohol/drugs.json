@@ -762,27 +762,33 @@
     "id": "pillbox_contents",
     "subtype": "collection",
     "entries": [
-      { "distribution": [
+      {
+        "distribution": [
           { "item": "vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 70 },
           { "item": "gummy_vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 30 }
-        ], "prob": 90
+        ],
+        "prob": 90
       },
       { "item": "homeopathic_pills", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 30 },
       { "item": "calcium_tablet", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 },
       { "item": "antihistamine", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 15 },
-      { "distribution": [
+      {
+        "distribution": [
           { "item": "adderall", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
           { "item": "diazepam", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
           { "item": "prozac", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
           { "item": "thorazine", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
           { "item": "pills_sleep", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 }
-        ], "prob": 15
+        ],
+        "prob": 15
       },
-      { "distribution": [
+      {
+        "distribution": [
           { "item": "antibiotics", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 40 },
           { "item": "weak_antibiotic", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 40 },
           { "item": "strong_antibiotic", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 }
-        ], "prob": 10
+        ],
+        "prob": 10
       },
       { "item": "antifungal", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 5 }
     ]
