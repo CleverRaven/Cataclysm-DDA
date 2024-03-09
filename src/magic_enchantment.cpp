@@ -114,6 +114,7 @@ namespace io
             case enchant_vals::mod::STOMACH_SIZE_MULTIPLIER: return "STOMACH_SIZE_MULTIPLIER";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::RECOIL_MODIFIER: return "RECOIL_MODIFIER";
+            case enchant_vals::mod::ARMOR_ALL: return "ARMOR_ALL";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -294,6 +295,7 @@ bool enchantment::is_monster_relevant() const
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_add ) {
         if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -312,6 +314,7 @@ bool enchantment::is_monster_relevant() const
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_multiply ) {
         if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||

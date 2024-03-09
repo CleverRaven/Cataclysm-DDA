@@ -248,6 +248,31 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_ARMOR_MULT_1",
+    "name": "Reinforced Armor",
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Humans are flimsy creatures compared to even natural animals, yet by crafting armor they obtain durability that unthinking creatures will never reach.  You draw on this legacy, increasing the strength of armor you wear by 20%",
+    "changes_to": "HOMULLUS_ARMOR_MULT_2",
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_ARMOR_MULT_2",
+    "name": "Fortified Armor",
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You embody the tales of ancient knights, increasing the strength of armor you wear by 40%",
+    "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_GAIN_BIONIC_POWER",
     "name": "Echoes of the Streets",
     "points": 5,
