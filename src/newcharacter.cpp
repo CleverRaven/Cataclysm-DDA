@@ -2491,12 +2491,18 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 }
 
 static std::string assemble_hobby_details( const avatar &u, const input_context &ctxt,
-        const std::vector<string_id<profession>> &sorted_hobbies, const int cur_id )
+        const std::vector<string_id<profession>> &sorted_hobbies, const int cur_id,
+        const std::string &notes )
 {
     std::string assembled;
 
+    std::string hobby_name = sorted_hobbies[cur_id]->gender_appropriate_name( u.male );
+    if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {
+        hobby_name = hobby_name.append( string_format( " - %s", notes ) );
+    }
+
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
-                                sorted_hobbies[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
+                                hobby_name ) + "\n";
     assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
     assembled += "\n" + colorize( _( "Background story:" ), COL_HEADER ) + "\n";
@@ -2585,6 +2591,8 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     size_t iContentHeight = 0;
     int iStartPos = 0;
 
+    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
+
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_details_pane;
@@ -2632,10 +2640,6 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_hobbies.size();
         if( cur_id_is_valid ) {
-            if( details_recalc ) {
-                details.set_text( assemble_hobby_details( u, ctxt, sorted_hobbies, cur_id ) );
-                details_recalc = false;
-            }
             int netPointCost = sorted_hobbies[cur_id]->point_cost() - u.prof->point_cost();
             ret_val<void> can_pick = sorted_hobbies[cur_id]->can_afford( u, skill_points_left( u, pool ) );
             int pointsForProf = sorted_hobbies[cur_id]->point_cost();
@@ -2669,23 +2673,34 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
         const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
+        std::string cur_hob_notes = "";
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.hobbies.count( &sorted_hobbies[i].obj() ) != 0 ) {
                 col = ( cur_id_is_valid &&
                         sorted_hobbies[i] == sorted_hobbies[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
+                if( i == cur_id ) {
+                    cur_hob_notes = _( "active" );
+                }
             } else {
                 col = ( cur_id_is_valid &&
                         sorted_hobbies[i] == sorted_hobbies[cur_id] ? COL_SELECT : c_light_gray );
             }
 
             const point opt_pos( 2, iHeaderHeight + i - iStartPos );
-            if( i == cur_id ) {
-                ui.set_cursor( w, opt_pos );
+            if( screen_reader_mode ) {
+                // This list only clutters up the screen in screen reader mode
+            } else {
+                mvwprintz( w, opt_pos, col,
+                           sorted_hobbies[i]->gender_appropriate_name( u.male ) );
             }
-            mvwprintz( w, opt_pos, col,
-                       sorted_hobbies[i]->gender_appropriate_name( u.male ) );
         }
+
+        if( details_recalc && cur_id_is_valid ) {
+            details.set_text( assemble_hobby_details( u, ctxt, sorted_hobbies, cur_id, cur_hob_notes ) );
+            details_recalc = false;
+        }
+
 
         list_sb.offset_x( 0 )
         .offset_y( 6 )
@@ -2695,6 +2710,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
+        ui.set_cursor( w_details_pane, point_zero );
         details.draw( c_light_gray );
     } );
 
@@ -2768,6 +2784,9 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                 // Remove hobby and refund point cost
                 u.hobbies.erase( hobb );
             }
+
+            // Selecting a hobby will, under certain circumstances, change the detail text
+            details_recalc = true;
 
             // Add or remove traits from hobby
             for( const trait_and_var &cur : hobb->get_locked_traits() ) {
