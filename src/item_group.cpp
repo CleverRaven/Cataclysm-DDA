@@ -230,6 +230,12 @@ item Single_item_creator::create_single_without_container( const time_point &bir
     if( one_in( 3 ) && tmp.has_flag( flag_VARSIZE ) ) {
         tmp.set_flag( flag_FIT );
     }
+    if( components_items ) {
+        for( itype_id component_id : *components_items ) {
+            item component = item( component_id, calendar::turn );
+            tmp.components.add( component );
+        }
+    }
     if( modifier ) {
         modifier->modify( tmp, "modifier for " + context() );
     } else {
