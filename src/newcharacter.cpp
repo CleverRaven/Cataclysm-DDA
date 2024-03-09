@@ -1998,7 +1998,7 @@ static struct {
 } profession_sorter;
 
 static std::string assemble_profession_details( const avatar &u, const input_context &ctxt,
-        const std::vector<string_id<profession>> &sorted_profs, const int cur_id )
+        const std::vector<string_id<profession>> &sorted_profs, const int cur_id, const std::string &notes )
 {
     std::string assembled;
 
@@ -2009,8 +2009,12 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     }, enumeration_conjunction::arrow );
     assembled += string_format( _( "Origin: %s" ), mod_src ) + "\n";
 
+    std::string profession_name = sorted_profs[cur_id]->gender_appropriate_name( u.male );
+    if( get_option<bool>( "SCREEN_READER_MODE" ) && !notes.empty() ) {
+        profession_name = profession_name.append( string_format( " - %s", notes ) );
+    }
     assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
-                                sorted_profs[cur_id]->gender_appropriate_name( u.male ) ) + "\n";
+                                profession_name ) + "\n";
     assembled += string_format( dress_switch_msg(), ctxt.get_desc( "CHANGE_OUTFIT" ) ) + "\n";
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
@@ -2251,6 +2255,8 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     size_t iContentHeight = 0;
     int iStartPos = 0;
 
+    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
+
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_details_pane;
@@ -2297,11 +2303,6 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         const bool cur_id_is_valid = cur_id >= 0 && static_cast<size_t>( cur_id ) < sorted_profs.size();
         if( cur_id_is_valid ) {
-            if( details_recalc ) {
-                details.set_text( assemble_profession_details( u, ctxt, sorted_profs, cur_id ) );
-                details_recalc = false;
-            }
-
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
             ret_val<void> can_afford = sorted_profs[cur_id]->can_afford( u, skill_points_left( u, pool ) );
             ret_val<void> can_pick = sorted_profs[cur_id]->can_pick();
@@ -2336,6 +2337,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
         const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
+        std::string cur_prof_notes = "";
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
@@ -2343,22 +2345,37 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                 if( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] &&
                     !sorted_profs[i]->can_pick().success() ) {
                     col = h_dark_gray;
+                    if( i == cur_id ) {
+                        cur_prof_notes = _( "unavailable" );
+                    }
                 } else if( cur_id_is_valid && sorted_profs[i] != sorted_profs[cur_id] &&
                            !sorted_profs[i]->can_pick().success() ) {
                     col = c_dark_gray;
+                    if( i == cur_id ) {
+                        cur_prof_notes = _( "unavailable" );
+                    }
                 } else {
                     col = ( cur_id_is_valid && sorted_profs[i] == sorted_profs[cur_id] ? COL_SELECT : c_light_gray );
                 }
             } else {
                 col = ( cur_id_is_valid &&
                         sorted_profs[i] == sorted_profs[cur_id] ? hilite( c_light_green ) : COL_SKILL_USED );
+                if( i == cur_id ) {
+                    cur_prof_notes = _( "active" );
+                }
             }
-            const point opt_pos( 2, iHeaderHeight + i - iStartPos );
-            if( i == cur_id ) {
-                ui.set_cursor( w, opt_pos );
+            if( screen_reader_mode ) {
+                // This list only clutters up the screen in screen reader mode
+            } else {
+                const point opt_pos( 2, iHeaderHeight + i - iStartPos );
+                mvwprintz( w, opt_pos, col,
+                           sorted_profs[i]->gender_appropriate_name( u.male ) );
             }
-            mvwprintz( w, opt_pos, col,
-                       sorted_profs[i]->gender_appropriate_name( u.male ) );
+        }
+
+        if( details_recalc && cur_id_is_valid ) {
+            details.set_text( assemble_profession_details( u, ctxt, sorted_profs, cur_id, cur_prof_notes ) );
+            details_recalc = false;
         }
 
         list_sb.offset_x( 0 )
@@ -2369,6 +2386,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         .apply( w );
 
         wnoutrefresh( w );
+        ui.set_cursor( w_details_pane, point_zero );
         details.draw( c_light_gray );
     } );
 
@@ -2410,6 +2428,9 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
                 popup( can_pick.str() );
                 continue;
             }
+
+            // Selecting a profession will, under certain circumstances, change the detail text
+            details_recalc = true;
 
             // Remove traits from the previous profession
             for( const trait_and_var &old : u.prof->get_locked_traits() ) {
