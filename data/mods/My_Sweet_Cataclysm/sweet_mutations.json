@@ -14,13 +14,13 @@
           { "value": "WEAKNESS_TO_WATER", "add": 5 },
           { "value": "FAT_TO_MAX_HP", "multiply": -0.9 },
           { "value": "HEALTHY_RATE", "multiply": -1 },
-          { "value": "SWEAT_MULTIPLIER", "multiply": -1 }
+          { "value": "SWEAT_MULTIPLIER", "multiply": -1 },
+          { "value": "THIRST", "multiply": -1 }
         ]
       }
     ],
     "ignored_by": [ "ZOMBIE" ],
     "scent_type": "sc_sugar",
-    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -1 } ] } ],
     "cancels": [
       "THIRST",
       "THIRST2",

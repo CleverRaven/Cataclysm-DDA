@@ -140,10 +140,9 @@
     "purifiable": false,
     "profession": true,
     "points": 2,
-    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": -2 } ] } ],
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": -2 }, { "value": "THIRST", "multiply": -1 } ] } ],
     "ignored_by": [ "UNDINE" ],
     "scent_type": "sc_fae",
-    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": -1 } ] } ],
     "cancels": [
       "THIRST",
       "THIRST2",
