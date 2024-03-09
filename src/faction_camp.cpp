@@ -4733,9 +4733,9 @@ void basecamp::hunting_results( int skill, const mission_id &miss_id, int attemp
                             &results_from_mission_group ) );
 }
 
-void basecamp::make_corpse_from_group( std::vector<MonsterGroupResult> group )
+void basecamp::make_corpse_from_group( const std::vector<MonsterGroupResult> &group )
 {
-    for( MonsterGroupResult monster : group ) {
+    for( const MonsterGroupResult &monster : group ) {
         const mtype_id target = monster.name;
         item result = item::make_corpse( target, calendar::turn, "" );
         if( !result.is_null() ) {
