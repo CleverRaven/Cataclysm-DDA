@@ -473,8 +473,8 @@ TEST_CASE( "activity_levels_and_calories_in_daily_diary", "[avatar][biometrics][
         test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
         int expect_gained_kcal = 1283;
-        int expect_net_kcal = 553;
-        int expect_spent_kcal = 730;
+        int expect_net_kcal = 527;
+        int expect_spent_kcal = 756;
 
         CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
                    "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
@@ -499,7 +499,7 @@ TEST_CASE( "mutations_may_affect_character_metabolic_rate", "[biometrics][metabo
     // game balance JSON, the below tests are likely to fail and need adjustment.
     REQUIRE( normal_metabolic_rate == 1.0f );
 
-    // Mutations with a "metabolism_modifier" in mutations.json add/subtract to the base rate.
+    // Mutations with "METABOLISM" enchantment in mutations.json add/subtract to the base rate.
     // For example the rapid / fast / very fast / extreme metabolisms:
     //
     //     MET_RAT (+0.333), HUNGER (+0.5), HUNGER2 (+1.0), HUNGER3 (+2.0)

@@ -72,6 +72,7 @@
     "charges": 50,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "dry_chili", 1 ] ] ]
   },
@@ -139,6 +140,7 @@
     "charges": 3,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "dry_corn", 1 ] ] ]
   },
@@ -208,6 +210,7 @@
     "charges": 5,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "wild_rice", 1 ] ] ]
   },
@@ -225,6 +228,7 @@
     "charges": 15,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "barley", 1 ], [ "starch", 1 ], [ "wheat", 1 ] ] ]
   },
@@ -292,6 +296,7 @@
     "charges": 1,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "dry_soybean", 1 ] ] ]
   },
@@ -309,6 +314,7 @@
     "charges": 4,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "dry_rice", 1 ], [ "dry_wild_rice", 1 ] ] ]
   },
@@ -326,6 +332,7 @@
     "charges": 15,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "buckwheat", 1 ] ] ]
   },
@@ -343,6 +350,7 @@
     "charges": 3,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "acorns_cooked", 2 ] ] ]
   },
@@ -360,6 +368,7 @@
     "charges": 15,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "roasted_cattail_rhizome", 2 ] ] ]
   },
@@ -377,6 +386,7 @@
     "charges": 5,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "chestnut_roasted", 4 ] ] ]
   },
@@ -394,6 +404,7 @@
     "charges": 15,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "oats", 4 ] ] ]
   },
@@ -494,6 +505,7 @@
     "charges": 50,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "dry_garlic", 1 ] ] ]
   },
@@ -561,6 +573,7 @@
     "charges": 4,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "bone_edible", 1, "LIST" ] ] ]
   },
@@ -628,6 +641,7 @@
     "charges": 4,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "bone_tainted", 1 ] ] ]
   },
@@ -645,6 +659,7 @@
     "charges": 1,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "skewer_bone", 6 ] ] ]
   },
@@ -712,6 +727,7 @@
     "charges": 4,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "acidchitin_piece", 1 ], [ "chitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
@@ -779,6 +795,7 @@
     "charges": 5,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "chestnut_roasted", 4 ] ] ]
   },
@@ -796,6 +813,7 @@
     "charges": 1,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "soybean", 5 ] ] ]
   },
@@ -813,6 +831,7 @@
     "charges": 1,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [
       [
@@ -875,6 +894,7 @@
     "charges": 1,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [ [ [ "seed_canola", 1 ] ] ]
   },
@@ -892,6 +912,7 @@
     "charges": 1,
     "time": "0 s",
     "autolearn": false,
+    "flags": [ "SECRET" ],
     "tools": [  ],
     "components": [
       [ [ "seed_cotton_boll", 8 ], [ "seed_grapes", 8 ], [ "seed_pumpkin", 8 ], [ "seed_sunflower", 8 ], [ "seed_weed", 8 ] ]

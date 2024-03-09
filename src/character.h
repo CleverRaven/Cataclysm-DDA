@@ -1199,9 +1199,7 @@ class Character : public Creature, public visitable
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns value of player's footing on narrow or slippery terrain */
-        float balance_roll() const;
-        /** Returns value of player's footing on skates or similar */
+        /** Returns value of player's stable footing */
         float stability_roll() const override;
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
@@ -2421,6 +2419,8 @@ class Character : public Creature, public visitable
         int intimidation() const;
 
         void set_skills_from_hobbies();
+
+        void set_bionics_from_hobbies();
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;

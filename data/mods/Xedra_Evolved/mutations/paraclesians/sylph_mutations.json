@@ -479,6 +479,18 @@
   },
   {
     "type": "mutation",
+    "id": "SYLPH_CLOUD_FORM_APPEARANCE",
+    "name": { "str": "Body of Cloud Appearance" },
+    "points": 1,
+    "description": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "fd_extinguisher", "tile_category": "field" },
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ]
+  },
+  {
+    "type": "mutation",
     "id": "SYLPH_CANNOT_BE_SLOWED_OR_STOPPED",
     "name": { "str": "As Free as the Wind" },
     "points": 12,

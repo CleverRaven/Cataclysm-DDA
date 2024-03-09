@@ -5,6 +5,11 @@ Please read carefully and don't delete the comments delimited by "< !--" and "--
 Once a pull request is submitted, automatic stylistic and consistency checks will be performed on the PR's changes.
 The results of these can be either seen under the "Files changed" section of a PR or in the check's details.
 
+Rules for suggested pull requests:
+- If possible, limit yourself to small changes, 500 strings at max. Exceptions are adding or changing maps, and changes, that won't work unless they are done in a single run (even then there can be ways) - violating it puts a lot of unnecessary work on our merge team.
+- Do not scope creep. If you make a pull request "Add new gun", please do not make anything more than adding the gun and following changes, like changing the stats of the gun, removing another guns from itemgroups or tweaking zombie horse stats - violating it makes future search and debugging stuff much harder, since PR name is not related to what is changed in the game. "Who the hell removed the quest item from drop in location X in PR, that adds a new plushie" - may be a quote from a person who was affected by scope creep
+- Do not make omnibus PRs. Meaning do not make a single PR, that fixes ten different, not related issues, at once, even if they are all one string - same as previously mentioned scope creep, it doesn't help to search the changes when debugging, despite all power of git blame tool
+
 NOTE: Please grant permission for repository maintainers to edit your PR.  It is EXTREMELY common for PRs to be held up due to trivial changes being requested and the author being unavailable to make them. -->
 
 #### Summary

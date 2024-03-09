@@ -6,7 +6,6 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.04,
     "craft_skill_bonus": [
       [ "electronics", 1 ],
       [ "tailor", 1 ],
@@ -23,7 +22,6 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.08,
     "craft_skill_bonus": [
       [ "electronics", 2 ],
       [ "tailor", 2 ],
@@ -40,7 +38,6 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.12,
     "craft_skill_bonus": [
       [ "electronics", 3 ],
       [ "tailor", 3 ],
@@ -57,7 +54,6 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.16,
     "craft_skill_bonus": [
       [ "electronics", 4 ],
       [ "tailor", 4 ],
@@ -74,7 +70,6 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.2,
     "craft_skill_bonus": [
       [ "electronics", 5 ],
       [ "tailor", 5 ],
@@ -91,7 +86,6 @@
     "points": 0,
     "description": "Gazing into the near future lets you know what part goes where.",
     "valid": false,
-    "crafting_speed_multiplier": 1.24,
     "craft_skill_bonus": [
       [ "electronics", 6 ],
       [ "tailor", 6 ],

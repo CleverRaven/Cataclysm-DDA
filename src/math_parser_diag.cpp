@@ -945,6 +945,14 @@ std::function<double( dialogue & )> spell_exp_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> spell_exp_for_level_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[level = params[0]]( dialogue const & d ) -> double {
+        return spell::exp_for_level( level.dbl( d ) );
+    };
+}
+
 std::function<void( dialogue &, double )> spell_exp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -1397,6 +1405,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
+    { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
     { "time", { "g", 1, time_eval } },

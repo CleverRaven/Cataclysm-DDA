@@ -11,7 +11,6 @@
     "name": { "str": "Chameleoflage" },
     "points": 1,
     "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 15,
     "valid": false
   },
   {
@@ -21,7 +20,6 @@
     "name": { "str": "Chameleoflage" },
     "points": 1,
     "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 25,
     "valid": false
   },
   {
@@ -31,7 +29,6 @@
     "name": { "str": "Chameleoflage" },
     "points": 1,
     "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 35,
     "valid": false
   },
   {
@@ -41,7 +38,6 @@
     "name": { "str": "Chameleoflage" },
     "points": 1,
     "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 43,
     "valid": false
   },
   {
@@ -51,7 +47,6 @@
     "name": { "str": "Chameleoflage" },
     "points": 1,
     "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 50,
     "valid": false
   },
   {
@@ -61,7 +56,6 @@
     "name": { "str": "Chameleoflage" },
     "points": 1,
     "description": "Your powers are blending nearby light to make you harder to spot.",
-    "stealth_modifier": 55,
     "valid": false
   }
 ]
