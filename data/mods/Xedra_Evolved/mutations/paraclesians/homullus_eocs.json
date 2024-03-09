@@ -54,6 +54,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_SELF_DECEPTION",
+    "effect": {
+      "u_add_morale": "morale_homullus_self_deception",
+      "bonus": 10,
+      "max_bonus": 30,
+      "duration": {
+        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') )" ]
+      },
+      "decay_start": {
+        "math": [ "( 3600 + (u_spell_level('homullus_self_deception_spell') * 900) ) * scaling_factor(u_val('perception') ) / 2" ]
+      }
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HOMULLUS_NO_TRACE_ON",
     "condition": { "not": { "u_has_trait": "NO_TRACE_YET_I_WISH_active" } },
     "effect": [ { "u_add_trait": "NO_TRACE_YET_I_WISH_active" }, { "u_message": "Your body stops producing scent.", "type": "good" } ],
@@ -183,5 +198,86 @@
       ]
     },
     "effect": [ { "u_add_trait": "HOMULLUS_MINIMIZED_MUTATIONS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ON",
+    "condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+      { "run_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "u_message": "Your limbs stiffen and your skin takes on an even more waxen appearance.", "type": "good" }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_TRAITS" },
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "u_message": "A small semblance of life returns to you.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS",
+    "condition": { "not": { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } },
+    "effect": [ { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "queue_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": 240 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_CHARACTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "queue_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": 240 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANGED_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "queue_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": 240 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_RANGED_CHARACTER_CANCEL_MIEN",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": { "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }, { "u_has_trait": "THRESH_HOMULLUS" } ] },
+    "effect": [
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" },
+      { "queue_eocs": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN", "time_in_future": 240 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HOMULLUS_DOLL_FORM_ANGER_RELATIONS_REGAIN",
+    "condition": {
+      "and": [ { "u_has_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" }, { "u_has_trait": "HOMULLUS_DOLL_FORM_TRAITS" } ]
+    },
+    "effect": [
+      { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" },
+      { "u_add_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS" }
+    ],
+    "false_effect": [ { "u_lose_trait": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER" } ]
   }
 ]

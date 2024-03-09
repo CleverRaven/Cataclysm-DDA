@@ -2420,6 +2420,8 @@ class Character : public Creature, public visitable
 
         void set_skills_from_hobbies();
 
+        void set_bionics_from_hobbies();
+
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
         float get_proficiency_practice( const proficiency_id &prof ) const;
