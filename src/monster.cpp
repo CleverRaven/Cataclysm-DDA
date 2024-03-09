@@ -249,7 +249,9 @@ static void armor_enchantment_adjust( monster &mon, damage_unit &du )
     } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
         du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
     }
-    du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
+    if ( du.type != STATIC( damage_type_id( "PURE" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
+    }
     du.amount = std::max( 0.0f, du.amount );
 }
 

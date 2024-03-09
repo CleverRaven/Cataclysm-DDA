@@ -294,8 +294,8 @@ bool enchantment::is_monster_relevant() const
     // Check add values.
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_add ) {
-        if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
-            pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+        if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -313,8 +313,8 @@ bool enchantment::is_monster_relevant() const
     // Check mult values.
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_multiply ) {
-        if( pair_values.first == enchant_vals::mod::ARMOR_ALL ||
-            pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+        if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
