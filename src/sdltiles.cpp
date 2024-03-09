@@ -2497,6 +2497,9 @@ void handle_finger_input( uint32_t ticks )
             }
         }
     }
+    if( last_input.type != input_event_t::error ) {
+        imclient->process_cata_input( last_input );
+    }
 }
 
 bool android_is_hardware_keyboard_available()
@@ -2572,6 +2575,7 @@ static void CheckMessages()
 #if defined(__ANDROID__)
     if( visible_display_frame_dirty ) {
         needupdate = true;
+        ui_manager::redraw_invalidated();
         visible_display_frame_dirty = false;
     }
 
@@ -2612,6 +2616,7 @@ static void CheckMessages()
 
             touch_input_context = *new_input_context;
             needupdate = true;
+            ui_manager::redraw_invalidated();
         }
     }
 
@@ -2905,6 +2910,7 @@ static void CheckMessages()
                         WindowHeight = ev.window.data2;
                         SDL_Delay( 500 );
                         SDL_GetWindowSurface( window.get() );
+                        ui_manager::redraw_invalidated();
                         refresh_display();
                         needupdate = true;
                         break;
@@ -2998,6 +3004,7 @@ static void CheckMessages()
                                     !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
                                     qsl.remove( last_input );
                                     add_quick_shortcut( qsl, last_input, false, true );
+                                    ui_manager::redraw_invalidated();
                                     refresh_display();
                                 }
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
@@ -3064,6 +3071,7 @@ static void CheckMessages()
                                                              touch_input_context.get_category() )];
                                 qsl.remove( last_input );
                                 add_quick_shortcut( qsl, last_input, false, true );
+                                ui_manager::redraw_invalidated();
                                 refresh_display();
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -3190,6 +3198,7 @@ static void CheckMessages()
                         update_finger_repeat_delay();
                     }
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
+                    ui_manager::redraw_invalidated();
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
 
@@ -3226,6 +3235,7 @@ static void CheckMessages()
                     if( !is_quick_shortcut_touch ) {
                         update_finger_repeat_delay();
                     }
+                    ui_manager::redraw_invalidated();
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
                 } else if( ev.tfinger.fingerId == 1 ) {
                     if( !is_quick_shortcut_touch ) {
@@ -3410,6 +3420,7 @@ static void CheckMessages()
                     finger_down_time = 0;
                     finger_repeat_time = 0;
                     needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
+                    ui_manager::redraw_invalidated();
                     refresh_display(); // as above, but actually redraw it now as well
                 } else if( ev.tfinger.fingerId == 1 ) {
                     if( is_two_finger_touch ) {
@@ -3455,9 +3466,6 @@ static void CheckMessages()
         // contents are redrawn in the following code.
         ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
         ui_manager::redraw_invalidated();
-    }
-    if( ui_adaptor::has_imgui() ) {
-        needupdate = true;
     }
     if( needupdate ) {
         try_sdl_update();

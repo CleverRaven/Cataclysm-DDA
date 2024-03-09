@@ -11,6 +11,8 @@
 #include "output.h"
 #include "ui_manager.h"
 
+static ImGuiKey cata_key_to_imgui( int cata_key );
+
 #if !(defined(TILES) || defined(WIN32))
 #include <curses.h>
 #include <imtui/imtui-impl-ncurses.h>
@@ -204,6 +206,43 @@ void cataimgui::client::process_input( void *input )
 }
 
 #endif
+
+static ImGuiKey cata_key_to_imgui( int cata_key )
+{
+    switch( cata_key ) {
+        case KEY_UP:
+            return ImGuiKey_UpArrow;
+        case KEY_DOWN:
+            return ImGuiKey_DownArrow;
+        case KEY_LEFT:
+            return ImGuiKey_LeftArrow;
+        case KEY_RIGHT:
+            return ImGuiKey_RightArrow;
+        case KEY_ENTER:
+            return ImGuiKey_Enter;
+        case KEY_ESCAPE:
+            return ImGuiKey_Escape;
+        default:
+            if( cata_key >= 'a' && cata_key <= 'z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'a' ) );
+            } else if( cata_key >= 'A' && cata_key <= 'Z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'A' ) );
+            } else if( cata_key >= '0' && cata_key <= 'Z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - '0' ) );
+            }
+            return ImGuiKey_None;
+    }
+}
+
+void cataimgui::client::process_cata_input( const input_event &event )
+{
+    if( event.type == input_event_t::keyboard_code || event.type == input_event_t::keyboard_char ) {
+        int code = event.get_first_input();
+        ImGuiIO &io = ImGui::GetIO();
+        io.AddKeyEvent( cata_key_to_imgui( code ), true );
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+}
 
 void cataimgui::point_to_imvec2( point *src, ImVec2 *dest )
 {

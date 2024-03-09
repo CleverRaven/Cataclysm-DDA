@@ -31,7 +31,6 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
@@ -73,7 +72,6 @@ class keybindings_ui : public cataimgui::window
             init();
         };
 };
-#endif
 
 static const std::string default_context_id( "default" );
 
@@ -607,7 +605,6 @@ static const std::map<fallback_action, int> fallback_keys = {
     { fallback_action::execute, '.' },
 };
 
-#if !defined(__ANDROID__)
 keybindings_ui::keybindings_ui( bool permit_execute_action,
                                 input_context *parent ) : cataimgui::window( "KEYBINDINGS", ImGuiWindowFlags_NoNav )
 {
@@ -763,7 +760,7 @@ void keybindings_ui::init()
 {
     width = TERMX >= 100 ? 100 : 80;
 }
-#endif
+
 bool input_context::resolve_conflicts( const std::vector<input_event> &events,
                                        const std::string &ignore_action )
 {
@@ -1287,7 +1284,6 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
     return action_to_execute;
 }
 
-#if !defined(__ANDROID__)
 action_id input_context::display_menu_imgui( const bool permit_execute_action )
 {
 
@@ -1468,19 +1464,14 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
 
     return action_to_execute;
 }
-#endif
 
 action_id input_context::display_menu( bool permit_execute_action )
 {
-#if defined(__ANDROID__)
-    return display_menu_legacy( permit_execute_action );
-#else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         return display_menu_imgui( permit_execute_action );
     } else {
         return display_menu_legacy( permit_execute_action );
     }
-#endif
 }
 
 input_event input_context::get_raw_input()

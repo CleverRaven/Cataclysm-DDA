@@ -6,6 +6,7 @@
 #include <array>
 
 class nc_color;
+struct input_event;
 struct item_info_data;
 
 #if defined(WIN32) || defined(TILES)
@@ -49,6 +50,7 @@ class client
         void new_frame();
         void end_frame();
         void process_input( void *input );
+        void process_cata_input( const input_event &event );
 #if !(defined(TILES) || defined(WIN32))
         void upload_color_pair( int p, int f, int b );
         void set_alloced_pair_count( short count );

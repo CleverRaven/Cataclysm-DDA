@@ -11,7 +11,6 @@
 #include "output.h"
 #include "ui_manager.h"
 #include "ui.h"
-#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
@@ -140,7 +139,6 @@ void query_popup_impl::on_resized()
         }
     }
 }
-#endif
 
 query_popup::query_popup()
     : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ),
@@ -277,12 +275,10 @@ void query_popup::invalidate_ui() const
         }
         legacy_ui->mark_resize();
     }
-#if !defined(__ANDROID__)
     std::shared_ptr<query_popup_impl> imgui_ui = p_impl.lock();
     if( imgui_ui ) {
         imgui_ui->mark_resized();
     }
-#endif
 }
 
 static constexpr int border_width = 1;
@@ -502,18 +498,13 @@ query_popup::result query_popup::query_once_legacy()
 
 query_popup::result query_popup::query_once()
 {
-#if defined(__ANDROID__)
-    return query_once_legacy();
-#else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         return query_once_imgui();
     } else {
         return query_once_legacy();
     }
-#endif
 }
 
-#if !defined(__ANDROID__)
 std::shared_ptr<query_popup_impl> query_popup::create_or_get_impl()
 {
     std::shared_ptr<query_popup_impl> impl = p_impl.lock();
@@ -525,7 +516,6 @@ std::shared_ptr<query_popup_impl> query_popup::create_or_get_impl()
     }
     return impl;
 }
-#endif
 
 query_popup::result query_popup::query_once_imgui()
 {
@@ -624,15 +614,11 @@ query_popup::result query_popup::query_once_imgui()
 
 query_popup::result query_popup::query()
 {
-#if defined(__ANDROID__)
-    return query_legacy();
-#else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         return query_imgui();
     } else {
         return query_legacy();
     }
-#endif
 }
 
 query_popup::result query_popup::query_imgui()
@@ -703,13 +689,9 @@ bool query_popup::button::contains( const point &p ) const
 
 static_popup::static_popup()
 {
-#if defined(__ANDROID__)
-    ui = create_or_get_adaptor();
-#else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         ui_imgui = create_or_get_impl();
     } else {
         ui = create_or_get_adaptor();
     }
-#endif
 }
