@@ -245,9 +245,7 @@ class query_popup
         };
 
         std::weak_ptr<ui_adaptor> adaptor;
-#if !defined(__ANDROID__)
         std::weak_ptr<query_popup_impl> p_impl;
-#endif
 
         // UI caches
         mutable catacurses::window win;

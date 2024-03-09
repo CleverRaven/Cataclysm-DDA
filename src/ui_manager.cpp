@@ -455,10 +455,8 @@ void ui_adaptor::redraw_invalidated( )
     emscripten_sleep( 1 );
 #endif
 
-#if !defined(__ANDROID__)
     imclient->end_frame();
     imgui_frame_started = false;
-#endif
 }
 
 void ui_adaptor::screen_resized()

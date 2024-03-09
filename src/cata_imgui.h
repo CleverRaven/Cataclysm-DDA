@@ -1,4 +1,3 @@
-#if !defined(__ANDROID__)
 #pragma once
 #include <string>
 #include <vector>
@@ -107,4 +106,3 @@ void load_colors();
 #endif
 
 } // namespace cataimgui
-#endif // #if defined(__ANDROID)
