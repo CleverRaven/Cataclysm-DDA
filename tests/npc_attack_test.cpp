@@ -16,8 +16,8 @@ static const ammotype ammo_battery( "battery" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_knife_chef( "knife_chef" );
-static const itype_id itype_power_armor_basic( "power_armor_basic" );
-static const itype_id itype_power_armor_basic_on( "power_armor_basic_on" );
+static const itype_id itype_combat_exoskeleton_medium( "combat_exoskeleton_medium" );
+static const itype_id itype_combat_exoskeleton_medium_on( "combat_exoskeleton_medium_on" );
 static const itype_id itype_rock( "rock" );
 static const itype_id itype_wearable_light( "wearable_light" );
 
@@ -152,7 +152,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         WHEN( "NPC has power armor" ) {
             main_npc.clear_worn();
 
-            item armor( "power_armor_basic" );
+            item armor( "combat_exoskeleton_medium" );
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );
 
@@ -173,8 +173,8 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                     // target is not exposed, so regen_ai_cache is used to have the npc re-assess threat and store the target.
                     main_npc.regen_ai_cache();
                     main_npc.method_of_attack();
-                    CHECK( main_npc.is_wearing( itype_power_armor_basic_on ) );
-                    CHECK( !main_npc.is_wearing( itype_power_armor_basic ) );
+                    CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
+                    CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
                 }
             }
 
@@ -182,8 +182,8 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 THEN( "NPC fails to activate their power armor" ) {
                     main_npc.regen_ai_cache();
                     main_npc.method_of_attack();
-                    CHECK( main_npc.is_wearing( itype_power_armor_basic ) );
-                    CHECK( !main_npc.is_wearing( itype_power_armor_basic_on ) );
+                    CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
+                    CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
                 }
             }
         }
@@ -293,7 +293,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
     }
     GIVEN( "There is no zombie nearby. " ) {
         WHEN( "NPC is wearing active power armor. " ) {
-            item armor( "power_armor_basic_on" );
+            item armor( "combat_exoskeleton_medium_on" );
             armor.activate();
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );
@@ -302,8 +302,8 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 // This is somewhat cheating, but going up one level is testing all of npc::move.
                 main_npc.cleanup_on_no_danger();
 
-                CHECK( !main_npc.is_wearing( itype_power_armor_basic_on ) );
-                CHECK( main_npc.is_wearing( itype_power_armor_basic ) );
+                CHECK( !main_npc.is_wearing( itype_combat_exoskeleton_medium_on ) );
+                CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
             }
         }
     }
