@@ -219,8 +219,6 @@ struct mutation_branch {
         // Healing per turn
         std::optional<float> healing_awake = std::nullopt;
         std::optional<float> healing_multiplier = std::nullopt;
-        // Limb mending bonus
-        std::optional<float> mending_modifier = std::nullopt;
         // Additional bonuses
         std::optional<int> scent_intensity;
 

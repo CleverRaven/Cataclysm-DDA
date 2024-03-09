@@ -6323,7 +6323,6 @@ static const std::map<std::string, std::function <float( std::vector<const mutat
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
     { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
-    { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
     { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
 };

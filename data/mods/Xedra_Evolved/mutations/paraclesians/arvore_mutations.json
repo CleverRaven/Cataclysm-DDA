@@ -898,7 +898,6 @@
     "threshreq": [ "THRESH_ARVORE" ],
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
-    "mending_modifier": 16,
     "//": "Healing values copied from the Regeneration mutation",
     "override_look": { "id": "t_tree", "tile_category": "terrain" },
     "flags": [ "DEAF", "BLIND", "SEESLEEP", "NO_SCENT", "NO_SPELLCASTING" ],
@@ -952,7 +951,8 @@
         "values": [
           { "value": "ATTACK_SPEED", "multiply": 900 },
           { "value": "METABOLISM", "multiply": -0.5 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 }
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 }
         ]
       }
     ]

@@ -686,7 +686,7 @@
     "category": [ "MEDICAL", "PLANT", "BATRACHIAN", "LIZARD", "SLIME", "TROGLOBITE", "CRUSTACEAN" ],
     "healing_awake": 0.133,
     "healing_multiplier": 1.5,
-    "mending_modifier": 2.0
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -1446,7 +1446,7 @@
     "starting_trait": true,
     "types": [ "HEALING" ],
     "healing_multiplier": 0.75,
-    "mending_modifier": 0.75
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -1459,7 +1459,7 @@
     "purifiable": false,
     "types": [ "HEALING" ],
     "healing_multiplier": 0.33,
-    "mending_modifier": 0.33
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.66 } ] } ]
   },
   {
     "type": "mutation",
@@ -1472,7 +1472,7 @@
     "purifiable": false,
     "types": [ "HEALING" ],
     "healing_multiplier": 0.1,
-    "mending_modifier": 0.1
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.9 } ] } ]
   },
   {
     "type": "mutation",
@@ -1485,7 +1485,7 @@
     "purifiable": false,
     "types": [ "HEALING" ],
     "healing_multiplier": 0,
-    "mending_modifier": 0
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -1 } ] } ]
   },
   {
     "type": "mutation",
@@ -2373,7 +2373,7 @@
     "category": [ "PLANT", "BATRACHIAN", "SLIME", "TROGLOBITE" ],
     "healing_awake": 0.44,
     "healing_multiplier": 1.5,
-    "mending_modifier": 4.0
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -2387,7 +2387,7 @@
     "category": [ "SLIME", "TROGLOBITE" ],
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
-    "mending_modifier": 16.0
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 15 } ] } ]
   },
   {
     "type": "mutation",
@@ -2402,7 +2402,7 @@
     "category": [ "LIZARD" ],
     "healing_awake": 0.2,
     "healing_multiplier": 1.5,
-    "mending_modifier": 20.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 19 } ] } ],
     "flags": [ "MEND_ALL" ]
   },
   {

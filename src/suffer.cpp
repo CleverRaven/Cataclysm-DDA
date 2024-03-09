@@ -1960,8 +1960,6 @@ void Character::mend( int rate_multiplier )
     // Mutagenic healing factor!
     bool needs_splint = true;
 
-    healing_factor *= mutation_value( "mending_modifier" );
-
     healing_factor = enchantment_cache->modify_value( enchant_vals::mod::MENDING_MODIFIER,
                      healing_factor );
 
