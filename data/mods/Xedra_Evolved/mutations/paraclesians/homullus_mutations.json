@@ -209,16 +209,7 @@
     "description": "Humans are flimsy creatures compared to even natural animals, yet by crafting armor they obtain durability that unthinking creatures will never reach.  You draw on this legacy, increasing the strength of armor you wear by 20%",
     "changes_to": "HOMULLUS_ARMOR_MULT_2",
     "category": [ "HOMULLUS" ],
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "ARMOR_ALL",
-            "multiply": -0.2
-          }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -231,16 +222,7 @@
     "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
-    "enchantments": [
-      {
-        "values": [
-          {
-            "value": "ARMOR_ALL",
-            "multiply": -0.4
-          }
-        ]
-      }
-    ]
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
   },
   {
     "type": "mutation",
