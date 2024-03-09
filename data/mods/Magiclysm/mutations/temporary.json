@@ -50,7 +50,6 @@
     "player_display": false,
     "points": 0,
     "healing_awake": 0.8,
-    "healing_multiplier": 2.5,
     "enchantments": [
       {
         "values": [
@@ -58,7 +57,8 @@
           { "value": "THIRST", "multiply": -1.0 },
           { "value": "METABOLISM", "multiply": -1.0 },
           { "value": "FATIGUE_REGEN", "multiply": 0.5 },
-          { "value": "MENDING_MODIFIER", "multiply": 15 }
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 }
         ]
       }
     ]

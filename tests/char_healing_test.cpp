@@ -69,7 +69,6 @@ TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
         // just in case we mutated into something of a different size
         dummy.set_stored_kcal( dummy.get_healthy_kcal() );
         // Ensure there are no healing modifiers from traits/mutations
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 1.0f );
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.0f );
 
         THEN( "healing rate is zero when awake" ) {
@@ -105,7 +104,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "REGEN" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.8f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 2.5f );
 
         CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 2.5f * 0.8f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 2.5f ) );
@@ -117,7 +115,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "MET_RAT" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.133f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 1.5f );
 
         CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.133f * 1.5f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 1.5f ) );
@@ -128,7 +125,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "FASTHEALER2" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.44f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 1.5f );
 
         CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.44f * 1.5f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 1.5f ) );
@@ -139,7 +135,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "FASTHEALER" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.133f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 1.5f );
 
         CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.133f * 1.5f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 1.5f ) );
@@ -150,7 +145,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "ROT1" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == -0.166f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.75f );
 
         CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.75f * -0.166f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ) );
@@ -161,7 +155,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "SLOWHEALER" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.0f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.75f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ) );
@@ -172,7 +165,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "SLOWHEALER2" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.0f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.33f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.33f ) );
@@ -183,7 +175,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "SLOWHEALER3" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == 0.0f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.1f );
 
         CHECK( dummy.healing_rate( awake_rest ) == zero );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.10f ) );
@@ -194,7 +185,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "ROT2" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == -0.266f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.75f );
 
         CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.75f * -0.266f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ) );
@@ -205,7 +195,6 @@ TEST_CASE( "traits_and_mutations_affecting_healing_rate", "[heal][trait][mutatio
         give_one_trait( dummy, "ROT3" );
 
         REQUIRE( dummy.mutation_value( "healing_awake" ) == -1.0f );
-        REQUIRE( dummy.mutation_value( "healing_multiplier" ) == 0.75f );
 
         CHECK( dummy.healing_rate( awake_rest ) == Approx( normal * 0.75f * -1.0f ) );
         CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal * 0.75f ) );

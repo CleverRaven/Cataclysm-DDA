@@ -272,8 +272,7 @@
     "valid": false,
     "types": [ "HEALING" ],
     "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
-    "prereqs": [ "HUNGER" ],
-    "healing_multiplier": 0.25
+    "prereqs": [ "HUNGER" ]
   },
   {
     "type": "mutation",
