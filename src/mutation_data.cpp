@@ -395,7 +395,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "healing_multiplier", healing_multiplier, std::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, std::nullopt );
     optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
-    optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, std::nullopt );
     optional( jo, was_loaded, "scent_modifier", scent_modifier, 1.0f );
     optional( jo, was_loaded, "scent_intensity", scent_intensity, std::nullopt );
