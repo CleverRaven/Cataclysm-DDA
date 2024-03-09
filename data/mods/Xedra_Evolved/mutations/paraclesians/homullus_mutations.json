@@ -19,7 +19,7 @@
     "visibility": 10,
     "ugliness": -3,
     "description": "Your skin has smoothed and all your prior blemishes have faded away.  This somewhat reduces wet effects and leads to a more durable yet harder to heal body.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR" ],
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "changes_to": [ "HOMULLUS_SKIN_3" ],
@@ -47,7 +47,7 @@
     "ugliness": -6,
     "mixed_effect": true,
     "description": "Your skin has become latex like.  While it provides additional protection and attractiveness it also heals at a much slower rate.",
-    "types": [ "SKIN" ],
+    "types": [ "SKIN", "BODY_ARMOR" ],
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
@@ -68,6 +68,29 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_EYES",
+    "name": { "str": "Homullus Eyes" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus's eyes begin change to look like doll's eyes, always staring at the world.  Glare no longer impacts them.",
+    "types": [ "EYES" ],
+    "category": [ "HOMULLUS" ],
+    "integrated_armor": [ "integrated_homullus_eyes" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_BETTER_AT_LYING",
+    "name": { "str": "Trust Me" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": " 'Men were deceivers ever,' as the quotation runs.  To be human is to be a liar.  You are much more succesful at lying to people now.",
+    "category": [ "HOMULLUS" ],
+    "social_modifiers": { "lie": 40 }
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_DREAMWALKER",
     "name": { "str": "Dreamwalker" },
     "points": 1,
@@ -77,6 +100,29 @@
     "description": "From the dreams of mortals, you can spin remnants of fantasy into material substance.  When you sleep near mortals, you have a chance to awaken with some dreamdross nearby.",
     "category": [ "HOMULLUS" ],
     "//": "Ideally this would detect even non-allied NPCs nearby instead of just a location where NPCs are likely to be"
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SUMMON_FERALS",
+    "name": { "str": "The Lost and the Damned" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "A habit of lying is hard to break, even when, or especially when, talking to oneself.  This trait grants the Homullus a spell that allows them to smooth out any negative moods they experience.",
+    "category": [ "HOMULLUS" ],
+    "spells_learned": [ [ "homullus_summon_feral_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_SELF_DECEPTION",
+    "name": { "str": "Everything Will Be Fine" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "A habit of lying is hard to break, even when, or especially when, talking to oneself.  This trait grants the Homullus a spell that allows them to smooth out any negative moods they experience.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_BETTER_AT_LYING" ],
+    "spells_learned": [ [ "homullus_self_deception_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -111,6 +157,7 @@
     "ugliness": 0,
     "description": "The Homullus gains the ability to stop emitting scent at will.  They can use this to control when scent-tracking creatures will be able to find them.",
     "category": [ "HOMULLUS" ],
+    "types": [ "SCENT" ],
     "activated_is_setup": true,
     "active": true,
     "activated_eocs": [ "EOC_HOMULLUS_NO_TRACE_ON" ],
@@ -237,6 +284,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "You are at home in the artificial environments constructed by humanity.  You move slightly faster within.",
+    "types": [ "RUNNING" ],
     "category": [ "HOMULLUS" ],
     "enchantments": [
       {
@@ -276,7 +324,7 @@
     "name": { "str": "Endurance Hunter" },
     "points": 2,
     "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina.",
-    "types": [ "METABOLISM" ],
+    "types": [ "CARDIO" ],
     "prereqs": [ "HOMULLUS_CITY_STRIDER" ],
     "changes_to": [ "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
@@ -287,11 +335,26 @@
     "id": "HOMULLUS_EAT_DEMIHUMANS",
     "name": { "str": "The Top of the Food Chain" },
     "points": 5,
-    "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
+    "description": "Humanity are omnivores in the most literal sense.  You can eat anything not human without any moral qualms.",
+    "types": [ "DIET" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER", "HOMULLUS_THE_HUNTER2" ],
     "category": [ "HOMULLUS" ],
-    "threshreq": [ "THRESH_HOMULLUS" ],
     "flags": [ "STRICT_HUMANITARIAN" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_TEMPERATURE_TOLERANCE",
+    "name": { "str": "At Home in any Clime" },
+    "points": 6,
+    "description": "Before the Cataclysm there were cities all across the world.  From above the Arctic Circle to directly on the equator, humanity built their dwellings.  You are more comfortable with temperature extremes.",
+    "types": [ "ACCLIMATIZATION" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 15 }, { "value": "CLIMATE_CONTROL_HEAT", "add": 15 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -361,6 +424,31 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_GAIN_INTEGRATED_TOOLS",
+    "name": { "str": "Essence of the Makers" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "With their tools, humanity built weapons, grew food, made homes, and tamed the wilderness.  The Homullus has internalized that essence into themselves, allowing them to use their bare hands to accomplish many tasks that would otherwise require tools.",
+    "leads_to": "HOMULLUS_GAIN_INTEGRATED_HACKER",
+    "prereqs": [ "HOMULLUS_CRAFTING_BONUS_1", "HOMULLUS_CRAFTING_BONUS_2", "HOMULLUS_CRAFTING_BONUS_3" ],
+    "category": [ "HOMULLUS" ],
+    "integrated_armor": [ "integrated_homullus_tools" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_GAIN_INTEGRATED_HACKER",
+    "name": { "str": "Net Spider's Touch" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "While some other animals use simple tools, complex machinery is humanity's legacy alone.  The Homullus can log into a computer or hack electronics with but a touch.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_GAIN_INTEGRATED_TOOLS" ],
+    "integrated_armor": [ "integrated_homullus_electrohack" ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_EXPANDED_MUTATIONS",
     "name": "Mimicry of Biology",
     "points": 10,
@@ -394,11 +482,113 @@
     "name": { "str": "Running to Marathon" },
     "points": 2,
     "description": "Early humans chased prey for miles before it dropped dead from exhaustion, and the Homullus is heir to that legacy.  You have 33% more stamina and you can run for much longer before tiring.",
-    "types": [ "METABOLISM" ],
+    "types": [ "CARDIO", "RUNNING" ],
     "prereqs": [ "HOMULLUS_THE_HUNTER" ],
     "category": [ "HOMULLUS" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "enchantments": [ { "values": [ { "value": "MAX_STAMINA", "multiply": 0.33 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DOLL_FORM",
+    "name": { "str": "Mien of the Mannequin" },
+    "points": 8,
+    "description": "You may transform yourself into a doll in truth, ignoring the needs of the flesh and making most monsters less likely to attack you.  However, your stiff limbs will inhibit your movement.",
+    "prereqs": [ "BEAUTIFUL2", "BEAUTIFUL3" ],
+    "prereqs2": [ "HOMULLUS_SKIN_3" ],
+    "category": [ "HOMULLUS" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_HOMULLUS_DOLL_FORM_ON" ],
+    "deactivated_eocs": [ "EOC_HOMULLUS_DOLL_FORM_ON" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DOLL_FORM_TRAITS",
+    "name": { "str": "Mannequin Form" },
+    "description": "You are a doll in truth.  You do not need to eat or drink, and monsters will mostly ignore you, but you do not heal at all and crafting, as well as movement over any ground not almost-perfectly flat, is very difficult due to your stiff limbs.",
+    "points": 10,
+    "valid": false,
+    "override_look": { "id": "mon_hallu_mannequin", "tile_category": "monster" },
+    "enchantments": [
+      {
+        "skills": [ { "value": "dodge", "add": -5 } ],
+        "values": [
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "HUNGER", "multiply": -1.0 },
+          { "value": "THIRST", "multiply": -1.0 },
+          { "value": "REGEN_HP", "multiply": -1.0 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.4 },
+          { "value": "ATTACK_SPEED", "multiply": 0.8 },
+          { "value": "MENDING_MODIFIER", "multiply": -1.0 }
+        ]
+      },
+      {
+        "condition": { "not": { "u_is_on_terrain_with_flag": "ROAD" } },
+        "values": [ { "value": "MOVE_COST", "multiply": 2.5 } ]
+      }
+    ],
+    "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS",
+    "name": { "str": "Mannequin Form Anger Relations" },
+    "description": "Anger relations are here in a separate mutation so that they're removed on attacking a target.",
+    "points": 2,
+    "valid": false,
+    "player_display": false,
+    "anger_relations": [
+      [ "HUMAN", -91 ],
+      [ "BIRD", -91 ],
+      [ "MAMMAL", -91 ],
+      [ "ZOMBIE", -91 ],
+      [ "AMPHIBIAN", -91 ],
+      [ "REPTILE", -91 ],
+      [ "FISH", -91 ],
+      [ "KRAKEN", -91 ],
+      [ "MUTANT", -91 ],
+      [ "NETHER", -91 ],
+      [ "SLIME", -91 ],
+      [ "FUNGUS", -91 ],
+      [ "LEECH_PLANT", -91 ],
+      [ "MIGO", -91 ],
+      [ "INSECT", -91 ],
+      [ "CENTIPEDE", -91 ],
+      [ "INSECT_FLYING", -91 ],
+      [ "SPIDER", -91 ],
+      [ "PLANT", -91 ],
+      [ "MOLLUSK", -91 ],
+      [ "WORM", -91 ],
+      [ "FERAL", -91 ],
+      [ "ROBOT", -91 ],
+      [ "HORROR", -91 ],
+      [ "ABERRATION", -91 ],
+      [ "VAMPIRE", -91 ]
+    ],
+    "//": "-91 should be enough that even monsters with 100 aggression won't immediately attack, but they'll be on a hair trigger."
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS_ATTACKER",
+    "name": { "str": "Mannequin Form Anger Relations Attacker" },
+    "description": "This blocks you from gaining the anger relations mutation so you can't just turn Mien of the Mannequin on and off between attacks.",
+    "points": 2,
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "SOCIAL1",
+    "copy-from": "SOCIAL1",
+    "extend": { "category": [ "HOMULLUS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SOCIAL2",
+    "copy-from": "SOCIAL2",
+    "extend": { "category": [ "HOMULLUS" ] }
   },
   {
     "type": "mutation",
