@@ -131,7 +131,7 @@
     "relative": { "damage": { "damage_type": "bullet", "amount": -23, "armor_penetration": -8 } },
     "dispersion": 200,
     "recoil": 100,
-    "drop": "handflare_lit",
+    "drop": "sigflare_lit",
     "effects": [ "NO_EMBED" ],
     "extend": { "flags": [ "CASELESS_ROUNDS" ] }
   },

@@ -44,6 +44,32 @@ int kill_tracker::kill_count( const species_id &spec ) const
     return result;
 }
 
+int kill_tracker::guilt_kill_count( const mtype_id &mon ) const
+{
+    int count = 0;
+    mon_flag_id flag;
+    if( mon->has_flag( mon_flag_GUILT_ANIMAL ) ) {
+        flag = mon_flag_GUILT_ANIMAL;
+    } else if( mon->has_flag( mon_flag_GUILT_CHILD ) ) {
+        flag = mon_flag_GUILT_CHILD;
+    } else if( mon->has_flag( mon_flag_GUILT_HUMAN ) ) {
+        flag = mon_flag_GUILT_HUMAN;
+    } else if( mon->has_flag( mon_flag_GUILT_OTHERS ) ) {
+        flag = mon_flag_GUILT_OTHERS;
+    } else { // worst case scenario when no guilt flags are found
+        auto noflag = kills.find( mon );
+        if( noflag != kills.end() ) {
+            return noflag->second;
+        }
+    }
+    for( const auto &it : kills ) {
+        if( it.first->has_flag( flag ) ) {
+            count += it.second;
+        }
+    }
+    return count;
+}
+
 int kill_tracker::monster_kill_count() const
 {
     int result = 0;

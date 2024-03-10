@@ -96,7 +96,12 @@
         "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
         "popup": true
       },
-      { "u_set_hp": 100, "only_increase": true, "main_only": true }
+      { "math": [ "u_hp('torso')", "=", "max( u_hp('torso'), 100)" ] },
+      { "math": [ "u_hp('head')", "=", "max( u_hp('head'), 100)" ] },
+      { "math": [ "u_hp('arm_l')", "=", "max( u_hp('arm_l'), 100)" ] },
+      { "math": [ "u_hp('arm_r')", "=", "max( u_hp('arm_r'), 100)" ] },
+      { "math": [ "u_hp('leg_l')", "=", "max( u_hp('leg_l'), 100)" ] },
+      { "math": [ "u_hp('leg_r')", "=", "max( u_hp('leg_r'), 100)" ] }
     ]
   }
 ]

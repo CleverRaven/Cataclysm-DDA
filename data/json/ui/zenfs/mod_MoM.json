@@ -1,0 +1,407 @@
+[
+  {
+    "id": "zenfs_nether_meter",
+    "type": "widget",
+    "style": "text",
+    "width": 29,
+    "clauses": [
+      {
+        "id": "invisible",
+        "text": "",
+        "color": "c_black",
+        "condition": { "not": { "u_has_effect": "effect_disease_psionic_drain" } }
+      },
+      {
+        "id": "visible_1",
+        "text": "      <color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "35" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_2",
+        "text": "     <color_dark_gray>₍<color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "35" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "55" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_3",
+        "text": "    <color_dark_gray>ₒ₊<color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊ₒ</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "55" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "75" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_4",
+        "text": "    <color_dark_gray>₍₊<color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "75" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "95" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_5",
+        "text": "   <color_dark_gray>ₒ₊₊<color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊ₒ</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "95" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "115" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_6",
+        "text": "   <color_dark_gray>₍₊₊<color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "115" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "135" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_7",
+        "text": "  <color_light_gray>ₒ₊₊₊<color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊ₒ</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "155" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_8",
+        "text": "  <color_light_gray>₍₊₊₊<color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "155" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "175" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_9",
+        "text": " <color_light_gray>ₒ₊₊₊₊<color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊ₒ</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "195" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_10",
+        "text": " <color_light_gray>₍₊₊₊₊<color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "195" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "215" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_11",
+        "text": "<color_light_gray>ₒ₊₊₊₊₊<color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₊ₒ</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "215" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "235" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_12",
+        "text": "<color_white>₍₊₊₊₊₊ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ<color_white> ₊₊₊₊₊₎</color>",
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "235" ] }
+      }
+    ],
+    "padding": 0,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_nether_meter_wide",
+    "type": "widget",
+    "style": "text",
+    "width": 64,
+    "clauses": [
+      {
+        "id": "invisible",
+        "text": "",
+        "color": "c_black",
+        "condition": { "not": { "u_has_effect": "effect_disease_psionic_drain" } }
+      },
+      {
+        "id": "visible_1",
+        "text": "                        <color_light_gray>ₙ</color>ₑₜₕₑᵣ<color_light_gray>ₐ</color>ₜₜᵤₙₑₘₑₙₜ",
+        "color": "c_dark_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "35" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_2",
+        "text": "                    ₍₋₊ <color_light_gray>ₙ</color>ₑₜₕₑᵣ<color_light_gray>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₎",
+        "color": "c_dark_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "35" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "55" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_3",
+        "text": "                  ₍₋₊₋₊ <color_light_gray>ₙ</color>ₑₜₕₑᵣ<color_light_gray>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₎",
+        "color": "c_dark_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "55" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "75" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_4",
+        "text": "                ₍₋₊₋₊₋₊ <color_light_gray>ₙ</color>ₑₜₕₑᵣ<color_light_gray>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₎",
+        "color": "c_dark_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "75" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "95" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_5",
+        "text": "              ₍₋₊₋₊₋₊₋₊ <color_light_gray>ₙ</color>ₑₜₕₑᵣ<color_light_gray>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₊₋₎",
+        "color": "c_dark_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "95" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "115" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_6",
+        "text": "            ₍₋₊₋₊₋₊₋₊₋₊ <color_light_gray>ₙ</color>ₑₜₕₑᵣ<color_light_gray>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₊₋₊₋₎",
+        "color": "c_dark_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "115" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "135" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_7",
+        "text": "          ₍₋₊₋₊₋₊₋₊₋₊₋₊ <color_white>ₙ</color>ₑₜₕₑᵣ<color_white>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₊₋₊₋₊₋₎",
+        "color": "c_light_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "155" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_8",
+        "text": "        ₍₋₊₋₊₋₊₋₊₋₊₋₊₋₊ <color_white>ₙ</color>ₑₜₕₑᵣ<color_white>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₊₋₊₋₊₋₊₋₎",
+        "color": "c_light_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "155" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "175" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_9",
+        "text": "      ₍₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊ <color_white>ₙ</color>ₑₜₕₑᵣ<color_white>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₎",
+        "color": "c_light_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "195" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_10",
+        "text": "    ₍₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊ <color_white>ₙ</color>ₑₜₕₑᵣ<color_white>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₎",
+        "color": "c_light_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "195" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "215" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_11",
+        "text": "  ₍₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊ <color_white>ₙ</color>ₑₜₕₑᵣ<color_white>ₐ</color>ₜₜᵤₙₑₘₑₙₜ ₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₎",
+        "color": "c_light_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "215" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "235" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_12",
+        "text": "₍₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊ ₙ<color_light_gray>ₑₜₕₑᵣ</color>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ</color> ₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₊₋₎",
+        "color": "c_white",
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "235" ] }
+      }
+    ],
+    "padding": 0,
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "zenfs_nether_meter_wide_alt",
+    "type": "widget",
+    "style": "text",
+    "width": 56,
+    "clauses": [
+      {
+        "id": "invisible",
+        "text": "",
+        "color": "c_black",
+        "condition": { "not": { "u_has_effect": "effect_disease_psionic_drain" } }
+      },
+      {
+        "id": "visible_1",
+        "text": "                    <color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "35" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_2",
+        "text": "                 <color_dark_gray>₍₊ <color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "35" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "55" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_3",
+        "text": "                <color_dark_gray>₍₊₊ <color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "55" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "75" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_4",
+        "text": "               <color_dark_gray>₍₊₊₊ <color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "75" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "95" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_5",
+        "text": "              <color_dark_gray>₍₊₊₊₊ <color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "95" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "115" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_6",
+        "text": "             <color_dark_gray>₍₊₊₊₊₊ <color_light_gray>ₙ<color_dark_gray>ₑₜₕₑᵣ<color_light_gray>ₐ<color_dark_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "115" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "135" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_7",
+        "text": "            <color_light_gray>₍₊₊₊₊₊₊ <color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "135" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "155" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_8",
+        "text": "           <color_light_gray>₍₊₊₊₊₊₊₊ <color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "155" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "175" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_9",
+        "text": "          <color_light_gray>₍₊₊₊₊₊₊₊₊ <color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "195" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_10",
+        "text": "         <color_light_gray>₍₊₊₊₊₊₊₊₊₊ <color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₊₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "195" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "215" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_11",
+        "text": "        <color_light_gray>₍₊₊₊₊₊₊₊₊₊₊ <color_white>ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ ₊₊₊₊₊₊₊₊₊₊₎</color>",
+        "condition": {
+          "and": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "215" ] },
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "235" ] }
+          ]
+        }
+      },
+      {
+        "id": "visible_12",
+        "text": "       <color_white>₍₊₊₊₊₊₊₊₊₊₊₊ ₙ<color_light_gray>ₑₜₕₑᵣ<color_white>ₐ<color_light_gray>ₜₜᵤₙₑₘₑₙₜ<color_white> ₊₊₊₊₊₊₊₊₊₊₊₎</color>",
+        "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "235" ] }
+      }
+    ],
+    "padding": 0,
+    "flags": [ "W_LABEL_NONE" ]
+  }
+]

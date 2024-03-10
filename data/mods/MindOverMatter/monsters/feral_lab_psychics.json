@@ -53,12 +53,23 @@
         "monster_message": "%1$s stares at %3$s!"
       },
       {
-        "id": "psi_drbrain_mindhammer",
-        "type": "spell",
-        "spell_data": { "id": "telekinetic_hammer_monster", "min_level": 6 },
-        "cooldown": 12,
+        "type": "monster_attack",
+        "attack_type": "melee",
+        "id": "mon_telekinetic_mindhammer",
+        "cooldown": 10,
+        "move_cost": 80,
+        "range": 6,
+        "damage_max_instance": [ { "damage_type": "psi_telekinetic_damage", "amount": 25 } ],
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
+        "blockable": false,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },
-        "monster_message": "%1$s hammers %3$s with psionic force!"
+        "hit_dmg_u": "%1$s stares at you and your %2$s is hammered with psionic force!",
+        "hit_dmg_npc": "%1$s stares at <npcname> and their %2$s is hammered with psionic force!",
+        "miss_msg_u": "%1$s stares at you and you narrowly avoid an unseen attack!",
+        "miss_msg_npc": "%1$s stares and <npcname> narrowly avoids an unseen attack!",
+        "no_dmg_msg_u": "%1$s stares at you, but the telekinetic attack rebounds off your armor.",
+        "no_dmg_msg_npc": "%1$s stares at <npcname>, but the telekinetic attack rebounds off their armor."
       },
       {
         "id": "smash",
@@ -68,6 +79,8 @@
         "hitsize_min": 12,
         "range": 8,
         "throw_strength": 100,
+        "dodgeable": false,
+        "uncanny_dodgeable": true,
         "blockable": false,
         "effects_require_dmg": false,
         "condition": { "not": { "u_has_effect": "effect_psi_null" } },

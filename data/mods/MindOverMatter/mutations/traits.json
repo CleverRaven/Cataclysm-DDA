@@ -19,12 +19,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "clair_night_vision", 2 ],
-      [ "clair_danger_sense", 2 ],
-      [ "clair_speed_reading", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "clair_night_vision", 2 ], [ "clair_speed_reading", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -38,7 +33,6 @@
     "spells_learned": [
       [ "electrokinetic_see_electric", 2 ],
       [ "electrokinetic_shock_touch", 2 ],
-      [ "electrokinetic_zap_enemies", 2 ],
       [ "classless_toggleable_concentration_end", 1 ]
     ]
   },
@@ -47,12 +41,16 @@
     "id": "PHOTOKINETIC",
     "name": "Awakened Photokinetic",
     "points": 0,
-    "description": "You have the power to control the light around you with your mind.",
+    "description": "Mental control of visible light and electromagnetic waves.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
     "flags": [ "PHOTOKINETIC" ],
-    "spells_learned": [ [ "photokinetic_snuff_light", 2 ], [ "photokinetic_light_dodge", 2 ], [ "photokinetic_light_local", 2 ] ]
+    "spells_learned": [
+      [ "photokinetic_create_light", 2 ],
+      [ "photokinetic_light_local", 2 ],
+      [ "classless_toggleable_concentration_end", 1 ]
+    ]
   },
   {
     "type": "mutation",
@@ -63,12 +61,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "pyrokinetic_eruption", 2 ],
-      [ "pyrokinetic_flash", 2 ],
-      [ "pyrokinetic_quell_flames", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "pyrokinetic_eruption", 2 ], [ "pyrokinetic_flash", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -79,12 +72,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telepathic_concentration", 2 ],
-      [ "telepathic_shield", 2 ],
-      [ "telepathic_morale", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "telepathic_concentration", 2 ], [ "telepathic_mind_sense", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -95,12 +83,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "telekinetic_pull", 2 ],
-      [ "telekinetic_push", 2 ],
-      [ "telekinetic_momentum", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "telekinetic_pull", 2 ], [ "telekinetic_push", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -111,12 +94,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "teleport_blink", 2 ],
-      [ "teleport_slow", 2 ],
-      [ "teleport_transpose", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "teleport_blink", 2 ], [ "teleport_slow", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
   },
   {
     "type": "mutation",
@@ -127,12 +105,16 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "spells_learned": [
-      [ "vita_stop_bleeding", 2 ],
-      [ "vita_health_power", 2 ],
-      [ "vita_hurt_touch", 2 ],
-      [ "classless_toggleable_concentration_end", 1 ]
-    ]
+    "spells_learned": [ [ "vita_slow_bleeding", 2 ], [ "vita_health_power", 2 ], [ "classless_toggleable_concentration_end", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "FIFTH_SUN_PEOPLE",
+    "name": { "str": "Fifth Sun People" },
+    "points": 0,
+    "description": "You aren't from this universe and hopefully someday you can go home.  This is a hidden trait, used for dialogue.",
+    "valid": false,
+    "player_display": false
   },
   {
     "type": "mutation",

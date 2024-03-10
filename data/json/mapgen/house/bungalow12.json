@@ -17,10 +17,10 @@
         ".------!!!!!..!!!!!.....",
         ".-!###o###oo##oo####~~~.",
         ".-!#J4666,y h y  +Z#`&~.",
-        ".-!oO,,,,, hffh  +W#`&~.",
-        ".-!oJ,3JA,  ff  y###`&~.",
-        ".-!#5,2J,, hffh y:````~.",
-        ".-##F,1JA,   h   ¶``₸`~.",
+        ".-!oO===== hffh  +W#`&~.",
+        ".-!oJ=3JA=  ff  y###`&~.",
+        ".-!#5=2J== hffh y:````~.",
+        ".-##F=1JA=   h   ¶``₸`~.",
         ".-oL             #₸KK₸~.",
         ".-*      |||||| |######.",
         ".-#||||| sHHHHs |D¤@@¤#.",
@@ -51,10 +51,10 @@
         "K": "t_concrete",
         "₸": "t_concrete",
         "~": "t_glass_railing",
-        "A": "t_linoleum_gray",
-        ",": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray"
+        "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
       "furniture": { "&": [ "f_indoor_plant", "f_indoor_plant_y" ], "0": "f_clothing_rail" },
       "items": {
@@ -66,7 +66,7 @@
         { "item": "television", "x": 19, "y": 17, "chance": 100 },
         { "item": "television", "x": 11, "y": 15, "chance": 100 }
       ],
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 17, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 0 } ],
       "vehicles": { ")": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
     }
   },

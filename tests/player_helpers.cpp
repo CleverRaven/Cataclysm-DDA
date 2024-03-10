@@ -205,6 +205,7 @@ void clear_avatar()
     clear_character( avatar );
     avatar.clear_identified();
     avatar.clear_nutrition();
+    avatar.reset_all_missions();
 }
 
 void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )

@@ -415,7 +415,6 @@
     "price_postapoc": 10,
     "to_hit": 1,
     "material": [ "plastic" ],
-    "ascii_picture": "plastic_bottle",
     "symbol": ")",
     "color": "light_cyan",
     "snippet_category": [

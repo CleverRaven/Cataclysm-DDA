@@ -48,7 +48,18 @@
     "zombify_into": "mon_draugr",
     "fungalize_into": "mon_cracked_mirror",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "FAE_CREATURE",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "DROPS_AMMO"
+    ],
     "armor": {
       "bash": 6,
       "cut": 6,
@@ -178,7 +189,18 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "hoary_blast_march_lord", "min_level": 5 }, "cooldown": 15 } ],
     "death_drops": "changeling_lord_death_drops",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "DROPS_AMMO" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "FAE_CREATURE",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "DROPS_AMMO"
+    ],
     "armor": {
       "bash": 22,
       "cut": 36,
@@ -314,7 +336,7 @@
     "special_attacks": [ { "type": "melee", "id": "sharp_objects", "attack_upper": false, "cooldown": 15 }, [ "PARROT_AT_DANGER", 800 ] ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": { "effect": { "id": "death_guilt", "min_level": 9 } },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "FAE_CREATURE", "WARM", "BASHES", "GUILT_CHILD" ],
     "armor": { "bullet": 4, "electric": 1 }
   },
   {
@@ -342,7 +364,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s bursts into a rain of pollen!" },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "FAE_CREATURE", "WARM", "BASHES" ],
     "armor": { "cut": 4, "bullet": 4, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {
@@ -375,7 +397,7 @@
     "harvest": "fae_furred",
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ { "type": "bite", "cooldown": 6 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "FAE_CREATURE", "WARM", "BASHES", "HIT_AND_RUN" ],
     "armor": { "cut": 5, "bullet": 15, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {
@@ -408,8 +430,18 @@
     "vision_night": 5,
     "harvest": "demihuman",
     "weakpoint_sets": [ "wps_humanoid_head_small", "wps_arthropod_spider" ],
-    "families": [ "prof_wp_demihuman" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "NIGHT_INVISIBILITY" ],
+    "families": [ "prof_wp_demihuman", "prof_wp_spider" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "FAE_CREATURE",
+      "WEBWALK",
+      "CLIMBS",
+      "PATH_AVOID_FIRE",
+      "PATH_AVOID_FALL",
+      "NIGHT_INVISIBILITY"
+    ],
     "armor": {
       "bash": 2,
       "cut": 6,
@@ -448,6 +480,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "harvest": "fae_furred",
+    "families": [ "prof_intro_biology", "prof_physiology" ],
     "reproduction": { "baby_monster": "mon_xe_unicorn_foal", "baby_count": 1, "baby_timer": 360 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
@@ -458,6 +491,7 @@
       "HEARS",
       "SMELLS",
       "ANIMAL",
+      "FAE_CREATURE",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",
       "PATH_AVOID_DANGER_1",
@@ -510,7 +544,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 10 },
     "special_attacks": [ [ "EAT_CROP", 100 ] ],
     "petfood": { "food": [ "UNICORNFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "FAE_CREATURE", "PET_WONT_FOLLOW", "PATH_AVOID_DANGER_1", "WARM", "NO_BREED" ],
     "armor": { "bash": 2, "electric": 1, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 }
   },
   {
@@ -543,7 +577,7 @@
     "families": [ "prof_wp_demihuman" ],
     "special_attacks": [ { "id": "ranged_pull", "cooldown": 10 }, { "id": "grab_drag" }, { "id": "drag_followup" } ],
     "path_settings": { "max_dist": 50, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
-    "flags": [ "SEES", "HEARS", "HAS_MIND", "GRABS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
+    "flags": [ "SEES", "HEARS", "HAS_MIND", "FAE_CREATURE", "GRABS", "SMELLS", "SWIMS", "AQUATIC", "GRABS" ]
   },
   {
     "id": "mon_melian_mantis_mount",
@@ -590,6 +624,7 @@
       "SEES",
       "HEARS",
       "CLIMBS",
+      "FAE_CREATURE",
       "PATH_AVOID_FIRE",
       "PET_WONT_FOLLOW",
       "PET_MOUNTABLE",

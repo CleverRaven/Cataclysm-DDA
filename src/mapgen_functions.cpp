@@ -948,7 +948,7 @@ void mapgen_forest( mapgendata &dat )
     // The depth of the perimeter at each border of the forest being generated:
     std::array<int, 8> border_depth;
 
-    for( int bd_x = 0; bd_x < 2; bd_x++ )
+    for( int bd_x = 0; bd_x < 2; bd_x++ ) {
         for( int bd_y = 0; bd_y < 2; bd_y++ ) {
             // Use the corners of the overmap tiles as hash seeds.
             point global_corner = m->getabs( point( bd_x * SEEX * 2, bd_y * SEEY * 2 ) );
@@ -971,6 +971,7 @@ void mapgen_forest( mapgendata &dat )
             border_depth[corner_index] = std::abs( h_norm_transform );
             border_depth[corner_index + 4] = std::abs( v_norm_transform );
         }
+    }
 
     // Indicies of border_depth accessible by dat.dir() nomenclature, [h_idx 0..4 : v_idx 0..4]:
     static constexpr std::array<int, 8> edge_corner_mappings = {0, 5, 3, 4, 1, 6, 2, 7};
@@ -1134,7 +1135,7 @@ void mapgen_forest( mapgendata &dat )
                                              1 );
         perimeter_depths[3] = std::max<int>( perimeter_depth[SEEX * 4 + SEEY * 2 + p.y] + root_depth_offset,
                                              1 );
-        for( int wi = 0; wi < 4; wi++ )
+        for( int wi = 0; wi < 4; wi++ ) {
             if( adjacent_biomes[wi] == nullptr ) {
                 // Biome-less terrain does not feather on its side, but biome-owning terrain is presumed to.
                 // In order to account for this, the border of the map generation function must be determined
@@ -1149,6 +1150,7 @@ void mapgen_forest( mapgendata &dat )
                                                 biome_transition_abruptness );
                 net_weight += weights[wi];
             }
+        }
         return net_weight;
     };
 
@@ -2331,6 +2333,19 @@ void mremove_trap( map *m, const point &p, trap_id type )
 }
 
 void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
+{
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
+                      m->get_abs_sub().z() ) ) ), true );
+        if( c ) {
+            return;
+        }
+    }
+    tripoint actual_location( p, m->get_abs_sub().z() );
+    m->trap_set( actual_location, type );
+}
+
+void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
 {
     if( avoid_creatures ) {
         Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,

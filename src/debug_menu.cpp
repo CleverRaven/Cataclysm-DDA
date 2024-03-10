@@ -5,24 +5,19 @@
 // IWYU pragma: no_include <cxxabi.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <csignal>
-#include <cstdlib>
 #include <functional>
 #include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
-#include <limits>
 #include <list>
 #include <locale>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <sstream>
 #include <string>
-#include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -52,7 +47,6 @@
 #include "display.h"
 #include "effect.h"
 #include "effect_on_condition.h"
-#include "effect_source.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
@@ -64,6 +58,7 @@
 #include "game_inventory.h"
 #include "global_vars.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -80,7 +75,6 @@
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"
-#include "monstergenerator.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -98,7 +92,6 @@
 #include "popup.h"
 #include "recipe_dictionary.h"
 #include "relic.h"
-#include "rng.h"
 #include "skill.h"
 #include "sounds.h"
 #include "stomach.h"
@@ -233,7 +226,6 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_VISIBILITY: return "DISPLAY_VISIBILITY";
         case debug_menu::debug_menu_index::DISPLAY_LIGHTING: return "DISPLAY_LIGHTING";
         case debug_menu::debug_menu_index::DISPLAY_TRANSPARENCY: return "DISPLAY_TRANSPARENCY";
-        case debug_menu::debug_menu_index::DISPLAY_REACHABILITY_ZONES: return "DISPLAY_REACHABILITY_ZONES";
         case debug_menu::debug_menu_index::DISPLAY_RADIATION: return "DISPLAY_RADIATION";
         case debug_menu::debug_menu_index::HOUR_TIMER: return "HOUR_TIMER";
         case debug_menu::debug_menu_index::CHANGE_SPELLS: return "CHANGE_SPELLS";
@@ -483,7 +475,6 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_TRANSPARENCY, true, 'p', _( "Toggle display transparency" ) ) },
-            { uilist_entry( debug_menu_index::DISPLAY_REACHABILITY_ZONES, true, 'z', _( "Toggle display reachability zones" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( debug_menu_index::SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( debug_menu_index::BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
@@ -1605,60 +1596,34 @@ static void character_edit_needs_menu( Character &you )
 
 static void character_edit_hp_menu( Character &you )
 {
-    const int torso_hp = you.get_part_hp_cur( bodypart_id( "torso" ) );
-    const int head_hp = you.get_part_hp_cur( bodypart_id( "head" ) );
-    const int arm_l_hp = you.get_part_hp_cur( bodypart_id( "arm_l" ) );
-    const int arm_r_hp = you.get_part_hp_cur( bodypart_id( "arm_r" ) );
-    const int leg_l_hp = you.get_part_hp_cur( bodypart_id( "leg_l" ) );
-    const int leg_r_hp = you.get_part_hp_cur( bodypart_id( "leg_r" ) );
     uilist smenu;
-    smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-    smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-    smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-    smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-    smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-    smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
-    smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
+    int pos = 0;
+    char hotkey = 'a';
+    std::vector<bodypart_id> part_ids = you.get_all_body_parts( get_body_part_flags::only_main );
+    for( bodypart_id part_id : part_ids ) {
+        smenu.addentry( pos, true, hotkey, "%s: %d", part_id->name, you.get_part_hp_cur( part_id ) );
+        pos++;
+        hotkey++;
+    }
+    smenu.addentry( pos, true, hotkey, "%s: %d", _( "All" ), you.get_lowest_hp() );
+    part_ids.emplace_back( body_part_bp_null );
     smenu.query();
     bodypart_str_id bp = body_part_no_a_real_part;
-    int bp_ptr = -1;
     bool all_select = false;
 
-    switch( smenu.ret ) {
-        case 0:
-            bp = body_part_torso;
-            bp_ptr = torso_hp;
-            break;
-        case 1:
-            bp = body_part_head;
-            bp_ptr = head_hp;
-            break;
-        case 2:
-            bp = body_part_arm_l;
-            bp_ptr = arm_l_hp;
-            break;
-        case 3:
-            bp = body_part_arm_r;
-            bp_ptr = arm_r_hp;
-            break;
-        case 4:
-            bp = body_part_leg_l;
-            bp_ptr = leg_l_hp;
-            break;
-        case 5:
-            bp = body_part_leg_r;
-            bp_ptr = leg_r_hp;
-            break;
-        case 6:
-            all_select = true;
-            break;
-        default:
-            break;
+    if( smenu.ret > static_cast<int>( part_ids.size() ) || smenu.ret < 0 ) {
+        return;
+    }
+    bp = part_ids.at( smenu.ret ).id();
+    if( bp == body_part_bp_null ) {
+        all_select = true;
     }
 
-    if( bp.is_valid() ) {
+    if( bp.is_valid() && bp != body_part_bp_null ) {
         int value;
-        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
+        if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ),
+                       you.get_part_hp_cur( bp.id() ) ) &&
+            value >= 0 )  {
             you.set_part_hp_cur( bp.id(), value );
             you.reset_stats();
         }
@@ -2325,6 +2290,35 @@ static void faction_edit_opinion_menu( faction *fac )
     }
 }
 
+static void faction_edit_larder_menu( faction *fac )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'l', _( "kcal: have stored %i" ), fac->food_supply.kcal() );
+    const auto &vits = vitamin::all();
+    for( const auto &v : vits ) {
+        smenu.addentry( -1, true, 0, _( "%s: have stored %d" ), v.second.name(),
+                        fac->food_supply.get_vitamin( v.first ) );
+    }
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply.kcal() ) ) {
+                fac->food_supply.calories = ( value * 1000 );
+            }
+            break;
+        default:
+            if( smenu.ret >= 1 && smenu.ret < static_cast<int>( vits.size() + 1 ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - 1 );
+                if( query_int( value, _( "Set %s to?  Currently: %d" ),
+                               iter->second.name(), fac->food_supply.get_vitamin( iter->first ) ) ) {
+                    fac->food_supply.set_vitamin( iter->first, value );
+                }
+            }
+    }
+}
+
 static void faction_edit_menu()
 {
 
@@ -2344,7 +2338,7 @@ static void faction_edit_menu()
          << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
     data << string_format( _( "Size: %d" ), fac->size ) << " | "
          << string_format( _( "Power: %d" ), fac->power ) << " | "
-         << string_format( _( "Food Supply: %d" ), fac->food_supply ) << std::endl;
+         << string_format( _( "Food Supply: %d" ), fac->food_supply.kcal() ) << std::endl;
     data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
          << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
          << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
@@ -2383,9 +2377,7 @@ static void faction_edit_menu()
             }
             break;
         case D_FOOD:
-            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply ) ) {
-                fac->food_supply = value;
-            }
+            faction_edit_larder_menu( fac );
             break;
         case D_OPINION:
             faction_edit_opinion_menu( fac );
@@ -2678,6 +2670,7 @@ static void debug_menu_game_state()
     add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
              player_character.get_bmr() );
     add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
+    add_msg( m_info, _( "Is debugger active: %s" ), isDebuggerActive() ? _( "Yes" ) : _( "No" ) );
     g->invalidate_main_ui_adaptor();
     g->disp_NPCs();
 }
@@ -2882,16 +2875,9 @@ void debug()
     get_event_bus().send<event_type::uses_debug_menu>( *action );
 
     // Used for quick setup, constructed outside the switches to reduce duplicate code
-    std::vector<trait_id> setup_traits;
-    setup_traits.emplace_back( trait_DEBUG_BIONICS );
-    setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
-    setup_traits.emplace_back( trait_DEBUG_CLOAK );
-    setup_traits.emplace_back( trait_DEBUG_HS );
-    setup_traits.emplace_back( trait_DEBUG_LS );
-    setup_traits.emplace_back( trait_DEBUG_MANA );
-    setup_traits.emplace_back( trait_DEBUG_NODMG );
-    setup_traits.emplace_back( trait_DEBUG_NOTEMP );
-    setup_traits.emplace_back( trait_DEBUG_SPEED );
+    std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
+                                       trait_DEBUG_HS, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_NODMG,
+                                       trait_DEBUG_NOTEMP, trait_DEBUG_SPEED};
 
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -3302,9 +3288,6 @@ void debug()
         case debug_menu_index::DISPLAY_TRANSPARENCY:
             g->display_toggle_overlay( ACTION_DISPLAY_TRANSPARENCY );
             break;
-        case debug_menu_index::DISPLAY_REACHABILITY_ZONES:
-            g->display_reachability_zones();
-            break;
         case debug_menu_index::HOUR_TIMER:
             g->toggle_debug_hour_timer();
             break;
@@ -3372,8 +3355,17 @@ void debug()
             }
             break;
         case debug_menu_index::UNLOCK_ALL:
-            if( query_yn(
-                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  The character who performs this action will need to die for it to be recorded.  Achievements are tracked from the memorial folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+            if( query_yn( _(
+                              "Activating this will add the Arcade Mode achievement unlocking all starting "
+                              "scenarios and professions for all worlds.  You will need to save the "
+                              "character in order to record this.  Achievements are tracked from the "
+                              "'achievements' folder if you need to get rid of this (and the 'memorial' "
+                              "folder if you need to get rid of this from a dead character in a legacy "
+                              "save).  Activating this will spoil factions and situations you may otherwise "
+                              "stumble upon naturally while playing.  Some scenarios are frustrating for the "
+                              "uninitiated, and some professions skip portions of the game's content.  If "
+                              "new to the game, meta progression will help you be introduced to mechanics at "
+                              "a reasonable pace." ) ) ) {
                 get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
                                                        achievement_completion::completed );
             }

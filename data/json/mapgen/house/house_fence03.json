@@ -46,7 +46,7 @@
         "&": "t_thconc_floor",
         "$": "t_thconc_floor",
         "g": "t_thconc_floor",
-        "_": "t_linoleum_gray"
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
       "furniture": { "?": "f_bunkbed", "$": "f_home_furnace", "%": "f_table", "&": "f_sink", "~": "f_floor_lamp" },
       "items": { "!": { "item": "bed", "chance": 50 } },
@@ -76,9 +76,9 @@
         "{...o@@   + =``=   ¶-..{",
         "{...#b  dd|R=``=y$ #j..{",
         "{..^#||||||R====||+#j..{",
-        "{...#A         h|8_#j..{",
-        "{...o 2514    ff|S_#...{",
-        "{...o         ff|__o...{",
+        "{...#A         h|8~#j..{",
+        "{...o 2514    ff|S~#...{",
+        "{...o         ff|~~o...{",
         "{...#6JJOF66y  h|t9#...{",
         "{...###oo####oo#####...{",
         "{.........^............{",
@@ -86,14 +86,7 @@
         "{......................{",
         "{{{{{{{{{{{{{{{{{{{{{{{{"
       ],
-      "terrain": {
-        "~": "t_door_glass_c",
-        "_": "t_linoleum_gray",
-        "{": "t_chainfence",
-        ")": "t_chaingate_c",
-        "=": "t_carpet_purple",
-        "`": "t_carpet_yellow"
-      },
+      "terrain": { "{": "t_chainfence", ")": "t_chaingate_c", "=": "t_carpet_purple", "`": "t_carpet_yellow" },
       "furniture": { "(": "f_rack", "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 50 }, "(": { "item": "clothing_outdoor_shoes", "chance": 50 } },
       "place_loot": [ { "item": "television", "x": 14, "y": 6 } ]

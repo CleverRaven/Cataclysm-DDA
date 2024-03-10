@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -29,10 +28,9 @@
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
-#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -152,6 +150,7 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Caravan_Commune_Center_Job: return "Caravan_Commune_Center_Job";
         case mission_kind::Camp_Distribute_Food: return "Camp_Distribute_Food";
 		case mission_kind::Camp_Determine_Leadership: return "Camp_Determine_Leadership";
+		case mission_kind::Camp_Have_Meal: return "Camp_Have_Meal";
         case mission_kind::Camp_Hide_Mission: return "Camp_Hide_Mission";
         case mission_kind::Camp_Reveal_Mission: return "Camp_Reveal_Mission";
         case mission_kind::Camp_Assign_Jobs: return "Camp_Assign_Jobs";
@@ -230,6 +229,10 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         },
         {
             "Camp_Determine_Leadership",
+            no_translation( "" )
+        },
+        {
+            "Camp_Have_Meal",
             no_translation( "" )
         },
         {
@@ -1212,6 +1215,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
 
         case Camp_Distribute_Food:
         case Camp_Determine_Leadership:
+        case Camp_Have_Meal:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:

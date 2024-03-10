@@ -46,11 +46,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Leave our property, Marshal.",
-      "no": {
-        "u_male": true,
-        "yes": "Hello.  We don't see many people these days.",
-        "no": "Hello.  We don't see many people these days."
-      }
+      "no": "Hello.  We don't see many people these days."
     },
     "responses": [
       {

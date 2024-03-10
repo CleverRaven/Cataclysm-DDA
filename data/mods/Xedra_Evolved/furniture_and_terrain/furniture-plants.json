@@ -33,5 +33,38 @@
       "sound_fail": "whump.",
       "items": [ { "item": "splinter", "count": [ 10, 15 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_arvore_translocator_ground",
+    "name": "forest floor",
+    "symbol": "+",
+    "looks_like": "t_forestfloor",
+    "description": "A patch of forest like any other, but you could travel here from the depths of any forest you found yourself in.",
+    "color": "green",
+    "required_str": -1,
+    "move_cost_mod": 0,
+    "flags": [ "TRANSLOCATOR", "MOUNTABLE", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "EASY_DECONSTRUCT" ],
+    "examine_action": "translocator",
+    "deconstruct": { "items": [  ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_arvore_climbing_vine",
+    "name": "climbing vine",
+    "description": "A thick vine, ascending straight up into the sky.  Its whorls and twists seem almost like naturally-formed handholds.  You could climb it if you want.",
+    "symbol": "|",
+    "looks_like": "t_bamboo_tall",
+    "color": "green",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "UNSTABLE", "CLIMBABLE" ],
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "clang!",
+      "sound_fail": "clang.",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "withered", "count": [ 40, 70 ] } ]
+    }
   }
 ]

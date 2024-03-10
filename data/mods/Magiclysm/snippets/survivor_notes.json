@@ -13,7 +13,21 @@
       },
       {
         "id": "magiclysm_note_3",
-        "text": "There was a riot at the mall here.  The only explanation I have is that some idiot was experimenting with a Mass Berserk spell.  There's a *reason* those kinds of spells are classified as military secrets…"
+        "text": "\"There was a riot at the mall here.  The only explanation I have is that some idiot was experimenting with a Mass Berserk spell.  There's a *reason* those kinds of spells are classified as military secrets…\""
+      },
+      { "id": "magiclysm_note_4", "text": "\"Took the bones.  I can use them for luck.\"" },
+      {
+        "id": "magiclysm_note_5",
+        "text": "\"Now's the time we really could use a hidden village of the elves out there.\""
+      },
+      {
+        "id": "magiclysm_note_6",
+        "text": "\"I should have majored in thaumaturgy like my mother said.  Down to a dozen bullets, two bandages, one canteen of water…need to raid the town tonight.  It's now or never.\""
+      },
+      { "id": "magiclysm_note_7", "text": "If only our ancestors hadn't lost the ability to fly." },
+      {
+        "id": "magiclysm_note_8",
+        "text": "Stock up on those broken windows.  They'll help you get in and out without being seen."
       }
     ]
   }

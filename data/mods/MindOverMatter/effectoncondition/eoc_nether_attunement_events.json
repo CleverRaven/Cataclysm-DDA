@@ -6,7 +6,7 @@
     "required_event": "opens_spellbook",
     "condition": { "not": { "u_has_effect": "effect_noetic_resilience" } },
     "effect": {
-      "switch": { "u_val": "vitamin", "name": "vitamin_psionic_drain" },
+      "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
       "cases": [
         { "case": 0, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "0.75" ] } },
         { "case": 15, "effect": { "math": [ "u_nether_attunement_power_scaling", "=", "1" ] } },
@@ -64,7 +64,7 @@
     "effect": [
       { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
       {
-        "switch": { "u_val": "vitamin", "name": "vitamin_psionic_drain" },
+        "switch": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] },
         "cases": [
           {
             "case": 15,
@@ -238,9 +238,7 @@
       {
         "u_add_effect": "psionic_overload",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -290,7 +288,7 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 2,6 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(5) + 2" ] }
     ]
   },
   {
@@ -353,7 +351,7 @@
     "effect": [
       { "u_message": "As you unleash your powers, blood drips from your nose.", "type": "bad" },
       { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
-      { "u_set_hp": { "math": [ "u_hp('head') - 1" ] }, "target_part": "head" }
+      { "math": [ "u_hp('head')", "-=", "1" ] }
     ]
   },
   {
@@ -455,9 +453,7 @@
       {
         "u_add_effect": "effect_psi_teleport_lock",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -486,9 +482,7 @@
       {
         "u_add_effect": "effect_biokin_overload",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -517,9 +511,7 @@
       {
         "u_add_effect": "effect_psi_reduced_breathing",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -548,9 +540,7 @@
       {
         "u_add_effect": "hallu",
         "duration": {
-          "math": [
-            "u_val('time: 90 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 90 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -606,9 +596,7 @@
       {
         "u_add_effect": "effect_psi_null_unbound",
         "duration": {
-          "math": [
-            "u_val('time: 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )"
-          ]
+          "math": [ "time(' 30 s') * rng( ( u_vitamin('vitamin_psionic_drain') / 2 ), ( u_vitamin('vitamin_psionic_drain') * 2 ) )" ]
         }
       }
     ]
@@ -650,7 +638,7 @@
     "effect": [
       { "u_message": "psi_nether_attention_nightmares", "snippet": true, "type": "bad" },
       { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rng( 3,9 )" ] }
+      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(7) + 3" ] }
     ]
   },
   {

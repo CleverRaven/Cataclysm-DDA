@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "craft_command.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -38,6 +39,7 @@
 #include "type_id.h"
 #include "value_ptr.h"
 #include "veh_appliance.h"
+#include "veh_type.h"
 #include "vehicle.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
@@ -48,6 +50,7 @@ static const flag_id json_flag_USE_UPS( "USE_UPS" );
 static const itype_id itype_awl_bone( "awl_bone" );
 static const itype_id itype_candle( "candle" );
 static const itype_id itype_cash_card( "cash_card" );
+static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chisel( "chisel" );
 static const itype_id itype_fake_anvil( "fake_anvil" );
 static const itype_id itype_hacksaw( "hacksaw" );
@@ -59,7 +62,9 @@ static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_thread( "thread" );
+static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
+static const itype_id itype_water_faucet( "water_faucet" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
@@ -112,6 +117,9 @@ static const skill_id skill_survival( "survival" );
 static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
 static const vpart_id vpart_ap_test_storage_battery( "ap_test_storage_battery" );
+static const vpart_id vpart_water_faucet( "water_faucet" );
+
+static const vproto_id vehicle_prototype_test_rv( "test_rv" );
 
 TEST_CASE( "recipe_subset" )
 {
@@ -381,14 +389,8 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
             item_location added_tool = player_character.i_add( gear );
             REQUIRE( added_tool );
             if( plug_in && added_tool->can_link_up() ) {
-                added_tool->link = cata::make_value<item::link_data>();
-                added_tool->link->t_state = link_state::vehicle_port;
-                added_tool->link->t_abs_pos = get_map().getglobal( player_character.pos() + tripoint_north );
-                added_tool->link->last_processed = calendar::turn;
-                added_tool->link->t_veh_safe = get_map().veh_at( player_character.pos() +
-                                               tripoint_north )->vehicle().get_safe_reference();
-                added_tool->set_link_traits();
-                REQUIRE( added_tool->link->t_veh_safe );
+                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north ),
+                                              link_state::automatic ).success() );
             }
         } else {
             boil.emplace_back( gear );
@@ -618,7 +620,7 @@ static std::pair<float, float> scen_fail_chance( const recipe_id &rid, int offse
                                     player_character.item_destruction_chance( *rid ) * 100.f );
 }
 
-TEST_CASE( "synthetic_recipe_fail_chances", "[synthetic][.][crafting]" )
+TEST_CASE( "synthetic_recipe_fail_chances", "[.]" )
 {
     std::vector<std::pair<int, bool>> scens = {
         { -MAX_SKILL, false },
@@ -2280,5 +2282,113 @@ TEST_CASE( "variant_crafting_recipes", "[crafting][slow]" )
             }
         }
         CHECK( specific_variant_count == max_iters );
+    }
+}
+
+TEST_CASE( "pseudo_tools_in_crafting_inventory", "[crafting][tools]" )
+{
+    clear_map();
+    map &here = get_map();
+
+    clear_vehicles();
+    clear_avatar();
+    avatar &player = get_avatar();
+    player.setpos( tripoint( 60, 58, 0 ) );
+    const tripoint veh_pos( 60, 60, 0 );
+    const tripoint furn1_pos( 60, 57, 0 );
+    const tripoint furn2_pos( 60, 56, 0 );
+
+    const itype_id pseudo_tool = f_smoking_rack.obj().crafting_pseudo_item;
+
+    GIVEN( "a vehicle with a liquid tank" ) {
+        vehicle *veh = here.add_vehicle( vehicle_prototype_test_rv, veh_pos, 0_degrees, 0, 0 );
+        REQUIRE( veh != nullptr );
+        for( const vpart_reference &door : veh->get_avail_parts( VPFLAG_OPENABLE ) ) {
+            door.part().open = true;
+        }
+
+        WHEN( "the tank contains liquid" ) {
+            REQUIRE( veh->fuel_left( itype_water ) == 0 );
+            int charges = 50;
+            for( const vpart_reference &tank : veh->get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
+                tank.part().ammo_set( itype_water, charges );
+                charges = 0;
+            }
+            REQUIRE( veh->fuel_left( itype_water ) == 50 );
+
+            THEN( "crafting inventory does not contain the liquid" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 0 );
+                CHECK( player.crafting_inventory().charges_of( itype_water ) == 0 );
+            }
+            WHEN( "the vehicle has a water faucet part" ) {
+                REQUIRE( veh->install_part( point_zero, vpart_water_faucet ) >= 0 );
+                THEN( "crafting inventory contains the liquid" ) {
+                    player.invalidate_crafting_inventory();
+                    CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );
+                    CHECK( player.crafting_inventory().charges_of( itype_water ) == 50 );
+                }
+            }
+            WHEN( "the vehicle has two water faucets" ) {
+                REQUIRE( veh->install_part( point_south, vpart_water_faucet ) >= 0 );
+                THEN( "crafting inventory contains the liquid" ) {
+                    player.invalidate_crafting_inventory();
+                    CHECK( player.crafting_inventory().count_item( itype_water_faucet ) == 1 );
+                    CHECK( player.crafting_inventory().charges_of( itype_water ) == 50 );
+                }
+            }
+        }
+        clear_vehicles();
+    }
+    GIVEN( "a smoking rack" ) {
+        REQUIRE( here.furn_set( furn1_pos, f_smoking_rack ) );
+        WHEN( "the smoking rack does not contain any charcoal" ) {
+            REQUIRE( here.i_at( furn1_pos ).empty() );
+            THEN( "crafting inventory contains pseudo tool for the smoker, but without any ammo" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                REQUIRE( pos >= 0 );
+                const item &rack = player.crafting_inventory().find_item( pos );
+                CHECK( rack.ammo_remaining() == 0 );
+            }
+        }
+        WHEN( "the smoking rack contains charcoal" ) {
+            here.add_item( furn1_pos, item( itype_charcoal, calendar::turn_zero, 200 ) );
+            THEN( "crafting inventory contains pseudo tool for the smoker, with ammo" ) {
+                player.invalidate_crafting_inventory();
+                CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                REQUIRE( pos >= 0 );
+                const item &rack = player.crafting_inventory().find_item( pos );
+                CHECK( rack.ammo_remaining() == 200 );
+            }
+            GIVEN( "an additional smoking rack" ) {
+                REQUIRE( here.furn_set( furn2_pos, f_smoking_rack ) );
+                WHEN( "the second smoking rack does not contain any charcoal" ) {
+                    REQUIRE( here.i_at( furn2_pos ).empty() );
+                    THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
+                        player.invalidate_crafting_inventory();
+                        CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                        REQUIRE( pos >= 0 );
+                        const item &rack = player.crafting_inventory().find_item( pos );
+                        CHECK( rack.ammo_remaining() == 200 );
+                    }
+                }
+                WHEN( "the second smoking rack also contains charcoal" ) {
+                    here.add_item( furn2_pos, item( itype_charcoal, calendar::turn_zero, 100 ) );
+                    THEN( "crafting inventory contains pseudo tool for smoking rack, with ammo" ) {
+                        player.invalidate_crafting_inventory();
+                        CHECK( player.crafting_inventory().count_item( pseudo_tool ) == 1 );
+                        const int pos = player.crafting_inventory().position_by_type( pseudo_tool );
+                        REQUIRE( pos >= 0 );
+                        const item &rack = player.crafting_inventory().find_item( pos );
+                        CHECK( rack.ammo_remaining() == 300 );
+                    }
+                }
+            }
+        }
+        clear_map();
     }
 }

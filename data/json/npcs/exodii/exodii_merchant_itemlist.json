@@ -238,11 +238,11 @@
       [ "bio_infrared", 10 ],
       [ "bio_lockpick", 10 ],
       [ "bio_night_vision", 10 ],
+      [ "bio_sonar", 10 ],
       [ "bio_power_storage_mkII", 10 ],
       [ "bio_scent_mask", 10 ],
       [ "bio_jointservo", 10 ],
       [ "bio_taste_blocker", 10 ],
-      [ "bio_trickle", 10 ],
       [ "bio_ar", 10 ]
     ]
   },
@@ -308,7 +308,7 @@
   {
     "type": "item_group",
     "id": "EXODII_CBM_tier1_power",
-    "items": [ [ "bio_power_storage", 30 ], [ "bio_batteries", 1 ], [ "bio_cable", 5 ], [ "bio_trickle", 1 ] ]
+    "items": [ [ "bio_power_storage", 30 ], [ "bio_batteries", 1 ], [ "bio_cable", 5 ] ]
   },
   {
     "type": "item_group",

@@ -1,28 +1,149 @@
 [
   {
+    "id": "AUTO_DRINK",
+    "type": "LOOT_ZONE",
+    "name": "Auto Drink",
+    "display_field": "fd_auto_drink_zone",
+    "description": "Items in this zone will be automatically consumed during a long activity if you get thirsty."
+  },
+  {
+    "id": "AUTO_EAT",
+    "type": "LOOT_ZONE",
+    "name": "Auto Eat",
+    "display_field": "fd_auto_eat_zone",
+    "description": "Items in this zone will be automatically eaten during a long activity if you get hungry."
+  },
+  {
+    "id": "CAMP_FOOD",
+    "type": "LOOT_ZONE",
+    "name": "Basecamp: Food",
+    "display_field": "fd_basecamp_food_zone",
+    "description": "Items in this zone will be added to a basecamp's food supply in the Distribute Food mission."
+  },
+  {
+    "id": "CAMP_STORAGE",
+    "type": "LOOT_ZONE",
+    "name": "Basecamp: Storage",
+    "display_field": "fd_basecamp_storage_zone",
+    "description": "Items in this zone will be added to a basecamp's inventory for use by its workers."
+  },
+  {
+    "id": "CHOP_TREES",
+    "type": "LOOT_ZONE",
+    "name": "Chop Trees",
+    "display_field": "fd_chop_trees_zone",
+    "description": "Designate an area to chop down trees."
+  },
+  {
+    "id": "CONSTRUCTION_BLUEPRINT",
+    "type": "LOOT_ZONE",
+    "name": "Construction: Blueprint",
+    "display_field": "fd_construction_blueprint_zone",
+    "description": "Designate a blueprint zone for construction."
+  },
+  {
     "id": "DISASSEMBLE",
     "type": "LOOT_ZONE",
     "name": "Disassembly Work",
+    "display_field": "fd_disassembly_work_zone",
     "description": "Items in this zone are marked for disassembly"
   },
   {
-    "id": "STRIP_CORPSES",
+    "id": "FARM_PLOT",
     "type": "LOOT_ZONE",
-    "name": "Loot: Strip Corpses",
-    "can_be_personal": true,
-    "description": "Corpses in this zone you don't otherwise sort will have everything taken off them and dropped on the same tile."
+    "name": "Farm: Plot",
+    "display_field": "fd_farm_plot_zone",
+    "description": "Designate a farm plot for tilling and planting."
+  },
+  {
+    "id": "FISHING_SPOT",
+    "type": "LOOT_ZONE",
+    "name": "Fishing Spot",
+    "display_field": "fd_fishing_spot_zone",
+    "description": "Designate an area to fish from."
+  },
+  {
+    "id": "MINING",
+    "type": "LOOT_ZONE",
+    "name": "Mine Terrain",
+    "display_field": "fd_mine_terrain_zone",
+    "description": "Designate an area to mine."
+  },
+  {
+    "id": "MOPPING",
+    "type": "LOOT_ZONE",
+    "name": "Mop Tile",
+    "display_field": "fd_mop_tile_zone",
+    "description": "Designate an area to mop clean."
+  },
+  {
+    "id": "NO_AUTO_PICKUP",
+    "type": "LOOT_ZONE",
+    "name": "No Auto Pickup",
+    "display_field": "fd_no_auto_pickup_zone",
+    "description": "You won't auto-pickup items inside the zone."
+  },
+  {
+    "id": "NO_NPC_PICKUP",
+    "type": "LOOT_ZONE",
+    "name": "No NPC Pickup",
+    "display_field": "fd_no_npc_pickup_zone",
+    "description": "Friendly NPCs don't pickup items inside the zone."
+  },
+  {
+    "id": "NPC_NO_INVESTIGATE",
+    "type": "LOOT_ZONE",
+    "name": "NPC Ignore Sounds",
+    "display_field": "fd_npc_ignore_sounds_zone",
+    "description": "Friendly NPCs won't investigate unseen sounds coming from this zone."
+  },
+  {
+    "id": "NPC_INVESTIGATE_ONLY",
+    "type": "LOOT_ZONE",
+    "name": "NPC Investigation Area",
+    "display_field": "fd_npc_investigation_area_zone",
+    "description": "Friendly NPCs will investigate unseen sounds only if they come from inside this area."
+  },
+  {
+    "id": "NPC_RETREAT",
+    "type": "LOOT_ZONE",
+    "name": "NPC Retreat",
+    "display_field": "fd_npc_retreat_zone",
+    "description": "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles."
   },
   {
     "id": "ZONE_START_POINT",
     "type": "LOOT_ZONE",
     "name": "Start Point",
+    "display_field": "fd_start_point_zone",
     "description": "A prioritized spawn point."
   },
   {
-    "id": "UNLOAD_ALL",
+    "id": "SOURCE_FIREWOOD",
     "type": "LOOT_ZONE",
-    "name": "Loot: Unload Everything",
-    "can_be_personal": true,
-    "description": "Any containers in this zone you don't otherwise sort will have their contents dumped out and placed on the same tile.  This includes corpses, magazines, and magazine wells."
+    "name": "Source: Firewood",
+    "display_field": "fd_firewood_source_zone",
+    "description": "Source for firewood or other flammable materials in this zone may be used to automatically refuel fires.  This will be done to maintain light during long-running tasks such as crafting, reading or waiting."
+  },
+  {
+    "id": "VEHICLE_DECONSTRUCT",
+    "type": "LOOT_ZONE",
+    "name": "Vehicle Deconstruct Zone",
+    "display_field": "fd_vehicle_deconstruct_zone",
+    "description": "Any vehicles in this area are marked for deconstruction."
+  },
+  {
+    "id": "VEHICLE_PATROL",
+    "type": "LOOT_ZONE",
+    "name": "Vehicle Patrol Zone",
+    "display_field": "fd_vehicle_patrol_zone",
+    "description": "Vehicles with an autopilot will patrol in this zone."
+  },
+  {
+    "id": "VEHICLE_REPAIR",
+    "type": "LOOT_ZONE",
+    "name": "Vehicle Repair Zone",
+    "display_field": "fd_vehicle_repair_zone",
+    "description": "Any vehicles in this area are marked for repair work."
   }
 ]

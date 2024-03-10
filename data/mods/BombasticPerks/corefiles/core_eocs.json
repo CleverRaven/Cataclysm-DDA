@@ -20,7 +20,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_level_up_notification",
-    "condition": { "compare_int": [ { "u_val": "var", "var_name": "no_notifications" }, "!=", { "const": 1 } ] },
+    "condition": { "math": [ "u_no_notifications", "!=", "1" ] },
     "effect": [ { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } } ]
   },
   {

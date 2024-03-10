@@ -261,6 +261,23 @@ The format is as follows:
 Valid values for `subtype` are `whitelist` and `blacklist`.
 `scenarios` is an array of the scenario ids that you want to blacklist or whitelist.
 
+### Disabling certain professions or hobbies
+The `profession_blacklist` can be either a blacklist or a whitelist.
+When it is a whitelist, only the professions/hobbies specified may be chosen.
+No more than one blacklist can be specified at one time - this is in all json loaded for a particular game (all mods + base game), not just your specific mod.
+The format is as follows:
+```json
+[
+  {
+    "type": "profession_blacklist",
+    "subtype": "blacklist",
+    "professions": [ "caffiend", "unemployed" ]
+  }
+]
+```
+Valid values for `subtype` are `whitelist` and `blacklist`.
+`professions` is an array of the profession/hobby ids that you want to blacklist or whitelist.
+
 ### Adding dialogue to existing NPCs
 
 You can't edit existing dialog, but you can add new dialogue by adding a new response that can kick off new dialogue and missions. Here is a working example from DinoMod:

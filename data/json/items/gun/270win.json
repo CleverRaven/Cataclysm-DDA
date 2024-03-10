@@ -10,7 +10,7 @@
     "variants": [
       {
         "id": "remington700_270",
-        "name": { "str_sp": "Remington 700 .270 Win" },
+        "name": { "str": "Remington 700 .270 Win rifle" },
         "description": "A classic bolt-action rifle chambered for .270 Winchester, very popular among hunters.  This is a CDL SF model with a forged, fluted, 416 stainless steel barrel threaded into the receiver and a recessed bolt face.  It has checkered walnut furniture and a recoil pad to reduce perceived recoil."
       }
     ],

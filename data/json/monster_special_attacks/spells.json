@@ -502,6 +502,26 @@
   },
   {
     "type": "SPELL",
+    "id": "spread_fungal_acid",
+    "name": { "str": "Spread Hallucinogenic Acid" },
+    "description": "Splatters hallucinogenic acid in the air in blasts.",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "NO_EXPLOSION_SFX" ],
+    "min_aoe": 2,
+    "max_aoe": 3,
+    "base_casting_time": 100,
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "attack",
+    "effect_str": "emit_hallucinogenic_spores_blast",
+    "shape": "blast",
+    "field_id": "fd_hallucinogenic_spores",
+    "field_chance": 2,
+    "min_field_intensity": 1,
+    "max_field_intensity": 2
+  },
+  {
+    "type": "SPELL",
     "id": "base_portal",
     "name": { "str": "Base characteristics of portal spells" },
     "description": "Base portal stats.",
@@ -558,22 +578,9 @@
     "id": "EOC_shifting_mass_attack",
     "condition": { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
     "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "fatigue" },
-          "+=",
-          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 20 } ] }
-        ],
-        "max": 1200
-      },
-      {
-        "arithmetic": [
-          { "u_val": "stamina" },
-          "-=",
-          { "arithmetic": [ { "global_val": "var", "var_name": "ps_str" }, "+", { "const": 50 } ] }
-        ]
-      },
-      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "+=", { "time": "1 minutes" } ] }
+      { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + ps_str + 20, 1200)" ] },
+      { "math": [ "u_val('stamina')", "*=", "ps_str + 50" ] },
+      { "math": [ "u_sleep_deprivation", "+=", "time('1 minutes')" ] }
     ]
   },
   {
@@ -627,7 +634,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
+    "condition": { "math": [ "distance('u', 'npc')", ">", "3" ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -726,6 +733,76 @@
   },
   {
     "type": "SPELL",
+    "id": "bile_spew",
+    "name": { "str": "Bile Spew" },
+    "description": "Vomit a mouthful of corpse bile at your enemies.",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "max_level": 10,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "LIQUID", "MAKE_FILTHY", "DODGEABLE", "NON_MAGICAL" ],
+    "min_accuracy": 15,
+    "accuracy_increment": 15,
+    "max_accuracy": 150,
+    "max_dodge_training": 1,
+    "min_liquid_volume": 11,
+    "liquid_volume_increment": 11,
+    "max_liquid_volume": 110,
+    "min_aoe": 5,
+    "aoe_increment": 5,
+    "max_aoe": 50,
+    "base_casting_time": 75,
+    "min_range": 3,
+    "range_increment": 0.4,
+    "max_range": 7,
+    "min_duration": 800,
+    "duration_increment": 800,
+    "max_duration": 3000,
+    "effect": "attack",
+    "effect_str": "bile",
+    "shape": "cone",
+    "field_id": "fd_bile",
+    "field_chance": 1.9,
+    "field_intensity_variance": 1,
+    "min_field_intensity": 1,
+    "field_intensity_increment": 0.2,
+    "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
+    "id": "bioluminescent_spew",
+    "name": { "str": "Bioluminescent Spew" },
+    "description": "Vomit a mouthful of glowing bile at your enemies.",
+    "valid_targets": [ "hostile", "ground", "ally" ],
+    "max_level": 10,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS", "NO_EXPLOSION_SFX", "LIQUID", "MAKE_FILTHY", "DODGEABLE", "NON_MAGICAL" ],
+    "min_accuracy": 15,
+    "accuracy_increment": 15,
+    "max_accuracy": 150,
+    "max_dodge_training": 1,
+    "min_liquid_volume": 11,
+    "liquid_volume_increment": 11,
+    "max_liquid_volume": 110,
+    "min_aoe": 5,
+    "aoe_increment": 5,
+    "max_aoe": 50,
+    "base_casting_time": 75,
+    "min_range": 3,
+    "range_increment": 0.4,
+    "max_range": 7,
+    "min_duration": 800,
+    "duration_increment": 800,
+    "max_duration": 3000,
+    "effect": "attack",
+    "effect_str": "glowing",
+    "shape": "cone",
+    "field_id": "fd_bile",
+    "field_chance": 1.9,
+    "field_intensity_variance": 1,
+    "min_field_intensity": 1,
+    "field_intensity_increment": 0.2,
+    "max_field_intensity": 3
+  },
+  {
+    "type": "SPELL",
     "id": "mon_twisting_blade_attack",
     "name": { "str": "Twisting Blade Attack" },
     "description": "Hurts you mentally.",
@@ -739,7 +816,7 @@
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "math": [ "u_pain()", "+=", "3" ] },
-      { "arithmetic": [ { "u_val": "stamina" }, "-=", { "const": 20 } ] }
+      { "math": [ "u_val('stamina')", "-=", "20" ] }
     ]
   },
   {
@@ -756,7 +833,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
+    "condition": { "math": [ "distance('u', 'npc')", ">", "4" ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -784,37 +861,29 @@
     "type": "effect_on_condition",
     "id": "EOC_mon_reflection_attack",
     "effect": {
-      "switch": { "distance": [ "u", "npc" ] },
+      "switch": { "math": [ "distance('u', 'npc')" ] },
       "cases": [
         {
           "case": 0,
           "effect": [
             { "u_message": "Your reflection feasts directly on your essence." },
-            {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
-              "max": 1200
-            },
-            {
-              "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "+=", { "const": 3 } ]
-            }
+            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            { "math": [ "portal_dungeon_reflect_strength", "+=", "3" ] }
           ]
         },
         {
           "case": 2,
           "effect": [
             { "u_message": "Your reflection uses your bond to feast on your essence." },
-            {
-              "arithmetic": [ { "u_val": "fatigue" }, "+=", { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" } ],
-              "max": 1200
-            },
-            { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" }, "++" ] }
+            { "math": [ "u_val('fatigue')", "=", "min(u_val('fatigue') + portal_dungeon_reflect_strength, 1200)" ] },
+            { "math": [ "portal_dungeon_reflect_strength", "++" ] }
           ]
         },
         {
           "case": 8,
           "effect": [
             {
-              "switch": { "rand": 10 },
+              "switch": { "math": [ "rand(10)" ] },
               "cases": [
                 {
                   "case": 0,
@@ -836,7 +905,7 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "portal_dungeon_level", ">", "0" ] },
                           { "math": [ "monsters_nearby('mon_guilt', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
@@ -857,7 +926,7 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "math": [ "portal_dungeon_level", ">", "0" ] },
                           { "math": [ "monsters_nearby('mon_sloth', 'location': dungeon_loc)", "<", "1" ] }
                         ]
                       },
@@ -1027,7 +1096,7 @@
     "type": "effect_on_condition",
     "id": "EOC_sloth_attack",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ], "min": -75 },
+      { "math": [ "portal_dungeon_slow_strength", "=", "max(portal_dungeon_slow_strength - 1, -75)" ] },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
   },
@@ -1052,8 +1121,123 @@
     "type": "effect_on_condition",
     "id": "EOC_guilt_attack",
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_carry_strength" }, "--" ], "min": -75 },
+      { "math": [ "portal_dungeon_carry_strength", "=", "max(portal_dungeon_carry_strength - 1, -75)" ] },
       { "u_add_effect": "strengthened_gravity", "duration": [ "4 hours", "6 hours" ] }
+    ]
+  },
+  {
+    "id": "fear_paralyze",
+    "type": "SPELL",
+    "name": "Fear Paralyze",
+    "description": "Paralyzes you when you see the creature.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_FEAR_PARALYZE",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 10,
+    "max_range": 10
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE",
+    "condition": { "not": { "u_has_effect": "fearparalyze" } },
+    "effect": { "run_eocs": [ "EOC_FEAR_PARALYZE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE2",
+    "condition": { "and": [ { "u_has_worn_with_flag": "PSYSHIELD_PARTIAL" }, { "one_in_chance": 4 } ] },
+    "effect": { "u_message": "The <npc_name> probes your mind, but is rebuffed!" },
+    "false_effect": { "run_eocs": [ "EOC_FEAR_PARALYZE3" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FEAR_PARALYZE3",
+    "condition": { "math": [ "rand(20) > u_val('intelligence')" ] },
+    "effect": [
+      { "u_message": "The terrifying visage of the <npc_name> paralyzes you.", "type": "bad" },
+      { "u_add_effect": "fearparalyze", "duration": 5 },
+      { "turn_cost": "4 s" }
+    ],
+    "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
+  },
+  {
+    "id": "stare",
+    "type": "SPELL",
+    "name": "Stare",
+    "description": "Applies various effects when you see the creature.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_STARE",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 150,
+    "max_range": 150
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE",
+    "//": "dimensional effects don't take against dimensionally anchored foes.",
+    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" } ] },
+    "effect": { "u_message": "You feel a strange reverberation across your body.", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE2",
+    "condition": "player_see_npc",
+    "effect": [
+      { "u_message": "The <npc_name> stares at you, and you shudder.", "type": "bad" },
+      { "run_eocs": [ "EOC_STARE_EFF" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You feel like you're being watched, it makes you sick.", "type": "bad" },
+      { "run_eocs": [ "EOC_STARE_EFF" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF",
+    "effect": [
+      {
+        "u_add_effect": "taint",
+        "intensity": { "math": [ "u_effect_intensity('taint') + 1" ] },
+        "duration": [ "2 m", "5 m" ]
+      },
+      { "run_eocs": [ "EOC_STARE_EFF2" ] },
+      { "run_eocs": [ "EOC_STARE_EFF3" ] },
+      { "run_eocs": [ "EOC_STARE_EFF4" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF2",
+    "//": "in case of fire, break glass, pull u_is_avatar",
+    "condition": { "and": [ { "math": [ "u_effect_intensity('taint') >= 2" ] }, { "one_in_chance": 2 } ] },
+    "effect": [
+      { "u_add_effect": "hallu", "duration": [ "25 m", "35 m" ] },
+      { "u_spawn_monster": "", "hallucination_count": 1, "target_range": 50, "lifespan": 60 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF3",
+    "condition": { "and": [ { "math": [ "u_effect_intensity('taint') >= 3" ] }, { "one_in_chance": 12 } ] },
+    "effect": [
+      { "u_add_effect": "blind", "duration": [ "4 m", "5 m" ] },
+      { "u_message": "Your sight darkens as the visions overtake you!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF4",
+    "condition": { "and": [ { "math": [ "u_effect_intensity('taint') == 4" ] }, { "one_in_chance": 12 } ] },
+    "effect": [
+      { "u_add_effect": "tindrift", "duration": "1 s" },
+      { "u_message": "Your sight darkens as the visions overtake you!", "type": "bad" }
     ]
   }
 ]

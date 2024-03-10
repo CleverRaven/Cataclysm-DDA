@@ -3,6 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "road_end",
+    "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "rotation": [ 0, 0 ],
       "fallback_predecessor_mapgen": "field",
@@ -162,6 +163,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "road_straight",
+    "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -255,6 +257,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "road_curved",
+    "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "field",
       "//": "Replace chunks road_curved_bend with a truck layby to deal with bad road spawns",
@@ -534,6 +537,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "road_tee",
+    "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "field",
       "rows": [
@@ -735,6 +739,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "road_four_way",
+    "weight": { "global_val": "vanilla_road_weight", "default": 1000 },
     "object": {
       "fallback_predecessor_mapgen": "field",
       "//": "Only have a chance for a rotary when no orthoganally adjacent curved",

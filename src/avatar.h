@@ -307,6 +307,9 @@ class avatar : public Character
         bool wield( item &target ) override;
         bool wield( item &target, int obtain_cost );
 
+        item::reload_option select_ammo( const item_location &base, bool prompt = false,
+                                         bool empty = true ) override;
+
         /** gets the inventory from the avatar that is interactible via advanced inventory management */
         std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
                 advanced_inv_area &square );

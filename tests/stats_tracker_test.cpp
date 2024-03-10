@@ -932,8 +932,15 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
     const character_id u_id = get_player_character().getID();
     send_game_start( get_event_bus(), u_id );
 
+    std::vector<std::string> args{ std::to_string( u_id.get_value() ), mon_zombie.c_str(), "0" };
+
+    bool dynamic_event = GENERATE( false, true );
+    CAPTURE( dynamic_event );
+
     const cata::event avatar_zombie_kill =
-        cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
+        dynamic_event
+        ? cata::event::make_dyn( event_type::character_kills_monster, args )
+        : cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie, 0 );
     get_event_bus().send( avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );

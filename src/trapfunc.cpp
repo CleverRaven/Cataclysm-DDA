@@ -56,9 +56,13 @@ static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_slow_descent( "slow_descent" );
+static const efftype_id effect_strengthened_gravity( "strengthened_gravity" );
 static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_weakened_gravity( "weakened_gravity" );
 
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNCONSUMED( "UNCONSUMED" );
 
 static const itype_id itype_bullwhip( "bullwhip" );
@@ -832,9 +836,10 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     Character *you = dynamic_cast<Character *>( c );
     if( you != nullptr ) {
-        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
-                you->has_flag( json_flag_WINGS_1 ) ) ) {
-            you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
+                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                        _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
@@ -884,9 +889,10 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 20, 50 );
-        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
-                you->has_flag( json_flag_WINGS_1 ) ) ) {
-            you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
+                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                        _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
@@ -969,9 +975,10 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     if( you != nullptr ) {
         int dodge = you->get_dodge();
         int damage = pit_effectiveness( p ) * rng( 15, 35 );
-        if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
-                you->has_flag( json_flag_WINGS_1 ) ) ) {
-            you->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+        if( you->can_fly() && ( you->has_flag( json_flag_WINGS_1 ) ||
+                                you->has_flag( json_flag_WINGS_2 ) ) ) {
+            you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                        _( "<npcname> spreads their wings to slow their fall." ) );
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
@@ -1198,7 +1205,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
         return false;
     }
 
-    if( c->has_effect_with_flag( json_flag_LEVITATION ) ) {
+    if( c->has_effect_with_flag( json_flag_LEVITATION ) && !c->has_effect( effect_slow_descent ) ) {
         return false;
     }
 
@@ -1251,6 +1258,15 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     Character *you = dynamic_cast<Character *>( c );
     if( you == nullptr ) {
         c->setpos( where );
+        if( c->get_size() == creature_size::tiny ) {
+            height = std::max( 0, height - 1 );
+        }
+        if( c->has_effect( effect_weakened_gravity ) ) {
+            height = std::max( 0, height - 1 );
+        }
+        if( c->has_effect( effect_strengthened_gravity ) ) {
+            height += 1;
+        }
         c->impact( height * 10, where );
         return true;
     }
@@ -1270,11 +1286,26 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     } else {
         you->setpos( where );
     }
-    if( you->has_flag( json_flag_WINGS_2 ) || ( one_in( 2 ) &&
-            you->has_flag( json_flag_WINGS_1 ) ) ) {
-        you->add_msg_player_or_npc( _( "You flap your wings and flutter down gracefully." ),
-                                    _( "<npcname> flaps their wings and flutters down gracefully." ) );
-    } else if( you->has_active_bionic( bio_shock_absorber ) ) {
+    if( you->get_size() == creature_size::tiny ) {
+        height = std::max( 0, height - 1 );
+    }
+    if( you->has_effect( effect_weakened_gravity ) ) {
+        height = std::max( 0, height - 1 );
+    }
+    if( you->has_effect( effect_strengthened_gravity ) ) {
+        height += 1;
+    }
+    if( you->can_fly() && you->has_flag( json_flag_WINGS_1 ) ) {
+        you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                    _( "<npcname> spreads their wings to slow their fall." ) );
+        height = std::max( 0, height - 1 );
+    }
+    if( you->can_fly() && you->has_flag( json_flag_WINGS_2 ) ) {
+        you->add_msg_player_or_npc( _( "You spread your wings to slow your fall." ),
+                                    _( "<npcname> spreads their wings to slow their fall." ) );
+        height = std::max( 0, height - 2 );
+    }
+    if( you->has_active_bionic( bio_shock_absorber ) ) {
         you->add_msg_if_player( m_info,
                                 _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
     } else if( !jetpack.is_null() ) {
@@ -1527,20 +1558,52 @@ bool trapfunc::drain( const tripoint &, Creature *c, item * )
 bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
 {
     if( critter == nullptr ) {
-        return false;
+        map &here = get_map();
+        trap tr = here.tr_at( p );
+        const spell trap_spell = tr.spell_data.get_spell();
+        npc dummy;
+        if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+            here.remove_trap( p );
+        }
+        if( tr.has_flag( json_flag_PROXIMITY ) ) {
+            // remove all traps in 3-3 area area
+            for( int x = p.x - 1; x <= p.x + 1; x++ ) {
+                for( int y = p.y - 1; y <= p.y + 1; y++ ) {
+                    tripoint pt( x, y, p.z );
+                    if( here.tr_at( pt ).loadid == tr.loadid ) {
+                        here.remove_trap( pt );
+                    }
+                }
+            }
+        }
+        // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
+        trap_spell.cast_all_effects( dummy, p );
+        trap_spell.make_sound( p, get_player_character() );
+        return true;
+    } else {
+        map &here = get_map();
+        trap tr = here.tr_at( p );
+        const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
+        npc dummy;
+        if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
+            here.remove_trap( p );
+        }
+        if( tr.has_flag( json_flag_PROXIMITY ) ) {
+            // remove all traps in 3-3 area area
+            for( int x = p.x - 1; x <= p.x + 1; x++ ) {
+                for( int y = p.y - 1; y <= p.y + 1; y++ ) {
+                    tripoint pt( x, y, p.z );
+                    if( here.tr_at( pt ).loadid == tr.loadid ) {
+                        here.remove_trap( pt );
+                    }
+                }
+            }
+        }
+        // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
+        trap_spell.cast_all_effects( dummy, critter->pos() );
+        trap_spell.make_sound( p, get_player_character() );
+        return true;
     }
-    map &here = get_map();
-    trap tr = here.tr_at( p );
-    const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
-    npc dummy;
-    if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
-        here.remove_trap( p );
-    }
-    // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
-    trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p, get_player_character() );
-
-    return true;
 }
 
 bool trapfunc::snake( const tripoint &p, Creature *, item * )

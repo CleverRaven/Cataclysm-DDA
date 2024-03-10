@@ -30,6 +30,7 @@
     "bionic_slots": 80,
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.8,
+    "windage_effect": "winded",
     "effects_on_hit": [
       {
         "id": "bleed",
@@ -390,6 +391,7 @@
     "base_hp": 60,
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
+    "windage_effect": "winded_arm_l",
     "bionic_slots": 20,
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.6,
@@ -475,6 +477,7 @@
     "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
+    "windage_effect": "winded_arm_r",
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.6,
     "effects_on_hit": [
@@ -681,6 +684,7 @@
     ],
     "sub_parts": [ "leg_hip_l", "leg_upper_l", "leg_knee_l", "leg_lower_l", "leg_draped_l" ],
     "flags": [ "LIMB_LOWER" ],
+    "windage_effect": "winded_leg_l",
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.7
   },
@@ -716,6 +720,7 @@
     "smash_message": "You bring your knee down on the %s, smashing it.",
     "bionic_slots": 30,
     "sub_parts": [ "leg_hip_r", "leg_upper_r", "leg_knee_r", "leg_lower_r", "leg_draped_r" ],
+    "windage_effect": "winded_leg_r",
     "bmi_encumbrance_threshold": 9,
     "bmi_encumbrance_scalar": 0.7,
     "effects_on_hit": [

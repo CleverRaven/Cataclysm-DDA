@@ -274,9 +274,9 @@ an exhaustive example...
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
     "travel_cost_type": "field",
     "eoc": {
-      "id": "EOC_REFUGEE_CENTER_GENERATE",
-      "condition": { "compare_num": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },
-      "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "refugee_centers" }, "++" ] } ]
+      "id": "EOC_REFUGEE_CENTER_GENERATE", 
+      "condition": { "math": [ "refugee_centers", "<", "1" ] }, 
+      "effect": [ { "math": [ "refugee_centers", "++" ] } ]
     }
 }
 ```
@@ -439,11 +439,11 @@ Depending on the subtype, there are further relevant fields:
 
 ### Fixed special overmaps
 
-| Identifier  |                                Description                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| `point`     | `[ x, y, z]` of the overmap terrain within the special.                    |
-| `overmap`   | Id of the `overmap_terrain` to place at the location.                      |
-| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. |
+| Identifier  |                                                                                      Description                                                                                           |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `point`     | `[ x, y, z]` of the overmap terrain within the special.                                                                                                                                    |
+| `overmap`   | Id of the `overmap_terrain` to place at the location. If ommited no overmap_terrain is placed but the point will still be checked for valid locations when deciding if placement is valid. |
+| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. Overrides the specials overall `locations` field.                                                               |
 
 ### Connections
 
@@ -453,7 +453,7 @@ Depending on the subtype, there are further relevant fields:
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
 | `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
-| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.				          	|
+| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.                    |
 
 ### Example mutable special
 

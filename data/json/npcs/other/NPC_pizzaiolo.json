@@ -58,7 +58,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_celebrate",
-    "dynamic_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
+    "dynamic_line": {
+      "gendered_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "[*NOM-NOM*]", "topic": "TALK_pizzaiolo_celebrate1" } ]
   },
   {
@@ -81,7 +84,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_pizzaiolo_Background",
-    "dynamic_line": "I'm just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!"
+    "dynamic_line": {
+      "gendered_line": "I'm just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!",
+      "relevant_genders": [ "npc" ]
+    }
   },
   {
     "id": "MISSION_pizzaiolo_1",

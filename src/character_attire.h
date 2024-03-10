@@ -6,6 +6,8 @@
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
+#include "magic.h"
+#include "magic_spell_effect_helpers.h"
 #include "units.h"
 
 class advanced_inventory_pane;
@@ -104,8 +106,6 @@ class outfit
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
         units::mass weight_carried_with_tweaks( const std::map<const item *, int> &without ) const;
         units::mass weight() const;
-        float weight_capacity_modifier() const;
-        units::mass weight_capacity_bonus() const;
         units::volume holster_volume() const;
         int used_holsters() const;
         int total_holsters() const;
@@ -148,6 +148,14 @@ class outfit
         float damage_resist( const damage_type_id &dt, const bodypart_id &bp, bool to_self = false ) const;
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;
+
+        /** Splash a liquid on a character's body and equipment via magic_spell_effect. Splash attacks are blocked by a combination of coverage
+         * and breathability, and items use their armor values to resist being damaged if the spell is flagged to damage them.
+         */
+        void splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp );
+        // Used with splash_attack. Returns a string relative to the amount of liquid involved in the attack.
+        std::string get_liquid_descriptor( int liquid_remaining = 0 );
+
         int get_coverage( bodypart_id bp,
                           item::cover_type cover_type = item::cover_type::COVER_DEFAULT ) const;
         void bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
@@ -214,7 +222,7 @@ class outfit
         void set_fitted();
         std::vector<item> available_pockets() const;
         void write_text_memorial( std::ostream &file, const std::string &indent, const char *eol ) const;
-        std::string get_armor_display( bodypart_id bp, unsigned int truncate = 0 ) const;
+        std::string get_armor_display( bodypart_id bp ) const;
         void activate_combat_items( npc &guy );
         void deactivate_combat_items( npc &guy );
 

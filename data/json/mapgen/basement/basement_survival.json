@@ -111,7 +111,7 @@
         { "group": "cannedfood", "x": 10, "y": 13, "chance": 75 },
         { "group": "cannedfood", "x": 10, "y": 14, "chance": 75 },
         { "group": "cannedfood", "x": 10, "y": 15, "chance": 75 },
-        { "group": "SUS_fridge_survivor", "x": 15, "y": 2, "chance": 80 },
+        { "group": "SUS_fridge_survivor", "x": 15, "y": 3, "chance": 80 },
         { "group": "book_survival", "x": 15, "y": 7, "chance": 90 },
         { "group": "book_survival", "x": 15, "y": 8, "chance": 30 },
         { "group": "gear_survival", "x": 13, "y": 10, "chance": 75 },

@@ -87,7 +87,7 @@
     "id": "TALK_LUMBERMILL_FABRICATE_END",
     "//": "This is all the dialogue related to buying bulk wood. TO-DO - Use variables to refine shop system. See SCRIPT_EFFECTS.md and isolated road fabriation system.",
     "type": "talk_topic",
-    "dynamic_line": [ "Is there anything else you want?" ],
+    "dynamic_line": "Is there anything else you want?",
     "responses": [
       { "text": "No, that's all.", "topic": "TALK_DONE" },
       {

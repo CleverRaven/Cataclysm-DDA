@@ -219,11 +219,24 @@
     "subtype": "distribution",
     "entries": [
       { "item": "mt_chainmail_arms", "prob": 20 },
+      { "group": "banner_group", "prob": 20 },
       { "item": "mt_chainmail_hood", "prob": 20 },
       { "item": "mt_chainmail_hands", "prob": 20 },
       { "item": "mt_chainmail_legs", "prob": 20 },
       { "item": "mt_chainmail_vest", "prob": 20 },
       { "item": "mt_chainmail_feet", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "banner_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "banner_dark_forest", "prob": 20 },
+      { "item": "banner_butterfly_knight", "prob": 20 },
+      { "item": "banner_angry_darkness", "prob": 20 },
+      { "item": "banner_starry_wisdom", "prob": 20 },
+      { "item": "banner_thunderous_rush", "prob": 20 }
     ]
   },
   {

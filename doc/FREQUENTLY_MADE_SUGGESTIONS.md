@@ -282,9 +282,6 @@ Storing blood for later is far outside the reach of the survivor even if they kn
 
 Coercing followers into being your personal blood bags is not going to happen. Otherwise, this would require someone with medical knowhow, matching blood types, about an hour of sitting around for the transfusion, and would make the recipient violently ill for about a day. But there is a better solution.
 
-#### Saline infusions: yes, just waiting to be added.
-
-This is a realistic and sensible way to help with hypovolemia that circumvents all the previously mentioned issues. Though, it should still require someone with medical training and wouldn't be an immediate cure, and would require scavenging, it would not be player-craftable.
 
 ### Electrical power transmission
 This covers several sub-suggestions that do or do not work for various reasons.
@@ -405,6 +402,10 @@ The old implementation of acid rain had a massive world consistency flaw, given 
 ## Failed Rationalizations
 
 These aren’t suggestions, but arguments that comes up in support of suggestions or alterations to the game. They come up constantly so I’m putting a note about them here.
+
+In the context of this game, failed rationalization means "if something was added before, it doesn't mean we should add something similar again" or "if someone wants to add something to the game, they should review it separately from the rest of the game, not relying on other parts of the game".
+The game is open-source and community-built and changes itself all the time: Whales Cataclysm and DDA have a 10-year difference and ~40k merged changes from ~2k different contributors. The game changes all the time; we've got an entire setting revamped, which means there are a lot of items that were added a long time ago that can't be added anymore, and honestly shouldn't be: mininuke manhacks, SPIW weapons, healing royal jelly, superalloy dog harnesses, etc.
+More examples:
 
 #### “Seeing as we have nanobots and power armors…”, “We have teleportation, so it’s not unreasonable to have…”: Irrelevant
 

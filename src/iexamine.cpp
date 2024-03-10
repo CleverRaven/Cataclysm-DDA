@@ -4,14 +4,11 @@
 #include <climits>
 #include <cmath>
 #include <cstdio>
-#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "activity_actor_definitions.h"
@@ -23,7 +20,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "colony.h"
 #include "color.h"
@@ -35,7 +31,6 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
-#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -49,7 +44,7 @@
 #include "game_inventory.h"
 #include "handle_liquid.h"
 #include "harvest.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -65,10 +60,8 @@
 #include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
-#include "material.h"
 #include "messages.h"
 #include "mission_companion.h"
-#include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
@@ -76,17 +69,16 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
-#include "pickup.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
@@ -122,14 +114,17 @@ static const climbing_aid_id climbing_aid_furn_CLIMBABLE( "furn_CLIMBABLE" );
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_gliding( "gliding" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_slow_descent( "slow_descent" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_teleglow( "teleglow" );
@@ -155,7 +150,6 @@ static const itype_id itype_charcoal( "charcoal" );
 static const itype_id itype_chem_carbide( "chem_carbide" );
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_disassembly( "disassembly" );
-static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_fake_milling_item( "fake_milling_item" );
 static const itype_id itype_fake_smoke_plume( "fake_smoke_plume" );
 static const itype_id itype_fertilizer( "fertilizer" );
@@ -180,8 +174,11 @@ static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_GLIDE( "GLIDE" );
+static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
+static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -209,6 +206,7 @@ static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const quality_id qual_DIG( "DIG" );
 static const quality_id qual_DRILL( "DRILL" );
 static const quality_id qual_GRASS_CUT( "GRASS_CUT" );
+static const quality_id qual_HACK( "HACK" );
 static const quality_id qual_HAMMER( "HAMMER" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
@@ -1337,8 +1335,8 @@ bool iexamine::can_hack( Character &you )
         add_msg( _( "You cannot read!" ) );
         return false;
     }
-    const bool has_item = you.has_charges( itype_electrohack, 25 );
-    if( !has_item ) {
+    item &best_hacking = you.best_item_with_quality( qual_HACK );
+    if( best_hacking.is_null() || !item_location{you, &best_hacking}->ammo_sufficient( &you ) ) {
         add_msg( _( "You don't have a hacking tool with enough charges!" ) );
         return false;
     }
@@ -1350,8 +1348,9 @@ bool iexamine::try_start_hacking( Character &you, const tripoint &examp )
     if( !can_hack( you ) ) {
         return false;
     } else {
-        you.use_charges( itype_electrohack, 25 );
-        you.assign_activity( hacking_activity_actor() );
+        item_location hacking_tool = item_location{you, &you.best_item_with_quality( qual_HACK )};
+        hacking_tool->ammo_consume( hacking_tool->ammo_required(), hacking_tool.position(), &you );
+        you.assign_activity( hacking_activity_actor( hacking_tool ) );
         you.activity.placement = get_map().getglobal( examp );
         return true;
     }
@@ -1724,7 +1723,7 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
  */
 void iexamine::safe( Character &you, const tripoint &examp )
 {
-    bool has_cracking_tool = you.has_flag( json_flag_SUPER_HEARING );
+    bool has_cracking_tool = you.has_flag( json_flag_SAFECRACK_NO_TOOL );
     // short-circuit to avoid the more expensive iteration over items
     has_cracking_tool = has_cracking_tool || you.cache_has_item_with( flag_SAFECRACK );
 
@@ -4428,25 +4427,11 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     // maybe at some point we need a pseudo item_location or something
     // but for now this should at least work as intended
     item_location pseudo_loc( map_cursor( examp ), &pseudo );
-    std::vector<item::reload_option> ammo_list;
-    for( item_location &ammo : you.find_ammo( pseudo, false, PICKUP_RANGE ) ) {
-        // Only allow the same type to reload if partially loaded.
-        if( ( amount_in_furn > 0 || !use_ammotype ) && ammo_itypeID != ammo.get_item()->typeId() ) {
-            continue;
-        }
-        if( pseudo.can_reload_with( *ammo, true ) ) {
-            ammo_list.emplace_back( &you, pseudo_loc, std::move( ammo ) );
-        }
-    }
 
-    if( ammo_list.empty() ) {
-        //~ Reloading or restocking a piece of furniture, for example a forge.
-        add_msg( m_info, _( "You need some %1$s to reload this %2$s." ), ammo->nname( 2 ),
-                 f.name() );
-        return;
-    }
+    // used to only allow one type of ammo, changed with move to inventory_selector
+    // todo: use furniture name instead of pseudo item name
+    item::reload_option opt = game_menus::inv::select_ammo( you, pseudo_loc );
 
-    item::reload_option opt = you.select_ammo( pseudo_loc, std::move( ammo_list ), f.name() );
     if( !opt ) {
         return;
     }
@@ -4863,8 +4848,6 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
 
     int pricePerUnit = getGasPricePerLiter( discount );
 
-    bool can_hack = ( !you.has_trait( trait_ILLITERATE ) && you.has_charges( itype_electrohack, 25 ) );
-
     uilist amenu;
     amenu.selected = 1;
     amenu.text = str_to_illiterate_str( _( "Welcome to AutoGas!" ) );
@@ -4886,7 +4869,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
                     +
                     format_money( pricePerUnit ) );
 
-    if( can_hack ) {
+    if( can_hack( you ) ) {
         amenu.addentry( hack, true, 'h', _( "Hack console." ) );
     }
 
@@ -5018,6 +5001,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         ledge_jump_across,
         ledge_fall_down,
         ledge_examine_furniture_below,
+        ledge_glide,
     };
 
     map &here = get_map();
@@ -5025,6 +5009,26 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                           you.posy() + 2 * sgn( examp.y - you.posy() ),
                           you.posz() );
     bool jump_target_valid = ( here.ter( jump_target ).obj().trap != tr_ledge );
+    point jd( examp.xy() + point( -you.posx(), -you.posy() ) );
+    int jump_direction = 0;
+
+    if( jd.y > 0 && jd.x == 0 ) {
+        jump_direction = 0; //south
+    } else if( jd.y > 0 && jd.x < 0 ) {
+        jump_direction = 1; //southwest
+    } else if( jd.y == 0 && jd.x < 0 ) {
+        jump_direction = 2; //west
+    } else if( jd.y < 0 && jd.x < 0 ) {
+        jump_direction = 3; //northwest
+    } else if( jd.y < 0 && jd.x == 0 ) {
+        jump_direction = 4; //north
+    } else if( jd.y < 0 && jd.x > 0 ) {
+        jump_direction = 5; //northeast
+    } else if( jd.y == 0 && jd.x > 0 ) {
+        jump_direction = 6; //east
+    } else if( jd.y > 0 && jd.x > 0 ) {
+        jump_direction = 7; //southeast
+    }
 
     tripoint just_below = examp;
     just_below.z--;
@@ -5042,8 +5046,11 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     cmenu.addentry( ledge_jump_across, jump_target_valid, 'j',
                     ( jump_target_valid ? _( "Jump across." ) : _( "Can't jump across (need a small gap)." ) ) );
     cmenu.addentry( ledge_fall_down, true, 'f', _( "Fall down." ) );
-
+    if( you.has_trait_flag( json_flag_GLIDE ) || you.has_trait_flag( json_flag_WING_GLIDE ) ) {
+        cmenu.addentry( ledge_glide, true, 'g', _( "Glide away." ) );
+    }
     cmenu.query();
+
 
     creature_tracker &creatures = get_creature_tracker();
     if( g->climb_down_menu_pick( examp, cmenu.ret ) ) {
@@ -5127,6 +5134,46 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             }
             break;
         }*/
+        case ledge_glide: {
+            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+            if( !you.move_effects( false ) ) {
+                you.moves -= 100;
+                return;
+            }
+            // The carried weight check here is redundant, but we do it anyway for better player feedback
+            if( 100 * you.weight_carried() / you.weight_capacity() > 50 &&
+                you.has_trait_flag( json_flag_WING_GLIDE ) ) {
+                add_msg( m_warning, _( "You are carrying too much to glide." ) );
+            } else if( !you.can_fly() ) {
+                add_msg( m_warning, _( "You can't manage to get airborne in your current state." ) );
+            } else {
+                int glide_distance = 5;
+                const weather_manager &weather = get_weather();
+                add_msg( m_info, _( "You soar away from the ledge." ) );
+                int angledifference = std::abs( weather.winddirection - jump_direction * 45 );
+                // Handle cases where the difference wraps around due to compass directions
+                angledifference = std::min( angledifference, 360 - angledifference );
+                if( angledifference <= 45 && weather.windspeed >= 12 ) {
+                    add_msg( m_warning, _( "Your glide is aided by a tailwind." ) );
+                    glide_distance += 1;
+                }
+                // Check if the directions are greater than 135 degrees apart
+                else if( angledifference >= 135 && weather.windspeed >= 12 ) {
+                    add_msg( m_warning, _( "Your glide is hindered by a headwind." ) );
+                    glide_distance -= 1;
+                }
+                if( jump_direction == 1 || jump_direction == 3 || jump_direction == 5 || jump_direction == 7 ) {
+                    glide_distance = std::round( 0.7 * glide_distance );
+                }
+                you.as_avatar()->grab( object_type::NONE );
+                glide_activity_actor glide( &you, jump_direction, glide_distance );
+                you.remove_effect( effect_bouldering );
+                you.assign_activity( glide );
+                you.add_effect( effect_gliding, 1_turns, true );
+                you.setpos( examp );
+            }
+            break;
+        }
         case ledge_fall_down: {
             if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
                 you.moves -= 100;
@@ -5135,6 +5182,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                     return;
                 }
                 // Step into open air, then fall...
+                if( you.has_effect_with_flag( json_flag_LEVITATION ) ) {
+                    you.add_effect( effect_slow_descent, 1_seconds, false );
+                }
                 you.setpos( examp );
                 you.gravity_check();
             } else {
@@ -5675,16 +5725,6 @@ static bool is_non_rotten_crafting_component( const item &it )
     return is_crafting_component( it ) && !it.rotten();
 }
 
-static int get_milled_amount( const itype_id &milled_id, const tripoint &examp,
-                              map &here )
-{
-    const item_filter valid = [&milled_id]( const item & itm ) {
-        return itm.typeId() == milled_id;
-    };
-    const int num_here = here.items_with( examp, valid ).size();
-    return num_here * milled_id.obj().milling_data->conversion_rate_;
-}
-
 static void mill_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
@@ -5703,8 +5743,116 @@ static void mill_activate( Character &you, const tripoint &examp )
     map_stack items = here.i_at( examp );
     units::volume food_volume = 0_ml;
 
+    std::map<itype_id, int> millable_counts;
+
+    for( const item &iter : items ) {
+        if( iter.type->milling_data && !iter.type->milling_data->into_.is_null() ) {
+            if( millable_counts.find( iter.typeId() ) == millable_counts.end() ) {
+                millable_counts.emplace( iter.typeId(), 1 );
+            } else {
+                millable_counts[iter.typeId()]++;
+            }
+        }
+    }
+
+    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+        item source( mill_type_count.first );
+        const item product( source.type->milling_data->into_ );
+        const recipe rec = *source.type->milling_data->recipe_;
+
+        if( rec.is_null() ) {
+            debugmsg( _( "Failed to find milling recipe for %s." ),
+                      source.tname( 1, false ) );
+            add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), source.tname( 1, false ) );
+            add_msg( _( "You remove the %s from the mill." ), source.tname() );
+
+            for( int i = 0; i < mill_type_count.second; i++ ) {
+                here.add_item_or_charges( you.pos(), source );
+                you.mod_moves( -you.item_handling_cost( source ) );
+                for( item &iter : items ) {
+                    if( iter.typeId() == source.typeId() ) {
+                        here.i_rem( examp, &iter );
+                        break;
+                    }
+                }
+            }
+
+        } else {
+            const requirement_data::alter_item_comp_vector &components =
+                rec.simple_requirements().get_components();
+            int lot_size = 0;
+
+            // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+            // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+            for( const std::vector<item_comp> &component : components ) {
+                for( const item_comp &comp : component ) {
+                    if( comp.type == mill_type_count.first ) {
+                        lot_size = comp.count;
+                        break;
+                    }
+                }
+
+                if( lot_size > 0 ) {
+                    break;
+                }
+            }
+
+            if( lot_size == 0 ) {
+                debugmsg( _( "Failed to find milling recipe for %s. It can't be milled." ),
+                          source.display_name().c_str() );
+                add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), source.tname( 1, false ) );
+                add_msg( _( "You remove the %s from the mill." ), source.tname() );
+
+                for( int i = 0; i < mill_type_count.second; i++ ) {
+                    here.add_item_or_charges( you.pos(), source );
+                    you.mod_moves( -you.item_handling_cost( source ) );
+                    for( item &iter : items ) {
+                        if( iter.typeId() == source.typeId() ) {
+                            here.i_rem( examp, &iter );
+                            break;
+                        }
+                    }
+                }
+            } else {
+                const int batches = mill_type_count.second / lot_size;
+                const int process_count = batches * lot_size;
+
+                if( batches == 0 ) {
+                    add_msg( m_bad, _( "This mill contains too little of %s, which requires a batch size of %d." ),
+                             source.tname( 1, false ), lot_size );
+                    add_msg( _( "You remove the %s from the mill." ), source.tname() );
+                    for( int i = 0; i < mill_type_count.second; i++ ) {
+                        here.add_item_or_charges( you.pos(), source );
+                        you.mod_moves( -you.item_handling_cost( source ) );
+                        for( item &iter : items ) {
+                            if( iter.typeId() == source.typeId() ) {
+                                here.i_rem( examp, &iter );
+                                break;
+                            }
+                        }
+                    }
+                } else if( process_count != mill_type_count.second ) {
+                    add_msg( m_bad,
+                             _( "This mill doesn't contain a full last batch of %s, which requires a batch size of %d." ),
+                             source.tname( 1, false ), lot_size );
+                    add_msg( _( "You remove the excess %s from the mill." ), source.tname() );
+                    for( int i = 0; i < mill_type_count.second - process_count; i++ ) {
+                        here.add_item_or_charges( you.pos(), source );
+                        you.mod_moves( -you.item_handling_cost( source ) );
+                        for( item &iter : items ) {
+                            if( iter.typeId() == source.typeId() ) {
+                                here.i_rem( examp, &iter );
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     for( item &it : items ) {
-        if( it.type->milling_data ) {
+        if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             food_present = true;
             food_volume += it.volume();
             continue;
@@ -5729,25 +5877,8 @@ static void mill_activate( Character &you, const tripoint &examp )
         return;
     }
 
-    std::set<std::string, localized_comparator> no_final_product;
-    for( const item &it : here.i_at( examp ) ) {
-        const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
-        if( mdata ) {
-            const int resulting_charges = get_milled_amount( it.typeId(), examp, here );
-            if( resulting_charges <= 0 ) {
-                no_final_product.emplace( it.tname() );
-            }
-        }
-    }
-    if( !no_final_product.empty()
-        && !query_yn( _( "The following items have insufficient charges and will "
-                         "not produce anything.  Continue?\n<color_white>%s</color>" ),
-                      enumerate_as_string( no_final_product ) ) ) {
-        return;
-    }
-
     for( item &it : here.i_at( examp ) ) {
-        if( it.type->milling_data ) {
+        if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
             it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
@@ -5875,7 +6006,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::mill_finalize( Character &, const tripoint &examp, const time_point &start_time )
+void iexamine::mill_finalize( Character &, const tripoint &examp )
 {
     map &here = get_map();
     const furn_id cur_mill_type = here.furn( examp );
@@ -5896,79 +6027,95 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         return;
     }
 
+    std::map<itype_id, int> millable_counts;
 
-    // Get list of milable items, their rot timer and their flags
-    std::map<itype_id, std::vector<double>> millable_rot;
-    std::map<itype_id, std::vector<flag_id>> millable_flags;
-    std::map<itype_id, item> millable_items;
-    std::vector<map_stack::iterator> iter_to_delet;
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
-        item &it = *iter;
-        if( it.type->milling_data ) {
-            it.calc_rot_while_processing( milling_time );
-            // Unset processing flag to be able to check the relative rot
-            it.unset_flag( flag_PROCESSING );
-
-            if( millable_rot.find( it.typeId() ) == millable_rot.end() ) {
-                const std::vector<double> rot_times = { it.get_relative_rot() };
-                millable_rot.emplace( it.typeId(), rot_times );
+    for( const item &iter : items ) {
+        if( iter.type->milling_data && !iter.type->milling_data->into_.is_null() ) {
+            if( millable_counts.find( iter.typeId() ) == millable_counts.end() ) {
+                millable_counts.emplace( iter.typeId(), 1 );
             } else {
-                const double rot_time = it.get_relative_rot();
-                millable_rot[it.typeId()].emplace_back( rot_time );
+                millable_counts[iter.typeId()]++;
             }
-            if( millable_flags.find( it.typeId() ) == millable_flags.end() ) {
-                std::vector<flag_id> flags;
-                for( const flag_id &f : it.type->get_flags() ) {
-                    flags.emplace_back( f );
-                }
-                millable_flags.emplace( it.typeId(), flags );
-            } else {
-                for( const flag_id &f : it.type->get_flags() ) {
-                    millable_flags[it.typeId()].emplace_back( f );
-                }
-            }
-            millable_items.emplace( it.typeId(), it );
-
-            iter_to_delet.push_back( iter );
         }
     }
-    //Create the product items
-    for( const std::pair<const string_id<itype>, std::vector<double>> &rot_data : millable_rot ) {
-        const itype_id &type = rot_data.first;
-        const std::vector<double> &relative_rots = rot_data.second;
-        const double relative_rot = std::accumulate( relative_rots.begin(), relative_rots.end(),
-                                    0.0 ) / relative_rots.size();
 
-        const islot_milling &mdata = *type->milling_data;
-        const int resulting_charges = get_milled_amount( type, examp, here );
-        // if not enough material, just remove the item (0 loops)
-        // (may happen if the player did not add enough charges to the mill
-        // or if the conversion rate is changed between versions)
-        for( int i = 0; i < resulting_charges; i++ ) {
-            item result( mdata.into_, start_time + milling_time );
-            result.components.add( millable_items[type] );
+    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+        const item source( mill_type_count.first );
+        const item product( source.type->milling_data->into_ );
+        const recipe rec = *source.type->milling_data->recipe_;
 
-            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const flag_id &f : millable_flags[type] ) {
-                if( f->craft_inherit() ) {
-                    result.set_flag( f );
-                }
-            }
+        if( rec.is_null() ) {
+            debugmsg( _( "Failed to find milling recipe for %s. It wasn't milled." ),
+                      source.display_name().c_str() );
 
-            result.recipe_charges = resulting_charges;
-            // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( flag_PROCESSING_RESULT );
-            result.set_relative_rot( relative_rot );
-            result.unset_flag( flag_PROCESSING_RESULT );
-            here.add_item( examp, result );
-        }
-    }
-    //Delete the original items that got milled
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
-        if( std::find( iter_to_delet.begin(), iter_to_delet.end(), iter ) != iter_to_delet.end() ) {
-            iter = items.erase( iter );
         } else {
-            ++iter;
+            const requirement_data::alter_item_comp_vector &components =
+                rec.simple_requirements().get_components();
+            int lot_size = 0;
+
+            // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+            // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+            for( const std::vector<item_comp> &component : components ) {
+                for( const item_comp &comp : component ) {
+                    if( comp.type == mill_type_count.first ) {
+                        lot_size = comp.count;
+                        break;
+                    }
+                }
+
+                if( lot_size > 0 ) {
+                    break;
+                }
+            }
+
+            if( lot_size == 0 ) {
+                debugmsg( _( "Failed to find milling recipe for %s. Milling of it failed." ),
+                          source.display_name().c_str() );
+                mill_type_count.second = 0;
+            } else {
+                const int batches = mill_type_count.second / lot_size;
+                const int process_count = batches * lot_size;
+
+                if( batches == 0 ) {
+                    add_msg( m_info, _( "%s is milled in batches of %d, so none was processed." ),
+                             source.tname(), lot_size );
+                } else if( process_count != mill_type_count.second ) {
+                    add_msg( m_info, _( "%s is milled in batches of %d, so %d remained unprocessed." ),
+                             source.tname(), lot_size, mill_type_count.second - batches * lot_size );
+                }
+
+                mill_type_count.second = process_count;
+
+                item_components item_component_lot;
+                int count = 0;
+
+                for( item &iter : items ) {
+                    if( iter.typeId() == mill_type_count.first ) {
+                        item_component_lot.add( iter );
+                        count++;
+                        if( count == mill_type_count.second ) {
+                            break;
+                        }
+                    }
+                }
+
+                std::vector<item> results = rec.create_results( batches, &item_component_lot );
+
+                for( const item &result : results ) {
+                    here.add_item( examp, result );
+                }
+
+                for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+                    item &it = *iter;
+
+                    if( it.typeId() == mill_type_count.first && mill_type_count.second > 0 ) {
+                        iter = items.erase( iter );
+                        mill_type_count.second--;
+                    } else {
+                        ++iter;
+                    }
+                }
+            }
         }
     }
 
@@ -6096,7 +6243,36 @@ static void mill_load_food( Character &you, const tripoint &examp,
         return it.rotten();
     } );
     std::vector<const item *> filtered = you.crafting_inventory().items_with( []( const item & it ) {
-        return static_cast<bool>( it.type->milling_data );
+        if( !it.type->milling_data || it.type->milling_data->into_.is_null() ) {
+            return false;
+        }
+
+        const item product( it.type->milling_data->into_ );
+        const recipe rec = *it.type->milling_data->recipe_;
+
+        if( rec.is_null() ) {
+            debugmsg( _( "Failed to find milling recipe for %s. It can't be inserted into the mill." ),
+                      it.display_name().c_str() );
+            return false;
+        }
+
+        const requirement_data::alter_item_comp_vector &components =
+            rec.simple_requirements().get_components();
+
+        // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+        // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+        for( const std::vector<item_comp> &component : components ) {
+            for( const item_comp &comp : component ) {
+                if( comp.type == it.typeId() ) {
+                    return true;
+                }
+            }
+        }
+
+        debugmsg( _( "Failed to find milling recipe for %s. Cannot be placed into the mill." ),
+                  it.display_name().c_str() );
+
+        return false;
     } );
 
     uilist smenu;

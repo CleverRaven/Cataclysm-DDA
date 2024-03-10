@@ -16,9 +16,9 @@
         "  ñ.................   ..            |,,|     ñ ",
         "  ñ..00..000..00....   ..          |||)!|||   ñ ",
         "  ñ..00..00...00....   ..          |W,,,,,|   ñ ",
-        "  ñ......00...00....   ..      |||||,,6j,,|   ñ ",
+        "  ñ......00...00....   ..      |||||,,6jú,|   ñ ",
         "  ñ..00.............  9.........3.63,,,jjj|   ñ ",
-        "  ñ..00..0.0..00....   .........=..=,,6,,,|   ñ ",
+        "  ñ..00..0.0..00....  í.........=..=,,6,,Ú|   ñ ",
         "  ñ..00..0.0..00.........   9  |||||n,,,,n|   ñ ",
         "  ñ  .............  .....          ||====||   ñ ",
         "  ñ                   9..          |      |   ñ ",
@@ -32,22 +32,26 @@
         "                                                "
       ],
       "palettes": [ "afs_habitat_structure", "afs_habitat_residential_furnishing" ],
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 22, 22 ], "y": [ 13, 13 ] } ],
       "terrain": {
         ".": "t_strconc_floor_no_roof",
         ",": "t_strconc_floor_heated",
         "=": "t_wall_prefab_glass",
         "!": "t_door_metal_locked",
         "ñ": "t_chainfence",
+        "í": "t_intermodal_crate_scripted_destination",
         "0": "t_strconc_floor_no_roof",
         "1": "t_ramp_down_high",
         "2": "t_ramp_down_low",
         "3": "t_door_metal_c",
+        "Ú": "t_intermodal_crate_scripted_source",
         "4": "t_door_metal_locked",
         "5": "t_wall_prefab_glass_shutters",
         "6": "t_linoleum_whitefloor_olight",
         "9": "t_region_groundcover_urban"
       },
       "furniture": { "Ñ": "f_habitat_storage_board", "7": "f_ECU", "8": "f_rack", "9": "f_micro_terraforming_mill_active" },
+      "npcs": { "ú": { "class": "spaceport_portmaster" } },
       "items": { "Ñ": { "item": "afs_stored_meats" }, "8": { "item": "afs_dead_survivor", "chance": 5 } }
     }
   },
@@ -83,7 +87,8 @@
         "                                                ",
         "                                                "
       ],
-      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ]
+      "palettes": [ "afs_habitat_structure", "afs_habitat_mech_furnishing" ],
+      "terrain": { " ": "t_open_air" }
     }
   },
   {

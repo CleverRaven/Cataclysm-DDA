@@ -82,9 +82,12 @@ enum class spell_flag : int {
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
+    NO_CORPSE_QUIET, // allow summoned monsters to vanish/leave without leaving a corpse
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
+    DODGEABLE, // the target can dodge this attack completely if they succeed on a dodge roll against its spell level.
+    MAKE_FILTHY, // requires LIQUID. The liquid splashed by this spell can add the FILTHY flag to items worn by characters, accoridng to its liquid_volume and type
     LAST
 };
 
@@ -179,6 +182,7 @@ struct fake_spell {
 
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( const Creature &caster, int min_level_override = 0 ) const;
+    spell get_spell() const;
 
     bool is_valid() const;
     void load( const JsonObject &jo );
@@ -249,6 +253,14 @@ class spell_type
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
         dbl_or_var field_intensity_variance;
 
+        // intensity of any effects this spell applies to a target via effect_str. Also affects the
+        // fire_data used to apply the onfire effect if it ignites a character's armor via a splash attack
+        // defaults to 1 if unset
+        dbl_or_var min_effect_intensity;
+        dbl_or_var effect_intensity_increment;
+        dbl_or_var max_effect_intensity;
+        dbl_or_var effect_intensity_variance;
+
         // accuracy is a bonus against dodge, block, and spellcraft
         // which allows the target to mitigate up to 33% damage for each type of resistance
         // this could theoretically add up to 100%
@@ -256,6 +268,19 @@ class spell_type
         dbl_or_var min_accuracy;
         dbl_or_var accuracy_increment;
         dbl_or_var max_accuracy;
+
+        // characters who attempt to dodge this spell will only train their skill to this rank +1
+        // only used for DODGEABLE spells
+        dbl_or_var min_dodge_training;
+        dbl_or_var dodge_training_increment;
+        dbl_or_var max_dodge_training;
+
+        // minimum amount of liquid splashed on a target by this spell
+        dbl_or_var min_liquid_volume;
+        // amount of liquid to increase per spell level
+        dbl_or_var liquid_volume_increment;
+        // maximum amount of liquid splashed on a target by this spell
+        dbl_or_var max_liquid_volume;
 
         // minimum damage this spell can cause
         dbl_or_var min_damage;
@@ -380,14 +405,24 @@ class spell_type
         static const std::string sound_variant_default;
         static const std::string effect_str_default;
         static const std::optional<field_type_id> field_default;
-        static const int field_chance_default;
+        static const float field_chance_default;
         static const int min_field_intensity_default;
         static const int max_field_intensity_default;
         static const float field_intensity_increment_default;
         static const float field_intensity_variance_default;
+        static const int min_effect_intensity_default;
+        static const float effect_intensity_increment_default;
+        static const int max_effect_intensity_default;
+        static const float effect_intensity_variance_default;
         static const int min_accuracy_default;
         static const float accuracy_increment_default;
         static const int max_accuracy_default;
+        static const int min_dodge_training_default;
+        static const float dodge_training_increment_default;
+        static const int max_dodge_training_default;
+        static const int min_liquid_volume_default;
+        static const float liquid_volume_increment_default;
+        static const int max_liquid_volume_default;
         static const int min_damage_default;
         static const float damage_increment_default;
         static const int max_damage_default;
@@ -453,6 +488,9 @@ class spell
         // minimum duration including levels (moves)
         int min_leveled_duration( const Creature &caster ) const;
         int min_leveled_accuracy( const Creature &caster ) const;
+        int min_leveled_effect_intensity( const Creature &caster ) const;
+        int min_leveled_dodge_training( const Creature &caster ) const;
+        int min_leveled_liquid_volume( const Creature &caster ) const;
 
     public:
         spell() = default;
@@ -495,6 +533,9 @@ class spell
         // how much damage does the spell do
         int damage( const Creature &caster ) const;
         int accuracy( Creature &caster ) const;
+        int effect_intensity( Creature &caster ) const;
+        float dodge_training( Creature &caster ) const;
+        int liquid_volume( Creature &caster ) const;
         int damage_dot( const Creature &caster ) const;
         damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps,
                                                 const Creature &caster ) const;
@@ -593,6 +634,9 @@ class spell
         std::string aoe_string( const Creature &caster ) const;
         std::string duration_string( const Creature &caster ) const;
 
+        spell_id get_spell_type() const {
+            return type;
+        }
         // magic energy source enum
         magic_energy_type energy_source() const;
         // the color that's representative of the damage type
@@ -604,6 +648,7 @@ class spell
         int get_effective_level() const;
         // difficulty of the level
         int get_difficulty( const Creature &caster ) const;
+
         mod_id get_src() const;
 
         // tries to create a field at the location specified
@@ -788,6 +833,9 @@ void dash( const spell &sp, Creature &caster, const tripoint &target );
 void banishment( const spell &sp, Creature &caster, const tripoint &target );
 // revives a monster into some kind of zombie if the monster has the revives flag
 void revive( const spell &sp, Creature &caster, const tripoint &target );
+// revives a dormant monster if it has the revives and the dormant flag
+void revive_dormant( const spell &sp, Creature &caster, const tripoint &target );
+void add_trap( const spell &sp, Creature &caster, const tripoint &target );
 void upgrade( const spell &sp, Creature &caster, const tripoint &target );
 // causes guilt to the target as if it killed the caster
 void guilt( const spell &sp, Creature &caster, const tripoint &target );
@@ -811,6 +859,7 @@ std::map<std::string, std::function<void( const spell &, Creature &, const tripo
 effect_map{
     { "pain_split", spell_effect::pain_split },
     { "attack", spell_effect::attack },
+    { "add_trap", spell_effect::add_trap},
     { "targeted_polymorph", spell_effect::targeted_polymorph },
     { "short_range_teleport", spell_effect::short_range_teleport },
     { "spawn_item", spell_effect::spawn_ethereal_item },
@@ -838,6 +887,7 @@ effect_map{
     { "dash", spell_effect::dash },
     { "banishment", spell_effect::banishment },
     { "revive", spell_effect::revive },
+    { "revive_dormant", spell_effect::revive_dormant },
     { "upgrade", spell_effect::upgrade },
     { "guilt", spell_effect::guilt },
     { "remove_effect", spell_effect::remove_effect },

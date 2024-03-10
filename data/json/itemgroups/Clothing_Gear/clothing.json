@@ -157,6 +157,7 @@
       { "item": "boots", "prob": 25 },
       { "item": "boots_winter", "prob": 25 },
       { "item": "boots_steel", "prob": 15 },
+      { "item": "boots_denim", "prob": 5 },
       { "item": "sneakers_steel", "prob": 15 }
     ]
   },
@@ -480,6 +481,8 @@
           {
             "distribution": [
               { "item": "jeans", "prob": 60 },
+              { "item": "jeans_ripped", "prob": 5 },
+              { "item": "jeans_skinny", "prob": 10 },
               { "item": "pants", "prob": 100 },
               { "item": "pants_leather", "prob": 30 },
               { "item": "pants_tactical", "prob": 20 },
@@ -515,7 +518,9 @@
       { "item": "boots_hiking", "prob": 40 },
       { "item": "boots_western", "prob": 15 },
       { "item": "knee_high_boots", "prob": 20 },
-      { "item": "thigh_high_boots", "prob": 20 }
+      { "item": "thigh_high_boots", "prob": 20 },
+      { "item": "boots_denim", "prob": 2 },
+      { "item": "shoes_denim", "prob": 3 }
     ]
   },
   {
@@ -530,6 +535,7 @@
             "distribution": [
               { "item": "longshirt", "prob": 80 },
               { "item": "polo_shirt", "prob": 50 },
+              { "item": "denim_shirt", "prob": 20 },
               { "item": "tshirt", "prob": 80 },
               { "item": "linuxtshirt", "prob": 10 },
               { "item": "tshirt_tour", "prob": 10 },
@@ -573,7 +579,8 @@
       { "item": "lowtops", "prob": 45 },
       { "item": "golf_shoes", "prob": 20 },
       { "item": "boots_combat", "prob": 10 },
-      { "item": "boots_hiking", "prob": 20 }
+      { "item": "boots_hiking", "prob": 20 },
+      { "item": "shoes_denim", "prob": 5 }
     ]
   },
   {
@@ -714,7 +721,7 @@
     "type": "item_group",
     "//": "Pants often worn by technicians and tradesmen.",
     "subtype": "distribution",
-    "entries": [ { "item": "technician_pants_gray", "prob": 100 } ]
+    "entries": [ { "item": "technician_pants_gray", "prob": 60 }, { "item": "denim_overalls", "prob": 40 } ]
   },
   {
     "id": "clothing_work_torso",
@@ -726,7 +733,12 @@
         "collection": [
           { "item": "technician_shirt_gray", "prob": 100 },
           {
-            "distribution": [ { "item": "coat_rain", "prob": 30 }, { "item": "jacket_jean", "prob": 20 }, { "item": "jacket_light", "prob": 40 } ],
+            "distribution": [
+              { "item": "coat_rain", "prob": 30 },
+              { "item": "jacket_jean", "prob": 20 },
+              { "item": "vest_jean", "prob": 10 },
+              { "item": "jacket_light", "prob": 40 }
+            ],
             "prob": 20
           }
         ]
@@ -744,7 +756,10 @@
       { "group": "clothing_work_gloves", "prob": 75 },
       { "group": "clothing_work_hat", "prob": 60 },
       { "group": "clothing_work_mask", "prob": 40 },
-      { "item": "ear_plugs", "prob": 15 },
+      {
+        "distribution": [ { "item": "ear_plugs" }, { "item": "attached_ear_plugs_off" }, { "item": "attachable_ear_muffs" } ],
+        "prob": 60
+      },
       { "item": "tool_belt", "prob": 25 },
       {
         "distribution": [
@@ -805,6 +820,7 @@
       { "item": "toecaps", "prob": 30 },
       [ "sneakers_steel", 28 ],
       [ "fishing_waders", 20 ],
+      [ "denim_overalls", 20 ],
       [ "technician_coveralls", 15 ],
       [ "technician_coveralls_h", 5 ],
       [ "apron_plastic", 30 ],
@@ -891,10 +907,11 @@
       { "item": "unitard", "prob": 10 },
       { "item": "gloves_wraps", "prob": 45 },
       { "item": "jeans", "prob": 30 },
+      { "item": "jeans_ripped", "prob": 5 },
       { "item": "sports_bra", "prob": 25 },
       { "item": "jacket_leather", "prob": 20 },
       { "item": "jacket_varsity", "prob": 10 },
-      { "prob": 30, "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "prob": 30, "group": "bottle_otc_painkiller_20" },
       { "item": "water_clean", "prob": 30 },
       { "item": "sports_drink", "prob": 30 },
       { "group": "used_1st_aid", "prob": 20 },
@@ -1378,6 +1395,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "skirt", "prob": 5 },
+      { "item": "skirt_denim", "prob": 5 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "skirt_long", "prob": 5 },
       { "item": "leggings", "prob": 3 },
@@ -1395,6 +1413,7 @@
     "items": [
       [ "skirt", 40 ],
       [ "skirt_long", 40 ],
+      [ "skirt_denim", 15 ],
       [ "skirt_leather", 5 ],
       [ "dress", 120 ],
       [ "sundress", 50 ],
@@ -1436,6 +1455,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jeans", "prob": 90 },
+      { "item": "jeans_ripped", "prob": 10 },
+      { "item": "jeans_skinny", "prob": 20 },
       { "item": "jeans_red", "prob": 50 },
       { "item": "shorts", "prob": 70 },
       { "item": "shorts_denim", "prob": 35 },
@@ -1477,6 +1498,7 @@
       { "group": "pants_male", "prob": 200 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_long", "prob": 25 },
+      { "item": "skirt_denim", "prob": 10 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "leggings", "prob": 15 },
       { "item": "cheerleader_skirt", "prob": 1 },
@@ -1491,6 +1513,8 @@
     "magazine": 100,
     "items": [
       [ "jeans", 90 ],
+      [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 20 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 50 ],
@@ -1505,6 +1529,7 @@
       [ "breeches", 5 ],
       [ "skirt", 75 ],
       [ "skirt_long", 50 ],
+      [ "skirt_denim", 10 ],
       [ "dress", 70 ],
       [ "sundress", 50 ],
       [ "camisole", 60 ],
@@ -1538,6 +1563,7 @@
       [ "longshirt", 70 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 30 ],
       [ "tank_top", 50 ],
       [ "sweatshirt", 75 ],
       [ "sweater", 75 ],
@@ -1548,6 +1574,7 @@
       [ "jacket_windbreaker", 25 ],
       [ "jacket_varsity", 20 ],
       [ "jacket_jean", 35 ],
+      [ "vest_jean", 15 ],
       [ "gosling_jacket", 3 ],
       [ "blazer", 35 ],
       [ "towel", 40 ],
@@ -1702,6 +1729,7 @@
       { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       [ "cheerleader_top_short", 1 ],
       [ "flag_jumpsuit", 2 ],
+      [ "denim_overalls", 10 ],
       [ "jumpsuit_skeleton", 1 ],
       [ "mummy_jumpsuit", 1 ],
       [ "flag_swimsuit", 2 ],
@@ -1730,9 +1758,11 @@
       [ "lowtops", 45 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 5 ],
+      [ "shoes_denim", 5 ],
       [ "heels", 50 ],
       [ "golf_shoes", 20 ],
       [ "boots_combat", 10 ],
+      [ "boots_denim", 1 ],
       [ "boots_hiking", 20 ],
       [ "boots_western", 10 ],
       [ "clogs", 1 ],
@@ -1749,6 +1779,8 @@
     "id": "pants",
     "items": [
       [ "jeans", 90 ],
+      [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 20 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
@@ -1761,6 +1793,7 @@
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
       [ "skirt_long", 55 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "leggings", 15 ],
       [ "under_armor_shorts", 20 ],
@@ -1786,6 +1819,7 @@
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 30 ],
       [ "tank_top", 50 ],
       [ "sweatshirt", 75 ],
       [ "sweater", 75 ],
@@ -2025,8 +2059,10 @@
       [ "lowtops", 100 ],
       [ "dress_shoes", 50 ],
       [ "dance_shoes", 20 ],
+      [ "shoes_denim", 5 ],
       [ "heels", 100 ],
       [ "golf_shoes", 40 ],
+      [ "boots_denim", 5 ],
       [ "boots_hiking", 40 ],
       [ "boots_western", 60 ],
       [ "clogs", 60 ],
@@ -2061,6 +2097,7 @@
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
       { "item": "rucksack", "prob": 20 },
+      { "item": "backpack_denim", "prob": 3 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 },
       { "item": "leg_bag", "prob": 1 },
@@ -2093,6 +2130,7 @@
       { "item": "purse", "prob": 40 },
       { "item": "mbag", "prob": 20 },
       { "item": "slingpack", "prob": 8 },
+      { "item": "backpack_denim", "prob": 3 },
       { "item": "backpack_leather", "prob": 8 },
       { "item": "briefcase", "prob": 10 }
     ]
@@ -2195,6 +2233,8 @@
     "subtype": "distribution",
     "entries": [
       { "item": "jeans", "prob": 90 },
+      { "item": "jeans_ripped", "prob": 10 },
+      { "item": "jeans_skinny", "prob": 20 },
       { "item": "pants_checkered", "prob": 5 },
       { "item": "shorts", "prob": 70 },
       { "item": "shorts_denim", "prob": 35 },
@@ -2209,6 +2249,8 @@
       { "item": "cowboy_hat", "prob": 10 },
       { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 1 },
       { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 70, "event": "independence_day" },
+      { "item": "boots_denim", "prob": 2 },
+      { "item": "shoes_denim", "prob": 5 },
       { "item": "boots_western", "prob": 8 },
       { "item": "glasses_monocle", "prob": 2 },
       { "item": "pants_leather", "prob": 60 },
@@ -2217,11 +2259,13 @@
       { "item": "shorts_cargo", "prob": 50 },
       { "item": "skirt", "prob": 75 },
       { "item": "skirt_long", "prob": 55 },
+      { "item": "skirt_denim", "prob": 10 },
       { "item": "skirt_leather", "prob": 5 },
       { "item": "tshirt", "prob": 70 },
       { "item": "longshirt", "prob": 80 },
       { "item": "polo_shirt", "prob": 65 },
       { "item": "dress_shirt", "prob": 60 },
+      { "item": "denim_shirt", "prob": 30 },
       { "item": "tank_top", "prob": 50 },
       { "item": "camisole", "prob": 30 },
       { "item": "bra", "prob": 30 },
@@ -2251,6 +2295,7 @@
       { "item": "jacket_varsity", "prob": 20 },
       { "item": "gosling_jacket", "prob": 5 },
       { "item": "jacket_jean", "prob": 35 },
+      { "item": "vest_jean", "prob": 20 },
       { "item": "blazer", "prob": 35 },
       { "item": "jacket_leather", "prob": 30 },
       { "item": "tacjacket", "prob": 30 },
@@ -2459,6 +2504,7 @@
       { "item": "tank_top", "variant": "tank_top_cheerleader", "prob": 5 },
       { "item": "cheerleader_top_short", "prob": 1 },
       { "item": "flag_jumpsuit", "prob": 2 },
+      { "item": "denim_overalls", "prob": 10 },
       { "item": "jumpsuit_skeleton", "prob": 1 },
       { "item": "mummy_jumpsuit", "prob": 1 },
       { "item": "bodysuit_lycra", "prob": 5 },
@@ -2727,7 +2773,9 @@
       { "item": "toecaps", "prob": 30 },
       [ "sneakers_steel", 35 ],
       [ "boots_hiking", 40 ],
-      [ "dress_shoes", 50 ]
+      [ "dress_shoes", 50 ],
+      [ "boots_denim", 1 ],
+      [ "shoes_denim", 1 ]
     ]
   },
   {
@@ -2742,6 +2790,7 @@
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 20 ],
       [ "dress", 70 ],
       [ "sweatshirt", 75 ],
       [ "sweater", 75 ],
@@ -2760,11 +2809,13 @@
     "id": "lab_pants",
     "items": [
       [ "jeans", 90 ],
+      [ "jeans_skinny", 10 ],
       [ "pants_checkered", 5 ],
       [ "pants", 75 ],
       [ "pants_cargo", 70 ],
       [ "skirt", 75 ],
-      [ "skirt_long", 60 ]
+      [ "skirt_long", 60 ],
+      [ "skirt_denim", 10 ]
     ]
   },
   {
@@ -2929,6 +2980,7 @@
       { "item": "toecaps", "prob": 30 },
       { "item": "sneakers_steel", "prob": 35 },
       { "item": "boots_hiking", "prob": 10 },
+      { "item": "denim_overalls", "prob": 15 },
       { "item": "technician_coveralls", "prob": 15 },
       { "item": "technician_coveralls_h", "prob": 5 },
       { "item": "gloves_rubber", "prob": 20 },
@@ -3178,6 +3230,7 @@
       [ "boots_scrap", 12 ],
       [ "boots_steel", 28 ],
       [ "sneakers_steel", 20 ],
+      [ "boots_denim", 2 ],
       [ "boots_hiking", 24 ],
       [ "boots_combat", 12 ],
       [ "boots_larmor", 14 ],
@@ -3230,6 +3283,7 @@
       [ "runner_bag", 20 ],
       [ "molle_pack", 12 ],
       [ "backpack", 40 ],
+      [ "backpack_denim", 12 ],
       [ "backpack_leather", 32 ],
       [ "mbag", 26 ],
       [ "purse", 14 ],
@@ -3243,7 +3297,6 @@
       { "item": "mask_gas", "prob": 24, "charges": [ 0, 100 ] },
       { "item": "mask_filter", "prob": 12, "charges": [ 0, 100 ] },
       [ "mask_bunker", 2 ],
-      [ "mask_wsurvivor", 4 ],
       [ "mask_fsurvivor", 2 ],
       [ "sunglasses", 12 ],
       [ "fitover_sunglasses", 8 ],
@@ -3426,6 +3479,8 @@
     "items": [
       [ "basket_laundry", 30 ],
       [ "jeans", 90 ],
+      [ "jeans_ripped", 10 ],
+      [ "jeans_skinny", 20 ],
       [ "pants_checkered", 5 ],
       [ "shorts", 70 ],
       [ "shorts_denim", 35 ],
@@ -3438,11 +3493,13 @@
       [ "shorts_cargo", 50 ],
       [ "skirt", 75 ],
       [ "skirt_long", 60 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "tshirt", 70 ],
       [ "longshirt", 80 ],
       [ "polo_shirt", 65 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 30 ],
       [ "tank_top", 50 ],
       [ "camisole", 30 ],
       [ "bra", 30 ],
@@ -3472,6 +3529,7 @@
       [ "jacket_varsity", 20 ],
       [ "gosling_jacket", 5 ],
       [ "jacket_jean", 35 ],
+      [ "vest_jean", 20 ],
       [ "blazer", 35 ],
       [ "gloves_light", 35 ],
       [ "mittens", 30 ],
@@ -3760,6 +3818,7 @@
       { "item": "arm_warmers", "prob": 20 },
       { "item": "armguard_soft", "prob": 10 },
       { "item": "dress_shirt", "prob": 50 },
+      { "item": "denim_shirt", "prob": 15 },
       { "item": "flag_shirt", "prob": 15 },
       { "item": "jersey", "prob": 30 },
       { "item": "linuxtshirt", "prob": 10 },
@@ -3880,6 +3939,8 @@
         "prob": 20
       },
       { "item": "jeans", "prob": 80 },
+      { "item": "jeans_ripped", "prob": 7 },
+      { "item": "jeans_skinny", "prob": 15 },
       { "item": "jeans_red", "prob": 20 },
       { "item": "leg_warmers", "prob": 20 },
       { "item": "leggings", "prob": 30 },
@@ -3902,6 +3963,7 @@
       { "item": "nanoskirt", "prob": 10 },
       { "item": "skirt", "prob": 50 },
       { "item": "skirt_long", "prob": 40 },
+      { "item": "skirt_denim", "prob": 20 },
       { "item": "skirt_leather", "prob": 10 }
     ]
   },
@@ -4006,6 +4068,7 @@
           { "item": "daypack", "prob": 25 },
           { "item": "backpack_leather", "prob": 40 },
           { "item": "backpack", "prob": 85 },
+          { "item": "backpack_denim", "prob": 5 },
           { "item": "backpack_hiking", "prob": 25 },
           { "item": "duffelbag", "prob": 80 },
           { "item": "travelpack", "prob": 25 },
@@ -4194,6 +4257,7 @@
         "distribution": [
           { "item": "vest", "prob": 80 },
           { "item": "vest_leather", "prob": 20 },
+          { "item": "vest_jean", "prob": 25 },
           { "item": "tank_top", "variant": "tank_top_camo", "prob": 40 },
           { "item": "blazer", "prob": 70 }
         ],
@@ -4221,7 +4285,8 @@
           { "item": "boots_winter", "prob": 30 },
           { "item": "knee_high_boots", "prob": 15 },
           { "item": "motorbike_boots", "prob": 35 },
-          { "item": "thigh_high_boots", "prob": 5 }
+          { "item": "thigh_high_boots", "prob": 5 },
+          { "item": "boots_denim", "prob": 5 }
         ],
         "prob": 60
       },
@@ -4251,7 +4316,8 @@
           { "item": "dress_shoes", "prob": 50 },
           { "item": "lowtops", "prob": 30 },
           { "item": "mocassins", "prob": 10 },
-          { "item": "sneakers", "prob": 35 }
+          { "item": "sneakers", "prob": 35 },
+          { "item": "shoes_denim", "prob": 5 }
         ],
         "prob": 70
       },
@@ -4516,11 +4582,15 @@
   },
   {
     "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_20",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
+    "id": "bottle_otc_painkiller_20",
+    "subtype": "distribution",
+    "//": "Includes aspirin and other similar low-grade painkillers.",
     "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": 20 } ]
+    "entries": [
+      { "item": "aspirin", "container-item": "null", "count": 20 },
+      { "item": "ibuprofen", "container-item": "null", "count": 20 },
+      { "item": "acetaminophen", "container-item": "null", "count": 20 }
+    ]
   },
   {
     "type": "item_group",

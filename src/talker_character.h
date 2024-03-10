@@ -111,7 +111,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
-        std::string get_value( const std::string &var_name ) const override;
+        std::optional<std::string> maybe_get_value( const std::string &var_name ) const override;
 
         // stats, skills, traits, bionics, magic, and proficiencies
         std::vector<skill_id> skills_teacheable() const override;
@@ -238,6 +238,8 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_proficiency_practiced_time( const proficiency_id &prof, int turns ) override;
         void mutate( const int &highest_cat_chance, const bool &use_vitamins ) override;
         void mutate_category( const mutation_category_id &mut_cat, const bool &use_vitamins ) override;
+        void mutate_towards( const trait_id &trait, const mutation_category_id &mut_cat,
+                             const bool &use_vitamins ) override;
         void set_mutation( const trait_id &new_trait, const mutation_variant * = nullptr ) override;
         void unset_mutation( const trait_id &old_trait ) override;
         void activate_mutation( const trait_id &trait ) override;
@@ -287,7 +289,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         void set_height( int ) override;
         void add_bionic( const bionic_id &new_bionic ) override;
         void remove_bionic( const bionic_id &old_bionic ) override;
-        std::vector<bodypart_id> get_all_body_parts( bool all, bool main_only ) const override;
+        std::vector<bodypart_id> get_all_body_parts( get_body_part_flags flags ) const override;
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         void set_all_parts_hp_cur( int ) const override;

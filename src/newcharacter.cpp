@@ -10,7 +10,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <tuple>
@@ -31,7 +30,7 @@
 #include "cursesdef.h"
 #include "enum_conversions.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
@@ -44,7 +43,6 @@
 #include "mod_manager.h"
 #include "monster.h"
 #include "mutation.h"
-#include "name.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
@@ -63,6 +61,7 @@
 #include "start_location.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -90,6 +89,7 @@ static const matype_id style_none( "style_none" );
 static const profession_group_id
 profession_group_adult_basic_background( "adult_basic_background" );
 
+static const trait_id trait_FACIAL_HAIR_NONE( "FACIAL_HAIR_NONE" );
 static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_WEAKSCENT( "WEAKSCENT" );
 static const trait_id trait_XS( "XS" );
@@ -373,7 +373,7 @@ void Character::pick_name( bool bUseDefault )
     if( bUseDefault && !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
         name = get_option<std::string>( "DEF_CHAR_NAME" );
     } else {
-        name = Name::generate( male );
+        name = SNIPPET.expand( male ? "<male_full_name>" : "<female_full_name>" );
     }
 }
 
@@ -453,7 +453,6 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     init_age = rng( this->prof->age_lower, this->prof->age_upper );
-    randomize_hobbies();
     starting_city = std::nullopt;
     world_origin = std::nullopt;
     random_start_location = true;
@@ -464,6 +463,7 @@ void avatar::randomize( const bool random_scenario, bool play_now )
     per_max = rng( 6, HIGH_STAT - 2 );
 
     set_body();
+    randomize_hobbies();
 
     int num_gtraits = 0;
     int num_btraits = 0;
@@ -601,6 +601,8 @@ void avatar::randomize_cosmetics()
     //arbitrary 50% chance to add beard to male characters
     if( male && one_in( 2 ) ) {
         randomize_cosmetic_trait( type_facial_hair );
+    } else {
+        set_mutation( trait_FACIAL_HAIR_NONE );
     }
 }
 
@@ -822,6 +824,19 @@ void Character::set_proficiencies_from_hobbies()
     }
 }
 
+void Character::set_bionics_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const bionic_id &bio : profession->CBMs() ) {
+            if( has_bionic( bio ) && !bio->dupes_allowed ) {
+                return;
+            } else {
+                add_bionic( bio );
+            }
+        }
+    }
+}
+
 void Character::initialize( bool learn_recipes )
 {
     recalc_hp();
@@ -881,6 +896,8 @@ void Character::initialize( bool learn_recipes )
     for( const bionic_id &bio : prof->CBMs() ) {
         add_bionic( bio );
     }
+
+    set_bionics_from_hobbies();
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
 
@@ -981,6 +998,12 @@ void avatar::initialize( character_type type )
     }
 
     prof->learn_spells( *this );
+
+    // Also learn spells from hobbies
+    for( const profession *profession : hobbies ) {
+        profession->learn_spells( *this );
+    }
+
 }
 
 static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,
@@ -2043,7 +2066,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
             assembled += "\n";
         }
         if( !prof_ma_choices.empty() ) {
-            assembled += colorize( _( string_format( "Choose %s:", ma_amount ) ), c_cyan ) + "\n";
+            assembled += colorize( string_format( _( "Choose %d:" ), ma_amount ), c_cyan ) + "\n";
             for( const matype_id &ma : prof_ma_choices ) {
                 const martialart &style = ma.obj();
                 assembled += style.name.translated() + "\n";
@@ -2516,6 +2539,25 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
         }
     }
 
+    auto prof_CBMs = sorted_hobbies[cur_id]->CBMs();
+    if( !prof_CBMs.empty() ) {
+        assembled += "\n" + colorize( _( "Background bionics:" ), COL_HEADER ) + "\n";
+        std::sort( std::begin( prof_CBMs ), std::end( prof_CBMs ), []( const bionic_id & a,
+        const bionic_id & b ) {
+            return a->activated && !b->activated;
+        } );
+        for( const auto &b : prof_CBMs ) {
+            const bionic_data &cbm = b.obj();
+            if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
+                assembled += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
+            } else if( cbm.activated ) {
+                assembled += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
+            } else {
+                assembled += cbm.name + "\n";
+            }
+        }
+    }
+
     // Background spells
     if( !sorted_hobbies[cur_id]->spells().empty() ) {
         assembled += "\n" + colorize( _( "Background spells:" ), COL_HEADER ) + "\n";
@@ -2657,7 +2699,15 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_hobbies ) {
-            std::vector<profession_id> new_hobbies = profession::get_all_hobbies();
+            std::vector<profession_id> new_hobbies = get_scenario()->permitted_hobbies();
+            new_hobbies.erase( std::remove_if( new_hobbies.begin(), new_hobbies.end(),
+            [&u]( const string_id<profession> &hobby ) {
+                return !u.prof->allows_hobby( hobby );
+            } ), new_hobbies.end() );
+            if( new_hobbies.empty() ) {
+                debugmsg( "Why would you blacklist all hobbies?" );
+                new_hobbies = profession::get_all_hobbies();
+            }
             profession_sorter.male = u.male;
             if( ( hobbies_length = filter_entries( u, cur_id, sorted_hobbies, new_hobbies,
                                                    u.hobbies.empty() ? string_id<profession>() : ( *u.hobbies.begin() )->ident(), filterstring,
@@ -3421,7 +3471,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
+                                             _( "Select cataclysm start date" ), calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -3429,7 +3479,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 scen = get_scenario();
             }
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date", calendar_ui::granularity::hour ) );
+                                        _( "Select game start date" ), calendar_ui::granularity::hour ) );
             details_recalc = true;
         } else if( action == "RESET_CALENDAR" ) {
             const scenario *scen = sorted_scens[cur_id];
@@ -4302,11 +4352,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         } else if( action == "CHANGE_START_OF_CATACLYSM" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_cataclysm( calendar_ui::select_time_point( scen->start_of_cataclysm(),
-                                             "Select cataclysm start date", calendar_ui::granularity::hour ) );
+                                             _( "Select cataclysm start date" ), calendar_ui::granularity::hour ) );
         } else if( action == "CHANGE_START_OF_GAME" ) {
             const scenario *scen = get_scenario();
             scen->change_start_of_game( calendar_ui::select_time_point( scen->start_of_game(),
-                                        "Select game start date", calendar_ui::granularity::hour ) );
+                                        _( "Select game start date" ), calendar_ui::granularity::hour ) );
         } else if( action == "RESET_CALENDAR" ) {
             get_scenario()->reset_calendar();
         } else if( action == "CHOOSE_CITY" ) {
@@ -4445,13 +4495,16 @@ std::vector<trait_id> Character::get_base_traits() const
 }
 
 std::vector<trait_id> Character::get_mutations( bool include_hidden,
-        bool ignore_enchantments ) const
+        bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
     result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
-        if( include_hidden || t.first.obj().player_display ) {
-            result.push_back( t.first );
+        const mutation_branch &mut = t.first.obj();
+        if( include_hidden || mut.player_display ) {
+            if( filter == nullptr || filter( mut ) ) {
+                result.push_back( t.first );
+            }
         }
     }
     if( !ignore_enchantments ) {
@@ -4465,7 +4518,9 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
                     }
                 }
                 if( !found ) {
-                    result.push_back( ench_trait );
+                    if( filter == nullptr || filter( ench_trait.obj() ) ) {
+                        result.push_back( ench_trait );
+                    }
                 }
             }
         }
@@ -4717,11 +4772,6 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.per_max = 8;
     set_scenario( scen );
     u.prof = &default_prof.obj();
-    for( auto &t : u.get_mutations() ) {
-        if( t.obj().hp_modifier.has_value() ) {
-            u.toggle_trait_deps( t );
-        }
-    }
 
     u.hobbies.clear();
     u.add_default_background();

@@ -1,11 +1,11 @@
 #include "past_games_info.h"
 
 #include <algorithm>
-#include <functional>
 #include <map>
-#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <vector>
+#include <unordered_set>
 #include <utility>
 
 #include "achievement.h"
@@ -13,7 +13,7 @@
 #include "debug.h"
 #include "event.h"
 #include "filesystem.h"
-#include "json.h"
+#include "input.h"
 #include "json_loader.h"
 #include "memorial_logger.h"
 #include "output.h"
@@ -35,7 +35,7 @@ past_game_info::past_game_info( const JsonObject &jo )
 {
     int version;
     jo.read( "memorial_version", version );
-    if( version == 0 ) {
+    if( version == 0 || version == 1 ) {
         jo.read( "log", log_ );
         stats_ = std::make_unique<stats_tracker>();
         jo.read( "stats", *stats_ );
@@ -45,6 +45,9 @@ past_game_info::past_game_info( const JsonObject &jo )
     } else {
         throw JsonError( string_format( "unexpected memorial version %d", version ) );
     }
+
+    // See past_games_info::legacy_achievement
+    legacy_achievements = version == 0;
 
     // Extract avatar name info from the game_avatar_new event
     // gives the starting character name; "et. al." is appended if there was character switching
@@ -86,10 +89,11 @@ void past_games_info::clear()
     *this = past_games_info();
 }
 
-const achievement_completion_info *past_games_info::achievement( const achievement_id &ach ) const
+const achievement_completion_info *past_games_info::legacy_achievement(
+    const achievement_id &ach ) const
 {
-    auto ach_it = completed_achievements_.find( ach );
-    return ach_it == completed_achievements_.end() ? nullptr : &ach_it->second;
+    auto ach_it = legacy_achievements_.find( ach );
+    return ach_it == legacy_achievements_.end() ? nullptr : &ach_it->second;
 }
 
 void past_games_info::ensure_loaded()
@@ -166,8 +170,10 @@ void past_games_info::ensure_loaded()
             if( !enabled_it->second.get<bool>() ) {
                 continue;
             }
-            achievement_id ach = ach_it->second.get<achievement_id>();
-            completed_achievements_[ach].games_completed.push_back( &game );
+            if( game.is_legacy_achievements() ) {
+                const achievement_id ach = ach_it->second.get<achievement_id>();
+                legacy_achievements_[ach].games_completed.push_back( &game );
+            }
         }
         inp_mngr.pump_events();
     }

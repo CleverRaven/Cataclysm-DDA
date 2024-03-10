@@ -1,0 +1,12 @@
+[
+  {
+    "type": "mutation",
+    "id": "FAERIECREATURE",
+    "name": { "str": "Fae creature" },
+    "points": 0,
+    "valid": false,
+    "player_display": false,
+    "description": "You are a creature of Faerie.",
+    "//": "So fae NPCs show up on SIGHT_RANGE_FAE effects."
+  }
+]

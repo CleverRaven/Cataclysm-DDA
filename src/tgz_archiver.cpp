@@ -24,7 +24,7 @@ std::string tgz_archiver::_gen_tar_header( fs::path const &file_name, fs::path c
     unsigned const type = fs::is_directory( real_path ) ? 5 : 0;
     unsigned const perms = fs::is_directory( real_path ) ? 0775 : 0664;
     // https://stackoverflow.com/a/61067330
-    std::time_t const mtime = !fs::is_symlink( real_path ) || fs::exists( real_path )
+    std::time_t const mtime = fs::exists( real_path )
                               ? std::chrono::system_clock::to_time_t(
                                   std::chrono::time_point_cast<std::chrono::system_clock::duration>(
                                       fs::last_write_time( real_path ) - _fsnow + _sysnow ) ) : std::time_t{};

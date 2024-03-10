@@ -154,7 +154,7 @@
   {
     "type": "npc",
     "id": "NPC_animal_shelter_survivor",
-    "class": "NC_DOCTOR",
+    "class": "NC_VETERINARIAN",
     "name_suffix": "veterinarian",
     "attitude": 1,
     "mission": 7,

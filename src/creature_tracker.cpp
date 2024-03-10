@@ -8,6 +8,7 @@
 #include "cata_assert.h"
 #include "debug.h"
 #include "flood_fill.h"
+#include "game.h"
 #include "map.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -18,8 +19,6 @@
 #include "type_id.h"
 
 static const efftype_id effect_ridden( "ridden" );
-
-static const mon_flag_str_id mon_flag_VERMIN( "VERMIN" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -172,7 +171,6 @@ void creature_tracker::remove( const monster &critter )
     }
 
     remove_from_location_map( critter );
-    removed_.emplace( iter->get() );
     removed_this_turn_.emplace( *iter );
     monsters_list.erase( iter );
 }
@@ -181,7 +179,6 @@ void creature_tracker::clear()
 {
     monsters_list.clear();
     monsters_by_location.clear();
-    removed_.clear();
     removed_this_turn_.clear();
     creatures_by_zone_and_faction_.clear();
     invalidate_reachability_cache();
@@ -193,6 +190,27 @@ void creature_tracker::rebuild_cache()
     for( const shared_ptr_fast<monster> &mon_ptr : monsters_list ) {
         monsters_by_location[mon_ptr->get_location()] = mon_ptr;
     }
+}
+
+bool creature_tracker::is_present( Creature *creature ) const
+{
+    if( creature->is_monster() ) {
+        if( const auto iter = monsters_by_location.find( creature->get_location() );
+            iter != monsters_by_location.end() ) {
+            if( static_cast<const Creature *>( iter->second.get() ) == creature ) {
+                return !iter->second->is_dead();
+            }
+        }
+    } else if( creature->is_avatar() ) {
+        return true;
+    } else if( creature->is_npc() ) {
+        for( const shared_ptr_fast<npc> &cur_npc : active_npc ) {
+            if( static_cast<const Creature *>( cur_npc.get() ) == creature ) {
+                return !cur_npc->is_dead();
+            }
+        }
+    }
+    return false;
 }
 
 void creature_tracker::swap_positions( monster &first, monster &second )
@@ -267,7 +285,6 @@ void creature_tracker::remove_dead()
         monster *const critter = iter->get();
         if( critter->is_dead() ) {
             remove_from_location_map( *critter );
-            removed_.insert( critter );
             iter = monsters_list.erase( iter );
         } else {
             ++iter;
@@ -331,7 +348,6 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
 {
     if( dirty_ ) {
         creatures_by_zone_and_faction_.clear();
-        removed_.clear();
         zone_tick_ = zone_tick_ > 0 ? -1 : 1;
         zone_number_ = 1;
         dirty_ = false;
@@ -388,11 +404,12 @@ void creature_tracker::flood_fill_zone( const Creature &origin )
         return false;
     },
     [this]( const tripoint_bub_ms & loc ) {
-        Creature *creature = this->creature_at<Creature>( loc );
-        if( creature ) {
-            const int n = zone_number_ * zone_tick_;
-            creatures_by_zone_and_faction_[n][creature->get_monster_faction()].push_back( creature );
-            creature->set_reachable_zone( n );
+        if( Creature *creature = this->creature_at<Creature>( loc, true ) ) {
+            if( shared_ptr_fast<Creature> ptr = g->shared_from( *creature ) ) {
+                const int n = zone_number_ * zone_tick_;
+                creatures_by_zone_and_faction_[n][creature->get_monster_faction()].emplace_back( std::move( ptr ) );
+                creature->set_reachable_zone( n );
+            }
         }
     } );
     if( zone_number_ == std::numeric_limits<int>::max() ) {

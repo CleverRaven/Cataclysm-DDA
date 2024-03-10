@@ -804,6 +804,23 @@ void basecamp::unload_camp_map()
     }
 }
 
+void basecamp::set_owner( faction_id new_owner )
+{
+    for( const std::pair<faction_id, faction> fac : g->faction_manager_ptr->all() ) {
+        if( fac.first == new_owner ) {
+            owner = new_owner;
+            return;
+        }
+    }
+    //Fallthrough, id must be invalid
+    debugmsg( "Could not find matching faction for new owner's faction_id!" );
+}
+
+faction_id basecamp::get_owner()
+{
+    return owner;
+}
+
 void basecamp::form_crafting_inventory()
 {
     map &here = get_camp_map();
@@ -913,7 +930,7 @@ void basecamp_action_components::consume_components()
     }
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
         std::list<item> empty_consumed = player_character.consume_items( target_map, sel, batch_size_,
-                                         is_empty_crafting_component, src );
+                                         is_preferred_crafting_component, src );
         int left_to_consume = 0;
 
         if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {

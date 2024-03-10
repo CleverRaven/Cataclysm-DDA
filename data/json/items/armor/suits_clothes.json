@@ -84,7 +84,7 @@
       },
       {
         "id": "superman_suit_blue",
-        "name": { "str": "super hero blue bodysuit" },
+        "name": { "str": "blue super hero bodysuit" },
         "description": "It's colored blue and has a big \"S\" symbol on the front.  It would combine nicely with a red cape.",
         "symbol": "S",
         "weight": 25,
@@ -92,7 +92,7 @@
       },
       {
         "id": "batman_suit_black",
-        "name": { "str": "super hero black bodysuit" },
+        "name": { "str": "black super hero bodysuit" },
         "description": "It's colored black and has a symbol in the shape of a bat on the front.  It would combine nicely with a black cape and mask.",
         "symbol": "W",
         "color": "dark_gray",
@@ -101,7 +101,7 @@
       },
       {
         "id": "spiderman_suit_red",
-        "name": { "str": "super hero spider bodysuit" },
+        "name": { "str": "spider super hero bodysuit" },
         "description": "It's colored red and blue and has web-like lines all over it, as well as a big spider symbol on the front and back.  It makes you want to climb buildings and shoot webs.",
         "color": "red",
         "weight": 20,
@@ -109,7 +109,7 @@
       },
       {
         "id": "superhero_suit_green",
-        "name": { "str": "super hero green bodysuit" },
+        "name": { "str": "green super hero bodysuit" },
         "description": "It's primarily colored green and has a superhero design.",
         "color": "green",
         "weight": 15,
@@ -117,7 +117,7 @@
       },
       {
         "id": "superhero_suit_purple",
-        "name": { "str": "super hero purple bodysuit" },
+        "name": { "str": "purple super hero bodysuit" },
         "description": "It's primarily colored purple and has a superhero design.",
         "color": "magenta",
         "weight": 10,
@@ -125,7 +125,7 @@
       },
       {
         "id": "superhero_suit_pink",
-        "name": { "str": "super hero pink bodysuit" },
+        "name": { "str": "pink super hero bodysuit" },
         "description": "It's primarily colored pink and has a superhero design.",
         "color": "pink",
         "weight": 10,
@@ -133,7 +133,7 @@
       },
       {
         "id": "bondage_suit",
-        "name": { "str": "bondage lycra bodysuit" },
+        "name": { "str": "lycra bondage bodysuit" },
         "description": "It's colored black and looks pretty kinky.  A great alternative to the leather version.",
         "color": "dark_gray",
         "weight": 20,
@@ -183,6 +183,72 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "denim_overalls",
+    "type": "ARMOR",
+    "name": { "str": "pair of denim overalls", "str_pl": "pairs of denim overalls" },
+    "description": "The basic denim overalls that is the symbol of the Proletariat (and some hipsters).  It covers the legs and a large portion of the torso, secured around the shoulders with straps.  It has many pockets and is relatively protective.",
+    "//": "16.5 oz heavy denim overalls, modeled after the work overalls despite the description.",
+    "weight": "1200 g",
+    "volume": "3300 ml",
+    "price": 6550,
+    "price_postapoc": 800,
+    "to_hit": -3,
+    "material": [ "denim" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "armor": [
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 12 },
+      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 14, 20 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_length": "25 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1600 g",
+        "max_length": "18 cm",
+        "moves": 70
+      }
+    ],
+    "warmth": 18,
+    "material_thickness": 1.1,
+    "flags": [ "VARSIZE", "POCKETS", "STURDY" ]
   },
   {
     "id": "dinosuit",

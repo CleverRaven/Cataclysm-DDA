@@ -22,12 +22,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HAUNTING",
-    "condition": {
-      "or": [
-        { "compare_int": [ { "global_val": "var", "var_name": "XEDRA_OFFICER_STATUS" }, "==", { "const": 1 } ] },
-        "u_is_outside"
-      ]
-    },
+    "condition": { "or": [ { "math": [ "XEDRA_OFFICER_STATUS", "==", "1" ] }, "u_is_outside" ] },
     "false_effect": [
       {
         "u_spawn_monster": "mon_XEDRA_soldier",
@@ -46,7 +41,7 @@
       { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "30 seconds", "50 seconds" ] }
     ],
     "effect": [
-      { "arithmetic": [ { "global_val": "var", "var_name": "XEDRA_OFFICER_STATUS" }, "=", { "const": 0 } ] },
+      { "math": [ "XEDRA_OFFICER_STATUS", "=", "0" ] },
       { "u_message": "The sound of footsteps fade.  It's no longer tracking you.", "type": "good" }
     ]
   },
@@ -79,7 +74,7 @@
     "type": "effect_on_condition",
     "id": "EOC_HAUNTING_STOP",
     "global": true,
-    "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "XEDRA_OFFICER_STATUS" }, "=", { "const": 1 } ] } ]
+    "effect": [ { "math": [ "XEDRA_OFFICER_STATUS", "=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",

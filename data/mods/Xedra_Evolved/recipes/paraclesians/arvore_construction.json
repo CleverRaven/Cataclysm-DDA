@@ -1,0 +1,107 @@
+[
+  {
+    "type": "construction",
+    "id": "constr_chair_treesung",
+    "group": "build_chair_treesung",
+    "category": "FURN",
+    "time": "15 s",
+    "components": [ [ [ "chair_treesung", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_chair_treesung",
+    "activity_level": "LIGHT_EXERCISE",
+    "required_skills": [ [ "fabrication", 0 ] ]
+  },
+  {
+    "type": "construction_group",
+    "id": "build_chair_treesung",
+    "name": "Place a treesung wooden chair"
+  },
+  {
+    "type": "construction",
+    "id": "constr_wardrobe_treesung",
+    "group": "build_wardrobe_treesung",
+    "category": "FURN",
+    "time": "15 s",
+    "components": [ [ [ "wardrobe_treesung", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_wardrobe_treesung",
+    "activity_level": "LIGHT_EXERCISE",
+    "required_skills": [ [ "fabrication", 0 ] ]
+  },
+  {
+    "type": "construction_group",
+    "id": "build_wardrobe_treesung",
+    "name": "Place a treesung wardrobe"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_treesung_table",
+    "group": "place_treesung_table",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "table_treesung", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_table_treesung",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_treesung_table",
+    "name": "Place a treesung table"
+  },
+  {
+    "type": "construction",
+    "id": "constr_bed_frame_treesung",
+    "group": "build_bed_treesung",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "bedframe_treesung", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bedframe_treesung"
+  },
+  {
+    "type": "construction",
+    "id": "constr_down_bed_frame_treesung",
+    "group": "build_down_bed_treesung",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "bedframe_treesung", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bedframe_treesung"
+  },
+  {
+    "type": "construction",
+    "id": "constr_finish_bed_treesung",
+    "group": "build_bed_treesung",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "mattress", 1 ] ] ],
+    "pre_terrain": "f_bedframe_treesung",
+    "post_terrain": "f_bed_treesung"
+  },
+  {
+    "type": "construction",
+    "id": "constr_finish_down_bed_treesung",
+    "group": "build_down_bed_treesung",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "down_mattress", 1 ] ] ],
+    "pre_terrain": "f_bedframe_treesung",
+    "post_terrain": "f_bed_down_treesung"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_bed_treesung",
+    "name": "Build treesung bed"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_down_bed_treesung",
+    "name": "Build treesung down bed"
+  }
+]

@@ -354,15 +354,15 @@
     "price": 50,
     "price_postapoc": 10,
     "material": [ "water" ],
-    "weight": "250 g",
+    "weight": "240 g",
     "volume": "250 ml",
     "comestible_type": "DRINK",
     "container": "carton_sealed",
     "quench": 47,
-    "calories": 47,
+    "calories": 45,
     "fun": 3,
     "phase": "liquid",
-    "vitamins": [ [ "calcium", 6 ], [ "iron", 4 ], [ "vitC", 10 ] ]
+    "vitamins": [ [ "vitC", "5800 μg" ], [ "iron", "700 μg" ], [ "calcium", "57600 μg" ] ]
   },
   {
     "type": "COMESTIBLE",

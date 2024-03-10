@@ -192,7 +192,7 @@
       "furniture": { "ȼ": "f_counter", "M": "f_MRI" },
       "item": { "ȼ": { "item": "matrix_crystal_teleportation", "chance": 5 } },
       "items": {
-        "f": { "item": "mutagens", "chance": 60, "repeat": [ 1, 4 ] },
+        "f": { "item": "mutagen_kits", "chance": 60, "repeat": [ 1, 4 ] },
         "ȼ": [
           { "item": "psi_lab_no_recipes", "chance": 70, "repeat": [ 1, 3 ] },
           { "item": "matrix_crystal_teleport_dust_group", "chance": 20, "repeat": [ 1, 2 ] },

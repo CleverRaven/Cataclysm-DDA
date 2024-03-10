@@ -16,12 +16,11 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
-#include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "localized_comparator.h"
 #include "make_static.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -945,6 +944,27 @@ void player_morale::on_worn_item_washed( const item &it )
 {
     const auto update_body_part = [&]( body_part_data & bp_data ) {
         bp_data.filthy -= 1;
+    };
+
+    const body_part_set covered( it.get_covered_body_parts() );
+
+    if( covered.any() ) {
+        for( const bodypart_id &bp : get_player_character().get_all_body_parts() ) {
+            if( covered.test( bp.id() ) ) {
+                update_body_part( body_parts[bp] );
+            }
+        }
+    } else {
+        update_body_part( no_body_part );
+    }
+
+    update_squeamish_penalty();
+}
+
+void player_morale::on_worn_item_soiled( const item &it )
+{
+    const auto update_body_part = [&]( body_part_data & bp_data ) {
+        bp_data.filthy += 1;
     };
 
     const body_part_set covered( it.get_covered_body_parts() );

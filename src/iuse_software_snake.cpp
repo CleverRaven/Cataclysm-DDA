@@ -1,8 +1,6 @@
 #include "iuse_software_snake.h"
 
 #include <cstddef>
-#include <functional>
-#include <iosfwd>
 #include <map>
 #include <string>
 #include <utility>
@@ -11,7 +9,7 @@
 #include "catacharset.h"  // utf8_width()
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"

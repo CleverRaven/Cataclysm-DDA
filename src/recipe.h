@@ -320,14 +320,17 @@ class recipe
         /** Does the container spawn sealed? */
         bool sealed = true;
 
+        /** What does the item spawn contained in? Unset ("null") means default container. */
+        itype_id container = itype_id::NULL_ID();
+
+        /** What variant of the above container should be used? Unset ("") means a randomly chosen variant if it has variants. */
+        std::string container_variant;
+
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;
 
         /** Time (in moves) to disassemble if different to assembly. Requires `reversible = true` */
         int64_t uncraft_time = 0;
-
-        /** What does the item spawn contained in? Unset ("null") means default container. */
-        itype_id container = itype_id::NULL_ID();
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;

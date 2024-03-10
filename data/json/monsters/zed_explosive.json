@@ -8,7 +8,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 40,
     "speed": 55,
@@ -26,9 +26,24 @@
     "vision_night": 3,
     "harvest": "exempt",
     "grab_strength": 25,
-    "special_attacks": [ [ "BOOMER", 20 ], { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
-    "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "bile_spew", "min_level": 3 },
+        "monster_message": "The %s spews bile!",
+        "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_is_underwater": "true" } }, { "not": { "npc_is_underwater": "true" } } ] }
+      },
+      { "id": "grab" },
+      { "id": "bite_humanoid" },
+      { "id": "scratch_humanoid" }
+    ],
+    "death_function": {
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 3 },
+      "message": "A %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_fungus",
     "flags": [
@@ -57,7 +72,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 110,
     "speed": 85,
@@ -77,10 +92,21 @@
     "harvest": "zombie",
     "fungalize_into": "mon_boomer_fungus",
     "grab_strength": 30,
-    "special_attacks": [ [ "BOOMER_GLOW", 20 ], { "id": "grab" }, { "id": "bite_humanoid" }, { "id": "scratch_humanoid" } ],
-    "death_drops": "default_zombie_items",
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "bioluminescent_spew", "min_level": 5 },
+        "monster_message": "The %s spews glowing bile!",
+        "cooldown": 20,
+        "condition": { "and": [ { "not": { "u_is_underwater": "true" } }, { "not": { "npc_is_underwater": "true" } } ] }
+      },
+      { "id": "grab" },
+      { "id": "bite_humanoid" },
+      { "id": "scratch_humanoid" }
+    ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "death_function": {
-      "effect": { "id": "death_boomer_glow", "hit_self": true, "min_level": 1 },
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 5 },
       "message": "A %s explodes!",
       "corpse_type": "NO_CORPSE"
     },
@@ -110,7 +136,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 20,
-    "volume": "102500 ml",
+    "volume": "108500 ml",
     "weight": "160 kg",
     "hp": 90,
     "speed": 25,
@@ -131,7 +157,7 @@
     "//grab": "Big lad",
     "grab_strength": 30,
     "special_attacks": [ { "id": "grab" }, { "id": "scratch_humanoid" }, { "id": "bite_humanoid" } ],
-    "death_drops": "default_zombie_items",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "death_function": {
       "effect": { "id": "death_conflagration", "hit_self": true },
       "message": "The %s explodes!",
@@ -163,7 +189,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 15,
     "speed": 80,
@@ -182,7 +208,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
-    "death_drops": "default_zombie_items",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
@@ -197,7 +223,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 10,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 40,
     "speed": 70,
@@ -216,7 +242,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_relax_gas_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
-    "death_drops": "default_zombie_items",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_relax_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ],
@@ -231,7 +257,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 9,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 45,
     "speed": 60,
@@ -250,7 +276,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_tear_gas_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
-    "death_drops": "default_zombie_items",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "death_function": { "message": "The %s explodes!", "effect": { "id": "death_tearburst", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "NO_BREATHE", "REVIVES", "FILTHY" ],
@@ -265,7 +291,7 @@
     "bodytype": "blob",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 8,
-    "volume": "102500ml",
+    "volume": "108500 ml",
     "weight": "180kg",
     "hp": 200,
     "speed": 75,
@@ -299,8 +325,12 @@
         "monster_message": "The glutton vomits sludge!"
       }
     ],
-    "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": {
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 6 },
+      "message": "A %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "flags": [
       "SEES",
       "HEARS",
@@ -326,7 +356,7 @@
     "bodytype": "blob",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 9,
-    "volume": "98 L",
+    "volume": "108500 ml",
     "weight": "135 kg",
     "hp": 150,
     "speed": 95,
@@ -347,8 +377,12 @@
         "monster_message": "A bombardier boomer explodes!"
       }
     ],
-    "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": {
+      "effect": { "id": "death_boomer", "hit_self": true, "min_level": 4 },
+      "message": "A %s explodes!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 10, "cut": 5, "bullet": 5, "electric": 2 }
   }

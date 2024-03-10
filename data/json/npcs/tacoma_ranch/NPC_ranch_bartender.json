@@ -219,7 +219,10 @@
     "id": "RANCH_BARTENDER_ASK_TOKEN",
     "dynamic_line": [
       "Bring the token back with your glass and I'll exchange it for a merch.",
-      "Oh, that?  There were too many people stealing our glasses, so I started stamping a logo on some bottle caps as a token and raised the drink prices a bit to encourage their return.  I'll give you a merch back when you bring me the token with your glass.",
+      {
+        "gendered_line": "Oh, that?  There were too many people stealing our glasses, so I started stamping a logo on some bottle caps as a token and raised the drink prices a bit to encourage their return.  I'll give you a merch back when you bring me the token with your glass.",
+        "relevant_genders": [ "npc" ]
+      },
       "Some people like to hang on to them thinking they'll have value someday, but I'd prefer it if you brought it back with your glass and I'll give you a merch back from your purchase."
     ],
     "responses": [ { "text": "I see.", "topic": "TALK_RANCH_BARKEEP" } ]

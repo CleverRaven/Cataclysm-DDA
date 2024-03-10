@@ -607,6 +607,19 @@
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
+    "id": "sigflare_lit",
+    "copy-from": "handflare",
+    "type": "TOOL",
+    "name": { "str": "active flare" },
+    "description": "A bright burning flare that is producing light.  It will last for about a minute before burning out.",
+    "color": "white",
+    "countdown_interval": "60 seconds",
+    "revert_to": "handflare_dead",
+    "revert_msg": "The flare sputters out",
+    "use_action": { "type": "firestarter", "moves": 50 },
+    "flags": [ "FIRE", "LIGHT_720", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy-duty flashlight (off)", "str_pl": "heavy-duty flashlights (off)" },

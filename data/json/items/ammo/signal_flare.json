@@ -20,7 +20,7 @@
     "damage": { "damage_type": "bullet", "amount": 16 },
     "dispersion": 200,
     "recoil": 100,
-    "drop": "handflare_lit",
+    "drop": "sigflare_lit",
     "effects": [ "NEVER_MISFIRES", "NO_EMBED" ]
   }
 ]

@@ -103,7 +103,7 @@
       { "group": "foodintincan" },
       { "item": "multitool" },
       { "item": "lighter", "charges": 100 },
-      { "group": "aspirin_bottle_plastic_pill_painkiller_20" },
+      { "group": "bottle_otc_painkiller_20" },
       { "item": "bandages", "count": 3 },
       { "item": "water_clean", "container-item": "canteen" }
     ]

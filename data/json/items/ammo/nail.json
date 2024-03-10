@@ -16,6 +16,15 @@
     "proportional": { "price": 3.0 }
   },
   {
+    "id": "bronze_nail",
+    "type": "AMMO",
+    "name": { "str": "nail" },
+    "copy-from": "nail",
+    "description": "A pin-shaped piece of bronze.  It can be used to construct various things with a hammer.",
+    "looks_like": "nail",
+    "material": [ "bronze" ]
+  },
+  {
     "id": "nail",
     "type": "AMMO",
     "category": "spare_parts",

@@ -3,7 +3,6 @@
     "type": "item_group",
     "id": "roof_holdout",
     "items": [
-      { "group": "loose_chess_pieces", "prob": 1 },
       { "item": "grenade", "prob": 5 },
       { "item": "binoculars", "prob": 5 },
       { "group": "any_MRE", "count": [ 1, 5 ] },
@@ -81,8 +80,7 @@
       [ "disc_golf", 30 ],
       [ "lawn_dart", 30 ],
       [ "golf_ball", 20 ],
-      { "group": "alcohol_bottled_canned", "prob": 343 },
-      { "group": "loose_chess_pieces", "prob": 1 }
+      { "group": "alcohol_bottled_canned", "prob": 343 }
     ]
   }
 ]

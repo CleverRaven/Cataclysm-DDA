@@ -280,7 +280,9 @@
       [ "tec9mag_72rd", 1 ],
       [ "tdi_mag", 5 ],
       [ "thompson_mag", 5 ],
-      [ "ump45mag", 5 ],
+      [ "ump9mag", 3 ],
+      [ "ump40mag", 4 ],
+      [ "ump45mag", 4 ],
       [ "uzimag", 10 ],
       [ "uzimag_20rd", 1 ],
       [ "uzimag_25rd", 1 ]
@@ -448,7 +450,8 @@
       [ "ai_338mag", 15 ],
       [ "ai_338mag_10", 10 ],
       [ "ai_308mag_10", 15 ],
-      [ "m1carbinebigmag", 30 ]
+      [ "m1carbinebigmag", 30 ],
+      [ "ak74mag", 8 ]
     ]
   },
   {

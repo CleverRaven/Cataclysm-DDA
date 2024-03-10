@@ -45,14 +45,9 @@ static void test_repair( const std::vector<item> &tools, bool plug_in_tools, boo
     for( const item &gear : tools ) {
         item_location added_tool = player_character.i_add( gear );
         if( plug_in_tools && added_tool->can_link_up() ) {
-            added_tool->link = cata::make_value<item::link_data>();
-            added_tool->link->t_state = link_state::vehicle_port;
-            added_tool->link->t_abs_pos = get_map().getglobal( player_character.pos() + tripoint_north_west );
-            added_tool->link->last_processed = calendar::turn;
-            added_tool->link->t_veh_safe = get_map().veh_at( player_character.pos() +
-                                           tripoint_north_west )->vehicle().get_safe_reference();
-            added_tool->set_link_traits();
-            REQUIRE( added_tool->link->t_veh_safe );
+            added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north_west ),
+                                 link_state::automatic );
+            REQUIRE( added_tool->link().t_veh );
         }
     }
     player_character.set_skill_level( skill_mechanics, 10 );

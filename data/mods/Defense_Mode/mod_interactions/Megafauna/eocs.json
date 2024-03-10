@@ -6,23 +6,7 @@
     "effect": [
       {
         "u_spawn_monster": "GROUP_MEGAFAUNA_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_MEGAFAUNA_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
-        "outdoor_only": true,
-        "group": true,
-        "min_radius": 20,
-        "max_radius": 40
-      },
-      {
-        "u_spawn_monster": "GROUP_MEGAFAUNA_DM",
-        "real_count": { "math": [ "wave_spawn_number()" ], "default": 1 },
+        "real_count": { "math": [ "wave_spawn_number() * 3" ] },
         "outdoor_only": true,
         "group": true,
         "min_radius": 20,

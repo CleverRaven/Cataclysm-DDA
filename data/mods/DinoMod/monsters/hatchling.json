@@ -178,7 +178,8 @@
       "STUMBLES",
       "NO_BREED",
       "CANPLAY",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ],
     "harvest": "bird_tiny"
   },
@@ -202,7 +203,8 @@
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
   },
   {
@@ -237,7 +239,8 @@
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
   },
   {
@@ -718,7 +721,8 @@
       "CANPLAY",
       "STUMBLES",
       "NO_BREED",
-      "CAN_BE_CULLED"
+      "CAN_BE_CULLED",
+      "GUILT_ANIMAL"
     ]
   },
   {

@@ -426,40 +426,15 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
                                 const itype_id &itm )
 {
     map &here = get_map();
-    item cord( itm );
-    cord.link = cata::make_value<item::link_data>();
-    cord.link->t_state = link_state::vehicle_port;
-    cord.link->t_abs_pos = here.getglobal( src_pos );
-    cord.set_link_traits();
 
     const optional_vpart_position target_vp = here.veh_at( dst_pos );
     const optional_vpart_position source_vp = here.veh_at( src_pos );
-
-    if( !target_vp ) {
+    if( !target_vp || !source_vp || &target_vp->vehicle() == &source_vp->vehicle() ) {
         return;
     }
-    vehicle *const target_veh = &target_vp->vehicle();
-    vehicle *const source_veh = &source_vp->vehicle();
-    if( source_veh == target_veh ) {
-        return ;
-    }
 
-    tripoint target_global = here.getabs( dst_pos );
-    const vpart_id vpid( cord.typeId().str() );
-
-    point vcoords = source_vp->mount();
-    vehicle_part source_part( vpid, item( cord ) );
-    source_part.target.first = target_global;
-    source_part.target.second = target_veh->global_square_location().raw();
-    source_veh->install_part( vcoords, std::move( source_part ) );
-    source_veh->precalc_mounts( 1, source_veh->pivot_rotation[1], source_veh->pivot_anchor[1] );
-
-    vcoords = target_vp->mount();
-    vehicle_part target_part( vpid, item( cord ) );
-    target_part.target.first = cord.link->t_abs_pos.raw();
-    target_part.target.second = source_veh->global_square_location().raw();
-    target_veh->install_part( vcoords, std::move( target_part ) );
-    target_veh->precalc_mounts( 1, target_veh->pivot_rotation[1], target_veh->pivot_anchor[1] );
+    item cord( itm );
+    cord.link_to( target_vp, source_vp, link_state::vehicle_port );
 }
 
 TEST_CASE( "power_cable_stretch_disconnect" )

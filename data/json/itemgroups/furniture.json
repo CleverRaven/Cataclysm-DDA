@@ -89,7 +89,6 @@
       { "group": "homebooks", "prob": 40, "count-min": 0, "count-max": 4 },
       { "group": "novels", "prob": 40, "count-min": 0, "count-max": 8 },
       { "group": "religious_books", "prob": 40, "count-min": 0, "count-max": 8 },
-      { "group": "loose_chess_pieces", "prob": 1, "count-min": 1, "count-max": 3 },
       { "item": "stereo", "prob": 30 },
       { "item": "portable_game", "prob": 30 },
       { "item": "battery_charger", "prob": 40 },

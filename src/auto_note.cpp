@@ -1,6 +1,5 @@
 #include "auto_note.h"
 
-#include <functional>
 #include <string>
 
 #include "cata_utility.h"
@@ -8,7 +7,7 @@
 #include "cursesdef.h"
 #include "filesystem.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "map_extras.h"
 #include "options.h"

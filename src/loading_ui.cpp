@@ -1,10 +1,10 @@
 #include "loading_ui.h"
 
-#include <functional>
 #include <memory>
 #include <vector>
 
 #include "cached_options.h"
+#include "input.h"
 #include "color.h"
 #include "output.h"
 #include "translations.h"

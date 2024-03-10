@@ -188,6 +188,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "crystal_field_chunk_center_2x2",
+    "weight": 1000,
     "object": {
       "mapgensize": [ 2, 2 ],
       "rows": [

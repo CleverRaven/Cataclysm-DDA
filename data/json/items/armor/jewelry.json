@@ -95,6 +95,36 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
+    "id": "cowrie_bracelet",
+    "copy-from": "bead_bracelet",
+    "type": "ARMOR",
+    "name": { "str": "cowrie bracelet" },
+    "description": "A bracelet made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
+    "id": "cowrie_hair_beads",
+    "copy-from": "wooden_hair_beads",
+    "type": "ARMOR",
+    "name": { "str": "cowrie hair beads", "str_pl": "sets of cowrie hair beads" },
+    "description": "An assortment of cowrie shells used to decorate locs or braids.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
+    "id": "cowrie_necklace",
+    "copy-from": "bead_necklace",
+    "type": "ARMOR",
+    "name": { "str": "cowrie necklace" },
+    "description": "A necklace made of cowrie shells, valued in many African cultures such as the Yoruba.  If you want, you could meditate with this.",
+    "material": [ "bone" ],
+    "color": "white",
+    "flags": [ "NO_WEAR_EFFECT", "FANCY" ]
+  },
+  {
     "id": "diamond_dental_grill",
     "type": "ARMOR",
     "name": { "str": "diamond dental grill" },
@@ -1124,6 +1154,19 @@
     "flags": [ "NO_WEAR_EFFECT" ]
   },
   {
+    "id": "wooden_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "wooden hair beads", "str_pl": "sets of wooden hair beads" },
+    "description": "An assortment of wooden beads used to decorate locs or braids.",
+    "weight": "6 g",
+    "volume": "10 ml",
+    "material": [ "wood" ],
+    "symbol": ".",
+    "color": "brown",
+    "delete": { "flags": [ "SUPER_FANCY" ] }
+  },
+  {
     "id": "holy_symbol",
     "type": "ARMOR",
     "name": { "str": "holy symbol" },
@@ -1240,7 +1283,7 @@
       {
         "id": "adventist_necklace",
         "name": { "str": "Adventist Bible necklace" },
-        "description": "A necklace made of a fine gold chain with the Adventist Bible symbol as a pendant.  It is a symbol of the Adventist Christian faith.  The cross means the Sacrifice of Christ for humanity and also the Gospel of Salvation, the open book means the Holy Bible, placed prominently at the bottom to represent how God’s word is fundamental to Adventism, and the flame is the symbolic meaning of the Holy Spirit, the Messenger of Truth.",
+        "description": "A necklace made of a fine gold chain with the Adventist Bible symbol as a pendant.  It is a symbol of the Adventist Christian faith.  The cross means the Sacrifice of Christ for humanity and also the Gospel of Salvation, the open book means the Holy Bible, placed prominently at the bottom to represent how God's word is fundamental to Adventism, and the flame is the symbolic meaning of the Holy Spirit, the Messenger of Truth.",
         "color": "yellow",
         "weight": 15
       },
@@ -4026,6 +4069,18 @@
     "color": "dark_gray"
   },
   {
+    "id": "gold_hair_beads",
+    "copy-from": "garnet_gold_tiara",
+    "type": "ARMOR",
+    "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
+    "description": "an assortment of gold beads used to decorate locs or braids.",
+    "weight": "15 g",
+    "volume": "25 ml",
+    "material": [ "gold" ],
+    "symbol": ".",
+    "color": "yellow"
+  },
+  {
     "id": "garnet_silver_tiara",
     "type": "ARMOR",
     "name": { "str": "garnet and silver tiara" },
@@ -4177,5 +4232,321 @@
       { "id": "dark_tiara", "name": { "str": "dark tiara" }, "description": "A dark silver tiara adorned with onyx." }
     ],
     "color": "dark_gray"
+  },
+  {
+    "id": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "looks_like": "gold_necklace",
+    "name": { "str": "handgun-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str": "light rifle-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "revolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "automatic-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "magnum-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
+    ],
+    "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.",
+    "snippet_category": [
+      {
+        "id": "pistol_pendent1",
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell's neck has been daintily drilled through with two tiny holes on opposite sides, through which the cord has been fed and tied off to form a poor man's excuse for a chain, and from where the cartridge hangs, dimpled primer-down."
+      },
+      {
+        "id": "pistol_pendent2",
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The dimpled section of the shell's primer has been punched out, and a second hole has been drilled through the casing's side just shy of the base, with the ballistic accoutrement hanging from a section of tied-off cord that has been threaded through both entry points."
+      },
+      {
+        "id": "pistol_pendent3",
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell's throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
+      }
+    ],
+    "weight": "24 g",
+    "volume": "38 ml",
+    "longest_side": "28 mm",
+    "//": "Length is derived from averaging out the case lengths of a .22 Long Rifle, .357 Magnum, and .50 Action Express cartridge.",
+    "price": 500,
+    "price_postapoc": 0,
+    "material": [ { "type": "brass", "portion": 2 }, { "type": "cotton" } ],
+    "symbol": "[",
+    "color": "yellow",
+    "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED" ]
+  },
+  {
+    "id": "simple_rifle_cartridge_necklace",
+    "copy-from": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "name": { "str": "rifle-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "4570_casing", "name": { "str": "brush gun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "30carbine_casing", "name": { "str": "carbine-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "123ln_casing", "name": { "str": "alien-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "450_casing", "name": { "str": "Thumper-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str": "Thumper-cartridge necklace" } }
+    ],
+    "description": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.",
+    "snippet_category": [
+      {
+        "id": "rifle_pendent1",
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The cartridge's neck has been carefully drilled through, leaving behind a tiny hole on either side of the shell's throat through which the cord has been fed and tied off, forming a pedestrian facsimile of a chain from where the round hangs, primer-down."
+      },
+      {
+        "id": "rifle_pendent2",
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The primer's indented portion has been drilled away, with a second hole situated in the casing's side just shy of the base and a length of tied-off cordage looping through both entry points to form a makeshift chain for the apparel."
+      },
+      {
+        "id": "rifle_pendent3",
+        "text": "Rather crude and clearly put together on a budget, this is a piece of post-Cataclysmic—so-called—jewelry—little more than an unpolished, solitary rifle casing threaded on a length of cord, string, or twine to form a pendent necklace.  The jaws of a set of pliers have twisted closed the cartridge's throat with a spiral flourish, while a hole has been drilled through opposite sides of the pendant's shoulder, through which a loop of cord has been threaded.  The string's loose ends have been wrapped several times around the casing in a vague X-pattern before being tied off, creating a form of mini-bullet cocoon."
+      }
+    ],
+    "weight": "25 g",
+    "volume": "40 ml",
+    "longest_side": "50 mm",
+    "//": "Length is derived from averaging out the case lengths of a .30 Carbine, .270 Winchester, and .308 Winchester cartridge."
+  },
+  {
+    "id": "simple_ordnance_cartridge_necklace",
+    "copy-from": "simple_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "name": { "str": "ordinance-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m195_casing", "name": { "str": "grenade-cartridge necklace" } },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "40x46mm_hornets_nest_22lr_casing",
+        "name": { "str": "grenade-cartridge necklace" }
+      },
+      {
+        "type": "COMPONENT_ID",
+        "condition": "40x46mm_hornets_nest_410_casing",
+        "name": { "str": "grenade-cartridge necklace" }
+      },
+      { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str": "grenade-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordinance necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordinance necklace" } }
+    ],
+    "description": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
+    "snippet_category": [
+      {
+        "id": "ordinance_pendent1",
+        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The shell's neck has been carefully tapped, leaving a hole on either side of the casing's throat through which the makeshift neck chain has been fed and tied off."
+      },
+      {
+        "id": "ordinance_pendent2",
+        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The centre of the shell's struck primer has been punched out, and a second hole has been drilled shy of the rim, with a section of tied-off cordage stringing through both entry points to form a makeshift neck chain."
+      },
+      {
+        "id": "ordinance_pendent3",
+        "text": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.  The jaws of a set of pliers have been laid to work, with the shell's neck twisted closed in a tapered spiral, while a hole has been bored through opposite sides of the cartridge's base, through which a loop of cord has been tugged.  The string's loose ends have been wrapped around the casing in a serpentine pattern before being tied off, creating a manner of bullet cocoon."
+      }
+    ],
+    "weight": "37 g",
+    "volume": "43 ml",
+    "longest_side": "85 mm",
+    "//": "Length is derived from averaging out the case lengths of a .338 Lapua, .50 BMG, and 12-Gauge shotgun cartridge.",
+    "material": [ { "type": "brass", "portion": 3 }, { "type": "cotton" } ],
+    "//2": "Are these materials liable to be a lie considering that grenade cartridges are steel and shotgun shells are plastic? Yes. Can the material be changed based on the component used? Sadly, no."
+  },
+  {
+    "id": "fancy_pistol_cartridge_necklace",
+    "type": "ARMOR",
+    "looks_like": "gold_necklace",
+    "name": { "str": "refined pistol-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "22_casing", "name": { "str_sp": "Varmints' Bane" } },
+      { "type": "COMPONENT_ID", "condition": "32_casing", "name": { "str_sp": "Short King" } },
+      { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str_sp": "Lawman's" } },
+      { "type": "COMPONENT_ID", "condition": "38super_casing", "name": { "str_sp": "Contestant's" } },
+      { "type": "COMPONENT_ID", "condition": "40_casing", "name": { "str_sp": "Federal" } },
+      { "type": "COMPONENT_ID", "condition": "10mm_casing", "name": { "str_sp": "Crockett's Vice" } },
+      { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str_sp": "Holliday's" } },
+      { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str_sp": "Big Iron" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str_sp": "Peacemaker's" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str_sp": "Judge's Wrath" } },
+      { "type": "COMPONENT_ID", "condition": "45_casing", "name": { "str_sp": "God's Caliber" } },
+      { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str_sp": "Hekler's Screamer" } },
+      { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str_sp": "Needel Rain" } },
+      { "type": "COMPONENT_ID", "condition": "460_casing", "name": { "str_sp": "God's Magnum" } },
+      { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str_sp": "Recoil-Rider" } },
+      { "type": "COMPONENT_ID", "condition": "762_25_casing", "name": { "str_sp": "Revolutionary's" } },
+      { "type": "COMPONENT_ID", "condition": "9mm_casing", "name": { "str_sp": "Sunrise Parabellum" } },
+      { "type": "COMPONENT_ID", "condition": "357sig_casing", "name": { "str_sp": "Schweitzer" } },
+      { "type": "COMPONENT_ID", "condition": "9x18mm_casing", "name": { "str_sp": "Semin" } },
+      { "type": "COMPONENT_ID", "condition": "380_casing", "name": { "str_sp": "Baby Browning" } },
+      { "type": "COMPONENT_ID", "condition": "50ae_casing", "name": { "str_sp": "Fatman" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "description": "The product of a gun nut and a fashionista proverbially shaking one another's hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.",
+    "snippet_category": [
+      {
+        "id": "fancy_pistol_pendent1",
+        "text": "The product of a gun nut and a fashionista proverbially shaking one another's hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.  The shell's primer and rim have been neatly sawed away, and in place of the projectile, a little gemstone has been wrapped with a length of fine-gauge wire and bedded into the casing's throat.  The rest of the wire's length trails back through the cartridge's body, feeding out the base and entwining with a link in the chain."
+      },
+      {
+        "id": "fancy_pistol_pendent2",
+        "text": "The product of a gun nut and a fashionista proverbially shaking one another's hand, this plain, though elegant, necklace has been strung with a solitary, sparklingly polished casing from a handgun cartridge or other such form of ammunition.  The teeth of a saw have been put to work upon this shell, whose base and primer have been neatly cut away, and in the throat of which has been seated a small, shining gem.  A length of fine wire has been tightly wrapped around both the cartridge and gemstone in a top-down pattern, with the cord's loose ends eventually tugged through a small drill hole at the cartridge's base and finally wrapped among the neck chain's links."
+      }
+    ],
+    "weight": "56 g",
+    "volume": "32 ml",
+    "longest_side": "28 mm",
+    "//": "Length is derived from averaging out the case lengths of a .22 Long Rifle, .357 Magnum, and .50 Action Express cartridge.",
+    "price": 40000,
+    "price_postapoc": 50,
+    "material": [ { "type": "brass", "portion": 2 }, { "type": "gold", "portion": 2 }, { "type": "gemstone" } ],
+    "symbol": "[",
+    "color": "yellow",
+    "armor": [ { "encumbrance": 0, "coverage": 20, "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ],
+    "flags": [ "NO_WEAR_EFFECT", "BELTED", "FANCY" ]
+  },
+  {
+    "id": "fancy_rifle_cartridge_necklace",
+    "type": "ARMOR",
+    "copy-from": "fancy_pistol_cartridge_necklace",
+    "name": { "str": "refined rifle-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "77arisaka_casing", "name": { "str_sp": "Rising Sun" } },
+      { "type": "COMPONENT_ID", "condition": "545_casing", "name": { "str_sp": "Devil's Poison" } },
+      { "type": "COMPONENT_ID", "condition": "4570_casing", "name": { "str_sp": "Frontiersman's" } },
+      { "type": "COMPONENT_ID", "condition": "270win_casing", "name": { "str_sp": "Sportsman's" } },
+      { "type": "COMPONENT_ID", "condition": "303_casing", "name": { "str_sp": "Fusilier's" } },
+      { "type": "COMPONENT_ID", "condition": "223_casing", "name": { "str_sp": "US Diplomacy" } },
+      { "type": "COMPONENT_ID", "condition": "3006_casing", "name": { "str_sp": "Old Soldier" } },
+      { "type": "COMPONENT_ID", "condition": "762_51_casing", "name": { "str_sp": "Pig's Feed" } },
+      { "type": "COMPONENT_ID", "condition": "300blk_casing", "name": { "str_sp": "Cloak&Dagger" } },
+      { "type": "COMPONENT_ID", "condition": "762R_casing", "name": { "str_sp": "White Death" } },
+      { "type": "COMPONENT_ID", "condition": "762_casing", "name": { "str_sp": "Iron Curtain" } },
+      { "type": "COMPONENT_ID", "condition": "300_casing", "name": { "str_sp": "Kyle's Laser" } },
+      { "type": "COMPONENT_ID", "condition": "50beowulf_casing", "name": { "str_sp": "Wolf's Voice" } },
+      { "type": "COMPONENT_ID", "condition": "450_casing", "name": { "str_sp": "Cooper's Touch" } },
+      { "type": "COMPONENT_ID", "condition": "30carbine_casing", "name": { "str_sp": "Paratrooper's" } },
+      { "type": "COMPONENT_ID", "condition": "308_casing", "name": { "str_sp": "Marksman's" } },
+      { "type": "COMPONENT_ID", "condition": "123ln_casing", "name": { "str_sp": "Illegal Alien" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "//": "Devil's Poison for 5.45x39mm is a reference to the fact that the cartridge was sometimes dubed either the 'Devil Bullet' or the 'Poison Bullet'.",
+    "//2": "Pig's Feed for 7.62x51mm is a reference to the US M60 machine gun. It was nicknamed the 'Pig'. 7.62x51mm feeds it. Coming up with names is hard.",
+    "//3": "Yes, illegal alien for 12.3LN is a reference to Aliens. No, it is not a comment about any group of people.",
+    "description": "A gentlemanly article of craft-preduced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.",
+    "snippet_category": [
+      {
+        "id": "fancy_rifle_pendent1",
+        "text": "A gentlemanly article of craft-preduced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.  With its brass polished to a mirror-like sheen, the shell's primer and rim have been neatly extricated at the edge of a saw, with a little gemstone peeking out the casing's throat.  The gem's wrapped within the embrace of a length of fine-gauge wire, whose remaining length has been tugged back through the cartridge's body, fed out the base, and entwined with a link in the chain."
+      },
+      {
+        "id": "fancy_rifle_pendent2",
+        "text": "A gentlemanly article of craft-preduced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.  With its brass polished to a mirror-like sheen, the shell has grown shorter by virtue of its base having been sawed away, and a glittering jewel has been seated comfortably within the throat.  A length of wire is tightly wrapped around both cartridge and gemstone in a top-down pattern, forming an X-grid as it wines, with the cord's loose ends trailing through a small drill hole at the cartridge's base and tied to the chain's links."
+      }
+    ],
+    "weight": "57 g",
+    "volume": "35 ml",
+    "longest_side": "50 mm",
+    "//4": "Length is derived from averaging out the case lengths of a .30 Carbine, .270 Winchester, and .308 Winchester cartridge."
+  },
+  {
+    "id": "fancy_ordinance_cartridge_necklace",
+    "type": "ARMOR",
+    "copy-from": "fancy_pistol_cartridge_necklace",
+    "name": { "str": "refined ordinance-cartridge necklace" },
+    "conditional_names": [
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str_sp": "Grenadier's" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str_sp": "God's Boomstick" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m195_casing", "name": { "str_sp": "Tearjerker" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str_sp": "Gentle Persuasion" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_hornets_nest_22lr_casing", "name": { "str_sp": "Beehive" } },
+      { "type": "COMPONENT_ID", "condition": "40x46mm_hornets_nest_410_casing", "name": { "str_sp": "Metal Storm" } },
+      { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str_sp": "Meatgrinder" } },
+      { "type": "COMPONENT_ID", "condition": "50_casing", "name": { "str_sp": "Ma Deuce" } },
+      { "type": "COMPONENT_ID", "condition": "338lapua_casing", "name": { "str_sp": "Suomi Princess" } },
+      { "type": "COMPONENT_ID", "condition": "458wm_casing", "name": { "str_sp": "Huntsman's" } },
+      { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str_sp": "Street Howitzer" } },
+      { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str_sp": "Lancaster's Boar" } },
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str_sp": "Shock&Awe" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str_sp": "Diyua Comet" } },
+      { "type": "COMPONENT_ID", "condition": "diamond", "name": { "str": "%s diamond necklace" } },
+      { "type": "COMPONENT_ID", "condition": "garnet", "name": { "str": "%s garnet necklace" } },
+      { "type": "COMPONENT_ID", "condition": "amethyst", "name": { "str": "%s amethyst necklace" } },
+      { "type": "COMPONENT_ID", "condition": "aquamarine", "name": { "str": "%s aquamarine" } },
+      { "type": "COMPONENT_ID", "condition": "emerald", "name": { "str": "%s emerald necklace" } },
+      { "type": "COMPONENT_ID", "condition": "alexandrite", "name": { "str": "%s alexandrite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "malachite", "name": { "str": "%s malachite necklace" } },
+      { "type": "COMPONENT_ID", "condition": "pearl", "name": { "str": "%s pearl necklace" } },
+      { "type": "COMPONENT_ID", "condition": "ruby", "name": { "str": "%s ruby necklace" } },
+      { "type": "COMPONENT_ID", "condition": "peridot", "name": { "str": "%s peridot necklace" } },
+      { "type": "COMPONENT_ID", "condition": "sapphire", "name": { "str": "%s sapphire necklace" } },
+      { "type": "COMPONENT_ID", "condition": "opal", "name": { "str": "%s opal necklace" } },
+      { "type": "COMPONENT_ID", "condition": "tourmaline", "name": { "str": "%s tourmaline necklace" } },
+      { "type": "COMPONENT_ID", "condition": "citrine", "name": { "str": "%s citrine necklace" } },
+      { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
+      { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
+    ],
+    "description": "An article of hand-produced apparel that George Washingten himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendent that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.",
+    "snippet_category": [
+      {
+        "id": "fancy_ordinance_pendent1",
+        "text": "An article of hand-produced apparel that George Washingten himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendent that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  With its brass polished to a mirror-like sheen and its rim cleanly extricated by the saw, a well-sized gemstone peers at the world from out of this shell's throat.  The jewel's wrapped within a length of fine-gauge wire, whose remaining length has been tugged through the cartridge's body, fed out the base, and entwined with a link in the chain."
+      },
+      {
+        "id": "fancy_ordinance_pendent2",
+        "text": "An article of hand-produced apparel that George Washingten himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendent that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  The shell has, essentially, been rendered into a tiny brass pipe: its base and primer are neatly sawed off, and its head is capped by a large, glittering gemstone that regards the Cataclysm from its seat within the throat.  A length of wire is tightly wrapped around both the cartridge and jewel, with the cord's loose ends trailing through a small drill hole at the shell's base and linked to the neck chain."
+      }
+    ],
+    "weight": "69 g",
+    "volume": "38 ml",
+    "longest_side": "85 mm",
+    "//": "Length is derived from averaging out the case lengths of a .338 Lapua, .50 BMG, and 12-Gauge shotgun cartridge.",
+    "material": [ { "type": "brass", "portion": 3 }, { "type": "gold", "portion": 2 }, { "type": "gemstone" } ]
+  },
+  {
+    "id": "silver_hair_beads",
+    "copy-from": "garnet_silver_tiara",
+    "type": "ARMOR",
+    "name": { "str": "silver hair beads", "str_pl": "sets of silver hair beads" },
+    "description": "An assortment of shiny silver beads used to decorate locs or braids.",
+    "weight": "10 g",
+    "volume": "20 ml",
+    "material": [ "silver" ],
+    "symbol": ".",
+    "color": "white",
+    "flags": [ "FANCY", "NO_WEAR_EFFECT" ]
   }
 ]

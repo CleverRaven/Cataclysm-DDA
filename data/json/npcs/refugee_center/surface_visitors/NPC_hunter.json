@@ -15,8 +15,8 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "I thought I smelled a pig.  I jest… please don't arrest me.",
-      "no": "Huh, thought I smelled someone new.  Can I help you?"
+      "yes": { "gendered_line": "I thought I smelled a pig.  I jest… please don't arrest me.", "relevant_genders": [ "npc" ] },
+      "no": { "gendered_line": "Huh, thought I smelled someone new.  Can I help you?", "relevant_genders": [ "npc" ] }
     },
     "responses": [
       { "text": "You… smelled me?", "topic": "TALK_EVAC_HUNTER_SMELL" },
@@ -29,7 +29,10 @@
   {
     "id": "TALK_EVAC_HUNTER_SMELL",
     "type": "talk_topic",
-    "dynamic_line": "Oh, I didn't mean that in a bad way.  Been out in the wilderness so long, I find myself noticing things by scent before sight.",
+    "dynamic_line": {
+      "gendered_line": "Oh, I didn't mean that in a bad way.  Been out in the wilderness so long, I find myself noticing things by scent before sight.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "O…kay…?", "topic": "TALK_EVAC_HUNTER" } ]
   },
   {
@@ -65,7 +68,10 @@
     "dynamic_line": [
       "Feed a man a fish, he's full for a day.  Feed a man a bullet, he's full for the rest of his life.",
       "Spot your prey before something nastier spots you.",
-      "I've heard that cougars sometimes leap.  Maybe it's just a myth.",
+      {
+        "gendered_line": "I've heard that cougars sometimes leap.  Maybe it's just a myth.",
+        "relevant_genders": [ "npc" ]
+      },
       "The Jabberwock is real, don't listen to what anybody else says.  If you see it, RUN.",
       "Zombified animals aren't good for eating, but sometimes you might find usable fur on 'em.",
       "A steady diet of cooked meat and clean water will keep you alive forever, but your taste buds and your colon may start to get angry at you.  Eat a piece of fruit every once in a while.",

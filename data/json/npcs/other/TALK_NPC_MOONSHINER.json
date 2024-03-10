@@ -8,7 +8,7 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "Hey <name_g>.",
-      "no": "Haven't seen someone new in a while.  What brings you around here?"
+      "no": { "gendered_line": "Haven't seen someone new in a while.  What brings you around here?", "relevant_genders": [ "npc" ] }
     },
     "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
     "responses": [
@@ -38,6 +38,16 @@
     "dynamic_line": "What can I do for you?",
     "responses": [
       { "text": "Could you tell me a bit about yourself?", "topic": "TALK_NPC_MOONSHINER_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
       { "text": "Can I purchase any of your liquor?", "topic": "TALK_NPC_MOONSHINER_INTRO", "effect": "start_trade" },
       {
         "text": "It's a bit dangerous to be out here alone.  Why don't you come with me?",
@@ -56,7 +66,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_MOONSHINER_STORY",
-    "dynamic_line": "I run this distillery you're standing in, before <the_cataclysm> it wasn't so legal with the law.  I was in <city> making a deal on my product when a horde of rioters busted in, so I ran for it.  I thought my business would be a nice place to stay, so I came out here.",
+    "dynamic_line": {
+      "gendered_line": "I run this distillery you're standing in, before <the_cataclysm> it wasn't so legal with the law.  I was in <city> making a deal on my product when a horde of rioters busted in, so I ran for it.  I thought my business would be a nice place to stay, so I came out here.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Huh.", "topic": "TALK_NONE" } ]
   }
 ]
