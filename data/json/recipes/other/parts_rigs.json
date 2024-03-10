@@ -73,12 +73,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [
-      [ [ "pipe", 3 ] ],
-      [ [ "sheet_metal", 1 ] ],
-      [ [ "wheel", 2 ] ],
-      [ [ "nuts_bolts", 16 ] ]
-    ]
+    "components": [ [ [ "pipe", 3 ] ], [ [ "sheet_metal", 1 ] ], [ [ "wheel", 2 ] ], [ [ "nuts_bolts", 16 ] ] ]
   },
   {
     "type": "recipe",

@@ -180,15 +180,33 @@
     "id": "forklift",
     "name": "Electric Forklift",
     "blueprint": [
-	 ["|"],
-	 ["^"],
-	 ["#"],
-	 ["-"]
-	],
-	"parts":[{"x":-1,"y":0,"parts":["frame#cover","counterweight#horizontal_rear","wheel_mount_light_steerable","wheel_small","muffler"]},
-	{"x":0,"y":0,"parts":["frame#vertical_T_left","seat","roof","controls","dashboard"]},
-	{"x":1,"y":0,"parts":["frame#vertical_2","halfboard#cover","wheel_mount_medium","wheel","headlight","engine_electric","storage_battery"]},
-	{"x":2,"y":0,"parts":["forklift_fork"]}],
+      [ "|" ],
+      [ "^" ],
+      [ "#" ],
+      [ "-" ]
+    ],
+    "parts": [
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "frame#cover", "counterweight#horizontal_rear", "wheel_mount_light_steerable", "wheel_small", "muffler" ]
+      },
+      { "x": 0, "y": 0, "parts": [ "frame#vertical_T_left", "seat", "roof", "controls", "dashboard" ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [
+          "frame#vertical_2",
+          "halfboard#cover",
+          "wheel_mount_medium",
+          "wheel",
+          "headlight",
+          "engine_electric",
+          "storage_battery"
+        ]
+      },
+      { "x": 2, "y": 0, "parts": [ "forklift_fork" ] }
+    ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "hat_hard" ] },
       { "x": 0, "y": 0, "chance": 8, "items": [ "vest" ] },
