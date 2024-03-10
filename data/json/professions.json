@@ -5525,7 +5525,6 @@
           { "item": "tabi_dress" },
           { "item": "geta" },
           { "item": "bellywrap" },
-          { "group": "charged_smart_phone" },
           { "item": "bokken_inferior", "container-item": "scabbard" }
         ]
       },
