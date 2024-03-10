@@ -16,8 +16,8 @@ Vehicle prototypes are used to spawn stock vehicles. After a vehicle has been sp
     "o#o"
 ],
 "parts": [                                 // Parts list
-    { "x": 0, "y": 0, "parts": [ "frame" ] },   // Part definition, positive x direction is up,
-    { "x": 0, "y": 0, "parts": [ "seat" ] },    // positive y is to the right
+    { "x": 0, "y": 0, "parts": [ "frame" ] },   // Part definition, positive x direction is to the right,
+    { "x": 0, "y": 0, "parts": [ "seat" ] },    // positive y is up
     { "x": 0, "y": 0, "parts": [ "controls" ] }, // See vehicle_parts.json for part ids
     { "x": 1, "y": 1, "parts": [ "veh_tools_workshop", "tools": [ "welder" ] ] },  // spawn attached tools
     { "x": 0, "y": 1, "parts": [ "frame", "seat" ] },

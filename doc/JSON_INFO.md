@@ -3341,7 +3341,7 @@ See also [VEHICLES_JSON.md](VEHICLES_JSON.md)
 "name": "Shopping Cart",                   // Display name, subject to i18n.
 "blueprint": "#",                          // Preview of vehicle - ignored by the code, so use only as documentation
 "parts": [                                 // Parts list
-    {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the left, positive y is to the right
+    {"x": 0, "y": 0, "part": "box"},       // Part definition, positive x direction is to the right, positive y is up
     {"x": 0, "y": 0, "part": "casters"}    // See vehicle_parts.json for part ids
 ]
                                            /* Important! Vehicle parts must be defined in the
