@@ -8,7 +8,7 @@
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "15 m",
     "autolearn": true,
     "skill_used": "metaphysics",
     "flags": [ "BLIND_EASY" ],

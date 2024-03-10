@@ -39,7 +39,7 @@
         "run_eocs": [
           {
             "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER_2",
-            "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", "<", "10" ] },
+            "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", "<", "25" ] },
             "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "+=", "rng(1,2.4)" ] } ]
           }
         ]
@@ -160,7 +160,7 @@
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
           "+=",
-          "rand((u_latest_channeled_power_difficulty) / 2) + (rand(u_nether_conduit_repeated_channeling_value) / 2) + rand(u_vitamin('vitamin_maintained_powers'))"
+          "rand((u_latest_channeled_power_difficulty) / 2) + rand(u_vitamin('vitamin_maintained_powers'))"
         ]
       }
     ],
@@ -170,7 +170,7 @@
         "math": [
           "u_vitamin('vitamin_psionic_drain')",
           "+=",
-          "(rand(u_latest_channeled_power_difficulty) * u_nether_attunement_power_scaling) + rand(u_nether_conduit_repeated_channeling_value) + rand(u_vitamin('vitamin_maintained_powers'))"
+          "(rand(u_latest_channeled_power_difficulty) * u_nether_attunement_power_scaling) + rand(u_vitamin('vitamin_maintained_powers'))"
         ]
       }
     ]
