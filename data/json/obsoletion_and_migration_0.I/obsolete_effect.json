@@ -89,5 +89,17 @@
     "show_intensity": true,
     "resist_traits": [ "GASTROPOD_BALANCE" ],
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "bile",
+    "name": [ "Bile Splashed" ],
+    "desc": [ "You're splattered with a greasy layer of liquified putrescence." ],
+    "apply_message": "You're covered in bile!",
+    "rating": "bad",
+    "resist_traits": [ "SAPROVORE", "SAPROPHAGE", "EATDEAD" ],
+    "base_mods": { "vomit_chance": [ 500, 0 ], "health_chance": [ 1 ], "health_min": [ -1 ], "health_chance_bot": [ 300, 0 ] },
+    "max_duration": "30 s",
+    "flags": [ "BILE_AFFLICTED" ]
   }
 ]

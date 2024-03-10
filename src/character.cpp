@@ -4970,7 +4970,9 @@ float Character::activity_level() const
 
 bool Character::needs_food() const
 {
-    return !( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) );
+    // Before the mechanism for non-player faction NPCs to obtain food is set up, it is unreasonable to require them to consume food.
+    return ( !get_option<bool>( "NO_NPC_FOOD" ) && get_faction() == get_avatar().get_faction() ) ||
+           !is_npc();
 }
 
 void Character::update_needs( int rate_multiplier )
@@ -10000,14 +10002,6 @@ void Character::on_worn_item_washed( const item &it )
         morale->on_worn_item_washed( it );
     }
 }
-
-void Character::on_worn_item_soiled( const item &it )
-{
-    if( is_worn( it ) ) {
-        morale->on_worn_item_soiled( it );
-    }
-}
-
 
 void Character::on_item_wear( const item &it )
 {
