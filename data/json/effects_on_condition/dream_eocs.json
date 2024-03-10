@@ -48,6 +48,46 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TROUBLED_SLEEP_SOLDIER_NIGHTMARES",
+    "//": "Generates a military-specific nightmare for players with the troubled sleeper trait and a soldier profession upon the character waking up, presents a pop-up with the nightmare, and provides a mood debuff. The EOC’s set to not fire if the player has taken preventative medication.",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "math": [ "dream_counter", "==", "0" ] },
+        { "u_has_trait": "bad_dreams" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        {
+          "or": {
+            "u_profession": "recruit",
+            "u_profession": "rifleman",
+            "u_profession": "specops",
+            "u_profession": "mil_marksman",
+            "u_profession": "mil_auto_rifleman",
+            "u_profession": "mil_grenadier",
+            "u_profession": "mil_breacher",
+            "u_profession": "mil_sniper",
+            "u_profession": "mil_hacker",
+            "u_profession": "mil_undercover",
+            "u_profession": "hazmat_unit",
+            "u_profession": "nco",
+            "u_profession": "combat-mechanic",
+            "u_profession": "combat-engineer"
+          }
+        }
+      ]
+    },
+    "//2": "Despite being soldiers, the Marine, Navy SEAL, Naval Sailor, Military Pilot, and Major General professions have been excluded from this list, as they should have their own nightmare categories.",
+    "//3": "This does not pull from the snippets used when a player gets nightmares as a result of a portal storm.",
+    "effect": [
+      { "u_message": "nightmares_cataclysm_soldier", "snippet": true, "popup": true, "type": "bad" },
+      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
+      { "math": [ "dream_counter", "=", "1" ] },
+      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TROUBLED_SLEEP_NIGHTMARES",
     "//": "Generates a generic, post-cataclysm nightmare for players with the troubled sleeper trait upon the character waking up, presents a pop-up with the nightmare, and provides a mood debuff. The EOC’s set to not fire if the player has taken preventative medication.",
     "eoc_type": "EVENT",
