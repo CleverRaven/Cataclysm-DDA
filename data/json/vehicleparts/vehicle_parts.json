@@ -2990,7 +2990,7 @@
     "durability": 200,
     "description": "A plow.  Use the vehicle controls to turn it on or off.  When turned on, it will create a furrow in any dirt it travels over, making it suitable for planting seeds.  It should be placed in front of any seed drills on the vehicle.",
     "item": "v_plow_item",
-    "location": "under",
+    "location": "structure",
     "power": "-6000 W",
 	"//2": "roughly 8hp for a moldboard plow depth of 8 in"
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
@@ -3132,7 +3132,7 @@
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
-    "location": "under",
+    "location": "structure",
     "size": "87500 ml",
     "requirements": {
       "install": {
