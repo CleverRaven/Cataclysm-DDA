@@ -2992,7 +2992,7 @@
     "item": "v_plow_item",
     "location": "structure",
     "power": "-6000 W",
-	"//2": "roughly 8hp for a moldboard plow depth of 8 in",
+	"//2": "~8 hp for a moldboard plow depth of 8 inches",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
@@ -3026,7 +3026,8 @@
     "item": "v_planter_item",
     "location": "structure",
     "size": "12500 ml",
-    "power": "-700 W",
+    "power": "-1200 W",
+	"//2": "~1.5 hp for seed drill depth of 1.5 inches"
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
