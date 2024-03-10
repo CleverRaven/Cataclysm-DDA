@@ -1,50 +1,5 @@
 [
   {
-    "id": "psionic_drained_spell",
-    "type": "SPELL",
-    "name": { "str": "Nether-Attunement" },
-    "valid_targets": [ "self" ],
-    "description": "Applies Nether Attunement to you.",
-    "flags": [ "SILENT", "NO_EXPLOSION_SFX", "NO_FAIL" ],
-    "message": "",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_RAISE_NETHER_ATTUNEMENT",
-    "shape": "blast"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RAISE_NETHER_ATTUNEMENT",
-    "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
-    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD" } ],
-    "false_effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
-    "effect": [
-      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1)" ] }
-    ],
-    "false_effect": [
-      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3)" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD",
-    "condition": { "u_has_effect": "effect_noetic_resilience" },
-    "effect": [
-      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) * u_nether_attunement_power_scaling" ] }
-    ],
-    "false_effect": [
-      { "u_message": "You feel a strange tingling sensation as your powers are unleashed.", "type": "mixed" },
-      { "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "(rand(5) + 2) * u_nether_attunement_power_scaling" ] }
-    ]
-  },
-  {
     "id": "psionic_drained_difficulty_one",
     "type": "SPELL",
     "name": { "str": "Five Percent Nether Attunement Chance" },
