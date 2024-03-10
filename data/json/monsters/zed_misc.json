@@ -1870,7 +1870,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 7,
     "bleed_rate": 125,
-    "vision_day": 94,
+    "vision_day": 200,
     "vision_night": 10,
     "families": [ "prof_intro_biology", "prof_physiology", "prof_wp_zombie" ],
     "harvest": "zombie_humanoid",
