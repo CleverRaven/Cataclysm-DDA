@@ -505,7 +505,7 @@
     "player_display": false,
     "valid": false,
     "integrated_armor": [ "integrated_arvore_claws" ],
-    "crafting_speed_multiplier": 0.5
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -896,7 +896,6 @@
     "valid": false,
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
-    "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
     "mending_modifier": 16,
@@ -949,7 +948,13 @@
     "enchantments": [
       "ench_arvore_tree_form",
       "ench_arvore_tree_reduce_thirst",
-      { "values": [ { "value": "ATTACK_SPEED", "multiply": 900 }, { "value": "METABOLISM", "multiply": -0.5 } ] }
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "multiply": 900 },
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 }
+        ]
+      }
     ]
   },
   {

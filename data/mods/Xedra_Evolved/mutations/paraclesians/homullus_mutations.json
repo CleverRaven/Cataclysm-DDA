@@ -228,7 +228,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Your leylines have begun adapting to electronic interference.  Halves the mana penalty caused by stored bionic power.",
-    "bionic_mana_penalty": 0.5,
+    "enchantments": [ { "values": [ { "value": "BIONIC_MANA_PENALTY", "multiply": -0.5 } ] } ],
     "prereqs": [ "HOMULLUS_CBM_INSTALL" ],
     "changes_to": "HOMULLUS_CBM_MANA_2",
     "category": [ "HOMULLUS" ]
@@ -241,10 +241,35 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Your leylines have fully adapted to electronic interference.  You no longer suffer any mana penalty for stored bionic power.",
-    "bionic_mana_penalty": 0,
+    "enchantments": [ { "values": [ { "value": "BIONIC_MANA_PENALTY", "multiply": -1 } ] } ],
     "prereqs": [ "HOMULLUS_CBM_MANA_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_ARMOR_MULT_1",
+    "name": "Reinforced Armor",
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Humans are flimsy creatures compared to even natural animals, yet by crafting armor they obtain durability that unthinking creatures will never reach.  You draw on this legacy, increasing the strength of armor you wear by 20%",
+    "changes_to": "HOMULLUS_ARMOR_MULT_2",
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_ARMOR_MULT_2",
+    "name": "Fortified Armor",
+    "points": 8,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "You embody the tales of ancient knights, increasing the strength of armor you wear by 40%",
+    "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
+    "threshreq": [ "THRESH_HOMULLUS" ],
+    "category": [ "HOMULLUS" ],
+    "enchantments": [ { "values": [ { "value": "ARMOR_ALL", "multiply": -0.4 } ] } ]
   },
   {
     "type": "mutation",

@@ -355,9 +355,9 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             u.set_movement_mode( move_mode_prone );
             REQUIRE( u.moves == 0 );
             THEN( "apply crawling modifier" ) {
-                CHECK( u.run_cost( 100 ) == 802 );
+                CHECK( u.run_cost( 100 ) == 803 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -802 );
+                CHECK( u.moves == -803 );
             }
         }
     }
@@ -426,9 +426,9 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
             u.set_movement_mode( move_mode_prone );
             REQUIRE( u.moves == 0 );
             THEN( "apply crawling modifier" ) {
-                CHECK( u.run_cost( 100 ) == 1245 );
+                CHECK( u.run_cost( 100 ) == 1246 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -1245 );
+                CHECK( u.moves == -1246 );
             }
         }
     }
