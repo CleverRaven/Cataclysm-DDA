@@ -4970,7 +4970,9 @@ float Character::activity_level() const
 
 bool Character::needs_food() const
 {
-    return !( is_npc() && get_option<bool>( "NO_NPC_FOOD" ) );
+    // Before the mechanism for non-player faction NPCs to obtain food is set up, it is unreasonable to require them to consume food.
+    return ( !get_option<bool>( "NO_NPC_FOOD" ) && get_faction() == get_avatar().get_faction() ) ||
+           !is_npc();
 }
 
 void Character::update_needs( int rate_multiplier )
