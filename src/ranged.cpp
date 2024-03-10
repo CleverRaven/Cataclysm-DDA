@@ -1128,7 +1128,7 @@ int throw_cost( const Character &c, const item &to_throw )
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
-    move_cost *= c.mutation_value( "attackcost_modifier" );
+    move_cost = c.enchantment_cache->modify_value( enchant_vals::mod::ATTACK_SPEED, move_cost );
 
     return std::max( 25, move_cost );
 }

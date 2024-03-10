@@ -1248,7 +1248,8 @@ static bool is_summon_friendly( const spell &sp )
     return friendly;
 }
 
-static bool add_summoned_mon( const tripoint &pos, const time_duration &time, const spell &sp )
+static bool add_summoned_mon( const tripoint &pos, const time_duration &time, const spell &sp,
+                              Creature &caster )
 {
     std::string monster_id = sp.effect_data();
 
@@ -1276,6 +1277,7 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
     }
     spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
     spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
+    spawned_mon.set_summoner( &caster );
     return true;
 }
 
@@ -1290,7 +1292,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         const size_t mon_spot = rng( 0, area.size() - 1 );
         auto iter = area.begin();
         std::advance( iter, mon_spot );
-        if( add_summoned_mon( *iter, summon_time, sp ) ) {
+        if( add_summoned_mon( *iter, summon_time, sp, caster ) ) {
             num_mons--;
             sp.make_sound( *iter, caster );
         } else {

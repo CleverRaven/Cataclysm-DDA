@@ -1064,7 +1064,7 @@ bool mattack::boomer( monster *z )
     }
 
     if( !target->dodge_check( z, 1.0f ) ) {
-        target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
     } else if( u_see ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
@@ -1104,11 +1104,11 @@ bool mattack::boomer_glow( monster *z )
     }
 
     if( !target->dodge_check( z, 1.0f ) ) {
-        target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
         target->on_dodge( z, 5, 1.0f );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
             const bodypart_id &bp = target->random_body_part();
-            target->add_liquid_effect( effect_glowing, bp, 4, 4_minutes );
+            target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
             if( target->has_effect( effect_glowing ) ) {
                 break;
             }
