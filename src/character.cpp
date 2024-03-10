@@ -3883,7 +3883,7 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-std::pair<int, int> Character::climate_control_strength()
+std::pair<int, int> Character::climate_control_strength() const
 {
     // In warmth points
     const int DEFAULT_STRENGTH = 50;

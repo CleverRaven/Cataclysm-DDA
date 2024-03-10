@@ -984,7 +984,7 @@ class Character : public Creature, public visitable
         bool is_wearing_active_optcloak() const;
 
         /** Returns strength of any climate control affecting character, for heating and chilling respectively */
-        std::pair<int, int> climate_control_strength();
+        std::pair<int, int> climate_control_strength() const;
 
         /** Returns wind resistance provided by armor, etc **/
         std::map<bodypart_id, int> get_wind_resistance( const
@@ -4076,8 +4076,8 @@ class Character : public Creature, public visitable
         std::unordered_map<point_abs_omt, time_duration> overmap_time;
 
     public:
-        time_point next_climate_control_check;
-        bool last_climate_control_ret;
+        mutable time_point next_climate_control_check;
+        mutable bool last_climate_control_ret;
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
