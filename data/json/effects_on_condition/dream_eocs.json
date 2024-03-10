@@ -10,7 +10,7 @@
     "id": "EOC_TROUBLED_SLEEP_FATIGUE_MESSAGES",
     "//": "Prints a flavour text message to the log about being afraid of sleep if the character has entered the tired status, has the trubbled sleeper trait, and has not taken preventative medication. The EOC’s set to recur every 8 to 20 minutes.",
     "global": true,
-    "recurrence": [ 480, 1200 ],
+    "recurrence": [ "8 minutes", "20 minutes" ],
     "condition": {
       "and": [
         { "math": [ "u_val('fatigue')", ">", "191" ] },
