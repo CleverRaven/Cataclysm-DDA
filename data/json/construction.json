@@ -1589,7 +1589,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "50 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 10 ], [ "wood_panel", 1 ] ], [ [ "nails", 20, "LIST" ] ] ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "wood_panel", 1 ] ], [ [ "nails", 20, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_ponywall"
   },
