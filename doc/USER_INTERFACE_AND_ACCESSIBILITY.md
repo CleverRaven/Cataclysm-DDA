@@ -9,6 +9,7 @@ Linux builds.
 
 Some good examples of the usage of `ui_adaptor` can be found within the following
 files:
+
 - `string_input_popup` in `string_input_popup.cpp`, specifically in
  `string_input_popup::query_string()`
 - `Messages::dialog` in `messages.cpp`
@@ -23,6 +24,9 @@ fields) must be created using the correct function under the `ImGui` namespace.
 Examples of creating any ImGui widget can be found in `src/third-party/imgui_demo.cpp`
 
 Good examples of implementating an ImGui-based UI in cataclysm:
+
+- `demo_ui` a minimal example (about 80 lines) in `main_menu.cpp` added in
+[PR#72171](https://github.com/CleverRaven/Cataclysm-DDA/pull/72171)
 - `query_popup` and `static_popup` in `popup.h/cpp`, specifically `query_popup_impl`
  which is a private implementation class used by the aforementioned classes.
 - `keybindings_ui` in `input.cpp`, which is a private implementation class used
