@@ -764,13 +764,13 @@
     "entries": [
       {
         "distribution": [
-          { "item": "vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 70 },
-          { "item": "gummy_vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 30 }
+          { "item": "vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 60 },
+          { "item": "gummy_vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 },
+          { "item": "calcium_tablet", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 }
         ],
         "prob": 90
       },
       { "item": "homeopathic_pills", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 30 },
-      { "item": "calcium_tablet", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 },
       { "item": "antihistamine", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 15 },
       {
         "distribution": [
