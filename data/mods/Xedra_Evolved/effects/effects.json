@@ -599,8 +599,6 @@
     "show_intensity": false,
     "max_intensity": 2,
     "int_add_val": 1,
-    "base_mods": { "speed_mod": [ -33 ] },
-    "scaling_mods": { "speed_mod": [ -33 ] },
     "enchantments": [
       { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.67 }, { "value": "ARMOR_BASH", "add": 15 } ] }
     ]
