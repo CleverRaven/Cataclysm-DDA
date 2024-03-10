@@ -531,7 +531,7 @@
       }
     ],
     "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
-    "flags": [ "BLEED_IMMUNE " ]
+    "flags": [ "BLEED_IMMUNE" ]
   },
   {
     "type": "mutation",
