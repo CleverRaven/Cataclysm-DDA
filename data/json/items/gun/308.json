@@ -512,7 +512,6 @@
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "mechanism", 2 ],
-      [ "magazine", 1 ],
       [ "muzzle", 1 ],
       [ "rail mount", 2 ],
       [ "sights", 1 ],
