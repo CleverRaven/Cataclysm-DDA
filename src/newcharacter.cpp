@@ -2994,6 +2994,7 @@ static std::string assemble_skill_help( const input_context &ctxt )
 
 void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 {
+    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
     ui_adaptor ui;
     catacurses::window w;
     catacurses::window w_list;
@@ -3065,6 +3066,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
     const int remaining_points_length = utf8_width( pools_to_string( u, pool ), true );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
+        std::string cur_skill_text;
         const std::string help_text = assemble_skill_help( ctxt );
         const int new_iHelpHeight = foldstring( help_text, getmaxx( w ) - 4 ).size();
         if( new_iHelpHeight != iHelpHeight ) {
@@ -3079,11 +3081,6 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         // Helptext skill tab
         fold_and_print( w, point( 2, TERMY - iHelpHeight - 1 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
                         help_text );
-
-        if( details_recalc ) {
-            details.set_text( assemble_skill_details( u, prof_skills, currentSkill ) );
-            details_recalc = false;
-        }
 
         // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
@@ -3117,26 +3114,46 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                 }
             }
             const point opt_pos( 1, y );
-            if( i == cur_pos ) {
-                ui.set_cursor( w_list, opt_pos );
-            }
+            std::string skill_text;
             if( skill_list[i].is_header ) {
-                mvwprintz( w_list, opt_pos, c_yellow, thisSkill->display_category()->display_string() );
+                skill_text = colorize( thisSkill->display_category()->display_string(), c_yellow );
             } else if( static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) + prof_skill_level == 0 ) {
-                mvwprintz( w_list, opt_pos,
-                           ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
+                skill_text = colorize( thisSkill->name(), ( i == cur_pos ? COL_SELECT : c_light_gray ) );
             } else {
-                mvwprintz( w_list, opt_pos,
-                           ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                           thisSkill->name() );
+                skill_text = colorize( thisSkill->name(),
+                                       ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ) );
                 if( prof_skill_level > 0 ) {
-                    wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                             " ( %d + %d )", prof_skill_level, static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) );
+                    skill_text.append( colorize( string_format( " ( %d + %d )", prof_skill_level,
+                                                 static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) ),
+                                                 ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ) ) );
                 } else {
-                    wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                             " ( %d )", static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) );
+                    skill_text.append( colorize( string_format( " ( %d )",
+                                                 static_cast<int>( u.get_skill_level( thisSkill->ident() ) ) ),
+                                                 ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ) ) );
                 }
             }
+            if( i == cur_pos ) {
+                cur_skill_text = skill_text;
+            }
+            if( screen_reader_mode ) {
+                // This list only clutters up the screen in screen reader mode
+            } else {
+                nc_color dummy = c_light_gray;
+                print_colored_text( w_list, opt_pos, dummy, c_light_gray, skill_text );
+            }
+        }
+
+        if( details_recalc ) {
+            std::string description;
+            if( screen_reader_mode ) {
+                description = currentSkill->display_category()->display_string() + " - ";
+                description.append( cur_skill_text + "\n" );
+                description.append( assemble_skill_details( u, prof_skills, currentSkill ) );
+            } else {
+                description = assemble_skill_details( u, prof_skills, currentSkill );
+            }
+            details.set_text( description );
+            details_recalc = false;
         }
 
         list_sb.offset_x( 0 )
@@ -3148,6 +3165,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
         wnoutrefresh( w );
         wnoutrefresh( w_list );
+        ui.set_cursor( w_details_pane, point_zero );
         details.draw( c_light_gray );
     } );
 
