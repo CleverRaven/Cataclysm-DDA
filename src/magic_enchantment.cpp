@@ -97,6 +97,7 @@ namespace io
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::BODYTEMP_SLEEP: return "BODYTEMP_SLEEP";
             case enchant_vals::mod::LUMINATION: return "LUMINATION";
             case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
             case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
@@ -885,6 +886,14 @@ units::volume enchant_cache::modify_value( const enchant_vals::mod mod_val,
 {
     value += units::from_milliliter<double>( get_value_add( mod_val ) );
     value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::temperature_delta enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        units::temperature_delta value ) const
+{
+    value += units::from_celsius_delta<double>( get_value_add( mod_val ) );
+    value *= 1 + get_value_multiply( mod_val );
     return value;
 }
 

@@ -3263,8 +3263,6 @@ class Character : public Creature, public visitable
 
         /** Correction factor of the body temperature due to traits and mutations **/
         units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
-        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        units::temperature_delta bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
         units::temperature temp_corrected_by_climate_control( units::temperature temperature,
                 int heat_strength,

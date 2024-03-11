@@ -215,7 +215,6 @@ struct mutation_branch {
         // bodytemp elements:
         units::temperature_delta bodytemp_min = 0_C_delta;
         units::temperature_delta bodytemp_max = 0_C_delta;
-        units::temperature_delta bodytemp_sleep = 0_C_delta;
         // Additional bonuses
         std::optional<int> scent_intensity;
 
