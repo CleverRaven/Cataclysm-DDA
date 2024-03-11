@@ -1991,7 +1991,14 @@
     "anger_triggers": [ "HURT" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "regen_morale": "true",
-    "special_attacks": [ { "type": "spell", "id": "veiled_butterfly_irradiate", "spell_data": { "id": "veiled_butterfly_irradiate", "min_level": 1 }, "cooldown": 30 } ],
+    "special_attacks": [
+      {
+        "type": "spell",
+        "id": "veiled_butterfly_irradiate",
+        "spell_data": { "id": "veiled_butterfly_irradiate", "min_level": 1 },
+        "cooldown": 30
+      }
+    ],
     "flags": [ "FLIES", "HIT_AND_RUN", "NO_BREATHE", "NO_FUNG_DMG", "SEES" ]
   },
   {
