@@ -1974,7 +1974,7 @@
   {
     "id": "mon_nether_unviable_butterfly",
     "type": "MONSTER",
-    "name": { "str": "abnormal butterfly", "str_pl": "abnormal butterflies" },
+    "name": { "str": "veiled butterfly", "str_pl": "veiled butterflies" },
     "description": "There is barely anything there, but you do notice hints of a faint, translucent veiled creature that you can only describe as butterfly-like.  While strangely alluring, it seems unsuited to the atmosphere and is slowly falling apart.",
     "species": "INSECT",
     "hp": 20,
@@ -1984,8 +1984,14 @@
     "volume": "5 L",
     "symbol": "l",
     "color": "light_red",
+    "morale": 10,
+    "aggression": 5,
     "default_faction": "nether",
     "bodytype": "flying insect",
+    "anger_triggers": [ "HURT" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
+    "regen_morale": "true",
+    "special_attacks": [ { "type": "spell", "id": "veiled_butterfly_irradiate", "spell_data": { "id": "veiled_butterfly_irradiate", "min_level": 1 }, "cooldown": 30 } ],
     "flags": [ "FLIES", "HIT_AND_RUN", "NO_BREATHE", "NO_FUNG_DMG", "SEES" ]
   },
   {
@@ -2001,7 +2007,7 @@
     "volume": "2 L",
     "default_faction": "nether",
     "symbol": "v",
-    "color": "gray",
+    "color": "light_gray",
     "bodytype": "blob",
     "flags": [ "GRABS" ]
   },
@@ -2020,6 +2026,7 @@
     "symbol": "e",
     "color": "blue",
     "bodytype": "kangaroo",
+    "special_attacks": [ { "id": "mutant_hoof" } ],
     "flags": [ "BASHES", "HEARS", "SEES", "LOUDMOVES" ]
   },
   {
@@ -2046,7 +2053,6 @@
     "description": "A writhing mass of strange flesh and something that oddly resembles tentacles.  It is getting more pale by the minute.",
     "species": "NETHER",
     "hp": 20,
-    "speed": 0,
     "diff": 2,
     "weight": "2 kg",
     "volume": "5 L",
@@ -2054,6 +2060,6 @@
     "color": "pink",
     "default_faction": "nether",
     "bodytype": "blob",
-    "flags": [ "WARM", "GRABS" ]
+    "flags": [ "WARM", "GRABS", "IMMOBILE" ]
   }
 ]
