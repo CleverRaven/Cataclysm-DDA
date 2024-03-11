@@ -43,6 +43,7 @@ enum class mod : int {
     MAX_MANA,
     REGEN_MANA,
     BIONIC_POWER,
+    POWER_TRICKLE,
     MAX_STAMINA,
     REGEN_STAMINA,
     FAT_TO_MAX_HP,

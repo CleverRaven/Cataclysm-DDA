@@ -1337,7 +1337,6 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `toggled_pseudo_items`       | (_optional_) Activation of this bionic spawn an irremovable tool in your hands.  Require `BIONIC_TOGGLED` flag
 | `spell_on_activation`        | (_optional_) Activation of this bionic allow you to cast a spell
 | `activated_close_ui`         | (_optional_) Activation of this bionic closes the bionic menu
-| `power_trickle`              | (_optional_) Having this bionic installed generate some amount of energy. Negative values can be used
 
 ```JSON
 {

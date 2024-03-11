@@ -66,6 +66,7 @@ namespace io
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
             case enchant_vals::mod::REGEN_MANA: return "REGEN_MANA";
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
+            case enchant_vals::mod::POWER_TRICKLE: return "POWER_TRICKLE";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
             case enchant_vals::mod::FAT_TO_MAX_HP: return "FAT_TO_MAX_HP";
