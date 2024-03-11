@@ -6,8 +6,6 @@
 #include "bodypart.h"
 #include "color.h"
 #include "item.h"
-#include "magic.h"
-#include "magic_spell_effect_helpers.h"
 #include "units.h"
 
 class advanced_inventory_pane;
@@ -148,14 +146,6 @@ class outfit
         float damage_resist( const damage_type_id &dt, const bodypart_id &bp, bool to_self = false ) const;
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;
-
-        /** Splash a liquid on a character's body and equipment via magic_spell_effect. Splash attacks are blocked by a combination of coverage
-         * and breathability, and items use their armor values to resist being damaged if the spell is flagged to damage them.
-         */
-        void splash_attack( Character &guy, const spell &sp, Creature &caster, bodypart_id bp );
-        // Used with splash_attack. Returns a string relative to the amount of liquid involved in the attack.
-        std::string get_liquid_descriptor( int liquid_remaining = 0 );
-
         int get_coverage( bodypart_id bp,
                           item::cover_type cover_type = item::cover_type::COVER_DEFAULT ) const;
         void bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,

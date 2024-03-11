@@ -94,7 +94,6 @@
     "healing_awake": 0.25,
     "healing_multiplier": 1.5,
     "mending_modifier": 3.0,
-    "mana_regen_multiplier": 1.5,
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA", "msg_transform": "", "active": false, "moves": 0 }
@@ -116,8 +115,6 @@
     "healing_multiplier": 1.5,
     "mending_modifier": 3.0,
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_regen_multiplier": 1.5,
-    "mana_multiplier": 1.5,
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
   },
@@ -137,8 +134,6 @@
     "healing_multiplier": 1.5,
     "mending_modifier": 3.0,
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_regen_multiplier": 1.5,
-    "mana_multiplier": 1.5,
     "enchantments": [
       {
         "values": [
@@ -235,7 +230,6 @@
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby and revealing the lay of the land to you.",
     "category": [ "ARVORE" ],
     "enchantments": [ "arvore_forest_detect_enemies" ],
-    "overmap_sight": 5,
     "triggers": [
       [
         {
@@ -329,8 +323,7 @@
     "category": [ "SYLPH" ],
     "valid": false,
     "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8
+    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -345,7 +338,6 @@
     "valid": false,
     "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8,
     "flags": [ "SUBTLE_SPELL" ]
   },
   {
@@ -398,7 +390,6 @@
     "valid": false,
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed is increased.",
     "category": [ "SALAMANDER" ],
-    "crafting_speed_multiplier": 1.15,
     "triggers": [
       [
         {
@@ -455,7 +446,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "mana_regen_multiplier": 1.15,
     "flags": [ "NO_SCENT" ]
   },
   {
@@ -466,7 +456,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "casting_time_multiplier": 0.85,
     "flags": [ "SUBTLE_SPELL" ]
   },
   {
@@ -477,7 +466,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "noise_modifier": 0.4,
     "flags": [ "STEADY", "SLUDGE_IMMUNE" ]
   }
 ]

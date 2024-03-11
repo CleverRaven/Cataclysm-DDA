@@ -382,7 +382,6 @@
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
     "mending_modifier": 16,
@@ -391,7 +390,8 @@
         "values": [
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
-          { "value": "METABOLISM", "multiply": -1.0 }
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 }
         ]
       }
     ]

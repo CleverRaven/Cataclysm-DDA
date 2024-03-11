@@ -222,10 +222,8 @@ struct mutation_branch {
         // Limb mending bonus
         std::optional<float> mending_modifier = std::nullopt;
         // Additional bonuses
-        std::optional<float> noise_modifier = std::nullopt;
         float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
-        std::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
@@ -247,45 +245,13 @@ struct mutation_branch {
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
 
-        /**Rate at which bmi above character_weight_category::normal increases the character max_hp*/
-        float fat_to_max_hp = 0.0f;
-        /**How fast does lifetsyle tends toward daily_health*/
-        float healthy_rate = 1.0f;
-
-        /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
-        int weakness_to_water = 0;
-
-        std::optional<float> crafting_speed_multiplier = std::nullopt;
-
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
         std::optional<float> temperature_speed_modifier = std::nullopt;
         // As above but for thirst.
         std::optional<float> thirst_modifier = std::nullopt;
-        // As above but for fatigue.
-        std::optional<float> fatigue_modifier = std::nullopt;
-        // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        std::optional<float> fatigue_regen_modifier = std::nullopt;
-        // Modifier for the rate at which stamina regenerates.
-        std::optional<float> stamina_regen_modifier = std::nullopt;
-        // the modifier for the vomit chance
-        std::optional<float> vomit_multiplier = std::nullopt;
-        // the modifier for sweat amount
-        std::optional<float> sweat_multiplier = std::nullopt;
-
-        // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        std::optional<float> overmap_sight = std::nullopt;
-
-        // Multiplier for sight range, defaulting to 1.
-        std::optional<float> overmap_multiplier = std::nullopt;
-
-        // Multiplier for reading speed, defaulting to 1.
-        std::optional<float> reading_speed_multiplier = std::nullopt;
 
         // Multiplier for skill rust delay, defaulting to 1.
         std::optional<float> skill_rust_multiplier = std::nullopt;
-
-        // Multiplier for consume time, defaulting to 1.
-        std::optional<float> consume_time_modifier = std::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -312,13 +278,6 @@ struct mutation_branch {
         /**List of body parts locked out of bionics*/
         std::set<bodypart_str_id> no_cbm_on_bp;
 
-        // amount of mana added or subtracted from max
-        std::optional<float> mana_modifier = std::nullopt;
-        std::optional<float> mana_multiplier = std::nullopt;
-        std::optional<float> mana_regen_multiplier = std::nullopt;
-        // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
-        std::optional<float> bionic_mana_penalty = std::nullopt;
-        std::optional<float> casting_time_multiplier = std::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations

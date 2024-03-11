@@ -249,6 +249,9 @@ static void armor_enchantment_adjust( monster &mon, damage_unit &du )
     } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
         du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
     }
+    if( du.type != STATIC( damage_type_id( "pure" ) ) ) {
+        du.amount = mon.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
+    }
     du.amount = std::max( 0.0f, du.amount );
 }
 
@@ -2742,6 +2745,9 @@ void monster::die( Creature *nkiller )
     set_killer( nkiller );
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
+        if( ch == nullptr && get_killer()->get_summoner() != nullptr ) {
+            ch = get_killer()->get_summoner()->as_character();
+        }
         if( !is_hallucination() && ch != nullptr ) {
             cata::event e = cata::event::make<event_type::character_kills_monster>( ch->getID(), type->id,
                             compute_kill_xp( type->id ) );
