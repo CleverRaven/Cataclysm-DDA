@@ -43,6 +43,56 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TROUBLED_SLEEP_REFUGEE_NIGHTMARES",
+    "//": "Generates a nightmare from a particular category dedicated to refugee centre nightmares, provided that the player is sleeping within the centre and has the Troubled Sleeper trait. Upon the character waking up, it presents a pop-up with the nightmare and provides a mood debuff. The EOC’s set to not fire if the player has taken preventative medication.",
+    "eoc_type": "EVENT",
+    "required_event": "character_wakes_up",
+    "condition": {
+      "and": [
+        { "math": [ "dream_counter", "==", "0" ] },
+        { "u_has_trait": "bad_dreams" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        {
+          "or": {
+            "u_at_om_location": "evac_center_1",
+            "u_at_om_location": "evac_center_2",
+            "u_at_om_location": "evac_center_3",
+            "u_at_om_location": "evac_center_4",
+            "u_at_om_location": "evac_center_5",
+            "u_at_om_location": "evac_center_6",
+            "u_at_om_location": "evac_center_7",
+            "u_at_om_location": "evac_center_8",
+            "u_at_om_location": "evac_center_9",
+            "u_at_om_location": "evac_center_10",
+            "u_at_om_location": "evac_center_11",
+            "u_at_om_location": "evac_center_12",
+            "u_at_om_location": "evac_center_13",
+            "u_at_om_location": "evac_center_14",
+            "u_at_om_location": "evac_center_15",
+            "u_at_om_location": "evac_center_16",
+            "u_at_om_location": "evac_center_17",
+            "u_at_om_location": "evac_center_18",
+            "u_at_om_location": "evac_center_19",
+            "u_at_om_location": "evac_center_20",
+            "u_at_om_location": "evac_center_21",
+            "u_at_om_location": "evac_center_22",
+            "u_at_om_location": "evac_center_23",
+            "u_at_om_location": "evac_center_24",
+            "u_at_om_location": "evac_center_25"
+          }
+        }
+      ]
+    },
+    "//2": "This does not pull from the snippets used when a player gets nightmares as a result of a portal storm.",
+    "effect": [
+      { "u_message": "nightmares_cataclysm_refugee", "snippet": true, "popup": true, "type": "bad" },
+      { "u_add_morale": "morale_nightmare", "bonus": [ -15, -30 ], "max_bonus": -30 },
+      { "math": [ "dream_counter", "=", "1" ] },
+      { "queue_eocs": "EOC_RESET_DREAM_COUNTER", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_TROUBLED_SLEEP_SOLDIER_NIGHTMARES",
     "//": "Generates a military-specific nightmare for players with the troubled sleeper trait and a soldier profession upon the character waking up, presents a pop-up with the nightmare, and provides a mood debuff. The EOC’s set to not fire if the player has taken preventative medication.",
     "eoc_type": "EVENT",
