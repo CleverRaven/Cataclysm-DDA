@@ -98,6 +98,7 @@
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": ":",
     "color": "green",
+    "location": "bore",
     "mod_targets": [ "debug_modular_ar15" ],
     "install_time": "5 m",
     "ammo_modifier": [ "223" ],
