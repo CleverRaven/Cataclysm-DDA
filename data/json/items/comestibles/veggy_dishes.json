@@ -1127,7 +1127,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "milling": { "into": "cornmeal", "recipe": "cornmeal_mill_1_3" },
-    "volume": "53 ml",
+    "volume": "83 ml",
     "vitamins": [ [ "vitC", 12 ], [ "iron", 4 ] ],
     "petfood": [ "CATTLEFOOD" ],
     "flags": [ "EDIBLE_FROZEN", "RAW", "INEDIBLE", "CATTLE", "PLANTABLE_SEED" ],
