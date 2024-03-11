@@ -344,7 +344,6 @@
     "category": [ "SALAMANDER" ],
     "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 3 } ] } ],
     "//": "Numbers taken from Very Fast Healer",
-    "temperature_speed_modifier": 1,
     "triggers": [
       [
         {

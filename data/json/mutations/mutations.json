@@ -11,6 +11,31 @@
     "flags": [ "CHANGING" ]
   },
   {
+    "id": "test_item_TEST",
+    "type": "TOOL",
+    "name": { "str_sp": "test_item_TEST" },
+    "description": "The severed leg of a void weaver, turned into some macabre ornament.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "symbol": "!",
+    "color": "light_red",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Touch the effigy.",
+      "effect_on_conditions": [
+        {
+          "id": "TEST_EOC",
+          "effect": [
+            { "math": [ "test_val", "=", "u_climate_control_str_heat()" ] },
+            { "u_message": "climate_control_str_heat: <global_val:test_val>" },
+            { "math": [ "test_val2", "=", "u_climate_control_str_chill()" ] },
+            { "u_message": "climate_control_str_chill: <global_val:test_val2>" }
+          ]
+        }
+      ]
+    }
+  },
+  {
     "type": "mutation",
     "id": "HUMAN_ADDONS",
     "name": { "str": "No Extras" },
@@ -7808,8 +7833,14 @@
     "types": [ "ECTOTHERMIC" ],
     "changes_to": [ "COLDBLOOD2" ],
     "category": [ "FISH", "CEPHALOPOD", "SPIDER", "GASTROPOD", "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
-    "temperature_speed_modifier": 0.2,
-    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.333 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -0.333 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.2)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -7823,8 +7854,14 @@
     "prereqs": [ "COLDBLOOD" ],
     "changes_to": [ "COLDBLOOD3" ],
     "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT", "CRUSTACEAN" ],
-    "temperature_speed_modifier": 0.333,
-    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.333)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -7838,8 +7875,14 @@
     "prereqs": [ "COLDBLOOD2" ],
     "changes_to": [ "COLDBLOOD4" ],
     "category": [ "INSECT", "LIZARD", "BATRACHIAN", "PLANT" ],
-    "temperature_speed_modifier": 0.5,
-    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -7854,8 +7897,14 @@
     "threshreq": [ "THRESH_LIZARD", "THRESH_PLANT", "THRESH_BATRACHIAN" ],
     "purifiable": false,
     "category": [ "LIZARD", "PLANT", "BATRACHIAN" ],
-    "temperature_speed_modifier": 0.5,
-    "enchantments": [ { "values": [ { "value": "METABOLISM", "multiply": -0.5 } ] } ]
+    "enchantments": [
+      {
+        "values": [
+          { "value": "METABOLISM", "multiply": -0.5 },
+          { "value": "SPEED", "add": { "math": [ "temperature_speed_mod(65, 0.5)" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",

@@ -239,9 +239,6 @@ struct mutation_branch {
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
 
-        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        std::optional<float> temperature_speed_modifier = std::nullopt;
-
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 

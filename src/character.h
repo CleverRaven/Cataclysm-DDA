@@ -2588,12 +2588,6 @@ class Character : public Creature, public visitable
         float healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const;
 
         /**
-         * Goes over all mutations, gets min and max of a value with given name
-         * @return min( 0, lowest ) + max( 0, highest )
-         */
-        float mutation_value( const std::string &val ) const;
-
-        /**
          * Goes over all mutations/bionics, returning the sum of the social modifiers
          */
         social_modifiers get_mutation_bionic_social_mods() const;

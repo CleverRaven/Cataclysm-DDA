@@ -6281,63 +6281,6 @@ social_modifiers Character::get_mutation_bionic_social_mods() const
     return mods;
 }
 
-template <std::optional<float> mutation_branch::*member>
-float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
-{
-    float lowest = 0.0f;
-    float highest = 0.0f;
-    for( const mutation_branch *mut : mutations ) {
-        if( ( mut->*member ).has_value() ) {
-            float val = ( mut->*member ).value();
-            lowest = std::min( lowest, val );
-            highest = std::max( highest, val );
-        }
-    }
-
-    return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
-}
-
-template <std::optional<float> mutation_branch::*member>
-float calc_mutation_value_additive( const std::vector<const mutation_branch *> &mutations )
-{
-    float ret = 0.0f;
-    for( const mutation_branch *mut : mutations ) {
-        if( ( mut->*member ).has_value() ) {
-            ret += ( mut->*member ).value();
-        }
-    }
-    return ret;
-}
-
-template <std::optional<float> mutation_branch::*member>
-float calc_mutation_value_multiplicative( const std::vector<const mutation_branch *> &mutations )
-{
-    float ret = 1.0f;
-    for( const mutation_branch *mut : mutations ) {
-        if( ( mut->*member ).has_value() ) {
-            ret *= ( mut->*member ).value();
-        }
-    }
-    return ret;
-}
-
-static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
-mutation_value_map = {
-    { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
-};
-
-float Character::mutation_value( const std::string &val ) const
-{
-    // Syntax similar to tuple get<n>()
-    const auto found = mutation_value_map.find( val );
-
-    if( found == mutation_value_map.end() ) {
-        debugmsg( "Invalid mutation value name %s", val );
-        return 0.0f;
-    } else {
-        return found->second( cached_mutations );
-    }
-}
 
 namespace
 {
@@ -12379,16 +12322,6 @@ void Character::recalc_speed_bonus()
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
             //FIXME get trait name directly
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ), _( "Sunlight Dependent" ) );
-        }
-        const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
-        if( temperature_speed_modifier != 0 ) {
-            const int climate_control = climate_control_strength().first;
-            const units::temperature player_local_temp = get_weather().get_temperature( pos() );
-            if( has_flag( json_flag_ECTOTHERM ) ||
-                player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
-                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
-                                 temperature_speed_modifier, _( "Ectothermic" ) );
-            }
         }
     }
     const int prev_speed_bonus = get_speed_bonus();
