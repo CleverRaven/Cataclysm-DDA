@@ -185,10 +185,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "fatigue": true,                            // If true, activated mutation increases fatigue by cost (default: false).
   "active_flags": [ "BLIND" ],                // activation of the mutation apply this flag on your character
   "allowed_items": [ "ALLOWS_TAIL" ],         // you can wear items with this flag with this mutation, bypassing restricts_gear restriction
-  "casting_time_multiplier": 0.01,            // changes your casting speed; 0.5 means you spend only 50% of the original cast time, 2 means you spend twice as long. Useful only for magic mods
-  "hearing_modifier": 1.8,                    // changes how good you can hear different sounds
   "integrated_armor": [ "integrated_fur" ],   // this item is worn on your character forever, until you get rid of this mutation
-  "overmap_sight": -10,                       // adjusts sight range on the overmap. Positives make it farther, negatives make it closer. This will allow the character to see futher on the overmap at night if the mutation is active at all times
   "ranged_mutation": {                        // activation of the mutation allow you to shoot a fake gun
     "type": "pseudo_shotgun",                 // fake gun that is used to shoot
     "message": "SUDDEN SHOTGUN!."             // message that would be printed when you use it
@@ -207,7 +204,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allowed_category": [ "ALPHA" ],            // List of categories you can mutate into (default: empty).
   "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l" ],  // List of body parts that can't receive CBMs (default: empty).
   "lumination": [ [ "head", 20 ], [ "arm_l", 10 ] ],              // List of glowing bodypart and the intensity of the glow as a float (default: empty).
-  "healing_resting": 0.5,                     // Healing rate per turn while resting. Positives will increase healing while negatives will decrease healing.
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
   "transform": {
@@ -242,7 +238,6 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "processed_eocs": [ "eoc_id_1" ],           // List of effect_on_conditions that attempt to activate every time (defined above) units of time. Time of 0 means every turn it processes. Processed when the mutation is active for activatable mutations and always for non-activatable ones.
   "deactivated_eocs": [ "eoc_id_1" ],         // List of effect_on_conditions that attempt to activate when this mutation is successfully deactivated.
   "enchantments": [ "ench_id_1" ],            // List of enchantments granted by this mutation.  Can be either IDs or an inline definition of the enchantment (see MAGIC.md)
-  "temperature_speed_modifier": 0.5,          // If nonzero, become slower when cold, and faster when hot (1.0 gives +/-1% speed for each degree above or below 65 F).
   "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
   "moncams": [ [ "mon_player_blob", 16 ] ],    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
   "override_look": { "id": "mon_cat_black", "tile_category": "monster" } // Change the character's appearance to another specified thing with a specified ID and tile category. Please ensure that the ID corresponds to the tile category. The valid tile category are "none", "vehicle_part", "terrain", "item", "furniture", "trap", "field", "lighting", "monster", "bullet", "hit_entity", "weather", "overmap_terrain", "map_extra", "overmap_note".
