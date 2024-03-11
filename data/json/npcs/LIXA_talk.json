@@ -218,7 +218,63 @@
       { "text": "ERROR: Flux Limiters", "topic": "LIXA_experiment_flux_limiters" },
       { "text": "ERROR: Power Draw", "topic": "LIXA_experiment_power_draw" },
       { "text": "SYSTEM SHUTDOWN", "topic": "LIXA_experiment_system_shutdown" },
+      {
+        "text": "Copy research archives to external device.",
+        "topic": "LIXA_experiment_backup_data_need_id",
+        "condition": [
+          { "not": { "u_has_item": "id_LIXA_najma" } },
+          { "not": { "u_has_item": "id_LIXA_jason" } },
+          { "not": { "u_has_item": "id_LIXA_kai_mei" } },
+          { "not": { "u_has_item": "id_LIXA_rich" } }
+        ]
+      },
+      {
+        "text": "Copy research archives to external device.",
+        "topic": "LIXA_experiment_backup_data_no_drive",
+        "condition": [
+          { "or": { "u_has_item": "id_LIXA_najma" } },
+          { "or": { "u_has_item": "id_LIXA_jason" } },
+          { "or": { "u_has_item": "id_LIXA_kai_mei" } },
+          { "or": { "u_has_item": "id_LIXA_rich" } },
+          { "not": { "u_has_item": "usb_drive_nano" } }
+        ]
+      },
+      {
+        "text": "Copy research archives to external device.",
+        "topic": "LIXA_experiment_backup_data",
+        "condition": [
+          { "or": { "u_has_item": "id_LIXA_najma" } },
+          { "or": { "u_has_item": "id_LIXA_jason" } },
+          { "or": { "u_has_item": "id_LIXA_kai_mei" } },
+          { "or": { "u_has_item": "id_LIXA_rich" } },
+          { "and": { "u_has_item": "usb_drive_nano" } }
+        ]
+      },
       { "text": "Leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_backup_data_need_id",
+    "dynamic_line": "TODO:  something about making a backup needs one of the four doctors' IDs.",
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_backup_data_no_drive",
+    "dynamic_line": "TODO:  politely inform the player they misplaced the secure USB drive.",
+    "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "LIXA_experiment_backup_data",
+    "dynamic_line": "TODO:  something something backup successful.",
+    "responses": [
+      {
+        "text": "Leave.",
+        "topic": "TALK_DONE",
+        "effect": [ { "u_consume_item": "usb_drive_nano" }, { "u_spawn_item": "lixa_data" } ]
+      }
     ]
   },
   {
