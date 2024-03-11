@@ -112,14 +112,12 @@
       },
       {
         "text": "Hmm, can we change this haircut a little please?",
-        "topic": "TALK_DONE",
-        "effect": "barber_hair",
+        "topic": "TALK_CUT_YOUR_HAIR",
         "condition": { "npc_has_effect": "vanessa_haircut_in_progress" }
       },
       {
         "text": "Hmm, can we change this shave a little please?",
-        "topic": "TALK_DONE",
-        "effect": "barber_beard",
+        "topic": "TALK_CUT_YOUR_BEARD",
         "condition": { "npc_has_effect": "vanessa_shave_in_progress" }
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -218,33 +216,30 @@
     "responses": [
       {
         "text": "[6 merch] Please give me a haircut.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_CUT_YOUR_HAIR",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
         "effect": [
           { "u_sell_item": "FMCNote", "count": 6 },
-          "barber_hair",
           "buy_haircut",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
         ]
       },
       {
         "text": "[3 merch] Please give me a shave.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_CUT_YOUR_BEARD",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
         "effect": [
           { "u_sell_item": "FMCNote", "count": 3 },
-          "barber_beard",
           "buy_shave",
           { "npc_add_effect": "vanessa_shave_in_progress", "duration": 100 }
         ]
       },
       {
         "text": "Actually, you owe me a free haircut, remember?",
-        "topic": "TALK_DONE",
+        "topic": "TALK_CUT_YOUR_HAIR",
         "condition": { "npc_has_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" },
         "effect": [
           { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "no" },
-          "barber_hair",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
         ]
       },

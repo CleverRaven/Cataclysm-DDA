@@ -818,7 +818,8 @@
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "mutation_conflicts": [ "BATEARS" ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
-    "active_flags": [ "SUPER_HEARING" ],
+    "active_flags": [ "SAFECRACK_NO_TOOL" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "HEARING_MULT", "multiply": 2.5 } ] } ],
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true
@@ -1792,7 +1793,7 @@
     "name": { "str": "Titanium Skeletal Bracing" },
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds, and you receive slightly less bashing damage to your arms, legs and torso.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "weight_capacity_bonus": "20 kg",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
       [ "torso", { "bash": 2 } ],

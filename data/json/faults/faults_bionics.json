@@ -4,6 +4,7 @@
     "type": "fault",
     "name": { "str": "Already deployed" },
     "description": "This bionic needs to be reset to its factory state.",
+    "price_modifier": 0.8,
     "item_prefix": "salvaged"
   }
 ]

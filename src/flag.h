@@ -309,7 +309,6 @@ extern const flag_id flag_SLEEP_AID;
 extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
 extern const flag_id flag_SLOWS_MOVEMENT;
-extern const flag_id flag_SLOWS_THIRST;
 extern const flag_id flag_SLOW_WIELD;
 extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
@@ -426,6 +425,16 @@ class json_flag
             return name_.translated();
         }
 
+        /** Custom prefix that is added to item name. */
+        const translation &item_prefix() const {
+            return item_prefix_;
+        }
+
+        /** Custom suffix that is added to item name. */
+        const translation &item_suffix() const {
+            return item_suffix_;
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -460,6 +469,8 @@ class json_flag
         translation info_;
         translation restriction_;
         translation name_;
+        translation item_prefix_;
+        translation item_suffix_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;

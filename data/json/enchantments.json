@@ -112,7 +112,7 @@
     "name": { "str": "Insect Wings (Buzzing)" },
     "description": "Your rapidly buzzing wings propel you with extra speed.",
     "condition": "ALWAYS",
-    "values": [ { "value": "REGEN_STAMINA", "add": -110 } ]
+    "values": [ { "value": "REGEN_STAMINA", "add": -110 }, { "value": "MOVE_COST", "multiply": -0.25 } ]
   },
   {
     "id": "ench_quadruped_movement_full",

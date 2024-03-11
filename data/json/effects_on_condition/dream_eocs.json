@@ -40,7 +40,7 @@
         }
       }
     ]
-  }
+  },
   {
     "type": "effect_on_condition",
     "id": "EOC_TROUBLED_SLEEP_SOLDIER_NIGHTMARES",

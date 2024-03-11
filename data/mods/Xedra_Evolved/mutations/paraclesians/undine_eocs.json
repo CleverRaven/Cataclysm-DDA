@@ -176,7 +176,7 @@
       ]
     },
     "effect": [
-      { "u_spawn_item": "undine_waters_map" },
+      { "u_spawn_item": "undine_waters_map", "suppress_message": true },
       {
         "u_run_inv_eocs": "random",
         "search_data": [ { "id": "undine_waters_map" } ],
