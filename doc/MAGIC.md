@@ -896,7 +896,7 @@ Character status value  | Description
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.
 `VITAMIN_ABSORB_MOD`    | Increases amount of vitamins obtained from the food
 `VOMIT_MUL`             | Affects your chances to vomit.
-`WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per minute; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
+`WEAKNESS_TO_WATER`     | Amount of damage character gets when wet, once per second; scales with wetness, being 50% wet deal only half of damage; negative values restore hp; flat number with default value of 0, so `multiply` is useful only in combination with `add`; Works with float numbers, so `"add": -0.3` would result in restoring 1 hp with 30% change, and 70% chance to do nothing
 `WEAPON_DISPERSION`     | Positive value increase the dispersion, negative decrease one.
 
 
