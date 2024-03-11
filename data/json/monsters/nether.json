@@ -2056,7 +2056,7 @@
   {
     "id": "mon_nether_unviable_chunk",
     "type": "MONSTER",
-    "name": { "str": "chunk of alien flesh" },
+    "name": { "str": "chunk of alien flesh", "str_pl": "chunks of alien flesh" },
     "description": "A writhing mass of strange flesh and something that oddly resembles tentacles.  It is getting more pale by the minute.",
     "species": "NETHER",
     "hp": 20,
