@@ -223,7 +223,7 @@
     "looks_like": "kantele",
     "type": "TOOL",
     "category": "tools",
-    "name": { "str": "Väinämöinen's Kantele, imitation" },
+    "name": { "str": "Väinämöinen's Kantele, imitation", "str_pl": "Väinämöinen's Kanteles, imitation" },
     "description": "A traditional Finnish string instrument.  According to myth the first one was fashioned from a great pike's jawbone.  Does it glimmer in the light?  Do its notes echo and linger more than normal?",
     "weight": "550 g",
     "volume": "3000 ml",
