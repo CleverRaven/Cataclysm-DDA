@@ -114,7 +114,8 @@
             },
             {
               "not": { "u_has_var": "completed_robofac_intercom_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "no" }
-            }
+            },
+            { "math": [ "u_portal_storm_recordings_sold", ">", "2" ] }
           ]
         },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"
