@@ -824,6 +824,19 @@ void Character::set_proficiencies_from_hobbies()
     }
 }
 
+void Character::set_bionics_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const bionic_id &bio : profession->CBMs() ) {
+            if( has_bionic( bio ) && !bio->dupes_allowed ) {
+                return;
+            } else {
+                add_bionic( bio );
+            }
+        }
+    }
+}
+
 void Character::initialize( bool learn_recipes )
 {
     recalc_hp();
@@ -883,6 +896,8 @@ void Character::initialize( bool learn_recipes )
     for( const bionic_id &bio : prof->CBMs() ) {
         add_bionic( bio );
     }
+
+    set_bionics_from_hobbies();
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
 
@@ -2521,6 +2536,25 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
         assembled += "\n" + colorize( _( "Background proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
             assembled += prof->name() + ": " + colorize( prof->description(), COL_HEADER ) + "\n";
+        }
+    }
+
+    auto prof_CBMs = sorted_hobbies[cur_id]->CBMs();
+    if( !prof_CBMs.empty() ) {
+        assembled += "\n" + colorize( _( "Background bionics:" ), COL_HEADER ) + "\n";
+        std::sort( std::begin( prof_CBMs ), std::end( prof_CBMs ), []( const bionic_id & a,
+        const bionic_id & b ) {
+            return a->activated && !b->activated;
+        } );
+        for( const auto &b : prof_CBMs ) {
+            const bionic_data &cbm = b.obj();
+            if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
+                assembled += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
+            } else if( cbm.activated ) {
+                assembled += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
+            } else {
+                assembled += cbm.name + "\n";
+            }
         }
     }
 
@@ -4461,13 +4495,16 @@ std::vector<trait_id> Character::get_base_traits() const
 }
 
 std::vector<trait_id> Character::get_mutations( bool include_hidden,
-        bool ignore_enchantments ) const
+        bool ignore_enchantments, const std::function<bool( const mutation_branch & )> &filter ) const
 {
     std::vector<trait_id> result;
     result.reserve( my_mutations.size() + enchantment_cache->get_mutations().size() );
     for( const std::pair<const trait_id, trait_data> &t : my_mutations ) {
-        if( include_hidden || t.first.obj().player_display ) {
-            result.push_back( t.first );
+        const mutation_branch &mut = t.first.obj();
+        if( include_hidden || mut.player_display ) {
+            if( filter == nullptr || filter( mut ) ) {
+                result.push_back( t.first );
+            }
         }
     }
     if( !ignore_enchantments ) {
@@ -4481,7 +4518,9 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden,
                     }
                 }
                 if( !found ) {
-                    result.push_back( ench_trait );
+                    if( filter == nullptr || filter( ench_trait.obj() ) ) {
+                        result.push_back( ench_trait );
+                    }
                 }
             }
         }
@@ -4733,11 +4772,6 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.per_max = 8;
     set_scenario( scen );
     u.prof = &default_prof.obj();
-    for( auto &t : u.get_mutations() ) {
-        if( t.obj().hp_modifier.has_value() ) {
-            u.toggle_trait_deps( t );
-        }
-    }
 
     u.hobbies.clear();
     u.add_default_background();

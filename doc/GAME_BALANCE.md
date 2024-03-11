@@ -472,6 +472,26 @@ Hydrogen requirements are `coal_requirements/2.5`.
 # MUTATIONS
 Mutations are given completely subjective point values.  The most important factor is that mutations that adversely affect a character are given a negative point value, or positive for beneficial mutations.  The chance of obtaining a positive or negative mutation varies based on Instability (a counter that increases by a default of 100 when a mutation is gained or lost and decays by 1 per in-game day by default).  0 point mutations will always have a 10% chance of appearing.  There is a 90% chance to obtain a good mutation until approximately 800 Instability.  There is an equal chance (45% each) of obtaining a good or bad mutation at approximately 2800 Instability.  There is an approximately 70% chance of obtaining a bad mutation at 10000 Instability, which will be the cap after a current test phase where it is capped at 8000.
 
+## Mutation Attacks
+Some mutations, such as fangs, grant a character special attacks. These attacks are defined in techniques.json, and are designed to closely mimic normal weapons in terms of how their damage is calculated. Mutation attacks should almost always scale with the unarmed skill, even if the mutation is cutting claws or a stabbing stinger. 
+
+These attacks use flat_bonuses. Following the method below, you only need to plug in base movecost and damage to implement a new mutation attack. See the guidelines in the melee weapons section of this document for more information on selecting an appropriate base DPS.
+
+**To approximate a stabbing weapon with this system**
+- Stab damage scales with unarmed skill at a rate of 1.0.
+- Bash damage scales with strength at a rate of 0.75.
+- Bash damage scales with unarmed skill at a rate of 0.06.
+- Movecost scales with melee skill at a rate of -1.25.
+- Movecost scales with dexterity at a rate of -0.5.
+
+On a critical hit, use the following values instead:
+- Stab damage scales with unarmed skill at a rate of 4.4.
+- Bash damage scales with strength at a rate of 0.75.
+- Bash damage scales with unarmed at a rate of 0.24.
+- Armor penetration for both bash and stab damage scale with unarmed at a rate of 1 each.
+- Movecost scales with melee skill at a rate of -1.25.
+- Movecost scales with dexterity at a rate of -0.5.
+
 # Preparing Food and Water:
 
 "surface_heat" uses a base cost of 20 kJ. Its various options are then given charge costs equal to their efficiency - 80% for induction or a microwave (25u battery, 1:1 kJ:battery), 60% for basic electric (35u battery 1:1 kJ:battery), 35% for most combustible fuels - gasoline (2u fuel 34:1 kJ:fuel), kerosene (2u fuel 34:1 kJ:fuel), propane (3u fuel 25:1 kJ:fuel), acetylene (1u fuel 50:1 kJ:fuel) and ethanol (3u fuel 25:1 kJ:fuel). 25% for hexamine (2u fuel 40:1 kJ:fuel) and 16% for coal/charcoal (4u fuel 32:1 kJ:fuel).

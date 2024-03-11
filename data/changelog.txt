@@ -103,6 +103,7 @@ Allow whitelisting and blacklisting hobbies in scenarios, professions, and globa
 EoCs support mutate_towards directly
 make `u_spawn_item` to support the item group whose subtype is `collection`
 Add u_wants_to_talk/npc_wants_to_talk EOC effects
+Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
 
 
 ## Content:
@@ -202,6 +203,13 @@ Add 7 new frog zombie varities and audit existing frog zombies
 Cinnamon for Deluxe Oatmeal
 Soldiers' rifles have more/various weapon mods
 readd heavy ballistic vest
+Adds Chiropteran (bat) mutation line, and the subaquatic navigation system CBM
+Allow monster corpse teeth to be used to make traps and weapons
+Adds social/asocial mutations
+Simulate hair growth over time.
+Add earthworms to the game, as a food source
+Add cougar kittens and fix cougar taming in mods
+Boomers now leave fleshy gibs on detonation```
 
 
 ## Interface:
@@ -255,6 +263,7 @@ Hide AIM during directional prompts
 Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
+Set priority for containers that have auto whitelisting.
 
 
 ## Mods:
@@ -370,6 +379,7 @@ Fix Brackenwight special attack message
 [Magiclysm] Add spells that allow you to gain the various +mana traits
 [Magiclysm] Last Mage on Earth start
 Tamable Wildlife: add Cougars to list of tameables
+[Magiclysm] Add spellcasting proficiencies.
 
 
 ## Balance:
@@ -555,6 +565,7 @@ Say which specials could not be placed.
 Fix assignment ID's with NECC mapgen EOCs.
 Allows Infrared vision to see through smoke
 [Magiclysm] Fix Peaceful Rest hobby
+NPCs can overeat, starve, and dehydrate to death
 
 
 ## Performance:
@@ -579,6 +590,7 @@ Optimizing mostly item to reduce load-time allocation by over 20%
 Optimize creature vision checks.
 Optimize hot item function to save ~6.7% of game load time
 Skip MGOAL_Find_Item if the player is busy.
+Avoid wasteful loop in map special road connections
 
 
 ## Infrastructure:
@@ -626,6 +638,7 @@ Migrate names to snippets & add weighted snippets
 Effect enchantments can now apply to monsters
 Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
+Added SMALL_HIDER flag to various monsters.
 
 
 ## Build:
@@ -641,6 +654,7 @@ Enable tests for merge queue
 Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
+Use one precompiled header
 
 
 ## I18N and A11Y:

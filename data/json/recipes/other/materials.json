@@ -13,6 +13,7 @@
     "batch_time_factors": [ 75, 4 ],
     "book_learn": [ [ "concrete_book", 3 ], [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
+    "charges": 20,
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 250 ], [ "oxy_torch", 50 ] ] ],
     "components": [ [ [ "material_limestone", 50 ], [ "chem_slaked_lime", 500 ] ] ]
   },
@@ -1206,6 +1207,7 @@
   },
   {
     "result": "tin",
+    "id_suffix": "from_bowl",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
@@ -1316,6 +1318,7 @@
   },
   {
     "result": "tin",
+    "id_suffix": "from_scrap",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -1688,6 +1691,7 @@
   },
   {
     "result": "plastic_sheet",
+    "id_suffix": "with_duct_tape",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_OTHER",
@@ -1716,6 +1720,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_sheet",
+    "id_suffix": "with_heat",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",

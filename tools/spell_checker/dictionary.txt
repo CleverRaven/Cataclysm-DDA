@@ -2189,6 +2189,7 @@ overbore
 overbuilt
 overclock
 overclocks
+overcurrent
 overdosage
 overdrinking
 overengineered
@@ -2197,6 +2198,7 @@ overgloves
 overgrowth
 overhood
 overhoods
+overload
 overmap
 overmaps
 overpenetration

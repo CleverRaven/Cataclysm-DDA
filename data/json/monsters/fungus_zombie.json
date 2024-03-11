@@ -64,7 +64,7 @@
     "harvest": "exempt",
     "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
     "special_attacks": [ [ "SUICIDE", 20 ], [ "scratch", 15 ] ],
-    "death_drops": "explode_zed_fungal",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungalburst", "hit_self": true } },
     "flags": [ "SEES", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "FILTHY" ],
     "armor": { "electric": 4 }
@@ -101,7 +101,7 @@
     "harvest": "zombie_humanoid_mushroom",
     "emit_fields": [ { "emit_id": "emit_fungal_haze_plume", "delay": "1 s" } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 15 ] ],
-    "death_drops": "explode_zed_fungal",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "flags": [ "SEES", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "HARDTOSHOOT", "NO_BREATHE", "PUSH_MON", "FILTHY" ],
     "armor": { "heat": 5, "electric": 5 }
@@ -124,6 +124,7 @@
     },
     "special_attacks": [ [ "FUNGUS", 200 ] ],
     "harvest": "moldy_bones",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal_bone", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "armor": { "bash": 0, "electric": 5 }
   },
@@ -145,6 +146,7 @@
       "families": [ "prof_wp_skeleton" ]
     },
     "harvest": "moldy_bones",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal_bone", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } }
   },
   {
@@ -177,7 +179,7 @@
     "vision_night": 5,
     "harvest": "big_mr_bones",
     "special_attacks": [ { "id": "smash", "throw_strength": 54 } ],
-    "death_drops": "mon_zombie_hulk_death_drops",
+    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_hulk_death_drops", 100 ], [ "explode_zed_fungal_bone", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "burn_into": "mon_zombie_fiend",
     "flags": [ "HEARS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "NO_BREATHE", "PUSH_MON", "PUSH_VEH", "FILTHY" ],
@@ -251,7 +253,7 @@
     "vision_night": 3,
     "harvest": "zombie_humanoid",
     "special_attacks": [ [ "FUNGUS", 100 ], [ "BOOMER", 20 ], [ "scratch", 20 ] ],
-    "death_drops": "explode_zed_fungal",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed_fungal", 100 ] ] },
     "death_function": { "corpse_type": "NO_CORPSE", "effect": { "id": "death_fungus", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "PUSH_MON", "FILTHY" ],

@@ -481,5 +481,21 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "LIQUIDCONT", "SPAWN_WITH_LIQUID", "FRESH_WATER", "MURKY", "INDOORS" ],
     "examine_action": "finite_water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_sh_flood",
+    "name": "flood water",
+    "description": "The water isn't too deep here, it seems to have either pooled here or risen from a pipe leaking nearby.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
+    "//": "For use for indoors areas that have been flooded.",
+    "symbol": "~",
+    "looks_like": "t_water_sh",
+    "color": "light_blue",
+    "move_cost": 5,
+    "roof": "t_rock_roof",
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "INDOORS", "SHALLOW_WATER" ],
+    "connect_groups": "WATER",
+    "connects_to": "WATER",
+    "examine_action": "water_source"
   }
 ]

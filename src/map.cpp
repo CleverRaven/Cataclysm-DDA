@@ -2261,6 +2261,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     invalidate_max_populated_zlev( p.z );
 
     memory_cache_dec_set_dirty( p, true );
+    memory_cache_ter_set_dirty( p, true );
     avatar &player_character = get_avatar();
     if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "t_" );
@@ -8319,9 +8320,7 @@ void map::grow_plant( const tripoint &p )
             }
 
             rotten_item_spawn( *seed, p );
-            //Become a seedling
-            std::optional<furn_str_id> seedling_form = seed->get_plant_seedling_form();
-            furn_set( p, furn_str_id( seedling_form.value() ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
                 return;
@@ -8338,9 +8337,7 @@ void map::grow_plant( const tripoint &p )
             if( !has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
                 rotten_item_spawn( *seed, p );
             }
-            //Become a mature plant
-            std::optional<furn_str_id> mature_form = seed->get_plant_mature_form();
-            furn_set( p, furn_str_id( mature_form.value() ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
 
         } else {
             //You've skipped two stages so roll monsters two times
@@ -8356,9 +8353,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( *seed, p );
                 rotten_item_spawn( *seed, p );
             }
-            //Become a harvestable plant.
-            std::optional<furn_str_id> harvestable_form = seed->get_plant_harvestable_form();
-            furn_set( p, furn_str_id( harvestable_form.value() ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         }
     }
 }
@@ -9001,6 +8996,38 @@ bool tinymap::inbounds( const tripoint &p ) const
     return map_boundaries.contains( p );
 }
 
+bool tinymap::inbounds( const tripoint_omt_ms &p ) const
+{
+    constexpr tripoint_omt_ms map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    constexpr tripoint_omt_ms map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT + 1 );
+
+    constexpr half_open_cuboid<tripoint_omt_ms> map_boundaries( map_boundary_min, map_boundary_max );
+
+    return map_boundaries.contains( p );
+}
+
+tripoint_range<tripoint> tinymap::points_on_zlevel() const
+{
+    return map::points_on_zlevel();
+}
+
+tripoint_range<tripoint> tinymap::points_on_zlevel( int z ) const
+{
+    return map::points_on_zlevel( z );
+}
+
+tripoint_range<tripoint> tinymap::points_in_rectangle(
+    const tripoint &from, const tripoint &to ) const
+{
+    return map::points_in_rectangle( from, to );
+}
+
+tripoint_range<tripoint> tinymap::points_in_radius(
+    const tripoint &center, size_t radius, size_t radiusz ) const
+{
+    return map::points_in_radius( center, radius, radiusz );
+}
+
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
 fake_map::fake_map( const ter_id &ter_type )
@@ -9008,8 +9035,8 @@ fake_map::fake_map( const ter_id &ter_type )
     const tripoint_abs_sm tripoint_below_zero( 0, 0, fake_map_z );
 
     set_abs_sub( tripoint_below_zero );
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+    for( int gridx = 0; gridx < get_my_MAPSIZE(); gridx++ ) {
+        for( int gridy = 0; gridy < get_my_MAPSIZE(); gridy++ ) {
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
             sm->set_all_ter( ter_type );

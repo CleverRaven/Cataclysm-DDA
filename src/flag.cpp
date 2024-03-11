@@ -304,7 +304,6 @@ const flag_id flag_SLEEP_AID( "SLEEP_AID" );
 const flag_id flag_SLEEP_AID_CONTAINER( "SLEEP_AID_CONTAINER" );
 const flag_id flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 const flag_id flag_SLOWS_MOVEMENT( "SLOWS_MOVEMENT" );
-const flag_id flag_SLOWS_THIRST( "SLOWS_THIRST" );
 const flag_id flag_SLOW_WIELD( "SLOW_WIELD" );
 const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
@@ -419,6 +418,8 @@ void json_flag::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
     optional( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "item_prefix", item_prefix_ );
+    optional( jo, was_loaded, "item_suffix", item_suffix_ );
 }
 
 void json_flag::check_consistency()

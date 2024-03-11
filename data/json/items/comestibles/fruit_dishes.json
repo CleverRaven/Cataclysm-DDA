@@ -167,7 +167,7 @@
   {
     "type": "COMESTIBLE",
     "id": "grapeade_powder",
-    "name": { "str_sp": "orangeade drink mix" },
+    "name": { "str_sp": "grapeade drink mix" },
     "copy-from": "lemonade_powder",
     "description": " Can be mixed with water to make grape juice."
   },
