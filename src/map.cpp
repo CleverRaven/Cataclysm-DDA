@@ -7456,13 +7456,17 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
     // Ledge coverage given by comparing covered_z and the absolute z of the target space
     float ledge_coverage = ( covered_z - target_p.z * zlevel_to_grid_ratio ) * 100;
 
+    // Early exit if the tile is definitely not covered
+    if( ledge_coverage < 0 ) {
+        return 0;
+    }
     // Target has a coverage penalty when standing on furniture
     const furn_id target_furn = furn( target_p );
     if( target_furn ) {
         ledge_coverage -= target_furn->coverage;
     }
 
-    return ledge_coverage >= 0 ? ledge_coverage : 0;
+    return std::max( ledge_coverage, 0.0f );
 }
 
 int map::coverage( const tripoint &p ) const
