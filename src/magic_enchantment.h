@@ -278,7 +278,8 @@ class enchant_cache : public enchantment
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
         units::volume modify_value( enchant_vals::mod mod_val, units::volume value ) const;
-        units::temperature_delta modify_value(const enchant_vals::mod mod_val, units::temperature_delta value) const;
+        units::temperature_delta modify_value( const enchant_vals::mod mod_val,
+                                               units::temperature_delta value ) const;
         time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
