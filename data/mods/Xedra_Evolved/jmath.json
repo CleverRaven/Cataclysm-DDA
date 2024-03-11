@@ -83,6 +83,6 @@
     "//_0": "Temperature limit, after which the speed starts to change, in farenheit",
     "//_1": "How big the speed changes per 1 degree",
     "num_args": 2,
-    "return": "(fahrenheit(weather('temperature')) - _0 + climate_control_str_heat()) * _1"
+    "return": "(fahrenheit(weather('temperature')) - _0 + u_climate_control_str_heat()) * _1"
   }
 ]
