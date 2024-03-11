@@ -63,7 +63,7 @@
     "visibility": 5,
     "ugliness": 3,
     "bodytemp_modifiers": [ 250, 600 ],
-    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 250 } ] } ],
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 0.5 } ] } ],
     "wet_protection": [
       { "part": "head", "neutral": 4, "good": 5 },
       { "part": "leg_l", "neutral": 8, "good": 15 },
