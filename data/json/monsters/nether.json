@@ -1990,7 +1990,7 @@
     "bodytype": "flying insect",
     "anger_triggers": [ "HURT" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
-    "regen_morale": "true",
+    "regen_morale": true,
     "special_attacks": [
       {
         "type": "spell",
