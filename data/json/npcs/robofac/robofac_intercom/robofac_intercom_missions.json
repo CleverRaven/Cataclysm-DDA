@@ -105,6 +105,21 @@
         "topic": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER"
       },
       {
+        "text": "[Contract:  Data Retrieval]",
+        "condition": {
+          "and": [
+            { "not": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" } },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" }
+            },
+            {
+              "not": { "u_has_var": "completed_robofac_intercom_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "no" }
+            }
+          ]
+        },
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER"
+      },
+      {
         "text": "I need a new NRE recorder.",
         "condition": {
           "and": [
@@ -887,5 +902,45 @@
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
     "type": "talk_topic",
     "dynamic_line": "Transferring the recorder now.\"  The intercom tray slides open, revealing a hefty, barebones device and a light battery to accompany it.  \"Please remember to exercise caution; the effects of portal storms on human physiology are poorly understood."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1",
+    "type": "mission_definition",
+    "name": { "str": "Data Retrieval" },
+    "description": "Reach the LIXA facility, and search the area for anything of interest.  The intercom warned you about a number of undead aboveground, and the high probability of more underground.",
+    "goal": "MGOAL_NULL",
+    "difficulty": 5,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "LIXA_road_guard",
+        "om_special": "physics_lab_LIXA",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 180,
+        "z": 0
+      },
+      "effect": [ { "u_spawn_item": "id_LIXA", "count": 1 }, { "u_spawn_item": "usb_drive_nano", "count": 1 } ]
+    },
+    "end": {
+      "effect": [
+        { "u_spawn_item": "RobofacCoin", "count": 8 },
+        { "u_add_var": "completed_robofac_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        { "math": [ "u_hub01_completed_missions", "++" ] }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "has_generic_rewards": false,
+    "dialogue": {
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
   }
 ]
