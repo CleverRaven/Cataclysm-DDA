@@ -13,7 +13,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_LAYMAN_BRIEFING",
-    "dynamic_line": "The screen bears the letters LIXA in big bold font.  Underneath it, in smaller letters, are the words \"Laser Interferometer eXospacial resonance Array\".  The slides are neatly tabulated under grouped headers down the side.",
+    "dynamic_line": "The screen bears the letters LIXA in big bold font.  Underneath it, in smaller letters, are the words \"Laser Interferometer eXospatial resonance Array\".  The slides are neatly tabulated under grouped headers down the side.",
     "responses": [
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
       { "text": "\"LIGO and spacial compression.\"", "topic": "LIXA_briefing_2" },
@@ -27,7 +27,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_1",
-    "dynamic_line": "\"LIXA, or 'Liza' as we like to call her, is the forefront of exospacial research.  It has been confirmed that matter from our local n-space (the 4d coordinates in which we exist) can transit through exodimensions.  But it cannot do it safely!  To understand the behavior of exospace, we must first learn about how it works.\"",
+    "dynamic_line": "\"LIXA, or 'Liza' as we like to call her, is the forefront of exospatial research.  It has been confirmed that matter from our local n-space (the 4d coordinates in which we exist) can transit through exodimensions.  But it cannot do it safely!  To understand the behavior of exospace, we must first learn about how it works.\"",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"LIGO and spacial compression.\"", "topic": "LIXA_briefing_2" },
@@ -41,7 +41,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_2",
-    "dynamic_line": "\"LIXA is based off a proposition for a device called LIGO (Laser Interferometer Gravitational wave Observatory).  It was originally designed to confirm the existence of Gravitational Waves, a spreading distortion in spacetime caused by ultramassive events.  The design has been repurposed for the exciting field of exospacial research, where we already know we can find spacial distortions!\"",
+    "dynamic_line": "\"LIXA is based off a proposition for a device called LIGO (Laser Interferometer Gravitational wave Observatory).  It was originally designed to confirm the existence of Gravitational Waves, a spreading distortion in spacetime caused by ultramassive events.  The design has been repurposed for the exciting field of exospatial research, where we already know we can find spacial distortions!\"",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
@@ -85,7 +85,7 @@
   {
     "type": "talk_topic",
     "id": "LIXA_briefing_4",
-    "dynamic_line": "\"LIXA works using the principle of LOCAL EXODIMENSIONAL FLUX, the phenomenon in which ambient spacetime around exospacial breaches moves through the \"portal\".  LIXA is equipped with several LOCAL DIMENSIONAL COMPRESSORS.  These devices turn 'portals' on and off hundreds of times a second, which results in the FLUX repeatedly drawing tiny segments of our local n-space into exospace.  This creates a compression effect, 'storing' an enormous amount of 4d-space in those segments in the neighboring exospace.\"",
+    "dynamic_line": "\"LIXA works using the principle of LOCAL EXODIMENSIONAL FLUX, the phenomenon in which ambient spacetime around exospatial breaches moves through the \"portal\".  LIXA is equipped with several LOCAL DIMENSIONAL COMPRESSORS.  These devices turn 'portals' on and off hundreds of times a second, which results in the FLUX repeatedly drawing tiny segments of our local n-space into exospace.  This creates a compression effect, 'storing' an enormous amount of 4d-space in those segments in the neighboring exospace.\"",
     "responses": [
       { "text": "Title slide.", "topic": "LIXA_LAYMAN_BRIEFING" },
       { "text": "\"What is LIXA?\"", "topic": "LIXA_briefing_1" },
