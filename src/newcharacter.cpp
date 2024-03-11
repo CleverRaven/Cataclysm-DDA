@@ -1510,7 +1510,8 @@ static void add_trait( std::vector<trait_and_var> &to, const trait_id &trait )
 void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
-
+    const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
+    std::string last_trait = ""; // Used in screen_reader_mode to ensure full trait name is read
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0;
     int num_bad = 0;
@@ -1743,10 +1744,6 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                                    negativeTrait ? _( "earns" ) : _( "costs" ),
                                    points );
                     }
-                    if( details_recalc ) {
-                        details.set_text( colorize( cursor.desc(), col_tr ) );
-                        details_recalc = false;
-                    }
                 }
 
                 nc_color cLine = col_off_pas;
@@ -1786,11 +1783,51 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 const int cur_line_y = iHeaderHeight + i - start;
                 const int cur_line_x = 2 + iCurrentPage * page_width;
                 const point opt_pos( cur_line_x, cur_line_y );
-                if( iCurWorkingPage == iCurrentPage && current == i ) {
-                    ui.set_cursor( w, opt_pos );
+                if( screen_reader_mode ) {
+                    // This list only clutters up the screen in screen reader mode
+                } else {
+                    mvwprintz( w, opt_pos, cLine,
+                               utf8_truncate( cursor.name(), page_width - 2 ) );
                 }
-                mvwprintz( w, opt_pos, cLine,
-                           utf8_truncate( cursor.name(), page_width - 2 ) );
+            }
+
+            if( details_recalc ) {
+                std::string description;
+                const trait_and_var &current = *sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]];
+                if( screen_reader_mode ) {
+                    /* Screen readers will skip over text that has not changed.  Since the lists of traits are
+                    * alphabetical, this frequently results in letters/words being skipped.  So, if the screen
+                    * reader is likely to skip over part of a trait name, we trick it into thinking things have
+                    * changed by shifting the text slightly.
+                     */
+                    if( !last_trait.empty() && last_trait[0] == current.name()[0] ) {
+                        description = " " + current.name();
+                    } else {
+                        description = current.name();
+                    }
+                    last_trait = description;
+
+                    std::string cur_trait_notes;
+                    if( u.has_conflicting_trait( current.trait ) ) {
+                        cur_trait_notes = _( "a conflicting trait is active" );
+                    } else if( u.has_trait( current.trait ) ) {
+                        if( !current.trait->variants.empty() && !u.has_trait_variant( current ) ) {
+                            cur_trait_notes = _( "a different variant of this trait is active" );
+                        } else {
+                            cur_trait_notes = _( "active" );
+                        }
+                    }
+
+                    if( !cur_trait_notes.empty() ) {
+                        description.append( string_format( " - %s", cur_trait_notes ) );
+                    }
+
+                    description.append( "\n" + current.desc() );
+                } else {
+                    description = current.desc();
+                }
+                details.set_text( colorize( description, col_tr ) );
+                details_recalc = false;
             }
 
             trait_sbs[iCurrentPage].offset_x( page_width * iCurrentPage )
@@ -1802,6 +1839,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         wnoutrefresh( w );
+        ui.set_cursor( w_details_pane, point_zero );
         // color is never visible (COL_TR_NEUT), text is already colorized
         details.draw( COL_TR_NEUT );
     } );
@@ -1921,6 +1959,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                 if( !u.has_trait_variant( trait_and_var( cur_trait, variant ) ) ) {
                     u.set_mut_variant( cur_trait, cur_trait->variant( variant ) );
                     inc_type = 0;
+                    details_recalc = true;
                 }
             } else if( !conflicting_traits.empty() ) {
                 std::vector<std::string> conflict_names;
@@ -1963,6 +2002,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
+                details_recalc = true;
                 u.toggle_trait_deps( cur_trait, variant );
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
