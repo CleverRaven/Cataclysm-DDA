@@ -599,7 +599,7 @@
     "show_intensity": false,
     "max_intensity": 2,
     "int_add_val": 1,
-       "enchantments": [
+    "enchantments": [
       {
         "values": [
           { "value": "ARMOR_BASH", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
