@@ -7458,8 +7458,7 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
 
     // Target has a coverage penalty when standing on furniture
     const furn_id target_furn = furn( target_p );
-    if( target_furn.obj().id || ( move_cost( target_p ) > 2 &&
-                                  !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
+    if( target_furn ) {
         ledge_coverage -= target_furn->coverage;
     }
 
