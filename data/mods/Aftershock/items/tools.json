@@ -663,7 +663,7 @@
     "type": "TOOL",
     "//": "Makes it look more sci-fi so it isnt out of place, not many actual changes otherwise.",
     "name": { "str": "micro-cooker" },
-    "description": "A rugged kitchen in one tool, made for use within small spaceships or in the wilderness. It can automatically prepare a variety of dishes while its owner focuses on other tasks.",
+    "description": "A rugged kitchen in one tool, made for use within small spaceships or in the wilderness.  It can automatically prepare a variety of dishes while its owner focuses on other tasks.",
     "weight": "5 kg",
     "volume": "3 L",
     "price": "1500 USD",

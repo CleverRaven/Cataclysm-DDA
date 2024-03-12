@@ -526,7 +526,7 @@
     "type": "profession",
     "id": "afs_academic",
     "name": "Academy Technologist",
-    "description": "A senior technologist from the Planetary Academy of Khorat, sent to Salus IV to oversee the procurement of valuable technological artifacts. Although generously equipped, you are neither a fighter nor a good fit for life in the frontier.  You'd feel far more comfortable and capable commanding this salvage operation from the faraway safety of your office.",
+    "description": "A senior technologist from the Planetary Academy of Khorat, sent to Salus IV to oversee the procurement of valuable technological artifacts.  Although generously equipped, you are neither a fighter nor a good fit for life in the frontier.  You'd feel far more comfortable and capable commanding this salvage operation from the faraway safety of your office.",
     "points": 4,
     "traits": [ "PACIFIST", "AFS_LEADERSHIP" ],
     "skills": [
@@ -565,7 +565,7 @@
     "type": "profession",
     "id": "afs_salvor",
     "name": "Salvor",
-    "description": "A scavenger by necessity, born and raised in between ruins and slums.  Some might be lured to your profession by romantic notions of wealth, adventure or scientific discovery. You know better.",
+    "description": "A scavenger by necessity, born and raised in between ruins and slums.  Some might be lured to your profession by romantic notions of wealth, adventure or scientific discovery.  You know better.",
     "points": 4,
     "skills": [
       { "level": 1, "name": "dodge" },
