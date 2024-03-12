@@ -712,7 +712,7 @@
         "str": "flotation tac harness"
     },
     "//": "Based on the Eagle-Industries H-Harness with the provided flotation inserts",
-    "description": "A full-torso harness covered in webbing for easy attachment of accesories, with flotation pads in the torso belt and shoulder straps. Used in maritime environments such as the Navy SEALS, or people who want to be them",
+    "description": "A full-torso harness covered in webbing for easy attachment of accesories, with flotation pads in the torso belt and shoulder straps. Used in maritime environments by naval forces such as the SEALS, or people who want to be them",
     "weight": "1150 g",
     "volume": "2000 ml",
     "price": 80000,
@@ -754,7 +754,7 @@
                     "thickness": 2
                 }
             ],
-            "encumberance": 15,
+            "encumbrance": 15,
             "coverage": 75,
             "covers": [
                 "torso"
