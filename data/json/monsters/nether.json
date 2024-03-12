@@ -1998,6 +1998,7 @@
         "cooldown": 30
       }
     ],
+    "death_function": { "message": "The %s fades away into nothingness.", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "HIT_AND_RUN", "NO_BREATHE", "NO_FUNG_DMG", "SEES" ]
   },
   {
@@ -2045,6 +2046,7 @@
     "color": "blue",
     "bodytype": "kangaroo",
     "special_attacks": [ { "id": "mutant_hoof" } ],
+    "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "BASHES", "HEARS", "SEES", "LOUDMOVES" ]
   },
   {
@@ -2070,6 +2072,7 @@
     "color": "pink",
     "bodytype": "insect",
     "special_attacks": [ { "type": "bite", "attack_upper": false } ],
+    "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "SEES", "HEARS" ]
   },
   {
@@ -2093,6 +2096,7 @@
     "morale": 100,
     "aggression": 20,
     "bodytype": "blob",
+    "zombify_into": "mon_meat_cocoon_tiny",
     "flags": [ "WARM", "HEARS", "GRABS", "IMMOBILE" ]
   }
 ]
