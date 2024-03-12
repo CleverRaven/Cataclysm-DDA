@@ -1672,8 +1672,6 @@ class Character : public Creature, public visitable
         /** Returns vehicles connected to cable charger bionic */
         std::vector<vehicle *> get_cable_vehicle() const;
 
-        /**Get stat bonus from bionic*/
-        int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
         // Container of OMTs to highlight as having been revealed

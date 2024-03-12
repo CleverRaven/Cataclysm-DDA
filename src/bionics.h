@@ -102,8 +102,6 @@ struct bionic_data {
     cata::flat_set<json_character_flag> flags;
     cata::flat_set<json_character_flag> active_flags;
     cata::flat_set<json_character_flag> inactive_flags;
-    /**Map of stats and their corresponding bonuses passively granted by a bionic*/
-    std::map<character_stat, int> stat_bonus;
     /**Amount of environmental protection offered by this bionic*/
     std::map<bodypart_str_id, size_t> env_protec;
     /**Amount of damage protection offered by this bionic*/
