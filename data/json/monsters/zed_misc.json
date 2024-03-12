@@ -507,7 +507,7 @@
   {
     "id": "mon_frog_husk",
     "type": "MONSTER",
-    "name": { "str": "Leaping Husk" },
+    "name": { "str": "leaping husk" },
     "description": "The dehydrated remains of a frog, like the unfortunate kind you might find trapped between a window and screen. This one is much larger than those and surely capable of doing you real harm. You see its dry skin crack and shed wisps of tainted dust as it moves.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "80 L",
@@ -536,7 +536,7 @@
       { "id": "drag_followup" }
     ],
     "death_function": { "effect": { "id": "death_smokeburst_tiny", "hit_self": true }, "message": "The %s crumbles!" },
-    "upgrades": { "half_life": 30, "into": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
     "//": "add to treefrog upgrade group"
@@ -544,7 +544,7 @@
   {
     "id": "mon_frog_mummy",
     "type": "MONSTER",
-    "name": { "str": "Batrachian Mummy" },
+    "name": { "str": "batrachian mummy" },
     "description": "The ambulatory, desiccated corpse of an enormous amphibian. What papery skin remains hugs tightly to the bones and shrunken flesh beneath. Each stuttering leap it makes leaves it looking worse off as it sheds clouds of ash and soot.",
     "copy-from": "mon_proxy_frog_zombie",
     "hp": 80,
@@ -575,7 +575,7 @@
   {
     "id": "mon_frog_smoker_hulk",
     "type": "MONSTER",
-    "name": { "str": "Batrachian Smoker" },
+    "name": { "str": "batrachian smoker" },
     "description": "It's hard to see that this was once an amphibian from both its twisted form and the haze of smoke that constantly fumes off of it. Like the tiny husks of frogs you find in a drought, this one has dried, though unevenly. Rind through core it has warped and its whole dry body crinkles and folds as it moves.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "200 L",

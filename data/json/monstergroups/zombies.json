@@ -612,7 +612,7 @@
       { "monster": "mon_frog_mummy", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_frog_dad", "weight": 75, "cost_multiplier": 3 },
       { "monster": "mon_frog_mother", "weight": 25, "cost_multiplier": 1 },
-      { "monster": "mon_smoker_hulk", "weight": 15, "cost_multiplier": 3 }
+      { "monster": "mon_frog_smoker_hulk", "weight": 15, "cost_multiplier": 3 }
     ]
   },
   {
@@ -632,7 +632,7 @@
       { "monster": "mon_toad_wart", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_toad_bone", "weight": 25, "cost_multiplier": 1 },
       { "monster": "mon_gastro_bufo", "weight": 25, "cost_multiplier": 1 },
-      { "monster": "mon_smoker_hulk", "weight": 15, "cost_multiplier": 3 }
+      { "monster": "mon_frog_smoker_hulk", "weight": 15, "cost_multiplier": 3 }
     ]
   },
   {
