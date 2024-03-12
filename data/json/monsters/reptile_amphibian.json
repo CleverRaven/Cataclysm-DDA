@@ -705,6 +705,7 @@
     ],
     "fear_triggers": [ "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_husk",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
   },
@@ -909,6 +910,7 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_mummy",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
   },
@@ -1080,6 +1082,7 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
+    "burn_into": "mon_frog_smoker_hulk",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS" ]
   },
