@@ -714,7 +714,7 @@
     "weight": "1150 g",
     "volume": "2000 ml",
     "price": 80000,
-    "price_postapoc": 5000",
+    "price_postapoc": 5000,
     "material": [ "nylon", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "load_bearing_vest",
