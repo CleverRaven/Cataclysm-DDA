@@ -87,6 +87,16 @@
     ]
   },
   {
+    "id": "afs_any_ballistic_ammo",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "afs_civilian_ballistic_s_ammo", "prob": 10 },
+      { "group": "afs_civilian_ballistic_m_ammo", "prob": 10 },
+      { "group": "afs_civilian_ballistic_h_ammo", "prob": 2 }
+    ]
+  },
+  {
     "id": "afs_any_ballistic_s_ammo",
     "type": "item_group",
     "subtype": "distribution",
