@@ -71,7 +71,7 @@
     "to_hit": -2,
     "symbol": ",",
     "color": "light_green",
-    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS", "TRANSPARENT" ],
+    "flags": [ "LIGHT_300", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ],
     "melee_damage": { "bash": 8 }
   },
@@ -87,7 +87,7 @@
     "symbol": ",",
     "color": "light_green",
     "material": [ "magical_material" ],
-    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS", "TRANSPARENT" ],
+    "flags": [ "LIGHT_8", "AURA", "SEMITANGIBLE", "UNBREAKABLE", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "covers": [ "head" ] } ]
   },
   {
@@ -108,7 +108,7 @@
     "sided": true,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
-    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN", "TRANSPARENT" ],
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
     "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ],
     "melee_damage": { "bash": 14 }
   },
@@ -130,7 +130,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
-    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED", "TRANSPARENT" ],
+    "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
     "armor": [ { "encumbrance": 0, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ],
     "melee_damage": { "bash": 6 }
   },
@@ -295,8 +295,7 @@
       "ONLY_ONE",
       "NO_REPAIR",
       "NO_SALVAGE",
-      "ZERO_WEIGHT",
-      "TRANSPARENT"
+      "ZERO_WEIGHT"
     ],
     "armor": [ { "encumbrance": [ 5, 10 ], "coverage": 40, "covers": [ "torso" ] } ]
   },
@@ -613,8 +612,7 @@
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRANSPARENT"
+      "ALLOWS_NATURAL_ATTACKS"
     ],
     "armor": [
       {
@@ -636,7 +634,7 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "TRANSPARENT" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": { "passive_effects": [ { "id": "ench_aura_feral" } ] }
   },
   {
@@ -651,7 +649,7 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "TRANSPARENT" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": { "passive_effects": [ { "id": "ench_aura_feral_plus" } ] }
   },
   {
@@ -769,8 +767,7 @@
       "NONCONDUCTIVE",
       "OVERSIZE",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRANSPARENT"
+      "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_aura_caustic" } ] }
   },
@@ -785,7 +782,7 @@
     "symbol": "o",
     "color": "white",
     "material": [ "magical_material" ],
-    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "TRANSPARENT" ],
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [
         {
@@ -842,8 +839,7 @@
       "OVERSIZE",
       "PADDED",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRANSPARENT"
+      "ALLOWS_NATURAL_ATTACKS"
     ],
     "relic_data": {
       "passive_effects": [
@@ -876,16 +872,7 @@
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
     "weapon_category": [ "CLAWS" ],
-    "flags": [
-      "UNBREAKABLE_MELEE",
-      "NONCONDUCTIVE",
-      "NO_UNWIELD",
-      "MAGIC_FOCUS",
-      "TRADER_AVOID",
-      "NO_REPAIR",
-      "NO_SALVAGE",
-      "TRANSPARENT"
-    ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_UNWIELD", "MAGIC_FOCUS", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE" ],
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "relic_data": { "passive_effects": [ { "id": "ench_subzero_talons" } ] },
     "armor": [
@@ -909,7 +896,7 @@
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED", "TRANSPARENT" ],
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
     "relic_data": { "passive_effects": [ { "id": "ench_armor_spirit" } ] },
     "armor": [
       {
@@ -982,7 +969,7 @@
     ],
     "material_thickness": 3.3,
     "environmental_protection": 8,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED", "TRANSPARENT" ]
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ]
   },
   {
     "id": "pocket_sun",
@@ -1052,7 +1039,7 @@
         "weight_multiplier": 0
       }
     ],
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED", "TARDIS", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED", "TARDIS" ],
     "armor": [ { "covers": [ "arm_l" ], "coverage": 0, "encumbrance": 0 } ]
   },
   {
@@ -1261,8 +1248,7 @@
       "TRADER_AVOID",
       "PSYSHIELD_PARTIAL",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRANSPARENT"
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -1297,8 +1283,7 @@
       "PSYSHIELD_PARTIAL",
       "PORTAL_PROOF",
       "UNBREAKABLE",
-      "ALLOWS_NATURAL_ATTACKS",
-      "TRANSPARENT"
+      "ALLOWS_NATURAL_ATTACKS"
     ]
   },
   {
@@ -1503,8 +1488,7 @@
       "TRADER_AVOID",
       "NO_REPAIR",
       "NO_TAKEOFF",
-      "NONCONDUCTIVE",
-      "TRANSPARENT"
+      "NONCONDUCTIVE"
     ],
     "relic_data": {
       "passive_effects": [
@@ -1544,7 +1528,7 @@
     "material": [ "flesh" ],
     "symbol": ",",
     "color": "magenta",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "ZERO_WEIGHT", "UNBREAKABLE", "PERSONAL", "PADDED", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "ZERO_WEIGHT", "UNBREAKABLE", "PERSONAL", "PADDED" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 14 ] ],
     "melee_damage": { "stab": 12 },
     "relic_data": {
@@ -1578,7 +1562,6 @@
       "NO_TAKEOFF",
       "ZERO_WEIGHT",
       "NONCONDUCTIVE",
-      "TRANSPARENT",
       "WATERPROOF",
       "SWIM_GOGGLES"
     ],
@@ -1615,7 +1598,6 @@
       "NO_TAKEOFF",
       "ZERO_WEIGHT",
       "NONCONDUCTIVE",
-      "TRANSPARENT",
       "FLOTATION"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
@@ -1820,7 +1802,6 @@
       "TRADER_AVOID",
       "NO_TAKEOFF",
       "NONCONDUCTIVE",
-      "TRANSPARENT",
       "PADDED",
       "INTEGRATED"
     ],
@@ -1846,8 +1827,7 @@
       "ZERO_WEIGHT",
       "NO_TAKEOFF",
       "INTEGRATED",
-      "NONCONDUCTIVE",
-      "TRANSPARENT"
+      "NONCONDUCTIVE"
     ],
     "relic_data": {
       "passive_effects": [

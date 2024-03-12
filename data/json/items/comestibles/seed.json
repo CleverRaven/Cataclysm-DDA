@@ -1060,22 +1060,5 @@
     "name": { "str_sp": "eggplant seeds" },
     "description": "Some eggplant seeds.",
     "seed_data": { "plant_name": "eggplant", "fruit": "eggplant", "seeds": false, "byproducts": [ "withered" ], "grow": "60 days" }
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "seed_mutant",
-    "comestible_type": "FOOD",
-    "name": { "str_sp": "mutant seed" },
-    "description": "A single rock-hard seed shaped like a kidney bean.  Two dark spots on one end look a bit like a pair of eyes.",
-    "category": "seeds",
-    "volume": "2 ml",
-    "weight": "1 g",
-    "price": "1 cent",
-    "price_postapoc": "1 cent",
-    "material": [ "veggy", "bone" ],
-    "symbol": ".",
-    "flags": [ "TRADER_AVOID", "CANNIBALISM" ],
-    "color": "brown",
-    "seed_data": { "plant_name": "mutant", "fruit": "null", "grow": "90 days", "required_terrain_flag": "TREE_PLANTABLE" }
   }
 ]

@@ -8304,7 +8304,6 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
-    //furn.name() = seed->get_plant_name();
     const time_duration plantEpoch = seed->get_plant_epoch();
     if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
         !furn.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST ) ) {
