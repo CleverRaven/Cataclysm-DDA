@@ -1805,6 +1805,7 @@ void Item_factory::init()
     add_iuse( "MACE", &iuse::mace );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MEASURE_RESONANCE", &iuse::measure_resonance );
+    add_iuse( "CHANGE_OUTFIT", &iuse::change_outfit );
     add_iuse( "PLAY_GAME", &iuse::play_game );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
