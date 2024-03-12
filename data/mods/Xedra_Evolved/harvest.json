@@ -37,7 +37,7 @@
     "id": "fetch",
     "type": "harvest",
     "entries": [
-      { "drop": "material_ sand", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "material_sand", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "ash", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "birchbark", "type": "skin", "mass_ratio": 0.04 },
       { "drop": "stick", "type": "bone", "mass_ratio": 0.15 }
