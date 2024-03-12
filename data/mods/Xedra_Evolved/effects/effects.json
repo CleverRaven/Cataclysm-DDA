@@ -906,6 +906,20 @@
   },
   {
     "type": "effect_type",
+    "id": "telepathic_ignorance",
+    "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance_self",
+    "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_salamander_levitation",
     "name": [ "Smoke-Walking" ],
     "desc": [ "You are walking through the air." ],

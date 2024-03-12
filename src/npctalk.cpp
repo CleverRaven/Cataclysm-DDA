@@ -3116,7 +3116,7 @@ void receive_item( itype_id &item_name, int count, std::string_view container_na
 {
     if( use_item_group ) {
         item_group::ItemList new_items;
-        new_items = item_group::items_from( item_group_id( item_name.c_str() ) );
+        new_items = item_group::items_from( item_group_id( item_name.c_str() ), calendar::turn );
         std::string popup_message;
         for( item &new_item : new_items ) {
             for( const std::string &flag : flags ) {

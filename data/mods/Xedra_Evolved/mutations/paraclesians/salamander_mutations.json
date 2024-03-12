@@ -23,7 +23,7 @@
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
-    "weakness_to_water": 1,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 1 } ] } ],
     "integrated_armor": [ "integrated_coal_skin" ],
     "flags": [ "TOUGH_FEET" ]
   },
@@ -41,7 +41,7 @@
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
-    "weakness_to_water": 4,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 4 } ] } ],
     "integrated_armor": [ "integrated_flameskin" ]
   },
   {
@@ -335,7 +335,7 @@
     "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "changes_to": "SALAMANDER_BIGGER_STOMACH2",
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 2.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -345,8 +345,11 @@
     "description": "Like a coal furnace, the Salamander devours food to keep functioning.  They may eat three times as much at once and eat food 50% faster.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH" ],
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 3.0,
-    "consume_time_modifier": 0.66
+    "enchantments": [
+      {
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 }, { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -371,10 +374,16 @@
     "changes_to": [ "SALAMANDER_SLEEP_LESS2" ],
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
-    "fatigue_modifier": -0.25,
-    "fatigue_regen_modifier": 0.25,
-    "metabolism_modifier": 0.33,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.25 },
+          { "value": "FATIGUE", "multiply": -0.25 },
+          { "value": "METABOLISM", "multiply": 0.33 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -386,10 +395,16 @@
     "changes_to": [ "SALAMANDER_SLEEP_LESS3" ],
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
-    "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 0.66,
-    "stamina_regen_modifier": 0.2
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "METABOLISM", "multiply": 0.66 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -403,10 +418,16 @@
     "activated_is_setup": true,
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 1,
-    "stamina_regen_modifier": 0.3,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.3 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "METABOLISM", "multiply": 1 }
+        ]
+      }
+    ],
     "activated_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "processed_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "time": "6 h"
@@ -582,7 +603,7 @@
     "changes_to": "SALAMANDER_FAST_CAST",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "mana_multiplier": 1.25
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -593,8 +614,9 @@
     "prereqs": [ "SALAMANDER_INT_BONUS" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "mana_multiplier": 1.25,
-    "casting_time_multiplier": 0.85
+    "enchantments": [
+      { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 }, { "value": "MAX_MANA", "multiply": 0.25 } ] }
+    ]
   },
   {
     "type": "mutation",

@@ -418,6 +418,8 @@ class item : public visitable
         std::string tname( unsigned int quantity = 1,
                            tname::segment_bitset const &segments = tname::default_tname ) const;
         std::string tname( unsigned int quantity, bool with_prefix ) const;
+        static std::string tname( const itype_id &id, unsigned int quantity = 1,
+                                  tname::segment_bitset const &segments = tname::default_tname );
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -2052,18 +2054,6 @@ class item : public visitable
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
-         */
-        std::optional<furn_str_id> get_plant_seedling_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
-         */
-        std::optional<furn_str_id> get_plant_mature_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
-         */
-        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
         /**
          * @name Armor related functions.
@@ -2260,16 +2250,6 @@ class item : public visitable
         int get_encumber( const Character &, const bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
-        /**
-         * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
-         */
-        float get_weight_capacity_modifier() const;
-        /**
-         * Returns the weight capacity bonus (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 0. The bonus is added to the total weight capacity of the character that wears the item.
-         */
-        units::mass get_weight_capacity_bonus() const;
         /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.

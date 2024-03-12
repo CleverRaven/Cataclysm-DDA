@@ -61,13 +61,12 @@
     "id": "cannibal_food",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Cannibal food, currently lacking any cannibalism as cannibalism is no longer defined by flag.",
     "entries": [
       { "item": "machete", "prob": 20 },
-      { "group": "preserved_food", "prob": 30 },
+      { "item": "meat_salted", "components": [ "human_flesh", "salt" ], "prob": 30 },
       { "group": "preserved_food", "prob": 20 },
       { "group": "dry_goods", "prob": 30 },
-      { "group": "dry_goods", "prob": 60 },
+      { "item": "meat_smoked", "components": [ "human_flesh" ], "prob": 60 },
       { "group": "pantry", "prob": 10 }
     ]
   }

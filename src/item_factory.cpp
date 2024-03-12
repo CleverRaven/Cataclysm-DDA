@@ -65,9 +65,6 @@ static const ammotype ammo_NULL( "NULL" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
-static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
-static const furn_str_id furn_f_plant_mature( "f_plant_mature" );
-static const furn_str_id furn_f_plant_seedling( "f_plant_seedling" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
@@ -3061,8 +3058,6 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
     optional( jo, was_loaded, "damage_verb", damage_verb );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
-    optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }
@@ -3425,9 +3420,6 @@ void islot_seed::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "fruit", fruit_id );
     optional( jo, was_loaded, "seeds", spawn_seeds, true );
     optional( jo, was_loaded, "byproducts", byproducts );
-    optional( jo, was_loaded, "seedling_form", seedling_form, furn_f_plant_seedling );
-    optional( jo, was_loaded, "mature_form", mature_form, furn_f_plant_mature );
-    optional( jo, was_loaded, "harvestable_form", harvestable_form, furn_f_plant_harvest );
     optional( jo, was_loaded, "required_terrain_flag", required_terrain_flag,
               ter_furn_flag::TFLAG_PLANTABLE );
 }
@@ -4951,6 +4943,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
         sptr->container_item_variant = jo.get_string( "variant" );
     } else {
         use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    }
+    if( obj.has_array( "components" ) ) {
+        JsonArray ja = obj.get_array( "components" );
+        std::vector<itype_id> made_of;
+        for( auto sub : ja ) {
+            itype_id component = itype_id( sub );
+            made_of.emplace_back( component );
+        }
+        sptr->components_items = made_of;
     }
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
