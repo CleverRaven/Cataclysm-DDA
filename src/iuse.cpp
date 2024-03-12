@@ -8814,7 +8814,7 @@ std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint &
             auto ret = p->can_wear( component );
             if( ret.success() ) {
                 item_location new_clothes( *p, &component );
-                p->wear( new_clothes );
+                p->wear( new_clothes, true, true );
             } else {
                 // For some reason we couldn't wear this item. Maybe the player mutated in the meanwhile, but
                 // drop the item instead of deleting it.

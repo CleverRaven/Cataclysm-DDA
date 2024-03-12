@@ -259,7 +259,7 @@ Character::wear( int pos, bool interactive )
 }
 
 std::optional<std::list<item>::iterator>
-Character::wear( item_location item_wear, bool interactive )
+Character::wear( item_location item_wear, bool interactive, bool no_remove )
 {
     item to_wear = *item_wear;
     if( is_worn( to_wear ) ) {
@@ -285,6 +285,8 @@ Character::wear( item_location item_wear, bool interactive )
     if( &to_wear == &weapon ) {
         weapon = item();
         was_weapon = true;
+    } else if( no_remove ) {
+        was_weapon = false;
     } else if( has_item( to_wear ) ) {
         remove_item( to_wear );
         was_weapon = false;

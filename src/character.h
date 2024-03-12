@@ -1791,7 +1791,7 @@ class Character : public Creature, public visitable
         * @param interactive Alert player and drain moves if true.
         */
         std::optional<std::list<item>::iterator>
-        wear( item_location item_wear, bool interactive = true );
+        wear( item_location item_wear, bool interactive = true, bool no_remove = false );
 
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
