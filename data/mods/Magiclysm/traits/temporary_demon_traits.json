@@ -51,8 +51,15 @@
     "starting_trait": false,
     "mixed_effect": true,
     "points": 0,
-    "crafting_speed_multiplier": 0.5,
-    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 4 }, { "value": "DEXTERITY", "add": 4 } ] } ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 }
+        ]
+      }
+    ],
     "flags": [ "NO_SPELLCASTING" ]
   },
   {

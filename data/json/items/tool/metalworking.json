@@ -517,7 +517,7 @@
   {
     "id": "casting_mold",
     "type": "TOOL",
-    "name": { "str": "sand casting mold" },
+    "name": { "str": "sandcasting mold" },
     "description": "A medium mold for casting molten metals into different shapes.",
     "weight": "19200 g",
     "volume": "36 L",

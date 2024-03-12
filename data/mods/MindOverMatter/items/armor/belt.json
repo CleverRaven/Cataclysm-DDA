@@ -86,8 +86,7 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 90 } } ]
   },
   {
     "id": "psionic_fire_shield_belt",
@@ -171,7 +170,6 @@
         "menu_text": "Flip the switch"
       }
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ],
-    "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "psionic_charge_power": 300 } } ]
   }
 ]

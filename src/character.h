@@ -1624,8 +1624,6 @@ class Character : public Creature, public visitable
         bool is_category_allowed( const std::vector<mutation_category_id> &category ) const;
         bool is_category_allowed( const mutation_category_id &category ) const;
 
-        bool is_weak_to_water() const;
-
         /**Check for mutation disallowing the use of an healing item*/
         bool can_use_heal_item( const item &med ) const;
 
@@ -2420,6 +2418,8 @@ class Character : public Creature, public visitable
 
         void set_skills_from_hobbies();
 
+        void set_bionics_from_hobbies();
+
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
         float get_proficiency_practice( const proficiency_id &prof ) const;
@@ -3124,8 +3124,6 @@ class Character : public Creature, public visitable
         void enchantment_wear_change();
         /** Called when an item is washed */
         void on_worn_item_washed( const item &it );
-        /** Called when an item becomes filthy */
-        void on_worn_item_soiled( const item &it );
         /** Called when an item is acquired (picked up, worn, or wielded) */
         void on_item_acquire( const item &it );
         /** Called when effect intensity has been changed */
