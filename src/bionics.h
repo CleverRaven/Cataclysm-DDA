@@ -146,7 +146,6 @@ struct bionic_data {
     float fuel_efficiency = 0.0f;
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
-    float vitamin_absorb_mod = 1.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
     std::optional<float> coverage_power_gen_penalty;
     // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
