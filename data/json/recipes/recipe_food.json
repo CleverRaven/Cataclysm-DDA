@@ -107,9 +107,9 @@
     "id_suffix": "using_water_purifier",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "survival",
-    "time": "10 m",
+    "time": "15 m",
     "autolearn": true,
-    "tools": [ [ [ "material_gravel", 10 ] ], [ [ "material_sand", 10 ] ] ],
+    "tools": [ [ "water_filter_sand" ] ],
     "components": [ [ [ "water_murky", 10 ] ] ]
   },
   {
