@@ -497,6 +497,106 @@
     "extend": { "flags": [ "POISON" ] }
   },
   {
+    "id": "mon_frog_husk",
+    "type": "MONSTER",
+    "name": { "str": "Leaping Husk" },
+    "description": "The dehydrated remains of a frog, like the unfortunate kind you might find trapped between a window and screen. This one is much larger than those and surely capable of doing you real harm. You see its dry skin crack and shed wisps of tainted dust as it moves.",
+    "copy-from": "mon_proxy_frog_zombie",
+    "volume": "80 L",
+    "weight": "100 kg",
+    "hp": 45,
+    "speed": 80,
+    "symbol": "X",
+    "color": "brown_green",
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
+    "dodge": 2,
+    "armor": { "bash": 4, "cut": 2, "bullet": 1, "electric": 2 },
+    "attack_cost": 60,
+    "grab_strength": 15,
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": 8,
+        "move_cost": 0,
+        "max_range": 6,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
+      { "id": "scratch", "cooldown": 10 },
+      { "id": "bite_grab", "cooldown": 10 },
+      { "id": "drag_followup" }
+    ],
+    "death_function": { "effect": { "id": "death_smokeburst_tiny", "hit_self": true }, "message": "The %s crumbles!" },
+    "upgrades": { "half_life": 30, "into": "GROUP_ZOMBTREEFROG_UPGRADE" },
+    "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "RANGED_ATTACKER" ] },
+    "//": "add to treefrog upgrade group"
+  },
+  {
+    "id": "mon_frog_mummy",
+    "type": "MONSTER",
+    "name": { "str": "Batrachian Mummy" },
+    "description": "The ambulatory, desiccated corpse of an enormous amphibian. What papery skin remains hugs tightly to the bones and shrunken flesh beneath. Each stuttering leap it makes leaves it looking worse off as it sheds clouds of ash and soot.",
+    "copy-from": "mon_proxy_frog_zombie",
+    "hp": 80,
+    "speed": 75,
+    "symbol": "H",
+    "color": "brown_green",
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "armor": { "bash": 4, "cut": 2, "bullet": 1, "electric": 2 },
+    "attack_cost": 75,
+    "grab_strength": 25,
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": 10,
+        "move_cost": 0,
+        "max_range": 4,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" }
+    ],
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s crumbles!" },
+    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_med" },
+    "delete": { "flags": [ "RANGED_ATTACKER" ] },
+    "//": "add to frog and toad upgrade groups (small chance)"
+  },
+  {
+    "id": "mon_frog_smoker_hulk",
+    "type": "MONSTER",
+    "name": { "str": "Batrachian Smoker" },
+    "description": "It's hard to see that this was once an amphibian from both its twisted form and the haze of smoke that constantly fumes off of it. Like the tiny husks of frogs you find in a drought, this one has dried, though unevenly. Rind through core it has warped and its whole dry body crinkles and folds as it moves.",
+    "copy-from": "mon_proxy_frog_zombie",
+    "volume": "200 L",
+    "weight": "180 kg",
+    "hp": 200,
+    "symbol": "H",
+    "color": "brown_green",
+    "melee_dice": 5,
+    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
+    "armor": { "bash": 4, "cut": 2, "bullet": 1, "electric": 2 },
+    "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
+    "special_attacks": [
+      {
+        "type": "leap",
+        "cooldown": 10,
+        "move_cost": 0,
+        "max_range": 4,
+        "min_consider_range": 2,
+        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+      },
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" }
+    ],
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s crumbles!" },
+    "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_large" },
+    "delete": { "flags": [ "RANGED_ATTACKER" ] },
+    "//": "add to frog and toad upgrade groups (small chance)"
+  },
+  {
     "id": "mon_zombie_biter",
     "type": "MONSTER",
     "name": { "str": "slavering biter" },
