@@ -685,7 +685,7 @@
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "CAN_OPEN_DOORS", "WARM" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {

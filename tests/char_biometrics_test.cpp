@@ -508,6 +508,8 @@ TEST_CASE( "mutations_may_affect_character_metabolic_rate", "[biometrics][metabo
     //
     //     LIGHTEATER (-0.333), COLDBLOOD (-0.333), COLDBLOOD2/3/4 (-0.5)
     //
+    //     TEST_ZERO_METABOLIC is added to prevent #72242 in the future
+    //
     // If metabolism modifiers are changed, the below check(s) need to be adjusted as well.
 
     CHECK( metabolic_rate_with_mutation( dummy, "MET_RAT" ) == Approx( 1.333f ) );
@@ -519,6 +521,7 @@ TEST_CASE( "mutations_may_affect_character_metabolic_rate", "[biometrics][metabo
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD2" ) == Approx( 0.5f ) );
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD3" ) == Approx( 0.5f ) );
     CHECK( metabolic_rate_with_mutation( dummy, "COLDBLOOD4" ) == Approx( 0.5f ) );
+    CHECK( metabolic_rate_with_mutation( dummy, "TEST_ZERO_METABOLIC" ) == 0.0f );
 }
 
 TEST_CASE( "basal_metabolic_rate_with_various_size_and_metabolism", "[biometrics][bmr]" )

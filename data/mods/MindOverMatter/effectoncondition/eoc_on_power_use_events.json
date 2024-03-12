@@ -929,5 +929,60 @@
       ]
     },
     "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        {
+          "or": [
+            { "compare_string": [ "teleport_blink", { "context_val": "spell" } ] },
+            { "compare_string": [ "teleport_phase", { "context_val": "spell" } ] },
+            { "compare_string": [ "teleport_transpose", { "context_val": "spell" } ] },
+            { "compare_string": [ "teleport_farstep", { "context_val": "spell" } ] }
+          ]
+        },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "not": { "u_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As you come out of the darkness and the cold of the teleport, you feel the prickling sensation of watching eyes and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
+        "type": "bad"
+      },
+      { "u_add_effect": "tindrift", "duration": "1 day" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "compare_string": [ "teleport_gateway", { "context_val": "spell" } ] },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "not": { "u_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [ { "queue_eocs": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_2", "time_in_future": 0 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_2",
+    "//": "This is a separate EoC so you don't see the message until *after* you exit the Gateway",
+    "effect": [
+      {
+        "u_message": "As you come out of the darkness and the cold of the teleport, you feel the prickling sensation of watching eyes and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
+        "type": "bad"
+      },
+      { "u_add_effect": "tindrift", "duration": "1 day" }
+    ]
   }
 ]

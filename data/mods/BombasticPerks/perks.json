@@ -474,7 +474,7 @@
     "points": 0,
     "description": "You really like to do stuff with your own hands.  +10% for crafting speed.",
     "category": [ "perk" ],
-    "crafting_speed_multiplier": 1.1
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -574,16 +574,6 @@
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "perk_enchanting_master",
-    "name": { "str": "Enchanting Master" },
-    "points": 0,
-    "description": "You can temporarily enchant your weapons with magic, imbuing them with powerful capabilities.",
-    "category": [ "perk" ],
-    "spells_learned": [ [ "spell_enchanting_master", 0 ] ],
-    "enchantments": [ "ench_enchanting_master" ]
   },
   {
     "type": "mutation",

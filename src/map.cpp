@@ -2261,6 +2261,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     invalidate_max_populated_zlev( p.z );
 
     memory_cache_dec_set_dirty( p, true );
+    memory_cache_ter_set_dirty( p, true );
     avatar &player_character = get_avatar();
     if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "t_" );
