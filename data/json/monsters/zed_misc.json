@@ -215,7 +215,7 @@
     "color": "brown_green",
     "attack_cost": 50,
     "burn_into": "mon_frog_mummy",
-    "upgrades": { "half_life": 30, "into": "mon_toad_bloat" }
+    "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" }
   },
   {
     "id": "mon_frog_shocker",
@@ -308,7 +308,7 @@
       "corpse_type": "NO_CORPSE"
     },
     "death_drops": "explode_toad",
-    "upgrades": { "half_life": 30, "into_group": "GROUP_DEADTOAD_UPGRADE" },
+    "upgrades": { "half_life": 30, "into_group": "GROUP_BLOAT_TOAD_UPGRADE" },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF" ] },
     "//": "Create new death_sludge effect."
   },
