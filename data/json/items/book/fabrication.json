@@ -759,8 +759,8 @@
     "looks_like": "mag_glam",
     "color": "brown_yellow",
     "skill": "fabrication",
-    "required_level": 4,
-    "max_level": 6,
+    "required_level": 2,
+    "max_level": 3,
     "intelligence": 14,
     "time": "20 m",
     "fun": -1
