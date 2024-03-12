@@ -1498,7 +1498,7 @@
     "type": "COMESTIBLE",
     "copy-from": "water",
     "name": { "str_sp": "murky water" },
-    "description": "Water, the stuff of life. This water looks like it has quite a bit of life in it in fact, and not the good kind.  You should filter and sterilize it if you want to drink it.",
+    "description": "Water, the stuff of life.  This water looks like it has quite a bit of life in it in fact, and not the good kind.  You should filter and sterilize it if you want to drink it.",
     "quench": 30,
     "parasites": 5,
     "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ]
