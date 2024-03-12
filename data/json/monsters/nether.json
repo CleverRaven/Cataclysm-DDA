@@ -2064,7 +2064,7 @@
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
-    "morale": 10,
+    "morale": 30,
     "aggression": -5,
     "symbol": "a",
     "color": "pink",
