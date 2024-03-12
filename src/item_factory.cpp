@@ -4945,6 +4945,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     } else {
         use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     }
+    if( obj.has_array( "components" ) ) {
+        JsonArray ja = obj.get_array( "components" );
+        std::vector<itype_id> made_of;
+        for( auto sub : ja ) {
+            itype_id component = itype_id( sub );
+            made_of.emplace_back( component );
+        }
+        sptr->components_items = made_of;
+    }
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );
     if( obj.has_member( "sealed" ) ) {
