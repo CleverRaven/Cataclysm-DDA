@@ -3655,7 +3655,7 @@ void Character::do_skill_rust()
         }
 
         const int rust_resist = enchantment_cache->get_value_add( enchant_vals::mod::SKILL_RUST_RESIST );
-        const float rust_resist_mult = enchantment_cache->get_value_multiply(
+        const float rust_resist_mult = 1.0f + enchantment_cache->get_value_multiply(
                                            enchant_vals::mod::SKILL_RUST_RESIST );
         if( skill_level_obj.rust( rust_resist, rust_resist_mult ) ) {
             mod_power_level( -bio_memory->power_trigger );

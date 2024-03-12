@@ -1463,7 +1463,7 @@
     "valid": false,
     "purifiable": false,
     "types": [ "HEALING" ],
-    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.66 }, { "value": "REGEN_HP", "multiply": -0.66 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": -0.67 }, { "value": "REGEN_HP", "multiply": -0.67 } ] } ]
   },
   {
     "type": "mutation",
