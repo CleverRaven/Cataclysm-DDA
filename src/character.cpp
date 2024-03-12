@@ -6260,10 +6260,10 @@ std::string Character::extended_description() const
     ss += "\n";
     ss += _( "Wearing:" ) + std::string( " " );
 
-    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::list<item_location> visible_worn_items = get_visible_worn_items();
     std::string worn_string = enumerate_as_string( visible_worn_items.begin(), visible_worn_items.end(),
-    []( const item & it ) {
-        return it.tname();
+    []( const item_location & it ) {
+        return it.get_item()->tname();
     } );
     ss += !worn_string.empty() ? worn_string : _( "Nothing" );
 
@@ -10751,11 +10751,11 @@ std::vector<std::string> Character::short_description_parts() const
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
     }
-    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::list<item_location> visible_worn_items = get_visible_worn_items();
     const std::string worn_str = enumerate_as_string( visible_worn_items.begin(),
                                  visible_worn_items.end(),
-    []( const item & it ) {
-        return it.tname();
+    []( const item_location & it ) {
+        return it.get_item()->tname();
     } );
     if( !worn_str.empty() ) {
         result.push_back( _( "Wearing: " ) + worn_str );
