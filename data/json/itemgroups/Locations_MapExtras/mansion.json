@@ -1616,6 +1616,7 @@
       [ "scythe", 1 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
       [ "shovel", 40 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],

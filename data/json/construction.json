@@ -2678,7 +2678,11 @@
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rope_natural", 1, "LIST" ] ], [ [ "bucket", 1 ], [ "bucket_wood", 1 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ] ],
+    "components": [
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "bucket", 1 ], [ "bucket_5gal", 1 ], [ "bucket_wood", 1 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ]
+    ],
     "pre_terrain": "t_covered_well",
     "post_terrain": "t_wooden_well"
   },
