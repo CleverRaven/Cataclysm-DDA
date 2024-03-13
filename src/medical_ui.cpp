@@ -23,7 +23,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
-static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );

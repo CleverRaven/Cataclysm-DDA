@@ -291,7 +291,6 @@ static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
-static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
