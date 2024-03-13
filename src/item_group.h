@@ -195,6 +195,10 @@ class Item_spawn_data
         std::optional<itype_id> container_item;
         std::optional<std::string> container_item_variant;
         overflow_behaviour on_overflow = overflow_behaviour::none;
+        /**
+         * These item(s) are spawned as components
+         */
+        std::optional<std::vector<itype_id>> components_items;
         bool sealed = true;
 
         struct relic_generator {
@@ -262,7 +266,6 @@ class Item_modifier
          */
         std::unique_ptr<Item_spawn_data> contents;
         bool sealed = true;
-
         /**
          * Custom flags to be added to the item.
          */

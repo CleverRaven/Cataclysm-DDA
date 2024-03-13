@@ -396,7 +396,7 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
                                   "\n"
                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
-                                  "Press [<color_yellow>%s</color>] for more info.\n" ),
+                                  "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                u.get_str(), u.get_dex(), u.get_per(), u.get_int(),
                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( 0, styles );
@@ -824,6 +824,19 @@ void Character::set_proficiencies_from_hobbies()
     }
 }
 
+void Character::set_bionics_from_hobbies()
+{
+    for( const profession *profession : hobbies ) {
+        for( const bionic_id &bio : profession->CBMs() ) {
+            if( has_bionic( bio ) && !bio->dupes_allowed ) {
+                return;
+            } else {
+                add_bionic( bio );
+            }
+        }
+    }
+}
+
 void Character::initialize( bool learn_recipes )
 {
     recalc_hp();
@@ -883,6 +896,8 @@ void Character::initialize( bool learn_recipes )
     for( const bionic_id &bio : prof->CBMs() ) {
         add_bionic( bio );
     }
+
+    set_bionics_from_hobbies();
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
 
@@ -2521,6 +2536,25 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
         assembled += "\n" + colorize( _( "Background proficiencies:" ), COL_HEADER ) + "\n";
         for( const proficiency_id &prof : prof_proficiencies ) {
             assembled += prof->name() + ": " + colorize( prof->description(), COL_HEADER ) + "\n";
+        }
+    }
+
+    auto prof_CBMs = sorted_hobbies[cur_id]->CBMs();
+    if( !prof_CBMs.empty() ) {
+        assembled += "\n" + colorize( _( "Background bionics:" ), COL_HEADER ) + "\n";
+        std::sort( std::begin( prof_CBMs ), std::end( prof_CBMs ), []( const bionic_id & a,
+        const bionic_id & b ) {
+            return a->activated && !b->activated;
+        } );
+        for( const auto &b : prof_CBMs ) {
+            const bionic_data &cbm = b.obj();
+            if( cbm.activated && cbm.has_flag( json_flag_BIONIC_TOGGLED ) ) {
+                assembled += string_format( _( "%s (toggled)" ), cbm.name ) + "\n";
+            } else if( cbm.activated ) {
+                assembled += string_format( _( "%s (activated)" ), cbm.name ) + "\n";
+            } else {
+                assembled += cbm.name + "\n";
+            }
         }
     }
 
