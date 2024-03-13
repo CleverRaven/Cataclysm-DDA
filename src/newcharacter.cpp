@@ -2738,7 +2738,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
         const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
-        std::string cur_hob_notes = "";
+        std::string cur_hob_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.hobbies.count( &sorted_hobbies[i].obj() ) != 0 ) {
