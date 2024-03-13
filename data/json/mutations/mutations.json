@@ -9773,7 +9773,7 @@
   },
   {
     "type": "mutation",
-    "id": "bad_dreams",
+    "id": "BAD_DREAMS",
     "name": { "str": "Troubled Sleeper" },
     "points": -2,
     "description": "Disturbing events tend to stick to your psyche, and the cataclysm has left you with more than your fair share of psychological trauma.  Now, not even slumber can rest you from your fears; nightmares will plague your sleep if you don’t keep them at bay with anti-depressants.",
