@@ -594,7 +594,7 @@
     "id": "effect_weakening",
     "type": "effect_type",
     "name": [ "Weakness" ],
-    "desc": [ "Your body is slow." ],
+    "desc": [ "Your body is weakened." ],
     "rating": "bad",
     "show_intensity": false,
     "max_intensity": 2,
