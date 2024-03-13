@@ -3458,7 +3458,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
         const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
-        std::string current_scenario_notes = "";
+        std::string current_scenario_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( get_scenario() != sorted_scens[i] ) {
