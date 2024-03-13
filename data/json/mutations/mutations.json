@@ -2741,7 +2741,7 @@
     "leads_to": [ "DOWN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "category": [ "BIRD" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_feathers" ]
   },
   {
     "type": "mutation",
