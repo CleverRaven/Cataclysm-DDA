@@ -6,7 +6,7 @@
     "name": { "str": "phelloderm" },
     "description": "A pliable but hefty layer of living plant matter.",
     "weight": "2 kg",
-    "volume": "300 ml",
+    "volume": "2100 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "mut_wood", "veggy" ],
