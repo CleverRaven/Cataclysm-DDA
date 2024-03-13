@@ -1511,7 +1511,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     const bool screen_reader_mode = get_option<bool>( "SCREEN_READER_MODE" );
-    std::string last_trait = ""; // Used in screen_reader_mode to ensure full trait name is read
+    std::string last_trait; // Used in screen_reader_mode to ensure full trait name is read
     // Track how many good / bad POINTS we have; cap both at MAX_TRAIT_POINTS
     int num_good = 0;
     int num_bad = 0;
