@@ -2402,7 +2402,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
         const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
-        std::string cur_prof_notes = "";
+        std::string cur_prof_notes;
         for( int i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
             if( u.prof != &sorted_profs[i].obj() ) {
