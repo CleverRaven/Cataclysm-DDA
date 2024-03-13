@@ -1326,7 +1326,7 @@
     "components": [
       [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
       [ [ "warptoken", 6 ] ],
-      [ [ platinum_small, 100 ] ], 
+      [ [ "platinum_small", 100 ] ], 
       [ [ "gold_small", 200 ] ],
       [ [ "silver_small", 500 ] ],
       [ [ "diamond", 5 ] ],
