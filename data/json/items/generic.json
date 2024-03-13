@@ -2344,7 +2344,7 @@
     "weight": "200 g",
     "color": "white",
     "container": "bottle_glass",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "SOFT" ],
     "symbol": "%",
     "price": 0,
     "volume": "250 ml",
