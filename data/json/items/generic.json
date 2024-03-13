@@ -1947,8 +1947,8 @@
     "price": 120000,
     "price_postapoc": 100,
     "material": [ "glass" ],
-    "weight": "30 g",
-    "volume": "10 ml",
+    "weight": "1 g",
+    "volume": "2 ml",
     "to_hit": -3,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 30000, "need_sunlight": true },
     "flags": [ "FIRESTARTER" ]
