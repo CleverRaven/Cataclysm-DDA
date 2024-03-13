@@ -198,7 +198,7 @@
     "active": false,
     "valid": false,
     "player_display": false,
-    "anger_relations": [ [ "HUMAN", -100 ], [ "FERAL", -100 ] ],
+    "anger_relations": [ [ "HUMAN", -50 ], [ "FERAL", -50 ] ],
     "enchantments": [
       {
         "values": [
@@ -526,6 +526,7 @@
     "active": true,
     "activated_is_setup": true,
     "activated_eocs": [ "EOC_HOMULLUS_DOLL_FORM_ON" ],
+    "processed_eocs": [ "EOC_HOMULLUS_DOLL_FORM_MOVEMENT_COUNTER" ],
     "deactivated_eocs": [ "EOC_HOMULLUS_DOLL_FORM_ON" ]
   },
   {
@@ -554,13 +555,14 @@
         "values": [ { "value": "MOVE_COST", "multiply": 2.5 } ]
       }
     ],
-    "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ]
+    "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
+    "flags": [ "BLEED_IMMUNE" ]
   },
   {
     "type": "mutation",
     "id": "HOMULLUS_DOLL_FORM_ANGER_RELATIONS",
     "name": { "str": "Mannequin Form Anger Relations" },
-    "description": "Anger relations are here in a separate mutation so that they're removed on attacking a target.",
+    "description": "Anger relations are here in a separate mutation so that they're removed on attacking a target or moving too quickly.",
     "points": 2,
     "valid": false,
     "player_display": false,

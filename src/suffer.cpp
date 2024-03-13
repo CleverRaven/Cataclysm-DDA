@@ -223,7 +223,7 @@ void suffer::water_damage( Character &you )
     for( const std::pair<const bodypart_str_id, bodypart> &elem : you.get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
         float dmg_float = you.enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
-                          0 ) * wetness_percentage;
+                          0 ) * wetness_percentage / 100;
         const int dmg = roll_remainder( dmg_float );
         if( dmg > 0 ) {
             you.apply_damage( nullptr, elem.first, dmg );

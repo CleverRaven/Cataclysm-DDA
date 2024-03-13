@@ -35,7 +35,7 @@ Places where votes and popular support are important are which parts of the game
 
 **Steam, other app stores: not opposed, but we aren’t doing it or endorsing it either.**
 
-Regarding Steam, this [Steam Store](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) respects the project license.
+Regarding Steam, this [Steam Store page](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) respects the project license.
 
 The game is also available from the [Play Store](https://play.google.com/store/apps/details?id=com.cleverraven.cataclysmdda) for Android.
 

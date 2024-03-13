@@ -89,6 +89,7 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 "charges": <number>|<array>,
 "charges-min": <number>,
 "charges-max": <number>,
+"components": "<array>",
 "contents-item": "<item-id>" (can be a string or an array of strings),
 "contents-group": "<group-id>" (can be a string or an array of strings),
 "ammo-item": "<ammo-item-id>",
@@ -114,6 +115,8 @@ Each entry can have more values (shown above as `...`).  They allow further prop
 `custom-flags`: An array of flags that will be applied to this item.
 
 `variant`: A valid itype variant id for this item.
+
+`components`: Valid itype ids which are put into the item as its components, as may be done with in-game crafting. Note that there is no requirement for a matching recipe to exist, the components may be any existent item. You could define a spawned `hamburger` to have components of `[ "rock", "rock" ]` but it won't be good food... rocks contain no calories or nutrients!
 
 `event`: A reference to a holiday in the `holiday` enum. If specified, the entry only spawns during the specified real holiday. This works the same way as the seasonal title screens, where the holiday is checked against the current system's time. If the holiday matches, the item's spawn probability is taken from the `prob` field. Otherwise, the spawn probability becomes 0.
 

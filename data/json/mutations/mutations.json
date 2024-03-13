@@ -2761,7 +2761,7 @@
     "leads_to": [ "DOWN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "category": [ "BIRD" ],
-    "armor": [ { "part_types": [ "torso", "head", "arm", "hand", "leg", "foot", "mouth", "tail" ], "bash": 1 } ]
+    "integrated_armor": [ "integrated_feathers" ]
   },
   {
     "type": "mutation",
@@ -9806,19 +9806,6 @@
     "starting_trait": true,
     "valid": false,
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
-  },
-  {
-    "type": "mutation",
-    "id": "BILE_STINK",
-    "name": { "str": "Bile Stink" },
-    "points": -2,
-    "visibility": 5,
-    "ugliness": 6,
-    "description": "You absolutely reek.  The bile you were splashed with seems to be reacting with your body chemistry to produce a smell that's somehow even worse.  If anything that hunts by scent is around, it's sure to notice you.",
-    "scent_intensity": 1600,
-    "prevented_by": [ "CHLOROMORPH" ],
-    "valid": false,
-    "purifiable": false
   },
   {
     "type": "mutation",
