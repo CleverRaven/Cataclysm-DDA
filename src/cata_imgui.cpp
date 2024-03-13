@@ -227,7 +227,7 @@ static ImGuiKey cata_key_to_imgui( int cata_key )
                 return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'a' ) );
             } else if( cata_key >= 'A' && cata_key <= 'Z' ) {
                 return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'A' ) );
-            } else if( cata_key >= '0' && cata_key <= 'Z' ) {
+            } else if( cata_key >= '0' && cata_key <= '9' ) {
                 return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - '0' ) );
             }
             return ImGuiKey_None;
