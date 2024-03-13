@@ -3,7 +3,7 @@
     "type": "profession",
     "id": "afs_radio_technician",
     "name": "Deck Engineer",
-    "description": "A skilled ship technician, turned to independent salvage work.  .",
+    "description": "A skilled ship technician, turned to independent salvage work.",
     "points": 4,
     "CBMs": [ "bio_weight", "bn_bio_solar", "bio_power_storage_mkII", "bio_flashlight", "bio_tools", "bio_sunglasses" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "launcher" } ],
