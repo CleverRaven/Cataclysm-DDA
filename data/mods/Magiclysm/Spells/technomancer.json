@@ -856,5 +856,52 @@
         "true_eocs": [ { "id": "EOC_TECHNOMANCER_POWER_LINKAGE_ITEM", "effect": [ { "npc_set_flag": "USE_UPS" } ] } ]
       }
     ]
+  },
+  {
+    "id": "technomancer_far_sight",
+    "type": "SPELL",
+    "name": "Zoom Lens",
+    "description": "By etching tiny runes on a lens of great quality and infusing it with their magic, the caster can use the lens to see further than even the finest mundane binoculars.  Unfortunately, the arrangement is unstable and the lens will disintegrate after a time.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "technomancer_far_sight_lens",
+    "components": "spell_components_technomancer_far_sight",
+    "shape": "blast",
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "spell_class": "TECHNOMANCER",
+    "difficulty": 6,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(1440000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] },
+    "energy_source": "MANA",
+    "base_casting_time": 60000,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(600)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-20)" ] },
+    "max_level": 15,
+    "learn_spells": { "technomancer_far_sight_plus": 15 }
+  },
+  {
+    "id": "technomancer_far_sight_plus",
+    "type": "SPELL",
+    "name": "Enhanced Zoom Lens",
+    "description": "This lens can see farther than ever!  Now you know this spell like the back of your hand, and have started to design your own version.",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL", "NO_FAIL" ],
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "effect": "spawn_item",
+    "effect_str": "technomancer_far_sight_lens",
+    "components": "spell_components_technomancer_far_sight",
+    "shape": "blast",
+    "base_casting_time": 60000,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(1440000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(8640000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(288000)" ] },
+    "difficulty": 9,
+    "max_level": 25,
+    "spell_class": "TECHNOMANCER",
+    "energy_source": "MANA"
   }
 ]
