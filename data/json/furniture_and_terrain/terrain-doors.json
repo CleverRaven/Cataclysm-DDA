@@ -371,7 +371,6 @@
       "BLOCK_WIND",
       "SUPPORTS_ROOF"
     ],
-    "open": "t_door_o",
     "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
