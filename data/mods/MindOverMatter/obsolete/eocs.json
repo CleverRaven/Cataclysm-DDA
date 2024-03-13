@@ -18,6 +18,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_HIDE_UGLY_SWITCHER",
+    "effect": {
+      "switch": { "math": [ "u_spell_level('photokinetic_hide_ugly')" ] },
+      "cases": [
+        { "case": 0, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_01" } },
+        { "case": 4, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_02" } },
+        { "case": 8, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_03" } },
+        { "case": 12, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_04" } },
+        { "case": 16, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_05" } },
+        { "case": 20, "effect": { "u_add_trait": "PHOTOKIN_HIDE_UGLY_06" } }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_CLAIR_NIGHT_EYES_SWITCHER",
     "effect": {
       "switch": { "math": [ "u_spell_level('clair_night_vision')" ] },
