@@ -537,7 +537,7 @@
     ],
     "death_function": { "effect": { "id": "death_smokeburst_tiny", "hit_self": true }, "message": "The %s crumbles!" },
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
-    "extend": { "flags": [ "HARDTOSHOOT", "HIT_AND_RUN" ] },
+    "extend": { "flags": [ "REVIVES_HEALTHY", "HARDTOSHOOT", "HIT_AND_RUN" ] },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
     "//": "add to treefrog upgrade group"
   },
@@ -570,6 +570,7 @@
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s crumbles!" },
     "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_med" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
+    "extend": { "flags": [ "REVIVES_HEALTHY" ] },
     "//": "add to frog and toad upgrade groups (small chance)"
   },
   {
@@ -602,6 +603,7 @@
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s crumbles!" },
     "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_large" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
+    "extend": { "flags": [ "REVIVES_HEALTHY" ] },
     "//": "add to frog and toad upgrade groups (small chance)"
   },
   {
