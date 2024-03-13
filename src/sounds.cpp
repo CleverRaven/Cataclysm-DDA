@@ -649,7 +649,7 @@ void sounds::process_sound_markers( Character *you )
                 !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
-                add_msg( m_warning, _( "Something is making noise." ) );
+                you->add_msg_if_player( m_warning, _( "Something is making noise." ) );
             } else {
                 continue;
             }

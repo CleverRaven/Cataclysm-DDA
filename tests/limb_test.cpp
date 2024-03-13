@@ -181,4 +181,7 @@ TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
            100 );
     CHECK( bird_boots.portion_for_bodypart( sub_body_part_sub_limb_test_bird_foot_r )->coverage ==
            100 );
+    // Backwards population of coverage works as well
+    CHECK( bird_boots.covers( body_part_test_bird_foot_l ) );
+    CHECK( bird_boots.covers( body_part_test_bird_foot_r ) );
 }

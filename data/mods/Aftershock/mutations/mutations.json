@@ -82,7 +82,7 @@
     "points": 1,
     "visibility": 8,
     "ugliness": 5,
-    "consume_time_modifier": 0.5,
+    "enchantments": [ { "values": [ { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ] } ],
     "description": "A set of tentacles surrounds your mouth.  They allow you to eat twice as fast.  Slightly decreases wet penalties.",
     "types": [ "MUZZLE" ],
     "prereqs": [ "MOUTH_TENDRILS" ],
@@ -440,7 +440,7 @@
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 60%.",
     "category": [ "MASTODON" ],
     "cancels": [ "BADBACK" ],
-    "weight_capacity_modifier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",

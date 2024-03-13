@@ -331,7 +331,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     // uses assign because optional doesn't handle loading units as strings
     assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
     assign( jsobj, "capacity", capacity, false );
-    assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false );
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
@@ -353,7 +352,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
 
     optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
-    optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
     optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );

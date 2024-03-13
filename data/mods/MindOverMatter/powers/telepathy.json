@@ -171,7 +171,6 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
@@ -213,7 +212,6 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "charm_monster",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
@@ -267,10 +265,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "psi_stunned",
-    "extra_effects": [
-      { "id": "telepathic_confusion_blind", "hit_self": false, "max_level": 20 },
-      { "id": "psionic_drained_difficulty_five", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "telepathic_confusion_blind", "hit_self": false, "max_level": 20 } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -341,7 +336,7 @@
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "mod_moves",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true }, { "id": "telepathic_fear_extra", "hit_self": false } ],
+    "extra_effects": [ { "id": "telepathic_fear_extra", "hit_self": false } ],
     "shape": "blast",
     "//": "Complicated formula here is to produce diminishing returns, since mod_moves for too long might as well just kill the target.  Level 1 minimum is 46.5 moves lost, level 20 maximum is 625, all before Intelligence scaling",
     "min_damage": {
@@ -425,10 +420,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "telepathic_ignorance",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_six", "hit_self": true },
-      { "id": "telepathic_invisibility_self", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "telepathic_invisibility_self", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -507,10 +499,7 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [
-      { "id": "telepathic_blast_radius_guaranteed", "hit_self": false },
-      { "id": "psionic_drained_difficulty_seven", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "telepathic_blast_radius_guaranteed", "hit_self": false } ],
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
@@ -561,7 +550,7 @@
     "id": "telepathic_beast_taming",
     "type": "SPELL",
     "name": "[Ψ]Beast Tamer",
-    "description": "Perform mental surgery on an animal, making it friendly to you for a much longer duration.  The animal must already be friendly, either naturally or through powers such as Beastmastery, or order to be tamed.",
+    "description": "Perform mental surgery on an animal, making it friendly to you for a much longer duration.  The animal must already be friendly, either naturally or through powers such as Beastmastery, in order to be tamed.",
     "message": "The animal sniffs at your palm.",
     "teachable": false,
     "valid_targets": [ "ally" ],
@@ -571,10 +560,7 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "charm_monster",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_seven", "hit_self": true },
-      { "id": "telepathic_beast_taming_pet", "hit_self": false }
-    ],
+    "extra_effects": [ { "id": "telepathic_beast_taming_pet", "hit_self": false } ],
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -656,7 +642,6 @@
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "charm_monster",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "psi_telepathic_damage",
     "min_damage": {
@@ -709,7 +694,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPATH_NETWORK_ALLY_CHECK",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [

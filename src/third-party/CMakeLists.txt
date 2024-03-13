@@ -102,6 +102,9 @@ if (TILES)
                 PRIVATE
                 -w
                 )
+
+        add_definitions(-DIMGUI_DISABLE_OBSOLETE_KEYIO)
+
         if (NOT DYNAMIC_LINKING)
             target_link_libraries(imgui PUBLIC
                 SDL2::SDL2-static

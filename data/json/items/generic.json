@@ -3366,7 +3366,7 @@
     "name": { "str": "neoprene patch", "str_pl": "neoprene patches" },
     "description": "A small neoprene patch.  Can be used to repair neoprene clothing.",
     "price": 1000,
-    "price_postapoc": 100,
+    "price_postapoc": 5,
     "material": [ "neoprene" ],
     "flags": [ "NO_SALVAGE" ],
     "weight": "3 g",

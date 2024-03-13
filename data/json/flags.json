@@ -916,11 +916,6 @@
     "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
   },
   {
-    "id": "SLOWS_THIRST",
-    "type": "json_flag",
-    "info": "This clothing <good>slows your thirst</good> by reducing moisture loss."
-  },
-  {
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
@@ -2443,9 +2438,24 @@
     "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
   },
   {
-    "id": "BILE_AFFLICTED",
+    "id": "LIXA_SCIENCE_CARD",
     "type": "json_flag",
-    "//": "The character is afflicted with boomer bile."
+    "info": "This grants access to the LIXA facility."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD_2",
+    "type": "json_flag",
+    "info": "This grants access to the experiment chamber of the LIXA facility."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD_3",
+    "type": "json_flag",
+    "info": "This grants access to the experiment chamber and PPE lockup for the LIXA facility."
+  },
+  {
+    "id": "LIXA_MILITARY_CARD",
+    "type": "json_flag",
+    "info": "This grants access to locked-down areas of the LIXA facility."
   },
   {
     "id": "DRACULIN_VENOM",
