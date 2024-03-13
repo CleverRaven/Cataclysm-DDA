@@ -710,7 +710,7 @@
     "price": 150,
     "price_postapoc": 500,
     "material": [ "junk", "fruit" ],
-    "volume": "174 ml",
+    "volume": "175 ml",
     "vitamins": [ [ "calcium", 9 ], [ "vitC", 14 ], [ "iron", 1 ] ],
     "fun": 5
   },

@@ -55,7 +55,6 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
-    "charges": 7,
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
