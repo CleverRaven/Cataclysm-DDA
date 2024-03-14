@@ -1185,7 +1185,7 @@
             "value": "UGLINESS",
             "multiply": {
               "math": [
-                "max((( -0.6 + ( u_spell_level('photokinetic_hide_ugly') * -1.5 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -1)"
+                "max(((( -0.6 + ( u_spell_level('photokinetic_hide_ugly') * -1.5 )) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -1)"
               ]
             }
           }
