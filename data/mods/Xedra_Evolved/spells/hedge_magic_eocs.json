@@ -103,6 +103,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_HEDGE_CLAIRVOYANCE_CONE",
+    "effect": [
+      { "u_add_effect": "bleed", "intensity": 1, "target_part": "head", "duration": "5 minutes" },
+      { "math": [ "u_hp('head')", "-=", "1" ] },
+      { "u_cast_spell": { "id": "hedge_clairvoyance_cone_real", "hit_self": false }, "targeted": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_HEDGE_DRINK_CURE_DISEASE_TEA_COLD",
     "eoc_type": "EVENT",
     "required_event": "character_consumes_item",

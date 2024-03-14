@@ -146,5 +146,15 @@
     "type": "requirement",
     "tools": [  ],
     "components": [ [ [ "salt", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extra_lock_door",
+    "type": "requirement",
+    "components": [ [ [ "string_6", 3 ], [ "cordage_6", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_clairvoyance_cone",
+    "type": "requirement",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
   }
 ]
