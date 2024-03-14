@@ -5060,34 +5060,9 @@ void Character::update_needs( int rate_multiplier )
 
             }
         }
-        map &here = get_map();
-        if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
-                has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ||
-                has_trait( trait_UNDINE_SLEEP_WATER ) ) &&
-            here.is_outside( pos() ) ) {
-            if( has_trait( trait_CHLOROMORPH ) && get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) &&
-                is_barefoot() ) {
-                if( get_thirst() >= -40 ) {
-                    mod_thirst( -5 );
-                }
-                // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
-                vitamin_mod( vitamin_iron, 2 );
-                vitamin_mod( vitamin_calcium, 2 );
-            }
-            if( has_trait( trait_M_SKIN3 ) ) {
-                // Spores happen!
-                if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
-                    if( get_fatigue() >= 0 ) {
-                        mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
-                    }
-                    if( calendar::once_every( 1_hours ) ) {
-                        spores(); // spawn some P O O F Y   B O I S
-                    }
-                }
-            }
-            if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
-                mod_fatigue( -3 ); // Fish sleep less in water
-            }
+        if( calendar::once_every( 10_minutes ) &&
+            ( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) ) {
+            mod_fatigue( -3 ); // Fish sleep less in water
         }
     }
     if( is_avatar() && wasnt_fatigued && get_fatigue() > fatigue_levels::DEAD_TIRED && !lying ) {
@@ -7972,7 +7947,7 @@ bool Character::unwield()
     // currently the only way to unwield NO_UNWIELD weapon is if it's a bionic that can be deactivated
     if( weapon.has_flag( flag_NO_UNWIELD ) ) {
         std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
-        return bio_opt && can_deactivate_bionic( **bio_opt ).success();
+        return bio_opt ? deactivate_bionic( **bio_opt ) : false;
     }
 
     const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
@@ -11332,11 +11307,6 @@ int Character::sleep_spot( const tripoint_bub_ms &p ) const
         sleepy += 10; //comfy water!
     }
 
-    if( has_trait( trait_CHLOROMORPH ) &&
-        get_map().has_flag_ter( ter_furn_flag::TFLAG_PLOWABLE, p.raw() ) ) {
-        sleepy += 25; // It's time for a nice nap.
-    }
-
     if( get_fatigue() < fatigue_levels::TIRED + 1 ) {
         sleepy -= static_cast<int>( ( fatigue_levels::TIRED + 1 - get_fatigue() ) / 4 );
     } else {
@@ -13428,7 +13398,7 @@ bool character_martial_arts::pick_style( const Character &you ) // Style selecti
                                    "\n"
                                    "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                    "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
-                                   "Press [<color_yellow>%s</color>] for more info.\n" ),
+                                   "Press [<color_yellow>%s</color>] for technique details and compatible weapons.\n" ),
                                 you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
                                 ctxt.get_desc( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );

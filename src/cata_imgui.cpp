@@ -1,4 +1,3 @@
-#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 
 #include <stack>
@@ -11,6 +10,8 @@
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
+
+static ImGuiKey cata_key_to_imgui( int cata_key );
 
 #if !(defined(TILES) || defined(WIN32))
 #include <curses.h>
@@ -168,7 +169,6 @@ cataimgui::client::client()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-    ( void )io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
@@ -206,6 +206,43 @@ void cataimgui::client::process_input( void *input )
 }
 
 #endif
+
+static ImGuiKey cata_key_to_imgui( int cata_key )
+{
+    switch( cata_key ) {
+        case KEY_UP:
+            return ImGuiKey_UpArrow;
+        case KEY_DOWN:
+            return ImGuiKey_DownArrow;
+        case KEY_LEFT:
+            return ImGuiKey_LeftArrow;
+        case KEY_RIGHT:
+            return ImGuiKey_RightArrow;
+        case KEY_ENTER:
+            return ImGuiKey_Enter;
+        case KEY_ESCAPE:
+            return ImGuiKey_Escape;
+        default:
+            if( cata_key >= 'a' && cata_key <= 'z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'a' ) );
+            } else if( cata_key >= 'A' && cata_key <= 'Z' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - 'A' ) );
+            } else if( cata_key >= '0' && cata_key <= '9' ) {
+                return static_cast<ImGuiKey>( ImGuiKey_A + ( cata_key - '0' ) );
+            }
+            return ImGuiKey_None;
+    }
+}
+
+void cataimgui::client::process_cata_input( const input_event &event )
+{
+    if( event.type == input_event_t::keyboard_code || event.type == input_event_t::keyboard_char ) {
+        int code = event.get_first_input();
+        ImGuiIO &io = ImGui::GetIO();
+        io.AddKeyEvent( cata_key_to_imgui( code ), true );
+        io.AddKeyEvent( cata_key_to_imgui( code ), false );
+    }
+}
 
 void cataimgui::point_to_imvec2( point *src, ImVec2 *dest )
 {
@@ -427,7 +464,7 @@ void cataimgui::window::draw()
         if( cached_bounds.y != -1.f ) {
             center.y = cached_bounds.y;
         }
-        ImGui::SetNextWindowPos( center, ImGuiCond_Appearing, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
+        ImGui::SetNextWindowPos( center, ImGuiCond_Always, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
     } else if( cached_bounds.x >= 0 && cached_bounds.y >= 0 ) {
         ImGui::SetNextWindowPos( { cached_bounds.x, cached_bounds.y } );
     }
@@ -476,4 +513,3 @@ cataimgui::bounds cataimgui::window::get_bounds()
 {
     return { -1.f, -1.f, -1.f, -1.f };
 }
-#endif // #if defined(__ANDROID__)
