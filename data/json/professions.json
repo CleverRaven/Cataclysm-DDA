@@ -7280,12 +7280,7 @@
     "description": "You've covered it all before, you know? War, Corruption, the bizzare and more, but even a pulitzer couldn't prepare you for this scoop.",
     "proficiencies": ["prof_lockpicking"],
     "points": 3,
-    "skills":
-      [
-        {"level": 2, "name": "pistol"},
-        {"level":1 , "name": "traps"},
-        {"level":2, "name": "speech"}
-      ],
+    "skills": [ { "level": 2, "name": "pistol" }, { "level": 1, "name": "traps" }, { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
         "items": ["jacket_leather", "combat_shirt","dress_shoes","tie_necktie"],
