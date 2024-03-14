@@ -7292,7 +7292,7 @@
       "female": [ "skirt", "stockings", "panties", "bra" ],
       "male": [ "boxer_briefs", "pants" ]
     },
-    "traits": [ "LIAR", "LIGHTSTEP" ] 
+    "traits": [ "LIAR", "LIGHTSTEP" ]
   },
   {
     "type": "profession",
