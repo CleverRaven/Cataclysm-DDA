@@ -1582,7 +1582,7 @@
     "name": "vending machine",
     "looks_like": "f_console",
     "symbol": "{",
-    "description": "An upright metal cabinet with a see-through door.  The goods inside can be yours if you have money on a cash card.",
+    "description": "An upright metal cabinet with a see-through door.  The goods inside can be yours if you have money on a cash card, and if the power is on, which it isn't.",
     "color": "light_cyan",
     "move_cost_mod": -1,
     "coverage": 90,
