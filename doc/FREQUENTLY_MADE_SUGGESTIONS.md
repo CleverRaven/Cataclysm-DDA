@@ -336,6 +336,12 @@ There are substantial technical challenges to a monster that exists on more than
 
 Some multi-tile monsters, such as giant snakes, have fewer technical challenges and might arrive sooner.
 
+### Item and Terrain additiona
+
+#### Add food-bearing plant X.
+
+The setting of the game is New England, with a strong emphasis on the Massachussetts area, so for example this places the (Hardiness Zone)[https://en.wikipedia.org/wiki/Hardiness_zone] to reference at 6 or 7, and other indicators of plant viability (rainfall, first frost) should likelwise be based on the typical Massachusetts stats. The other major thing to keep in mind is that when you are adding a tree or other plant, the primary impact is that you are expecting it to grow and produce harvestable fruit (or other harvestables) under the prevailing weather conditions for the area. Greenhouse-only plants will mostly die off in the first winter if not before, plants that require other winterizing actions will likeewise die or be unhealthy if not cared for, so there would be no expectation of these plants thriving and producing harvestable materials. Due to this, the emphasis should be on plants that *thrive* in this region, not just ones that it is *possible* to grow.  It is not out of the question that we add a system that handles this in a more nuanced way, including requiring intensive gardening interventions, but until such a system is present plants that do not naturally thrive in Massachusetts should not be added, or they should be added in a form that does not produce harvests.
+
 ### Vehicle additions
 
 #### Caterpillar tracks/tank treads: As soon as someone gets around to it.
