@@ -1365,5 +1365,27 @@
     "symbol": "?",
     "color": "red",
     "use_action": { "type": "learn_spell", "spells": [ "mana_upgrade_sensitivity_02" ] }
+  },
+  {
+    "id": "pirate_spellbook",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": {
+      "str": "Sail the High Seas with Sorcery on Your Side",
+      "str_pl": "copies of Sail the High Seas with Sorcery on Your Side"
+    },
+    "//": "3 Stormshaper spells, 1 Technomancer spell",
+    "description": "This romanticized book of dubious historical accuracy details how pirates used magic to their advantage while sailing.  From better telescopes to banks of fog to hide their approach, it seems that according to this author at least, piracy was a true terror to behold.",
+    "weight": "437 g",
+    "volume": "825 ml",
+    "price": 7000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "red",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "stormshaper_cloak_of_fog", "storm_shipwrecker", "air_bubble", "technomancer_far_sight" ]
+    }
   }
 ]
