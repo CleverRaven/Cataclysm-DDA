@@ -7972,7 +7972,7 @@ bool Character::unwield()
     // currently the only way to unwield NO_UNWIELD weapon is if it's a bionic that can be deactivated
     if( weapon.has_flag( flag_NO_UNWIELD ) ) {
         std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
-        return bio_opt && can_deactivate_bionic( **bio_opt ).success();
+        return bio_opt ? deactivate_bionic( **bio_opt ) : false;
     }
 
     const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
