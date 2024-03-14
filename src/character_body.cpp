@@ -217,9 +217,8 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
-        float fatigue_mod = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, 1 ) + 1;
-        float fatigue_regen_mod = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN,
-                                  1 ) + 1;
+        float fatigue_mod = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, 1 );
+        float fatigue_regen_mod = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN, 1 );
         activity_history.try_reduce_weariness( base_bmr(), fatigue_mod, fatigue_regen_mod );
 
         check_needs_extremes();
