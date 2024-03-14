@@ -222,10 +222,16 @@
         "text": "Copy research archives to external device.",
         "topic": "LIXA_experiment_backup_data_need_id",
         "condition": [
-          { "not": { "u_has_item": "id_LIXA_najma" } },
-          { "not": { "u_has_item": "id_LIXA_jason" } },
-          { "not": { "u_has_item": "id_LIXA_kai_mei" } },
-          { "not": { "u_has_item": "id_LIXA_rich" } }
+          {
+            "not": {
+              "or": [
+                { "u_has_item": "id_LIXA_najma" },
+                { "u_has_item": "id_LIXA_jason" },
+                { "u_has_item": "id_LIXA_kai_mei" },
+                { "u_has_item": "id_LIXA_rich" }
+              ]
+            }
+          }
         ]
       },
       {
