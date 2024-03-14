@@ -507,7 +507,7 @@
       { "type": "COMPONENT_ID", "condition": "watermelon_wedge", "name": { "str_sp": "%s, watermelon" } },
       { "type": "COMPONENT_ID", "condition": "wintergreen_berry", "name": { "str_sp": "%s, wintergreen berry" } }
     ],
-    "weight": "170 g",
+    "weight": "136 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
     "container": "can_food",
@@ -528,7 +528,7 @@
     "type": "COMESTIBLE",
     "id": "pumpkin_yeast_bread",
     "name": { "str_sp": "pumpkin yeast bread" },
-    "weight": "50 g",
+    "weight": "15 g",
     "color": "red",
     "spoils_in": "7 days 12 hours",
     "comestible_type": "FOOD",
@@ -539,7 +539,7 @@
     "price": "9 cent",
     "price_postapoc": "2 cent",
     "material": [ "fruit" ],
-    "volume": "10 ml",
+    "volume": "60 ml",
     "fun": 3,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
   },
