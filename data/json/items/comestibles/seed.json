@@ -586,7 +586,7 @@
     "calories": 165,
     "description": "Some raw sunflower seeds with the shells on.  Could be pressed into oil.",
     "price": "1 cent",
-    "flags": [ "PLANTABLE_SEED" ],
+    "flags": [ "PLANTABLE_SEED", "NUTRIENT_OVERRIDE" ],
     "seed_data": { "plant_name": "sunflower", "fruit": "seed_sunflower", "byproducts": [ "withered" ], "grow": "91 days" },
     "milling": { "into": "paste_seed", "recipe": "paste_seed_mill_8_1" }
   },

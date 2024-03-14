@@ -3514,11 +3514,11 @@
   {
     "id": "armor_nomad_chainmail",
     "type": "TOOL_ARMOR",
-    "copy-from": "qt_chainmail_hauberk",
+    "copy-from": "qt_chainmail_jumpsuit",
     "name": { "str": "nomad chainmail", "str_pl": "suits of nomad chainmail" },
     "weight": "17200 g",
     "volume": "7000 ml",
-    "description": "A full body multilayered chainmail hauberk.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered chainmail outfit.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
@@ -3529,7 +3529,7 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 12
+        "encumbrance": 16
       },
       {
         "material": [
@@ -3538,7 +3538,7 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 14
       },
       {
         "material": [
@@ -3547,7 +3547,7 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 14
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
