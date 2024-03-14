@@ -1557,7 +1557,6 @@
     "coverage": 90,
     "required_str": 30,
     "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "FLAMMABLE_HARD", "MINEABLE" ],
-    "examine_action": "vending",
     "bash": {
       "str_min": 150,
       "str_max": 520,
@@ -1589,7 +1588,6 @@
     "coverage": 90,
     "required_str": 12,
     "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
-    "examine_action": "vending",
     "bash": {
       "str_min": 20,
       "str_max": 40,
