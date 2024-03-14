@@ -7283,7 +7283,7 @@
     "skills": [ { "level": 2, "name": "pistol" }, { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [ "jacket_leather", "dress_shirt","dress_shoes","tie_necktie" ],
+        "items": [ "jacket_leather", "dress_shirt", "dress_shoes", "tie_necktie" ],
         "entries": [
           { "item": "glock_19", "ammo-type": "9mm", "container-item": "holster", "charges": 17 },
           { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
