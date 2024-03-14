@@ -221,9 +221,22 @@
       {
         "text": "Copy research archives to external device.",
         "topic": "LIXA_experiment_backup_data_need_id",
-        "condition": [
-          {
-            "not": {
+        "condition": {
+          "and": [
+            { "not": { "u_has_item": "id_LIXA_najma" } },
+            { "not": { "u_has_item": "id_LIXA_jason" } },
+            { "not": { "u_has_item": "id_LIXA_kai_mei" } },
+            { "not": { "u_has_item": "id_LIXA_rich" } }
+          ]
+        }
+      },
+      {
+        "text": "Copy research archives to external device.",
+        "topic": "LIXA_experiment_backup_data_no_drive",
+        "condition": {
+          "and": [
+            { "not": { "u_has_item": "usb_drive_nano" } },
+            {
               "or": [
                 { "u_has_item": "id_LIXA_najma" },
                 { "u_has_item": "id_LIXA_jason" },
@@ -231,30 +244,25 @@
                 { "u_has_item": "id_LIXA_rich" }
               ]
             }
-          }
-        ]
-      },
-      {
-        "text": "Copy research archives to external device.",
-        "topic": "LIXA_experiment_backup_data_no_drive",
-        "condition": [
-          { "or": { "u_has_item": "id_LIXA_najma" } },
-          { "or": { "u_has_item": "id_LIXA_jason" } },
-          { "or": { "u_has_item": "id_LIXA_kai_mei" } },
-          { "or": { "u_has_item": "id_LIXA_rich" } },
-          { "not": { "u_has_item": "usb_drive_nano" } }
-        ]
+          ]
+        }
       },
       {
         "text": "Copy research archives to external device.",
         "topic": "LIXA_experiment_backup_data",
-        "condition": [
-          { "or": { "u_has_item": "id_LIXA_najma" } },
-          { "or": { "u_has_item": "id_LIXA_jason" } },
-          { "or": { "u_has_item": "id_LIXA_kai_mei" } },
-          { "or": { "u_has_item": "id_LIXA_rich" } },
-          { "and": { "u_has_item": "usb_drive_nano" } }
-        ]
+        "condition": {
+          "and": [
+            { "u_has_item": "usb_drive_nano" },
+            {
+              "or": [
+                { "u_has_item": "id_LIXA_najma" },
+                { "u_has_item": "id_LIXA_jason" },
+                { "u_has_item": "id_LIXA_kai_mei" },
+                { "u_has_item": "id_LIXA_rich" }
+              ]
+            }
+          ]
+        }
       },
       { "text": "Leave.", "topic": "TALK_DONE" }
     ]
