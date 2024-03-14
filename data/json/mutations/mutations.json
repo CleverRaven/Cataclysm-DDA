@@ -5001,6 +5001,15 @@
     "prereqs": [ "MASOCHIST_MED" ],
     "prereqs2": [ "PAINREC3", "ADDICTIVE" ],
     "threshreq": [ "THRESH_MEDICAL" ],
+    "enchantments": [
+      {
+        "values": [
+          { "value": "PAIN_PENALTY_MOD_STR", "multiply": -10 },
+          { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -10 },
+          { "value": "PAIN_PENALTY_MOD_SPEED", "multiply": -0.5 }
+        ]
+      }
+    ],
     "//": "CENOBITE and NOPAIN also don't cancel each other.  By design.  Poor painless cenobites...",
     "category": [ "MEDICAL" ]
   },
@@ -5938,7 +5947,11 @@
     "prereqs2": [ "AMORPHOUS" ],
     "threshreq": [ "THRESH_SLIME" ],
     "category": [ "SLIME" ],
-    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "multiply": 1 } ] } ],
+    "enchantments": [
+      {
+        "values": [ { "value": "INTELLIGENCE", "multiply": 1 }, { "value": "PAIN_PENALTY_MOD_INT", "add": { "math": [ "u_pain()/6" ] } } ]
+      }
+    ],
     "armor": [
       {
         "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
