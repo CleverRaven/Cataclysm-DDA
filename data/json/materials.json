@@ -2518,6 +2518,18 @@
   },
   {
     "type": "material",
+    "id": "mold",
+    "name": "Mold",
+    "copy-from": "mushroom"
+  },
+  {
+    "type": "material",
+    "id": "yeast",
+    "name": "Yeast",
+    "copy-from": "mushroom"
+  },
+  {
+    "type": "material",
     "id": "water",
     "name": "Water",
     "density": 1.0,
