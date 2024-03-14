@@ -21,7 +21,6 @@
       "NO_TAKEOFF",
       "ZERO_WEIGHT",
       "NONCONDUCTIVE",
-      "TRANSPARENT",
       "RAINPROOF"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
@@ -55,8 +54,7 @@
       "NO_REPAIR",
       "NO_DROP",
       "ZERO_WEIGHT",
-      "NONCONDUCTIVE",
-      "TRANSPARENT"
+      "NONCONDUCTIVE"
     ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] },
     "use_action": {
