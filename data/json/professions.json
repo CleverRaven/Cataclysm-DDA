@@ -7275,6 +7275,32 @@
   },
   {
     "type": "profession",
+    "id": "warjournalist",
+    "name": "War Journalist",
+    "description": "You've covered it all before, you know? War, Corruption, the bizzare and more, but even a pulitzer couldn't prepare you for this scoop.",
+    "proficiencies": ["prof_lockpicking"],
+    "points": 3,
+    "skills":
+      [
+        {"level": 2, "name": "pistol"},
+        {"level":1 , "name": "traps"},
+        {"level":2, "name": "speech"}
+      ],
+    "items": {
+      "both": {
+        "items": ["jacket_leather", "combat_shirt","dress_shoes","tie_necktie"],
+        "entries": [
+          { "item": "glock_19", "ammo-type": "9mm", "container-item": "holster", "charges": 17},
+          { "item": "light_disposable_cell", "ammo-item": "battery", "charges": 300, "container-item": "camera_pro" }
+        ]
+      },
+      "female": ["skirt", "stockings", "panties", "bra"],
+      "male": ["boxer_briefs", "pants"]
+    },
+    "traits": ["LIAR", "LIGHTSTEP"] 
+  },
+  {
+    "type": "profession",
     "id": "explosive_ordnance_disposal",
     "name": "Explosive Ordnance Disposal Technician",
     "description": "Ever since you were a child you were fascinated with explosives and all things that go boom.  As soon as you turned 18 you joined the army to become an EOD technician.  While out on a call about a potential explosive in the neighboring county, your team was overrun by hordes of the undead.  You are alone, with nothing but your precious training, gear and love of explosives.",
