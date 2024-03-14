@@ -426,7 +426,7 @@ void cataimgui::window::draw()
         if( cached_bounds.y != -1.f ) {
             center.y = cached_bounds.y;
         }
-        ImGui::SetNextWindowPos( center, ImGuiCond_Appearing, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
+        ImGui::SetNextWindowPos( center, ImGuiCond_Always, { cached_bounds.x == -1.f ? 0.5f : 0.f,  cached_bounds.y == -1.f ? 0.5f : 0.f } );
     } else if( cached_bounds.x >= 0 && cached_bounds.y >= 0 ) {
         ImGui::SetNextWindowPos( { cached_bounds.x, cached_bounds.y } );
     }
