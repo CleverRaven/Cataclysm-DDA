@@ -164,7 +164,7 @@
     "ammo": "battery",
     "use_action": {
       "type": "transform",
-      "msg": "You activate the exoskeleton.\n>>Initiating boot sequence...\n//Loading DoubleOS v1.39............[X]\n//Loading calibration profile.......[X]\n//Activating atmospheric filtration.[X]\n//Activating liquid cooling.........[X]\n//Activating sound dampeners........[X]\n>>Boot successful.",
+      "msg": "You activate the exoskeleton.\n>>Initiating boot sequence…\n//Loading DoubleOS v1.39………………………………[x]\n//Loading calibration profile…………………[x]\n//Activating atmospheric filtration…[X]\n//Activating liquid cooling………………………[x]\n//Activating sound dampeners……………………[x]\n>>Boot successful.",
       "target": "combat_exoskeleton_heavy_on",
       "active": true,
       "need_charges": 1,
@@ -278,7 +278,7 @@
     "looks_like": "power_armor_basic",
     "use_action": {
       "type": "transform",
-      "msg": "You activate the exoskeleton.\n>>Initiating boot sequence...\n//Loading DoubleOS v2.11............[X]\n//Loading calibration profile.......[X]\n//Activating atmospheric filtration.[X]\n//Activating liquid cooling.........[X]\n//Activating sound dampeners........[X]\n>>Boot successful.",
+      "msg": "You activate the exoskeleton.\n>>Initiating boot sequence…\n//Loading DoubleOS v2.11………………………………[x]\n//Loading calibration profile…………………[x]\n//Activating atmospheric filtration…[X]\n//Activating liquid cooling………………………[x]\n//Activating sound dampeners……………………[x]\n>>Boot successful.",
       "target": "combat_exoskeleton_medium_on",
       "active": true,
       "need_charges": 1,
@@ -392,7 +392,7 @@
     "looks_like": "power_armor_light",
     "use_action": {
       "type": "transform",
-      "msg": "You activate the exoskeleton.\n>>Initiating boot sequence...\n//Loading DoubleOS v3.21............[X]\n//Loading calibration profile.......[X]\n//Activating atmospheric filtration.[X]\n//Activating liquid cooling.........[X]\n//Activating sound dampeners........[X]\n>>Boot successful.",
+      "msg": "You activate the exoskeleton.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.28………………………………[x]\n//Loading calibration profile…………………[x]\n//Activating atmospheric filtration…[X]\n//Activating liquid cooling………………………[x]\n//Activating sound dampeners……………………[x]\n>>Boot successful.",
       "target": "combat_exoskeleton_light_on",
       "active": true,
       "need_charges": 1,
