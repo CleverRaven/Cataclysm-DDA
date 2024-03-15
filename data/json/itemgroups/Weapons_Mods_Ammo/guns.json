@@ -905,7 +905,7 @@
     "items": [
       { "item": "mossberg_500", "prob": 33 },
       { "item": "remington_870", "prob": 35 },
-      { "item": "benelli_m2_tac", "variant": "mossberg_500_security", "prob": 17 },
+      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 17 },
       { "item": "remington_870_express", "prob": 18 },
       { "item": "remington_870", "variant": "browning_a5", "prob": 14 },
       { "item": "benelli_sa", "variant": "m2", "prob": 17 },
