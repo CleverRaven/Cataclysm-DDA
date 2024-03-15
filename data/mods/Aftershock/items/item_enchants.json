@@ -126,6 +126,15 @@
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 300 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 300 } ]
   },
   {
+    "id": "ench_exo_carry",
+    "type": "enchantment",
+    "name": { "str": "EXO Frame Carry" },
+    "description": "You are wearing equipment that gives 20kg carry weight.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ]
+  },
+  {
     "id": "ench_smart_gun",
     "name": { "str": "Smart Gun" },
     "description": "Your gun aims itself, reducing your dispersion by 90%.",
