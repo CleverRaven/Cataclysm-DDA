@@ -1588,6 +1588,12 @@
     "coverage": 90,
     "required_str": 12,
     "flags": [ "SEALED", "PLACE_ITEM", "ALARMED", "CONTAINER", "BLOCKSDOOR", "MINEABLE" ],
+    "examine_action": "locked_object",
+    "prying": {
+      "result": "f_vending_o",
+      "message": "You pop open the vending machine.",
+      "prying_data": { "difficulty": 6, "prying_level": 3, "noisy": true, "failure": "You pry, but can't pop open the vending machine." }
+    },
     "bash": {
       "str_min": 20,
       "str_max": 40,
