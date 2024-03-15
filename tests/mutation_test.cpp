@@ -658,25 +658,25 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
     dummy.set_mutation( trait_FELINE_EARS );
     dummy.set_mutation( trait_EAGLEEYED );
     dummy.set_mutation( trait_GOURMAND );
-	REQUIRE( dummy.get_instability_per_category( mutation_category_ALPHA ) == 8 );
-	REQUIRE( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 8 );
+    REQUIRE( dummy.get_instability_per_category( mutation_category_ALPHA ) == 8 );
+    REQUIRE( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 8 );
 
     int trogBads2 = 0;
-	int alphaBads2 = 0;
+    int alphaBads2 = 0;
 
     for( int i = 0; i < tries; i++ ) {
         if( dummy.roll_bad_mutation( mutation_category_ALPHA ) ) {
-			alphaBads2++;
-		}
+            alphaBads2++;
+        }
         if( dummy.roll_bad_mutation( mutation_category_TROGLOBITE ) ) {
-			trogBads2++;
-		}
+            trogBads2++;
+        }
     }
 
     WHEN( "The player has more mutation instability than before" ) {
         THEN( "They have a higher chance of getting bad mutations than before" ) {
-			CHECK( alphaBads2 > alphaBads );
-			CHECK( trogBads2 > trogBads );
+            CHECK( alphaBads2 > alphaBads );
+            CHECK( trogBads2 > trogBads );
         }
     }
     clear_avatar();
