@@ -7659,7 +7659,7 @@ std::string get_stat_name( character_stat Stat )
     return pgettext( "fake stat there's an error", "ERR" );
 }
 
-int Character::mutation_height( const trait_id &mut )
+int Character::mutation_height( const trait_id &mut ) const
 {
     const mutation_branch &mdata = mut.obj();
     int height_prereqs = 0;
