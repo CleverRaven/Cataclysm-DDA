@@ -174,6 +174,7 @@ bool Character::has_base_trait( const trait_id &b ) const
 int Character::get_instability_per_category( const mutation_category_id &categ ) const
 {
     int mut_count = 0;
+    bool robust = has_trait( trait_ROBUST );
     // for each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
         // only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait
@@ -191,7 +192,8 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
             const int height = mutation_height( mut );
 
             // thus add 1 point if it's in the tree we mutate into, otherwise add 2 points
-            if( in_categ ) {
+            // or if we have Robust Genetics, treat all mutations as in-tree
+            if( in_categ || robust ) {
                 mut_count += height * 1;
             } else {
                 mut_count += height * 2;
@@ -1027,15 +1029,10 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
 
 bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
 {
-    // if we have Robust Genetics, it reduces our instability by this much
-    int ROBUST_FACTOR = 5;
     // we will never have worse odds than this no matter our instability
     float MAX_BAD_CHANCE = 0.67;
     // or if we have Robust, cap it lower
-    bool robust = has_trait( trait_ROBUST );
-    if( robust ) {
-        MAX_BAD_CHANCE = 0.50;
-    }
+
     bool ret = false;
 
     // the following values are, respectively, the total number of nonbad traits in a category and
@@ -1047,9 +1044,6 @@ bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
         add_msg_debug( debugmode::DF_MUTATION, "No mutations yet, no bad mutations allowed" );
         return ret;
     } else {
-        if( robust ) {
-            insta_actual = std::max( 0, insta_actual - ROBUST_FACTOR );
-        }
         // when we have a total instability score equal to the number of nonbad mutations in the tree, our odds of good/bad are 50/50
         float chance = 0.5 * static_cast<float>( insta_actual ) / static_cast<float>( muts_max );
         chance = std::min( chance, MAX_BAD_CHANCE );
