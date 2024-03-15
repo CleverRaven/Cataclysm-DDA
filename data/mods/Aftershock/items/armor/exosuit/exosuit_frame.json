@@ -322,7 +322,11 @@
       "DEAF",
       "TARDIS"
     ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "relic_data": {
+      "passive_effects": [
+        { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
+      ]
+    },
     "use_action": [
       {
         "target": "modular_exosuit_on",
@@ -583,7 +587,7 @@
       "FLASH_PROTECTION",
       "TARDIS"
     ],
-    "weight_capacity_bonus": "20 kg",
+    "relic_data": { "passive_effects": [ { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 5 } ] } ] },
     "power_draw": "4075 mW",
     "revert_to": "modular_exosuit_light",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit_light" } ],
