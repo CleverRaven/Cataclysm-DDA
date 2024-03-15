@@ -7347,13 +7347,7 @@
     "starting_styles_choices_amount": 3,
     "proficiencies": [ "prof_unarmed_familiar" ],
     "items": {
-      "both": {
-        "entries": [
-          { "item": "gloves_fingerless" },
-          { "item": "b_shorts" },
-          { "item": "mouthpiece" }
-        ]
-      },
+      "both": { "entries": [ { "item": "gloves_fingerless" }, { "item": "b_shorts" }, { "item": "mouthpiece" } ] },
       "male": { "entries": [ { "item": "boxer_shorts" } ] },
       "female": { "entries": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] }
     },
