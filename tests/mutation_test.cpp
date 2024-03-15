@@ -46,7 +46,6 @@ static const trait_id trait_UGLY( "UGLY" );
 
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
-static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
 static const vitamin_id vitamin_mutagen_test_removal( "mutagen_test_removal" );
 
 static std::string get_mutations_as_string( const Character &you );
@@ -601,7 +600,6 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
     }
 
     WHEN( "they then mutate Very Strong, which requires Strong and also belongs to both trees" ) {
-        dummy.set_mutation( trait_STR_UP );
         dummy.set_mutation( trait_STR_UP_2 );
         THEN( "Both Alpha and Troglobite see their instability increase by 1 more (2 total)" ) {
             CHECK( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
@@ -610,7 +608,6 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
     }
 
     WHEN( "they then mutate Quick, which belongs to Troglobite but not Alpha" ) {
-        dummy.set_mutation( trait_STR_UP );
         dummy.set_mutation( trait_STR_UP_2 );
         dummy.set_mutation( trait_QUICK );
         THEN( "Alpha increases instability by 2 and Troglobite increases by 1" ) {
@@ -620,7 +617,6 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
     }
 
     WHEN( "The character has Quick as a starting trait instead of a mutation" ) {
-        dummy.set_mutation( trait_STR_UP );
         dummy.set_mutation( trait_STR_UP_2 );
         dummy.set_mutation( trait_QUICK );
         dummy.toggle_trait( trait_QUICK );
@@ -631,7 +627,6 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
     }
 
     WHEN( "The character mutates Near Sighted, which is a \"bad\" mutation" ) {
-        dummy.set_mutation( trait_STR_UP );
         dummy.set_mutation( trait_STR_UP_2 );
         dummy.set_mutation( trait_MYOPIC );
         THEN( "They do not gain instability since only 0+ point mutations increase that" ) {
@@ -644,7 +639,6 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
     int trogBads = 0;
     int alphaBads = 0;
 
-    dummy.set_mutation( trait_STR_UP );
     dummy.set_mutation( trait_STR_UP_2 );
     REQUIRE( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
     REQUIRE( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 2 );
