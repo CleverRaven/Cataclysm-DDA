@@ -117,7 +117,7 @@
         "max_item_volume": "1000 L",
         "max_item_length": "999 meter",
         "spoil_multiplier": 0.001,
-        "volume_multiplier": 0.40,
+        "volume_multiplier": 0.4,
         "rigid": false
       }
     ]
