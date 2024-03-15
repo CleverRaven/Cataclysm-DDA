@@ -81,13 +81,22 @@
     "description": "Assists with learning and study."
   },
   {
+    "id": "afs_ench_climate_control_warm",
+    "type": "enchantment",
+    "name": { "str": "Cold Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+  },
+  {
     "id": "afs_ench_climate_control_1",
     "type": "enchantment",
     "name": { "str": "Exosuit Climate Control" },
     "description": "Your active jumpsuit helps maintain your body temperature.",
     "has": "WORN",
     "condition": "ACTIVE",
-    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ], ]
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
   },
   {
     "id": "afs_ench_climate_control_2",
@@ -115,7 +124,7 @@
     "has": "WORN",
     "condition": { "u_is_wearing": "modular_exosuit_on" },
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 300 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 300 } ]
-  }
+  },
   {
     "id": "ench_smart_gun",
     "name": { "str": "Smart Gun" },
