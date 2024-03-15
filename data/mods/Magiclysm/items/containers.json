@@ -100,5 +100,31 @@
         "rigid": true
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fridge_holding_2",
+    "category": "container",
+    "name": { "str": "hypergravity preservation box", "str_pl": "hypergravity preservation boxes" },
+    "description": "A box that takes gravity magic as a tool of preservation as far as it can go.  It makes the box even heavier, and more capacious, but you can only store a single item inside in nigh-perfect stasis.",
+    "weight": "160 kg",
+    "symbol": "E",
+    "color": "light_red",
+    "volume": "500 L",
+    "price": "8000 USD",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "moves": 6000,
+        "max_contains_volume": "1000 L",
+        "max_contains_weight": "4850 kg",
+        "max_item_length": "999 meter",
+        "spoil_multiplier": 0.01,
+        "weight_multiplier": 5.0,
+        "rigid": true
+      }
+    ]
   }
 ]
