@@ -23,6 +23,7 @@ static const mutation_category_id mutation_category_HUMAN( "HUMAN" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
+static const mutation_category_id mutation_category_REMOVAL_TEST( "REMOVAL_TEST" );
 static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
@@ -30,6 +31,7 @@ static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_QUICK( "QUICK" );
+static const trait_id trait_SMELLY( "SMELLY" );
 static const trait_id trait_STR_UP( "STR_UP" );
 static const trait_id trait_STR_UP_2( "STR_UP_2" );
 static const trait_id trait_TEST_OVERMAP_SIGHT_5( "TEST_OVERMAP_SIGHT_5" );
