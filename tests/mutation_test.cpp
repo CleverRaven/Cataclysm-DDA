@@ -618,8 +618,8 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
 
     WHEN( "The character has Quick as a starting trait instead of a mutation" ) {
         dummy.set_mutation( trait_STR_UP_2 );
-        dummy.set_mutation( trait_QUICK );
         dummy.toggle_trait( trait_QUICK );
+        REQUIRE( dummy.has_trait( trait_QUICK ) );
         THEN( "Neither Alpha or Troglobite have their instability increased" ) {
             CHECK( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
             CHECK( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 2 );
