@@ -1057,6 +1057,7 @@ class Character : public Creature, public visitable
         * so each mutation we have that belongs to a different tree than the one we specified counts double.
         * example: you start with Trog and mutate Slimy and Night Vision. Within Trog you have 2 points.
         * you then go to mutate Rat. Rat has Night Vision but not Slimy, so you have 1+2=3 points.
+        * Having the Robust Genetics trait lets you "negate" this penalty, and makes all traits worth just 1 instability whether in/out of tree.
         */
         int get_instability_per_category( const mutation_category_id &categ ) const;
 
