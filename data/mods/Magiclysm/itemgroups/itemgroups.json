@@ -1537,7 +1537,7 @@
         { "group": "potions_common", "prob": 12 },
         { "group": "potions_uncommon", "prob": 6 },
         { "group": "potions_rare", "prob": 3 },
-        { "group": "potions_illegal", "prob": 1 }
+        { "group": "potions_illegal", "prob": 1 },
         { "item": "wrapped_corpse_holding_1", "prob": 2 , "count-min": 1, "count-max": 5},
       ]
     }
