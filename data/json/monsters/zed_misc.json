@@ -508,7 +508,7 @@
     "id": "mon_frog_husk",
     "type": "MONSTER",
     "name": { "str": "leaping husk" },
-    "description": "The dehydrated remains of a frog, like the unfortunate kind you might find trapped between a window and screen. This one is much larger than those and surely capable of doing you real harm. You see its dry skin crack and shed wisps of tainted dust as it moves.",
+    "description": "The dehydrated remains of a frog, like the unfortunate sort you might find trapped between a window and screen. This one is much larger than those and surely capable of doing you real harm. You see its dry skin crack and shed wisps of tainted dust as it moves.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "80 L",
     "weight": "100 kg",
@@ -529,7 +529,16 @@
         "move_cost": 0,
         "max_range": 6,
         "min_consider_range": 2,
-        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+        "condition": { "not": { "u_has_effect": "maimed_leg" } },
+        "self_effects": [ { "id": "fragile_frog", "duration": 1 } ]
+      },
+      {
+        "id": "dusty_frog_leap",
+		"type": "spell",
+        "spell_data": { "id": "dusty_frog_leap"},
+		"allow_no_target": true,
+		"condition": { "u_has_effect": "fragile_frog" },
+		"monster_message": "The %s crumbles!"
       },
       { "id": "scratch", "cooldown": 10 },
       { "id": "bite_grab", "cooldown": 10 },
@@ -538,8 +547,7 @@
     "death_function": { "effect": { "id": "death_smokeburst_tiny", "hit_self": true }, "message": "The %s crumbles!" },
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBTREEFROG_UPGRADE" },
     "extend": { "flags": [ "REVIVES_HEALTHY", "HARDTOSHOOT", "HIT_AND_RUN" ] },
-    "delete": { "flags": [ "RANGED_ATTACKER" ] },
-    "//": "add to treefrog upgrade group"
+    "delete": { "flags": [ "RANGED_ATTACKER" ] }
   },
   {
     "id": "mon_frog_mummy",
@@ -556,28 +564,36 @@
     "attack_cost": 75,
     "grab_strength": 25,
     "special_attacks": [
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
       {
         "type": "leap",
         "cooldown": 10,
         "move_cost": 0,
         "max_range": 4,
         "min_consider_range": 2,
-        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+        "condition": { "not": { "u_has_effect": "maimed_leg" } },
+        "self_effects": [ { "id": "fragile_frog", "duration": 1 } ]
       },
-      { "id": "grab_drag", "cooldown": 3 },
-      { "id": "drag_followup" }
+      {
+        "id": "fragile_frog_leap",
+		"type": "spell",
+        "spell_data": { "id": "fragile_frog_leap"},
+		"allow_no_target": true,
+		"condition": { "u_has_effect": "fragile_frog" },
+		"monster_message": "The %s crumbles!"
+      }
     ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s crumbles!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
     "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_med" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
-    "extend": { "flags": [ "REVIVES_HEALTHY" ] },
-    "//": "add to frog and toad upgrade groups (small chance)"
+    "extend": { "flags": [ "REVIVES_HEALTHY" ] }
   },
   {
     "id": "mon_frog_smoker_hulk",
     "type": "MONSTER",
     "name": { "str": "batrachian smoker" },
-    "description": "It's hard to see that this was once an amphibian from both its twisted form and the haze of smoke that constantly fumes off of it. Like the tiny husks of frogs you find in a drought, this one has dried, though unevenly. Rind through core it has warped and its whole dry body crinkles and folds as it moves.",
+    "description": "Even without the haze of smoke that constantly fumes off of it, it would be difficult to tell what this once was.  The massive thing seems to have dried out and shriveled up, though unevenly.  Rind through core it has warped.  Its whole dry body crinkles and folds as it moves.",
     "copy-from": "mon_proxy_frog_zombie",
     "volume": "200 L",
     "weight": "180 kg",
@@ -589,22 +605,30 @@
     "armor": { "bash": 4, "cut": 2, "bullet": 1, "electric": 2 },
     "emit_fields": [ { "emit_id": "emit_smoke_stream", "delay": "1 s" } ],
     "special_attacks": [
+      { "id": "grab_drag", "cooldown": 3 },
+      { "id": "drag_followup" },
       {
         "type": "leap",
         "cooldown": 10,
         "move_cost": 0,
         "max_range": 4,
         "min_consider_range": 2,
-        "condition": { "not": { "u_has_effect": "maimed_leg" } }
+        "condition": { "not": { "u_has_effect": "maimed_leg" } },
+        "self_effects": [ { "id": "fragile_frog", "duration": 1 } ]
       },
-      { "id": "grab_drag", "cooldown": 3 },
-      { "id": "drag_followup" }
+      {
+        "id": "fragile_frog_leap",
+		"type": "spell",
+        "spell_data": { "id": "fragile_frog_leap"},
+		"allow_no_target": true,
+		"condition": { "u_has_effect": "fragile_frog" },
+		"monster_message": "The %s crumbles!"
+      }
     ],
-    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true }, "message": "The %s crumbles!" },
+    "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
     "upgrades": { "half_life": 30, "into": "mon_meat_cocoon_large" },
     "delete": { "flags": [ "RANGED_ATTACKER" ] },
-    "extend": { "flags": [ "REVIVES_HEALTHY" ] },
-    "//": "add to frog and toad upgrade groups (small chance)"
+    "extend": { "flags": [ "REVIVES_HEALTHY" ] }
   },
   {
     "id": "mon_zombie_biter",
