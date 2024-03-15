@@ -665,7 +665,8 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 prototype mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Several buckles and straps allow it to be adjusted to fit you comfortably.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ],
+    "proportional": { "weight": 0.66 }
   },
   {
     "//": "Tier 2 mantle",
@@ -719,7 +720,8 @@
     "copy-from": "robofac_skirt",
     "name": "Hub 01 prototype skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It features a simple integrated belt to let it fit any waist size.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ],
+    "proportional": { "weight": 0.66 }
   },
   {
     "//": "Tier 2 skirt",
@@ -773,7 +775,8 @@
     "copy-from": "robofac_vambraces",
     "name": { "str": "pair of Hub 01 prototype vambraces", "str_pl": "pairs of Hub 01 prototype vambraces" },
     "description": "3D printed arm guards, made of large and flexible polymer sheets wrapped around the forearm.  The end of each sheet features a clip and drawstring, to fit the armor to any size.  Despite the rough finish, it fits securely, and feels quite comfortable.",
-    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ],
+    "proportional": { "weight": 0.66 }
   },
   {
     "//": "Tier 2 vambraces",
@@ -827,7 +830,8 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 prototype greaves", "str_pl": "pairs of Hub 01 prototype greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Two straps on each plate can be tightened or loosened to fit different leg sizes.  Despite the rough finish, it doesn't impede your movement, and fits comfortably against your body.",
-    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ],
+    "proportional": { "weight": 0.66 }
   },
   {
     "//": "Tier 2 greaves",
@@ -881,7 +885,8 @@
     "copy-from": "robofac_helmet",
     "name": "Hub 01 prototype helmet",
     "description": "3D printed armor for the head, made of thick polymer plates woven with metallic fibers.  Despite its rough finish, it's clear that a lot of thought has gone into the ergonomics and weight.  Designed to clip to some kind of attachment point, its interior reads \"ATTACH TO MODULAR HEADGEAR\".",
-    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ]
+    "material": [ { "type": "plastic", "portion": 5 }, { "type": "aluminum", "portion": 2 } ],
+    "proportional": { "weight": 0.66 }
   },
   {
     "//": "Tier 2 helmet",
