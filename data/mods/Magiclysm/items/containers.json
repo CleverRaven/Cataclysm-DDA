@@ -78,6 +78,30 @@
   },
   {
     "type": "GENERIC",
+    "copy-from": "condom",
+    "id": "corpse_holding_1",
+    "category": "container",
+    "name": { "str": "corpse wrapper" },
+    "description": "'Lucky Joe's Gentle Repose' single-use corpse wrappers. For when you want your body to be at its freshest! 24 hour guarantee!",
+    "weight": "5 g",
+    "price": "400 USD",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 4000,
+        "holster": true,
+        "max_contains_volume": "1000 L",
+        "max_contains_weight": "4000 kg",
+        "max_item_volume": "1000 L",
+        "max_item_length": "999 meter",
+        "spoil_multiplier": 0.001,
+        "volume_multiplier": 0.40,
+        "rigid": false
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
     "id": "fridge_holding_1",
     "category": "container",
     "name": { "str": "supergravity preservation box", "str_pl": "supergravity preservation boxes" },
