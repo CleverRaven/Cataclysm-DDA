@@ -1261,7 +1261,7 @@
       {
         "distribution": [
           { "item": "golemcore", "prob": 20 },
-          { "item": "wrapped_corpse_holding_1", "prob": 2 , "count-min": 1, "count-max": 5},
+          { "item": "wrapped_corpse_holding_1", "prob": 2, "count-min": 1, "count-max": 5 },
           { "item": "animist_doll_skeleton", "prob": 10 },
           { "item": "animist_doll_zombie", "prob": 20 },
           { "item": "animist_doll_decayed_pouncer", "prob": 3 }
