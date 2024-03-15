@@ -76,7 +76,30 @@
       }
     ]
   },
-  {
+    {
+  "id": "wrapped_corpse_holding_1",
+  "type": "TOOL",
+  "name": {
+    "str": "wrapped corpse wrapper"
+  },
+  "description": "'Lucky Joe's Gentle Repose' single-use corpse wrappers. For when you want your body to be at its freshest! 24 hour guarantee!",
+  "weight": "25 g",
+  "volume": "25 ml",
+  "price_postapoc": "400 USD",
+  "material": [
+    "plastic"
+  ],
+  "symbol": ",",
+  "color": "pink",
+  "use_action": {
+    "target": "corpse_holding_1",
+    "target_timer": "86400 seconds",
+    "msg": "Upon opening the packet, the wrapper immediately starts to degrade. It should preserve a corpse for 24 hours, no more.",
+    "menu_text": "Unwrap wrapper",
+    "type": "transform"
+  }
+},
+    {
     "type": "GENERIC",
     "copy-from": "condom",
     "id": "corpse_holding_1",
@@ -84,14 +107,17 @@
     "name": { "str": "corpse wrapper" },
     "description": "'Lucky Joe's Gentle Repose' single-use corpse wrappers. For when you want your body to be at its freshest! 24 hour guarantee!",
     "weight": "5 g",
-    "price": "400 USD",
+    "countdown_action": {
+    "type": "explosion",
+    "explosion": { "power": 0 }
+},
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "moves": 4000,
         "holster": true,
         "max_contains_volume": "1000 L",
-        "max_contains_weight": "4000 kg",
+        "max_contains_weight": "4850 kg",
         "max_item_volume": "1000 L",
         "max_item_length": "999 meter",
         "spoil_multiplier": 0.001,
