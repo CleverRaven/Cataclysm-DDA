@@ -258,5 +258,27 @@
     "field_id": "fd_clairvoyant",
     "min_field_intensity": 1,
     "max_field_intensity": 1
+  },
+  {
+    "id": "hedge_increase_healing_rate",
+    "type": "SPELL",
+    "name": "To Sooth the Pains and Injuries of the Flesh",
+    "description": "Mix a paste of herbs, water, and willow bark and rub it on the target's wounds.  The charm increases the speed at which wounds heal, as long as the target does not engage in any strenuous activity.",
+    "message": "You grind the herbs and willowbark together with the water, making a thick, woody-smelling paste, and rub it on the target.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "attack",
+    "effect_str": "effect_hedge_increase_healing_rate",
+    "shape": "blast",
+    "components": "spell_components_hedge_increase_healing_rate",
+    "max_level": 1,
+    "min_range": 1,
+    "max_range": 1,
+    "base_casting_time": 540000,
+    "min_duration": 8640000,
+    "max_duration": 8640000
   }
 ]

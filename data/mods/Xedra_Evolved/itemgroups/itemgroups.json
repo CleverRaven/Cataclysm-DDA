@@ -388,7 +388,7 @@
       "entries": [
         { "item": "firmament_driver_book", "prob": 1 },
         { "item": "eater_book_artifact", "prob": 1 },
-        { "item": "hedge_magic_books", "prob": 1 }
+        { "group": "hedge_magic_books", "prob": 1 }
       ]
     }
   },
