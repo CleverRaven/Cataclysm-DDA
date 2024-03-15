@@ -7,7 +7,7 @@
   {
     "id": "depowered_helmet",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_armor_military"
+    "replace": "combat_exoskeleton_armor_head_light"
   },
   {
     "id": "power_armor_frame",
@@ -22,32 +22,32 @@
   {
     "id": "power_armor_helmet_basic",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_armor_military"
+    "replace": "combat_exoskeleton_armor_head_medium"
   },
   {
     "id": "power_armor_helmet_basic_on",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_armor_military"
+    "replace": "combat_exoskeleton_armor_head_medium"
   },
   {
     "id": "power_armor_helmet_light",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_armor_military"
+    "replace": "combat_exoskeleton_armor_head_light"
   },
   {
     "id": "power_armor_helmet_light_on",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_armor_military"
+    "replace": "combat_exoskeleton_armor_head_light"
   },
   {
     "id": "power_armor_helmet_heavy",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_armor_military"
+    "replace": "combat_exoskeleton_armor_head_heavy"
   },
   {
     "id": "power_armor_helmet_heavy_on",
     "type": "MIGRATION",
-    "replace": "combat_exoskeleton_armor_military"
+    "replace": "combat_exoskeleton_armor_head_heavy"
   },
   {
     "id": "power_armor_basic",
