@@ -207,7 +207,7 @@
     "description": "With some string and the words of the charm, lock a door firmly, even one that doesn't have a locking mechanism.",
     "message": "You wind the cord several times around your fingers, muttering the words of the charm, and as the pattern ends you hear a soft thud.",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "ground" ],
     "difficulty": 1,
     "spell_class": "HEDGE_MAGIC",
     "skill": "survival",
