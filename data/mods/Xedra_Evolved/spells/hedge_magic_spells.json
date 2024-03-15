@@ -223,7 +223,7 @@
   {
     "id": "hedge_clairvoyance_cone",
     "type": "SPELL",
-    "name": "Too See Beyond the Barriers",
+    "name": "To See Beyond the Barriers",
     "description": "Gain a brief vision of what lies beyond a wall or a doorway.",
     "message": "You close your eyes and place the shards of glass over them and press, just slightly.  As the pain blooms and the blood trickles, you see beyond.",
     "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
@@ -241,8 +241,8 @@
   {
     "id": "hedge_clairvoyance_cone_real",
     "type": "SPELL",
-    "name": "Too See Beyond the Barriers",
-    "description": "Gain a brief vision of what lies beyond a wall or a doorway.",
+    "name": "To See Beyond the Barriers Real",
+    "description": "The actual spell that causes the effec for To See Beyond the Barriers.  It's a bug if you have it.",
     "message": "",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "IGNORE_WALLS" ],
