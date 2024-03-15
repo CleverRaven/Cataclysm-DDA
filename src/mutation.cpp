@@ -174,23 +174,23 @@ bool Character::has_base_trait( const trait_id &b ) const
 int Character::get_instability_per_category( const mutation_category_id &categ ) const
 {
     int mut_count = 0;
-	// for each and every trait we have...
+    // for each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
-		// only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait
+        // only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait
         if( mut.obj().points > -1 && !mut.obj().threshold && mut.obj().valid && !has_base_trait( mut ) ) {
             bool in_categ = false;
-			// if among all allowed categories the mutation has, the input category is one of them
-			int cats = 0;
+            // if among all allowed categories the mutation has, the input category is one of them
+            int cats = 0;
             for( const mutation_category_id &Ch_cat : mut.obj().category ) {
                 if( Ch_cat == categ ) {
                     in_categ = true;
                 }
-				cats++;
+                cats++;
             }
 
-			const int height = mutation_height( mut );
+            const int height = mutation_height( mut );
 
-			// thus add 1 point if it's in the tree we mutate into, otherwise add 2 points
+            // thus add 1 point if it's in the tree we mutate into, otherwise add 2 points
             if( in_categ ) {
                 mut_count += height * 1;
             } else {
@@ -1027,34 +1027,36 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
 
 bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
 {
-	// if we have Robust Genetics, it reduces our instability by this much
+    // if we have Robust Genetics, it reduces our instability by this much
     int ROBUST_FACTOR = 5;
-	// we will never have worse odds than this no matter our instability
+    // we will never have worse odds than this no matter our instability
     float MAX_BAD_CHANCE = 0.67;
-	// or if we have Robust, cap it lower
-	bool robust = has_trait( trait_ROBUST );
-	if( robust ) {
+    // or if we have Robust, cap it lower
+    bool robust = has_trait( trait_ROBUST );
+    if( robust ) {
         MAX_BAD_CHANCE = 0.50;
-	}
+    }
     bool ret = false;
 
     // the following values are, respectively, the total number of nonbad traits in a category and
-	int muts_max = get_total_nonbad_in_category( categ );
-	// how many good mutations we have in total. mutations which don't belong to the tree we're mutating towards, count double for this value. Starting traits don't count at all.
+    int muts_max = get_total_nonbad_in_category( categ );
+    // how many good mutations we have in total. mutations which don't belong to the tree we're mutating towards, count double for this value. Starting traits don't count at all.
     int insta_actual = get_instability_per_category( categ );
 
     if( insta_actual == 0 ) {
         add_msg_debug( debugmode::DF_MUTATION, "No mutations yet, no bad mutations allowed" );
         return ret;
     } else {
-		if( robust ) {
-		    insta_actual = std::max( 0, insta_actual - ROBUST_FACTOR );	
-		}
-		// when we have a total instability score equal to the number of nonbad mutations in the tree, our odds of good/bad are 50/50
+        if( robust ) {
+            insta_actual = std::max( 0, insta_actual - ROBUST_FACTOR );
+        }
+        // when we have a total instability score equal to the number of nonbad mutations in the tree, our odds of good/bad are 50/50
         float chance = 0.5 * static_cast<float>( insta_actual ) / static_cast<float>( muts_max );
-		chance = std::min( chance, MAX_BAD_CHANCE );
+        chance = std::min( chance, MAX_BAD_CHANCE );
         ret = rng_float( 0, 1 ) < chance;
-        add_msg_debug( debugmode::DF_MUTATION, "%s is the instability category chosen, which has %d total good traits. Adjusted instability score for the category is %d, giving a chance of bad mut of %.3f.", categ.c_str(), muts_max, insta_actual, chance );
+        add_msg_debug( debugmode::DF_MUTATION,
+                       "%s is the instability category chosen, which has %d total good traits. Adjusted instability score for the category is %d, giving a chance of bad mut of %.3f.",
+                       categ.c_str(), muts_max, insta_actual, chance );
         return ret;
     }
 }
@@ -1094,7 +1096,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
-		// only decide if it's good or bad after we pick the category
+        // only decide if it's good or bad after we pick the category
         if( roll_bad_mutation( cat ) ) {
             // If we picked bad, mutation can be bad or neutral
             allow_bad = true;
