@@ -8796,30 +8796,27 @@ std::optional<int> iuse::change_outfit( Character *p, item *it, const tripoint &
     map &here = get_map();
 
     // First, make a new outfit and shove all our existing clothes into it.
-    item new_outfit( "outfit_storage" );
+    item new_outfit( it->typeId() );
     item_location ground = here.add_item_ret_loc( there, new_outfit );
     // Taken-off items are put in this temporary list, then naturally deleted from the world when the function returns.
     std::list<item> it_list;
     for( item_location &worn_item : p->get_visible_worn_items() ) {
         item outfit_component( *worn_item );
         if( p->takeoff( worn_item, &it_list ) ) {
-            // Exact copies of our removed clothes are safely stored in the components.
-            ground->components.add( outfit_component );
+            ground->force_insert_item( outfit_component, pocket_type::CONTAINER );
         }
     }
 
-    // Now we have to take components out of the one we activated
-    for( auto &component_list : it->components ) {
-        for( item component : component_list.second ) {
-            auto ret = p->can_wear( component );
-            if( ret.success() ) {
-                item_location new_clothes( *p, &component );
-                p->wear( new_clothes, true, true );
-            } else {
-                // For some reason we couldn't wear this item. Maybe the player mutated in the meanwhile, but
-                // drop the item instead of deleting it.
-                here.add_item( there, component );
-            }
+    // Now we have to take clothes out of the one we activated
+    for( item *component : it->all_items_top() ) {
+        auto ret = p->can_wear( *component );
+        if( ret.success() ) {
+            item_location new_clothes( *p, component );
+            p->wear( new_clothes );
+        } else {
+            // For some reason we couldn't wear this item. Maybe the player mutated in the meanwhile, but
+            // drop the item instead of deleting it.
+            here.add_item( there, *component );
         }
     }
 
