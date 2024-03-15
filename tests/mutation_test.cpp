@@ -30,6 +30,8 @@ static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_QUICK( "QUICK" );
+static const trait_id trait_STR_UP( "STR_UP" );
+static const trait_id trait_STR_UP_2( "STR_UP_2" );
 static const trait_id trait_TEST_OVERMAP_SIGHT_5( "TEST_OVERMAP_SIGHT_5" );
 static const trait_id trait_TEST_OVERMAP_SIGHT_MINUS_10( "TEST_OVERMAP_SIGHT_MINUS_10" );
 static const trait_id trait_TEST_REMOVAL_0( "TEST_REMOVAL_0" );
