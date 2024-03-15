@@ -642,6 +642,7 @@
       { "item": "mspider_box", "prob": 100, "charges-min": 3, "charges-max": 24 },
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
+      { "item": "fridge_holding_2", "prob": 2 },
       { "item": "bag_holding_1", "prob": 8 },
       { "item": "bag_holding_2", "prob": 1 },
       { "item": "cauldron_orichalcum", "prob": 100 },
