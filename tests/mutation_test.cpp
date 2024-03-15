@@ -639,6 +639,7 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
     int trogBads = 0;
     int alphaBads = 0;
 
+    clear_avatar();
     dummy.set_mutation( trait_STR_UP_2 );
     REQUIRE( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
     REQUIRE( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 2 );
