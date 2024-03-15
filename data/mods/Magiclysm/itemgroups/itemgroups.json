@@ -465,7 +465,8 @@
       },
       { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
       { "item": "denarius", "prob": 40, "count-min": 2, "count-max": 5 },
-      [ "cauldron_orichalcum", 10 ],
+      { "item": "cauldron_orichalcum", "prob": 10 },
+      { "item": "wrapped_corpse_holding_1", "prob": 2, "count-min": 1, "count-max": 2},
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "magic_plants_common", "prob": 40, "count-min": 1, "count-max": 14 },
       { "group": "magic_plants_uncommon", "prob": 20, "count-min": 1, "count-max": 8 },
@@ -642,6 +643,7 @@
       { "item": "mspider_box", "prob": 100, "charges-min": 3, "charges-max": 24 },
       { "item": "cauldron_demon_chitin", "prob": 20 },
       { "item": "fridge_holding_1", "prob": 12 },
+      { "item": "wrapped_corpse_holding_1", "prob": 50 , "count-min": 1, "count-max": 2},
       { "item": "bag_holding_1", "prob": 8 },
       { "item": "bag_holding_2", "prob": 1 },
       { "item": "cauldron_orichalcum", "prob": 100 },
@@ -1259,6 +1261,7 @@
       {
         "distribution": [
           { "item": "golemcore", "prob": 20 },
+          { "item": "wrapped_corpse_holding_1", "prob": 2 , "count-min": 1, "count-max": 5},
           { "item": "animist_doll_skeleton", "prob": 10 },
           { "item": "animist_doll_zombie", "prob": 20 },
           { "item": "animist_doll_decayed_pouncer", "prob": 3 }
@@ -1535,6 +1538,7 @@
         { "group": "potions_uncommon", "prob": 6 },
         { "group": "potions_rare", "prob": 3 },
         { "group": "potions_illegal", "prob": 1 }
+        { "item": "wrapped_corpse_holding_1", "prob": 2 , "count-min": 1, "count-max": 5},
       ]
     }
   },
