@@ -176,8 +176,8 @@
           "has": "WORN",
           "condition": "ACTIVE",
           "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.8 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
-          "name": { "str": "Exoskeletal assistance" },
-          "description": "The exoskeleton is less encumbering and increases your carry capacity."
+          "name": { "str": "Active exoskeleton" },
+          "description": "The exoskeleton protects you against harmful gas, cools you down, and has reduced encumbrance."
         }
       ]
     }
@@ -270,12 +270,16 @@
     }
   },
   {
-    "copy-from": "combat_exoskeleton_heavy",
+    "copy-from": "combat_exoskeleton_salvaged",
     "id": "combat_exoskeleton_medium",
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk2" },
     "description": "These were the second wave of military combat exoskeleton, and got a lot of media attention, with popular Navy commercials featuring them heavily.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_basic",
+    "price": 50000000,
+    "price_postapoc": 100000,
+    "extend": { "flags": [ "COMBAT_TOGGLEABLE", "USE_UPS" ] },
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate the exoskeleton.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.11…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
@@ -289,9 +293,9 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.8 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
-          "name": { "str": "Exoskeletal assistance" },
-          "description": "The exoskeleton is less encumbering and increases your carry capacity."
+          "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.6 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
+          "name": { "str": "Active exoskeleton" },
+          "description": "The exoskeleton protects you against harmful gas, cools you down, and has reduced encumbrance."
         }
       ]
     }
@@ -384,12 +388,16 @@
     }
   },
   {
-    "copy-from": "combat_exoskeleton_heavy",
     "id": "combat_exoskeleton_light",
+    "copy-from": "combat_exoskeleton_salvaged",
     "type": "TOOL_ARMOR",
     "name": { "str": "combat exoskeleton mk3" },
     "description": "The final iteration of military power armor before the fall of civilization, this type was designed for actual widespread combat use and was seen on the front lines during the last days of the Cataclysm, unfortunately, the world ended before it could roll out in significant numbers.  The exoskeleton itself is strapped on an environmental suit with an integrated life-support system.  A variety of of webbing, magnets, and clips allows the attachment of special armor plating onto the frame.",
     "looks_like": "power_armor_light",
+    "price": 50000000,
+    "price_postapoc": 100000,
+    "extend": { "flags": [ "COMBAT_TOGGLEABLE", "USE_UPS" ] },
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You activate the exoskeleton.\n>>Initiating boot sequence…\n//Loading DoubleOS v3.28…\n//Loading calibration profile…\n//Activating atmospheric filtration…\n//Activating liquid cooling…\n//Activating sound dampeners…\n>>Boot successful.",
@@ -403,9 +411,9 @@
         {
           "has": "WORN",
           "condition": "ACTIVE",
-          "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.8 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
-          "name": { "str": "Exoskeletal assistance" },
-          "description": "The exoskeleton is less encumbering and increases your carry capacity."
+          "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.4 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
+          "name": { "str": "Active exoskeleton" },
+          "description": "The exoskeleton protects you against harmful gas, cools you down, and has reduced encumbrance."
         }
       ]
     }
