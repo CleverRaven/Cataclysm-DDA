@@ -388,33 +388,6 @@
     "flags": [ "PUMP_RAIL_COMPATIBLE", "LASER_SIGHT" ]
   },
   {
-    "id": "lemat_revolver_shotgun",
-    "copy-from": "underbarrel_base",
-    "type": "GUNMOD",
-    "name": { "str": "LeMat revolver shotgun" },
-    "description": "The LeMat revolver is unique in that its cylinder axis pin is also a fully functional 20 gauge percussion-primed smoothbore barrel.  It's irremovable.",
-    "volume": "250 ml",
-    "integral_volume": "0 ml",
-    "install_time": "0 s",
-    "material": [ "steel" ],
-    "symbol": ":",
-    "color": "light_red",
-    "location": "underbarrel",
-    "mod_targets": [ "pistol" ],
-    "gun_data": {
-      "ammo": "shotpaper",
-      "skill": "shotgun",
-      "range": -2,
-      "ranged_damage": { "damage_type": "bullet", "amount": -6 },
-      "dispersion": 600,
-      "durability": 10,
-      "reload": 150,
-      "clip_size": 1
-    },
-    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shotpaper": 1 } } ]
-  },
-  {
     "id": "m203",
     "copy-from": "underbarrel_base",
     "type": "GUNMOD",

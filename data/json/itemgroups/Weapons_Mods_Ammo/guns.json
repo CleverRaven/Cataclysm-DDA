@@ -643,7 +643,6 @@
     "items": [
       { "item": "colt_lightning", "prob": 10 },
       { "item": "henry_big_boy", "prob": 10 },
-      { "item": "bh_m89", "prob": 15 },
       { "item": "m1903", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "smle_mk3", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "number4_mki", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -769,7 +768,6 @@
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "nested_ak47", "prob": 100 },
-      { "group": "nested_bh_m89", "prob": 20 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
       { "group": "nested_famas", "prob": 1 },

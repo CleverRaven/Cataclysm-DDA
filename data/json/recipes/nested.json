@@ -40,7 +40,7 @@
     "name": "pipe rifles",
     "description": "Recipes related to constructing pistol-caliber rifles using pipes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_40", "rifle_45", "rifle_9mm", "rifle_44", "rifle_32", "rifle_9x18", "rifle_380" ],
+    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_44" ],
     "difficulty": 3
   },
   {
