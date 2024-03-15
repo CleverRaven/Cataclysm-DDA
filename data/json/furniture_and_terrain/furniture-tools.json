@@ -1640,6 +1640,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_vending_working_c",
+    "name": "vending machine",
+    "looks_like": "f_vending_c",
+    "copy-from": "f_vending_c",
+    "symbol": "{",
+    "color": "light_cyan",
+    "description": "An upright metal cabinet with a see-through door.  The goods inside can be yours if you have money on a cash card.",
+    "examine_action": "vending"
+  },
+  {
+    "type": "furniture",
+    "id": "f_vending_reinforced_working",
+    "name": "reinforced vending machine",
+    "looks_like": "f_vending_reinforced",
+    "copy-from": "f_vending_reinforced",
+    "symbol": "{",
+    "color": "light_red",
+    "description": "A bit tougher to crack open than a regular vending machine.  That just makes it all the sweeter of a target, doesn't it?",
+    "examine_action": "vending"
+  },
+  {
+    "type": "furniture",
     "id": "f_rope_up",
     "name": "grappling hook",
     "looks_like": "t_rope_up",
