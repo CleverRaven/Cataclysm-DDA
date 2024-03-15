@@ -1,0 +1,173 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "undine_warp_pool_surface" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "       ??????????       ",
+        "    ????????????????    ",
+        "   ?????]]]]]]]]?????   ",
+        "   ???]]]]]]]]]]]]???   ",
+        "   ??]]]]******]]]]??   ",
+        "  ???]]**********]]???  ",
+        "  ??]]]**[[[[[[**]]]??  ",
+        "  ??]]**[[[[[[[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[~~~~[[**]]??  ",
+        "  ??]]**[[[[[[[[**]]??  ",
+        "  ??]]]**[[[[[[**]]]??  ",
+        "  ???]]**********]]???  ",
+        "   ??]]]]******]]]]??   ",
+        "   ???]]]]]]]]]]]]???   ",
+        "   ?????]]]]]]]]?????   ",
+        "    ????????????????    ",
+        "       ??????????       ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "?": [ [ "t_water_sh", 2 ], [ "t_region_groundcover", 20 ] ],
+        "]": [ [ "t_water_sh", 6 ], "t_region_soil", "t_region_groundcover" ],
+        "*": "t_water_sh",
+        "[": [ [ "t_water_dp", 2 ], [ "t_water_sh", 3 ] ],
+        "~": "t_water_dp"
+      },
+      "nested": {
+        "]": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "*": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "[": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] },
+        "~": { "chunks": [ [ "pond_water_furniture", 8 ], [ "null", 92 ] ] }
+      },
+      "place_monster": [
+        { "group": "GROUP_GENIUS_UNDINE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 10, 20 ] },
+        { "group": "GROUP_FISH", "x": [ 6, 18 ], "y": [ 6, 17 ], "chance": 15, "repeat": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "undine_warp_pool_zneg_dirt" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_soil",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        [[[[[[[[        ",
+        "        [[[[[[[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[[[[[[[        ",
+        "        [[[[[[[[        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "[": [ [ "t_water_cube", 2 ], [ "t_soil", 3 ] ], "~": "t_water_cube" },
+      "place_monster": [ { "group": "GROUP_GENIUS_UNDINE", "x": [ 10, 13 ], "y": [ 10, 13 ], "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "undine_warp_pool_zneg" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        [[[[[[[[        ",
+        "        [[[[[[[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[[[[[[[        ",
+        "        [[[[[[[[        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "[": [ [ "t_water_cube", 2 ], [ "t_soil", 3 ] ], "~": "t_water_cube" },
+      "place_monster": [ { "group": "GROUP_GENIUS_UNDINE", "x": [ 10, 13 ], "y": [ 10, 13 ], "chance": 50 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "undine_warp_pool_warper" ],
+    "weight": 100,
+    "object": {
+      "rotation": [ 0, 3 ],
+      "fill_ter": "t_rock",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        [[[[[[[[        ",
+        "        [[[[[[[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[~~~~[[        ",
+        "        [[[[[[[[        ",
+        "        [[[[[[[[        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "[": [ [ "t_water_cube", 2 ], [ "t_soil", 3 ] ], "~": "t_water_cube" },
+      "place_monster": [ { "group": "GROUP_GENIUS_UNDINE", "x": [ 10, 13 ], "y": [ 10, 13 ], "chance": 50 } ]
+    }
+  }
+]
