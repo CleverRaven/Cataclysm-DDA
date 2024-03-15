@@ -2028,7 +2028,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
                          selected_comp.count );
 
-    // First try to get everything from the map, than (remaining amount) from player it two passes, first using preferred items and then remainder ones.
+    // First try to get everything from the map, then (remaining amount) from player in two passes, first using preferred items and then remainder ones.
     if( is.use_from & usage_from::map ) {
         if( by_charges ) {
             std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count,
