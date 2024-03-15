@@ -7334,8 +7334,17 @@
     "points": 5,
     "flags": [ "NO_BONUS_ITEMS" ],
     "skills": [ { "level": 3, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
-    "starting_styles_choices": [ "style_boxing", "style_judo", "style_karate", "style_kickboxing", "style_muay_thai", "style_pankration", "style_taekwondo", "style_wingchun" ],
-	"starting_styles_choices_amount": 3,
+    "starting_styles_choices": [
+      "style_boxing",
+      "style_judo",
+      "style_karate",
+      "style_kickboxing",
+      "style_muay_thai",
+      "style_pankration",
+      "style_taekwondo",
+      "style_wingchun"
+    ],
+    "starting_styles_choices_amount": 3,
     "proficiencies": [ "prof_unarmed_familiar" ],
     "items": {
       "both": {
