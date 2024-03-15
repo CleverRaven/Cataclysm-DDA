@@ -1333,7 +1333,8 @@
       { "u_remove_item_with": "armor_spirit" },
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
-      { "u_remove_item_with": "technomancer_welder" }
+      { "u_remove_item_with": "technomancer_welder" },
+      { "u_remove_item_with": "technomancer_far_sight_lens" }
     ]
   },
   {
@@ -1475,6 +1476,7 @@
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
       { "u_remove_item_with": "technomancer_welder" },
+      { "u_remove_item_with": "technomancer_far_sight_lens" },
       { "u_remove_item_with": "druid_thorn_skin_item" },
       { "u_remove_item_with": "bonespear" },
       { "u_remove_item_with": "longsword_holy" },

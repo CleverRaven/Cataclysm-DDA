@@ -2559,10 +2559,12 @@ std::optional<int> holster_actor::use( Character *you, item &it, const tripoint 
     if( pos >= 0 ) {
         item_location weapon =  you->get_wielded_item();
         if( weapon && weapon.get_item()->has_flag( flag_NO_UNWIELD ) ) {
-            you->add_msg_if_player( m_bad, _( "You can't unwield your %s." ), weapon.get_item()->tname() );
-            return std::nullopt;
+            std::optional<bionic *> bio_opt = you->find_bionic_by_uid( you->get_weapon_bionic_uid() );
+            if( !bio_opt || !you->deactivate_bionic( **bio_opt ) ) {
+                you->add_msg_if_player( m_bad, _( "You can't unwield your %s." ), weapon.get_item()->tname() );
+                return std::nullopt;
+            }
         }
-
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
         if( you->is_worn( it ) ) {
             you->wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );

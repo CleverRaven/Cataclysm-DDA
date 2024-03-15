@@ -4947,7 +4947,7 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
     if( obj.has_array( "components" ) ) {
         JsonArray ja = obj.get_array( "components" );
         std::vector<itype_id> made_of;
-        for( auto sub : ja ) {
+        for( JsonValue sub : ja ) {
             itype_id component = itype_id( sub );
             made_of.emplace_back( component );
         }
