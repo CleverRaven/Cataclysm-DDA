@@ -396,7 +396,11 @@
     "id": "hedge_magic_books",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "spellbook_hedge_farm", "prob": 1 }, { "item": "spellbook_hedge_ward_demons", "prob": 1 } ]
+    "entries": [
+      { "item": "spellbook_hedge_farm", "prob": 1 },
+      { "item": "spellbook_hedge_ward_demons", "prob": 1 },
+      { "item": "spellbook_hedge_doctor_book", "prob": 1 }
+    ]
   },
   {
     "id": "renfield_glock_mags",

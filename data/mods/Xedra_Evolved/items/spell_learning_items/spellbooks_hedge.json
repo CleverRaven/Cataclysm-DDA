@@ -28,5 +28,20 @@
     "symbol": "?",
     "color": "brown",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_evil_eye_ward", "hedge_see_nether_eye_paste" ] }
+  },
+  {
+    "id": "spellbook_hedge_doctor_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "The Cunning Book of Home and Hearth", "str_pl": "copies of The Cunning Book of Home and Hearth" },
+    "description": "This mass-market paperback purports to pass down the ancient traditional secrets of English cunning folk, though if that were true, they probably could have gotten more than $12.95 for it.  There are a lot of descriptions of rituals and procedures in here, though--maybe some of them deserve further investigation.",
+    "weight": "537 g",
+    "volume": "930 ml",
+    "price": 1295,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_green",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] }
   }
 ]
