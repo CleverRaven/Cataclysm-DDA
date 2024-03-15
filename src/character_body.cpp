@@ -135,11 +135,10 @@ void Character::update_body_wetness( const w_point &weather )
 
             // Make clothing slow down drying
             const float clothing_mult = worn.clothing_wetness_mult( bp );
-
-            const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
+            const float drying_rate = bp->drying_rate;
+            const time_duration drying = average_drying * trait_mult * weather_mult *
                                          temp_mult / clothing_mult;
-            const float turns_to_dry = to_turns<float>( drying );
-
+            const float turns_to_dry = to_turns<float>( drying ) / drying_rate;
             const int drench_cap = get_part_drench_capacity( bp );
             const float dry_per_turn = static_cast<float>( drench_cap ) / turns_to_dry;
             mod_part_wetness( bp, roll_remainder( dry_per_turn ) * -1 );
