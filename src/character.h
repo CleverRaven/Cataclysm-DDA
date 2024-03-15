@@ -1054,8 +1054,8 @@ class Character : public Creature, public visitable
         * - this is to mimic the behavior of the old instability vitamin, which increased by 100 each time you mutated (so Very Strong was 200 instability)
         * The final result is used to calculate our current instability (likelihood of a negative mutation)
         * so each mutation we have that belongs to a different tree than the one we specified counts double.
-        * example: you start with Trog and mutate Slimy and Light Sensitive. Within Trog you have 2 points.
-        * you then go to mutate Rat. Rat has Light Sensitive but not Slimy, so you have 1+2=3 points.
+        * example: you start with Trog and mutate Slimy and Night Vision. Within Trog you have 2 points.
+        * you then go to mutate Rat. Rat has Night Vision but not Slimy, so you have 1+2=3 points.
         */
         int get_instability_per_category( const mutation_category_id &categ ) const;
 
