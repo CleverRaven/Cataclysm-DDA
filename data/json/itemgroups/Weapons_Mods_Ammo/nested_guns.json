@@ -967,14 +967,6 @@
     ]
   },
   {
-    "id": "nested_lemat_revolver",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [ { "item": "lemat_revolver", "charges-min": 0, "charges-max": 9 }, { "group": "on_hand_44paper" } ]
-  },
-  {
     "id": "nested_makarov",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -2017,7 +2009,7 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "bh_m89", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_50" } ]
+    "entries": [ { "item": "bfg50", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_50" } ]
   },
   {
     "id": "nested_carbine_flintlock",

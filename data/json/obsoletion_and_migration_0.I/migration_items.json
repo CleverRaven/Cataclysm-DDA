@@ -1206,5 +1206,10 @@
     "id": "shot_paper_dragon",
     "type": "MIGRATION",
     "replace": "44army"
+  },
+  {
+    "id": "lever_shotgun",
+    "type": "MIGRATION",
+    "replace": "remington_870"
   }
 ]

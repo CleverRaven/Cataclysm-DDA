@@ -188,7 +188,6 @@
       { "group": "nested_bfr", "prob": 10 },
       { "group": "nested_cop_38", "prob": 10 },
       { "group": "nested_colt_saa", "prob": 8 },
-      { "group": "nested_lemat_revolver", "prob": 5 },
       { "group": "nested_mauser_c96", "prob": 15 },
       { "group": "nested_TDI_10", "prob": 4 },
       { "group": "nested_draco", "prob": 20 },
@@ -232,7 +231,6 @@
       { "item": "bfr", "prob": 10 },
       { "item": "cop_38", "prob": 45 },
       { "item": "colt_saa", "prob": 8 },
-      { "item": "lemat_revolver", "prob": 13 },
       { "item": "mauser_c96", "prob": 15 },
       { "item": "makarov", "prob": 8 },
       { "item": "tokarev", "prob": 5 },
@@ -833,7 +831,7 @@
     "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
-    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "remington_700", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
+    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "remington_700", "prob": 30 } ]
   },
   {
     "type": "item_group",
@@ -998,8 +996,7 @@
       { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
       { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
-      { "item": "lever_shotgun", "prob": 10, "charges-min": 0, "charges-max": 6 }
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {
