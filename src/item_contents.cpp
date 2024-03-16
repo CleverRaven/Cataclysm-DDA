@@ -2260,11 +2260,22 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
             restriction_condition = restriction_condition && !pocket.is_restricted();
         }
         if( restriction_condition ) {
-            // if the pocket has default volume or is a holster that has an
-            // item in it or is a pocket that has normal pickup disabled
-            // instead of returning the volume return the volume of things contained
-            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                pocket.settings.is_disabled() || pocket.holster_full() ) {
+            // If the pocket is a holster that has an item return the volume when it is full (not larger than capacity).
+            // If the pocket has default volume or is a pocket that has normal pickup disabled return the volume of things contained.
+            // Otherwise, return the capacity.
+            if( pocket.holster_full() ) {
+                units::volume add_volume = pocket.front().volume();
+                for( const item_pocket *it_pocket : pocket.front().get_all_contained_pockets() ) {
+                    // Here, the case where the pocket is not empty for the holster is not considered, which will lead to higher results.
+                    // To obtain accurate results, a recursive function may be required. Since in the actual game,
+                    // the situation of holster nested in the holster is very rare, from a performance perspective, it seems not worth it to do so.
+                    if( it_pocket->is_valid() && !it_pocket->rigid() ) {
+                        add_volume += it_pocket->remaining_volume();
+                    }
+                }
+                total_vol += std::min( pocket.volume_capacity(), add_volume );
+            } else if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
+                       pocket.settings.is_disabled() ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();
