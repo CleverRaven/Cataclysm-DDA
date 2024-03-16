@@ -181,12 +181,10 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
         if( mut.obj().points > -1 && !mut.obj().threshold && mut.obj().valid && !has_base_trait( mut ) ) {
             bool in_categ = false;
             // if among all allowed categories the mutation has, the input category is one of them
-            int cats = 0;
             for( const mutation_category_id &Ch_cat : mut.obj().category ) {
                 if( Ch_cat == categ ) {
                     in_categ = true;
                 }
-                cats++;
             }
 
             const int height = mutation_height( mut );
@@ -1049,7 +1047,7 @@ bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
         chance = std::min( chance, MAX_BAD_CHANCE );
         ret = rng_float( 0, 1 ) < chance;
         add_msg_debug( debugmode::DF_MUTATION,
-                       "%s is the instability category chosen, which has %d total good traits. Adjusted instability score for the category is %d, giving a chance of bad mut of %.3f.",
+                       "%s is the instability category chosen, which has %d total good traits.  Adjusted instability score for the category is %d, giving a chance of bad mut of %.3f.",
                        categ.c_str(), muts_max, insta_actual, chance );
         return ret;
     }
