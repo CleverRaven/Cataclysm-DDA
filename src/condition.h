@@ -56,7 +56,7 @@ tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, dialogue con
 var_info read_var_info( const JsonObject &jo );
 translation_var_info read_translation_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
-                      const std::string &value );
+                      const std::string &value, int call_depth = 0 );
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
                       double value );
 std::string get_talk_varname( const JsonObject &jo, std::string_view member,

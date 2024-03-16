@@ -58,6 +58,9 @@ var_info process_variable( const std::string &type )
     } else if( type.compare( 0, 4, "npc_" ) == 0 ) {
         vt = var_type::npc;
         ret_str = type.substr( 4, type.size() - 4 );
+    } else if( type.compare( 0, 2, "n_" ) == 0 ) {
+        vt = var_type::npc;
+        ret_str = type.substr( 2, type.size() - 2 );
     } else if( type.compare( 0, 7, "global_" ) == 0 ) {
         vt = var_type::global;
         ret_str = type.substr( 7, type.size() - 7 );

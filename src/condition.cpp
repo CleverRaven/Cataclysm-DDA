@@ -450,7 +450,7 @@ translation_var_info read_translation_var_info( const JsonObject &jo )
 }
 
 void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
-                      const std::string &value )
+                      const std::string &value, int call_depth )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -462,7 +462,13 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
         case var_type::var:
             ret = d->get_value( name );
             vinfo = process_variable( ret );
-            write_var_value( vinfo.type, vinfo.name, talk, d, value );
+            if( call_depth > 1000 ) {
+                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle. %s->%s",
+                          name, vinfo.name );
+            } else {
+                write_var_value( vinfo.type, vinfo.name, d->actor( vinfo.type == var_type::npc ), d, value,
+                                 call_depth + 1 );
+            }
             break;
         case var_type::u:
         case var_type::npc:
