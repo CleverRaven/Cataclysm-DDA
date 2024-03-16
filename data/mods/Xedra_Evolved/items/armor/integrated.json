@@ -417,7 +417,7 @@
     "price_postapoc": 1,
     "symbol": "$",
     "color": "red",
-    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP", "TRANSPARENT" ],
+    "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "NO_DROP" ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
     "use_action": [ { "type": "HEAT_FOOD" } ],
     "relic_data": { "passive_effects": [ { "has": "HELD", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "add": 0 } ] } ] }
@@ -533,18 +533,7 @@
         "item_restriction": [ "water", "water_clean", "salt_water", "water_mineral" ]
       }
     ],
-    "flags": [
-      "INTEGRATED",
-      "PADDED",
-      "SEMITANGIBLE",
-      "ZERO_WEIGHT",
-      "TARDIS",
-      "UNBREAKABLE",
-      "PERSONAL",
-      "SOFT",
-      "TRANSPARENT",
-      "WATER_FRIENDLY"
-    ]
+    "flags": [ "INTEGRATED", "PADDED", "SEMITANGIBLE", "ZERO_WEIGHT", "TARDIS", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY" ]
   },
   {
     "id": "integrated_cloud_skin",
@@ -778,7 +767,6 @@
       "ZERO_WEIGHT",
       "NO_UNLOAD",
       "NO_RELOAD",
-      "TRANSPARENT",
       "INTEGRATED",
       "MAGICAL"
     ],

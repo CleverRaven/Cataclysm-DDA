@@ -656,7 +656,8 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "5 ml"
+    "volume": "5 ml",
+    "flags": [ "TINDER" ]
   },
   {
     "type": "GENERIC",
