@@ -38,9 +38,11 @@ std::optional<std::string> maybe_read_var_value(
 }
 
 template
-std::optional<std::string> maybe_read_var_value( const var_info &, const dialogue &, int call_depth );
+std::optional<std::string> maybe_read_var_value( const var_info &, const dialogue &,
+        int call_depth );
 template
-std::optional<std::string> maybe_read_var_value( const translation_var_info &, const dialogue &, int call_depth );
+std::optional<std::string> maybe_read_var_value( const translation_var_info &, const dialogue &,
+        int call_depth );
 
 template<>
 std::string read_var_value( const var_info &info, const dialogue &d )
