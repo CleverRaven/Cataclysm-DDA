@@ -10,8 +10,8 @@
           "type": "dialogue",
           "context": "dave",
           "value": "finished",
-          "yes": "\" We hope our gift to you will help repay our great debt.\"\u0020",
-          "no": "\"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\"\u0020"
+          "yes": "\"We hope our gift to you will help repay our great debt.\"",
+          "no": "\"We owe you a great debt for your actions of the past.  Some day, we shall repay it.  Until then, you are welcome here, now and always.\""
         }
       ]
     },
@@ -95,7 +95,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_DINODAVE_Cardboard",
-    "dynamic_line": "* bows deeply.  \"Thank you.  Our expertise with the most sacred of materials comes from a past long gone.\"  He gazes off into the distance, lost in thought.  You wait, but he doesn't talk again.",
+    "dynamic_line": "*bows deeply.  \"Thank you.  Our expertise with the most sacred of materials comes from a past long gone.\"  He gazes off into the distance, lost in thought.  You wait, but he doesn't talk again.",
     "responses": [ { "text": "Uh, you there?", "topic": "TALK_DINODAVE_Gift" } ]
   },
   {

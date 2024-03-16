@@ -7107,7 +7107,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_SUIT",
     "name": "cardboard armor",
-    "description": "Recipes related to the construction of cardboard armor.",
+    "description": "Recipes related to the construction of cardboard 'armor'.",
     "skill_used": "fabrication",
     "nested_category_data": [ "helmet_cardboard", "armor_cardboard", "armor_cardboard_cuirass", "cardboard_shield", "cardboard_crown" ],
     "difficulty": 1
@@ -7119,7 +7119,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "name": "cardboard weapons",
-    "description": "Recipes related to the construction of cardboard 'weaponry''.",
+    "description": "Recipes related to the construction of cardboard 'weaponry'.",
     "skill_used": "fabrication",
     "nested_category_data": [ "sword_cardboard", "spear_cardboard" ],
     "difficulty": 1
