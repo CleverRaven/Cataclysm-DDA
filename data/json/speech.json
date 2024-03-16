@@ -2791,7 +2791,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_star_vampire", "mon_vocal_frog", "mon_vocal_bigfrog" ],
+    "speaker": [ "mon_star_vampire", "mon_star_vampire_coiling", "mon_vocal_frog", "mon_vocal_bigfrog" ],
     "sound": "a high-pitched tittering.",
     "volume": 20
   },
