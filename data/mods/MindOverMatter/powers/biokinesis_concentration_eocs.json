@@ -302,30 +302,12 @@
     "effect": {
       "switch": { "math": [ "u_spell_level('biokin_enhance_mobility')" ] },
       "cases": [
-        {
-          "case": 0,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_1", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 4,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_2", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 8,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_3", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 12,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_4", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 16,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_5", "suppress_message": true, "force_equip": true } ]
-        },
-        {
-          "case": 20,
-          "effect": [ { "u_spawn_item": "biokin_enhance_mobility_item_6", "suppress_message": true, "force_equip": true } ]
-        }
+        { "case": 0, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_01" } ] },
+        { "case": 4, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_02" } ] },
+        { "case": 8, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_03" } ] },
+        { "case": 12, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_04" } ] },
+        { "case": 16, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_05" } ] },
+        { "case": 20, "effect": [ { "u_add_trait": "BIOKIN_ENHANCE_MOBILITY_06" } ] }
       ]
     }
   },
@@ -334,6 +316,12 @@
     "id": "EOC_BIOKIN_REMOVE_ENHANCE_MOBILITY",
     "condition": { "u_has_effect": "effect_biokin_enhance_mobility" },
     "effect": [
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_01" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_02" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_03" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_04" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_05" },
+      { "u_lose_trait": "BIOKIN_ENHANCE_MOBILITY_06" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_1" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_2" },
       { "u_remove_item_with": "biokin_enhance_mobility_item_3" },
