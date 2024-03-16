@@ -312,7 +312,7 @@
     },
     "forest_mapgen_settings": {
       "forest": {
-        "terrains": [ "forest", "special_forest" ],
+        "terrains": [ "forest", "special_forest", "special_forest_isherwood" ],
         "sparseness_adjacency_factor": 3,
         "item_group": "forest",
         "item_group_chance": 60,
@@ -438,6 +438,7 @@
           "natural_spring_west",
           "cave",
           "special_forest_thick",
+          "special_forest_thick_isherwood",
           "island_forest_north",
           "island_forest_east",
           "island_forest_south",
