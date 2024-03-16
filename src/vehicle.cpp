@@ -1846,10 +1846,11 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
     turn_dir = 0_degrees;
     veh_target.turn_dir = 0_degrees;
 
-    veh_target.pos -= veh_target.pivot_anchor[0];
-    veh_target.pivot_anchor[0] = point();
-    veh_target.pivot_anchor[1] = point();
+    // Ensure both vehicles have the correct position and a part at 0,0. get_bounding_box will update precalcs.
+    shift_if_needed( get_map() );
+    pos -= pivot_anchor[0];
     veh_target.shift_if_needed( get_map() );
+    veh_target.pos -= veh_target.pivot_anchor[0];
 
     bounding_box vehicle_box = get_bounding_box( true, true );
     point size;
