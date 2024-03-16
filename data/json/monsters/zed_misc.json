@@ -534,11 +534,11 @@
       },
       {
         "id": "dusty_frog_leap",
-		"type": "spell",
-        "spell_data": { "id": "dusty_frog_leap"},
-		"allow_no_target": true,
-		"condition": { "u_has_effect": "fragile_frog" },
-		"monster_message": "The %s crumbles!"
+        "type": "spell",
+        "spell_data": { "id": "dusty_frog_leap" },
+        "allow_no_target": true,
+        "condition": { "u_has_effect": "fragile_frog" },
+        "monster_message": "The %s crumbles!"
       },
       { "id": "scratch", "cooldown": 10 },
       { "id": "bite_grab", "cooldown": 10 },
@@ -577,11 +577,11 @@
       },
       {
         "id": "fragile_frog_leap",
-		"type": "spell",
-        "spell_data": { "id": "fragile_frog_leap"},
-		"allow_no_target": true,
-		"condition": { "u_has_effect": "fragile_frog" },
-		"monster_message": "The %s crumbles!"
+        "type": "spell",
+        "spell_data": { "id": "fragile_frog_leap" },
+        "allow_no_target": true,
+        "condition": { "u_has_effect": "fragile_frog" },
+        "monster_message": "The %s crumbles!"
       }
     ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
@@ -618,11 +618,11 @@
       },
       {
         "id": "fragile_frog_leap",
-		"type": "spell",
-        "spell_data": { "id": "fragile_frog_leap"},
-		"allow_no_target": true,
-		"condition": { "u_has_effect": "fragile_frog" },
-		"monster_message": "The %s crumbles!"
+        "type": "spell",
+        "spell_data": { "id": "fragile_frog_leap" },
+        "allow_no_target": true,
+        "condition": { "u_has_effect": "fragile_frog" },
+        "monster_message": "The %s crumbles!"
       }
     ],
     "death_function": { "effect": { "id": "death_smokeburst", "hit_self": true } },
