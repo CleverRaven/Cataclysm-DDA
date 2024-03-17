@@ -1189,7 +1189,7 @@
     "rating": "good",
     "enchantments": [
       {
-        "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.2 }, { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.3 } ]
+        "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.2 }, { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.3 } ]
       }
     ],
     "flags": [ "STEADY" ]
