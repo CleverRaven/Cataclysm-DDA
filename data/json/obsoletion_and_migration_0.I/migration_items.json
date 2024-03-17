@@ -1238,5 +1238,11 @@
     "id": "surv_hand_cannon",
     "type": "MIGRATION",
     "replace": "hptjhpmag"
+  },
+  {
+    "id": "con_mix",
+    "type": "MIGRATION",
+    "replace": "con_mix_foldable",
+    "reset_item_vars": true
   }
 ]

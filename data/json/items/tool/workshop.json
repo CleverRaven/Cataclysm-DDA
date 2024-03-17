@@ -245,7 +245,7 @@
     "//2": "Based on https://www.amazon.com/dp/B000A24RCA"
   },
   {
-    "id": "con_mix",
+    "id": "con_mix_foldable",
     "type": "TOOL",
     "name": { "str": "concrete mixer" },
     "description": "A portable concrete mixer.  It is large and heavy, but it can be operated solo.  Unfold to use.",
