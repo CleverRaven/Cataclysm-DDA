@@ -21,8 +21,8 @@ std::optional<std::string> maybe_read_var_value(
         case var_type::var: {
             std::optional<std::string> const var_val = d.maybe_get_value( info.name );
             if( call_depth > 1000 && var_val ) {
-                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle. %s->%s",
-                          info.name, var_val.value() );
+                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
+                          info.name, var_val.value(), d.get_callstack() );
                 return std::nullopt;
             } else {
                 return var_val ? maybe_read_var_value( process_variable( *var_val ), d,
