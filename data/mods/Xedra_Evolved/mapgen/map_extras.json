@@ -734,6 +734,24 @@
         " S,S "
       ],
       "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 600,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " S,S ",
+        "S,,,S",
+        ",,,,,",
+        "S,,,S",
+        " S,S "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 75, "repeat": [ 3, 5 ] } ]
     }
@@ -758,6 +776,29 @@
         "   S,,S   "
       ],
       "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 400,
+    "object": {
+      "mapgensize": [ 10, 10 ],
+      "rows": [
+        "   S,,S   ",
+        " S,,,,,,S ",
+        " ,,,,,,,, ",
+        "S,,,,,,,,S",
+        ",,,,,,,,,,",
+        ",,,,,,,,,,",
+        "S,,,,,,,,S",
+        " ,,,,,,,, ",
+        " S,,,,,,S ",
+        "   S,,S   "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "place_monster": [ { "group": "GROUP_CHANGELING_STRIKE_FORCE", "x": [ 0, 9 ], "y": [ 0, 9 ], "chance": 75, "repeat": [ 5, 10 ] } ]
     }
@@ -767,6 +808,34 @@
     "method": "json",
     "nested_mapgen_id": "mushroom_ring_chunk",
     "weight": 500,
+    "object": {
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "      S,S      ",
+        "    S,,,,,S    ",
+        "  S,,,,,,,,,S  ",
+        "  ,,,,,,,,,,,  ",
+        " S,,,,,,,,,,,S ",
+        " ,,,,,,,,,,,,, ",
+        "S,,,,,,,,,,,,,S",
+        ",,,,,,,,,,,,,,,",
+        "S,,,,,,,,,,,,,S",
+        " ,,,,,,,,,,,,, ",
+        " S,,,,,,,,,,,S ",
+        "  ,,,,,,,,,,,  ",
+        "  S,,,,,,,,,S  ",
+        "    S,,,,,S    ",
+        "      S,S      "
+      ],
+      "terrain": { ",": [ [ "t_moss", 50 ], [ "t_grass", 25 ], [ "t_grass_dead", 25 ] ], "S": "t_mushroom_patch", " ": "t_null" },
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mushroom_ring_chunk",
+    "weight": 200,
     "object": {
       "mapgensize": [ 15, 15 ],
       "rows": [
