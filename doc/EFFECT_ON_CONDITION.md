@@ -3303,7 +3303,7 @@ You and NPC both die
 }
 ```
 
-Removes a corpse around you
+Removes a corpse around you (corpses are handled as items)
 
 ```json
   {
