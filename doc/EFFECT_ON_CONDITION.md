@@ -3283,7 +3283,8 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 ```
 
 #### `u_die`, `npc_die`
-You or NPC will instantly die
+You or an NPC will instantly die.
+If the target is an item, it will be deleted.
 
 ##### Valid talkers:
 
