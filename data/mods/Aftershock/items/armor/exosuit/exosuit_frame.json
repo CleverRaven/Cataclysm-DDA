@@ -360,7 +360,7 @@
       "FLASH_PROTECTION",
       "TARDIS"
     ],
-    "power_draw": "6173 mW",
+	"power_draw": "8170 mW",
     "revert_to": "modular_exosuit",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
     "armor": [
@@ -556,7 +556,7 @@
     "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "use_action": [
       {
-        "target": "modular_exosuit_on",
+        "target": "modular_exosuit_light_on",
         "msg": "The %s engages.",
         "active": true,
         "need_charges": 1,
@@ -610,7 +610,7 @@
         ],
         "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
         "coverage": 90,
-        "encumbrance": 25,
+        "encumbrance": 20,
         "layers": [ "OUTER" ]
       },
       {
