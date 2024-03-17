@@ -2283,7 +2283,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
             break;
         }
         //TODO: Add flags to distinct mutation attack that can be triggered by reach attack (or just use ranged_mutation to fire fake gun.)
-        if( !is_adjacent( &t, true ) ){
+        if( !is_adjacent( &t, true ) ) {
             break;
         }
 
