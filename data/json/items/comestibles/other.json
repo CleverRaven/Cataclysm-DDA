@@ -680,7 +680,7 @@
     "weight": "256 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "container": "can_medium",
+    "container": "can_food",
     "sealed": true,
     "comestible_type": "FOOD",
     "symbol": "%",
