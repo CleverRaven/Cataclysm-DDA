@@ -154,7 +154,7 @@
       },
       "terrain": {
         "!": "t_wall_wood",
-        "`": "t_linoleum_gray",
+        "`": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ",": "t_woodchips",
         "0": "t_water_pump",
         "$": "t_region_groundcover_urban",

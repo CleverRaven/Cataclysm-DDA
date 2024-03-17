@@ -29,6 +29,7 @@
       { "trait": "SKIN_LIGHT" },
       { "trait": "eye_color", "variant": "brown" },
       { "trait": "hair_short", "variant": "brown" },
+      { "trait": "natural_hair_color_brown" },
       { "trait": "DEFT" },
       { "trait": "OUTDOORSMAN" },
       { "trait": "GOODCARDIO" },
@@ -177,8 +178,8 @@
           "u_has_var": "John_Bailey_Convo",
           "context": "RC_John_Bailey_2",
           "value": "seen",
-          "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
-          "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
+          "yes": "Like I said,\" John shrugs.  \"I'm just checking ",
+          "no": "Same as you, I imagine,\" John shrugs.  \"Checking "
         },
         "the place out, doing a little shopping.  Then I'll be on my way again.  Might see if they have any work that needs done first, if the price is right."
       ]

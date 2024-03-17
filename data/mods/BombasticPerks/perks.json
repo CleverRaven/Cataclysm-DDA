@@ -19,8 +19,19 @@
     "name": { "str": "Stronger" },
     "points": 0,
     "description": "Have you been working out?  +1 Strength.",
+    "changes_to": [ "perk_STR_UP_2" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_STR_UP_2",
+    "name": { "str": "Even Stronger" },
+    "points": 0,
+    "description": "You HAVE been working out.  +2 Strength.",
+    "prereqs": [ "perk_STR_UP" ],
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -28,8 +39,19 @@
     "name": { "str": "Faster" },
     "points": 0,
     "description": "Have you been doing cardio?  +1 Dexterity.",
+    "changes_to": [ "perk_DEX_UP_2" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_DEX_UP_2",
+    "name": { "str": "Even Faster" },
+    "points": 0,
+    "description": "You HAVE been doing cardio.  +2 Dexterity.",
+    "prereqs": [ "perk_DEX_UP" ],
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -37,8 +59,19 @@
     "name": { "str": "Smarter" },
     "points": 0,
     "description": "Have you been reading?  +1 Intelligence.",
+    "changes_to": [ "perk_INT_UP_2" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_INT_UP_2",
+    "name": { "str": "Even Smarter" },
+    "points": 0,
+    "description": "You HAVE been reading.  +2 Intelligence.",
+    "prereqs": [ "perk_INT_UP" ],
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -46,8 +79,19 @@
     "name": { "str": "Sharper" },
     "points": 0,
     "description": "Have you been staring out into the middle distance?  +1 Perception.",
+    "changes_to": [ "perk_PER_UP_2" ],
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_PER_UP_2",
+    "name": { "str": "Even Sharper" },
+    "points": 0,
+    "description": "You HAVE been staring out into the middle distance.  +2 Perception.",
+    "prereqs": [ "perk_PER_UP" ],
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -168,7 +212,7 @@
     "points": 0,
     "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
     "category": [ "perk" ],
-    "obtain_cost_multiplier": 0.75
+    "enchantments": [ { "values": [ { "value": "OBTAIN_COST_MULTIPLIER", "multiply": -0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -205,6 +249,34 @@
     "description": "For whatever reason you seem to always make a real mess of things.  Enemies you kill tend to explode into a mess of viscera.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": -1000.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_perfect_time",
+    "name": { "str": "Perfect Timing" },
+    "points": 0,
+    "description": "You used to annoy your friends before the Cataclysm by always being *exactly* on time and you've maintained that characteristic to this day.  You always know what time it is and can set alarms even without a watch or a phone.",
+    "category": [ "perk" ],
+    "flags": [ "WATCH", "ALARMCLOCK" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_bedtime_reader",
+    "name": { "str": "Bedtime Stories" },
+    "points": 0,
+    "description": "You've always loved reading, especially before you fall asleep, and have gotten very good at tearing through books as a way to wind down.  You read books 50% faster, but only when you read them between 8 p.m. and 1 a.m.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') >= 20" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') <= 1" ] }
+          ]
+        },
+        "values": [ { "value": "READING_SPEED_MULTIPLIER", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -402,7 +474,7 @@
     "points": 0,
     "description": "You really like to do stuff with your own hands.  +10% for crafting speed.",
     "category": [ "perk" ],
-    "crafting_speed_multiplier": 1.1
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.1 } ] } ]
   },
   {
     "type": "mutation",
@@ -457,6 +529,34 @@
   },
   {
     "type": "mutation",
+    "id": "perk_eating_window",
+    "name": { "str": "Compressed Eating Window" },
+    "points": 0,
+    "description": "You're so used to squeezing all your meals into a short time that your body has adapted to it.  You gain +150% kcal and vitamins from any meals eaten between noon and 6 p.m., but 0 calories and vitamins for any meals eaten outside that time period.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": {
+          "and": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') >= 12" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') <= 18" ] }
+          ]
+        },
+        "values": [ { "value": "KCAL", "multiply": 1.5 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": 1.5 } ]
+      },
+      {
+        "condition": {
+          "or": [
+            { "math": [ "time_since('midnight', 'unit': 'hours') < 12" ] },
+            { "math": [ "time_since('midnight', 'unit': 'hours') > 18" ] }
+          ]
+        },
+        "values": [ { "value": "KCAL", "multiply": -1.0 }, { "value": "VITAMIN_ABSORB_MOD", "multiply": -1.0 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_chainsaw",
     "name": { "str": "The Great Communicator" },
     "points": 0,
@@ -473,6 +573,62 @@
     "category": [ "perk" ],
     "enchantments": [
       { "condition": { "u_has_wielded_with_flag": "OLD_GUN" }, "values": [ { "value": "RANGED_DAMAGE", "multiply": 0.25 } ] }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_ascetic_empowerment",
+    "name": { "str": "Ascetic Empowerment" },
+    "points": 0,
+    "description": "People talk about getting a high from fasting and for you that's true on a more visceral level.  You gain bonuses to all stats that scale with how hungry, thirsty, and tired you are.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "STRENGTH", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "DEXTERITY", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "INTELLIGENCE", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "PERCEPTION", "add": { "math": [ "(u_val('thirst')/120) + (u_val('fatigue')/150)" ] } },
+          { "value": "SPEED", "add": { "math": [ "clamp(( (u_val('thirst') - 80 ) / 10 ) , 0, 50)" ] } }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_very_hungry" },
+        "values": [
+          { "value": "STRENGTH", "add": 1 },
+          { "value": "DEXTERITY", "add": 1 },
+          { "value": "INTELLIGENCE", "add": 1 },
+          { "value": "PERCEPTION", "add": 1 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_near_starving" },
+        "values": [
+          { "value": "STRENGTH", "add": 2 },
+          { "value": "DEXTERITY", "add": 2 },
+          { "value": "INTELLIGENCE", "add": 2 },
+          { "value": "PERCEPTION", "add": 2 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_starving" },
+        "values": [
+          { "value": "STRENGTH", "add": 3 },
+          { "value": "DEXTERITY", "add": 3 },
+          { "value": "INTELLIGENCE", "add": 3 },
+          { "value": "PERCEPTION", "add": 3 }
+        ]
+      },
+      {
+        "condition": { "u_has_effect": "hunger_famished" },
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "INTELLIGENCE", "add": 4 },
+          { "value": "PERCEPTION", "add": 4 }
+        ]
+      }
     ]
   }
 ]

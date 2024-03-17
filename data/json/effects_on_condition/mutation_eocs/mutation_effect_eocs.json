@@ -61,7 +61,7 @@
       { "u_add_effect": "narcosis", "duration": "5 minutes" },
       { "u_add_effect": "sleep", "duration": "5 minutes" },
       {
-        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move. You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
+        "u_message": "Your exoskeleton grows steadily more rigid until you can no longer move.  You strain against it for a few minutes, and it peels and cracks away in chunks like a plaster mold, revealing a soft and tender new layer beneath.",
         "type": "bad"
       },
       { "u_lose_trait": "CHITIN2" },
@@ -226,15 +226,8 @@
   {
     "type": "effect_on_condition",
     "id": "rashy_skin",
-    "recurrence": [ "2 hours", "24 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "SKIN_RASHY" },
-        { "not": { "u_has_effect": "took_flumed" } },
-        { "not": { "u_has_effect": "took_antihistamine" } },
-        { "not": { "u_has_effect": "formication" } }
-      ]
-    },
+    "recurrence": [ "2 hour", "24 hours" ],
+    "condition": { "and": [ { "u_has_trait": "SKIN_RASHY" }, { "not": { "u_has_effect": "formication" } } ] },
     "effect": [ { "u_add_effect": "formication", "duration": "10 minutes", "target_part": "random" } ]
   },
   {
@@ -288,277 +281,6 @@
       { "u_message": "You sneeze!", "type": "bad" },
       { "u_add_effect": "sneezing", "duration": "1 second" },
       { "u_make_sound": "a sneeze!", "volume": 10, "type": "speech" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "LEAVES" } ] },
-    "effect": [
-      { "u_message": "The grassy leaves on your head have succumbed to winter dormancy.", "type": "bad" },
-      { "u_lose_trait": "LEAVES" },
-      { "u_add_trait": "LEAVES_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves_spring_summer_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
-        { "u_has_trait": "LEAVES_WINTER" }
-      ]
-    },
-    "effect": [
-      { "u_message": "Your leaves are looking green and healthy again.", "type": "good" },
-      { "u_lose_trait": "LEAVES_WINTER" },
-      { "u_add_trait": "LEAVES" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "flowers_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "is_season": "winter" }, { "u_has_trait": "FLOWERS" } ] },
-    "effect": [
-      {
-        "u_message": "A somber feeling comes over you as the last petals of your wilting flowers fall from your head.",
-        "type": "bad"
-      },
-      { "u_lose_trait": "FLOWERS" },
-      { "u_add_trait": "FLOWERS_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "flowers_spring_summer_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" }, { "is_season": "autumn" } ] },
-        { "u_has_trait": "FLOWERS_WINTER" }
-      ]
-    },
-    "effect": [
-      { "u_message": "You feel a giddy thrill as new flowers bloom from your scalp.", "type": "good" },
-      { "u_lose_trait": "FLOWERS_WINTER" },
-      { "u_add_trait": "FLOWERS" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves2_spring_summer_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES2_FALL" }, { "u_has_trait": "LEAVES2_WINTER" } ] },
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
-      ]
-    },
-    "effect": [
-      { "u_message": "New green leaves are growing in on your head and arms.", "type": "good" },
-      { "u_lose_trait": "LEAVES2_WINTER" },
-      { "u_lose_trait": "LEAVES2_FALL" },
-      { "u_add_trait": "LEAVES2" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves2_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_WINTER" } ] }, { "is_season": "autumn" } ]
-    },
-    "effect": [
-      { "u_message": "Your leaves are turning and starting to drop as the season changes.", "type": "good" },
-      { "u_lose_trait": "LEAVES2" },
-      { "u_lose_trait": "LEAVES2_WINTER" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES2_FALL" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves2_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES2" }, { "u_has_trait": "LEAVES2_FALL" } ] }, { "is_season": "winter" } ] },
-    "effect": [
-      { "u_message": "The last of your leaves fall, leaving your head and arms bare.", "type": "bad" },
-      { "u_lose_trait": "LEAVES2" },
-      { "u_lose_trait": "LEAVES2_FALL" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES2_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves3_spring_summer_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "LEAVES3_FALL" }, { "u_has_trait": "LEAVES3_WINTER" } ] },
-        { "or": [ { "is_season": "spring" }, { "is_season": "summer" } ] }
-      ]
-    },
-    "effect": [
-      { "u_message": "New green leaves are growing in on your head and upper limbs.", "type": "good" },
-      { "u_lose_trait": "LEAVES3_WINTER" },
-      { "u_lose_trait": "LEAVES3_FALL" },
-      { "u_add_trait": "LEAVES3" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves3_fall_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_WINTER" } ] }, { "is_season": "autumn" } ]
-    },
-    "effect": [
-      {
-        "u_message": "Your leaves have begun taking on the red-gold hues of fall.  A few have fallen already.",
-        "type": "good"
-      },
-      { "u_lose_trait": "LEAVES3" },
-      { "u_lose_trait": "LEAVES3_WINTER" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES3_FALL" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "leaves3_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": { "and": [ { "or": [ { "u_has_trait": "LEAVES3" }, { "u_has_trait": "LEAVES3_FALL" } ] }, { "is_season": "winter" } ] },
-    "effect": [
-      { "u_message": "The last of your leaves fall, leaving your head and upper limbs bare.", "type": "bad" },
-      { "u_lose_trait": "LEAVES3" },
-      { "u_lose_trait": "LEAVES3_FALL" },
-      { "u_spawn_item": "leaves", "count": 1 },
-      { "u_add_trait": "LEAVES3_WINTER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_spring_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        {
-          "or": [ { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ]
-        },
-        { "is_season": "spring" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Spring must be here, the new buds growing from your scalp are giving off a lovely scent.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS_SUMMER" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_summer_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "is_season": "summer" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS_SUMMER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_fall_timer_plant",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_SUMMER" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "u_has_trait": "THRESH_PLANT" },
-        { "is_season": "autumn" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Your flowers have withered away and died.  In their place, a few small fruits hang from your head.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_SUMMER" },
-      { "u_add_trait": "ROSEBUDS_FALL" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "picked_rosebuds_fall",
-    "recurrence": [ "1 seconds", "1 seconds" ],
-    "condition": { "and": [ { "u_has_trait": "ROSEBUDS_FALL_active" } ] },
-    "effect": [
-      { "u_lose_trait": "ROSEBUDS_FALL_active" },
-      { "u_spawn_item": "mutfruit", "count": 1 },
-      { "u_add_trait": "ROSEBUDS_FALL_PICKED" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_fall_timer_elfa",
-    "//": "Only true plants bear fruit. Elves just look pretty for longer.",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_WINTER" } ] },
-        { "not": { "u_has_trait": "THRESH_PLANT" } },
-        { "is_season": "autumn" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Your blossoms come into full bloom, sending a brief flush of warmth through your body.",
-        "type": "good"
-      },
-      { "u_lose_trait": "ROSEBUDS_WINTER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS_SUMMER" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "rosebuds_winter_timer",
-    "recurrence": [ "15 hours", "60 hours" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_trait": "ROSEBUDS" }, { "u_has_trait": "ROSEBUDS_FALL" }, { "u_has_trait": "ROSEBUDS_SUMMER" } ] },
-        { "is_season": "winter" }
-      ]
-    },
-    "effect": [
-      {
-        "u_message": "Winter claims the last few vestiges of your flowers, leaving your crown bare of adornment.",
-        "type": "bad"
-      },
-      { "u_lose_trait": "ROSEBUDS_SUMMER" },
-      { "u_lose_trait": "ROSEBUDS" },
-      { "u_lose_trait": "ROSEBUDS_FALL" },
-      { "u_add_trait": "ROSEBUDS_WINTER" }
     ]
   },
   {
@@ -646,7 +368,7 @@
     "condition": { "math": [ "u_effect_intensity('ink_gland_ink')", ">", "1" ] },
     "effect": [
       { "u_cast_spell": { "id": "ink_gland_spray" } },
-      { "u_message": "Your ink glands spray some ink into attacker eyes!", "type": "good" },
+      { "u_message": "Your ink glands spray some ink into your attacker's eyes!", "type": "good" },
       {
         "u_add_effect": "ink_gland_ink",
         "duration": "PERMANENT",
@@ -695,5 +417,149 @@
       { "u_activate_trait": "WINGS_INSECT_active" },
       { "u_message": "You don't have the stamina to keep buzzing.", "type": "bad" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social1_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "//": "Alcohol and sedatives prevent the bad effects of these EOCs.  Antidepressants prevent (but don't remove) both the good and bad effects, keeping you at a baseline state.",
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30)", ">", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_dissatisfied" },
+      { "u_lose_effect": "social_satisfied" },
+      { "u_add_effect": "social_satisfied", "duration": "2 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies')", ">", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_dissatisfied" },
+      { "u_lose_effect": "social_satisfied" },
+      { "u_add_effect": "social_satisfied", "duration": "6 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social2_penalty",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "SOCIAL2" },
+        { "math": [ "u_characters_nearby('radius': 30, 'attitude': 'allies')", "==", "0" ] },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "social_satisfied" },
+      {
+        "u_add_effect": "social_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('social_dissatisfied') + 1" ] }
+      },
+      { "u_message": "You could use some friendly company.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial1_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL1" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "math": [ "u_characters_nearby('radius': 30)", "==", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "asocial_dissatisfied" },
+      { "u_lose_effect": "asocial_satisfied" },
+      { "u_add_effect": "asocial_satisfied", "duration": "2 hours" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_bonus",
+    "recurrence": [ "10 minutes", "30 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "math": [ "u_characters_nearby('radius': 30)", "==", "0" ] },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_add_effect": "asocial_satisfied", "duration": "6 hours" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_asocial2_penalty",
+    "recurrence": [ "30 minutes", "90 minutes" ],
+    "condition": {
+      "and": [
+        { "u_has_flag": "ASOCIAL2" },
+        { "not": { "u_has_effect": "took_prozac" } },
+        { "not": { "u_has_effect": "valium" } },
+        { "not": { "u_has_effect": "took_xanax" } },
+        { "not": { "u_has_effect": "drunk" } },
+        { "math": [ "u_characters_nearby('radius': 30)", ">", "0" ] },
+        { "not": { "u_has_effect": "narcosis" } }
+      ]
+    },
+    "effect": [
+      { "u_lose_effect": "asocial_satisfied" },
+      {
+        "u_add_effect": "asocial_dissatisfied",
+        "duration": "PERMANENT",
+        "intensity": { "math": [ "u_effect_intensity('asocial_dissatisfied') + 1" ] }
+      },
+      { "u_message": "You'd really rather be by yourself.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social_reset_sleep",
+    "recurrence": [ "30 minutes", "45 minutes" ],
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "narcosis" }, { "u_has_effect": "sleep" } ] },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_social_reset_drugs",
+    "recurrence": [ "1 seconds", "1 seconds" ],
+    "//": "Sedatives are effective at acutely treating social anxiety/autophobia.  Enjoy your benzo addiction, survivors.",
+    "condition": {
+      "and": [
+        { "or": [ { "u_has_effect": "valium" }, { "u_has_effect": "took_xanax" } ] },
+        { "or": [ { "u_has_effect": "social_dissatisfied" }, { "u_has_effect": "social_dissatisfied" } ] }
+      ]
+    },
+    "effect": [ { "u_lose_effect": "asocial_dissatisfied" }, { "u_lose_effect": "social_dissatisfied" } ]
   }
 ]

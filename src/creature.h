@@ -65,15 +65,15 @@ using anatomy_id = string_id<anatomy>;
 
 enum class creature_size : int {
     // Keep it starting at 1 - damage done to monsters depends on it
-    // Squirrel
+    // Squirrel, cat, human toddler
     tiny = 1,
-    // Dog
+    // Labrador, human child
     small,
-    // Human
+    // Human adult
     medium,
-    // Cow
+    // Bear, tiger
     large,
-    // TAAAANK
+    // Cow, moose, shoggoth
     huge,
     // must always be at the end, is actually number + 1 since we start counting at 1
     num_sizes
@@ -635,13 +635,6 @@ class Creature : public viewer
                              bool force = false );
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
-        /** Applies effects by spraying liquid on the creature. Returns false if the liquid was blocked
-         * by waterproof gear. */
-        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
-                                const time_duration &dur, const bodypart_id &bp, bool permanent = false, int intensity = 1,
-                                bool force = false );
-        bool add_liquid_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
-                                const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
         /** Removes a listed effect. If the bodypart is not specified remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
@@ -1191,10 +1184,14 @@ class Creature : public viewer
         void set_summon_time( const time_duration &length );
         // handles removing the creature if the timer runs out
         void decrement_summon_timer();
+        void set_summoner( Creature *summoner );
+        void set_summoner( character_id summoner );
+        Creature *get_summoner() const;
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
         std::optional<time_point> lifespan_end = std::nullopt;
+        std::optional<character_id> summoner = std::nullopt; // whoever summoned us
         /**
          * Processes one effect on the Creature.
          * Must not remove the effect, but can set it up for removal.

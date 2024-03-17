@@ -4271,6 +4271,7 @@ void basecamp::serialize( JsonOut &json ) const
 {
     if( omt_pos != tripoint_abs_omt() ) {
         json.start_object();
+        json.member( "owner", owner );
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
@@ -4356,6 +4357,10 @@ void basecamp::serialize( JsonOut &json ) const
 void basecamp::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
+    if( !data.read( "owner", owner ) ) {
+        faction_id your_fac( "your_followers" );
+        owner = your_fac;
+    }
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
@@ -5047,7 +5052,8 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int faction_id = spawn_entry.next_int();
             int mission_id = spawn_entry.next_int();
             bool friendly = spawn_entry.next_bool();
-            std::string name = spawn_entry.next_string();
+            std::optional<std::string> name = std::nullopt;
+            spawn_entry.read_next( name );
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }

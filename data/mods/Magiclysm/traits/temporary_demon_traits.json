@@ -51,8 +51,15 @@
     "starting_trait": false,
     "mixed_effect": true,
     "points": 0,
-    "crafting_speed_multiplier": 0.5,
-    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STRENGTH", "add": 4 },
+          { "value": "DEXTERITY", "add": 4 },
+          { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": -0.5 }
+        ]
+      }
+    ],
     "flags": [ "NO_SPELLCASTING" ]
   },
   {
@@ -62,7 +69,7 @@
     "points": 2,
     "visibility": 4,
     "ugliness": 4,
-    "cut_dmg_bonus": 10,
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 10 } ] } ],
     "butchering_quality": 4,
     "flags": [ "UNARMED_BONUS" ],
     "valid": false,

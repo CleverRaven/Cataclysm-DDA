@@ -260,7 +260,7 @@
       {
         "id": "gum_bacon",
         "name": { "str_sp": "chewing gum, bacon flavored" },
-        "description": "This rare bacon-flavored chewing gum offers a savory taste that was popular among meat lovers before the Cataclysm.  It’s often associated with novelty flavors, and it's definitely an acquired taste.",
+        "description": "This rare bacon-flavored chewing gum offers a savory taste that was popular among meat lovers before the Cataclysm.  It's often associated with novelty flavors, and it's definitely an acquired taste.",
         "weight": 1
       },
       {
@@ -505,7 +505,7 @@
     "description": "A powder-like mix of cultured yeast, good for baking and brewing alike.",
     "price": "6 cent",
     "price_postapoc": "2 cent",
-    "material": [ "powder" ],
+    "material": [ "yeast" ],
     "volume": "10 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -10
@@ -553,7 +553,7 @@
     "type": "COMESTIBLE",
     "id": "meal_bone",
     "name": { "str_sp": "bone meal" },
-    "weight": "112 g",
+    "weight": "60 g",
     "color": "white",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -612,7 +612,7 @@
     "type": "COMESTIBLE",
     "id": "meal_bone_tainted",
     "name": { "str_sp": "tainted bone meal" },
-    "weight": "112 g",
+    "weight": "60 g",
     "color": "white",
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
@@ -656,7 +656,8 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "5 ml"
+    "volume": "5 ml",
+    "flags": [ "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -811,7 +812,7 @@
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "smoking_result": "dry_soybean",
-    "milling": { "into": "paste_nut", "conversion_rate": 0.2 },
+    "milling": { "into": "paste_nut", "recipe": "paste_nut_mill_5_1" },
     "seed_data": {
       "plant_name": "soybean",
       "fruit": "soybean",
@@ -838,7 +839,7 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "fun": -5,
-    "milling": { "into": "flour_wheat_free", "conversion_rate": 1 },
+    "milling": { "into": "flour_wheat_free", "recipe": "flour_wheat_free_mill_1_1" },
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ],
     "seed_data": {
       "plant_name": "soybean",
@@ -1434,6 +1435,81 @@
     "description": "Blodplättar is not your average pancake.  It does not taste of blood at all and it tastes like a crispier black pudding.  Made with wheat-free flour.",
     "material": [ "veggy", "blood" ],
     "primary_material": "veggy"
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "earthworm",
+    "name": { "str": "earthworm" },
+    "description": "A common earthworm.",
+    "weight": "2 g",
+    "volume": "5 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": -5,
+    "material": [ "flesh" ],
+    "symbol": "c",
+    "color": "brown",
+    "spoils_in": "2 days",
+    "quench": 1,
+    "fun": -10,
+    "//0": "DW 0.2g protein 0.04 fat 0.04 carb... 0.2*4+0.04*4+0.04*9 = 1.326kcal",
+    "calories": 1.3,
+    "parasites": 20,
+    "flags": [ "FREEZERBURN", "RAW", "NO_AUTO_CONSUME", "BIRD", "NUTRIENT_OVERRIDE" ],
+    "//1": "1 earthworm has such a small amount of vitamins, i'm not sure it's possible to model them.",
+    "vitamins": [ [ "calcium", 0.3 ], [ "iron", 0.8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_handful",
+    "copy-from": "earthworm",
+    "name": { "str": "handful of earthworms", "str_pl": "handfuls of earthworms" },
+    "description": "A handful of earthworms.",
+    "weight": "20 g",
+    "volume": "20 ml",
+    "quench": 10,
+    "fun": -20,
+    "calories": 13.2,
+    "parasites": 10,
+    "vitamins": [ [ "calcium", 3 ], [ "iron", 8 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_dried",
+    "copy-from": "earthworm_boiled",
+    "name": { "str_sp": "dried earthworms" },
+    "description": "Dried, cooked and ground earthworms.",
+    "spoils_in": "100 days",
+    "symbol": "%",
+    "quench": -1,
+    "fun": -1,
+    "flags": [ "SMOKED", "NUTRIENT_OVERRIDE" ],
+    "//": "Dried weight is about 15% of normal",
+    "weight": "3 g",
+    "volume": "3 ml"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_fried",
+    "copy-from": "earthworm_boiled",
+    "name": { "str_sp": "fried earthworms" },
+    "description": "A handful of fried earthworms, cooked in salt.",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "fun": 0
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "earthworm_boiled",
+    "copy-from": "earthworm_handful",
+    "name": { "str_sp": "boiled earthworms" },
+    "description": "A handful of common earthworms, boiled to remove impurities.",
+    "spoils_in": "5 days",
+    "fun": -5,
+    "//": "10 earthworms triple-boiled",
+    "parasites": 0,
+    "flags": [ "FREEZERBURN", "SMOKABLE", "NUTRIENT_OVERRIDE" ],
+    "smoking_result": "earthworm_dried"
   },
   {
     "type": "COMESTIBLE",

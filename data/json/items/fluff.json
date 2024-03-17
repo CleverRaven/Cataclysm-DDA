@@ -484,7 +484,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "mancala set" },
-    "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different coloured beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
+    "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different colored beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
     "weight": "1313 g",
     "volume": "4668 ml",
     "price": 2000,
@@ -500,7 +500,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Four in a Row set" },
-    "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 coloured discs, alongside a small booklet explaining how to play Four in a Row.",
+    "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 colored discs, alongside a small booklet explaining how to play Four in a Row.",
     "weight": "680 g",
     "volume": "600 ml",
     "price": 2000,
@@ -772,7 +772,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Survival Island", "str_pl": "sets of Survival Island" },
-    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe’s mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson’s abilities and combat various challenges that arise during his time on the island.",
+    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe's mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson's abilities and combat various challenges that arise during his time on the island.",
     "weight": "708 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -788,7 +788,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Nemo's Sea", "str_pl": "sets of Nemo's Sea" },
-    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne’s classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
+    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne's classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
     "weight": "904 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -804,7 +804,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
-    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters’ abilities and acquire new skills as they progress through the game.",
+    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
     "weight": "1120 g",
     "volume": "1850 ml",
     "price": 7050,
@@ -902,7 +902,7 @@
       {
         "id": "terraforming_saturn",
         "name": { "str": "Terraforming - Saturn", "str_pl": "sets of Terraforming - Saturn" },
-        "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn’s moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players."
+        "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn's moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players."
       },
       {
         "id": "terraforming_uranus",
@@ -922,7 +922,7 @@
       {
         "id": "terraforming_earth",
         "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
-        "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet’s ecosystems, atmosphere, and climate while also competing for resources and prestige."
+        "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet's ecosystems, atmosphere, and climate while also competing for resources and prestige."
       }
     ]
   },
@@ -931,7 +931,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Vigneto", "str_pl": "sets of Vigneto" },
-    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard’s productivity and efficiency.",
+    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard's productivity and efficiency.",
     "weight": "904 g",
     "volume": "1350 ml",
     "price": 7050,
@@ -1504,6 +1504,49 @@
     "material": [ "cotton" ],
     "symbol": "_",
     "color": "brown"
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA on-site staff notice" },
+    "snippet_category": "LIXA_lab_files",
+    "copy-from": "file",
+    "description": "A brief with the word LIXA on the official letterhead, for distribution to the onsite staff."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_generic_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA data file" },
+    "copy-from": "file",
+    "description": "A sheaf of papers containing a truly dizzying assortment of graphs, diagrams, and equations, on LIXA letterhead."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_mil_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA military notice" },
+    "snippet_category": "LIXA_mil_files",
+    "copy-from": "file",
+    "description": "A signed and serialed notice distributed to LIXA's onsite military police."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_postit",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "post-it note" },
+    "snippet_category": "LIXA_lab_notes",
+    "description": "A cyan post-it note.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "lab_postit_bio"
   },
   {
     "id": "glass_book",

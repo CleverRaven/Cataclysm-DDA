@@ -463,7 +463,7 @@
     "type": "TOOL",
     "name": { "str": "permanent marker" },
     "description": "A King Size™ industrial-strength permanent marker, about halfway between a typical marker and a can of spray paint in size.  Activate it to write something down.  However, writing \"Elbereth\" probably won't help you.",
-    "weight": "113 g",
+    "weight": "28 g",
     "volume": "50 ml",
     "price": 500,
     "price_postapoc": 10,
@@ -787,7 +787,7 @@
     "warmth": 0,
     "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE" ],
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "PADDED" ],
     "armor": [
       {
         "encumbrance": 25,
@@ -1031,5 +1031,28 @@
     "flags": [ "REACH_ATTACK" ],
     "to_hit": { "grip": "solid", "length": "long", "surface": "point", "balance": "neutral" },
     "melee_damage": { "cut": 1 }
+  },
+  {
+    "type": "TOOL",
+    "id": "nm_teeth",
+    "symbol": ",",
+    "color": "light_cyan",
+    "name": { "str_sp": "monster teeth" },
+    "category": "other",
+    "description": "Impossibly-sharp teeth extracted from a giant corpse.  You could use them as a weapon, but you might want to wear gloves.",
+    "material": [ "bone" ],
+    "weight": "42 g",
+    "volume": "30 ml",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_teeth",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefully place the teeth on the ground, ready to be walked on by something passing by."
+    },
+    "flags": [ "HURT_WHEN_WIELDED", "TRADER_AVOID", "SINGLE_USE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "to_hit": -1,
+    "melee_damage": { "cut": 12 },
+    "weapon_category": [ "SHIVS" ]
   }
 ]

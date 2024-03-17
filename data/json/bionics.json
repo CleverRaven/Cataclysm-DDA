@@ -753,6 +753,7 @@
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "vitamin_absorb_mod": 1.5,
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF", "PARAIMMUNE", "IMMUNE_SPOIL" ],
+    "enchantments": [ { "values": [ { "value": "KCAL", "multiply": 0.5 } ] } ],
     "cant_remove_reason": "The CBM has replaced the patient's digestive organs and cannot be removed.",
     "canceled_mutations": [
       "WEAKSTOMACH",
@@ -815,8 +816,10 @@
     "name": { "str": "Enhanced Hearing" },
     "description": "When this bionic is active, your hearing will be drastically improved, allowing you to hear ten times better than the average person.  Additionally, high-intensity sounds will be automatically dampened before they can damage your hearing.",
     "occupied_bodyparts": [ [ "head", 2 ] ],
+    "mutation_conflicts": [ "BATEARS" ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
-    "active_flags": [ "SUPER_HEARING" ],
+    "active_flags": [ "SAFECRACK_NO_TOOL" ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "HEARING_MULT", "multiply": 2.5 } ] } ],
     "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ],
     "activated_on_install": true
@@ -1601,6 +1604,18 @@
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.25 } ] } ]
   },
   {
+    "id": "bio_sonar",
+    "type": "bionic",
+    "name": { "str": "Subaquatic Navigation System" },
+    "description": "While active, a tiny device in your inner ear periodically generates ultrasonic pulses which aid in navigation, provided you are underwater and able to hear.",
+    "occupied_bodyparts": [ [ "head", 1 ] ],
+    "act_cost": "1 J",
+    "trigger_cost": "5 J",
+    "flags": [ "BIONIC_TOGGLED" ],
+    "activated_eocs": [ "EOC_BIO_SONAR_activated" ],
+    "deactivated_eocs": [ "EOC_BIO_SONAR_deactivated" ]
+  },
+  {
     "id": "bio_taser",
     "type": "bionic",
     "name": { "str": "Super Stun Gun" },
@@ -1778,7 +1793,7 @@
     "name": { "str": "Titanium Skeletal Bracing" },
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds, and you receive slightly less bashing damage to your arms, legs and torso.",
     "occupied_bodyparts": [ [ "torso", 8 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "weight_capacity_bonus": "20 kg",
+    "enchantments": [ { "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "protec": [
       [ "torso", { "bash": 2 } ],

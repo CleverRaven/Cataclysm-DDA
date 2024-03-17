@@ -302,6 +302,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
     item_vars = type->item_variables;
 
+    update_prefix_suffix_flags();
     if( has_flag( flag_CORPSE ) ) {
         corpse = &type->source_monster.obj();
         if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
@@ -652,6 +653,7 @@ item &item::convert( const itype_id &new_type, Character *carrier )
         carrier->on_item_acquire( *this );
     }
 
+    update_prefix_suffix_flags();
     return *this;
 }
 
@@ -1263,6 +1265,7 @@ void item::add_automatic_whitelist()
     std::vector<item_pocket *> pkts = get_all_contained_pockets();
     if( pkts.size() == 1 && contents_only_one_type() ) {
         pkts.front()->settings.whitelist_item( contents.first_item().typeId() );
+        pkts.front()->settings.set_priority( 100 );
     }
 }
 
@@ -1273,6 +1276,7 @@ void item::clear_automatic_whitelist()
         cata::flat_set<itype_id> const &wl = pkts.front()->settings.get_item_whitelist();
         if( !wl.empty() ) {
             pkts.front()->settings.clear_item( *wl.begin() );
+            pkts.front()->settings.set_priority( 0 );
         }
     }
 }
@@ -1672,6 +1676,9 @@ stacking_info item::stacks_with( const item &rhs, bool check_components, bool co
         bits.set( tname::segments::TEMPERATURE, is_same_temperature( rhs ) );
         bits.set( tname::segments::TAGS, item_tags == rhs.item_tags );
     }
+
+    bits.set( tname::segments::CUSTOM_ITEM_PREFIX, bits[tname::segments::TAGS] );
+    bits.set( tname::segments::CUSTOM_ITEM_SUFFIX, bits[tname::segments::TAGS] );
 
     bits.set( tname::segments::FAULTS, faults == rhs.faults );
     bits.set( tname::segments::TECHNIQUES, techniques == rhs.techniques );
@@ -2410,7 +2417,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
     if( parts->test( iteminfo_parts::BASE_CATEGORY ) ) {
         info.emplace_back( "BASE", _( "Category: " ),
-                           "<header>" + get_category_shallow().name() + "</header>" );
+                           "<header>" + get_category_shallow().name_header() + "</header>" );
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION ) ) {
@@ -3098,6 +3105,37 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const itype *curammo = nullptr;
     if( mod->ammo_required() && !mod->ammo_remaining() ) {
         tmp = *mod;
+        if( tmp.ammo_types().size() == 1 && *tmp.ammo_types().begin() == ammotype::NULL_ID() ) {
+            itype_id default_bore_type_id = itype_id::NULL_ID();
+            for( const itype_id &bore_type_id : type->gun->default_mods ) {
+                std::map< ammotype, std::set<itype_id> > magazine_adaptor = find_type(
+                            bore_type_id )->mod->magazine_adaptor;
+                if( !magazine_adaptor.empty() && !magazine_adaptor.begin()->second.empty() ) {
+                    default_bore_type_id = bore_type_id;
+                    item tmp_mod( bore_type_id );
+                    tmp.put_in( tmp_mod, pocket_type::MOD );
+                    item tmp_mag( *magazine_adaptor.begin()->second.begin() );
+                    tmp_mag.ammo_set( magazine_adaptor.begin()->first->default_ammotype() );
+                    tmp.put_in( tmp_mag, pocket_type::MAGAZINE_WELL );
+                    break;
+                }
+            }
+            if( parts->test( iteminfo_parts::GUN_DEFAULT_BORE ) ) {
+                insert_separation_line( info );
+                if( default_bore_type_id != itype_id::NULL_ID() ) {
+                    info.emplace_back( "GUN",
+                                       _( "Weapon is <bad>not attached a bore mod</bad>, so stats below assume the default bore mod: " ),
+                                       string_format( "<stat>%s</stat>",
+                                                      default_bore_type_id->nname( 1 ) ) );
+                } else {
+                    info.emplace_back( "GUN",
+                                       _( "Weapon is <bad>not attached a bore mod</bad>. " ) );
+                    return;
+                }
+
+            }
+
+        }
         itype_id default_ammo = mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default();
         if( !default_ammo.is_null() ) {
             tmp.ammo_set( default_ammo );
@@ -3288,7 +3326,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     bool bipod = mod->has_flag( flag_BIPOD );
-
+    info.back().bNewLine = true;
     if( loaded_mod->gun_recoil( player_character ) ) {
         if( parts->test( iteminfo_parts::GUN_RECOIL ) ) {
             info.emplace_back( "GUN", _( "Effective recoil: " ), "",
@@ -3385,8 +3423,6 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
         insert_separation_line( info );
-        info.emplace_back( "GUN", _( "<bold>Base aim speed</bold>: " ), "<num>", iteminfo::no_flags,
-                           player_character.aim_per_move( *mod, MAX_RECOIL ) );
         for( const aim_type &type : player_character.get_aim_types( *mod ) ) {
             // Nameless and immediate aim levels don't get an entry.
             if( type.name.empty() || type.threshold == static_cast<int>( MAX_RECOIL ) ) {
@@ -4290,31 +4326,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     // Whatever the last entry was, we want a newline at this point
     info.back().bNewLine = true;
-
-    const units::mass weight_bonus = get_weight_capacity_bonus();
-    const float weight_modif = get_weight_capacity_modifier();
-    if( weight_modif != 1 ) {
-        std::string modifier;
-        if( weight_modif < 1 ) {
-            modifier = "<num><bad>x</bad>";
-        } else {
-            modifier = "<num><color_light_green>x</color>";
-        }
-        info.emplace_back( "ARMOR",
-                           _( "<bold>Weight capacity modifier</bold>: " ), modifier,
-                           iteminfo::no_newline | iteminfo::is_decimal, weight_modif );
-    }
-    if( weight_bonus != 0_gram ) {
-        std::string bonus;
-        if( weight_bonus < 0_gram ) {
-            bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
-        } else {
-            bonus = string_format( "<num> <color_light_green> %s</color>", weight_units() );
-        }
-        info.emplace_back( "ARMOR", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
-                           iteminfo::no_newline | iteminfo::is_decimal,
-                           convert_weight( weight_bonus ) );
-    }
 
     if( show_bodygraph ) {
         insert_separation_line( info );
@@ -5430,31 +5441,6 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         }
     }
 
-    const units::mass weight_bonus = bid->weight_capacity_bonus;
-    const float weight_modif = bid->weight_capacity_modifier;
-    if( weight_modif != 1 ) {
-        std::string modifier;
-        if( weight_modif < 1 ) {
-            modifier = "<num><bad>x</bad>";
-        } else {
-            modifier = "<num><color_light_green>x</color>";
-        }
-        info.emplace_back( "CBM",
-                           _( "<bold>Weight capacity modifier</bold>: " ), modifier,
-                           iteminfo::no_newline | iteminfo::is_decimal,
-                           weight_modif );
-    }
-    if( weight_bonus != 0_gram ) {
-        std::string bonus;
-        if( weight_bonus < 0_gram ) {
-            bonus = string_format( "<num> <bad>%s</bad>", weight_units() );
-        } else {
-            bonus = string_format( "<num> <color_light_green>%s</color>", weight_units() );
-        }
-        info.emplace_back( "CBM", _( "<bold>Weight capacity bonus</bold>: " ), bonus,
-                           iteminfo::no_newline | iteminfo::is_decimal,
-                           convert_weight( weight_bonus ) );
-    }
 }
 
 void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
@@ -5831,33 +5817,51 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                               "<info>sickly green glow</info>." ) );
     }
 
-    if( type->milling_data ) {
+    if( type->milling_data && !type->milling_data->into_.is_null() ) {
         if( parts->test( iteminfo_parts::DESCRIPTION_MILLEABLE ) ) {
 
             const islot_milling &mdata = *type->milling_data;
-            const int conv_rate = mdata.conversion_rate_;
-            std::string rate_info;
-            if( conv_rate < 1 ) {
-                const int ratio = int( 1 / mdata.conversion_rate_ );
-                rate_info = string_format(
-                                _( "* You need at least <neutral>%i %s</neutral> to produce <neutral>1 %s</neutral>." ), ratio,
-                                type->nname( ratio ),
-                                mdata.into_->nname( 1 ) );
+            const recipe rec = *mdata.recipe_;
+
+            if( rec.is_null() ) {
+                debugmsg( _( "Failed to find milling recipe for %s." ),
+                          this->tname( 1, false ) );
             } else {
-                const int ratio = int( mdata.conversion_rate_ );
-                rate_info = string_format(
-                                _( "* <neutral>1 %s</neutral> can be turned into <neutral>%i %s</neutral>." ),
-                                type->nname( 1 ), ratio,
-                                mdata.into_->nname( ratio ) );
+                const int product_size = rec.makes_amount();
+                const requirement_data::alter_item_comp_vector &components =
+                    rec.simple_requirements().get_components();
+                int lot_size = 0;
+
+                // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+                // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+                for( const std::vector<item_comp> &component : components ) {
+                    for( const item_comp &comp : component ) {
+                        if( comp.type == this->typeId() ) {
+                            lot_size = comp.count;
+                            break;
+                        }
+                    }
+
+                    if( lot_size > 0 ) {
+                        break;
+                    }
+                }
+
+                if( lot_size == 0 ) {
+                    debugmsg( _( "Failed to find milling recipe for %s. It can't be milled." ),
+                              this->display_name().c_str() );
+                } else {
+                    std::string rate_info = string_format(
+                                                _( "* <neutral>%d %s</neutral> can be turned into <neutral>%d %s</neutral>." ),
+                                                lot_size,
+                                                type->nname( lot_size ), product_size,
+                                                mdata.into_->nname( product_size ) );
+
+                    info.emplace_back( "DESCRIPTION",
+                                       string_format( _( "* This item can be <info>milled</info>." ) ) );
+                    info.emplace_back( "DESCRIPTION", rate_info );
+                }
             }
-            info.emplace_back( "DESCRIPTION",
-                               string_format( _( "* This item can be <info>milled</info>." ) ) );
-            info.emplace_back( "DESCRIPTION", rate_info );
-            info.emplace_back( "DESCRIPTION",
-                               string_format(
-                                   _( "* It has a conversion rate of <neutral>1 %s</neutral> for <neutral>%.3f %s</neutral>." ),
-                                   type->nname( 1 ),
-                                   mdata.conversion_rate_, mdata.into_->nname( mdata.conversion_rate_ ) ) );
         }
     }
 
@@ -6660,6 +6664,31 @@ void item::update_inherited_flags()
             }
         }
     }
+    update_prefix_suffix_flags();
+}
+
+void item::update_prefix_suffix_flags()
+{
+    prefix_tags_cache.clear();
+    suffix_tags_cache.clear();
+    auto const insert_prefix_suffix_flags = [this]( FlagsSetType const & Flags ) {
+        for( flag_id const &f : Flags ) {
+            update_prefix_suffix_flags( f );
+        }
+    };
+    insert_prefix_suffix_flags( get_flags() );
+    insert_prefix_suffix_flags( type->get_flags() );
+    insert_prefix_suffix_flags( inherited_tags_cache );
+}
+
+void item::update_prefix_suffix_flags( const flag_id &f )
+{
+    if( !f->item_prefix().empty() ) {
+        prefix_tags_cache.emplace( f );
+    }
+    if( !f->item_suffix().empty() ) {
+        suffix_tags_cache.emplace( f );
+    }
 }
 
 void item::on_contents_changed()
@@ -7011,6 +7040,10 @@ int item::price_no_contents( bool practical, std::optional<int> price_override )
         // with no value (it's *everywhere*), but valuable items retain most of their value.
         // https://github.com/CleverRaven/Cataclysm-DDA/issues/49469
         price = std::max( price - PRICE_FILTHY_MALUS, 0 );
+    }
+
+    for( fault_id fault : faults ) {
+        price *= fault->price_mod();
     }
 
     return price;
@@ -7542,6 +7575,7 @@ item &item::set_flag( const flag_id &flag )
 {
     if( flag.is_valid() ) {
         item_tags.insert( flag );
+        update_prefix_suffix_flags( flag );
         requires_tags_processing = true;
     } else {
         debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
@@ -7549,9 +7583,16 @@ item &item::set_flag( const flag_id &flag )
     return *this;
 }
 
+item &item::set_fault( const fault_id &fault_id )
+{
+    faults.insert( fault_id );
+    return *this;
+}
+
 item &item::unset_flag( const flag_id &flag )
 {
     item_tags.erase( flag );
+    update_prefix_suffix_flags();
     requires_tags_processing = true;
     return *this;
 }
@@ -7570,6 +7611,16 @@ item &item::set_flag_recursive( const flag_id &flag )
 const item::FlagsSetType &item::get_flags() const
 {
     return item_tags;
+}
+
+const item::FlagsSetType &item::get_prefix_flags() const
+{
+    return prefix_tags_cache;
+}
+
+const item::FlagsSetType &item::get_suffix_flags() const
+{
+    return suffix_tags_cache;
 }
 
 bool item::has_property( const std::string &prop ) const
@@ -7910,24 +7961,6 @@ void item::calc_rot_while_processing( time_duration processing_duration )
 
     // Apply no rot or temperature while smoking
     last_temp_check += processing_duration;
-}
-
-float item::get_weight_capacity_modifier() const
-{
-    const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
-        return 1;
-    }
-    return t->weight_capacity_modifier;
-}
-
-units::mass item::get_weight_capacity_bonus() const
-{
-    const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
-        return 0_gram;
-    }
-    return t->weight_capacity_bonus;
 }
 
 int item::get_env_resist( int override_base_resist ) const
@@ -9297,8 +9330,8 @@ std::string item::variant_description() const
 
     // append the description instead of fully overwriting it
     if( itype_variant().append ) {
-        return _( string_format( "%s  %s", type->description.translated(),
-                                 itype_variant().alt_description.translated() ) );
+        return string_format( pgettext( "variant description", "%s  %s" ), type->description.translated(),
+                              itype_variant().alt_description.translated() );
     } else {
         return itype_variant().alt_description.translated();
     }
@@ -9686,12 +9719,14 @@ bool item::is_irremovable() const
 
 bool item::is_broken() const
 {
-    return has_flag( flag_ITEM_BROKEN );
+    return has_flag( flag_ITEM_BROKEN ) || has_fault_flag( std::string( "ITEM_BROKEN" ) );
 }
 
 bool item::is_broken_on_active() const
 {
-    return has_flag( flag_ITEM_BROKEN ) || ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
+    return has_flag( flag_ITEM_BROKEN ) ||
+           has_fault_flag( std::string( "ITEM_BROKEN" ) ) ||
+           ( wetness && has_flag( flag_WATER_BREAK_ACTIVE ) );
 }
 
 int item::wind_resist() const
@@ -12992,8 +13027,7 @@ bool item::process_fake_mill( map &here, Character * /*carrier*/, const tripoint
         return true; //destroy fake mill
     }
     if( age() >= 6_hours || item_counter == 0 ) {
-        iexamine::mill_finalize( get_avatar(), pos,
-                                 birthday() ); //activate effects when timers goes to zero
+        iexamine::mill_finalize( get_avatar(), pos ); //activate effects when timers goes to zero
         return true; //destroy fake mill item
     }
 
@@ -13959,7 +13993,10 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
         if( wetness && has_flag( flag_WATER_BREAK ) ) {
             deactivate();
-            set_flag( flag_ITEM_BROKEN );
+            set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            if( has_flag( flag_ELECTRONIC ) ) {
+                set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+            }
         }
 
         if( !is_food() && item_counter > 0 ) {
@@ -14102,30 +14139,6 @@ std::string item::get_plant_name() const
         return std::string{};
     }
     return type->seed->plant_name.translated();
-}
-
-std::optional<furn_str_id> item::get_plant_seedling_form() const
-{
-    if( !type->seed ) {
-        return std::nullopt;
-    }
-    return type->seed->seedling_form;
-}
-
-std::optional<furn_str_id> item::get_plant_mature_form() const
-{
-    if( !type->seed ) {
-        return std::nullopt;
-    }
-    return type->seed->mature_form;
-}
-
-std::optional<furn_str_id> item::get_plant_harvestable_form() const
-{
-    if( !type->seed ) {
-        return std::nullopt;
-    }
-    return type->seed->harvestable_form;
 }
 
 bool item::is_dangerous() const
@@ -14456,6 +14469,13 @@ std::string item::nname( const itype_id &id, unsigned int quantity )
 {
     const itype *t = find_type( id );
     return t->nname( quantity );
+}
+
+std::string item::tname( const itype_id &id, unsigned int quantity,
+                         const tname::segment_bitset &segments )
+{
+    item item_temp( id );
+    return item_temp.tname( quantity, segments );
 }
 
 bool item::count_by_charges( const itype_id &id )

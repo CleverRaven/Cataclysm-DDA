@@ -413,9 +413,8 @@ void advanced_inventory::print_items( side p, bool active )
                 break;
             }
             // insert category header
-            mvwprintz( window, point( ( columns - utf8_width( sitem.cat->name() ) - 6 ) / 2, 6 + line ), c_cyan,
-                       "[%s]",
-                       sitem.cat->name() );
+            mvwprintz( window, point( ( columns - utf8_width( sitem.cat->name_header() ) - 6 ) / 2, 6 + line ),
+                       c_cyan, "[%s]", sitem.cat->name_header() );
             item_line = line + 1;
         }
 

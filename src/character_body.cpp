@@ -134,10 +134,7 @@ void Character::update_body_wetness( const w_point &weather )
             }
 
             // Make clothing slow down drying
-            const float base_clothing_mult = worn.clothing_wetness_mult( bp );
-            // always some evaporation even if completely covered
-            // doesn't handle things that would be "air tight"
-            const float clothing_mult = std::max( base_clothing_mult, .1f );
+            const float clothing_mult = worn.clothing_wetness_mult( bp );
 
             const time_duration drying = bp->drying_increment * average_drying * trait_mult * weather_mult *
                                          temp_mult / clothing_mult;
@@ -220,11 +217,10 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
-        static const std::string fatigue_modifier( "fatigue_modifier" );
-        static const std::string fatigue_regen_modifier( "fatigue_regen_modifier" );
-        activity_history.try_reduce_weariness( base_bmr(),
-                                               1.0f + mutation_value( fatigue_modifier ),
-                                               1.0f + mutation_value( fatigue_regen_modifier ) );
+        float fatigue_mod = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, 1 );
+        float fatigue_regen_mod = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN, 1 );
+        activity_history.try_reduce_weariness( base_bmr(), fatigue_mod, fatigue_regen_mod );
+
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
@@ -923,9 +919,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const needs_rates rates = calc_needs_rates();
     // No food/thirst/fatigue clock at all
     const bool debug_ls = has_trait( trait_DEBUG_LS );
-    // No food/thirst, capped fatigue clock (only up to tired)
-    const bool npc_no_food = !needs_food();
-    const bool foodless = debug_ls || npc_no_food;
+    const bool foodless = debug_ls || !needs_food();
     const bool no_thirst = has_flag( json_flag_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
@@ -965,8 +959,8 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             mod_stored_calories( -std::floor( five_mins * kcal_per_time * 1000 ) );
         }
     }
-    // if npc_no_food no need to calc hunger, and set hunger_effect
-    if( npc_no_food ) {
+    // if foodless no need to calc hunger, and set hunger_effect
+    if( foodless ) {
         return;
     }
     if( stomach.time_since_ate() > 10_minutes ) {

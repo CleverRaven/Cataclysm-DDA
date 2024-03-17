@@ -15,42 +15,42 @@
       "file": "ASCIITiles.png",
       "//": "range 1 to 191",
       "tiles": [
-        { "id": [ "overmap_horde_3", "overmap_horde_4", "overmap_horde_5", "overmap_horde_6" ], "fg": 180, "rotates": false },
+        { "id": [ "overmap_horde_3", "overmap_horde_4", "overmap_horde_5", "overmap_horde_6" ], "fg": 182, "rotates": false },
         {
           "id": [ "overmap_horde_7", "overmap_horde_8", "overmap_horde_9", "overmap_horde_10" ],
-          "fg": 179,
+          "fg": 181,
           "rotates": false
         },
-        { "id": [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 63 },
-        { "id": "unknown_terrain", "fg": 154, "rotates": false },
+        { "id": [ "cursor", "highlight", "line_target", "line_trail" ], "fg": 64 },
+        { "id": "unknown_terrain", "fg": 156, "rotates": false },
         {
           "id": "road",
-          "fg": 76,
+          "fg": 77,
           "multitile": true,
           "additional_tiles": [
-            { "id": "center", "fg": 76 },
-            { "id": "corner", "fg": [ 78, 71, 77, 70 ] },
-            { "id": "t_connection", "fg": [ 73, 74, 72, 69 ] },
-            { "id": "edge", "fg": [ 68, 75 ] },
-            { "id": "end_piece", "fg": [ 68, 75, 68, 75 ] },
-            { "id": "unconnected", "fg": [ 76, 76 ] }
+            { "id": "center", "fg": 77 },
+            { "id": "corner", "fg": [ 79, 72, 78, 71 ] },
+            { "id": "t_connection", "fg": [ 74, 75, 73, 70 ] },
+            { "id": "edge", "fg": [ 69, 76 ] },
+            { "id": "end_piece", "fg": [ 69, 76, 69, 76 ] },
+            { "id": "unconnected", "fg": [ 77, 77 ] }
           ]
         },
         {
           "id": "forest_trail",
-          "fg": 93,
+          "fg": 94,
           "multitile": true,
           "additional_tiles": [
-            { "id": "center", "fg": 93 },
-            { "id": "corner", "fg": [ 95, 88, 94, 87 ] },
-            { "id": "t_connection", "fg": [ 90, 91, 89, 86 ] },
-            { "id": "edge", "fg": [ 85, 92 ] },
-            { "id": "end_piece", "fg": [ 85, 92, 85, 92 ] },
-            { "id": "unconnected", "fg": [ 93, 93 ] }
+            { "id": "center", "fg": 94 },
+            { "id": "corner", "fg": [ 96, 89, 95, 88 ] },
+            { "id": "t_connection", "fg": [ 91, 92, 90, 87 ] },
+            { "id": "edge", "fg": [ 86, 93 ] },
+            { "id": "end_piece", "fg": [ 86, 93, 86, 93 ] },
+            { "id": "unconnected", "fg": [ 94, 94 ] }
           ]
         },
-        { "id": "clear", "fg": 173, "bg": 106 },
-        { "id": "null", "fg": 134, "bg": 140 },
+        { "id": "clear", "fg": 175, "bg": 108 },
+        { "id": "null", "fg": 136, "bg": 142 },
         {
           "id": [
             "horse_farm_1",
@@ -65,22 +65,22 @@
             "horse_farm_8"
           ],
           "fg": 18,
-          "bg": 52
+          "bg": 53
         },
-        { "id": "horse_farm_13_roof", "fg": 43, "bg": 52, "rotates": true },
-        { "id": "horse_farm_13", "fg": 43, "bg": 52, "rotates": true },
-        { "id": "horse_farm_2", "fg": 18, "bg": 52 },
-        { "id": "horse_farm_4", "fg": 5, "bg": 52 },
-        { "id": "horse_farm_4_roof", "fg": 5, "bg": 52 },
-        { "id": "horse_farm_7", "fg": 21, "bg": 52 },
-        { "id": "horse_farm_7_hayloft", "fg": 21, "bg": 52 },
-        { "id": "horse_farm_7_roof", "fg": 21, "bg": 52 },
-        { "id": "horse_farm_9", "fg": 5, "bg": 52 },
-        { "id": "horse_farm_9_roof", "fg": 5, "bg": 52 },
-        { "id": "horse_farm_10", "fg": 5, "bg": 52 },
-        { "id": "horse_farm_10_roof", "fg": 5, "bg": 52 },
-        { "id": "horse_farm_13_2ndfloor", "fg": 43, "bg": 52, "rotates": true },
-        { "id": "cabin_isherwood", "fg": 28, "bg": 84 },
+        { "id": "horse_farm_13_roof", "fg": 44, "bg": 53, "rotates": true },
+        { "id": "horse_farm_13", "fg": 44, "bg": 53, "rotates": true },
+        { "id": "horse_farm_2", "fg": 18, "bg": 53 },
+        { "id": "horse_farm_4", "fg": 5, "bg": 53 },
+        { "id": "horse_farm_4_roof", "fg": 5, "bg": 53 },
+        { "id": "horse_farm_7", "fg": 21, "bg": 53 },
+        { "id": "horse_farm_7_hayloft", "fg": 21, "bg": 53 },
+        { "id": "horse_farm_7_roof", "fg": 21, "bg": 53 },
+        { "id": "horse_farm_9", "fg": 5, "bg": 53 },
+        { "id": "horse_farm_9_roof", "fg": 5, "bg": 53 },
+        { "id": "horse_farm_10", "fg": 5, "bg": 53 },
+        { "id": "horse_farm_10_roof", "fg": 5, "bg": 53 },
+        { "id": "horse_farm_13_2ndfloor", "fg": 44, "bg": 53, "rotates": true },
+        { "id": "cabin_isherwood", "fg": 29, "bg": 85 },
         {
           "id": [
             "riverside_dwelling",
@@ -93,12 +93,12 @@
             "riverside_dwelling3_roof"
           ],
           "fg": 22,
-          "bg": 168
+          "bg": 170
         },
-        { "id": [ "cabin_lake", "lake_cabin_boathouse", "cabin_strange" ], "fg": 28, "bg": 84 },
-        { "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ], "fg": 28, "bg": 84 },
-        { "id": "cabin_strange_b", "fg": 28, "bg": 84 },
-        { "id": "cabin_strange_roof", "fg": 28, "bg": 84 },
+        { "id": [ "cabin_lake", "lake_cabin_boathouse", "cabin_strange" ], "fg": 29, "bg": 85 },
+        { "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ], "fg": 29, "bg": 85 },
+        { "id": "cabin_strange_b", "fg": 29, "bg": 85 },
+        { "id": "cabin_strange_roof", "fg": 29, "bg": 85 },
         {
           "id": [
             "cabin",
@@ -113,9 +113,10 @@
             "bandit_cabin",
             "cabin_prepper"
           ],
-          "fg": 28,
-          "bg": 84
+          "fg": 29,
+          "bg": 85
         },
+        { "id": "cabin_liam", "fg": 29, "bg": 85 },
         {
           "id": [
             "cabin_roof",
@@ -129,13 +130,13 @@
             "cabin_roof_lapin",
             "bandit_cabin_roof"
           ],
-          "fg": 28,
-          "bg": 84
+          "fg": 29,
+          "bg": 85
         },
         {
           "id": [ "cabin_lakeside", "cabin_lakeside1", "cabin_lakeside2", "cabin_lakeside3", "cabin_lakeside4", "cabin_lakeside5" ],
-          "fg": 28,
-          "bg": 84
+          "fg": 29,
+          "bg": 85
         },
         {
           "id": [
@@ -146,19 +147,19 @@
             "cabin_lakeside4_roof",
             "cabin_lakeside5_roof"
           ],
-          "fg": 28,
-          "bg": 84
+          "fg": 29,
+          "bg": 85
         },
-        { "id": [ "hunter_shack", "hunter_shack_1" ], "fg": 22, "bg": 64 },
-        { "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ], "fg": 22, "bg": 64 },
-        { "id": [ "drug_lab", "bandit_drug_lab" ], "fg": 61, "bg": 1, "rotates": true },
-        { "id": "drug_lab_roof", "fg": 61, "bg": 1, "rotates": true },
-        { "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ], "fg": 22, "bg": 84 },
-        { "id": "campground_roof", "fg": 22, "bg": 84 },
+        { "id": [ "hunter_shack", "hunter_shack_1" ], "fg": 22, "bg": 65 },
+        { "id": [ "hunter_shack_roof", "hunter_shack_roof_1" ], "fg": 22, "bg": 65 },
+        { "id": [ "drug_lab", "bandit_drug_lab" ], "fg": 62, "bg": 1, "rotates": true },
+        { "id": "drug_lab_roof", "fg": 62, "bg": 1, "rotates": true },
+        { "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ], "fg": 22, "bg": 85 },
+        { "id": "campground_roof", "fg": 22, "bg": 85 },
         {
           "id": [ "godco_1", "godco_2", "godco_3", "godco_4", "godco_5", "godco_6", "godco_7", "godco_8", "godco_9" ],
           "fg": 22,
-          "bg": 84
+          "bg": 85
         },
         {
           "id": [
@@ -175,33 +176,33 @@
             "godco_2_2"
           ],
           "fg": 22,
-          "bg": 84
+          "bg": 85
         },
-        { "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ], "fg": 28, "bg": 84 },
+        { "id": [ "chemical_lab_ocu", "chemical_lab_roof_ocu" ], "fg": 29, "bg": 85 },
         {
           "id": [ "lumbermill_0_0_ocu", "lumbermill_0_1_ocu", "lumbermill_1_0_ocu", "lumbermill_1_1_ocu" ],
-          "fg": 34,
-          "bg": 84
+          "fg": 35,
+          "bg": 85
         },
-        { "id": "rural_road", "fg": 53, "bg": 1, "rotates": true },
-        { "id": "rural_road_3way", "fg": 56, "bg": 1, "rotates": true },
-        { "id": "rural_road_turn", "fg": 54, "bg": 1, "rotates": true },
-        { "id": "rural_road_turn1", "fg": 60, "bg": 1, "rotates": true },
-        { "id": "rural_road_forest", "fg": 53, "bg": 1, "rotates": true },
-        { "id": "rural_road_turn_forest", "fg": 54, "bg": 1, "rotates": true },
-        { "id": "rural_road_turn1_forest", "fg": 60, "bg": 1, "rotates": true },
-        { "id": "rural_road_3way_forest", "fg": 56, "bg": 1, "rotates": true },
+        { "id": "rural_road", "fg": 54, "bg": 1, "rotates": true },
+        { "id": "rural_road_3way", "fg": 57, "bg": 1, "rotates": true },
+        { "id": "rural_road_turn", "fg": 55, "bg": 1, "rotates": true },
+        { "id": "rural_road_turn1", "fg": 61, "bg": 1, "rotates": true },
+        { "id": "rural_road_forest", "fg": 54, "bg": 1, "rotates": true },
+        { "id": "rural_road_turn_forest", "fg": 55, "bg": 1, "rotates": true },
+        { "id": "rural_road_turn1_forest", "fg": 61, "bg": 1, "rotates": true },
+        { "id": "rural_road_3way_forest", "fg": 57, "bg": 1, "rotates": true },
         {
-          "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking" ],
-          "fg": 53,
+          "id": [ "dirt_road", "dirt_road_forest", "dirt_road_turnback", "dirt_road_farm_parking", "cabin_liam_driveway" ],
+          "fg": 54,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "dirt_road_3way", "dirt_road_3way_forest" ], "fg": 56, "bg": 1, "rotates": true },
-        { "id": [ "dirt_road_turn", "dirt_road_turn_forest" ], "fg": 54, "bg": 1, "rotates": true },
-        { "id": "dirt_road_4way", "fg": 58, "bg": 1, "rotates": true },
-        { "id": "sugar_house", "fg": 39, "bg": 52 },
-        { "id": "sugar_house_roof", "fg": 39, "bg": 52 },
+        { "id": [ "dirt_road_3way", "dirt_road_3way_forest" ], "fg": 57, "bg": 1, "rotates": true },
+        { "id": [ "dirt_road_turn", "dirt_road_turn_forest" ], "fg": 55, "bg": 1, "rotates": true },
+        { "id": "dirt_road_4way", "fg": 59, "bg": 1, "rotates": true },
+        { "id": "sugar_house", "fg": 40, "bg": 53 },
+        { "id": "sugar_house_roof", "fg": 40, "bg": 53 },
         {
           "id": [
             "2farm_1",
@@ -242,12 +243,12 @@
             "horse_farm_isherwood_8"
           ],
           "fg": 18,
-          "bg": 52
+          "bg": 53
         },
         {
           "id": [ "2farm_roof_15", "farm_lot_M1", "farm_lot_wire_straight_h", "farm_lot_wire_turn_v_open" ],
           "fg": 18,
-          "bg": 52
+          "bg": 53
         },
         {
           "id": [
@@ -267,20 +268,20 @@
             "farmland_U"
           ],
           "fg": 18,
-          "bg": 52
+          "bg": 53
         },
         {
           "id": [ "farm_2_roof", "farm_isherwood_2_roof", "farm_horse_house_1_roof", "horse_farm_isherwood_13_roof" ],
-          "fg": 43,
-          "bg": 52,
+          "fg": 44,
+          "bg": 53,
           "rotates": true
         },
-        { "id": [ "farm_3", "farm_isherwood_3" ], "fg": 18, "bg": 52 },
-        { "id": [ "farm_3_roof", "farm_isherwood_3_roof" ], "fg": 18, "bg": 52 },
+        { "id": [ "farm_3", "farm_isherwood_3" ], "fg": 18, "bg": 53 },
+        { "id": [ "farm_3_roof", "farm_isherwood_3_roof" ], "fg": 18, "bg": 53 },
         {
           "id": [ "farm_stills_4", "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
           "fg": 18,
-          "bg": 52
+          "bg": 53
         },
         {
           "id": [
@@ -296,8 +297,8 @@
             "farm_dairy_twd_4",
             "2farm_roof_11"
           ],
-          "fg": 43,
-          "bg": 52,
+          "fg": 44,
+          "bg": 53,
           "rotates": true
         },
         {
@@ -312,46 +313,46 @@
             "farm_stills_10"
           ],
           "fg": 18,
-          "bg": 52
+          "bg": 53
         },
-        { "id": "orchard_processing", "fg": 40, "bg": 120 },
-        { "id": "orchard_stall", "fg": 40, "bg": 120 },
-        { "id": "orchard_processing_roof", "fg": 40, "bg": 120 },
-        { "id": "orchard_stall_roof", "fg": 40, "bg": 120 },
+        { "id": "orchard_processing", "fg": 41, "bg": 122 },
+        { "id": "orchard_stall", "fg": 41, "bg": 122 },
+        { "id": "orchard_processing_roof", "fg": 41, "bg": 122 },
+        { "id": "orchard_stall_roof", "fg": 41, "bg": 122 },
         {
           "id": [ "dairy_farm_SE_roof", "dairy_farm_SW_roof", "dairy_farm_isherwood_SE_roof", "dairy_farm_isherwood_SW_roof" ],
           "fg": 10,
-          "bg": 52
+          "bg": 53
         },
-        { "id": "farm_isherwood_2_cellar", "fg": 36, "bg": 52 },
-        { "id": "farm_isherwood_3_hayloft", "fg": 18, "bg": 52 },
-        { "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ], "fg": 18, "bg": 84 },
-        { "id": [ "farm_horse_track_1", "farm_horse_track_2" ], "fg": 44, "bg": 106 },
-        { "id": "farm_horse_track_large_1", "fg": 17, "bg": 106, "rotates": true },
-        { "id": "farm_horse_track_large_2", "fg": 13, "bg": 106, "rotates": true },
-        { "id": "farm_horse_track_large_3", "fg": 14, "bg": 106, "rotates": true },
-        { "id": "farm_horse_track_large_4", "fg": 16, "bg": 106, "rotates": true },
-        { "id": [ "paddock_trailhead_5", "paddock_trailhead_8" ], "fg": 85, "bg": 1, "rotates": true },
-        { "id": [ "moonshine_still", "moonshine_still_1", "moonshine_still_2" ], "fg": 39, "bg": 52 },
-        { "id": [ "moonshine_still_roof", "moonshine_still_roof_1", "moonshine_still_roof_2" ], "fg": 39, "bg": 52 },
-        { "id": "TreeFarm_1b", "fg": 40, "bg": 84 },
-        { "id": "horse_farm_isherwood_2", "fg": 18, "bg": 52 },
-        { "id": [ "farm_horse_carriage_house_1", "horse_farm_isherwood_4" ], "fg": 5, "bg": 52 },
-        { "id": [ "farm_horse_carriage_house_1_roof", "horse_farm_isherwood_4_roof" ], "fg": 5, "bg": 52 },
-        { "id": [ "horse_farm_isherwood_7", "farm_horse_stable_1" ], "fg": 21, "bg": 52 },
-        { "id": [ "farm_horse_stable_1_hayloft", "horse_farm_isherwood_7_hayloft" ], "fg": 21, "bg": 52 },
-        { "id": [ "farm_horse_stable_1_roof", "horse_farm_isherwood_7_roof" ], "fg": 21, "bg": 52 },
-        { "id": [ "farm_1_greenhouse", "horse_farm_isherwood_9", "farm_horse_greenhouse" ], "fg": 5, "bg": 52 },
+        { "id": "farm_isherwood_2_cellar", "fg": 37, "bg": 53 },
+        { "id": "farm_isherwood_3_hayloft", "fg": 18, "bg": 53 },
+        { "id": [ "orchard", "orchard_roof", "orchard_1", "orchard_roof_1" ], "fg": 18, "bg": 85 },
+        { "id": [ "farm_horse_track_1", "farm_horse_track_2" ], "fg": 45, "bg": 108 },
+        { "id": "farm_horse_track_large_1", "fg": 17, "bg": 108, "rotates": true },
+        { "id": "farm_horse_track_large_2", "fg": 13, "bg": 108, "rotates": true },
+        { "id": "farm_horse_track_large_3", "fg": 14, "bg": 108, "rotates": true },
+        { "id": "farm_horse_track_large_4", "fg": 16, "bg": 108, "rotates": true },
+        { "id": [ "paddock_trailhead_5", "paddock_trailhead_8" ], "fg": 86, "bg": 1, "rotates": true },
+        { "id": [ "moonshine_still", "moonshine_still_1", "moonshine_still_2" ], "fg": 40, "bg": 53 },
+        { "id": [ "moonshine_still_roof", "moonshine_still_roof_1", "moonshine_still_roof_2" ], "fg": 40, "bg": 53 },
+        { "id": "TreeFarm_1b", "fg": 41, "bg": 85 },
+        { "id": "horse_farm_isherwood_2", "fg": 18, "bg": 53 },
+        { "id": [ "farm_horse_carriage_house_1", "horse_farm_isherwood_4" ], "fg": 5, "bg": 53 },
+        { "id": [ "farm_horse_carriage_house_1_roof", "horse_farm_isherwood_4_roof" ], "fg": 5, "bg": 53 },
+        { "id": [ "horse_farm_isherwood_7", "farm_horse_stable_1" ], "fg": 21, "bg": 53 },
+        { "id": [ "farm_horse_stable_1_hayloft", "horse_farm_isherwood_7_hayloft" ], "fg": 21, "bg": 53 },
+        { "id": [ "farm_horse_stable_1_roof", "horse_farm_isherwood_7_roof" ], "fg": 21, "bg": 53 },
+        { "id": [ "farm_1_greenhouse", "horse_farm_isherwood_9", "farm_horse_greenhouse" ], "fg": 5, "bg": 53 },
         {
           "id": [ "farm_1_greenhouse_roof", "horse_farm_isherwood_9_roof", "farm_horse_greenhouse_roof" ],
           "fg": 5,
-          "bg": 52
+          "bg": 53
         },
-        { "id": [ "farm_1_coop", "horse_farm_isherwood_10" ], "fg": 5, "bg": 52 },
-        { "id": [ "farm_1_coop_roof", "horse_farm_isherwood_10_roof" ], "fg": 5, "bg": 52 },
-        { "id": "coop_chicken", "fg": 18, "bg": 52 },
-        { "id": "house_farm", "fg": 43, "bg": 52, "rotates": true },
-        { "id": "house_farm_roof", "fg": 43, "bg": 52, "rotates": true },
+        { "id": [ "farm_1_coop", "horse_farm_isherwood_10" ], "fg": 5, "bg": 53 },
+        { "id": [ "farm_1_coop_roof", "horse_farm_isherwood_10_roof" ], "fg": 5, "bg": 53 },
+        { "id": "coop_chicken", "fg": 18, "bg": 53 },
+        { "id": "house_farm", "fg": 44, "bg": 53, "rotates": true },
+        { "id": "house_farm_roof", "fg": 44, "bg": 53, "rotates": true },
         {
           "id": [
             "farm_dairy_twd_1",
@@ -362,13 +363,13 @@
             "farm_dairy_twd_10"
           ],
           "fg": 18,
-          "bg": 52
+          "bg": 53
         },
-        { "id": [ "farm_dairy_twd_5", "farm_dairy_twd_6" ], "fg": 43, "bg": 52, "rotates": true },
-        { "id": "farm_dairy_twd_7", "fg": 15, "bg": 52, "rotates": true },
-        { "id": "farm_dairy_twd_8", "fg": 16, "bg": 52, "rotates": true },
-        { "id": "farm_dairy_twd_11", "fg": 12, "bg": 52, "rotates": true },
-        { "id": "farm_dairy_twd_12", "fg": 43, "bg": 52, "rotates": true },
+        { "id": [ "farm_dairy_twd_5", "farm_dairy_twd_6" ], "fg": 44, "bg": 53, "rotates": true },
+        { "id": "farm_dairy_twd_7", "fg": 15, "bg": 53, "rotates": true },
+        { "id": "farm_dairy_twd_8", "fg": 16, "bg": 53, "rotates": true },
+        { "id": "farm_dairy_twd_11", "fg": 12, "bg": 53, "rotates": true },
+        { "id": "farm_dairy_twd_12", "fg": 44, "bg": 53, "rotates": true },
         {
           "id": [
             "horse_farm_isherwood_13_2ndfloor",
@@ -376,40 +377,41 @@
             "farm_dairy_twd_second_floor_3",
             "farm_dairy_twd_second_floor_4"
           ],
-          "fg": 43,
-          "bg": 52,
+          "fg": 44,
+          "bg": 53,
           "rotates": true
         },
         {
           "id": [ "farm_dairy_twd_second_floor_5", "farm_dairy_twd_second_floor_6", "farm_dairy_twd_second_floor_12" ],
-          "fg": 43,
-          "bg": 52,
+          "fg": 44,
+          "bg": 53,
           "rotates": true
         },
-        { "id": "exo_safehouse_stone_0", "fg": 61, "bg": 1, "rotates": true },
-        { "id": "exo_safehouse_stone_1", "fg": 61, "bg": 1, "rotates": true },
-        { "id": "exo_safehouse_stone_2", "fg": 61, "bg": 1, "rotates": true },
-        { "id": "s_gas_1", "fg": 101, "bg": 1, "rotates": true },
-        { "id": [ "s_gas", "s_gas_rural" ], "fg": 101, "bg": 1, "rotates": true },
-        { "id": [ "s_gas_roof_1", "s_gas_rural_roof" ], "fg": 101, "bg": 1, "rotates": true },
-        { "id": [ "s_pharm", "s_pharm_1" ], "fg": 132, "bg": 1, "rotates": true },
-        { "id": [ "s_pharm_roof", "s_pharm_roof_1" ], "fg": 132, "bg": 1, "rotates": true },
-        { "id": [ "office_doctor", "office_doctor_1", "office_doctor_2" ], "fg": 43, "bg": 129, "rotates": true },
+        { "id": "exo_safehouse_stone_0", "fg": 62, "bg": 1, "rotates": true },
+        { "id": "exo_safehouse_stone_1", "fg": 62, "bg": 1, "rotates": true },
+        { "id": "exo_safehouse_stone_2", "fg": 62, "bg": 1, "rotates": true },
+        { "id": "s_gas_1", "fg": 103, "bg": 1, "rotates": true },
+        { "id": [ "s_gas", "s_gas_rural", "s_gas_g1" ], "fg": 103, "bg": 1, "rotates": true },
+        { "id": "s_gas_g0", "fg": 101, "bg": 1, "rotates": true },
+        { "id": [ "s_gas_roof_1", "s_gas_rural_roof", "s_gas_g1_roof" ], "fg": 103, "bg": 1, "rotates": true },
+        { "id": [ "s_pharm", "s_pharm_1" ], "fg": 134, "bg": 1, "rotates": true },
+        { "id": [ "s_pharm_roof", "s_pharm_roof_1" ], "fg": 134, "bg": 1, "rotates": true },
+        { "id": [ "office_doctor", "office_doctor_1", "office_doctor_2" ], "fg": 44, "bg": 131, "rotates": true },
         {
           "id": [ "office_doctor_roof", "office_doctor_roof_1", "office_doctor_roof_2", "office_doctor_upper_roof_2" ],
-          "fg": 43,
-          "bg": 129,
+          "fg": 44,
+          "bg": 131,
           "rotates": true
         },
-        { "id": [ "office_cubical", "office_cubical_1", "small_office" ], "fg": 119, "bg": 1, "rotates": true },
+        { "id": [ "office_cubical", "office_cubical_1", "small_office" ], "fg": 121, "bg": 1, "rotates": true },
         {
           "id": [ "office_cubical_roof", "office_cubical_roof_1", "small_office_roof", "small_office_upper_roof" ],
-          "fg": 119,
+          "fg": 121,
           "bg": 1,
           "rotates": true
         },
-        { "id": "office_tower_ne", "fg": 40, "bg": 106 },
-        { "id": [ "office_tower_nw", "office_tower_sw", "office_tower_se" ], "fg": 8, "bg": 106 },
+        { "id": "office_tower_ne", "fg": 41, "bg": 108 },
+        { "id": [ "office_tower_nw", "office_tower_sw", "office_tower_se" ], "fg": 8, "bg": 108 },
         {
           "id": [
             "office_tower_underground_nw",
@@ -418,12 +420,12 @@
             "office_tower_underground_se"
           ],
           "fg": 6,
-          "bg": 106
+          "bg": 108
         },
         {
           "id": [ "office_tower_roof_nw", "office_tower_roof_ne", "office_tower_roof_sw", "office_tower_roof_se" ],
           "fg": 8,
-          "bg": 106
+          "bg": 108
         },
         {
           "id": [
@@ -453,7 +455,7 @@
             "office_tower_2_a1_tower_lab"
           ],
           "fg": 8,
-          "bg": 106
+          "bg": 108
         },
         {
           "id": [
@@ -467,33 +469,33 @@
             "office_tower_collapse_b_b2"
           ],
           "fg": 8,
-          "bg": 106
+          "bg": 108
         },
-        { "id": [ "s_grocery", "s_grocery_1" ], "fg": 97, "bg": 1, "rotates": true },
-        { "id": [ "s_grocery_roof", "s_grocery_roof_1" ], "fg": 97, "bg": 1, "rotates": true },
-        { "id": "trailer_commercial_10", "fg": 97, "bg": 1, "rotates": true },
-        { "id": "trailer_commercial_10_roof", "fg": 97, "bg": 1, "rotates": true },
-        { "id": "s_cosmetic", "fg": 97, "bg": 1, "rotates": true },
-        { "id": "s_cosmetic_roof", "fg": 97, "bg": 1, "rotates": true },
-        { "id": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ], "fg": 66, "bg": 1, "rotates": true },
+        { "id": [ "s_grocery", "s_grocery_1" ], "fg": 98, "bg": 1, "rotates": true },
+        { "id": [ "s_grocery_roof", "s_grocery_roof_1" ], "fg": 98, "bg": 1, "rotates": true },
+        { "id": "trailer_commercial_10", "fg": 98, "bg": 1, "rotates": true },
+        { "id": "trailer_commercial_10_roof", "fg": 98, "bg": 1, "rotates": true },
+        { "id": "s_cosmetic", "fg": 98, "bg": 1, "rotates": true },
+        { "id": "s_cosmetic_roof", "fg": 98, "bg": 1, "rotates": true },
+        { "id": [ "s_hardware", "s_hardware_1", "s_hardware_2", "s_hardware_3" ], "fg": 67, "bg": 1, "rotates": true },
         {
           "id": [ "s_hardware_roof", "s_hardware_roof_1", "s_hardware_roof_2", "s_hardware_roof_3" ],
-          "fg": 66,
+          "fg": 67,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ], "fg": 178, "bg": 1, "rotates": true },
+        { "id": [ "s_electronics", "s_electronics_1", "s_electronicstore" ], "fg": 180, "bg": 1, "rotates": true },
         {
           "id": [ "s_electronics_roof", "s_electronics_roof_1", "s_electronicstore_roof" ],
-          "fg": 178,
+          "fg": 180,
           "bg": 1,
           "rotates": true
         },
-        { "id": "s_electronicstore_2ndfloor", "fg": 178, "bg": 1, "rotates": true },
-        { "id": "s_sports", "fg": 104, "bg": 1, "rotates": true },
-        { "id": "s_sports_roof", "fg": 104, "bg": 1, "rotates": true },
-        { "id": "s_liquor", "fg": 135, "bg": 1, "rotates": true },
-        { "id": "s_liquor_roof", "fg": 135, "bg": 1, "rotates": true },
+        { "id": "s_electronicstore_2ndfloor", "fg": 180, "bg": 1, "rotates": true },
+        { "id": "s_sports", "fg": 106, "bg": 1, "rotates": true },
+        { "id": "s_sports_roof", "fg": 106, "bg": 1, "rotates": true },
+        { "id": "s_liquor", "fg": 137, "bg": 1, "rotates": true },
+        { "id": "s_liquor_roof", "fg": 137, "bg": 1, "rotates": true },
         {
           "id": [
             "s_gun",
@@ -507,20 +509,20 @@
             "s_gunstore",
             "s_gunstore_looted"
           ],
-          "fg": 153,
+          "fg": 155,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "s_gun_roof", "s_gun_roof_1", "s_gun_roof_3", "s_gun_roof_4", "s_gunstore_roof" ],
-          "fg": 153,
+          "fg": 155,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "s_gun_2ndfloor_4", "s_gunstore_2ndfloor" ], "fg": 153, "bg": 1, "rotates": true },
+        { "id": [ "s_gun_2ndfloor_4", "s_gunstore_2ndfloor" ], "fg": 155, "bg": 1, "rotates": true },
         {
           "id": [ "s_clothes", "s_clothes_1", "s_clothes_2", "s_clothes_3", "s_clothes_4", "s_clothes_5", "s_clothes_6" ],
-          "fg": 51,
+          "fg": 52,
           "bg": 1,
           "rotates": true
         },
@@ -535,22 +537,24 @@
             "s_clothes_roof_6",
             "s_clothes_upper_roof_4"
           ],
-          "fg": 51,
+          "fg": 52,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ], "fg": 43, "bg": 52, "rotates": true },
+        { "id": "s_fabricstore", "fg": 52, "bg": 1, "rotates": true },
+        { "id": "s_fabricstore_roof", "fg": 52, "bg": 1, "rotates": true },
+        { "id": [ "s_bookstore", "s_bookstore_1", "s_bookstore_2" ], "fg": 44, "bg": 53, "rotates": true },
         {
           "id": [ "s_bookstore_roof", "s_bookstore_roof_1", "s_bookstore_roof_2", "s_bookstore_upper_roof", "s_bookstore_upper_roof_1" ],
-          "fg": 43,
-          "bg": 52,
+          "fg": 44,
+          "bg": 53,
           "rotates": true
         },
-        { "id": "s_diner", "fg": 139, "bg": 1, "rotates": true },
-        { "id": [ "s_diner_2ndfloor", "s_diner_roof" ], "fg": 139, "bg": 1, "rotates": true },
+        { "id": "s_diner", "fg": 141, "bg": 1, "rotates": true },
+        { "id": [ "s_diner_2ndfloor", "s_diner_roof" ], "fg": 141, "bg": 1, "rotates": true },
         {
           "id": [ "s_restaurant", "s_restaurant_1", "s_restaurant_2", "s_restaurant_3" ],
-          "fg": 139,
+          "fg": 141,
           "bg": 1,
           "rotates": true
         },
@@ -563,50 +567,50 @@
             "s_restaurant_roof_2",
             "s_restaurant_roof_3"
           ],
-          "fg": 139,
+          "fg": 141,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "s_restaurant_fast", "s_restaurant_fast_1" ], "fg": 178, "bg": 133, "rotates": true },
-        { "id": [ "s_restaurant_fast_roof", "s_restaurant_fast_roof_1" ], "fg": 178, "bg": 133, "rotates": true },
+        { "id": [ "s_restaurant_fast", "s_restaurant_fast_1" ], "fg": 180, "bg": 135, "rotates": true },
+        { "id": [ "s_restaurant_fast_roof", "s_restaurant_fast_roof_1" ], "fg": 180, "bg": 135, "rotates": true },
         {
           "id": [ "s_restaurant_coffee", "s_restaurant_coffee_1", "s_restaurant_coffee_2" ],
-          "fg": 167,
-          "bg": 133,
+          "fg": 169,
+          "bg": 135,
           "rotates": true
         },
         {
           "id": [ "s_restaurant_coffee_roof", "s_restaurant_coffee_roof_1", "s_restaurant_coffee_roof_2" ],
-          "fg": 167,
-          "bg": 133,
+          "fg": 169,
+          "bg": 135,
           "rotates": true
         },
-        { "id": [ "s_teashop", "s_teashop_1" ], "fg": 104, "bg": 133, "rotates": true },
+        { "id": [ "s_teashop", "s_teashop_1" ], "fg": 106, "bg": 135, "rotates": true },
         {
           "id": [ "s_teashop_roof", "s_teashop_roof_1", "s_teashop_upper_roof_1" ],
-          "fg": 104,
-          "bg": 133,
+          "fg": 106,
+          "bg": 135,
           "rotates": true
         },
-        { "id": [ "bar", "bar_1" ], "fg": 43, "bg": 133, "rotates": true },
-        { "id": [ "bar_roof", "bar_roof_1" ], "fg": 43, "bg": 133, "rotates": true },
-        { "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ], "fg": 43, "bg": 140, "rotates": true },
+        { "id": [ "bar", "bar_1" ], "fg": 44, "bg": 135, "rotates": true },
+        { "id": [ "bar_roof", "bar_roof_1" ], "fg": 44, "bg": 135, "rotates": true },
+        { "id": [ "s_butcher", "s_butcher_1", "s_butcher_2" ], "fg": 44, "bg": 142, "rotates": true },
         {
           "id": [ "s_butcher_roof", "s_butcher_roof_1", "s_butcher_roof_2", "s_butcher_upper_roof", "s_butcher_upper_roof_1" ],
-          "fg": 43,
-          "bg": 140,
+          "fg": 44,
+          "bg": 142,
           "rotates": true
         },
-        { "id": [ "s_bike_shop", "s_bike_shop_1" ], "fg": 43, "bg": 64, "rotates": true },
-        { "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1" ], "fg": 43, "bg": 64, "rotates": true },
-        { "id": [ "s_pizza_parlor", "s_pizza_parlor_1" ], "fg": 139, "bg": 133, "rotates": true },
-        { "id": [ "s_pizza_parlor_roof", "s_pizza_parlor_roof_1" ], "fg": 139, "bg": 133, "rotates": true },
-        { "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ], "fg": 167, "bg": 1, "rotates": true },
-        { "id": [ "pawn_roof", "pawn_roof_1", "pawn_pf_roof" ], "fg": 167, "bg": 1, "rotates": true },
-        { "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ], "fg": 35, "bg": 106 },
-        { "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ], "fg": 35, "bg": 106 },
-        { "id": "furniture", "fg": 61, "bg": 1, "rotates": true },
-        { "id": [ "furniture_roof", "furniture_upper_roof" ], "fg": 61, "bg": 1, "rotates": true },
+        { "id": [ "s_bike_shop", "s_bike_shop_1" ], "fg": 44, "bg": 65, "rotates": true },
+        { "id": [ "s_bike_shop_roof", "s_bike_shop_roof_1" ], "fg": 44, "bg": 65, "rotates": true },
+        { "id": [ "s_pizza_parlor", "s_pizza_parlor_1" ], "fg": 141, "bg": 135, "rotates": true },
+        { "id": [ "s_pizza_parlor_roof", "s_pizza_parlor_roof_1" ], "fg": 141, "bg": 135, "rotates": true },
+        { "id": [ "pawn", "pawn_1", "pawn_pf", "pawn_pf_under" ], "fg": 169, "bg": 1, "rotates": true },
+        { "id": [ "pawn_roof", "pawn_roof_1", "pawn_pf_roof" ], "fg": 169, "bg": 1, "rotates": true },
+        { "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ], "fg": 36, "bg": 108 },
+        { "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ], "fg": 36, "bg": 108 },
+        { "id": "furniture", "fg": 62, "bg": 1, "rotates": true },
+        { "id": [ "furniture_roof", "furniture_upper_roof" ], "fg": 62, "bg": 1, "rotates": true },
         {
           "id": [
             "hdwr_large_0_0_0",
@@ -616,8 +620,8 @@
             "hdwr_large_1_1_0",
             "hdwr_large_1_2_0"
           ],
-          "fg": 127,
-          "bg": 52
+          "fg": 129,
+          "bg": 53
         },
         {
           "id": [
@@ -628,71 +632,71 @@
             "hdwr_large_0_2_1",
             "hdwr_large_1_2_1"
           ],
-          "fg": 127,
-          "bg": 52
+          "fg": 129,
+          "bg": 53
         },
-        { "id": "garage_gas_1", "fg": 101, "bg": 1, "rotates": true },
-        { "id": [ "dispensary", "dispensary_1", "dispensary_2" ], "fg": 29, "bg": 84 },
-        { "id": [ "dispensary_roof", "dispensary_roof_1", "dispensary_roof_2" ], "fg": 29, "bg": 84 },
-        { "id": [ "candy_shop", "candy_shop_1" ], "fg": 153, "bg": 106, "rotates": true },
-        { "id": [ "candy_shop_roof", "candy_shop_roof_1" ], "fg": 153, "bg": 106, "rotates": true },
-        { "id": "bakery", "fg": 178, "bg": 106, "rotates": true },
-        { "id": "bakery_roof", "fg": 178, "bg": 106, "rotates": true },
-        { "id": "bakery_upper_roof", "fg": 178, "bg": 106, "rotates": true },
-        { "id": "icecream_shop", "fg": 51, "bg": 106, "rotates": true },
-        { "id": "icecream_shop_roof", "fg": 51, "bg": 106, "rotates": true },
-        { "id": "landscapingsupplyco_1a", "fg": 34, "bg": 84 },
-        { "id": "landscapingsupplyco_1b", "fg": 34, "bg": 84 },
-        { "id": "landscapingsupplyco_1b_roof", "fg": 34, "bg": 84 },
-        { "id": "s_vfw", "fg": 10, "bg": 84 },
-        { "id": "s_vfw_roof", "fg": 10, "bg": 84 },
-        { "id": "s_thrift", "fg": 119, "bg": 1, "rotates": true },
-        { "id": "s_thrift_roof", "fg": 119, "bg": 1, "rotates": true },
-        { "id": "s_daycare", "fg": 51, "bg": 1, "rotates": true },
-        { "id": "s_daycare_roof", "fg": 51, "bg": 1, "rotates": true },
-        { "id": [ "s_petstore", "s_petstore_1", "s_petstore_2" ], "fg": 43, "bg": 168, "rotates": true },
+        { "id": "garage_gas_1", "fg": 103, "bg": 1, "rotates": true },
+        { "id": [ "dispensary", "dispensary_1", "dispensary_2" ], "fg": 30, "bg": 85 },
+        { "id": [ "dispensary_roof", "dispensary_roof_1", "dispensary_roof_2" ], "fg": 30, "bg": 85 },
+        { "id": [ "candy_shop", "candy_shop_1" ], "fg": 155, "bg": 108, "rotates": true },
+        { "id": [ "candy_shop_roof", "candy_shop_roof_1" ], "fg": 155, "bg": 108, "rotates": true },
+        { "id": "bakery", "fg": 180, "bg": 108, "rotates": true },
+        { "id": "bakery_roof", "fg": 180, "bg": 108, "rotates": true },
+        { "id": "bakery_upper_roof", "fg": 180, "bg": 108, "rotates": true },
+        { "id": "icecream_shop", "fg": 52, "bg": 108, "rotates": true },
+        { "id": "icecream_shop_roof", "fg": 52, "bg": 108, "rotates": true },
+        { "id": "landscapingsupplyco_1a", "fg": 35, "bg": 85 },
+        { "id": "landscapingsupplyco_1b", "fg": 35, "bg": 85 },
+        { "id": "landscapingsupplyco_1b_roof", "fg": 35, "bg": 85 },
+        { "id": "s_vfw", "fg": 10, "bg": 85 },
+        { "id": "s_vfw_roof", "fg": 10, "bg": 85 },
+        { "id": "s_thrift", "fg": 121, "bg": 1, "rotates": true },
+        { "id": "s_thrift_roof", "fg": 121, "bg": 1, "rotates": true },
+        { "id": "s_daycare", "fg": 52, "bg": 1, "rotates": true },
+        { "id": "s_daycare_roof", "fg": 52, "bg": 1, "rotates": true },
+        { "id": [ "s_petstore", "s_petstore_1", "s_petstore_2" ], "fg": 44, "bg": 170, "rotates": true },
         {
           "id": [ "s_petstore_roof", "s_petstore_roof_1", "s_petstore_roof_2" ],
-          "fg": 43,
-          "bg": 168,
+          "fg": 44,
+          "bg": 170,
           "rotates": true
         },
-        { "id": "veterinarian", "fg": 43, "bg": 136, "rotates": true },
-        { "id": "veterinarian_roof", "fg": 43, "bg": 136, "rotates": true },
-        { "id": [ "s_laundromat", "s_laundromat_1" ], "fg": 167, "bg": 106, "rotates": true },
-        { "id": [ "s_laundromat_roof", "s_laundromat_roof_1" ], "fg": 167, "bg": 106, "rotates": true },
-        { "id": "trailer_commercial_00", "fg": 167, "bg": 106, "rotates": true },
-        { "id": "trailer_commercial_00_roof", "fg": 167, "bg": 106, "rotates": true },
-        { "id": "home_improvement", "fg": 178, "bg": 84, "rotates": true },
-        { "id": "home_improvement_roof", "fg": 178, "bg": 84, "rotates": true },
-        { "id": "cs_market_small", "fg": 4, "bg": 106 },
-        { "id": "cs_sex_shop", "fg": 11, "bg": 136 },
-        { "id": "cs_sex_shop_roof", "fg": 11, "bg": 136 },
-        { "id": "cs_internet_cafe", "fg": 121, "bg": 64 },
-        { "id": [ "cs_internet_cafe_roof", "cs_internet_cafe_upper_roof" ], "fg": 121, "bg": 64 },
-        { "id": "cs_car_showroom", "fg": 46, "bg": 64 },
-        { "id": "cs_car_showroom_2ndfloor", "fg": 46, "bg": 64 },
-        { "id": "cs_car_showroom_roof", "fg": 46, "bg": 64 },
-        { "id": [ "cs_car_dealership", "s_cardealer" ], "fg": 46, "bg": 64 },
-        { "id": [ "cs_car_dealership_roof", "s_cardealer_roof" ], "fg": 46, "bg": 64 },
-        { "id": "headshop", "fg": 23, "bg": 155 },
-        { "id": [ "headshop_roof", "headshop_upper_roof" ], "fg": 23, "bg": 155 },
-        { "id": [ "abstorefront", "abstorefront_1", "abstorefront_2" ], "fg": 83, "bg": 47, "rotates": true },
+        { "id": "veterinarian", "fg": 44, "bg": 138, "rotates": true },
+        { "id": "veterinarian_roof", "fg": 44, "bg": 138, "rotates": true },
+        { "id": [ "s_laundromat", "s_laundromat_1" ], "fg": 169, "bg": 108, "rotates": true },
+        { "id": [ "s_laundromat_roof", "s_laundromat_roof_1" ], "fg": 169, "bg": 108, "rotates": true },
+        { "id": "trailer_commercial_00", "fg": 169, "bg": 108, "rotates": true },
+        { "id": "trailer_commercial_00_roof", "fg": 169, "bg": 108, "rotates": true },
+        { "id": "home_improvement", "fg": 180, "bg": 85, "rotates": true },
+        { "id": "home_improvement_roof", "fg": 180, "bg": 85, "rotates": true },
+        { "id": "cs_market_small", "fg": 4, "bg": 108 },
+        { "id": "cs_sex_shop", "fg": 11, "bg": 138 },
+        { "id": "cs_sex_shop_roof", "fg": 11, "bg": 138 },
+        { "id": "cs_internet_cafe", "fg": 123, "bg": 65 },
+        { "id": [ "cs_internet_cafe_roof", "cs_internet_cafe_upper_roof" ], "fg": 123, "bg": 65 },
+        { "id": "cs_car_showroom", "fg": 47, "bg": 65 },
+        { "id": "cs_car_showroom_2ndfloor", "fg": 47, "bg": 65 },
+        { "id": "cs_car_showroom_roof", "fg": 47, "bg": 65 },
+        { "id": [ "cs_car_dealership", "s_cardealer" ], "fg": 47, "bg": 65 },
+        { "id": [ "cs_car_dealership_roof", "s_cardealer_roof" ], "fg": 47, "bg": 65 },
+        { "id": "headshop", "fg": 24, "bg": 157 },
+        { "id": [ "headshop_roof", "headshop_upper_roof" ], "fg": 24, "bg": 157 },
+        { "id": [ "abstorefront", "abstorefront_1", "abstorefront_2" ], "fg": 84, "bg": 48, "rotates": true },
         {
           "id": [ "abstorefront_roof", "abstorefront_roof_1", "abstorefront_roof_2" ],
-          "fg": 83,
-          "bg": 47,
+          "fg": 84,
+          "bg": 48,
           "rotates": true
         },
-        { "id": [ "station_radio", "station_radio_1" ], "fg": 41, "bg": 106 },
-        { "id": [ "station_radio_roof", "station_radio_roof_1" ], "fg": 41, "bg": 106 },
-        { "id": "cs_gardening_allotment", "fg": 62, "bg": 84 },
-        { "id": "cs_gardening_allotment_roof", "fg": 62, "bg": 84 },
-        { "id": "animalpound", "fg": 40, "bg": 52 },
-        { "id": "animalpound_roof", "fg": 40, "bg": 52 },
-        { "id": "animalshelter", "fg": 43, "bg": 136, "rotates": true },
-        { "id": "animalshelter_roof", "fg": 43, "bg": 136, "rotates": true },
-        { "id": "emptycommerciallot", "fg": 36, "bg": 106 },
+        { "id": [ "station_radio", "station_radio_1" ], "fg": 42, "bg": 108 },
+        { "id": [ "station_radio_roof", "station_radio_roof_1" ], "fg": 42, "bg": 108 },
+        { "id": "cs_gardening_allotment", "fg": 63, "bg": 85 },
+        { "id": "cs_gardening_allotment_roof", "fg": 63, "bg": 85 },
+        { "id": "animalpound", "fg": 41, "bg": 53 },
+        { "id": "animalpound_roof", "fg": 41, "bg": 53 },
+        { "id": "animalshelter", "fg": 44, "bg": 138, "rotates": true },
+        { "id": "animalshelter_roof", "fg": 44, "bg": 138, "rotates": true },
+        { "id": "emptycommerciallot", "fg": 37, "bg": 108 },
         {
           "id": [
             "city_block2_1",
@@ -708,7 +712,7 @@
             "city_block2_roof_3",
             "city_block2_roof_4"
           ],
-          "fg": 101,
+          "fg": 103,
           "bg": 1,
           "rotates": true
         },
@@ -733,7 +737,7 @@
             "textile_mill_museum_2b1",
             "textile_mill_museum_2b2"
           ],
-          "fg": 101,
+          "fg": 103,
           "bg": 1,
           "rotates": true
         },
@@ -749,7 +753,7 @@
             "urban_25_10",
             "urban_25_12"
           ],
-          "fg": 99,
+          "fg": 100,
           "bg": 1,
           "rotates": true
         },
@@ -768,19 +772,19 @@
             "urban_14_8",
             "urban_14_9"
           ],
-          "fg": 43,
-          "bg": 155,
+          "fg": 44,
+          "bg": 157,
           "rotates": true
         },
         {
           "id": [ "strip_mall_1", "strip_mall_2", "strip_mall_3", "strip_mall_4" ],
-          "fg": 131,
+          "fg": 133,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "strip_mall_roof_1", "strip_mall_roof_2", "strip_mall_roof_3", "strip_mall_roof_4" ],
-          "fg": 131,
+          "fg": 133,
           "bg": 1,
           "rotates": true
         },
@@ -796,7 +800,7 @@
             "evac_center_18",
             "evac_center_19"
           ],
-          "fg": 161,
+          "fg": 163,
           "bg": 1,
           "rotates": true
         },
@@ -812,28 +816,28 @@
             "evac_center_18_z1",
             "evac_center_19_z1"
           ],
-          "fg": 161,
+          "fg": 163,
           "bg": 1,
           "rotates": true
         },
-        { "id": "refctr_fence_NW", "fg": 117, "bg": 1, "rotates": true },
+        { "id": "refctr_fence_NW", "fg": 119, "bg": 1, "rotates": true },
         {
           "id": [ "refctr_fence_h", "refctr_fence_entrance_L", "refctr_fence_entrance_R" ],
-          "fg": 114,
+          "fg": 116,
           "bg": 1,
           "rotates": true
         },
-        { "id": "refctr_fence_NE", "fg": 110, "bg": 1, "rotates": true },
-        { "id": "refctr_fence_v", "fg": 108, "bg": 1, "rotates": true },
-        { "id": "refctr_fence_SE", "fg": 116, "bg": 1, "rotates": true },
-        { "id": "refctr_fence_SW", "fg": 111, "bg": 1, "rotates": true },
-        { "id": "faction_base_farm_0", "fg": 22, "bg": 52 },
+        { "id": "refctr_fence_NE", "fg": 112, "bg": 1, "rotates": true },
+        { "id": "refctr_fence_v", "fg": 110, "bg": 1, "rotates": true },
+        { "id": "refctr_fence_SE", "fg": 118, "bg": 1, "rotates": true },
+        { "id": "refctr_fence_SW", "fg": 113, "bg": 1, "rotates": true },
+        { "id": "faction_base_farm_0", "fg": 22, "bg": 53 },
         {
           "id": [ "faction_base_farm_1", "faction_base_farm_2", "faction_base_farm_3", "faction_base_farm_4" ],
           "fg": 22,
-          "bg": 52
+          "bg": 53
         },
-        { "id": "faction_base_garage_0", "fg": 22, "bg": 106 },
+        { "id": "faction_base_garage_0", "fg": 22, "bg": 108 },
         {
           "id": [
             "faction_base_garage_1",
@@ -844,9 +848,9 @@
             "faction_base_garage_6"
           ],
           "fg": 22,
-          "bg": 106
+          "bg": 108
         },
-        { "id": "faction_base_kitchen_0", "fg": 22, "bg": 84 },
+        { "id": "faction_base_kitchen_0", "fg": 22, "bg": 85 },
         {
           "id": [
             "faction_base_kitchen_1",
@@ -859,9 +863,9 @@
             "faction_base_kitchen_8"
           ],
           "fg": 22,
-          "bg": 84
+          "bg": 85
         },
-        { "id": "faction_base_blacksmith_0", "fg": 22, "bg": 155 },
+        { "id": "faction_base_blacksmith_0", "fg": 22, "bg": 157 },
         {
           "id": [
             "faction_base_blacksmith_1",
@@ -878,34 +882,34 @@
             "faction_base_blacksmith_12"
           ],
           "fg": 22,
-          "bg": 155
+          "bg": 157
         },
-        { "id": "faction_base_canteen_0", "fg": 22, "bg": 84 },
-        { "id": "faction_base_canteen_2_0", "fg": 22, "bg": 84 },
-        { "id": "faction_base_farm_2_0", "fg": 22, "bg": 52 },
-        { "id": "faction_base_garage_2_0", "fg": 22, "bg": 106 },
-        { "id": "rift", "fg": 153, "bg": 1, "rotates": true },
-        { "id": "hellmouth", "fg": 132, "bg": 1, "rotates": true },
-        { "id": "sai", "fg": 23, "bg": 133 },
-        { "id": "solar_farm", "fg": 18, "bg": 168 },
-        { "id": [ "small_storage_units", "small_storage_units_1" ], "fg": 18, "bg": 168 },
-        { "id": [ "small_storage_units_roof", "small_storage_units_roof_1" ], "fg": 18, "bg": 168 },
-        { "id": [ "lumberyard_0_0", "lumberyard_0_1", "lumberyard_1_0", "lumberyard_1_1" ], "fg": 34, "bg": 84 },
+        { "id": "faction_base_canteen_0", "fg": 22, "bg": 85 },
+        { "id": "faction_base_canteen_2_0", "fg": 22, "bg": 85 },
+        { "id": "faction_base_farm_2_0", "fg": 22, "bg": 53 },
+        { "id": "faction_base_garage_2_0", "fg": 22, "bg": 108 },
+        { "id": "rift", "fg": 155, "bg": 1, "rotates": true },
+        { "id": "hellmouth", "fg": 134, "bg": 1, "rotates": true },
+        { "id": "sai", "fg": 24, "bg": 135 },
+        { "id": "solar_farm", "fg": 18, "bg": 170 },
+        { "id": [ "small_storage_units", "small_storage_units_1" ], "fg": 18, "bg": 170 },
+        { "id": [ "small_storage_units_roof", "small_storage_units_roof_1" ], "fg": 18, "bg": 170 },
+        { "id": [ "lumberyard_0_0", "lumberyard_0_1", "lumberyard_1_0", "lumberyard_1_1" ], "fg": 35, "bg": 85 },
         {
           "id": [ "lumberyard_0_0_roof", "lumberyard_0_1_roof", "lumberyard_1_0_roof", "lumberyard_1_1_roof" ],
-          "fg": 34,
-          "bg": 84
+          "fg": 35,
+          "bg": 85
         },
-        { "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ], "fg": 34, "bg": 84 },
+        { "id": [ "lumbermill_0_0", "lumbermill_0_1", "lumbermill_1_0", "lumbermill_1_1" ], "fg": 35, "bg": 85 },
         {
           "id": [ "lumbermill_0_0_roof", "lumbermill_0_1_roof", "lumbermill_1_0_roof", "lumbermill_1_1_roof" ],
-          "fg": 34,
-          "bg": 84
+          "fg": 35,
+          "bg": 85
         },
         {
           "id": [ "construction_site", "house_vacant", "house_vacant1", "house_vacant2", "house_vacant3" ],
           "fg": 11,
-          "bg": 106
+          "bg": 108
         },
         {
           "id": [
@@ -916,7 +920,7 @@
             "medium_storage_units_2"
           ],
           "fg": 18,
-          "bg": 168
+          "bg": 170
         },
         {
           "id": [
@@ -927,7 +931,7 @@
             "medium_storage_units_roof_2"
           ],
           "fg": 18,
-          "bg": 168
+          "bg": 170
         },
         {
           "id": [
@@ -938,28 +942,28 @@
             "steel_mill_rail_1_3",
             "steel_mill_rail_2_3"
           ],
-          "fg": 68,
+          "fg": 69,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "s_lightindustry_road_0", "s_lightindustry_road_1" ], "fg": 75, "bg": 1, "rotates": true },
-        { "id": [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ], "fg": 75, "bg": 1, "rotates": true },
+        { "id": [ "s_lightindustry_road_0", "s_lightindustry_road_1" ], "fg": 76, "bg": 1, "rotates": true },
+        { "id": [ "s_lightindustry_scen_road_0", "s_lightindustry_scen_road_1" ], "fg": 76, "bg": 1, "rotates": true },
         {
           "id": [ "isolated_house_farm_gunsmith", "isolated_house_farm_roof_gunsmith" ],
-          "fg": 141,
+          "fg": 143,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "isolated_house_farm_blacksmith", "isolated_house_farm_roof_blacksmith" ],
-          "fg": 66,
+          "fg": 67,
           "bg": 1,
           "rotates": true
         },
-        { "id": "mall_a_1", "fg": 78, "bg": 1, "rotates": true },
+        { "id": "mall_a_1", "fg": 79, "bg": 1, "rotates": true },
         {
           "id": [ "mall_a_2", "mall_a_16", "mall_a_17", "mall_a_74", "mall_a_75", "mall_a_76", "mall_a_78", "mall_a_79", "mall_a_80" ],
-          "fg": 75,
+          "fg": 76,
           "bg": 1,
           "rotates": true
         },
@@ -978,24 +982,22 @@
             "mall_a_55",
             "mall_a_63",
             "mall_a_64",
-            "mall_a_72",
-            "mall_b_10",
-            "mall_b_19"
+            "mall_a_72"
           ],
-          "fg": 68,
+          "fg": 69,
           "bg": 1,
           "rotates": true
         },
-        { "id": "mall_a_15", "fg": 71, "bg": 1, "rotates": true },
-        { "id": "mall_a_18", "fg": 70, "bg": 1, "rotates": true },
-        { "id": "mall_a_73", "fg": 71, "bg": 1, "rotates": true },
-        { "id": "mall_a_77", "fg": 73, "bg": 1, "rotates": true },
-        { "id": "mall_a_81", "fg": 77, "bg": 1, "rotates": true },
-        { "id": [ "mall_a_3", "mall_b_3" ], "fg": 35, "bg": 129 },
-        { "id": [ "mall_a_3_roof", "mall_upper_roof_3" ], "fg": 35, "bg": 129 },
-        { "id": "mall_upper_roof_4", "fg": 35, "bg": 140 },
-        { "id": [ "mall_a_4", "mall_b_4", "mall_a_5", "mall_b_5" ], "fg": 35, "bg": 140 },
-        { "id": [ "mall_a_4_roof", "mall_a_5_roof" ], "fg": 35, "bg": 140 },
+        { "id": "mall_a_15", "fg": 72, "bg": 1, "rotates": true },
+        { "id": "mall_a_18", "fg": 71, "bg": 1, "rotates": true },
+        { "id": "mall_a_73", "fg": 72, "bg": 1, "rotates": true },
+        { "id": "mall_a_77", "fg": 74, "bg": 1, "rotates": true },
+        { "id": "mall_a_81", "fg": 78, "bg": 1, "rotates": true },
+        { "id": [ "mall_a_3", "mall_b_3" ], "fg": 36, "bg": 131 },
+        { "id": [ "mall_a_3_roof", "mall_upper_roof_3" ], "fg": 36, "bg": 131 },
+        { "id": "mall_upper_roof_4", "fg": 36, "bg": 142 },
+        { "id": [ "mall_a_4", "mall_b_4", "mall_a_5", "mall_b_5" ], "fg": 36, "bg": 142 },
+        { "id": [ "mall_a_4_roof", "mall_a_5_roof" ], "fg": 36, "bg": 142 },
         {
           "id": [
             "mall_a_14",
@@ -1011,11 +1013,11 @@
             "mall_b_53",
             "mall_b_68"
           ],
-          "fg": 35,
-          "bg": 129
+          "fg": 36,
+          "bg": 131
         },
-        { "id": [ "mall_a_29", "mall_b_29" ], "fg": 35, "bg": 129 },
-        { "id": [ "mall_a_20", "mall_b_20", "mall_a_20_roof", "mall_a_29_roof" ], "fg": 35, "bg": 129 },
+        { "id": [ "mall_a_29", "mall_b_29" ], "fg": 36, "bg": 131 },
+        { "id": [ "mall_a_20", "mall_b_20", "mall_a_20_roof", "mall_a_29_roof" ], "fg": 36, "bg": 131 },
         {
           "id": [
             "mall_a_11",
@@ -1147,39 +1149,49 @@
             "mall_upper_roof_50",
             "mall_upper_roof_51"
           ],
-          "fg": 35,
-          "bg": 140
+          "fg": 36,
+          "bg": 142
         },
         {
-          "id": [ "mall_a_68_basement", "mall_a_67_sub_basement", "mall_a_68_sub_basement", "mall_a_69_sub_basement" ],
-          "fg": 35,
-          "bg": 129
+          "id": [
+            "mall_a_58_basement",
+            "mall_a_59_basement",
+            "mall_a_60_basement",
+            "mall_a_67_basement",
+            "mall_a_68_basement",
+            "mall_a_69_basement",
+            "mall_a_67_sub_basement",
+            "mall_a_68_sub_basement",
+            "mall_a_69_sub_basement"
+          ],
+          "fg": 36,
+          "bg": 131
         },
-        { "id": "mi-go_camp1", "fg": 81, "bg": 1, "rotates": true },
-        { "id": "mi-go_camp2", "fg": 118, "bg": 1, "rotates": true },
-        { "id": "mi-go_camp2-1", "fg": 118, "bg": 1, "rotates": true },
+        { "id": "mi-go_camp1", "fg": 82, "bg": 1, "rotates": true },
+        { "id": "mi-go_camp2", "fg": 120, "bg": 1, "rotates": true },
+        { "id": "mi-go_camp2-1", "fg": 120, "bg": 1, "rotates": true },
         {
           "id": [ "mi-go_scout_tower_1", "mi-go_scout_tower_2", "mi-go_scout_tower_3", "mi-go_scout_tower_4" ],
-          "fg": 118,
+          "fg": 120,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "fema", "fema_1_3", "fema_2_1", "fema_2_2", "fema_2_3", "fema_3_1", "fema_3_2", "fema_3_3" ],
-          "fg": 30,
-          "bg": 47
+          "fg": 31,
+          "bg": 48
         },
         {
           "id": [ "FEMA_tlc", "FEMA_te", "FEMA_trc", "FEMA_le", "FEMA_mid", "FEMA_re", "FEMA_blc", "FEMA_brc" ],
-          "fg": 30,
-          "bg": 47
+          "fg": 31,
+          "bg": 48
         },
-        { "id": "mil_base_minefield_nw", "fg": 117, "bg": 1, "rotates": true },
-        { "id": [ "mil_base_minefield_s", "mil_base_minefield_n" ], "fg": 114, "bg": 1, "rotates": true },
-        { "id": "mil_base_minefield_ne", "fg": 110, "bg": 1, "rotates": true },
-        { "id": [ "mil_base_minefield_e", "mil_base_minefield_w" ], "fg": 108, "bg": 1, "rotates": true },
-        { "id": "mil_base_minefield_se", "fg": 116, "bg": 1, "rotates": true },
-        { "id": "mil_base_minefield_sw", "fg": 111, "bg": 1, "rotates": true },
+        { "id": "mil_base_minefield_nw", "fg": 119, "bg": 1, "rotates": true },
+        { "id": [ "mil_base_minefield_s", "mil_base_minefield_n" ], "fg": 116, "bg": 1, "rotates": true },
+        { "id": "mil_base_minefield_ne", "fg": 112, "bg": 1, "rotates": true },
+        { "id": [ "mil_base_minefield_e", "mil_base_minefield_w" ], "fg": 110, "bg": 1, "rotates": true },
+        { "id": "mil_base_minefield_se", "fg": 118, "bg": 1, "rotates": true },
+        { "id": "mil_base_minefield_sw", "fg": 113, "bg": 1, "rotates": true },
         {
           "id": [
             "cathedral_1_NW",
@@ -1195,10 +1207,10 @@
             "cathedral_3_SW",
             "cathedral_3_SE"
           ],
-          "fg": 28,
-          "bg": 129
+          "fg": 29,
+          "bg": 131
         },
-        { "id": [ "cathedral_b_NW", "cathedral_b_NE", "cathedral_b_SW", "cathedral_b_SE" ], "fg": 28, "bg": 129 },
+        { "id": [ "cathedral_b_NW", "cathedral_b_NE", "cathedral_b_SW", "cathedral_b_SE" ], "fg": 29, "bg": 131 },
         {
           "id": [
             "cathedral_4_NW",
@@ -1210,24 +1222,24 @@
             "cathedral_7_NW",
             "cathedral_7_NE"
           ],
-          "fg": 28,
-          "bg": 129
+          "fg": 29,
+          "bg": 131
         },
-        { "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ], "fg": 43, "bg": 52, "rotates": true },
+        { "id": [ "s_library", "s_library_1", "s_library_2", "s_library_3" ], "fg": 44, "bg": 53, "rotates": true },
         {
           "id": [ "s_library_roof", "s_library_roof_1", "s_library_roof_2", "s_library_roof_3" ],
-          "fg": 43,
-          "bg": 52,
+          "fg": 44,
+          "bg": 53,
           "rotates": true
         },
-        { "id": [ "police", "police_1", "police_2" ], "fg": 178, "bg": 47, "rotates": true },
+        { "id": [ "police", "police_1", "police_2" ], "fg": 180, "bg": 48, "rotates": true },
         {
           "id": [ "police_roof", "police_roof_1", "police_roof_2", "police_upper_roof_2" ],
-          "fg": 178,
-          "bg": 47,
+          "fg": 180,
+          "bg": 48,
           "rotates": true
         },
-        { "id": "police_2ndfloor_1", "fg": 178, "bg": 47, "rotates": true },
+        { "id": "police_2ndfloor_1", "fg": 180, "bg": 48, "rotates": true },
         {
           "id": [
             "police_dept_u000",
@@ -1247,8 +1259,8 @@
             "police_dept_d101",
             "police_dept_d111"
           ],
-          "fg": 178,
-          "bg": 47,
+          "fg": 180,
+          "bg": 48,
           "rotates": true
         },
         {
@@ -1262,15 +1274,15 @@
             "police_dept_d102",
             "police_dept_d112"
           ],
-          "fg": 178,
-          "bg": 47,
+          "fg": 180,
+          "bg": 48,
           "rotates": true
         },
-        { "id": [ "police_dept_skyway", "police_dept_skyway_roof" ], "fg": 171, "bg": 47, "rotates": true },
+        { "id": [ "police_dept_skyway", "police_dept_skyway_roof" ], "fg": 173, "bg": 48, "rotates": true },
         {
           "id": [ "police_dept_b00", "police_dept_b10", "police_dept_b01", "police_dept_b11" ],
-          "fg": 178,
-          "bg": 47,
+          "fg": 180,
+          "bg": 48,
           "rotates": true
         },
         {
@@ -1286,7 +1298,7 @@
             "prison_1_9"
           ],
           "fg": 6,
-          "bg": 98
+          "bg": 99
         },
         {
           "id": [
@@ -1397,37 +1409,37 @@
             "prison_island_1_ug_15"
           ],
           "fg": 6,
-          "bg": 98
+          "bg": 99
         },
-        { "id": [ "post_office", "post_office_1" ], "fg": 51, "bg": 1, "rotates": true },
-        { "id": [ "post_office_roof", "post_office_roof_1" ], "fg": 51, "bg": 1, "rotates": true },
-        { "id": "mortuary", "fg": 35, "bg": 47 },
-        { "id": "mortuary_roof", "fg": 35, "bg": 47 },
+        { "id": [ "post_office", "post_office_1" ], "fg": 52, "bg": 1, "rotates": true },
+        { "id": [ "post_office_roof", "post_office_roof_1" ], "fg": 52, "bg": 1, "rotates": true },
+        { "id": "mortuary", "fg": 36, "bg": 48 },
+        { "id": "mortuary_roof", "fg": 36, "bg": 48 },
         {
           "id": [ "town_hall_0_0_0", "town_hall_1_0_0", "town_hall_0_1_0", "town_hall_1_1_0" ],
-          "fg": 43,
-          "bg": 106,
+          "fg": 44,
+          "bg": 108,
           "rotates": true
         },
         {
           "id": [ "town_hall_0_0_1", "town_hall_1_0_1", "town_hall_0_1_1", "town_hall_1_1_1" ],
-          "fg": 43,
-          "bg": 106,
+          "fg": 44,
+          "bg": 108,
           "rotates": true
         },
         {
           "id": [ "town_hall_0_0_roof", "town_hall_1_0_roof", "town_hall_0_1_roof", "town_hall_1_1_roof" ],
-          "fg": 43,
-          "bg": 106,
+          "fg": 44,
+          "bg": 108,
           "rotates": true
         },
-        { "id": "nursing_home_sh4", "fg": 70, "bg": 1, "rotates": true },
-        { "id": "nursing_home_sh8", "fg": 68, "bg": 1, "rotates": true },
-        { "id": "nursing_home_sh12", "fg": 69, "bg": 1, "rotates": true },
-        { "id": "nursing_home_4", "fg": 70, "bg": 1, "rotates": true },
-        { "id": "nursing_home_8", "fg": 68, "bg": 1, "rotates": true },
-        { "id": "nursing_home_12", "fg": 69, "bg": 1, "rotates": true },
-        { "id": "ranch_camp_1", "fg": 60, "bg": 1, "rotates": true },
+        { "id": "nursing_home_sh4", "fg": 71, "bg": 1, "rotates": true },
+        { "id": "nursing_home_sh8", "fg": 69, "bg": 1, "rotates": true },
+        { "id": "nursing_home_sh12", "fg": 70, "bg": 1, "rotates": true },
+        { "id": "nursing_home_4", "fg": 71, "bg": 1, "rotates": true },
+        { "id": "nursing_home_8", "fg": 69, "bg": 1, "rotates": true },
+        { "id": "nursing_home_12", "fg": 70, "bg": 1, "rotates": true },
+        { "id": "ranch_camp_1", "fg": 61, "bg": 1, "rotates": true },
         {
           "id": [
             "ranch_camp_2",
@@ -1442,11 +1454,11 @@
             "ranch_camp_79",
             "ranch_camp_80"
           ],
-          "fg": 57,
+          "fg": 58,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "ranch_camp_9", "ranch_camp_69" ], "fg": 54, "bg": 1, "rotates": true },
+        { "id": [ "ranch_camp_9", "ranch_camp_69" ], "fg": 55, "bg": 1, "rotates": true },
         {
           "id": [
             "ranch_camp_10",
@@ -1465,49 +1477,49 @@
             "ranch_camp_64",
             "ranch_camp_72"
           ],
-          "fg": 53,
+          "fg": 54,
           "bg": 1,
           "rotates": true
         },
-        { "id": "ranch_camp_57", "fg": 18, "bg": 52 },
-        { "id": "ranch_camp_57_silo", "fg": 53, "bg": 1, "rotates": true },
-        { "id": "ranch_camp_57_silocap", "fg": 53, "bg": 1, "rotates": true },
-        { "id": "ranch_camp_66", "fg": 18, "bg": 52 },
-        { "id": "ranch_camp_66_roof", "fg": 18, "bg": 52 },
-        { "id": "ranch_camp_68", "fg": 123, "bg": 1, "rotates": true },
-        { "id": "ranch_camp_68_roof", "fg": 123, "bg": 1, "rotates": true },
-        { "id": [ "ranch_camp_75", "ranch_camp_75_roof", "ranch_camp_81" ], "fg": 59, "bg": 1, "rotates": true },
-        { "id": "ranch_camp_77", "fg": 68, "bg": 1, "rotates": true },
-        { "id": [ "ranch_camp_73", "ranch_camp_78" ], "fg": 55, "bg": 1, "rotates": true },
-        { "id": "ravine_edge", "fg": 107, "bg": 1, "rotates": true },
-        { "id": "ravine_floor_edge", "fg": 119, "bg": 1, "rotates": true },
-        { "id": "art_gallery", "fg": 45, "bg": 168 },
-        { "id": "art_gallery_roof", "fg": 45, "bg": 168 },
-        { "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1" ], "fg": 39, "bg": 84 },
+        { "id": "ranch_camp_57", "fg": 18, "bg": 53 },
+        { "id": "ranch_camp_57_silo", "fg": 54, "bg": 1, "rotates": true },
+        { "id": "ranch_camp_57_silocap", "fg": 54, "bg": 1, "rotates": true },
+        { "id": "ranch_camp_66", "fg": 18, "bg": 53 },
+        { "id": "ranch_camp_66_roof", "fg": 18, "bg": 53 },
+        { "id": "ranch_camp_68", "fg": 125, "bg": 1, "rotates": true },
+        { "id": "ranch_camp_68_roof", "fg": 125, "bg": 1, "rotates": true },
+        { "id": [ "ranch_camp_75", "ranch_camp_75_roof", "ranch_camp_81" ], "fg": 60, "bg": 1, "rotates": true },
+        { "id": "ranch_camp_77", "fg": 69, "bg": 1, "rotates": true },
+        { "id": [ "ranch_camp_73", "ranch_camp_78" ], "fg": 56, "bg": 1, "rotates": true },
+        { "id": "ravine_edge", "fg": 109, "bg": 1, "rotates": true },
+        { "id": "ravine_floor_edge", "fg": 121, "bg": 1, "rotates": true },
+        { "id": "art_gallery", "fg": 46, "bg": 170 },
+        { "id": "art_gallery_roof", "fg": 46, "bg": 170 },
+        { "id": [ "state_park_0_0", "state_park_0_1", "state_park_1_0", "state_park_1_1" ], "fg": 40, "bg": 85 },
         {
           "id": [ "fishing_pond_0_0", "fishing_pond_0_1", "fishing_pond_1_0", "fishing_pond_1_1" ],
-          "fg": 39,
-          "bg": 47
+          "fg": 40,
+          "bg": 48
         },
-        { "id": [ "small_wooded_trail", "small_wooded_trail_2" ], "fg": 39, "bg": 84 },
-        { "id": [ "pavilion", "pavilion_1" ], "fg": 26, "bg": 84 },
-        { "id": "trailer_public_10", "fg": 26, "bg": 84 },
-        { "id": [ "pavilion_roof", "pavilion_roof_1", "trailer_public_10_roof" ], "fg": 26, "bg": 84 },
-        { "id": "hunting_blind", "fg": 32, "bg": 84 },
-        { "id": [ "NatureTrail_1a", "NatureTrail_1b" ], "fg": 39, "bg": 84 },
-        { "id": [ "PublicPond_1a", "PublicPond_1b" ], "fg": 37, "bg": 84 },
-        { "id": [ "BotanicalGarden_1a", "BotanicalGarden_1b" ], "fg": 3, "bg": 84 },
-        { "id": [ "BotanicalGarden_1a_roof", "BotanicalGarden_1b_roof" ], "fg": 3, "bg": 84 },
-        { "id": "TreeFarm_1a", "fg": 40, "bg": 84 },
-        { "id": [ "zoo_0_0", "zoo_1_0" ], "fg": 37, "bg": 84 },
-        { "id": "zoo_2_0", "fg": 37, "bg": 84 },
-        { "id": [ "zoo_0_1", "zoo_1_1", "zoo_2_1", "zoo_0_2", "zoo_1_2", "zoo_2_2" ], "fg": 42, "bg": 84 },
+        { "id": [ "small_wooded_trail", "small_wooded_trail_2" ], "fg": 40, "bg": 85 },
+        { "id": [ "pavilion", "pavilion_1" ], "fg": 27, "bg": 85 },
+        { "id": "trailer_public_10", "fg": 27, "bg": 85 },
+        { "id": [ "pavilion_roof", "pavilion_roof_1", "trailer_public_10_roof" ], "fg": 27, "bg": 85 },
+        { "id": "hunting_blind", "fg": 33, "bg": 85 },
+        { "id": [ "NatureTrail_1a", "NatureTrail_1b" ], "fg": 40, "bg": 85 },
+        { "id": [ "PublicPond_1a", "PublicPond_1b" ], "fg": 38, "bg": 85 },
+        { "id": [ "BotanicalGarden_1a", "BotanicalGarden_1b" ], "fg": 3, "bg": 85 },
+        { "id": [ "BotanicalGarden_1a_roof", "BotanicalGarden_1b_roof" ], "fg": 3, "bg": 85 },
+        { "id": "TreeFarm_1a", "fg": 41, "bg": 85 },
+        { "id": [ "zoo_0_0", "zoo_1_0" ], "fg": 38, "bg": 85 },
+        { "id": "zoo_2_0", "fg": 38, "bg": 85 },
+        { "id": [ "zoo_0_1", "zoo_1_1", "zoo_2_1", "zoo_0_2", "zoo_1_2", "zoo_2_2" ], "fg": 43, "bg": 85 },
         {
           "id": [ "zoo_0_1_roof", "zoo_1_1_roof", "zoo_2_1_roof", "zoo_0_2_roof", "zoo_1_2_roof", "zoo_2_2_roof" ],
-          "fg": 42,
-          "bg": 84
+          "fg": 43,
+          "bg": 85
         },
-        { "id": "stadium_football_0_0", "fg": 78, "bg": 1, "rotates": true },
+        { "id": "stadium_football_0_0", "fg": 79, "bg": 1, "rotates": true },
         {
           "id": [
             "stadium_football_1_0",
@@ -1523,7 +1535,7 @@
             "stadium_football_6_6",
             "stadium_football_7_6"
           ],
-          "fg": 75,
+          "fg": 76,
           "bg": 1,
           "rotates": true
         },
@@ -1537,14 +1549,14 @@
             "stadium_football_8_4",
             "stadium_football_8_5"
           ],
-          "fg": 68,
+          "fg": 69,
           "bg": 1,
           "rotates": true
         },
-        { "id": "stadium_football_0_6", "fg": 71, "bg": 1, "rotates": true },
-        { "id": "stadium_football_8_0", "fg": 70, "bg": 1, "rotates": true },
-        { "id": [ "stadium_football_2_0", "stadium_football_6_0" ], "fg": 72, "bg": 1, "rotates": true },
-        { "id": "stadium_football_8_6", "fg": 77, "bg": 1, "rotates": true },
+        { "id": "stadium_football_0_6", "fg": 72, "bg": 1, "rotates": true },
+        { "id": "stadium_football_8_0", "fg": 71, "bg": 1, "rotates": true },
+        { "id": [ "stadium_football_2_0", "stadium_football_6_0" ], "fg": 73, "bg": 1, "rotates": true },
+        { "id": "stadium_football_8_6", "fg": 78, "bg": 1, "rotates": true },
         {
           "id": [
             "karting_0_0_0",
@@ -1575,8 +1587,8 @@
             "karting_2_2_1",
             "karting_2_2_2"
           ],
-          "fg": 35,
-          "bg": 168
+          "fg": 36,
+          "bg": 170
         },
         {
           "id": [
@@ -1589,8 +1601,8 @@
             "movietheater_1_2",
             "movietheater_2_2"
           ],
-          "fg": 35,
-          "bg": 168
+          "fg": 36,
+          "bg": 170
         },
         {
           "id": [
@@ -1604,8 +1616,8 @@
             "movietheater_roof_1_2",
             "movietheater_roof_2_2"
           ],
-          "fg": 35,
-          "bg": 168
+          "fg": 36,
+          "bg": 170
         },
         {
           "id": [
@@ -1627,28 +1639,28 @@
             "car_theater_1_0_2",
             "car_theater_2_0_2"
           ],
-          "fg": 35,
-          "bg": 168
+          "fg": 36,
+          "bg": 170
         },
-        { "id": "car_theater_3_0", "fg": 68, "bg": 1, "rotates": true },
-        { "id": [ "music_venue", "music_venue_1" ], "fg": 35, "bg": 98 },
-        { "id": [ "music_venue_roof", "music_venue_1_roof", "music_venue_1_roof_top" ], "fg": 35, "bg": 98 },
-        { "id": [ "stripclub", "stripclub_1", "stripclub_2" ], "fg": 7, "bg": 140 },
-        { "id": [ "stripclub_roof", "stripclub_roof_1", "stripclub_roof_2" ], "fg": 7, "bg": 140 },
-        { "id": "gym", "fg": 178, "bg": 64, "rotates": true },
-        { "id": [ "gym_roof", "gym_upper_roof" ], "fg": 178, "bg": 64, "rotates": true },
-        { "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2ndFloor_1" ], "fg": 43, "bg": 102, "rotates": true },
-        { "id": [ "gym_fitness_roof", "gym_fitness_roof_1" ], "fg": 43, "bg": 102, "rotates": true },
-        { "id": [ "dojo", "dojo_1" ], "fg": 43, "bg": 102, "rotates": true },
+        { "id": "car_theater_3_0", "fg": 69, "bg": 1, "rotates": true },
+        { "id": [ "music_venue", "music_venue_1" ], "fg": 36, "bg": 99 },
+        { "id": [ "music_venue_roof", "music_venue_1_roof", "music_venue_1_roof_top" ], "fg": 36, "bg": 99 },
+        { "id": [ "stripclub", "stripclub_1", "stripclub_2" ], "fg": 7, "bg": 142 },
+        { "id": [ "stripclub_roof", "stripclub_roof_1", "stripclub_roof_2" ], "fg": 7, "bg": 142 },
+        { "id": "gym", "fg": 180, "bg": 65, "rotates": true },
+        { "id": [ "gym_roof", "gym_upper_roof" ], "fg": 180, "bg": 65, "rotates": true },
+        { "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2ndFloor_1" ], "fg": 44, "bg": 104, "rotates": true },
+        { "id": [ "gym_fitness_roof", "gym_fitness_roof_1" ], "fg": 44, "bg": 104, "rotates": true },
+        { "id": [ "dojo", "dojo_1" ], "fg": 44, "bg": 104, "rotates": true },
         {
           "id": [ "dojo_roof", "dojo_upper_roof", "dojo_roof_1", "dojo_upper_roof_1" ],
-          "fg": 43,
-          "bg": 102,
+          "fg": 44,
+          "bg": 104,
           "rotates": true
         },
-        { "id": "cs_private_park", "fg": 122, "bg": 140 },
-        { "id": "cs_private_park_roof", "fg": 122, "bg": 140 },
-        { "id": "cs_public_art_piece", "fg": 45, "bg": 155 },
+        { "id": "cs_private_park", "fg": 124, "bg": 142 },
+        { "id": "cs_private_park_roof", "fg": 124, "bg": 142 },
+        { "id": "cs_public_art_piece", "fg": 46, "bg": 157 },
         {
           "id": [
             "2storyModern01_first",
@@ -1800,7 +1812,7 @@
             "rural_house1",
             "rural_house2"
           ],
-          "fg": 128,
+          "fg": 130,
           "bg": 1,
           "rotates": true
         },
@@ -1829,7 +1841,7 @@
             "urban_18_3",
             "urban_18_4"
           ],
-          "fg": 128,
+          "fg": 130,
           "bg": 1,
           "rotates": true
         },
@@ -1855,7 +1867,7 @@
             "urban_7_1",
             "urban_7_2"
           ],
-          "fg": 123,
+          "fg": 125,
           "bg": 1,
           "rotates": true
         },
@@ -1901,7 +1913,7 @@
             "urban_18_9",
             "urban_18_10"
           ],
-          "fg": 128,
+          "fg": 130,
           "bg": 1,
           "rotates": true
         },
@@ -1940,7 +1952,7 @@
             "urban_7_5",
             "urban_7_6"
           ],
-          "fg": 123,
+          "fg": 125,
           "bg": 1,
           "rotates": true
         },
@@ -1958,7 +1970,7 @@
             "urban_13_12"
           ],
           "fg": 9,
-          "bg": 155,
+          "bg": 157,
           "rotates": true
         },
         {
@@ -2092,15 +2104,16 @@
             "rural_house1_roof",
             "rural_house2_roof"
           ],
-          "fg": 128,
+          "fg": 130,
           "bg": 1,
           "rotates": true
         },
-        { "id": "emptyresidentiallot", "fg": 36, "bg": 84 },
-        { "id": "derelict_property", "fg": 41, "bg": 52 },
-        { "id": "bunker_shop_g", "fg": 41, "bg": 52 },
-        { "id": "prefab", "fg": 128, "bg": 1, "rotates": true },
-        { "id": "prefab_roof", "fg": 128, "bg": 1, "rotates": true },
+        { "id": "emptyresidentiallot", "fg": 37, "bg": 85 },
+        { "id": "derelict_property", "fg": 42, "bg": 53 },
+        { "id": "derelict_property_roof", "fg": 23, "bg": 53 },
+        { "id": "bunker_shop_g", "fg": 42, "bg": 53 },
+        { "id": "prefab", "fg": 130, "bg": 1, "rotates": true },
+        { "id": "prefab_roof", "fg": 130, "bg": 1, "rotates": true },
         {
           "id": [
             "retirement_community_1",
@@ -2118,7 +2131,7 @@
             "retirement_community_2f_6",
             "retirement_community_2f_7"
           ],
-          "fg": 123,
+          "fg": 125,
           "bg": 1,
           "rotates": true
         },
@@ -2132,7 +2145,7 @@
             "retirement_community_3f_6",
             "retirement_community_3f_7"
           ],
-          "fg": 123,
+          "fg": 125,
           "bg": 1,
           "rotates": true
         },
@@ -2145,13 +2158,13 @@
             "retirement_community_2f_19",
             "retirement_community_2f_23"
           ],
-          "fg": 126,
+          "fg": 128,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "retirement_community_3f_15", "retirement_community_3f_19", "retirement_community_3f_23" ],
-          "fg": 126,
+          "fg": 128,
           "bg": 1,
           "rotates": true
         },
@@ -2164,11 +2177,11 @@
             "retirement_community_20",
             "retirement_community_24"
           ],
-          "fg": 68,
+          "fg": 69,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "retirement_community_37", "retirement_community_road" ], "fg": 68, "bg": 1, "rotates": true },
+        { "id": [ "retirement_community_37", "retirement_community_road" ], "fg": 69, "bg": 1, "rotates": true },
         {
           "id": [
             "retirement_community_18",
@@ -2178,13 +2191,13 @@
             "retirement_community_2f_22",
             "retirement_community_2f_26"
           ],
-          "fg": 125,
+          "fg": 127,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "retirement_community_3f_18", "retirement_community_3f_22", "retirement_community_3f_26" ],
-          "fg": 125,
+          "fg": 127,
           "bg": 1,
           "rotates": true
         },
@@ -2196,17 +2209,17 @@
             "retirement_community_29",
             "retirement_community_31"
           ],
-          "fg": 75,
+          "fg": 76,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "retirement_community_9", "retirement_community_13", "retirement_community_30" ],
-          "fg": 73,
+          "fg": 74,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "retirement_community_28", "retirement_community_32" ], "fg": 72, "bg": 1, "rotates": true },
+        { "id": [ "retirement_community_28", "retirement_community_32" ], "fg": 73, "bg": 1, "rotates": true },
         {
           "id": [
             "retirement_community_park_1",
@@ -2219,7 +2232,7 @@
             "retirement_community_park_8",
             "retirement_community_park_9"
           ],
-          "fg": 93,
+          "fg": 94,
           "bg": 1,
           "rotates": true
         },
@@ -2235,18 +2248,18 @@
             "retirement_community_park_b_8",
             "retirement_community_park_b_9"
           ],
-          "fg": 58,
+          "fg": 59,
           "bg": 1,
           "rotates": true
         },
-        { "id": "retirement_community_sewer", "fg": 87, "bg": 1, "rotates": true },
+        { "id": "retirement_community_sewer", "fg": 88, "bg": 1, "rotates": true },
         {
           "id": [ "robofachq_surface_road0", "robofachq_surface_road1", "robofachq_surface_road2", "robofachq_surface_road3" ],
-          "fg": 75,
+          "fg": 76,
           "bg": 1,
           "rotates": true
         },
-        { "id": "evac_center_1", "fg": 78, "bg": 1, "rotates": true },
+        { "id": "evac_center_1", "fg": 79, "bg": 1, "rotates": true },
         {
           "id": [
             "evac_center_2",
@@ -2259,11 +2272,11 @@
             "mil_base_6j",
             "mil_base_7j"
           ],
-          "fg": 75,
+          "fg": 76,
           "bg": 1,
           "rotates": true
         },
-        { "id": "evac_center_5", "fg": 70, "bg": 1, "rotates": true },
+        { "id": "evac_center_5", "fg": 71, "bg": 1, "rotates": true },
         {
           "id": [
             "evac_center_6",
@@ -2283,36 +2296,36 @@
             "mil_base_4h",
             "mil_base_4i"
           ],
-          "fg": 68,
+          "fg": 69,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "evac_center_23", "mil_base_6f" ], "fg": 73, "bg": 1, "rotates": true },
-        { "id": [ "evac_center_21", "mil_base_4j" ], "fg": 71, "bg": 1, "rotates": true },
-        { "id": [ "mil_base_4a", "mil_base_4f" ], "fg": 74, "bg": 1, "rotates": true },
-        { "id": "evac_center_25", "fg": 77, "bg": 1, "rotates": true },
-        { "id": [ "speedway_1_0", "speedway_0_1" ], "fg": 148, "bg": 1, "rotates": true },
-        { "id": "speedway_6_4", "fg": 163, "bg": 1, "rotates": true },
-        { "id": [ "speedway_0_4", "speedway_1_5" ], "fg": 159, "bg": 1, "rotates": true },
-        { "id": "speedway_6_1", "fg": 144, "bg": 1, "rotates": true },
-        { "id": [ "speedway_7_4", "speedway_6_5" ], "fg": 147, "bg": 1, "rotates": true },
-        { "id": "speedway_1_1", "fg": 162, "bg": 1, "rotates": true },
-        { "id": [ "speedway_6_0", "speedway_7_1" ], "fg": 158, "bg": 1, "rotates": true },
-        { "id": "speedway_1_4", "fg": 143, "bg": 1, "rotates": true },
+        { "id": [ "evac_center_23", "mil_base_6f" ], "fg": 74, "bg": 1, "rotates": true },
+        { "id": [ "evac_center_21", "mil_base_4j" ], "fg": 72, "bg": 1, "rotates": true },
+        { "id": [ "mil_base_4a", "mil_base_4f" ], "fg": 75, "bg": 1, "rotates": true },
+        { "id": "evac_center_25", "fg": 78, "bg": 1, "rotates": true },
+        { "id": [ "speedway_1_0", "speedway_0_1" ], "fg": 150, "bg": 1, "rotates": true },
+        { "id": "speedway_6_4", "fg": 165, "bg": 1, "rotates": true },
+        { "id": [ "speedway_0_4", "speedway_1_5" ], "fg": 161, "bg": 1, "rotates": true },
+        { "id": "speedway_6_1", "fg": 146, "bg": 1, "rotates": true },
+        { "id": [ "speedway_7_4", "speedway_6_5" ], "fg": 149, "bg": 1, "rotates": true },
+        { "id": "speedway_1_1", "fg": 164, "bg": 1, "rotates": true },
+        { "id": [ "speedway_6_0", "speedway_7_1" ], "fg": 160, "bg": 1, "rotates": true },
+        { "id": "speedway_1_4", "fg": 145, "bg": 1, "rotates": true },
         {
           "id": [ "speedway_2_0", "speedway_4_0", "speedway_3_5", "speedway_5_5" ],
-          "fg": 160,
+          "fg": 162,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "speedway_3_0", "speedway_5_0", "speedway_2_5", "speedway_4_5" ],
-          "fg": 145,
+          "fg": 147,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "speedway_0_2", "speedway_7_3" ], "fg": 157, "bg": 1, "rotates": true },
-        { "id": [ "speedway_0_3", "speedway_7_2" ], "fg": 142, "bg": 1, "rotates": true },
+        { "id": [ "speedway_0_2", "speedway_7_3" ], "fg": 159, "bg": 1, "rotates": true },
+        { "id": [ "speedway_0_3", "speedway_7_2" ], "fg": 144, "bg": 1, "rotates": true },
         {
           "id": [
             "speedway_1_6",
@@ -2326,38 +2339,38 @@
             "speedway_4_6_1",
             "speedway_5_6_1"
           ],
-          "fg": 101,
+          "fg": 103,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "speedway_8_2", "speedway_8_3", "speedway_8_4", "speedway_8_6", "speedway_5_9" ],
-          "fg": 108,
+          "fg": 110,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "speedway_7_5", "speedway_6_7", "speedway_7_7" ], "fg": 114, "bg": 1, "rotates": true },
-        { "id": "speedway_8_7", "fg": 116, "bg": 1, "rotates": true },
-        { "id": "speedway_8_1", "fg": 110, "bg": 1, "rotates": true },
-        { "id": [ "speedway_8_5", "speedway_5_8" ], "fg": 109, "bg": 1, "rotates": true },
-        { "id": "speedway_5_7", "fg": 113, "bg": 1, "rotates": true },
-        { "id": [ "speedway_6_7_1", "speedway_6_7_2" ], "fg": 114, "bg": 1, "rotates": true },
-        { "id": "road_nesw_manhole", "fg": 172, "bg": 1, "rotates": true },
-        { "id": "city_center", "fg": 76, "bg": 1, "rotates": true },
-        { "id": "bridge", "fg": 49, "bg": 1, "rotates": true },
-        { "id": "bridge_road", "fg": 157, "bg": 1, "rotates": true },
-        { "id": "bridgehead_ground", "fg": 156, "bg": 1, "rotates": true },
-        { "id": "godco_enter", "fg": 53, "bg": 1, "rotates": true },
-        { "id": "bridgehead_ramp", "fg": 167, "bg": 1, "rotates": true },
-        { "id": [ "roadstop", "roadstop_roof" ], "fg": 101, "bg": 1, "rotates": true },
-        { "id": [ "roadstop_a", "roadstop_a_roof" ], "fg": 101, "bg": 1, "rotates": true },
-        { "id": [ "roadstop_b", "roadstop_b_roof" ], "fg": 135, "bg": 1, "rotates": true },
+        { "id": [ "speedway_7_5", "speedway_6_7", "speedway_7_7" ], "fg": 116, "bg": 1, "rotates": true },
+        { "id": "speedway_8_7", "fg": 118, "bg": 1, "rotates": true },
+        { "id": "speedway_8_1", "fg": 112, "bg": 1, "rotates": true },
+        { "id": [ "speedway_8_5", "speedway_5_8" ], "fg": 111, "bg": 1, "rotates": true },
+        { "id": "speedway_5_7", "fg": 115, "bg": 1, "rotates": true },
+        { "id": [ "speedway_6_7_1", "speedway_6_7_2" ], "fg": 116, "bg": 1, "rotates": true },
+        { "id": "road_nesw_manhole", "fg": 174, "bg": 1, "rotates": true },
+        { "id": "city_center", "fg": 77, "bg": 1, "rotates": true },
+        { "id": "bridge", "fg": 50, "bg": 1, "rotates": true },
+        { "id": "bridge_road", "fg": 159, "bg": 1, "rotates": true },
+        { "id": "bridgehead_ground", "fg": 158, "bg": 1, "rotates": true },
+        { "id": "bridgehead_ramp", "fg": 169, "bg": 1, "rotates": true },
+        { "id": "godco_enter", "fg": 54, "bg": 1, "rotates": true },
+        { "id": [ "roadstop", "roadstop_roof" ], "fg": 103, "bg": 1, "rotates": true },
+        { "id": [ "roadstop_a", "roadstop_a_roof" ], "fg": 103, "bg": 1, "rotates": true },
+        { "id": [ "roadstop_b", "roadstop_b_roof" ], "fg": 137, "bg": 1, "rotates": true },
         {
           "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3" ],
-          "fg": 41,
-          "bg": 106
+          "fg": 42,
+          "bg": 108
         },
-        { "id": "control_tower_roof", "fg": 41, "bg": 106 },
+        { "id": "control_tower_roof", "fg": 42, "bg": 108 },
         {
           "id": [
             "runway",
@@ -2374,32 +2387,33 @@
             "s_air_runway_hangars",
             "s_air_runway_r"
           ],
-          "fg": 114,
+          "fg": 116,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "runway_fuel", "runway_fuel2" ], "fg": 114, "bg": 1, "rotates": true },
-        { "id": [ "bus_stat_0", "bus_stat_1" ], "fg": 27, "bg": 102 },
-        { "id": [ "bus_stat_0_roof", "bus_stat_1_roof" ], "fg": 27, "bg": 102 },
+        { "id": [ "runway_fuel", "runway_fuel2" ], "fg": 116, "bg": 1, "rotates": true },
+        { "id": [ "bus_stat_0", "bus_stat_1" ], "fg": 28, "bg": 104 },
+        { "id": [ "bus_stat_0_roof", "bus_stat_1_roof" ], "fg": 28, "bg": 104 },
         {
           "id": [ "trailer_road", "trailer_road_1parkway", "trailer_road_2parkway" ],
-          "fg": 108,
+          "fg": 110,
           "bg": 1,
           "rotates": true
         },
-        { "id": "trailer_hub_11", "fg": 114, "bg": 1, "rotates": true },
-        { "id": "trailer_road_turn", "fg": 110, "bg": 1, "rotates": true },
-        { "id": "trailer_road_3way", "fg": 112, "bg": 1, "rotates": true },
-        { "id": "trailer_hub_01", "fg": 115, "bg": 1, "rotates": true },
-        { "id": "dump", "fg": 29, "bg": 52 },
-        { "id": [ "trailer_public_00", "trailer_public_00_roof" ], "fg": 29, "bg": 52 },
-        { "id": [ "recyclecenter", "recyclecenter_1", "recyclecenter_2" ], "fg": 38, "bg": 84 },
-        { "id": [ "recyclecenter_roof", "recyclecenter_roof_1", "recyclecenter_roof_2" ], "fg": 38, "bg": 84 },
-        { "id": "landfill", "fg": 34, "bg": 52 },
+        { "id": "trailer_hub_11", "fg": 116, "bg": 1, "rotates": true },
+        { "id": "trailer_road_turn", "fg": 112, "bg": 1, "rotates": true },
+        { "id": "trailer_road_3way", "fg": 114, "bg": 1, "rotates": true },
+        { "id": "trailer_hub_01", "fg": 117, "bg": 1, "rotates": true },
+        { "id": "urban_25_sewer_connector", "fg": 88, "bg": 1, "rotates": true },
+        { "id": "dump", "fg": 30, "bg": 53 },
+        { "id": [ "trailer_public_00", "trailer_public_00_roof" ], "fg": 30, "bg": 53 },
+        { "id": [ "recyclecenter", "recyclecenter_1", "recyclecenter_2" ], "fg": 39, "bg": 85 },
+        { "id": [ "recyclecenter_roof", "recyclecenter_roof_1", "recyclecenter_roof_2" ], "fg": 39, "bg": 85 },
+        { "id": "landfill", "fg": 35, "bg": 53 },
         {
           "id": [ "junkyard_1a", "junkyard_roof_1a", "junkyard_1b", "junkyard_roof_1b", "junkyard_2a", "junkyard_2b" ],
-          "fg": 33,
-          "bg": 52
+          "fg": 34,
+          "bg": 53
         },
         {
           "id": [
@@ -2438,10 +2452,10 @@
             "ws_biker_dump_3_3"
           ],
           "fg": 2,
-          "bg": 52
+          "bg": 53
         },
-        { "id": [ "cs_open_sewer", "cs_open_sewer_undergound" ], "fg": 7, "bg": 98 },
-        { "id": "cs_city_dump_small", "fg": 2, "bg": 52 },
+        { "id": [ "cs_open_sewer", "cs_open_sewer_undergound" ], "fg": 7, "bg": 99 },
+        { "id": "cs_city_dump_small", "fg": 2, "bg": 53 },
         {
           "id": [
             "abandoned_textile_mill_0_1",
@@ -2464,44 +2478,44 @@
             "abandoned_textile_mill_b_1_1",
             "abandoned_textile_mill_b_1_2"
           ],
-          "fg": 101,
+          "fg": 103,
           "bg": 1,
           "rotates": true
         },
         {
           "id": [ "unvitrified_farm_1", "unvitrified_farm_2", "unvitrified_farm_neg_1", "unvitrified_farm_0" ],
-          "fg": 31,
-          "bg": 106
+          "fg": 32,
+          "bg": 108
         },
-        { "id": "unvitrified_orchard", "fg": 31, "bg": 106 },
-        { "id": "river_cave_food", "fg": 65, "bg": 84 },
-        { "id": "s_restaurant_deserted_test", "fg": 83, "bg": 133, "rotates": true },
-        { "id": "sunny", "fg": 175, "bg": 106 },
-        { "id": "cloudy", "fg": 67, "bg": 106 },
-        { "id": "light_drizzle", "fg": 100, "bg": 47 },
-        { "id": "drizzle", "fg": 100, "bg": 47 },
-        { "id": "rain", "fg": 48, "bg": 47 },
-        { "id": "rainstorm", "fg": 20, "bg": 47 },
-        { "id": "thunder", "fg": 20, "bg": 47 },
-        { "id": "lightning", "fg": 174, "bg": 47 },
-        { "id": "flurries", "fg": 80, "bg": 64 },
-        { "id": "snowing", "fg": 79, "bg": 64 },
-        { "id": "snowstorm", "fg": 164, "bg": 64 },
-        { "id": "mist", "fg": 67, "bg": 106 },
-        { "id": "fog", "fg": 67, "bg": 106 },
-        { "id": "early_portal_storm", "fg": 130, "bg": 1 },
-        { "id": "distant_portal_storm", "fg": 152, "bg": 1 },
-        { "id": "close_portal_storm", "fg": 152, "bg": 1 },
-        { "id": "portal_storm", "fg": 152, "bg": 1 },
-        { "id": "afs_tunnel_sinkhole_surface", "fg": 99, "bg": 1, "rotates": true },
-        { "id": "afs_tunnel_sinkhole", "fg": 101, "bg": 1, "rotates": true },
-        { "id": "afs_tunnel_ravine_edge", "fg": 99, "bg": 1, "rotates": true },
-        { "id": "prepnet_orchard", "fg": 18, "bg": 84 },
-        { "id": "afs_crashed_escape_pod", "fg": 22, "bg": 140 },
-        { "id": "robot_dispatch_first", "fg": 38, "bg": 136 },
-        { "id": [ "robot_dispatch_second", "robot_dispatch_roof" ], "fg": 38, "bg": 136 },
-        { "id": "afs_shelter_1", "fg": 96, "bg": 1, "rotates": true },
-        { "id": "afs_shelter_1_roof", "fg": 96, "bg": 1, "rotates": true },
+        { "id": "unvitrified_orchard", "fg": 32, "bg": 108 },
+        { "id": "river_cave_food", "fg": 66, "bg": 85 },
+        { "id": "sunny", "fg": 177, "bg": 108 },
+        { "id": "cloudy", "fg": 68, "bg": 108 },
+        { "id": "light_drizzle", "fg": 102, "bg": 48 },
+        { "id": "drizzle", "fg": 102, "bg": 48 },
+        { "id": "rain", "fg": 49, "bg": 48 },
+        { "id": "rainstorm", "fg": 20, "bg": 48 },
+        { "id": "thunder", "fg": 20, "bg": 48 },
+        { "id": "lightning", "fg": 176, "bg": 48 },
+        { "id": "flurries", "fg": 81, "bg": 65 },
+        { "id": "snowing", "fg": 80, "bg": 65 },
+        { "id": "snowstorm", "fg": 166, "bg": 65 },
+        { "id": "mist", "fg": 68, "bg": 108 },
+        { "id": "fog", "fg": 68, "bg": 108 },
+        { "id": "early_portal_storm", "fg": 132, "bg": 1 },
+        { "id": "distant_portal_storm", "fg": 154, "bg": 1 },
+        { "id": "close_portal_storm", "fg": 154, "bg": 1 },
+        { "id": "portal_storm", "fg": 154, "bg": 1 },
+        { "id": "afs_tunnel_sinkhole_surface", "fg": 100, "bg": 1, "rotates": true },
+        { "id": "afs_tunnel_sinkhole", "fg": 103, "bg": 1, "rotates": true },
+        { "id": "afs_tunnel_ravine_edge", "fg": 100, "bg": 1, "rotates": true },
+        { "id": "prepnet_orchard", "fg": 18, "bg": 85 },
+        { "id": "afs_crashed_escape_pod", "fg": 22, "bg": 142 },
+        { "id": "afs_landed_shuttle", "fg": 180, "bg": 1, "rotates": true },
+        { "id": "robot_dispatch_first", "fg": 39, "bg": 138 },
+        { "id": [ "robot_dispatch_second", "robot_dispatch_roof" ], "fg": 39, "bg": 138 },
+        { "id": "afs_shelter_1", "fg": 97, "bg": 1, "rotates": true },
+        { "id": "afs_shelter_1_roof", "fg": 97, "bg": 1, "rotates": true },
         {
           "id": [
             "crashing_ship_3",
@@ -2515,42 +2529,42 @@
             "crashing_ship_7"
           ],
           "fg": 22,
-          "bg": 140
+          "bg": 142
         },
-        { "id": "afs_flurries", "fg": 165, "bg": 47 },
-        { "id": "afs_whiteout", "fg": 5, "bg": 106 },
-        { "id": "afs_snowing", "fg": 48, "bg": 47 },
-        { "id": "afs_thunder", "fg": 20, "bg": 47 },
-        { "id": "afs_lightning", "fg": 174, "bg": 47 },
-        { "id": "mesa", "fg": 20, "bg": 52 },
-        { "id": "early_dust_storm", "fg": 175, "bg": 1 },
-        { "id": "dust_storm", "fg": 174, "bg": 1 },
-        { "id": "fieldoffice", "fg": 61, "bg": 1, "rotates": true },
-        { "id": "dinoexhibit", "fg": 61, "bg": 1, "rotates": true },
-        { "id": "dinoexhibit_roof", "fg": 61, "bg": 1, "rotates": true },
-        { "id": [ "mi-go_scout_tower_dino_1", "mi-go_scout_tower_dino_3" ], "fg": 118, "bg": 1, "rotates": true },
-        { "id": [ "dinozoo_0_0", "dinozoo_1_0" ], "fg": 37, "bg": 84 },
-        { "id": "dinozoo_2_0", "fg": 37, "bg": 84 },
+        { "id": "afs_flurries", "fg": 167, "bg": 48 },
+        { "id": "afs_whiteout", "fg": 5, "bg": 108 },
+        { "id": "afs_snowing", "fg": 49, "bg": 48 },
+        { "id": "afs_thunder", "fg": 20, "bg": 48 },
+        { "id": "afs_lightning", "fg": 176, "bg": 48 },
+        { "id": "mesa", "fg": 20, "bg": 53 },
+        { "id": "early_dust_storm", "fg": 177, "bg": 1 },
+        { "id": "dust_storm", "fg": 176, "bg": 1 },
+        { "id": "fieldoffice", "fg": 62, "bg": 1, "rotates": true },
+        { "id": "dinoexhibit", "fg": 62, "bg": 1, "rotates": true },
+        { "id": "dinoexhibit_roof", "fg": 62, "bg": 1, "rotates": true },
+        { "id": [ "mi-go_scout_tower_dino_1", "mi-go_scout_tower_dino_3" ], "fg": 120, "bg": 1, "rotates": true },
+        { "id": [ "dinozoo_0_0", "dinozoo_1_0" ], "fg": 38, "bg": 85 },
+        { "id": "dinozoo_2_0", "fg": 38, "bg": 85 },
         {
           "id": [ "dinozoo_0_1", "dinozoo_1_1", "dinozoo_2_1", "dinozoo_0_2", "dinozoo_1_2", "dinozoo_2_2" ],
-          "fg": 42,
-          "bg": 84
+          "fg": 43,
+          "bg": 85
         },
-        { "id": [ "house_technomancer_1", "house_technomancer_2" ], "fg": 128, "bg": 1, "rotates": true },
+        { "id": [ "house_technomancer_1", "house_technomancer_2" ], "fg": 130, "bg": 1, "rotates": true },
         {
           "id": [ "house_technomancer_3", "house_technomancer_4", "house_technomancer_5", "house_technomancer_6" ],
-          "fg": 128,
+          "fg": 130,
           "bg": 1,
           "rotates": true
         },
-        { "id": "office_cubical_phavian", "fg": 119, "bg": 1, "rotates": true },
-        { "id": "office_cubical_phavian_roof", "fg": 119, "bg": 1, "rotates": true },
-        { "id": "office_cubical_phavian_basement", "fg": 119, "bg": 1, "rotates": true },
-        { "id": "office_cubical_phavian_subbasement", "fg": 119, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_2", "fg": 123, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_10", "fg": 126, "bg": 1, "rotates": true },
-        { "id": [ "necropolis_a_54", "necropolis_a_63" ], "fg": 125, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_5", "fg": 82, "bg": 47, "rotates": true },
+        { "id": "office_cubical_phavian", "fg": 121, "bg": 1, "rotates": true },
+        { "id": "office_cubical_phavian_roof", "fg": 121, "bg": 1, "rotates": true },
+        { "id": "office_cubical_phavian_basement", "fg": 121, "bg": 1, "rotates": true },
+        { "id": "office_cubical_phavian_subbasement", "fg": 121, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_2", "fg": 125, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_10", "fg": 128, "bg": 1, "rotates": true },
+        { "id": [ "necropolis_a_54", "necropolis_a_63" ], "fg": 127, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_5", "fg": 83, "bg": 48, "rotates": true },
         {
           "id": [
             "necropolis_a_11",
@@ -2562,11 +2576,11 @@
             "necropolis_a_31",
             "necropolis_a_15"
           ],
-          "fg": 68,
+          "fg": 69,
           "bg": 1,
           "rotates": true
         },
-        { "id": [ "necropolis_a_6", "necropolis_a_77" ], "fg": 68, "bg": 1, "rotates": true },
+        { "id": [ "necropolis_a_6", "necropolis_a_77" ], "fg": 69, "bg": 1, "rotates": true },
         {
           "id": [
             "necropolis_a_21",
@@ -2580,30 +2594,30 @@
             "necropolis_a_69",
             "necropolis_a_70"
           ],
-          "fg": 75,
+          "fg": 76,
           "bg": 1,
           "rotates": true
         },
-        { "id": "necropolis_a_64", "fg": 75, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_20", "fg": 71, "bg": 1, "rotates": true },
-        { "id": [ "necropolis_a_22", "necropolis_a_41" ], "fg": 73, "bg": 1, "rotates": true },
-        { "id": [ "necropolis_a_24", "necropolis_a_40", "necropolis_a_65" ], "fg": 72, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_26", "fg": 70, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_44", "fg": 69, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_68", "fg": 76, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_71", "fg": 77, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_12", "fg": 125, "bg": 52, "rotates": true },
-        { "id": "necropolis_a_16", "fg": 177, "bg": 47, "rotates": true },
-        { "id": "necropolis_a_17", "fg": 170, "bg": 47, "rotates": true },
-        { "id": [ "necropolis_a_28", "necropolis_a_29" ], "fg": 97, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_34", "fg": 167, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_37", "fg": 25, "bg": 52, "rotates": true },
-        { "id": "necropolis_a_46", "fg": 50, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_51", "fg": 137, "bg": 1, "rotates": true },
-        { "id": "necropolis_a_74", "fg": 43, "bg": 133, "rotates": true },
-        { "id": "necropolis_a_75", "fg": 178, "bg": 133, "rotates": true },
-        { "id": "necropolis_a_78", "fg": 101, "bg": 1, "rotates": true },
-        { "id": "necropolis_b_29", "fg": 93, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_64", "fg": 76, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_20", "fg": 72, "bg": 1, "rotates": true },
+        { "id": [ "necropolis_a_22", "necropolis_a_41" ], "fg": 74, "bg": 1, "rotates": true },
+        { "id": [ "necropolis_a_24", "necropolis_a_40", "necropolis_a_65" ], "fg": 73, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_26", "fg": 71, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_44", "fg": 70, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_68", "fg": 77, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_71", "fg": 78, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_12", "fg": 127, "bg": 53, "rotates": true },
+        { "id": "necropolis_a_16", "fg": 179, "bg": 48, "rotates": true },
+        { "id": "necropolis_a_17", "fg": 172, "bg": 48, "rotates": true },
+        { "id": [ "necropolis_a_28", "necropolis_a_29" ], "fg": 98, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_34", "fg": 169, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_37", "fg": 26, "bg": 53, "rotates": true },
+        { "id": "necropolis_a_46", "fg": 51, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_51", "fg": 139, "bg": 1, "rotates": true },
+        { "id": "necropolis_a_74", "fg": 44, "bg": 135, "rotates": true },
+        { "id": "necropolis_a_75", "fg": 180, "bg": 135, "rotates": true },
+        { "id": "necropolis_a_78", "fg": 103, "bg": 1, "rotates": true },
+        { "id": "necropolis_b_29", "fg": 94, "bg": 1, "rotates": true },
         {
           "id": [
             "necropolis_b_11",
@@ -2654,7 +2668,7 @@
             "necropolis_b_79",
             "necropolis_b_8"
           ],
-          "fg": 93,
+          "fg": 94,
           "bg": 1,
           "rotates": true
         },
@@ -2709,25 +2723,26 @@
             "necropolis_d_79",
             "necropolis_d_81"
           ],
-          "fg": 161,
+          "fg": 163,
           "bg": 1,
           "rotates": true
         },
-        { "id": "railroad_bridge", "fg": 103, "bg": 1, "rotates": true },
-        { "id": "railroad_bridge_overpass", "fg": 157, "bg": 1, "rotates": true },
-        { "id": "railroad_bridgehead_ground", "fg": 156, "bg": 1, "rotates": true },
-        { "id": "railroad_bridgehead_ramp", "fg": 167, "bg": 1, "rotates": true },
-        { "id": "railroad_level_crossing", "fg": 146, "bg": 1, "rotates": true },
+        { "id": "railroad_bridge", "fg": 105, "bg": 1, "rotates": true },
+        { "id": "railroad_bridge_overpass", "fg": 159, "bg": 1, "rotates": true },
+        { "id": "railroad_bridgehead_ground", "fg": 158, "bg": 1, "rotates": true },
+        { "id": "railroad_bridgehead_ramp", "fg": 169, "bg": 1, "rotates": true },
+        { "id": "railroad_level_crossing", "fg": 148, "bg": 1, "rotates": true },
         {
           "id": [ "railroad_station_0_1", "railroad_station_0_2", "railroad_station_0_3", "railroad_station_0_4" ],
-          "fg": 124,
+          "fg": 126,
           "bg": 1,
           "rotates": true
         },
-        { "id": "overgrownlot", "fg": 36, "bg": 84 },
-        { "id": "overtakenlot", "fg": 36, "bg": 84 },
-        { "id": "safe_house", "fg": 128, "bg": 1, "rotates": true },
-        { "id": "safe_house_roof", "fg": 128, "bg": 1, "rotates": true },
+        { "id": "s_restaurant_deserted_test", "fg": 84, "bg": 135, "rotates": true },
+        { "id": "overgrownlot", "fg": 37, "bg": 85 },
+        { "id": "overtakenlot", "fg": 37, "bg": 85 },
+        { "id": "safe_house", "fg": 130, "bg": 1, "rotates": true },
+        { "id": "safe_house_roof", "fg": 130, "bg": 1, "rotates": true },
         {
           "id": [
             "cathedralv_1_NW",
@@ -2743,8 +2758,8 @@
             "cathedralv_3_SW",
             "cathedralv_3_SE"
           ],
-          "fg": 28,
-          "bg": 129
+          "fg": 29,
+          "bg": 131
         },
         {
           "id": [
@@ -2757,28 +2772,28 @@
             "cathedralv_7_NW",
             "cathedralv_7_NE"
           ],
-          "fg": 28,
-          "bg": 129
+          "fg": 29,
+          "bg": 131
         },
-        { "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ], "fg": 28, "bg": 129 },
-        { "id": [ "npc_male", "npc_female" ], "fg": 138, "bg": 1 },
-        { "id": [ "player_male", "player_female" ], "fg": 166, "bg": 1 },
-        { "id": "overmap_remembered_vehicle", "fg": 105, "bg": 1 },
-        { "id": "mission_arrow_down", "fg": 141, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_e", "fg": 151, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_n", "fg": 153, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_ne", "fg": 143, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_nw", "fg": 148, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_s", "fg": 141, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_se", "fg": 147, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_sw", "fg": 144, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_up", "fg": 153, "bg": 1, "rotates": true },
-        { "id": "mission_arrow_w", "fg": 150, "bg": 1, "rotates": true },
-        { "id": "mission_cursor", "fg": 149, "bg": 1 },
+        { "id": [ "cathedralv_b_NW", "cathedralv_b_NE", "cathedralv_b_SW", "cathedralv_b_SE" ], "fg": 29, "bg": 131 },
+        { "id": [ "npc_male", "npc_female" ], "fg": 140, "bg": 1 },
+        { "id": [ "player_male", "player_female" ], "fg": 168, "bg": 1 },
+        { "id": "overmap_remembered_vehicle", "fg": 107, "bg": 1 },
+        { "id": "mission_arrow_down", "fg": 143, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_e", "fg": 153, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_n", "fg": 155, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_ne", "fg": 145, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_nw", "fg": 150, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_s", "fg": 143, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_se", "fg": 149, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_sw", "fg": 146, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_up", "fg": 155, "bg": 1, "rotates": true },
+        { "id": "mission_arrow_w", "fg": 152, "bg": 1, "rotates": true },
+        { "id": "mission_cursor", "fg": 151, "bg": 1 },
         { "id": "black36", "fg": 19 },
-        { "id": "black60", "fg": 24 },
-        { "id": "yellow111", "fg": 169 },
-        { "id": "yellow46", "fg": 176 }
+        { "id": "black60", "fg": 25 },
+        { "id": "yellow111", "fg": 171 },
+        { "id": "yellow46", "fg": 178 }
       ]
     },
     {

@@ -1589,7 +1589,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "50 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 10 ], [ "wood_panel", 1 ] ], [ [ "nails", 20, "LIST" ] ] ],
+    "components": [ [ [ "2x4", 5 ] ], [ [ "wood_panel", 1 ] ], [ [ "nails", 20, "LIST" ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_ponywall"
   },
@@ -1760,7 +1760,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
-    "components": [ [ [ "wire", 2 ] ] ],
+    "components": [ [ [ "lc_wire", 2 ] ] ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_fence_wire"
   },
@@ -1797,7 +1797,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "components": [ [ [ "wire", 20 ] ] ],
+    "components": [ [ [ "lc_wire", 20 ] ] ],
     "pre_terrain": "t_chainfence_posts",
     "post_terrain": "t_chainfence"
   },
@@ -1808,7 +1808,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
-    "components": [ [ [ "wire", 20 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
+    "components": [ [ [ "lc_wire", 20 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chaingate_c"
@@ -1861,7 +1861,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "components": [ [ [ "wire", 10 ] ] ],
+    "components": [ [ [ "lc_wire", 10 ] ] ],
     "pre_terrain": "t_chickenwire_fence_post",
     "post_terrain": "t_chickenwire_fence"
   },
@@ -1872,7 +1872,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "45 m",
-    "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ],
+    "components": [ [ [ "lc_wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chickenwire_gate_c"
@@ -1897,7 +1897,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
     "pre_terrain": "t_brick_wall",
     "post_terrain": "t_embrasure_brick"
   },
@@ -1926,7 +1926,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
     "pre_terrain": "t_adobe_brick_wall",
     "post_terrain": "t_embrasure_adobe_brick"
   },
@@ -4768,8 +4768,8 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
-      [ [ "rope_natural", 1, "LIST" ] ]
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
+      [ [ "tool_rope_long", 1, "LIST" ] ]
     ],
     "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ] ],
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 40 } ],
@@ -4792,8 +4792,8 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
-      [ [ "rope_natural", 1, "LIST" ] ]
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
+      [ [ "tool_rope_long", 1, "LIST" ] ]
     ],
     "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
@@ -4809,7 +4809,7 @@
     "category": "DIG",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "70 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ] ] ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ] ] ],
     "activity_level": "EXTRA_EXERCISE",
     "pre_terrain": "t_wall_resin_cage",
     "post_terrain": "t_floor_resin",
@@ -4884,7 +4884,8 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
+      [ [ "tool_rope_long", 1, "LIST" ] ],
       [
         "miner_hat",
         "hat_hard",
@@ -4894,8 +4895,7 @@
         "helmet_riot",
         "tac_helmet",
         "miner_hat_on"
-      ],
-      [ [ "rope_natural", 1, "LIST" ] ]
+      ]
     ],
     "//": "Helmets are essential because you're digging up and things may fall on you.",
     "components": [ [ [ "2x4", 18 ] ], [ [ "wood_beam", 2 ] ], [ [ "nails", 90, "LIST" ], [ "nuts_bolts", 90 ] ] ],
@@ -6861,7 +6861,7 @@
     "pre_flags": [ "DIGGABLE", "FLAT" ],
     "pre_special": "check_empty",
     "post_terrain": "t_pit_shallow",
-    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 5 } ],
+    "byproducts": [ { "group": "digging_soil_loam_50L", "count": 4 }, { "group": "digging_topsoil_loam_50L", "count": 1 } ],
     "activity_level": "EXTRA_EXERCISE",
     "do_turn_special": "do_turn_shovel"
   },
@@ -6906,7 +6906,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 3 ] ],
     "time": "300 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
     "pre_terrain": "t_rock_floor",
     "post_terrain": "t_pit",
@@ -7748,7 +7748,7 @@
     "components": [ [ [ "2x4", 4 ] ], [ [ "nails", 16, "LIST" ] ] ],
     "pre_terrain": "t_rock_roof",
     "post_terrain": "t_skylight_frame",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ]
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ]
   },
   {
     "type": "construction",

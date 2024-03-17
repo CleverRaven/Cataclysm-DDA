@@ -5091,7 +5091,8 @@ units::power vehicle::active_reactor_epower() const
     // Only count as much power as will be drawn from the reactor to fill the batteries.
     const auto [bat_remaining, bat_capacity] = connected_battery_power_level();
     // max power flow into batteries for next turn
-    const units::power max_battery_flow = units::from_kilowatt( bat_capacity - bat_remaining );
+    const units::power max_battery_flow = units::from_kilowatt( static_cast<std::int64_t>
+                                          ( bat_capacity - bat_remaining ) );
     // power flow by all parts except reactors
     const units::power non_reactor_flow = net_battery_charge_rate( false );
 

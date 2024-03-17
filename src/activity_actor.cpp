@@ -197,7 +197,7 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
 static const move_mode_id move_mode_prone( "prone" );
 static const move_mode_id move_mode_walk( "walk" );
@@ -3095,7 +3095,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
 
 std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
-    open_gate_activity_actor actor( 0, tripoint_zero );
+    open_gate_activity_actor actor( 0, tripoint_bub_ms( tripoint_zero ) );
 
     JsonObject data = jsin.get_object();
 
@@ -3361,7 +3361,7 @@ void safecracking_activity_actor::start( player_activity &act, Character &who )
 
 void safecracking_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    bool can_crack = who.has_flag( json_flag_SUPER_HEARING );
+    bool can_crack = who.has_flag( json_flag_SAFECRACK_NO_TOOL );
     // short-circuit to avoid the more expensive iteration over items
     can_crack = can_crack || who.cache_has_item_with( flag_SAFECRACK );
 

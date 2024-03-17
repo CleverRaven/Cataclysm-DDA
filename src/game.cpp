@@ -81,6 +81,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
+#include "fault.h"
 #include "field.h"
 #include "field_type.h"
 #include "filesystem.h"
@@ -734,6 +735,7 @@ void game::reenter_fullscreen()
 void game::setup()
 {
     loading_ui ui( true );
+    new_game = true;
     {
         background_pane background;
         static_popup popup;
@@ -751,7 +753,6 @@ void game::setup()
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
-    new_game = true;
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
@@ -5753,7 +5754,17 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     return true;
 }
 
+bool game::forced_door_closing( const tripoint_bub_ms &p, const ter_id &door_type, int bash_dmg )
+{
+    return forced_door_closing( p.raw(), door_type, bash_dmg );
+}
+
 void game::open_gate( const tripoint &p )
+{
+    open_gate( tripoint_bub_ms( p ) );
+}
+
+void game::open_gate( const tripoint_bub_ms &p )
 {
     gates::open_gate( p, u );
 }
@@ -6534,7 +6545,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     std::string tile = uppercase_first_letter( m.tername( lp ) );
     std::string area = uppercase_first_letter( area_name );
     if( const timed_event *e = get_timed_events().get( timed_event_type::OVERRIDE_PLACE ) ) {
-        area = _( e->string_id );
+        area = e->string_id;
     }
     mvwprintz( w_look, point( column, line++ ), c_yellow, area );
     mvwprintz( w_look, point( column, line++ ), c_white, tile );
@@ -8703,7 +8714,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             for( int i = std::max( 0, highPEnd );
                  i < std::min( lowPStart, static_cast<int>( filtered_items.size() ) ); i++ ) {
                 const std::string &cat_name =
-                    filtered_items[i].example->get_category_of_contents().name();
+                    filtered_items[i].example->get_category_of_contents().name_header();
                 if( cat_name != last_cat_name ) {
                     mSortCategory[i + iCatSortNum++] = cat_name;
                     last_cat_name = cat_name;
@@ -11561,46 +11572,33 @@ void game::on_options_changed()
 
 void game::water_affect_items( Character &ch ) const
 {
-    std::vector<item_location> dissolved;
-    std::vector<item_location> destroyed;
-    std::vector<item_location> wet;
-
     for( item_location &loc : ch.all_items_loc() ) {
         // check flag first because its cheaper
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
-            dissolved.emplace_back( loc );
+            add_msg_if_player_sees( ch.pos(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
+                                    ch.disp_name( true, true ), loc->display_name() );
+            loc.remove_item();
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
-            destroyed.emplace_back( loc );
+
+            add_msg_if_player_sees( ch.pos(), m_bad, _( "The water destroyed %1$s %2$s!" ),
+                                    ch.disp_name( true ), loc->display_name() );
+            loc->deactivate();
+            // TODO: Maybe different types of wet faults? But I can't think of any.
+            // This just means it's still too wet to use.
+            loc->set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            // An electronic item in water is also shorted.
+            if( loc->has_flag( flag_ELECTRONIC ) ) {
+                loc->set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+            }
         } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
-            wet.emplace_back( loc );
+            const int wetness_add = 5100 * std::log10( units::to_milliliter( loc->volume() ) );
+            loc->wetness += wetness_add;
+            loc->wetness = std::min( loc->wetness, 5 * wetness_add );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
             loc->convert( itype_towel_wet, &ch ).active = true;
         }
-    }
-
-    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
-        return;
-    }
-
-    for( item_location &it : dissolved ) {
-        add_msg_if_player_sees( ch.pos(), m_bad, _( "%1$s %2$s dissolved in the water!" ),
-                                ch.disp_name( true, true ), it->display_name() );
-        it.remove_item();
-    }
-
-    for( item_location &it : destroyed ) {
-        add_msg_if_player_sees( ch.pos(), m_bad, _( "The water destroyed %1$s %2$s!" ),
-                                ch.disp_name( true ), it->display_name() );
-        it->deactivate();
-        it->set_flag( flag_ITEM_BROKEN );
-    }
-
-    for( item_location &it : wet ) {
-        const int wetness_add = 5100 * std::log10( units::to_milliliter( it->volume() ) );
-        it->wetness += wetness_add;
-        it->wetness = std::min( it->wetness, 5 * wetness_add );
     }
 }
 

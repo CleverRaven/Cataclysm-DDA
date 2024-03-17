@@ -1,6 +1,18 @@
 [
   {
     "type": "snippet",
+    "category": "<lt>",
+    "text": [ { "text": { "ctxt": "less than symbol", "str": "<", "//~": "Escape sequence, do not translate" } } ],
+    "//": "used to escape < to avoid it intefering with tag parsing"
+  },
+  {
+    "type": "snippet",
+    "category": "<gt>",
+    "text": [ { "text": { "ctxt": "greater than symbol", "str": ">", "//~": "Escape sequence, do not translate" } } ],
+    "//": "used to escape > to avoid it intefering with tag parsing"
+  },
+  {
+    "type": "snippet",
     "category": "<number>",
     "text": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
   },
@@ -152,21 +164,6 @@
       "You ask, and the trees answer.",
       "You see the forest for the trees.",
       "In the minute shifts and pivots of the trees, you hear the language of the universe."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "mutant_tree_communion",
-    "text": [
-      "You feel something like laughter through your roots.",
-      "The trees hear you, the first of your kind.",
-      "The impossible task of survival seems suddenly quite simple.",
-      "You feel the presence of another like yourself.",
-      "An inquisitive mind probes at you, its curiosity unique among the whispering leaves.",
-      "The brief sensation that someone is holding your hand is almost enough to bring you to tears.",
-      "You dream of a wooded grove.  Peace.  Family.",
-      "In your mind's eye you walk the woods, a familiar presence by your side.",
-      "A gentle feeling washes over you like a tender hug."
     ]
   },
   {

@@ -386,14 +386,6 @@ struct islot_armor {
          */
         int warmth = 0;
         /**
-        * Factor modifying weight capacity
-        */
-        float weight_capacity_modifier = 1.0f;
-        /**
-        * Bonus to weight capacity
-        */
-        units::mass weight_capacity_bonus = 0_gram;
-        /**
          * Whether this is a power armor item.
          */
         bool power_armor = false;
@@ -1147,7 +1139,7 @@ class islot_milling
 {
     public:
         itype_id into_;
-        double conversion_rate_ = 0;
+        recipe_id recipe_;
 
         bool was_loaded = false;
 
@@ -1479,7 +1471,7 @@ struct itype {
         std::string get_item_type_string() const;
 
         // Returns the name of the item type in the correct language and with respect to its grammatical number,
-        // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
+        // based on quantity (example: item type "anvil", nname(4) would return "anvils" (as in "4 anvils").
         std::string nname( unsigned int quantity ) const;
 
         // Allow direct access to the type id for the few cases that need it.

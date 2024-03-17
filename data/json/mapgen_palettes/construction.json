@@ -24,7 +24,14 @@
     "type": "palette",
     "id": "construction_all_variants",
     "//": "Palette shared by all in-construction houses",
-    "terrain": { ",": "t_floor", "a": "t_thconc_floor", "`": "t_thconc_floor", "X": "t_floor", "x": "t_thconc_floor" },
+    "terrain": {
+      ",": "t_floor",
+      "a": "t_thconc_floor",
+      "'": "t_concrete",
+      "`": "t_thconc_floor",
+      "X": "t_floor",
+      "x": "t_thconc_floor"
+    },
     "nested": {
       "#": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 1 ], [ "null", 298 ] ] },
       ",": {
@@ -70,6 +77,7 @@
       "construction0_house_concrete_outside_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_pit_shallow", 2 ], [ "t_region_soil", 3 ] ] } }
     },
     "terrain": {
+      "b": "t_floor",
       "c": { "param": "construction0_house_concrete_outside_type", "fallback": "t_region_soil" },
       "f": "t_region_soil",
       "g": "t_region_soil",
@@ -84,6 +92,7 @@
       "F": "t_floor",
       "O": "t_floor",
       "S": "t_floor",
+      "5": "t_floor",
       "6": "t_floor",
       "7": "t_floor",
       "8": "t_floor",
@@ -141,6 +150,7 @@
       "construction1_house_concrete_outside_type": { "type": "ter_str_id", "default": { "distribution": [ [ "t_thconc_floor_no_roof", 3 ], [ "t_pit_shallow", 2 ] ] } }
     },
     "terrain": {
+      "b": "t_floor",
       "c": { "param": "construction1_house_concrete_outside_type", "fallback": "t_pit_shallow" },
       "f": "t_region_soil",
       "g": "t_region_soil",
@@ -154,6 +164,7 @@
       "F": "t_floor",
       "O": "t_floor",
       "S": "t_floor",
+      "5": "t_floor",
       "6": "t_floor",
       "7": "t_floor",
       "8": "t_floor",
@@ -213,6 +224,7 @@
     },
     "toilets": { "t": {  } },
     "terrain": {
+      "b": "t_floor",
       "c": "t_thconc_floor_no_roof",
       "f": { "param": "construction2_house_fence_type", "fallback": "t_region_soil" },
       "g": "t_region_soil",
@@ -224,6 +236,7 @@
       "F": "t_floor",
       "O": "t_floor",
       "S": "t_floor",
+      "5": "t_floor",
       "6": "t_floor",
       "7": "t_floor",
       "8": "t_floor",
@@ -243,6 +256,7 @@
       ">": "t_stairs_down"
     },
     "furniture": {
+      "b": "f_bathtub",
       "s": "f_sink",
       "C": [
         [ "f_null", 20 ],
@@ -331,8 +345,10 @@
       },
       "o": [ "t_window", "t_window_no_curtains", "t_window_open", "t_window_no_curtains_open" ],
       "p": "t_pavement",
+      "b": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       "t": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       "s": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
+      "5": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       "6": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       "9": { "param": "construction3_house_linoleum_type", "fallback": "t_linoleum_white" },
       ".": [ [ "t_region_groundcover_urban", 6 ], [ "t_region_soil", 10 ] ],
@@ -360,6 +376,7 @@
     },
     "furniture": {
       "a": "f_fireplace",
+      "b": "f_bathtub",
       "k": "f_woodstove",
       "s": "f_sink",
       "C": "f_null",
@@ -367,6 +384,7 @@
       "F": "f_fridge",
       "O": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "S": "f_sink",
+      "5": "f_cupboard",
       "6": "f_counter",
       "7": "f_counter",
       "8": "f_cupboard",

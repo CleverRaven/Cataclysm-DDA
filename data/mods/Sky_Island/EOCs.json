@@ -15,13 +15,41 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_initiate_randomport",
-    "//": "The actual EOC that teleports the player to the ground.  If this fails, it will be checked and corrected in the following EOC_safely_landed event, which is also where most values are initialized.  A target location must already be stored when this is called.  When this begins, it also memorizes the player's exact position on leaving, which is where they'll return to when the mission ends or they die.  Note that this also gives a bit of warpcloak before the teleport even happens, so if the player spawns over a pit or hole they will not be injured.",
+    "//": "The actual EOC that teleports the player and NPCs that follow to the ground.  If this fails, it will be checked and corrected in the following EOC_safely_landed event, which is also where most values are initialized.  A target location must already be stored when this is called.  When this begins, it also memorizes the player's exact position on leaving, which is where they'll return to when the mission ends or they die.  Note that this also gives a bit of warpcloak before the teleport even happens, so if the player spawns over a pit or hole they will not be injured.",
     "effect": [
       { "u_location_variable": { "global_val": "OM_HQ_origin" } },
+      {
+        "u_location_variable": { "global_val": "OM_HQ_origin_npc" },
+        "passable_only": true,
+        "min_radius": 2,
+        "max_radius": 10
+      },
       {
         "u_add_effect": "warpcloak",
         "intensity": 1,
         "duration": { "global_val": "var", "var_name": "invistime", "default": "3 s" }
+      },
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_initiate_randomport_npc_follower",
+            "condition": "u_following",
+            "effect": [
+              {
+                "u_teleport": { "global_val": "OM_missionspot" },
+                "fail_message": "It seems some of your followers couldn't teleport with you.",
+                "force": true
+              },
+              {
+                "location_variable_adjust": { "global_val": "OM_missionspot" },
+                "x_adjust": [ -2, -1, 1, 2 ],
+                "y_adjust": [ -2, -1, 1, 2 ]
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
       },
       {
         "u_teleport": { "global_val": "OM_missionspot" },
@@ -36,6 +64,24 @@
     "id": "EOC_return_OM_teleport",
     "//": "This is the EOC which actually returns you home.  It brings you home and removes all warp-related effects including warp sickness.  It heals you enough to fix broken limbs.  It also resets the awayfromhome counter to 0 so warp sickness can be tracked properly next time you're out.",
     "effect": [
+      {
+        "u_run_npc_eocs": [
+          {
+            "id": "EOC_return_OM_teleport_followers",
+            "condition": "u_following",
+            "effect": [
+              { "u_teleport": { "global_val": "OM_HQ_origin_npc" }, "force": true },
+              {
+                "location_variable_adjust": { "global_val": "OM_HQ_origin_npc" },
+                "x_adjust": [ -2, -1, 1, 2 ],
+                "y_adjust": [ -2, -1, 1, 2 ]
+              }
+            ]
+          }
+        ],
+        "npc_range": 10,
+        "local": true
+      },
       { "u_teleport": { "global_val": "OM_HQ_origin" }, "force": true },
       { "u_remove_item_with": "warphome" },
       { "math": [ "raidstotal", "++" ] },
@@ -223,6 +269,7 @@
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_item": "warphome" },
     "effect": [
+      "u_prevent_death",
       { "run_eocs": [ "EOC_homewardmote", "EOC_healall" ] },
       {
         "u_message": "Moments before your last breath leaves your body, the mote of warp essence on you jolts with a brilliant energy.  Its thin filament immediately snaps tight, reeling you home faster than you can process what it was that just saved your life.  The mote is spent, but you arrive home alive and well.",
@@ -237,6 +284,7 @@
     "//": "The player's death is now confirmed and not protected.  The true effect is when you die on the island, and the false effect is when you die out in the world.  Both make you incorporeal, which saves you from damage but also makes you drop all items behind, then heal you slightly to prevent death.",
     "condition": { "not": { "u_has_trait": "awayfromhome" } },
     "effect": [
+      "u_prevent_death",
       { "u_add_effect": "downed", "duration": 1 },
       { "u_add_effect": "incorporeal", "duration": 500 },
       { "run_eocs": [ "EOC_death_heal" ] },
@@ -246,6 +294,7 @@
       }
     ],
     "false_effect": [
+      "u_prevent_death",
       { "u_add_effect": "incorporeal", "duration": 1 },
       { "u_add_effect": "downed", "duration": 1 },
       { "run_eocs": [ "EOC_death_heal" ] },
@@ -639,7 +688,7 @@
       { "math": [ "totalstarts", "=", "1 + basementsunlocked + roofsunlocked + labsunlocked" ] },
       { "math": [ "totalexits", "=", "1 + bonusexits" ] },
       {
-        "u_message": "Island Rank: <global_val:islandrank_readable> of 2 \nExpedition Lengths: <global_val:longerraids> of 2 \nExpedition Starts: <global_val:totalstarts> of 5 \nBonus Pulses: <global_val:bonuspulses> of 4 \nTarget reveal distance: <global_val:scoutingdistancetargets> of 10 \nLanding reveal distance: <global_val:scoutingdistancelanding> of 24 \nWarpcloak duration in seconds: <global_val:invistime> of 120 \nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1 \nExits per expedition: <global_val:totalexits> of 3 \nMissions per expedition: <global_val:bonusmissions> of 3 \nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
+        "u_message": "Island Rank: <global_val:islandrank_readable> of 2\nExpedition Lengths: <global_val:longerraids> of 2\nExpedition Starts: <global_val:totalstarts> of 5\nBonus Pulses: <global_val:bonuspulses> of 4\nTarget reveal distance: <global_val:scoutingdistancetargets> of 10\nLanding reveal distance: <global_val:scoutingdistancelanding> of 24\nWarpcloak duration in seconds: <global_val:invistime> of 120\nSlaughter missions unlocked: <global_val:slaughterunlocked> of 1\nExits per expedition: <global_val:totalexits> of 3\nMissions per expedition: <global_val:bonusmissions> of 3\nMission tiers unlocked: <global_val:hardmissions_readable> of 3",
         "popup": true
       }
     ]
@@ -652,7 +701,7 @@
       { "math": [ "readablepulselimit", "=", "8 + bonuspulses" ] },
       { "math": [ "readabledisintegrationlimit", "=", "12 + bonuspulses" ] },
       {
-        "u_message": "Total expeditions: <global_val:raidstotal> \nWins: <global_val:raidswon> \nLosses: <global_val:raidslost> \nMissions complete: <u_val:missionswon> \nSlaughter missions complete: <global_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: <global_val:readablepulselimit> pulses.\nDisintegration at: <global_val:readabledisintegrationlimit> pulses.\nDefault pulse length: <global_val:readablesicknessintervals> minutes.",
+        "u_message": "Total expeditions: <global_val:raidstotal>\nWins: <global_val:raidswon>\nLosses: <global_val:raidslost>\nMissions complete: <u_val:missionswon>\nSlaughter missions complete: <global_val:slaughterswon>\n\nCurrent difficulty settings:\nWarpsickness at: <global_val:readablepulselimit> pulses.\nDisintegration at: <global_val:readabledisintegrationlimit> pulses.\nDefault pulse length: <global_val:readablesicknessintervals> minutes.",
         "popup": true
       }
     ]
@@ -663,7 +712,7 @@
     "//": "Displays the player's current constructions.",
     "effect": [
       {
-        "u_message": "Entrance: <global_val:skyisland_build_base> of 1 \nMain Room: <global_val:skyisland_build_bigroom> of 4",
+        "u_message": "Entrance: <global_val:skyisland_build_base> of 1\nMain Room: <global_val:skyisland_build_bigroom> of 4",
         "popup": true
       }
     ]

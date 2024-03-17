@@ -107,9 +107,9 @@
       {
         "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
         "variables": {
-          "prep_time": "2",
+          "prep_time": "0.5",
           "spell_to_cast": "ierde_smashing_punch_spell",
-          "message_success": "You gather yourself for a moment and strike.",
+          "message_success": { "i18n": true, "str": "You gather yourself for a moment and strike." },
           "message_fail": ""
         }
       }
@@ -125,7 +125,7 @@
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "ierde_no_sleep_meditate_spell",
-          "message_success": "You settle down, feeling the ground beneath you, and begin your vigil",
+          "message_success": { "i18n": true, "str": "You settle down, feeling the ground beneath you, and begin your vigil" },
           "message_fail": ""
         }
       }
@@ -174,6 +174,44 @@
     "id": "EOC_IERDE_SLEEP_DEPRIVATION",
     "condition": { "math": [ "u_val('sleep_deprivation')", ">=", "0" ] },
     "effect": { "math": [ "u_val('sleep_deprivation')", "-=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_EARTHEN_SHIELD_SPELL",
+    "condition": {
+      "and": [
+        { "u_is_on_terrain_with_flag": "DIGGABLE" },
+        { "not": { "u_is_on_terrain": "t_grass_alien" } },
+        { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+        { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+        { "not": { "u_is_on_terrain": "t_fungus" } },
+        { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+        { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+        { "not": { "u_is_on_terrain": "t_swater_surf" } },
+        { "not": { "u_is_on_terrain": "t_woodchips" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_add_effect": "effect_ierde_earthen_shield",
+        "duration": {
+          "math": [ "( ( (u_spell_level('ierde_earthen_shield_spell') * 15) + 300) * (scaling_factor(u_val('strength') ) ) )" ]
+        }
+      },
+      {
+        "math": [ "u_earthen_shield_protection_level", "=", "(u_spell_level('ierde_earthen_shield_spell') * 1 * rng(0.5,1.5)) + 4" ]
+      }
+    ],
+    "false_effect": [ { "u_message": "You must be on living earth or stone to create the earthen shield.", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_EARTHEN_SHIELD_REDUCER",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "math": [ "u_earthen_shield_protection_level", ">=", "1" ] },
+    "effect": [ { "math": [ "u_earthen_shield_protection_level", "-=", "1" ] } ],
+    "false_effect": [ { "u_lose_effect": "effect_ierde_earthen_shield" } ]
   },
   {
     "type": "effect_on_condition",
@@ -340,5 +378,28 @@
     "type": "effect_on_condition",
     "id": "EOC_RESHAPE_EARTH_STONE_TO_DIRT",
     "effect": [ { "u_cast_spell": { "id": "ierde_reshape_the_stone_to_dirt" }, "targeted": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_STONE_FORM_ON",
+    "effect": [
+      { "u_add_trait": "IERDE_STONE_FORM_TRAITS" },
+      { "u_message": "Your body stiffens as your flesh turns to stone and your joints to earth.", "type": "good" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_STONE_FORM_PER_TURN",
+    "condition": { "math": [ "u_val('mana')", ">=", "3" ] },
+    "effect": [ { "math": [ "u_val('mana')", "-=", "1" ] } ],
+    "false_effect": [
+      { "u_message": "You do not have enough mana to maintain your earthen body!", "type": "bad" },
+      { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_IERDE_STONE_FORM_OFF",
+    "effect": [ { "u_lose_trait": "IERDE_STONE_FORM_TRAITS" } ]
   }
 ]

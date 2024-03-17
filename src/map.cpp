@@ -1653,6 +1653,11 @@ std::string map::obstacle_name( const tripoint &p )
     return name( p );
 }
 
+std::string map::obstacle_name( const tripoint_bub_ms &p )
+{
+    return obstacle_name( p.raw() );
+}
+
 bool map::has_furn( const tripoint &p ) const
 {
     return furn( p ) != f_null;
@@ -2256,6 +2261,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain, bool avoid_crea
     invalidate_max_populated_zlev( p.z );
 
     memory_cache_dec_set_dirty( p, true );
+    memory_cache_ter_set_dirty( p, true );
     avatar &player_character = get_avatar();
     if( player_character.sees( p ) ) {
         player_character.memorize_clear_decoration( getglobal( p ), "t_" );
@@ -4924,6 +4930,11 @@ void map::i_clear( const tripoint &p )
     current_submap->get_items( l ).clear();
 }
 
+void map::i_clear( const tripoint_bub_ms &p )
+{
+    i_clear( p.raw() );
+}
+
 std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item> &new_items )
 {
     std::vector<item *> ret;
@@ -6337,6 +6348,11 @@ time_duration map::get_field_age( const tripoint_bub_ms &p, const field_type_id 
 
 int map::get_field_intensity( const tripoint &p, const field_type_id &type ) const
 {
+    return get_field_intensity( tripoint_bub_ms( p ), type );
+}
+
+int map::get_field_intensity( const tripoint_bub_ms &p, const field_type_id &type ) const
+{
     const field_entry *field_ptr = get_field( p, type );
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
@@ -6946,11 +6962,16 @@ void map::drawsq( const catacurses::window &w, const tripoint &p,
     draw_from_above( w, below, tile_below, params );
 }
 
+void map::drawsq( const catacurses::window &w, const tripoint_bub_ms &p,
+                  const drawsq_params &params ) const
+{
+    map::drawsq( w, p.raw(), params );
+}
+
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::dont_draw_lower_floor( const tripoint &p ) const
 {
-    return !zlevels || p.z <= -OVERMAP_DEPTH ||
-           ( has_floor( p ) && !has_flag( ter_furn_flag::TFLAG_Z_TRANSPARENT, p ) );
+    return !zlevels || p.z <= -OVERMAP_DEPTH || get_cache( p.z ).floor_cache[p.x][p.y];
 }
 
 bool map::draw_maptile( const catacurses::window &w, const tripoint &p,
@@ -7226,10 +7247,10 @@ void map::draw_from_above( const catacurses::window &w, const tripoint &p,
     }
 }
 
-bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
+bool map::sees( const tripoint &F, const tripoint &T, const int range, bool with_fields ) const
 {
     int dummy = 0;
-    return sees( F, T, range, dummy );
+    return sees( F, T, range, dummy, with_fields );
 }
 
 point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
@@ -7250,8 +7271,11 @@ point map::sees_cache_key( const tripoint &from, const tripoint &to ) const
  * This one is internal-only, we don't want to expose the slope tweaking ickiness outside the map class.
  **/
 bool map::sees( const tripoint &F, const tripoint &T, const int range,
-                int &bresenham_slope ) const
+                int &bresenham_slope, bool with_fields ) const
 {
+    bool ( map::*f_transparent )( const tripoint & p ) const =
+        with_fields ? &map::is_transparent : &map::is_transparent_wo_fields;
+    lru_cache_t &skew_cache = with_fields ? skew_vision_cache : skew_vision_wo_fields_cache;
     if( std::abs( F.z - T.z ) > fov_3d_z_range ||
         ( range >= 0 && range < rl_dist( F, T ) ) ||
         !inbounds( T ) ) {
@@ -7259,7 +7283,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         return false; // Out of range!
     }
     const point key = sees_cache_key( F, T );
-    char cached = skew_vision_cache.get( key, -1 );
+    char cached = skew_cache.get( key, -1 );
     if( cached >= 0 ) {
         return cached > 0;
     }
@@ -7268,24 +7292,24 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
     // Ugly `if` for now
     if( F.z == T.z ) {
         bresenham( F.xy(), T.xy(), bresenham_slope,
-        [this, &visible, &T]( const point & new_point ) {
+        [this, f_transparent, &visible, &T]( const point & new_point ) {
             // Exit before checking the last square, it's still visible even if opaque.
             if( new_point.x == T.x && new_point.y == T.y ) {
                 return false;
             }
-            if( !this->is_transparent( tripoint( new_point, T.z ) ) ) {
+            if( !( this->*f_transparent )( tripoint( new_point, T.z ) ) ) {
                 visible = false;
                 return false;
             }
             return true;
         } );
-        skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
+        skew_cache.insert( 100000, key, visible ? 1 : 0 );
         return visible;
     }
 
     tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
-    [this, &visible, &T, &last_point]( const tripoint & new_point ) {
+    [this, f_transparent, &visible, &T, &last_point]( const tripoint & new_point ) {
         // Exit before checking the last square if it's not a vertical transition,
         // it's still visible even if opaque.
         if( new_point == T && last_point.z == T.z ) {
@@ -7294,16 +7318,16 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
 
         // TODO: Allow transparent floors (and cache them!)
         if( new_point.z == last_point.z ) {
-            if( !this->is_transparent( new_point ) ) {
+            if( !( this->*f_transparent )( new_point ) ) {
                 visible = false;
                 return false;
             }
         } else {
             const int max_z = std::max( new_point.z, last_point.z );
             if( ( has_floor_or_support( {new_point.xy(), max_z} ) ||
-                  !is_transparent( {new_point.xy(), last_point.z} ) ) &&
+                  !( this->*f_transparent )( {new_point.xy(), last_point.z} ) ) &&
                 ( has_floor_or_support( {last_point.xy(), max_z} ) ||
-                  !is_transparent( {last_point.xy(), new_point.z} ) ) ) {
+                  !( this->*f_transparent )( {last_point.xy(), new_point.z} ) ) ) {
                 visible = false;
                 return false;
             }
@@ -7312,7 +7336,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range,
         last_point = new_point;
         return true;
     } );
-    skew_vision_cache.insert( 100000, key, visible ? 1 : 0 );
+    skew_cache.insert( 100000, key, visible ? 1 : 0 );
     return visible;
 }
 
@@ -7432,14 +7456,17 @@ int map::ledge_coverage( const tripoint &viewer_p, const tripoint &target_p,
     // Ledge coverage given by comparing covered_z and the absolute z of the target space
     float ledge_coverage = ( covered_z - target_p.z * zlevel_to_grid_ratio ) * 100;
 
+    // Early exit if the tile is definitely not covered
+    if( ledge_coverage < 0 ) {
+        return 0;
+    }
     // Target has a coverage penalty when standing on furniture
     const furn_id target_furn = furn( target_p );
-    if( target_furn.obj().id || ( move_cost( target_p ) > 2 &&
-                                  !has_flag_ter( ter_furn_flag::TFLAG_FLAT, target_p ) ) ) {
+    if( target_furn ) {
         ledge_coverage -= target_furn->coverage;
     }
 
-    return ledge_coverage >= 0 ? ledge_coverage : 0;
+    return std::max( ledge_coverage, 0.0f );
 }
 
 int map::coverage( const tripoint &p ) const
@@ -8277,7 +8304,6 @@ void map::grow_plant( const tripoint &p )
         furn_set( p, f_null );
         return;
     }
-    //furn.name() = seed->get_plant_name();
     const time_duration plantEpoch = seed->get_plant_epoch();
     if( seed->age() >= plantEpoch * furn.plant->growth_multiplier &&
         !furn.has_flag( ter_furn_flag::TFLAG_GROWTH_HARVEST ) ) {
@@ -8295,9 +8321,7 @@ void map::grow_plant( const tripoint &p )
             }
 
             rotten_item_spawn( *seed, p );
-            //Become a seedling
-            std::optional<furn_str_id> seedling_form = seed->get_plant_seedling_form();
-            furn_set( p, furn_str_id( seedling_form.value() ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         } else if( seed->age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( ter_furn_flag::TFLAG_GROWTH_MATURE, p ) ) {
                 return;
@@ -8314,9 +8338,7 @@ void map::grow_plant( const tripoint &p )
             if( !has_flag_furn( ter_furn_flag::TFLAG_GROWTH_SEEDLING, p ) ) {
                 rotten_item_spawn( *seed, p );
             }
-            //Become a mature plant
-            std::optional<furn_str_id> mature_form = seed->get_plant_mature_form();
-            furn_set( p, furn_str_id( mature_form.value() ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
 
         } else {
             //You've skipped two stages so roll monsters two times
@@ -8332,9 +8354,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( *seed, p );
                 rotten_item_spawn( *seed, p );
             }
-            //Become a harvestable plant.
-            std::optional<furn_str_id> harvestable_form = seed->get_plant_harvestable_form();
-            furn_set( p, furn_str_id( harvestable_form.value() ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         }
     }
 }
@@ -8837,8 +8857,8 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight, bool spa
                     }
                 }
             }
-            if( i.name != "NONE" ) {
-                tmp.unique_name = i.name;
+            if( i.name.has_value() ) {
+                tmp.unique_name = i.name.value();
             }
             if( i.friendly ) {
                 tmp.friendly = -1;
@@ -8977,6 +8997,38 @@ bool tinymap::inbounds( const tripoint &p ) const
     return map_boundaries.contains( p );
 }
 
+bool tinymap::inbounds( const tripoint_omt_ms &p ) const
+{
+    constexpr tripoint_omt_ms map_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    constexpr tripoint_omt_ms map_boundary_max( SEEY * 2, SEEX * 2, OVERMAP_HEIGHT + 1 );
+
+    constexpr half_open_cuboid<tripoint_omt_ms> map_boundaries( map_boundary_min, map_boundary_max );
+
+    return map_boundaries.contains( p );
+}
+
+tripoint_range<tripoint> tinymap::points_on_zlevel() const
+{
+    return map::points_on_zlevel();
+}
+
+tripoint_range<tripoint> tinymap::points_on_zlevel( int z ) const
+{
+    return map::points_on_zlevel( z );
+}
+
+tripoint_range<tripoint> tinymap::points_in_rectangle(
+    const tripoint &from, const tripoint &to ) const
+{
+    return map::points_in_rectangle( from, to );
+}
+
+tripoint_range<tripoint> tinymap::points_in_radius(
+    const tripoint &center, size_t radius, size_t radiusz ) const
+{
+    return map::points_in_radius( center, radius, radiusz );
+}
+
 // set up a map just long enough scribble on it
 // this tinymap should never, ever get saved
 fake_map::fake_map( const ter_id &ter_type )
@@ -8984,8 +9036,8 @@ fake_map::fake_map( const ter_id &ter_type )
     const tripoint_abs_sm tripoint_below_zero( 0, 0, fake_map_z );
 
     set_abs_sub( tripoint_below_zero );
-    for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
-        for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+    for( int gridx = 0; gridx < get_my_MAPSIZE(); gridx++ ) {
+        for( int gridy = 0; gridy < get_my_MAPSIZE(); gridy++ ) {
             std::unique_ptr<submap> sm = std::make_unique<submap>();
 
             sm->set_all_ter( ter_type );
@@ -9237,7 +9289,7 @@ void map::build_obstacle_cache(
             continue;
         }
         // TODO: scale this with expected creature "thickness".
-        obstacle_cache[loc.x][loc.y].velocity = 1000.0f;
+        obstacle_cache[loc.x][loc.y].velocity = 1.2f;
         // ranged_target_size is "proportion of square that is blocked", and density needs to be
         // "transmissivity of square", so we need the reciprocal.
         obstacle_cache[loc.x][loc.y].density = 1.0 - critter.ranged_target_size();
@@ -9413,6 +9465,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();
+        skew_vision_wo_fields_cache.clear();
     }
     avatar &u = get_avatar();
     Character::moncam_cache_t mcache = u.get_active_moncams();

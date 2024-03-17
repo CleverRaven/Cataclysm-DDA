@@ -23,7 +23,7 @@
     "category": [ "SALAMANDER" ],
     "prereqs": [ "SALAMANDER_SKIN_1" ],
     "changes_to": [ "SALAMANDER_SKIN_3" ],
-    "weakness_to_water": 1,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 1 } ] } ],
     "integrated_armor": [ "integrated_coal_skin" ],
     "flags": [ "TOUGH_FEET" ]
   },
@@ -41,7 +41,7 @@
     "prereqs": [ "SALAMANDER_SKIN_2" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
     "category": [ "SALAMANDER" ],
-    "weakness_to_water": 4,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": 4 } ] } ],
     "integrated_armor": [ "integrated_flameskin" ]
   },
   {
@@ -116,6 +116,19 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_SUMMON_FIREBIRD",
+    "name": { "str": "Flame of the Firebird" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability to summon a bird made of roaring flames to their aid.",
+    "prereqs": [ "SALAMANDER_FLAME_BREATH" ],
+    "prereqs2": [ "SALAMANDER_SUMMON_FIRE_SPIRIT" ],
+    "category": [ "SALAMANDER" ],
+    "spells_learned": [ [ "salamander_summon_firebird_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_INCREASE_SPEED",
     "name": { "str": "Fanning the Spark" },
     "points": 3,
@@ -147,7 +160,7 @@
     "visibility": 0,
     "ugliness": 0,
     "description": "Upon gaining this ability the Salamander gains the ability to emit large quantities of heat.",
-    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs": [ "SALAMANDER_COOKING_HEAT" ],
     "prereqs2": [ "SALAMANDER_SLEEP_LESS2", "SALAMANDER_SLEEP_LESS3" ],
     "category": [ "SALAMANDER" ],
     "spells_learned": [ [ "salamander_emit_heat", 1 ] ]
@@ -271,71 +284,8 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
     "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  However, cold weather produces a corresponding slowing effect.",
     "category": [ "SALAMANDER" ],
-    "//": "Temperature below is weather only, not local ambient air temperature, hence the field detection.  If local temperature is added, change to that.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-              {
-                "or": [
-                  { "u_is_in_field": "fd_hot_air1" },
-                  { "u_is_in_field": "fd_hot_air2" },
-                  { "u_is_in_field": "fd_hot_air3" },
-                  { "u_is_in_field": "fd_hot_air4" },
-                  { "u_is_in_field": "fd_fire" },
-                  { "u_is_in_field": "fd_salamander_heat" },
-                  { "u_is_in_field": "fd_migo_atmosphere" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_HEAT_HEAL_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "SALAMANDER_HEAT_HEAL_ON",
-    "name": { "str": "Heat Fuels the Flames (active)" },
-    "points": 8,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  The heat is speeding your healing.",
-    "category": [ "SALAMANDER" ],
-    "healing_awake": 0.44,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 4,
-    "//": "Numbers taken from Very Fast Healer",
-    "temperature_speed_modifier": 1,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "math": [ "weather('temperature')", "<", "from_fahrenheit( 79 )" ] },
-              {
-                "and": [
-                  { "not": { "u_is_in_field": "fd_hot_air1" } },
-                  { "not": { "u_is_in_field": "fd_hot_air2" } },
-                  { "not": { "u_is_in_field": "fd_hot_air3" } },
-                  { "not": { "u_is_in_field": "fd_hot_air4" } },
-                  { "not": { "u_is_in_field": "fd_fire" } },
-                  { "not": { "u_is_in_field": "fd_salamander_heat" } },
-                  { "not": { "u_is_in_field": "fd_migo_atmosphere" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_HEAT_HEAL", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_salamander_heat_healing" ],
+    "temperature_speed_modifier": 1
   },
   {
     "type": "mutation",
@@ -347,67 +297,7 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM", "SALAMANDER_HEAT_HEAL", "SALAMANDER_HEAT_HEAL_ON" ],
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed will increase while standing in fire or hot air.",
     "category": [ "SALAMANDER" ],
-    "//": "Temperature below is weather only, not local ambient air temperature, hence the field detection.  If local temperature is added, change to that.",
-    "triggers": [
-      [
-        {
-          "condition": {
-            "or": [
-              { "math": [ "weather('temperature')", ">=", "from_fahrenheit( 80 )" ] },
-              {
-                "or": [
-                  { "u_is_in_field": "fd_hot_air1" },
-                  { "u_is_in_field": "fd_hot_air2" },
-                  { "u_is_in_field": "fd_hot_air3" },
-                  { "u_is_in_field": "fd_hot_air4" },
-                  { "u_is_in_field": "fd_fire" },
-                  { "u_is_in_field": "fd_salamander_heat" },
-                  { "u_is_in_field": "fd_migo_atmosphere" }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_FAST_CRAFT_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "SALAMANDER_FAST_CRAFT_ON",
-    "name": { "str": "Incandescent Artisan's Alacrity (active)" },
-    "points": 5,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed is increased.",
-    "category": [ "SALAMANDER" ],
-    "crafting_speed_multiplier": 1.15,
-    "triggers": [
-      [
-        {
-          "condition": {
-            "and": [
-              { "math": [ "weather('temperature')", "<", "from_fahrenheit( 79 )" ] },
-              {
-                "and": [
-                  { "not": { "u_is_in_field": "fd_hot_air1" } },
-                  { "not": { "u_is_in_field": "fd_hot_air2" } },
-                  { "not": { "u_is_in_field": "fd_hot_air3" } },
-                  { "not": { "u_is_in_field": "fd_hot_air4" } },
-                  { "not": { "u_is_in_field": "fd_fire" } },
-                  { "not": { "u_is_in_field": "fd_salamander_heat" } },
-                  { "not": { "u_is_in_field": "fd_migo_atmosphere" } }
-                ]
-              }
-            ]
-          },
-          "msg_on": { "text": "", "rating": "good" }
-        }
-      ]
-    ],
-    "transform": { "target": "SALAMANDER_FAST_CRAFT", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "ench_salamander_heat_crafting" ]
   },
   {
     "type": "mutation",
@@ -415,7 +305,7 @@
     "name": { "str": "Searing Footsteps" },
     "points": 6,
     "description": "The Salamander can enhance their inner fire to the point where they leave fiery footprints everywhere they travel.  Activate this trait to leave a trail of fire in your wake at the cost of mana for every footstep.",
-    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "prereqs2": [ "SALAMANDER_SKIN_2", "SALAMANDER_SKIN_3" ],
     "category": [ "SALAMANDER" ],
     "active": true,
@@ -445,7 +335,7 @@
     "prereqs": [ "SALAMANDER_EMIT_HEAT" ],
     "changes_to": "SALAMANDER_BIGGER_STOMACH2",
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 2.0
+    "enchantments": [ { "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -455,8 +345,11 @@
     "description": "Like a coal furnace, the Salamander devours food to keep functioning.  They may eat three times as much at once and eat food 50% faster.",
     "prereqs": [ "SALAMANDER_BIGGER_STOMACH" ],
     "category": [ "SALAMANDER" ],
-    "stomach_size_multiplier": 3.0,
-    "consume_time_modifier": 0.66
+    "enchantments": [
+      {
+        "values": [ { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 2 }, { "value": "CONSUME_TIME_MOD", "multiply": -0.5 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -481,10 +374,16 @@
     "changes_to": [ "SALAMANDER_SLEEP_LESS2" ],
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
-    "fatigue_modifier": -0.25,
-    "fatigue_regen_modifier": 0.25,
-    "metabolism_modifier": 0.33,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.1 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.25 },
+          { "value": "FATIGUE", "multiply": -0.25 },
+          { "value": "METABOLISM", "multiply": 0.33 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -496,10 +395,16 @@
     "changes_to": [ "SALAMANDER_SLEEP_LESS3" ],
     "types": [ "SLEEP" ],
     "category": [ "SALAMANDER" ],
-    "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 0.66,
-    "stamina_regen_modifier": 0.2
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.2 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "METABOLISM", "multiply": 0.66 }
+        ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -513,10 +418,16 @@
     "activated_is_setup": true,
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 1,
-    "stamina_regen_modifier": 0.3,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "STAMINA_REGEN_MOD", "add": 0.3 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "FATIGUE", "multiply": -0.5 },
+          { "value": "METABOLISM", "multiply": 1 }
+        ]
+      }
+    ],
     "activated_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "processed_eocs": [ "EOC_SALAMANDER_NO_SLEEP" ],
     "time": "6 h"
@@ -535,6 +446,16 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_NO_SMOKE_DAMAGE",
+    "name": { "str": "Breathing in Cinders" },
+    "points": 6,
+    "description": "Smoke is the breath of fire and a Salamander is born of flames.  You suffer no negative effects from smoke inhalation.",
+    "prereqs": [ "SALAMANDER_NO_WATER" ],
+    "category": [ "SALAMANDER" ],
+    "enchantments": [ { "condition": "ALWAYS", "ench_effects": [ { "effect": "effect_salamander_smoke_immunity", "intensity": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_STR_BONUS_1",
     "name": { "str": "Strength of the Crackling Fire" },
     "points": 1,
@@ -543,7 +464,7 @@
     "changes_to": [ "SALAMANDER_STR_BONUS_2" ],
     "description": "Like a fire fueled with fresh wood, you have increased strength.  +1 Strength.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -553,10 +474,10 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SALAMANDER_STR_BONUS_1" ],
-    "prereqs2": [ "SALAMANDER_MAKE_FIRE" ],
+    "prereqs2": [ "SALAMANDER_EMIT_HEAT" ],
     "description": "Like the bonfire that will burn through the night, you have greatly increased strength.  +3 Strength.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -568,7 +489,7 @@
     "changes_to": [ "SALAMANDER_DEX_BONUS_2" ],
     "description": "Like a fire sparks kindling in flame, you have increased speed.  +2 Dexterity.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -581,7 +502,7 @@
     "prereqs2": [ "SALAMANDER_ECTOTHERM" ],
     "description": "Like a forest fire moving faster than a running horse, you have greatly increased speed.  +5 Dexterity.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "dex_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -605,7 +526,7 @@
     "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
     "description": "Your thoughts are as fast as a forest fire.  +2 Intelligence.",
     "category": [ "SALAMANDER" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -617,8 +538,24 @@
     "active": true,
     "category": [ "SALAMANDER" ],
     "activated_eocs": [ "EOC_SALAMANDER_REMOVE_STUN" ],
-    "cost": 1,
+    "cost": 75,
     "kcal": true
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_COOKING_HEAT",
+    "name": { "str": "Stove's Caress" },
+    "points": 4,
+    "description": "Instead of simply causing a burst of heat, the Salamander can emit heat from their hands at will, allowing them to use it to cook.",
+    "prereqs": [ "SALAMANDER_MAKE_FIRE" ],
+    "category": [ "SALAMANDER" ],
+    "cost": 1,
+    "active": true,
+    "kcal": true,
+    "activated_is_setup": true,
+    "time": 60,
+    "activated_eocs": [ "EOC_SALAMANDER_GRANT_COOKING_HEAT" ],
+    "deactivated_eocs": [ "EOC_SALAMANDER_GRANT_COOKING_HEAT" ]
   },
   {
     "type": "mutation",
@@ -628,6 +565,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "SALAMANDER_SKIN_3" ],
+    "prereqs2": [ "SALAMANDER_NO_SMOKE_DAMAGE" ],
     "description": "A creature born and bred of fire, the Salamander is utterly immune to heat and flame of any kind.  However, they will take additional damage from cold.",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
@@ -638,7 +576,8 @@
           { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 },
           { "value": "ARMOR_HEAT", "add": -1000 },
           { "value": "ARMOR_COLD", "multiply": 0.5 }
-        ]
+        ],
+        "ench_effects": [ { "effect": "effect_hidden_flame_immunity", "intensity": 1 } ]
       }
     ],
     "flags": [ "HEAT_IMMUNE" ]
@@ -664,7 +603,7 @@
     "changes_to": "SALAMANDER_FAST_CAST",
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "mana_multiplier": 1.25
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -675,8 +614,9 @@
     "prereqs": [ "SALAMANDER_INT_BONUS" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
-    "mana_multiplier": 1.25,
-    "casting_time_multiplier": 0.85
+    "enchantments": [
+      { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 }, { "value": "MAX_MANA", "multiply": 0.25 } ] }
+    ]
   },
   {
     "type": "mutation",
@@ -729,7 +669,7 @@
     "id": "SALAMANDER_PREVENT_DEATH",
     "name": { "str": "In Flames, Reborn Like the Phoenix" },
     "points": 12,
-    "description": "Like the bird of legend, you can recreate yourself from the heat and smoke of a fire.  If your body takes fatal damage while standing in a fire, your fae spirit will use those flames to renew yourself.  This can generally occur no more often than once every 14 days, though there is a small chance it can occur more often.",
+    "description": "Like the bird of legend, the Salamander can recreate themselves from the heat and smoke of a fire.  If their body takes fatal damage while standing in a fire, their fae spirit will use those flames to renew themselves.  This can generally occur no more often than once every 14 days, though there is a small chance it can occur more often.",
     "prereqs": "SALAMANDER_FIRE_IMMUNE",
     "prereqs2": "SALAMANDER_SMOKE_FORM",
     "category": [ "SALAMANDER" ],
@@ -750,10 +690,24 @@
   },
   {
     "type": "mutation",
+    "id": "SALAMANDER_EXPLOSION_AND_HEAL",
+    "name": { "str": "The Phoenix's Last Cry" },
+    "points": 9,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Salamander gains the ability create a massive explosion of flames around themselves and draw on its energy to increase their healing rate.",
+    "prereqs": [ "SALAMANDER_PREVENT_DEATH" ],
+    "prereqs2": [ "SALAMANDER_SUMMON_FIREBIRD" ],
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ],
+    "spells_learned": [ [ "salamander_explosion_and_heal_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "SALAMANDER_SMOKE_FORM",
     "name": { "str": "Form of Billowing Smoke" },
     "points": 8,
-    "description": "You may transform into smoke.  You will have only a dim awareness of your surroundings, but can freely move including through the air and will be nearly immune to attack.  You will be unable to attack yourself, however.",
+    "description": "The Salamander may transform into smoke.  They will have only a dim awareness of their surroundings, but can freely move including through the air and will be nearly immune to attack.  They will be unable to attack anyone else themselves, however.",
     "prereqs": [ "SALAMANDER_SUMMON_WINGS", "SALAMANDER_SUMMON_WINGS_ON" ],
     "category": [ "SALAMANDER" ],
     "threshreq": [ "THRESH_SALAMANDER" ],
@@ -764,6 +718,18 @@
     "kcal": true,
     "cost": 1,
     "deactivated_eocs": [ "EOC_SALAMANDER_SMOKE_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SALAMANDER_SMOKE_FORM_APPEARANCE",
+    "name": { "str": "Form of Billowing Smoke Appearance" },
+    "points": 1,
+    "description": "This mutation carries the sprite override info for Form of Billowing Smoke.  You shouldn't be able to see it in game.",
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "fd_nuke_gas", "tile_category": "field" },
+    "category": [ "SALAMANDER" ],
+    "threshreq": [ "THRESH_SALAMANDER" ]
   },
   {
     "type": "mutation",

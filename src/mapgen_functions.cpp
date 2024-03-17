@@ -2345,6 +2345,19 @@ void mtrap_set( map *m, const point &p, trap_id type, bool avoid_creatures )
     m->trap_set( actual_location, type );
 }
 
+void mtrap_set( tinymap *m, const point &p, trap_id type, bool avoid_creatures )
+{
+    if( avoid_creatures ) {
+        Creature *c = get_creature_tracker().creature_at( tripoint_abs_ms( m->getabs( tripoint( p,
+                      m->get_abs_sub().z() ) ) ), true );
+        if( c ) {
+            return;
+        }
+    }
+    tripoint actual_location( p, m->get_abs_sub().z() );
+    m->trap_set( actual_location, type );
+}
+
 void madd_field( map *m, const point &p, field_type_id type, int intensity )
 {
     tripoint actual_location( p, m->get_abs_sub().z() );

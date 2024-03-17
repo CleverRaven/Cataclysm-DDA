@@ -13,7 +13,7 @@
       "CLAIR_SENSES",
       "PHOTO_EYES",
       "PYROKIN_ADAPTATION",
-      "TELEKINETIC_CARRY",
+      "TELEKINETIC_LIFTER_1",
       "TELEPATHIC_SUGGESTION",
       "TELEPORTER_PROTECT",
       "VITAKINETIC_HEALTH"
@@ -45,14 +45,16 @@
     "name": { "str": "Psionic Senses" },
     "points": 0,
     "description": "Your powers enhance your mundane senses and allow you to detect creatures from beyond.",
-    "hearing_modifier": 1.2,
     "flags": [ "ENHANCED_VISION", "WATCH" ],
     "player_display": true,
     "valid": false,
     "purifiable": false,
     "enchantments": [
       {
-        "values": [ { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_school_level('CLAIRSENTIENT')))" ] } } ]
+        "values": [
+          { "value": "HEARING_MULT", "multiply": 0.2 },
+          { "value": "SIGHT_RANGE_NETHER", "add": { "math": [ "(2 + (1.5 * u_school_level('CLAIRSENTIENT')))" ] } }
+        ]
       }
     ]
   },

@@ -116,7 +116,6 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_dermatik( "dermatik" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dragging( "dragging" );
-static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_eyebot_assisted( "eyebot_assisted" );
 static const efftype_id effect_eyebot_depleted( "eyebot_depleted" );
 static const efftype_id effect_fungus( "fungus" );
@@ -125,7 +124,6 @@ static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_grown_of_fuse( "grown_of_fuse" );
-static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
@@ -138,11 +136,9 @@ static const efftype_id effect_raising( "raising" );
 static const efftype_id effect_rat( "rat" );
 static const efftype_id effect_shrieking( "shrieking" );
 static const efftype_id effect_slimed( "slimed" );
+static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_taint( "taint" );
 static const efftype_id effect_targeted( "targeted" );
-static const efftype_id effect_tindrift( "tindrift" );
-static const efftype_id effect_took_thorazine( "took_thorazine" );
 
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
@@ -234,7 +230,6 @@ static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
-static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -1069,7 +1064,7 @@ bool mattack::boomer( monster *z )
     }
 
     if( !target->dodge_check( z, 1.0f ) ) {
-        target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
     } else if( u_see ) {
         target->add_msg_player_or_npc( _( "You dodge it!" ),
                                        _( "<npcname> dodges it!" ) );
@@ -1109,11 +1104,11 @@ bool mattack::boomer_glow( monster *z )
     }
 
     if( !target->dodge_check( z, 1.0f ) ) {
-        target->add_liquid_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
         target->on_dodge( z, 5, 1.0f );
         for( int i = 0; i < rng( 2, 4 ); i++ ) {
             const bodypart_id &bp = target->random_body_part();
-            target->add_liquid_effect( effect_glowing, bp, 4, 4_minutes );
+            target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
             if( target->has_effect( effect_glowing ) ) {
                 break;
             }
@@ -2875,63 +2870,6 @@ bool mattack::triffid_growth( monster *z )
     return false;
 }
 
-bool mattack::stare( monster *z )
-{
-    if( z->friendly ) {
-        // TODO: handle friendly monsters
-        return false;
-    }
-    z->moves -= 200;
-    Character &player_character = get_player_character();
-    if( z->sees( player_character ) ) {
-        //dimensional effects don't take against dimensionally anchored foes.
-        if( player_character.worn_with_flag( flag_DIMENSIONAL_ANCHOR ) ||
-            player_character.has_flag( flag_DIMENSIONAL_ANCHOR ) ) {
-            add_msg( m_warning, _( "You feel a strange reverberation across your body." ) );
-            return true;
-        }//Does the eye fear what it sees in the fractured mind, or is it simply unable to get a good look at it?
-        if( player_character.has_trait( trait_SCHIZOPHRENIC ) &&
-            !player_character.has_effect( effect_took_thorazine ) && x_in_y( 2.0, 3.0 ) ) {
-            if( player_character.sees( *z ) ) {
-                add_msg( m_warning, _( "The %s quickly looks away from you." ), z->name() );
-                return true;
-            } else {
-                add_msg( m_warning, _( "A chorus of whispers chatter raucously around you." ) );
-                return true;
-            }
-        }
-        //Being drunk can protect you from The Horrors
-        if( player_character.has_effect( effect_drunk ) &&
-            ( rng( 1, 6 ) < player_character.get_effect_int( effect_drunk ) ) ) {
-            add_msg( m_warning, _( "The world lurches drunkenly around you." ) );
-            player_character.add_effect( effect_stunned, 4_seconds );
-            return true;
-        }
-        if( player_character.sees( *z ) ) {
-            add_msg( m_bad, _( "The %s stares at you, and you shudder." ), z->name() );
-        } else {
-            add_msg( m_bad, _( "You feel like you're being watched, it makes you sick." ) );
-        }
-        player_character.add_effect( effect_taint, rng( 2_minutes, 5_minutes ) );
-        //Check severity before adding more debuffs
-        if( player_character.get_effect_int( effect_taint ) > 2 ) {
-            player_character.add_effect( effect_hallu, 30_minutes );
-            //Check if target is a player before spawning hallucinations
-            if( player_character.is_avatar() && one_in( 2 ) ) {
-                g->spawn_hallucination( player_character.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
-            }
-            if( one_in( 12 ) ) {
-                player_character.add_effect( effect_blind, 5_minutes );
-                add_msg( m_bad, _( "Your sight darkens as the visions overtake you!" ) );
-            }
-        }
-        if( player_character.get_effect_int( effect_taint ) >= 3 && one_in( 12 ) ) {
-            player_character.add_effect( effect_tindrift, 1_turns );
-        }
-    }
-    return true;
-}
-
 bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
@@ -4678,6 +4616,11 @@ bool mattack::slimespring( monster *z )
     if( player_character.get_morale_level() <= 1 ) {
         add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
         player_character.add_morale( MORALE_SUPPORT, 10, 50 );
+    }
+    // They will stave off loneliness, but aren't a substitute for real friends.
+    if( player_character.has_effect( effect_social_dissatisfied ) ) {
+        add_msg( m_good, "%s", SNIPPET.random_from_category( "slime_cheers" ).value_or( translation() ) );
+        player_character.remove_effect( effect_social_dissatisfied );
     }
     if( rl_dist( z->pos(), player_character.pos() ) <= 3 && z->sees( player_character ) ) {
         if( player_character.has_effect( effect_bleed ) ||

@@ -459,9 +459,9 @@ static std::string submap_vehicle_ss(
     "          \"ammo_pref\": \"null\"\n"
     "        },\n"
     "        {\n"
-    "          \"id\": \"wheel_caster\",\n"
+    "          \"id\": \"wheel_caster_large\",\n"
     "          \"base\": {\n"
-    "            \"typeid\": \"wheel_caster\",\n"
+    "            \"typeid\": \"wheel_caster_large\",\n"
     "            \"damaged\": 3372,\n"
     "            \"item_tags\": [ \"VEHICLE\" ],\n"
     "            \"relic_data\": null,\n"
@@ -1323,36 +1323,36 @@ TEST_CASE( "submap_spawns_load", "[submap][load]" )
 
     // We placed a unique spawn in a couple of places. Check that those are correct
     INFO( string_format( "nw: [%d, %d] %d %s %s %s", nw.pos.x, nw.pos.y, nw.count, nw.type.str(),
-                         nw.friendly ? "friendly" : "hostile", nw.name ) );
+                         nw.friendly ? "friendly" : "hostile", nw.name.value_or( "NONE" ) ) );
     INFO( string_format( "ne: [%d, %d] %d %s %s %s", ne.pos.x, ne.pos.y, ne.count, ne.type.str(),
-                         ne.friendly ? "friendly" : "hostile", ne.name ) );
+                         ne.friendly ? "friendly" : "hostile", ne.name.value_or( "NONE" ) ) );
     INFO( string_format( "sw: [%d, %d] %d %s %s %s", sw.pos.x, sw.pos.y, sw.count, sw.type.str(),
-                         sw.friendly ? "friendly" : "hostile", sw.name ) );
+                         sw.friendly ? "friendly" : "hostile", sw.name.value_or( "NONE" ) ) );
     INFO( string_format( "se: [%d, %d] %d %s %s %s", se.pos.x, se.pos.y, se.count, se.type.str(),
-                         se.friendly ? "friendly" : "hostile", se.name ) );
+                         se.friendly ? "friendly" : "hostile", se.name.value_or( "NONE" ) ) );
     INFO( string_format( "ra: [%d, %d] %d %s %s %s", ra.pos.x, ra.pos.y, ra.count, ra.type.str(),
-                         ra.friendly ? "friendly" : "hostile", ra.name ) );
+                         ra.friendly ? "friendly" : "hostile", ra.name.value_or( "NONE" ) ) );
     // Require to prevent the lower CHECK from being spammy
     CHECK( nw.count == 3 );
     CHECK( nw.type.str() == "mon_fish_eel" );
     CHECK( !nw.friendly );
-    CHECK( nw.name == "Bob" );
+    CHECK( nw.name.value_or( "NONE" ) == "Bob" );
     CHECK( ne.count == 1 );
     CHECK( ne.type.str() == "mon_pheasant" );
     CHECK( !ne.friendly );
-    CHECK( ne.name == "NONE" );
+    CHECK( ne.name.value_or( "NONE" ) == "NONE" );
     CHECK( sw.count == 4 );
     CHECK( sw.type.str() == "mon_zombie_fungus" );
     CHECK( !sw.friendly );
-    CHECK( sw.name == "Hopper" );
+    CHECK( sw.name.value_or( "NONE" ) == "Hopper" );
     CHECK( se.count == 2 );
     CHECK( se.type.str() == "mon_mininuke_hack" );
     CHECK( se.friendly );
-    CHECK( se.name == "Tim" );
+    CHECK( se.name.value_or( "NONE" ) == "Tim" );
     CHECK( ra.count == 5 );
     CHECK( ra.type.str() == "mon_plague_vector" );
     CHECK( ra.friendly );
-    CHECK( ra.name == "Alice" );
+    CHECK( ra.name.value_or( "NONE" ) == "Alice" );
 
     // Also, check we have no other spawns
     CHECK( sm.spawns.size() == 5 );

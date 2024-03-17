@@ -1527,7 +1527,7 @@
       {
         "id": "maine_flag",
         "name": { "str": "Maine flag" },
-        "description": "A large blue flag featuring a moose and pine tree emblem on a shield supported by a farmer and a sailor, above is the north star and the Latin motto “Dirigo” (“I direct”), below the shield reads out the state of “Maine”.",
+        "description": "A large blue flag featuring a moose and pine tree emblem on a shield supported by a farmer and a sailor, above is the north star and the Latin motto \"Dirigo\" (\"I direct\"), below the shield reads out the state of \"Maine\".",
         "weight": 5
       },
       {
@@ -2028,18 +2028,17 @@
     "type": "ARMOR",
     "category": "clothing",
     "symbol": "[",
-    "color": "white",
+    "color": "yellow",
     "name": { "str": "rain poncho" },
-    "description": "A lightweight transparent plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
+    "description": "A lightweigh plastic rain poncho with a hood.  It folds into a very compact form when not in use.",
     "price": 5000,
     "price_postapoc": 50,
     "material": [ "vinyl" ],
     "weight": "280 g",
     "volume": "250 ml",
-    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED", "TRANSPARENT" ],
+    "flags": [ "RAINPROOF", "HOOD", "OVERSIZE", "BELTED" ],
     "environmental_protection": 1,
     "material_thickness": 0.4,
-    "variant_type": "generic",
     "armor": [
       { "covers": [ "torso" ], "specifically_covers": [ "torso_upper", "torso_lower" ], "coverage": 100 },
       {

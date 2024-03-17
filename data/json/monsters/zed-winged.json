@@ -206,6 +206,7 @@
       "corpse_type": "NO_CORPSE",
       "message": "The %s explodes!"
     },
+    "death_drops": "explode_innards_small",
     "upgrades": false
   },
   {

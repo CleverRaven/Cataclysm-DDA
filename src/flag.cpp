@@ -151,6 +151,7 @@ const flag_id flag_GIBBED( "GIBBED" );
 const flag_id flag_GNV_EFFECT( "GNV_EFFECT" );
 const flag_id flag_HARD( "HARD" );
 const flag_id flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
+const flag_id flag_HEMOVORE_FUN( "HEMOVORE_FUN" );
 const flag_id flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 const flag_id flag_HIDDEN_POISON( "HIDDEN_POISON" );
 const flag_id flag_HOOD( "HOOD" );
@@ -196,6 +197,7 @@ const flag_id flag_MYCUS_OK( "MYCUS_OK" );
 const flag_id flag_NANOFAB_REPAIR( "NANOFAB_REPAIR" );
 const flag_id flag_NANOFAB_TEMPLATE( "NANOFAB_TEMPLATE" );
 const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE( "NANOFAB_TEMPLATE_SINGLE_USE" );
+const flag_id flag_NATURAL_WEAPON( "NATURAL_WEAPON" );
 const flag_id flag_NEEDS_NO_LUBE( "NEEDS_NO_LUBE" );
 const flag_id flag_NEEDS_UNFOLD( "NEEDS_UNFOLD" );
 const flag_id flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
@@ -248,6 +250,7 @@ const flag_id flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 const flag_id flag_PROCESSING( "PROCESSING" );
 const flag_id flag_PROCESSING_RESULT( "PROCESSING_RESULT" );
 const flag_id flag_PSEUDO( "PSEUDO" );
+const flag_id flag_PSEUDOPOD_GRASP( "PSEUDOPOD_GRASP" );
 const flag_id flag_PSYSHIELD_PARTIAL( "PSYSHIELD_PARTIAL" );
 const flag_id flag_PULPED( "PULPED" );
 const flag_id flag_PUMP_ACTION( "PUMP_ACTION" );
@@ -301,7 +304,6 @@ const flag_id flag_SLEEP_AID( "SLEEP_AID" );
 const flag_id flag_SLEEP_AID_CONTAINER( "SLEEP_AID_CONTAINER" );
 const flag_id flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 const flag_id flag_SLOWS_MOVEMENT( "SLOWS_MOVEMENT" );
-const flag_id flag_SLOWS_THIRST( "SLOWS_THIRST" );
 const flag_id flag_SLOW_WIELD( "SLOW_WIELD" );
 const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
@@ -335,7 +337,6 @@ const flag_id flag_TOW_CABLE( "TOW_CABLE" );
 const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
 const flag_id flag_TRADER_KEEP( "TRADER_KEEP" );
 const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
-const flag_id flag_TRANSPARENT( "TRANSPARENT" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 const flag_id flag_UNBREAKABLE( "UNBREAKABLE" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
@@ -416,6 +417,8 @@ void json_flag::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
     optional( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "item_prefix", item_prefix_ );
+    optional( jo, was_loaded, "item_suffix", item_suffix_ );
 }
 
 void json_flag::check_consistency()

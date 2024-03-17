@@ -49,12 +49,43 @@
   },
   {
     "type": "item_group",
+    "id": "mre_sides",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mre_potato", "container-item": "null" },
+      { "item": "mre_fried_rice", "container-item": "null" },
+      { "item": "mre_zapplesauce", "container-item": "null" },
+      { "item": "mre_blackbeans", "container-item": "null" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "mre_dessert_pack",
     "subtype": "collection",
     "entries": [
-      { "group": "candy2_wrapper_1" },
-      { "group": "cookies_wrapper_1" },
-      { "item": "dry_fruit", "container-item": "wrapper" }
+      {
+        "distribution": [
+          { "item": "mre_chocolate_cake", "container-item": "null" },
+          { "item": "mre_carrot_cake", "container-item": "null" },
+          { "item": "mre_poppyseed_cake", "container-item": "null" },
+          { "item": "mre_strawberry_cake", "container-item": "null" },
+          { "item": "mre_chocolate_pudding", "container-item": "null" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mre_bread_pack",
+    "subtype": "collection",
+    "container-item": "mre_bag_small",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "crackers", "container-item": "null", "count": 2 },
+          { "item": "snack_bread", "container-item": "null", "count": 2 }
+        ]
+      }
     ]
   },
   {
@@ -72,13 +103,10 @@
       { "item": "spork" },
       {
         "distribution": [
-          { "item": "instant_coffee", "count": 2, "container-item": "bag_zipper" },
-          { "item": "herbal_tea_bag", "count": 2, "container-item": "bag_zipper" },
-          { "item": "tea_bag", "count": 2, "container-item": "bag_zipper" },
-          { "item": "tea_bag_chamomile", "count": 2, "container-item": "bag_zipper" },
-          { "item": "tea_bag_dandelion", "count": 2, "container-item": "bag_zipper" },
-          { "item": "tea_fruit_bag", "count": 2, "container-item": "bag_zipper" },
-          { "item": "tea_green_bag", "count": 2, "container-item": "bag_zipper" }
+          { "item": "instant_coffee", "count": 1, "container-item": "bag_zipper" },
+          { "item": "lemonade_powder", "count": 1, "container-item": "bag_zipper" },
+          { "item": "orangeade_powder", "count": 1, "container-item": "bag_zipper" },
+          { "item": "grapeade_powder", "count": 1, "container-item": "bag_zipper" }
         ]
       }
     ]
@@ -90,7 +118,7 @@
     "subtype": "collection",
     "entries": [
       { "group": "mre_entrees", "container-item": "mre_bag_small", "sealed": true },
-      { "item": "heatpack" },
+      { "group": "mre_sides", "container-item": "mre_bag_small", "sealed": true },
       {
         "distribution": [
           { "item": "can_cheese", "container-item": "null", "entry-wrapper": "mre_bag_spread", "sealed": true },
@@ -99,12 +127,20 @@
             "container-item": "null",
             "entry-wrapper": "mre_bag_spread",
             "sealed": true
+          },
+          {
+            "item": "jam_fruit",
+            "container-item": "null",
+            "entry-wrapper": "mre_bag_jam",
+            "sealed": true,
+            "charges": 1
           }
         ]
       },
-      { "group": "crackers_mre_bag_small_2", "sealed": true },
+      { "group": "mre_bread_pack", "sealed": true },
+      { "group": "mre_dessert_pack", "container-item": "mre_bag_dessert", "sealed": true },
       { "group": "mre_accessory_pack" },
-      { "item": "mre_bag_dessert", "contents-group": "mre_dessert_pack", "sealed": true }
+      { "item": "heatpack" }
     ]
   },
   {
@@ -118,9 +154,14 @@
     "id": "mre_used_dessert_pack",
     "subtype": "collection",
     "entries": [
-      { "count": [ 0, 1 ], "group": "candy2_wrapper_1" },
-      { "count": [ 0, 1 ], "group": "cookies_wrapper_1" },
-      { "item": "dry_fruit", "container-item": "wrapper" }
+      {
+        "distribution": [
+          { "item": "cookies", "count": [ 0, 1 ], "container-item": "null" },
+          { "item": "mre_carrot_cake", "count": [ 0, 1 ], "container-item": "null" },
+          { "item": "mre_poppyseed_cake", "count": [ 0, 1 ], "container-item": "null" },
+          { "item": "chocolate", "count": [ 0, 1 ], "container-item": "null" }
+        ]
+      }
     ]
   },
   {
@@ -129,16 +170,31 @@
     "subtype": "collection",
     "entries": [
       { "group": "mre_entrees", "container-item": "mre_bag_small", "sealed": false, "prob": 40 },
+      { "group": "mre_sides", "container-item": "mre_bag_small", "sealed": false, "prob": 40 },
       { "item": "heatpack", "prob": 40 },
       {
         "distribution": [
-          { "item": "can_cheese", "container-item": "mre_bag_spread", "prob": 40, "sealed": true },
-          { "item": "spread_peanutbutter", "container-item": "mre_bag_spread", "prob": 40, "sealed": true }
+          { "item": "can_cheese", "container-item": "null", "entry-wrapper": "mre_bag_spread", "prob": 40, "sealed": true },
+          {
+            "item": "spread_peanutbutter",
+            "container-item": "null",
+            "entry-wrapper": "mre_bag_spread",
+            "prob": 40,
+            "sealed": true
+          },
+          {
+            "item": "jam_fruit",
+            "container-item": "null",
+            "entry-wrapper": "mre_bag_jam",
+            "sealed": true,
+            "prob": 40,
+            "charges": 1
+          }
         ]
       },
-      { "sealed": false, "group": "crackers_mre_bag_small_0_2" },
+      { "group": "mre_bread_pack", "sealed": false, "prob": 40 },
       { "group": "mre_accessory_pack", "prob": 50 },
-      { "item": "mre_bag_dessert", "contents-group": "mre_used_dessert_pack", "sealed": false }
+      { "group": "mre_dessert_pack", "container-item": "mre_bag_dessert", "sealed": false, "prob": 40 }
     ]
   },
   {
@@ -177,7 +233,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": 2 } ]
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 10 } ]
   },
   {
     "type": "item_group",
@@ -201,7 +257,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 0, 2 ] } ]
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 0, 10 ] } ]
   },
   {
     "type": "item_group",
