@@ -17,6 +17,7 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "100 kg",
         "max_item_length": "2000 cm",
+        "watertight": true,
         "moves": 10,
         "volume_encumber_modifier": 0
       }
@@ -51,6 +52,7 @@
         "max_contains_volume": "750 ml",
         "max_contains_weight": "100 kg",
         "max_item_length": "2000 cm",
+        "watertight": true,
         "moves": 10,
         "volume_encumber_modifier": 0
       }
@@ -85,6 +87,7 @@
         "max_contains_volume": "1000 ml",
         "max_contains_weight": "100 kg",
         "max_item_length": "2000 cm",
+        "watertight": true,
         "moves": 10,
         "volume_encumber_modifier": 0
       }
@@ -119,6 +122,7 @@
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "100 kg",
         "max_item_length": "2000 cm",
+        "watertight": true,
         "moves": 10,
         "volume_encumber_modifier": 0
       }
@@ -153,6 +157,7 @@
         "max_contains_volume": "2000 ml",
         "max_contains_weight": "100 kg",
         "max_item_length": "2000 cm",
+        "watertight": true,
         "moves": 10,
         "volume_encumber_modifier": 0
       }

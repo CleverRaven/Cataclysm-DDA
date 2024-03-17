@@ -64,7 +64,8 @@
     "id": "EOC_last_amigara_death",
     "condition": { "math": [ "u_monsters_nearby('mon_amigara_horror')", "<", "1" ] },
     "effect": [
-      { "mapgen_update": "amigara_death" },
+      { "u_location_variable": { "context_val": "my_loc" }, "max_radius": 2, "passable_only": true },
+      { "map_spawn_item": "amigara_drops", "use_item_group": true, "loc": { "context_val": "my_loc" } },
       { "u_lose_effect": "effect_amigara" },
       {
         "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
@@ -126,62 +127,6 @@
     "type": "effect_on_condition",
     "id": "add_effect",
     "effect": { "u_add_effect": { "context_val": "effect" }, "duration": { "context_val": "duration" } }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PRE_CONJUNCTIVITIS_VIRAL",
-    "recurrence": [ "24 hours", "72 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_effect": "pre_conjunctivitis_viral" },
-        { "not": { "u_has_effect": "conjunctivitis_bacterial" } },
-        { "not": { "u_has_effect": "conjunctivitis_viral" } },
-        { "not": { "u_has_trait": "SEESLEEP" } },
-        { "not": { "u_has_bionics": "armor_bio_eyes" } }
-      ]
-    },
-    "effect": [
-      { "u_add_effect": "conjunctivitis_viral", "duration": { "math": [ "rand(259200) + 432000" ] }, "target_part": "eyes" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" },
-      { "u_lose_effect": "pre_conjunctivitis_viral" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_PRE_CONJUNCTIVITIS_BACTERIAL",
-    "recurrence": [ "24 hours", "72 hours" ],
-    "condition": {
-      "and": [
-        { "u_has_effect": "pre_conjunctivitis_bacterial" },
-        { "not": { "u_has_effect": "conjunctivitis_bacterial" } },
-        { "not": { "u_has_effect": "conjunctivitis_viral" } },
-        { "not": { "u_has_trait": "SEESLEEP" } },
-        { "not": { "u_has_bionics": "armor_bio_eyes" } }
-      ]
-    },
-    "effect": [
-      {
-        "u_add_effect": "conjunctivitis_bacterial",
-        "duration": { "math": [ "rand(259200) + 432000" ] },
-        "target_part": "eyes"
-      },
-      { "u_lose_effect": "pre_conjunctivitis_viral" },
-      { "u_lose_effect": "pre_conjunctivitis_bacterial" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_CONJUNCTIVITIS",
-    "recurrence": [ "10 minutes", "45 minutes" ],
-    "condition": {
-      "and": [
-        { "or": [ { "u_has_effect": "conjunctivitis_viral" }, { "u_has_effect": "conjunctivitis_bacterial" } ] },
-        { "not": { "u_has_effect": "formication" } },
-        { "not": { "u_has_effect": "took_antihistamine" } },
-        { "not": { "u_has_effect": "sleep" } }
-      ]
-    },
-    "effect": [ { "u_add_effect": "formication", "duration": "5 minutes", "target_part": "head" } ]
   },
   {
     "type": "effect_on_condition",

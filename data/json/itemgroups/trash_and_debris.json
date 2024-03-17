@@ -173,8 +173,6 @@
     "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 35 ],
-      { "prob": 5, "group": "iodine_bottle_plastic_pill_supplement_1_10" },
-      { "prob": 5, "group": "prussian_blue_bottle_plastic_pill_supplement_1_10" },
       [ "bum_wine", 5 ],
       { "prob": 2, "group": "meth_bag_zipper_1_6" },
       { "prob": 1, "group": "heroin_bag_zipper_1_4" },
@@ -220,7 +218,6 @@
       { "group": "newspaper", "prob": 10 },
       [ "file", 5 ],
       [ "decoy_elfa", 10 ],
-      [ "recipe_elfa", 1 ],
       [ "jug_plastic", 10 ],
       [ "fuel_tin", 8 ],
       [ "spray_can", 50 ],
@@ -382,6 +379,18 @@
       { "item": "wood_panel", "prob": 10 },
       { "item": "splinter", "count": [ 1, 2 ] },
       { "item": "nail", "charges": [ 0, 2 ] }
+    ]
+  },
+  {
+    "id": "rolling_trash",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "bag_garbage",
+    "on_overflow": "spill",
+    "items": [
+      { "group": "trash_domestic", "count": [ 0, 35 ] },
+      { "group": "trash_cart", "count": [ 0, 10 ] },
+      { "group": "trash", "count": [ 0, 15 ] }
     ]
   }
 ]

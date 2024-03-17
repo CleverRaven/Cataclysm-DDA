@@ -1342,6 +1342,7 @@
         "name": "Unhindered",
         "description": "Your attacks are stronger if you are not holding anything in your hands.\n\n+33% damage when not using a weapon.",
         "unarmed_allowed": true,
+        "strictly_unarmed": true,
         "mult_bonuses": [
           { "stat": "damage", "type": "bash", "scale": 1.33 },
           { "stat": "damage", "type": "cut", "scale": 1.33 },

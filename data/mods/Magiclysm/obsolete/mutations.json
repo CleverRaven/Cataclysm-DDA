@@ -1,0 +1,9 @@
+[
+  {
+    "type": "mutation",
+    "id": "FOREST_STEALTH",
+    "name": { "str": "Cloak of Elvenkind: Forest Stealth" },
+    "description": "You have a much easier time hiding in the forest.",
+    "points": 2
+  }
+]

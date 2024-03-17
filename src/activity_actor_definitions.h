@@ -745,7 +745,7 @@ class open_gate_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        tripoint placement;
+        tripoint_bub_ms placement;
 
         /**
          * @pre @p other is a open_gate_activity_actor
@@ -756,7 +756,7 @@ class open_gate_activity_actor : public activity_actor
         }
 
     public:
-        open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
+        open_gate_activity_actor( int gate_moves, const tripoint_bub_ms &gate_placement ) :
             moves_total( gate_moves ), placement( gate_placement ) {}
 
         activity_id get_type() const override {

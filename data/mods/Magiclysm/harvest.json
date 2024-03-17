@@ -449,5 +449,38 @@
     "id": "sojourners_palm_harv",
     "type": "harvest",
     "entries": [ { "drop": "sojourners_flower", "base_num": [ 1, 5 ] } ]
+  },
+  {
+    "id": "dissect_owlbear_sample_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [ { "drop": "bird_sample_small", "type": "mutagen_group" }, { "drop": "ursine_sample_small", "type": "mutagen_group" } ]
+  },
+  {
+    "id": "dissect_owlbear_sample_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "bird_sample_single", "type": "mutagen_group" },
+      { "drop": "ursine_sample_single", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_bulette_sample_large",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "lizard_sample_small", "type": "mutagen_group" },
+      { "drop": "beast_sample_small", "type": "mutagen_group" }
+    ]
+  },
+  {
+    "id": "dissect_stirge_sample_small",
+    "type": "harvest",
+    "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
+    "entries": [
+      { "drop": "insect_sample_single", "type": "mutagen_group" },
+      { "drop": "chiropteran_sample_single", "type": "mutagen_group" }
+    ]
   }
 ]

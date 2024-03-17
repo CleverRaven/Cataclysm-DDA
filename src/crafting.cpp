@@ -281,9 +281,13 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
-    const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec ) *
-                         get_limb_score( limb_score_manip );
+    float crafting_speed = morale_crafting_speed_multiplier( rec ) *
+                           lighting_craft_speed_multiplier( rec ) *
+                           get_limb_score( limb_score_manip );
+
+    const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
+                         crafting_speed );
+
     add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
                    get_limb_score( limb_score_manip ), result );
 
@@ -306,7 +310,8 @@ float Character::crafting_speed_multiplier( const item &craft,
                                 cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = mutation_value( "crafting_speed_multiplier" );
+    const float mut_multi = 1.0 + enchantment_cache->get_value_multiply(
+                                enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
 
     const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
                               get_limb_score( limb_score_manip );

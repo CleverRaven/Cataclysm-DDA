@@ -74,7 +74,7 @@
     "id": "ammo_357mag",
     "type": "requirement",
     "//": "Components required for .357 Magnum ammo",
-    "components": [ [ [ "357mag_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ] ]
+    "components": [ [ [ "357mag_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ] ]
   },
   {
     "id": "ammo_357sig",
@@ -307,6 +307,85 @@
         [ "bp_50beowulf_penetrator", -1 ],
         [ "reloaded_50beowulf_xtp", -1 ],
         [ "reloaded_50beowulf_penetrator", -1 ]
+      ]
+    ]
+  },
+  {
+    "id": "pistol_casings",
+    "type": "requirement",
+    "//": "A list of all pistol-caliber casings for use in crafts and adjacent projects.",
+    "components": [
+      [
+        [ "22_casing", 1 ],
+        [ "32_casing", 1 ],
+        [ "38_casing", 1 ],
+        [ "38super_casing", 1 ],
+        [ "40_casing", 1 ],
+        [ "10mm_casing", 1 ],
+        [ "44_casing", 1 ],
+        [ "454_casing", 1 ],
+        [ "45_casing", 1 ],
+        [ "45colt_casing", 1 ],
+        [ "46mm_casing", 1 ],
+        [ "57mm_casing", 1 ],
+        [ "460_casing", 1 ],
+        [ "500_casing", 1 ],
+        [ "762_25_casing", 1 ],
+        [ "9mm_casing", 1 ],
+        [ "357sig_casing", 1 ],
+        [ "357mag_casing", 1 ],
+        [ "9x18mm_casing", 1 ],
+        [ "380_casing", 1 ],
+        [ "50ae_casing", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "rifle_casings",
+    "type": "requirement",
+    "//": "A list of rifle-caliber casings for use in crafts and adjacent projects. Excludes giant cartridges like .50 Browning and shotgun shells.",
+    "components": [
+      [
+        [ "123ln_casing", 1 ],
+        [ "223_casing", 1 ],
+        [ "270win_casing", 1 ],
+        [ "3006_casing", 1 ],
+        [ "303_casing", 1 ],
+        [ "308_casing", 1 ],
+        [ "300blk_casing", 1 ],
+        [ "30carbine_casing", 1 ],
+        [ "300_casing", 1 ],
+        [ "4570_casing", 1 ],
+        [ "450_casing", 1 ],
+        [ "545_casing", 1 ],
+        [ "50beowulf_casing", 1 ],
+        [ "762R_casing", 1 ],
+        [ "762_51_casing", 1 ],
+        [ "762_casing", 1 ],
+        [ "77arisaka_casing", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "heavy_weapon_casings",
+    "type": "requirement",
+    "//": "Assorted larger-than-average bullet casings and grenade shells for use in crafts and related projects. Also includes shotgun shells, because those lads are chunky.",
+    "components": [
+      [
+        [ "40x46mm_m212_casing", 1 ],
+        [ "40x46mm_m118_casing", 1 ],
+        [ "40x46mm_m199_casing", 1 ],
+        [ "40x46mm_m195_casing", 1 ],
+        [ "40x46mm_hornets_nest_22lr_casing", 1 ],
+        [ "40x46mm_hornets_nest_410_casing", 1 ],
+        [ "40x53mm_m169_casing", 1 ],
+        [ "50_casing", 1 ],
+        [ "338lapua_casing", 1 ],
+        [ "458wm_casing", 1 ],
+        [ "shot_hull", 1 ],
+        [ "410shot_hull", 1 ],
+        [ "273x110casing", 1 ],
+        [ "273x44casing", 1 ]
       ]
     ]
   }

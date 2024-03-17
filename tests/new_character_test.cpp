@@ -1,4 +1,3 @@
-#include <functional>
 #include <cstddef>
 #include <functional>
 #include <list>

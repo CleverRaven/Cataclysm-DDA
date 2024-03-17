@@ -161,8 +161,6 @@ static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_cig( "cig" );
-static const efftype_id effect_conjunctivitis_bacterial( "conjunctivitis_bacterial" );
-static const efftype_id effect_conjunctivitis_viral( "conjunctivitis_viral" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_critter_well_fed( "critter_well_fed" );
@@ -202,7 +200,6 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_pre_conjunctivitis_bacterial( "pre_conjunctivitis_bacterial" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_run( "run" );
@@ -634,24 +631,6 @@ std::optional<int> iuse::antibiotic( Character *p, item *, const tripoint & )
         } else {
             p->add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
         }
-    }
-    if( p->has_effect( effect_conjunctivitis_bacterial ) ) {
-        if( one_in( 2 ) ) {
-            p->remove_effect( effect_conjunctivitis_bacterial );
-            p->add_msg_if_player( m_good, _( "Your pinkeye seems to be clearing up." ) );
-        } else {
-            p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
-        }
-    }
-    if( p->has_effect( effect_pre_conjunctivitis_bacterial ) ) {
-        if( one_in( 2 ) ) {
-            //There were no symptoms yet, so we skip telling the player they feel better.
-            p->remove_effect( effect_pre_conjunctivitis_bacterial );
-        }
-    }
-    if( p->has_effect( effect_conjunctivitis_viral ) ) {
-        //Antibiotics don't kill viruses.
-        p->add_msg_if_player( m_warning, _( "Your pinkeye doesn't feel any better." ) );
     }
     if( p->has_effect( effect_infected ) && !p->has_effect( effect_antibiotic ) ) {
         p->add_msg_if_player( m_good,
@@ -7838,28 +7817,6 @@ std::optional<int> iuse::multicooker_tick( Character *p, item *it, const tripoin
     }
 
     return 0;
-}
-
-std::optional<int> iuse::shavekit( Character *p, item *it, const tripoint & )
-{
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( _( "You need soap to use this." ) );
-    } else {
-        p->assign_activity( shave_activity_actor() );
-    }
-    return 1;
-}
-
-std::optional<int> iuse::hairkit( Character *p, item *, const tripoint & )
-{
-    if( p->cant_do_mounted() ) {
-        return std::nullopt;
-    }
-    p->assign_activity( haircut_activity_actor() );
-    return 1;
 }
 
 std::optional<int> iuse::weather_tool( Character *p, item *it, const tripoint & )

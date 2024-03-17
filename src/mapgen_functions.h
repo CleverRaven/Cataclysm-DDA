@@ -17,6 +17,7 @@ class mission;
 struct mapgen_arguments;
 struct mapgen_parameters;
 struct point;
+class tinymap;
 struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
@@ -57,6 +58,7 @@ void mapgen_ravine_edge( mapgendata &dat );
 // Temporary wrappers
 void mremove_trap( map *m, const point &, trap_id type );
 void mtrap_set( map *m, const point &, trap_id type, bool avoid_creatures = false );
+void mtrap_set( tinymap *m, const point &, trap_id type, bool avoid_creatures = false );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
 void mremove_fields( map *m, const point & );
 

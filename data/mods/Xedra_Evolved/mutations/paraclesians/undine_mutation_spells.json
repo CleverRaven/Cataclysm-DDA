@@ -48,6 +48,12 @@
     ]
   },
   {
+    "type": "enchantment",
+    "id": "undine_water_form_hiding",
+    "condition": "u_is_underwater",
+    "values": [ { "value": "STEALTH_MODIFIER", "add": 60 } ]
+  },
+  {
     "id": "create_fog",
     "type": "SPELL",
     "name": "Create Fog",
@@ -626,7 +632,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 50,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "HOSTILE_50" ],
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "HOSTILE_50", "NO_CORPSE_QUIET" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000,
@@ -655,7 +661,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 80,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "NO_CORPSE_QUIET" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000,
@@ -684,7 +690,7 @@
     "energy_source": "MANA",
     "base_energy_cost": 400,
     "base_casting_time": 3000,
-    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP", "NO_CORPSE_QUIET" ],
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000

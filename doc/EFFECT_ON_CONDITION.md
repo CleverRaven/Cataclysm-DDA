@@ -886,6 +886,15 @@ NPC is dead
 ```json
 { "not": "npc_is_alive" }
 ```
+### `u_exists`, `npc_exists`
+- type: simple string
+- return true if alpha or beta talker is not null
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
 
 ### `u_is_on_terrain`, `npc_is_on_terrain`
 - type: string or [variable object](##variable-object)
@@ -1074,6 +1083,22 @@ You can see selected location.
 ### `has_ammo`
 - type: simple string
 - return true if beta talker is an item and has enough ammo for at least one "shot".
+
+### `test_eoc`
+- type: string or [variable object](##variable-object)
+- return true if the provided eoc's condition returns true
+
+#### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ✔️ | ✔️ | ✔️ | ✔️ | ✔️ | ✔️ |
+
+#### Examples
+Check whether the eoc `test_condition` would use its true or false effect 
+```json
+{ "test_eoc": "test_condition" }
+```
 
 # Reusable EOCs:
 The code base supports the use of reusable EOCs, you can use these to get guaranteed effects by passing in specific variables. The codebase supports the following:
@@ -2100,7 +2125,7 @@ Open a menu, that allow to select one of multiple options
 
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
-| "run_eoc_selector" | **mandatory** | array of strings or [variable objects](#variable-object) | list of EoCs, that could be picked; conditions of the listed EoCs would be checked, and one that do not pass would be grayed out |
+| "run_eoc_selector" | **mandatory** | array of strings or [variable objects](#variable-object) or inline EOCs| list of EoCs, that could be picked; conditions of the listed EoCs would be checked, and one that do not pass would be grayed out |
 | "names" | optional | array of strings or [variable objects](#variable-object) | name of the option, that would be shown on the list; amount of names should be equal amount of EoCs | 
 | "descriptions" | optional | array of strings or [variable objects](#variable-object) | description of the options, that would be shown on the list; amount of descriptions should be equal amount of EoCs | 
 | "keys" | optional | single character | a character, that would be used as a shortcut to pick each EoC; amount of keys should be equal amount of EoCs | 
@@ -2137,8 +2162,8 @@ Run EoC multiple times, until specific condition would be met
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "run_eoc_until" | **mandatory** | string or [variable object](#variable-object) | EoC that would be run multiple times |
-| "condition" | **mandatory** | string or [variable object](#variable-object) | name of condition, that would be checked; doesn't support inline condition, so it should be specified in `set_condition` somewhere before the effect; **condition should return "false" to terminate the loop** | 
-| "iteration" | optional | int or [variable object](#variable-object) | default 100; amount of iteration, that is allowed to run; if amount of iteration exceed this number, EoC is stopped, and game sends the error message | 
+| "condition" | optional | [dialogue condition](#dialogue-conditions) | default a condition that always return true; **condition should return "false" to terminate the loop** | 
+| "iteration" | optional | int or [variable object](#variable-object) | default 100; max amount of iteration, that is allowed to run; if the condition always returns true, the EOC will run for this number of iterations.| 
 
 ##### Valid talkers:
 
@@ -2153,15 +2178,27 @@ Run EoC multiple times, until specific condition would be met
     "type": "effect_on_condition",
     "id": "EOC_run_until",
     "effect": [
-      { "set_condition": "to_test", "condition": { "math": [ "my_variable", "<", "10" ] } },
-      { "run_eoc_until": "EOC_until_nested", "condition": "to_test" }
+      { "run_eoc_until": "EOC_until_nested", "condition": { "math": [ "my_variable", "<", "10" ] } }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_until_nested",
     "effect": [ { "u_spawn_item": "knife_combat" }, { "math": [ "my_variable", "++" ] } ]
+  }
+```
+A loop of 10 iterations.
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_run_until",
+    "effect": { "run_eoc_until": "EOC_until_nested", "iteration": 10 }
   },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_until_nested",
+    "effect": { "u_message": "!!!" }
+  }
 ```
 
 ## Character effects

@@ -286,6 +286,21 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "teeth_macuahuitl",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 5 ] ],
+    "components": [ [ [ "nm_teeth", 40 ] ], [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "aztec_sword_stone",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",

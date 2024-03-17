@@ -119,6 +119,26 @@ std::string burn( item const &it, unsigned int /* quantity */,
     return {};
 }
 
+std::string custom_item_prefix( item const &it, unsigned int /* quantity */,
+                                segment_bitset const &/* segments */ )
+{
+    std::string prefix;
+    for( const flag_id &f : it.get_prefix_flags() ) {
+        prefix += f->item_prefix().translated();
+    }
+    return prefix;
+}
+
+std::string custom_item_suffix( item const &it, unsigned int /* quantity */,
+                                segment_bitset const &/* segments */ )
+{
+    std::string suffix;
+    for( const flag_id &f : it.get_suffix_flags() ) {
+        suffix.insert( 0, f->item_suffix().translated() );
+    }
+    return suffix;
+}
+
 std::string label( item const &it, unsigned int quantity, segment_bitset const &segments )
 {
     if( !it.is_craft() ) {
@@ -542,8 +562,10 @@ constexpr std::array<decl_f_print_segment *, num_segments> get_segs_array()
     arr[static_cast<size_t>( tname::segments::WHEEL_DIAMETER ) ] = wheel_diameter;
     arr[static_cast<size_t>( tname::segments::BURN ) ] = burn;
     arr[static_cast<size_t>( tname::segments::WEAPON_MODS ) ] = weapon_mods;
+    arr[static_cast<size_t>( tname::segments::CUSTOM_ITEM_PREFIX )] = custom_item_prefix;
     arr[static_cast<size_t>( tname::segments::TYPE ) ] = label;
     arr[static_cast<size_t>( tname::segments::CATEGORY ) ] = category;
+    arr[static_cast<size_t>( tname::segments::CUSTOM_ITEM_SUFFIX )] = custom_item_suffix;
     arr[static_cast<size_t>( tname::segments::MODS ) ] = mods;
     arr[static_cast<size_t>( tname::segments::CRAFT ) ] = craft;
     arr[static_cast<size_t>( tname::segments::WHITEBLACKLIST ) ] = wbl_mark;

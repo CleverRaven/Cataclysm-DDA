@@ -59,6 +59,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Setup msys2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: mingw64
+        install: >-
+          gettext
+          make
+
     - name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.3.1
 
@@ -163,9 +171,10 @@ jobs:
 
     - name: Compile .mo files for localization
       if: ${{ github.ref_name != 'master' }}
+      shell: msys2 {0}
       run: |
-          & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
-          mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
+          make -C lang -j2
+          mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES
           msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
 
     - name: Enable GitHub Actions problem matchers

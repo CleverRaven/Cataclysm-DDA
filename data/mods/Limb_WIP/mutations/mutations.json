@@ -94,7 +94,10 @@
     "purifiable": false,
     "vitamin_cost": 500,
     "enchantments": [
-      { "condition": "ALWAYS", "modified_bodyparts": [ { "lose": "eyes" }, { "lose": "head" }, { "gain": "eyes_insect_2" } ] }
+      {
+        "condition": "ALWAYS",
+        "modified_bodyparts": [ { "lose": "eyes" }, { "lose": "head" }, { "gain": "eyes_dragonfly" }, { "gain": "head_dragonfly" } ]
+      }
     ]
   },
   {
@@ -110,13 +113,11 @@
     "threshreq": [ "THRESH_GASTROPOD" ],
     "leads_to": [ "GASTROPOD_BALANCE" ],
     "flags": [ "SLUDGE_IMMUNE" ],
-    "enchantments": [ "ENCH_GASTROPOD_FOOT" ],
+    "enchantments": [ "ENCH_GASTROPOD_FOOT", { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.75 } ] } ],
     "visibility": 8,
     "ugliness": 9,
     "encumbrance_always": [ [ "leg_l", 10 ], [ "leg_r", 10 ], [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "movecost_flatground_modifier": 1.25,
     "restricts_gear": [ "leg_l", "leg_r", "foot_l", "foot_r", "leg_stub_r", "leg_stub_l" ],
-    "noise_modifier": 0.25,
     "destroys_gear": true
   },
   {

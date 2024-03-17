@@ -342,7 +342,7 @@
     "prereqs": [ "BREATH_UNDERWATER" ],
     "category": [ "UNDINE" ],
     "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
-    "movecost_swim_modifier": 0.3
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.7 } ] } ]
   },
   {
     "type": "mutation",
@@ -397,7 +397,7 @@
     "prereqs": [ "UNDINE_WATER_PUSH_AWAY" ],
     "changes_to": [ "UNDINE_STR_UP_2" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "str_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -409,7 +409,7 @@
     "description": "Year by year, meter by meter, the waves gradually erode the beaches.  +3 Strength.",
     "prereqs": [ "UNDINE_STR_UP_1" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -422,7 +422,7 @@
     "prereqs": [ "UNDINE_SKIN_1" ],
     "changes_to": [ "UNDINE_DEX_UP_2" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -435,8 +435,7 @@
     "prereqs": [ "UNDINE_DEX_UP_1" ],
     "changes_to": [ "UNDINE_DEX_UP_3" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "dex_mod": 4 },
-    "thirst_modifier": 0.15
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 }, { "value": "THIRST", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -449,8 +448,7 @@
     "prereqs": [ "UNDINE_DEX_UP_2" ],
     "prereqs2": [ "UNDINE_WATER_BODY" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "dex_mod": 6 },
-    "thirst_modifier": 0.25
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 }, { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -462,7 +460,7 @@
     "description": "The Undine's senses take in their environment like a fisher gazing to the bottom of a clear pond.  +2 Perception.",
     "prereqs": [ "UNDINE_RIVER_MAPPING" ],
     "category": [ "UNDINE" ],
-    "passive_mods": { "per_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -486,8 +484,7 @@
     "description": "Even the Undine's internal organs are becoming more liquid.  Bashing and cutting damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
     "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
     "category": [ "UNDINE" ],
-    "thirst_modifier": 0.25,
-    "enchantments": [ "ench_undine_water_body" ]
+    "enchantments": [ "ench_undine_water_body", { "values": [ { "value": "THIRST", "multiply": 0.25 } ] } ]
   },
   {
     "type": "mutation",
@@ -572,7 +569,7 @@
     "visibility": 0,
     "ugliness": 0,
     "prereqs": [ "UNDINE_MORE_MANA_REGEN_AND_MANA" ],
-    "description": "Like the fountain overflowing with water, the Undine's mana regenerates 50% faster, they have 50% more mana, and their Stamina regenerates 100% faster while standing in or under water..",
+    "description": "Like the fountain overflowing with water, the Undine's mana regenerates 50% faster, they have 50% more mana, and their stamina regenerates 100% faster while standing in or under water.",
     "category": [ "UNDINE" ],
     "threshreq": [ "THRESH_UNDINE" ],
     "enchantments": [
@@ -630,8 +627,12 @@
     "description": "You are a mass of pure water.  It is much harder to damage you, and you can move over any terrain without penalty, but you cannot attack.",
     "points": 10,
     "valid": false,
-    "movecost_swim_modifier": 0.6,
-    "enchantments": [ "ench_undine_water_form_no_attack", "ench_undine_water_form_armor" ],
+    "override_look": { "id": "mon_water_sprite", "tile_category": "monster" },
+    "enchantments": [
+      "ench_undine_water_form_no_attack",
+      "ench_undine_water_form_armor",
+      { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.4 } ] }
+    ],
     "flags": [ "STEADY", "WALK_UNDERWATER", "BULLET_IMMUNE" ]
   },
   {
@@ -644,22 +645,7 @@
     "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater.",
     "category": [ "UNDINE" ],
     "valid": false,
-    "triggers": [ [ { "condition": "u_is_underwater" } ] ],
-    "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "UNDINE_WATER_FORM_CAMOUFLAGE_ON",
-    "name": { "str": "Watery Camouflage (active)" },
-    "points": 3,
-    "visibility": 0,
-    "ugliness": 0,
-    "valid": false,
-    "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater, such as right now.",
-    "category": [ "UNDINE" ],
-    "stealth_modifier": 60,
-    "triggers": [ [ { "condition": { "not": "u_is_underwater" } } ] ],
-    "transform": { "target": "UNDINE_WATER_FORM_CAMOUFLAGE", "msg_transform": "", "active": false, "moves": 0 }
+    "enchantments": [ "undine_water_form_hiding" ]
   },
   {
     "type": "mutation",

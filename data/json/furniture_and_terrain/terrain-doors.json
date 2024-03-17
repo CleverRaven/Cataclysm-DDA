@@ -279,6 +279,7 @@
       "BLOCK_WIND",
       "SUPPORTS_ROOF"
     ],
+    "examine_action": "locked_object",
     "open": "t_door_o",
     "bash": {
       "str_min": 8,
@@ -325,6 +326,7 @@
       "SUPPORTS_ROOF"
     ],
     "open": "t_door_o_peep",
+    "examine_action": "door_peephole",
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -369,6 +371,7 @@
       "BLOCK_WIND",
       "SUPPORTS_ROOF"
     ],
+    "examine_action": "locked_object",
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -2650,7 +2653,7 @@
     "copy-from": "t_door_metal_locked",
     "looks_like": "t_door_metal_pickable",
     "//": "Same as t_door_metal_pickable, but without OPENCLOSE_INSIDE. Due the inheritance issues cannot copy from the t_door_metal_pickable, delete doesn't work with flags",
-    "examine_action": "locked_object_pickable",
+    "examine_action": "locked_object",
     "lockpick_result": "t_door_metal_c",
     "lockpick_message": "With a satisfying click, the lock on the door opens.",
     "oxytorch": {
@@ -2697,7 +2700,7 @@
       "message": "You pry open the metal door.",
       "prying_data": { "difficulty": 8, "prying_level": 4, "noisy": true, "failure": "The metal door is too thick." }
     },
-    "examine_action": "locked_object_pickable",
+    "examine_action": "locked_object",
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",

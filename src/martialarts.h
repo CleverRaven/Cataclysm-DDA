@@ -26,6 +26,8 @@ class effect;
 class item;
 struct itype;
 
+extern const matec_id tec_none;
+
 class weapon_category
 {
     public:
@@ -153,6 +155,10 @@ class ma_technique
         bool reach_tec = false; // only possible to use during a reach attack
         bool reach_ok = false; // possible to use during a reach attack
         bool attack_override = false; // The attack replaces the one it triggered off of
+
+        // performs the listed technique if this attack procs a crit. tec_none skips this behavior.
+        // requires crit_ok to be true
+        matec_id crit_tec_id = tec_none;
 
         ma_requirements reqs;
 

@@ -860,7 +860,7 @@ TEST_CASE( "EOC_run_until_test", "[eoc]" )
     REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
 
     CHECK( effect_on_condition_EOC_run_until_test->activate( d ) );
-    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 10 ) );
+    CHECK( std::stod( globvars.get_global_value( "npctalk_var_key1" ) ) == Approx( 10000 ) );
 }
 
 TEST_CASE( "EOC_run_with_test_expects", "[eoc]" )

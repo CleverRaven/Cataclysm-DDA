@@ -532,6 +532,7 @@
       { "item": "mouse_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "rat_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "fish_sample", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "chiropteran_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "meat_tainted", "prob": 30, "count": [ 1, 3 ] },
       { "item": "brain", "prob": 10, "count": [ 4, 12 ] },
       { "item": "rabbit_sample", "prob": 10, "count": [ 1, 3 ] },
@@ -914,5 +915,27 @@
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_glass",
     "entries": [ { "item": "chem_acrylamide", "container-item": "null", "count-min": 1 } ]
+  },
+  {
+    "id": "hair_dye",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hair_dye_black", "prob": 70, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_blond", "prob": 70, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_blue", "prob": 30, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_brown", "prob": 70, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_gray", "prob": 50, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_green", "prob": 30, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_red", "prob": 30, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_pink", "prob": 30, "charges-min": 2, "charges-max": 2 },
+      { "item": "hair_dye_white", "prob": 70, "charges-min": 2, "charges-max": 2 }
+    ]
+  },
+  {
+    "id": "hair_dye_display",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "hair_dye_kit", "prob": 100 }, { "group": "hair_dye", "prob": 90 } ]
   }
 ]

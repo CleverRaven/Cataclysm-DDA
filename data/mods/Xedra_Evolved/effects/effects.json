@@ -534,7 +534,7 @@
     "id": "effect_endurance",
     "type": "effect_type",
     "name": [ "Endurance" ],
-    "desc": [ "Take the blows.  <color_red>Don’t let the world kill you</color>.  Your skin can stop a few attacks." ],
+    "desc": [ "Take the blows.  <color_red>Don't let the world kill you</color>.  Your skin can stop a few attacks." ],
     "apply_message": "Your sense of touch is blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",
@@ -594,14 +594,26 @@
     "id": "effect_weakening",
     "type": "effect_type",
     "name": [ "Weakness" ],
-    "desc": [ "Your body is slow." ],
+    "desc": [ "Your body is weakened." ],
     "rating": "bad",
     "show_intensity": false,
     "max_intensity": 2,
     "int_add_val": 1,
-    "//": "The original idea was to make an enchantment, that adds ARMOR_BASH enchantment value, so monsters will take more damage when you attack them, but sadly enchantments now works only with player's avatar, and not with monsters.  So now it's a boring slowdown.",
-    "base_mods": { "speed_mod": [ -33 ] },
-    "scaling_mods": { "speed_mod": [ -33 ] }
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_BASH", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_CUT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_STAB", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_BULLET", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_ACID", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_BIO", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_COLD", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_ELEC", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } },
+          { "value": "ARMOR_HEAT", "add": { "math": [ "10 * u_spell_level('spell_weak')" ] } }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -838,6 +850,18 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_arvore_vitamin_bonus",
+    "//": "Hidden, but provides vitamins for being out in the sun",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "vitamins": [
+      { "vitamin": "calcium", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] },
+      { "vitamin": "vitC", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] },
+      { "vitamin": "iron", "rate": [ [ 1, 1 ] ], "tick": [ "20 m" ] }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_pollen_arvore_weaken",
     "name": [ "Weakening Pollen" ],
     "desc": [ "The pollen makes it hard to breathe!" ],
@@ -855,11 +879,29 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_slow_enemies",
+    "name": [ "Lithic Rigidity " ],
+    "desc": [ "It's very hard for you to move." ],
+    "remove_message": "It's easier for you to move again.",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": -0.3 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_no_mind_problems",
     "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "hallu", "taint", "hallucinogenic_acid_heavy", "hallucinogenic_acid_light", "visuals" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ierde_earthen_shield",
+    "//": "Empty to hide effect--it's linked to a mutation already",
+    "name": [ "Impenetrable Earthen Shield" ],
+    "desc": [ "You are protected by the living earth." ],
+    "remove_message": "Your earthen shield finally crumbles.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
   },
   {
     "type": "effect_type",
@@ -873,6 +915,20 @@
     "enchantments": [
       { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance",
+    "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance_self",
+    "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "type": "effect_type",
@@ -918,6 +974,16 @@
     "desc": [ "You are immune to heat and fire." ],
     "rating": "good",
     "show_in_info": true,
+    "removes_effects": [ "onfire", "blisters" ],
+    "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hidden_flame_immunity",
+    "//": "name and description hidden because it's explained in the mutation",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "rating": "good",
     "removes_effects": [ "onfire", "blisters" ],
     "enchantments": [ { "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 1000 }, { "value": "ARMOR_HEAT", "add": -1000 } ] } ]
   },
@@ -1028,6 +1094,14 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_salamander_phoenix_healing",
+    "name": [ "Phoenix's Rejuvenation" ],
+    "desc": [ "Like the phoenix, the flames are renewing your flesh." ],
+    "remove_message": "The aftereffects of the phoenix fire finally fade.",
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 2 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_lucid_dream",
     "name": [ "Lucid Dreaming" ],
     "rating": "good",
@@ -1073,6 +1147,17 @@
     "remove_message": "Your feet touch the ground once again.",
     "rating": "good",
     "flags": [ "LEVITATION" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_sylph_cloud_body",
+    "name": [ "Body of Clouds" ],
+    "desc": [ "You are mist and cloud and wind." ],
+    "apply_message": "",
+    "remove_message": "Your body regains its solidity.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.8 }, { "value": "EVASION", "add": 1 } ] } ],
+    "flags": [ "ETHEREAL", "INVISIBLE" ]
   },
   {
     "type": "effect_type",
@@ -1207,6 +1292,33 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_nether_eye_paste",
+    "name": [ "Blood-and-Ash Paste" ],
+    "desc": [ "You rubbed the paste of blood and herbs and ashes on your eyes.  It stings.  A lot." ],
+    "rating": "mixed",
+    "enchantments": [ { "values": [ { "value": "SIGHT_RANGE_NETHER", "add": 40 } ] } ],
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.6 } ],
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 60 ], "pain_tick": [ 180 ] },
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_cure_cold_or_flu",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "common_cold", "pre_common_cold", "flu", "pre_flu" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_magic_no_evil_eye",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "removes_effects": [ "effect_evil_eye" ]
   },
   {
     "type": "effect_type",

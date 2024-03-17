@@ -160,6 +160,7 @@ extern const flag_id flag_GIBBED;
 extern const flag_id flag_GNV_EFFECT;
 extern const flag_id flag_HARVEST_SEEDS;
 extern const flag_id flag_HEAT_IMMUNE;
+extern const flag_id flag_HEMOVORE_FUN;
 extern const flag_id flag_HIDDEN_HALLU;
 extern const flag_id json_flag_HIDDEN_ITEM;
 extern const flag_id flag_HIDDEN_POISON;
@@ -205,6 +206,7 @@ extern const flag_id flag_MYCUS_OK;
 extern const flag_id flag_NANOFAB_REPAIR;
 extern const flag_id flag_NANOFAB_TEMPLATE;
 extern const flag_id flag_NANOFAB_TEMPLATE_SINGLE_USE;
+extern const flag_id flag_NATURAL_WEAPON;
 extern const flag_id flag_NEEDS_NO_LUBE;
 extern const flag_id flag_NEEDS_UNFOLD;
 extern const flag_id flag_NEGATIVE_MONOTONY_OK;
@@ -255,6 +257,7 @@ extern const flag_id flag_PRIMITIVE_RANGED_WEAPON;
 extern const flag_id flag_PROCESSING;
 extern const flag_id flag_PROCESSING_RESULT;
 extern const flag_id flag_PSEUDO;
+extern const flag_id flag_PSEUDOPOD_GRASP;
 extern const flag_id flag_PSYSHIELD_PARTIAL;
 extern const flag_id flag_PULPED;
 extern const flag_id flag_PUMP_ACTION;
@@ -306,7 +309,6 @@ extern const flag_id flag_SLEEP_AID;
 extern const flag_id flag_SLEEP_AID_CONTAINER;
 extern const flag_id flag_SLEEP_IGNORE;
 extern const flag_id flag_SLOWS_MOVEMENT;
-extern const flag_id flag_SLOWS_THIRST;
 extern const flag_id flag_SLOW_WIELD;
 extern const flag_id flag_SMOKABLE;
 extern const flag_id flag_SMOKED;
@@ -341,7 +343,6 @@ extern const flag_id flag_TOW_CABLE;
 extern const flag_id flag_TRADER_AVOID;
 extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
-extern const flag_id flag_TRANSPARENT;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNBREAKABLE;
 extern const flag_id flag_UNBREAKABLE_MELEE;
@@ -423,6 +424,16 @@ class json_flag
             return name_.translated();
         }
 
+        /** Custom prefix that is added to item name. */
+        const translation &item_prefix() const {
+            return item_prefix_;
+        }
+
+        /** Custom suffix that is added to item name. */
+        const translation &item_suffix() const {
+            return item_suffix_;
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -457,6 +468,8 @@ class json_flag
         translation info_;
         translation restriction_;
         translation name_;
+        translation item_prefix_;
+        translation item_suffix_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;

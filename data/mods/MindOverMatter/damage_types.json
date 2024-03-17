@@ -282,7 +282,7 @@
     ],
     "false_effect": [
       { "npc_cast_spell": { "id": "eater_drain_health" } },
-      { "npc_message": "You feel your life draining away!.", "type": "bad" }
+      { "npc_message": "You feel your life draining away!", "type": "bad" }
     ]
   }
 ]

@@ -99,6 +99,14 @@ def parse_effect(effects, origin, comment=""):
             if "variables" in eff:
                 parse_effect_variables(eff["variables"], origin, comment)
             if "run_eoc_selector" in eff:
+                eoc_list = eff["run_eoc_selector"]
+                if type(eoc_list) is not list:
+                    eoc_list = [eoc_list]
+                for eoc in eoc_list:
+                    if type(eoc) is dict and "id" in eoc:
+                        parse_effect_on_condition(eoc, origin,
+                                                  comment="nested EOC option "
+                                                  "in {}".format(comment))
                 for name in eff.get("names", []):
                     write_translation_or_var(name, origin,
                                              comment="EOC option name in {}"
@@ -137,7 +145,7 @@ def parse_effect(effects, origin, comment=""):
                 if type(eoc_list) is not list:
                     eoc_list = [eoc_list]
                 for eoc in eoc_list:
-                    if type(eoc) is dict:
+                    if type(eoc) is dict and "id" in eoc:
                         parse_effect_on_condition(eoc, origin,
                                                   comment="nested EOCs in {}"
                                                   .format(comment))

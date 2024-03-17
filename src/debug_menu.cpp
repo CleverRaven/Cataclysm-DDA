@@ -2875,16 +2875,9 @@ void debug()
     get_event_bus().send<event_type::uses_debug_menu>( *action );
 
     // Used for quick setup, constructed outside the switches to reduce duplicate code
-    std::vector<trait_id> setup_traits;
-    setup_traits.emplace_back( trait_DEBUG_BIONICS );
-    setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
-    setup_traits.emplace_back( trait_DEBUG_CLOAK );
-    setup_traits.emplace_back( trait_DEBUG_HS );
-    setup_traits.emplace_back( trait_DEBUG_LS );
-    setup_traits.emplace_back( trait_DEBUG_MANA );
-    setup_traits.emplace_back( trait_DEBUG_NODMG );
-    setup_traits.emplace_back( trait_DEBUG_NOTEMP );
-    setup_traits.emplace_back( trait_DEBUG_SPEED );
+    std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
+                                       trait_DEBUG_HS, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_NODMG,
+                                       trait_DEBUG_NOTEMP, trait_DEBUG_SPEED};
 
     avatar &player_character = get_avatar();
     map &here = get_map();

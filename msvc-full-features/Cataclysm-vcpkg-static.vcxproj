@@ -226,6 +226,9 @@
     <ProjectReference Include="..\msvc-full-features\Cataclysm-lib-vcpkg-static.vcxproj">
       <Project>{0009bb11-11ad-4c14-a5fc-d882a942c00b}</Project>
     </ProjectReference>
+    <ProjectReference Include="ImGui-lib-vcpkg-static.vcxproj">
+      <Project>{0c0b2bea-311f-473c-9652-87923ef639e3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\resource.rc" />

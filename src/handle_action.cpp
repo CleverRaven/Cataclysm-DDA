@@ -650,9 +650,10 @@ static void open()
 
 static void close()
 {
-    if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-                                            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-                                            ACTION_CLOSE, false ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight_bub_ms(
+                _( "Close where?" ),
+                pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
     }
 }
@@ -2292,7 +2293,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
             } else if( mouse_target ) {
-                doors::close_door( m, player_character, *mouse_target );
+                doors::close_door( m, player_character, tripoint_bub_ms( *mouse_target ) );
             } else {
                 close();
             }

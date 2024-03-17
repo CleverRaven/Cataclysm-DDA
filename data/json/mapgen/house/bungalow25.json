@@ -15,9 +15,9 @@
       "rows": [
         ".?---------p............",
         ".#{{{{{##*o###%%^##o##..",
-        ".#-----|$ L|q#%%##8_t#..",
-        ".#-----|R b|+#oo#Q__So%.",
-        ".#-----|R       +__BB#%.",
+        ".#-----|$ L|q#%%##8~t#..",
+        ".#-----|R b|+#oo#Q~~So%.",
+        ".#-----|R       +~~BB#%.",
         ".#-----|R  ||+|||||||#..",
         ".#-----|R y|b zz|D dd#..",
         ".#-----+  V|    |   ¤#..",
@@ -39,8 +39,8 @@
         "........................"
       ],
       "terrain": {
-        "_": "t_linoleum_gray",
-        "A": "t_linoleum_gray",
+        "A": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "-": "t_concrete",
         ",": "t_floor_noroof",
         "0": [ [ "t_shrub", 2 ], "t_shrub_strawberry", "t_shrub_blueberry" ],

@@ -2,12 +2,12 @@
   {
     "id": "surface_heat",
     "type": "requirement",
-    "extend": { "tools": [ [ [ "heater_tool", 20 ] ] ] }
+    "extend": { "tools": [ [ [ "heater_tool", 20 ], [ "item_salamander_cooking_heat", -1 ] ] ] }
   },
   {
     "id": "water_boiling_heat",
     "type": "requirement",
-    "extend": { "tools": [ [ [ "heater_tool", 20 ] ] ] }
+    "extend": { "tools": [ [ [ "heater_tool", 20 ], [ "item_salamander_cooking_heat", -1 ] ] ] }
   },
   {
     "id": "welding_standard",

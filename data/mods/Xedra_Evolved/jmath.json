@@ -20,17 +20,10 @@
   },
   {
     "type": "jmath_function",
-    "id": "spell_exp",
-    "num_args": 1,
-    "//": "accept a spell level, return the amount of XP spell required at this level.",
-    "return": "2.71828182^(0.146661*(_0+62.5))-6200"
-  },
-  {
-    "type": "jmath_function",
     "id": "spell_exp_diff",
     "num_args": 1,
     "//": "accept the spell level, return a difference in experience between spell's current level and the next level",
-    "return": "spell_exp(_0 + 1) - spell_exp(_0)"
+    "return": "spell_exp_for_level(_0 + 1) - spell_exp_for_level(_0)"
   },
   {
     "type": "jmath_function",
@@ -75,5 +68,12 @@
     "id": "paraclesian_passive_spell_exp",
     "num_args": 1,
     "return": "u_skill('deduction') * 100 + _0"
+  },
+  {
+    "type": "jmath_function",
+    "id": "paraclesian_post_threshold_doubler",
+    "//": "Used to double various factors for a post-threshold bonus.  Should never more than double the initial input.",
+    "num_args": 1,
+    "return": "_0 + (1 * (u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE')) )"
   }
 ]

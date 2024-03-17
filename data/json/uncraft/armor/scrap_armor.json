@@ -60,7 +60,7 @@
     "components": [ [ [ "scrap", 80 ] ] ]
   },
   {
-    "result": "armor_scrapsuit",
+    "result": "armor_xl_scrapsuit",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",
@@ -70,7 +70,7 @@
     "components": [ [ [ "scrap", 170 ] ] ]
   },
   {
-    "result": "armor_scrapsuit",
+    "result": "armor_xs_scrapsuit",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "skill_used": "fabrication",

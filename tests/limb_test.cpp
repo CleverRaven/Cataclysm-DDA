@@ -3,10 +3,14 @@
 #include "character.h"
 #include "character_modifier.h"
 #include "damage.h"
+#include "item.h"
+#include "itype.h"
 #include "magic_enchantment.h"
 #include "mutation.h"
 #include "player_helpers.h"
 
+static const bodypart_str_id body_part_test_arm_l( "test_arm_l" );
+static const bodypart_str_id body_part_test_arm_r( "test_arm_r" );
 static const bodypart_str_id body_part_test_bird_foot_l( "test_bird_foot_l" );
 static const bodypart_str_id body_part_test_bird_foot_r( "test_bird_foot_r" );
 static const bodypart_str_id body_part_test_bird_wing_l( "test_bird_wing_l" );
@@ -20,6 +24,11 @@ static const enchantment_id enchantment_ENCH_TEST_BIRD_PARTS( "ENCH_TEST_BIRD_PA
 static const enchantment_id enchantment_ENCH_TEST_LIZARD_TAIL( "ENCH_TEST_LIZARD_TAIL" );
 
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
+
+static const sub_bodypart_str_id
+sub_body_part_sub_limb_test_bird_foot_l( "sub_limb_test_bird_foot_l" );
+static const sub_bodypart_str_id
+sub_body_part_sub_limb_test_bird_foot_r( "sub_limb_test_bird_foot_r" );
 
 static const trait_id trait_DEBUG_BIG_HEAD( "DEBUG_BIG_HEAD" );
 static const trait_id trait_DEBUG_ONLY_HEAD( "DEBUG_ONLY_HEAD" );
@@ -133,4 +142,46 @@ TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
         CHECK( dude.has_effect( effect_mending, body_part_test_lizard_tail ) );
         CHECK( !dude.has_effect( effect_mending, body_part_arm_l ) );
     }
+}
+
+TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
+{
+    standard_npc dude( "Test NPC" );
+    item test_shackles( "test_shackles" );
+    item test_jumpsuit_cotton( "test_jumpsuit_cotton" );
+    item wing_covers( "test_winglets" );
+    item bird_boots( "test_bird_boots" );
+
+    REQUIRE( test_jumpsuit_cotton.covers( body_part_arm_l ) );
+    REQUIRE( test_jumpsuit_cotton.portion_for_bodypart( body_part_arm_l )->coverage == 95 );
+
+    clear_character( dude, true );
+    create_bird_char( dude );
+    REQUIRE( dude.has_part( body_part_test_bird_wing_l ) );
+    REQUIRE( dude.has_part( body_part_test_bird_wing_r ) );
+
+    REQUIRE( body_part_test_arm_l->similar_bodyparts.size() == 1 );
+    REQUIRE( body_part_test_arm_r->similar_bodyparts.size() == 1 );
+
+    // Explicitly-defined armor covers custom limbs
+    CHECK( wing_covers.covers( body_part_test_bird_wing_l ) );
+    CHECK( wing_covers.portion_for_bodypart( body_part_test_bird_wing_l )->coverage == 100 );
+
+    // Armor covering a base BP covers derived bodyparts, but not non-derived ones
+    CHECK( test_shackles.covers( body_part_test_bird_wing_l ) );
+    CHECK( test_shackles.covers( body_part_test_bird_wing_r ) );
+    CHECK( test_shackles.portion_for_bodypart( body_part_test_bird_wing_l )->coverage == 100 );
+    CHECK( test_shackles.portion_for_bodypart( body_part_test_bird_wing_r )->coverage == 100 );
+    CHECK( !test_jumpsuit_cotton.covers( body_part_test_bird_wing_l ) );
+
+    // Sublimb substitution works the same
+    CHECK( bird_boots.covers( sub_body_part_sub_limb_test_bird_foot_l ) );
+    CHECK( bird_boots.covers( sub_body_part_sub_limb_test_bird_foot_r ) );
+    CHECK( bird_boots.portion_for_bodypart( sub_body_part_sub_limb_test_bird_foot_l )->coverage ==
+           100 );
+    CHECK( bird_boots.portion_for_bodypart( sub_body_part_sub_limb_test_bird_foot_r )->coverage ==
+           100 );
+    // Backwards population of coverage works as well
+    CHECK( bird_boots.covers( body_part_test_bird_foot_l ) );
+    CHECK( bird_boots.covers( body_part_test_bird_foot_r ) );
 }

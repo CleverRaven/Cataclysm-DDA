@@ -37,14 +37,14 @@
       "terrain": {
         "K": "t_concrete",
         "G": "t_concrete",
-        "-": "t_linoleum_gray",
+        "-": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "6": "t_thconc_floor",
         "U": "t_thconc_floor",
         "q": "t_thconc_floor",
         "N": "t_thconc_floor",
         "~": "t_thconc_floor"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 2, "y": 1, "chance": 80, "status": 0 } ]
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 2, "y": 1 } ]
     }
   },
   {

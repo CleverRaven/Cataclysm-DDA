@@ -19,7 +19,7 @@
         "..#++|  |||+||||V lllo%.",
         "..#dd|b +    RRy     o%.",
         "..#||||||         HHH#^.",
-        "..oB____+   ==$=  sss#..",
+        "..oB~~~~+   ==$=  sss#..",
         "..#B8tS8|R  =ff=     #..",
         "..#||||||R  $ff$    1#..",
         "..orh   +   =$==  J Fo..",
@@ -34,7 +34,6 @@
         "........................"
       ],
       "terrain": {
-        "_": "t_linoleum_gray",
         "G": "t_region_groundcover_urban",
         "K": "t_region_groundcover_urban",
         "=": "t_carpet_green",
@@ -42,7 +41,7 @@
         "$": "t_carpet_green"
       },
       "furniture": { ")": "f_treadmill", "$": "f_chair" },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 9, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 9, "y": 1 } ],
       "place_loot": [ { "item": "television", "x": 19, "y": 7 } ]
     }
   },

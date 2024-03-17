@@ -78,7 +78,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "use_action": [ "HAIRKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -184,7 +184,7 @@
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": [ "SHAVEKIT" ]
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] }
   },
   {
     "id": "sponge",
@@ -225,7 +225,7 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": [ "HAIRKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -245,7 +245,7 @@
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": [ "SHAVEKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -280,5 +280,21 @@
     "color": "yellow",
     "use_action": [ "WASH_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
+  },
+  {
+    "id": "hair_dye_kit",
+    "type": "TOOL",
+    "name": { "str": "hair dye kit" },
+    "description": "A kit featuring all the tools needed to dye hair, including an applicator brush, combs, and plastic gloves.",
+    "ascii_picture": "box_small",
+    "weight": "154 g",
+    "volume": "2250 ml",
+    "longest_side": "21 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard", "plastic" ],
+    "symbol": ")",
+    "color": "brown",
+    "use_action": { "type": "effect_on_conditions", "description": "Dye your hair", "effect_on_conditions": [ "use_hair_dye_kit" ] }
   }
 ]

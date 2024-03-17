@@ -39,6 +39,7 @@
       { "item": "meat", "prob": 40, "count": [ 1, 3 ] },
       { "item": "rabbit_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "rat_sample", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "chiropteran_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "mouse_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "fish_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "meat_tainted", "prob": 30, "count": [ 1, 3 ] },

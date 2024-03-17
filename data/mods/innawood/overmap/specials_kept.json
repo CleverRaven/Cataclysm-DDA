@@ -40,6 +40,19 @@
   },
   {
     "type": "overmap_special",
+    "id": "Cave w/ trail",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cave_innawood" },
+      { "point": [ 0, 0, -1 ], "overmap": "cave_underground_innawood" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "forest_trail", "connection": "forest_trail" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 8, -1 ],
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Cave",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "cave_innawood" },
@@ -47,8 +60,8 @@
     ],
     "locations": [ "forest" ],
     "city_distance": [ 8, -1 ],
-    "occurrences": [ 0, 10 ],
-    "flags": [ "WILDERNESS" ]
+    "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
   },
   {
     "type": "overmap_special",

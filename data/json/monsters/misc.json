@@ -220,7 +220,7 @@
     "description": "Your precious generator, noisily humming away.  Defend it at all costs!",
     "default_faction": "player",
     "species": [ "UNKNOWN" ],
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 500,
     "speed": 100,

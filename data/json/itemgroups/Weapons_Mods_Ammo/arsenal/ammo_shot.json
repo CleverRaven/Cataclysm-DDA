@@ -41,19 +41,19 @@
     "type": "item_group",
     "id": "ammo_can_beanbag_full",
     "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_beanbag_160" },
-    "items": [ { "group": "ammo_box_shot", "count": 32 } ]
+    "items": [ { "group": "ammo_box_beanbag", "count": 32 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_beanbag_part",
     "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_beanbag_160" },
-    "items": [ { "group": "ammo_box_shot", "count": [ 0, 32 ] } ]
+    "items": [ { "group": "ammo_box_beanbag", "count": [ 0, 32 ] } ]
   },
   {
     "type": "item_group",
-    "id": "ammo_box_shot",
-    "container-item": "ammo_box_army_5_shot",
-    "items": [ { "item": "shot_bird", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+    "id": "ammo_box_beanbag",
+    "container-item": "ammo_box_army_5_beanbag",
+    "items": [ { "item": "shot_beanbag", "count": 1, "charges-min": 5, "charges-max": 5 } ]
   },
   {
     "//": "---------------------------------------------------",

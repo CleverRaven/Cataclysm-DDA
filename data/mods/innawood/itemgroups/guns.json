@@ -21,7 +21,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_obscure",
-    "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian’s, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
+    "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian's, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
     "items": [ { "group": "guns_pistol_improvised", "prob": 35 } ]
   },
   {

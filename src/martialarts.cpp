@@ -45,8 +45,6 @@ static const json_character_flag json_flag_NONSTANDARD_BLOCK( "NONSTANDARD_BLOCK
 
 static const limb_score_id limb_score_block( "block" );
 
-static const matec_id tec_none( "tec_none" );
-
 static const skill_id skill_unarmed( "unarmed" );
 
 static const weapon_category_id weapon_category_OTHER_INVALID_WEAP_CAT( "OTHER_INVALID_WEAP_CAT" );
@@ -219,6 +217,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "crit_tec", crit_tec, false );
     optional( jo, was_loaded, "crit_ok", crit_ok, false );
+    optional( jo, was_loaded, "crit_tec_id", crit_tec_id, tec_none );
     optional( jo, was_loaded, "attack_override", attack_override, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
     optional( jo, was_loaded, "reach_tec", reach_tec, false );
@@ -821,6 +820,7 @@ ma_technique::ma_technique()
 {
     crit_tec = false;
     crit_ok = false;
+    crit_tec_id = tec_none; // if not tec_none, use this tech instead when a crit procs
     defensive = false;
     side_switch = false; // moves the target behind user
     dummy = false;
@@ -1389,6 +1389,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user,
     bool healthy_arm = arm_r_hp > 0 || arm_l_hp > 0;
     bool healthy_arms = arm_r_hp > 0 && arm_l_hp > 0;
     bool healthy_legs = leg_r_hp > 0 && leg_l_hp > 0;
+    bool mouth_ok = ( av == "MOUTH" ) && !user.natural_attack_restricted_on( bodypart_id( "mouth" ) );
     bool always_ok = av == "HEAD" || av == "TORSO";
     bool weapon_ok = av == "WEAPON" && valid_weapon && healthy_arm;
     bool arm_ok = ( av == "HAND" || av == "FINGER" || av == "WRIST" || av == "ARM" || av == "ELBOW" ||
@@ -1396,7 +1397,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user,
     bool arms_ok = ( av == "GRAPPLE" || av == "THROW" ) && healthy_arms;
     bool legs_ok = ( av == "FOOT" || av == "LOWER_LEG" || av == "KNEE" || av == "HIP" ) && healthy_legs;
 
-    return always_ok || weapon_ok || arm_ok || arms_ok || legs_ok;
+    return always_ok || weapon_ok || mouth_ok || arm_ok || arms_ok || legs_ok;
 }
 
 bool character_martial_arts::can_leg_block( const Character &owner ) const

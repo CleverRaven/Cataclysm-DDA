@@ -41,6 +41,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -302,6 +303,7 @@ computer_session::computer_action_functions = {
     { COMPACT_GEIGER, &computer_session::action_geiger },
     { COMPACT_IRRADIATOR, &computer_session::action_irradiator },
     { COMPACT_LIST_BIONICS, &computer_session::action_list_bionics },
+    { COMPACT_LIST_MUTATIONS, &computer_session::action_list_mutations },
     { COMPACT_LOCK, &computer_session::action_lock },
     { COMPACT_MAP_SEWER, &computer_session::action_map_sewer },
     { COMPACT_MAP_SUBWAY, &computer_session::action_map_subway },
@@ -776,6 +778,64 @@ void computer_session::action_list_bionics()
 
     print_newline();
     query_any( _( "Press any key…" ) );
+}
+
+void computer_session::action_list_mutations()
+{
+    uilist ssmenu;
+    std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
+    mutation_categories_list.reserve( mutations_category.size() );
+    for( const std::pair<const mutation_category_id, std::vector<trait_id> > &mut_cat :
+         mutations_category ) {
+        mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
+    }
+    ssmenu.text = _( "Choose mutation category" );
+    std::sort( mutation_categories_list.begin(), mutation_categories_list.end(), localized_compare );
+    int menu_ind = 0;
+    for( const std::pair<std::string, mutation_category_id> &mut_cat : mutation_categories_list ) {
+        ssmenu.addentry( menu_ind, true, MENU_AUTOASSIGN, mut_cat.first );
+        ++menu_ind;
+    }
+    ssmenu.query();
+
+    if( ssmenu.ret >= 0 && ssmenu.ret < static_cast< int >( mutation_categories_list.size() ) ) {
+        const mutation_category_trait &category = mutation_category_trait::get_category(
+                    mutation_categories_list[ssmenu.ret].second );
+        const std::vector<trait_id> category_mutations = mutations_category[category.id];
+
+        uilist wmenu;
+
+        wmenu.w_x_setup = 30;
+
+        for( const trait_id &traits_iter : category_mutations ) {
+            wmenu.addentry( -1, true, -2, traits_iter.obj().name() );
+        }
+
+        do {
+            wmenu.query();
+
+            if( wmenu.ret >= 0 && wmenu.ret < static_cast< int >( category_mutations.size() ) ) {
+                const mutation_branch &mdata = category_mutations[wmenu.ret].obj();
+                reset_terminal();
+                print_text( _( "Description: %s" ), colorize( mdata.desc(), c_white ) );
+
+                if( !mdata.replacements.empty() ) {
+                    print_indented_line( 1, width - 2, _( "Changes to:" ) );
+                    for( const trait_id &replacement : mdata.replacements ) {
+                        print_indented_line( 1, width - 2, _( "%s" ), colorize( replacement->name(), c_white ) );
+                    }
+                    print_newline();
+                }
+
+                if( !mdata.cancels.empty() ) {
+                    print_indented_line( 1, width - 2, _( "Cancels:" ) );
+                    for( const trait_id &cancel : mdata.cancels ) {
+                        print_indented_line( 1, width - 2, _( "%s" ), colorize( cancel->name(), c_white ) );
+                    }
+                }
+            }
+        } while( wmenu.ret >= 0 );
+    }
 }
 
 void computer_session::action_elevator_on()

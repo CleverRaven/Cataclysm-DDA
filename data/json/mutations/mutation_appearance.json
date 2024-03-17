@@ -390,5 +390,29 @@
     "player_display": true,
     "vanity": true,
     "types": [ "facial_hair" ]
+  },
+  {
+    "id": "FACIAL_HAIR_BEARD_LONG",
+    "type": "mutation",
+    "name": { "str": "Facial hair: long beard" },
+    "description": "You have a long beard, that goes down to your chest.  Somewhat reminiscent of Santa's moustache.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": true,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "facial_hair" ]
+  },
+  {
+    "id": "FACIAL_HAIR_BEARD_VERY_LONG",
+    "type": "mutation",
+    "name": { "str": "Facial hair: very long beard" },
+    "description": "You have a very long beard, that goes down to your waist, like wise old mentors have.",
+    "points": 0,
+    "valid": false,
+    "starting_trait": true,
+    "player_display": true,
+    "vanity": true,
+    "types": [ "facial_hair" ]
   }
 ]

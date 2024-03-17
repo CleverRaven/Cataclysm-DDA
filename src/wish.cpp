@@ -1136,10 +1136,6 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
     } while( wmenu.ret >= 0 );
 }
 
-/*
- * Set skill on any Character object; player character or NPC
- * Can change skill theory level
- */
 void debug_menu::wishskill( Character *you, bool change_theory )
 {
     const int skoffset = 1;
@@ -1261,9 +1257,6 @@ void debug_menu::wishskill( Character *you, bool change_theory )
     } while( skmenu.ret != UILIST_CANCEL );
 }
 
-/*
- * Set proficiency on any Character object; player character or NPC
- */
 void debug_menu::wishproficiency( Character *you )
 {
     bool know_all = true;

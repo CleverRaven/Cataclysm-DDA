@@ -10,37 +10,37 @@
     "id": "scenario_paraclesian_birth",
     "eoc_type": "SCENARIO_SPECIFIC",
     "condition": { "u_has_trait": "IERDE" },
-    "effect": [ { "u_learn_recipe": "mutagen_earthkin" }, { "u_learn_recipe": "cthonic_poultice" } ],
+    "effect": [ { "math": [ "u_vitamin('mutagen_earthkin')", "+=", "550 " ] }, { "math": [ "u_vitamin('mutagen')", "+=", "550" ] } ],
     "false_effect": {
       "run_eocs": [
         {
           "id": "scenario_paraclesian_birth2",
           "condition": { "u_has_trait": "UNDINE" },
-          "effect": [ { "u_learn_recipe": "mutagen_waterkin" }, { "u_learn_recipe": "cerulean_poultice" } ],
+          "effect": [ { "math": [ "u_vitamin('mutagen_waterkin')", "+=", "550 " ] }, { "math": [ "u_vitamin('mutagen')", "+=", "550" ] } ],
           "false_effect": {
             "run_eocs": [
               {
                 "id": "scenario_paraclesian_birth3",
                 "condition": { "u_has_trait": "SALAMANDER" },
-                "effect": [ { "u_learn_recipe": "mutagen_flamekin" }, { "u_learn_recipe": "charred_sacrifice" } ],
+                "effect": [ { "math": [ "u_vitamin('mutagen_flamekin')", "+=", "550 " ] }, { "math": [ "u_vitamin('mutagen')", "+=", "550" ] } ],
                 "false_effect": {
                   "run_eocs": [
                     {
                       "id": "scenario_paraclesian_birth4",
                       "condition": { "u_has_trait": "SYLPH" },
-                      "effect": [ { "u_learn_recipe": "mutagen_airkin" }, { "u_learn_recipe": "ethereal_draught" } ],
+                      "effect": [ { "math": [ "u_vitamin('mutagen_airkin')", "+=", "550 " ] }, { "math": [ "u_vitamin('mutagen')", "+=", "550" ] } ],
                       "false_effect": {
                         "run_eocs": [
                           {
                             "id": "scenario_paraclesian_birth5",
                             "condition": { "u_has_trait": "HOMULLUS" },
-                            "effect": [ { "u_learn_recipe": "mutagen_dollkin" }, { "u_learn_recipe": "doll_repair_paste" } ],
+                            "effect": [ { "math": [ "u_vitamin('mutagen_dollkin')", "+=", "550 " ] }, { "math": [ "u_vitamin('mutagen')", "+=", "550" ] } ],
                             "false_effect": {
                               "run_eocs": [
                                 {
                                   "id": "scenario_paraclesian_birth6",
                                   "condition": { "u_has_trait": "ARVORE" },
-                                  "effect": [ { "u_learn_recipe": "mutagen_plantkin" }, { "u_learn_recipe": "verdant_poultice" } ]
+                                  "effect": [ { "math": [ "u_vitamin('mutagen_plantkin')", "+=", "550 " ] }, { "math": [ "u_vitamin('mutagen')", "+=", "550" ] } ]
                                 }
                               ]
                             }

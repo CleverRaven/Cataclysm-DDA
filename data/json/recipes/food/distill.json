@@ -75,6 +75,7 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": "30 m",
+    "charges": 7,
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_distilling" }, { "proficiency": "prof_beverage_distilling" } ],

@@ -14,13 +14,13 @@
         "#~~~~~~~#    | |D  d#...",
         "#~~~~~~~# hh   |D  d#...",
         "#N~~~~~~# ff   |||+|#...",
-        "#NA~~~~~# ff   |t__B#...",
-        "######*## hh   |||_B#...",
-        ".^#III T|    | +>|_So...",
-        "..o E   ||  || |U|_t#..[",
+        "#NA~~~~~# ff   |t''B#...",
+        "######*## hh   |||'B#...",
+        ".^#III T|    | +>|'So...",
+        "..o E   ||  || |U|'t#..[",
         "..#R        RR |||+|#...",
         "..#||||||      |RR D#...",
-        "..#6_|t_+      +    o...",
+        "..#6_|t'+      +    o...",
         "..#6_|8S|      |    #...",
         "..#|+||||Y xx s|b  I#...",
         "..#1__FJJ     H|  @@#...",
@@ -46,7 +46,8 @@
         "K": "t_thconc_floor",
         "G": "t_thconc_floor",
         "/": "t_railing",
-        "_": "t_linoleum_gray"
+        "'": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "_": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" }
       },
       "place_loot": [
         { "item": "hose", "x": 7, "y": 21 },
@@ -56,9 +57,9 @@
       ],
       "place_vehicles": [
         { "vehicle": "car", "x": 4, "y": 4, "chance": 35, "rotation": 270 },
-        { "vehicle": "tricycle", "x": 6, "y": 22, "chance": 40, "status": 0 },
-        { "vehicle": "rolling_trash_can", "x": 22, "y": 1, "chance": 80, "status": 0 }
-      ]
+        { "vehicle": "tricycle", "x": 6, "y": 22, "chance": 40, "status": 0 }
+      ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 22, "y": 1 } ]
     }
   },
   {

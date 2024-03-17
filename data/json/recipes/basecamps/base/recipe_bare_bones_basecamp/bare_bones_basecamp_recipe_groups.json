@@ -91,7 +91,7 @@
       { "id": "chain", "description": " Craft: Chain" },
       { "id": "shovel", "description": " Craft: Shovel" },
       { "id": "rebar", "description": " Craft: Rebar" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
+      { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" },
       { "id": "knife_combat", "description": " Craft: Knife, Combat" },
       { "id": "knife_hunting", "description": " Craft: Knife, Hunting" },
       { "id": "spear_steel", "description": " Craft: Spear, Steel" },

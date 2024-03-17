@@ -86,7 +86,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_STOP_BLEEDING_EOC",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 1,
@@ -166,7 +165,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_vitakin_hurt",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "biological",
     "min_dot": 1,
@@ -206,7 +204,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_vita_health",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_range": 1,
     "min_duration": {
@@ -244,7 +241,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_DEXTOXIFICATION_CHECK_1",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "min_duration": {
       "math": [
         "( (u_spell_level('vita_remove_poison') * 400) + 15600) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
@@ -278,7 +274,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_SLEEP",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 1000,
@@ -336,7 +331,6 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "pain_split",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 6500,
@@ -361,7 +355,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_STOP_INFECTION_SWITCH",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 5000,
@@ -436,7 +429,6 @@
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -466,7 +458,6 @@
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "biological",
     "min_damage": {
@@ -538,10 +529,7 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "cureall",
-    "extra_effects": [
-      { "id": "vita_blood_purge_no_mutagens", "hit_self": true },
-      { "id": "psionic_drained_difficulty_seven", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "vita_blood_purge_no_mutagens", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 8500,
@@ -577,7 +565,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_BANISH_ILLNESS_SELECTOR",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
@@ -655,7 +642,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_VITAKIN_RESTORE_LIMB_SELECTOR",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [

@@ -26,7 +26,6 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "game.h"
-#include "type_id.h"
 #include "units.h"
 
 static const efftype_id effect_bleed( "bleed" );

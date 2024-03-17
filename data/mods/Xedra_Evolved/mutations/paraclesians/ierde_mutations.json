@@ -85,7 +85,7 @@
     "ugliness": 0,
     "description": "The Ierde's ears are longer and pointed, like the peak of a high mountain.  They can hear slightly better and are unphased by loud sounds.",
     "category": [ "IERDE" ],
-    "hearing_modifier": 1.3,
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.3 } ] } ],
     "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {
@@ -108,7 +108,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to rest and recover energy as though sleeping, while underground.  Activate to to begin the vigil.",
+    "description": "Upon gaining this ability the Ierde gains the ability to, while underground, rest and recover energy as though sleeping.  Activate to to begin the vigil.",
     "prereqs": [ "IERDE_EYES" ],
     "category": [ "IERDE" ],
     "activated_is_setup": false,
@@ -122,7 +122,7 @@
     "points": 3,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as the Ierde maintains contact with natural earth or stone, or is underground.",
+    "description": "Upon gaining this ability the Ierde gains the ability to sense the movements of nearby creatures, as long as they maintains contact with natural earth or stone, or are underground.",
     "prereqs": [ "IERDE_EYES" ],
     "prereqs2": [ "IERDE_EARS" ],
     "category": [ "IERDE" ],
@@ -181,6 +181,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_SLOW_ENEMIES",
+    "name": { "str": "Rigidity of Stone" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Ierde may infuse the rigidity of stone into their enemies, slowing their movements.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_RESHAPE_THE_EARTH" ],
+    "spells_learned": [ [ "ierde_slow_enemies_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_RESHAPE_THE_EARTH",
     "name": { "str": "Reshape the Living Earth" },
     "points": 4,
@@ -216,6 +228,18 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_EARTH_SHIELD",
+    "name": { "str": "Impenetrable Earthen Shield" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "While standing on natural earth or stone, the Ierde can summon up an earthen shield to protect themselves.  They will be invulnerable until the shield breaks.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_earthen_shield_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_NO_SCENT_AND_IRON",
     "name": {
       "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
@@ -239,7 +263,7 @@
     "changes_to": [ "IERDE_CARDIO2" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_1", "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 1.6
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.6 } ] } ]
   },
   {
     "type": "mutation",
@@ -250,7 +274,7 @@
     "changes_to": [ "IERDE_CARDIO3" ],
     "category": [ "IERDE" ],
     "prereqs": [ "IERDE_SKIN_2", "IERDE_SKIN_3" ],
-    "cardio_multiplier": 2.4
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 1.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -261,7 +285,7 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "prereqs": [ "IERDE_SKIN_3" ],
-    "cardio_multiplier": 3.5
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 2.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -329,6 +353,16 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_FEEL_HALF_PAIN",
+    "name": { "str": "Stone Does Not Cry Out" },
+    "points": 5,
+    "description": "Like the stone, the Ierde suffers little from blows.  All pain is halved.",
+    "category": [ "IERDE" ],
+    "prereqs": [ "IERDE_REGAIN_STAMINA_UNDERGROUND", "IERDE_HEAL_FASTER_UNDERGROUND" ],
+    "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -0.5 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_SINK_INTO_EARTH",
     "name": { "str": "In the Earthmother's Embrace" },
     "points": 3,
@@ -348,7 +382,6 @@
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "fatigue_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
     "mending_modifier": 16,
@@ -357,7 +390,8 @@
         "values": [
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
-          { "value": "METABOLISM", "multiply": -1.0 }
+          { "value": "METABOLISM", "multiply": -1.0 },
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 }
         ]
       }
     ]
@@ -418,7 +452,7 @@
     "changes_to": [ "IERDE_STR_BONUS_2" ],
     "description": "Like the bountiful soil, the Ierde is filled with power.  +3 Strength.",
     "category": [ "IERDE" ],
-    "passive_mods": { "str_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -432,7 +466,7 @@
     "changes_to": [ "IERDE_STR_BONUS_3" ],
     "description": "Like the stone, the Ierde can withstand any punishment.  +5 Strength.",
     "category": [ "IERDE" ],
-    "passive_mods": { "str_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -447,7 +481,7 @@
     "description": "Like the mountain, the Ierde is unmoved by calamity.  +7 Strength.",
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
-    "passive_mods": { "str_mod": 7 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 7 } ] } ]
   },
   {
     "type": "mutation",
@@ -461,7 +495,7 @@
     "description": "Like the bedrock, the Ierde's might can support the entire world.  +9 Strength.",
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
-    "passive_mods": { "str_mod": 9 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 9 } ] } ]
   },
   {
     "type": "mutation",
@@ -473,7 +507,39 @@
     "prereqs": [ "IERDE_EYES" ],
     "description": "Like an observer on a mountaintop, the Ierde sees more than most.  +3 Perception.",
     "category": [ "IERDE" ],
-    "passive_mods": { "per_mod": 3 }
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_FEEL_NO_PAIN",
+    "name": { "str": "The Mountain Is Unflinching" },
+    "points": 12,
+    "description": "While on living earth or stone or underground, the Ierde is as impassive as the mountains and feels no pain at all.",
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "prereqs": [ "IERDE_FEEL_HALF_PAIN" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            { "math": [ "u_val('pos_z')", "<=", "-1" ] },
+            {
+              "and": [
+                { "u_is_on_terrain_with_flag": "DIGGABLE" },
+                { "not": { "u_is_on_terrain": "t_vitrified_sand" } },
+                { "not": { "u_is_on_terrain": "t_pit_corpsed" } },
+                { "not": { "u_is_on_terrain": "t_fungus" } },
+                { "not": { "u_is_on_terrain": "t_glassed_sand" } },
+                { "not": { "u_is_on_terrain": "t_rubber_mulch" } },
+                { "not": { "u_is_on_terrain": "t_swater_surf" } },
+                { "not": { "u_is_on_terrain": "t_woodchips" } }
+              ]
+            }
+          ]
+        },
+        "values": [ { "value": "PAIN", "multiply": -1.0 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
@@ -501,5 +567,32 @@
     "category": [ "IERDE" ],
     "threshreq": [ "THRESH_IERDE" ],
     "enchantments": [ "ench_ierde_no_mind_problems" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_FORM",
+    "name": { "str": "Form of the Solid Earth" },
+    "points": 8,
+    "description": "The Ierde may transform into rock and earth.  They become incredibly resilient and nearly immune to some forms of damage, but will be much, much slower.",
+    "prereqs": [ "IERDE_NO_KNOCKBACK" ],
+    "prereqs2": [ "IERDE_FEEL_NO_PAIN" ],
+    "category": [ "IERDE" ],
+    "threshreq": [ "THRESH_IERDE" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_IERDE_STONE_FORM_ON" ],
+    "processed_eocs": [ "EOC_IERDE_STONE_FORM_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_IERDE_STONE_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "IERDE_STONE_FORM_TRAITS",
+    "name": { "str": "Earthen Form" },
+    "description": "You are a mass of stone and earth.  You are incredibly resilient, but you are extremely slow.",
+    "points": 10,
+    "valid": false,
+    "enchantments": [ "ench_ierde_stone_form" ],
+    "override_look": { "id": "mon_stonegolem", "tile_category": "monster" },
+    "flags": [ "ACID_IMMUNE", "BIO_IMMUNE", "COLD_IMMUNE", "STAB_IMMUNE", "BULLET_IMMUNE" ]
   }
 ]

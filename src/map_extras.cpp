@@ -412,7 +412,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static void place_trap_if_clear( map &m, const point &target, trap_id trap_type )
+static void place_trap_if_clear( tinymap &m, const point &target, trap_id trap_type )
 {
     tripoint tri_target( target, m.get_abs_sub().z() );
     if( m.ter( tri_target ).obj().trap == tr_null ) {
@@ -684,7 +684,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             for( point &i : blood_track ) {
                 m.add_field( { i, abs_sub.z }, fd_blood, 1 );
             }
-            m.add_field( tripoint_bub_ms{ 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
+            m.add_field( tripoint { 1, 6, abs_sub.z }, fd_gibs_flesh, 1 );
 
             //Add the culprit
             m.add_vehicle( vehicle_prototype_car_fbi, tripoint( 7, 7, abs_sub.z ), 0_degrees, 70, 1 );
@@ -864,7 +864,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
             m.put_items_from_loc( Item_spawn_data_mon_zombie_soldier_death_drops,
             { 23, 12, abs_sub.z } );
             m.add_item_or_charges( tripoint{ 23, 12, abs_sub.z }, body );
-            m.add_field( tripoint_bub_ms{ 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
+            m.add_field( tripoint{ 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
             //Spawn broken bench and splintered wood
             m.furn_set( tripoint{ 23, 13, abs_sub.z }, f_null );
@@ -2236,6 +2236,44 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
         }
         case map_extra_method::update_mapgen: {
             mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f,
+                            calendar::start_of_cataclysm, nullptr );
+            applied_successfully =
+                run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );
+            break;
+        }
+        case map_extra_method::null:
+        default:
+            break;
+    }
+
+    if( !applied_successfully ) {
+        return;
+    }
+
+    overmap_buffer.add_extra( project_to<coords::omt>( abs_sub ), id );
+}
+
+void apply_function( const map_extra_id &id, tinymap &m, const tripoint_abs_sm &abs_sub )
+{
+    bool applied_successfully = false;
+
+    const map_extra &extra = id.obj();
+    switch( extra.generator_method ) {
+        case map_extra_method::map_extra_function: {
+            const map_extra_pointer mx_func = get_function( map_extra_id( extra.generator_id ) );
+            if( mx_func != nullptr ) {
+                applied_successfully = mx_func( *m.cast_to_map(), abs_sub.raw() );
+            }
+            break;
+        }
+        case map_extra_method::mapgen: {
+            mapgendata dat( project_to<coords::omt>( abs_sub ), *m.cast_to_map(), 0.0f, calendar::turn,
+                            nullptr );
+            applied_successfully = run_mapgen_func( extra.generator_id, dat );
+            break;
+        }
+        case map_extra_method::update_mapgen: {
+            mapgendata dat( project_to<coords::omt>( abs_sub ), *m.cast_to_map(), 0.0f,
                             calendar::start_of_cataclysm, nullptr );
             applied_successfully =
                 run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );

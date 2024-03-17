@@ -39,7 +39,6 @@
         "!": "t_region_groundcover_urban",
         "`": "t_concrete",
         "?": "t_fencegate_c",
-        "#": "t_rock_wall",
         "$": "t_fence",
         "_": "t_linoleum_white",
         "Q": "t_linoleum_white",
@@ -73,18 +72,8 @@
         "♣": { "item": { "item": "seed_carrot", "chance": 100 }, "furniture": "f_plant_seedling" }
       },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 4, 5 ], "y": [ 12, 13 ], "chance": 6 } ],
-      "place_vehicles": [
-        { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 },
-        {
-          "vehicle": "suburban_home_compact",
-          "x": 4,
-          "y": 2,
-          "chance": 15,
-          "fuel": 80,
-          "status": 50,
-          "rotation": 270
-        }
-      ]
+      "place_vehicles": [ { "vehicle": "suburban_home_compact", "x": 4, "y": 2, "chance": 15, "fuel": 80, "status": 50, "rotation": 270 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 12, "y": 1 } ]
     }
   },
   {

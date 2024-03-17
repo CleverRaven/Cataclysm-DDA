@@ -101,6 +101,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_amf( "amf" );
 static const faction_id faction_no_faction( "no_faction" );
@@ -257,6 +258,9 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 {
     this->name = name;
     set_pos_only( pos );
+    if( !getID().is_valid() ) {
+        setID( g->assign_npc_id() );
+    }
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -1303,7 +1307,7 @@ void npc::stow_item( item &it )
             add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), it.tname() );
         }
         remove_item( it );
-        moves -= 15;
+        mod_moves( -item_wear_cost( it ) );
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
@@ -1311,7 +1315,7 @@ void npc::stow_item( item &it )
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret->tname() );
         }
-        moves -= 15;
+        mod_moves( -item_handling_cost( it ) );
     } else { // No room for weapon, so we drop it
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
@@ -1349,7 +1353,7 @@ bool npc::wield( item &it )
         return true;
     }
 
-    moves -= 15;
+    mod_moves( -to_wield.on_wield_cost( *this ) );
     if( weapon && to_wield.can_combine( *weapon ) ) {
         weapon->combine( to_wield );
     } else {
@@ -1477,6 +1481,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         }
         u_ugly += bp->ugliness_mandatory;
         u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
     }
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
@@ -1751,9 +1756,51 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+        // Always shouting when in danger or short time since being in danger
+        sounds::sound( pos(), danger_assessment() > NPC_DANGER_VERY_LOW ?
+                       get_shout_volume() : indoor_voice(),
+                       sounds::sound_t::speech,
+                       sound, false, "speech",
                        male ? "NPC_m_loud" : "NPC_f_loud" );
     }
+}
+
+int npc::indoor_voice() const
+{
+    const int max_volume = get_shout_volume();
+    const int min_volume = 1;
+    // Actual hearing distance is incredibly dependent on ambient noise and our noise propagation model is... rather binary
+    // But we'll assume people normally want to project their voice about 6 meters away.
+    int wanted_volume = 6;
+    Character &player = get_player_character();
+    const int distance_to_player = rl_dist( pos(), player.pos() );
+    if( is_following() || is_ally( player ) ) {
+        wanted_volume = distance_to_player;
+    } else if( is_enemy() && sees( player.pos() ) ) {
+        // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
+        wanted_volume = max_volume;
+    }
+    // Possible fallthrough: neutral or unaware enemy NPCs talk at default wanted_volume
+
+    // Don't wake up friends when using our indoor voice
+    for( const auto &bunk_buddy : get_cached_friends() ) {
+        Character *char_buddy = nullptr;
+        if( auto buddy = bunk_buddy.lock() ) {
+            char_buddy = dynamic_cast<Character *>( buddy.get() );
+        }
+        if( !char_buddy ) {
+            continue;
+        }
+        if( char_buddy->has_effect( effect_sleep ) ) {
+            int distance_to_sleeper = rl_dist( pos(), char_buddy->pos() );
+            if( wanted_volume >= distance_to_sleeper ) {
+                // Speak just quietly enough to not disturb anyone
+                wanted_volume = distance_to_sleeper - 1;
+            }
+        }
+    }
+
+    return std::clamp( wanted_volume, min_volume, max_volume );
 }
 
 bool npc::wants_to_sell( const item_location &it ) const
@@ -2438,7 +2485,7 @@ void npc::npc_dismount()
     mounted_creature->add_effect( effect_controlled, 5_turns );
     mounted_creature = nullptr;
     setpos( *pnt );
-    mod_moves( -100 );
+    mod_moves( -get_speed() );
 }
 
 int npc::smash_ability() const
@@ -3279,7 +3326,7 @@ std::unordered_set<tripoint> npc::get_path_avoid() const
     }
     if( rules.has_flag( ally_rule::avoid_locks ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( doors::can_unlock_door( here, *this, p ) ) {
+            if( doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
                 ret.insert( p );
             }
         }

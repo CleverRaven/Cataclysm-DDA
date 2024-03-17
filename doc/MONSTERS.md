@@ -23,43 +23,43 @@ Property          | Description
 ---               | ---
 `name`            | (string or object) Monster name, and optional plural name and translation context
 `description`     | (string) In-game description of the monster, in one or two sentences
-`ascii_picture`   | (string) Id of the asci_art used for this monster
-`hp`              | (integer) Hit points
+`hp`              | (integer) Hit points. Also see [monster HP scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-hp-scaling)
 `volume`          | (string) Volume of the creature's body, as an integer with metric units, ex. `"35 L"` or `"1500 ml"`. Used to calculate monster size, size influences melee hit chances on different-sized targets.
 `weight`          | (string) Monster weight, as an integer with metric units, ex. `"12 kg"` or `"7500 g"`
 `symbol`          | (string) UTF-8 single-character string representing the monster in-game
 `color`           | (string) Symbol color for the monster
 `default_faction` | (string) What faction the monster is allied with
 `bodytype`        | (string) Monster's body type, ex. bear, bird, dog, human, insect, lizard etc.
-`speed`           | (integer) Monster speed, relative to human speed `100`, with greater numbers being faster
+`speed`           | (integer) Monster speed, relative to human speed `100`, with greater numbers being faster. Also see [monster speed scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-speed-scaling)
 
 Monsters may also have any of these optional properties:
 
 Property                 | Description
 ---                      | ---
 `copy-from`              | (string) Inherit monster attributes from another. See [JSON_INHERITANCE.md](JSON_INHERITANCE.md)
-`categories`             | (array of strings) Monster categories (NULL, CLASSIC, or WILDLIFE)
-`species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc.
-`scents_tracked`         | (array of strings) Monster tracks these scents
+`categories`             | (array of strings) Monster categories (NULL, CLASSIC, or WILDLIFE). Important for mods who black or whitelist monsters.
+`ascii_picture`          | (string) Id of the `ascii_art` used for this monster
+`species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc. Defined in [`species.json`](../data/json/species.json)
+`scents_tracked`         | (array of strings) Monster tracks these scents. Defined [`scent_types.json`](../data/json/scent_types.json)
 `scents_ignored`         | (array of strings) Monster ignores these scents
-`material`               | (array of strings) Materials the monster is made of
+`material`               | (array of strings) Materials the monster is made of. Defined in [`materials.json`](../data/json/materials.json)
 `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 `attack_cost`            | (integer) Number of moves per regular attack. If not defined defaults to `100`.
-`diff`                   | (integer) Additional monster difficulty for special and ranged attacks
+`diff`                   | (integer) Displayed monster difficulty, e.g affects how the monster name is colored, e.g red for very nasty critters. Also see [monster difficulty scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-difficulty-scaling)
 `aggression`             | (integer) Starting aggression, the monster will become hostile when it reaches 10
 `morale`                 | (integer) Starting morale, monster will flee when (current aggression + current morale) < 0
 `aggro_character`        | (bool) If true the monster will always attack characters when angry.
 `mountable_weight_ratio` | (float) For mounts, max ratio of mount to rider weight, ex. `0.2` for `<=20%`
-`melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob
+`melee_skill`            | (integer) Monster skill in melee combat, from `0-10`, with `4` being an average mob. Also see [monster melee skill scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-melee-skill-scaling)
 `dodge`                  | (integer) Monster's skill at dodging attacks
-`melee_damage`           | (array of objects) List of damage instances added to die roll on monster melee attack
+`melee_damage`           | (array of objects) List of damage instances added to die roll on monster melee attack. Also see [monster maximum damage scaling in GAME_BALANCE.md](GAME_BALANCE.md#monster-maximum-damage-scaling)
 `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
 `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 `armor`                  | (object) Monster's protection from different types of damage
 `weakpoints`             | (array of objects) Weakpoints in the monster's protection
-`weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster
+`weakpoint_sets`         | (array of strings) Weakpoint sets to apply to the monster. Defined in [`monster_weakpoints`](../data/json/monster_weakpoints)
 `status_chance_multiplier`| (float) Multiplier to chance to apply zapped when electric damage is dealt (no other effects are implemented at this time)
 `families`               | (array of objects or strings) Weakpoint families that the monster belongs to
 `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
@@ -179,11 +179,6 @@ List of scenttype_id ignored by this monster. scent_types are defined in scent_t
 (string, required)
 
 Symbol and color representing monster in-game. The symbol must be a UTF-8 string, that is exactly one console cell width (may be several Unicode characters). See [COLOR.md](COLOR.md) for details.
-
-## "size"
-(string, optional)
-
-Size flag, see [JSON_FLAGS.md](JSON_FLAGS.md).
 
 ## "material"
 (array of strings, optional)

@@ -124,7 +124,7 @@
     "id": "pickaxe_list",
     "type": "requirement",
     "//": "Pickaxe tools",
-    "tools": [ [ [ "pickaxe", -1 ] ], [ [ "bronze_pickaxe", -1 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ] ] ]
   },
   {
     "id": "serum_production_standard",
@@ -301,7 +301,7 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3960 ] ] ]
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3960 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",
@@ -341,8 +341,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
     "tools": [
       [
-        [ "pickaxe", -1 ],
-        [ "bronze_pickaxe", -1 ],
+        [ "pickaxe_list", 1, "LIST" ],
         [ "jackhammer", 140 ],
         [ "elec_jackhammer", 1848 ],
         [ "hammer_sledge", -1 ],
@@ -376,7 +375,7 @@
     "//": "Tools for removing road / sidewalk",
     "qualities": [ { "id": "PRY", "level": 3 } ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
+      [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ],
       [ [ "masonrysaw_off", 100 ], [ "electric_masonrysaw_off", 1320 ] ]
     ]
   },
@@ -500,5 +499,28 @@
     "id": "metal_file_any",
     "type": "requirement",
     "tools": [ [ [ "metal_file", -1 ], [ "bronze_file", -1 ] ] ]
+  },
+  {
+    "id": "nm_teeth_removal",
+    "type": "requirement",
+    "//": "Something able to do fine cuts, allowing to extract small teeth without damaging them",
+    "//2": "The comment called for adequate protection. When a way to check for that without writing down and keeping updated a list of anything that can protect the arms in the requirements, add arm protection requirement",
+    "//3": "Can instead add arm damage risk, mitigated by skill and reduced by armor, when such a thing becomes possible",
+    "qualities": [ { "id": "CUT_FINE", "level": 2 } ]
+  },
+  {
+    "id": "tool_rope_long",
+    "type": "requirement",
+    "//": "Long rope used as a tool, in constuction process and so on",
+    "tools": [
+      [
+        [ "rope_30", -1 ],
+        [ "rope_makeshift_30", -1 ],
+        [ "vine_30", -1 ],
+        [ "grapnel", -1 ],
+        [ "chain", -1 ],
+        [ "hd_tow_cable", -1 ]
+      ]
+    ]
   }
 ]

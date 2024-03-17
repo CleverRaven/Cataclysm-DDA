@@ -74,7 +74,7 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git ./Cataclysm-DDA
 
 **Note:** This will download the entire CDDA repository and all of its history (3GB). If you're just testing, you should probably add `--depth=1` (~350MB).
 
-**Note:** See `COMPILING-CMAKE.md` section `CMake Build for MSYS2 (MinGW)` for using the CMake build system.
+**Note:** If you want to contribute to CDDA, see [example git workflow](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/CONTRIBUTING.md#example-workflow).
 
 2. Compile with following command line:
 
@@ -85,9 +85,9 @@ make -j$((`nproc`+0)) CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1
 
 You will receive warnings about unterminated character constants; they do not impact the compilation as far as this writer is aware.
 
-**Note**: This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
+This will compile a release version with Sound and Tiles support and all localization languages, skipping checks and tests, and using ccache for build acceleration. You can use other switches, but `MSYS2=1`, `DYNAMIC_LINKING=1` and probably `RELEASE=1` are required to compile without issues.
 
-See `COMPILING-CMAKE.md` section `CMake Build for MSYS2 (MinGW)` for using the CMake build system.
+**Note:** See `COMPILING-CMAKE.md` section [`CMake Build for MSYS2 (MinGW)`](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING-CMAKE.md#cmake-build-for-msys2-mingw) for using the CMake build system.
 
 ## Running:
 

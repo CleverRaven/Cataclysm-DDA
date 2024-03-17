@@ -381,7 +381,6 @@
   {
     "id": "pizza_trash",
     "type": "item_group",
-    "ammo": 100,
     "items": [
       [ "cup_plastic", 40 ],
       [ "wrapper", 34 ],
@@ -394,9 +393,7 @@
       [ "news_regional", 7 ],
       [ "mag_news", 7 ],
       [ "hairpin", 10 ],
-      [ "flyer", 7 ],
-      { "item": "glock_19", "prob": 5, "charges": [ 0, 15 ] },
-      { "item": "9mm", "prob": 3, "charges": [ 1, 50 ] }
+      [ "flyer", 7 ]
     ]
   },
   {
@@ -1151,8 +1148,7 @@
       [ "mag_news", 15 ],
       [ "news_regional", 15 ],
       { "item": "glass_shard", "prob": 30, "count": [ 1, 8 ] },
-      [ "jug_plastic", 25 ],
-      [ "fetus", 1 ]
+      [ "jug_plastic", 25 ]
     ]
   },
   {

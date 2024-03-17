@@ -1,0 +1,176 @@
+[
+  {
+    "id": "biokin_enhance_mobility_item_1",
+    "type": "ARMOR",
+    "name": { "str_sp": "[Ψ]enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": -2,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_2",
+    "type": "ARMOR",
+    "name": { "str_sp": "[Ψ]enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": -4,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_3",
+    "type": "ARMOR",
+    "name": { "str_sp": "[Ψ]enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": -8,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_4",
+    "type": "ARMOR",
+    "name": { "str_sp": "[Ψ]enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": -12,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_5",
+    "type": "ARMOR",
+    "name": { "str_sp": "[Ψ]enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": -16,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "biokin_enhance_mobility_item_6",
+    "type": "ARMOR",
+    "name": { "str_sp": "[Ψ]enhanced mobility" },
+    "description": "Your powers give you greater range of motion even in heavy clothing or armor.",
+    "weight": "0g",
+    "volume": "0ml",
+    "symbol": "o",
+    "color": "pink",
+    "flags": [
+      "AURA",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "TRADER_AVOID",
+      "INTEGRATED",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ZERO_WEIGHT",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "armor": [
+      {
+        "encumbrance": -20,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  }
+]

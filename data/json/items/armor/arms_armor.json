@@ -1190,7 +1190,7 @@
     "armor": [
       {
         "covers": [ "arm_l", "arm_r" ],
-        "encumbrance": 5,
+        "encumbrance": 2,
         "coverage": 95,
         "cover_melee": 95,
         "cover_ranged": 90,

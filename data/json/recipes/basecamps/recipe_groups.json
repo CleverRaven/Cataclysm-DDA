@@ -623,7 +623,7 @@
       { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
-      { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
+      { "id": "hammer_sledge_from_scratch", "description": " Craft: Hammer, Sledge" },
       { "id": "ch_wire", "description": " Craft: Hardened Steel, Wire" },
       { "id": "ch_chain_link_fabrication", "description": " Craft: Hardened Steel, Link" },
       { "id": "ch_link_sheet", "description": " Craft: Hardened Steel, Link Sheet" },

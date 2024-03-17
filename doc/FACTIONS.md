@@ -66,7 +66,7 @@ Field                 | Meaning
 `"known_by_u"`        | boolean, whether the player has met members of the faction.  Can be changed in play.  Unknown factions will not be displayed in the faction menu.
 `"size"`              | integer, an approximate count of the members of the faction.  Has no effect in play currently.
 `"power"`             | integer, an approximation of the faction's power.  Has no effect in play currently.
-`"food_supply"`       | integer, the number of calories (not kilocalories!) available to the faction. Has no effect in play currently.
+`"fac_food_supply"`   | integer, the number of calories (not kilocalories!) available to the faction. Has no effect in play currently.
 `"vitamins"`          | array, *units* of vitamins available to this faction. This is not the same as RDA, see [the vitamins doc](VITAMIN.md) for more details. Has no effect in play currently.
 `"wealth"`            | integer, number of post-apocalyptic currency in cents that that faction has to purchase stuff. Serves as an upper limit on the amount of items restocked by a NPC of this faction with a defined shopkeeper_item_group (see NPCs.md)
 `"currency"`          | string, the item `"id"` of the faction's preferred currency.  Faction shopkeeps will trade faction current at 100% value, for both selling and buying.

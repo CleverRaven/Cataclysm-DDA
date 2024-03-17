@@ -212,7 +212,7 @@
     "price": 500,
     "price_postapoc": 10,
     "material": [ "stone" ],
-    "weight": "700 g",
+    "weight": "2700 g",
     "volume": "1 L",
     "to_hit": -2,
     "melee_damage": { "bash": 2 }
@@ -1284,15 +1284,14 @@
     "to_hit": -2
   },
   {
-    "type": "COMESTIBLE",
+    "type": "GENERIC",
     "id": "butternut",
     "category": "food",
-    "comestible_type": "FOOD",
     "symbol": "%",
     "color": "yellow",
     "name": { "str_sp": "butternuts" },
     "description": "A handful of nuts from a butternut tree, still in their shell.",
-    "spoils_in": "180 days",
+    "//spoils_in": "180 days",
     "price": 0,
     "price_postapoc": 0,
     "weight": "240 g",

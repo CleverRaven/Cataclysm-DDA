@@ -2,8 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_roots" ],
-    "weight": 100,
+    "om_terrain": "triffid_roots",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -40,8 +39,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootss" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootss",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -78,8 +76,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootsn" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsn",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -116,8 +113,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootse" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootse",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -154,8 +150,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootsw" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsw",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -200,8 +195,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootsen" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsen",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -238,8 +232,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootsnw" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsnw",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -276,8 +269,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootssw" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootssw",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [
@@ -314,8 +306,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_rootsse" ],
-    "weight": 100,
+    "om_terrain": "triffid_rootsse",
     "object": {
       "fill_ter": "t_root_floor",
       "rows": [

@@ -159,10 +159,10 @@ void avatar::power_mutations()
     int half_list_view_location = 0;
     mutation_menu_mode menu_mode = mutation_menu_mode::activating;
     mutation_tab_mode tab_mode;
-    if( !passive.empty() ) {
-        tab_mode = mutation_tab_mode::passive;
-    } else if( !active.empty() ) {
+    if( !active.empty() ) {
         tab_mode = mutation_tab_mode::active;
+    } else if( !passive.empty() ) {
+        tab_mode = mutation_tab_mode::passive;
     } else {
         tab_mode = mutation_tab_mode::none;
     }

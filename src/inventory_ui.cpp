@@ -3378,9 +3378,14 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
     for( inventory_column *col : columns ) {
         for( inventory_entry *entry : col->get_entries( return_item, true ) ) {
             for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
-                if( loc->can_reload_with( *entry->any_item(), true ) ) {
-                    item::reload_option tmp_opt( &u, loc, entry->any_item() );
-                    tmp_opt.qty( entry->get_available_count() );
+                item_location it = entry->any_item();
+                if( loc->can_reload_with( *it, true ) ) {
+                    item::reload_option tmp_opt( &u, loc, it );
+                    int count = entry->get_available_count();
+                    if( it->has_flag( flag_SPEEDLOADER ) || it->has_flag( flag_SPEEDLOADER_CLIP ) ) {
+                        count = it->ammo_remaining();
+                    }
+                    tmp_opt.qty( count );
                     entry->chosen_count = tmp_opt.qty();
                     break;
                 }
@@ -3391,6 +3396,9 @@ void ammo_inventory_selector::set_all_entries_chosen_count()
 
 void ammo_inventory_selector::mod_chosen_count( inventory_entry &entry, int value )
 {
+    if( !entry.any_item()->is_ammo() ) {
+        return;
+    }
     for( const item_location &loc : get_possible_reload_targets( reload_loc ) ) {
         if( loc->can_reload_with( *entry.any_item(), true ) ) {
             item::reload_option tmp_opt( &u, loc, entry.any_item() );

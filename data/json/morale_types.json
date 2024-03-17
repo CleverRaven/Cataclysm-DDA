@@ -428,5 +428,15 @@
     "id": "morale_afs_drugs",
     "type": "morale_type",
     "text": "Chemical enhancement moodswing"
+  },
+  {
+    "id": "morale_social",
+    "type": "morale_type",
+    "text": "Spent time around allies"
+  },
+  {
+    "id": "morale_asocial",
+    "type": "morale_type",
+    "text": "Spent time alone"
   }
 ]

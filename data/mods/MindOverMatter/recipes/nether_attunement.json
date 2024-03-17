@@ -4,11 +4,11 @@
     "activity_level": "BRISK_EXERCISE",
     "name": "grounding meditation",
     "id": "psi_centering_meditation_drain_reduce",
-    "description": "Through practice, you've learned how to calm and focus yourself during meditation.  If you meditated properly, you could channel the additional nether energy you have accumulated out into your surroundings, though doing so will be extremely tiring.",
+    "description": "Through practice, you've learned how to calm and focus yourself during meditation.  If you meditated properly, you could channel the additional nether energy you have accumulated out into your surroundings, though doing so will be extremely tiring.  It will also help shield you from nether energies for a short time afterwards.",
     "category": "CC_PSIONIC",
     "subcategory": "CSC_PSIONIC_OTHER",
     "difficulty": 4,
-    "time": "20 m",
+    "time": "15 m",
     "autolearn": true,
     "skill_used": "metaphysics",
     "flags": [ "BLIND_EASY" ],
@@ -16,13 +16,17 @@
       {
         "id": "EOC_CENTERING_MEDITATION",
         "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "10" ] },
-        "effect": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "10" ] } ],
+        "effect": [
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "-=", "10" ] },
+          { "u_add_effect": "effect_noetic_resilience", "duration": "30 minutes" }
+        ],
         "false_effect": [
           {
             "u_message": "After your meditations, your mind is free and clear.  The odd feelings caused by excessive psionic channeling have entirely left you.",
             "type": "good"
           },
-          { "math": [ "u_vitamin('vitamin_psionic_drain')", "=", "0" ] }
+          { "math": [ "u_vitamin('vitamin_psionic_drain')", "=", "0" ] },
+          { "u_add_effect": "effect_noetic_resilience", "duration": "30 minutes" }
         ]
       }
     ]
@@ -53,7 +57,8 @@
             "u_message": "You channel all of your powers into the drained matrix crystal in your hands.  As you do, the faint light in its depths grows steadily brighter and the crystal begins to feel warm in your hands.  Suddenly, the crystal shatters…and with it, the strange feelings caused by using your powers vanish."
           },
           { "math": [ "u_vitamin('vitamin_psionic_drain')", "=", "0" ] },
-          { "u_spawn_item": "matrix_crystal_drained_dust", "count": 10 }
+          { "u_spawn_item": "matrix_crystal_drained_dust", "count": 10 },
+          { "u_add_effect": "effect_noetic_resilience", "duration": "24 hours" }
         ]
       }
     ]

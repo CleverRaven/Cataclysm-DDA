@@ -235,5 +235,13 @@
     "color": "brown",
     "name": { "str": "treesung log" },
     "description": "A large log of living wood, sung from a tree by elemental magick."
+  },
+  {
+    "type": "GENERIC",
+    "id": "obsidian_rock",
+    "copy-from": "rock",
+    "name": { "str": "chunk of obsidian", "str_pl": "chunks of obsidian" },
+    "color": "black",
+    "description": "A chunk of obsidian, smashed from a larger rock vein.  It has several wickedly sharp edges and could probably be formed into a weapon with some work."
   }
 ]

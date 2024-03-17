@@ -137,6 +137,8 @@
 "Monsters":
   - "**/**monster**"
   - "**/monster**"
+  - "**/**monsters**"
+  - "**/monsters**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"

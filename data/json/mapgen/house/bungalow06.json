@@ -22,8 +22,8 @@
         ".: hfffh V|  |D+    ¤#..",
         ".:  h h      |||+||||#..",
         ".:               |t_S#..",
-        ".##1J5J32__      +__8o..",
-        ".%#________ |+|++|BB8#..",
+        ".##1J5J32==      +__8o..",
+        ".%#======== |+|++|BB8#..",
         ".%#7FOJ466| |z|ZW||||#^.",
         "..##||||||| ||||||$ D#..",
         "..##sHHHsT  yRR|     o..",
@@ -39,21 +39,20 @@
         "........................"
       ],
       "terrain": {
-        "#": "t_rock_wall",
-        "_": "t_linoleum_gray",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ",": "t_floor_noroof",
         ")": "t_railing_v",
         "~": "t_carpet_green",
         "i": "t_floor_noroof",
         "l": "t_carpet_green",
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray",
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "K": "t_floor_noroof",
         "₸": "t_floor_noroof"
       },
       "furniture": { "$": "f_exercise", "&": "f_table" },
       "items": { "&": { "item": "table_foyer", "chance": 50 } },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ],
       "place_loot": [ { "item": "television", "x": 6, "y": 17 } ]
     }
   },

@@ -482,6 +482,25 @@
     ]
   },
   {
+    "id": "ammo_box_army_5_beanbag",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_1",
+    "name": { "str": "5 beanbag ammo box", "str_pl": "5 beanbag ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"5 CARTRIDGES 12 GA SHOTSHELL BEANBAG\"",
+    "color": "brown",
+    "symbol": "#",
+    "volume": "115 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "110 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "90 mm"
+      }
+    ]
+  },
+  {
     "id": "ammo_box_2",
     "type": "GENERIC",
     "name": { "str": "ammo box", "str_pl": "ammo boxes" },

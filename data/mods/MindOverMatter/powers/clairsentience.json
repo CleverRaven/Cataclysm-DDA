@@ -126,7 +126,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_clair_weak_point",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
@@ -168,7 +167,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_CLAIR_SEE_AURAS_INITIATE",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_three", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
@@ -225,8 +223,7 @@
     "shape": "blast",
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
-    "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ]
+    "effect_str": "EOC_CLAIR_RAD_SENSE_SELF_REPORT"
   },
   {
     "id": "clair_sense_rads_outside",
@@ -240,7 +237,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_clair_sense_rads_self",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "min_duration": {
       "math": [
         "( (u_spell_level('clair_sense_rads') * 23000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
@@ -321,7 +317,6 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
@@ -427,8 +422,7 @@
       "math": [
         "u_effect_intensity('effect_clair_craft_bonus') > -1 ? 10 : max((500 -(u_spell_level('clair_craft_bonus') * 3)), 300)"
       ]
-    },
-    "learn_spells": { "clair_clear_sight": 8, "clair_omniscience": 12 }
+    }
   },
   {
     "id": "clair_perfect_shot",
@@ -445,7 +439,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_clair_perfect_shot",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "min_duration": 1000,
     "max_duration": 1000,
@@ -471,7 +464,6 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "map",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": {
       "math": [
@@ -578,7 +570,6 @@
     "skill": "metaphysics",
     "effect": "attack",
     "effect_str": "effect_clair_omniscence",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [

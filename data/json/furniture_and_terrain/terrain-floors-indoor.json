@@ -1505,6 +1505,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_sidewalk_roof_canvas",
+    "name": "sidewalk",
+    "description": "An area of common poured concrete, damaged by frost heaves and large cracks due to lack of maintenance.",
+    "symbol": ".",
+    "color": "light_gray",
+    "looks_like": "t_sidewalk",
+    "move_cost": 2,
+    "roof": "t_canvas_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "FLAT", "ROAD", "MINEABLE" ],
+    "connect_groups": "CONCRETE",
+    "connects_to": "CONCRETE",
+    "bash": {
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "rock", "count": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_dirt_underground",
     "//": "for caverns and other natural underground formations.",
     "name": "dirt",

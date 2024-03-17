@@ -2518,6 +2518,18 @@
   },
   {
     "type": "material",
+    "id": "mold",
+    "name": "Mold",
+    "copy-from": "mushroom"
+  },
+  {
+    "type": "material",
+    "id": "yeast",
+    "name": "Yeast",
+    "copy-from": "mushroom"
+  },
+  {
+    "type": "material",
     "id": "water",
     "name": "Water",
     "density": 1.0,
@@ -3009,6 +3021,29 @@
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged",
     "resist": { "bash": 2, "cut": 5, "acid": 10, "heat": 20, "bullet": 2 }
+  },
+  {
+    "type": "material",
+    "id": "mut_feather",
+    "name": "Mutant Feather",
+    "density": 0.8,
+    "specific_heat_liquid": 0.5,
+    "specific_heat_solid": 0.5,
+    "latent_heat": 200,
+    "soft": true,
+    "chip_resist": 8,
+    "breathability": "POOR",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 0.6, "smoke": 1, "burn": 0.02 },
+      { "fuel": 1, "smoke": 1, "burn": 0.04 },
+      { "fuel": 1, "smoke": 1, "burn": 0.06 }
+    ],
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "wind_resist": 100,
+    "resist": { "bash": 0.5, "cut": 0.1, "bullet": 0.1, "acid": 0, "heat": 0 }
   },
   {
     "type": "material",

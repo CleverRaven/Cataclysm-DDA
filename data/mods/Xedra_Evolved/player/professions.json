@@ -217,7 +217,7 @@
           { "group": "military_ballistic_vest_light" },
           {
             "item": "rm2000_smg",
-            "ammo-item": "8mm_hvp",
+            "ammo-item": "8mm_jhp",
             "charges": 25,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
           },
@@ -501,6 +501,7 @@
     "points": 5,
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
+    "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
     "items": {
       "both": {
         "entries": [
@@ -526,6 +527,7 @@
     "points": 5,
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
+    "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
     "items": {
       "both": {
         "entries": [
@@ -551,6 +553,7 @@
     "points": 5,
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
+    "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
     "items": {
       "both": {
         "entries": [
@@ -576,6 +579,7 @@
     "points": 5,
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
+    "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
     "items": {
       "both": {
         "entries": [
@@ -599,8 +603,9 @@
     "name": { "male": "Dúln", "female": "Dúkka" },
     "description": "With the dimensional spillage that preceded the Cataclysm you are the spirit of a place that slowly gained sentience, a genius loci.  As the world reshapes itself you have decided to wander from your birthplace and determine where you will end up.",
     "points": 5,
-    "traits": [ "HOMULLUS" ],
+    "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
+    "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
     "items": {
       "both": {
         "entries": [
@@ -626,6 +631,7 @@
     "points": 5,
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
+    "recipes": [ "mutagen_airkin", "ethereal_draught" ],
     "items": {
       "both": {
         "entries": [
@@ -642,5 +648,41 @@
       "female": { "entries": [ { "item": "chestwrap" } ] }
     },
     "flags": [ "SCEN_ONLY" ]
+  },
+  {
+    "type": "profession",
+    "id": "hedge_magic_knower",
+    "name": { "male": "Hedge Wizard", "female": "Hedge Witch" },
+    "description": "In the years and decades leading up to the Cataclysm, things got weirder and weirder.  The government tried their best to cover it up but they couldn't entirely stop all knowledge from leaking out.  You were one of the people who responded to the weirdness by becoming weird yourself; you spent time combing through old books and found some of the charms and spells written in them actually worked.  When you had the right ingredients and were in the right place, you could make the impossible possible.  Maybe lighting a fire without a match won't help you kill a zombie, but it's kept you warm and safe when you're sure other survivors had to shiver as the night closed in.",
+    "points": 5,
+    "traits": [ "HEDGE_MAGIC" ],
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "survival" }, { "level": 2, "name": "deduction" } ],
+    "proficiencies": [ "prof_food_prep" ],
+    "spells": [
+      { "id": "hedge_ward_off_rain", "level": 1 },
+      { "id": "hedge_make_plants_grow", "level": 1 },
+      { "id": "hedge_light_fire", "level": 1 }
+    ],
+    "items": {
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "longshirt" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "backpack" },
+          { "item": "pockknife" },
+          { "item": "water_clean" },
+          { "item": "wristwatch" },
+          { "group": "charged_smart_phone" },
+          { "item": "leaves", "count": 4 },
+          { "item": "cotton_patchwork", "count": 4 },
+          { "item": "ash", "count": 48 },
+          { "item": "soybean_seed", "count": 4 }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
   }
 ]

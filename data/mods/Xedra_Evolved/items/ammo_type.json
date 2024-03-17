@@ -25,6 +25,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "glamour_charge",
+    "name": "glamour",
+    "default": "glamour_charge"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x21mm",
     "name": "9x21mm",
     "default": "9x21mm"

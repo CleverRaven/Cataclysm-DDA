@@ -156,8 +156,8 @@
       },
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
-        "condition": { "and": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
-        "effect": [ { "math": [ "u_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+        "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 20 } } ] },
+        "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
       },
       {
         "//": "Governs the special CBM stock availability and restock, also adds a little extra faction rep.",
@@ -274,8 +274,8 @@
       { "//~": "That was a good exchange", "str": "For a card an' a wink, eh?" }
     ],
     "speaker_effect": {
-      "condition": { "and": [ { "math": [ "u_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
-      "effect": [ { "math": [ "u_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
+      "condition": { "and": [ { "math": [ "n_val('sold')", ">=", "20" ] }, { "not": { "u_has_faction_trust": 21 } } ] },
+      "effect": [ { "math": [ "n_val('sold')", "-=", "20" ] }, { "u_add_faction_trust": 1 } ]
     },
     "responses": [
       { "text": "Why are your lockers full of medieval gear?", "topic": "TALK_EXODII_MERCHANT_Stock_Medieval" },
@@ -508,7 +508,10 @@
       {
         "text": "[INT 7] Sounds like you mean a fusilly is a gun, and a mobbing is a car?",
         "condition": { "u_has_intelligence": 7 },
-        "effect": { "u_add_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" },
+        "effect": [
+          { "u_add_var": "fussily", "type": "dictionary", "context": "known", "value": "yes" },
+          { "u_spawn_item": "rubik_farthing" }
+        ],
         "topic": "TALK_EXODII_MERCHANT_Talk_Intro6"
       },
       { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
@@ -522,12 +525,7 @@
       "//~": "Great, I'll put that in the dictionary.  Here's a token of my gratitude for your explanation.",
       "str": "Right so, us'n'll write it in the dicky.  Here, a shiny brass farthing for crossin' the nation."
     },
-    "speaker_effect": {
-      "effect": [
-        { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" },
-        { "u_spawn_item": "rubik_farthing" }
-      ]
-    },
+    "speaker_effect": { "effect": { "u_add_var": "rubik_intro", "type": "dialogue", "context": "completed", "value": "yes" } },
     "responses": [
       {
         "text": "Now that we've sorted that out, I have to ask.  You're from a place where this happened before, and you escaped to our world?",
@@ -588,7 +586,7 @@
       "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
     },
     "responses": [
-      { "text": "I don’t know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
+      { "text": "I don't know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, I'd better be going.  Bye.", "topic": "TALK_DONE" }
     ]
@@ -1174,7 +1172,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
-      "str": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike."
+      "str": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we're lucky, pickin' a few new Exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike."
     },
     "responses": [
       {
@@ -1195,7 +1193,7 @@
     "responses": [
       { "text": "What the hell does that mean?", "topic": "TALK_EXODII_MERCHANT_Purpose4" },
       {
-        "text": "[INT 8] Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "text": "[INT 8] Are you saying you think we're doomed?  Why would you have come here if there wasn't some way to survive?",
         "condition": { "u_has_intelligence": 8 },
         "topic": "TALK_EXODII_MERCHANT_Survival"
       },
@@ -1212,7 +1210,7 @@
     },
     "responses": [
       {
-        "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn't some way to survive?",
         "topic": "TALK_EXODII_MERCHANT_Survival"
       },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
@@ -1224,7 +1222,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone.",
-      "str": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much meat-an'-bone."
+      "str": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won't take too much meat-an'-bone."
     },
     "speaker_effect": { "effect": { "u_add_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodization", "value": "yes" } },
     "responses": [
@@ -1255,7 +1253,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "//~": "Haha, not mostly, mate.  It's not worth risking the side effects, you see?  I keep the parts of me that make me Rubik, but the rest is all solid.",
-      "str": "Haha, not mostly, mate.  Not worth riskin’ the willies, innit?  I keep what's Rubik, but the rest is all solid."
+      "str": "Haha, not mostly, mate.  Not worth riskin' the willies, innit?  I keep what's Rubik, but the rest is all solid."
     },
     "responses": [
       {

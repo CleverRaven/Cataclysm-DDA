@@ -35,7 +35,7 @@
       ],
       "terrain": {
         "~": "t_door_glass_c",
-        "_": "t_linoleum_gray",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         "=": "t_carpet_purple",
         ",": "t_carpet_red",
         "¤": "t_carpet_red",
@@ -54,8 +54,8 @@
         "r": "t_carpet_red",
         "}": "t_carpet_red",
         "]": "t_carpet_red",
-        "W": "t_linoleum_gray",
-        "Z": "t_linoleum_gray"
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
       },
       "furniture": {
         "$": "f_dresser",
@@ -82,7 +82,7 @@
         "c": { "item": "guns_pistol_common", "chance": 50 },
         "(": { "item": "table_foyer", "chance": 50, "repeat": [ 1, 2 ] }
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ],
       "place_loot": [ { "item": "television", "x": 4, "y": 6, "chance": 100 } ]
     }
   },

@@ -24,8 +24,10 @@ enum class segments : std::size_t {
     WHEEL_DIAMETER,
     BURN,
     WEAPON_MODS,
+    CUSTOM_ITEM_PREFIX,
     TYPE,
     CATEGORY,
+    CUSTOM_ITEM_SUFFIX,
     MODS,
     CRAFT,
     WHITEBLACKLIST,
@@ -106,11 +108,16 @@ constexpr uint64_t tname_conditional_bits =    // TODO: fine grain?
     1ULL << static_cast<size_t>( tname::segments::COMPONENTS ) |
     1ULL << static_cast<size_t>( tname::segments::TAGS ) |
     1ULL << static_cast<size_t>( tname::segments::VARS );
+constexpr uint64_t item_name_bits =    // item prefix + item name + item suffix
+    1ULL << static_cast<size_t>( tname::segments::CUSTOM_ITEM_PREFIX ) |
+    1ULL << static_cast<size_t>( tname::segments::TYPE ) |
+    1ULL << static_cast<size_t>( tname::segments::CUSTOM_ITEM_SUFFIX );
 constexpr segment_bitset default_tname( default_tname_bits );
 constexpr segment_bitset unprefixed_tname( default_tname_bits & ~tname_prefix_bits );
 constexpr segment_bitset tname_sort_key( default_tname_bits & ~tname_unsortable_bits );
 constexpr segment_bitset tname_contents( tname_contents_bits );
 constexpr segment_bitset tname_conditional( tname_conditional_bits );
+constexpr segment_bitset item_name( item_name_bits );
 
 } // namespace tname
 

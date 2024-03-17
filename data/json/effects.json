@@ -348,10 +348,10 @@
     "type": "effect_type",
     "id": "sneezing",
     "name": [ "Sneezing" ],
-    "desc": [ "Effect to briefly distract you while you sneeze.  You should not be able to see this." ],
+    "rating": "bad",
+    "desc": [ "It's hard to pay attention to anything when you're in the middle of sneezing!" ],
     "max_duration": "1 s",
-    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] },
-    "show_in_info": false
+    "base_mods": { "speed_mod": [ -20 ], "dex_mod": [ -2 ], "per_mod": [ -4 ] }
   },
   {
     "type": "effect_type",
@@ -719,6 +719,7 @@
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
     "rating": "bad",
     "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 } ],
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": -0.75 } ] } ],
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
@@ -1719,6 +1720,31 @@
     "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
     "rating": "bad",
     "blood_analysis_description": "Rat Primer Contamination"
+  },
+  {
+    "type": "effect_type",
+    "id": "mutagen_chiropteran",
+    "name": [ "Chiropteran Mutation", "Chiropteran Transformation", "Chiropteran Metamorphosis" ],
+    "desc": [
+      "You consumed chiropteran primer.",
+      "You taste iron, and you want more.",
+      "Every sound is a painful screech in your ears.  It's all too much!."
+    ],
+    "max_intensity": 3,
+    "resist_traits": [ "THRESH_CHIROPTERAN" ],
+    "base_mods": {
+      "hurt_min": [ 1 ],
+      "hurt_max": [ 2 ],
+      "hurt_chance": [ -22 ],
+      "hurt_tick": [ 150 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_chance": [ 100 ],
+      "pain_tick": [ 75 ]
+    },
+    "scaling_mods": { "dex_mod": [ 1 ], "int_mod": [ -2 ], "speed_mod": [ 3.5 ], "hurt_chance": [ 21, 0 ], "pain_chance": [ -30 ] },
+    "rating": "bad",
+    "blood_analysis_description": "Chiropteran Primer Contamination"
   },
   {
     "type": "effect_type",
@@ -3008,74 +3034,6 @@
     "dur_add_perc": 50
   },
   {
-    "//": "For player, indistinguishable from pre_conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "pre_conjunctivitis_viral",
-    "show_in_info": false,
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "blood_analysis_description": "Viral Infection",
-    "max_duration": "71 h"
-  },
-  {
-    "//": "For player, indistinguishable from pre_conjunctivitis_viral, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "pre_conjunctivitis_bacterial",
-    "show_in_info": false,
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "blood_analysis_description": "Bacterial Infection",
-    "max_duration": "71 h"
-  },
-  {
-    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "conjunctivitis_viral",
-    "name": [ "Conjunctivitis" ],
-    "desc": [
-      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
-    ],
-    "apply_memorial_log": "Got pinkeye.",
-    "remove_memorial_log": "Got over a pinkeye infection.",
-    "apply_message": "Your itchy eye leaks a filmy discharge.",
-    "rating": "bad",
-    "resist_effects": [ "took_antihistamine", "took_flumed" ],
-    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "int_dur_factor": "50 m",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
-    "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
-      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
-    ],
-    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "blood_analysis_description": "Viral Infection"
-  },
-  {
-    "//": "For player, indistinguishable from conjunctivitis_bacterial, but separate here to allow for separate resistances from antibiotics.",
-    "type": "effect_type",
-    "id": "conjunctivitis_bacterial",
-    "name": [ "Conjunctivitis" ],
-    "desc": [
-      "Commonly known as pinkeye, this minor infection can be treated with antihistamines.  If it's bacterial, antibiotics may help, but you can't tell without a lab analysis."
-    ],
-    "apply_memorial_log": "Got pinkeye.",
-    "remove_memorial_log": "Got over a pinkeye infection.",
-    "apply_message": "Your itchy eye leaks a filmy discharge.",
-    "rating": "bad",
-    "resist_effects": [ "took_antihistamine", "took_flumed" ],
-    "resist_traits": [ "INFRESIST", "PER_SLIME_OK" ],
-    "immune_flags": [ "INFECTION_IMMUNE", "SEESLEEP" ],
-    "int_dur_factor": "50 m",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 400, 1000 ] },
-    "miss_messages": [ [ "It feels like there's sand in your eye.", 1 ] ],
-    "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.8, "resist_modifier": 0.9 },
-      { "limb_score": "night_vis", "modifier": 0.8, "resist_modifier": 0.9 }
-    ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "blood_analysis_description": "Bacterial Infection"
-  },
-  {
     "type": "effect_type",
     "id": "prophylactic_antivenom",
     "name": [ "Antivenom Resistance" ],
@@ -3122,10 +3080,6 @@
       "rat_bite_fever",
       "infected",
       "asthma",
-      "pre_conjunctivitis_viral",
-      "pre_conjunctivitis_bacterial",
-      "conjunctivitis_viral",
-      "conjunctivitis_bacterial",
       "common_cold",
       "flu"
     ],
@@ -3308,6 +3262,7 @@
     "apply_message": "You feel lightheaded.",
     "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ] },
+    "enchantments": [ { "values": [ { "value": "VOMIT_MUL", "multiply": -0.9 } ] } ],
     "blood_analysis_description": "Intoxicant: THC"
   },
   {
@@ -4745,21 +4700,6 @@
     ]
   },
   {
-    "id": "slippery_terrain",
-    "type": "effect_type",
-    "max_duration": "1 s",
-    "name": [ "Slick Surface", "Slippery Terrain", "Dangerously Slippery" ],
-    "desc": [
-      "There's a slippery surface here, running may be a bad idea.",
-      "It's quite slippery, it may not be safe to stand here.",
-      "This area is extremely slippery."
-    ],
-    "rating": "bad",
-    "show_intensity": true,
-    "resist_traits": [ "GASTROPOD_BALANCE" ],
-    "show_in_info": true
-  },
-  {
     "type": "effect_type",
     "id": "hay_fever",
     "name": [ "Hay Fever" ],
@@ -4859,5 +4799,87 @@
     "desc": [ "You are descending at a safe speed." ],
     "flags": [ "FEATHER_FALL" ],
     "max_duration": "1 s"
+  },
+  {
+    "type": "effect_type",
+    "id": "social_satisfied",
+    "name": [ "Good Company" ],
+    "desc": [ "It feels good to spend time around others." ],
+    "max_duration": "6 h",
+    "max_intensity": 1,
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "social_dissatisfied",
+    "name": [ "Lonely", "Very Lonely", "All Alone" ],
+    "desc": [
+      "You feel a little lonely.",
+      "You could really use a friend right now.",
+      "What's the point of surviving if you're all alone?"
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_satisfied",
+    "name": [ "Alone" ],
+    "desc": [ "Being on your own makes you feel good." ],
+    "max_intensity": 1,
+    "max_duration": "6 h",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "asocial_dissatisfied",
+    "name": [ "Irritable", "Annoyed", "Crowded" ],
+    "desc": [
+      "Being around others has left you feeling drained.",
+      "OK, that's enough social time.  You'd really rather be alone now.",
+      "Your nerves are frayed from all this socializing.  You need some alone time to recharge."
+    ],
+    "max_intensity": 3,
+    "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_full",
+    "name": [ "" ],
+    "//": "Allows fully-quadrupedal mutants to run and crouch on all fours.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "quadruped_half",
+    "name": [ "" ],
+    "//": "Allows quadrupedal mutants with front paws only to crouch-walk slightly faster than normal.  For annoying reasons, this is handled via enchantments."
+  },
+  {
+    "type": "effect_type",
+    "id": "natural_stance",
+    "name": [ "Natural Stance" ],
+    "rating": "good",
+    "desc": [
+      "You are positioned to take advantage of your mutated anatomy, and will receive no penalties for crouching in melee combat.  Wielding a weapon will cause you to lose this effect."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "subaquatic_sonar",
+    "name": [ "Subaquatic SONAR" ],
+    "desc": [
+      "Every few seconds, an ultrasonic pulse is broadcast from your location.  If you're underwater and your hearing is good enough, you may be able to navigate by the pings that come back."
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "anticoagulant_draculin",
+    "max_intensity": 3,
+    "max_duration": "20 m",
+    "rating": "bad",
+    "blood_analysis_description": "Draculin",
+    "//": "yes it's actually called that.  It is also the strongest anti-clotting factor known to science.  It inhibits the synthesis of thrombin, so most earth animals/mutants should be affected, except maybe bugs.",
+    "immune_flags": [ "DRACULIN_IMMUNE" ],
+    "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 2.0, "same_bp": false } ]
   }
 ]

@@ -385,7 +385,7 @@
     "id": "f_exodii_printer_small",
     "name": "circuit printer",
     "looks_like": "t_machinery_electronic",
-    "description": "A tall device with a lattice of pipes and nozzles.  Based on the pile of products sitting in the output hopper, it looks like it’s used as a printer for complex electronic components.",
+    "description": "A tall device with a lattice of pipes and nozzles.  Based on the pile of products sitting in the output hopper, it looks like it's used as a printer for complex electronic components.",
     "symbol": "U",
     "color": "light_gray",
     "move_cost_mod": -1,

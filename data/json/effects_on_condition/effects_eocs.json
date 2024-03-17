@@ -15,5 +15,53 @@
       }
     ],
     "false_effect": [ { "u_lose_morale": "morale_bad_protein_bar" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_social_satisfied",
+    "recurrence": [ "1 minutes", "5 minutes" ],
+    "condition": { "u_has_effect": "social_satisfied" },
+    "effect": [ { "u_add_morale": "morale_social", "bonus": 6, "max_bonus": 6, "duration": "1 days", "decay_start": "1 days" } ],
+    "false_effect": [ { "u_lose_morale": "morale_social" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_social_dissatisfied",
+    "recurrence": [ "1 minutes", "5 minutes" ],
+    "condition": { "u_has_effect": "social_dissatisfied" },
+    "effect": [
+      {
+        "u_add_morale": "morale_asocial",
+        "bonus": { "math": [ "u_effect_intensity('social_dissatisfied') * -7" ] },
+        "max_bonus": -21,
+        "duration": "1 days",
+        "decay_start": "1 days"
+      }
+    ],
+    "false_effect": [ { "u_lose_morale": "morale_social_dissatisfied" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_asocial_satisfied",
+    "recurrence": [ "1 minutes", "5 minutes" ],
+    "condition": { "u_has_effect": "asocial_satisfied" },
+    "effect": [ { "u_add_morale": "morale_asocial", "bonus": 10, "max_bonus": 10, "duration": "1 days", "decay_start": "1 days" } ],
+    "false_effect": [ { "u_lose_morale": "morale_asocial" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_asocial_dissatisfied",
+    "recurrence": [ "1 minutes", "5 minutes" ],
+    "condition": { "u_has_effect": "asocial_dissatisfied" },
+    "effect": [
+      {
+        "u_add_morale": "morale_social",
+        "bonus": { "math": [ "u_effect_intensity('asocial_dissatisfied') * -7" ] },
+        "max_bonus": -21,
+        "duration": "1 days",
+        "decay_start": "1 days"
+      }
+    ],
+    "false_effect": [ { "u_lose_morale": "morale_asocial_dissatisfied" } ]
   }
 ]

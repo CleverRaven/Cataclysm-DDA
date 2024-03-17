@@ -1022,6 +1022,7 @@
   },
   {
     "result": "vest_jean",
+    "id_suffix": "from_patchwork",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",
@@ -1037,6 +1038,7 @@
   },
   {
     "result": "vest_jean",
+    "id_suffix": "from_jacket",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ARMOR",

@@ -136,6 +136,17 @@
     "melee_damage": { "bash": 4, "cut": 2 }
   },
   {
+    "id": "chisel_bronze",
+    "type": "TOOL",
+    "copy-from": "chisel",
+    "name": { "str": "bronze chisel" },
+    "description": "A short, stout metalworking chisel made of bronze.  It's used in some metalworking fabrication recipes.  Bronze chisels spark less than their steel counterparts, but are less durable.",
+    "weight": "735 g",
+    "price": 2000,
+    "material": [ "bronze" ],
+    "qualities": [ [ "CHISEL", 2 ], [ "CHISEL_WOOD", 2 ] ]
+  },
+  {
     "id": "crucible",
     "type": "TOOL",
     "name": { "str": "crucible" },
@@ -506,7 +517,7 @@
   {
     "id": "casting_mold",
     "type": "TOOL",
-    "name": { "str": "sand casting mold" },
+    "name": { "str": "sandcasting mold" },
     "description": "A medium mold for casting molten metals into different shapes.",
     "weight": "19200 g",
     "volume": "36 L",

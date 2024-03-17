@@ -233,8 +233,7 @@
     "vitamins_absorb_multi": [ [ "all", [ [ "human_blood_vitamin", 1.25 ] ] ] ],
     "vitamin_rates": [ [ "human_blood_vitamin", 180 ] ],
     "flags": [ "CANNIBAL", "ALBINO", "DAYFEAR" ],
-    "metabolism_modifier": 0.8,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 0.8 } ] } ]
   },
   {
     "type": "mutation",
@@ -270,8 +269,7 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
-    "metabolism_modifier": 5,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -283,8 +281,7 @@
     "purifiable": false,
     "valid": false,
     "flags": [ "CANNIBAL", "SUNBURN", "DAYFEAR" ],
-    "metabolism_modifier": 5,
-    "stamina_regen_modifier": 0.1
+    "enchantments": [ { "values": [ { "value": "STAMINA_REGEN_MOD", "add": 0.1 }, { "value": "METABOLISM", "multiply": 5 } ] } ]
   },
   {
     "type": "mutation",

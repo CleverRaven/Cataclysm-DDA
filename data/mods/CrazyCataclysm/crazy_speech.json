@@ -498,7 +498,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"You can’t handle the truth!\"",
+    "sound": "\"You can't handle the truth!\"",
     "volume": 20
   },
   {
@@ -516,7 +516,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"They’re here!\"",
+    "sound": "\"They're here!\"",
     "volume": 20
   },
   {

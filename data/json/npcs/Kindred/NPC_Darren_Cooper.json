@@ -15,6 +15,7 @@
       { "trait": "seer_mark" },
       { "group": "Appearance_Caucasian" },
       { "trait": "hair_short", "variant": "brown" },
+      { "trait": "natural_hair_color_brown" },
       { "trait": "FACIAL_HAIR_3DAYSTUBBLE" },
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" },

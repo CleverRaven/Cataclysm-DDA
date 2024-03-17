@@ -167,7 +167,7 @@
     "reversible": false,
     "flags": [ "SECRET", "BLIND_EASY" ],
     "tools": [ [ [ "fakeitem_statue", -1 ] ] ],
-    "components": [ [ [ "warptoken", 15 ] ], [ [ "id_science", 1 ] ], [ [ "oxyacetylene", 60 ] ] ]
+    "components": [ [ [ "warptoken", 15 ] ], [ [ "id_science", 1 ] ], [ [ "microscope_dissecting", 1 ] ] ]
   },
   {
     "result": "warp_folded_infinitree",

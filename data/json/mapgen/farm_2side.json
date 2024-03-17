@@ -450,9 +450,9 @@
         "]": "t_region_groundcover",
         "&": "t_water_pump",
         "~": "t_water_pool_outdoors",
+        "_": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
         ",": "t_region_soil",
-        "Ŧ": "t_splitrail_fence",
-        "_": "t_linoleum_gray"
+        "Ŧ": "t_splitrail_fence"
       },
       "furniture": { "$": "f_hedge_tall" },
       "nested": { "]": { "chunks": [ "garden_3x3_1" ] } },

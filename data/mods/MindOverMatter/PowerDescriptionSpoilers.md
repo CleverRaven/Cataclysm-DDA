@@ -105,7 +105,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Stamina Cost*: 5500, minus 205 per level to a minimum of 2250<br />
 *Channeling Time*: 175 moves, minus 5.5 moves per level to a minimum of 100<br />
 *Effects*: Adds +1 Perception and +5 Speed, plus 1 Perception per 5 levels and plus 1 Speed per level (to a maximum bonus of +30 speed).<br />
-*Prerequisites*: Flexibility 8 *or* Burst of Speed 8, Physical Enhancement 6, Adrenaline Trigger 6<br />
+*Prerequisites*: Flexibility 8 *or* Burst of Speed 8, Physical Enhancement 6, Adrenaline Trigger 8<br />
 
 ## Sealed System
 *Difficulty*: 7<br />
@@ -120,7 +120,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
-*Effects*: Greatly increases the psion’s metabolic efficiency.  Hunger, thirst, fatigue grow 25% more slowly and the basal metabolic rate is reduced by 25%.  All of these bonuses increase by 2% per level to a maximum of 70% increase.<br />
+*Effects*: Greatly increases the psion’s metabolic efficiency.  fatigue grows 25% more slowly and the basal metabolic rate is reduced by 10%.  The fatigue reduction increase by 2% per level to a maximum of 70% increase, and the reduction to metabolic rate increases by 1% per level to a maximum of 40%.  In the addition, the psion can extract more calories and vitmins from food, gain 33% more of each plus 7% per power level, to a maximum of 4x the base caloric and vitamin content.  This applies to all vitamins, including harmful ones.<br />
 *Prerequisites*: Temperature Adaptability 8, Adrenaline Trigger 6 *or* Physical Enhancement 12<br />
 
 ## Combat Dance
@@ -157,7 +157,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 12 minutes to 23 minutes 20 seconds, plus 6 minutes 12 seconds to 13 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 1500, minus 65 per level to a minimum of 500<br />
 *Channeling Time*: 50 moves, minus 2 moves per level to a minimum of 20<br />
-*Effects*: Allows the psion to see in the dark.  This is a range multiplier on base night vision, beginning at 2x normal night vision, that increases every 3 power levels: 4x normal at level 6, 6x normal at level 9, and so on.<br />
+*Effects*: Allows the psion to see in the dark.  This increases the psion's night vision by 2 squares plus 1.5 squares per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Speed Reader (C)
@@ -166,7 +166,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 4 minutes 50 seconds to 16 minutes 20 seconds, plus 2 minutes 30 seconds to 4 minutes 30 seconds minutes per level<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 1000<br />
 *Channeling Time*: 500 moves, minus 12 moves per level to a minimum of 250<br />
-*Effects*: Increases the psion's ability to read and retain information. The psion reads 33% faster and gains 0.15% additional XP per reading increment per power level.<br />
+*Effects*: Increases the psion's ability to read and retain information. The psion reads 20% faster, plus 2% per power level to a maximum of 60% faster, and gains 0.15% additional XP per reading increment per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Premonition (C)
@@ -184,7 +184,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 13 to 30 seconds, plus 1.5 to 2.5 seconds per level<br />
 *Stamina Cost*: 3000, minus 125 per level to a minimum of 1250<br />
 *Channeling Time*: 150 moves, minus 5.5 moves per level to a minimum of 75<br />
-*Effects*: Reduce the armor values of the target, causing them to take +1 damage per two power levels on any hit. Due to engine limitations, at the moment this power only works on NPCs.<br />
+*Effects*: Reduce the armor values of the target, causing them to take +4 additional damage, +1 per power level, on any hit.<br />
 *Prerequisites*: Night Eyes 4, Premonition 4<br />
 
 ## Aura Sight (C)
@@ -353,6 +353,15 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Reduces incoming pain by 15% plus 2% per power level, to a maximum of 50% reduction, and increases the chance to remove pain during pain reduction checks by 10% plus 2% per power level to a maximum of 50% increased chance.<br />
 *Prerequisites*: Neural Spasms 4 *or* (Spark Sight 8 AND Electrical Discharge 8)<br />
 
+## Hacking Interface (C)
+*Difficulty*: 4<br />
+*Target*: Self<br />
+*Duration*: 10 minutes and to 30 minutes, plus 45 seconds to 1 minute and 30 seconds per power level.<br />
+*Stamina Cost*: 6500, minus 150 per level to a minimum of 3500<br />
+*Channeling Time*: 350 moves, minus 9 moves per level to a minimum of 150<br />
+*Effects*: Create a connection between the psion's brain and any computers nearby, allowing them to hack the computer with their mind.  They still must interact with the computer to hack it.  Increasing level decreases the time the hack will take and increases the odds the hack will be successful.<br />
+*Prerequisites*: Spark Sight 4, Static Touch 4, and Electron Overflow 4<br />
+
 ## Electrocutioner
 *Difficulty*: 5<br />
 *Target*: Line stretching 3 squares plus 0.7 squares per power level<br />
@@ -398,13 +407,22 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Effects*: Overloads a robot or cyborg, completely short-circuiting it and destroying it, and releasing a cloud of sparks within 1 square of the target plus 0.4 squares per power level.  Yrax constructs do not function based on electricity and are immune to this power.<br />
 *Prerequisites*: Re-energize 8 *or* Electrocutioner 8 *or* Voltaic Strikes 13, Spark Sight 8<br />
 
-## Galvanic Aura
+## Robotic Interface
+*Difficulty*: 8<br />
+*Target*: One nearby robot or cyborg within 10 squares<br />
+*Duration*: Indefinite<br />
+*Stamina Cost*: 8000, minus 125 per level to a minimum of 5000<br />
+*Channeling Time*: 75 moves, minus 2.5 moves per level to a minimum of 30<br />
+*Effects*: Attempt to take control of a robot within range, reprogramming it to serve as an ally. The psion may also channel this power to command the robots under their control. Success is dependent on Computer skill.<br />
+*Prerequisites*: Spark Sight 12, Hacking Interface 8, Short Circuit 8<br />
+
+## Galvanic Aura (C)
 *Difficulty*: 8<br />
 *Target*: Self<br />
 *Duration*: 60 seconds to 4 minutes 10 seconds, plus 15 seconds to 25 seconds per power level<br />
 *Stamina Cost*: 9000, minus 200 per level to a minimum of 4500<br />
 *Channeling Time*: 150 moves, minus 8.5 moves per level to a minimum of 55<br />
-*Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds. It also provides electric armor equal to the power level and makes the psion and their gear immune to EMP blasts.<br />
+*Effects*: Supercharges the air around the psion, releasing blasts of 12 fields of intensity 10 lightning every few seconds, as well as blasting a nearby non-NPC target repeatedly with lightning. It makes the psion immune to electrical damage and makes them and their gear immune to EMP blasts.<br />
 *Prerequisites*: Electrical Discharge 12, Electron Overflow 15 *or* Re-energize 6<br />
 
 ## Ion Blast
@@ -482,7 +500,7 @@ Powers causing photokinetic damage have a 40% chance to blind the target for 3 s
 *Duration*: 11 minutes and 30 seconds to 23 minutes and 50 seconds, plus 48 seconds to 1 minute and 53 seconds per power level<br />
 *Stamina Cost*: 3500, minus 75 per level to a minimum of 1500<br />
 *Channeling Time*: 150 moves, minus 8 moves per level to a minimum of 75<br />
-*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 15% from levels 1-3, 25% from levels 4-7, 35% from levels 8-11, 43% from levels 12-15, 50% from levels 16-19, and 55% at level 20+.<br />
+*Effects*: Warp light around the psion, making them blend into the nearby background.  This reduces the range at which monsters or hostile NPCs can see them by 10% plus 3% per power level to a maximum of 60%.<br />
 *Prerequisites*: Trick of the Light 6<br />
 
 ## Lucent Barrier (C)
@@ -859,7 +877,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 3 minutes to 12 minutes, plus 15 to 36 seconds per power level<br />
 *Stamina Cost*: 2500, minus 125 per level to a minimum of 500<br />
 *Channeling Time*: 100 moves, minus 6.5 moves per level to a minimum of 10<br />
-*Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damag and most telepathy-related effects while this power is active.<br />
+*Effects*: Place a shield over the psion's mind, preventing telepathic assault and also rendering the psion immune to the attacks of flaming eyes and the personal effects of portal storms. The psion is immune to telepathic damage and most telepathy-related effects while this power is active.<br />
 *Prerequisites*: Concentration Trance 5<br />
 
 ## Mood Stabilization (C)

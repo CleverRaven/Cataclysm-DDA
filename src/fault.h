@@ -3,6 +3,7 @@
 #define CATA_SRC_FAULT_H
 
 #include <iosfwd>
+#include <list>
 #include <map>
 #include <new>
 #include <optional>
@@ -52,13 +53,16 @@ class fault
     public:
         const fault_id &id() const;
         std::string name() const;
+        std::string type() const; // use a set of types?
         std::string description() const;
         std::string item_prefix() const;
+        double price_mod() const;
         bool has_flag( const std::string &flag ) const;
 
         const std::set<fault_fix_id> &get_fixes() const;
 
         static const std::map<fault_id, fault> &all();
+        static const std::list<fault_id> &get_by_type( const std::string &type );
         static void load( const JsonObject &jo );
         static void reset();
         static void check_consistency();
@@ -66,11 +70,13 @@ class fault
     private:
         friend class fault_fix;
         fault_id id_ = fault_id::NULL_ID();
+        std::string type_;
         translation name_;
         translation description_;
         translation item_prefix_; // prefix added to affected item's name
         std::set<fault_fix_id> fixes;
         std::set<std::string> flags;
+        double price_modifier = 1.0;
 };
 
 #endif // CATA_SRC_FAULT_H

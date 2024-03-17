@@ -8,7 +8,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 500,
-    "volume": "100 L",
+    "volume": "108500 ml",
     "weight": "100 kg",
     "phase": "GAS",
     "hp": 250,

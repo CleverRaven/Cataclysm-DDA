@@ -280,14 +280,14 @@
       },
       "place_npcs": [
         { "class": "godco_guard_food", "x": [ 46, 47 ], "y": 8 },
-        { "class": "godco_russell", "x": 52, "y": 10 },
+        { "class": "godco_russell", "x": 54, "y": 17 },
         { "class": "godco_olwen", "x": 48, "y": 14 },
         { "class": "godco_maria", "x": 46, "y": 17 }
       ],
       "place_nested": [ { "chunks": [ [ "roof_4x4_utility", 10 ], [ "roof_4x4_utility_1", 10 ] ], "x": 31, "y": 65 } ],
       "place_loot": [
         { "group": "novels", "x": [ 46, 47 ], "y": 9, "repeat": [ 6, 10 ], "chance": 100 },
-        { "group": "GODCO_russell_sell", "x": 52, "y": 11, "chance": 100 }
+        { "group": "GODCO_russell_sell", "x": 54, "y": 17, "chance": 100 }
       ]
     }
   },

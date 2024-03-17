@@ -24,6 +24,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "skull_human_tainted",
+    "name": { "str": "tainted human skull" },
+    "description": "The stained skull of what was once a human being.  It is rotted and noticeably warped from its lively form.  Carrying this around probably isn't going to win you any friends.",
+    "copy-from": "skull_abstract",
+    "snippet_category": "skull_human_tainted_desc"
+  },
+  {
+    "type": "GENERIC",
     "id": "skull_canis_small",
     "name": { "str": "tiny canine skull" },
     "description": "The skull of a tiny canine, likely a Chihuahua or another similarly sized dog breed.",

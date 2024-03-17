@@ -2199,7 +2199,7 @@
   {
     "type": "speech",
     "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Foodplace: Don’t get caught in the web of an unsafe diet.\"",
+    "sound": "\"Foodplace: Don't get caught in the web of an unsafe diet.\"",
     "volume": 15
   },
   {

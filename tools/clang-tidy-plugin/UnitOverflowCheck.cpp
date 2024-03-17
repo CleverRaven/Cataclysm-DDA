@@ -19,6 +19,8 @@ struct QuantityUnit {
 static const std::map<std::string_view, QuantityUnit> FunctionAndQuantityTypes {
     {"from_joule", {"energy", 1'000LL}},
     {"from_kilojoule", {"energy", 1'000'000LL}},
+    {"from_watt", {"power", 1'000LL}},
+    {"from_kilowatt", {"power", 1'000'000LL}},
 };
 
 void UnitOverflowCheck::registerMatchers( ast_matchers::MatchFinder *Finder )

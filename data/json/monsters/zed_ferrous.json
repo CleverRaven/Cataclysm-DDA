@@ -104,7 +104,7 @@
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "looks_like": "mon_zombie",
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 170,
     "speed": 60,

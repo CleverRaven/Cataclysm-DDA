@@ -45,6 +45,29 @@
     "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_bar_12" ]
   },
   {
+    "id": "zenfs_fatigue_bar_slim",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_bar_14" ]
+  },
+  {
+    "id": "zenfs_fatigue_desc",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_fatigue_bar_label", "zenfs_fatigue_desc_no_label" ],
+    "padding": 0
+  },
+  {
+    "id": "zenfs_fatigue_desc_F",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "minimum_columns",
+    "widgets": [ "zenfs_fatigue_label_F", "zenfs_fatigue_desc_no_label" ],
+    "padding": 0
+  },
+  {
     "id": "zenfs_fatigue_num",
     "type": "widget",
     "style": "layout",
@@ -75,7 +98,6 @@
     "padding": 0
   },
   {
-    "//": "Remove 'i_red' when stamina label math is complete.",
     "id": "zenfs_stamina_bar_template",
     "type": "widget",
     "copy-from": "stamina_widget",
@@ -118,6 +140,12 @@
     "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red", "i_red" ]
   },
   {
+    "id": "zenfs_weariness_bar_11",
+    "type": "widget",
+    "copy-from": "zenfs_weariness_bar_10",
+    "width": 11
+  },
+  {
     "id": "zenfs_weariness_num",
     "type": "widget",
     "label": "Weary",
@@ -133,7 +161,6 @@
     "type": "widget",
     "var": "fatigue",
     "style": "graph",
-    "fill": "pool",
     "symbols": "·−=≡≣",
     "colors": [ "c_dark_gray", "c_green", "c_light_green", "c_yellow", "c_light_red", "c_red" ]
   },
@@ -154,134 +181,87 @@
     "width": 12
   },
   {
-    "//": "Can't autoswitch coloring until 'stamina_max' is accessible.",
+    "id": "zenfs_fatigue_bar_14",
+    "type": "widget",
+    "copy-from": "zenfs_fatigue_bar_template",
+    "width": 14
+  },
+  {
+    "id": "zenfs_fatigue_desc_no_label",
+    "type": "widget",
+    "style": "text",
+    "text_align": "right",
+    "width": 11,
+    "clauses": [
+      {
+        "id": "well_rested",
+        "text": "Well Rested",
+        "color": "blue",
+        "condition": { "math": [ "u_val('fatigue')", "<", "95" ] }
+      },
+      {
+        "id": "rested",
+        "text": "Rested",
+        "color": "green",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "95" ] }, { "math": [ "u_val('fatigue')", "<", "191" ] } ] }
+      },
+      {
+        "id": "tired",
+        "text": "Tired",
+        "color": "yellow",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "191" ] }, { "math": [ "u_val('fatigue')", "<", "383" ] } ] }
+      },
+      {
+        "id": "dead_tired",
+        "text": "Dead Tired",
+        "color": "light_red",
+        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "383" ] }, { "math": [ "u_val('fatigue')", "<", "575" ] } ] }
+      },
+      {
+        "id": "exhausted",
+        "text": "Exhausted",
+        "color": "red",
+        "condition": { "math": [ "u_val('fatigue')", ">=", "575" ] }
+      }
+    ],
+    "padding": 0
+  },
+  {
     "id": "zenfs_stamina_bar_label",
     "type": "widget",
     "style": "text",
-    "width": 7,
-    "clauses": [
-      {
-        "id": "label_normal",
-        "text": "Stamina",
-        "color": "c_blue",
-        "condition": { "math": [ "u_val('stamina')", ">", "1000000" ] }
-      },
-      {
-        "id": "label_tired",
-        "text": "Stamina",
-        "color": "c_cyan",
-        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "0" ] } ] }
-      },
-      {
-        "id": "label_very_tired",
-        "text": "Stamina",
-        "color": "c_light_cyan",
-        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "1000000" ] } ] }
-      },
-      {
-        "id": "label_exhausted",
-        "text": "Stamina",
-        "color": "c_light_cyan_red",
-        "condition": { "math": [ "u_val('stamina')", "<=", "1000000" ] }
-      }
-    ]
+    "string": "<color_cyan>Stamina</color>",
+    "width": 7
   },
   {
-    "//": "Can't autoswitch coloring until 'stamina_max' is accessible.",
     "id": "zenfs_stamina_num_label",
     "type": "widget",
     "style": "text",
-    "width": 4,
-    "clauses": [
-      {
-        "id": "label_normal",
-        "text": "Stam",
-        "color": "c_blue",
-        "condition": { "math": [ "u_val('stamina')", ">", "1000000" ] }
-      },
-      {
-        "id": "label_tired",
-        "text": "Stam",
-        "color": "c_cyan",
-        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "0" ] } ] }
-      },
-      {
-        "id": "label_very_tired",
-        "text": "Stam",
-        "color": "c_light_cyan",
-        "condition": { "and": [ { "math": [ "u_val('stamina')", "<=", "1000000" ] }, { "math": [ "u_val('stamina')", ">", "1000000" ] } ] }
-      },
-      {
-        "id": "label_exhausted",
-        "text": "Stam",
-        "color": "c_light_cyan_red",
-        "condition": { "math": [ "u_val('stamina')", "<=", "1000000" ] }
-      }
-    ]
+    "string": "<color_cyan>Stam</color>",
+    "width": 4
+  },
+  {
+    "id": "zenfs_fatigue_label_F",
+    "type": "widget",
+    "style": "text",
+    "string": "F",
+    "width": 1,
+    "padding": 0,
+    "flags": [ "W_NO_PADDING" ]
   },
   {
     "id": "zenfs_fatigue_bar_label",
     "type": "widget",
     "style": "text",
-    "width": 7,
-    "clauses": [
-      {
-        "id": "label_normal",
-        "text": "Fatigue",
-        "color": "c_brown",
-        "condition": { "math": [ "u_val('fatigue')", "<", "191" ] }
-      },
-      {
-        "id": "label_tired",
-        "text": "Fatigue",
-        "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "191" ] }, { "math": [ "u_val('fatigue')", "<", "383" ] } ] }
-      },
-      {
-        "id": "label_very_tired",
-        "text": "Fatigue",
-        "color": "c_light_red",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "383" ] }, { "math": [ "u_val('fatigue')", "<", "575" ] } ] }
-      },
-      {
-        "id": "label_exhausted",
-        "text": "Fatigue",
-        "color": "c_yellow_red",
-        "condition": { "math": [ "u_val('fatigue')", ">=", "575" ] }
-      }
-    ]
+    "string": "Fatigue",
+    "width": 7
   },
   {
     "id": "zenfs_fatigue_num_label",
     "type": "widget",
     "style": "text",
-    "width": 5,
-    "clauses": [
-      {
-        "id": "label_normal",
-        "text": "Fatig",
-        "color": "c_brown",
-        "condition": { "math": [ "u_val('fatigue')", "<", "191" ] }
-      },
-      {
-        "id": "label_tired",
-        "text": "Fatig",
-        "color": "c_yellow",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "191" ] }, { "math": [ "u_val('fatigue')", "<", "383" ] } ] }
-      },
-      {
-        "id": "label_very_tired",
-        "text": "Fatig",
-        "color": "c_light_red",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "383" ] }, { "math": [ "u_val('fatigue')", "<", "575" ] } ] }
-      },
-      {
-        "id": "label_exhausted",
-        "text": "Fatig",
-        "color": "c_yellow_red",
-        "condition": { "math": [ "u_val('fatigue')", ">=", "575" ] }
-      }
-    ]
+    "string": "Fatig",
+    "width": 5
   },
   {
     "id": "zenfs_malus_trans_bar_8",
@@ -296,17 +276,17 @@
     "flags": [ "W_LABEL_NONE" ]
   },
   {
-    "id": "zenfs_malus_trans_bar_10",
+    "id": "zenfs_malus_trans_bar_9",
     "type": "widget",
     "copy-from": "zenfs_malus_trans_bar_8",
-    "width": 10
+    "width": 9
   },
   {
     "id": "zenfs_malus_trans_bar",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 14,
+    "width": 8,
     "widgets": [ "zenfs_malus_trans_bar_8" ]
   },
   {
@@ -314,8 +294,8 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "width": 14,
-    "widgets": [ "zenfs_malus_trans_bar_10" ]
+    "width": 9,
+    "widgets": [ "zenfs_malus_trans_bar_9" ]
   },
   {
     "id": "zenfs_malus_trans_num",

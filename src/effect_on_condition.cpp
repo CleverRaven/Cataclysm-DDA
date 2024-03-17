@@ -292,14 +292,16 @@ void effect_on_conditions::process_reactivate()
                           g->queued_global_effect_on_conditions, d );
 }
 
-bool effect_on_condition::activate( dialogue &d ) const
+bool effect_on_condition::activate( dialogue &d, bool require_callstack_check ) const
 {
     bool retval = false;
-    d.amend_callstack( "EOC: " + id.str() );
-    if( d.get_callstack().size() > 5000 ) {
-        if( query_yn( string_format( _( "Possible infinite loop in eoc %s.  Stop execution?" ),
-                                     id.str() ) ) ) {
-            return false;
+    if( require_callstack_check ) {
+        d.amend_callstack( "EOC: " + id.str() );
+        if( d.get_callstack().size() > 5000 ) {
+            if( query_yn( string_format( _( "Possible infinite loop in eoc %s.  Stop execution?" ),
+                                         id.str() ) ) ) {
+                return false;
+            }
         }
     }
     // each version needs a copy of the dialogue to pass down

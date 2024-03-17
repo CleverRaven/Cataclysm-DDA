@@ -30,6 +30,7 @@
         [ "tallow_tainted", 2 ],
         [ "meat_tainted", 3 ],
         [ "dry_meat_tainted", 3 ],
+        [ "tainted_innards", 4 ],
         [ "fetus", 1 ],
         [ "arm", 2 ],
         [ "leg", 2 ]
@@ -424,6 +425,55 @@
     ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_rat", 2 ] ], [ [ "rat_sample", 1 ] ] ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "mutagen_chiropteran",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 1 ],
+    "difficulty": 7,
+    "time": "45 m",
+    "batch_time_factors": [ 80, 20 ],
+    "book_learn": [ [ "recipe_creepy", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
+    "using": [ [ "mutagen_production_standard", 25 ] ],
+    "components": [
+      [ [ "mutagen", 1 ] ],
+      [ [ "chiropteran_sample", 1 ] ],
+      [ [ "animal_blood", 6 ], [ "mutant_blood", 6 ] ],
+      [ [ "meal_bone_tainted", 1 ], [ "chiropteran_sample", 1 ] ]
+    ],
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "iv_mutagen_chiropteran",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "chemistry",
+    "skills_required": [ "firstaid", 3 ],
+    "difficulty": 7,
+    "time": "2 h",
+    "batch_time_factors": [ 20, 5 ],
+    "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
+    "using": [ [ "serum_production_standard", 37 ] ],
+    "components": [ [ [ "mutagen_chiropteran", 2 ] ], [ [ "chiropteran_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
   },
   {

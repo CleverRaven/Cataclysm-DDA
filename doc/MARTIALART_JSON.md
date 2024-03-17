@@ -145,6 +145,7 @@ List of attack vectors is currently hardcoded, and contain:
 - `WEAPON` - Any technique the requires a held item to perform (see any weapon style). Can be used if the user is holding a valid style weapon for their martial art and at least one hand/arm is not broken.
 - `THROW` - Any technique that forcefully moves an opponent (judo throws, suplex). Can be used only if both hands/arms are not broken.
 - `GRAPPLE` - Any technique that maintains contact with an opponent and squeezes (chock, headlock), bends (Krav Maga's Arm Breaker), or twists (arm twist) some part of the opponent. Can be used only if both hands/arms are not broken.
+- `MOUTH` - A technique that uses the mouth to bite or spit on an opponent. Can be used only if the mouth is not covered by anything not flagged with ALLOWS_NATURAL_ATTACKS.
 
 ### Tech effects
 ```C++
@@ -200,7 +201,7 @@ The bonuses arrays contain any number of bonus entries like this:
 "stat": affected statistic, any of: "hit", "dodge", "block", "speed", "movecost", "damage", "armor", "arpen",
 "type": damage type for the affected statistic ("bash", "cut", "heat", etc.), only needed if the affected statistic is "damage", "armor", or "arpen".
 "scale": the value of the bonus itself.
-"scaling-stat": scaling stat, any of: "str", "dex", "int", "per". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat.
+"scaling-stat": scaling stat, any of: "str", "dex", "int", "per", "bashing", "cutting", "dodge", "melee", "stabbing", "swimming", "unarmed", "marksmanship", "pistols", "rifles", "shotguns", "SMGs", "archery", "throwing", "launchers", "driving", "health care", "spellcraft". Optional. If the scaling stat is specified, the value of the bonus is multiplied by the corresponding user stat/skill.
 
 Bonuses must be written in the correct order.
 

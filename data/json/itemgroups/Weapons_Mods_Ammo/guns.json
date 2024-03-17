@@ -172,11 +172,10 @@
       { "group": "nested_modular_deagle_50", "prob": 6 },
       { "group": "nested_m1911a1_38super", "prob": 20 },
       { "group": "nested_fn57", "prob": 60 },
-      { "group": "nested_ruger_redhawk", "prob": 25 },
       { "group": "nested_sig_40", "prob": 35 },
       { "group": "nested_sig_p230", "prob": 45 },
       { "group": "nested_sw_500", "prob": 15 },
-      { "group": "nested_sw629", "prob": 40 },
+      { "group": "nested_sw629", "prob": 65 },
       { "group": "nested_usp_45", "prob": 50 },
       { "group": "nested_usp_9mm", "prob": 60 },
       { "group": "nested_walther_p38", "prob": 15 },
@@ -217,11 +216,10 @@
       { "group": "modular_deagle_complete", "prob": 1 },
       { "item": "m1911a1_38super", "prob": 25 },
       { "item": "fn57", "prob": 15 },
-      { "item": "ruger_redhawk", "prob": 25 },
       { "item": "sig_40", "prob": 15 },
       { "item": "sig_p230", "prob": 15 },
       { "item": "sw_500", "prob": 15 },
-      { "item": "sw629", "prob": 15 },
+      { "item": "sw629", "prob": 40 },
       { "item": "usp_45", "prob": 15 },
       { "item": "usp_9mm", "prob": 35 },
       { "item": "walther_p38", "prob": 10 },
@@ -259,8 +257,7 @@
       { "group": "modular_deagle_44", "prob": 5 },
       { "group": "modular_deagle_50", "prob": 1 },
       { "group": "nested_deagle_with_kits", "prob": 1 },
-      { "item": "sw629", "prob": 15 },
-      { "item": "ruger_redhawk", "prob": 15 }
+      { "item": "sw629", "prob": 30 }
     ]
   },
   {
@@ -281,7 +278,7 @@
   {
     "type": "item_group",
     "id": "guns_pistol_obscure",
-    "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian’s, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
+    "//": "Imported or otherwise very obscure pistols that are highly rare, but which are still, mostly, ownable by common civilian's, either normally or via an NFA permit.  For example, reasonably modern and uncommon foreign military pistols and weapons capable of automatic forms of fire can be placed in this item group.  Purely highly rare collector quality and historically valuable guns are handled elsewhere.",
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "nested_af2011a1_38super", "prob": 1 },
@@ -600,6 +597,7 @@
       { "group": "nested_m16_auto_rifle", "prob": 25 },
       { "group": "nested_colt_lightning", "prob": 15 },
       { "group": "nested_fn_fal", "prob": 40 },
+      { "group": "nested_fn_fal", "prob": 40 },
       { "group": "nested_fs2000", "prob": 6 },
       { "group": "nested_m249_semi", "prob": 5 },
       { "group": "nested_hk_g3", "prob": 40 },
@@ -614,6 +612,8 @@
       { "group": "nested_m1918", "prob": 30 },
       { "group": "nested_805_bren", "prob": 15 },
       { "group": "nested_mdrx", "prob": 30 },
+      { "group": "nested_ak74", "prob": 18 },
+      { "group": "nested_aks74", "prob": 10 },
       { "group": "nested_mosin44_ebr", "prob": 10 },
       { "group": "nested_psl", "prob": 5 },
       { "group": "nested_mosin91_30_ebr", "prob": 20 },
@@ -677,6 +677,14 @@
       { "item": "rifle_flintlock", "prob": 1 },
       { "item": "win70", "prob": 10 },
       { "group": "mdrx", "prob": 10 },
+      { "item": "ak74_semi", "variant": "ak74_fixed", "prob": 6, "charges": [ 0, 0 ] },
+      {
+        "item": "ak74_semi",
+        "variant": "ak74_folding",
+        "contents-group": "ak74_folding_mods",
+        "prob": 4,
+        "charges": [ 0, 0 ]
+      },
       { "item": "m1carbine", "prob": 10 },
       { "item": "mrad_smr", "prob": 10 },
       { "group": "axmc", "prob": 10 },
@@ -761,7 +769,6 @@
     "//2": "Making the assumption any loaded gun will have additional ammo and mags with it.",
     "items": [
       { "group": "nested_ak47", "prob": 100 },
-      { "group": "nested_ak74", "prob": 60 },
       { "group": "nested_bh_m89", "prob": 20 },
       { "group": "nested_bfg50", "prob": 5 },
       { "group": "nested_carbine_flintlock", "prob": 140 },
@@ -793,7 +800,6 @@
       { "item": "m249_semi", "prob": 5 },
       { "item": "bfg50", "prob": 5 },
       { "item": "win70_458", "prob": 5 },
-      { "item": "ak74", "prob": 5 },
       { "item": "vz58_p", "variant": "vz58_p", "prob": 5 },
       { "item": "vz58_p", "variant": "vz58_v", "prob": 5 },
       {

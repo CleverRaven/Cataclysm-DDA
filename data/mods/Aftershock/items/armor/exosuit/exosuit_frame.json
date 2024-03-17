@@ -323,7 +323,9 @@
     ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "relic_data": {
+      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ] } ]
+    },
     "use_action": [
       {
         "target": "modular_exosuit_on",
@@ -356,7 +358,6 @@
       "FLASH_PROTECTION",
       "TARDIS"
     ],
-    "weight_capacity_bonus": "20 kg",
     "power_draw": "6173 mW",
     "revert_to": "modular_exosuit",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],

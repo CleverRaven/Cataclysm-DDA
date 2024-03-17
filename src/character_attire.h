@@ -104,8 +104,6 @@ class outfit
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
         units::mass weight_carried_with_tweaks( const std::map<const item *, int> &without ) const;
         units::mass weight() const;
-        float weight_capacity_modifier() const;
-        units::mass weight_capacity_bonus() const;
         units::volume holster_volume() const;
         int used_holsters() const;
         int total_holsters() const;

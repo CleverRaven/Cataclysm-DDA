@@ -1598,13 +1598,13 @@
       {
         "id": "heels_stiletto",
         "name": { "str": "pair of stiletto heels", "str_pl": "pairs of stiletto heels" },
-        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they’d probably be more useful to stab a zombie’s eyes out than as footwear.",
+        "description": "A traditional pair of tall, high-heeled shoes with a tapered, slender heel, which makes strutting fashionable, walking a challenge, and running an impossibility.  These days, they'd probably be more useful to stab a zombie's eyes out than as footwear.",
         "weight": 10
       },
       {
         "id": "heels_block",
         "name": { "str": "pair of block heels", "str_pl": "pairs of block heels" },
-        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don’t do you any favors in the mobility department, they’re at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
+        "description": "These are a pair of chunky, broad-based shoes with a sturdy block-like heel, and while they don't do you any favors in the mobility department, they're at least more comfortable to trudge about in than their peers and won't likely cause irreversible damage to your feet.",
         "weight": 10
       },
       {
@@ -1621,8 +1621,8 @@
       },
       {
         "id": "heels_flag",
-        "name": { "str": "pair of liberty’s heels", "str_pl": "pairs of liberty’s heels" },
-        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear’s heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe’s heels.  Each of the statues’ dresses is inscribed with the legend, \"America Gives You Wings!\""
+        "name": { "str": "pair of liberty's heels", "str_pl": "pairs of liberty's heels" },
+        "description": "The shoes of patriotic ladies around the nation, these open-toed heels glitter with small golden stars embroidered along their sides, with a pair of decorative flaps styled with the image of a miniature American flag unfurling from each ankle, like wings.  The footwear's heels consist of an adorably tiny reproduction of the Statue of Liberty situated beneath each sole, with their arms razed and supporting the shoe's heels.  Each of the statues' dresses is inscribed with the legend, \"America Gives You Wings!\""
       }
     ]
   },
@@ -1696,7 +1696,7 @@
       {
         "id": "chelsea_boots",
         "name": { "str": "pair of chelsea boots", "str_pl": "pairs of chelsea boots" },
-        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that’s designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
+        "description": "A pair of knee-length, laceless boots formed from calfskin with an elastic side panel that's designed to stretch away to facilitate simple donning and doffing, these stylish stompers are a time-old gift from Victorian-age England.  Intended for you to fashionably saunter down roadways rather than sprint for your life, this style of boot became a style staple within London during the 1960s, where they were synonymous with the mod crowd.",
         "weight": 10
       }
     ]

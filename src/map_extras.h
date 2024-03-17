@@ -18,6 +18,7 @@
 class JsonObject;
 class map;
 class mapgendata;
+class tinymap;
 struct tripoint;
 template<typename T> class generic_factory;
 template<typename T> struct enum_traits;
@@ -86,6 +87,8 @@ FunctionMap all_functions();
 std::vector<map_extra_id> get_all_function_names();
 
 void apply_function( const map_extra_id &, map &, const tripoint_abs_sm & );
+void apply_function( const map_extra_id &, tinymap &,
+                     const tripoint_abs_sm & ); // TODO: Convert to tripoint_abs_omt
 
 void load( const JsonObject &jo, const std::string &src );
 void check_consistency();

@@ -110,6 +110,7 @@ static const damage_type_id damage_cut( "cut" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
@@ -547,7 +548,8 @@ double Creature::ranged_target_size() const
 {
     double stance_factor = 1.0;
     if( const Character *character = this->as_character() ) {
-        if( character->is_crouching() ) {
+        if( character->is_crouching() || ( character->has_effect( effect_quadruped_full ) &&
+                                           character->is_running() ) ) {
             stance_factor = 0.6;
         } else if( character->is_prone() ) {
             stance_factor = 0.25;
@@ -1126,7 +1128,7 @@ int throw_cost( const Character &c, const item &to_throw )
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
-    move_cost *= c.mutation_value( "attackcost_modifier" );
+    move_cost = c.enchantment_cache->modify_value( enchant_vals::mod::ATTACK_SPEED, move_cost );
 
     return std::max( 25, move_cost );
 }

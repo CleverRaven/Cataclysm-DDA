@@ -164,6 +164,7 @@ static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SO
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id fuel_type_metabolism( "metabolism" );
@@ -330,7 +331,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     // uses assign because optional doesn't handle loading units as strings
     assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
     assign( jsobj, "capacity", capacity, false );
-    assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false );
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
@@ -352,7 +352,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
 
     optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
-    optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
     optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
@@ -2008,7 +2007,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
     }
 
     if( patient.has_bionic( bio_painkiller ) || patient.has_flag( json_flag_PAIN_IMMUNE ) ||
-        has_trait( trait_DEBUG_BIONICS ) ) {
+        patient.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) || has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
 
@@ -2022,7 +2021,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
 bool Character::has_enough_anesth( const itype &cbm ) const
 {
     if( has_bionic( bio_painkiller ) || has_flag( json_flag_PAIN_IMMUNE ) ||
-        has_trait( trait_DEBUG_BIONICS ) ) {
+        has_flag( json_flag_MANUAL_CBM_INSTALLATION ) || has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
     const int weight = units::to_kilogram( bodyweight() ) / 10;
@@ -2142,7 +2141,8 @@ int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const 
 // bionic manipulation chance of success
 int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
 {
-    if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
+    if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ||
+        get_player_character().has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         return 100;
     }
 
@@ -2240,7 +2240,8 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
     }
 
     int success = chance_of_success - rng( 1, 100 );
-    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ||
+        installer.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         perform_uninstall( bio, difficulty, success, pl_skill );
         return true;
     }
@@ -2439,7 +2440,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
         debugmsg( "Tried to install NULL bionic" );
         return false;
     }
-    if( has_trait( trait_DEBUG_BIONICS ) ) {
+    if( has_trait( trait_DEBUG_BIONICS ) || has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         return true;
     }
     if( is_mounted() ) {
@@ -2543,7 +2544,8 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
     }
 
     int success = chance_of_success - rng( 0, 99 );
-    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ||
+        installer.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         perform_install( bioid, upbio_uid, difficulty, success, pl_skill, "NOT_MED",
                          bioid->canceled_mutations, pos() );
         return true;

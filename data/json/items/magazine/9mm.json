@@ -1091,7 +1091,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "service handgun 10-round magazine" },
-    "description": "A 10-round magazine for use with the United States army’s general issue 9x19mm handguns.",
+    "description": "A 10-round magazine for use with the United States army's general issue 9x19mm handguns.",
     "variant_type": "gun",
     "variants": [
       {
@@ -1121,7 +1121,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "service handgun 17-round magazine" },
-    "description": "A 17-round magazine for use with the United States army’s general issue 9x19mm handguns.",
+    "description": "A 17-round magazine for use with the United States army's general issue 9x19mm handguns.",
     "variant_type": "gun",
     "variants": [
       {
@@ -1149,7 +1149,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "service handgun 21-round magazine" },
-    "description": "A 21-round magazine for use with the United States army’s general issue 9x19mm handguns.",
+    "description": "A 21-round magazine for use with the United States army's general issue 9x19mm handguns.",
     "variant_type": "gun",
     "variants": [
       {

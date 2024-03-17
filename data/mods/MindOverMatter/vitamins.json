@@ -7,7 +7,7 @@
     "excess": "effect_disease_psionic_drain",
     "min": 0,
     "max": 250,
-    "rate": "20 m",
+    "rate": "5 m",
     "disease_excess": [
       [ 15, 34 ],
       [ 35, 54 ],

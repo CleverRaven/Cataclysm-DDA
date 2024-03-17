@@ -33,19 +33,20 @@
         "......# z|}+   R|     o.",
         "..--..#|||||   R|D @@¤#.",
         ".||*|.#BBwQ|   y||||||#.",
-        ".|q~|.#0000+  ===//y|zo.",
+        ".|q~|.#,,,,+  ===//y|zo.",
         ".|U~|.#tS88|  ===   +z#.",
         ".||||.########o*o######.",
         "..............---......."
       ],
       "terrain": {
-        "0": "t_linoleum_gray",
+        "0": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "=": "t_carpet_red",
         "~": "t_thconc_floor",
-        "f": "t_linoleum_gray",
-        "Y": "t_linoleum_gray",
-        "h": "t_linoleum_gray",
-        "?": "t_linoleum_gray",
+        ",": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "f": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "Y": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "h": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
+        "?": { "param": "linoleum_color_kitchen", "fallback": "t_linoleum_gray" },
         "U": "t_thconc_floor",
         "q": "t_thconc_floor"
       },
@@ -63,10 +64,8 @@
         "$": { "item": "clothing_outdoor_shoes", "chance": 100, "repeat": [ 1, 3 ] }
       },
       "place_loot": [ { "item": "lawnmower", "x": 3, "y": 21, "chance": 25 }, { "item": "television", "x": 10, "y": 9, "chance": 100 } ],
-      "place_vehicles": [
-        { "vehicle": "car", "x": 3, "y": 4, "chance": 30, "fuel": 80, "rotation": 90 },
-        { "vehicle": "rolling_trash_can", "x": 17, "y": 1, "chance": 80, "status": 0 }
-      ]
+      "place_vehicles": [ { "vehicle": "car", "x": 3, "y": 4, "chance": 30, "fuel": 80, "rotation": 90 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 1 } ]
     }
   },
   {

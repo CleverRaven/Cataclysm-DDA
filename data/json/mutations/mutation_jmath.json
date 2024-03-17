@@ -1,0 +1,10 @@
+[
+  {
+    "type": "jmath_function",
+    "id": "alpha_stat_bonus",
+    "//": "the smaller your stat, the bigger the bonus, up to 16, plus 2 of the stat above",
+    "//_0": "your current base stat, like `u_val('intelligence_base')`",
+    "num_args": 1,
+    "return": "_0 < 16 ? (10)+(_0/2)-_0 : 2"
+  }
+]

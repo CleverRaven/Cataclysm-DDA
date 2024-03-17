@@ -95,7 +95,7 @@
     "ugliness": 0,
     "description": "The Sylph's ears are longer and pointed, like a wisp of cloud trailing across the sky.  They can hear better and no matter how loud the thunder, their ears will not ring from it.",
     "category": [ "SYLPH" ],
-    "hearing_modifier": 1.5,
+    "enchantments": [ { "values": [ { "value": "HEARING_MULT", "multiply": 0.5 } ] } ],
     "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {
@@ -245,12 +245,7 @@
     "ugliness": 0,
     "description": "The winds surge around the Sylph as they attack, guiding their projectiles to the target.  The range of the Sylph's weapons is increased.",
     "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
-    "enchantments": [
-      {
-        "condition": "ALWAYS",
-        "values": [ { "value": "RANGE", "multiply": { "math": [ "0.1 + (u_has_trait('THRESH_SYLPH') * 0.1)" ] } } ]
-      }
-    ],
+    "enchantments": [ "sylph_wind_weapons" ],
     "category": [ "SYLPH" ]
   },
   {
@@ -282,6 +277,18 @@
         "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "SPEED", "multiply": 0.1 } ]
       }
     ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_EXTRA_DODGE_INCREASE",
+    "name": { "str": "Gusting Evasion" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Sylph slips away from attacks as easily as the wind finds its way through cracks in a wall.  They gain +1 bonus dodge attempt per turn (+2 if they have the Sylph trait).",
+    "prereqs": [ "SYLPH_SPEED_INCREASE", "SYLPH_SPEED_INCREASE2" ],
+    "category": [ "SYLPH" ],
+    "enchantments": [ "sylph_extra_dodges" ]
   },
   {
     "type": "mutation",
@@ -364,7 +371,7 @@
     "prereqs": [ "SYLPH_SPEED_INCREASE" ],
     "description": "The Sylph's moves like the wind.  +2 Dexterity.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -377,7 +384,7 @@
     "prereqs2": [ "SYLPH_SPEED_INCREASE2" ],
     "description": "The Sylph's moves like a sudden burst of wind.  +5 Dexterity.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "dex_mod": 5 }
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 5 } ] } ]
   },
   {
     "type": "mutation",
@@ -390,7 +397,7 @@
     "prereqs": [ "SYLPH_SKIN_2", "SYLPH_SKIN_3" ],
     "description": "The Sylph's mind has the clarity of pure frozen water.  +2 Intelligence.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "int_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -402,7 +409,7 @@
     "prereqs": [ "SYLPH_INT_BONUS_1" ],
     "description": "The Sylph's thoughts move as quickly as a bolt of lightning.  +4 Intelligence.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "int_mod": 4 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -414,7 +421,7 @@
     "prereqs": [ "SYLPH_EYES" ],
     "description": "Like a bird soaring on the wind, the Sylph's keen eyes take in their surroundings.  +3 Perception.",
     "category": [ "SYLPH" ],
-    "passive_mods": { "per_mod": 3 },
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 3 } ] } ],
     "flags": [ "ENHANCED_VISION" ]
   },
   {
@@ -426,23 +433,7 @@
     "prereqs": [ "SYLPH_INT_BONUS_2" ],
     "changes_to": [ "SYLPH_FAST_CAST2" ],
     "category": [ "SYLPH" ],
-    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST_ON", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8
-  },
-  {
-    "type": "mutation",
-    "id": "SYLPH_FAST_CAST_ON",
-    "name": { "str": "Zephyr Chant (active)" },
-    "points": 7,
-    "description": "Like the blowing winds, the Sylph's mana races from of their body at their command.  -20% spell casting speed when outdoors.",
-    "prereqs": [ "SYLPH_INT_BONUS_2" ],
-    "changes_to": [ "SYLPH_FAST_CAST2" ],
-    "category": [ "SYLPH" ],
-    "valid": false,
-    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8
+    "enchantments": [ "sylph_fast_cast" ]
   },
   {
     "type": "mutation",
@@ -450,27 +441,10 @@
     "name": { "str": "Whistling Zephyr Chant" },
     "points": 10,
     "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
-    "prereqs": [ "SYLPH_FAST_CAST", "SYLPH_FAST_CAST_ON" ],
+    "prereqs": [ "SYLPH_FAST_CAST" ],
     "category": [ "SYLPH" ],
     "threshreq": [ "THRESH_SYLPH" ],
-    "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST2_ON", "msg_transform": "", "active": false, "moves": 0 }
-  },
-  {
-    "type": "mutation",
-    "id": "SYLPH_FAST_CAST2_ON",
-    "name": { "str": "Whistling Zephyr Chant (active)" },
-    "points": 10,
-    "description": "The wind finds it way through any crack, and so does the Sylph's mana come to their call regardless of what movements they make.  -20% spell casting speed when outdoors and the Sylph no longer needs to gesture to use their magick.",
-    "prereqs": [ "SYLPH_FAST_CAST", "SYLPH_FAST_CAST_ON" ],
-    "prereqs2": [ "SYLPH_SKIN_3" ],
-    "category": [ "SYLPH" ],
-    "threshreq": [ "THRESH_SYLPH" ],
-    "valid": false,
-    "triggers": [ [ { "condition": { "not": "u_is_outside" }, "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8,
-    "flags": [ "SUBTLE_SPELL" ]
+    "enchantments": [ "sylph_fast_cast2" ]
   },
   {
     "type": "mutation",
@@ -487,6 +461,33 @@
     "processed_eocs": [ "EOC_SYLPH_FLY_AT_WILL" ],
     "time": "1 s",
     "//": "This should have a mana cost here instead of within the EoC once that's possible."
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CLOUD_FORM",
+    "name": { "str": "Body of Cloud" },
+    "points": 11,
+    "description": "The Sylph may transform into misty cloud.  They will be insubstantial and unable to interact with the environment, but also able to move incredibly quickly and attacks will simply pass through them.  Each second in the cloud form will cost 10 mana.",
+    "prereqs": [ "SYLPH_FLY_AT_WILL" ],
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ],
+    "active": true,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_SYLPH_CLOUD_FORM_ON" ],
+    "processed_eocs": [ "EOC_SYLPH_CLOUD_FORM_PER_TURN" ],
+    "deactivated_eocs": [ "EOC_SYLPH_CLOUD_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SYLPH_CLOUD_FORM_APPEARANCE",
+    "name": { "str": "Body of Cloud Appearance" },
+    "points": 1,
+    "description": "This mutation carries the sprite override info for Body of Cloud.  You shouldn't be able to see it in game.",
+    "valid": false,
+    "player_display": false,
+    "override_look": { "id": "fd_extinguisher", "tile_category": "field" },
+    "category": [ "SYLPH" ],
+    "threshreq": [ "THRESH_SYLPH" ]
   },
   {
     "type": "mutation",

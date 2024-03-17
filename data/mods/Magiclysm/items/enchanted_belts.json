@@ -46,10 +46,15 @@
     "material": [ "superalloy" ],
     "material_thickness": 10,
     "environmental_protection": 20,
-    "weight_capacity_bonus": "50 kg",
     "extend": { "flags": [ "PADDED" ] },
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "multiply": 1.0 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "STRENGTH", "multiply": 1.0 }, { "value": "CARRY_WEIGHT", "add": 50000 } ]
+        }
+      ]
     }
   },
   {

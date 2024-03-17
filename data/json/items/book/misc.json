@@ -466,14 +466,14 @@
     "id": "book_fict_soft_satire_hgod",
     "type": "BOOK",
     "name": { "str": "The House of God", "str_pl": "copies of The House of God" },
-    "description": "Set in a lightly disguised Boston hospital of high repute, Samuel Shem’s novel dives deep into the agony of absurdity.",
+    "description": "Set in a lightly disguised Boston hospital of high repute, Samuel Shem's novel dives deep into the agony of absurdity.",
     "copy-from": "book_fict_soft_satire_tpl"
   },
   {
     "id": "book_fict_soft_satire_catch",
     "type": "BOOK",
     "name": { "str": "Catch-22", "str_pl": "copies of Catch-22" },
-    "description": "There is a short informational forward in this paperback edition of Catch-22.  Apparently the original title for Joseph Heller’s excruciatingly brilliant war satire was \"Catch-11.\"",
+    "description": "There is a short informational forward in this paperback edition of Catch-22.  Apparently the original title for Joseph Heller's excruciatingly brilliant war satire was \"Catch-11.\"",
     "weight": "480 g",
     "copy-from": "book_fict_soft_satire_tpl",
     "relative": { "chapters": 26 }
@@ -501,7 +501,7 @@
   {
     "id": "book_fict_soft_satire_cats",
     "type": "BOOK",
-    "name": { "str": "Cat’s Cradle", "str_pl": "copies of Cat’s Cradle" },
+    "name": { "str": "Cat's Cradle", "str_pl": "copies of Cat's Cradle" },
     "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
     "weight": "360 g",
     "time": "1 m",
@@ -1441,8 +1441,8 @@
       {
         "id": "book_judaica_softcover_19",
         "name": {
-          "str": "Miriam’s Tambourine: Jewish Folktales from Around the World",
-          "str_pl": "copies of Miriam’s Tambourine: Jewish Folktales from Around the World"
+          "str": "Miriam's Tambourine: Jewish Folktales from Around the World",
+          "str_pl": "copies of Miriam's Tambourine: Jewish Folktales from Around the World"
         },
         "description": "A collection of over fifty Jewish folktales, from classics like the story of Miriam's well or Rabbi Loew and the golem or the life of the Baal Shem Tov, to Jewish versions of modern cultural classics like Snow White or Sinbad."
       },

@@ -102,6 +102,7 @@ class computer_session
         void action_geiger();
         void action_irradiator();
         void action_list_bionics();
+        void action_list_mutations();
         void action_lock();
         void action_map_sewer();
         void action_map_subway();

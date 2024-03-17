@@ -140,10 +140,9 @@
     "purifiable": false,
     "profession": true,
     "points": 2,
-    "weakness_to_water": -2,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": -2 }, { "value": "THIRST", "multiply": -1 } ] } ],
     "ignored_by": [ "UNDINE" ],
     "scent_type": "sc_fae",
-    "thirst_modifier": -1.0,
     "cancels": [
       "THIRST",
       "THIRST2",
@@ -214,8 +213,7 @@
     ],
     "can_heal_with": [ "doll_repair_paste" ],
     "description": "A spirit of the image of humans given life.",
-    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
-    "allowed_category": [ "HOMULLUS" ]
+    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
   },
   {
     "type": "mutation",
@@ -271,7 +269,7 @@
     "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
     "description": "You have gained a portion of the might of your fae ancestors.  +1 Strength and Dexterity.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
-    "passive_mods": { "str_mod": 1, "dex_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 }, { "value": "DEXTERITY", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -285,7 +283,7 @@
     "description": "You have gained the might of your fae ancestors.  +2 Strength and Dexterity.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
-    "passive_mods": { "str_mod": 2, "dex_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -298,7 +296,7 @@
     "prereqs": [ "ARVORE_SKIN_1", "IERDE_SKIN_1", "HOMULLUS_SKIN_1", "SALAMANDER_SKIN_1", "SYLPH_SKIN_1", "UNDINE_SKIN_1" ],
     "description": "You have gained a portion of the wits of your fae ancestors.  +1 Intelligence and Perception.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
-    "passive_mods": { "int_mod": 1, "per_mod": 1 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 1 }, { "value": "PERCEPTION", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -312,7 +310,7 @@
     "description": "You have gained the wits of your fae ancestors.  +2 Intelligence and Perception.",
     "category": [ "ARVORE", "IERDE", "HOMULLUS", "SALAMANDER", "SYLPH", "UNDINE" ],
     "threshreq": [ "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SALAMANDER", "THRESH_SYLPH", "THRESH_UNDINE" ],
-    "passive_mods": { "int_mod": 2, "per_mod": 2 }
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 2 }, { "value": "PERCEPTION", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -401,7 +399,7 @@
     "types": [ "MANA_ADD" ],
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 500 } ] } ]
   },
   {
     "type": "mutation",
@@ -414,7 +412,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA1" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 1000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
   },
   {
     "type": "mutation",
@@ -426,7 +424,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 2000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2000 } ] } ]
   },
   {
     "type": "mutation",
@@ -464,6 +462,18 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
     "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "copy-from": "ANIMALEMPATH",
+    "extend": { "category": [ "UNDINE", "ARVORE", "IERDE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "copy-from": "ANIMALEMPATH2",
+    "extend": { "category": [ "UNDINE", "ARVORE", "IERDE" ] }
   },
   {
     "type": "mutation",

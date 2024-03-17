@@ -13,7 +13,6 @@
     "difficulty": 1,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "short_range_teleport",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": 1,
     "max_aoe": 5,
@@ -44,7 +43,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_teleport_slow",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": 0,
     "max_aoe": 20,
@@ -88,7 +86,6 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "short_range_teleport",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
@@ -154,7 +151,6 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
@@ -185,7 +181,6 @@
     "difficulty": 4,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_four", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "psi_teleporter_teleporting_damage",
     "min_damage": 1,
@@ -517,7 +512,6 @@
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "short_range_teleport",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_aoe": 4,
     "max_aoe": 1,
@@ -550,7 +544,6 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "banishment",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "min_damage": {
       "math": [
@@ -591,7 +584,6 @@
     "difficulty": 8,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "translocate",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_eight", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 10000,
@@ -637,7 +629,6 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_TELEPORT_SUMMON",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_nine", "hit_self": true } ],
     "shape": "blast",
     "min_damage": 1,
     "min_range": {

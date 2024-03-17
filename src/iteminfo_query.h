@@ -85,6 +85,7 @@ enum class iteminfo_parts : size_t {
     AMMO_UPSCOST,
     AMMO_TO_FIRE,
 
+    GUN_DEFAULT_BORE,
     GUN_DEFAULT_AMMO,
     GUN_MAX_RANGE,
     GUN_AIMING_STATS,

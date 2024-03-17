@@ -16,15 +16,15 @@
         "............----_______.",
         ".%%%...%%%..--.._______.",
         ".##o####oo##o*#########.",
-        ".#B/t|@¤  d|i |Lq|D zD#.",
-        ".#B/S|@   d|i +  ||+||#.",
-        ".#//8| h  ||? ||||y  ¤#.",
-        "^#Q/8|rrr +   + U|d @@o.",
+        ".#B~t|@¤  d|i |Lq|D zD#.",
+        ".#B~S|@   d|i +  ||+||#.",
+        ".#~~8| h  ||? ||||y  ¤#.",
+        "^#Q~8|rrr +   + U|d @@o.",
         ".#|+|||||||y  |zU|d @@o.",
         ".oy  b yRRR   ||||   ¤#.",
         ".oy           T  +    #.",
         ".#|+||           |||||#^",
-        ".#W/Z|  R|         666#.",
+        ".#W~Z|  R|         666#.",
         ".#||||  R|    h |    7#.",
         ".#  xx  T|a hff |& J 4#.",
         ".ol     E|   ffh|Y J 2o.",
@@ -33,14 +33,15 @@
         ".##oo#######oo#:¶:#####.",
         "...............---......"
       ],
-      "terrain": { "/": "t_linoleum_gray", "Z": "t_linoleum_gray", "W": "t_linoleum_gray", "#": "t_adobe_brick_wall" },
+      "terrain": {
+        "Z": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" },
+        "W": { "param": "linoleum_color_bathroom", "fallback": "t_linoleum_gray" }
+      },
       "furniture": { "&": "f_bookcase", "?": "f_rack" },
       "items": { "?": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 1, 3 ] } },
       "place_loot": [ { "item": "television", "x": [ 4, 5 ], "y": 18 }, { "group": "SUS_cooking_bookcase", "x": 17, "y": 18 } ],
-      "place_vehicles": [
-        { "vehicle": "car", "x": 18, "y": 2, "chance": 15, "rotation": 270 },
-        { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 }
-      ]
+      "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 2, "chance": 15, "rotation": 270 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 1 } ]
     }
   },
   {

@@ -2,8 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "triffid_grove_z2" ],
-    "weight": 100,
+    "om_terrain": "triffid_grove_z2",
     "object": {
       "fill_ter": "t_barkfloor",
       "rows": [

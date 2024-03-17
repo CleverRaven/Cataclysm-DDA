@@ -33,7 +33,7 @@
         "..####################..",
         "....................4..."
       ],
-      "palettes": [ "standard_building_palette", "clothes_store_palette" ],
+      "palettes": [ "standard_building_general_and_variant_palette", "clothes_store_palette" ],
       "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ],
       "vehicles": { " ": { "vehicle": "shopping_cart", "chance": 1, "status": 0 } },
@@ -125,7 +125,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "tailor_palette" ],
+      "palettes": [ "standard_building_general_and_variant_palette", "tailor_palette" ],
       "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
       "place_loot": [ { "group": "cash_register_random", "x": 18, "y": [ 6, 9 ] } ]
     }
@@ -213,7 +213,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "furs_palette" ],
+      "palettes": [ "standard_building_general_and_variant_palette", "furs_palette" ],
       "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
       "place_loot": [ { "group": "cash_register_random", "x": 7, "y": 7 } ]
     }
@@ -441,7 +441,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [ "standard_building_palette", "tailor_palette" ],
+      "palettes": [ "standard_building_general_and_variant_palette", "tailor_palette" ],
       "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white" },
       "place_loot": [ { "group": "cash_register_random", "repeat": 2, "x": [ 10, 13 ], "y": 7 } ]
     }
@@ -727,7 +727,7 @@
         "...........-............",
         "...........-............"
       ],
-      "palettes": [ "standard_building_palette", "clothes_store_palette" ],
+      "palettes": [ "standard_building_general_and_variant_palette", "clothes_store_palette" ],
       "terrain": { "t": "t_linoleum_white", "S": "t_linoleum_white", "_": "t_linoleum_white", "D": "t_linoleum_white" },
       "place_loot": [ { "group": "cash_register_random", "x": [ 10, 13 ], "y": 7 } ]
     }

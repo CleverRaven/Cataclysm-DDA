@@ -128,6 +128,27 @@
     ]
   },
   {
+    "name": "GROUP_COUGARS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_cougar", "weight": 150, "cost_multiplier": 2 },
+      {
+        "monster": "mon_cougar_kitten",
+        "weight": 25,
+        "pack_size": [ 1, 2 ],
+        "ends": "31 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      },
+      {
+        "monster": "mon_cougar_kitten",
+        "weight": 12,
+        "pack_size": [ 1, 2 ],
+        "starts": "31 days",
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
     "name": "GROUP_HORSES",
     "type": "monstergroup",
     "monsters": [
