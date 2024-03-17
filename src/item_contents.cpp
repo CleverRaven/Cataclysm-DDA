@@ -208,7 +208,7 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             // These make sure we exit back to the top level of the menu regardless of how the function was called.
             selector_menu.ret = -1;
             item_to_move = { nullptr, nullptr };
-			refresh_columns( menu );
+            refresh_columns( menu );
         }
 
         if( selector_menu.ret >= 0 ) {
@@ -1201,7 +1201,9 @@ bool item_contents::spill_contents( const tripoint &pos )
 {
     bool spilled = false;
     for( item_pocket &pocket : contents ) {
-        spilled = pocket.spill_contents( pos ) || spilled;
+        if( !pocket.get_pocket_data()->_no_unload ) {
+            spilled = pocket.spill_contents( pos ) || spilled;
+        }
     }
     return spilled;
 }
