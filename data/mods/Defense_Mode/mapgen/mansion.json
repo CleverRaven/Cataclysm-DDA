@@ -1962,7 +1962,11 @@
         "%": "t_railing"
       },
       "furniture": { "&": "f_sofa" },
-      "items": { "_": { "item": "clutter_mansion", "chance": 1 }, " ": { "item": "clutter_mansion", "chance": 1 }, "-": { "item": "clutter_mansion", "chance": 1 } }
+      "items": {
+        "_": { "item": "clutter_mansion", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 },
+        "-": { "item": "clutter_mansion", "chance": 1 }
+      }
     }
   },
   {
