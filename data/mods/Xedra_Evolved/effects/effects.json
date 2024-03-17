@@ -939,6 +939,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_homullus_reduced_visibility_ally",
+    "name": [ "Average Joe" ],
+    "desc": [ "You're just this guy, you know?" ],
+    "apply_message": "",
+    "remove_message": "Nearby enemies twitch and start turning towards you.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ]
+  },
+  {
+    "type": "effect_type",
     "id": "telepathic_ignorance",
     "//": "id is hardcoded, used by the Homullus spell A Face in the Crowd",
     "name": [ "" ],
@@ -1231,7 +1241,7 @@
     "rating": "good",
     "enchantments": [
       {
-        "hit_me_effect": [ { "id": "undine_acid_resist_ally_thorns", "hit_self": false } ],
+        "hit_me_effect": [ { "id": "undine_acid_resist_ally_thorns", "hit_self": false, "once_in": 3 } ],
         "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
       }
     ]
