@@ -890,68 +890,174 @@
   },
   {
     "id": "jacket_army",
+    "//": "Intended to be, and modelled off of, an M65 combat jacket.",
     "type": "ARMOR",
+    "looks_like": "coat_winter",
     "name": { "str": "army jacket" },
-    "description": "A vintage army jacket, or at least a copy of one, with lots of pockets.  Favored by the military.",
+    "description": "A vintage article of military surplus with an adjustable waist drawstring, or at least a civilian reproduction of one — it's resplendent with a cotton liner, an integral hood tucked away in a zip-up pouch in the collar, and epaulettes upon the shoulders.",
     "weight": "780 g",
     "volume": "3 L",
     "price": 3500,
     "price_postapoc": 750,
-    "material": [ "nylon" ],
+    "material": [ { "type": "nylon", "portion": 3 }, { "type": "cotton_quilted", "portion": 1 } ],
+    "//2": "The shell is made from a midweight NyCo blend wind resistant sateen, fully lined with a lightweight NyCo blend wind resistant poplin: https://omegamilitaria.com/blogs/reference-guides/the-ultimate-visual-buyers-guide-to-the-m65-field-jacket",
+    "//3": "M65 jackets have a quilted liner of cotton that’s generally removable. Considering that the player isn’t able to extract the liner from this garment, we’re assuming that the liner is in all the time, hence the quilted cotten material.",
     "symbol": "[",
-    "looks_like": "coat_winter",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 9 ] }
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 },
+          { "type": "cotton_quilted", "covered_by_mat": 60, "thickness": 0.3 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 8, 12 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "//": "6 inches tall, 4 inches wide, and 1.5 inches deep.",
+        "max_contains_volume": "590 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
+        "description": "Button-fastened hip pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "//": "6 inches tall, 4 inches wide, and 1.5 inches deep.",
+        "max_contains_volume": "590 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
+        "description": "Button-fastened hip pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
+        "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
+        "max_contains_volume": "361 ml",
+        "max_contains_weight": "1.5 kg",
+        "max_item_length": "18 cm",
+        "description": "Button-fastened chest pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
+        "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
+        "max_contains_volume": "361 ml",
+        "max_contains_weight": "1.5 kg",
+        "max_item_length": "18 cm",
+        "description": "Button-fastened chest pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "//": "4 inches tall, 2 inches wide, and 1 inch deep.",
+        "max_contains_volume": "131 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
+        "description": "Velcro-fastened internal pocket.",
+        "moves": 150
       }
     ],
     "warmth": 20,
-    "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "m65_woodland",
+        "//": "Intended to be US M81 woodland camo.",
+        "name": { "str": "woodland-camo combat jacket" },
+        "description": "Tried and true, the US military’s antiquated 4-tone woodland camouflage pattern covers this particular jacket: large, high-contrast patches of green, black, brown, and sand hues, all rather faded from years and ware.",
+        "color": "green",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "m65_desert",
+        "//": "Intended to be US DCU camo.",
+        "name": { "str": "desert-camo combat jacket" },
+        "description": "This jacket’s brass zipper runs from collar to hem, a river of metallic brown nitting together the coat’s arid-hued lapels, printed with a 3-tone mix of pale green, dark brown, and beige.  Looking at it, you wonder how many zombies are wandering about the gulf right now.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "m65_olive",
+        "//": "Either original Vietnam M65 jackets, before M81 camo, or modern reproductions.",
+        "name": { "str": "olive-drab combat jacket" },
+        "description": "Lacking much frills and fanfare, this simple, traditional jacket is dyed a solid shade of olive green with a brass zipper and buttons.",
+        "color": "green",
+        "weight": 35,
+        "append": true
+      },
+      {
+        "id": "m65_flecktarn",
+        "name": { "str": "mottled-camo combat jacket" },
+        "description": "This particular garment has a base hue of dark tan, coated by myriad spots, blobs, and splotches of green, reddish brown, black, and greyish green to form a mottled, disruptive camouflage pattern.",
+        "color": "green",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "m65_ocean",
+        "name": { "str": "ocean-camouflage combat jacket" },
+        "description": "This jacket’s exterior shell is dyed a mix of blue and grey hues, with extra patches and disruptive striations, flipping between black and dark grey, covering the garment from collar to hem.  Crome buttons, zips, and other fixtures glint from their home upon the coat.",
+        "color": "blue",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "m65_digital",
+        "//": "Intended to be US military UCP camo.",
+        "name": { "str": "digital-camo combat jacket" },
+        "description": "The fabric of this particular jacket is coated in the pixelized camouflage pattern of the United States Army’s former combat uniform, combining a sand-brown base with disruptive patterns of urban grey and sage green, as well as plastic zips and buttons.",
+        "color": "green",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "m65_black",
+        "name": { "str": "urban black combat jacket" },
+        "description": "Fitted with a brass main zip and corresponding buttons, this entire jacket forgoes frivolities and is, instead, dyed a solid shade of midnight black.",
+        "color": "black",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "m65_swedish",
+        "//": "Intended to be Swedish M90 camo. This is a civilian variant, and, yes, for some reason, out of all camo patterns, this exists: https://www.epicmilitaria.com/brandit-m65-giant-jacket-swedish-camo.html",
+        "name": { "str": "splinter-camo combat jacket" },
+        "description": "This particular jacket is sown from fabric dyed a base colour of stoney grey with notes of brown, sprinkled through with large, splinter-like geometric shapes of green, grey, and hues of deep naval blue.",
+        "color": "dark_gray",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "m65_coyote",
+        "name": { "str": "coyote combat jacket" },
+        "description": "Dyed in a solid shade of rugged, earthen brown with a brass main zip and press-studs, this is a relatively hansom coat, so far as reproduction military equipment goes.  Obviously, the would-be soldier, prepper, and general wearer would most appreciate its utility in going undercover among the insurgent coyote population.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
+      }
+    ]
   },
   {
     "id": "jacket_army_modern",
