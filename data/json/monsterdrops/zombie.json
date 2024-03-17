@@ -81,9 +81,13 @@
       {
         "distribution": [
           { "group": "swimmer_wetsuit", "damage": [ 1, 4 ], "prob": 10 },
+          { "group": "bikini", "damage": [ 1, 4 ], "prob": 25 },
           {
-            "collection": [ { "group": "swimmer_torso", "damage": [ 1, 4 ], "prob": 45 }, { "group": "swimmer_pants", "damage": [ 1, 4 ] } ],
-            "prob": 90
+            "collection": [
+              { "group": "swimmer_torso_no_bikini", "damage": [ 1, 4 ], "prob": 45 },
+              { "group": "swimmer_pants_no_bikini", "damage": [ 1, 4 ] }
+            ],
+            "prob": 65
           }
         ]
       },
