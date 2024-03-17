@@ -27,6 +27,8 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "special_attacks": [ [ "PARROT_AT_DANGER", 0 ] ],
     "//": "They are human after all",
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
