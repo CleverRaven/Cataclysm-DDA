@@ -7,6 +7,7 @@
       "MISSION_ROBOFAC_INTERCOM_2_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_ROBOT_SM_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_ACCEPTED",
+	  "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
       "MISSION_ROBOFAC_INTERCOM_NRE_RECORDER_REPLACEMENT_Complete"
     ],
     "type": "talk_topic",
@@ -920,8 +921,7 @@
         "random": true,
         "search_range": 180,
         "z": 0
-      },
-      "effect": [ { "u_spawn_item": "id_LIXA", "count": 1 }, { "u_spawn_item": "usb_drive_nano", "count": 1 } ]
+      }
     },
     "end": {
       "effect": [
@@ -943,5 +943,68 @@
       "success_lie": "…",
       "failure": "…"
     }
-  }
+  },
+{
+    "id": [
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
+      "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
+    ],
+    "type": "talk_topic",
+    "dynamic_line": "TODO: write an actual mission description here.\"\n\n\"We are willing to offer 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory that you are free to take if any are left.",
+    "responses": [
+      {
+        "text": "Alright, I'll see if I can't get that data for you.",
+        "effect": [
+          { "assign_mission": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1" },
+          { "u_spawn_item": "id_LIXA", "count": 1 },
+          { "u_spawn_item": "usb_drive_nano", "count": 1 }
+        ],
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED"
+      },
+      {
+        "text": "What can you tell me about the facility?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE"
+      },
+      { "text": "Any advice?", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE" },
+      {
+        "text": "What does LIXA even mean?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM"
+      },
+      {
+        "text": "If I lose the ID card or the memory stick, what should I do?",
+        "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
+      },
+      { "text": "What else do you have available?", "topic": "TALK_ROBOFAC_INTERCOM_CONTRACTS" }
+    ]
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE",
+    "type": "talk_topic",
+    "dynamic_line": "All I can tell you is that they were conducting cutting-edge research related to-\"  The intercom abruptly cuts off for several seconds before coming back on, the voice sounding apologetic,  \"Sorry, but as it turns out I'm not at liberty to divulge that information."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE",
+    "type": "talk_topic",
+    "dynamic_line": "TODO: actually figure out some advice to go here."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
+    "type": "talk_topic",
+    "dynamic_line": "It's an acronym that stands for Laser Interferometer eXodimensional resonance Assay."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement",
+    "type": "talk_topic",
+	"//": "I feel like this could be phrased better.",
+    "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\"  The voice pauses for a moment, \"Buuut that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
+    "type": "talk_topic",
+	"//": "Is it a semi-colon or colon that goes here? Man, idk.",
+    "dynamic_line": "Transferring the items now.\"  The intercom tray slides open, revealing an ID card for the facility and what looks like a USB thumb drive.  \"Again: please take care not to lose either of these since we can't exactly make more of them."
+  }  
 ]
