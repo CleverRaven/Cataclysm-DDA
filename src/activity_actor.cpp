@@ -172,6 +172,7 @@ static const efftype_id effect_worked_on( "worked_on" );
 static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_ALWAYS_AIMED( "ALWAYS_AIMED" );
+static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 
 static const furn_str_id furn_f_gunsafe_mj( "f_gunsafe_mj" );
 static const furn_str_id furn_f_safe_o( "f_safe_o" );
@@ -4541,6 +4542,10 @@ static ret_val<void> try_insert( item_location &holster, drop_location &holstere
 {
     item &it = *holstered_item.first;
     ret_val<void> ret = ret_val<void>::make_failure( _( "item can't be stored there" ) );
+
+    if( holster.get_item()->has_flag( json_flag_NO_RELOAD ) ) {
+        return ret_val<void>::make_failure( _( "destination can't be reloaded" ) );
+    }
 
     if( charges_added == nullptr ) {
         if( it.is_bucket_nonempty() ) {
