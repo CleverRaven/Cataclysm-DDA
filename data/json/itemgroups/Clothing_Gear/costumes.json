@@ -404,6 +404,7 @@
         "event": "independence_day"
       },
       { "group": "bikini_matching", "prob": 10 },
+      { "group": "bikini_unmatching", "prob": 1 },
       { "group": "bikini_fur", "prob": 1 },
       { "group": "bikini_leather", "prob": 1 },
       { "group": "bikini_short", "prob": 1 }
@@ -482,6 +483,12 @@
         "prob": 1
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_unmatching",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top" }, { "item": "bikini_bottom" } ]
   },
   {
     "type": "item_group",
