@@ -39,4 +39,4 @@ labels:
 
   - label: "Translation"
     matcher:
-      body: "(\\s|^)#### Summary\\s*I18N +\".+\"\\s*(\n|$)""
+      body: "(\\s|^)#### Summary\\s*I18N +\".+\"\\s*(\n|$)"
