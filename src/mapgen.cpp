@@ -2218,6 +2218,9 @@ class jmapgen_item_group : public jmapgen_piece
             JsonValue group = jsi.get_member( "item" );
             group_id = item_group::load_item_group( group, "collection",
                                                     str_cat( "mapgen item group ", context ) );
+            if( jsi.has_int( "prob" ) ) {
+                debugmsg( "prob definition in group %s with context %s should be replaced with chance", group_id.c_str(), context );
+            }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
             if( jsi.has_string( "faction" ) ) {
                 faction = jsi.get_string( "faction" );
