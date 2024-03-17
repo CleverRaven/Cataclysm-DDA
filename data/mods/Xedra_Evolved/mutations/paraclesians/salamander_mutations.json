@@ -272,7 +272,7 @@
     "prereqs": [ "SALAMANDER_NO_WATER" ],
     "changes_to": [ "SALAMANDER_HEAT_HEAL" ],
     "category": [ "SALAMANDER" ],
-    "temperature_speed_modifier": 1
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_salamander(65, 1)" ] } } ] } ]
   },
   {
     "type": "mutation",
@@ -284,8 +284,10 @@
     "prereqs": [ "SALAMANDER_ECTOTHERM" ],
     "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  However, cold weather produces a corresponding slowing effect.",
     "category": [ "SALAMANDER" ],
-    "enchantments": [ "ench_salamander_heat_healing" ],
-    "temperature_speed_modifier": 1
+    "enchantments": [
+      "ench_salamander_heat_healing",
+      { "values": [ { "value": "SPEED", "add": { "math": [ "temperature_speed_mod_salamander(65, 1)" ] } } ] }
+    ]
   },
   {
     "type": "mutation",
