@@ -2031,5 +2031,14 @@
     "name": { "str": "Scroll of Power Linkage", "str_pl": "Scrolls of Power Linkage" },
     "description": "Enchant a tool to accept power wirelessly from a compatible source.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_create_ups_connection" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_technomancer_far_sight",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Zoom Lens", "str_pl": "Scrolls of Zoom Lens" },
+    "description": "Enchant a lens with the ability to see beyond the horizon.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_far_sight" ] }
   }
 ]

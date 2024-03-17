@@ -135,7 +135,8 @@
       [ "spell_scroll_flamesword", 35 ],
       [ "spell_scroll_force_jar", 30 ],
       [ "spell_scroll_flamebreath", 30 ],
-      [ "spell_scroll_thought_shield", 35 ]
+      [ "spell_scroll_thought_shield", 35 ],
+      [ "spell_scroll_technomancer_far_sight", 20 ]
     ]
   },
   {
@@ -297,7 +298,8 @@
       [ "basic_pyromancy", 50 ],
       [ "stat_up_spellbook", 45 ],
       [ "tome_of_wind", 45 ],
-      [ "tome_of_storms", 20 ]
+      [ "tome_of_storms", 20 ],
+      [ "pirate_spellbook", 20 ]
     ]
   },
   {

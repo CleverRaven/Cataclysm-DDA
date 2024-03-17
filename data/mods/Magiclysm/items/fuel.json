@@ -3,7 +3,7 @@
     "type": "AMMO",
     "id": "dragon_blood",
     "name": { "str_sp": "dragon blood" },
-    "weight": "2 g",
+    "weight": "1 g",
     "color": "red",
     "container": "flask_glass",
     "symbol": "~",

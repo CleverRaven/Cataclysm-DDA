@@ -427,12 +427,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "amigara_death",
-    "object": { "place_items": [ { "item": "amigara_drops", "x": 11, "y": 12, "chance": 100 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "8x8_hole",
     "object": {
       "mapgensize": [ 8, 8 ],

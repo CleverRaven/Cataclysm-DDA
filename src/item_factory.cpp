@@ -3058,8 +3058,6 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "warmth", warmth, 0 );
     optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
     optional( jo, was_loaded, "damage_verb", damage_verb );
-    optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
-    optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );
 }
@@ -4946,6 +4944,15 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj, const std::
         sptr->container_item_variant = jo.get_string( "variant" );
     } else {
         use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
+    }
+    if( obj.has_array( "components" ) ) {
+        JsonArray ja = obj.get_array( "components" );
+        std::vector<itype_id> made_of;
+        for( JsonValue sub : ja ) {
+            itype_id component = itype_id( sub );
+            made_of.emplace_back( component );
+        }
+        sptr->components_items = made_of;
     }
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
     use_modifier |= load_str_arr( modifier.snippets, obj, "snippets" );

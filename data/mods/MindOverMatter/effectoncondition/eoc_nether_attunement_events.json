@@ -1,6 +1,192 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_NETHER_CONDUIT_VALUE_INCREASER_2",
+            "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", "<", "25" ] },
+            "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "+=", "rng(1,2.4)" ] } ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "math": [ "u_latest_channeled_power_difficulty", "=", "_difficulty" ] },
+      {
+        "run_eocs": [
+          {
+            "id": "EOC_PSIONICS_GAIN_NETHER_ATTUNEMENT_2",
+            "condition": { "math": [ "u_vitamin('vitamin_psionic_drain')", "<", "15" ] },
+            "effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD_CHECKER",
+                    "condition": {
+                      "x_in_y_chance": {
+                        "x": {
+                          "math": [
+                            "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + (u_nether_conduit_repeated_channeling_value / 3) + (u_vitamin('vitamin_maintained_powers') * 3)"
+                          ]
+                        },
+                        "y": 100
+                      }
+                    },
+                    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD" } ]
+                  }
+                ]
+              }
+            ],
+            "false_effect": [
+              {
+                "run_eocs": [
+                  {
+                    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD_CHECKER",
+                    "condition": {
+                      "x_in_y_chance": {
+                        "x": {
+                          "math": [
+                            "(u_latest_channeled_power_difficulty * u_latest_channeled_power_difficulty) + u_nether_conduit_repeated_channeling_value  + (u_vitamin('vitamin_maintained_powers') * 3)"
+                          ]
+                        },
+                        "y": 100
+                      }
+                    },
+                    "effect": [ { "run_eocs": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD" } ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_BELOW_THRESHOLD",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(1) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [ "u_vitamin('vitamin_psionic_drain')", "+=", "rand(3) + (rand(u_vitamin('vitamin_maintained_powers')) / 2)" ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RAISE_ATTUNEMENT_ABOVE_THRESHOLD",
+    "condition": { "u_has_effect": "effect_noetic_resilience" },
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rand((u_latest_channeled_power_difficulty) / 2) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ],
+    "false_effect": [
+      { "u_message": "As you unleash your powers, you feel a strange tingling sensation.", "type": "mixed" },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "(rand(u_latest_channeled_power_difficulty) * u_nether_attunement_power_scaling) + rand(u_vitamin('vitamin_maintained_powers'))"
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_CONDUIT_VALUE_DECREASER",
+    "recurrence": [ "3 seconds", "15 seconds" ],
+    "global": true,
+    "run_for_npcs": true,
+    "condition": { "math": [ "u_nether_conduit_repeated_channeling_value", ">", "0" ] },
+    "effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "-=", "1" ] } ],
+    "false_effect": [ { "math": [ "u_nether_conduit_repeated_channeling_value", "=", "0" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_PSIONICS_SET_NETHER_ATTUNEMENT_BOOST",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

@@ -69,5 +69,15 @@
     "min_duration": 36000,
     "max_duration": 1080000,
     "duration_increment": 36000
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "NOCTURNAL_DAY",
+    "trait": "NOCTURNAL"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "NOCTURNAL_NIGHT",
+    "trait": "NOCTURNAL"
   }
 ]

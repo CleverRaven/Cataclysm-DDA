@@ -1506,6 +1506,49 @@
     "color": "brown"
   },
   {
+    "type": "GENERIC",
+    "id": "LIXA_lab_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA on-site staff notice" },
+    "snippet_category": "LIXA_lab_files",
+    "copy-from": "file",
+    "description": "A brief with the word LIXA on the official letterhead, for distribution to the onsite staff."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_generic_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA data file" },
+    "copy-from": "file",
+    "description": "A sheaf of papers containing a truly dizzying assortment of graphs, diagrams, and equations, on LIXA letterhead."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_mil_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA military notice" },
+    "snippet_category": "LIXA_mil_files",
+    "copy-from": "file",
+    "description": "A signed and serialed notice distributed to LIXA's onsite military police."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_postit",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "post-it note" },
+    "snippet_category": "LIXA_lab_notes",
+    "description": "A cyan post-it note.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "lab_postit_bio"
+  },
+  {
     "id": "glass_book",
     "type": "GENERIC",
     "name": { "str": "battered glass storybook" },
