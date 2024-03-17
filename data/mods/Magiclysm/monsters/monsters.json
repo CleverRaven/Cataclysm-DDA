@@ -811,6 +811,7 @@
     "weakpoint_sets": [ "wps_arthropod" ],
     "harvest": "arachnid_acid",
     "dissect": "dissect_troglobite_sample_small",
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "special_attacks": [
       { "id": "grab", "cooldown": 5, "condition": { "not": { "u_has_effect": "maimed_leg" } } },
@@ -892,6 +893,7 @@
         "miss_msg_npc": "%s's tentacles try to grab <npcname>, but they dodge!"
       }
     ],
+    "anger_triggers": [ "PLAYER_CLOSE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HAS_MIND", "PATH_AVOID_DANGER_1", "PATH_AVOID_FIRE", "WARM" ],
     "armor": { "bash": 15, "cut": 2, "heat": 10, "necrotic": 5, "poison": 100 }
   }
