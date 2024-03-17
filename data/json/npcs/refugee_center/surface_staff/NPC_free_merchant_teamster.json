@@ -68,7 +68,7 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "switch": true
+        "switch": true,
         "default": true
       },
       {
