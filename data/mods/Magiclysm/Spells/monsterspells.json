@@ -352,7 +352,7 @@
   },
   {
     "type": "SPELL",
-    "id": "ankheg_acid_spit",
+    "id": "ankheg_acid_spit_self",
     "name": { "str": "Ankheg Acid Spit Self" },
     "description": "Maims the ankheg's acid gland after spitting acid.",
     "flags": [ "RANDOM_DURATION", "NO_HANDS", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
