@@ -778,7 +778,7 @@ bool vehicle::autodrive_controller::check_drivable( const tripoint_bub_ms &pt ) 
     } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
-    } else if( terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+    } else if( terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) && !terrain_type.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ) {
         // water and lava
         return false;
     }

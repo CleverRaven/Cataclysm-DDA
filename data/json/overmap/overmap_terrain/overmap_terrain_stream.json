@@ -6,6 +6,7 @@
     "name": "stream",
     "sym": ".",
     "color": "light_blue",
+    "travel_cost_type": "field",
     "flags": [ "REQUIRES_PREDECESSOR" ]
   }
 ]
