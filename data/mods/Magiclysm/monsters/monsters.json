@@ -847,5 +847,52 @@
     "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SEES", "HEARS", "EATS", "BASHES", "DIGS" ],
     "armor": { "bash": 6, "electric": 3, "acid": 30, "poison": 15 }
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_otyugh",
+    "name": { "str": "otyugh" },
+    "description": "An enormous, bulbous body dominated by a toothy maw, with three tentacles extending from the top.  Two tentacles are tipped with grasping filaments and the last has several dark spots that might be eyes.  It smells indescribably foul.",
+    "default_faction": "magical_beast",
+    "bodytype": "bear",
+    "volume": "270000 ml",
+    "weight": "240000 g",
+    "hp": 230,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "O",
+    "color": "brown",
+    "aggression": -20,
+    "morale": 80,
+    "aggro_character": false,
+    "melee_skill": 7,
+    "melee_dice": 1,
+    "melee_dice_sides": 9,
+    "dodge": 1,
+    "vision_day": 30,
+    "vision_night": 15,
+    "harvest": "zombie_animal",
+    "//": "Not a zombie, but otyughs are so filthy and diseased their meat is tainted anyway.",
+    "grab_strength": 60,
+    "special_attacks": [
+      {
+        "type": "bite",
+        "cooldown": 4,
+        "move_cost": 110,
+        "infection_chance": 95,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 25, "armor_penetration": 10 } ]
+      },
+      { "id": "tentacle" },
+      { "id": "grab", "cooldown": 7 },
+      { "id": "grab2", "cooldown": 11 },
+      {
+        "id": "ranged_pull",
+        "range": 2,
+        "miss_msg_u": "%s's tentacles try to grab you, but you dodge!",
+        "miss_msg_npc": "%s's tentacles try to grab <npcname>, but they dodge!"
+      }
+    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "GRABS", "HAS_MIND", "PATH_AVOID_DANGER_1", "PATH_AVOID_FIRE", "WARM" ],
+    "armor": { "bash": 15, "cut": 2, "heat": 10, "necrotic": 5, "poison": 100 }
   }
 ]
