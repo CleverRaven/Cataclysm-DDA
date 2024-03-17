@@ -1169,7 +1169,19 @@ Example:
 ```
 
 #### var_val
-var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. So if you had
+var_val is a unique variable object in the fact that it attempts to resolve the variable stored inside a context variable. The values for var_val use the same syntax for scope that math [variables](#variables) do. 
+
+| Prefix of the value in var_val| Resolved as      |
+|------------------|------------------|
+| No Prefix or `g_`| global_val       |
+| `_`              | context_val      |
+| `u_`             | u_val            |
+| `n_`             | npc_val          |
+| `v_`             | var_val          |
+
+In practice, `{ "var_val": "name" }` can be understood as `{ "global_val/context_val/u_val/npc_val": { "context_val": "name" } }`.
+
+So if you had
 
 | Name | Type | Value |
 | --- | --- | --- |
@@ -1180,8 +1192,6 @@ var_val is a unique variable object in the fact that it attempts to resolve the 
 
 If you access "ref" as a context val it will have the value of "key1", if you access it as a var_val it will have a value of "SOME TEXT". 
 If you access "ref2" as a context val it will have the value of "u_key2", if you access it as a var_val it will have a value of "SOME OTHER TEXT". 
-
-The values for var_val use the same syntax for scope that math [variables](#variables) do.
 
 ### Mutators
 `mutators`: take in an amount of data and provide you with a relevant string. This can be used to get information about items, monsters, etc. from the id, or other data. Mutators can be used anywhere that a string [variable object](#variable-object) can be used. Mutators take the form:
