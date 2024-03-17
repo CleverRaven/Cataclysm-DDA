@@ -240,6 +240,19 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_BUFF_ARMOR_ALLIES",
+    "name": { "str": "Skin of the Mountains" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When gaining this ability, the Ierde gains the ability to infuse the resilience of the earth into one of their allies.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "prereqs2": [ "IERDE_SLOW_ENEMIES" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_buff_armor_allies_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_NO_SCENT_AND_IRON",
     "name": {
       "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
