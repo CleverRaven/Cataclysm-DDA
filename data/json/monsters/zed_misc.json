@@ -530,7 +530,7 @@
         "max_range": 6,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } },
-        "self_effects": [ { "id": "fragile_frog", "duration": 1 } ]
+        "self_effects": [ { "id": "fragile_frog", "duration": 30 } ]
       },
       {
         "id": "dusty_frog_leap",
@@ -573,7 +573,7 @@
         "max_range": 4,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } },
-        "self_effects": [ { "id": "fragile_frog", "duration": 1 } ]
+        "self_effects": [ { "id": "fragile_frog", "duration": 30 } ]
       },
       {
         "id": "fragile_frog_leap",
@@ -614,7 +614,7 @@
         "max_range": 4,
         "min_consider_range": 2,
         "condition": { "not": { "u_has_effect": "maimed_leg" } },
-        "self_effects": [ { "id": "fragile_frog", "duration": 1 } ]
+        "self_effects": [ { "id": "fragile_frog", "duration": 30 } ]
       },
       {
         "id": "fragile_frog_leap",

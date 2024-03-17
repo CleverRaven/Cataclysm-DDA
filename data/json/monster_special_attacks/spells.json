@@ -138,7 +138,8 @@
     "max_aoe": 3,
     "effect": "attack",
     "min_range": 1,
-    "max_range": 1
+    "max_range": 1,
+    "extra_effects": [ { "id": "fragile_no_more", "hit_self": true } ]
   },
   {
     "type": "SPELL",
@@ -161,7 +162,18 @@
     "max_aoe": 2,
     "effect": "attack",
     "min_range": 1,
-    "max_range": 1
+    "max_range": 1,
+    "extra_effects": [ { "id": "fragile_no_more", "hit_self": true } ]
+  },  
+  {
+    "id": "fragile_no_more",
+    "type": "SPELL",
+    "name": "Fragile No More",
+    "description": "removes conditional effect for burned frogs crumble after leaping.",
+    "valid_targets": [ "self" ],
+    "effect": "remove_effect",
+    "effect_str": "fragile_frog",
+    "shape": "blast"
   },
   {
     "type": "SPELL",

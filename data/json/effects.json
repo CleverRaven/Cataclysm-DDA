@@ -4887,6 +4887,7 @@
     "id": "fragile_frog",
     "name": [ "Fragile Frog" ],
     "desc": [ "Applied by leap special attack of burned frog zombies, conditional for related spell." ],
-    "max_duration": "1 s"
+    "max_duration": "5 m",
+    "show_in_info": true
   }
 ]
