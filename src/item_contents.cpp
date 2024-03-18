@@ -244,7 +244,7 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
         ret_val<item_pocket::contain_code> contain = selected_pocket->can_contain( *item_to_move.first );
 
         bool cant_reload = false;
-        std::string reload_fail = "";
+        std::string reload_fail;
         if( selected_pocket->get_pocket_data()->_no_reload ) {
             cant_reload = true;
             reload_fail = _( "destination container can't be reloaded." );
