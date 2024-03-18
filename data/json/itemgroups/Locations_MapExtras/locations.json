@@ -614,6 +614,7 @@
       [ "fish_bait", 100 ],
       [ "fish_trap", 100 ],
       [ "bucket", 100 ],
+      [ "bucket_5gal", 100 ],
       [ "fishing_hook_basic", 100 ]
     ]
   },
@@ -1332,7 +1333,8 @@
       [ "shovel", 10 ],
       [ "e_tool", 5 ],
       { "item": "miner_hat", "prob": 40, "charges": [ 0, 100 ] },
-      [ "bucket", 10 ],
+      [ "bucket", 5 ],
+      [ "bucket_5gal", 20 ],
       [ "grapnel", 1 ],
       { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 5 ],
