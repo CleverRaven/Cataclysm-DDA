@@ -310,7 +310,17 @@
         [ "knife_paring", 1 ],
         [ "fork", 1 ]
       ],
-      [ [ "wire", 1 ], [ "hairpin", 1 ], [ "cable", 1 ] ]
+      [
+        [ "wire", 1 ],
+        [ "hairpin", 1 ],
+        [ "cable", 1 ],
+        [ "lc_wire", 1 ],
+        [ "hc_wire", 1 ],
+        [ "ch_wire", 1 ],
+        [ "lc_wire", 1 ],
+        [ "mc_wire", 1 ],
+        [ "qt_wire", 1 ]
+      ]
     ]
   },
   {
