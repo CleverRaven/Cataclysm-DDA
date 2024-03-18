@@ -3378,6 +3378,7 @@ void veh_interact::complete_vehicle( Character &you )
                 you.activity.set_to_null();
             }
 
+            // Save these values now so they aren't lost when parts or vehicles are destroyed.
             const point part_mount = vp->mount;
             const tripoint part_pos = veh.global_part_pos3( *vp );
 
