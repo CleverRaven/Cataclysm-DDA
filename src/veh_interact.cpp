@@ -3382,7 +3382,6 @@ void veh_interact::complete_vehicle( Character &you )
             const point part_mount = vp->mount;
             const tripoint part_pos = veh.global_part_pos3( *vp );
 
-            vpi.has_flag( VPFLAG_CABLE_PORTS ) || vpi.has_flag( VPFLAG_BATTERY );
             veh.unlink_cables( part_mount, you,
                                false, /* unneeded as items will be unlinked if the connected part is removed */
                                appliance_removal || vpi.location == "structure",
