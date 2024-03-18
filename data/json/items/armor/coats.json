@@ -891,7 +891,7 @@
   {
     "id": "jacket_army",
     "//": "Intended to be, and modelled off of, an M65 combat jacket.",
-    "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we’re basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
+    "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we're basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
     "type": "ARMOR",
     "looks_like": "coat_winter",
     "name": { "str": "army jacket" },
@@ -899,11 +899,11 @@
     "weight": "1400 g",
     "volume": "3 L",
     "price": 14147,
-    "//3": "The price of a surplus jacket would be much, much cheaper, but such is the compromise when you’re simulating new and old in the same basket.",
+    "//3": "The price of a surplus jacket would be much, much cheaper, but such is the compromise when you're simulating new and old in the same basket.",
     "price_postapoc": 425,
     "material": [ { "type": "nylon", "portion": 3 }, { "type": "cotton_quilted", "portion": 1 } ],
     "//4": "The shell is made from a midweight NyCo blend wind resistant sateen, fully lined with a lightweight NyCo blend wind resistant poplin: https://omegamilitaria.com/blogs/reference-guides/the-ultimate-visual-buyers-guide-to-the-m65-field-jacket",
-    "//5": "M65 jackets have a quilted liner of cotton that’s generally removable. Considering that the player isn’t able to extract the liner from this garment, we’re assuming that the liner is in all the time, hence the quilted cotten material.",
+    "//5": "M65 jackets have a quilted liner of cotton that's generally removable. Considering that the player isn't able to extract the liner from this garment, we're assuming that the liner is in all the time, hence the quilted cotten material.",
     "symbol": "[",
     "color": "green",
     "armor": [
@@ -953,7 +953,7 @@
         "pocket_type": "CONTAINER",
         "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
         "max_contains_volume": "361 ml",
-        "max_contains_weight": "1.5 kg",
+        "max_contains_weight": "1500 g",
         "max_item_length": "18 cm",
         "description": "Button-fastened chest pocket.",
         "moves": 80
@@ -962,7 +962,7 @@
         "pocket_type": "CONTAINER",
         "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
         "max_contains_volume": "361 ml",
-        "max_contains_weight": "1.5 kg",
+        "max_contains_weight": "1500 g",
         "max_item_length": "18 cm",
         "description": "Button-fastened chest pocket.",
         "moves": 80
@@ -986,7 +986,7 @@
         "id": "m65_woodland",
         "//": "Intended to be US M81 woodland camo.",
         "name": { "str": "woodland-camo combat jacket" },
-        "description": "Tried and true, the US military’s antiquated 4-tone woodland camouflage pattern covers this particular jacket: large, high-contrast patches of green, black, brown, and sand hues, all rather faded from years and ware.",
+        "description": "Tried and true, the US military's antiquated 4-tone woodland camouflage pattern covers this particular jacket: large, high-contrast patches of green, black, brown, and sand hues, all rather faded from years and ware.",
         "color": "green",
         "weight": 25,
         "append": true
@@ -995,7 +995,7 @@
         "id": "m65_desert",
         "//": "Intended to be US DCU camo.",
         "name": { "str": "desert-camo combat jacket" },
-        "description": "This jacket’s brass zipper runs from collar to hem, a river of metallic brown nitting together the coat’s arid-hued lapels, printed with a 3-tone mix of pale green, dark brown, and beige.  Looking at it, you wonder how many zombies are wandering about the gulf right now.",
+        "description": "This jacket's brass zipper runs from collar to hem, a river of metallic brown nitting together the coat's arid-hued lapels, printed with a 3-tone mix of pale green, dark brown, and beige.  Looking at it, you wonder how many zombies are wandering about the gulf right now.",
         "color": "brown",
         "weight": 20,
         "append": true
@@ -1020,7 +1020,7 @@
       {
         "id": "m65_ocean",
         "name": { "str": "ocean-camouflage combat jacket" },
-        "description": "This jacket’s exterior shell is dyed a mix of blue and grey hues, with extra patches and disruptive striations, flipping between black and dark grey, covering the garment from collar to hem.  Crome buttons, zips, and other fixtures glint from their home upon the coat.",
+        "description": "This jacket's exterior shell is dyed a mix of blue and grey hues, with extra patches and disruptive striations, flipping between black and dark grey, covering the garment from collar to hem.  Crome buttons, zips, and other fixtures glint from their home upon the coat.",
         "color": "blue",
         "weight": 10,
         "append": true
@@ -1029,7 +1029,7 @@
         "id": "m65_digital",
         "//": "Intended to be US military UCP camo.",
         "name": { "str": "digital-camo combat jacket" },
-        "description": "The fabric of this particular jacket is coated in the pixelized camouflage pattern of the United States Army’s former combat uniform, combining a sand-brown base with disruptive patterns of urban grey and sage green, as well as plastic zips and buttons.",
+        "description": "The fabric of this particular jacket is coated in the pixelized camouflage pattern of the United States Army's former combat uniform, combining a sand-brown base with disruptive patterns of urban grey and sage green, as well as plastic zips and buttons.",
         "color": "green",
         "weight": 5,
         "append": true
@@ -3648,12 +3648,12 @@
         "coverage": 100
       }
     ],
-    "//2": "Pocket dimensions are sourced from the reliable fountain of knowledge known as: I made a plausible enough guess after measuring the pockets of several other jackets that aren’t this particular one to extrapolate them out into what they might feasibly be.",
+    "//2": "Pocket dimensions are sourced from the reliable fountain of knowledge known as: I made a plausible enough guess after measuring the pockets of several other jackets that aren't this particular one to extrapolate them out into what they might feasibly be.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "812 ml",
-        "max_contains_weight": "2.5 kg",
+        "max_contains_weight": "2500 g",
         "max_item_length": "16 cm",
         "moves": 80,
         "description": "Zip-up chest pocket."
@@ -3661,7 +3661,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "812 ml",
-        "max_contains_weight": "2.5 kg",
+        "max_contains_weight": "2500 g",
         "max_item_length": "16 cm",
         "moves": 80,
         "description": "Zip-up chest pocket."
@@ -3677,7 +3677,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "348 ml",
-        "max_contains_weight": "1.5 kg",
+        "max_contains_weight": "1500 g",
         "max_item_length": "12 cm",
         "moves": 120,
         "description": "Upper arm pocket."
@@ -3685,7 +3685,7 @@
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "348 ml",
-        "max_contains_weight": "1.5 kg",
+        "max_contains_weight": "1500 g",
         "max_item_length": "12 cm",
         "moves": 120,
         "description": "Upper arm pocket."
@@ -3715,7 +3715,7 @@
       {
         "id": "tacjacket_woodland",
         "name": { "str": "forest-camo tactical jacket" },
-        "description": "Paying homage to the field-proven camouflage pattern of old US military uniforms, this huntsman’s jacket is printed with a green, brown, and black woodland camouflage pattern.",
+        "description": "Paying homage to the field-proven camouflage pattern of old US military uniforms, this huntsman's jacket is printed with a green, brown, and black woodland camouflage pattern.",
         "color": "green",
         "weight": 6
       },
@@ -3729,14 +3729,14 @@
       {
         "id": "tacjacket_grassland",
         "name": { "str": "savanna tactical jacket" },
-        "description": "This adventurous-looking jacket would be at home on a safari to the Horn of Africa, dyed, as it is, in light greens, browns, and beige tones.  Then again, you suppose that every day’s a safari now.  You’re just not sure who’s meant to be the hunter: you or the dead.",
+        "description": "This adventurous-looking jacket would be at home on a safari to the Horn of Africa, dyed, as it is, in light greens, browns, and beige tones.  Then again, you suppose that every day's a safari now.  You're just not sure who's meant to be the hunter: you or the dead.",
         "color": "green",
         "weight": 6
       },
       {
         "id": "tacjacket_marshland",
         "name": { "str": "marshland-camo tactical jacket" },
-        "description": "A staple companion of gamesmen who’s trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, grey, green, and black hues.",
+        "description": "A staple companion of gamesmen who's trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, grey, green, and black hues.",
         "color": "brown",
         "weight": 6
       },
@@ -3757,7 +3757,7 @@
       {
         "id": "tacjacket_urban",
         "name": { "str": "urban-camo tactical jacket" },
-        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colours — blacks, greys, and dirty whites — to offer better concealment within New England’s man-made battle grounds. Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
+        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colours — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds. Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
         "color": "dark_gray",
         "weight": 6
       },
@@ -3771,7 +3771,7 @@
       {
         "id": "tacjacket_river",
         "name": { "str": "river-camo tactical jacket" },
-        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and grey — that would make it at home with any river-based huntsman or angler, with its water-repellent construction insuring that one’s possessions are protected from river spray.",
+        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and grey — that would make it at home with any river-based huntsman or angler, with its water-repellent construction insuring that one's possessions are protected from river spray.",
         "color": "blue",
         "weight": 6
       },
@@ -3785,7 +3785,7 @@
       {
         "id": "tacjacket_grey",
         "name": { "str": "wolf tactical jacket" },
-        "description": "Suttle and unassuming, save for the purely Ludacris number of pockets it’s coated in, this hardy overgarment’s outer shell is dyed a muted tone of grey, verging into beige.",
+        "description": "Suttle and unassuming, save for the purely Ludacris number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of grey, verging into beige.",
         "color": "dark_gray",
         "weight": 6
       },
