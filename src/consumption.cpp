@@ -248,14 +248,6 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
             }
         }
     }
-    for( const bionic_id &bid : you.get_bionics() ) {
-        if( bid->vitamin_absorb_mod == 1.0f ) {
-            continue;
-        }
-        for( std::pair<const vitamin_id, int> &vit : res ) {
-            vit.second *= bid->vitamin_absorb_mod;
-        }
-    }
     for( std::pair<const vitamin_id, int> &vit : res ) {
         vit.second = you.enchantment_cache->modify_value( enchant_vals::mod::VITAMIN_ABSORB_MOD,
                      vit.second );
