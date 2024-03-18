@@ -1147,6 +1147,13 @@
   },
   {
     "type": "GENERIC",
+    "id": "drum_skin",
+    "name": { "str": "drum skin" },
+    "copy-from": "tanned_hide",
+    "description": "The tanned hide of an animal repursed to become the head on a percusssion drum."
+  },
+  {
+    "type": "GENERIC",
     "id": "torch_done",
     "symbol": "/",
     "color": "brown",
