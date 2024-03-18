@@ -3635,6 +3635,7 @@
       {
         "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ],
         "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "arm_lower_l", "arm_lower_r" ],
         "coverage": 100,
         "encumbrance": [ 5, 7 ]
       },
@@ -3717,98 +3718,112 @@
         "name": { "str": "forest-camo tactical jacket" },
         "description": "Paying homage to the field-proven camouflage pattern of old US military uniforms, this huntsman's jacket is printed with a green, brown, and black woodland camouflage pattern.",
         "color": "green",
-        "weight": 6
+        "weight": 30,
+        "append": true
       },
       {
         "id": "tacjacket_jungle",
         "name": { "str": "jungle-camo tactical jacket" },
         "description": "Bright and dark green shades meet within the patterning of this tactical jacket, embellished by tones of earthen brown and other natural hues.  The trees of the Amazon will speak your native tongue as you stalk around, waging gorilla warfare against the undead, with this jacket on.  It's just a shame that the rainforest is quite a walk away.",
         "color": "green",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_grassland",
         "name": { "str": "savanna tactical jacket" },
         "description": "This adventurous-looking jacket would be at home on a safari to the Horn of Africa, dyed, as it is, in light greens, browns, and beige tones.  Then again, you suppose that every day's a safari now.  You're just not sure who's meant to be the hunter: you or the dead.",
         "color": "green",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_marshland",
         "name": { "str": "marshland-camo tactical jacket" },
         "description": "A staple companion of gamesmen who's trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, grey, green, and black hues.",
         "color": "brown",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_desert",
         "name": { "str": "arid tactical jacket" },
         "description": "If you were traipsing off to the Sonoran desert, this pocket-layden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
         "color": "brown",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_alpine",
         "name": { "str": "alpine-camo tactical jacket" },
         "description": "A comfortable overcoat for the summer-time mountaineer, hiker, or alpine hunter, this predominantly grey jacket is coated in jagged lines and geometric shapes of brown and white dye.",
         "color": "light_gray",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_urban",
         "name": { "str": "urban-camo tactical jacket" },
         "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colours — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds. Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
         "color": "dark_gray",
-        "weight": 6
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_ocean",
         "name": { "str": "maritime tactical jacket" },
         "description": "Resplendent in a wide assortment of blue and light grey tones, this versatile outerwear is the garment of choice for ocean-side activities, namely ocean activities with less fun sea-side paddling and more marine security and over-the-beach gunfights.",
         "color": "blue",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_river",
         "name": { "str": "river-camo tactical jacket" },
         "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and grey — that would make it at home with any river-based huntsman or angler, with its water-repellent construction insuring that one's possessions are protected from river spray.",
         "color": "blue",
-        "weight": 6
+        "weight": 12,
+        "append": true
       },
       {
         "id": "tacjacket_arctic",
         "name": { "str": "poler-camo tactical jacket" },
         "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, grey, and a hint of light brown.",
         "color": "white",
-        "weight": 6
+        "weight": 5,
+        "append": true
       },
       {
         "id": "tacjacket_grey",
         "name": { "str": "wolf tactical jacket" },
         "description": "Suttle and unassuming, save for the purely Ludacris number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of grey, verging into beige.",
         "color": "dark_gray",
-        "weight": 6
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_coyote",
         "name": { "str": "coyote-brown tactical jacket" },
         "description": "Modest and relatively plain, as far as tactical equipment goes, this particular jacket is dyed a solid shade of earthen brown.",
         "color": "brown",
-        "weight": 6
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_green",
         "name": { "str": "olive-drab tactical jacket" },
         "description": "The venerable shade of old military equipment, modern reproductions, and prepper camo-closets, this particular jacket is completely dyed a traditional shade of olive green.",
         "color": "green",
-        "weight": 6
+        "weight": 25,
+        "append": true
       },
       {
         "id": "tacjacket_black_camo",
         "name": { "str": "urban-black tactical jacket" },
         "description": "Pitch-black, from its mandarin collar to its hems, this jacket is a coat for the aspiring nocturnal operator, tacticool edge lord, and those in the business to be afoot during the small hours of the night.",
         "color": "black",
-        "weight": 6
+        "weight": 15,
+        "append": true
       }
     ]
   }
