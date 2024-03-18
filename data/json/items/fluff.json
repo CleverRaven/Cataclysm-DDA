@@ -1625,14 +1625,14 @@
         "name": { "str": "goofy doodle" },
         "description": "This one is a collection of assorted doodles of goofy cartoon characters in varying styles.",
         "append": true,
-        "weight": 1
+        "weight": 10
       },
       {
         "id": "sketch_dark_doodles",
         "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
         "description": "This one is a collection of assorted doodles, many have dark imagery and shadowy figures.  It's kind of distrubing.",
         "append": true,
-        "weight": 1
+        "weight": 2
       },
       {
         "id": "sketch_dark_character_doodles",
@@ -1640,7 +1640,7 @@
         "description": "This one is a <sketch_concept_description> <random_character_pose_dark>.  <artist_identifying_info>.  It gives off a sense of unease.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 2
       },
       {
         "id": "sketch_concept_doodles",
@@ -1648,7 +1648,7 @@
         "description": "This one is a <sketch_concept_description> <random_character_pose>.  <artist_identifying_info>.  It would appear that this is some sort of concept art.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 7
       }
     ]
   },
@@ -1668,7 +1668,7 @@
         "description": "This painting depicts a <sketch_concept_description> <random_character_pose>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 5
       },
       {
         "id": "painting_landscape",
@@ -1676,7 +1676,7 @@
         "description": "This painting depicts a <landscape_description>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 10
       },
       {
         "id": "painting_abstract",
@@ -1684,7 +1684,7 @@
         "description": "This painting depicts <abstract_art_type>.  It seems to have been <painting_type>.  <artist_identifying_info>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 7
       }
     ]
   },
@@ -1710,7 +1710,7 @@
         "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 10
       },
       {
         "id": "statue_releif",
@@ -1718,7 +1718,7 @@
         "description": "This statue depicts <abstract_statue_type>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 7
       },
       {
         "id": "sculpture_releif",
@@ -1726,7 +1726,7 @@
         "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 8
       },
       {
         "id": "sculpture_releif",
@@ -1734,7 +1734,7 @@
         "description": "This releif depicts a <landscape_description>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 8
       }
     ],
     "melee_damage": { "bash": 14 }
@@ -1761,7 +1761,7 @@
         "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 10
       },
       {
         "id": "statue_releif",
@@ -1769,7 +1769,7 @@
         "description": "This statue depicts <abstract_statue_type>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 7
       },
       {
         "id": "sculpture_releif",
@@ -1777,7 +1777,7 @@
         "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 8
       },
       {
         "id": "sculpture_releif",
@@ -1785,7 +1785,7 @@
         "description": "This releif depicts a <landscape_description>.",
         "append": true,
         "expand_snippets": true,
-        "weight": 1
+        "weight": 8
       }
     ],
     "melee_damage": { "bash": 10 }
