@@ -164,6 +164,7 @@ static const json_character_flag json_flag_BIONIC_POWER_SOURCE( "BIONIC_POWER_SO
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
+static const json_character_flag json_flag_MANUAL_CBM_INSTALLATION( "MANUAL_CBM_INSTALLATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id fuel_type_metabolism( "metabolism" );
@@ -330,11 +331,9 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     // uses assign because optional doesn't handle loading units as strings
     assign( jsobj, "react_cost", power_over_time, false, 0_kJ );
     assign( jsobj, "capacity", capacity, false );
-    assign( jsobj, "weight_capacity_bonus", weight_capacity_bonus, false );
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
-    assign( jsobj, "power_trickle", power_trickle, false, 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0_turns );
 
@@ -352,7 +351,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
 
     optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
-    optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
     optional( jsobj, was_loaded, "power_gen_emission", power_gen_emission );
     optional( jsobj, was_loaded, "coverage_power_gen_penalty", coverage_power_gen_penalty );
@@ -374,8 +372,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     optional( jsobj, was_loaded, "available_upgrades", available_upgrades );
 
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
-
-    optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
 
     optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
 
@@ -403,14 +399,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
-    if( jsobj.has_array( "stat_bonus" ) ) {
-        // clear data first so that copy-from can override it
-        stat_bonus.clear();
-        for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
-            stat_bonus.emplace( io::string_to_enum<character_stat>( ja.get_string( 0 ) ),
-                                ja.get_int( 1 ) );
-        }
-    }
     if( jsobj.has_array( "encumbrance" ) ) {
         // clear data first so that copy-from can override it
         encumbrance.clear();
@@ -694,7 +682,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     int ammo_count = weap.ammo_remaining( this );
     const units::energy ups_drain = weap.get_gun_ups_drain();
     if( ups_drain > 0_kJ ) {
-        ammo_count = units::from_kilojoule( ammo_count ) / ups_drain;
+        ammo_count = units::from_kilojoule( static_cast<std::int64_t>( ammo_count ) ) / ups_drain;
     }
 
     // the weapon value from `weapon_value` may be different from `npc_attack_rating`
@@ -1193,7 +1181,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             }
             ctr.charges = units::to_kilojoule( get_power_level() );
             int power_use = invoke_item( &ctr );
-            mod_power_level( units::from_kilojoule( -power_use ) );
+            mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -power_use ) ) );
             bio.powered = ctr.active;
         } else {
             bio.powered = g->remoteveh() != nullptr || !get_value( "remote_controlling" ).empty();
@@ -1454,8 +1442,10 @@ void Character::burn_fuel( bionic &bio )
     float efficiency;
     if( !bio.powered ) {
         // Modifiers for passive bionic
-        if( bio.info().power_trickle != 0_J ) {
-            mod_power_level( bio.info().power_trickle );
+        units::energy trickle = enchantment_cache->modify_value( enchant_vals::mod::POWER_TRICKLE,
+                                0_J );
+        if( trickle != 0_J ) {
+            mod_power_level( trickle );
         }
 
         efficiency = get_effective_efficiency( bio, bio.info().passive_fuel_efficiency );
@@ -2008,7 +1998,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
     }
 
     if( patient.has_bionic( bio_painkiller ) || patient.has_flag( json_flag_PAIN_IMMUNE ) ||
-        has_trait( trait_DEBUG_BIONICS ) ) {
+        patient.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) || has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
 
@@ -2022,7 +2012,7 @@ bool Character::has_enough_anesth( const itype &cbm, Character &patient ) const
 bool Character::has_enough_anesth( const itype &cbm ) const
 {
     if( has_bionic( bio_painkiller ) || has_flag( json_flag_PAIN_IMMUNE ) ||
-        has_trait( trait_DEBUG_BIONICS ) ) {
+        has_flag( json_flag_MANUAL_CBM_INSTALLATION ) || has_trait( trait_DEBUG_BIONICS ) ) {
         return true;
     }
     const int weight = units::to_kilogram( bodyweight() ) / 10;
@@ -2142,7 +2132,8 @@ int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const 
 // bionic manipulation chance of success
 int bionic_manip_cos( float adjusted_skill, int bionic_difficulty )
 {
-    if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
+    if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ||
+        get_player_character().has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         return 100;
     }
 
@@ -2240,7 +2231,8 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
     }
 
     int success = chance_of_success - rng( 1, 100 );
-    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ||
+        installer.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         perform_uninstall( bio, difficulty, success, pl_skill );
         return true;
     }
@@ -2439,7 +2431,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
         debugmsg( "Tried to install NULL bionic" );
         return false;
     }
-    if( has_trait( trait_DEBUG_BIONICS ) ) {
+    if( has_trait( trait_DEBUG_BIONICS ) || has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         return true;
     }
     if( is_mounted() ) {
@@ -2543,7 +2535,8 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
     }
 
     int success = chance_of_success - rng( 0, 99 );
-    if( installer.has_trait( trait_DEBUG_BIONICS ) ) {
+    if( installer.has_trait( trait_DEBUG_BIONICS ) ||
+        installer.has_flag( json_flag_MANUAL_CBM_INSTALLATION ) ) {
         perform_install( bioid, upbio_uid, difficulty, success, pl_skill, "NOT_MED",
                          bioid->canceled_mutations, pos() );
         return true;
@@ -2577,6 +2570,9 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
                                  int success, int pl_skill, const std::string &installer_name,
                                  const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
+    // if we chop off a limb, our stored kcal should decrease proportionally
+    float cached_healthy_kcal = get_healthy_kcal();
+
     if( success > 0 ) {
         get_event_bus().send<event_type::installs_cbm>( getID(), bid );
         if( upbio_uid ) {
@@ -2600,6 +2596,9 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
                 remove_mutation( tid );
             }
         }
+        // now that bionic has been added, compare our new healthy kcal to our old healthy kcal and multiply stored kcal by the ratio
+        set_stored_kcal( get_stored_kcal() * ( static_cast<float>( get_healthy_kcal() ) /
+                                               cached_healthy_kcal ) );
 
     } else {
         get_event_bus().send<event_type::fails_to_install_cbm>( getID(), bid );
@@ -2968,6 +2967,8 @@ void Character::remove_bionic( const bionic &bio )
     if( has_enchantments ) {
         recalculate_enchantment_cache();
     }
+    // clean up any changes from bionic limbs
+    recalculate_bodyparts();
     effect_on_conditions::process_reactivate( *this );
 }
 
@@ -3516,18 +3517,6 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
     }
 
     return remote_vehicles;
-}
-
-int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
-{
-    int ret = 0;
-    for( const bionic_id &bid : get_bionics() ) {
-        const auto St_bn = bid->stat_bonus.find( Stat );
-        if( St_bn != bid->stat_bonus.end() ) {
-            ret += St_bn->second;
-        }
-    }
-    return ret;
 }
 
 bool Character::is_using_bionic_weapon() const

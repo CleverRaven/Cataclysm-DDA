@@ -2290,6 +2290,35 @@ static void faction_edit_opinion_menu( faction *fac )
     }
 }
 
+static void faction_edit_larder_menu( faction *fac )
+{
+    uilist smenu;
+    smenu.addentry( 0, true, 'l', _( "kcal: have stored %i" ), fac->food_supply.kcal() );
+    const auto &vits = vitamin::all();
+    for( const auto &v : vits ) {
+        smenu.addentry( -1, true, 0, _( "%s: have stored %d" ), v.second.name(),
+                        fac->food_supply.get_vitamin( v.first ) );
+    }
+
+    smenu.query();
+    int value;
+    switch( smenu.ret ) {
+        case 0:
+            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply.kcal() ) ) {
+                fac->food_supply.calories = ( value * 1000 );
+            }
+            break;
+        default:
+            if( smenu.ret >= 1 && smenu.ret < static_cast<int>( vits.size() + 1 ) ) {
+                auto iter = std::next( vits.begin(), smenu.ret - 1 );
+                if( query_int( value, _( "Set %s to?  Currently: %d" ),
+                               iter->second.name(), fac->food_supply.get_vitamin( iter->first ) ) ) {
+                    fac->food_supply.set_vitamin( iter->first, value );
+                }
+            }
+    }
+}
+
 static void faction_edit_menu()
 {
 
@@ -2309,7 +2338,7 @@ static void faction_edit_menu()
          << string_format( _( "Currency: %s" ), fac->currency.obj().nname( fac->wealth ) ) << std::endl;
     data << string_format( _( "Size: %d" ), fac->size ) << " | "
          << string_format( _( "Power: %d" ), fac->power ) << " | "
-         << string_format( _( "Food Supply: %d" ), fac->food_supply ) << std::endl;
+         << string_format( _( "Food Supply: %d" ), fac->food_supply.kcal() ) << std::endl;
     data << string_format( _( "Like: %d" ), fac->likes_u ) << " | "
          << string_format( _( "Respect: %d" ), fac->respects_u ) << " | "
          << string_format( _( "Trust: %d" ), fac->trusts_u ) << std::endl;
@@ -2348,9 +2377,7 @@ static void faction_edit_menu()
             }
             break;
         case D_FOOD:
-            if( query_int( value, _( "Change food from %d to: " ), fac->food_supply ) ) {
-                fac->food_supply = value;
-            }
+            faction_edit_larder_menu( fac );
             break;
         case D_OPINION:
             faction_edit_opinion_menu( fac );
@@ -2848,16 +2875,9 @@ void debug()
     get_event_bus().send<event_type::uses_debug_menu>( *action );
 
     // Used for quick setup, constructed outside the switches to reduce duplicate code
-    std::vector<trait_id> setup_traits;
-    setup_traits.emplace_back( trait_DEBUG_BIONICS );
-    setup_traits.emplace_back( trait_DEBUG_CLAIRVOYANCE );
-    setup_traits.emplace_back( trait_DEBUG_CLOAK );
-    setup_traits.emplace_back( trait_DEBUG_HS );
-    setup_traits.emplace_back( trait_DEBUG_LS );
-    setup_traits.emplace_back( trait_DEBUG_MANA );
-    setup_traits.emplace_back( trait_DEBUG_NODMG );
-    setup_traits.emplace_back( trait_DEBUG_NOTEMP );
-    setup_traits.emplace_back( trait_DEBUG_SPEED );
+    std::vector<trait_id> setup_traits{trait_DEBUG_BIONICS, trait_DEBUG_CLAIRVOYANCE, trait_DEBUG_CLOAK,
+                                       trait_DEBUG_HS, trait_DEBUG_LS, trait_DEBUG_MANA, trait_DEBUG_NODMG,
+                                       trait_DEBUG_NOTEMP, trait_DEBUG_SPEED};
 
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -3335,8 +3355,17 @@ void debug()
             }
             break;
         case debug_menu_index::UNLOCK_ALL:
-            if( query_yn(
-                    _( "Activating this will add the Arcade Mode achievement unlocking all starting scenarios and professions for all worlds.  You will need to save the character in order to record this.  Achievements are tracked from the save/achievements/ folder if you need to get rid of this.  Activating this will spoil factions and situations you may otherwise stumble upon naturally while playing.  Some scenarios are frustrating for the uninitiated, and some professions skip portions of the game's content.  If new to the game progression would otherwise help you be introduced to mechanics at a reasonable pace." ) ) ) {
+            if( query_yn( _(
+                              "Activating this will add the Arcade Mode achievement unlocking all starting "
+                              "scenarios and professions for all worlds.  You will need to save the "
+                              "character in order to record this.  Achievements are tracked from the "
+                              "'achievements' folder if you need to get rid of this (and the 'memorial' "
+                              "folder if you need to get rid of this from a dead character in a legacy "
+                              "save).  Activating this will spoil factions and situations you may otherwise "
+                              "stumble upon naturally while playing.  Some scenarios are frustrating for the "
+                              "uninitiated, and some professions skip portions of the game's content.  If "
+                              "new to the game, meta progression will help you be introduced to mechanics at "
+                              "a reasonable pace." ) ) ) {
                 get_achievements().report_achievement( &achievement_achievement_arcade_mode.obj(),
                                                        achievement_completion::completed );
             }

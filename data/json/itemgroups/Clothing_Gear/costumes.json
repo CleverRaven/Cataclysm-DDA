@@ -22,8 +22,6 @@
       { "item": "katana_fake", "prob": 1 },
       { "item": "longsword_fake", "prob": 1 },
       { "item": "clownshoes", "prob": 15 },
-      { "item": "santa_boots", "prob": 10 },
-      { "item": "santa_shoes", "prob": 10 },
       { "group": "costume_weapons", "prob": 5 }
     ]
   },
@@ -56,10 +54,6 @@
     "entries": [
       { "item": "vampire_fangs", "prob": 40 },
       { "item": "santa_belt", "prob": 30 },
-      { "item": "santa_wristwatch", "prob": 20 },
-      { "item": "santa_ear", "prob": 15 },
-      { "item": "santa_necklace", "prob": 15 },
-      { "item": "stockings", "variant": "santa_stockings", "prob": 15 },
       { "item": "apron_leather", "prob": 25 },
       { "item": "apron_cotton", "prob": 5 },
       { "item": "waist_apron_long", "prob": 5 },
@@ -212,26 +206,6 @@
       { "item": "bandana_head", "prob": 5 },
       { "item": "fedora", "prob": 10 },
       { "item": "porkpie", "prob": 10 },
-      { "item": "ushanka", "prob": 8 },
-      { "item": "fushanka", "prob": 8 },
-      { "item": "deerstalker", "prob": 10 },
-      { "item": "fascinator", "prob": 10 },
-      { "item": "trilby_hat", "prob": 10 },
-      { "item": "hat_cloche", "prob": 5 },
-      { "item": "hat_floppy", "prob": 10 },
-      { "item": "coonskin", "prob": 5 },
-      { "item": "fcoonskin", "prob": 5 },
-      { "item": "conical_hat", "prob": 10 },
-      { "item": "homburg_hat", "prob": 10 },
-      { "item": "fez", "prob": 5 },
-      { "item": "hat_cart", "prob": 10 },
-      { "item": "tyrolean_hat", "prob": 5 },
-      { "item": "astrakhan", "prob": 5 },
-      { "item": "fastrakhan", "prob": 5 },
-      { "item": "propeller_hat", "prob": 10 },
-      { "item": "plumber_cap", "prob": 15 },
-      { "item": "panama_hat", "prob": 8 },
-      { "item": "boater_hat", "prob": 8 },
       { "item": "nun_wimple", "prob": 12 }
     ]
   },
@@ -248,9 +222,6 @@
     "//": "jewelry for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "santa_ear", "prob": 3 },
-      { "item": "santa_necklace", "prob": 3 },
-      { "item": "santa_wristwatch", "prob": 1 },
       { "item": "onyx_silver_cufflinks", "variant": "dark_cufflinks", "prob": 10 },
       { "item": "onyx_silver_earring", "variant": "dark_earring", "prob": 25 },
       { "item": "onyx_silver_ring", "variant": "dark_ring", "prob": 25 },
@@ -293,7 +264,6 @@
       { "item": "face_veil", "prob": 10 },
       { "item": "mask_plague", "prob": 15 },
       { "item": "pumpkin_mask", "prob": 10 },
-      { "item": "neckwarmer", "prob": 5 },
       { "item": "zombie_mask", "prob": 10 }
     ]
   },
@@ -413,9 +383,6 @@
       { "item": "flag_jumpsuit", "prob": 25 },
       { "item": "flag_shirt", "prob": 25 },
       { "item": "pants", "variant": "pants_flag", "prob": 25 },
-      { "item": "hat_ball", "variant": "america_hatball", "prob": 25 },
-      { "item": "trucker_hat", "variant": "american_truckball", "prob": 25 },
-      { "item": "cowboy_hat", "variant": "flag_cowboy_hat", "prob": 15 },
       { "item": "american_flag", "prob": 25 },
       { "group": "costume_independence_undergarments_women", "prob": 25 },
       { "item": "rashguard", "variant": "flag_rashguard_shirt", "prob": 15 },
@@ -465,7 +432,6 @@
     "id": "costume_weapons",
     "type": "item_group",
     "items": [
-      [ "santa_staff", 1 ],
       [ "cutlass_inferior", 1 ],
       [ "broadsword_inferior", 1 ],
       [ "nodachi_inferior", 1 ],

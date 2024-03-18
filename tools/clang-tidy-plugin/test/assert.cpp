@@ -2,7 +2,7 @@
 
 #include <assert.h>
 #include <stdlib.h>
-
+#include <cstdlib>
 #include <cata_assert.h>
 
 void f0()

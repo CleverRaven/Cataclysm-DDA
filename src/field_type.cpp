@@ -268,7 +268,7 @@ void field_type::load( const JsonObject &jo, const std::string_view )
         int chance;
         std::string issue;
         time_duration duration;
-        std::string speech;
+        translation speech;
         optional( joc, was_loaded, "chance", chance, 0 );
         optional( joc, was_loaded, "issue", issue );
         optional( joc, was_loaded, "duration", duration, 0_turns );

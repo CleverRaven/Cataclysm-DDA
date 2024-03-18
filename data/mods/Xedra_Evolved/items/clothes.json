@@ -44,7 +44,7 @@
     "id": "alt_tshirt",
     "type": "ARMOR",
     "name": { "str": "slightly off t-shirt" },
-    "description": "A short-sleeved cotton shirt with a design.  The design seems strange somehow when you think about this t-shirt as compared to others you've seen before.",
+    "description": "A short-sleeved cotton tee featuring a uniquely odd design that sets it apart from any you've seen before.",
     "copy-from": "tshirt",
     "variant_type": "generic",
     "variants": [

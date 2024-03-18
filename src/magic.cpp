@@ -129,7 +129,6 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
         case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
-        case spell_flag::LIQUID: return "LIQUID";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -153,6 +152,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
+        case spell_flag::NO_CORPSE_QUIET: return "NO_CORPSE_QUIET";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
@@ -1099,11 +1099,8 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
-    // only required because crafting_inventory always rebuilds the cache. maybe a const version doesn't write to cache.
-    Character &guy_inv = const_cast<Character &>( guy );
-
     if( !type->spell_components.is_empty() &&
-        !type->spell_components->can_make_with_inventory( guy_inv.crafting_inventory( guy.pos(), 0 ),
+        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0, false ),
                 return_true<item> ) ) {
         return false;
     }
@@ -1119,6 +1116,7 @@ void spell::use_components( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
+    map_inv.form_from_map( guy.pos(), 0, &guy, true, false );
     for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
         guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
     }
@@ -1175,7 +1173,8 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         casting_time = type->base_casting_time.evaluate( d );
     }
 
-    casting_time *= guy.mutation_value( "casting_time_multiplier" );
+    casting_time = guy.enchantment_cache->modify_value( enchant_vals::mod::CASTING_TIME_MULTIPLIER,
+                   casting_time );
 
     if( !ignore_encumb && temp_somatic_difficulty_multiplyer > 0 ) {
         if( !has_flag( spell_flag::NO_LEGS ) ) {
@@ -2151,12 +2150,14 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    const int bionic_penalty = std::round( std::max( 0.0f,
-                                           units::to_kilojoule( guy.get_power_level() ) *
-                                           guy.mutation_value( "bionic_mana_penalty" ) ) );
+    int penalty_calc = std::round( std::max<int64_t>( 0,
+                                   units::to_kilojoule( guy.get_power_level() ) ) );
+
+    const int bionic_penalty = guy.enchantment_cache->modify_value(
+                                   enchant_vals::mod::BIONIC_MANA_PENALTY, penalty_calc );
+
     const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - bionic_penalty );
+                                   ( mana_base + int_bonus ) - bionic_penalty );
     return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
@@ -2166,8 +2167,7 @@ void known_magic::update_mana( const Character &guy, float turns )
     const double full_replenish = to_turns<double>( 8_hours );
     const double ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( static_cast<double>( max_mana(
-                                   guy ) ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
+                                   guy ) ), enchant_vals::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -2188,7 +2188,7 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
         case magic_energy_type::mana:
             return available_mana() >= cost;
         case magic_energy_type::bionic:
-            return guy.get_power_level() >= units::from_kilojoule( cost );
+            return guy.get_power_level() >= units::from_kilojoule( static_cast<std::int64_t>( cost ) );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= cost;
         case magic_energy_type::hp:
@@ -2628,13 +2628,13 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     width - 2, c_light_gray, pc.crafting_inventory(), return_true<item> ) ) {
+                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
                 info_txt.emplace_back( line );
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     width - 2, c_light_gray, pc.crafting_inventory() ) ) {
+                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
                 info_txt.emplace_back( line );
             }
         }

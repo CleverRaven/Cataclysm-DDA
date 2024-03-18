@@ -35,7 +35,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_APARTMENT_SURVIVOR_CALM",
-    "dynamic_line": "Oh, you're not one of the <zombies>.  Come on in, just don't cause any trouble.",
+    "dynamic_line": {
+      "gendered_line": "Oh, you're not one of the <zombies>.  Come on in, just don't cause any trouble.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Alright, let's chat.", "topic": "TALK_NPC_APARTMENT_SURVIVOR_INTRO" },
       { "text": "I'll be back later.", "topic": "TALK_DONE" }
@@ -75,7 +78,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_APARTMENT_SURVIVOR_STORY",
-    "dynamic_line": "I used to live here before <the_cataclysm>.  I was asleep when a horde of <zombies> busted through the front, and in the chaos I wound up here.  When the screaming stopped, I peaked out the door to find my neighbor stumbling about with his face half-eaten, and I haven't left since.",
+    "dynamic_line": {
+      "gendered_line": "I used to live here before <the_cataclysm>.  I was asleep when a horde of <zombies> busted through the front, and in the chaos I wound up here.  When the screaming stopped, I peaked out the door to find my neighbor stumbling about with his face half-eaten, and I haven't left since.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Wow.", "topic": "TALK_NONE" } ]
   }
 ]

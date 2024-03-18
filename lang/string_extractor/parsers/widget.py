@@ -9,10 +9,9 @@ def parse_widget(json, origin):
     if "description" in json:
         write_text(json["description"], origin,
                    comment="Description of UI widget \"{}\"".format(id))
-    if "strings" in json:
-        for string in json["strings"]:
-            write_text(string, origin,
-                       comment="Text in UI widget \"{}\"".format(id))
+    if "string" in json:
+        write_text(json["string"], origin,
+                   comment="Text in UI widget \"{}\"".format(id))
     if "phrases" in json:
         for phrase in json["phrases"]:
             comment = "Text in portion of UI widget \"{}\"".format(id)

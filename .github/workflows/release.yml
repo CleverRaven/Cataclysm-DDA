@@ -40,7 +40,7 @@ jobs:
           echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
       - run: |
-          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}"
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
   builds:
     needs: release
@@ -181,23 +181,31 @@ jobs:
         run: |
           git clone --depth=1 --shallow-submodules --recurse-submodules https://github.com/Fris0uman/CDDA-Soundpacks '${{ github.workspace }}/CDDA-Soundpacks'
           mv '${{ github.workspace }}/CDDA-Soundpacks/sound/CC-Sounds' '${{ github.workspace }}/data/sound'
-      - name: Install dependencies (windows msvc) (0/3)
+      - name: Install dependencies (windows msvc) (0/4)
         if: runner.os == 'Windows'
         uses: lukka/get-cmake@latest
-      - name: Install dependencies (windows msvc) (1/3)
+      - name: Install dependencies (windows msvc) (1/4)
         if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.3.1
-      - name: Install dependencies (windows msvc) (2/3)
+      - name: Install dependencies (windows msvc) (2/4)
         if: runner.os == 'Windows'
         uses: lukka/run-vcpkg@v11
         id: runvcpkg
         with:
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           vcpkgGitCommitId: '66444e13a86da7087ee24c342f91801cc6eb9877'
-      - name: Install dependencies (windows msvc) (3/3)
+      - name: Install dependencies (windows msvc) (3/4)
         if: runner.os == 'Windows'
         run: |
           vcpkg integrate install --vcpkg-root '${{ runner.workspace }}\b\vcpkg'
+      - name: Install dependencies (windows msvc) (4/4)
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: mingw64
+          install: >-
+            gettext
+            make
       - name: Install dependencies (windows mxe)
         if: matrix.mxe != 'none' && matrix.artifact != 'windows-objectcreator-x64'
         run: |
@@ -216,7 +224,16 @@ jobs:
         if: runner.os == 'Linux' && matrix.mxe == 'none' && matrix.android == 'none' && !matrix.wasm
         run: |
           sudo apt-get update
-          sudo apt-get install libncursesw5-dev libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev \
+          sudo apt-get install libsdl2-dev
+          git clone https://github.com/libsdl-org/SDL.git --branch release-2.0.20 --depth 1
+          cd SDL
+          mkdir build
+          cd build
+          ../configure
+          make -j$((`nproc`+0))
+          sudo make install
+          cp ../LICENSE.txt ${{ github.workspace }}/LICENSE-SDL.txt
+          sudo apt-get install libncursesw5-dev libsdl2-ttf-dev libsdl2-image-dev \
             libsdl2-mixer-dev libpulse-dev ccache gettext parallel
       - name: Install Emscripten (WebAssembly)
         if: matrix.wasm
@@ -245,7 +262,7 @@ jobs:
           EOL
       - name: Compile translations (windows)
         if: runner.os == 'Windows'
-        shell: bash
+        shell: msys2 {0}
         run: |
           lang/compile_mo.sh all
       - name: Build libbacktrace
@@ -266,7 +283,6 @@ jobs:
       - name: Build CDDA (WebAssembly)
         if: matrix.wasm
         run: |
-          ./build-scripts/prepare-web-data.sh
           ./build-scripts/build-emscripten.sh
           ./build-scripts/prepare-web.sh
           (cd build && zip ../cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.${{ matrix.ext }} *)

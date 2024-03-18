@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "BEM_gunrunner",
-    "//": "These are all random people you met in a bar once, the fact that they dont have names is meant to emphasize the transient nature of the conversations you have with them",
+    "//": "These are all random people you met in a bar once, the fact that they don't have names is meant to emphasize the transient nature of the conversations you have with them",
     "name_unique": "the enterprising gunrunner",
     "class": "NC_BEM_GUNRUNNER",
     "attitude": 0,

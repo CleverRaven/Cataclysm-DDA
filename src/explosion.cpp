@@ -28,6 +28,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "fault.h"
 #include "field_type.h"
 #include "flag.h"
 #include "game.h"
@@ -98,8 +99,8 @@ static float fragment_mass = 0.0001f;
 static float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
 static constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
-// Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
-static constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
+// Pretty arbitrary minimum density.  1/100 chance of a fragment passing through the given square.
+static constexpr float MIN_FRAGMENT_DENSITY = 0.001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -136,7 +137,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
 namespace explosion_handler
 {
 
-static int ballistic_damage( float velocity, float mass )
+int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
     // converting mass from grams to kg. The initial term is simply a scaling factor.
@@ -155,7 +156,7 @@ static float mass_to_area( const float mass )
 // Approximate Gurney constant for Composition B and C (in m/s instead of the usual km/s).
 // Source: https://en.wikipedia.org/wiki/Gurney_equations#Gurney_constant_and_detonation_velocity
 static constexpr double TYPICAL_GURNEY_CONSTANT = 2700.0;
-static float gurney_spherical( const double charge, const double mass )
+float gurney_spherical( const double charge, const double mass )
 {
     return static_cast<float>( std::pow( ( mass / charge ) + ( 3.0 / 5.0 ),
                                          -0.5 ) * TYPICAL_GURNEY_CONSTANT );
@@ -411,7 +412,7 @@ static std::vector<tripoint> shrapnel( const Creature *source, const tripoint &s
     fragment_cloud initial_cloud = accumulate_fragment_cloud( obstacle_cache[src.x][src.y],
     { fragment_velocity, static_cast<float>( fragment_count ) }, 1 );
     visited_cache[src.x][src.y] = initial_cloud;
-    visited_cache[src.x][src.y].density = static_cast<float>( fragment_count );
+    visited_cache[src.x][src.y].density = static_cast<float>( fragment_count / 2.0 );
 
     castLightAll<fragment_cloud, fragment_cloud, shrapnel_calc, shrapnel_check,
                  update_fragment_cloud, accumulate_fragment_cloud>
@@ -751,7 +752,8 @@ void emp_blast( const tripoint &p )
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
             int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
                                   player_character.get_power_level() ) );
-            player_character.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
+            player_character.mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( -rng(
+                                                  1 + max_drain / 3, max_drain ) ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
@@ -771,7 +773,7 @@ void emp_blast( const tripoint &p )
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->set_flag( flag_ITEM_BROKEN );
+                it->faults.insert( random_entry( fault::get_by_type( "shorted" ) ) );
             }
         }
     }
@@ -784,7 +786,7 @@ void emp_blast( const tripoint &p )
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_flag( flag_ITEM_BROKEN );
+            it.set_fault( random_entry( fault::get_by_type( "shorted" ) ) );
         }
     }
     // TODO: Drain NPC energy reserves
@@ -936,14 +938,14 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
                               const int &distance )
 {
     // SWAG coefficient of drag.
-    constexpr float Cd = 0.5f;
+    constexpr float Cd = 1.5f;
     fragment_cloud new_cloud;
     new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
                              Cd * fragment_area * distance ) /
                          ( 2.0f * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.
-    new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );
+    new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance );
     return new_cloud;
 }
 bool shrapnel_check( const fragment_cloud &cloud, const fragment_cloud &intensity )

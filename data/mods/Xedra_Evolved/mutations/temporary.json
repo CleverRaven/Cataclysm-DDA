@@ -10,19 +10,24 @@
     "mixed_effect": true,
     "description": "Eating that goblin fruit has made you grow to enormous size!",
     "flags": [ "HUGE" ],
-    "passive_mods": { "str_mod": 6 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "stomach_size_multiplier": 2.0,
-    "weight_capacity_modifier": 1.1,
-    "cardio_multiplier": 1.25,
     "social_modifiers": { "intimidate": 15 },
-    "enchantments": [ "ench_giant_growth_size_bonuses" ]
+    "enchantments": [
+      "ench_giant_growth_size_bonuses",
+      {
+        "values": [
+          { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
+          { "value": "CARDIO_MULTIPLIER", "multiply": 0.25 },
+          { "value": "CARRY_WEIGHT", "multiply": 0.1 }
+        ]
+      }
+    ]
   },
   {
     "type": "enchantment",
     "id": "ench_giant_growth_size_bonuses",
     "condition": "ALWAYS",
-    "values": [ { "value": "MAX_HP", "multiply": 0.4 } ]
+    "values": [ { "value": "MAX_HP", "multiply": 0.4 }, { "value": "STRENGTH", "add": 6 } ]
   },
   {
     "type": "mutation",
@@ -69,7 +74,7 @@
     "active": true,
     "points": 1,
     "visibility": 1,
-    "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
+    "description": "Your eyes transform into the orbits of an unknown creature.  You now see much better in the light and dark.",
     "//": "not actual replacement yet, because i'm afraid of how wearing stuff may interact with it",
     "valid": false,
     "starting_trait": false,
@@ -88,48 +93,5 @@
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_LUCID_DREAM_FORCE_END" ]
-  },
-  {
-    "type": "mutation",
-    "id": "VERDANT_HELMET",
-    "name": "Verdant Helmet Enchant",
-    "description": "The enchantment for the Verdant Helmet.  Enhances your senses.",
-    "player_display": false,
-    "valid": false,
-    "points": 2,
-    "flags": [ "ENHANCED_VISION", "GLARE_RESIST" ]
-  },
-  {
-    "type": "mutation",
-    "id": "VERDANT_BODY",
-    "name": "Verdant Body Enchant",
-    "description": "The enchantment for the Verdant Cuirass.  Hides your scent and increases your mana regen slightly.",
-    "player_display": false,
-    "valid": false,
-    "points": 2,
-    "mana_regen_multiplier": 1.15,
-    "flags": [ "NO_SCENT" ]
-  },
-  {
-    "type": "mutation",
-    "id": "VERDANT_GAUNTLETS",
-    "name": "Verdant Gauntlet Enchant",
-    "description": "The enchantment for the Verdant Gauntlets.  Makes spellcasting easier.",
-    "player_display": false,
-    "valid": false,
-    "points": 2,
-    "casting_time_multiplier": 0.85,
-    "flags": [ "SUBTLE_SPELL" ]
-  },
-  {
-    "type": "mutation",
-    "id": "VERDANT_BOOTS",
-    "name": "Verdant Boots Enchant",
-    "description": "The enchantment for the Verdant Boots.  Makes you quieter and you can't be slowed too much.",
-    "player_display": false,
-    "valid": false,
-    "points": 2,
-    "noise_modifier": 0.4,
-    "flags": [ "STEADY", "SLUDGE_IMMUNE" ]
   }
 ]

@@ -338,7 +338,8 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "new active mission %s is not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
     }
@@ -366,7 +367,8 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "completed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -394,7 +396,8 @@ void avatar::remove_active_mission( mission &cur_mission )
     cur_mission.remove_active_world_mission( cur_mission );
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "removed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -1299,6 +1302,8 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         }
         add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
+        // Enchantments based on move modes can stack inappropriately without a recalc here
+        recalculate_enchantment_cache();
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
         recoil = MAX_RECOIL;

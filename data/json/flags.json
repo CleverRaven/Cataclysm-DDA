@@ -916,11 +916,6 @@
     "info": "This clothing is restrictive and <bad>slows your movement speed</bad>."
   },
   {
-    "id": "SLOWS_THIRST",
-    "type": "json_flag",
-    "info": "This clothing <good>slows your thirst</good> by reducing moisture loss."
-  },
-  {
     "id": "STURDY",
     "type": "json_flag",
     "info": "This clothing will <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.",
@@ -1554,6 +1549,10 @@
   },
   {
     "id": "MAG_EJECT",
+    "type": "json_flag"
+  },
+  {
+    "id": "MANUAL_CBM_INSTALLATION",
     "type": "json_flag"
   },
   {
@@ -2358,6 +2357,11 @@
     "type": "json_flag"
   },
   {
+    "id": "ETHEREAL",
+    "type": "json_flag",
+    "info": "You feel like you would keep all your items if you somehow became incorporeal."
+  },
+  {
     "id": "TREE_COMMUNION_PLUS",
     "type": "json_flag",
     "info": "You gain greatly enhanced effects from the Mycorrhizal Communion mutation"
@@ -2378,11 +2382,6 @@
     "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
   },
   {
-    "id": "TRANSPARENT",
-    "type": "json_flag",
-    "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
-  },
-  {
     "id": "UNRESTRICTED",
     "type": "json_flag",
     "//": "Ignores 'restricts' in mutation jsons.  Only for baggy, draped, adjustable, strapped etc items.",
@@ -2397,5 +2396,64 @@
     "id": "BLEEDSLOW2",
     "type": "json_flag",
     "info": "The character bleeds even slower than normal, losing blood at 1/3rd the normal rate."
+  },
+  {
+    "id": "PSEUDOPOD_GRASP",
+    "type": "json_flag",
+    "//": "Removes some penalties for melee attacks made while prone or crouching."
+  },
+  {
+    "id": "HEMOVORE",
+    "type": "json_flag",
+    "//": "You eat blood to survive."
+  },
+  {
+    "id": "BLOODFEEDER",
+    "type": "json_flag",
+    "//": "You really like blood, and get less enjoyment out of other foods."
+  },
+  {
+    "id": "HEMOVORE_FUN",
+    "type": "json_flag",
+    "//": "This item contains blood and satisfies a hemovore's requirements."
+  },
+  {
+    "id": "QUADRUPED_CROUCH",
+    "type": "json_flag",
+    "//": "This character goes down on all fours when they crouch, if their hands are free.  Used for paw mutations."
+  },
+  {
+    "id": "QUADRUPED_RUN",
+    "type": "json_flag",
+    "//": "This character can run or crouch on all fours if they have QUADRUPED_CROUCH, and gains the natural_stance effect.  Used for paw mutations."
+  },
+  {
+    "id": "HEARING_PROTECTION",
+    "type": "json_flag",
+    "//": "This character treats received sounds as half as loud for the purposes of determing hearing damage."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD",
+    "type": "json_flag",
+    "info": "This grants access to the LIXA facility."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD_2",
+    "type": "json_flag",
+    "info": "This grants access to the experiment chamber of the LIXA facility."
+  },
+  {
+    "id": "LIXA_SCIENCE_CARD_3",
+    "type": "json_flag",
+    "info": "This grants access to the experiment chamber and PPE lockup for the LIXA facility."
+  },
+  {
+    "id": "LIXA_MILITARY_CARD",
+    "type": "json_flag",
+    "info": "This grants access to locked-down areas of the LIXA facility."
+  },
+  {
+    "id": "DRACULIN_VENOM",
+    "type": "json_flag"
   }
 ]

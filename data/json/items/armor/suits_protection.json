@@ -278,10 +278,24 @@
   {
     "id": "armor_junk_lightplate",
     "type": "ARMOR",
-    "copy-from": "armor_lightplate",
+    "category": "armor",
     "name": { "str": "junk plate armor" },
     "description": "A suit of Gothic plate armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
-    "material": [ "budget_steel", "leather" ]
+    "weight": "11 kg",
+    "volume": "17500 ml",
+    "price": 60000,
+    "price_postapoc": 12000,
+    "to_hit": -5,
+    "material": [ "budget_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_larmor",
+    "color": "light_gray",
+    "warmth": 25,
+    "longest_side": "60 cm",
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 35, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_metal_sheets",
@@ -1026,10 +1040,24 @@
   {
     "id": "armor_junk_plate",
     "type": "ARMOR",
-    "copy-from": "armor_plate",
+    "category": "armor",
     "name": { "str": "junk ornamental plate armor" },
     "description": "An extremely heavy suit of ornamental armor.  The metal shows signs of rust and corrosion, and the leather straps are tattered.",
-    "material": [ "budget_steel", "leather" ]
+    "weight": "18 kg",
+    "volume": "30 L",
+    "price": 780000,
+    "price_postapoc": 6000,
+    "to_hit": -5,
+    "material": [ "budget_steel", "leather" ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "light_gray",
+    "warmth": 25,
+    "longest_side": "60 cm",
+    "material_thickness": 5,
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 50, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "armor_riot",
@@ -3062,7 +3090,8 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_MOVEMENT", "MUNDANE" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "values": [ { "value": "THIRST", "multiply": -0.3 } ] } ] },
     "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
@@ -3485,11 +3514,11 @@
   {
     "id": "armor_nomad_chainmail",
     "type": "TOOL_ARMOR",
-    "copy-from": "qt_chainmail_hauberk",
+    "copy-from": "qt_chainmail_jumpsuit",
     "name": { "str": "nomad chainmail", "str_pl": "suits of nomad chainmail" },
     "weight": "17200 g",
     "volume": "7000 ml",
-    "description": "A full body multilayered chainmail hauberk.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
+    "description": "A full body multilayered chainmail outfit.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel_chain", "lycra", "kevlar" ],
     "armor": [
       {
@@ -3500,7 +3529,7 @@
         ],
         "covers": [ "torso" ],
         "coverage": 100,
-        "encumbrance": 12
+        "encumbrance": 16
       },
       {
         "material": [
@@ -3509,7 +3538,7 @@
         ],
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 14
       },
       {
         "material": [
@@ -3518,7 +3547,7 @@
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 10
+        "encumbrance": 14
       }
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },

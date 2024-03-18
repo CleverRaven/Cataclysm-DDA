@@ -99,6 +99,11 @@ Hub now offers armor set printing after HWP is unlocked
 Implement basic saline infusion to help with blood loss
 Adds treetops and makes trees climbable
 Allow bird wings to glide
+Allow whitelisting and blacklisting hobbies in scenarios, professions, and globally
+EoCs support mutate_towards directly
+make `u_spawn_item` to support the item group whose subtype is `collection`
+Add u_wants_to_talk/npc_wants_to_talk EOC effects
+Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
 
 
 ## Content:
@@ -184,7 +189,27 @@ Lockets can store photographs
 Add diet soda, because screw your free calories!
 Addition of many new books, from religious texts to magazines, mainly for fluff purposes.
 Modularize Desert Eagle, add .50 AE
-Add WIP Limb Stuff Mod
+Addition of three new, big-sized treefrog mutants. Minor tweaks to existing frog mutants.
+Further pharmacological expansion infrastructure + adds a few new drugs that make use of the system
+JSONize Electrohack Tool
+Previously Innawoods-only stream mutables are now in the main game
+Added ASCII art for most containers
+Making Shadow Spawn Messages editable
+Adds new jewelry for black history month, such as cowrie necklaces and various types of hair beads.
+Mainlined the innawoods meadow mapgen
+Light vest disassembly now drops kevlar
+Add QUIETMOVES and SILENTMOVE flags, apply them to [Magiclysm] bugbears
+Add 7 new frog zombie varities and audit existing frog zombies
+Cinnamon for Deluxe Oatmeal
+Soldiers' rifles have more/various weapon mods
+readd heavy ballistic vest
+Adds Chiropteran (bat) mutation line, and the subaquatic navigation system CBM
+Allow monster corpse teeth to be used to make traps and weapons
+Adds social/asocial mutations
+Simulate hair growth over time.
+Add earthworms to the game, as a food source
+Add cougar kittens and fix cougar taming in mods
+Boomers now leave fleshy gibs on detonation```
 
 
 ## Interface:
@@ -238,6 +263,7 @@ Hide AIM during directional prompts
 Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
+Set priority for containers that have auto whitelisting.
 
 
 ## Mods:
@@ -333,6 +359,27 @@ Paraclesian Map extras
 [DinoMod] plesiosaurus
 [MoM] Power learning revamp: Teleportation, Electrokinesis, Clairsentience and Telekineseis
 [Xedra Evolved] Add Great Tree elemental eruption map special
+Aftershock: Add the Port Augustmoon Station
+Add WIP Limb Stuff Mod
+Replace global_val with context_val in Bombastic Perks documentation.
+[Magiclysm] Rebalance enchanted combat loot
+[Magiclysm] Reduce mana cost of some of the spells I've written
+[Magiclysm] Ogre revamp
+[Magiclysm] Greatly increase the number of (weak) spellbooks in people's homes
+Update Galvanic Aura to Concentration power and fix other errors
+[Magiclysm] Add wizard version of LMOE
+[Magiclysm] Add fantasy skin colors
+[Magiclysm] Even more spells
+[XEDRA] Adjust Magnetic Holster Values
+[Magiclysm] Add "of elvenkind" items
+[Magiclysm] Goblin encampment / orc village revamp + additions
+Fix Brackenwight special attack message
+[Sky Island] Take NPCs on/back from raids
+[MoM] Final 0.H Fixes 
+[Magiclysm] Add spells that allow you to gain the various +mana traits
+[Magiclysm] Last Mage on Earth start
+Tamable Wildlife: add Cougars to list of tameables
+[Magiclysm] Add spellcasting proficiencies.
 
 
 ## Balance:
@@ -385,6 +432,12 @@ Activity suit is actually waterproof, soft surfaces are less slippery, boomer on
 Visitors Passes and Freight Badges no longer reveal roads
 Hub14 no longer gives infinite pricey schematics
 Removed FANCY and SUPER_FANCY from a bunch of items
+Pianos can be fast-deconstructed and thus be moved as an item
+Obsolete trickle charger CBMs
+Bring ice axe in line with reality
+Audit remaining magazines (.223, 9mm, .308)
+Update books.json to rebalance religious book spawning
+Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
 
 
 ## Bugfixes:
@@ -496,6 +549,23 @@ Autodrive over bridges
 Stable vehicle speeds with autotravel
 Count charges in all nearby smoking racks to crafting inventory
 Fix crash from reachability zones checking dead NPCs.
+Fixes issue where some CBMs could be taken off via forcing a pet to wear them
+You can use all kinds of ropes in all constructions now.
+Did you know we didn't have any hallucinations for a while? now they're back, baby!
+fix #71673, gives Chris’s body clothes.
+Sheet metal is Low Carbon Steel
+[Magiclysm] Fix Restoration duration
+Hint that you need to return to the Representative for the Exodii Recon Mission
+'A shadow?' is no longer a pinball.
+Fixes excessive shadow lieutenant warnings
+[Magiclysm] Add "spell_class": "KELVINIST" to Extinguish
+Fix 32 bit integer overflow in bionic power level calculations
+[Xedra Evolved] Fix Homullus fae ban
+Say which specials could not be placed.
+Fix assignment ID's with NECC mapgen EOCs.
+Allows Infrared vision to see through smoke
+[Magiclysm] Fix Peaceful Rest hobby
+NPCs can overeat, starve, and dehydrate to death
 
 
 ## Performance:
@@ -519,6 +589,8 @@ Optimize stationary vehicle performance when they contain a lot of items.
 Optimizing mostly item to reduce load-time allocation by over 20%
 Optimize creature vision checks.
 Optimize hot item function to save ~6.7% of game load time
+Skip MGOAL_Find_Item if the player is busy.
+Avoid wasteful loop in map special road connections
 
 
 ## Infrastructure:
@@ -563,6 +635,10 @@ Simplify/jsonify NPC generation from npc classes
 Consolidate `suspendable` and `no_resume` activity parameters
 Items warn on exceeding max volume, unify max volume as a game constant
 Migrate names to snippets & add weighted snippets
+Effect enchantments can now apply to monsters
+Make JSON formatter replace nbsp with escape sequence
+Update houses to utilize palettes
+Added SMALL_HIDER flag to various monsters.
 
 
 ## Build:
@@ -577,11 +653,14 @@ Add a launch and debug configuration to VS Code Dev Container
 Enable tests for merge queue
 Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
+CMake: Add LLVM build for Windows and other linker fixes
+Use one precompiled header
 
 
 ## I18N and A11Y:
 Add percentage-translated statistic to language selection
 Make furniture->lockpick_message translatable
+Add check to ensure translator comments are correctly located and extracted
 
 
 # 0.G (Gaiman)

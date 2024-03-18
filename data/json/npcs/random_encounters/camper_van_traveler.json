@@ -106,7 +106,10 @@
       "context": "first_meeting",
       "value": "yes",
       "yes": "<greet>",
-      "no": "I didn't think anyone was around here.  Pleased to meet you, I'm <npc_name>."
+      "no": {
+        "gendered_line": "I didn't think anyone was around here.  Pleased to meet you, I'm <npc_name>.",
+        "relevant_genders": [ "npc" ]
+      }
     },
     "speaker_effect": {
       "effect": [
@@ -138,7 +141,10 @@
       "type": "dialogue",
       "context": "travel_direction",
       "value": "north",
-      "yes": "I'm going north, up towards the border and the big wide wilderness.  I heard that there's some sort of safe spot up there, where people didn't go crazy and try to kill each other.  I don't know whether or not that's true, but at the very least, the colder climate might help keep the <zombies> down.",
+      "yes": {
+        "gendered_line": "I'm going north, up towards the border and the big wide wilderness.  I heard that there's some sort of safe spot up there, where people didn't go crazy and try to kill each other.  I don't know whether or not that's true, but at the very least, the colder climate might help keep the <zombies> down.",
+        "relevant_genders": [ "npc" ]
+      },
       "no": {
         "npc_has_var": "travel_direction",
         "type": "dialogue",
@@ -150,7 +156,10 @@
           "type": "dialogue",
           "context": "travel_direction",
           "value": "east",
-          "yes": "I'm going east, towards the coastline.  I heard some rumors that Rhode Island was still holding itself together, so I'm going to go and check that out.  Heck, I might just go out to sea myself, live on an old oil rig or something like that.",
+          "yes": {
+            "gendered_line": "I'm going east, towards the coastline.  I heard some rumors that Rhode Island was still holding itself together, so I'm going to go and check that out.  Heck, I might just go out to sea myself, live on an old oil rig or something like that.",
+            "relevant_genders": [ "npc" ]
+          },
           "no": {
             "npc_has_var": "travel_direction",
             "type": "dialogue",
@@ -187,19 +196,34 @@
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_INTERESTING_THINGS",
     "dynamic_line": {
       "math": [ "npc_randomize_dialogue_direction", "==", "0" ],
-      "yes": "I haven't found anything out of the ordinary, just a bunch of <zombies> and the ruins of our old lives.",
+      "yes": {
+        "gendered_line": "I haven't found anything out of the ordinary, just a bunch of <zombies> and the ruins of our old lives.",
+        "relevant_genders": [ "npc" ]
+      },
       "no": {
         "math": [ "npc_randomize_dialogue_direction", "==", "1" ],
-        "yes": "Actually, I came across a group of farmers on my way here.  They were a little suspicious, but turned out to be pretty nice.  Good place to buy some food, if they're still around.",
+        "yes": {
+          "gendered_line": "Actually, I came across a group of farmers on my way here.  They were a little suspicious, but turned out to be pretty nice.  Good place to buy some food, if they're still around.",
+          "relevant_genders": [ "npc" ]
+        },
         "no": {
           "math": [ "npc_randomize_dialogue_direction", "==", "2" ],
-          "yes": "I found a small cabin out in the woods, someone was living there and had some serious chemistry equipment.  I managed to get good medical supplies from there.  They even had some oddball things too, like <swear> napalm and black powder.",
+          "yes": {
+            "gendered_line": "I found a small cabin out in the woods, someone was living there and had some serious chemistry equipment.  I managed to get good medical supplies from there.  They even had some oddball things too, like <swear> napalm and black powder.",
+            "relevant_genders": [ "npc" ]
+          },
           "no": {
             "math": [ "npc_randomize_dialogue_direction", "==", "3" ],
-            "yes": "I ran in to someone living in an old barn, didn't want anything to do with the world.  The odd thing is, they looked like one of those old, Wild West cowboys.",
+            "yes": {
+              "gendered_line": "I ran in to someone living in an old barn, didn't want anything to do with the world.  The odd thing is, they looked like one of those old, Wild West cowboys.",
+              "relevant_genders": [ "npc" ]
+            },
             "no": {
               "math": [ "npc_randomize_dialogue_direction", "==", "4" ],
-              "yes": "I came across an abandoned house, half of it was collapsed in, looked like it was from way before <the_cataclysm>.  I was poking around to see what was there, and I found a whole bunker underneath the place.  I don't know what the heck was up with that, but I wouldn't want to find out.",
+              "yes": {
+                "gendered_line": "I came across an abandoned house, half of it was collapsed in, looked like it was from way before <the_cataclysm>.  I was poking around to see what was there, and I found a whole bunker underneath the place.  I don't know what the heck was up with that, but I wouldn't want to find out.",
+                "relevant_genders": [ "npc" ]
+              },
               "no": "ERROR: out of bounds on randomize_directions."
             }
           }
@@ -288,7 +312,10 @@
     "type": "talk_topic",
     "id": "TALK_NPC_CAMPER_VAN_TRAVELER_BACKSTORY",
     "//": "This should also be included as part of a randomly selected list of backgrounds in the future.",
-    "dynamic_line": "I used to travel a lot before <the_cataclysm>, and I've had this camper with me for a while now.  I was at home when the riots started, so I grabbed everything I could from my house and hopped in the camper.  I nearly wrecked on my way out of town when some crazy people tried to smash my van, but I made it out.  I've been on the move ever since.",
+    "dynamic_line": {
+      "gendered_line": "I used to travel a lot before <the_cataclysm>, and I've had this camper with me for a while now.  I was at home when the riots started, so I grabbed everything I could from my house and hopped in the camper.  I nearly wrecked on my way out of town when some crazy people tried to smash my van, but I made it out.  I've been on the move ever since.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {

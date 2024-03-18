@@ -418,7 +418,7 @@ int Character::item_wear_cost( const item &it ) const
 {
     double mv = item_handling_cost( it );
 
-    for( layer_level layer : it.get_layer() )
+    for( layer_level layer : it.get_layer() ) {
         switch( layer ) {
             case layer_level::SKINTIGHT:
                 mv *= 1.5;
@@ -441,6 +441,7 @@ int Character::item_wear_cost( const item &it ) const
             default:
                 break;
         }
+    }
 
     mv *= std::max( it.get_avg_encumber( *this ) / 10.0, 1.0 );
 
@@ -1142,23 +1143,6 @@ std::list<item> outfit::remove_worn_items_with( const std::function<bool( item &
     return result;
 }
 
-units::mass outfit::weight_capacity_bonus() const
-{
-    units::mass ret = 0_gram;
-    for( const item &clothing : worn ) {
-        ret += clothing.get_weight_capacity_bonus();
-    }
-    return ret;
-}
-
-float outfit::weight_capacity_modifier() const
-{
-    float ret = 1.0f;
-    for( const item &clothing : worn ) {
-        ret *= clothing.get_weight_capacity_modifier();
-    }
-    return ret;
-}
 
 units::mass outfit::weight() const
 {
@@ -1836,6 +1820,10 @@ item &outfit::front()
 
 static void item_armor_enchantment_adjust( Character &guy, damage_unit &du, item &armor )
 {
+    //If we're not dealing any damage of the given type, don't even bother.
+    if( du.amount < 0.1f ) {
+        return;
+    }
     // FIXME: hardcoded damage types -> enchantments
     if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
         du.amount = armor.calculate_by_enchantment( guy, du.amount, enchant_vals::mod::ITEM_ARMOR_ACID );
@@ -1867,7 +1855,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     // if this body part has sub part locations roll one
     if( !bp->sub_parts.empty() ) {
         sbp = bp->random_sub_part( false );
-        // the torso nad legs has a second layer of hanging body parts
+        // the torso and legs has a second layer of hanging body parts
         secondary_sbp = bp->random_sub_part( true );
     }
 
@@ -2026,10 +2014,8 @@ void outfit::fire_options( Character &guy, std::vector<std::string> &options,
                            std::vector<std::function<void()>> &actions )
 {
     for( item &clothing : worn ) {
-
-        std::vector<item *> guns = guy.cache_get_items_with( "is_gun", &item::is_gun,
-        [&guy]( const item & it ) {
-            return !guy.is_wielding( it );
+        std::vector<item *> guns = clothing.items_with( []( const item & it ) {
+            return it.is_gun();
         } );
 
         if( !guns.empty() && clothing.type->can_use( "holster" ) ) {
@@ -2353,14 +2339,10 @@ void outfit::bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
         // What body parts does this item cover?
         body_part_set covered = it.get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts ) {
-            float part_exposure = 1.0;
             if( !covered.test( bp.id() ) ) {
                 continue;
             }
-            // How much exposure does this item leave on this part? (1.0 == naked)
-            if( !it.has_flag( flag_TRANSPARENT ) ) {
-                part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
-            }
+            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] *= part_exposure;
         }
@@ -2622,6 +2604,10 @@ float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
             clothing_mult = std::min( clothing_mult, breathability );
         }
     }
+
+    // always some evaporation even if completely covered
+    // doesn't handle things that would be "air tight"
+    clothing_mult = std::max( clothing_mult, .1f );
     return clothing_mult;
 }
 

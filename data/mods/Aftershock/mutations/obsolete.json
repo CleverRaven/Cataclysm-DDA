@@ -19,8 +19,7 @@
     "valid": false,
     "purifiable": false,
     "cancels": [ "STR_UP" ],
-    "profession": true,
-    "passive_mods": { "str_mod": 7 }
+    "profession": true
   },
   {
     "type": "mutation",
@@ -59,7 +58,7 @@
     "points": -1,
     "description": "A common flaw in your genemod, brought on by increased muscle mass and bone density.  Moving over rough terrain will slow you down more than normal.",
     "valid": false,
-    "movecost_obstacle_modifier": 1.15
+    "enchantments": [ { "values": [ { "value": "MOVECOST_OBSTACLE_MOD", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -90,7 +89,7 @@
     "description": "You make more noise while walking.  You're also more likely to set off traps.",
     "valid": false,
     "cancels": [ "LIGHTSTEP" ],
-    "noise_modifier": 1.7
+    "enchantments": [ { "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 0.7 } ] } ]
   },
   {
     "type": "mutation",
@@ -99,8 +98,7 @@
     "points": -3,
     "description": "You can't move as fast as most, resulting in a 10% speed penalty on flat ground.",
     "valid": false,
-    "types": [ "RUNNING" ],
-    "movecost_flatground_modifier": 1.1
+    "types": [ "RUNNING" ]
   },
   {
     "type": "mutation",
@@ -110,7 +108,6 @@
     "visibility": 6,
     "ugliness": 2,
     "bodytemp_modifiers": [ 100, 300 ],
-    "bodytemp_sleep": 100,
     "description": "Short fur has grown to cover your entire body, providing slight protection from cold.",
     "valid": false,
     "types": [ "SKIN" ],
@@ -124,7 +121,6 @@
     "visibility": 10,
     "ugliness": 3,
     "bodytemp_modifiers": [ 350, 700 ],
-    "bodytemp_sleep": 500,
     "description": "Thick brown fur has grown to cover your entire body, providing a slight protection against attacks, and some protection from cold.",
     "valid": false,
     "types": [ "SKIN" ],
@@ -148,7 +144,7 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TANK2" ],
-    "hp_modifier_secondary": 0.2
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.2 } ] } ]
   },
   {
     "type": "mutation",
@@ -162,7 +158,7 @@
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "changes_to": [ "MUT_TANK3" ],
-    "hp_modifier_secondary": 0.3
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.3 } ] } ]
   },
   {
     "type": "mutation",
@@ -175,7 +171,7 @@
     "prereqs": [ "MUT_TANK2" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
-    "hp_modifier_secondary": 0.4
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 0.4 } ] } ]
   },
   {
     "type": "mutation",
@@ -190,9 +186,7 @@
     "valid": false,
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
-    "changes_to": [ "ELEPHANTINE_OK", "GIGANTIC" ],
-    "passive_mods": { "str_mod": 2 },
-    "weight_capacity_modifier": 1.05
+    "changes_to": [ "ELEPHANTINE_OK", "GIGANTIC" ]
   },
   {
     "type": "mutation",
@@ -207,9 +201,7 @@
     "cancels": [ "SMALL", "SMALL2" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "changes_to": [ "GIGANTIC" ],
-    "leads_to": [ "MUT_TANK" ],
-    "passive_mods": { "str_mod": 2 },
-    "weight_capacity_modifier": 1.05
+    "leads_to": [ "MUT_TANK" ]
   },
   {
     "type": "mutation",
@@ -225,12 +217,9 @@
     "prereqs2": [ "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "GIGANTIC_OK" ],
-    "passive_mods": { "str_mod": 4 },
-    "hp_adjustment": -6,
-    "fatigue_modifier": 0.15,
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": -6 } ] } ],
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
-    "weight_capacity_modifier": 1.1
+    "destroys_gear": true
   },
   {
     "type": "mutation",
@@ -247,10 +236,8 @@
     "cancels": [ "SMALL", "SMALL2" ],
     "threshreq": [ "THRESH_MASTODON" ],
     "leads_to": [ "MUT_TANK" ],
-    "passive_mods": { "str_mod": 4 },
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
-    "destroys_gear": true,
-    "weight_capacity_modifier": 1.1
+    "destroys_gear": true
   },
   {
     "type": "mutation",
@@ -272,9 +259,7 @@
     "description": "You require more food than most people, but recover stamina slightly faster.",
     "valid": false,
     "types": [ "METABOLISM" ],
-    "changes_to": [ "LARGE_DIET" ],
-    "metabolism_modifier": 0.5,
-    "stamina_regen_modifier": 0.1
+    "changes_to": [ "LARGE_DIET" ]
   },
   {
     "type": "mutation",
@@ -285,11 +270,7 @@
     "valid": false,
     "types": [ "HEALING" ],
     "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
-    "prereqs": [ "HUNGER" ],
-    "healing_multiplier": 0.25,
-    "fatigue_modifier": 0.75,
-    "fatigue_regen_modifier": 0.5,
-    "metabolism_modifier": 0.4
+    "prereqs": [ "HUNGER" ]
   },
   {
     "type": "mutation",
@@ -300,7 +281,7 @@
     "valid": false,
     "changes_to": [ "H20NEEDS" ],
     "cancels": [ "NO_THIRST" ],
-    "thirst_modifier": 0.5
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -311,7 +292,7 @@
     "valid": false,
     "prereqs": [ "THIRST" ],
     "cancels": [ "NO_THIRST" ],
-    "thirst_modifier": 1.0
+    "enchantments": [ { "values": [ { "value": "THIRST", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -322,8 +303,7 @@
     "valid": false,
     "types": [ "RUNNING" ],
     "changes_to": [ "DELIBERATE2" ],
-    "cancels": [ "FLEET" ],
-    "movecost_modifier": 1.1
+    "cancels": [ "FLEET" ]
   },
   {
     "type": "mutation",
@@ -334,7 +314,6 @@
     "valid": false,
     "types": [ "RUNNING" ],
     "prereqs": [ "DELIBERATE1" ],
-    "cancels": [ "QUICK" ],
-    "movecost_modifier": 1.25
+    "cancels": [ "QUICK" ]
   }
 ]

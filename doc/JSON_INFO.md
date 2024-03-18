@@ -279,7 +279,6 @@ Use the `Home` key to return to the top.
   - [`compatibility`](#compatibility)
   - [`tiles-new`](#tiles-new)
 - [Obsoletion and migration](#obsoletion-and-migration)
-  - [Charge and temperature removal](#charge-and-temperature-removal)
 - [Field types](#field-types)
   - [Immunity data](#immunity-data)
 - [Option sliders](#option-sliders)
@@ -897,6 +896,10 @@ Snippets also support the color codes
 "<color_yellow_red>Biohazard</color>",
 ```
 
+To use literal `<` and `>` characters in a snippet, escape them with `<lt>` and
+`<gt>`. For example, `<lt>swear<gt>` expands into `<swear>` rather than any
+snippet in the `<swear>` category.
+
 ### Addiction types
 
 Addictions are defined in JSON using `"addiction_type"`:
@@ -1075,6 +1078,9 @@ reference at least one body part or sub body part.
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
 | `effects_on_hit`       | (_optional_) Array of effects that can apply whenever the limb is damaged.  For details see below.
 | `unarmed_damage`       | (_optional_) An array of objects, each detailing the amount of unarmed damage the bodypart contributes to unarmed attacks and their armor penetration. The unarmed damages of each limb are summed and added to the base unarmed damage. Should be used for limbs the character is expected to *always* attack with, for special attacks use a dedicated technique.
+| `similar_bodyparts`           | (_optional_) Array of (sub)bodypart ids.  Armor coverage is automatically extended to these bodyparts - Ex: any armor covering the bodypart `arm_l` will cover `arm_bear_l` with the same coverage in the below example.  Sublocations will need a similar definition as well to ensure correct function.  Currently bodyparts can only point at bodyparts and sub-bodyparts at sub-bodyparts. 
+  Only one step of substitution occurs ( Ie. an armor covering `arm_l` will cover `arm_bear_l`, but not any similar bps defined in `arm_bear_l` ).
+  Any coverage of a similar sbp will imply coverage of the substitute subpart's parent for the sub-part in question:  Armor covering the elbows will cover similar elbows on other limbs, but not any of the other locations.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
 ```json
@@ -1109,6 +1115,7 @@ reference at least one body part or sub body part.
   "drench_capacity": 10,
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
+  "similar_bodyparts": [ "arm_bear_l" ],
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
 }
 ```
@@ -1291,8 +1298,6 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `available_upgrades`         | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
 | `encumbrance`                | (_optional_) A list of body parts and how much this bionic encumber them.
 | `known_ma_styles`            | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
-| `weight_capacity_bonus`      | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
-| `weight_capacity_modifier`   | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
 | `canceled_mutations`         | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
 | `mutation_conflicts`         | (_optional_) A list of mutations that prevent this bionic from being installed.
 | `included_bionics`           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
@@ -1317,22 +1322,20 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `learned_spells`             | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
 | `learned_proficiencies`      | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
 | `installation_requirement`   | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
-| `vitamin_absorb_mod`         | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
 | `dupes_allowed`              | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
 | `cant_remove_reason`         | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`)
 | `social_modifiers`           | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
-| `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
 | `required_bionic`            | (_optional_) Bionic which is required to install this bionic, and which cannot be uninstalled if this bionic is installed
 | `give_mut_on_removal`        | (_optional_) A list of mutations/traits that are added when this bionic is uninstalled (for example a "blind" mutation if you removed bionic eyes after installation).
 | `passive_pseudo_items`       | (_optional_) This fake item is added into player's inventory, when bionic is installed.
+| `installable_weapon_flags`   | (_optional_) Items with this flag can be installed inside this bionic
 | `fake_weapon`                | (_optional_) Activation of this bionic spawn an irremovable weapon in your hands. Require `BIONIC_TOGGLED` flag
 | `active_flags`               | (_optional_) Activation of this bionic applies this character flag
 | `auto_deactivates`           | (_optional_) Activation of this bionic automatically turn of another bionic, if character has one
 | `toggled_pseudo_items`       | (_optional_) Activation of this bionic spawn an irremovable tool in your hands.  Require `BIONIC_TOGGLED` flag
 | `spell_on_activation`        | (_optional_) Activation of this bionic allow you to cast a spell
 | `activated_close_ui`         | (_optional_) Activation of this bionic closes the bionic menu
-| `power_trickle`              | (_optional_) Having this bionic installed generate some amount of energy. Negative values can be used
 
 ```JSON
 {
@@ -1575,7 +1578,8 @@ When you sort your inventory by category, these are the categories that are disp
 | Identifier       | Description
 |---               |---
 | `id`             | Unique ID. Must be one continuous word, use underscores if necessary
-| `name`           | The name of the category. This is what shows up in-game when you open the inventory.
+| `name_header`    | The name of the category used for headers. This is what shows up in-game when you open the inventory.
+| `name_noun`      | The name of the category used for descriptive text, including singular and plural names.
 | `zone`           | The corresponding loot_zone (see loot_zones.json)
 | `sort_rank`      | Used to sort categories when displaying.  Lower values are shown first
 | `priority_zones` | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
@@ -1638,6 +1642,7 @@ Faults can be defined for more specialized damage of an item.
   "name": { "str": "Spent casing in chamber" }, // fault name for display
   "description": "This gun currently...", // fault description
   "item_prefix": "jammed", // optional string, items with this fault will be prefixed with this
+  "price_modifier": 0.4, // (Optional, double) Defaults to 1 if not specified. A multiplier on the price of an item when this fault is present. Values above 1.0 will increase the item's value.
   "flags": [ "JAMMED_GUN" ] // optional flags, see below
 }
 ```
@@ -2317,7 +2322,7 @@ or 1 fur *in addition to* the wood spear or pointy stick:
 ```json
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
-  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ]
+  [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ]
 ]
 ```
 
@@ -2327,7 +2332,7 @@ And to bind the grip onto the javelin, some sinew or thread should be required, 
 ```json
 "components": [
   [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
-  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
+  [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
   [ [ "sinew", 20, "NO_RECOVER" ], [ "thread", 20, "NO_RECOVER" ] ]
 ]
 ```
@@ -2350,7 +2355,7 @@ For example if these `grip_patch` and `grip_wrap` requirements were defined:
   {
     "id": "grip_patch",
     "type": "requirement",
-    "components": [ [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ] ]
+    "components": [ [ [ "sheet_cotton", 2 ], [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
     "id": "grip_wrap",
@@ -3410,7 +3415,7 @@ Weakpoints only match if they share the same id, so it's important to define the
 "repairs_like": "scarf",          // If this item does not have recipe, what item to look for a recipe for when repairing it.
 "color": "blue",                 // Color of the item symbol.
 "symbol": "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
-"looks_like": "rag",              // hint to tilesets if this item has no tile, use the looks_like tile
+"looks_like": "sheet_cotton",              // hint to tilesets if this item has no tile, use the looks_like tile
 "description": "Socks. Put 'em on your feet.", // Description of the item
 "snippet_category": "snippet_category",        // Can be used instead of description, if author want to have multiple ways to describe an item. See #Snippets
 "ascii_picture": "ascii_socks", // Id of the asci_art used for this item
@@ -3602,13 +3607,11 @@ Armor can be defined like this:
 "type" : "ARMOR",                   // Defines this as armor
 ...                                 // same entries as above for the generic item.
                                     // additional some armor specific entries:
-"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json  Also note that LEG_EITHER ARM_EITHER HAND_EITHER and FOOT_EITHER are allowed.
+"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
 "warmth" : 10,                      //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,     //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,                  // Base encumbrance (unfitted value)
 "max_encumbrance" : 0,              // When a character is completely full of volume, the encumbrance of a non-rigid storage container will be set to this. Otherwise it'll be between the encumbrance and max_encumbrance following the equation: encumbrance + (max_encumbrance - encumbrance) * non-rigid volume / non-rigid capacity.  By default, max_encumbrance is encumbrance + (non-rigid volume / 250ml).
-"weight_capacity_bonus": "20 kg",   // (Optional, default = 0) Bonus to weight carrying capacity, can be negative. Strings must be used - "5000 g" or "5 kg"
-"weight_capacity_modifier": 1.5,    // (Optional, default = 1) Factor modifying base weight carrying capacity.
 "sided": true,                      // (Optional, default false) If true, this is a sided armor. Sided armor is armor that even though it describes covering, both legs, both arms, both hands, etc. actually only covers one "side" at a time but can be moved back and forth between sides at will by the player.
 "coverage": 80,                     // What percentage of body part is covered (in general)
 "cover_melee": 60,                  // What percentage of body part is covered (against melee)
@@ -4002,7 +4005,7 @@ CBMs can be defined like this:
 "fun" : 50                  // Morale effects when used
 "freezing_point": 32,       // (Optional) Temperature in C at which item freezes, default is water (32F/0C)
 "cooks_like": "meat_cooked",         // (Optional) If the item is used in a recipe, replaces it with its cooks_like
-"parasites": 10,            // (Optional) Probability of becoming parasitized when eating
+"parasites": 10,            // (Optional) one_in(x) chance of becoming parasitized when eating
 "contamination": [ { "disease": "bad_food", "probability": 5 } ],         // (Optional) List of diseases carried by this comestible and their associated probability. Values must be in the [0, 100] range.
 "vitamins": [ [ "calcium", "60 mg" ], [ "iron", 12 ] ],         // Vitamins provided by consuming a charge (portion) of this.  Some vitamins ("calcium", "iron", "vitC") can be specified with the weight of the vitamins in that food.  Vitamins specified by weight can be in grams ("g"), milligrams ("mg") or micrograms ("μg", "ug", "mcg").  If a vitamin is not specified by weight, it is specified in "units", with meaning according to the vitamin definition.  Nutrition vitamins ("calcium", "iron", "vitC") are an integer percentage of ideal daily value average.  Vitamins array keys include the following: calcium, iron, vitC, mutant_toxin, bad_food, blood, and redcells.
 "material": [                     // All materials (IDs) this food is made of
@@ -4211,6 +4214,7 @@ Gun mods can be defined like this:
 "cooling_value_multiplier": 0.5,      // Multiply gun's "cooling_value" by this number; works the same as overheat_threshold_multiplier
 "heat_per_shot_modifier":  -2,        //  Add a flat amount to gun's "heat_per_shot"; works the same as overheat_threshold_modifier
 "heat_per_shot_multiplier": 2.0,      // Multiply the gun's "heat_per_shot" by this number; works the same as overheat_threshold_multiplier
+"is_bayonet": true,     // Optional, if true, the melee damage of this item is added to the base damage of the gun. Defaults to false.
 "blacklist_slot": [ "rail", "underbarrel" ],      // prevents installation of the gunmod if the specified slot(s) are present on the gun.
 "blacklist_mod": [ "m203", "m320" ],      // prevents installation of the gunmod if the specified mods(s) are present on the gun.
 ```
@@ -5694,6 +5698,8 @@ Flags, that can be used in different entries, can also be made in json, allowing
   "taste_mod": -5, // for consumables, it will add -5 to taste, that can't be removed with cooking
   "inherit": true, // is this flag inherited to another thing if it's attached/equipped, like if you put ESAPI plate into plate carrier, their `CANT_WEAR` flag won't be applied to plate carrier, and you could wear it as usually
   "craft_inherit": true // if true, if you craft something with this flag, this flag would be applied to result also
+  "item_prefix": "[...",
+  "item_suffix": "...]" // `item_prefix` and `item_suffix` will be added to the prefix and suffix of the item name
 },
 
 ```
@@ -6031,117 +6037,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 # Obsoletion and migration
 
-If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
-
-Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`; Using a migration means you can remove the item safely from the game, and it won't cause any harm
-
-```C++
-
-{
-  "id": "arrowhead",  // id of item, that you want to migrate, mandatory
-  "type": "MIGRATION", // type, mandatory
-  "replace": "steel_chunk", // item, that replace the removed item, mandatory
-  "variant": "m1014", // variant of an item, that would be used to replace the item. only for items, that do use variants
-  "flags": [ "DIAMOND" ], // additional flag, that item would have when replaced
-  "charges": 1930, // amount of charges, that replaced item would have
-  "contents": [ { "id": "dogfood", "count": 1 } ], // if `replace` is container, describes what would be inside of it
-  "sealed": false // if `replace` is container, will it be sealed or not
-}
-
-```
-
-// it seems MIGRATION accept any field actually, but i need someone to confirm it
-
-Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
-For `VEH_TOOLS` parts only - `add_veh_tools` is a list of itype_ids to add to the vehicle tools after migrating the part.
-
-```json
-  {
-    "type": "vehicle_part_migration",
-    "//": "migration to VEH_TOOLS, remove after 0.H release",
-    "from": "afs_metal_rig",
-    "to": "veh_tools_workshop",
-    "add_veh_tools": [ "welder", "soldering_iron", "forge", "kiln" ]
-  }
-```
-
-For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` the bionic will be deleted, if `to` is not null the id will be changed to the provided value.
-
-```json
-  {
-    "type": "bionic_migration",
-    "from": "bio_tools_extend",
-    "to": null
-  }
-```
-
-For mutations, see MUTATIONS.md#trait-migrations
-
-Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
-
-For items, furniture, terrain, factions, loot groups and lot of similar stuff, you remove all places, where the entity can spawn (maps, palettes, NPCs etc), mark the item with "OBSOLETE" flag (optional), and move into `data/json/obsoletion/` or inside  - they will stay here till the next developement cycle, to make fluent transfer between one stable and another
-
-For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id `hive` and `hive2` into `omt_obsolete` add an entry similar to this, note that if mapgen has already generated this area this will only alter the tile shown on the overmap:
-```json
-  {
-    "type": "oter_id_migration",
-    "//": "obsoleted in 0.H",
-    "oter_ids": {
-      "hive": "omt_obsolete",
-      "hive2": "omt_obsolete"
-    }
-  }
-```
-
-For overmap specials add an entry to `data/json/obsoletion/migration_overmap_specials.json`:
-```json
-  {
-    "type": "overmap_special_migration",
-    "id": "Farm with silo",
-    "//": "Removed in 0.G - no new id, this will remove it"
-  },
-  {
-    "type": "overmap_special_migration",
-    "id": "FakeSpecial_cs_open_sewer",
-    "new_id": "cs_open_sewer",
-    "//": "Removed <when> - this will migrate to 'new_id'"
-  },
-```
-
-For EOC/dialogue variables you can use `var_migration`. This currently only migrates **Character**, and **Global** vars. If "to" isn't provided the variable will be migrated to a key of "NULL_VALUE".
-
-```json
-{
-    "type": "var_migration",
-    "from": "temp_var",
-    "to": "new_temp_var"
-}
-```
-
-For recipes, deleting the recipe is enough.
-
-Similarly, monsters do not require obsoletion as saved monsters with invalid IDs will silently transform into a breather.
-
-For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
-
-## Charge and temperature removal
-
-If an item that used to have charges (e.g. `AMMO` or `COMESTIBLE` types) is changed to another type that does not use charges, migration is needed to ensure correct behavior when loading from existing save files, and prevent spurious error messages from being shown to the player.  Migration lists for this are found in `data/json/obsoletion/charge_removal.json`.
-
-Such items may be added to one of the following:
-
-`data/json/obsoletion/blacklist_charge_migration.json` a `charge_migration_blacklist` list:
-Items in existing save files with `n` charges will be converted to `n` items with no charges.  This will preserve item count.
-
-`data/json/obsoletion/blacklist_charge_removal.json` a `charge_removal_blacklist` list
-* `charge_removal_blacklist`: items will simply have charges removed.
-
-Additionally, `COMESTIBLE` items have temperature and rot processing, and are thus set as always activated.  When an item is changed from `COMESTIBLE` to a different type, migration is needed to check and unset this if applicable:
-
-`data/json/obsoletion/blacklist_temperature_removal.json` a `temperature_removal_blacklist` list:
-
-* In most cases, the item has no other features that require it to remain activated, in which case it can be simply added to `temperature_removal_blacklist`.  Items in this list will be deactivated and have temperature-related data cleared *without any further checks performed*.
-* In case of an item that may be active for additional reasons other than temperature/rot tracking, an instance of the item loaded from existing save file cannot be blindly deactivated -- additional checks are required to see if it should remain active.  Instead of adding to the above list, a separate special case should be added in `src/savegame_json.cpp` to implement the necessary item-specific deactivation logic.
+[OBSOLETION_AND_MIGRATION.md](#OBSOLETION_AND_MIGRATION.md)
 
 
 # Field types
@@ -6221,7 +6117,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
     "has_elec": false, // See has_fire
     "has_fume": false, // See has_fire, non-breathing monsters are immune to this field
     "display_items": true, // If the field should obscure items on this tile
-    "display_field": true, // If the field should obscure other fields
+    "display_field": true, // If the field has a visible sprite or symbol, default false
     "description_affix": "covered_in", // Description affix for items in this field, possible values are "in", "covered_in", "on", "under", and "illuminated_by"
     "wandering_field": "fd_toxic_gas", // Spawns the defined field in an `intensity-1` radius, or increases the intensity of such fields until their intensity is the same as the parent field
     "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
@@ -6239,7 +6135,7 @@ Fields can exist on top of terrain/furniture, and support different intensity le
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] },
-        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "sheet_cotton", "count": [ 40, 55 ] },
         { "item": "scrap", "count": [ 10, 20 ] }
       ]
     }

@@ -698,14 +698,21 @@
     "material_thickness": 0.5,
     "environmental_protection": 2,
     "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "SOFT" ],
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "BELTED", "SOFT" ],
     "armor": [
-      { "encumbrance": 10, "coverage": 70, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] },
+      { "encumbrance": 10, "coverage": 70, "covers": [ "torso", "arm_l", "arm_r" ] },
       {
+        "covers": [ "head" ],
         "encumbrance": 10,
         "coverage": 100,
-        "covers": [ "head" ],
         "specifically_covers": [ "head_crown", "head_forehead", "head_nape" ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 70,
+        "encumbrance": 10,
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
       }
     ]
   },
@@ -728,14 +735,6 @@
     "flags": [ "FANCY", "VARSIZE", "SUN_GLASSES" ],
     "material_thickness": 0.5,
     "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] } ]
-  },
-  {
-    "id": "homburg_hat",
-    "type": "ARMOR",
-    "name": { "str": "homburg hat" },
-    "description": "A classic hat with a wide brim, held up by a metal hatband, and a short, rounded crown.",
-    "material": [ "wool" ],
-    "copy-from": "fedora"
   },
   {
     "id": "thermal_socks",
@@ -3857,7 +3856,9 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "relic_data": {
+      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 215000 } ] } ]
+    },
     "armor": [
       {
         "encumbrance": 20,
@@ -3879,7 +3880,6 @@
     "power_draw": "972216 mW",
     "//": "Battery should last two hours (02:00:07). Weight capacity bonus should include weight of item AND battery, plus 90kg.",
     "revert_to": "utility_exoskeleton_off",
-    "weight_capacity_bonus": "215 kg",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "utility_exoskeleton_off" }
   },
   {
@@ -3905,7 +3905,9 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "relic_data": {
+      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 190000 } ] } ]
+    },
     "armor": [
       {
         "encumbrance": 20,
@@ -3926,7 +3928,6 @@
     "turns_per_charge": 1,
     "//": "Full tank lasts a bit under three hours (166.66 minutes). Has less carry bonus than the battery one since the weight of the fuel will drop over time.",
     "revert_to": "ice_utility_exoskeleton_off",
-    "weight_capacity_bonus": "190 kg",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
   }
 ]

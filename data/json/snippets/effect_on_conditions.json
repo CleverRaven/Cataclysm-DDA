@@ -508,6 +508,30 @@
   },
   {
     "type": "snippet",
+    "category": "<AMBIENT_SEWER>",
+    "text": [
+      "You think you just saw a small, worm-like creature vanish into the filthy water.",
+      "Some of the sewage bubbles ominously for a second, but nothing happens.",
+      "The foul sewer odor vanishes for a moment, only to return even stronger.",
+      "The foul sewer odor gets stronger, but only for a moment.",
+      "The foul sewer odor lets up, maybe a manhole is nearby?",
+      "Something audibly scurries through one of the smaller pipes.  Maybe just a rat.",
+      "A pale, bloated and hairless rat cadaver floats in the sewage.  Yuck.",
+      "Inexplicable scratches cover the pipes.  You don't know which species they are from."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<SEWER_MORALE_DEBUFF>",
+    "text": [
+      "The vile sewer smell makes you sick.",
+      "You gag at the sight of various unpleasantries bobbing in the sewage.",
+      "The claustrophobic pipes and vile stench make you reconsider your choice of coming down here.",
+      "You would really love some fresh air right now."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<AMBIENT_SUBWAY>",
     "text": [
       "The trains have long grown still, and your echoing footsteps are the only thing breaking the silence.  For now.",

@@ -324,25 +324,6 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "minispeargun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 1 ] ],
-    "difficulty": 4,
-    "time": "2 h",
-    "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_gunsmithing_basic" },
-      { "proficiency": "prof_gunsmithing_spring" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
-    ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "hose", 2 ] ], [ [ "scrap", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "slamfire_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",

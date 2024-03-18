@@ -178,7 +178,10 @@
         "context": "flag",
         "value": "yes",
         "no": "Sure, I could teach you the basics, I'll have to charge you though.  Let's say, 5 merch for a teaching session, plus a bit in trade depending on how in-depth you're looking for?",
-        "yes": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?"
+        "yes": {
+          "gendered_line": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
     "speaker_effect": { "effect": { "u_add_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" } },

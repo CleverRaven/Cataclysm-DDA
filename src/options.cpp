@@ -1753,6 +1753,12 @@ void options_manager::add_options_interface()
         this->add_empty_line( "interface" );
     };
 
+    add( "USE_IMGUI", "interface", to_translation( "Use ImGui UI" ),
+         to_translation( "Use new ImGui-based user interface (WARNING: EXPERIMENTAL)." ),
+         false );
+
+    add_empty_line();
+
     add( "USE_LANG", "interface", to_translation( "Language" ),
          to_translation( "Switch language.  Each percentage is the fraction of strings translated "
                          "for that language." ),
@@ -1944,6 +1950,12 @@ void options_manager::add_options_interface()
              to_translation( "Highlight unread recipes" ),
              to_translation( "If true, highlight unread recipes to allow tracking of newly learned recipes." ),
              true
+           );
+
+        add( "SCREEN_READER_MODE", page_id, to_translation( "Screen reader mode" ),
+             to_translation( "On supported UI screens, tweaks display of text to optimize for screen readers.  Targeted towards using the open-source screen reader 'orca' using curses for display." ),
+             // See doc/USER_INTERFACE_AND_ACCESSIBILITY.md for testing and implementation notes
+             false
            );
     } );
 
@@ -2355,7 +2367,7 @@ void options_manager::add_options_graphics()
 
         add( "USE_DRAW_ASCII_LINES_ROUTINE", page_id, to_translation( "SDL ASCII lines" ),
              to_translation( "If true, use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
-             false, COPT_CURSES_HIDE
+             true, COPT_CURSES_HIDE
            );
     } );
 #endif // TILES
@@ -2806,8 +2818,14 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ),
-         to_translation( "Will you need to complete certain achievements to enable certain scenarios and professions?  Achievements are tracked from your memorial file so characters from any world will be checked.  Disabling this will spoil factions and situations you may otherwise stumble upon naturally.  Some scenarios are frustrating for the uninitiated and some professions skip portions of the games content.  If new to the game meta progression will help you be introduced to mechanics at a reasonable pace." ),
+    add( "META_PROGRESS", "world_default", to_translation( "Meta Progression" ), to_translation(
+             "Will you need to complete certain achievements to enable certain scenarios "
+             "and professions?  Achievements of saved characters from any world will be "
+             "checked.  Disabling this will spoil factions and situations you may otherwise "
+             "stumble upon naturally while playing.  Some scenarios are frustrating for the "
+             "uninitiated, and some professions skip portions of the game's content.  If "
+             "new to the game, meta progression will help you be introduced to mechanics at "
+             "a reasonable pace." ),
          true
        );
 }
@@ -2916,6 +2934,17 @@ void options_manager::add_options_debug()
              0.0, 60.0, 0.0, 0.1
            );
     } );
+
+    add_empty_line();
+
+    add( "SKIP_VERIFICATION", "debug", to_translation( "Skip verification step during loading" ),
+         to_translation( "If enabled, this skips the JSON verification step during loading.  This may give a faster loading time, but risks JSON errors not being caught until runtime." ),
+#if defined(EMSCRIPTEN)
+         true
+#else
+         false
+#endif
+       );
 }
 
 void options_manager::add_options_android()

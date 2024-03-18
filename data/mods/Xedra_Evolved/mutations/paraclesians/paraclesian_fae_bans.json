@@ -125,6 +125,7 @@
     "condition": {
       "and": [
         { "u_has_trait": "THRESH_IERDE" },
+        { "u_has_trait": "IERDE_RESHAPE_THE_EARTH" },
         {
           "or": [
             { "compare_string": [ "ACT_MULTIPLE_MINE", { "context_val": "activity" } ] },
@@ -164,7 +165,15 @@
     "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
     "condition": {
-      "and": [ { "u_has_trait": "THRESH_HOMULLUS" }, { "or": [ { "npc_has_species": "HUMAN" }, { "npc_has_species": "FERAL" } ] } ]
+      "and": [
+        { "u_has_trait": "THRESH_HOMULLUS" },
+        {
+          "or": [
+            { "and": [ { "npc_has_species": "HUMAN" }, { "not": { "npc_has_species": "ZOMBIE" } } ] },
+            { "npc_has_species": "FERAL" }
+          ]
+        }
+      ]
     },
     "effect": [
       { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },

@@ -54,7 +54,7 @@
     "type": "item_group",
     "id": "NC_ANCILLA_BARKEEP_wield",
     "subtype": "collection",
-    "items": [ { "item": "rag" } ]
+    "items": [ { "item": "sheet_cotton" } ]
   },
   {
     "type": "item_group",
@@ -76,7 +76,7 @@
     "text": [
       "Ahh but if you want suggestions and are one for craft beers, I certainly suggest having some old world brew before it all goes flat or sour.",
       "Speaking off, Cranberry here brought me a whole cask of Cabernet a few days ago.  So if red wines are your thing I can offer that by the gallon.",
-      "Just bought some of this new \"Free Whiskey\" from the caravaneer up above.  Its vile if you ask me, but it packs a good punch.  A real drink of the apocalypse I suppose.",
+      "Just bought some of this new \"Free Whiskey\" from the caravaneer up above.  It's vile if you ask me, but it packs a good punch.  A real drink of the apocalypse I suppose.",
       "The water I boiled from a pool by the rails, so I don't suggest you get some.",
       "And you can also try chatting with some of the other patrons if networking is your thing.",
       "Also have some old world sodas if alcohol isn't your kind of thing.",
@@ -133,7 +133,7 @@
   {
     "id": "TALK_ANCILLA_BARKEEP_TAP",
     "type": "talk_topic",
-    "dynamic_line": "Just the best spirits the whole of New England has to offer.  Well the best we have managed to loot so far at least.\n\n <ANCILLA_barkeep_suggestion>",
+    "dynamic_line": "Just the best spirits the whole of New England has to offer.  Well the best we've managed to loot so far at least.\n\n <ANCILLA_barkeep_suggestion>",
     "responses": [
       {
         "//": "It is FREE? well just for regulars",

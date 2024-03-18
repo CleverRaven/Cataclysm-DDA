@@ -651,7 +651,7 @@
     "color": [ "red_green", "red_green", "red_green", "brown" ],
     "//": "barren in winter",
     "move_cost": 4,
-    "roof": "t_treetop_mega_fern",
+    "roof": "t_treetop_giant_fern",
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOITEM", "YOUNG", "REDUCE_SCENT", "CLIMB_ADJACENT" ],
     "bash": {
       "str_min": 4,

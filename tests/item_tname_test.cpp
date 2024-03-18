@@ -239,20 +239,20 @@ TEST_CASE( "items_with_a_temperature_flag", "[item][tname][temperature]" )
 
 TEST_CASE( "wet_item", "[item][tname][wet]" )
 {
-    item rag( "rag" );
-    rag.set_flag( flag_WET );
-    REQUIRE( rag.has_flag( flag_WET ) );
+    item sheet_cotton( "sheet_cotton" );
+    sheet_cotton.set_flag( flag_WET );
+    REQUIRE( sheet_cotton.has_flag( flag_WET ) );
 
-    CHECK( rag.tname() == "rag (wet)" );
+    CHECK( sheet_cotton.tname() == "cotton sheet (wet)" );
 }
 
 TEST_CASE( "filthy_item", "[item][tname][filthy]" )
 {
-    item rag( "rag" );
-    rag.set_flag( flag_FILTHY );
-    REQUIRE( rag.is_filthy() );
+    item sheet_cotton( "sheet_cotton" );
+    sheet_cotton.set_flag( flag_FILTHY );
+    REQUIRE( sheet_cotton.is_filthy() );
 
-    CHECK( rag.tname() == "rag (filthy)" );
+    CHECK( sheet_cotton.tname() == "cotton sheet (filthy)" );
 }
 
 TEST_CASE( "diamond_item", "[item][tname][diamond]" )
@@ -693,7 +693,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             backpack_hiking.put_in( rock2, pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) ==
                    color_pref + "hiking backpack " + nesting_sym + " 2 " +
-                   colorize( rock.get_category_shallow().name(), c_magenta ) );
+                   colorize( rock.get_category_shallow().name_noun( 2 ), c_magenta ) );
         }
         SECTION( "several stacks of variants" ) {
             item rock_blue( itype_test_rock );
@@ -723,7 +723,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             REQUIRE( backpack_hiking.put_in( purse, pocket_type::CONTAINER ).success() );
             CHECK( backpack_hiking.tname( 1 ) ==
                    color_pref + "hiking backpack " + nesting_sym + " 2 " +
-                   colorize( rock.get_category_shallow().name(), c_magenta ) + " / 3 items" );
+                   colorize( rock.get_category_shallow().name_noun( 2 ), c_magenta ) + " / 3 items" );
         }
         SECTION( "container has whitelist" ) {
             std::string const wlmark = "⁺";
@@ -788,7 +788,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             REQUIRE( backpack_hiking.put_in( bag2, pocket_type::CONTAINER ).success() );
             CHECK( backpack_hiking.tname( 1 ) ==
                    color_pref + "hiking backpack " + nesting_sym + " 2 " +
-                   colorize( rock.get_category_shallow().name(), c_magenta ) + " / 3 items" );
+                   colorize( rock.get_category_shallow().name_noun( 2 ), c_magenta ) + " / 3 items" );
         }
     }
 
@@ -809,7 +809,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     SECTION( "aggregated food stats" ) {
         avatar &u = get_avatar();
         item salt( "salt" );
-        std::string const cat_food_str = salt.get_category_shallow().name();
+        std::string const cat_food_str = salt.get_category_shallow().name_noun( 2 );
         item pepper( "pepper" );
         item juniper( "juniper" );
         item ration( "protein_bar_evac" );
@@ -914,7 +914,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         bool both_unfit = unfit ? GENERATE( true, false ) : false;
         CAPTURE( same_item, damaged, both_damaged, unfit, both_unfit );
 
-        std::string const cat_cl_str = pants.get_category_shallow().name();
+        std::string const cat_cl_str = pants.get_category_shallow().name_noun( 2 );
         std::string const pants_tname = pants.tname( 2, type_only );
         std::string dura_str = pants.durability_indicator();
         std::string fit_str;

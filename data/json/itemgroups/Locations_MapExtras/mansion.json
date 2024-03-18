@@ -317,7 +317,6 @@
       { "group": "manuals", "prob": 10 },
       { "group": "textbooks", "prob": 5 },
       { "group": "exotic_books", "prob": 5 },
-      { "group": "loose_chess_pieces", "prob": 1 },
       [ "necronomicon", 1 ]
     ]
   },
@@ -553,7 +552,6 @@
       [ "fc_hairpin", 30 ],
       { "group": "kids_books", "prob": 170, "count": [ 1, 4 ] },
       { "group": "games", "prob": 170, "count": [ 1, 2 ] },
-      { "group": "loose_chess_pieces", "prob": 10, "count": [ 1, 2 ] },
       [ "backpack", 20 ],
       [ "backpack_denim", 5 ],
       [ "pom_poms", 30 ],
@@ -899,7 +897,6 @@
       { "group": "tinware", "prob": 20 },
       [ "bone_tainted", 5 ],
       { "group": "corpse_mansion", "prob": 5 },
-      { "group": "loose_chess_pieces", "prob": 1 },
       { "group": "writing_utensils", "prob": 10 }
     ]
   },
@@ -1619,6 +1616,7 @@
       [ "scythe", 1 ],
       [ "straw_hat", 50 ],
       [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
       [ "shovel", 40 ],
       [ "clay_pot_flower", 40 ],
       [ "plastic_pot_flower", 60 ],

@@ -66,7 +66,7 @@ static const itype_id itype_test_shears_off( "test_shears_off" );
 static const itype_id itype_test_weldtank( "test_weldtank" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
 static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );
 static const mtype_id mon_test_shearable( "mon_test_shearable" );
@@ -184,7 +184,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player without the required tools" ) {
             mp.furn_set( safe, f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -200,7 +200,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -218,7 +218,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.add_bionic( bio_ears );
             mp.furn_set( safe, f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -235,7 +235,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -1708,7 +1708,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, get_avatar().pos() + tripoint_north ) ); },
-    [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos() ) ); },
+    [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos_bub() ) ); },
     //player_activity( oxytorch_activity_actor( p, loc ) ),
     [] { return player_activity( pickup_activity_actor( {}, {}, std::nullopt, false ) ); },
     [] { return player_activity( play_with_pet_activity_actor() ); },

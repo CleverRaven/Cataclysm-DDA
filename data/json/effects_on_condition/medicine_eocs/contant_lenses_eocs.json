@@ -4,7 +4,6 @@
     "id": "EOC_CONTACTS",
     "//time": "how long contact effect would last, in seconds",
     "//effect": "what effect would be applied when item is activated. Currently supported only 'contacts' and 'transition_contacts'",
-    "//item": "item, that should be removed, if EoC is successful",
     "//flag1": "what flag is required to use this lenses. lack of this flag prevent you from using the lenses",
     "//flag2": "same as flag1, either this one or flag1. omit if not needed",
     "//flag3": "same as flag1, either this one, or flag2 or flag1. omit if not needed",
@@ -12,7 +11,7 @@
     "condition": {
       "and": [
         { "math": [ "u_has_flag(_flag1) + u_has_flag(_flag2) + u_has_flag(_flag3) + _plano", ">", "0" ] },
-        { "expects_vars": [ "time", "effect", "item" ] }
+        { "expects_vars": [ "time", "effect" ] }
       ]
     },
     "effect": { "run_eocs": [ "EOC_CONTACTS1" ] },
@@ -58,7 +57,7 @@
       { "u_lose_effect": "transition_contacts" },
       { "u_lose_effect": "transition_contacts_plano" },
       { "u_add_effect": { "context_val": "effect" }, "duration": { "math": [ "rng(_time * 0.94, _time * 1.06)" ] } },
-      { "u_consume_item": { "context_val": "item" } }
+      { "u_consume_item": { "context_val": "id" } }
     ]
   }
 ]

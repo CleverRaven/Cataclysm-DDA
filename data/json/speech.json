@@ -2199,7 +2199,7 @@
   {
     "type": "speech",
     "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Foodplace: Don’t get caught in the web of an unsafe diet.\"",
+    "sound": "\"Foodplace: Don't get caught in the web of an unsafe diet.\"",
     "volume": 15
   },
   {
@@ -2464,6 +2464,7 @@
       "mon_dog_boxer",
       "mon_dog_auscattle",
       "mon_dog_samoyed",
+      "mon_dog_howling",
       "mon_dog_mutant_mongrel",
       "mon_dog_mutant_loper",
       "mon_mi_go",
@@ -2670,13 +2671,25 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "crackling sounds.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "speaker": [
+      "mon_zombie_brute_shocker",
+      "mon_zombie_electric",
+      "mon_zombie_nullfield",
+      "mon_skeleton_electric",
+      "mon_frog_shocker"
+    ],
     "sound": "high-pitched hum.",
     "volume": 20
   },

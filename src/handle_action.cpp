@@ -650,9 +650,10 @@ static void open()
 
 static void close()
 {
-    if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-                                            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-                                            ACTION_CLOSE, false ) ) {
+    if( const std::optional<tripoint_bub_ms> pnt = choose_adjacent_highlight_bub_ms(
+                _( "Close where?" ),
+                pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
     }
 }
@@ -969,7 +970,7 @@ static void smash()
             weary_mult = 1.0f / player_character.exertion_adjusted_move_multiplier( MODERATE_EXERCISE );
 
             const int mod_sta = 2 * player_character.get_standard_stamina_cost();
-            player_character.mod_stamina( mod_sta );
+            player_character.burn_energy_arms( mod_sta );
 
             if( static_cast<int>( player_character.get_skill_level( skill_melee ) ) == 0 ) {
                 player_character.practice( skill_melee, rng( 0, 1 ) * rng( 0, 1 ) );
@@ -2292,7 +2293,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     add_msg( m_info, _( "You can't close things while you're riding." ) );
                 }
             } else if( mouse_target ) {
-                doors::close_door( m, player_character, *mouse_target );
+                doors::close_door( m, player_character, tripoint_bub_ms( *mouse_target ) );
             } else {
                 close();
             }

@@ -95,6 +95,10 @@ int Character::get_env_resist( bodypart_id bp ) const
 // the ITEM_ enchantments only affect the damage resistance for that one item, while the others affect all of them
 static void armor_enchantment_adjust( Character &guy, damage_unit &du )
 {
+    //If we're not dealing any damage of the given type, don't even bother.
+    if( du.amount < 0.1f ) {
+        return;
+    }
     // FIXME: hardcoded damage types -> enchantments
     if( du.type == STATIC( damage_type_id( "acid" ) ) ) {
         du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ACID );
@@ -114,6 +118,9 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
         du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_STAB );
     } else if( du.type == STATIC( damage_type_id( "bullet" ) ) ) {
         du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_BULLET );
+    }
+    if( du.type != STATIC( damage_type_id( "pure" ) ) ) {
+        du.amount = guy.calculate_by_enchantment( du.amount, enchant_vals::mod::ARMOR_ALL );
     }
     du.amount = std::max( 0.0f, du.amount );
 }

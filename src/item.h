@@ -418,6 +418,8 @@ class item : public visitable
         std::string tname( unsigned int quantity = 1,
                            tname::segment_bitset const &segments = tname::default_tname ) const;
         std::string tname( unsigned int quantity, bool with_prefix ) const;
+        static std::string tname( const itype_id &id, unsigned int quantity = 1,
+                                  tname::segment_bitset const &segments = tname::default_tname );
         std::string display_money( unsigned int quantity, unsigned int total,
                                    const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
@@ -1961,8 +1963,17 @@ class item : public visitable
         /** returns read-only set of flags of this item (not including flags from item type or gunmods) */
         const FlagsSetType &get_flags() const;
 
+        /** returns read-only set of flags of this item that will add prefixes to this item. */
+        const FlagsSetType &get_prefix_flags() const;
+
+        /** returns read-only set of flags of this item that will add suffixes to this item. */
+        const FlagsSetType &get_suffix_flags() const;
+
         /** Idempotent filter setting an item specific flag. */
         item &set_flag( const flag_id &flag );
+
+        /** Idempotent filter setting an item specific fault. */
+        item &set_fault( const fault_id &fault_id );
 
         /** Idempotent filter removing an item specific flag */
         item &unset_flag( const flag_id &flag );
@@ -2040,18 +2051,6 @@ class item : public visitable
          * translated. Returns an empty string for non-seed items.
          */
         std::string get_plant_name() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_seedling
-         */
-        std::optional<furn_str_id> get_plant_seedling_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_mature
-         */
-        std::optional<furn_str_id> get_plant_mature_form() const;
-        /**
-         * Furniture ID of what the plant grows into. Defaults to f_plant_harvestable
-         */
-        std::optional<furn_str_id> get_plant_harvestable_form() const;
         /*@}*/
         /**
          * @name Armor related functions.
@@ -2249,16 +2248,6 @@ class item : public visitable
                           encumber_flags = encumber_flags::none ) const;
 
         /**
-         * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
-         */
-        float get_weight_capacity_modifier() const;
-        /**
-         * Returns the weight capacity bonus (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
-         * For non-armor it returns 0. The bonus is added to the total weight capacity of the character that wears the item.
-         */
-        units::mass get_weight_capacity_bonus() const;
-        /**
          * Returns the resistance to environmental effects (@ref islot_armor::env_resist) that this
          * item provides when worn. See @ref player::get_env_resist. Higher values are better.
          * For non-armor it returns 0.
@@ -2432,6 +2421,8 @@ class item : public visitable
          */
         int ammo_remaining( const Character *carrier = nullptr, bool include_linked = false ) const;
         int ammo_remaining( bool include_linked ) const;
+
+
     private:
         int ammo_remaining( const std::set<ammotype> &ammo, const Character *carrier = nullptr,
                             bool include_linked = false ) const;
@@ -2655,7 +2646,7 @@ class item : public visitable
          *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( const Character &p, bool bipod = false ) const;
+        int gun_recoil( const Character &p, bool bipod = false, bool ideal_strength = false ) const;
 
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
@@ -2663,6 +2654,10 @@ class item : public visitable
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
         damage_instance gun_damage( itype_id ammo ) const;
+        /**
+        * The base weight of gun which takes receiver into account
+         */
+        units::mass gun_base_weight() const;
         /**
          * The minimum force required to cycle the gun, can be overridden by mods
          */
@@ -3029,6 +3024,11 @@ class item : public visitable
         bool armor_full_protection_info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
         void update_inherited_flags();
+        /**
+        * Update prefix_tags_cache and suffix_tags_cache
+        */
+        void update_prefix_suffix_flags();
+        void update_prefix_suffix_flags( const flag_id &flag );
 
     public:
         enum class sizing : int {
@@ -3079,6 +3079,8 @@ class item : public visitable
         bool requires_tags_processing = true;
         cata::heap<FlagsSetType> item_tags; // generic item specific flags
         cata::heap<FlagsSetType> inherited_tags_cache;
+        cata::heap<FlagsSetType> prefix_tags_cache; // flags that will add prefixes to this item
+        cata::heap<FlagsSetType> suffix_tags_cache; // flags that will add suffixes to this item
         lazy<safe_reference_anchor> anchor;
         cata::heap<std::map<std::string, std::string>> item_vars;
         const mtype *corpse = nullptr;
@@ -3274,3 +3276,13 @@ bool is_preferred_component( const item &component );
 bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H
+
+struct disp_mod_by_barrel {
+    units::length barrel_length;
+    int dispersion_modifier;
+
+    disp_mod_by_barrel();
+    disp_mod_by_barrel( units::length bl, int disp ) : barrel_length( bl ),
+        dispersion_modifier( disp ) {}
+    void deserialize( const JsonObject &jo );
+};

@@ -1,5 +1,4 @@
 #include <clocale>
-#include <clocale>
 #include <iosfwd>
 #include <stdexcept>
 #include <string>

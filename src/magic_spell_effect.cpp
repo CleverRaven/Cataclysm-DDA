@@ -495,13 +495,8 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
-                if( sp.has_flag( spell_flag::LIQUID ) ) {
-                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
-                    bodypart_effected = true;
-                } else {
-                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
-                    bodypart_effected = true;
-                }
+                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                bodypart_effected = true;
             }
         }
     }
@@ -1146,7 +1141,7 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
         you->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            you->mod_power_level( units::from_kilojoule( healing ) );
+            you->mod_power_level( units::from_kilojoule( static_cast<std::int64_t>( healing ) ) );
         } else {
             you->mod_stamina( healing );
         }
@@ -1200,7 +1195,8 @@ static bool is_summon_friendly( const spell &sp )
     return friendly;
 }
 
-static bool add_summoned_mon( const tripoint &pos, const time_duration &time, const spell &sp )
+static bool add_summoned_mon( const tripoint &pos, const time_duration &time, const spell &sp,
+                              Creature &caster )
 {
     std::string monster_id = sp.effect_data();
 
@@ -1227,6 +1223,8 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+    spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
+    spawned_mon.set_summoner( &caster );
     return true;
 }
 
@@ -1241,7 +1239,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         const size_t mon_spot = rng( 0, area.size() - 1 );
         auto iter = area.begin();
         std::advance( iter, mon_spot );
-        if( add_summoned_mon( *iter, summon_time, sp ) ) {
+        if( add_summoned_mon( *iter, summon_time, sp, caster ) ) {
             num_mons--;
             sp.make_sound( *iter, caster );
         } else {

@@ -123,6 +123,7 @@
       [ "mutagen_rat", 1 ],
       [ "mutagen_spider", 1 ],
       [ "mutagen_troglobite", 1 ],
+      [ "mutagen_chiropteran", 1 ],
       [ "mutagen_ursine", 1 ],
       [ "instability", 1 ],
       [ "mutant_toxin", 2 ]
@@ -416,6 +417,17 @@
     "vit_type": "counter",
     "name": { "str": "Rat Primer" },
     "excess": "mutagen_rat",
+    "min": 0,
+    "max": 2500,
+    "rate": "1 h",
+    "disease_excess": [ [ 100, 500 ], [ 501, 2199 ], [ 2200, 2500 ] ]
+  },
+  {
+    "id": "mutagen_chiropteran",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Chiropteran Primer" },
+    "excess": "mutagen_chiropteran",
     "min": 0,
     "max": 2500,
     "rate": "1 h",
