@@ -2282,6 +2282,10 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
         if( t.is_dead_state() ) {
             break;
         }
+        //TODO: Add flags to distinct mutation attack that can be triggered by reach attack (or just use ranged_mutation to fire fake gun.)
+        if( !is_adjacent( &t, true ) ) {
+            break;
+        }
 
         // TODO: Make this hit roll use unarmed skill, not weapon skill + weapon to_hit
         int hit_spread = t.deal_melee_attack( this, hit_roll() * 0.8 );
