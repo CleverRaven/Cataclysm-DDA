@@ -2755,7 +2755,6 @@ int Character::attack_speed( const item &weap ) const
     move_cost *= ma_mult;
     move_cost += ma_move_cost;
 
-    move_cost *= mutation_value( "attackcost_modifier" );
     if( is_on_ground() ) {
         if( has_flag( json_flag_PSEUDOPOD_GRASP ) ) {
             move_cost *= 1.5;
