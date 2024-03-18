@@ -1852,19 +1852,20 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
     veh_target.shift_if_needed( get_map() );
     veh_target.pos -= veh_target.pivot_anchor[0];
 
-    bounding_box vehicle_box = get_bounding_box( true, true );
+    bounding_box vehicle_box = get_bounding_box( false, true );
+    bounding_box target_vehicle_box = veh_target.get_bounding_box( false, true );
+
+    bounding_box combined_box;
+    combined_box.p1 = point( std::min( vehicle_box.p1.x, target_vehicle_box.p1.x ),
+                             std::min( vehicle_box.p1.y, target_vehicle_box.p1.y ) );
+    combined_box.p2 = point( std::max( vehicle_box.p2.x, target_vehicle_box.p2.x ),
+                             std::max( vehicle_box.p2.y, target_vehicle_box.p2.y ) );
     point size;
-    size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-    size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+    size.x = std::abs( ( combined_box.p2 - combined_box.p1 ).x ) + 1;
+    size.y = std::abs( ( combined_box.p2 - combined_box.p1 ).y ) + 1;
 
-    bounding_box target_vehicle_box = veh_target.get_bounding_box( true, true );
-
-    point target_size;
-    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
-    //Make sur the resulting vehicle would not be too large
-    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
-        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+    //Make sure the resulting vehicle would not be too large
+    if( size.x <= MAX_WIRE_VEHICLE_SIZE && size.y <= MAX_WIRE_VEHICLE_SIZE ) {
         if( !merge_vehicle_parts( &veh_target ) ) {
             debugmsg( "failed to merge vehicle parts" );
         } else {
