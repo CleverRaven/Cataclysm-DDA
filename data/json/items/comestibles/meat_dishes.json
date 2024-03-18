@@ -1560,7 +1560,8 @@
     "name": { "str_sp": "dehydrated chicken" },
     "copy-from": "dry_meat",
     "color": "white",
-    "description": "Dehydrated flakes of bird meat.  With proper storage, this dried food will remain edible for an incredibly long time."
+    "description": "Dehydrated flakes of bird meat.  With proper storage, this dried food will remain edible for an incredibly long time.",
+    "calories": "240"
   },
   {
     "type": "COMESTIBLE",
