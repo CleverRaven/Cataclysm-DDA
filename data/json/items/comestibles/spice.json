@@ -100,10 +100,7 @@
     "material": [ "sugar" ],
     "volume": "6 ml",
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "//3": "Restored weight, adjusted volume up to compensate.",
-    "//2": "originally was 5g 3ml, and recipes probably use this ratio still;",
-    "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted."
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
