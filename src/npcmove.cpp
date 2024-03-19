@@ -1189,6 +1189,7 @@ void npc::act_on_danger_assessment()
             mem_combat.failing_to_reposition = 0;
         }
     }
+    mem_combat.panic = std::max( 0, mem_combat.panic );
     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s <color_magenta>panic level</color> is up to %i.",
                    name, mem_combat.panic );
     if( mem_combat.failing_to_reposition > 2 && has_effect( effect_npc_run_away ) &&
