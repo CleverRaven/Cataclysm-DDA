@@ -263,8 +263,8 @@
       },
       {
         "id": "jigsaw_20",
-        "name": { "str": "Mount Fiji jigsaw puzzle" },
-        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the horizontal view of Mount Fiji, at the Japanese island of Honshu.",
+        "name": { "str": "Mount Fuji jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the horizontal view of Mount Fuji, at the Japanese island of Honshu.",
         "color": "blue",
         "weight": 20
       },
