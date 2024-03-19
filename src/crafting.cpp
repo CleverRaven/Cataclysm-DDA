@@ -140,6 +140,14 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
         return false;
     }
 
+    if( p.is_driving() ) {
+        // One day, NPCs may be able to drive.
+        p.add_msg_player_or_npc( m_info,
+                                 _( "You can't craft while driving!" ),
+                                 _( "<npcname> refuses to violate road safety guidelines by crafting while driving!" ) );
+        return false;
+    }
+
     if( rec.category == "CC_BUILDING" ) {
         add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
         return false;
