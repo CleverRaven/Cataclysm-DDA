@@ -502,6 +502,7 @@
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
     "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "IERDE_MEDITATION" ],
     "items": {
       "both": {
         "entries": [
@@ -528,6 +529,7 @@
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
     "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "ARVORE_ROOT_AND_SOIL" ],
     "items": {
       "both": {
         "entries": [
@@ -554,6 +556,7 @@
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
     "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "UNDINE_MOVEMENT" ],
     "items": {
       "both": {
         "entries": [
@@ -580,6 +583,7 @@
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
     "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "SALAMANDER_FIRE_DANCE" ],
     "items": {
       "both": {
         "entries": [
@@ -606,6 +610,7 @@
     "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
     "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "HOMULLUS_SOCIAL" ],
     "items": {
       "both": {
         "entries": [
@@ -632,6 +637,7 @@
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
     "recipes": [ "mutagen_airkin", "ethereal_draught" ],
+    "hobbies": [ "PARACLESIAN_BIRTH", "SYLPH_EVERYWHERE_NOWHERE" ],
     "items": {
       "both": {
         "entries": [

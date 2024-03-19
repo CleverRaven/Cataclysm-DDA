@@ -1,0 +1,67 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "PARACLESIAN_BIRTH",
+    "name": "Paraclesian Birth",
+    "description": "By dint of your birth you already have some knowledge of how the universe really works.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "deduction" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "HOMULLUS_SOCIAL",
+    "name": "Born with the gift of gab.",
+    "description": "You've never met another person but already you are ready for the conversations that will ensue.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "social" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "UNDINE_MOVEMENT",
+    "name": "Knack of formless movement.",
+    "description": "Water takes on the shape of whatever opening is given to it.  You were born with this knowledge and way of moving.",
+    "points": 2,
+    "proficiencies": [ "prof_parkour" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "SYLPH_EVERYWHERE_NOWHERE",
+    "name": "Everywhere and nowhere.",
+    "description": "Air expands to fill every space it encounters and by filling the space it becomes diffuse and impossible to grasp.  Would you slip through the fingers of those who grasp at you?",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "dodge" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "ARVORE_ROOT_AND_SOIL",
+    "name": "The way of root and soil.",
+    "description": "A gift from your birth world?  A quirk of nature?  For reasons unknown to you, you can sprout seeds from this planet.  You can't control what seeds you get, however.",
+    "points": 1,
+    "traits": [ "SEED_BEARER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "SALAMANDER_FIRE_DANCE",
+    "name": "Fire dances with itself.",
+    "description": "At your birth you already danced a flaming path, enthralled with your own capacity for destruction and change.",
+    "points": 4,
+    "traits": [ "PYROMANIA", "DEFT" ],
+    "skills": [ { "level": 1, "name": "unarmed" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "IERDE_MEDITATION",
+    "name": "What does the stone dream of?",
+    "description": "Before you were born, your thoughts and dreams were those of stone.  When this world sucks you into it's highs and lows, you can remember the eternity that is stone.",
+    "points": 3,
+    "//": "Trait grants an EOC that doing 30 minutes of meditation resets your morale to zero.  Consider making IERDE abilities that function better or only at morales between the range of -15 and 15.",
+    "traits": [ "STONE_MEDITATIONS" ]
+  }
+]
