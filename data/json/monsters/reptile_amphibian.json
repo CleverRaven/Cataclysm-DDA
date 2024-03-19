@@ -112,7 +112,7 @@
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "upgrades": { "half_life": 34, "into": "mon_rattlesnake_big" },
-    "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 240 },
+    "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
@@ -135,7 +135,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
       }
     ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 240 },
+    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 180 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
     "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 240 },
@@ -206,7 +206,7 @@
     "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 15, "baby_timer": 120 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
-    "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 240 },
+    "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
