@@ -147,7 +147,7 @@
     "id": "shed_snakeskin_scales",
     "symbol": "U",
     "color": "brown",
-    "name": { "str": "gigantic snake scales" },
+    "name": { "str_sp": "gigantic snake scales" },
     "material": [ "chitin" ],
     "weight": "3 kg",
     "volume": "4 L",
