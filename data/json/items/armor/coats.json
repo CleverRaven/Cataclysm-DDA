@@ -1058,6 +1058,15 @@
         "color": "brown",
         "weight": 20,
         "append": true
+      },
+      {
+        "id": "m65_player",
+        "//": "Only used as a cosmetic variant for player professions that start with army jackets: currently the old veteran.",
+        "name": { "str": "woodland-camo combat jacket" },
+        "description": "Dyed in a 4-tone blend of worn green, black, sand, and brown hues, this particular overcoat had been your own issued service jacket when you’d still been in the forces, with your name stitched upon the right lapel and insignia pinned to the appropriate Sholder board.",
+        "color": "green",
+        "weight": 0,
+        "append": true
       }
     ]
   },
@@ -3641,7 +3650,7 @@
       },
       {
         "material": [
-          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
           { "type": "cotton_quilted", "covered_by_mat": 85, "thickness": 0.5 }
         ],
         "covers": [ "arm_l", "arm_r" ],
