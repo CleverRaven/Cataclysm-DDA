@@ -10473,6 +10473,9 @@ void Character::place_corpse()
     for( item *itm : tmp ) {
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
+    // One sample, as you would get from dissecting any other human.
+    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
             item cbm( bio.id.str(), calendar::turn );
@@ -10513,6 +10516,9 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     for( item *itm : tmp ) {
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
+    // One sample, as you would get from dissecting any other human.
+    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ), pocket_type::CORPSE );
