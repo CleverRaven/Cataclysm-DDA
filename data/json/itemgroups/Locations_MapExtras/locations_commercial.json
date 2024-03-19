@@ -764,6 +764,7 @@
       [ "signal_flare", 25 ],
       [ "grapnel", 10 ],
       [ "bucket", 4 ],
+      [ "bucket_5gal", 4 ],
       [ "folding_poncho", 5 ],
       [ "quikclot", 20 ],
       [ "bfipowder", 20 ],
@@ -1337,6 +1338,7 @@
       { "item": "bow_saw", "prob": 30 },
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       [ "bucket", 100 ],
+      [ "bucket_5gal", 100 ],
       [ "tree_spile", 100 ],
       [ "pot", 100 ]
     ]

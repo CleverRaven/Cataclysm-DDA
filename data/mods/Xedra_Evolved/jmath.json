@@ -75,5 +75,14 @@
     "//": "Used to double various factors for a post-threshold bonus.  Should never more than double the initial input.",
     "num_args": 1,
     "return": "_0 + (1 * (u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE')) )"
+  },
+  {
+    "type": "jmath_function",
+    "id": "temperature_speed_mod_salamander",
+    "//": "copy of temperature_speed_mod(), but allows both speed increase and speed decrease - positive value would decrease your speed if temperature is low, and increase, if temperature is high.",
+    "//_0": "Temperature limit, after which the speed starts to change, in farenheit",
+    "//_1": "How big the speed changes per 1 degree",
+    "num_args": 2,
+    "return": "(fahrenheit(weather('temperature')) - _0 + u_climate_control_str_heat()) * _1"
   }
 ]

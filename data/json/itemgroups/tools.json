@@ -98,6 +98,7 @@
     "//": "Common household tools",
     "items": [
       [ "bucket", 5 ],
+      [ "bucket_5gal", 5 ],
       [ "funnel", 50 ],
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
@@ -274,7 +275,7 @@
     "//": "Portable tools for earthworking or farming",
     "items": [
       [ "ax", 80 ],
-      [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
       { "item": "chainsaw_off", "prob": 30, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
@@ -308,6 +309,7 @@
       [ "crowbar", 10 ],
       [ "pliers", 200 ],
       [ "bucket", 50 ],
+      [ "bucket_5gal", 50 ],
       [ "mop", 60 ],
       [ "mop_folded", 40 ],
       [ "shovel", 40 ],
