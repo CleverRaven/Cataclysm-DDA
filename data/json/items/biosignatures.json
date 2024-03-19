@@ -144,14 +144,14 @@
   },
   {
     "type": "GENERIC",
-    "id": "shed_snakeskin_scale",
+    "id": "shed_snakeskin_scales",
     "symbol": "U",
     "color": "brown",
-    "name": { "str": "gigantic snake scale" },
+    "name": { "str": "gigantic snake scales" },
     "material": [ "chitin" ],
     "weight": "3 kg",
     "volume": "4 L",
-    "description": "A greatly oversized scale from a snake.  This is a troubling find for a few reasons.  There's the size, obviously, but also the unusual hardness and the fact that snakes don't shed single scales like this.",
+    "description": "A handful of greatly oversized scales from a snake.  This is a troubling find for a few reasons.  There's the size, obviously, but also the unusual hardness and the fact that snakes don't shed individual scales like this.",
     "price": 0,
     "price_postapoc": 25,
     "flags": [ "NO_SALVAGE" ]
