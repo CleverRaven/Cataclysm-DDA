@@ -1487,7 +1487,7 @@ void computer_session::action_extract_rad_source()
 void computer_session::action_deactivate_shock_vent()
 {
     Character &player_character = get_player_character();
-    player_character.mod_moves( -to_moves<int>( 3_seconds ) );
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     bool has_vent = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {

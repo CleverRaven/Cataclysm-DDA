@@ -1934,7 +1934,7 @@ std::optional<int> iuse::extinguisher( Character *p, item *it, const tripoint & 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest, true ) ) {
         monster &critter = *mon_ptr;
-        critter.mod_moves( -to_moves<int>( 1_seconds ) );
+        critter.mod_moves( -to_moves<int>( 2_seconds ) );
         bool blind = false;
         if( one_in( 2 ) && critter.has_flag( mon_flag_SEES ) ) {
             blind = true;

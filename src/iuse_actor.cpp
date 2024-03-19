@@ -1106,7 +1106,6 @@ static ret_val<tripoint> check_deploy_square( Character *p, item &it, const trip
                 here.mop_spills( tripoint_bub_ms( pnt ) );
                 p->add_msg_if_player( m_info, _( "You mopped up the spill with a nearby mop when deploying a %s." ),
                                       it.tname() );
-                // Note this used to be 15 moves... please mop responsibly, not at the speed of light
                 p->mod_moves( -to_moves<int>( 15_seconds ) );
             } else {
                 return ret_val<tripoint>::make_failure( pos,

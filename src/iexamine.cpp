@@ -1728,7 +1728,7 @@ void iexamine::safe( Character &you, const tripoint &examp )
     has_cracking_tool = has_cracking_tool || you.cache_has_item_with( flag_SAFECRACK );
 
     if( !has_cracking_tool ) {
-        you.mod_moves( -to_moves<int>( 2_seconds ) );
+        you.mod_moves( -to_moves<int>( 10_seconds ) );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
         // Additionally, safes can be left-handed or right-handed, doubling the problem space.
