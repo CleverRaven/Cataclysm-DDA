@@ -206,7 +206,7 @@
     "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 15, "baby_timer": 120 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
-    "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": "240 days" }
+    "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": "240 days" },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
@@ -260,7 +260,7 @@
     "//babies": "Rattlesnake's gestation period is around 90 days, but it varies depending on the breed.  The timber rattlesnake has a gestation period of up to five months.",
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
-    "biosignature": { "biosig_item": "shed_snakeskin_scale", "biosig_timer": "180 days" },
+    "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": "180 days" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
