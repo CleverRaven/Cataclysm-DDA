@@ -32,7 +32,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 20,
+        "encumbrance": 30,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -177,7 +177,7 @@
           "condition": "ACTIVE",
           "values": [ { "value": "CARRY_WEIGHT", "multiply": 0.8 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ],
           "name": { "str": "Active exoskeleton" },
-          "description": "The exoskeleton protects you against harmful gas, cools you down, and has reduced encumbrance."
+          "description": "The exoskeleton helps you carry more weight, protects you against harmful gas, cools you down, and has reduced encumbrance."
         }
       ]
     }
@@ -206,7 +206,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 14,
+        "encumbrance": 18,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -324,7 +324,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 12,
+        "encumbrance": 14,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
