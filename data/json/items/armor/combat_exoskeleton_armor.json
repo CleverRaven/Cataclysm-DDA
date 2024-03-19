@@ -15,7 +15,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "head" ],
-        "encumbrance": 22,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -60,7 +60,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "torso" ],
-        "encumbrance": 22,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -87,7 +87,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "arm_r", "arm_l" ],
-        "encumbrance": 22,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -100,7 +100,7 @@
         "layers": [ "OUTER" ],
         "covers": [ "hand_r", "hand_l" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_wrist_r", "hand_wrist_l" ],
-        "encumbrance": 22,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -139,7 +139,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "leg_r", "leg_l" ],
-        "encumbrance": 22,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -161,7 +161,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "encumbrance": 22,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -184,7 +184,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "head" ],
-        "encumbrance": 18,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -225,7 +225,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "torso" ],
-        "encumbrance": 18,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -248,7 +248,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "arm_r", "arm_l" ],
-        "encumbrance": 18,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -261,7 +261,7 @@
         "layers": [ "OUTER" ],
         "covers": [ "hand_r", "hand_l" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_wrist_r", "hand_wrist_l" ],
-        "encumbrance": 18,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -296,7 +296,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "leg_r", "leg_l" ],
-        "encumbrance": 18,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -318,7 +318,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "encumbrance": 18,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -341,7 +341,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "head" ],
-        "encumbrance": 14,
+        "encumbrance": 4,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -382,7 +382,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "torso" ],
-        "encumbrance": 14,
+        "encumbrance": 4,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -405,7 +405,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "arm_r", "arm_l" ],
-        "encumbrance": 14,
+        "encumbrance": 4,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -418,7 +418,7 @@
         "layers": [ "OUTER" ],
         "covers": [ "hand_r", "hand_l" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_wrist_r", "hand_wrist_l" ],
-        "encumbrance": 14,
+        "encumbrance": 4,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -453,7 +453,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "leg_r", "leg_l" ],
-        "encumbrance": 14,
+        "encumbrance": 4,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -475,7 +475,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "encumbrance": 14,
+        "encumbrance": 4,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -498,7 +498,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "head" ],
-        "encumbrance": 24,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -540,7 +540,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "torso" ],
-        "encumbrance": 24,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -564,7 +564,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "arm_r", "arm_l" ],
-        "encumbrance": 24,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -578,7 +578,7 @@
         "layers": [ "OUTER" ],
         "covers": [ "hand_r", "hand_l" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_wrist_r", "hand_wrist_l" ],
-        "encumbrance": 24,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -615,7 +615,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "leg_r", "leg_l" ],
-        "encumbrance": 24,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -638,7 +638,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "encumbrance": 24,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -662,7 +662,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "head" ],
-        "encumbrance": 20,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -704,7 +704,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "torso" ],
-        "encumbrance": 20,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -728,7 +728,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "arm_r", "arm_l" ],
-        "encumbrance": 20,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -742,7 +742,7 @@
         "layers": [ "OUTER" ],
         "covers": [ "hand_r", "hand_l" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_wrist_r", "hand_wrist_l" ],
-        "encumbrance": 20,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -779,7 +779,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "leg_r", "leg_l" ],
-        "encumbrance": 20,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -802,7 +802,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "encumbrance": 20,
+        "encumbrance": 8,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -826,7 +826,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "head" ],
-        "encumbrance": 16,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -868,7 +868,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "torso" ],
-        "encumbrance": 16,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -892,7 +892,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "arm_r", "arm_l" ],
-        "encumbrance": 16,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -906,7 +906,7 @@
         "layers": [ "OUTER" ],
         "covers": [ "hand_r", "hand_l" ],
         "specifically_covers": [ "hand_back_r", "hand_back_l", "hand_wrist_r", "hand_wrist_l" ],
-        "encumbrance": 16,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -943,7 +943,7 @@
       {
         "layers": [ "OUTER" ],
         "covers": [ "leg_r", "leg_l" ],
-        "encumbrance": 16,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },
@@ -966,7 +966,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "encumbrance": 16,
+        "encumbrance": 6,
         "coverage": 100,
         "material": [
           { "type": "nylon", "thickness": 1, "covered_by_mat": 5 },

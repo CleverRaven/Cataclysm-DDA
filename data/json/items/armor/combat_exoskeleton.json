@@ -32,7 +32,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 18,
+        "encumbrance": 20,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -206,7 +206,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 8,
+        "encumbrance": 14,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -260,7 +260,7 @@
         "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ],
-    "power_draw": "158 W",
+    "power_draw": "200 W",
     "revert_to": "combat_exoskeleton_heavy",
     "use_action": {
       "type": "transform",
@@ -324,7 +324,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 6,
+        "encumbrance": 12,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -378,7 +378,7 @@
         "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ],
-    "power_draw": "126 W",
+    "power_draw": "175 W",
     "revert_to": "combat_exoskeleton_medium",
     "use_action": {
       "type": "transform",
@@ -442,7 +442,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 4,
+        "encumbrance": 10,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -496,7 +496,7 @@
         "material": [ { "type": "rubber", "thickness": 6 } ]
       }
     ],
-    "power_draw": "100 W",
+    "power_draw": "150 W",
     "revert_to": "combat_exoskeleton_light",
     "use_action": {
       "type": "transform",
