@@ -208,7 +208,7 @@
   {
     "id": "EOC_LIXA_experiment_computer",
     "type": "effect_on_condition",
-    "effect": { "open_dialogue": { "topic": "LIXA_experiment_computer_main" } }
+    "effect": [ "open_dialogue" ]
   },
   {
     "type": "talk_topic",
