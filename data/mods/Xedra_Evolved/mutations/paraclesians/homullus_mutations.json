@@ -23,7 +23,7 @@
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "changes_to": [ "HOMULLUS_SKIN_3" ],
-    "healing_multiplier": 0.9,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.1 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 5 },
@@ -51,7 +51,7 @@
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
-    "healing_multiplier": 0.7,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.3 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 5 },
       { "part": "leg_l", "ignored": 16 },

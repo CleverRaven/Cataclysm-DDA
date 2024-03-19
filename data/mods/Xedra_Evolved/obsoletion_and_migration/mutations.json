@@ -71,9 +71,7 @@
     "category": [ "ARVORE" ],
     "changes_to": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 2 } ] } ],
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
@@ -91,9 +89,7 @@
     "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
     "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 2 } ] } ],
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA", "msg_transform": "", "active": false, "moves": 0 }
@@ -111,9 +107,7 @@
     "threshreq": [ "THRESH_ARVORE" ],
     "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 2 } ] } ],
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
@@ -130,9 +124,6 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "enchantments": [
       {
@@ -140,7 +131,8 @@
           { "value": "STRENGTH", "add": 2 },
           { "value": "DEXTERITY", "add": 2 },
           { "value": "INTELLIGENCE", "add": 2 },
-          { "value": "PERCEPTION", "add": 2 }
+          { "value": "PERCEPTION", "add": 2 },
+          { "value": "MENDING_MODIFIER", "multiply": 2 }
         ]
       }
     ],
@@ -267,7 +259,7 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "flags": [ "MEND_ALL" ],
-    "mending_modifier": 20.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 19 } ] } ],
     "triggers": [
       [
         {
@@ -350,11 +342,8 @@
     "valid": false,
     "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  The heat is speeding your healing.",
     "category": [ "SALAMANDER" ],
-    "healing_awake": 0.44,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 4,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 3 } ] } ],
     "//": "Numbers taken from Very Fast Healer",
-    "temperature_speed_modifier": 1,
     "triggers": [
       [
         {
