@@ -660,7 +660,7 @@
   },
   {
     "id": "multi_cooker",
-    "copy-from": "multi_cooker"
+    "copy-from": "multi_cooker",
     "type": "TOOL",
     "//": "Makes it look more sci-fi so it isnt out of place, not many actual changes otherwise.",
     "name": { "str": "micro-cooker" },
