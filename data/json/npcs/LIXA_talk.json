@@ -270,19 +270,19 @@
   {
     "type": "talk_topic",
     "id": "LIXA_experiment_backup_data_need_id",
-    "dynamic_line": "TODO:  something about making a backup needs one of the four doctors' IDs.",
+    "dynamic_line": "ERROR:  access denied!  Reason: insufficient clearance level.",
     "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "LIXA_experiment_backup_data_no_drive",
-    "dynamic_line": "TODO:  politely inform the player they misplaced the secure USB drive.",
+    "dynamic_line": "ERROR:  no external drive detected.",
     "responses": [ { "text": "Leave.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "LIXA_experiment_backup_data",
-    "dynamic_line": "TODO:  something something backup successful.",
+    "dynamic_line": "Backup complete!",
     "responses": [
       {
         "text": "Leave.",
