@@ -53,7 +53,12 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] },
+        "condition": {
+          "or": [
+            { "math": [ "!has_var(n_timer_teamster_directions_recycler)" ] },
+            { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] }
+          ]
+        },
         "effect": [
           { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
           { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
@@ -63,16 +68,6 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": { "math": [ "time_since(n_timer_teamster_directions_recycler)", "<", "time('2 d')" ] },
-        "switch": true
-      },
-      {
-        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "effect": [
-          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
-          { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
-        ],
         "switch": true,
         "default": true
       },
