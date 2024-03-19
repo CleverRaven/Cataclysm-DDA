@@ -1020,7 +1020,6 @@
       },
       {
         "text": "[Let them know how much of a trainwreck THIS one was.]",
-        "condition": { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut"
       },
       { "text": "…Just forget it.  Let's never speak of this again.", "topic": "TALK_ROBOFAC_INTERCOM_SERVICES" }
@@ -1042,7 +1041,7 @@
     "dynamic_line": "&The intercom waits patiently.",
     "responses": [
       {
-        "text": "Hoo boy, where do I even begin with this one? Let's start with the fact that your intel was about as useful as a screen door on a submarine. \"Sparsely-populated\" my ass! I swear, both this mission and that tower debacle prove you lot don't know reconnaissance from a hole in the ground! When I finally made it down to the bottom floor, you know what greeted me? A goddamn zombie mosh pit!",
+        "text": "Hoo boy, where do I even begin with this one? Let's start with the fact that your intel was about as useful as a screen door on a submarine!\"Sparsely-populated,\" my ass! How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_1"
       }
     ]
@@ -1053,7 +1052,7 @@
     "dynamic_line": "We're sorry but-",
     "responses": [
       {
-        "text": "Oh, ho ho ho ho ho no friend you do not get to talk right now.  When I FINALLY got down to the bottom floor, you know what I found?  The entire corridor was turned into a two-dimensional image!  What were they even DOING that turned an entire section of the building INTO A HAUNTED VIDEO GAME PORTAL PAINTING!?",
+        "text": "Oh, ho ho ho ho ho no friend you do not get to talk right now.  When I FINALLY got down to the experiment floor, you know what I found?  The entire corridor was turned into a two-dimensional image!  What were they even DOING that turned an entire section of the building INTO A HAUNTED VIDEO GAME PORTAL PAINTING!?",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_2"
       },
       { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_5" }
@@ -1066,7 +1065,7 @@
     "//": "I realize I'm assuming the player has encountered congealed light by accidentally breaking open the terrain features, but eh.",
     "responses": [
       {
-        "text": "I SAID SHUT UP!  It teleported me to an infinitely looping corridor!  INFINITELY!  LOOPING!  CORRIDOR!  I mean, imagine stepping into this space that's just... wrong. It's like everything around you is folding and unfolding, stretching out into eternity. You can see every damn side of everything. I looked at my hands, and my brain and... and it's like they were... I don't know, smeared across the walls or something. Every vein, every bone, every nerve ending all mashed together on one surface.  Oh, and did I mention the light?  Yeah, when some of the laser tubes got broken, they spat out light THAT HURT!  A LOT!",
+        "text": "I SAID SHUT UP!  It teleported me to an infinitely looping corridor!  INFINITELY!  LOOPING!  CORRIDOR!  I mean, fuck, you ever see one of those Escher paintings?  It's like that, only you don't just see the surface of what you're looking at, you see EV-ER-Y-THING, and friend let me tell you getting a first-hand look at the inside of my digestive system was *not* pretty.  Oh, and did I mention the light?  Yeah, when some of the laser tubes got broken, they spat out light THAT HURT!  A LOT!",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_3"
       },
       { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4" }
@@ -1078,7 +1077,7 @@
     "dynamic_line": "Please slow down-",
     "responses": [
       {
-        "text": "You know why they got broken?  I was fighting the insane remnants of the research staff! And the corridor itself somehow! It was like the whole place was alive, twisting and warping around me. I've had nightmares more organized than that mess!",
+        "text": "You know why they got broken?  I was fighting the insane remnants of the research staff!  They were climbing the walls, spitting light!  And then there was the corridor itself somehow! I fought the goddamn building!  I've had nightmares that made more sense than fighting that thing!",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4"
       },
       { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4" }
