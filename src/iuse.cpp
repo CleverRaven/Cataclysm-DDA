@@ -8132,6 +8132,167 @@ washing_requirements washing_requirements_for_volume( const units::volume &vol )
     return { water, cleanser, time };
 }
 
+std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return std::nullopt;
+    }
+
+    heat_items( p, it, true, false );
+    return 0;
+}
+
+std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return std::nullopt;
+    }
+
+    heat_items( p, it, false, true );
+    return 0;
+}
+
+std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint & )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        p->add_msg_if_player( _( "You can't see to do that!" ) );
+        return std::nullopt;
+    }
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    // Check that player isn't over volume limit as this might cause it to break... this is a hack.
+    // TODO: find a better solution.
+    if( p->volume_capacity() < p->volume_carried() ) {
+        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        return std::nullopt;
+    }
+
+    heat_items( p, it, true, true );
+    return 0;
+}
+
+std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items, bool solid_items )
+{
+    if( p->cant_do_mounted() ) {
+        return std::nullopt;
+    }
+    p->inv->restack( *p );
+    const inventory &crafting_inv = p->crafting_inventory();
+
+    auto is_liquid = []( const item & it ) {
+        return it.made_of( phase_id::LIQUID );
+    };
+    int available_volum = std::max(
+                              crafting_inv.charges_of( itype_water, INT_MAX, is_liquid ),
+                              crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
+                          );
+    int available_heater = std::max( crafting_inv.charges_of( itype_soap ),
+                                       std::max( crafting_inv.charges_of( itype_detergent ),
+                                               crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
+
+    const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
+        return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
+               ( ( soft_items && location->is_soft() ) || ( hard_items && !location->is_soft() ) );
+    } );
+    auto make_raw_stats = [available_water,
+                           available_cleanser]( const std::vector<std::pair<item_location, int>> &locs
+    ) {
+        units::volume total_volume = 0_ml;
+        for( const auto &pair : locs ) {
+            total_volume += pair.first->volume( false, true, pair.second );
+        }
+        washing_requirements required = washing_requirements_for_volume( total_volume );
+        const std::string time = colorize( to_string( time_duration::from_moves( required.time ), true ),
+                                           c_light_gray );
+        auto to_string = []( int val ) -> std::string {
+            if( val == INT_MAX )
+            {
+                return pgettext( "short for infinity", "inf" );
+            }
+            return string_format( "%3d", val );
+        };
+        const std::string water = string_join( display_stat( "", required.water, available_water,
+                                               to_string ), "" );
+        const std::string cleanser = string_join( display_stat( "", required.cleanser, available_cleanser,
+                                     to_string ), "" );
+        using stats = inventory_selector::stats;
+        return stats{{
+                {{ _( "Water" ), water }},
+                {{ _( "Cleanser" ), cleanser }},
+                {{ _( "Estimated time" ), time }}
+            }};
+    };
+    inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
+                                   make_raw_stats, /*allow_select_contained=*/true );
+    inv_s.add_character_items( *p );
+    inv_s.add_nearby_items( PICKUP_RANGE );
+    inv_s.set_title( _( "Multiclean" ) );
+    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+    if( inv_s.empty() ) {
+        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+        return std::nullopt;
+    }
+    const drop_locations to_clean = inv_s.execute();
+    if( to_clean.empty() ) {
+        return std::nullopt;
+    }
+    // Determine if we have enough water and cleanser for all the items.
+    units::volume total_volume = 0_ml;
+    for( drop_location pair : to_clean ) {
+        if( !pair.first ) {
+            p->add_msg_if_player( m_info, _( "Never mind." ) );
+            return std::nullopt;
+        }
+        total_volume += pair.first->volume( false, true, pair.second );
+    }
+
+    washing_requirements required = washing_requirements_for_volume( total_volume );
+
+    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid ) &&
+        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                              required.water );
+        return std::nullopt;
+    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                              required.cleanser );
+        return std::nullopt;
+    }
+    const std::vector<Character *> helpers = p->get_crafting_helpers();
+    const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
+    required.time *= ( 1.0f - ( helpersize / 10.0f ) );
+    for( std::size_t i = 0; i < helpersize; i++ ) {
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
+    }
+    // Assign the activity values.
+    p->assign_activity( wash_activity_actor( to_clean, required ) );
+
+    return 0;
+}
+
 std::optional<int> iuse::wash_soft_items( Character *p, item *, const tripoint & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
