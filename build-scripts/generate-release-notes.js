@@ -20,7 +20,7 @@ async function main() {
   const client = github.getOctokit(token);
 
   const latestReleaseResponse = await client.request(
-    'GET /repos/{owner}/{repo}/releases/latest',
+    'GET /repos/{owner}/{repo}/releases',
     {
       owner: owner,
       repo: repo,
@@ -29,7 +29,16 @@ async function main() {
       },
     }
   );
-  const previousTag = latestReleaseResponse.data?.tag_name;
+
+  let previousTag = null;
+  if (latestResponse.data) {
+    for (const responseData of latestResponse.data) {
+      if (responseData.draft == false && responseData.prerelease == true) {
+        previousTag = responseData.tag_name;
+	break;
+      }
+    }
+  }
 
   const response = await client.request(
     'POST /repos/{owner}/{repo}/releases/generate-notes',
