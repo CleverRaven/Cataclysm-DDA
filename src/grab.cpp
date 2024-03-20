@@ -74,7 +74,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     //vehicle movement: strength check. very strong humans can move about 2,000 kg in a wheelbarrow.
     int mc = 0;
-    int str_req = grabbed_vehicle->total_mass() / 100_kilogram; //strength required to move vehicle.
+    //strength required to move vehicle.
+    int str_points_req = grabbed_vehicle->total_mass() / 1_kilogram;
+    int str_req = 0;
     // ARM_STR governs dragging heavy things
     int str = u.get_arm_str();
 
@@ -82,6 +84,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
     if( grabbed_vehicle->valid_wheel_config() ) {
+        str_req = str_points_req / 100;
         //determine movecost for terrain touching wheels
         const tripoint_bub_ms vehpos = grabbed_vehicle->pos_bub();
         for( int p : wheel_indices ) {
@@ -98,8 +101,10 @@ bool game::grabbed_veh_move( const tripoint &dp )
         }
         //finally, adjust by the off-road coefficient (always 1.0 on a road, as low as 0.1 off road.)
         str_req /= grabbed_vehicle->k_traction( get_map().vehicle_wheel_traction( *grabbed_vehicle ) );
+        // If it would be easier not to use the wheels, don't use the wheels.
+        str_req = std::min( str_req, str_points_req / 10 );
     } else {
-        str_req *= 10;
+        str_req = str_points_req / 10;
         //if vehicle has no wheels str_req make a noise. since it has no wheels assume it has the worst off roading possible (0.1)
         if( str_req <= str ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
