@@ -5151,8 +5151,7 @@ needs_rates Character::calc_needs_rates() const
 void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
 {
     const effect &sleep = get_effect( effect_sleep );
-    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN,
-                     rates.recovery );
+    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN, 1 );
 
     // -5% sleep recovery rate for every main part below cold
     float temp_mod = 0.0f;
