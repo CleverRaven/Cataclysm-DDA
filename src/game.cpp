@@ -1123,7 +1123,7 @@ vehicle *game::place_vehicle_nearby(
         for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
             // try place vehicle there.
             tinymap target_map;
-            target_map.load( project_to<coords::sm>( goal ), false );
+            target_map.load( goal, false );
             const tripoint tinymap_center( SEEX, SEEY, goal.z() );
             static constexpr std::array<units::angle, 4> angles = {{
                     0_degrees, 90_degrees, 180_degrees, 270_degrees

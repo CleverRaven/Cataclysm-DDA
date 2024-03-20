@@ -1534,9 +1534,9 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
 {
     map &here = get_map();
     const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm + tripoint_below, false );
+    tmpmap.load( pos_omt + tripoint_below, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
@@ -1627,9 +1627,9 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
 {
     map &here = get_map();
     const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm + tripoint_above, false );
+    tmpmap.load( pos_omt + tripoint_above, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
