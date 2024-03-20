@@ -132,8 +132,8 @@
       "IMMOBILE",
       "NO_BREATHE",
       "DROPS_AMMO",
-      "CONSOLE_DESPAWN",
-      "ID_CARD_DESPAWN"
+      "CONSOLE_DEACTIVATE",
+      "ID_CARD_DEACTIVATE"
     ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
@@ -192,8 +192,8 @@
       "IMMOBILE",
       "NO_BREATHE",
       "DROPS_AMMO",
-      "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN"
+      "ID_CARD_DEACTIVATE",
+      "CONSOLE_DEACTIVATE"
     ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
@@ -252,8 +252,8 @@
       "IMMOBILE",
       "NO_BREATHE",
       "DROPS_AMMO",
-      "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN"
+      "ID_CARD_DEACTIVATE",
+      "CONSOLE_DEACTIVATE"
     ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },
@@ -313,7 +313,7 @@
       "IMMOBILE",
       "NO_BREATHE",
       "DROPS_AMMO",
-      "ID_CARD_DESPAWN"
+      "ID_CARD_DEACTIVATE"
     ],
     "armor": { "bash": 14, "cut": 16, "bullet": 13, "stab": 16 }
   },

@@ -1,0 +1,58 @@
+[
+  {
+    "type": "furniture",
+    "id": "f_turret_bmg",
+    "name": "inactive M2HB autonomous CROWS II",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software, fitted with a .50 caliber M2HB.  Moments ago, it would have gladly blown your brains out, but it's inactive now.  You can easily pick it up.",
+    "symbol": "2",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE", "CONTAINER" ],
+    "deployed_item": "bot_antimateriel",
+    "examine_action": "deployed_furniture"
+  },
+  {
+    "type": "furniture",
+    "id": "f_turret_rifle",
+    "name": "inactive M249 autonomous CROWS II",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software, fitted with a 5.56 caliber M249.  Moments ago, it would have gladly blown your brains out, but it's inactive now.  You can easily pick it up.",
+    "symbol": "2",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE", "CONTAINER" ],
+    "deployed_item": "bot_rifleturret",
+    "examine_action": "deployed_furniture"
+  },
+  {
+    "type": "furniture",
+    "id": "f_turret_m240",
+    "name": "inactive M240 autonomous CROWS II",
+    "description": "A remote weapon system derived from the M153 CROWS II and enhanced with autonomous operation software, fitted with a 7.62 caliber M240.  Moments ago, it would have gladly blown your brains out, but it's inactive now.  You can easily pick it up.",
+    "symbol": "2",
+    "color": "green",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE", "CONTAINER" ],
+    "deployed_item": "bot_crows_m240",
+    "examine_action": "deployed_furniture"
+  },
+  {
+    "type": "furniture",
+    "id": "f_turret_riot",
+    "name": "inactive riot control platform",
+    "description": "This is a TALON-derived riot control platform that previously rained down '''non-lethal''' bullets on anyone who dared to pass by.  It's inactive now, so you can pick it up safely and easily.",
+    "symbol": "2",
+    "color": "blue",
+    "move_cost_mod": 2,
+    "coverage": 40,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PERMEABLE", "THIN_OBSTACLE", "CONTAINER" ],
+    "deployed_item": "bot_turret_riot",
+    "examine_action": "deployed_furniture"
+  }
+]

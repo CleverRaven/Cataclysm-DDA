@@ -158,7 +158,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 }
 
 /**
- * Use id/hack reader. Using an id despawns turrets.
+ * Use id/hack reader. Using an id deactivates turrets.
  */
 void cardreader_examine_actor::call( Character &you, const tripoint &examp ) const
 {
@@ -176,9 +176,16 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
             }
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
-                critter.has_flag( mon_flag_ID_CARD_DESPAWN ) &&
+                critter.has_flag( mon_flag_ID_CARD_DEACTIVATE ) &&
                 critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
+                std::string raw_id = critter.type->id.str();
+                const furn_id furn( raw_id.replace( 0, 3, "f" ) );
                 g->remove_zombie( critter );
+                if( furn.is_valid() ) {
+                    here.furn_set( critter.pos(), furn );
+                } else {
+                    here.add_item( critter.pos(), critter.to_item() );
+                }
             }
         }
         if( open ) {

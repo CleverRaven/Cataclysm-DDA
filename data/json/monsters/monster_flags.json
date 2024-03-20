@@ -230,9 +230,9 @@
     "//": "e.g.  a robot; affected by EMP blasts, and other stuff"
   },
   {
-    "id": "CONSOLE_DESPAWN",
+    "id": "CONSOLE_DEACTIVATE",
     "type": "monster_flag",
-    "//": "Despawns when a nearby console is properly hacked"
+    "//": "Deactivates and turns the monster into a furniture when a nearby console is properly hacked. For turrets mostly."
   },
   {
     "id": "IMMOBILE",
@@ -240,9 +240,9 @@
     "//": "Doesn't move (e.g.  turrets)"
   },
   {
-    "id": "ID_CARD_DESPAWN",
+    "id": "ID_CARD_DEACTIVATE",
     "type": "monster_flag",
-    "//": "Despawns when a science ID card is used on a nearby console"
+    "//": "Deactivates and turns the monster into a furniture when an appropriate ID card is used on a nearby console. For turrets mostly."
   },
   {
     "id": "RIDEABLE_MECH",

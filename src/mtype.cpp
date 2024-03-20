@@ -61,7 +61,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_CAN_OPEN_DOORS,
             mon_flag_CLIMBS,
             mon_flag_COMBAT_MOUNT,
-            mon_flag_CONSOLE_DESPAWN,
+            mon_flag_CONSOLE_DEACTIVATE,
             mon_flag_CONVERSATION,
             mon_flag_CORNERED_FIGHTER,
             mon_flag_DEADLY_VIRUS,
@@ -97,7 +97,7 @@ mon_flag_id mon_flag_ACIDPROOF,
             mon_flag_HEARS,
             mon_flag_HIT_AND_RUN,
             mon_flag_HUMAN,
-            mon_flag_ID_CARD_DESPAWN,
+            mon_flag_ID_CARD_DEACTIVATE,
             mon_flag_IMMOBILE,
             mon_flag_INSECTICIDEPROOF,
             mon_flag_INTERIOR_AMMO,
@@ -187,7 +187,7 @@ void set_mon_flag_ids()
     mon_flag_CAN_OPEN_DOORS = mon_flag_id( "CAN_OPEN_DOORS" );
     mon_flag_CLIMBS = mon_flag_id( "CLIMBS" );
     mon_flag_COMBAT_MOUNT = mon_flag_id( "COMBAT_MOUNT" );
-    mon_flag_CONSOLE_DESPAWN = mon_flag_id( "CONSOLE_DESPAWN" );
+    mon_flag_CONSOLE_DEACTIVATE = mon_flag_id( "CONSOLE_DEACTIVATE" );
     mon_flag_CONVERSATION = mon_flag_id( "CONVERSATION" );
     mon_flag_CORNERED_FIGHTER = mon_flag_id( "CORNERED_FIGHTER" );
     mon_flag_DEADLY_VIRUS = mon_flag_id( "DEADLY_VIRUS" );
@@ -223,7 +223,7 @@ void set_mon_flag_ids()
     mon_flag_HEARS = mon_flag_id( "HEARS" );
     mon_flag_HIT_AND_RUN = mon_flag_id( "HIT_AND_RUN" );
     mon_flag_HUMAN = mon_flag_id( "HUMAN" );
-    mon_flag_ID_CARD_DESPAWN = mon_flag_id( "ID_CARD_DESPAWN" );
+    mon_flag_ID_CARD_DEACTIVATE = mon_flag_id( "ID_CARD_DEACTIVATE" );
     mon_flag_IMMOBILE = mon_flag_id( "IMMOBILE" );
     mon_flag_INSECTICIDEPROOF = mon_flag_id( "INSECTICIDEPROOF" );
     mon_flag_INTERIOR_AMMO = mon_flag_id( "INTERIOR_AMMO" );
