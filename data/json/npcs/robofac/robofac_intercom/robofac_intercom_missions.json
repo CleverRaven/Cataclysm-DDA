@@ -963,7 +963,7 @@
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "During the Cataclysm, we lost contact with one of our sister sites, LIXA.  Aerial surveillance indicates that the facility's inhabitants are deceased, and beyond the now-zombified security detail, the site should be sparsely populated.  We want you to enter the facility and make a copy of what they were researching on the provided thumb drive.  Additionally, we will be providing you with a keycard that should at the very least get you in the front door.  \"\n\n\"We're offering a standard 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory.  You are free to take any that are left.",
+    "dynamic_line": "During the Cataclysm, we lost contact with one of our sister sites, LIXA.  Aerial surveillance indicates that the facility's inhabitants are deceased, and beyond the now-zombified security detail, the site should be sparsely populated.  We want you to enter the facility and make a copy of what they were researching on the provided thumb drive.  Additionally, we will be providing you with a keycard that should at the very least get you in the front door.\"\n\n\"We're offering a standard 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory.  You are free to take any that are left.",
     "responses": [
       {
         "text": "Alright, I'll see if I can't get that data for you.",
@@ -1028,7 +1028,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_Explainer",
     "type": "talk_topic",
-    "dynamic_line": "&Over the course of several minutes, you calmly detail the events at the facility: the unexpected zombie presence underground, the anomalous nature of the experiment floor, and the encounter with the warped and hostile research staff trapped in the corridor. Throughout, the voice interjects with questions, the sounds of typing filling the pauses.\n\n\"We appreciate your thorough report,\" the voice finally responds.  \"Your handling of the circumstances was commendable considering the anomalous and unpredictable nature of the facility. If you seek further contract work, rest assured, we'll take into account the potential for anomalous circumstances in future assignments and relay them accordingly.\"",
+    "dynamic_line": "&Over the course of several minutes, you calmly detail the events at the facility: the unexpected zombie presence underground, the anomalous nature of the experiment floor, and the encounter with the warped and hostile research staff trapped in the corridor.  Throughout, the voice interjects with questions, the sounds of typing filling the pauses.\n\n\"We appreciate your thorough report,\" the voice finally responds.  \"Your handling of the circumstances was commendable considering the anomalous and unpredictable nature of the facility.  If you seek further contract work, rest assured, we'll take into account the potential for anomalous circumstances in future assignments and relay them accordingly.\"",
     "responses": [
       { "text": "It's fine.  At least now we know for the future.", "topic": "TALK_DONE" },
       { "text": "Yeah, yeah.  You're welcome.", "topic": "TALK_DONE" },
@@ -1077,7 +1077,7 @@
     "dynamic_line": "Please slow down-",
     "responses": [
       {
-        "text": "You know why they got broken?  I was fighting the insane remnants of the research staff!  They were climbing the walls, spitting light!  And then there was the corridor itself somehow! I fought the goddamn building!  I've had nightmares that made more sense than fighting that thing!",
+        "text": "You know why they got broken?  I was fighting the insane remnants of the research staff!  They were climbing the walls, spitting light!  And then there was the corridor itself somehow!  I fought the goddamn building!  I've had nightmares that made more sense than fighting that thing!",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4"
       },
       { "text": "[Stop talking.]", "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_4" }
@@ -1092,7 +1092,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_5",
     "type": "talk_topic",
-    "dynamic_line": "Uh… Yeah, sorry. I'll, um… I'll make a note to try and see if we can't get any better information for your future contracts.",
+    "dynamic_line": "Uh… Yeah, sorry.  I'll, um… I'll make a note to try and see if we can't get any better information for your future contracts.",
     "responses": [ { "text": "Good.", "topic": "TALK_DONE" } ]
   }
 ]
