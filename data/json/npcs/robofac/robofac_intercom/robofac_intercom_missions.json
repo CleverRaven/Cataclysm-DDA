@@ -963,7 +963,7 @@
       "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "During the Cataclysm, we lost contact with one of our sister sites, LIXA.  Aerial surveillance indicates that the facility's inhabitants are deceased, and beyond the now-zombified security detail, the site should be sparsely populated.  We want you to enter the facility and make a copy of what they were researching on the provided thumb drive.  Additionally, we will be providing you with a keycard that should at the very least get you in the front door.  \"\n\n\"We're offering a standard 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory. You are free to take any that are left.",
+    "dynamic_line": "During the Cataclysm, we lost contact with one of our sister sites, LIXA.  Aerial surveillance indicates that the facility's inhabitants are deceased, and beyond the now-zombified security detail, the site should be sparsely populated.  We want you to enter the facility and make a copy of what they were researching on the provided thumb drive.  Additionally, we will be providing you with a keycard that should at the very least get you in the front door.  \"\n\n\"We're offering a standard 5 HGC for successful retrieval of the data.  If that isn't enough of an incentive, we do have a manifest from before we lost contact with the facility showing a handful of specialized powered suits in inventory.  You are free to take any that are left.",
     "responses": [
       {
         "text": "Alright, I'll see if I can't get that data for you.",
@@ -989,7 +989,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_WHAT_ELSE",
     "type": "talk_topic",
-    "dynamic_line": "All I can tell you is that they were conducting cutting-edge research related to-\"  The intercom abruptly cuts off for several seconds before coming back on, the voice sounding apologetic,  \"Sorry, but as it turns out I'm not at liberty to divulge that information.  What I can do however is recommend you bring an NRE recorder with you if you still have one."
+    "dynamic_line": "All I can tell you is that they were conducting cutting-edge research related to-\" The intercom abruptly cuts off for several seconds before coming back on, the voice sounding apologetic, \"Sorry, but as it turns out I'm not at liberty to divulge that information.  What I can do however is recommend you bring an NRE recorder with you if you still have one."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_LIXA_ACRONYM",
@@ -1000,7 +1000,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement",
     "type": "talk_topic",
     "//": "I feel like this could be phrased better.",
-    "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\"  The voice pauses for a moment, \"Buuut that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
+    "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\" The voice pauses for a moment, \"Buuut that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
@@ -1028,7 +1028,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_Explainer",
     "type": "talk_topic",
-    "dynamic_line": "&Over the course of several minutes, you calmly detail the events at the facility: the unexpected zombie presence underground, the anomalous nature of the experiment floor, and the encounter with the warped and hostile research staff trapped in the corridor. Throughout, the voice interjects with questions, the sounds of typing filling the pauses.\n\n\"We appreciate your thorough report,\" the voice finally responds. \"Your handling of the circumstances was commendable considering the anomalous and unpredictable nature of the facility. If you seek further contract work, rest assured, we'll take into account the potential for anomalous circumstances in future assignments and relay them accordingly.\"",
+    "dynamic_line": "&Over the course of several minutes, you calmly detail the events at the facility: the unexpected zombie presence underground, the anomalous nature of the experiment floor, and the encounter with the warped and hostile research staff trapped in the corridor. Throughout, the voice interjects with questions, the sounds of typing filling the pauses.\n\n\"We appreciate your thorough report,\" the voice finally responds.  \"Your handling of the circumstances was commendable considering the anomalous and unpredictable nature of the facility. If you seek further contract work, rest assured, we'll take into account the potential for anomalous circumstances in future assignments and relay them accordingly.\"",
     "responses": [
       { "text": "It's fine.  At least now we know for the future.", "topic": "TALK_DONE" },
       { "text": "Yeah, yeah.  You're welcome.", "topic": "TALK_DONE" },
@@ -1041,7 +1041,7 @@
     "dynamic_line": "&The intercom waits patiently.",
     "responses": [
       {
-        "text": "Hoo boy, where do I even begin with this one? Let's start with the fact that your intel was about as useful as a screen door on a submarine!\"Sparsely-populated,\" my ass! How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
+        "text": "Hoo boy, where do I even begin with this one?  Let's start with the fact that your intel was about as useful as a screen door on a submarine!\"Sparsely-populated,\" my ass!  How did you lot miss the goddamn zombie mosh pit down the open elevator shaft!?",
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_1"
       }
     ]
