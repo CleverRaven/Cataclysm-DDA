@@ -322,8 +322,7 @@
         { "item": "maps", "chance": 4 }
       ],
       "≠": [
-        { "item": "toy_box", "chance": 80, "repeat": [ 1, 2 ] },
-        { "item": "toy_store", "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "toy_box", "chance": 70, "repeat": [ 2, 4 ] },
         { "item": "games", "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "allsporting", "chance": 5 }
       ]
