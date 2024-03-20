@@ -66,12 +66,14 @@ namespace io
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
             case enchant_vals::mod::REGEN_MANA: return "REGEN_MANA";
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
+            case enchant_vals::mod::POWER_TRICKLE: return "POWER_TRICKLE";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
             case enchant_vals::mod::FAT_TO_MAX_HP: return "FAT_TO_MAX_HP";
             case enchant_vals::mod::CARDIO_MULTIPLIER: return "CARDIO_MULTIPLIER";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
@@ -96,6 +98,7 @@ namespace io
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::BODYTEMP_SLEEP: return "BODYTEMP_SLEEP";
             case enchant_vals::mod::LUMINATION: return "LUMINATION";
             case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
             case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
@@ -172,7 +175,6 @@ namespace io
             case enchant_vals::mod::MOVECOST_SWIM_MOD: return "MOVECOST_SWIM_MOD";
             case enchant_vals::mod::MOVECOST_OBSTACLE_MOD: return "MOVECOST_OBSTACLE_MOD";
             case enchant_vals::mod::MOVECOST_FLATGROUND_MOD: return "MOVECOST_FLATGROUND_MOD";
-            case enchant_vals::mod::SHOUT_NOISE_BASE: return "SHOUT_NOISE_BASE";
             case enchant_vals::mod::SHOUT_NOISE_STR_MULT: return "SHOUT_NOISE_STR_MULT";
             case enchant_vals::mod::NIGHT_VIS: return "NIGHT_VIS";
             case enchant_vals::mod::HEARING_MULT: return "HEARING_MULT";
@@ -885,6 +887,14 @@ units::volume enchant_cache::modify_value( const enchant_vals::mod mod_val,
 {
     value += units::from_milliliter<double>( get_value_add( mod_val ) );
     value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::temperature_delta enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        units::temperature_delta value ) const
+{
+    value += units::from_celsius_delta<double>( get_value_add( mod_val ) );
+    value *= 1 + get_value_multiply( mod_val );
     return value;
 }
 

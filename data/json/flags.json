@@ -1207,7 +1207,7 @@
   {
     "id": "CANNIBALISM",
     "type": "json_flag",
-    "craft_inherit": true
+    "//": "Obsoleted!"
   },
   {
     "id": "STRICT_HUMANITARIANISM",
@@ -2380,11 +2380,6 @@
     "id": "UNDERFED",
     "type": "json_flag",
     "//": "This corpse is from a monster with the CRITTER_UNDERFED flag."
-  },
-  {
-    "id": "TRANSPARENT",
-    "type": "json_flag",
-    "info": "This is transparent and <info>won't block light</info> from hitting the wearer."
   },
   {
     "id": "UNRESTRICTED",

@@ -1,5 +1,131 @@
 [
   {
+    "id": "BIOKIN_ENHANCE_MOBILITY_01",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -2 ],
+      [ "torso", -2 ],
+      [ "hand_r", -2 ],
+      [ "hand_l", -2 ],
+      [ "arm_r", -2 ],
+      [ "arm_l", -2 ],
+      [ "leg_r", -2 ],
+      [ "leg_l", -2 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_02",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -4 ],
+      [ "torso", -4 ],
+      [ "hand_r", -4 ],
+      [ "hand_l", -4 ],
+      [ "arm_r", -4 ],
+      [ "arm_l", -4 ],
+      [ "leg_r", -4 ],
+      [ "leg_l", -4 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_03",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -8 ],
+      [ "torso", -8 ],
+      [ "hand_r", -8 ],
+      [ "hand_l", -8 ],
+      [ "arm_r", -8 ],
+      [ "arm_l", -8 ],
+      [ "leg_r", -8 ],
+      [ "leg_l", -8 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_04",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -12 ],
+      [ "torso", -12 ],
+      [ "hand_r", -12 ],
+      [ "hand_l", -12 ],
+      [ "arm_r", -12 ],
+      [ "arm_l", -12 ],
+      [ "leg_r", -12 ],
+      [ "leg_l", -12 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_05",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -16 ],
+      [ "torso", -16 ],
+      [ "hand_r", -16 ],
+      [ "hand_l", -16 ],
+      [ "arm_r", -16 ],
+      [ "arm_l", -16 ],
+      [ "leg_r", -16 ],
+      [ "leg_l", -16 ]
+    ]
+  },
+  {
+    "id": "BIOKIN_ENHANCE_MOBILITY_06",
+    "type": "mutation",
+    "name": { "str": "Enhanced Mobility" },
+    "description": "Your gear isn't bothering you as much.",
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "player_display": false,
+    "valid": false,
+    "encumbrance_always": [
+      [ "head", -20 ],
+      [ "torso", -20 ],
+      [ "hand_r", -20 ],
+      [ "hand_l", -20 ],
+      [ "arm_r", -20 ],
+      [ "arm_l", -20 ],
+      [ "leg_r", -20 ],
+      [ "leg_l", -20 ]
+    ]
+  },
+  {
     "type": "mutation",
     "id": "CLAIR_CRAFT_BONUS_01",
     "name": { "str": "Intuitive Artistry" },

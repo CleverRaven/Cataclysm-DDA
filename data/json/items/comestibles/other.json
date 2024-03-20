@@ -505,7 +505,7 @@
     "description": "A powder-like mix of cultured yeast, good for baking and brewing alike.",
     "price": "6 cent",
     "price_postapoc": "2 cent",
-    "material": [ "powder" ],
+    "material": [ "yeast" ],
     "volume": "10 ml",
     "flags": [ "EDIBLE_FROZEN" ],
     "fun": -10
@@ -553,7 +553,7 @@
     "type": "COMESTIBLE",
     "id": "meal_bone",
     "name": { "str_sp": "bone meal" },
-    "weight": "112 g",
+    "weight": "60 g",
     "color": "white",
     "comestible_type": "FOOD",
     "symbol": "%",
@@ -590,7 +590,7 @@
     "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "amoral %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
     "weight": "25 g",
@@ -612,7 +612,7 @@
     "type": "COMESTIBLE",
     "id": "meal_bone_tainted",
     "name": { "str_sp": "tainted bone meal" },
-    "weight": "112 g",
+    "weight": "60 g",
     "color": "white",
     "use_action": [ "POISON" ],
     "comestible_type": "FOOD",
@@ -656,7 +656,8 @@
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
-    "volume": "5 ml"
+    "volume": "5 ml",
+    "flags": [ "TINDER" ]
   },
   {
     "type": "GENERIC",
@@ -1405,6 +1406,41 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_small",
+    "name": { "str": "prepared meal (small)", "str_pl": "prepared meals (small)" },
+    "description": "I am an item used in faction camps.  If you see this description, it is a bug.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "100 cent",
+    "price_postapoc": "100 cent",
+    "material": [ "foodplace_foodstuff" ],
+    "symbol": "F",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "calories": 0,
+    "flags": [ "DEBUG_ONLY" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_medium",
+    "name": { "str": "prepared meal (medium)", "str_pl": "prepared meals (medium)" },
+    "weight": "600 g",
+    "volume": "600 ml",
+    "copy-from": "camp_meal_small"
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_large",
+    "name": { "str": "prepared meal (large)", "str_pl": "prepared meals (large)" },
+    "weight": "1200 g",
+    "volume": "1200 ml",
+    "copy-from": "camp_meal_small"
   },
   {
     "type": "COMESTIBLE",

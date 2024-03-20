@@ -19,8 +19,7 @@
     "id": "skull_human",
     "name": { "str": "human skull" },
     "description": "The skull of a human being.  Carrying this around probably isn't going to win you any friends.",
-    "copy-from": "skull_abstract",
-    "extend": { "flags": [ "CANNIBALISM" ] }
+    "copy-from": "skull_abstract"
   },
   {
     "type": "GENERIC",
