@@ -163,7 +163,7 @@ void mission_start::place_npc_software( mission *miss )
     overmap_buffer.reveal( place, 6 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::sm>( place ), false );
+    compmap.load( place, false );
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place );
@@ -205,7 +205,7 @@ void mission_start::place_deposit_box( mission *miss )
     overmap_buffer.reveal( site, 2 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::sm>( site ), false );
+    compmap.load( site, false );
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
         if( compmap.ter( p ) == t_floor ) {
@@ -340,7 +340,7 @@ void static create_lab_consoles(
                                         otype, -1, miss, false, 4, place );
 
         tinymap compmap;
-        compmap.load( project_to<coords::sm>( om_place ), false );
+        compmap.load( om_place, false );
 
         tripoint comppoint = find_potential_computer_point( compmap );
 

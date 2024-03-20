@@ -3401,10 +3401,9 @@ void debug()
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                 const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
-                    mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                    mx_map.load( where_omt, false );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
                     g->load_npcs();
                     here.invalidate_map_cache( here.get_abs_sub().z() );
                 }
@@ -3455,7 +3454,7 @@ void debug()
         case debug_menu_index::QUIT_NOSAVE:
             if( query_yn(
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                player_character.moves = 0;
+                player_character.set_moves( 0 );
                 g->uquit = QUIT_NOSAVED;
             }
             break;

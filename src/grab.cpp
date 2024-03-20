@@ -112,22 +112,22 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if( str_req <= str ) {
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
-        u.moves -= 400 * str_req / std::max( 1, str );
+        u.mod_moves( -to_moves<int>( 4_seconds )  * str_req / std::max( 1, str ) );
         ///\EFFECT_STR decreases stamina cost of dragging vehicles
         u.burn_energy_all( -200 * str_req / std::max( 1, str ) );
         const int ex = dice( 1, 6 ) - 1 + str_req;
         if( ex > str + 1 ) {
             // Pain and movement penalty if exertion exceeds character strength
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
-            u.moves -= 200;
+            u.mod_moves( -to_moves<int>( 2_seconds ) );
             u.mod_pain( 1 );
         } else if( ex >= str ) {
             // Movement is slow if exertion nearly equals character strength
             add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name );
-            u.moves -= 200;
+            u.mod_moves( -to_moves<int>( 2_seconds ) );
         }
     } else {
-        u.moves -= 100;
+        u.mod_moves( -to_moves<int>( 1_seconds ) );
         add_msg( m_bad, _( "You lack the strength to move the %s." ), grabbed_vehicle->name );
         return true;
     }

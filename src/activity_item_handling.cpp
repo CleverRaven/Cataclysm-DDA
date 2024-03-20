@@ -1777,29 +1777,8 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
             comp_selection<item_comp> sel;
             sel.use_from = usage_from::both;
             sel.comp = comp;
-            std::list<item> empty_consumed = you.consume_items( sel, 1, is_preferred_crafting_component );
-
-            int left_to_consume = 0;
-
-            if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                int consumed = 0;
-                for( item &itm : empty_consumed ) {
-                    consumed += itm.charges;
-                }
-                left_to_consume = comp.count - consumed;
-            } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                left_to_consume = comp.count - empty_consumed.size();
-            }
-
-            if( left_to_consume > 0 ) {
-                comp_selection<item_comp> remainder = sel;
-                remainder.comp.count = 1;
-                std::list<item>used_consumed = you.consume_items( remainder,
-                                               left_to_consume, is_crafting_component );
-                empty_consumed.splice( empty_consumed.end(), used_consumed );
-            }
-
-            used.splice( used.end(), empty_consumed );
+            std::list<item> consumed = you.consume_items( sel, 1, is_crafting_component );
+            used.splice( used.end(), consumed );
         }
     }
     pc.components = used;
@@ -2371,7 +2350,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     break;
                 }
             }
-            if( you.moves <= 0 || move_and_reset ) {
+            if( you.get_moves() <= 0 || move_and_reset ) {
                 return;
             }
         }
@@ -3211,7 +3190,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                 continue;
             }
             if( !check_only ) {
-                if( you.moves <= 0 ) {
+                if( you.get_moves() <= 0 ) {
                     // Restart activity and break from cycle.
                     you.assign_activity( activity_to_restore );
                     return true;
@@ -3250,7 +3229,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
     }
     if( !check_only ) {
-        if( you.moves <= 0 ) {
+        if( you.get_moves() <= 0 ) {
             // Restart activity and break from cycle.
             you.assign_activity( activity_to_restore );
             you.activity_vehicle_part_index = -1;
