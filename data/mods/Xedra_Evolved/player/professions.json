@@ -501,6 +501,7 @@
     "points": 5,
     "traits": [ "IERDE" ],
     "pets": [ { "name": "mon_stoneling", "amount": 1 } ],
+    "recipes": [ "mutagen_earthkin", "cthonic_poultice" ],
     "items": {
       "both": {
         "entries": [
@@ -526,6 +527,7 @@
     "points": 5,
     "traits": [ "ARVORE" ],
     "pets": [ { "name": "mon_vineling", "amount": 1 } ],
+    "recipes": [ "mutagen_plantkin", "verdant_poultice" ],
     "items": {
       "both": {
         "entries": [
@@ -551,6 +553,7 @@
     "points": 5,
     "traits": [ "UNDINE" ],
     "pets": [ { "name": "mon_spitting_lizard", "amount": 1 } ],
+    "recipes": [ "mutagen_waterkin", "cerulean_poultice" ],
     "items": {
       "both": {
         "entries": [
@@ -576,6 +579,7 @@
     "points": 5,
     "traits": [ "SALAMANDER" ],
     "pets": [ { "name": "mon_salamander_tiny", "amount": 1 } ],
+    "recipes": [ "mutagen_flamekin", "charred_sacrifice" ],
     "items": {
       "both": {
         "entries": [
@@ -601,6 +605,7 @@
     "points": 5,
     "traits": [ "HOMULLUS", "HOMULLUS_MINIMIZED_MUTATIONS" ],
     "pets": [ { "name": "mon_zoomorphic_figure_small", "amount": 1 } ],
+    "recipes": [ "mutagen_dollkin", "doll_repair_paste" ],
     "items": {
       "both": {
         "entries": [
@@ -626,6 +631,7 @@
     "points": 5,
     "traits": [ "SYLPH" ],
     "pets": [ { "name": "mon_dragonfly_fae", "amount": 1 } ],
+    "recipes": [ "mutagen_airkin", "ethereal_draught" ],
     "items": {
       "both": {
         "entries": [

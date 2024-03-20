@@ -133,7 +133,13 @@
       }
     },
     "effect": [
-      { "u_location_variable": { "global_val": "portal_storm_center" }, "min_radius": 30, "max_radius": 75 },
+      {
+        "u_location_variable": { "global_val": "portal_storm_center" },
+        "min_radius": 30,
+        "max_radius": 75,
+        "z_override": true,
+        "z_adjust": 0
+      },
       { "math": [ "cause_early_portal_storm", "=", "1" ] },
       "next_weather",
       { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
@@ -982,7 +988,7 @@
       ]
     },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" },
+      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength", "default": 0 },
       "cases": [
         {
           "case": 0,

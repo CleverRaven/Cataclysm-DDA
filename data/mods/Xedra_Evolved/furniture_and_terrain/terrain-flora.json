@@ -385,5 +385,18 @@
         { "item": "twig", "prob": 80, "count": [ 1, 5 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mushroom_patch",
+    "name": "patch of mushrooms",
+    "looks_like": "t_fungus_colony",
+    "description": "A cluster of mushrooms, growing all together.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "coverage": 80,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
   }
 ]

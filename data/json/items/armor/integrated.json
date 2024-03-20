@@ -6,7 +6,7 @@
     "name": { "str": "phelloderm" },
     "description": "A pliable but hefty layer of living plant matter.",
     "weight": "2 kg",
-    "volume": "300 ml",
+    "volume": "2100 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "mut_wood", "veggy" ],
@@ -14,8 +14,7 @@
     "color": "light_green",
     "warmth": 1,
     "environmental_protection": 2,
-    "//": "bark can photosynthesize, so all of Plant's integrated armors are flagged transparent",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "SOFT", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "SOFT" ],
     "armor": [
       {
         "material": [
@@ -42,9 +41,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 8,
+    "warmth": 1,
     "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
@@ -67,9 +66,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 8,
+    "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
@@ -92,9 +91,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 12,
+    "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 15 } ],
@@ -139,9 +138,9 @@
     "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
-    "warmth": 10,
+    "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "OUTER", "PADDED", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "OUTER", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -178,7 +177,7 @@
     "color": "white",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "mut_feather", "covered_by_mat": 100, "thickness": 4 } ],
@@ -203,7 +202,7 @@
     "color": "white",
     "warmth": 10,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 2 } ],
@@ -477,16 +476,7 @@
     "color": "light_red",
     "warmth": 7,
     "environmental_protection": 1,
-    "flags": [
-      "INTEGRATED",
-      "ALLOWS_NATURAL_ATTACKS",
-      "UNBREAKABLE",
-      "SKINTIGHT",
-      "WATER_FRIENDLY",
-      "SOFT",
-      "NO_SALVAGE",
-      "TRANSPARENT"
-    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -642,7 +632,7 @@
     "color": "green",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
@@ -744,8 +734,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "environmental_protection": 1,
-    "//": "Freshly molted bugs have semi-transparent chitin.",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 1.4 } ],
@@ -881,7 +870,7 @@
     "color": "brown",
     "warmth": 5,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "OUTER" ],
     "armor": [
       {
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2 } ],
@@ -1231,7 +1220,7 @@
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [
@@ -1513,7 +1502,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1542,7 +1531,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1571,7 +1560,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -1600,7 +1589,7 @@
     "material": [ "chitin" ],
     "symbol": ";",
     "color": "dark_gray",
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE", "TRANSPARENT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
