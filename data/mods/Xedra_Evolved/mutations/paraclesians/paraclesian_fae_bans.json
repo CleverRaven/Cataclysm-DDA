@@ -47,6 +47,7 @@
     "condition": {
       "and": [
         "u_is_outside",
+        { "u_has_trait": "ARVORE" },
         { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
         {
           "or": [
