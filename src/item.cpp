@@ -15098,11 +15098,6 @@ bool is_preferred_component( const item &component )
            !component.has_flag( flag_HIDDEN_HALLU );
 }
 
-bool is_preferred_crafting_component( const item &component )
-{
-    return is_preferred_component( component ) && is_crafting_component( component );
-}
-
 disp_mod_by_barrel::disp_mod_by_barrel() = default;
 void disp_mod_by_barrel::deserialize( const JsonObject &jo )
 {
