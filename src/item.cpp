@@ -218,6 +218,8 @@ static const trait_id trait_LIGHTWEIGHT( "LIGHTWEIGHT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 // vitamin flags
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
@@ -2787,7 +2789,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                            _( "* This food will cause an <bad>allergic reaction</bad>." ) );
     }
 
-    if( food_item->has_flag( flag_CANNIBALISM ) &&
+    if( food_item->has_vitamin( vitamin_human_flesh_vitamin ) &&
         parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
         if( !player_character.has_flag( json_flag_CANNIBAL ) &&
             !player_character.has_flag( json_flag_PSYCHOPATH ) &&
@@ -7572,6 +7574,27 @@ item &item::set_flag( const flag_id &flag )
         debugmsg( "Attempted to set invalid flag_id %s", flag.str() );
     }
     return *this;
+}
+
+bool item::has_vitamin( const vitamin_id &v ) const
+{
+    if( !this->is_comestible() ) {
+        return false;
+    }
+    // We need this function to get all vitamins including from inheritance.
+    // But we don't care about calories, so we can just pass a dummy.
+    npc dummy;
+    const nutrients food_item = dummy.compute_effective_nutrients( *this );
+    for( auto const& [vit_id, amount] : food_item.vitamins() ) {
+        if( vit_id == v ) {
+            if( amount > 0 ) {
+                return true;
+            } else {
+                break;
+            }
+        }
+    }
+    return false;
 }
 
 item &item::set_fault( const fault_id &fault_id )
@@ -14406,6 +14429,11 @@ std::string item::type_name( unsigned int quantity, bool use_variant, bool use_c
         switch( cname.type ) {
             case condition_type::FLAG:
                 if( has_flag( flag_id( cname.condition ) ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
+                break;
+            case condition_type::VITAMIN:
+                if( has_vitamin( vitamin_id( cname.condition ) ) ) {
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;

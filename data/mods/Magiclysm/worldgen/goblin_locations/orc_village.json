@@ -43,21 +43,9 @@
       { "item": "wastebread", "count-max": 8, "prob": 70 },
       { "item": "dry_fruit", "count-max": 8, "prob": 70 },
       { "item": "dry_veggy", "count-max": 8, "prob": 70 },
-      {
-        "item": "meat_salted",
-        "components": [ "human_flesh", "salt" ],
-        "custom-flags": [ "CANNIBALISM" ],
-        "count-max": 3,
-        "prob": 50
-      },
+      { "item": "meat_salted", "components": [ "human_flesh", "salt" ], "count-max": 3, "prob": 50 },
       { "item": "meat_salted", "count-max": 8, "prob": 50 },
-      {
-        "item": "meat_smoked",
-        "components": [ "human_flesh" ],
-        "custom-flags": [ "CANNIBALISM" ],
-        "count-max": 3,
-        "prob": 70
-      },
+      { "item": "meat_smoked", "components": [ "human_flesh" ], "count-max": 3, "prob": 70 },
       { "item": "meat_smoked", "count-max": 8, "prob": 50 }
     ]
   },

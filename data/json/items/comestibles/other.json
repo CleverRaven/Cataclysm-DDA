@@ -590,7 +590,7 @@
     "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "amoral %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
     "weight": "25 g",
