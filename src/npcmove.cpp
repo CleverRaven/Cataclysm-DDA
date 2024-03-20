@@ -2516,10 +2516,14 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( one_in( 3 ) && find_corpse_to_pulp() ) {
-        if( !do_pulp() ) {
-            move_to_next();
+    if( can_do_pulp() ) {
+        if( !activity ) {
+            assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
+            activity.placement = *pulp_location;
         }
+        return npc_player_activity;
+    } else if( find_corpse_to_pulp() ) {
+        move_to_next();
         return npc_noop;
     }
 
@@ -3966,7 +3970,7 @@ bool npc::find_corpse_to_pulp()
     return corpse != nullptr;
 }
 
-bool npc::do_pulp()
+bool npc::can_do_pulp()
 {
     if( !pulp_location ) {
         return false;
@@ -3975,12 +3979,7 @@ bool npc::do_pulp()
     if( rl_dist( *pulp_location, get_location() ) > 1 || pulp_location->z() != posz() ) {
         return false;
     }
-    // TODO: Don't recreate the activity every time
-    int old_moves = moves;
-    assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = *pulp_location;
-    activity.do_turn( *this );
-    return moves != old_moves;
+    return true;
 }
 
 bool npc::do_player_activity()

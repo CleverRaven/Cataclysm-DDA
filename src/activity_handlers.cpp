@@ -1802,6 +1802,7 @@ void activity_handlers::pulp_finish( player_activity *act, Character *you )
     if( you->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( you );
         guy->revert_after_activity();
+        guy->pulp_location.reset();
     } else {
         act->set_to_null();
     }
