@@ -203,6 +203,14 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             selector_menu.query();
         }
 
+        if( selected_pocket->get_pocket_data()->_no_unload ) {
+            popup( std::string( _( "Can't unload that." ) ), PF_GET_KEY );
+            // These make sure we exit back to the top level of the menu regardless of how the function was called.
+            selector_menu.ret = -1;
+            item_to_move = { nullptr, nullptr };
+            refresh_columns( menu );
+        }
+
         if( selector_menu.ret >= 0 ) {
             item_to_move = { item_list[selector_menu.ret], selected_pocket };
         }
@@ -234,12 +242,20 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
     } else {
         // If no pockets are enabled, uilist allows scrolling through them, so we need to recheck
         ret_val<item_pocket::contain_code> contain = selected_pocket->can_contain( *item_to_move.first );
-        if( contain.success() ) {
+
+        bool cant_reload = false;
+        std::string reload_fail;
+        if( selected_pocket->get_pocket_data()->_no_reload ) {
+            cant_reload = true;
+            reload_fail = _( "destination container can't be reloaded." );
+        }
+
+        if( contain.success() && !cant_reload ) {
             // storage should mimick character inserting
             get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
         } else {
             const std::string base_string = _( "Cannot put item in pocket because %s" );
-            popup( string_format( base_string, contain.str() ) );
+            popup( string_format( base_string, cant_reload ? reload_fail : contain.str() ) );
         }
         // reset the moved item
         item_to_move = { nullptr, nullptr };
@@ -1185,7 +1201,9 @@ bool item_contents::spill_contents( const tripoint &pos )
 {
     bool spilled = false;
     for( item_pocket &pocket : contents ) {
-        spilled = pocket.spill_contents( pos ) || spilled;
+        if( !pocket.get_pocket_data()->_no_unload ) {
+            spilled = pocket.spill_contents( pos ) || spilled;
+        }
     }
     return spilled;
 }
