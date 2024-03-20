@@ -8141,10 +8141,14 @@ std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoin
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
+    if(it->is_container()&&!it->is_container_empty()){
+        p->add_msg_if_player(_("You need an empty container to heat items."));
+        return std::nullopt;
+    }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
     if( p->volume_capacity() < p->volume_carried() ) {
-        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        p->add_msg_if_player( _( "You're carrying too much to heat anything." ) );
         return std::nullopt;
     }
 
@@ -8161,10 +8165,14 @@ std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoi
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
+    if(it->is_container()&&!it->is_container_empty()){
+        p->add_msg_if_player(_("You need an empty container to heat items."));
+        return std::nullopt;
+    }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
     if( p->volume_capacity() < p->volume_carried() ) {
-        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        p->add_msg_if_player( _( "You're carrying too much to heat anything." ) );
         return std::nullopt;
     }
 
@@ -8181,10 +8189,14 @@ std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint 
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
+    if(it->is_container()&&!it->is_container_empty()){
+        p->add_msg_if_player(_("You need an empty container to heat items."));
+        return std::nullopt;
+    }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
     // TODO: find a better solution.
     if( p->volume_capacity() < p->volume_carried() ) {
-        p->add_msg_if_player( _( "You're carrying too much to clean anything." ) );
+        p->add_msg_if_player( _( "You're carrying too much to heat anything." ) );
         return std::nullopt;
     }
 
@@ -8199,30 +8211,52 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
     }
     p->inv->restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
-
     auto is_liquid = []( const item & it ) {
         return it.made_of( phase_id::LIQUID );
     };
-    int available_volum = std::max(
-                              crafting_inv.charges_of( itype_water, INT_MAX, is_liquid ),
-                              crafting_inv.charges_of( itype_water_clean, INT_MAX, is_liquid )
-                          );
-    int available_heater = std::max( crafting_inv.charges_of( itype_soap ),
-                                       std::max( crafting_inv.charges_of( itype_detergent ),
-                                               crafting_inv.charges_of( itype_liquid_soap, INT_MAX, is_liquid ) ) );
 
-    const inventory_filter_preset preset( [soft_items, hard_items]( const item_location & location ) {
-        return location->has_flag( flag_FILTHY ) && !location->has_flag( flag_NO_CLEAN ) &&
-               ( ( soft_items && location->is_soft() ) || ( hard_items && !location->is_soft() ) );
+    item_location heater = item_location( *p, it );
+    int available_heater = 0;
+    if(get_map().has_nearby_fire( p->pos() )){
+        int available_heater = INFINITY;
+    }else{
+        if(it->item_has_uses_recursive(hotplate) && it->ammo_remaining()){
+            int available_heater = it->ammo_remaining();
+        }else{
+        auto filter = [&it]( const item & e ) {
+            if(e.item_has_uses_recursive(hotplate) && e.ammo_remaining()) {
+                return true;
+            }
+        };
+        item_location heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
+                                            _( "You don't have heating tools." ) );
+        int available_heater = heater->ammo_remaining();
+        }
+    }
+    
+    if( !heater ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return std::nullopt;
+    }
+    if( available_heater == 0 ) {
+        add_msg( m_info, _( "Never mind." ) );
+        return std::nullopt;
+    }
+    //TODO: If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one item a time(and can't be liquid), but no volume limit on each batch.
+    //Need a way to only select one item when comes to these tools.
+    std::optional<units::volume> available_volume = it->max_containable_volume();
+    const inventory_filter_preset preset( [liquid_items, solid_items]( const item_location & location ) {
+        return location->has_temperature() && !location->has_own_flag( flag_HOT ) &&
+               ( ( liquid_items && location->made_of_from_type(phase_id::LIQUID) ) || ( solid_items && !location->made_of_from_type(phase_id::LIQUID) ) );
     } );
-    auto make_raw_stats = [available_water,
-                           available_cleanser]( const std::vector<std::pair<item_location, int>> &locs
+    auto make_raw_stats = [available_volume,
+                           available_heater]( const std::vector<std::pair<item_location, int>> &locs
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &pair : locs ) {
             total_volume += pair.first->volume( false, true, pair.second );
         }
-        washing_requirements required = washing_requirements_for_volume( total_volume );
+        heating_requirements required = heating_requirements_for_volume( total_volume );
         const std::string time = colorize( to_string( time_duration::from_moves( required.time ), true ),
                                            c_light_gray );
         auto to_string = []( int val ) -> std::string {
@@ -8232,53 +8266,51 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
             }
             return string_format( "%3d", val );
         };
-        const std::string water = string_join( display_stat( "", required.water, available_water,
+        const std::string volume = string_join( display_stat( "", required.volume, available_volume,
                                                to_string ), "" );
-        const std::string cleanser = string_join( display_stat( "", required.cleanser, available_cleanser,
+        const std::string ammo = string_join( display_stat( "", required.ammo, available_cleanser,
                                      to_string ), "" );
         using stats = inventory_selector::stats;
         return stats{{
-                {{ _( "Water" ), water }},
-                {{ _( "Cleanser" ), cleanser }},
+                {{ _( "Water" ), volume }},
+                {{ _( "Cleanser" ), ammo }},
                 {{ _( "Estimated time" ), time }}
             }};
     };
-    inventory_multiselector inv_s( *p, preset, _( "ITEMS TO CLEAN" ),
+    inventory_multiselector inv_s( *p, preset, _( "ITEMS TO HEAT" ),
                                    make_raw_stats, /*allow_select_contained=*/true );
     inv_s.add_character_items( *p );
     inv_s.add_nearby_items( PICKUP_RANGE );
-    inv_s.set_title( _( "Multiclean" ) );
-    inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
+    inv_s.set_title( _( "Multiheat" ) );
+    inv_s.set_hint( _( "To heat x items, type a number before selecting." ) );
     if( inv_s.empty() ) {
-        popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
+        popup( std::string( _( "You have nothing to heat." ) ), PF_GET_KEY );
         return std::nullopt;
     }
-    const drop_locations to_clean = inv_s.execute();
-    if( to_clean.empty() ) {
+    const drop_locations to_heat = inv_s.execute();
+    if( to_heat.empty() ) {
         return std::nullopt;
     }
-    // Determine if we have enough water and cleanser for all the items.
+
     units::volume total_volume = 0_ml;
-    for( drop_location pair : to_clean ) {
+    for( drop_location pair : to_heat ) {
         if( !pair.first ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );
             return std::nullopt;
         }
         total_volume += pair.first->volume( false, true, pair.second );
     }
-
-    washing_requirements required = washing_requirements_for_volume( total_volume );
-
-    if( !crafting_inv.has_charges( itype_water, required.water, is_liquid ) &&
-        !crafting_inv.has_charges( itype_water_clean, required.water, is_liquid ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-                              required.water );
+    //TODO:I don't know how to deal with different kind of heating ammo here.
+    heating_requirements required = heating_requirements_for_volume( total_volume );
+    if( required.volume > available_volume ) {
+        p->add_msg_if_player( _( "You need %1$i more space to contain these items." ),
+                              required.volume - available_volume );
         return std::nullopt;
-    } else if( !crafting_inv.has_charges( itype_soap, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_detergent, required.cleanser ) &&
-               !crafting_inv.has_charges( itype_liquid_soap, required.cleanser, is_liquid ) ) {
-        p->add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-                              required.cleanser );
+    } else if( !crafting_inv.has_charges( itype_soap, required.ammo ) &&
+               !crafting_inv.has_charges( itype_detergent, required.ammo ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, required.ammo, is_liquid ) ) {
+        p->add_msg_if_player( _( "You need %1$i charges of heat source to heat these items." ),
+                              required.ammo );
         return std::nullopt;
     }
     const std::vector<Character *> helpers = p->get_crafting_helpers();
@@ -8287,12 +8319,19 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
     for( std::size_t i = 0; i < helpersize; i++ ) {
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
-    // Assign the activity values.
-    p->assign_activity( wash_activity_actor( to_clean, required ) );
+    //Don't know how to deal with activity ether...
+    p->assign_activity( heat_activity_actor( to_heat, required ) );
 
     return 0;
 }
 
+heating_requirements heating_requirements_for_volume( const units::volume &vol )
+{
+    int volume = vol;
+    int ammo = divide_round_up( vol, 1_liter );
+    int time = to_moves<int>( 10_seconds * ( vol / 250_ml ) );
+    return { volume, ammo, time };
+}
 std::optional<int> iuse::wash_soft_items( Character *p, item *, const tripoint & )
 {
     if( p->fine_detail_vision_mod() > 4 ) {
