@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "basecamp.h"
@@ -1681,10 +1682,6 @@ void basecamp::player_eats_meal()
     int kcal_to_eat = 3000;
     Character &you = get_player_character();
     const int &food_available = fac()->food_supply.kcal();
-    if( you.stomach.contains() >= ( you.stomach.capacity( you ) / 2 ) ) {
-        popup( _( "You're way too full to eat a full meal right now." ) );
-        return;
-    }
     if( food_available <= 0 ) {
         popup( _( "You check storage for some food, but there is nothing but dust and cobwebs…" ) );
         return;
@@ -5571,14 +5568,55 @@ void basecamp::feed_workers( const std::vector<std::reference_wrapper <Character
     food /= num_workers;
     for( const auto &worker_reference : workers ) {
         Character &worker = worker_reference.get();
-        worker.add_msg_if_player( _( "You grab a prepared meal from storage and chow down." ) );
-        units::volume filling_vol = std::max( 0_ml,
-                                              worker.stomach.capacity( worker ) / 2 - worker.stomach.contains() );
-        worker.stomach.ingest( food_summary{
-            0_ml,
-            filling_vol,
-            food
-        } );
+        item food_item = make_fake_food( food );
+        // Handle allergies and other stuff
+        bool query_player = !worker.is_npc();
+        const ret_val<edible_rating> rating = worker.will_eat( food_item, query_player );
+        switch( rating.value() ) {
+            case EDIBLE:
+                // I'd like to use consume_activity_actor here, but our little trick with make_fake_food() requires that the
+                // item be consumed immediately.
+                worker.consume( food_item );
+                break;
+            case TOO_FULL:
+                worker.add_msg_player_or_npc( m_neutral,
+                                              _( "You are too full to eat right now, and put the meal back into storage." ),
+                                              _( "<npcname> is too full to eat right now, and puts the meal back into storage." ) );
+                camp_food_supply( food );
+                break;
+            case INEDIBLE:
+            case INEDIBLE_MUTATION:
+                debugmsg( "Always-edible food somehow inedible, please report this error." );
+                camp_food_supply( food );
+                break;
+            case ALLERGY:
+                worker.add_msg_if_npc( m_bad,
+                                       _( "%s takes one look at the food and declines, explaining they're allergic." ),
+                                       worker.get_name() );
+                camp_food_supply( food );
+                break;
+            case ALLERGY_WEAK:
+                worker.add_msg_if_npc( m_bad,
+                                       _( "%s takes a bite but spits it out.  It seems something in the food disagrees with them." ),
+                                       worker.get_name() );
+                camp_food_supply( food );
+                break;
+            case CANNIBALISM:
+                worker.add_msg_if_npc( m_bad,
+                                       _( "%s thanks you for the meal, but when they see what's in the meal their attitude suddenly changes!" ),
+                                       worker.get_name() );
+                if( worker.is_npc() ) {
+                    worker.as_npc()->mutiny();
+                }
+                // Food specifically does not go back in the larder.
+                break;
+            case PARASITES:
+            // None of these should ever happen.
+            case ROTTEN:
+            case NAUSEA:
+            case NO_TOOL:
+                break;
+        }
     }
 }
 
@@ -5596,6 +5634,22 @@ int basecamp::time_to_food( time_duration work, float exertion_level ) const
 
     return base_metabolic_rate * ( work_time * exertion_level + days * work_day_rest_hours * NO_EXERCISE
                                    + days * work_day_idle_hours * SLEEP_EXERCISE ) / 24;
+}
+
+item basecamp::make_fake_food( const nutrients &to_use ) const
+{
+    // This is dumb, but effective.
+    std::string food_id = "camp_meal_small";
+    if( to_use.kcal() > 3000 ) {
+        food_id = "camp_meal_large";
+    } else if( to_use.kcal() > 1000 ) {
+        food_id = "camp_meal_medium";
+    }
+    item food_item( food_id );
+    // Set the default nutritional of the item.
+    // This doesn't persist through save/load, but that's ok, we will be eating it immediately.
+    food_item.get_comestible()->default_nutrition = to_use;
+    return food_item;
 }
 
 static const npc &getAverageJoe()
