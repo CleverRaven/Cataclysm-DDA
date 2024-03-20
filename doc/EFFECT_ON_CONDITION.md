@@ -3293,7 +3293,8 @@ You teleport to `grass_place` with message `Yay!`; as `force` boolean is `true`,
 ```
 
 #### `u_die`, `npc_die`
-You or NPC will instantly die
+You or an NPC will instantly die.
+If the target is an item, it will be deleted.
 
 ##### Valid talkers:
 
@@ -3303,11 +3304,6 @@ You or NPC will instantly die
 
 ##### Examples
 
-You die
-```json
-"u_die"
-```
-
 You and NPC both die
 ```json
 {
@@ -3316,6 +3312,33 @@ You and NPC both die
   "effect": [ "u_die", "npc_die" ]
 }
 ```
+
+Removes a corpse around you (corpses are handled as items)
+
+```json
+  {
+    "id": "EOC_CORPSE_REMOVAL",
+    "type": "effect_on_condition",
+    "effect": [
+      {
+        "if": { "message": "Select target", "u_query_tile": "around", "target_var": { "global_val": "delete_this_corpse" } },
+        "then": [
+          {
+            "u_map_run_item_eocs": "all",
+            "search_data": [ { "id": "corpse" } ],
+            "loc": { "global_val": "delete_this_corpse" },
+            "min_radius": 0,
+            "max_radius": 0,
+            "true_eocs": [ { "id": "EOC_CORPSE_REMOVAL_SUCCESS", "effect": [ "npc_die", { "u_message": "*poof*", "type": "good" } ] } ],
+            "false_eocs": [ { "id": "EOC_CORPSE_REMOVAL_FAIL", "effect": [ { "u_message": "There is no corpse there.", "type": "bad" } ] } ]
+          }
+        ],
+        "else": [ { "u_message": "Canceled" } ]
+      }
+    ]
+  }
+```
+
 
 #### `u_prevent_death`, `npc_prevent_death`
 You or NPC will be prevented from death. Intended for use in EoCs has `NPC_DEATH` or `EVENT(character_dies)` type (Take care that u will be the dying npc in these events).

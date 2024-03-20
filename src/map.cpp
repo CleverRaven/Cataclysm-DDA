@@ -9023,6 +9023,15 @@ tripoint_range<tripoint> tinymap::points_in_rectangle(
     return map::points_in_rectangle( from, to );
 }
 
+tripoint_range<tripoint_omt_ms> tinymap::points_in_rectangle(
+    const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const
+{
+    const tripoint_range<tripoint> preliminary_result = map::points_in_rectangle( from.raw(),
+            to.raw() );
+    return tripoint_range<tripoint_omt_ms>( tripoint_omt_ms( preliminary_result.min() ),
+                                            tripoint_omt_ms( preliminary_result.max() ) );
+}
+
 tripoint_range<tripoint> tinymap::points_in_radius(
     const tripoint &center, size_t radius, size_t radiusz ) const
 {

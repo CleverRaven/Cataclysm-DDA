@@ -80,6 +80,8 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
@@ -985,11 +987,13 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
             if( destroyed ) {
                 // If we decided the item was destroyed by fire, remove it.
-                // But remember its contents, except for irremovable mods, if any
-                const std::list<item *> content_list = fuel->all_items_top();
-                for( item *it : content_list ) {
-                    if( !it->is_irremovable() ) {
-                        new_content.emplace_back( *it );
+                // But remember its contents, except for irremovable stuff, if any
+                if( !fuel->has_flag( json_flag_NO_UNLOAD ) ) {
+                    const std::list<item *> content_list = fuel->all_items_top();
+                    for( item *it : content_list ) {
+                        if( !it->is_irremovable() ) {
+                            new_content.emplace_back( *it );
+                        }
                     }
                 }
                 fuel = items_here.erase( fuel );

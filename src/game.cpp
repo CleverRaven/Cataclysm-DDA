@@ -250,6 +250,7 @@ static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_CONVECTS_TEMPERATURE( "CONVECTS_TEMPERATURE" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
 static const furn_str_id furn_f_rope_up( "f_rope_up" );
@@ -1123,7 +1124,7 @@ vehicle *game::place_vehicle_nearby(
         for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
             // try place vehicle there.
             tinymap target_map;
-            target_map.load( project_to<coords::sm>( goal ), false );
+            target_map.load( goal, false );
             const tripoint tinymap_center( SEEX, SEEY, goal.z() );
             static constexpr std::array<units::angle, 4> angles = {{
                     0_degrees, 90_degrees, 180_degrees, 270_degrees
@@ -1981,6 +1982,9 @@ static hint_rating rate_action_insert( const avatar &you, const item_location &l
         && loc.where() != item_location::type::map
         && !you.is_wielding( *loc ) ) {
 
+        return hint_rating::cant;
+    }
+    if( loc.get_item()->has_flag( json_flag_NO_RELOAD ) ) {
         return hint_rating::cant;
     }
     return hint_rating::good;
