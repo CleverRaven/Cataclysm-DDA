@@ -5,6 +5,7 @@
     "name": { "str": "Adrenaline Pump" },
     "description": "A stimulator system has been surgically implanted alongside your adrenal glands, allowing you to trigger your body's adrenaline response at the cost of some bionic power.",
     "occupied_bodyparts": [ [ "torso", 4 ] ],
+    "activated_eocs": [ "EOC_bio_adrenaline" ],
     "act_cost": "5 J"
   },
   {

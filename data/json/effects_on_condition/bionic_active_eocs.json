@@ -3,5 +3,15 @@
     "type": "effect_on_condition",
     "id": "refund_power",
     "effect": { "math": [ "u_val('power')", "+=", "_act_cost" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_adrenaline",
+    "condition": { "u_has_effect": "adrenaline" },
+    "effect": [
+      { "u_message": "Safeguards kicks in, and the bionic refuses to activate!", "type": "bad" },
+      { "run_eocs": "refund_power" }
+    ],
+    "false_effect": [ { "u_add_effect": "adrenaline", "duration": "20 minutes" } ]
   }
 ]

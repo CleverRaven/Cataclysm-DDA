@@ -1020,16 +1020,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         } else {
             set_rad( 0 );
         }
-    } else if( bio.id == bio_adrenaline ) {
-        add_msg_activate();
-        if( has_effect( effect_adrenaline ) ) {
-            add_msg_if_player( m_bad, _( "Safeguards kick in, and the bionic refuses to activate!" ) );
-            refund_power();
-            return false;
-        } else {
-            add_msg_activate();
-            add_effect( effect_adrenaline, 20_minutes );
-        }
     } else if( bio.id == bio_emp ) {
         if( const std::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
             add_msg_activate();
