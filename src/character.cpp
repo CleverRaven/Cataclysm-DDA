@@ -5584,11 +5584,20 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
                     }
                 }
             }
-            if( const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true ) ) {
-                comfort += board->info().comfort;
-            } else {
-                comfort -= here.move_cost( p );
+            int max_boardable_confort = 0;
+            bool boardable = false;
+            for( const vpart_reference board : vp->vehicle().get_all_parts() ) {
+                if( !board.has_feature( "BOARDABLE" ) || board.pos() != p.raw() ) {
+                    continue;
+                }
+                boardable = true;
+                int boardable_comfort = board.info().comfort;
+                if( boardable_comfort > max_boardable_confort ) {
+                    max_boardable_confort = boardable_comfort;
+                }
             }
+            comfort += boardable ? max_boardable_confort : -here.move_cost( p );
+
             if( has_effect( effect_cramped_space ) ) {
                 comfort = static_cast<int>( comfort_level::impossible );
             }

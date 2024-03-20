@@ -2540,7 +2540,7 @@ npc_action npc::address_needs( float danger )
         return false;
     };
     // TODO: More risky attempts at sleep when exhausted
-    if( one_in( 3 ) && could_sleep() ) {
+    if( could_sleep() ) {
         if( !is_player_ally() ) {
             // TODO: Make tired NPCs handle sleep offscreen
             set_fatigue( 0 );
