@@ -1092,7 +1092,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_ChewingOut_5",
     "type": "talk_topic",
-    "dynamic_line": "Uh... Yeah, sorry. I'll, um... I'll make a note to try and see if we can't get any better information for your future contracts.",
+    "dynamic_line": "Uh… Yeah, sorry. I'll, um… I'll make a note to try and see if we can't get any better information for your future contracts.",
     "responses": [ { "text": "Good.", "topic": "TALK_DONE" } ]
   }
 ]
