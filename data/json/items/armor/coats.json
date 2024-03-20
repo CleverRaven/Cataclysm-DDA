@@ -1063,7 +1063,7 @@
         "id": "m65_player",
         "//": "Only used as a cosmetic variant for player professions that start with army jackets: currently the old veteran.",
         "name": { "str": "woodland-camo combat jacket" },
-        "description": "Dyed in a 4-tone blend of worn green, black, sand, and brown hues, this particular overcoat had been your own issued service jacket when you’d still been in the forces, with your name stitched upon the right lapel and insignia pinned to the appropriate Sholder board.",
+        "description": "Dyed in a 4-tone blend of worn green, black, sand, and brown hues, this particular overcoat had been your own issued service jacket when you''d still been in the forces, with your name stitched upon the right lapel and insignia pinned to the appropriate Sholder board.",
         "color": "green",
         "weight": 0,
         "append": true
@@ -3773,7 +3773,7 @@
       {
         "id": "tacjacket_urban",
         "name": { "str": "urban-camo tactical jacket" },
-        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colours — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds. Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
+        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colours — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds.  Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
         "color": "dark_gray",
         "weight": 20,
         "append": true
