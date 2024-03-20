@@ -142,7 +142,7 @@ bool trapfunc::glass( const tripoint &p, Creature *c, item * )
         monster *z = dynamic_cast<monster *>( c );
         const char dmg = std::max( 0, rng( -10, 10 ) );
         if( z != nullptr && dmg > 0 ) {
-            z->moves -= 80;
+            z->mod_moves( -z->get_speed() * 0.8 );
         }
         if( dmg > 0 ) {
             c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, dmg ) );
@@ -161,7 +161,7 @@ bool trapfunc::cot( const tripoint &, Creature *c, item * )
     if( z != nullptr ) {
         // Haha, only monsters stumble over a cot, humans are smart.
         add_msg( m_good, _( "The %s stumbles over the cot!" ), z->name() );
-        c->moves -= 100;
+        c->mod_moves( -c->get_speed() );
         return true;
     }
     return false;
@@ -224,9 +224,9 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
     if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s stepped on a spiked board!" ), c->get_name() );
-            get_player_character().moves -= 80;
+            get_player_character().mod_moves( -z->get_speed() * 0.8 );
         } else {
-            z->moves -= 80;
+            z->mod_moves( -z->get_speed() * 0.8 );
         }
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 3,
                         5 ) ) );
@@ -265,9 +265,9 @@ bool trapfunc::caltrops( const tripoint &, Creature *c, item * )
     if( z != nullptr ) {
         if( z->has_effect( effect_ridden ) ) {
             add_msg( m_warning, _( "Your %s steps on a sharp metal caltrop!" ), c->get_name() );
-            get_player_character().moves -= 80;
+            get_player_character().mod_moves( -z->get_speed() * 0.8 );
         } else {
-            z->moves -= 80;
+            z->mod_moves( -z->get_speed() * 0.8 );
         }
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9,
                         15 ) ) );
@@ -309,7 +309,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
                               _( "<npcname> steps on a sharp glass caltrop!" ) );
     monster *z = dynamic_cast<monster *>( c );
     if( z != nullptr ) {
-        z->moves -= 80;
+        z->mod_moves( -z->get_speed() * 0.8 );
         z->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
         z->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( damage_cut, rng( 9, 15 ) ) );
     } else {
@@ -355,7 +355,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
                 player_character.setpos( random_entry( valid ) );
                 z->setpos( player_character.pos() );
             }
-            player_character.moves -= 150;
+            player_character.mod_moves( -z->get_speed() * 1.5 );
             g->update_map( player_character );
         } else {
             z->stumble();
@@ -374,7 +374,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
         if( !valid.empty() ) {
             you->setpos( random_entry( valid ) );
         }
-        you->moves -= 150;
+        you->mod_moves( -you->get_speed() * 1.5 );
         if( c->is_avatar() ) {
             g->update_map( player_character );
         }
@@ -1190,7 +1190,7 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
     }
     here.remove_trap( p );
     here.ter_set( p, t_pit );
-    c->moves -= 100;
+    c->mod_moves( -c->get_speed() );
     pit( p, c, i );
     return true;
 }

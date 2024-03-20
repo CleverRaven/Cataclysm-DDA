@@ -1365,7 +1365,7 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint 
             continue;
         }
         sp.make_sound( potential_target, caster );
-        critter->moves += sp.damage( caster );
+        critter->mod_moves( sp.damage( caster ) );
     }
 }
 
@@ -1676,7 +1676,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
-    const int cur_moves = caster.moves;
+    const int cur_moves = caster.get_moves();
     creature_tracker &creatures = get_creature_tracker();
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
@@ -1697,7 +1697,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         // we want the last tripoint in the actually reached trajectory
         --walk_point;
     }
-    caster.moves = cur_moves;
+    caster.set_moves( cur_moves );
 
     tripoint far_target;
     calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ), here.getlocal( *walk_point ),
