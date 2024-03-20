@@ -13,6 +13,8 @@ const github = require('@actions/github');
 const token = process.argv[2];
 const version = process.argv[3];
 const comittish = process.argv[4];
+const repo = process.env.REPOSITORY_NAME
+const owner = process.env.GITHUB_REPOSITORY_OWNER
 
 async function main() {
   const client = github.getOctokit(token);
@@ -20,8 +22,8 @@ async function main() {
   const latestReleaseResponse = await client.request(
     'GET /repos/{owner}/{repo}/releases/latest',
     {
-      owner: 'CleverRaven',
-      repo: 'Cataclysm-DDA',
+      owner: owner,
+      repo: repo,
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
@@ -32,8 +34,8 @@ async function main() {
   const response = await client.request(
     'POST /repos/{owner}/{repo}/releases/generate-notes',
     {
-      owner: 'CleverRaven',
-      repo: 'Cataclysm-DDA',
+      owner: owner,
+      repo: repo,
       tag_name: version,
       previous_tag_name: previousTag,
       target_commitish: comittish,
