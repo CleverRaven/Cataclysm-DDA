@@ -252,7 +252,7 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( const units::volume & );
 struct heating_requirements {
-    int volume;
+    units::volume volume;
     int ammo;
     int time;
 };

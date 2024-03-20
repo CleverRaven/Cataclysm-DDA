@@ -8244,7 +8244,7 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
     }
     //TODO: If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one item a time(and can't be liquid), but no volume limit on each batch.
     //Need a way to only select one item when comes to these tools.
-    std::optional<units::volume> available_volume = it->max_containable_volume();
+    units::volume available_volume = it->max_containable_volume();
     const inventory_filter_preset preset( [liquid_items, solid_items]( const item_location & location ) {
         return location->has_temperature() && !location->has_own_flag( flag_HOT ) &&
                ( ( liquid_items && location->made_of_from_type(phase_id::LIQUID) ) || ( solid_items && !location->made_of_from_type(phase_id::LIQUID) ) );
@@ -8266,9 +8266,9 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
             }
             return string_format( "%3d", val );
         };
-        const std::string volume = string_join( display_stat( "", required.volume, available_volume,
+        const std::string volume = string_join( display_stat( "", required.volume.value(), available_volume.value(),
                                                to_string ), "" );
-        const std::string ammo = string_join( display_stat( "", required.ammo, available_cleanser,
+        const std::string ammo = string_join( display_stat( "", required.ammo, available_heater,
                                      to_string ), "" );
         using stats = inventory_selector::stats;
         return stats{{
@@ -8327,7 +8327,7 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
 
 heating_requirements heating_requirements_for_volume( const units::volume &vol )
 {
-    int volume = vol;
+    units::volume volume = vol;
     int ammo = divide_round_up( vol, 1_liter );
     int time = to_moves<int>( 10_seconds * ( vol / 250_ml ) );
     return { volume, ammo, time };

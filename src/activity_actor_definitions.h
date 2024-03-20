@@ -1704,7 +1704,7 @@ class heat_activity_actor : public activity_actor
         heat_activity_actor() = default;
     public:
         heat_activity_actor( drop_locations to_heat,
-                             washing_requirements &requirements ) :
+                             heating_requirements &requirements ) :
             to_heat( std::move( to_heat ) ),
             requirements( requirements ) {};
 
