@@ -227,6 +227,7 @@
     "name": { "str": "sleek zombie" },
     "description": "This zombie is rather sleek and scantily clothed.",
     "copy-from": "mon_zombie",
+    "looks_like": "mon_zombie",
     "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
     "death_drops": "mon_zombie_resort_dancer_death_drops"
   },
@@ -242,6 +243,7 @@
     "id": "mon_zombie_resort_staff",
     "type": "MONSTER",
     "copy-from": "mon_zombie",
+    "looks_like": "mon_zombie",
     "death_drops": "mon_zombie_resort_staff_death_drops"
   }
 ]
