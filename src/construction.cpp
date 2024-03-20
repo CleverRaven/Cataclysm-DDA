@@ -1023,35 +1023,8 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     } else {
         // Use up the components
         for( const std::vector<item_comp> &it : con.requirements->get_components() ) {
-            for( const item_comp &comp : it ) {
-                comp_selection<item_comp> sel;
-                sel.use_from = usage_from::both;
-                sel.comp = comp;
-                std::list<item> empty_consumed = player_character.consume_items( sel, 1,
-                                                 is_preferred_crafting_component );
-
-                int left_to_consume = 0;
-
-                if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                    int consumed = 0;
-                    for( item &itm : empty_consumed ) {
-                        consumed += itm.charges;
-                    }
-                    left_to_consume = comp.count - consumed;
-                } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                    left_to_consume = comp.count - empty_consumed.size();
-                }
-
-                if( left_to_consume > 0 ) {
-                    comp_selection<item_comp> remainder = sel;
-                    remainder.comp.count = 1;
-                    std::list<item>used_consumed = player_character.consume_items( remainder,
-                                                   left_to_consume, is_crafting_component );
-                    empty_consumed.splice( empty_consumed.end(), used_consumed );
-                }
-
-                used.splice( used.end(), empty_consumed );
-            }
+            std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
+            used.splice( used.end(), tmp );
         }
     }
     pc.components = used;
@@ -1561,9 +1534,9 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
 {
     map &here = get_map();
     const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm + tripoint_below, false );
+    tmpmap.load( pos_omt + tripoint_below, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
@@ -1654,9 +1627,9 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
 {
     map &here = get_map();
     const tripoint_abs_ms abs_pos = here.getglobal( p );
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
+    const tripoint_abs_omt pos_omt = project_to<coords::omt>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( pos_sm + tripoint_above, false );
+    tmpmap.load( pos_omt + tripoint_above, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {

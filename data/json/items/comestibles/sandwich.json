@@ -349,7 +349,11 @@
     "id": "sandwich_t",
     "name": { "str": "meat sandwich", "str_pl": "meat sandwiches" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" } },
+      {
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
+        "name": { "str": "slob sandwich", "str_pl": "slob sandwiches" }
+      },
       {
         "type": "FLAG",
         "condition": "STRICT_HUMANITARIANISM",
@@ -790,8 +794,8 @@
     "name": { "str": "wheat-free meat sandwich", "str_pl": "wheat-free meat sandwiches" },
     "conditional_names": [
       {
-        "type": "FLAG",
-        "condition": "CANNIBALISM",
+        "type": "VITAMIN",
+        "condition": "human_flesh_vitamin",
         "name": { "str": "wheat-free slob sandwich", "str_pl": "wheat-free slob sandwiches" }
       },
       {

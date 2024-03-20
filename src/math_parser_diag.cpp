@@ -1360,6 +1360,22 @@ std::function<void( dialogue &, double )> weather_ass( char /* scope */,
     throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );
 }
 
+std::function<double( dialogue & )> climate_control_str_heat_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d ) {
+        return static_cast<talker const *>( d.actor( beta ) )->climate_control_str_heat();
+    };
+}
+
+std::function<double( dialogue & )> climate_control_str_chill_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        return static_cast<talker const *>( d.actor( beta ) )->climate_control_str_chill();
+    };
+}
+
 // { "name", { "scopes", num_args, function } }
 // kwargs are not included in num_args
 std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
@@ -1418,6 +1434,8 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
+    { "climate_control_str_heat", { "un", 0, climate_control_str_heat_eval } },
+    { "climate_control_str_chill", { "un", 0, climate_control_str_chill_eval } },
 };
 
 std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{
