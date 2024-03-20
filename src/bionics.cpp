@@ -930,28 +930,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         }
 
         mod_moves( -100 );
-    } else if( bio.id == bio_time_freeze ) {
-        if( mounted ) {
-            refund_power();
-            add_msg_if_player( m_info, _( "You cannot activate %s while mounted." ), bio.info().name );
-            return false;
-        }
-        add_msg_activate();
-
-        mod_moves( units::to_kilojoule( get_power_level() ) );
-        set_power_level( 0_kJ );
-        add_msg_if_player( m_good, _( "Your speed suddenly increases!" ) );
-        if( one_in( 3 ) ) {
-            add_msg_if_player( m_bad, _( "Your muscles tear with the strain." ) );
-            apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-            apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-            apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-            apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-            apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-        }
-        if( one_in( 5 ) ) {
-            add_effect( effect_teleglow, rng( 5_minutes, 40_minutes ) );
-        }
     } else if( bio.id == bio_teleport ) {
         if( mounted ) {
             refund_power();

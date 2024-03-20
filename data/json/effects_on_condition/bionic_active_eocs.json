@@ -13,5 +13,32 @@
       { "run_eocs": "refund_power" }
     ],
     "false_effect": [ { "u_add_effect": "adrenaline", "duration": "20 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_time_freeze",
+    "condition": { "u_has_effect": "riding" },
+    "effect": [ { "u_message": "You cannot activate Time Dilation while mounted.", "type": "info" }, { "run_eocs": "refund_power" } ],
+    "false_effect": [
+      { "u_message": "You activate your Time Dilation.", "type": "info" },
+      { "turn_cost": { "math": [ "u_val('power') / -energy('100 kJ')" ] } },
+      { "math": [ "u_val('power')", "=", "0" ] },
+      { "u_message": "Your speed suddenly increases!", "type": "good" },
+      {
+        "if": { "one_in_chance": 3 },
+        "then": [
+          { "u_message": "Your muscles tear with the strain!", "type": "good" },
+          { "math": [ "u_hp('arm_l')", "-=", "rng(5, 10)" ] },
+          { "math": [ "u_hp('arm_r')", "-=", "rng(5, 10)" ] },
+          { "math": [ "u_hp('leg_l')", "-=", "rng(7, 12)" ] },
+          { "math": [ "u_hp('leg_r')", "-=", "rng(7, 12)" ] },
+          { "math": [ "u_hp('torso')", "-=", "rng(5, 15)" ] }
+        ]
+      },
+      {
+        "if": { "one_in_chance": 5 },
+        "then": [ { "u_add_effect": "teleglow", "duration": [ "5 minutes", "40 minutes" ] } ]
+      }
+    ]
   }
 ]
