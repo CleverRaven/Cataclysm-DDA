@@ -201,7 +201,7 @@
       [ "tailoring_cotton_patchwork", 1 ]
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_elastics" } ],
     "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "rubber_cement", 2 ] ] ],
     "flags": [ "SECRET" ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "scrap_lycra", 4 ] ]
@@ -223,7 +223,7 @@
       [ "tailoring_cotton_patchwork", 1 ]
     ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_polymerworking" } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_elastics" }, { "proficiency": "prof_polymerworking" } ],
     "components": [ [ [ "chunk_rubber", 2 ] ], [ [ "thread_kevlar", 20 ] ], [ [ "rubber_cement", 2 ] ] ],
     "flags": [ "SECRET" ],
     "byproducts": [ [ "scrap_cotton", 5 ], [ "scrap_lycra", 4 ] ]

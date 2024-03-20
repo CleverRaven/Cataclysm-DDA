@@ -236,6 +236,7 @@
     "name": { "str_sp": "human flesh" },
     "description": "A chunk of raw meat, butchered from a human body.",
     "material": [ "hflesh" ],
+    "vitamins": [ [ "calcium", 2 ], [ "iron", 12 ], [ "human_flesh_vitamin", 100 ] ],
     "delete": { "flags": [ "PREDATOR_FUN" ] }
   },
   {
@@ -284,6 +285,8 @@
     "copy-from": "meat",
     "name": { "str_sp": "animal blood" },
     "description": "Blood extracted from a living creature.",
+    "weight": "262 g",
+    "volume": "250 ml",
     "parasites": 0,
     "material": "blood",
     "comestible_type": "DRINK",
@@ -348,7 +351,7 @@
     "copy-from": "flesh",
     "name": { "str": "slab of raw curing porkbelly", "str_pl": "slabs of raw curing porkbelly" },
     "description": "Porkbelly in the process of becoming fully cured with salt and sugar, capable of becoming bacon.  The flavor is slowly developing at this stage, and is significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
-    "weight": "296 g",
+    "weight": "275 g",
     "volume": "250ml",
     "calories": 1556,
     "price": 500,
@@ -385,6 +388,7 @@
     "looks_like": "meat_scrap",
     "name": { "str": "scrap of human flesh", "str_pl": "scraps of human flesh" },
     "description": "A tiny scrap of raw human flesh.",
+    "vitamins": [ [ "calcium", 0 ], [ "iron", 1 ], [ "human_flesh_vitamin", 10 ] ],
     "material": [ "hflesh" ]
   },
   {
@@ -415,6 +419,8 @@
     "copy-from": "mutant_meat",
     "name": { "str_sp": "mutant blood" },
     "description": "Blood extracted from a heavily mutated creature.",
+    "weight": "262 g",
+    "volume": "250 ml",
     "comestible_type": "DRINK",
     "parasites": 0,
     "looks_like": "blood",
@@ -452,6 +458,8 @@
     "name": { "str_sp": "mutant human blood" },
     "description": "Blood extracted from a heavily mutated human.",
     "comestible_type": "DRINK",
+    "weight": "262 g",
+    "volume": "250 ml",
     "parasites": 0,
     "looks_like": "blood",
     "symbol": "~",
@@ -688,7 +696,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str_sp": "roasted bone marrow" },
-    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "marvin marrow" } } ],
+    "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "marvin marrow" } } ],
     "description": "Bone marrow, fully cooked to eliminate any parasites.  Tasty!",
     "symbol": "%",
     "color": "red",
@@ -707,7 +715,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",
     "name": { "str_sp": "roasted pepper bone marrow" },
-    "conditional_names": [ { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "marvin marrow" } } ],
+    "conditional_names": [ { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "marvin marrow" } } ],
     "description": "Bone marrow, fully cooked to eliminate any parasites and properly seasoned with black pepper and salt.  Tasty!",
     "symbol": "%",
     "color": "red",
@@ -837,7 +845,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "meat jerky" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "jerk jerky" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "jerk jerky" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "talking animal jerky" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "monster jerky" } }
     ],
@@ -897,7 +905,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "smoked meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "smoked sucker" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "smoked sucker" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "smoked Narnian" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],
@@ -1537,6 +1545,8 @@
     "copy-from": "meat_tainted",
     "name": { "str_sp": "tainted blood" },
     "description": "Blood that's obviously unhealthy.  You could drink it, but it will poison you.",
+    "weight": "262 g",
+    "volume": "250 ml",
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
@@ -1587,12 +1597,13 @@
     "flags": [ "TRADER_AVOID", "RAW" ]
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "bone_human",
     "copy-from": "bone",
     "name": { "str": "human bone" },
     "description": "A bone from a human being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "flags": [ "CANNIBALISM" ]
+    "//": "No extend support for vitamins, we need to overwrite",
+    "vitamins": [ [ "calcium", 96 ], [ "human_flesh_vitamin", 100 ] ]
   },
   {
     "type": "GENERIC",
@@ -1952,6 +1963,8 @@
     "copy-from": "demihuman_flesh",
     "name": { "str_sp": "demihuman blood" },
     "description": "Blood extracted from a demihuman.",
+    "weight": "262 g",
+    "volume": "250 ml",
     "comestible_type": "DRINK",
     "parasites": 0,
     "looks_like": "blood",
@@ -1998,7 +2011,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "fried meat" },
     "conditional_names": [
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "fried fool" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "fried fool" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "fried familiar" } },
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "%s, mutant" } }
     ],

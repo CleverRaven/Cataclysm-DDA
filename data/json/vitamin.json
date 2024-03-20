@@ -524,5 +524,14 @@
     "rate": "-12 s",
     "flags": [ "NO_DISPLAY" ],
     "disease": [ [ -7510, -20000 ], [ -20010, -35000 ], [ -35010, -50000 ] ]
+  },
+  {
+    "id": "human_flesh_vitamin",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Consumed human flesh" },
+    "min": 0,
+    "max": 10000,
+    "rate": "1 h"
   }
 ]

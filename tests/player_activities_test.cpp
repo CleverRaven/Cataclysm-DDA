@@ -240,7 +240,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
             WHEN( "player is safecracking" ) {
-                dummy.moves += dummy.get_speed();
+                dummy.mod_moves( dummy.get_speed() );
                 for( int i = 0; i < 100; ++i ) {
                     dummy.activity.do_turn( dummy );
                 }
@@ -436,7 +436,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
-            dummy.moves += dummy.get_speed();
+            dummy.mod_moves( dummy.get_speed() );
             for( int i = 0; i < 100; ++i ) {
                 dummy.activity.do_turn( dummy );
             }
@@ -711,7 +711,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( boltcutter_elec );
-                        dummy.moves = dummy.get_speed();
+                        dummy.mod_moves( dummy.get_speed() );
                         dummy.activity.do_turn( dummy );
                         CHECK( dummy.activity.id() == ACT_BOLTCUTTING );
                         CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_boltcut3->boltcut->duration() ) );
@@ -976,7 +976,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( hacksaw_elec );
-                        dummy.moves = dummy.get_speed();
+                        dummy.mod_moves( dummy.get_speed() );
                         dummy.activity.do_turn( dummy );
                         CHECK( dummy.activity.id() == ACT_HACKSAW );
                         CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_hacksaw3->hacksaw->duration() ) );
@@ -1231,7 +1231,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( welding_torch );
-                        dummy.moves = dummy.get_speed();
+                        dummy.mod_moves( dummy.get_speed() );
                         dummy.activity.do_turn( dummy );
                         CHECK( dummy.activity.id() == ACT_OXYTORCH );
                         CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_oxytorch3->oxytorch->duration() ) );
