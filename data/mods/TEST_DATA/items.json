@@ -2985,7 +2985,7 @@
     "weight": "100 g",
     "color": "brown",
     "spoils_in": "2 days",
-    "vitamins": [ [ "mutagen", 60 ] ],
+    "vitamins": [ [ "mutagen", 60 ], [ "human_flesh_vitamin", 100 ] ],
     "flags": [ "TRADER_AVOID", "NUTRIENT_OVERRIDE" ],
     "comestible_type": "FOOD",
     "symbol": "%",

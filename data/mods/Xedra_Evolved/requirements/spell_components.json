@@ -146,5 +146,21 @@
     "type": "requirement",
     "tools": [  ],
     "components": [ [ [ "salt", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extra_lock_door",
+    "type": "requirement",
+    "components": [ [ [ "string_6", 3 ], [ "cordage_6", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_clairvoyance_cone",
+    "type": "requirement",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_increase_healing_rate",
+    "type": "requirement",
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "wild_herbs", 50 ] ], [ [ "willowbark", 4 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
   }
 ]

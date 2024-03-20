@@ -1985,6 +1985,9 @@ class item : public visitable
         void unset_flags();
         /*@}*/
 
+        /**Does this item have the specified vitamin*/
+        bool has_vitamin( const vitamin_id &vitamin ) const;
+
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
 
@@ -3269,11 +3272,6 @@ inline bool is_crafting_component( const item &component )
  * Filter for crafting components first pass searches excluding undesirable properties.
  */
 bool is_preferred_component( const item &component );
-
-/**
- * Filter for empty crafting components first pass searches
- */
-bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H
 

@@ -1252,7 +1252,7 @@
     "description": "You spent hours welding discarded scrap into large and intricate designs.  Some said you were just welding junk into bigger junk.  You call it art.",
     "points": 2,
     "skills": [ { "level": 2, "name": "fabrication" } ],
-    "proficiencies": [ "prof_welding_basic" ]
+    "proficiencies": [ "prof_metalworking", "prof_welding_basic" ]
   },
   {
     "type": "profession",
