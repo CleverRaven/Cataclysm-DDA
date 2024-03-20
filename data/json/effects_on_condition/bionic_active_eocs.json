@@ -1,0 +1,7 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "refund_power",
+    "effect": { "math": [ "u_val('power')", "+=", "_act_cost" ] }
+  }
+]
