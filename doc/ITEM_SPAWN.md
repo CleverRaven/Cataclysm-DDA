@@ -6,7 +6,7 @@ In a Collection each entry is chosen independently from the other entries.  Ther
 
 A probability of 0 (or negative) means the entry is never chosen; a probability of 100% means it's always chosen.  The default is 100, because it's the most useful value.  A default of 0 would mean the entry could be removed anyway.
 
-A Distribution is a weighted list.  Exactly one entry is chosen from it.  The probability of each entry is relative to the probability of the other entries.  A probability of 0 (or negative) means it is never chosen.
+A Distribution is a weighted list.  Exactly one entry is chosen from it.  The probability of each entry is relative to the probability of the other entries.  A probability of 0 (or negative) means it is never chosen. Probability has to be a whole integer.
 
 An example: Suppose item A has a probability of 30 and item B has a probability of 20. Then the probabilities of the 4 combinations of A and B are:
 
