@@ -38,9 +38,13 @@ jobs:
         run: |
           echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
+      - name: Generate Release Notes
+        id: generate-release-notes
+        run: |
+          node build-scripts/generate-release-notes.js '${{ secrets.GITHUB_TOKEN }}' '${{ steps.generate_env_vars.outputs.tag_name }}' "$(git log -1 --format='%H')" > notes.txt
       - uses: actions/checkout@v4
       - run: |
-          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
   builds:
     needs: release
