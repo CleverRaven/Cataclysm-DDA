@@ -153,7 +153,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
 
     // set move value to 0 so we know how many
     // move points were spent opening and closing gates
-    they.moves = 0;
+    they.set_moves( 0 );
 
     WHEN( "avatar opens door" ) {
         REQUIRE( here.ter_set( pos, t_door_c ) );
@@ -162,7 +162,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
         THEN( "avatar should spend move points" ) {
-            CHECK( they.moves == -open_move_cost );
+            CHECK( they.get_moves() == -open_move_cost );
         }
     }
     WHEN( "avatar fails to open locked door" ) {
@@ -172,7 +172,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
         REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
 
         THEN( "avatar should not spend move points" ) {
-            CHECK( they.moves == 0 );
+            CHECK( they.get_moves() == 0 );
         }
     }
     GIVEN( "that avatar is outdoors" ) {
@@ -185,7 +185,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
             REQUIRE_FALSE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
-                CHECK( they.moves == 0 );
+                CHECK( they.get_moves() == 0 );
             }
         }
     }
@@ -224,7 +224,7 @@ TEST_CASE( "character_should_lose_moves_when_opening_or_closing_doors_or_windows
             REQUIRE( avatar_action::move( they, here, tripoint_east ) );
 
             THEN( "avatar should spend move points" ) {
-                CHECK( they.moves == -open_move_cost );
+                CHECK( they.get_moves() == -open_move_cost );
             }
         }
     }

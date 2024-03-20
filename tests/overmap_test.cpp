@@ -349,7 +349,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
         CAPTURE( oter_type_id );
         const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
             tinymap tm;
-            tm.load( project_to<coords::sm>( pos ), false );
+            tm.load( pos, false );
 
             // Periodically clear the generated maps to save memory
             if( ++num_generated_since_last_clear >= 64 ) {

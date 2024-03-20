@@ -50,7 +50,7 @@
       "furniture": { "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 50, "repeat": [ 2, 3 ] } },
       "place_loot": [
-        { "group": "toy_store", "x": [ 5, 10 ], "y": [ 6, 7 ], "chance": 50, "repeat": [ 4, 6 ] },
+        { "group": "toy_box", "x": [ 5, 10 ], "y": [ 6, 7 ], "chance": 50, "repeat": [ 4, 6 ] },
         { "item": "backpack", "x": 7, "y": 5, "chance": 60 },
         { "item": "talking_doll", "x": 5, "y": 8, "chance": 60 }
       ],

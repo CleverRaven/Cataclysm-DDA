@@ -659,6 +659,53 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "multi_cooker",
+    "copy-from": "multi_cooker",
+    "type": "TOOL",
+    "//": "Makes it look more sci-fi so it isnt out of place, not many actual changes otherwise.",
+    "name": { "str": "micro-cooker" },
+    "description": "A rugged kitchen in one tool, made for use within small spaceships or in the wilderness.  It can automatically prepare a variety of dishes while its owner focuses on other tasks.",
+    "weight": "5 kg",
+    "volume": "3 L",
+    "price": "1500 USD",
+    "price_postapoc": "1500 USD",
+    "to_hit": -3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "battery" ],
+    "flags": [ "ELECTRONIC", "ALLOWS_REMOTE_USE" ],
+    "power_draw": "100 W",
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "tick_action": "MULTICOOKER_TICK",
+    "use_action": [ "MULTICOOKER", { "type": "link_up", "cable_length": 2, "charge_rate": "1000 W" } ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "35 cm",
+        "moves": 50
+      }
+    ]
+  },
+  {
+    "id": "multi_cooker_filled",
+    "type": "TOOL",
+    "copy-from": "multi_cooker",
+    "name": { "str": "micro-cooker - cooking", "str_pl": "micro-cookers - cooking" },
+    "description": "This micro-cooker is currently cooking a dish.",
+    "delete": { "qualities": [ "CONTAIN" ] }
+  },
+  {
     "id": "military_mess_kit",
     "type": "TOOL",
     "name": { "str": "military mess kit" },

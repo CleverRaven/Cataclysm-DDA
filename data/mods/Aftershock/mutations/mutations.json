@@ -523,7 +523,7 @@
     "points": 4,
     "visibility": 10,
     "ugliness": 3,
-    "bodytemp_sleep": 550,
+    "enchantments": [ { "values": [ { "value": "BODYTEMP_SLEEP", "add": 1.1 } ] } ],
     "description": "Your fur has grown out and thickened, providing great protection from attacks as well as considerable insulation.",
     "types": [ "SKIN" ],
     "prereqs": [ "FUR" ],
@@ -793,6 +793,16 @@
     "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
     "bodytemp_modifiers": [ -850, 850 ],
     "points": 0,
+    "valid": false,
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_LEADERSHIP",
+    "name": "Empathic Leadership",
+    "description": "You have a natural talent for leadership and can easily see yourself in others.  Quite literally.  In fact, you can swap control to any other character that follows you.",
+    "points": 5,
     "valid": false,
     "purifiable": false,
     "profession": true
