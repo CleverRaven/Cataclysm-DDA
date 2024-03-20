@@ -176,6 +176,8 @@ jobs:
         ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
