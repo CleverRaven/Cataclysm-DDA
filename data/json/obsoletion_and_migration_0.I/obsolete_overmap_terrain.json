@@ -45,6 +45,16 @@
   },
   {
     "type": "oter_id_migration",
+    "//": "migrated in 0.I",
+    "oter_ids": {
+      "meadow_core_north": "meadow_core",
+      "meadow_core_east": "meadow_core",
+      "meadow_core_south": "meadow_core",
+      "meadow_core_west": "meadow_core"
+    }
+  },
+  {
+    "type": "oter_id_migration",
     "//": "obsoleted in 0.G, but no migration in 0.G so to be removed after 0.I stable",
     "oter_ids": {
       "apartments_con_tower_001_east": "omt_obsolete",

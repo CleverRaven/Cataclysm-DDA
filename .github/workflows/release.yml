@@ -8,6 +8,7 @@ on:
       - '.github/workflows/release.yml'
       - 'android/**'
       - 'build-data/**'
+      - 'build-scripts/generate-release-notes.js'
       - 'cataclysm-launcher'
       - 'data/**'
       - 'doc/**'
@@ -20,6 +21,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
 
 jobs:
   release:
@@ -39,8 +41,13 @@ jobs:
           echo "tag_name=cdda-experimental-${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
           echo "release_name=Cataclysm-DDA experimental build ${{ steps.get-timestamp.outputs.time }}" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v4
+      - name: Generate Release Notes
+        id: generate-release-notes
+        run: |
+          npm install @actions/github
+          node build-scripts/generate-release-notes.js '${{ secrets.GITHUB_TOKEN }}' '${{ steps.generate_env_vars.outputs.tag_name }}' "$(git log -1 --format='%H')" > notes.txt
       - run: |
-          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --generate-notes --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
+          gh release create ${{ steps.generate_env_vars.outputs.tag_name }} --notes-file notes.txt --prerelease --title "${{ steps.generate_env_vars.outputs.release_name }}" --target "$(git log -1 --format='%H')"
 
   builds:
     needs: release
@@ -176,6 +183,8 @@ jobs:
         ZSTD_CLEVEL: 17
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
       - name: Get soundpack
         if: matrix.sound == 1
         run: |

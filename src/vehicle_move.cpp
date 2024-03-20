@@ -1434,7 +1434,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         // - 50% Skill at Per/Dex 12: 1-in-18 chance
     }
     if( z != 0 && is_rotorcraft() ) {
-        driver.moves = std::min( driver.moves, 0 );
+        driver.set_moves( std::min( driver.get_moves(), 0 ) );
         thrust( 0, z );
     }
     units::angle turn_delta = vehicles::steer_increment * p.x;
@@ -1460,7 +1460,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
 
         // If you've got more moves than speed, it's most likely time stop
         // Let's get rid of that
-        driver.moves = std::min( driver.moves, driver.get_speed() );
+        driver.set_moves( std::min( driver.get_moves(), driver.get_speed() ) );
 
         ///\EFFECT_DEX reduces chance of losing control of vehicle when turning
 
@@ -1500,7 +1500,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
                 fumble_time = 2;
             }
             turn_delta *= fumble_factor;
-            cost = std::max( cost, driver.moves + fumble_time * 100 );
+            cost = std::max( cost, driver.get_moves() + fumble_time * 100 );
         } else if( one_in( 10 ) ) {
             // Don't warn all the time or it gets spammy
             if( cost >= driver.get_speed() * 2 ) {
@@ -1513,7 +1513,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         turn( turn_delta );
 
         // At most 3 turns per turn, because otherwise it looks really weird and jumpy
-        driver.moves -= std::max( cost, driver.get_speed() / 3 + 1 );
+        driver.mod_moves( -std::max( cost, driver.get_speed() / 3 + 1 ) );
     }
 
     if( p.y != 0 ) {

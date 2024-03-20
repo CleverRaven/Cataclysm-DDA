@@ -1414,7 +1414,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
     // pldrive() does not handle steering multiple times in one call correctly
     // call it multiple times, matching how a player controls the vehicle
     for( int i = 0; i < std::abs( turn_delta ); i++ ) {
-        if( driver.moves <= 0 ) {
+        if( driver.get_moves() <= 0 ) {
             // we couldn't steer as many times as we wanted to but there's
             // nothing we can do about it now, hope we don't crash!
             break;
