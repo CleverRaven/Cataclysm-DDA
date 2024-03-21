@@ -40,5 +40,25 @@
         "then": [ { "u_add_effect": "teleglow", "duration": [ "5 minutes", "40 minutes" ] } ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics",
+    "//": "Sound of hissing hydraulic muscle! (not quite as loud as a car horn)",
+    "effect": [
+      { "u_message": "Your muscles hiss as hydraulic strength fills them!", "type": "good" },
+      { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
+      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_hydraulics_act",
+    "condition": { "u_has_effect": "bio_hydraulics_eff" },
+    "//": "Sound of hissing hydraulic muscle! (not quite as loud as a car horn)",
+    "effect": [
+      { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
+      { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
+    ]
   }
 ]
