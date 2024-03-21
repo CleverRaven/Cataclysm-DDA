@@ -73,6 +73,7 @@ if (TILES)
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_rectpack.h
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_textedit.h
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_truetype.h
+                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_demo.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_draw.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_tables.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_widgets.cpp
@@ -134,6 +135,7 @@ if (CURSES)
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_rectpack.h
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_textedit.h
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imstb_truetype.h
+                ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_demo.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_draw.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_tables.cpp
                 ${THIRD_PARTY_SOURCE_DIR}/imgui/imgui_widgets.cpp
