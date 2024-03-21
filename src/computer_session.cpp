@@ -4,10 +4,8 @@
 #include <cstdlib>
 #include <functional>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
@@ -32,8 +30,8 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
-#include "item_factory.h"
 #include "item_location.h"
 #include "line.h"
 #include "map.h"
@@ -43,6 +41,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -239,7 +238,8 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
         Security += ( comp.alerts * 2 );
     }
 
-    you.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
+    you.mod_moves( -( 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 ) ) );
+
     int player_roll = round( you.get_greater_skill_or_knowledge_level(
                                  skill_computer ) ); //this relates to the success of the roll for hacking - the practical skill covers the time.
     ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
@@ -304,6 +304,7 @@ computer_session::computer_action_functions = {
     { COMPACT_GEIGER, &computer_session::action_geiger },
     { COMPACT_IRRADIATOR, &computer_session::action_irradiator },
     { COMPACT_LIST_BIONICS, &computer_session::action_list_bionics },
+    { COMPACT_LIST_MUTATIONS, &computer_session::action_list_mutations },
     { COMPACT_LOCK, &computer_session::action_lock },
     { COMPACT_MAP_SEWER, &computer_session::action_map_sewer },
     { COMPACT_MAP_SUBWAY, &computer_session::action_map_subway },
@@ -385,7 +386,7 @@ void computer_session::activate_function( computer_action action )
     const auto it = computer_action_functions.find( action );
     if( it != computer_action_functions.end() ) {
         // Token move cost for any action, if an action takes longer decrement moves further.
-        get_player_character().moves -= 30;
+        get_player_character().mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
         ( this->*( it->second ) )();
     }
 }
@@ -461,7 +462,7 @@ void computer_session::action_toll()
 
 void computer_session::action_sample()
 {
-    get_player_character().moves -= 30;
+    get_player_character().mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
         if( here.ter( p ) != t_sewage_pump ) {
@@ -589,7 +590,7 @@ void computer_session::action_research()
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
     } else {
-        get_player_character().moves -= 70;
+        get_player_character().mod_moves( -to_moves<int>( 1_seconds ) * 0.7 );
     }
 
     print_text( "%s", log.value() );
@@ -607,7 +608,7 @@ void computer_session::action_research()
 
 void computer_session::action_radio_archive()
 {
-    get_player_character().moves -= 300;
+    get_player_character().mod_moves( -to_moves<int>( 3_seconds ) );
     sfx::fade_audio_channel( sfx::channel::radio, 100 );
     sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, sfx::channel::radio,
                                      2000 );
@@ -625,7 +626,7 @@ void computer_session::action_radio_archive()
 void computer_session::action_maps()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     const tripoint_abs_omt center = player_character.global_omt_location();
     overmap_buffer.reveal( center.xy(), 40, 0 );
     query_any(
@@ -637,7 +638,7 @@ void computer_session::action_maps()
 void computer_session::action_map_sewer()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
@@ -656,7 +657,7 @@ void computer_session::action_map_sewer()
 void computer_session::action_map_subway()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
@@ -747,7 +748,7 @@ void computer_session::action_miss_launch()
 
 void computer_session::action_list_bionics()
 {
-    get_player_character().moves -= 30;
+    get_player_character().mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     std::vector<std::string> names;
     int more = 0;
     map &here = get_map();
@@ -780,6 +781,64 @@ void computer_session::action_list_bionics()
     query_any( _( "Press any key…" ) );
 }
 
+void computer_session::action_list_mutations()
+{
+    uilist ssmenu;
+    std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
+    mutation_categories_list.reserve( mutations_category.size() );
+    for( const std::pair<const mutation_category_id, std::vector<trait_id> > &mut_cat :
+         mutations_category ) {
+        mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
+    }
+    ssmenu.text = _( "Choose mutation category" );
+    std::sort( mutation_categories_list.begin(), mutation_categories_list.end(), localized_compare );
+    int menu_ind = 0;
+    for( const std::pair<std::string, mutation_category_id> &mut_cat : mutation_categories_list ) {
+        ssmenu.addentry( menu_ind, true, MENU_AUTOASSIGN, mut_cat.first );
+        ++menu_ind;
+    }
+    ssmenu.query();
+
+    if( ssmenu.ret >= 0 && ssmenu.ret < static_cast< int >( mutation_categories_list.size() ) ) {
+        const mutation_category_trait &category = mutation_category_trait::get_category(
+                    mutation_categories_list[ssmenu.ret].second );
+        const std::vector<trait_id> category_mutations = mutations_category[category.id];
+
+        uilist wmenu;
+
+        wmenu.w_x_setup = 30;
+
+        for( const trait_id &traits_iter : category_mutations ) {
+            wmenu.addentry( -1, true, -2, traits_iter.obj().name() );
+        }
+
+        do {
+            wmenu.query();
+
+            if( wmenu.ret >= 0 && wmenu.ret < static_cast< int >( category_mutations.size() ) ) {
+                const mutation_branch &mdata = category_mutations[wmenu.ret].obj();
+                reset_terminal();
+                print_text( _( "Description: %s" ), colorize( mdata.desc(), c_white ) );
+
+                if( !mdata.replacements.empty() ) {
+                    print_indented_line( 1, width - 2, _( "Changes to:" ) );
+                    for( const trait_id &replacement : mdata.replacements ) {
+                        print_indented_line( 1, width - 2, _( "%s" ), colorize( replacement->name(), c_white ) );
+                    }
+                    print_newline();
+                }
+
+                if( !mdata.cancels.empty() ) {
+                    print_indented_line( 1, width - 2, _( "Cancels:" ) );
+                    for( const trait_id &cancel : mdata.cancels ) {
+                        print_indented_line( 1, width - 2, _( "%s" ), colorize( cancel->name(), c_white ) );
+                    }
+                }
+            }
+        } while( wmenu.ret >= 0 );
+    }
+}
+
 void computer_session::action_elevator_on()
 {
     map &here = get_map();
@@ -796,7 +855,7 @@ void computer_session::action_amigara_log()
     get_timed_events().add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 5_minutes );
 
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     reset_terminal();
     point_abs_sm abs_sub = get_map().get_abs_sub().xy();
     print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
@@ -805,7 +864,7 @@ void computer_session::action_amigara_log()
     if( !query_bool( _( "Continue reading?" ) ) ) {
         return;
     }
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     reset_terminal();
     print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
     print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
@@ -813,7 +872,7 @@ void computer_session::action_amigara_log()
     if( !query_bool( _( "Continue reading?" ) ) ) {
         return;
     }
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     reset_terminal();
     print_line( _( "NEPower Mine%s Log" ), abs_sub.to_string() );
     print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
@@ -834,7 +893,7 @@ void computer_session::action_amigara_log()
     if( !query_bool( _( "Continue reading?" ) ) ) {
         return;
     }
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     reset_terminal();
     tripoint_abs_sm abs_loc = get_map().get_abs_sub();
     print_line( _( "SITE %d%d%d\n"
@@ -924,7 +983,7 @@ void computer_session::action_download_software()
             debugmsg( _( "Computer couldn't find its mission!" ) );
             return;
         }
-        get_player_character().moves -= 30;
+        get_player_character().mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
         item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
         usb->clear_items();
@@ -939,7 +998,7 @@ void computer_session::action_download_software()
 void computer_session::action_blood_anal()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 70;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.7 );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
         if( here.furn( dest ) == furn_f_centrifuge ) {
@@ -987,7 +1046,7 @@ void computer_session::action_blood_anal()
 void computer_session::action_data_anal()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
         if( here.ter( dest ) == t_floor_blue ) {
@@ -1214,7 +1273,7 @@ void computer_session::action_srcf_elevator()
 void computer_session::action_irradiator()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     bool error = false;
     bool platform_exists = false;
     map &here = get_map();
@@ -1224,7 +1283,7 @@ void computer_session::action_irradiator()
             if( here.i_at( dest ).empty() ) {
                 print_error( _( "ERROR: Processing platform empty." ) );
             } else {
-                player_character.moves -= 300;
+                player_character.mod_moves( -to_moves<int>( 3_seconds ) );
                 for( auto it = here.i_at( dest ).begin(); it != here.i_at( dest ).end(); ++it ) {
                     // actual food processing
                     if( !it->rotten() ) {
@@ -1293,7 +1352,7 @@ void computer_session::action_irradiator()
 void computer_session::action_geiger()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     tripoint platform;
     bool source_exists = false;
     int sum_rads = 0;
@@ -1336,7 +1395,7 @@ void computer_session::action_geiger()
 void computer_session::action_conveyor()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 300;
+    player_character.mod_moves( -to_moves<int>( 3_seconds ) );
     tripoint loading; // red tile = loading bay
     tripoint unloading; // green tile = unloading bay
     tripoint platform; // radiation platform = middle point
@@ -1390,7 +1449,7 @@ void computer_session::action_conveyor()
 void computer_session::action_shutters()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 300;
+    player_character.mod_moves( -to_moves<int>( 3_seconds ) );
     get_map().translate_radius( t_reinforced_glass_shutter_open, t_reinforced_glass_shutter, 8.0,
                                 player_character.pos(),
                                 true, true );
@@ -1402,7 +1461,7 @@ void computer_session::action_extract_rad_source()
 {
     Character &player_character = get_player_character();
     if( query_yn( _( "Operation irreversible.  Extract radioactive material?" ) ) ) {
-        player_character.moves -= 300;
+        player_character.mod_moves( -to_moves<int>( 3_seconds ) );
         tripoint platform;
         bool p_exists = false;
         map &here = get_map();
@@ -1428,7 +1487,7 @@ void computer_session::action_extract_rad_source()
 void computer_session::action_deactivate_shock_vent()
 {
     Character &player_character = get_player_character();
-    player_character.moves -= 30;
+    player_character.mod_moves( -to_moves<int>( 1_seconds ) * 0.3 );
     bool has_vent = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {

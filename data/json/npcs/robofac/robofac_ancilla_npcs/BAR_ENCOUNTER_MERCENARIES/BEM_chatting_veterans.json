@@ -32,7 +32,7 @@
     ],
     "responses": [
       {
-        "text": "Bar… barshender!  we… we?",
+        "text": "Bar… barshender!  We… we?",
         "effect": [
           "end_conversation",
           { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] }

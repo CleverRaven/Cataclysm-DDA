@@ -17,6 +17,7 @@ class mission;
 struct mapgen_arguments;
 struct mapgen_parameters;
 struct point;
+class tinymap;
 struct tripoint;
 
 using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
@@ -57,6 +58,7 @@ void mapgen_ravine_edge( mapgendata &dat );
 // Temporary wrappers
 void mremove_trap( map *m, const point &, trap_id type );
 void mtrap_set( map *m, const point &, trap_id type, bool avoid_creatures = false );
+void mtrap_set( tinymap *m, const point &, trap_id type, bool avoid_creatures = false );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
 void mremove_fields( map *m, const point & );
 
@@ -69,6 +71,10 @@ bool run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
                              bool cancel_on_collision = true );
 void set_queued_points();
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
+bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
+                                const tripoint_abs_omt &omt_pos,
+                                const mapgen_arguments &args, bool mirror_horizontal,
+                                bool mirror_vertical, int rotation, bool apply );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>>
         get_changed_ids_from_update(
             const update_mapgen_id &, const mapgen_arguments &,

@@ -6,27 +6,57 @@
     "//1": "This is the final list that spawns somewhere in a police locker.",
     "subtype": "distribution",
     "entries": [
-      { "group": "police_armory_any_9mm", "prob": 45 },
+      { "group": "police_armory_any_9mm", "prob": 60 },
+      { "group": "police_armory_any_357sig", "prob": 5 },
       { "group": "police_armory_any_40", "prob": 30 },
-      { "group": "police_armory_any_five7", "prob": 10 },
-      { "group": "police_armory_usp_45", "prob": 15 }
+      { "group": "police_armory_any_45", "prob": 20 },
+      { "group": "police_armory_five7", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
     "id": "police_armory_any_assaultrifle",
-    "//": "Weighted list of midrange rifles for police (ar-15 and 223 or m4 and 556) and their ammo.",
+    "//": "Weighted list of short-to-medium-range longarms used by police that aren't shotguns.  Submachine guns are included here.  Weighted heavily towards .223/556 and AR-15s.",
     "//1": "This is the final list that spawns somewhere in a police locker.",
     "subtype": "distribution",
-    "entries": [ { "group": "police_armory_ar15_223", "prob": 80 }, { "group": "police_armory_m4_556", "prob": 20 } ]
+    "entries": [
+      { "group": "police_armory_patrolrifle_stanag", "prob": 80 },
+      { "group": "police_armory_any_smg", "prob": 20 },
+      { "group": "police_armory_mini14", "prob": 5 },
+      { "group": "police_armory_m1a", "prob": 5 },
+      { "group": "police_armory_aug", "prob": 1 },
+      { "group": "police_armory_g36", "prob": 1 },
+      { "group": "police_armory_hk417", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_any_smg",
+    "//": "Weighted list of submachine guns for police and their ammo.  Though largely replaced by 5.56 carbines, these still have a presence in police lockers.  Weighted towards 9mm MP5 variants and UMP variants.",
+    "//1": "This is a semifinal list that applies to the item group above.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "police_armory_any_9mm_smg", "prob": 50 },
+      { "group": "police_armory_ump40", "prob": 30 },
+      { "group": "police_armory_ump45", "prob": 25 },
+      { "group": "police_armory_p90", "prob": 3 },
+      { "group": "police_armory_mp7", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",
     "id": "police_armory_any_sniperrifle",
-    "//": "Weighted list of sniper rifles for police (m24 or remington 700) and their ammo.",
+    "//": "Weighted list of sniper rifles for police and their ammo.  Weighted heavily towards .308 and the M24 (standing in for the Remington 700 Police in .308), but also rarely includes some modern and powerful rifles.",
     "//1": "This is the final list that spawns somewhere in a police locker.",
     "subtype": "distribution",
-    "entries": [ { "group": "police_armory_M24", "prob": 50 }, { "group": "police_armory_remington_700", "prob": 50 } ]
+    "entries": [
+      { "group": "police_armory_any_308sniper", "prob": 85 },
+      { "group": "police_armory_ar15sniper", "prob": 10 },
+      { "group": "police_armory_remington_700", "prob": 5 },
+      { "group": "police_armory_axmc_300", "prob": 5 },
+      { "group": "police_armory_any_338sniper", "prob": 4 },
+      { "group": "police_armory_any_50sniper", "prob": 1 }
+    ]
   },
   {
     "type": "item_group",
@@ -47,9 +77,24 @@
     "//": "Pick one of multiple interchangeable 9mm variants and its ammo.",
     "subtype": "distribution",
     "entries": [
-      { "group": "police_armory_usp_9mm", "prob": 25 },
-      { "group": "police_armory_glock_19", "prob": 50 },
-      { "group": "police_armory_m9", "prob": 25 }
+      { "group": "police_armory_usp_9mm", "prob": 5 },
+      { "group": "police_armory_glock_19", "prob": 30 },
+      { "group": "police_armory_glock_17", "prob": 45 },
+      { "group": "police_armory_m9", "prob": 5 },
+      { "group": "police_armory_sp2022", "prob": 10 },
+      { "group": "police_armory_px4_9mm", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_any_9mm_smg",
+    "//": "Pick one of multiple interchangeable 9mm smg variants and its ammo.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "police_armory_mp5", "prob": 80 },
+      { "group": "police_armory_coltsmg", "prob": 10 },
+      { "group": "police_armory_apc9", "prob": 5 },
+      { "group": "police_armory_ump9", "prob": 5 }
     ]
   },
   {
@@ -90,16 +135,184 @@
   },
   {
     "type": "item_group",
+    "id": "police_armory_glock_17",
+    "//": "One or more Glock 17 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "glock_17" },
+      { "item": "glock_17", "prob": 50 },
+      { "item": "glock_17", "prob": 25 },
+      { "item": "glock17_17", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_glock17mag_9mm", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_glock17mag_9mmfmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_9mm" },
+      { "group": "police_armory_boxes_9mmfmj" },
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "police_armory_m9",
     "//": "One or more Beretta 9mm pistols, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
     "subtype": "collection",
     "entries": [
-      { "item": "m9" },
-      { "item": "m9", "prob": 50 },
-      { "item": "m9", "prob": 25 },
+      { "item": "m9", "variant": "m9" },
+      { "item": "m9", "variant": "m9", "prob": 50 },
+      { "item": "m9", "variant": "m9", "prob": 25 },
       { "item": "m9mag", "count": [ 1, 4 ] },
       { "group": "police_armory_full_m9mag_9mm", "count": [ 0, 4 ] },
       { "group": "police_armory_full_m9mag_9mmfmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_9mm" },
+      { "group": "police_armory_boxes_9mmfmj" },
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_sp2022",
+    "//": "One or more SIG SP2022 9mm pistols, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "sp2022" },
+      { "item": "sp2022", "prob": 50 },
+      { "item": "sp2022", "prob": 25 },
+      { "item": "sp2022mag_15rd_9mm", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_sp2022mag_9mm", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_sp2022mag_9mmfmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_9mm" },
+      { "group": "police_armory_boxes_9mmfmj" },
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_px4_9mm",
+    "//": "One or more Px4 9mm pistols, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "px4" },
+      { "item": "px4", "prob": 50 },
+      { "item": "px4", "prob": 25 },
+      { "item": "px4mag", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_px4mag_9mm", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_px4mag_9mmfmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_9mm" },
+      { "group": "police_armory_boxes_9mmfmj" },
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_mp5",
+    "//": "One or more mp5-type submachine guns, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_mp5_pick" },
+      { "item": "mp5mag", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_mp5mag_9mm", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_mp5mag_9mmfmj", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_9mm" },
+      { "group": "police_armory_boxes_9mmfmj" },
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_mp5_pick",
+    "//": "Chooses the MP5 type that will spawn in the above group.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "police_armory_mp5standard_pick", "prob": 85 },
+      { "group": "police_armory_mp5sd_pick", "prob": 10 },
+      { "group": "police_armory_mp5k_pick", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_mp5standard_pick",
+    "//": "1-3 guns of the same type",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp5", "contents-item": [ "sights_mount", "red_dot_sight", "suppressor" ] },
+      { "item": "hk_mp5", "contents-item": [ "sights_mount", "red_dot_sight", "suppressor" ], "prob": 50 },
+      { "item": "hk_mp5", "contents-item": [ "sights_mount", "red_dot_sight", "suppressor" ], "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_mp5sd_pick",
+    "//": "1-3 guns of the same type",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp5sd", "contents-item": [ "sights_mount", "red_dot_sight" ] },
+      { "item": "hk_mp5sd", "contents-item": [ "sights_mount", "red_dot_sight" ], "prob": 50 },
+      { "item": "hk_mp5sd", "contents-item": [ "sights_mount", "red_dot_sight" ], "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_mp5k_pick",
+    "//": "1-3 guns of the same type",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp5k", "contents-item": [ "sights_mount", "red_dot_sight", "suppressor" ] },
+      { "item": "hk_mp5k", "contents-item": [ "sights_mount", "red_dot_sight", "suppressor" ], "prob": 50 },
+      { "item": "hk_mp5k", "contents-item": [ "sights_mount", "red_dot_sight", "suppressor" ], "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_coltsmg",
+    "//": "One or more Colt 635 submachine guns, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "colt_ro635" },
+      { "item": "colt_ro635", "prob": 50 },
+      { "item": "colt_ro635", "prob": 25 },
+      { "item": "uzimag", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_uzimag_9mm", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_uzimag_9mmfmj", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_9mm" },
+      { "group": "police_armory_boxes_9mmfmj" },
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_apc9",
+    "//": "One or more APC9k submachine guns, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bt_apc9k" },
+      { "item": "bt_apc9k", "prob": 50 },
+      { "item": "bt_apc9k", "prob": 25 },
+      { "item": "btmp9mag_9x19mm_30", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_mp9mag_9mm", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_mp9mag_9mmfmj", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_9mm" },
+      { "group": "police_armory_boxes_9mmfmj" },
+      { "group": "police_armory_boxes_9mmP", "prob": 25 },
+      { "group": "police_armory_boxes_9mmP2", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ump9",
+    "//": "One or more UMP-9 submachine guns, empty mags, full mags, JHP and FMJ ammo with a chance of +P and +P+ ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "modular_ump_9", "contents-item": [ "red_dot_sight", "suppressor" ] },
+      { "group": "modular_ump_9", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 50 },
+      { "group": "modular_ump_9", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 25 },
+      { "item": "ump9mag", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_ump9mag_9mm", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_ump9mag_9mmfmj", "count": [ 0, 3 ] },
       { "group": "police_armory_boxes_9mm" },
       { "group": "police_armory_boxes_9mmfmj" },
       { "group": "police_armory_boxes_9mmP", "prob": 25 },
@@ -135,6 +348,20 @@
     "entries": [ { "item": "9mmfmj", "charges": [ 15, 15 ] } ]
   },
   {
+    "id": "police_armory_full_glock17mag_9mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "glock17_17",
+    "entries": [ { "item": "9mm", "charges": [ 17, 17 ] } ]
+  },
+  {
+    "id": "police_armory_full_glock17mag_9mmfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "glock17_17",
+    "entries": [ { "item": "9mmfmj", "charges": [ 17, 17 ] } ]
+  },
+  {
     "id": "police_armory_full_m9mag_9mm",
     "type": "item_group",
     "subtype": "collection",
@@ -147,6 +374,90 @@
     "subtype": "collection",
     "container-item": "m9mag",
     "entries": [ { "item": "9mmfmj", "charges": [ 15, 15 ] } ]
+  },
+  {
+    "id": "police_armory_full_sp2022mag_9mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "sp2022mag_15rd_9mm",
+    "entries": [ { "item": "9mm", "charges": [ 15, 15 ] } ]
+  },
+  {
+    "id": "police_armory_full_sp2022mag_9mmfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "sp2022mag_15rd_9mm",
+    "entries": [ { "item": "9mmfmj", "charges": [ 15, 15 ] } ]
+  },
+  {
+    "id": "police_armory_full_px4mag_9mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "px4mag",
+    "entries": [ { "item": "9mm", "charges": [ 17, 17 ] } ]
+  },
+  {
+    "id": "police_armory_full_px4mag_9mmfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "px4mag",
+    "entries": [ { "item": "9mmfmj", "charges": [ 17, 17 ] } ]
+  },
+  {
+    "id": "police_armory_full_mp5mag_9mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "mp5mag",
+    "entries": [ { "item": "9mm", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_mp5mag_9mmfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "mp5mag",
+    "entries": [ { "item": "9mmfmj", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_uzimag_9mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "uzimag",
+    "entries": [ { "item": "9mm", "charges": [ 32, 32 ] } ]
+  },
+  {
+    "id": "police_armory_full_uzimag_9mmfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "uzimag",
+    "entries": [ { "item": "9mmfmj", "charges": [ 32, 32 ] } ]
+  },
+  {
+    "id": "police_armory_full_mp9mag_9mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "btmp9mag_9x19mm_30",
+    "entries": [ { "item": "9mm", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_mp9mag_9mmfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "btmp9mag_9x19mm_30",
+    "entries": [ { "item": "9mmfmj", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_ump9mag_9mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ump9mag",
+    "entries": [ { "item": "9mm", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_ump9mag_9mmfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ump9mag",
+    "entries": [ { "item": "9mmfmj", "charges": [ 30, 30 ] } ]
   },
   {
     "id": "police_armory_boxes_9mm",
@@ -250,18 +561,13 @@
   },
   {
     "type": "item_group",
-    "id": "police_armory_any_five7",
-    "//": "Weighted chance of silenced 57 vs normal 57.",
-    "subtype": "distribution",
-    "entries": [ { "group": "police_armory_five7", "prob": 85 }, { "group": "police_armory_five7_silenced", "prob": 15 } ]
-  },
-  {
-    "type": "item_group",
     "id": "police_armory_five7",
     "//": "One or more FiveSeveN pistols, empty mags, full mags, SS190 ammo and a chance of extra ammo.",
     "subtype": "collection",
     "entries": [
-      { "item": "fn57", "count": [ 1, 3 ] },
+      { "item": "fn57" },
+      { "item": "fn57", "prob": 50 },
+      { "item": "fn57", "prob": 25 },
       { "item": "fn57mag", "count": [ 1, 4 ] },
       { "group": "police_armory_full_fn57mag_57mm", "count": [ 1, 4 ] },
       { "group": "police_armory_boxes_57mm" },
@@ -270,15 +576,17 @@
   },
   {
     "type": "item_group",
-    "id": "police_armory_five7_silenced",
-    "//": "Suppressed FiveSeveNs, SB193 ammo, empty and full mags.",
+    "id": "police_armory_p90",
+    "//": "One or more P90 'submachine guns', empty mags, full mags, SS190 ammo and a chance of extra ammo.",
     "subtype": "collection",
     "entries": [
-      { "item": "fn57", "count": [ 1, 2 ], "contents-item": [ "suppressor_compact" ] },
-      { "item": "fn57mag", "count": [ 1, 3 ] },
-      { "group": "police_armory_full_fn57mag_57mm_ss", "count": [ 1, 3 ] },
-      { "group": "police_armory_boxes_57mm_ss" },
-      { "group": "police_armory_boxes_57mm_ss", "prob": 10 }
+      { "item": "fn_p90", "contents-item": [ "red_dot_sight", "suppressor_compact" ] },
+      { "item": "fn_p90", "contents-item": [ "red_dot_sight", "suppressor_compact" ], "prob": 50 },
+      { "item": "fn_p90", "contents-item": [ "red_dot_sight", "suppressor_compact" ], "prob": 25 },
+      { "item": "fnp90mag", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_p90mag_57mm", "count": [ 1, 4 ] },
+      { "group": "police_armory_boxes_57mm" },
+      { "group": "police_armory_boxes_57mm", "prob": 30 }
     ]
   },
   {
@@ -289,11 +597,11 @@
     "entries": [ { "item": "57mm", "charges": [ 20, 20 ] } ]
   },
   {
-    "id": "police_armory_full_fn57mag_57mm_ss",
+    "id": "police_armory_full_p90mag_57mm",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "fn57mag",
-    "entries": [ { "item": "57mm_ss", "charges": [ 20, 20 ] } ]
+    "container-item": "fnp90mag",
+    "entries": [ { "item": "57mm", "charges": [ 50, 50 ] } ]
   },
   {
     "id": "police_armory_boxes_57mm",
@@ -307,29 +615,11 @@
     ]
   },
   {
-    "id": "police_armory_boxes_57mm_ss",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [
-      { "group": "police_armory_box_some_57mm_ss" },
-      { "group": "police_armory_box_some_57mm_ss", "prob": 50 },
-      { "item": "ammo_box_2", "count": [ 5, 10 ] },
-      { "group": "police_armory_box_full_57mm_ss", "count": [ 0, 5 ] }
-    ]
-  },
-  {
     "id": "police_armory_box_full_57mm",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammo_box_2",
     "entries": [ { "item": "57mm", "charges": [ 60, 60 ] } ]
-  },
-  {
-    "id": "police_armory_box_full_57mm_ss",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "ammo_box_2",
-    "entries": [ { "item": "57mm_ss", "charges": [ 60, 60 ] } ]
   },
   {
     "id": "police_armory_box_some_57mm",
@@ -339,18 +629,220 @@
     "entries": [ { "item": "57mm", "charges": [ 1, 60 ] } ]
   },
   {
-    "id": "police_armory_box_some_57mm_ss",
+    "type": "item_group",
+    "id": "police_armory_mp7",
+    "//": "One or more MP7 'submachine guns', empty mags, full mags, 4.6mm ammo and a chance of extra ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_mp7", "contents-item": [ "red_dot_sight", "suppressor_compact" ] },
+      { "item": "hk_mp7", "contents-item": [ "red_dot_sight", "suppressor_compact" ], "prob": 50 },
+      { "item": "hk_mp7", "contents-item": [ "red_dot_sight", "suppressor_compact" ], "prob": 25 },
+      { "item": "hk46mag", "count": [ 1, 3 ] },
+      { "item": "hk46bigmag", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_mp7mag_46mm", "count": [ 1, 4 ] },
+      { "group": "police_armory_boxes_46mm" },
+      { "group": "police_armory_boxes_46mm", "prob": 30 }
+    ]
+  },
+  {
+    "id": "police_armory_full_mp7mag_46mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hk46bigmag",
+    "entries": [ { "item": "46mm", "charges": [ 40, 40 ] } ]
+  },
+  {
+    "id": "police_armory_boxes_46mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_box_some_46mm" },
+      { "group": "police_armory_box_some_46mm", "prob": 60 },
+      { "item": "ammo_box_2", "count": [ 15, 25 ] },
+      { "group": "police_armory_box_full_46mm", "count": [ 0, 8 ] }
+    ]
+  },
+  {
+    "id": "police_armory_box_full_46mm",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammo_box_2",
-    "entries": [ { "item": "57mm_ss", "charges": [ 1, 60 ] } ]
+    "entries": [ { "item": "46mm", "charges": [ 60, 60 ] } ]
+  },
+  {
+    "id": "police_armory_box_some_46mm",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_2",
+    "entries": [ { "item": "46mm", "charges": [ 1, 60 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_any_357sig",
+    "//": "Pick one of multiple interchangeable .357 SIG variants.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "police_armory_p226_357", "prob": 30 },
+      { "group": "police_armory_glock_31", "prob": 60 },
+      { "group": "police_armory_p320_357", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_p226_357",
+    "//": "One or more Sig P226 .357 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of extra for each.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "p226_357sig" },
+      { "item": "p226_357sig", "prob": 50 },
+      { "item": "p226_357sig", "prob": 25 },
+      { "item": "p226mag_12rd_357sig", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_p226mag_357sigjhp", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_p226mag_357sigfmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_357sigjhp" },
+      { "group": "police_armory_boxes_357sigfmj" },
+      { "group": "police_armory_boxes_357sigjhp", "prob": 15 },
+      { "group": "police_armory_boxes_357sigfmj", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_glock_31",
+    "//": "One or more Glock 31 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of extra for each.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "glock_31" },
+      { "item": "glock_31", "prob": 50 },
+      { "item": "glock_31", "prob": 25 },
+      { "item": "glock40mag", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_glock40mag_357sigjhp", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_glock40mag_357sigfmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_357sigjhp" },
+      { "group": "police_armory_boxes_357sigfmj" },
+      { "group": "police_armory_boxes_357sigjhp", "prob": 15 },
+      { "group": "police_armory_boxes_357sigfmj", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_p320_357",
+    "//": "One or more SIG P320 .357 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of extra for each.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "p320_357sig" },
+      { "item": "p320_357sig", "prob": 50 },
+      { "item": "p320_357sig", "prob": 25 },
+      { "item": "p320mag_13rd_357sig", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_p320mag_357sigjhp", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_p320mag_357sigfmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_357sigjhp" },
+      { "group": "police_armory_boxes_357sigfmj" },
+      { "group": "police_armory_boxes_357sigjhp", "prob": 15 },
+      { "group": "police_armory_boxes_357sigfmj", "prob": 15 }
+    ]
+  },
+  {
+    "id": "police_armory_full_p226mag_357sigjhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "p226mag_12rd_357sig",
+    "entries": [ { "item": "357sig_jhp", "charges": [ 12, 12 ] } ]
+  },
+  {
+    "id": "police_armory_full_p226mag_357sigfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "p226mag_12rd_357sig",
+    "entries": [ { "item": "357sig_fmj", "charges": [ 12, 12 ] } ]
+  },
+  {
+    "id": "police_armory_full_glock40mag_357sigjhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "glock40mag",
+    "entries": [ { "item": "357sig_jhp", "charges": [ 15, 15 ] } ]
+  },
+  {
+    "id": "police_armory_full_glock40mag_357sigfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "glock40mag",
+    "entries": [ { "item": "357sig_fmj", "charges": [ 15, 15 ] } ]
+  },
+  {
+    "id": "police_armory_full_p320mag_357sigjhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "p320mag_13rd_357sig",
+    "entries": [ { "item": "357sig_jhp", "charges": [ 13, 13 ] } ]
+  },
+  {
+    "id": "police_armory_full_p320mag_357sigfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "p320mag_13rd_357sig",
+    "entries": [ { "item": "357sig_fmj", "charges": [ 13, 13 ] } ]
+  },
+  {
+    "id": "police_armory_boxes_357sigjhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_box_some_357sigjhp" },
+      { "group": "police_armory_box_some_357sigjhp", "prob": 75 },
+      { "item": "ammo_box_2", "count": [ 30, 40 ] },
+      { "group": "police_armory_box_full_357sigjhp", "count": [ 0, 6 ] }
+    ]
+  },
+  {
+    "id": "police_armory_boxes_357sigfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_box_some_357sigfmj" },
+      { "group": "police_armory_box_some_357sigfmj", "prob": 75 },
+      { "item": "ammo_box_2", "count": [ 30, 40 ] },
+      { "group": "police_armory_box_full_357sigfmj", "count": [ 0, 6 ] }
+    ]
+  },
+  {
+    "id": "police_armory_box_full_357sigjhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_2",
+    "entries": [ { "item": "357sig_jhp", "charges": [ 60, 60 ] } ]
+  },
+  {
+    "id": "police_armory_box_full_357sigfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_2",
+    "entries": [ { "item": "357sig_fmj", "charges": [ 60, 60 ] } ]
+  },
+  {
+    "id": "police_armory_box_some_357sigjhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_2",
+    "entries": [ { "item": "357sig_jhp", "charges": [ 1, 60 ] } ]
+  },
+  {
+    "id": "police_armory_box_some_357sigfmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_2",
+    "entries": [ { "item": "357sig_fmj", "charges": [ 1, 60 ] } ]
   },
   {
     "type": "item_group",
     "id": "police_armory_any_40",
     "//": "Pick one of multiple interchangeable .40 variants.",
     "subtype": "distribution",
-    "entries": [ { "group": "police_armory_sig_40" }, { "group": "police_armory_glock_22" } ]
+    "entries": [
+      { "group": "police_armory_sig_40", "prob": 20 },
+      { "group": "police_armory_glock_22", "prob": 70 },
+      { "group": "police_armory_px4_40", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -361,7 +853,7 @@
       { "item": "sig_40" },
       { "item": "sig_40", "prob": 50 },
       { "item": "sig_40", "prob": 25 },
-      { "item": "sig40mag", "count": [ 1, 6 ] },
+      { "item": "sig40mag", "count": [ 1, 4 ] },
       { "group": "police_armory_full_sig40mag_40sw", "count": [ 0, 4 ] },
       { "group": "police_armory_full_sig40mag_40fmj", "count": [ 0, 4 ] },
       { "group": "police_armory_boxes_40sw" },
@@ -379,9 +871,45 @@
       { "item": "glock_22" },
       { "item": "glock_22", "prob": 50 },
       { "item": "glock_22", "prob": 25 },
-      { "item": "glock40mag", "count": [ 1, 6 ] },
+      { "item": "glock40mag", "count": [ 1, 4 ] },
       { "group": "police_armory_full_glock40mag_40sw", "count": [ 0, 4 ] },
       { "group": "police_armory_full_glock40mag_40fmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_40sw" },
+      { "group": "police_armory_boxes_40fmj" },
+      { "group": "police_armory_boxes_40sw", "prob": 15 },
+      { "group": "police_armory_boxes_40fmj", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_px4_40",
+    "//": "One or more Px4 .40 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of extra for each.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "px4_40" },
+      { "item": "px4_40", "prob": 50 },
+      { "item": "px4_40", "prob": 25 },
+      { "item": "px4_40mag", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_px4_40mag_40sw", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_px4_40mag_40fmj", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_40sw" },
+      { "group": "police_armory_boxes_40fmj" },
+      { "group": "police_armory_boxes_40sw", "prob": 15 },
+      { "group": "police_armory_boxes_40fmj", "prob": 15 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ump40",
+    "//": "One or more UMP 40 submachine guns, empty mags, full mags, JHP and FMJ ammo with a chance of extra for each.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "modular_ump_40", "contents-item": [ "red_dot_sight", "suppressor" ] },
+      { "group": "modular_ump_40", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 50 },
+      { "group": "modular_ump_40", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 25 },
+      { "item": "ump40mag", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_ump40mag_40sw", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_ump40mag_40fmj", "count": [ 0, 3 ] },
       { "group": "police_armory_boxes_40sw" },
       { "group": "police_armory_boxes_40fmj" },
       { "group": "police_armory_boxes_40sw", "prob": 15 },
@@ -415,6 +943,34 @@
     "subtype": "collection",
     "container-item": "glock40mag",
     "entries": [ { "item": "40fmj", "charges": [ 15, 15 ] } ]
+  },
+  {
+    "id": "police_armory_full_px4_40mag_40sw",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "px4_40mag",
+    "entries": [ { "item": "40sw", "charges": [ 14, 14 ] } ]
+  },
+  {
+    "id": "police_armory_full_px4_40mag_40fmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "px4_40mag",
+    "entries": [ { "item": "40fmj", "charges": [ 14, 14 ] } ]
+  },
+  {
+    "id": "police_armory_full_ump40mag_40sw",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ump40mag",
+    "entries": [ { "item": "40sw", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_ump40mag_40fmj",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ump40mag",
+    "entries": [ { "item": "40fmj", "charges": [ 30, 30 ] } ]
   },
   {
     "id": "police_armory_boxes_40sw",
@@ -468,16 +1024,57 @@
   },
   {
     "type": "item_group",
+    "id": "police_armory_any_45",
+    "//": "Pick one of multiple interchangeable .45 pistol variants and its ammo.",
+    "subtype": "distribution",
+    "entries": [ { "group": "police_armory_glock_21", "prob": 90 }, { "group": "police_armory_usp_45", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
     "id": "police_armory_usp_45",
     "//": "One or more USP 45 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of +P ammo.",
     "subtype": "collection",
     "entries": [
-      { "item": "usp_45" },
-      { "item": "usp_45", "prob": 50 },
-      { "item": "usp_45", "prob": 25 },
-      { "item": "usp45mag", "count": [ 1, 5 ] },
+      { "item": "usp_45", "variant": "usp_45" },
+      { "item": "usp_45", "variant": "usp_45", "prob": 50 },
+      { "item": "usp_45", "variant": "usp_45", "prob": 25 },
+      { "item": "usp45mag", "count": [ 1, 4 ] },
       { "group": "police_armory_full_usp45mag_45_acp", "count": [ 0, 4 ] },
       { "group": "police_armory_full_usp45mag_45_jhp", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_45_acp" },
+      { "group": "police_armory_boxes_45_jhp" },
+      { "group": "police_armory_boxes_45_super", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_glock_21",
+    "//": "One or more Glock 21 pistols, empty mags, full mags, JHP and FMJ ammo with a chance of +P ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "glock_21" },
+      { "item": "glock_21", "prob": 50 },
+      { "item": "glock_21", "prob": 25 },
+      { "item": "glock_21mag", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_glock_21mag_45_acp", "count": [ 0, 4 ] },
+      { "group": "police_armory_full_glock_21mag_45_jhp", "count": [ 0, 4 ] },
+      { "group": "police_armory_boxes_45_acp" },
+      { "group": "police_armory_boxes_45_jhp" },
+      { "group": "police_armory_boxes_45_super", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ump45",
+    "//": "One or more UMP 45 submachine guns, empty mags, full mags, JHP and FMJ ammo with a chance of +P ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "modular_ump_45", "contents-item": [ "red_dot_sight", "suppressor" ] },
+      { "group": "modular_ump_45", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 50 },
+      { "group": "modular_ump_45", "contents-item": [ "red_dot_sight", "suppressor" ], "prob": 25 },
+      { "item": "ump45mag", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_ump45_45_acp", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_ump45_45_jhp", "count": [ 0, 3 ] },
       { "group": "police_armory_boxes_45_acp" },
       { "group": "police_armory_boxes_45_jhp" },
       { "group": "police_armory_boxes_45_super", "prob": 30 }
@@ -496,6 +1093,34 @@
     "subtype": "collection",
     "container-item": "usp45mag",
     "entries": [ { "item": "45_jhp", "charges": [ 12, 12 ] } ]
+  },
+  {
+    "id": "police_armory_full_glock_21mag_45_acp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "glock_21mag",
+    "entries": [ { "item": "45_acp", "charges": [ 13, 13 ] } ]
+  },
+  {
+    "id": "police_armory_full_glock_21mag_45_jhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "glock_21mag",
+    "entries": [ { "item": "45_jhp", "charges": [ 13, 13 ] } ]
+  },
+  {
+    "id": "police_armory_full_ump45_45_acp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ump45mag",
+    "entries": [ { "item": "45_acp", "charges": [ 25, 25 ] } ]
+  },
+  {
+    "id": "police_armory_full_ump45_45_jhp",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ump45mag",
+    "entries": [ { "item": "45_jhp", "charges": [ 25, 25 ] } ]
   },
   {
     "id": "police_armory_boxes_45_jhp",
@@ -574,27 +1199,191 @@
   },
   {
     "type": "item_group",
-    "id": "police_armory_ar15_223",
-    "//": "One or more ar15s, empty mags, full mags, 223 remington ammo.",
+    "id": "police_armory_patrolrifle_stanag",
+    "//": "One or more STANAG-compatible 5.56 rifles, empty mags, full mags, 223 remington training ammo and mk318-type duty ammo.",
     "subtype": "collection",
     "entries": [
-      { "group": "police_armory_ar15_pick1" },
-      { "group": "police_armory_ar15_pick1", "prob": 50 },
-      { "group": "police_armory_ar15_pick1", "prob": 25 },
+      { "group": "police_armory_patrolrifle_anystanag" },
       { "item": "stanag30", "count": [ 1, 7 ] },
-      { "group": "police_armory_full_stanag30_223", "count": [ 1, 4 ] },
+      { "group": "police_armory_full_stanag30_223", "count": [ 1, 3 ] },
+      { "group": "police_armory_full_stanag30_556_mk318", "count": [ 1, 2 ] },
+      { "group": "police_armory_boxes_223" },
+      { "group": "police_armory_boxes_556_mk318" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_patrolrifle_anystanag",
+    "//": "Chooses the STANAG-compatible 5.56 rifle type that will spawn in the above group.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "police_armory_ar15short_pick", "prob": 24 },
+      { "group": "police_armory_ar15medium_pick", "prob": 50 },
+      { "group": "police_armory_ar15long_pick", "prob": 10 },
+      { "group": "police_armory_m4_pick", "prob": 10 },
+      { "group": "police_armory_m4cqbr_pick", "prob": 5 },
+      { "group": "police_armory_hk416_pick", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ar15short_pick",
+    "//": "1-3 rifles of one type",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ar15_223short", "contents-item": "red_dot_sight" },
+      { "group": "ar15_223short", "contents-item": "red_dot_sight", "prob": 50 },
+      { "group": "ar15_223short", "contents-item": "red_dot_sight", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ar15medium_pick",
+    "//": "1-3 rifles of one type",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ar15_223medium", "contents-item": "red_dot_sight" },
+      { "group": "ar15_223medium", "contents-item": "red_dot_sight", "prob": 50 },
+      { "group": "ar15_223medium", "contents-item": "red_dot_sight", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ar15long_pick",
+    "//": "1-3 rifles weighted of one type",
+    "subtype": "collection",
+    "entries": [ { "group": "ar15_223long" }, { "group": "ar15_223long", "prob": 50 }, { "group": "ar15_223long", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_m4_pick",
+    "//": "1-3 rifles of one type",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "contents-item": "red_dot_sight" },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "contents-item": "red_dot_sight", "prob": 50 },
+      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "contents-item": "red_dot_sight", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_m4cqbr_pick",
+    "//": "1-3 rifles of one type",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_m4_carbine", "variant": "m4_cqbr", "contents-item": [ "red_dot_sight", "suppressor" ] },
+      {
+        "item": "modular_m4_carbine",
+        "variant": "m4_cqbr",
+        "contents-item": [ "red_dot_sight", "suppressor" ],
+        "prob": 50
+      },
+      {
+        "item": "modular_m4_carbine",
+        "variant": "m4_cqbr",
+        "contents-item": [ "red_dot_sight", "suppressor" ],
+        "prob": 25
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_hk416_pick",
+    "//": "1-3 rifles weighted towards 1 rifle",
+    "subtype": "collection",
+    "entries": [
+      { "item": "modular_m27_assault_rifle", "variant": "modular_h&k416a5", "contents-item": "holo_sight" },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_h&k416a5",
+        "contents-item": "holo_sight",
+        "prob": 50
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_h&k416a5",
+        "contents-item": "holo_sight",
+        "prob": 25
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_mini14",
+    "//": "One or more Mini-14 rifles, empty mags, full mags, and 223 remington ammo.  Any PD still issuing this probably doesn't believe in modern ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ruger_mini" },
+      { "item": "ruger_mini", "prob": 50 },
+      { "item": "ruger_mini", "prob": 25 },
+      { "item": "ruger20", "count": [ 1, 3 ] },
+      { "item": "ruger30", "count": [ 1, 3 ] },
+      { "group": "police_armory_full_rugermag_223", "count": [ 1, 5 ] },
       { "group": "police_armory_boxes_223" }
     ]
   },
   {
     "type": "item_group",
-    "id": "police_armory_ar15_pick1",
-    "//": "Pick a random ar-15 chambered in 223 weighted towards medium barrels.",
-    "subtype": "distribution",
+    "id": "police_armory_aug",
+    "//": "One or more Steyr AUG rifles, empty mags, full mags, 223 remington training ammo and mk318-type duty ammo.",
+    "subtype": "collection",
     "entries": [
-      { "group": "ar15_223medium", "prob": 50 },
-      { "group": "ar15_223long", "prob": 30 },
-      { "group": "ar15_223short", "prob": 20 }
+      { "item": "steyr_aug", "contents-item": "holo_sight" },
+      { "item": "steyr_aug", "contents-item": "holo_sight", "prob": 50 },
+      { "item": "steyr_aug", "contents-item": "holo_sight", "prob": 25 },
+      { "item": "augmag_30rd", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_augmag_223", "count": [ 1, 3 ] },
+      { "group": "police_armory_full_augmag_556_mk318", "count": [ 1, 2 ] },
+      { "group": "police_armory_boxes_223" },
+      { "group": "police_armory_boxes_556_mk318" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_g36",
+    "//": "One or more G36 rifles, empty mags, full mags, 223 remington training ammo and mk318-type duty ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk_g36", "contents-item": "holo_sight" },
+      { "item": "hk_g36", "contents-item": "holo_sight", "prob": 50 },
+      { "item": "hk_g36", "contents-item": "holo_sight", "prob": 25 },
+      { "item": "g36mag_30rd", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_g36mag_223", "count": [ 1, 3 ] },
+      { "group": "police_armory_full_g36mag_556_mk318", "count": [ 1, 2 ] },
+      { "group": "police_armory_boxes_223" },
+      { "group": "police_armory_boxes_556_mk318" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_hk417",
+    "//": "One or more HK417 rifles, empty mags, full mags, 308 ammo and 7.62x51 ammo.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hk417_13", "contents-item": [ "holo_sight", "suppressor" ] },
+      { "item": "hk417_13", "contents-item": [ "holo_sight", "suppressor" ], "prob": 50 },
+      { "item": "hk417_13", "contents-item": [ "holo_sight", "suppressor" ], "prob": 25 },
+      { "item": "hk417mag_20rd", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_hk417mag_308", "count": [ 0, 3 ] },
+      { "group": "police_armory_full_hk417mag_762_51", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_308" },
+      { "group": "police_armory_boxes_762_51", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_m1a",
+    "//": "One or more M1A rifles, empty mags, full mags, 308 ammo and 7.62x51 ammo.  This is standing in for M-14 rifles acquired through the 1033 DoD program.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "m1a" },
+      { "item": "m1a", "prob": 50 },
+      { "item": "m1a", "prob": 25 },
+      { "item": "m14mag", "count": [ 1, 7 ] },
+      { "group": "police_armory_full_m14mag_308", "count": [ 0, 3 ] },
+      { "group": "police_armory_full_m14mag_762_51", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_308" },
+      { "group": "police_armory_boxes_762_51", "prob": 25 }
     ]
   },
   {
@@ -605,6 +1394,83 @@
     "entries": [ { "item": "223", "charges": [ 30, 30 ] } ]
   },
   {
+    "id": "police_armory_full_stanag30_556_mk262",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "stanag30",
+    "entries": [ { "item": "556_mk262", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_stanag30_556_mk318",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "stanag30",
+    "entries": [ { "item": "556_mk318", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_rugermag_223",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ruger20",
+    "entries": [ { "item": "223", "charges": [ 20, 20 ] } ]
+  },
+  {
+    "id": "police_armory_full_augmag_223",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "augmag_30rd",
+    "entries": [ { "item": "223", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_augmag_556_mk318",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "augmag_30rd",
+    "entries": [ { "item": "556_mk318", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_g36mag_223",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "g36mag_30rd",
+    "entries": [ { "item": "223", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_g36mag_556_mk318",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "g36mag_30rd",
+    "entries": [ { "item": "556_mk318", "charges": [ 30, 30 ] } ]
+  },
+  {
+    "id": "police_armory_full_hk417mag_308",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hk417mag_20rd",
+    "entries": [ { "item": "308", "charges": [ 20, 20 ] } ]
+  },
+  {
+    "id": "police_armory_full_hk417mag_762_51",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "hk417mag_20rd",
+    "entries": [ { "item": "762_51", "charges": [ 20, 20 ] } ]
+  },
+  {
+    "id": "police_armory_full_m14mag_308",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "m14mag",
+    "entries": [ { "item": "308", "charges": [ 20, 20 ] } ]
+  },
+  {
+    "id": "police_armory_full_m14mag_762_51",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "m14mag",
+    "entries": [ { "item": "762_51", "charges": [ 20, 20 ] } ]
+  },
+  {
     "id": "police_armory_boxes_223",
     "type": "item_group",
     "subtype": "collection",
@@ -612,7 +1478,7 @@
       { "group": "police_armory_box_some_223" },
       { "group": "police_armory_box_some_223", "prob": 50 },
       { "item": "ammo_box_2", "count": [ 50, 75 ] },
-      { "group": "police_armory_box_full_223", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_223", "count": [ 0, 7 ] }
     ]
   },
   {
@@ -632,51 +1498,83 @@
     "on_overflow": "spill"
   },
   {
-    "type": "item_group",
-    "id": "police_armory_m4_556",
-    "//": "One or more m4s, empty mags, full mags, 556 nato ammo.",
-    "subtype": "collection",
-    "entries": [
-      { "item": "modular_m4_carbine" },
-      { "item": "modular_m4_carbine", "prob": 50 },
-      { "item": "stanag30", "count": [ 1, 5 ] },
-      { "group": "police_armory_full_stanag30_556", "count": [ 1, 4 ] },
-      { "group": "police_armory_boxes_556" }
-    ]
-  },
-  {
-    "id": "police_armory_boxes_556",
+    "id": "police_armory_boxes_556_mk262",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "police_armory_box_some_556" },
-      { "group": "police_armory_box_some_556", "prob": 50 },
+      { "group": "police_armory_box_some_556_mk262" },
+      { "group": "police_armory_box_some_556_mk262", "prob": 50 },
       { "item": "ammo_box_2", "count": [ 50, 75 ] },
-      { "group": "police_armory_box_full_556", "count": [ 0, 10 ] }
+      { "group": "police_armory_box_full_556_mk262", "count": [ 0, 5 ] }
     ]
   },
   {
-    "id": "police_armory_full_stanag30_556",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "stanag30",
-    "entries": [ { "item": "556", "charges": [ 30, 30 ] } ]
-  },
-  {
-    "id": "police_armory_box_full_556",
+    "id": "police_armory_box_full_556_mk262",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammo_box_2",
-    "entries": [ { "item": "223", "charges": [ 30, 30 ] } ],
+    "entries": [ { "item": "556_mk262", "charges": [ 30, 30 ] } ],
     "on_overflow": "spill"
   },
   {
-    "id": "police_armory_box_some_556",
+    "id": "police_armory_box_some_556_mk262",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "ammo_box_2",
-    "entries": [ { "item": "556", "charges": [ 1, 30 ] } ],
+    "entries": [ { "item": "556_mk262", "charges": [ 1, 30 ] } ],
     "on_overflow": "spill"
+  },
+  {
+    "id": "police_armory_boxes_556_mk318",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_box_some_556_mk318" },
+      { "group": "police_armory_box_some_556_mk318", "prob": 50 },
+      { "item": "ammo_box_2", "count": [ 50, 75 ] },
+      { "group": "police_armory_box_full_556_mk318", "count": [ 0, 5 ] }
+    ]
+  },
+  {
+    "id": "police_armory_box_full_556_mk318",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_2",
+    "entries": [ { "item": "556_mk318", "charges": [ 30, 30 ] } ],
+    "on_overflow": "spill"
+  },
+  {
+    "id": "police_armory_box_some_556_mk318",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_2",
+    "entries": [ { "item": "556_mk318", "charges": [ 1, 30 ] } ],
+    "on_overflow": "spill"
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ar15sniper",
+    "//": "One or more scoped, rifle-length AR-15 rifles, empty mags, full mags, and boxes of 5.56 Mk262.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ar15_223long", "contents-item": [ "rifle_scope", "bipod" ] },
+      { "group": "ar15_223long", "contents-item": [ "rifle_scope", "bipod" ], "prob": 50 },
+      { "item": "stanag20", "count": [ 0, 2 ] },
+      { "item": "stanag30", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_stanag30_556_mk262", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_556_mk262" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_any_308sniper",
+    "//": "Pick one of multiple interchangeable 308 sniper variants and its ammo.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "police_armory_M24", "prob": 70 },
+      { "group": "police_armory_ar10", "prob": 20 },
+      { "group": "police_armory_axmc_308", "prob": 10 }
+    ]
   },
   {
     "type": "item_group",
@@ -689,6 +1587,65 @@
       { "group": "police_armory_boxes_308" },
       { "group": "police_armory_boxes_762_51", "prob": 25 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_ar10",
+    "//": "One or more scoped AR-10 rifles, empty mags, full mags, and boxes of 308 and 762.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ar10", "contents-item": [ "rifle_scope", "bipod" ] },
+      { "item": "ar10", "contents-item": [ "rifle_scope", "bipod" ], "prob": 50 },
+      { "item": "ar10mag_10rd", "count": [ 0, 2 ] },
+      { "item": "ar10mag_20rd", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_ar10mag_308", "count": [ 0, 3 ] },
+      { "group": "police_armory_full_ar10mag_762_51", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_308" },
+      { "group": "police_armory_boxes_762_51", "prob": 25 }
+    ]
+  },
+  {
+    "id": "police_armory_full_ar10mag_308",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ar10mag_20rd",
+    "entries": [ { "item": "308", "charges": [ 20, 20 ] } ]
+  },
+  {
+    "id": "police_armory_full_ar10mag_762_51",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ar10mag_20rd",
+    "entries": [ { "item": "762_51", "charges": [ 20, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_axmc_308",
+    "//": "One or more scoped AXMC rifles in 308, empty mags, full mags, and boxes of 308 and 762.",
+    "subtype": "collection",
+    "entries": [
+      { "group": "axmc_308", "contents-item": [ "rifle_scope", "bipod" ] },
+      { "group": "axmc_308", "contents-item": [ "rifle_scope", "bipod" ], "prob": 25 },
+      { "item": "ai_308mag_10", "count": [ 0, 2 ] },
+      { "group": "police_armory_full_ai_mag_308", "count": [ 0, 3 ] },
+      { "group": "police_armory_full_ai_mag_762_51", "count": [ 0, 3 ] },
+      { "group": "police_armory_boxes_308" },
+      { "group": "police_armory_boxes_762_51", "prob": 25 }
+    ]
+  },
+  {
+    "id": "police_armory_full_ai_mag_308",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ai_308mag_10",
+    "entries": [ { "item": "308", "charges": [ 10, 10 ] } ]
+  },
+  {
+    "id": "police_armory_full_ai_mag_762_51",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ai_308mag_10",
+    "entries": [ { "item": "762_51", "charges": [ 10, 10 ] } ]
   },
   {
     "id": "police_armory_boxes_308",
@@ -778,10 +1735,226 @@
   },
   {
     "type": "item_group",
+    "id": "police_armory_axmc_300",
+    "//": "One or more AXMC rifles in 300 win mag, empty mags, full mags, and boxes of 300 win mag",
+    "subtype": "collection",
+    "entries": [
+      { "group": "axmc_300", "contents-item": [ "rifle_scope", "bipod" ] },
+      { "group": "axmc_300", "contents-item": [ "rifle_scope", "bipod" ], "prob": 10 },
+      { "item": "ai_338mag", "count": [ 0, 3 ] },
+      { "item": "ai_338mag_10", "count": [ 0, 1 ] },
+      { "group": "police_armory_full_ai_mag_300", "count": [ 0, 2 ] },
+      { "group": "police_armory_boxes_300" }
+    ]
+  },
+  {
+    "id": "police_armory_full_ai_mag_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ai_338mag",
+    "entries": [ { "item": "300_winmag", "charges": [ 5, 5 ] } ]
+  },
+  {
+    "id": "police_armory_boxes_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_box_some_300" },
+      { "group": "police_armory_box_some_300", "prob": 50 },
+      { "item": "ammo_box_army_20_300wm", "count": [ 5, 20 ] },
+      { "group": "police_armory_box_full_300", "count": [ 0, 3 ] }
+    ]
+  },
+  {
+    "id": "police_armory_box_full_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_army_20_300wm",
+    "entries": [ { "item": "300_winmag", "charges": [ 20, 20 ] } ]
+  },
+  {
+    "id": "police_armory_box_some_300",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_army_20_300wm",
+    "entries": [ { "item": "300_winmag", "charges": [ 1, 20 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_any_338sniper",
+    "//": "Pick one of multiple interchangeable .338 sniper variants and its ammo.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "police_armory_axmc", "prob": 30 },
+      { "group": "police_armory_tac338", "prob": 30 },
+      { "group": "police_armory_mrad", "prob": 40 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_axmc",
+    "//": "One or more AXMC rifles in 338 lapua, empty mags, full mags, and boxes of 338 hpbt",
+    "subtype": "collection",
+    "entries": [
+      { "group": "axmc", "contents-item": [ "rifle_scope", "bipod" ] },
+      { "group": "axmc", "contents-item": [ "rifle_scope", "bipod" ], "prob": 10 },
+      { "item": "ai_338mag", "count": [ 0, 3 ] },
+      { "item": "ai_338mag_10", "count": [ 0, 1 ] },
+      { "group": "police_armory_full_ai_mag_338", "count": [ 0, 2 ] },
+      { "group": "police_armory_boxes_338" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_tac338",
+    "//": "One or more TAC-338 rifles in 338 lapua, empty mags, full mags, and boxes of 338 hpbt",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tac338" },
+      { "item": "tac338", "prob": 10 },
+      { "item": "ai_338mag", "count": [ 0, 3 ] },
+      { "item": "ai_338mag_10", "count": [ 0, 1 ] },
+      { "group": "police_armory_full_ai_mag_338", "count": [ 0, 2 ] },
+      { "group": "police_armory_boxes_338" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_mrad",
+    "//": "One or more MRAD rifles in 338 lapua, empty mags, full mags, and boxes of 338 hpbt",
+    "subtype": "collection",
+    "entries": [
+      { "item": "mrad_smr", "contents-item": [ "rifle_scope", "bipod" ] },
+      { "item": "mrad_smr", "contents-item": [ "rifle_scope", "bipod" ], "prob": 10 },
+      { "item": "mrad_338lapua_mag", "count": [ 0, 3 ] },
+      { "group": "police_armory_full_mradmag_338", "count": [ 0, 2 ] },
+      { "group": "police_armory_boxes_338" }
+    ]
+  },
+  {
+    "id": "police_armory_full_ai_mag_338",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ai_338mag",
+    "entries": [ { "item": "338lapua_hpbt", "charges": [ 5, 5 ] } ]
+  },
+  {
+    "id": "police_armory_full_mradmag_338",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "mrad_338lapua_mag",
+    "entries": [ { "item": "338lapua_hpbt", "charges": [ 10, 10 ] } ]
+  },
+  {
+    "id": "police_armory_boxes_338",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_box_some_338" },
+      { "group": "police_armory_box_some_338", "prob": 50 },
+      { "item": "ammo_box_army_10_338", "count": [ 5, 20 ] },
+      { "group": "police_armory_box_full_338", "count": [ 0, 3 ] }
+    ]
+  },
+  {
+    "id": "police_armory_box_full_338",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_army_10_338",
+    "entries": [ { "item": "338lapua_hpbt", "charges": [ 10, 10 ] } ]
+  },
+  {
+    "id": "police_armory_box_some_338",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_army_10_338",
+    "entries": [ { "item": "338lapua_hpbt", "charges": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_any_50sniper",
+    "//": "Pick one of multiple interchangeable .50 BMG sniper variants and its ammo.",
+    "subtype": "distribution",
+    "entries": [ { "group": "police_armory_as50", "prob": 20 }, { "group": "police_armory_tac50", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_as50",
+    "//": "One or more AS-50 rifles, empty mags, full mags, and boxes of match 50 BMG.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "as50" },
+      { "item": "as50", "prob": 10 },
+      { "item": "as50mag", "count": [ 0, 3 ] },
+      { "group": "police_armory_full_as50mag", "count": [ 0, 2 ] },
+      { "group": "police_armory_boxes_50" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_armory_tac50",
+    "//": "One or more TAC-50 rifles, empty mags, full mags, and boxes of match 50 BMG.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "tac50" },
+      { "item": "tac50", "prob": 10 },
+      { "item": "tac50mag", "count": [ 0, 3 ] },
+      { "group": "police_armory_full_tac50mag", "count": [ 0, 2 ] },
+      { "group": "police_armory_boxes_50" }
+    ]
+  },
+  {
+    "id": "police_armory_full_as50mag",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "as50mag",
+    "entries": [ { "item": "50match", "charges": [ 5, 5 ] } ]
+  },
+  {
+    "id": "police_armory_full_tac50mag",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "tac50mag",
+    "entries": [ { "item": "50match", "charges": [ 5, 5 ] } ]
+  },
+  {
+    "id": "police_armory_boxes_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "police_armory_box_some_50" },
+      { "group": "police_armory_box_some_50", "prob": 50 },
+      { "item": "ammo_box_army_10_50bmg", "count": [ 5, 20 ] },
+      { "group": "police_armory_box_full_50", "count": [ 0, 3 ] }
+    ]
+  },
+  {
+    "id": "police_armory_box_full_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_army_10_50bmg",
+    "entries": [ { "item": "50match", "charges": [ 10, 10 ] } ]
+  },
+  {
+    "id": "police_armory_box_some_50",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "ammo_box_army_10_50bmg",
+    "entries": [ { "item": "50match", "charges": [ 1, 10 ] } ]
+  },
+  {
+    "type": "item_group",
     "id": "police_armory_shotgun_pick1",
     "//": "Pick a random police shotgun.",
     "subtype": "distribution",
-    "entries": [ { "item": "mossberg_500", "prob": 50 }, { "item": "remington_870", "prob": 50 } ]
+    "entries": [
+      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 30 },
+      { "item": "remington_870_express", "prob": 35 },
+      { "item": "mossberg_590", "variant": "mossberg_590", "prob": 23 },
+      { "item": "mossberg_930", "variant": "mossberg_930", "prob": 8 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
+      { "item": "remington_870_breacher", "prob": 2 }
+    ]
   },
   {
     "id": "police_armory_boxes_shotshells",
@@ -790,12 +1963,10 @@
     "entries": [
       { "group": "police_armory_box_some_shot_beanbag" },
       { "group": "police_armory_box_some_shot_beanbag", "prob": 50 },
-      { "group": "police_armory_box_some_shot_he" },
       { "group": "police_armory_box_some_shot_00", "prob": 75 },
       { "item": "ammo_box_4", "count": [ 25, 40 ] },
       { "group": "police_armory_box_full_shot_beanbag", "count": [ 0, 8 ] },
-      { "group": "police_armory_box_full_shot_00", "count": [ 0, 2 ], "prob": 50 },
-      { "group": "police_armory_box_full_shot_he", "count": [ 0, 2 ], "prob": 50 }
+      { "group": "police_armory_box_full_shot_00", "count": [ 0, 2 ], "prob": 50 }
     ]
   },
   {
@@ -811,20 +1982,6 @@
     "subtype": "collection",
     "container-item": "ammo_box_4",
     "entries": [ { "item": "shot_beanbag", "charges": [ 1, 20 ] } ]
-  },
-  {
-    "id": "police_armory_box_full_shot_he",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "ammo_box_4",
-    "entries": [ { "item": "shot_he", "charges": [ 20, 20 ] } ]
-  },
-  {
-    "id": "police_armory_box_some_shot_he",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "ammo_box_4",
-    "entries": [ { "item": "shot_he", "charges": [ 1, 20 ] } ]
   },
   {
     "id": "police_armory_box_full_shot_00",

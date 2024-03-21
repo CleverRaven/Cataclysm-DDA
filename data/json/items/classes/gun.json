@@ -117,7 +117,7 @@
     "copy-from": "pistol_base",
     "type": "GUN",
     "name": { "str": "revolver" },
-    "proportional": { "reload": 0.7 },
+    "//proportional": { "reload": 0.7 },
     "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS", "EASY_CLEAN" ] },
     "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],

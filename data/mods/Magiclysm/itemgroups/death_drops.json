@@ -56,6 +56,41 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "mon_feral_druid_death_drops",
+    "entries": [
+      {
+        "distribution": [ { "group": "enchanted_rings_common", "prob": 80 }, { "group": "enchanted_rings_uncommon", "prob": 20 } ],
+        "prob": 4
+      },
+      { "distribution": [ { "item": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
+      { "item": "crystallized_mana", "prob": 20, "charges-min": 1, "charges-max": 5 },
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "magical_reagents", "prob": 33, "count-min": 1, "count-max": 5 },
+      { "group": "group_potion_fruits", "prob": 20 },
+      { "group": "enchanted_combat_items", "prob": 25 },
+      { "group": "druid_items", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_feral_earthshaper_death_drops",
+    "entries": [
+      {
+        "distribution": [ { "group": "enchanted_rings_common", "prob": 80 }, { "group": "enchanted_rings_uncommon", "prob": 20 } ],
+        "prob": 4
+      },
+      { "distribution": [ { "item": "robe_wizard", "prob": 50 }, { "item": "robe", "prob": 50 } ], "prob": 20 },
+      { "item": "crystallized_mana", "prob": 20, "charges-min": 1, "charges-max": 5 },
+      { "group": "default_zombie_clothes", "prob": 100 },
+      { "group": "magical_reagents", "prob": 33, "count-min": 1, "count-max": 5 },
+      { "group": "enchanted_combat_items", "prob": 25 },
+      { "group": "earthshaper_items", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "feral_goblin_death_drops",
     "entries": [
       { "group": "default_zombie_clothes", "prob": 100, "custom-flags": [ "UNDERSIZE" ], "damage": [ 1, 4 ] },

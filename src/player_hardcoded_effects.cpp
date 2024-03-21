@@ -20,6 +20,7 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "input.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -39,7 +40,6 @@
 #include "units.h"
 #include "vitamin.h"
 #include "weather.h"
-#include "weather_type.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
@@ -102,6 +102,9 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_BIONIC_LIMB( "BIONIC_LIMB" );
+static const json_character_flag json_flag_BLEEDSLOW( "BLEEDSLOW" );
+static const json_character_flag json_flag_BLEEDSLOW2( "BLEEDSLOW2" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
@@ -123,9 +126,13 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
+static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
 static const vitamin_id vitamin_blood( "blood" );
+static const vitamin_id vitamin_calcium( "calcium" );
+static const vitamin_id vitamin_iron( "iron" );
 static const vitamin_id vitamin_redcells( "redcells" );
 
 static void eff_fun_onfire( Character &u, effect &it )
@@ -211,7 +218,7 @@ static void eff_fun_fungus( Character &u, effect &it )
             // 6-12 hours of worse symptoms
             if( one_in( 3600 + bonus * 18 ) ) {
                 u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
-                u.moves -= 100;
+                u.mod_moves( -to_moves<int>( 1_seconds ) );
                 u.apply_damage( nullptr, bodypart_id( "torso" ), resists ? rng( 1, 5 ) : 5 );
             }
             if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
@@ -219,7 +226,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
                 const int awfulness = rng( 0, resists ? rng( 1, 70 ) : 70 );
-                u.moves = -200;
+                u.set_moves( -to_moves<int>( 2_seconds ) );
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
                 ///\EFFECT_STR decreases damage taken by fungus effect
@@ -233,7 +240,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
                                          _( "<npcname> vomits thousands of live spores!" ) );
 
-                u.moves = -500;
+                u.set_moves( -to_moves<int>( 5_seconds ) );
                 map &here = get_map();
                 fungal_effects fe;
                 for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
@@ -244,22 +251,38 @@ static void eff_fun_fungus( Character &u, effect &it )
                 }
                 // We're fucked
             } else if( one_in( 36000 + bonus * 240 ) ) {
-                if( u.is_limb_broken( bodypart_id( "arm_l" ) ) || u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
-                    if( u.is_limb_broken( bodypart_id( "arm_l" ) ) && u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
-                    } else {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
+                // determine if we have arms to channel the fungal stalks out of
+                bool has_arms_outlet = true;
+                for( const bodypart_id &part : u.get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+                    if( part->has_flag( json_flag_BIONIC_LIMB ) ) {
+                        has_arms_outlet = false;
                     }
-                } else {
-                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
-                                             _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
                 }
-                u.apply_damage( nullptr, bodypart_id( "arm_l" ), 999 );
-                u.apply_damage( nullptr, bodypart_id( "arm_r" ), 999 );
+                if( has_arms_outlet ) {
+                    if( u.is_limb_broken( bodypart_id( "arm_l" ) ) || u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+                        if( u.is_limb_broken( bodypart_id( "arm_l" ) ) && u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+                            u.add_msg_player_or_npc( m_bad,
+                                                     _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
+                                                     _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
+                        } else {
+                            u.add_msg_player_or_npc( m_bad,
+                                                     _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
+                                                     _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
+                        }
+                    } else {
+                        u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
+                                                 _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
+                    }
+                    u.apply_damage( nullptr, bodypart_id( "arm_l" ), 999 );
+                    u.apply_damage( nullptr, bodypart_id( "arm_r" ), 999 );
+                } else {
+                    // we don't have viable arms, so the fungus does a little chestbursting
+                    u.add_msg_player_or_npc( m_bad,
+                                             _( "Your chest bulges, and fungal stalks burst out of your skin!" ),
+                                             _( "<npcname>'s chest bulges.  Fungus stalks burst out of their skin!" ) );
+                    u.apply_damage( nullptr, bodypart_id( "torso" ), 40 );
+                    u.add_effect( effect_bleed, 30_minutes, bodypart_id( "torso" ) );
+                }
             }
             break;
     }
@@ -301,8 +324,16 @@ static void eff_fun_bleed( Character &u, effect &it )
 
     if( ( !tourniquet || one_in( prof_bonus ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        u.vitamin_mod( vitamin_redcells, -intense );
-        u.vitamin_mod( vitamin_blood, -intense );
+        if( u.has_flag( json_flag_BLEEDSLOW2 ) ) {
+            u.vitamin_mod( vitamin_redcells, -( intense / 3 ) );
+            u.vitamin_mod( vitamin_blood, -( intense / 3 ) );
+        } else if( u.has_flag( json_flag_BLEEDSLOW ) ) {
+            u.vitamin_mod( vitamin_redcells, -( intense / 1.5 ) );
+            u.vitamin_mod( vitamin_blood, -( intense / 1.5 ) );
+        } else {
+            u.vitamin_mod( vitamin_redcells, -intense );
+            u.vitamin_mod( vitamin_blood, -intense );
+        }
         if( one_in( 400 / intense ) ) {
             u.mod_pain( 1 );
         }
@@ -333,7 +364,7 @@ static void eff_fun_bleed( Character &u, effect &it )
             // we maintain a generic part-less fallback just in case the effect is added without a target body part, in order to avoid crashes
             const std::string final_message = bp != bodypart_str_id::NULL_ID() ? string_format(
                                                   suffer_string,
-                                                  blood_str, body_part_name_accusative( bp ) ) : _( "You lose some blood." );
+                                                  blood_str, body_part_name( bp ) ) : _( "You lose some blood." );
             // display the final message
             u.add_msg_player_or_npc( m_bad,
                                      final_message,
@@ -1026,6 +1057,45 @@ static void eff_fun_sleep( Character &u, effect &it )
         it.set_duration( 1_turns * dice( 3, 100 ) );
     }
 
+    // TODO: Move this to update_needs when NPCs can mutate
+    if( calendar::once_every( 10_minutes ) && ( u.has_trait( trait_CHLOROMORPH ) ||
+            u.has_trait( trait_M_SKIN3 ) || u.has_trait( trait_WATERSLEEP ) ) &&
+        here.is_outside( u.pos() ) ) {
+        if( u.has_trait( trait_CHLOROMORPH ) ) {
+            // Hunger and thirst fall before your Chloromorphic physiology!
+            if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
+                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
+                    u.set_fatigue( 25 );
+                }
+                if( u.get_hunger() >= -30 ) {
+                    u.mod_hunger( -5 );
+                    // photosynthesis warrants absorbing kcal directly
+                    u.mod_stored_kcal( 43 );
+                }
+            }
+            if( u.get_thirst() >= -40 ) {
+                u.mod_thirst( -5 );
+            }
+            // Assuming eight hours of sleep, this will take care of Iron and Calcium needs
+            u.vitamin_mod( vitamin_iron, 2 );
+            u.vitamin_mod( vitamin_calcium, 2 );
+        }
+        if( u.has_trait( trait_M_SKIN3 ) ) {
+            // Spores happen!
+            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
+                if( u.get_fatigue() >= 0 ) {
+                    u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                }
+                if( calendar::once_every( 1_hours ) ) {
+                    u.spores(); // spawn some P O O F Y   B O I S
+                }
+            }
+        }
+        if( u.has_trait( trait_WATERSLEEP ) ) {
+            u.mod_fatigue( -3 ); // Fish sleep less in water
+        }
+    }
+
     // Check mutation category strengths to see if we're mutated enough to get a dream
     // If we've crossed a threshold, always show dreams for that category
     // Otherwise, check for the category that we have the most vitamins in our blood for
@@ -1231,7 +1301,7 @@ void Character::hardcoded_effects( effect &it )
             }
             get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
             schedule_effect_removal( effect_formication, bp );
-            moves -= 600;
+            mod_moves( -to_moves<int>( 6_seconds ) );
             triggered = true;
         }
         if( triggered ) {
@@ -1253,7 +1323,7 @@ void Character::hardcoded_effects( effect &it )
                 add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
-            moves -= 150;
+            mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
             mod_pain( 1 );
             apply_damage( nullptr, bp, 1 );
         }
@@ -1374,6 +1444,7 @@ void Character::hardcoded_effects( effect &it )
         if( one_in( 1536 ) ) {
             add_msg_if_player( m_bad, _( "Your muscles are tight and sore." ) );
         }
+        // to do: make muscle spasms not as dangerous if you have bionic limbs
         if( !has_effect( effect_valium ) ) {
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 3072 ) ) {
@@ -1603,6 +1674,7 @@ void Character::hardcoded_effects( effect &it )
         // easily, leading to build-up in muscle and fat tissue through bioaccumulation.
         // Symptoms vary, and many are too long-term to be relevant in C:DDA (i.e. carcinogens),
         // but lowered immune response and neurotoxicity (i.e. seizures, migraines) are common.
+        // to do: make these interact with bionic limbs? if they are neurotoxins your brain might be sending faulty signals to your mecahnical limbs anyways however
 
         if( in_sleep_state() ) {
             return;

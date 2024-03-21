@@ -70,9 +70,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Jeremiah_2",
-    "dynamic_line": [
-      "I thought asking about each other's emotions went out of style after <the_cataclysm>.  Uhm, okay then.  I'm fine, I guess."
-    ],
+    "dynamic_line": "I thought asking about each other's emotions went out of style after <the_cataclysm>.  Uhm, okay then.  I'm fine, I guess.",
     "responses": [
       { "text": "I noticed you're holding a D&D handbook.  Do you play much?", "topic": "TALK_GODCO_Jeremiah_Dnd" },
       {

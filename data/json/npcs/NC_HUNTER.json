@@ -26,6 +26,7 @@
       { "item": "jacket_leather", "prob": 20 },
       { "item": "trenchcoat", "prob": 20 },
       { "item": "jacket_jean", "prob": 20 },
+      { "item": "vest_jean", "prob": 10 },
       { "item": "jacket_flannel", "prob": 20 },
       { "item": "jacket_windbreaker", "prob": 10 }
     ]
@@ -99,7 +100,11 @@
       { "item": "meat_smoked", "prob": 10 },
       { "item": "meat_smoked", "prob": 10 },
       { "item": "bone", "prob": 10 },
-      { "item": "fur", "prob": 10 }
+      { "item": "fur", "prob": 10 },
+      { "item": "froglegs", "prob": 5 },
+      { "item": "froglegs_cooked", "prob": 5 },
+      { "item": "froglegs_smoked", "prob": 5 },
+      { "item": "dry_froglegs", "prob": 5 }
     ]
   }
 ]

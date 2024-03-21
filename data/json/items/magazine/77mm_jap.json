@@ -1,13 +1,14 @@
 [
   {
     "id": "clip_77mm_arisaka",
+    "//": "Comparatively audited from 7.62x54R clips.",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "7.7x58mm 5-round stripper clip" },
     "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load five 7.7x58mm rounds into a compatible firearm.",
-    "weight": "40 g",
-    "volume": "10ml",
-    "longest_side": "10 cm",
+    "weight": "9 g",
+    "volume": "3 ml",
+    "longest_side": "65 mm",
     "price": 399,
     "price_postapoc": 50,
     "material": [ "steel" ],

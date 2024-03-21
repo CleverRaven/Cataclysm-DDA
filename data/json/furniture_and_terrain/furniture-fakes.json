@@ -20,7 +20,7 @@
     "color": "red",
     "move_cost_mod": 2,
     "required_str": -1,
-    "workbench": { "multiplier": 1.0, "mass": 5000, "volume": "10L" }
+    "workbench": { "multiplier": 1.0, "mass": 5000, "volume": "10 L" }
   },
   {
     "type": "furniture",
@@ -37,7 +37,7 @@
     "bash": { "str_min": 0, "str_max": 0, "items": [  ] },
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
     "examine_action": "workbench",
-    "workbench": { "multiplier": 0.7, "mass": 10000000, "volume": "1000L" }
+    "workbench": { "multiplier": 0.7, "mass": 10000000, "volume": "1000 L" }
   },
   {
     "type": "furniture",

@@ -2,7 +2,10 @@
   {
     "id": "BGSS_PREPPER_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Ooooh, boy.  I was ready for this.  The winds were blowing this way for years.  I had a full last man on earth shelter set up just out of town.  So, of course, just my luck: I was miles out of town for a work conference when China attacked and the world ended.",
+    "dynamic_line": {
+      "gendered_line": "Ooooh, boy.  I was ready for this.  The winds were blowing this way for years.  I had a full last man on earth shelter set up just out of town.  So, of course, just my luck: I was miles out of town for a work conference when China attacked and the world ended.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What happened to you?", "topic": "BGSS_PREPPER_1_STORY2" },
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
@@ -30,28 +33,34 @@
           ]
         }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_PREPPER_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Our conference was at a retreat by a lake.  We all got the emergency broadcast on our cells, but I was the only one to read between the lines and see it for what it was: large scale bio-terrorism.  I wasn't about to stay and find out who of my coworkers was a sleeper agent.  Although I'd bet fifty bucks it was Lee.  Anyway, I stole the coordinator's pickup and headed straight for my shelter.",
+    "dynamic_line": {
+      "gendered_line": "Our conference was at a retreat by a lake.  We all got the emergency broadcast on our cells, but I was the only one to read between the lines and see it for what it was: large scale bio-terrorism.  I wasn't about to stay and find out who of my coworkers was a sleeper agent.  Although I'd bet fifty bucks it was Lee.  Anyway, I stole the coordinator's pickup and headed straight for my shelter.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Did you get there?", "topic": "BGSS_PREPPER_1_STORY3" },
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_PREPPER_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
+    "dynamic_line": {
+      "gendered_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -63,7 +72,10 @@
       "type": "mission",
       "context": "BGSS",
       "value": "yes",
-      "no": "I never made it there and can't imagine I ever will.  Every time I've tried I've been headed off by the <zombies>.",
+      "no": {
+        "gendered_line": "I never made it there and can't imagine I ever will.  Every time I've tried I've been headed off by the <zombies>.",
+        "relevant_genders": [ "npc" ]
+      },
       "yes": "The shelter's in your hands, at this point."
     },
     "responses": [
@@ -84,13 +96,7 @@
               "not": {
                 "and": [
                   { "u_has_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" },
-                  {
-                    "u_compare_time_since_var": "prepper_1_asked_about_quest",
-                    "type": "timer",
-                    "context": "timers",
-                    "op": "<",
-                    "time": "8 h"
-                  }
+                  { "math": [ "time_since(u_timer_timers_prepper_1_asked_about_quest)", "<", "time('8 h')" ] }
                 ]
               }
             }
@@ -112,7 +118,7 @@
           "topic": "BGSS_PREPPER_1_SHELTERFAILURE",
           "opinion": { "trust": -2 },
           "effect": [
-            { "u_add_var": "prepper_1_asked_about_quest", "type": "timer", "context": "timers", "time": true },
+            { "math": [ "u_timer_timers_prepper_1_asked_about_quest", "=", "time('now')" ] },
             { "u_add_var": "prepper_1_asked_about_quest", "type": "general", "context": "BGSS", "value": "yes" }
           ]
         }
@@ -133,14 +139,17 @@
         },
         "effect": { "u_add_var": "prepper_1_asked_about_shelter", "type": "mission", "context": "BGSS", "value": "yes" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_PREPPER_1_LMOE2",
     "type": "talk_topic",
-    "dynamic_line": "The shelter?  Bought the land pretty cheap.  I hired a contractor to build the thing but did the door myself.  Metal pin in the door frame.  Can't open unless you remove it.  There's a little pulley inside you have to pull up to reset.  They made dozens of these in the area, and I couldn't sleep knowing just any <name_b> at that company could waltz in as soon as shit hit the fan.  They'd know exactly where to go and what to do!  Nah… how do you think I've made it this long?  Always keep a trick up your sleeve.",
+    "dynamic_line": {
+      "gendered_line": "The shelter?  Bought the land pretty cheap.  I hired a contractor to build the thing but did the door myself.  Metal pin in the door frame.  Can't open unless you remove it.  There's a little pulley inside you have to pull up to reset.  They made dozens of these in the area, and I couldn't sleep knowing just any <name_b> at that company could waltz in as soon as shit hit the fan.  They'd know exactly where to go and what to do!  Nah… how do you think I've made it this long?  Always keep a trick up your sleeve.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "A contractor?  How much does something like a survivalist shelter cost?", "topic": "BGSS_PREPPER_1_LMOE4" },
       {
@@ -175,13 +184,19 @@
   {
     "id": "BGSS_PREPPER_1_LMOE3",
     "type": "talk_topic",
-    "dynamic_line": "Nope, that's it.  Got the idea for the door from a book on medieval castles, in case you were wondering.  But instead of a counterweight holding a drawbridge up, I just ram a hex key in a hole.",
+    "dynamic_line": {
+      "gendered_line": "Nope, that's it.  Got the idea for the door from a book on medieval castles, in case you were wondering.  But instead of a counterweight holding a drawbridge up, I just ram a hex key in a hole.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Interesting…", "topic": "TALK_NONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_LMOE4",
     "type": "talk_topic",
-    "dynamic_line": "Almost as much as my house, in the end.  I think they realized they could make a lot of money as things got worse and worse.  But it's nicer than my house, too.  They said the ventilation system was built to withstand a month of anything: nuclear fallout, biological attack, you name it.  Concrete and soil above me to absorb radiation, appliances and supplies…  I even brought some old books I've never read.  I always knew it would come to this.",
+    "dynamic_line": {
+      "gendered_line": "Almost as much as my house, in the end.  I think they realized they could make a lot of money as things got worse and worse.  But it's nicer than my house, too.  They said the ventilation system was built to withstand a month of anything: nuclear fallout, biological attack, you name it.  Concrete and soil above me to absorb radiation, appliances and supplies…  I even brought some old books I've never read.  I always knew it would come to this.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "How many of these places did the company build?", "topic": "BGSS_PREPPER_1_LMOE5" } ]
   },
   {
@@ -205,7 +220,10 @@
   {
     "id": "BGSS_PREPPER_1_SHARELOOTFAILURE",
     "type": "talk_topic",
-    "dynamic_line": "What, like some secret Batcave?  Pull back the curtain and it turns out I'm the communist <name_b> who brewed up a demon bio-weapon in their basement?  I just gave you food, all the tools in my workshop, and the safest hole in the ground in the county.  If I've got any secrets left, they're mine to keep.",
+    "dynamic_line": {
+      "gendered_line": "What, like some secret Batcave?  Pull back the curtain and it turns out I'm the communist <name_b> who brewed up a demon bio-weapon in their basement?  I just gave you food, all the tools in my workshop, and the safest hole in the ground in the county.  If I've got any secrets left, they're mine to keep.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "No, you're right!  I'm sorry for intruding!", "topic": "BGSS_PREPPER_1_SHARELOOTAPOLOGIZE" },
       {
@@ -256,7 +274,10 @@
   {
     "id": "BGSS_PREPPER_1_SHARELOOTFAILURE4",
     "type": "talk_topic",
-    "dynamic_line": "I knew it…  This whole time.  It was all part of the plan.  The riots, the storms…  You always had control…",
+    "dynamic_line": {
+      "gendered_line": "I knew it…  This whole time.  It was all part of the plan.  The riots, the storms…  You always had control…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Prepare to meet your end, <npc_name>.  *Attack <npc_name>.*",
@@ -293,7 +314,10 @@
   {
     "id": "BGSS_PREPPER_1_SHELTERFAILURE",
     "type": "talk_topic",
-    "dynamic_line": "I'd have to be absolutely <dumb> to give up the location of my stash to someone I barely know.  For all I know you'd just kill me and take it all for yourself!  Better luck next time, pal.",
+    "dynamic_line": {
+      "gendered_line": "I'd have to be absolutely <dumb> to give up the location of my stash to someone I barely know.  For all I know you'd just kill me and take it all for yourself!  Better luck next time, pal.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Okay, calm down…", "topic": "TALK_NONE" } ]
   },
   {
@@ -324,9 +348,15 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 14,
-        "no": "That's pretty presumptive of you, considering it hasn't been that long since shit went down.  What made you assume I was dead?",
-        "yes": "The door was open?  Was there anyone inside?  Why would you assume I was dead?"
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 14" ],
+        "no": {
+          "gendered_line": "That's pretty presumptive of you, considering it hasn't been that long since shit went down.  What made you assume I was dead?",
+          "relevant_genders": [ "npc", "u" ]
+        },
+        "yes": {
+          "gendered_line": "The door was open?  Was there anyone inside?  Why would you assume I was dead?",
+          "relevant_genders": [ "npc", "u" ]
+        }
       }
     ],
     "responses": [
@@ -353,9 +383,15 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 14,
-        "no": "Well, that's one way to say 'fuck you'!  How…  Why…  I was still trying to get back there, surviving and struggling just like you!  How would you feel if I came and stole all YOUR stuff right when you needed it most?!",
-        "yes": "Well, that's one way to say 'fuck you'!  I know it's been a while since shit went down, but I didn't lock that door and put up that sign for no reason!  How would you feel if I came and stole all the stuff that YOU locked away for safe keeping?!"
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 14" ],
+        "no": {
+          "gendered_line": "Well, that's one way to say 'fuck you'!  How…  Why…  I was still trying to get back there, surviving and struggling just like you!  How would you feel if I came and stole all YOUR stuff right when you needed it most?!",
+          "relevant_genders": [ "npc" ]
+        },
+        "yes": {
+          "gendered_line": "Well, that's one way to say 'fuck you'!  I know it's been a while since shit went down, but I didn't lock that door and put up that sign for no reason!  How would you feel if I came and stole all the stuff that YOU locked away for safe keeping?!",
+          "relevant_genders": [ "npc" ]
+        }
       }
     ],
     "responses": [
@@ -386,12 +422,15 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE3_BENICE",
     "type": "talk_topic",
-    "dynamic_line": "I suppose that's true.  Still not a very nice way to break the news to someone you accidentally robbed…",
+    "dynamic_line": {
+      "gendered_line": "I suppose that's true.  Still not a very nice way to break the news to someone you accidentally robbed…",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
-      { "text": "You're right, sorry.", "topic": "TALK_FRIEND" },
+      { "text": "You're right, sorry.", "topic": "TALK_FRIEND_CONVERSATION" },
       {
         "text": "I'm just doing what I have to do.  Stick with me and we'll find plenty of stuff to replace it.",
-        "topic": "TALK_FRIEND"
+        "topic": "TALK_FRIEND_CONVERSATION"
       }
     ]
   },
@@ -399,18 +438,29 @@
     "id": "BGSS_PREPPER_1_FOUND_LMOE4",
     "type": "talk_topic",
     "dynamic_line": "Oh…  Yeah, that would definitely do it.  It's a shame someone already got in.  I had a lot of stuff saved up there.  But I suppose it wouldn't matter much now.",
-    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "Stick with me and we'll find plenty of stuff to replace it.", "topic": "TALK_FRIEND_CONVERSATION" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_BEHONEST",
     "type": "talk_topic",
-    "dynamic_line": "I guess I can't judge.  I've made some fucked up decisions, too.  Taken some things that aren't mine.",
-    "responses": [ { "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.", "topic": "TALK_FRIEND" } ]
+    "dynamic_line": {
+      "gendered_line": "I guess I can't judge.  I've made some fucked up decisions, too.  Taken some things that aren't mine.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      {
+        "text": "I'm sorry.  I'm sure we can find lots of stuff to replace whatever I took.",
+        "topic": "TALK_FRIEND_CONVERSATION"
+      }
+    ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE",
     "type": "talk_topic",
-    "dynamic_line": "You're not really a good liar.  I built that thing like a fortress.  No one would just break into it.",
+    "dynamic_line": {
+      "gendered_line": "You're not really a good liar.  I built that thing like a fortress.  No one would just break into it.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Well…  I did.  And that's just how it goes.  It wasn't even that difficult.",
@@ -426,7 +476,10 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE4_FAILLIE2",
     "type": "talk_topic",
-    "dynamic_line": "Just don't lie about it.  I understand your life was probably in danger.  I can see past that.  Trust me, I've been in sticky situations before.  Tell the truth next time.",
+    "dynamic_line": {
+      "gendered_line": "Just don't lie about it.  I understand your life was probably in danger.  I can see past that.  Trust me, I've been in sticky situations before.  Tell the truth next time.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
@@ -467,9 +520,12 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 21,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ],
         "no": "&<npc_name> sighs and pauses for a moment.\n\n\"Listen…  I know what you think I am, but the threats are real.  The dead are walking, strange hellspawn crawling out of…  well, I can't even talk about it.  Whatever demonic, technological abomination, bio-weapon the communists unleashed on the world is definitely out of their control.  Look around you!  Isn't it obvious something bigger is going on?\"",
-        "yes": "&<npc_name> sighs and pauses for a moment.\n\n\"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\""
+        "yes": {
+          "gendered_line": "&<npc_name> sighs and pauses for a moment.\n\n\"It's been so long now.  I barely even remember what I was doing.  There was so much confusion and violence in those last days.  My family didn't understand the threat, even though I tried to tell them.  I know what you think I am, but look what's happened!  The dead are walking, the sky is cracking open, and…  well, I can't even talk about it.  Isn't it obvious something bigger is going on?\"",
+          "relevant_genders": [ "npc" ]
+        }
       }
     ],
     "responses": [
@@ -484,10 +540,13 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 21,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ],
         "//": "Before the Cataclysm, the prepper was pretty sure it was a Chinese plot for American destabilization and control, maybe aided by elites across the world.  If you meet them early, they still sort of think this. American propaganda about 'Chinese mind control' also influenced them. Later, once the portal storms ramp up, they decide it might be something more cosmic, possibly religious. The conversation from this point should allow the player to bounce ideas about what happened off of the prepper.",
         "no": "It's an invasion.  Or, at least, I think that's what they were trying to do at first.  Sudden bouts of violence, sending agitators to riots, doing false flags with covert and overt agents alike…  When they couldn't get what they wanted, they went full 'scorched earth'.  They decided to destroy everything instead.",
-        "yes": "I thought I knew at one point.  There were so many signs of manipulation and control.  I thought maybe they were trying to discredit the protests, but when the violence broke out it seemed to be everywhere.  There was footage on the news of people fighting, destroying property, eating animals and… each other in the street.  I thought at some point they were going to sweep in and seize control, but it just never happened."
+        "yes": {
+          "gendered_line": "I thought I knew at one point.  There were so many signs of manipulation and control.  I thought maybe they were trying to discredit the protests, but when the violence broke out it seemed to be everywhere.  There was footage on the news of people fighting, destroying property, eating animals and… each other in the street.  I thought at some point they were going to sweep in and seize control, but it just never happened.",
+          "relevant_genders": [ "npc" ]
+        }
       }
     ],
     "responses": [ { "text": "What do you mean?  Who is 'they'?", "topic": "BGSS_PREPPER_1_FOUND_LMOE8" } ]
@@ -497,8 +556,11 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "days_since_cataclysm": 21,
-        "no": "You know, the elites.  The ones who have always had control will continue having control, no matter what it costs.  If it means destroying everything to be king of the ashes, they'll do it.  I used to think it was China, for sure, but I'm not so sure anymore.  I figured they would probably be here by now, putting on their crown.  Maybe they're still waiting to make their move…",
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 21" ],
+        "no": {
+          "gendered_line": "You know, the elites.  The ones who have always had control will continue having control, no matter what it costs.  If it means destroying everything to be king of the ashes, they'll do it.  I used to think it was China, for sure, but I'm not so sure anymore.  I figured they would probably be here by now, putting on their crown.  Maybe they're still waiting to make their move…",
+          "relevant_genders": [ "npc" ]
+        },
         "yes": "The government.  Whoever was left, really.  I don't know…  I'm starting to think that maybe some of those folks were right…  Maybe this is some kind of punishment for humanity.  Maybe some god decided they'd had enough of us.  Or maybe there's no answer.  I can't explain some of the things I've seen."
       }
     ],
@@ -546,7 +608,10 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOVERNMENT",
     "type": "talk_topic",
-    "dynamic_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet I could completely fuck up reality, too.",
+    "dynamic_line": {
+      "gendered_line": "That's what I'm saying!  Everything that's going on wouldn't be possible without massive fuck-ups by people in power.  China has fusion reactors?  Well, I've never seen it!  America sinks trillions and trillions of dollars into secret military budgets with no explanation.  If you gave me a trillion dollars and the brain of a bureaucrat, I bet I could completely fuck up reality, too.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Well, let's get going.  I'm trying to stick it to 'The Man' while we've still got a chance.",
@@ -557,7 +622,10 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_GOD",
     "type": "talk_topic",
-    "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I grew up around a lot of people who always talked about the Rapture.  Hell itself opening up and everything.  It was like they KNEW it would happen.  Before the internet stopped working, I saw people saying that sinners were becoming zombies.  'As above, so below' someone said, or something like that…",
+    "dynamic_line": {
+      "gendered_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I grew up around a lot of people who always talked about the Rapture.  Hell itself opening up and everything.  It was like they KNEW it would happen.  Before the internet stopped working, I saw people saying that sinners were becoming zombies.  'As above, so below' someone said, or something like that…",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "We should keep moving…  No sense dwelling on fate.  If those people are right, then this is all we've got: survival.",
@@ -605,7 +673,10 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_BONE_SEER",
     "type": "talk_topic",
-    "dynamic_line": "She said it was… energy in bones?  Listen, I've heard a lot of crazy bullshit in my time and that's up there, for sure.  And I don't see how something like that explains all the crazy shit I've seen either.  But collecting bones to… save the world?  Fuck it, give it a shot.  Maybe that's something just YOU do, though.  I'm happy believing a lie if that's the truth, I'll be honest.",
+    "dynamic_line": {
+      "gendered_line": "She said it was… energy in bones?  Listen, I've heard a lot of crazy bullshit in my time and that's up there, for sure.  And I don't see how something like that explains all the crazy shit I've seen either.  But collecting bones to… save the world?  Fuck it, give it a shot.  Maybe that's something just YOU do, though.  I'm happy believing a lie if that's the truth, I'll be honest.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "I didn't say it was a SOLID theory, but maybe she's onto something.  This is evil on a cosmic scale; I don't know how else to explain it.  Maybe she's right.  Maybe the bones really are 'singing'.",
@@ -616,7 +687,10 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE9_ALIENS",
     "type": "talk_topic",
-    "dynamic_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I don't know why humans would want this, but if you're a brain-sucking alien, this is the place to be.",
+    "dynamic_line": {
+      "gendered_line": "I've been trying not to think about it, but you could be right.  The more that I see, the less I can explain.  I don't know why humans would want this, but if you're a brain-sucking alien, this is the place to be.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "So… are you down to kick some alien ass with me?", "topic": "BGSS_PREPPER_1_FOUND_LMOE10_ALIENS" },
       { "text": "Let's not dwell on it.  I'm ready to get a move on…", "topic": "TALK_DONE" }
@@ -640,13 +714,19 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_SKEPTIC",
     "type": "talk_topic",
-    "dynamic_line": "You're right, but I still think there's something bigger out there.  Something evil.  It doesn't matter whether science can explain it because we damn sure don't seem capable of defeating it.",
+    "dynamic_line": {
+      "gendered_line": "You're right, but I still think there's something bigger out there.  Something evil.  It doesn't matter whether science can explain it because we damn sure don't seem capable of defeating it.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "Yeah, it does seem a little grim…  Let's keep moving for now.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_TAKE_BAIT",
     "type": "talk_topic",
-    "dynamic_line": "I'm sorry, 'officer'.  I didn't write the book of cop jokes, you know.",
+    "dynamic_line": {
+      "gendered_line": "I'm sorry, 'officer'.  I didn't write the book of cop jokes, you know.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "Let's just keep moving.  We don't have time for this nonsense…", "topic": "TALK_DONE" } ]
   },
   {
@@ -660,7 +740,10 @@
   {
     "id": "BGSS_PREPPER_1_FOUND_LMOE10_HUB01",
     "type": "talk_topic",
-    "dynamic_line": "Scared?  Yeah, that's fair.  I wouldn't say it's a friendly world out here.  Still, it's best to be friends.  Anyone that prepared for the apocalypse is probably armed to the teeth anyway.",
+    "dynamic_line": {
+      "gendered_line": "Scared?  Yeah, that's fair.  I wouldn't say it's a friendly world out here.  Still, it's best to be friends.  Anyone that prepared for the apocalypse is probably armed to the teeth anyway.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "Let's get moving.  I feel like it's useless worrying who they are when they're some of the only friends we've got…",

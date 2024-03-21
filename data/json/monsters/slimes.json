@@ -81,7 +81,7 @@
     "bodytype": "blob",
     "species": [ "SLIME" ],
     "diff": 1,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 160,
     "speed": 90,
@@ -148,7 +148,7 @@
     "default_faction": "slime",
     "species": [ "SLIME" ],
     "diff": 2,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 200,
     "speed": 40,
@@ -244,5 +244,22 @@
     },
     "flags": [ "IMMOBILE", "SEES", "NOHEAD", "POISON", "WARM", "ACIDPROOF" ],
     "armor": { "bash": 20, "electric": 3 }
+  },
+  {
+    "id": "mon_blob_sewer",
+    "type": "MONSTER",
+    "name": { "str": "sewer slime" },
+    "description": "This moving, black glob emits a foul stench.  It has incorporated the both the liquid and solid contents of the sewer water.",
+    "copy-from": "mon_blob",
+    "hp": 60,
+    "color": "green",
+    "melee_skill": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 }, { "damage_type": "biological", "amount": 1 } ],
+    "special_attacks": [  ],
+    "death_function": {
+      "message": "The %s bursts, releasing its vile contents!",
+      "corpse_type": "NO_CORPSE",
+      "effect": { "id": "death_gas", "hit_self": true }
+    }
   }
 ]

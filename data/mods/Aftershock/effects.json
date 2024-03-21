@@ -182,8 +182,12 @@
     "type": "effect_type",
     "id": "afs_isohypsa_overwatch",
     "name": [ "Isohypsa Overwatch" ],
-    "//~": "This is just a fragment of machine code, it needs no translation.",
-    "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
+    "desc": [
+      {
+        "//~": "This is just a fragment of machine code, it needs no translation.",
+        "str": "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n"
+      }
+    ],
     "rating": "good",
     "blocks_effects": [ "sensor_stun", "dazed", "stunned", "blind" ],
     "base_mods": { "dex_mod": [ 0.5 ], "speed_mod": [ 50 ] },

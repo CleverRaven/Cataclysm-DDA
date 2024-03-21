@@ -7,12 +7,10 @@
 #include <iterator>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
 #include <tuple>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -40,6 +38,7 @@
 #include "game_constants.h"
 #include "gun_mode.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -86,7 +85,9 @@ static const ammotype ammo_84x246mm( "84x246mm" );
 static const ammotype ammo_RPG_7( "RPG-7" );
 static const ammotype ammo_arrow( "arrow" );
 static const ammotype ammo_atgm( "atgm" );
+static const ammotype ammo_atlatl( "atlatl" );
 static const ammotype ammo_bolt( "bolt" );
+static const ammotype ammo_bolt_ballista( "bolt_ballista" );
 static const ammotype ammo_flammable( "flammable" );
 static const ammotype ammo_homebrew_rocket( "homebrew_rocket" );
 static const ammotype ammo_m235( "m235" );
@@ -109,6 +110,7 @@ static const damage_type_id damage_cut( "cut" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_on_roof( "on_roof" );
+static const efftype_id effect_quadruped_full( "quadruped_full" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const fault_id fault_gun_chamber_spent( "fault_gun_chamber_spent" );
@@ -243,22 +245,6 @@ class target_ui
         // List of visible hostile targets
         std::vector<Creature *> targets;
 
-        // 'true' if map has z levels and 3D fov is on
-        bool allow_zlevel_shift = false;
-        // Snap camera to cursor. Can be permanently toggled in settings
-        // or temporarily in this window
-        bool snap_to_target = false;
-        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
-        // responsible for moving cursor will shift view instead.
-        bool shifting_view = false;
-
-        // Compact layout
-        bool compact = false;
-        // Tiny layout - when extremely short on space
-        bool tiny = false;
-        // Narrow layout - to keep in theme with
-        // "compact" and "labels-narrow" sidebar styles.
-        bool narrow = false;
         // Window
         catacurses::window w_target;
         // Input context
@@ -294,6 +280,20 @@ class target_ui
         // If true, draws turret lines
         // relevant for TargetMode::Turrets
         bool draw_turret_lines = false;
+        // Snap camera to cursor. Can be permanently toggled in settings
+        // or temporarily in this window
+        bool snap_to_target = false;
+        // If true, LEVEL_UP, LEVEL_DOWN and directional keys
+        // responsible for moving cursor will shift view instead.
+        bool shifting_view = false;
+
+        // Compact layout
+        bool compact = false;
+        // Tiny layout - when extremely short on space
+        bool tiny = false;
+        // Narrow layout - to keep in theme with
+        // "compact" and "labels-narrow" sidebar styles.
+        bool narrow = false;
 
         // Create window and set up input context
         void init_window_and_input();
@@ -548,7 +548,8 @@ double Creature::ranged_target_size() const
 {
     double stance_factor = 1.0;
     if( const Character *character = this->as_character() ) {
-        if( character->is_crouching() ) {
+        if( character->is_crouching() || ( character->has_effect( effect_quadruped_full ) &&
+                                           character->is_running() ) ) {
             stance_factor = 0.6;
         } else if( character->is_prone() ) {
             stance_factor = 0.25;
@@ -849,7 +850,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
         add_msg_if_player_sees( *source, m_warning, _( "You hear %s." ), data.sound );
         curshot++;
-        moves -= 100;
+        mod_moves( -get_speed() );
     }
 }
 
@@ -918,7 +919,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
-            moves -= 50;
+            mod_moves( -get_speed() * 0.5 );
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
@@ -1053,7 +1054,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
     }
     // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_attack( *this, *gun_id );
+    mod_moves( -time_to_attack( *this, *gun_id ) );
 
     const islot_gun &firing = *gun.type->gun;
     for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
@@ -1127,7 +1128,7 @@ int throw_cost( const Character &c, const item &to_throw )
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
-    move_cost *= c.mutation_value( "attackcost_modifier" );
+    move_cost = c.enchantment_cache->modify_value( enchant_vals::mod::ATTACK_SPEED, move_cost );
 
     return std::max( 25, move_cost );
 }
@@ -1522,7 +1523,7 @@ static void do_aim( Character &you, const item &relevant, const double min_recoi
             practice_archery_proficiency( you, relevant );
 
             // Only drain stamina on initial draw
-            if( you.moves == 1 ) {
+            if( you.get_moves() == 1 ) {
                 mod_stamina_archery( you, relevant );
             }
         }
@@ -1719,8 +1720,8 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
             prediction.moves = throw_moves;
         } else {
-            prediction.moves = you.gun_engagement_moves( weapon, aim_type.threshold, you.recoil, target )
-                               + time_to_attack( you, *weapon.type );
+            prediction.moves = predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type,
+                                               you.recoil ).moves + time_to_attack( you, *weapon.type );
         }
 
         // if the default method is "behind" the selected; e.g. you are in immediate
@@ -2168,7 +2169,9 @@ void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
         sounds::sound( p.pos(), data.volume, sounds::sound_t::combat,
                        data.sound.empty() ? _( "Bang!" ) : data.sound );
     }
-    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, false, 0, false ),
+    tname::segment_bitset segs( tname::unprefixed_tname );
+    segs.set( tname::segments::CONTENTS, false );
+    p.add_msg_if_player( _( "You shoot your %1$s.  %2$s" ), weapon->tname( 1, segs ),
                          uppercase_first_letter( data.sound ) );
 }
 
@@ -2206,8 +2209,10 @@ item::sound_data item::gun_noise( const bool burst ) const
         return { noise, _( "whizz!" ) };
     } else if( at.count( ammo_strange_arrow ) ) {
         return { noise, _( "Crack!" ) };
-    } else if( at.count( ammo_bolt ) ) {
+    } else if( at.count( ammo_bolt ) || at.count( ammo_bolt_ballista ) ) {
         return { noise, _( "thonk!" ) };
+    } else if( at.count( ammo_atlatl ) ) {
+        return { noise, _( "swoosh!" ) };
     }
 
     auto fx = ammo_effects();
@@ -2459,7 +2464,6 @@ target_handler::trajectory target_ui::run()
 
     map &here = get_map();
     // Load settings
-    allow_zlevel_shift = get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -2751,7 +2755,7 @@ void target_ui::init_window_and_input()
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
     ctxt.register_action( "TOGGLE_MOVE_CURSOR_VIEW" );
-    if( allow_zlevel_shift ) {
+    if( fov_3d_z_range > 0 ) {
         ctxt.register_action( "LEVEL_UP" );
         ctxt.register_action( "LEVEL_DOWN" );
     }
@@ -2859,7 +2863,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
-        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 );
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
@@ -3218,7 +3222,7 @@ void target_ui::cycle_targets( int direction )
 void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
     tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
-    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT - 1 ) - src.z;
 
     bool changed_z = you->view_offset.z != new_.z;
     you->view_offset = new_;
@@ -3419,7 +3423,7 @@ bool target_ui::action_aim()
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 
-    return you->moves > 0;
+    return you->get_moves() > 0;
 }
 
 bool target_ui::action_drop_aim()
@@ -3450,7 +3454,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     const double min_recoil = calculate_aim_cap( *you, dst );
     do {
         do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
-    } while( you->moves > 0 && you->recoil > aim_threshold &&
+    } while( you->get_moves() > 0 && you->recoil > aim_threshold &&
              you->recoil - sight_dispersion > min_recoil );
 
     // If we made it under the aim threshold, go ahead and fire.
@@ -3772,7 +3776,7 @@ void target_ui::panel_cursor_info( int &text_y )
 
     std::vector<std::string> labels;
     labels.push_back( label_range );
-    if( allow_zlevel_shift ) {
+    if( fov_3d_z_range > 0 ) {
         labels.push_back( string_format( _( "Elevation: %d" ), dst.z - src.z ) );
     }
     labels.push_back( string_format( _( "Targets: %d" ), targets.size() ) );

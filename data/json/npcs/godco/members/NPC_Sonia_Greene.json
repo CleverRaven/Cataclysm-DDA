@@ -35,7 +35,10 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Well now, good to see you again, friend.", "Nice of you to come around <u_name>." ],
+      "yes": [
+        { "gendered_line": "Well now, good to see you again, friend.", "relevant_genders": [ "u" ] },
+        "Nice of you to come around <u_name>."
+      ],
       "no": "Good to see people like you in the world.  I'm Sonia, Sonia Greene.  I entertain the people."
     },
     "responses": [

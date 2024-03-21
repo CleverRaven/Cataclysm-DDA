@@ -36,6 +36,11 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "UICA_mil",
+    "base_faction": "WraitheonRobotics"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "whately",
     "base_faction": "human",
     "friendly": [ "human", "whately", "whately_family" ],

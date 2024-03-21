@@ -34,6 +34,15 @@
     "flags": [ "SOURCE_FOOD", "SOURCE_GUN", "SOURCE_AMMO" ]
   },
   {
+    "id": "afs_landed_shuttle",
+    "type": "overmap_terrain",
+    "name": "drone shuttle landing site",
+    "sym": "^",
+    "color": "yellow",
+    "see_cost": 2,
+    "flags": [ "SOURCE_SAFETY", "NO_ROTATE" ]
+  },
+  {
     "id": "municipal_reactor_ware",
     "type": "overmap_terrain",
     "name": "warehouse",

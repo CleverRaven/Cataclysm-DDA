@@ -14,7 +14,7 @@
     "name": { "str": "Slice n' Dice" },
     "points": 0,
     "description": "You've become very skilled with cutting weapons of all sorts, and know how to use them better.",
-    "cut_dmg_bonus": 5,
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 5 } ] } ],
     "category": [ "perk" ]
   },
   {
@@ -23,7 +23,7 @@
     "name": { "str": "Bash n' Mash" },
     "points": 0,
     "description": "You've become very skilled with blunt instruments of all sorts, and know how to use them better.",
-    "bash_dmg_bonus": 5,
+    "enchantments": [ { "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_BASH", "add": 5 } ] } ],
     "category": [ "perk" ]
   },
   {
@@ -32,7 +32,7 @@
     "name": { "str": "Knifey" },
     "points": 0,
     "description": "You're very in tune with the ways of stabbing somebody.",
-    "pierce_dmg_bonus": 5,
+    "enchantments": [ { "values": [ { "value": "ITEM_DAMAGE_STAB", "add": 5 } ] } ],
     "category": [ "perk" ]
   },
   {
@@ -41,9 +41,16 @@
     "name": { "str": "Melee Master" },
     "points": 0,
     "description": "You've become a master of melee, and are skilled with melee weapons.",
-    "pierce_dmg_bonus": 10,
-    "cut_dmg_bonus": 10,
-    "bash_dmg_bonus": 10,
+    "enchantments": [
+      {
+        "condition": { "not": "u_has_weapon" },
+        "values": [
+          { "value": "ITEM_DAMAGE_CUT", "add": 10 },
+          { "value": "ITEM_DAMAGE_STAB", "add": 10 },
+          { "value": "ITEM_DAMAGE_BASH", "add": 10 }
+        ]
+      }
+    ],
     "category": [ "perk" ]
   },
   {
@@ -53,7 +60,7 @@
     "points": 0,
     "description": "Your time exercising has gotten you used to being winded, and has vastly expanded your stamina.  You can go for longer and harder now.",
     "category": [ "perk" ],
-    "cardio_multiplier": 1.8
+    "enchantments": [ { "values": [ { "value": "CARDIO_MULTIPLIER", "multiply": 0.8 } ] } ]
   },
   {
     "type": "mutation",
@@ -63,5 +70,15 @@
     "description": "You're like a cat, and it always seemed to you like you've had nine lives.  When things get rough, by pure luck or divine intervention, you can get out of it.",
     "category": [ "perk" ],
     "processed_eocs": [ { "id": "extra_life_addup", "effect": { "math": [ "revivication_counter", "++" ] } } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_mysterious_stranger",
+    "name": { "str": "Mysterious Stranger" },
+    "points": 0,
+    "description": "Someone must be watching over you!  Whenever you're in combat, you can call for the help of a stranger for a short amount of time.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "mysterious_stranger_activate" ]
   }
 ]

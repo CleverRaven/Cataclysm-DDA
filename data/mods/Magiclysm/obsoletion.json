@@ -1,0 +1,15 @@
+[
+  {
+    "id": "earthshaper_map_real",
+    "type": "SPELL",
+    "name": "Reading the Earthbones Real Spell",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": { "math": [ "( 7 + (u_spell_level('earthshaper_reveal_world_map') * 2.2) )" ] }
+  }
+]

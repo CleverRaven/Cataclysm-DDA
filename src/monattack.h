@@ -63,7 +63,6 @@ bool gene_sting( monster *z );
 bool para_sting( monster *z );
 bool triffid_growth( monster *z );
 bool stare( monster *z );
-bool fear_paralyze( monster *z );
 bool nurse_check_up( monster *z );
 bool nurse_assist( monster *z );
 bool nurse_operate( monster *z );

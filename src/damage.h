@@ -234,6 +234,7 @@ damage_instance load_damage_instance_inherit( const JsonObject &jo, const damage
 damage_instance load_damage_instance_inherit( const JsonArray &jarr,
         const damage_instance &parent );
 
+resistances extend_resistances_instance( resistances ret, const JsonObject &jo );
 resistances load_resistances_instance( const JsonObject &jo,
                                        const std::set<std::string> &ignored_keys = {} );
 

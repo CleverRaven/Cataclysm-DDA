@@ -113,7 +113,7 @@
     "type": "vehicle_part",
     "copy-from": "frame_abstract",
     "item": "frame",
-    "//": "assuming about 50 cm square for a frame's welds (200cm total) plus 50cm per damage quadrant for repair",
+    "//": "assuming about 50 cm square for a frame's welds (200 cm total) plus 50 cm per damage quadrant for repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],

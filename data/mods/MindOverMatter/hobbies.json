@@ -43,8 +43,51 @@
     "name": "Newly-Awakened Biokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You feel in better shape than you ever have in your life, like you could run ten miles and climb a mountain and then wake up and do it again.  You'll probably need it.",
     "points": 3,
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_biokinetic",
+    "name": "Arising Biokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can breathe underwater and twist yourself enough to squeeze through a half-closed window.  You can run five meters in less than a second and shrug off a punch like it's nothing.  You'd almost be worried you were becoming one of those rioters, except you're definitely still sane.  Right?",
+    "points": 6,
     "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
-    "recipes": [ "practice_biokin_overcome_pain", "practice_biokin_physical_enhance" ]
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "biokin_physical_enhance", "level": 11 },
+      { "id": "biokin_overcome_pain", "level": 7 },
+      { "id": "biokin_breathe_skin", "level": 7 },
+      { "id": "biokin_dash", "level": 8 },
+      { "id": "biokin_armor_skin", "level": 6 },
+      { "id": "biokin_flexibility", "level": 9 },
+      { "id": "biokin_adrenaline", "level": 4 },
+      { "id": "biokin_enhance_mobility", "level": 5 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_biokinetic",
+    "name": "Ascended Biokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can move inhumanly fast, hitting zombies before they even seem to know that you're there.  You can pull out nails with your bare hands and go out in winter without even a shirt and not feel the cold.  You're a new breed, Homo Cataclysmicus, and if anyone is equipped to survive in this new world, it's you.",
+    "points": 10,
+    "traits": [ "BIOKINETIC", "BIOKIN_NEEDS" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "biokin_physical_enhance", "level": 11 },
+      { "id": "biokin_overcome_pain", "level": 10 },
+      { "id": "biokin_breathe_skin", "level": 7 },
+      { "id": "biokin_dash", "level": 9 },
+      { "id": "biokin_armor_skin", "level": 11 },
+      { "id": "biokin_climate_control", "level": 5 },
+      { "id": "biokin_flexibility", "level": 9 },
+      { "id": "biokin_adrenaline", "level": 6 },
+      { "id": "biokin_enhance_mobility", "level": 8 },
+      { "id": "biokin_hammerhand", "level": 6 },
+      { "id": "biokin_reflex_enhance", "level": 10 },
+      { "id": "biokin_combat_dance", "level": 4 }
+    ]
   },
   {
     "type": "profession",
@@ -52,8 +95,48 @@
     "id": "newly_clairsentient",
     "name": "Newly-Awakened Clairsentient",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can read much faster and can see much better in the dark, and even in total darkness you no longer have any hesitation about moving.  At least once you avoided zombies on the other side of a wall that you didn't hear and couldn't see, but you you just knew they were there.",
-    "points": 3,
+    "points": 5,
     "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_clairsentient",
+    "name": "Arising Clairsentient",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can see auras around people that tell you what they're feeling, and you've already used it to avoid someone who was feigning being injured with the hope of stealing your gear.  You can see through walls, and tell where the best place to hit something is to take it down for good.  That last ability will definitely get plenty of use.",
+    "points": 8,
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "clair_night_vision", "level": 6 },
+      { "id": "clair_danger_sense", "level": 10 },
+      { "id": "clair_speed_reading", "level": 7 },
+      { "id": "clair_see_auras", "level": 8 },
+      { "id": "clair_spot_weakness", "level": 7 },
+      { "id": "clair_voyance", "level": 6 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_clairsentient",
+    "name": "Ascended Clairsentient",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can finish books in a few hours and remember almost everything you read, you had to fix a bicycle a few weeks ago and even though you've never tried to do that before in your life, everything you needed to do just…came to you.  What's more, last time the Zs attacked you, you never got a scratch.  Three of them came at you at once and you dodged every attack because you could see what they were going to do before they did it.  If only you could see where you needed to go to be safe.",
+    "points": 14,
+    "traits": [ "CLAIRSENTIENT", "CLAIR_SENSES" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "clair_night_vision", "level": 6 },
+      { "id": "clair_danger_sense", "level": 10 },
+      { "id": "clair_speed_reading", "level": 7 },
+      { "id": "clair_see_auras", "level": 8 },
+      { "id": "clair_ranged_enhance", "level": 6 },
+      { "id": "clair_spot_weakness", "level": 7 },
+      { "id": "clair_voyance", "level": 8 },
+      { "id": "clair_dodge_power", "level": 7 },
+      { "id": "clair_craft_bonus", "level": 7 },
+      { "id": "clair_clear_sight", "level": 5 }
+    ]
   },
   {
     "type": "profession",
@@ -62,8 +145,52 @@
     "name": "Newly-Awakened Electrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  While running down an alleyway to escape a group of rioters, you looked back and realized you were going to get caught and then there was a deafening crash of thunder and your vision went white.  When your hearing and sight came back, the rioters were lying in a heap, some still with smoldering clothes, and you were unscathed.",
     "points": 4,
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_electrokinetic",
+    "name": "Arising Electrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You an hurl lightning bolts from your hands, like some kind of superhero, and your smartphone still has a full charge even though you haven't plugged it in in weeks.  Some kind of huge wasp attacked you in the woods and there was a crackle like thunder and it fell to the ground twitching.  You didn't stop to check if it would move again.",
+    "points": 7,
     "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
-    "recipes": [ "practice_electrokinetic_see_electric", "practice_electrokinetic_shock_touch" ]
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "electrokinetic_see_electric", "level": 10 },
+      { "id": "electrokinetic_shock_touch", "level": 9 },
+      { "id": "electrokinetic_zap_enemies", "level": 9 },
+      { "id": "electrokinetic_melee_attacks", "level": 8 },
+      { "id": "electrokinetic_paralysis", "level": 5 },
+      { "id": "electrokinetic_personal_battery", "level": 6 },
+      { "id": "electrokinetic_reduce_pain", "level": 6 },
+      { "id": "electrokinetic_lightning_bolt", "level": 7 },
+      { "id": "electrokinetic_speed_boost", "level": 2 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_electrokinetic",
+    "name": "Ascended Electrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You managed to drive the entire week the sky broke on a single charge in your car, and while you had to abandon it since then it got you out of the worst of the cities.  Anything that attacks you has to face your lightning and you haven't found anything yet that can withstand it.",
+    "points": 11,
+    "traits": [ "ELECTROKINETIC", "ELECTRO_SHIELD" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "electrokinetic_see_electric", "level": 11 },
+      { "id": "electrokinetic_shock_touch", "level": 12 },
+      { "id": "electrokinetic_zap_enemies", "level": 11 },
+      { "id": "electrokinetic_melee_attacks", "level": 11 },
+      { "id": "electrokinetic_paralysis", "level": 9 },
+      { "id": "electrokinetic_personal_battery", "level": 6 },
+      { "id": "electrokinetic_reduce_pain", "level": 6 },
+      { "id": "electrokinetic_lightning_bolt", "level": 11 },
+      { "id": "electrokinetic_recharge_vehicle", "level": 7 },
+      { "id": "electrokinetic_speed_boost", "level": 9 },
+      { "id": "electrokinetic_kill_robot", "level": 5 },
+      { "id": "electrokinetic_lightning_aura", "level": 4 }
+    ]
   },
   {
     "type": "profession",
@@ -77,11 +204,95 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "mid_photokinetic",
+    "name": "Arising Photokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can make the air glow and fire lasers from your hands, and even sometimes hear radio signals.  You haven't heard any other survivors out there yet, but you listen for a bit every night, just in case.",
+    "points": 7,
+    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "photokinetic_light_local", "level": 8 },
+      { "id": "photokinetic_create_light", "level": 6 },
+      { "id": "photokinetic_snuff_light", "level": 5 },
+      { "id": "photokinetic_light_dodge", "level": 7 },
+      { "id": "photokinetic_light_beam", "level": 7 },
+      { "id": "photokinetic_camouflage", "level": 6 },
+      { "id": "photokinetic_rad_immunity", "level": 6 },
+      { "id": "photokinetic_radio", "level": 4 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_photokinetic",
+    "name": "Ascended Photokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Many times a horde has passed within sight of you and simply never noticed you, and the few times they did, you just created illusions of yourself and all ran different directions.  The few stragglers were easy to sear to ash with focused light.",
+    "points": 11,
+    "traits": [ "PHOTOKINETIC", "PHOTO_EYES" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "photokinetic_light_local", "level": 11 },
+      { "id": "photokinetic_create_light", "level": 10 },
+      { "id": "photokinetic_snuff_light", "level": 7 },
+      { "id": "photokinetic_light_dodge", "level": 9 },
+      { "id": "photokinetic_light_beam", "level": 9 },
+      { "id": "photokinetic_camouflage", "level": 8 },
+      { "id": "photokinetic_rad_immunity", "level": 6 },
+      { "id": "photokinetic_light_image", "level": 7 },
+      { "id": "photokinetic_radio", "level": 4 },
+      { "id": "photokinetic_invisibility", "level": 8 },
+      { "id": "photokinetic_light_flash", "level": 6 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "newly_pyrokinetic",
     "name": "Newly-Awakened Pyrokinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  With just a thought, you can start a fire or make light radiate from the very air.  It's already saved your life once when you burned a zombie to ash while scavenging in a ruined house.  Sure, the house burned down too, but you'll definitely get more control as time goes on, right?",
     "points": 5,
     "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_pyrokinetic",
+    "name": "Arising Pyrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You don't even know how many zombies you've burned at this point, and keeping warm in winter certainly won't be a problem.",
+    "points": 7,
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "pyrokinetic_flash", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 7 },
+      { "id": "pyrokinetic_call_flames", "level": 8 },
+      { "id": "pyrokinetic_quell_flames", "level": 5 },
+      { "id": "pyrokinetic_cloak", "level": 6 },
+      { "id": "pyrokinetic_flamethrower", "level": 6 },
+      { "id": "pyrokinetic_thermogenesis", "level": 6 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_pyrokinetic",
+    "name": "Ascended Pyrokinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You are one with the flames, and they come at your command and obey your every instruction.  Zombies, mutants, aliens, stranger things--no matter what is out there, you will incinerate it and survive.",
+    "points": 7,
+    "traits": [ "PYROKINETIC", "PYROKIN_ADAPTATION" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "pyrokinetic_flash", "level": 8 },
+      { "id": "pyrokinetic_eruption", "level": 11 },
+      { "id": "pyrokinetic_call_flames", "level": 8 },
+      { "id": "pyrokinetic_quell_flames", "level": 9 },
+      { "id": "pyrokinetic_cloak", "level": 8 },
+      { "id": "pyrokinetic_flamethrower", "level": 9 },
+      { "id": "pyrokinetic_thermogenesis", "level": 6 },
+      { "id": "pyrokinetic_aura", "level": 6 },
+      { "id": "pyrokinetic_flame_immunity", "level": 7 },
+      { "id": "pyrokinetic_blast", "level": 5 }
+    ]
   },
   {
     "type": "profession",
@@ -95,11 +306,96 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "mid_telekinetic",
+    "name": "Arising Telekinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Moving things at a distance is child's play.  You can pick up zombies and fling them away from you, shatter doors with a thought, and jump from the fifth story and land with barely a bruise.  Nothing is going to get close to you now.",
+    "points": 8,
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_9" ],
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telekinetic_push", "level": 8 },
+      { "id": "telekinetic_pull", "level": 6 },
+      { "id": "telekinetic_slam_down", "level": 7 },
+      { "id": "telekinetic_wave", "level": 8 },
+      { "id": "telekinetic_momentum", "level": 10 },
+      { "id": "telekinetic_hammer", "level": 6 },
+      { "id": "telekinetic_shield", "level": 4 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_telekinetic",
+    "name": "Ascended Telekinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  One ton cars lift off the ground with merely a thought, bullets bounce off the air before they hit you, and you can smash whole groups of zombies to paste in seconds.  You can even fly from rooftop to rooftop, preventing gravity from affecting you by sheer force of will.",
+    "points": 12,
+    "traits": [ "TELEKINETIC", "TELEKINETIC_LIFTER_10" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telekinetic_push", "level": 11 },
+      { "id": "telekinetic_pull", "level": 10 },
+      { "id": "telekinetic_slam_down", "level": 7 },
+      { "id": "telekinetic_momentum", "level": 10 },
+      { "id": "telekinetic_slowfall", "level": 8 },
+      { "id": "telekinetic_wave", "level": 10 },
+      { "id": "telekinetic_strength", "level": 5 },
+      { "id": "telekinetic_hammer", "level": 8 },
+      { "id": "telekinetic_vehicle_lift", "level": 6 },
+      { "id": "telekinetic_shield", "level": 7 },
+      { "id": "telekinetic_explosion", "level": 6 },
+      { "id": "telekinetic_levitation", "level": 4 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "newly_telepath",
     "name": "Newly-Awakened Telepath",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  The crazies were bad enough during the riots, but once you were stopped by a police officer whose bloodshot eyes told you that he wasn't going to let you off with a warning.  But you could somehow hear his thoughts, a chaotic jumble of rage and hunger and fear, you just…nudged them a little bit, and he wandered off and left you alone.  It doesn't work the same way with the zombies, but you can't have everything.",
     "points": 3,
     "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_telepath",
+    "name": "Arising Telepath",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Sure, the zombies are immune to telepathy, but those rioters aren't and neither are some of the monsters you've run into.  At least once, you managed to warn off another survivor who you knew meant to rob you.  You left him unconscious and without his weapons, and if the zombies got him, well, he shouldn't have messed with you.",
+    "points": 6,
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telepathic_concentration", "level": 7 },
+      { "id": "telepathic_mind_sense", "level": 8 },
+      { "id": "telepathic_shield", "level": 6 },
+      { "id": "telepathic_morale", "level": 8 },
+      { "id": "telepathic_blast", "level": 6 },
+      { "id": "telepathic_animal_mind_control", "level": 5 },
+      { "id": "telepathic_confusion", "level": 5 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_telepath",
+    "name": "Ascended Telepath",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Controlling human minds is still too hard but at this point, animal minds are child's play.  A while back, some kind of mutated wolf or dog or something jumped you in the forest and after a few seconds, it was wagging its tail and jumping around like a new puppy.  You wish you still had it with you, but it died fighting off some kind of pink crustacean…thing, giving you time to run.  The bravest dog you ever had.",
+    "points": 10,
+    "traits": [ "TELEPATH", "TELEPATHIC_SUGGESTION" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "telepathic_concentration", "level": 10 },
+      { "id": "telepathic_mind_sense", "level": 11 },
+      { "id": "telepathic_shield", "level": 9 },
+      { "id": "telepathic_morale", "level": 8 },
+      { "id": "telepathic_blast", "level": 8 },
+      { "id": "telepathic_animal_mind_control", "level": 10 },
+      { "id": "telepathic_confusion", "level": 9 },
+      { "id": "telepathic_fear", "level": 7 },
+      { "id": "telepathic_invisibility", "level": 8 },
+      { "id": "telepathic_blast_radius", "level": 6 },
+      { "id": "telepathic_beast_taming", "level": 5 }
+    ]
   },
   {
     "type": "profession",
@@ -113,10 +409,105 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "mid_teleporter",
+    "name": "Arising Teleporter",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You can step through walls, and once you were surrounded by a horde and looked up and a nearby rooftop and… there you were, safe and out of the zombies' line of sight.  The rule of the zombie apocalypse is \"keep moving\", and you're the best you've ever been at that.",
+    "points": 10,
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "teleport_blink", "level": 7 },
+      { "id": "teleport_slow", "level": 10 },
+      { "id": "teleport_displacement", "level": 5 },
+      { "id": "teleport_stride", "level": 8 },
+      { "id": "teleport_phase", "level": 11 },
+      { "id": "teleport_farstep", "level": 5 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_teleporter",
+    "name": "Ascended Teleporter",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  No wall or door is a barrier to you and sometimes when you close your eyes you can travel to places you've already been.  Once you were surprised by a bandit and when he leveled his gun at you, you wished he was somewhere else and he just…disappeared.  Nothing can keep you down now.",
+    "points": 13,
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "teleport_blink", "level": 11 },
+      { "id": "teleport_slow", "level": 12 },
+      { "id": "teleport_displacement", "level": 10 },
+      { "id": "teleport_stride", "level": 12 },
+      { "id": "teleport_phase", "level": 12 },
+      { "id": "teleport_collapse", "level": 7 },
+      { "id": "teleport_farstep", "level": 10 },
+      { "id": "teleport_banish", "level": 6 },
+      { "id": "teleport_gateway", "level": 4 },
+      { "id": "teleport_area_attune", "level": 1 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "gateway_teleporter",
+    "name": "Gateway Initiate",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  But teleporting through walls isn't the most impressive part.  You spent a few days in an abandoned basement and on a scavenging trip, one of those rioters surprised you.  Snarling, she had you by the arm and was prepared to smash in your head with a pipe and then you were just…back safe in that basement.  That will definitely come in handy.",
+    "points": 5,
+    "traits": [ "TELEPORTER", "TELEPORTER_PROTECT" ],
+    "skills": [ { "level": 2, "name": "metaphysics" } ],
+    "spells": [ { "id": "teleport_gateway", "level": 3 }, { "id": "teleport_area_attune", "level": 1 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "newly_vitakinetic",
     "name": "Newly-Awakened Vitakinetic",
     "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You broke your leg when you got caught in a riot, and when things got really bad you were positive you were going to die.  But somehow, after only a few days your leg didn't seem to hurt nearly as much anymore.  By the end of the week you could walk on it, and by now it's like nothing ever happened.  It's not going to help you fight the zombies but it'll sure help you recover afterward.",
     "points": 3,
     "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mid_vitakinetic",
+    "name": "Arising Vitakinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  Just last week you were looking in an abandoned building and fell through a weak floor.  But you barely bled, and after a few minutes lying there you picked yourself up and managed to run away from the things that came to investigate the noise.  You didn't have enough water to properly clean your wounds but it hasn't seemed to have mattered.  You're already back to normal.",
+    "points": 6,
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
+    "skills": [ { "level": 6, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "vita_health_power", "level": 8 },
+      { "id": "vita_slow_bleeding", "level": 8 },
+      { "id": "vita_stop_bleeding", "level": 6 },
+      { "id": "vita_health_power_ally", "level": 4 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_sleeping_trance", "level": 5 },
+      { "id": "vita_cure_disease", "level": 5 },
+      { "id": "vita_pain_split", "level": 6 }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "late_vitakinetic",
+    "name": "Ascended Vitakinetic",
+    "description": "Something happened during the storms that raged during the Cataclysm, and now you can do things that would have once seemed impossible.  You've suffered injuries that should have killed you multiple times over by now and recovered in days every time.  You've broken your leg twice, your arm once, drank bad water that had you puking your guts out, nearly been disemboweled by some mutated thing…every single time, your powers kept you going.  Hopefully they'll see you through to the very end of all this.",
+    "points": 6,
+    "traits": [ "VITAKINETIC", "VITAKINETIC_HEALTH" ],
+    "skills": [ { "level": 11, "name": "metaphysics" } ],
+    "spells": [
+      { "id": "vita_health_power", "level": 10 },
+      { "id": "vita_slow_bleeding", "level": 9 },
+      { "id": "vita_stop_bleeding", "level": 8 },
+      { "id": "vita_health_power_ally", "level": 8 },
+      { "id": "vita_remove_poison", "level": 6 },
+      { "id": "vita_sleeping_trance", "level": 7 },
+      { "id": "vita_cure_disease", "level": 7 },
+      { "id": "vita_pain_split", "level": 8 },
+      { "id": "vita_stop_infection", "level": 12 },
+      { "id": "vita_healing_trance", "level": 6 },
+      { "id": "vita_blood_purge", "level": 6 },
+      { "id": "vita_banish_illness", "level": 4 }
+    ]
   }
 ]

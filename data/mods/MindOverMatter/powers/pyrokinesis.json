@@ -13,12 +13,11 @@
     "difficulty": 2,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "heat",
     "min_damage": {
       "math": [
-        "( (u_spell_level('pyrokinetic_eruption') * 2) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_eruption') * 1.5) + 6) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
@@ -28,7 +27,7 @@
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('pyrokinetic_eruption') / 10) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 5)"
+        "clamp( (( (u_spell_level('pyrokinetic_eruption') / 10) + 1) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 1, 5)"
       ]
     },
     "max_range": 5,
@@ -37,24 +36,16 @@
     "max_field_intensity": 2,
     "field_chance": 2,
     "energy_source": "STAMINA",
-    "base_energy_cost": 1750,
-    "final_energy_cost": 600,
-    "energy_increment": -85,
+    "base_energy_cost": 1950,
+    "final_energy_cost": 700,
+    "energy_increment": -75,
     "base_casting_time": 100,
     "final_casting_time": 35,
     "casting_time_increment": -4,
     "sound_type": "combat",
     "sound_id": "fire_spell",
     "sound_description": "a crackle!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": {
-      "pyrokinetic_call_flames": 5,
-      "pyrokinetic_cauterize": 7,
-      "pyrokinetic_flamethrower": 9,
-      "pyrokinetic_thermogenesis": 12,
-      "pyrokinetic_blast": 15,
-      "pyrokinetic_cloak": 17
-    }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_flash",
@@ -71,12 +62,11 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_pyrokinetic_flash",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_one", "hit_self": true } ],
     "shape": "blast",
     "affected_body_parts": [ "eyes" ],
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('pyrokinetic_flash') * 1.5) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
+        "min( (( (u_spell_level('pyrokinetic_flash') * 1.2) + 3 ) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 50)"
       ]
     },
     "max_range": 50,
@@ -88,23 +78,22 @@
     "max_aoe": 8,
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_flash') * 150) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_flash') * 50) + 100) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_flash') * 150) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_flash') * 100) + 800) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": 1750,
-    "final_energy_cost": 450,
+    "final_energy_cost": 550,
     "energy_increment": -80,
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -8,
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "pyrokinetic_cloak": 7, "pyrokinetic_thermogenesis": 10, "pyrokinetic_blast": 15 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_cauterize",
@@ -121,16 +110,12 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",
     "effect_str": "EOC_PYROKIN_CAUTERIZE_SELECTOR",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_two", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "STAMINA",
     "base_energy_cost": 2200,
     "final_energy_cost": 750,
     "energy_increment": -95,
-    "base_casting_time": 120,
-    "final_casting_time": 55,
-    "casting_time_increment": -5,
-    "learn_spells": { "pyrokinetic_lance": 7 }
+    "base_casting_time": 600
   },
   {
     "id": "pyrokinetic_call_flames",
@@ -168,8 +153,7 @@
       "math": [
         "u_effect_intensity('effect_pyrokinetic_fire_tool') > -1 ? 10 : max((250 -(u_spell_level('pyrokinetic_call_flames') * 10)), 75)"
       ]
-    },
-    "learn_spells": { "pyrokinetic_lance": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_blast": 8, "pyrokinetic_aura": 12 }
+    }
   },
   {
     "id": "pyrokinetic_quell_flames",
@@ -186,14 +170,11 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "ter_transform",
     "effect_str": "ter_pyrokin_quell_fire",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_three", "hit_self": true },
-      { "id": "pyrokinetic_quell_flames_self", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "pyrokinetic_quell_flames_self", "hit_self": true } ],
     "shape": "blast",
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('pyrokinetic_quell_flames') * 0.8) + 5) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
+        "min( (( (u_spell_level('pyrokinetic_quell_flames') * 0.8) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
     "max_range": 70,
@@ -204,13 +185,12 @@
     },
     "max_aoe": 50,
     "energy_source": "STAMINA",
-    "base_energy_cost": 2000,
-    "final_energy_cost": 500,
-    "energy_increment": -150,
+    "base_energy_cost": 3500,
+    "final_energy_cost": 1000,
+    "energy_increment": -120,
     "base_casting_time": 125,
     "final_casting_time": 50,
-    "casting_time_increment": -7.5,
-    "learn_spells": { "pyrokinetic_call_flames": 5, "pyrokinetic_cloak": 7, "pyrokinetic_aura": 15, "pyrokinetic_flame_immunity": 20 }
+    "casting_time_increment": -7.5
   },
   {
     "id": "pyrokinetic_quell_flames_self",
@@ -257,26 +237,25 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_cloak') * 2000) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_cloak') * 2900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_cloak') * 2000) + 180000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_cloak') * 19200) + 144000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 0 : max((4500 - (u_spell_level('pyrokinetic_cloak') * 200)), 2000)"
+        "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 0 : max((4500 - (u_spell_level('pyrokinetic_cloak') * 160)), 2000)"
       ]
     },
     "base_casting_time": {
       "math": [
         "u_effect_intensity('effect_pyrokinetic_cloak') > -1 ? 10 : max((250 -(u_spell_level('pyrokinetic_cloak') * 11)), 75)"
       ]
-    },
-    "learn_spells": { "pyrokinetic_thermogenesis": 8, "pyrokinetic_aura": 9, "pyrokinetic_eruption": 12, "pyrokinetic_flame_immunity": 15 }
+    }
   },
   {
     "id": "pyrokinetic_flamethrower",
@@ -292,7 +271,6 @@
     "difficulty": 5,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_five", "hit_self": true } ],
     "shape": "cone",
     "damage_type": "heat",
     "min_damage": {
@@ -307,23 +285,23 @@
     },
     "min_range": {
       "math": [
-        "min( (( (u_spell_level('pyrokinetic_flamethrower') * 0.2) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
+        "min( (( (u_spell_level('pyrokinetic_flamethrower') * 0.3) + 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 20)"
       ]
     },
     "max_range": 20,
     "min_aoe": {
       "math": [
-        "min( (( (u_spell_level('pyrokinetic_flamethrower') * 3) + 27) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 145)"
+        "min( (( (u_spell_level('pyrokinetic_flamethrower') * 3) + 27) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 120)"
       ]
     },
-    "max_aoe": 145,
+    "max_aoe": 120,
     "field_id": "fd_fire",
     "min_field_intensity": 1,
     "max_field_intensity": 2,
     "field_chance": 5,
     "energy_source": "STAMINA",
-    "base_energy_cost": 3500,
-    "final_energy_cost": 1200,
+    "base_energy_cost": 4500,
+    "final_energy_cost": 1600,
     "energy_increment": -150,
     "base_casting_time": 100,
     "final_casting_time": 35,
@@ -331,8 +309,7 @@
     "sound_type": "combat",
     "sound_id": "fire_spell",
     "sound_description": "a crackle!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "pyrokinetic_lance": 6, "pyrokinetic_blast": 9, "pyrokinetic_aura": 12, "pyrokinetic_aoe_blast": 16 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_lance",
@@ -352,12 +329,12 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_lance') * 12000) + 360000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_lance') * 11400) + 20500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_lance') * 36000) + 720000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_lance') * 49200) + 246000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
@@ -370,8 +347,7 @@
       "math": [
         "u_effect_intensity('effect_pyrokinetic_torch_weld') > -1 ? 10 : max((650 -(u_spell_level('pyrokinetic_lance') * 12)), 320)"
       ]
-    },
-    "learn_spells": { "pyrokinetic_incineration": 15 }
+    }
   },
   {
     "id": "pyrokinetic_thermogenesis",
@@ -406,8 +382,7 @@
     "energy_increment": -200,
     "base_casting_time": 1500,
     "final_casting_time": 1200,
-    "casting_time_increment": -10,
-    "learn_spells": { "pyrokinetic_aura": 4, "pyrokinetic_lance": 6, "pyrokinetic_blast": 8, "pyrokinetic_incineration": 18 }
+    "casting_time_increment": -10
   },
   {
     "id": "pyrokin_summon_thermogenesis_1",
@@ -536,27 +511,25 @@
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
     "effect_str": "effect_pyrokinetic_aura",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_six", "hit_self": true } ],
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_aura') * 300) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_aura') * 700) + 4500) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_aura') * 900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_aura') * 1900) + 18000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
-    "base_energy_cost": 5500,
-    "final_energy_cost": 2500,
-    "energy_increment": -225,
+    "base_energy_cost": 6500,
+    "final_energy_cost": 3500,
+    "energy_increment": -175,
     "base_casting_time": 125,
     "final_casting_time": 50,
     "casting_time_increment": -6.5,
-    "sound_id": "fire_spell",
-    "learn_spells": { "pyrokinetic_eruption": 5, "pyrokinetic_thermogenesis": 6, "pyrokinetic_flame_immunity": 15 }
+    "sound_id": "fire_spell"
   },
   {
     "id": "pyrokinetic_flame_immunity",
@@ -576,26 +549,25 @@
     "shape": "blast",
     "min_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_flame_immunity') * 2400) + 13000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_flame_immunity') * 1100) + 9000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_duration": {
       "math": [
-        "( (u_spell_level('pyrokinetic_flame_immunity') * 4700) + 48000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_flame_immunity') * 4700) + 57000) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "energy_source": "STAMINA",
     "base_energy_cost": {
       "math": [
-        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 0 : max((7750 - (u_spell_level('pyrokinetic_flame_immunity') * 255)), 3500)"
+        "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 0 : max((7750 - (u_spell_level('pyrokinetic_flame_immunity') * 165)), 4000)"
       ]
     },
     "base_casting_time": {
       "math": [
         "u_effect_intensity('effect_pyrokinetic_flame_immunity') > -1 ? 10 : max((150 -(u_spell_level('pyrokinetic_flame_immunity') * 6.5)), 75)"
       ]
-    },
-    "learn_spells": { "pyrokinetic_thermogenesis": 6, "pyrokinetic_aoe_blast": 12 }
+    }
   },
   {
     "id": "pyrokinetic_blast",
@@ -611,12 +583,11 @@
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_seven", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "heat",
     "min_damage": {
       "math": [
-        "( (u_spell_level('pyrokinetic_blast') * 3) + 37) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_blast') * 2.5n) + 37) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
@@ -629,7 +600,7 @@
         "min( (( (u_spell_level('pyrokinetic_blast') * 0.9) + 4) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 70)"
       ]
     },
-    "max_range": 80,
+    "max_range": 70,
     "min_aoe": {
       "math": [
         "min( (( (u_spell_level('pyrokinetic_blast') * 0.4) + 2) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling), 25)"
@@ -643,15 +614,14 @@
     "energy_source": "STAMINA",
     "base_energy_cost": 7500,
     "final_energy_cost": 3500,
-    "energy_increment": -250,
+    "energy_increment": -125,
     "base_casting_time": 150,
     "final_casting_time": 35,
-    "casting_time_increment": -9,
+    "casting_time_increment": -7,
     "sound_type": "combat",
     "sound_id": "fire_spell",
     "sound_description": "the roar of flames!",
-    "ignored_monster_species": [ "PSI_NULL" ],
-    "learn_spells": { "pyrokinetic_aoe_blast": 7, "pyrokinetic_incineration": 14 }
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_aoe_blast",
@@ -667,20 +637,17 @@
     "difficulty": 9,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [
-      { "id": "psionic_drained_difficulty_nine", "hit_self": true },
-      { "id": "pyrokinetic_aoe_blast_immunity", "hit_self": true }
-    ],
+    "extra_effects": [ { "id": "pyrokinetic_aoe_blast_immunity", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "heat",
     "min_damage": {
       "math": [
-        "( (u_spell_level('pyrokinetic_aoe_blast') * 5) + 40) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_aoe_blast') * 5) + 65) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "max_damage": {
       "math": [
-        "( (u_spell_level('pyrokinetic_aoe_blast') * 8) + 120) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
+        "( (u_spell_level('pyrokinetic_aoe_blast') * 8.5) + 169) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
       ]
     },
     "min_aoe": {
@@ -697,14 +664,15 @@
     "field_chance": 2,
     "energy_source": "STAMINA",
     "base_energy_cost": 9000,
-    "final_energy_cost": 5000,
-    "energy_increment": -300,
+    "final_energy_cost": 6000,
+    "energy_increment": -220,
     "base_casting_time": 175,
     "final_casting_time": 55,
     "casting_time_increment": -8,
     "sound_type": "combat",
     "sound_id": "fire_spell",
-    "sound_description": "the roar of flames!"
+    "sound_description": "the roar of flames!",
+    "ignored_monster_species": [ "PSI_NULL" ]
   },
   {
     "id": "pyrokinetic_aoe_blast_immunity",
@@ -737,7 +705,6 @@
     "difficulty": 10,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "attack",
-    "extra_effects": [ { "id": "psionic_drained_difficulty_ten", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "heat",
     "min_damage": {

@@ -552,6 +552,42 @@
     "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
+    "id": "denim_shirt",
+    "type": "ARMOR",
+    "name": { "str": "denim shirt" },
+    "description": "A long sleeved button-down shirt made from denim.",
+    "//": "This is for 12 oz denim shirt, which I found to be average",
+    "weight": "680 g",
+    "volume": "1 L",
+    "price": 5000,
+    "price_postapoc": 50,
+    "material": [ "denim" ],
+    "looks_like": "dress_shirt",
+    "symbol": "[",
+    "color": "light_blue",
+    "flags": [ "VARSIZE" ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 4, 5 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 4, 4 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "10 cm",
+        "moves": 75
+      }
+    ],
+    "warmth": 20,
+    "material_thickness": 0.8,
+    "snippet_category": [
+      { "id": "denim_shirt1", "text": "A long sleeved button-down blue shirt made from denim." },
+      { "id": "denim_shirt2", "text": "A long sleeved button-down shirt made from denim, dyed black." },
+      { "id": "denim_shirt3", "text": "A long sleeved button-down cowboy wash shirt made from denim." }
+    ]
+  },
+  {
     "id": "dress_shirt",
     "type": "ARMOR",
     "name": { "str": "dress shirt" },
@@ -1240,7 +1276,7 @@
     "id": "santa_dress_long",
     "type": "ARMOR",
     "name": { "str": "luxury santa dress", "str_pl": "luxury santa dresses" },
-    "description": "A long red dress with full sleeves and white faux fur trim.  A very fancy dress for a queen of the north pole.",
+    "description": "A long red dress with full sleeves and white faux fur trim.  A dress for a queen of the north pole.",
     "weight": "1200 g",
     "volume": "3850 ml",
     "price": 25000,
@@ -1252,7 +1288,7 @@
     "color": "red",
     "warmth": 25,
     "material_thickness": 0.8,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": 6 },
@@ -1278,7 +1314,7 @@
     "color": "red",
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 75, "encumbrance": 4 },
       {
@@ -1369,7 +1405,7 @@
     "color": "dark_gray",
     "warmth": 10,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY", "COLLAR" ],
+    "flags": [ "VARSIZE", "COLLAR" ],
     "armor": [
       { "covers": [ "torso", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": 7 },
       { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 7 }
@@ -1390,7 +1426,7 @@
     "color": "red",
     "warmth": 8,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 75, "encumbrance": 6 },
       {
@@ -1423,7 +1459,7 @@
     "color": "light_red",
     "warmth": 12,
     "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "SUPER_FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 85, "encumbrance": 8 },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": 8 },
@@ -1914,28 +1950,28 @@
     "variants": [
       {
         "id": "generic_witch_dress",
-        "name": { "str_sp": "black witch dress" },
+        "name": { "str": "black witch dress", "str_pl": "black witch dresses" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress",
-        "name": { "str_sp": "green witch dress" },
+        "name": { "str": "green witch dress", "str_pl": "green witch dresses" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress",
-        "name": { "str_sp": "red witch dress" },
+        "name": { "str": "red witch dress", "str_pl": "red witch dresses" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress",
-        "name": { "str_sp": "purple witch dress" },
+        "name": { "str": "purple witch dress", "str_pl": "purple witch dresses" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
@@ -1957,7 +1993,7 @@
     "color": "dark_gray",
     "warmth": 15,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "FANCY" ],
+    "flags": [ "VARSIZE" ],
     "armor": [
       { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
       { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
@@ -1976,28 +2012,28 @@
     "variants": [
       {
         "id": "generic_witch_dress_long",
-        "name": { "str_sp": "long black witch dress" },
+        "name": { "str": "long black witch dress", "str_pl": "long black witch dresses" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress_long",
-        "name": { "str_sp": "long green witch dress" },
+        "name": { "str": "long green witch dress", "str_pl": "long green witch dresses" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress_long",
-        "name": { "str_sp": "long red witch dress" },
+        "name": { "str": "long red witch dress", "str_pl": "long red witch dresses" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress_long",
-        "name": { "str_sp": "long purple witch dress" },
+        "name": { "str": "long purple witch dress", "str_pl": "long purple witch dresses" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
@@ -2041,28 +2077,28 @@
     "variants": [
       {
         "id": "generic_witch_dress_short",
-        "name": { "str_sp": "short black witch dress" },
+        "name": { "str": "short black witch dress", "str_pl": "short black witch dresses" },
         "description": "It's colored black.",
         "weight": 25,
         "append": true
       },
       {
         "id": "green_witch_dress_short",
-        "name": { "str_sp": "short green witch dress" },
+        "name": { "str": "short green witch dress", "str_pl": "short green witch dresses" },
         "description": "It's colored dark green.",
         "weight": 25,
         "append": true
       },
       {
         "id": "red_witch_dress_short",
-        "name": { "str_sp": "short red witch dress" },
+        "name": { "str": "short red witch dress", "str_pl": "short red witch dresses" },
         "description": "It's colored dark red.",
         "weight": 25,
         "append": true
       },
       {
         "id": "purple_witch_dress_short",
-        "name": { "str_sp": "short purple witch dress" },
+        "name": { "str": "short purple witch dress", "str_pl": "short purple witch dresses" },
         "description": "It's colored dark purple.",
         "weight": 25,
         "append": true
@@ -2142,6 +2178,6 @@
     ],
     "warmth": 25,
     "material_thickness": 1.5,
-    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
+    "flags": [ "VARSIZE", "OUTER" ]
   }
 ]

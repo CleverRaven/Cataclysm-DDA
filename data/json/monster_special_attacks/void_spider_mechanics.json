@@ -238,7 +238,7 @@
         "run_eocs": [
           {
             "id": "void_spider_life_remaining",
-            "condition": { "and": [ { "math": [ "u_val('hp')", "<", "350" ] }, { "math": [ "u_void_spider_nest_disturbed", "!=", "1" ] } ] },
+            "condition": { "and": [ { "math": [ "u_hp('ALL')", "<", "350" ] }, { "math": [ "u_void_spider_nest_disturbed", "!=", "1" ] } ] },
             "effect": [
               { "u_make_sound": "the spider mimic an anguished scream", "volume": 60, "type": "speech" },
               { "run_eocs": [ "EOC_VOID_SPIDER_DISTURBED_NEST" ] },
@@ -250,7 +250,7 @@
             "effect": [
               {
                 "u_spawn_monster": "mon_void_spider_maw",
-                "real_count": { "math": [ "(u_val('hp') / 300)" ] },
+                "real_count": { "math": [ "(u_hp('ALL') / 300)" ] },
                 "min_radius": 1,
                 "max_radius": 1,
                 "lifespan": [ "1 seconds", "3 seconds" ]
@@ -258,7 +258,7 @@
               {
                 "//": "6 of these at the start, looses one for every 100 hp lost, monster starts at 600 hp",
                 "u_spawn_monster": "mon_void_spider_limb",
-                "real_count": { "math": [ "(u_val('hp') / 100)" ] },
+                "real_count": { "math": [ "u_hp('ALL') / 100" ] },
                 "min_radius": 2,
                 "max_radius": 2,
                 "lifespan": [ "1 seconds", "3 seconds" ]

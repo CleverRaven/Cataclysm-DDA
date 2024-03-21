@@ -1,7 +1,6 @@
 #include "math_parser.h"
 
 #include <algorithm>
-#include <array>
 #include <cstddef>
 #include <locale>
 #include <map>
@@ -92,12 +91,12 @@ std::optional<S> _get_dialogue_func( C const &cnt, std::string_view token )
 
 std::optional<scoped_diag_eval> get_dialogue_eval( std::string_view token )
 {
-    return _get_dialogue_func<scoped_diag_eval, pdiag_func_eval>( dialogue_eval_f, token );
+    return _get_dialogue_func<scoped_diag_eval, pdiag_func_eval>( get_all_diag_eval_funcs(), token );
 }
 
 std::optional<scoped_diag_ass> get_dialogue_ass( std::string_view token )
 {
-    return _get_dialogue_func<scoped_diag_ass, pdiag_func_ass>( dialogue_assign_f, token );
+    return _get_dialogue_func<scoped_diag_ass, pdiag_func_ass>( get_all_diag_ass_funcs(), token );
 }
 
 constexpr std::optional<pbin_op> get_binary_op( std::string_view token )

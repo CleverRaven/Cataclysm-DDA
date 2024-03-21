@@ -9,6 +9,12 @@
 - [Including tilesets with the distribution](#including-tilesets-with-the-distribution)
 - [Legacy tilesets](#legacy-tilesets)
 
+>[!NOTE]
+>If you are looking for specific tileset information or style guides, try the tileset repository:
+> - [Main page](https://github.com/I-am-Erk/CDDA-Tilesets)
+> - [Tilesets documentation](https://github.com/I-am-Erk/CDDA-Tilesets/tree/master/doc)
+> - [Rendered documentation](https://i-am-erk.github.io/CDDA-Tilesets/)
+
 ## Terminology
 
 ##### Tileset
@@ -388,7 +394,7 @@ Weighted variations are also possible, and can be combined with rotation:
 ```json
 {
   "id": "graffiti",
-  "fg": [ 
+  "fg": [
     { "weight": 1, "sprite": [ "graffiti_01_wall", "graffiti_01_floor" ] },
     { "weight": 1, "sprite": [ "graffiti_02_wall", "graffiti_02_floor" ] },
   ],
@@ -556,7 +562,7 @@ Requires `pyvips` module, see below.
 
 #### Python and pyvips
  * Install Python with the latest **installer** https://www.python.org/downloads/windows/ (do not uncheck setting up the `py` shortcut unless you know what you are doing, check 'add Python to PATH'.)
- 
+
 Installation of pyvips can be skipped if you are planning to use `updtset.cmd` - see below. Otherwise:
  * Open Console (Window key + `R` key, type `cmd` and hit `Enter`)
  * Install pyvips with these commands:

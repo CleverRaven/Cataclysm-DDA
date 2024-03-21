@@ -267,6 +267,7 @@
     },
     "toilets": { "&": {  } },
     "nested": { "~": { "chunks": [ "nursing_home_sci" ] } },
+    "items": { "V": [ { "item": "saline_bottle_random", "chance": 100 } ] },
     "vehicles": {
       "7": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 90 },
       "8": { "vehicle": "hospital_bed_small", "chance": 100, "rotation": 270 },

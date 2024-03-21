@@ -60,7 +60,7 @@
         "no": [ "«We really should start locking the doors at night so these people can't get in.»" ]
       },
       {
-        "days_since_cataclysm": 60,
+        "math": [ "time_since('cataclysm', 'unit':'days') >= 60" ],
         "yes": [
           { "u_male": [ "«Wow, I'm amazed he's lived this long.»" ], "no": [ "«Wow, I'm amazed she's lived this long.»" ] }
         ],

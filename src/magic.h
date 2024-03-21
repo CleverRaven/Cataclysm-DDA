@@ -59,7 +59,6 @@ enum class spell_flag : int {
     FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
     NO_EXPLOSION_SFX, // spell has no visual explosion
-    LIQUID, // effects applied by this spell can be resisted with waterproof equipment if targeting a body part. doesn't apply to damage (yet)
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
@@ -82,6 +81,7 @@ enum class spell_flag : int {
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
     SPAWN_WITH_DEATH_DROPS, // allow summoned monsters to drop their usual death drops
+    NO_CORPSE_QUIET, // allow summoned monsters to vanish/leave without leaving a corpse
     NON_MAGICAL, // ignores spell resistance
     PSIONIC, // psychic powers instead of traditional magic
     RECHARM, // charm_monster spell adds to duration of existing charm_monster effect
@@ -179,6 +179,7 @@ struct fake_spell {
 
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( const Creature &caster, int min_level_override = 0 ) const;
+    spell get_spell() const;
 
     bool is_valid() const;
     void load( const JsonObject &jo );
@@ -788,6 +789,9 @@ void dash( const spell &sp, Creature &caster, const tripoint &target );
 void banishment( const spell &sp, Creature &caster, const tripoint &target );
 // revives a monster into some kind of zombie if the monster has the revives flag
 void revive( const spell &sp, Creature &caster, const tripoint &target );
+// revives a dormant monster if it has the revives and the dormant flag
+void revive_dormant( const spell &sp, Creature &caster, const tripoint &target );
+void add_trap( const spell &sp, Creature &caster, const tripoint &target );
 void upgrade( const spell &sp, Creature &caster, const tripoint &target );
 // causes guilt to the target as if it killed the caster
 void guilt( const spell &sp, Creature &caster, const tripoint &target );
@@ -811,6 +815,7 @@ std::map<std::string, std::function<void( const spell &, Creature &, const tripo
 effect_map{
     { "pain_split", spell_effect::pain_split },
     { "attack", spell_effect::attack },
+    { "add_trap", spell_effect::add_trap},
     { "targeted_polymorph", spell_effect::targeted_polymorph },
     { "short_range_teleport", spell_effect::short_range_teleport },
     { "spawn_item", spell_effect::spawn_ethereal_item },
@@ -838,6 +843,7 @@ effect_map{
     { "dash", spell_effect::dash },
     { "banishment", spell_effect::banishment },
     { "revive", spell_effect::revive },
+    { "revive_dormant", spell_effect::revive_dormant },
     { "upgrade", spell_effect::upgrade },
     { "guilt", spell_effect::guilt },
     { "remove_effect", spell_effect::remove_effect },

@@ -160,7 +160,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_Help",
     "dynamic_line": "*shrugs.  \"I don't have any skills.  I'm just a kid.  What am I going to do?\"  Before you can answer, he shakes his head.  \"I'm being pathetic, sorry.  You're right, I should see if there's something I can give back to the community, maybe make my place in it.  That's a good call.\"  He scratches his chin and looks out a gap in the shutters on the window.  \"Thanks.\"",
-    "speaker_effect": { "effect": { "npc_add_var": "Guneet_ideas", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Guneet_ideas", "=", "time('now')" ] } },
     "//": "In the near future, Gunny will have ideas to add comfy furniture and a video game system to the cafeteria area.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
@@ -174,11 +174,7 @@
       "concatenate": [
         "It sucks in here, there's no two ways about it",
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 7,
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "7" ],
           "yes": ".  Still, we're starting to find a bit of a place for ourselves.  I've been hanging out with Aleesha a bit, I didn't used to think we'd have a lot in common but there's more than you'd think.  My mom and dad are starting to relax a little too.",
           "no": ".  People don't talk to us because we wear turbans and we still have each other.  They think because we're still together, we didn't lose anything.  My dad believes it, too, and I think my mom's on the fence."
         }

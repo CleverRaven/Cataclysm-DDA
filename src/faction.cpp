@@ -2,11 +2,9 @@
 
 #include <bitset>
 #include <cstdlib>
-#include <functional>
 #include <limits>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <set>
 #include <string>
@@ -17,20 +15,15 @@
 #include "catacharset.h"
 #include "character.h"
 #include "coordinates.h"
-#include "condition.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "display.h"
 #include "faction_camp.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
-#include "item.h"
-#include "item_group.h"
-#include "json.h"
+#include "input_context.h"
 #include "line.h"
 #include "localized_comparator.h"
-#include "memory_fast.h"
 #include "mtype.h"
 #include "npc.h"
 #include "output.h"
@@ -40,7 +33,6 @@
 #include "skill.h"
 #include "text_snippets.h"
 #include "string_formatter.h"
-#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -61,7 +53,7 @@ faction_template::faction_template()
     respects_u = 0;
     trusts_u = 0;
     known_by_u = true;
-    food_supply = 0;
+    food_supply.calories = 0;
     wealth = 0;
     size = 0;
     power = 0;
@@ -129,11 +121,12 @@ faction_template::faction_template( const JsonObject &jsobj )
     , id( faction_id( jsobj.get_string( "id" ) ) )
     , size( jsobj.get_int( "size" ) )
     , power( jsobj.get_int( "power" ) )
-    , food_supply( jsobj.get_int( "food_supply" ) )
+    , food_supply()
     , wealth( jsobj.get_int( "wealth" ) )
 {
     jsobj.get_member( "description" ).read( desc );
     optional( jsobj, false, "price_rules", price_rules, faction_price_rules_reader {} );
+    jsobj.read( "fac_food_supply", food_supply, true );
     if( jsobj.has_string( "currency" ) ) {
         jsobj.read( "currency", currency, true );
         price_rules.emplace_back( currency, 1, 0 );
@@ -323,7 +316,7 @@ std::string fac_wealth_text( int val, int size )
 std::string faction::food_supply_text()
 {
     //Convert to how many days you can support the population
-    int val = food_supply / ( size * 288 );
+    int val = food_supply.kcal() / ( size * 288 );
     if( val >= 30 ) {
         return pgettext( "Faction food", "Overflowing" );
     }
@@ -341,7 +334,7 @@ std::string faction::food_supply_text()
 
 nc_color faction::food_supply_color()
 {
-    int val = food_supply / ( size * 288 );
+    int val = food_supply.kcal() / ( size * 288 );
     if( val >= 30 ) {
         return c_green;
     } else if( val >= 14 ) {
@@ -353,6 +346,55 @@ nc_color faction::food_supply_color()
     } else {
         return c_red;
     }
+}
+
+std::pair<nc_color, std::string> faction::vitamin_stores( vitamin_type vit_type )
+{
+    bool is_toxin = vit_type == vitamin_type::TOXIN;
+    const double days_of_food = food_supply.kcal() / 3000.0;
+    std::map<vitamin_id, int> stored_vits = food_supply.vitamins();
+    // First, pare down our search to only the relevant type
+    for( auto it = stored_vits.cbegin(); it != stored_vits.cend(); ) {
+        if( it->first->type() != vit_type ) {
+            it = stored_vits.erase( it );
+        } else {
+            ++it;
+        }
+    }
+    if( stored_vits.empty() ) {
+        return std::pair<nc_color, std::string>( !is_toxin ? c_red : c_green, _( "None present (NONE)" ) );
+    }
+    std::vector<std::pair<vitamin_id, double>> vitamins;
+    // Iterate the map's content into a sortable container...
+    for( auto &vit : stored_vits ) {
+        int units_per_day = vit.first.obj().units_absorption_per_day();
+        double relative_intake = static_cast<double>( vit.second ) / static_cast<double>
+                                 ( units_per_day ) / days_of_food;
+        // We use the inverse value for toxins, since they are bad.
+        if( is_toxin ) {
+            relative_intake = 1 / relative_intake;
+        }
+        vitamins.emplace_back( vit.first, relative_intake );
+    }
+    // Sort to find the worst-case scenario, lowest relative_intake is first
+    std::sort( vitamins.begin(), vitamins.end(), []( const auto & x, const auto & y ) {
+        return x.second > y.second;
+    } );
+    const double worst_intake = vitamins.at( 0 ).second;
+    std::string vit_name = vitamins.at( 0 ).first.obj().name();
+    std::string msg = is_toxin ? _( "(TRACE)" ) : _( "(PLENTY)" );
+    if( worst_intake <= 0.3 ) {
+        msg = is_toxin ? _( "(POISON)" ) : _( "(LACK)" );
+        return std::pair<nc_color, std::string>( c_red, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    if( worst_intake <= 1.0 ) {
+        msg = is_toxin ? _( "(DANGER)" ) : _( "(MEAGER)" );
+        return std::pair<nc_color, std::string>( c_yellow, string_format( _( "%1$s %2$s" ), vit_name,
+                msg ) );
+    }
+    return std::pair<nc_color, std::string>( c_green, string_format( _( "%1$s %2$s" ), vit_name,
+            msg ) );
 }
 
 faction_price_rule const *faction::get_price_rules( item const &it, npc const &guy ) const
@@ -522,10 +564,14 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     }
     mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), camp_pos.to_string() );
     faction *yours = player_character.get_faction();
-    std::string food_text = string_format( _( "Food Supply: %s %d calories" ),
-                                           yours->food_supply_text(), yours->food_supply );
+    std::string food_text = string_format( _( "Food Supply: %s %d kilocalories" ),
+                                           yours->food_supply_text(), yours->food_supply.kcal() );
     nc_color food_col = yours->food_supply_color();
     mvwprintz( fac_w, point( width, ++y ), food_col, food_text );
+    std::pair<nc_color, std::string> vitamins = yours->vitamin_stores( vitamin_type::VITAMIN );
+    mvwprintz( fac_w, point( width, ++y ), vitamins.first, _( "Worst vitamin:" ) + vitamins.second );
+    std::pair<nc_color, std::string> toxins = yours->vitamin_stores( vitamin_type::TOXIN );
+    mvwprintz( fac_w, point( width, ++y ), toxins.first, _( "Worst toxin:" ) + toxins.second );
     std::string bldg = next_upgrade( base_camps::base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade: " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );

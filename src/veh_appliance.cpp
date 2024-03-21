@@ -507,7 +507,11 @@ void veh_app_interact::plug()
 {
     const int part = veh->part_at( a_point );
     const tripoint pos = veh->global_part_pos3( part );
-    veh->plug_in( pos );
+    item cord( "power_cord" );
+    cord.link_to( *veh, a_point, link_state::automatic );
+    if( cord.get_use( "link_up" ) ) {
+        cord.type->get_use( "link_up" )->call( &get_player_character(), cord, pos );
+    }
 }
 
 void veh_app_interact::merge()

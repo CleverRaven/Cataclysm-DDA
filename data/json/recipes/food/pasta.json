@@ -111,26 +111,10 @@
       "cookbook_foodfashions": { "skill_level": 4, "recipe_name": "Spaghetti Luchetto" }
     },
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 13, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
-    "//1": "pasta by weight is 5u flour, 6u for veggies + heating the water (2u)",
-    "components": [
-      [ [ "spaghetti_raw", 1 ] ],
-      [ [ "water_clean", 1 ] ],
-      [ [ "seasoning_italian", 4 ], [ "sauce_pesto", 1 ], [ "wild_herbs", 10 ] ],
-      [
-        [ "veggy", 3 ],
-        [ "veggy_wild", 3 ],
-        [ "rehydrated_veggy", 3 ],
-        [ "rehydrated_corn_kernels", 3 ],
-        [ "dry_veggy", 3 ],
-        [ "dry_corn", 1 ],
-        [ "mushroom", 3 ],
-        [ "mushroom_cooked", 3 ],
-        [ "morel_cooked", 3 ],
-        [ "dry_mushroom", 3 ]
-      ]
-    ]
+    "//1": "pasta by weight is 5u flour + heating the water (2u)",
+    "components": [ [ [ "spaghetti_raw", 1 ] ], [ [ "water_clean", 1 ] ], [ [ "sauce_pesto", 1 ] ] ]
   },
   {
     "result": "noodles_fast",

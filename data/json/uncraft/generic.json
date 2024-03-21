@@ -15,95 +15,6 @@
   },
   {
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "chess",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wchess_pawn", 8 ] ],
-      [ [ "bchess_pawn", 8 ] ],
-      [ [ "wchess_knight", 2 ] ],
-      [ [ "bchess_knight", 2 ] ],
-      [ [ "wchess_bishop", 2 ] ],
-      [ [ "bchess_bishop", 2 ] ],
-      [ [ "wchess_rook", 2 ] ],
-      [ [ "bchess_rook", 2 ] ],
-      [ [ "wchess_queen", 1 ] ],
-      [ [ "bchess_queen", 1 ] ],
-      [ [ "wchess_king", 1 ] ],
-      [ [ "bchess_king", 1 ] ]
-    ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "small_chess",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "small_checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wchess_pawn", 8 ] ],
-      [ [ "bchess_pawn", 8 ] ],
-      [ [ "wchess_knight", 2 ] ],
-      [ [ "bchess_knight", 2 ] ],
-      [ [ "wchess_bishop", 2 ] ],
-      [ [ "bchess_bishop", 2 ] ],
-      [ [ "wchess_rook", 2 ] ],
-      [ [ "bchess_rook", 2 ] ],
-      [ [ "wchess_queen", 1 ] ],
-      [ [ "bchess_queen", 1 ] ],
-      [ [ "wchess_king", 1 ] ],
-      [ [ "bchess_king", 1 ] ]
-    ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "checkpaper",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "1 s",
-    "components": [ [ [ "paper", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "checkers",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
-      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
-    ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "small_checkers",
-    "skill_used": "fabrication",
-    "difficulty": 1,
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "small_checkboard", 1 ] ],
-      [ [ "hinge", 1 ] ],
-      [ [ "wcheckers_man", 12 ], [ "becheckers_man", 12 ] ],
-      [ [ "bcheckers_man", 12 ], [ "rcheckers_man", 12 ] ]
-    ]
-  },
-  {
-    "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "result": "handflare",
     "skill_used": "fabrication",
@@ -118,7 +29,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "skill_used": "fabrication",
     "time": "5 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 5 ], [ "elec_jackhammer", 66 ] ] ],
+    "tools": [ [ [ "pickaxe_list", 1, "LIST" ], [ "jackhammer", 5 ], [ "elec_jackhammer", 66 ] ] ],
     "components": [ [ [ "rock", 24 ] ] ]
   },
   {
@@ -311,10 +222,17 @@
     "result": "5l_zinc",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_zinc", 5 ] ] ]
+  },
+  {
+    "result": "1l_zinc",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "//": "perfect = 20000; subtracted 5.5% loss",
-    "components": [ [ [ "zinc_metal", 18900 ] ] ]
+    "components": [ [ [ "zinc_metal", 3780 ] ] ]
   },
   {
     "result": "exodii_ingot_steel",
@@ -360,9 +278,41 @@
     "result": "5l_copper",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_copper", 5 ] ] ]
+  },
+  {
+    "result": "1l_copper",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_copper", 170 ] ] ]
+    "components": [ [ [ "scrap_copper", 34 ] ] ]
+  },
+  {
+    "result": "10l_brass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_brass", 2 ] ] ]
+  },
+  {
+    "result": "5l_brass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_brass", 5 ] ] ]
+  },
+  {
+    "result": "1l_brass",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "scrap_brass", 20 ] ] ]
   },
   {
     "result": "10l_bronze",
@@ -376,9 +326,18 @@
     "result": "5l_bronze",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "1l_bronze", 5 ] ] ]
+  },
+  {
+    "result": "1l_bronze",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_bronze", 121 ] ] ]
+    "//": "Slight loss from rounding",
+    "components": [ [ [ "scrap_bronze", 24 ] ] ]
   },
   {
     "result": "exodii_ingot_aluminum",
@@ -400,9 +359,17 @@
     "result": "5l_aluminum",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 h",
+    "time": "30 m",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "material_aluminium_ingot", 54 ] ] ]
+    "components": [ [ [ "1l_aluminum", 5 ] ] ]
+  },
+  {
+    "result": "1l_aluminum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "material_aluminium_ingot", 10 ] ] ]
   },
   {
     "result": "exodii_ingot_plastic",
@@ -507,15 +474,6 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 s",
     "components": [ [ [ "paper", 3 ] ] ]
-  },
-  {
-    "result": "scrap_cotton",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "tailor",
-    "time": "2 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "thread", 1 ] ] ]
   },
   {
     "result": "sole_rubber",
@@ -639,22 +597,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "earthbag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "result": "gravelbag",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 s",
-    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ],
-    "flags": [ "BLIND_EASY" ]
-  },
-  {
     "result": "skull_human",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -696,6 +638,31 @@
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_cotton", 20 ] ], [ [ "thread", 150 ] ] ],
     "//": "This recipe somehow manages to lose cotton while creating mass out of thin air. Honestly remarkable, but for me it means I have to look into the weight for thread later on"
+  },
+  {
+    "result": "fur_blanket",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton", 10 ] ], [ [ "sheet_fur_patchwork", 10 ] ], [ [ "thread", 150 ] ] ],
+    "//": "This recipe is based off of the blanket recipe above it, with half of the cotton sheets being replaced by patchwork fur sheets."
+  },
+  {
+    "result": "quilt",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_felt", 20 ] ], [ [ "thread", 150 ] ], [ [ "cotton_ball", 100 ] ] ]
+  },
+  {
+    "result": "quilt_patchwork",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_felt_patchwork", 20 ] ], [ [ "thread", 100 ] ], [ [ "gambeson_batting", 50 ] ] ]
   },
   {
     "result": "crackpipe",

@@ -92,6 +92,7 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_HEARING_PROTECTION( "HEARING_PROTECTION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const material_id material_bone( "bone" );
@@ -218,6 +219,7 @@ std::string enum_to_string<sounds::sound_t>( sounds::sound_t data )
     switch ( data ) {
     case sounds::sound_t::background: return "background";
     case sounds::sound_t::weather: return "weather";
+    case sounds::sound_t::sensory: return "sensory";
     case sounds::sound_t::music: return "music";
     case sounds::sound_t::movement: return "movement";
     case sounds::sound_t::speech: return "speech";
@@ -288,6 +290,7 @@ static bool is_provocative( sounds::sound_t category )
     switch( category ) {
         case sounds::sound_t::background:
         case sounds::sound_t::weather:
+        case sounds::sound_t::sensory:
         case sounds::sound_t::music:
         case sounds::sound_t::activity:
         case sounds::sound_t::destructive_activity:
@@ -332,10 +335,24 @@ void sounds::sound( const tripoint &p, int vol, sound_t category, const std::str
                                                  false, id, variant, seas_str } );
 }
 
+void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const std::string &description,
+                    bool ambient, const std::string &id, const std::string &variant )
+{
+    sounds::sound( p.raw(), vol, category, description, ambient, id, variant );
+}
+
 void sounds::sound( const tripoint &p, int vol, sound_t category, const translation &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
     sounds::sound( p, vol, category, description.translated(), ambient, id, variant );
+}
+
+void sounds::sound( const tripoint_bub_ms &p, int vol, sound_t category,
+                    const translation &description,
+                    bool ambient, const std::string &id, const std::string &variant )
+{
+    sounds::sound( p.raw(), vol, category, description, ambient, id, variant );
 }
 
 void sounds::add_footstep( const tripoint &p, int volume, int, monster *,
@@ -482,13 +499,16 @@ void sounds::process_sounds()
                 critter.hear_sound( source, vol, dist, this_centroid.provocative );
             }
         }
-        // Trigger sound-triggered traps
+        // Trigger sound-triggered traps and ensure they are still valid
         for( const trap *trapType : trap::get_sound_triggered_traps() ) {
             for( const tripoint &tp : get_map().trap_locations( trapType->id ) ) {
                 const int dist = sound_distance( source, tp );
                 const trap &tr = get_map().tr_at( tp );
-                if( tr.triggered_by_sound( vol, dist ) ) {
-                    tr.trigger( tp );
+                // Exclude traps that certainly won't hear the sound
+                if( vol * 2 > dist ) {
+                    if( tr.triggered_by_sound( vol, dist ) ) {
+                        tr.trigger( tp );
+                    }
                 }
             }
         }
@@ -506,6 +526,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
                 return false;
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
+            case sounds::sound_t::sensory:
             case sounds::sound_t::music:
             // detailed music descriptions are printed in iuse::play_music
             case sounds::sound_t::movement:
@@ -524,6 +545,7 @@ static bool describe_sound( sounds::sound_t category, bool from_player_position 
         switch( category ) {
             case sounds::sound_t::background:
             case sounds::sound_t::weather:
+            case sounds::sound_t::sensory:
             case sounds::sound_t::music:
             case sounds::sound_t::movement:
             case sounds::sound_t::activity:
@@ -561,9 +583,11 @@ void sounds::process_sound_markers( Character *you )
 
         // The felt volume of a sound is not affected by negative multipliers, such as already
         // deafened players or players with sub-par hearing to begin with.
-        const int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
-                                volume_multiplier ) ) - distance_to_sound;
-
+        int felt_volume = static_cast<int>( raw_volume * std::min( 1.0f,
+                                            volume_multiplier ) ) - distance_to_sound;
+        if( you->has_flag( json_flag_HEARING_PROTECTION ) ) {
+            felt_volume /= 2;
+        }
         // Deafening is based on the felt volume, as a player may be too deaf to
         // hear the deafening sound but still suffer additional hearing loss.
         const bool is_sound_deafening = rng( felt_volume / 2, felt_volume ) >= 150;
@@ -625,7 +649,7 @@ void sounds::process_sound_markers( Character *you )
                 !you->has_bionic( bio_sleep_shutdown ) ) {
                 //Not kidding about sleep-through-firefight
                 you->wake_up();
-                add_msg( m_warning, _( "Something is making noise." ) );
+                you->add_msg_if_player( m_warning, _( "Something is making noise." ) );
             } else {
                 continue;
             }
@@ -704,18 +728,35 @@ void sounds::process_sound_markers( Character *you )
         }
 
         // Place footstep markers.
-        if( pos == you->pos() || you->sees( pos ) ) {
-            // If we are or can see the source, don't draw a marker.
+        if( pos == you->pos() || ( you->sees( pos ) && ( sound.category != sound_t::sensory ) ) ) {
+            // If we are or can see the source, don't draw a marker, except for sonar etc
             continue;
         }
 
         int err_offset;
+
         if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
-            err_offset = 3;
+            err_offset = rng( 0, 3 );
         } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
-            err_offset = 2;
+            err_offset = rng( 0, 2 );
         } else {
-            err_offset = 1;
+            err_offset = rng( 0, 1 );
+        }
+
+        // Echolocation has to be fairly precise or it's worse than useless.
+        // However, it is never perfect.
+        if( sound.category == sound_t::sensory ) {
+            if( ( heard_volume + distance_to_sound ) / distance_to_sound < 2 ) {
+                err_offset = rng( 0, 3 );
+            } else if( ( heard_volume + distance_to_sound ) / distance_to_sound < 3 ) {
+                err_offset = rng( 0, 2 );
+            } else {
+                if( one_in( 3 ) ) {
+                    err_offset = rng( 0, 1 );
+                } else {
+                    err_offset = 0;
+                }
+            }
         }
 
         // If Z-coordinate is different, draw even when you can see the source
@@ -723,9 +764,10 @@ void sounds::process_sound_markers( Character *you )
 
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
+        // Also show sensory sounds like SONAR even if we can see the point.
         std::vector<tripoint> unseen_points;
         for( const tripoint &newp : get_map().points_in_radius( pos, err_offset ) ) {
-            if( diff_z || !you->sees( newp ) ) {
+            if( diff_z || sound.category == sound_t::sensory || !you->sees( newp ) ) {
                 unseen_points.emplace_back( newp );
             }
         }
@@ -923,22 +965,29 @@ void sfx::do_vehicle_engine_sfx()
         current_speed = current_speed * -1;
         in_reverse = true;
     }
-    double pitch = 1.0;
-    int safe_speed = veh->safe_velocity();
+    // Getting the safe speed for a stationary vehicle is expensive and unnecessary, so the calculation
+    // is delayed until it is needed.
+    std::optional<int> safe_speed_cached;
+    auto safe_speed = [veh, &safe_speed_cached]() {
+        if( !safe_speed_cached ) {
+            safe_speed_cached = veh->safe_velocity();
+        }
+        return *safe_speed_cached;
+    };
     int current_gear;
     if( in_reverse ) {
         current_gear = -1;
     } else if( current_speed == 0 ) {
         current_gear = 0;
-    } else if( current_speed > 0 && current_speed <= safe_speed / 12 ) {
+    } else if( current_speed > 0 && current_speed <= safe_speed() / 12 ) {
         current_gear = 1;
-    } else if( current_speed > safe_speed / 12 && current_speed <= safe_speed / 5 ) {
+    } else if( current_speed > safe_speed() / 12 && current_speed <= safe_speed() / 5 ) {
         current_gear = 2;
-    } else if( current_speed > safe_speed / 5 && current_speed <= safe_speed / 4 ) {
+    } else if( current_speed > safe_speed() / 5 && current_speed <= safe_speed() / 4 ) {
         current_gear = 3;
-    } else if( current_speed > safe_speed / 4 && current_speed <= safe_speed / 3 ) {
+    } else if( current_speed > safe_speed() / 4 && current_speed <= safe_speed() / 3 ) {
         current_gear = 4;
-    } else if( current_speed > safe_speed / 3 && current_speed <= safe_speed / 2 ) {
+    } else if( current_speed > safe_speed() / 3 && current_speed <= safe_speed() / 2 ) {
         current_gear = 5;
     } else {
         current_gear = 6;
@@ -957,17 +1006,14 @@ void sfx::do_vehicle_engine_sfx()
                             get_heard_volume( player_character.pos() ), 0_degrees, 1.2, 1.2 );
         add_msg_debug( debugmode::DF_SOUND, "GEAR DOWN" );
     }
-    if( safe_speed != 0 ) {
-        if( current_gear == 0 ) {
-            pitch = 1.0;
-        } else if( current_gear == -1 ) {
+    double pitch = 1.0;
+    if( current_gear != 0 ) {
+        if( current_gear == -1 ) {
             pitch = 1.2;
-        } else {
-            pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed );
+        } else if( safe_speed() != 0 ) {
+            pitch = 1.0 - static_cast<double>( current_speed ) / static_cast<double>( safe_speed() );
+            pitch = std::max( pitch, 0.5 );
         }
-    }
-    if( pitch <= 0.5 ) {
-        pitch = 0.5;
     }
 
     if( current_speed != previous_speed ) {

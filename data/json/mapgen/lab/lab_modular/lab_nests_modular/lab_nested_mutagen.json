@@ -174,7 +174,7 @@
           "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
       },
-      "items": { "m": [ { "item": "mut_iv", "chance": 10, "repeat": [ 2, 5 ] } ] },
+      "items": { "m": [ { "item": "mutagen_kits", "chance": 30 } ] },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 5 ], "y": 3, "chance": 70 },
         { "group": "rare_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 }
@@ -210,7 +210,7 @@
           "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
       },
-      "items": { "m": [ { "item": "mutagens", "chance": 10, "repeat": [ 2, 5 ] } ] },
+      "items": { "m": [ { "item": "mutagen_kits", "chance": 20 } ] },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 5 ], "y": 3, "chance": 70 },
         { "group": "common_mutation_books", "x": [ 3, 5 ], "y": 4, "chance": 70 }
@@ -288,7 +288,7 @@
           "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
         }
       },
-      "items": { "m": [ { "item": "mut_iv", "chance": 70 } ] },
+      "items": { "m": [ { "item": "mutagen_kits", "chance": 10 } ] },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 4 ], "y": 3, "chance": 70 },
         { "group": "rare_mutation_books", "x": [ 1, 3 ], "y": 4, "chance": 70 }
@@ -324,7 +324,7 @@
           "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
       },
-      "items": { "m": [ { "item": "mutagens", "chance": 70, "repeat": [ 1, 2 ] } ] },
+      "items": { "m": [ { "item": "mutagen_kits", "chance": 20 } ] },
       "place_loot": [
         { "group": "tools_mutation", "x": [ 3, 4 ], "y": 3, "chance": 70 },
         { "group": "common_mutation_books", "x": [ 1, 3 ], "y": 4, "chance": 70 }
@@ -1423,7 +1423,7 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rows": [
-        "JJ 6e|   ",
+        "JJ 5e|   ",
         " Ac  X   ",
         "a cA X   ",
         "q    |   ",
@@ -1442,6 +1442,11 @@
         "q": [ { "item": "lab_mutagen_ingredients", "chance": 40 } ]
       },
       "computers": {
+        "5": {
+          "name": "Mutations Terminal",
+          "options": [ { "name": "List mutation categories", "action": "list_mutations" } ],
+          "failures": [ { "action": "alarm" } ]
+        },
         "6": {
           "name": "Centrifuge",
           "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
@@ -1458,7 +1463,7 @@
     "object": {
       "mapgensize": [ 9, 9 ],
       "rows": [
-        "   |JJ 6e",
+        "   |JJ 5e",
         "   X Ac  ",
         "   X  cAa",
         "   |    q",
@@ -1477,6 +1482,11 @@
         "q": [ { "item": "lab_mutagen_ingredients", "chance": 40 } ]
       },
       "computers": {
+        "5": {
+          "name": "Mutations Terminal",
+          "options": [ { "name": "List mutation categories", "action": "list_mutations" } ],
+          "failures": [ { "action": "alarm" } ]
+        },
         "6": {
           "name": "Centrifuge",
           "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],

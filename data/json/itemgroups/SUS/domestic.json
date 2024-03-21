@@ -405,7 +405,6 @@
       { "item": "ceramic_cup", "prob": 75, "count": [ 1, 4 ] },
       { "item": "glass", "count": [ 1, 6 ] },
       { "item": "ceramic_mug", "count": [ 1, 6 ] },
-      { "item": "nice_mug", "count": [ 0, 1 ] },
       { "item": "ceramic_plate", "count": [ 1, 6 ] },
       { "item": "ceramic_bowl", "count": [ 1, 6 ] },
       {
@@ -569,7 +568,6 @@
       },
       { "item": "spoon", "count": [ 1, 6 ] },
       { "item": "ceramic_mug", "count": [ 1, 6 ] },
-      { "item": "nice_mug", "count": [ 0, 1 ] },
       { "group": "teabag_box", "prob": 60 }
     ]
   },
@@ -1087,8 +1085,7 @@
       { "group": "pants_unisex", "prob": 50 },
       { "group": "pants_male", "prob": 60 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 },
-      { "group": "loose_chess_pieces", "prob": 1 }
+      { "group": "hats_unisex", "prob": 10 }
     ]
   },
   {
@@ -1110,8 +1107,7 @@
       { "group": "pants_female", "prob": 60 },
       { "group": "gloves_womens", "prob": 5 },
       { "group": "gloves_unisex", "prob": 30 },
-      { "group": "hats_unisex", "prob": 10 },
-      { "group": "loose_chess_pieces", "prob": 1 }
+      { "group": "hats_unisex", "prob": 10 }
     ]
   },
   {

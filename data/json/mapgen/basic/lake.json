@@ -3,18 +3,21 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lake_surface" ],
+    "weight": { "global_val": "vanilla_lake_weight", "default": 1000 },
     "object": { "fill_ter": "t_water_dp" }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lake_water_cube" ],
+    "weight": { "global_val": "vanilla_lake_weight", "default": 1000 },
     "object": { "fill_ter": "t_water_cube" }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "lake_bed" ],
+    "weight": { "global_val": "vanilla_lake_weight", "default": 1000 },
     "object": { "fill_ter": "t_lake_bed" }
   }
 ]

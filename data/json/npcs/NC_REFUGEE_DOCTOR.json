@@ -19,7 +19,8 @@
       { "item": "pants", "prob": 80 },
       { "item": "pants_leather", "prob": 20 },
       { "item": "pants_cargo", "prob": 20 },
-      { "item": "skirt", "prob": 20 }
+      { "item": "skirt", "prob": 20 },
+      { "item": "skirt_denim", "prob": 5 }
     ]
   },
   {
@@ -86,7 +87,7 @@
       { "item": "cotton_ball", "prob": 50 },
       { "group": "used_1st_aid", "prob": 35 },
       { "item": "saline", "prob": 25 },
-      { "item": "contacts", "prob": 10 },
+      { "group": "box_of_contact_lens_any", "prob": 10 },
       { "item": "vitamins", "prob": 75 },
       { "item": "calcium_tablet", "prob": 75 },
       { "item": "caffeine", "prob": 25 },

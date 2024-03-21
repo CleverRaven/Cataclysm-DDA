@@ -32,6 +32,7 @@ static bool is_eternal_season = false;
 static bool is_eternal_night = false;
 static bool is_eternal_day = false;
 static int cur_season_length = 1;
+static lat_long location = { 42.36_degrees, -71.06_degrees };
 
 time_point calendar::start_of_cataclysm = calendar::turn_zero;
 time_point calendar::start_of_game = calendar::turn_zero;
@@ -189,7 +190,6 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude(
     time_point ti )
 {
     const season_effective_time t = season_effective_time( ti );
-    const lat_long location = location_boston;
     units::angle right_ascension;
     units::angle declination;
     time_duration timezone = angle_to_time( location.longitude );
@@ -276,8 +276,8 @@ static units::angle offset_to_sun_altitude(
     time_duration timezone = angle_to_time( longitude );
     std::tie( ra, declination ) = sun_ra_declination( approx_time, timezone );
     double cos_hour_angle =
-        ( sin( altitude ) - sin( location_boston.latitude ) * sin( declination ) ) /
-        cos( location_boston.latitude ) / cos( declination );
+        ( sin( altitude ) - sin( location.latitude ) * sin( declination ) ) /
+        cos( location.latitude ) / cos( declination );
     if( std::abs( cos_hour_angle ) > 1 ) {
         // It doesn't actually reach that angle, so we pretend that it does at
         // its maximum possible angle
@@ -289,7 +289,7 @@ static units::angle offset_to_sun_altitude(
     }
     const units::angle target_sidereal_time = hour_angle + ra;
     const units::angle sidereal_time_at_approx_time =
-        sidereal_time_at( approx_time, location_boston.longitude, timezone );
+        sidereal_time_at( approx_time, location.longitude, timezone );
     return normalize( target_sidereal_time - sidereal_time_at_approx_time );
 }
 
@@ -318,22 +318,22 @@ static time_point sun_at_altitude( const units::angle &altitude, const units::an
 
 time_point sunrise( const time_point &p )
 {
-    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, false );
+    return sun_at_altitude( sunrise_angle, location.longitude, p, false );
 }
 
 time_point sunset( const time_point &p )
 {
-    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, true );
+    return sun_at_altitude( sunrise_angle, location.longitude, p, true );
 }
 
 time_point night_time( const time_point &p )
 {
-    return sun_at_altitude( civil_dawn, location_boston.longitude, p, true );
+    return sun_at_altitude( civil_dawn, location.longitude, p, true );
 }
 
 time_point daylight_time( const time_point &p )
 {
-    return sun_at_altitude( civil_dawn, location_boston.longitude, p, false );
+    return sun_at_altitude( civil_dawn, location.longitude, p, false );
 }
 
 bool is_night( const time_point &p )
@@ -725,6 +725,10 @@ void calendar::set_eternal_day( bool is_eternal )
 void calendar::set_season_length( const int dur )
 {
     cur_season_length = dur;
+}
+void calendar::set_location( float latitude, float longitude )
+{
+    location = { units::from_degrees( latitude ), units::from_degrees( longitude ) };
 }
 
 static constexpr int real_world_season_length = 91;

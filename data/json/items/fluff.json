@@ -112,20 +112,6 @@
     "color": "light_gray"
   },
   {
-    "id": "checkpaper",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str_sp": "checkered paper" },
-    "description": "A sheet of paper scrawled with a pattern identical to the checkerboard on a chessboard.  Only useful for trying a game of chess or checkers and nothing else.",
-    "weight": "3 g",
-    "volume": "6 ml",
-    "longest_side": "297 mm",
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "white",
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
     "id": "jigsaw",
     "type": "GENERIC",
     "category": "other",
@@ -397,20 +383,6 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
-    "id": "checkboard",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "checkerboard" },
-    "description": "A pair of checkered wooden boards that together form a checkerboard.  Useful as timber or for crafting a chess or checkers board.",
-    "weight": "300 g",
-    "volume": "2400 ml",
-    "longest_side": "30cm",
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "white",
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
     "id": "small_checkboard",
     "type": "GENERIC",
     "category": "other",
@@ -418,7 +390,7 @@
     "description": "A pair of smaller checkered wooden boards that together form a compact checkerboard.  Useful as timber or for crafting a smaller chess or checkers board.",
     "weight": "200 g",
     "volume": "1000 ml",
-    "longest_side": "15cm",
+    "longest_side": "15 cm",
     "material": [ "wood" ],
     "symbol": "?",
     "color": "white",
@@ -448,40 +420,6 @@
     "category": "other",
     "name": { "str": "compact chess set" },
     "description": "A smaller and compact counterpart of the standard chess set, perfect for casual play and travel.  It contains all the pieces needed to play a game of chess.",
-    "weight": "275 g",
-    "volume": "1200 ml",
-    "longest_side": "15 cm",
-    "price": "16 USD",
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "makeshift_chess",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "makeshift chess set" },
-    "description": "A piece of paper scribbled with a pattern identical to the checkerboard on a chessboard, along with all the necessary pieces and a container to store everything properly inside.",
-    "weight": "100 g",
-    "volume": "500 ml",
-    "longest_side": "15 cm",
-    "price": "16 USD",
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "handmade_chess",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "handmade chess set" },
-    "description": "Two readily carved wood halves fixed together with a pair of small hinges.  It contains all the pieces needed to play a game of chess.",
     "weight": "275 g",
     "volume": "1200 ml",
     "longest_side": "15 cm",
@@ -546,7 +484,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "mancala set" },
-    "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different coloured beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
+    "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different colored beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
     "weight": "1313 g",
     "volume": "4668 ml",
     "price": 2000,
@@ -562,7 +500,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Four in a Row set" },
-    "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 coloured discs, alongside a small booklet explaining how to play Four in a Row.",
+    "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 colored discs, alongside a small booklet explaining how to play Four in a Row.",
     "weight": "680 g",
     "volume": "600 ml",
     "price": 2000,
@@ -654,22 +592,6 @@
     "use_action": [ "PLAY_GAME" ]
   },
   {
-    "id": "handmade_checkers",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "handmade checkers set" },
-    "description": "Two readily carved wood halves fixed together with a pair of small hinges.  It contains all the pieces needed to play a game of checkers.",
-    "weight": "788 g",
-    "volume": "1500 ml",
-    "price": "16 USD",
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "brown",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
     "id": "cards_magic",
     "type": "GENERIC",
     "category": "other",
@@ -737,8 +659,8 @@
     "id": "dnd_2",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "Swords and Fireballs", "str_pl": "sets of Swords and Fireballs" },
-    "description": "A roleplaying game set in the a fantasy medieval world with goblins and orcs.  You can be a mage, a warrior, a barbarian.  Typical RPG, you'know.",
+    "name": { "str": "Wayfinder", "str_pl": "sets of Wayfinder" },
+    "description": "A roleplaying game set in the a fantasy medieval world with goblins and orcs.  You can be a mage, a warrior, or a barbarian and go on epic adventures.",
     "weight": "680 g",
     "volume": "1250 ml",
     "price": 12950,
@@ -753,8 +675,8 @@
     "id": "dnd_3",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "Sticks and Stones", "str_pl": "sets of Sticks and Stones" },
-    "description": "A roleplaying game set in the Dawn of Man, the Primitive Age!  There, you can choose different places in the world to start, select many different classes, and different species of hominids to survive the primitive world.",
+    "name": { "str": "Dawn of Man", "str_pl": "sets of Dawn of Man" },
+    "description": "A roleplaying game set in the Stone Age.  There, you can choose different places in the world to start, select many different classes, and different species of hominids to survive the primitive world.",
     "weight": "680 g",
     "volume": "1250 ml",
     "price": 12950,
@@ -850,7 +772,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Survival Island", "str_pl": "sets of Survival Island" },
-    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe’s mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson’s abilities and combat various challenges that arise during his time on the island.",
+    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe's mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson's abilities and combat various challenges that arise during his time on the island.",
     "weight": "708 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -866,7 +788,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Nemo's Sea", "str_pl": "sets of Nemo's Sea" },
-    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne’s classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
+    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne's classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
     "weight": "904 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -882,7 +804,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
-    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters’ abilities and acquire new skills as they progress through the game.",
+    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
     "weight": "1120 g",
     "volume": "1850 ml",
     "price": 7050,
@@ -955,142 +877,61 @@
     "symbol": "?",
     "color": "light_blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_mars",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Mars", "str_pl": "sets of Terraforming - Mars" },
-    "description": "This board game is set in the 2400s, where corporations are working together to terraform the planet Mars and make it habitable for human life.  Players (or just a single player) take on the roles of these corporations and compete to contribute to the terraforming process by raising temperature, creating oceans, and cultivating greenery on the Martian surface.",
-    "weight": "1104 g",
-    "volume": "1500 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_venus",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Venus", "str_pl": "sets of Terraforming - Venus" },
-    "description": "Another epic edition of the Terraforming board game series, it is set in the 2700s.  The player OR the players take on the role of corporations competing to transform Venus into a habitable planet by increasing its temperature, oxygen levels, and increasing the number of oceans.  The game progresses through several rounds, with each round consisting of various phases.",
-    "weight": "1104 g",
-    "volume": "1500 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_jupiter",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Jupiter", "str_pl": "sets of Terraforming - Jupiter" },
-    "description": "The largest edition of Terraforming, this epic board game is set in the 5000s, where players (or just the player) take on the role of corporations competing to terraform and colonize the gas giant Jupiter and its moons (the Jovian System).  This game combines elements of strategy, resource management, and exploration as players work to transform the hostile environment of the Jovian System into a habitable zone for human civilization.",
-    "weight": "1504 g",
-    "volume": "2105 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_saturn",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Saturn", "str_pl": "sets of Terraforming - Saturn" },
-    "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn’s moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players.",
-    "weight": "1204 g",
-    "volume": "1554 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_uranus",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Uranus", "str_pl": "sets of Terraforming - Uranus" },
-    "description": "Another edition of the acclaimed board game Terraforming, this time set in the 3000s, where players or the player (again) take on the role of corporations working together to terraform the planet Uranus though various ways, such as increasing temperature, developing a proper atmosphere and development of oxygen.",
-    "weight": "914 g",
-    "volume": "1350 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_neptune",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Neptune", "str_pl": "sets of Terraforming - Neptune" },
-    "description": "This board game is set in the 2800s, and just like it's prequels, either a single player or players take on the roles of terraforming corporations, competing to transform the planet Neptune into a habitable environment for human life.",
-    "weight": "804 g",
-    "volume": "1250 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_pluto",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
-    "description": "The smallest set of the Terraforming series, this board game is set in the 2700s in the outer reaches of our solar system.  In this game, players take on the roles of corporations competing to terraform and colonize the dwarf planet Pluto, utilizing resources, technology, and strategic decision-making to transform the icy world into a habitable environment.",
-    "weight": "604 g",
-    "volume": "1050 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
-  },
-  {
-    "id": "terraforming_earth",
-    "type": "GENERIC",
-    "category": "other",
-    "name": { "str": "Terraforming - Earth", "str_pl": "sets of Terraforming - Earth" },
-    "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet’s ecosystems, atmosphere, and climate while also competing for resources and prestige.",
-    "weight": "1004 g",
-    "volume": "1450 ml",
-    "price": 7050,
-    "price_postapoc": 500,
-    "material": [ "wood" ],
-    "symbol": "?",
-    "color": "light_blue",
-    "flags": [ "NO_REPAIR" ],
-    "use_action": [ "PLAY_GAME" ]
+    "use_action": [ "PLAY_GAME" ],
+    "variants": [
+      {
+        "id": "terraforming_mars",
+        "name": { "str": "Terraforming - Mercury", "str_pl": "sets of Terraforming - Mercury" },
+        "description": "This board game is set in the 4300s, where corporations are working together to terraform the planet Mercury, the smallest and innermost planet in our solar system.  Each player (or just the player) will have unique abilities and resources at their disposal, and they will need to strategize and cooperate with one another to achieve their goals."
+      },
+      {
+        "id": "terraforming_mars",
+        "name": { "str": "Terraforming - Mars", "str_pl": "sets of Terraforming - Mars" },
+        "description": "This board game is set in the 2400s, where corporations are working together to terraform the planet Mars and make it habitable for human life.  Players (or just a single player) take on the roles of these corporations and compete to contribute to the terraforming process by raising temperature, creating oceans, and cultivating greenery on the Martian surface."
+      },
+      {
+        "id": "terraforming_venus",
+        "name": { "str": "Terraforming - Venus", "str_pl": "sets of Terraforming - Venus" },
+        "description": "Another epic edition of the Terraforming board game series, it is set in the 2700s.  The player OR the players take on the role of corporations competing to transform Venus into a habitable planet by increasing its temperature, oxygen levels, and increasing the number of oceans.  The game progresses through several rounds, with each round consisting of various phases."
+      },
+      {
+        "id": "terraforming_jupiter",
+        "name": { "str": "Terraforming - Jupiter", "str_pl": "sets of Terraforming - Jupiter" },
+        "description": "The largest edition of Terraforming, this epic board game is set in the 5000s, where players (or just the player) take on the role of corporations competing to terraform and colonize the gas giant Jupiter and its moons (the Jovian System).  This game combines elements of strategy, resource management, and exploration as players work to transform the hostile environment of the Jovian System into a habitable zone for human civilization."
+      },
+      {
+        "id": "terraforming_saturn",
+        "name": { "str": "Terraforming - Saturn", "str_pl": "sets of Terraforming - Saturn" },
+        "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn's moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players."
+      },
+      {
+        "id": "terraforming_uranus",
+        "name": { "str": "Terraforming - Uranus", "str_pl": "sets of Terraforming - Uranus" },
+        "description": "Another edition of the acclaimed board game Terraforming, this time set in the 3000s, where players or the player (again) take on the role of corporations working together to terraform the planet Uranus though various ways, such as increasing temperature, developing a proper atmosphere and development of oxygen."
+      },
+      {
+        "id": "terraforming_neptune",
+        "name": { "str": "Terraforming - Neptune", "str_pl": "sets of Terraforming - Neptune" },
+        "description": "This board game is set in the 2800s, and just like it's prequels, either a single player or players take on the roles of terraforming corporations, competing to transform the planet Neptune into a habitable environment for human life."
+      },
+      {
+        "id": "terraforming_pluto",
+        "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
+        "description": "The smallest set of the Terraforming series, this board game is set in the 2700s in the outer reaches of our solar system.  In this game, players take on the roles of corporations competing to terraform and colonize the dwarf planet Pluto, utilizing resources, technology, and strategic decision-making to transform the icy world into a habitable environment."
+      },
+      {
+        "id": "terraforming_earth",
+        "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
+        "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet's ecosystems, atmosphere, and climate while also competing for resources and prestige."
+      }
+    ]
   },
   {
     "id": "viticulture",
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Vigneto", "str_pl": "sets of Vigneto" },
-    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard’s productivity and efficiency.",
+    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard's productivity and efficiency.",
     "weight": "904 g",
     "volume": "1350 ml",
     "price": 7050,
@@ -1615,7 +1456,7 @@
     "type": "GENERIC",
     "id": "ruler",
     "name": { "str": "ruler" },
-    "description": "A plastic ruler used to measure lengths of smaller objects.  This one measures 15cm.",
+    "description": "A plastic ruler used to measure lengths of smaller objects.  This one measures 15 cm.",
     "weight": "9 g",
     "volume": "10 ml",
     "longest_side": "16 cm",
@@ -1663,6 +1504,49 @@
     "material": [ "cotton" ],
     "symbol": "_",
     "color": "brown"
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA on-site staff notice" },
+    "snippet_category": "LIXA_lab_files",
+    "copy-from": "file",
+    "description": "A brief with the word LIXA on the official letterhead, for distribution to the onsite staff."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_generic_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA data file" },
+    "copy-from": "file",
+    "description": "A sheaf of papers containing a truly dizzying assortment of graphs, diagrams, and equations, on LIXA letterhead."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_mil_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA military notice" },
+    "snippet_category": "LIXA_mil_files",
+    "copy-from": "file",
+    "description": "A signed and serialed notice distributed to LIXA's onsite military police."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_postit",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "post-it note" },
+    "snippet_category": "LIXA_lab_notes",
+    "description": "A cyan post-it note.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "lab_postit_bio"
   },
   {
     "id": "glass_book",
@@ -1726,5 +1610,184 @@
     "to_hit": -1,
     "melee_damage": { "cut": 6 },
     "weapon_category": [ "SHIVS" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sketch",
+    "copy-from": "paper",
+    "name": { "str_sp": "sketch" },
+    "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
+    "price": 0,
+    "price_postapoc": 500,
+    "variants": [
+      {
+        "id": "sketch_goofy_doodles",
+        "name": { "str": "goofy doodle" },
+        "description": "This one is a collection of assorted doodles of goofy cartoon characters in varying styles.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "sketch_dark_doodles",
+        "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
+        "description": "This one is a collection of assorted doodles, many have dark imagery and shadowy figures.  It's kind of distrubing.",
+        "append": true,
+        "weight": 2
+      },
+      {
+        "id": "sketch_dark_character_doodles",
+        "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
+        "description": "This one is a <sketch_concept_description> <random_character_pose_dark>.  <artist_identifying_info>.  It gives off a sense of unease.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 2
+      },
+      {
+        "id": "sketch_concept_doodles",
+        "name": { "str": "concept sketch", "str_pl": "concept sketches" },
+        "description": "This one is a <sketch_concept_description> <random_character_pose>.  <artist_identifying_info>.  It would appear that this is some sort of concept art.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "painting",
+    "copy-from": "sheet_canvas",
+    "name": { "str_sp": "painting" },
+    "description": "A painting that someone has made.",
+    "price": 10000,
+    "price_postapoc": 20000,
+    "variants": [
+      {
+        "id": "painting_character",
+        "//": "This is a moreso side project someone made, rather than an official project.",
+        "name": { "str": "character portrait" },
+        "description": "This painting depicts a <sketch_concept_description> <random_character_pose>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 5
+      },
+      {
+        "id": "painting_landscape",
+        "name": { "str": "landscape painting" },
+        "description": "This painting depicts a <landscape_description>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 10
+      },
+      {
+        "id": "painting_abstract",
+        "name": { "str": "abstract painting" },
+        "description": "This painting depicts <abstract_art_type>.  It seems to have been <painting_type>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sculpture_rock",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": { "str": "stone sculpture" },
+    "description": "A medium-sized stone sculpture.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "7884 g",
+    "volume": "20813 ml",
+    "longest_side": "30 cm",
+    "price": 100000,
+    "price_postapoc": 30000,
+    "to_hit": -2,
+    "variants": [
+      {
+        "id": "statue_person",
+        "name": { "str": "stone statue" },
+        "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 10
+      },
+      {
+        "id": "statue_releif",
+        "name": { "str": "abstract stone statue" },
+        "description": "This statue depicts <abstract_statue_type>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "stone releif" },
+        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "stone landscape releif" },
+        "description": "This releif depicts a <landscape_description>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      }
+    ],
+    "melee_damage": { "bash": 14 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sculpture_clay",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "clay sculpture" },
+    "description": "A medium-sized clay sculpture.",
+    "category": "spare_parts",
+    "material": "clay",
+    "weight": "150 g",
+    "volume": "94 ml",
+    "longest_side": "30 cm",
+    "price": 80000,
+    "price_postapoc": 15000,
+    "to_hit": -2,
+    "variants": [
+      {
+        "id": "statue_person",
+        "name": { "str": "clay sculpture" },
+        "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 10
+      },
+      {
+        "id": "statue_releif",
+        "name": { "str": "abstract clay sculpture" },
+        "description": "This statue depicts <abstract_statue_type>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "clay releif" },
+        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "clay landscape releif" },
+        "description": "This releif depicts a <landscape_description>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      }
+    ],
+    "melee_damage": { "bash": 10 }
   }
 ]

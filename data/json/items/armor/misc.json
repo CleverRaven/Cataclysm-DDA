@@ -336,7 +336,17 @@
     "id": "dog_tag",
     "type": "ARMOR",
     "name": { "str_sp": "dog tag" },
-    "description": "An oval disk attached to a chain, worn by military personnel for identification.",
+    "description": "Two oval disks attached to a chain, worn by military personnel for identification.",
+    "variants": [
+      {
+        "id": "dog_tag_id",
+        "name": { "str": "dog tag" },
+        "description": "They have inscribed:\n<family_name>\n<given_name_army>\n<number><number><number><number><number><number><number><number><number><number>\n<blood_type_caps>\n<religion_caps>",
+        "expand_snippets": true,
+        "append": true,
+        "weight": 1
+      }
+    ],
     "weight": "5 g",
     "volume": "1 ml",
     "price": 10,

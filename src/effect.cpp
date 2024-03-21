@@ -866,7 +866,7 @@ std::string effect::disp_desc( bool reduced ) const
 
     // Handle limb score modifiers if we have any
     if( has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
-        std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? "Global" : "Local";
+        const std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? _( "Global" ) : _( "Local" );
         for( limb_score_effect &effect : get_limb_score_data() ) {
             // Only print modifiers if they are global or if the limb has the score in the first place
             if( bp->has_limb_score( effect.score_id ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {

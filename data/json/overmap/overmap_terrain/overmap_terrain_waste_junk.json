@@ -1,6 +1,33 @@
 [
   {
     "type": "overmap_terrain",
+    "abstract": "generic_sewer",
+    "name": "sewer",
+    "color": "green",
+    "see_cost": 5,
+    "extras": "sewer"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewer",
+    "copy-from": "generic_sewer",
+    "flags": [ "LINEAR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "urban_25_sewer_connector",
+    "copy-from": "generic_sewer",
+    "sym": "┐"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "sewer_connector",
+    "copy-from": "generic_sewer",
+    "sym": "X",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "sewage_treatment_0_0_0", "sewage_treatment_1_0_0", "sewage_treatment_1_1_0" ],
     "name": "sewage treatment plant",
     "sym": "P",
@@ -87,15 +114,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "sewer",
-    "name": "sewer",
-    "color": "green",
-    "see_cost": 5,
-    "extras": "sewer",
-    "flags": [ "LINEAR" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "pump_station_1",
     "copy-from": "generic_city_building",
     "name": "pump station",
@@ -129,12 +147,6 @@
     "color": "green",
     "see_cost": 999,
     "mondensity": 2
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "sewer_connector",
-    "copy-from": "pump_station_3",
-    "flags": [ "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",

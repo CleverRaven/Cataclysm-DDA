@@ -624,6 +624,57 @@ std::map<K, V> map_without_keys( const std::map<K, V> &original, const std::vect
     return filtered;
 }
 
+template<typename Map, typename Set>
+bool map_equal_ignoring_keys( const Map &lhs, const Map &rhs, const Set &ignore_keys )
+{
+    // Since map and set are sorted, we can do this as a single pass with only conditional checks into remove_keys
+    if( ignore_keys.empty() ) {
+        return lhs == rhs;
+    }
+
+    auto lbegin = lhs.begin();
+    auto lend = lhs.end();
+    auto rbegin = rhs.begin();
+    auto rend = rhs.end();
+
+    for( ; lbegin != lend && rbegin != rend; ++lbegin, ++rbegin ) {
+        // Sanity check keys
+        if( lbegin->first != rbegin->first ) {
+            while( lbegin != lend && ignore_keys.count( lbegin->first ) == 1 ) {
+                ++lbegin;
+            }
+            if( lbegin == lend ) {
+                break;
+            }
+            if( rbegin->first != lbegin->first ) {
+                while( rbegin != rend && ignore_keys.count( rbegin->first ) == 1 ) {
+                    ++rbegin;
+                }
+                if( rbegin == rend ) {
+                    break;
+                }
+            }
+            // If we've skipped ignored keys and the keys still don't match,
+            // then the maps are unequal.
+            if( lbegin->first != rbegin->first ) {
+                return false;
+            }
+        }
+        if( lbegin->second != rbegin->second && ignore_keys.count( lbegin->first ) != 1 ) {
+            return false;
+        }
+        // Either the values were equal, or the key was ignored.
+    }
+    // At least one map ran out of keys. The other may still have ignored keys in it.
+    while( lbegin != lend && ignore_keys.count( lbegin->first ) ) {
+        ++lbegin;
+    }
+    while( rbegin != rend && ignore_keys.count( rbegin->first ) ) {
+        ++rbegin;
+    }
+    return lbegin == lend && rbegin == rend;
+}
+
 int modulo( int v, int m );
 
 /** Add elements from one set to another */

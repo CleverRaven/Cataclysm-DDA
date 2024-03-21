@@ -1,0 +1,12 @@
+[
+  {
+    "type": "overmap_special_migration",
+    "id": "railroad_city",
+    "new_id": "railroad_station_city"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Railroad Station",
+    "new_id": "Railway Station"
+  }
+]

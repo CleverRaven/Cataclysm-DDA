@@ -104,8 +104,6 @@ class outfit
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
         units::mass weight_carried_with_tweaks( const std::map<const item *, int> &without ) const;
         units::mass weight() const;
-        float weight_capacity_modifier() const;
-        units::mass weight_capacity_bonus() const;
         units::volume holster_volume() const;
         int used_holsters() const;
         int total_holsters() const;
@@ -214,7 +212,7 @@ class outfit
         void set_fitted();
         std::vector<item> available_pockets() const;
         void write_text_memorial( std::ostream &file, const std::string &indent, const char *eol ) const;
-        std::string get_armor_display( bodypart_id bp, unsigned int truncate = 0 ) const;
+        std::string get_armor_display( bodypart_id bp ) const;
         void activate_combat_items( npc &guy );
         void deactivate_combat_items( npc &guy );
 

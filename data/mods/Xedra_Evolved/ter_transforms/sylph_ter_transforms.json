@@ -1,0 +1,18 @@
+[
+  {
+    "type": "ter_furn_transform",
+    "id": "ter_sylph_massive_lightning",
+    "terrain": [
+      {
+        "result": "t_pit_shallow",
+        "valid_flags": [ "ROAD", "FLAT", "DIGGABLE" ],
+        "message": "The lightning blasts a crater where it strikes!"
+      },
+      {
+        "result": "t_pit",
+        "valid_terrain": [ "t_pit_shallow" ],
+        "message": "The lightning blasts a crater where it strikes!"
+      }
+    ]
+  }
+]

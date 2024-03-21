@@ -12,6 +12,7 @@ Broad categories are “This is already implemented”, “Someone is working on
     - [Electrical power transmission](#Electrical-power-transmission)
     - [User interface](#User-interface)
     - [Monsters](#Monsters)
+    - [Item and terrain additions](#Item-and-terrain-additions)
     - [Vehicle additions](#Vehicle-additions)
     - [Gun Behavior](#Gun-Behavior)
     - [Environment](#Environment)
@@ -35,7 +36,7 @@ Places where votes and popular support are important are which parts of the game
 
 **Steam, other app stores: not opposed, but we aren’t doing it or endorsing it either.**
 
-Regarding Steam, this [Steam Store](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) respects the project license.
+Regarding Steam, this [Steam Store page](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) respects the project license.
 
 The game is also available from the [Play Store](https://play.google.com/store/apps/details?id=com.cleverraven.cataclysmdda) for Android.
 
@@ -282,9 +283,6 @@ Storing blood for later is far outside the reach of the survivor even if they kn
 
 Coercing followers into being your personal blood bags is not going to happen. Otherwise, this would require someone with medical knowhow, matching blood types, about an hour of sitting around for the transfusion, and would make the recipient violently ill for about a day. But there is a better solution.
 
-#### Saline infusions: yes, just waiting to be added.
-
-This is a realistic and sensible way to help with hypovolemia that circumvents all the previously mentioned issues. Though, it should still require someone with medical training and wouldn't be an immediate cure, and would require scavenging, it would not be player-craftable.
 
 ### Electrical power transmission
 This covers several sub-suggestions that do or do not work for various reasons.
@@ -338,6 +336,18 @@ Work is being done to enable all these conversations.  It's not hard work at thi
 There are substantial technical challenges to a monster that exists on more than 1 tile at the same time, mostly dealing with pathfinding.  As people come up with solutions to these challenges, multi-tile monsters will become more likely.
 
 Some multi-tile monsters, such as giant snakes, have fewer technical challenges and might arrive sooner.
+
+### Item and terrain additions
+
+#### Add food-bearing plant X: based on viability
+
+The setting of the game is New England, with a strong emphasis on the Massachussetts area, so for example this places the [Hardiness Zone](https://en.wikipedia.org/wiki/Hardiness_zone) to reference at 6 or 7, and other indicators of plant viability (rainfall, first frost) should likewise be based on the typical Massachusetts stats. The other major thing to keep in mind is that when you are adding a tree or other plant, the primary impact is that you are expecting it to grow and produce harvestable fruit (or other harvestables) under the prevailing weather conditions for the area. Greenhouse-only plants will mostly die off in the first winter if not before; plants that require other winterizing actions will likewise die or be unhealthy if not cared for, so there would be no expectation of these plants thriving and producing harvestable materials. Due to this, the emphasis should be on plants that *thrive* in this region, not just ones that it is *possible* to grow.  It is not out of the question that we add a system that handles this in a more nuanced way, including requiring intensive gardening interventions, but until such a system is present plants that do not naturally thrive in Massachusetts should not be added, or they should be added in a form that does not produce harvests.
+
+#### Add this item/recipe/etc: Go ahead
+
+We often get recommendations to add a particular item or recipe to the game.  As long as the suggestion meets the game's inclusion criteria, this is generally permitted.  Due to the huge volume of suggestions like this that we get, the standard advice for this sort of thing is "add it yourself". That doesn't mean your suggestion isn't good or you're a bad person: quite the opposite, it means you've probably got a good idea. Anyone suggesting this is probably a contributor themselves, and is suggesting you join our illustrious ranks. It is meant in a complimentary fashion.
+
+That said, the sheer amount of well-meaning suggestions we get is so high that these simple content addition suggestions are shut down quickly. That's not meant personally, it's just that if we don't moderate it heavily we are quickly flooded in excited suggestions that drown out conversation about the things people are currently actively working on.
 
 ### Vehicle additions
 
@@ -405,6 +415,10 @@ The old implementation of acid rain had a massive world consistency flaw, given 
 ## Failed Rationalizations
 
 These aren’t suggestions, but arguments that comes up in support of suggestions or alterations to the game. They come up constantly so I’m putting a note about them here.
+
+In the context of this game, failed rationalization means "if something was added before, it doesn't mean we should add something similar again" or "if someone wants to add something to the game, they should review it separately from the rest of the game, not relying on other parts of the game".
+The game is open-source and community-built and changes itself all the time: Whales Cataclysm and DDA have a 10-year difference and ~40k merged changes from ~2k different contributors. The game changes all the time; we've got an entire setting revamped, which means there are a lot of items that were added a long time ago that can't be added anymore, and honestly shouldn't be: mininuke manhacks, SPIW weapons, healing royal jelly, superalloy dog harnesses, etc.
+More examples:
 
 #### “Seeing as we have nanobots and power armors…”, “We have teleportation, so it’s not unreasonable to have…”: Irrelevant
 

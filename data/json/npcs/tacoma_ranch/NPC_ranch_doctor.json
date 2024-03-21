@@ -109,7 +109,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_RANCH_DOCTOR_AID_DONE",
-    "dynamic_line": "Take it easy now.  Wouldn't want you coming back here too soon.",
+    "dynamic_line": { "gendered_line": "Take it easy now.  Wouldn't want you coming back here too soon.", "relevant_genders": [ "u" ] },
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {

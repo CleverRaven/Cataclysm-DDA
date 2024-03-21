@@ -1,0 +1,187 @@
+[
+  {
+    "id": "MISSION_REACH_AUGUSTMOON_SHUTTLE",
+    "type": "mission_definition",
+    "name": { "str": "Reach the Port Augustmoon shuttle" },
+    "goal": "MGOAL_GO_TO",
+    "description": "Your shuttle has landed nearby.  It will wait for up to 3 hours before returning to port, you might what to reach it before then.",
+    "difficulty": 0,
+    "value": 0,
+    "invisible_on_complete": true,
+    "start": { "assign_mission_target": { "var": { "global_val": "landing_site" } } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_FIND_PORT_AUGUSTMOON",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "searched_port_augustmoon", "!=", "1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "Port_augustmoon" },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
+        "zone": "ZONE_START_POINT",
+        "target_max_radius": 26
+      },
+      {
+        "u_location_variable": { "global_val": "Port_augustmoon_cargo" },
+        "target_params": { "om_terrain": "augustmoon_docking_arm", "z": -9, "random": true, "search_range": 380 },
+        "terrain": "t_intermodal_crate_scripted_destination",
+        "target_max_radius": 26
+      },
+      {
+        "u_location_variable": { "global_val": "augustmoon_main_concourse1" },
+        "target_params": { "om_terrain": "augustmoon_main_concourse1" }
+      },
+      {
+        "u_location_variable": { "global_val": "augustmoon_main_concourse2" },
+        "target_params": { "om_terrain": "augustmoon_main_concourse2" }
+      },
+      { "math": [ "searched_port_augustmoon", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_FIND_LANDING_PAD",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "condition": { "math": [ "searched_landing_pad", "!=", "1" ] },
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "landing_pad" },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 380 },
+        "zone": "ZONE_START_POINT",
+        "target_max_radius": 26
+      },
+      {
+        "u_location_variable": { "global_val": "landing_pad_cargo" },
+        "target_params": { "om_terrain": "land_pad_outpost_a1", "z": 0, "random": true, "search_range": 380 },
+        "terrain": "t_intermodal_crate_scripted_destination",
+        "target_max_radius": 26
+      },
+      { "math": [ "searched_landing_pad", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_CALL_AUGUSTMOON_SHUTTLE",
+    "condition": { "math": [ "augustmoon_shuttle_inprogress", "!=", "1" ] },
+    "effect": [
+      { "u_consume_item": "afs_shuttle_radiobeacon", "count": 1 },
+      { "u_message": "Order Received: Shuttle inbound to your location.", "popup": true },
+      { "queue_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "30 minutes" },
+      { "math": [ "augustmoon_shuttle_inprogress", "=", "1" ] }
+    ],
+    "false_effect": [ { "u_message": "WARNING: Cannot schedule landing, shuttle already inbound.", "popup": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE",
+    "condition": "u_is_outside",
+    "effect": [
+      {
+        "u_location_variable": { "global_val": "landing_site" },
+        "target_params": {
+          "om_terrain": "afs_landed_shuttle",
+          "om_terrain_replace": "field",
+          "z": 0,
+          "random": true,
+          "min_distance": 4,
+          "search_range": 10
+        }
+      },
+      {
+        "u_message": "You see the engine plume of your landing drone shuttle in the distance.  You'll have about four hours to reach it before it leaves.",
+        "popup": true
+      },
+      { "assign_mission": "MISSION_REACH_AUGUSTMOON_SHUTTLE" },
+      { "mapgen_update": "augustmoon_shuttle_ground", "target_var": { "global_val": "landing_site" } },
+      { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "4 hours" }
+    ],
+    "false_effect": [ { "queue_eocs": "EOC_AFS_LAND_AUGUSTMOON_SHUTTLE", "time_in_future": "10 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL",
+    "condition": { "not": { "u_near_om_location": "afs_landed_shuttle", "range": 4 } },
+    "effect": [
+      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "remove_active_mission": "MISSION_REACH_AUGUSTMOON_SHUTTLE" },
+      { "mapgen_update": "augustmoon_shuttle_ground_left", "target_var": { "global_val": "landing_site" } }
+    ],
+    "false_effect": [ { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "10 seconds" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_AUGUSTMOON_SHUTTLE_TP",
+    "effect": [
+      { "math": [ "augustmoon_shuttle_inprogress", "=", "0" ] },
+      { "queue_eocs": "EOC_AFS_AUGUSTMOON_SHUTTLE_RECALL", "time_in_future": "1 seconds" },
+      { "queue_eocs": "EOC_augustmoon_reroll_vending_machine", "time_in_future": "1 seconds" },
+      {
+        "u_location_variable": { "context_val": "crate_loc" },
+        "terrain": "t_intermodal_crate_scripted_source",
+        "target_max_radius": 24
+      },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "crate_loc" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "true_eocs": [ { "id": "EOC_AFS_AUGUSTMOON_CARGO_TP", "effect": [ { "npc_teleport": { "global_val": "Port_augustmoon_cargo" } } ] } ]
+      },
+      { "u_run_npc_eocs": [ "EOC_AFS_TEST_AUGUSTMOON_TP" ], "local": true },
+      {
+        "u_message": "The shuttle's ascent is a little rough, but you're soon on your way to Port Augustmoon.",
+        "popup": true
+      },
+      { "u_teleport": { "global_val": "Port_augustmoon" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORT_TO_LANDING_PAD_TP",
+    "effect": [
+      {
+        "u_location_variable": { "context_val": "crate_loc" },
+        "terrain": "t_intermodal_crate_scripted_source",
+        "target_max_radius": 24
+      },
+      {
+        "u_map_run_item_eocs": "all",
+        "loc": { "context_val": "crate_loc" },
+        "min_radius": 0,
+        "max_radius": 0,
+        "true_eocs": [
+          {
+            "id": "EOC_AFS_AUGUSTMOON_TO_LANDING_PAD_CARGO_TP",
+            "effect": [ { "npc_teleport": { "global_val": "landing_pad_cargo" } } ]
+          }
+        ]
+      },
+      { "u_run_npc_eocs": [ "EOC_AFS_LANDING_PAD_TP" ], "local": true },
+      { "u_teleport": { "global_val": "landing_pad" } },
+      {
+        "u_message": "An orbital drop in a rackety cargo shuttle preceded by an almost interminable wait within Port Augustmoon customs level leads you to the planetary wastes below.\n\n What passes by the spaceport is nothing but a small radio outpost surrounded by chainlink fencing.  Beyond it, any guarantees of civilization are left behind.",
+        "popup": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TEST_AUGUSTMOON_CARGO_TP",
+    "effect": [ { "u_teleport": { "global_val": "Port_augustmoon_cargo" }, "force": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_TEST_AUGUSTMOON_TP",
+    "condition": "u_following",
+    "effect": [ { "u_teleport": { "global_val": "Port_augustmoon" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AFS_LANDING_PAD_TP",
+    "condition": "u_following",
+    "effect": [ { "u_teleport": { "global_val": "landing_pad" } } ]
+  }
+]

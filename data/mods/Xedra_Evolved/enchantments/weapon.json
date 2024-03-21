@@ -29,7 +29,7 @@
     "id": "EXP_BASH",
     "has": "WIELD",
     "condition": "ALWAYS",
-    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "arithmetic": [ { "u_val": "exp" }, "/", { "const": 750 } ] } } ]
+    "values": [ { "value": "ITEM_DAMAGE_BASH", "add": { "math": [ "u_val('exp') / 750" ] } } ]
   },
   {
     "type": "enchantment",
@@ -43,7 +43,7 @@
     "id": "MAX_MANA_STR",
     "condition": "ALWAYS",
     "//": "proof of concept",
-    "values": [ { "value": "STRENGTH", "add": { "arithmetic": [ { "u_val": "mana_max" }, "/", { "const": 4 } ] } } ]
+    "values": [ { "value": "STRENGTH", "add": { "math": [ "u_val('mana_max') / 4" ] } } ]
   },
   {
     "type": "enchantment",

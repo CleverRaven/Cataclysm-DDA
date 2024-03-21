@@ -119,6 +119,13 @@
     "phase": "gas"
   },
   {
+    "id": "fd_darkness",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "darkness", "light_override": 0.0 } ],
+    "half_life": "5 minutes",
+    "percent_spread": 50
+  },
+  {
     "id": "fd_nullifying_field",
     "type": "field_type",
     "intensity_levels": [

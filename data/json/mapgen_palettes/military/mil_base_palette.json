@@ -111,6 +111,10 @@
       "I": "f_flagpole"
     },
     "item": { "I": { "item": "american_flag" } },
+    "items": {
+      "W": [ { "item": "saline_bottle_random", "chance": 100 } ],
+      "^": [ { "item": "saline_bottle_random", "chance": 100 } ]
+    },
     "liquids": {
       "6": { "liquid": "water_clean", "amount": [ 0, 100 ] },
       "7": { "liquid": "water_sewage", "amount": [ 0, 200 ] },

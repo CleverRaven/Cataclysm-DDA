@@ -1,74 +1,24 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "godco_place_coop",
-    "recurrence": 100,
+    "id": "godco_place_coop_new",
     "global": false,
-    "condition": {
-      "and": [
-        { "math": [ "darryl_building_coop", "==", "1" ] },
-        {
-          "npc_compare_time_since_var": "coop_in_progress",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "7 d"
-        },
-        { "npc_near_om_location": "godco_7", "range": 12 }
-      ]
-    },
-    "deactivate_condition": { "math": [ "darryl_building_coop", "==", "2" ] },
-    "effect": [
-      { "mapgen_update": "darryl_place_coop", "om_terrain": "godco_7" },
-      { "math": [ "darryl_building_coop", "=", "2" ] },
-      { "npc_lose_var": "coop_in_progress", "type": "timer", "context": "trade" }
-    ]
+    "effect": [ { "mapgen_update": "darryl_place_coop", "om_terrain": "godco_7" }, { "math": [ "darryl_building_coop", "=", "2" ] } ]
   },
   {
     "type": "effect_on_condition",
-    "id": "godco_place_herb_garden",
-    "recurrence": 100,
+    "id": "godco_place_herb_garden_new",
     "global": false,
-    "condition": {
-      "and": [
-        { "math": [ "kostas_building_garden", "==", "1" ] },
-        {
-          "npc_compare_time_since_var": "herb_garden_in_progress",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "3 d"
-        },
-        { "npc_near_om_location": "godco_1_2", "range": 12 }
-      ]
-    },
-    "deactivate_condition": { "math": [ "kostas_building_garden", "==", "2" ] },
     "effect": [
       { "mapgen_update": "place_herb_garden", "om_terrain": "godco_1_2" },
-      { "math": [ "kostas_building_garden", "=", "2" ] },
-      { "npc_lose_var": "herb_garden_in_progress", "type": "timer", "context": "trade" }
+      { "math": [ "kostas_building_garden", "=", "2" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "godco_place_wall",
-    "recurrence": 100,
+    "id": "godco_place_wall_new",
     "global": false,
     "//": "4 hours 20 minutes per wall (from regular ground to full palisade) * 373 walls = ~1,567 hours.  Divided into 8-hour work shifts, thats ~196 days, or six and a half months for one person.  Presuming we have ~11 people working in a single shift, each building 1 wall, that should be ~18 days to build.  Please correct me if I messed up the math.",
-    "condition": {
-      "and": [
-        { "math": [ "wall_in_progress", "==", "1" ] },
-        {
-          "npc_compare_time_since_var": "wall_started_building",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "18 d"
-        },
-        { "npc_near_om_location": "godco_5", "range": 12 }
-      ]
-    },
-    "deactivate_condition": { "math": [ "wall_in_progress", "==", "2" ] },
     "effect": [
       { "mapgen_update": "place_right_corner_wall", "om_terrain": "godco_1" },
       { "mapgen_update": "place_gate_wall", "om_terrain": "godco_2" },
@@ -78,35 +28,18 @@
       { "mapgen_update": "place_right_corner_wall_bottom", "om_terrain": "godco_7" },
       { "mapgen_update": "place_straight_bottom_wall", "om_terrain": "godco_8" },
       { "mapgen_update": "place_left_corner_wall_bottom", "om_terrain": "godco_9" },
-      { "math": [ "wall_in_progress", "=", "2" ] },
-      { "npc_lose_var": "wall_started_building", "type": "timer", "context": "trade" }
+      { "math": [ "wall_in_progress", "=", "2" ] }
     ]
   },
   {
     "type": "effect_on_condition",
-    "id": "godco_place_warehouse",
-    "recurrence": 100,
+    "id": "godco_place_warehouse_new",
     "global": false,
     "//": "1 hour 30 minutes per wood wall * 50 walls = 75 hours for walls. 132 wood floors * 1 hour 40 minutes a floor = 220 hours. 1 hour 30 minutes per shelf * 68 shelves = 102 hours. (397 so far)  2 hours per roof * 132 roof tiles (assume same as floors) = 264 hours.",
     "//2": "In total, this takes 661 labor hours to build. Assuming work is in 8-hour shifts, that's 83 days, or 2 months and 22 days for a single worker.  Assume we have ~6 people on the job (isn't as urgent as a wall), this takes us ~14 days to build, or two weeks.",
-    "condition": {
-      "and": [
-        { "math": [ "godco_warehouse_in_progress", "==", "1" ] },
-        {
-          "u_compare_time_since_var": "warehouse_started_building",
-          "type": "timer",
-          "context": "trade",
-          "op": ">=",
-          "time": "14 d"
-        },
-        { "u_near_om_location": "godco_1_1", "range": 1 }
-      ]
-    },
-    "deactivate_condition": { "math": [ "godco_warehouse_in_progress", "==", "2" ] },
     "effect": [
       { "mapgen_update": "place_food_warehouse", "om_terrain": "forest_thick" },
-      { "math": [ "godco_warehouse_in_progress", "=", "2" ] },
-      { "u_lose_var": "warehouse_started_building", "type": "timer", "context": "trade" }
+      { "math": [ "godco_warehouse_in_progress", "=", "2" ] }
     ]
   }
 ]

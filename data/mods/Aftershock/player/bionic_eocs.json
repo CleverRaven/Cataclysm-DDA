@@ -84,7 +84,7 @@
     "id": "afs_eoc_hangover_healing",
     "effect": [
       { "u_add_effect": "post_healing_injection", "duration": "6 hours", "target_part": "torso" },
-      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 80 } ] },
+      { "math": [ "u_val('fatigue')", "+=", "80" ] },
       {
         "u_add_morale": "morale_afs_drugs",
         "bonus": -20,
@@ -104,7 +104,7 @@
     "id": "afs_eoc_hangover_strength",
     "effect": [
       { "u_add_effect": "post_strength_injection", "duration": "6 hours" },
-      { "arithmetic": [ { "u_val": "fatigue" }, "+=", { "const": 80 } ] },
+      { "math": [ "u_val('fatigue')", "+=", "80" ] },
       {
         "u_add_morale": "morale_afs_drugs",
         "bonus": -20,
