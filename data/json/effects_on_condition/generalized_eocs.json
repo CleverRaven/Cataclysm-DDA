@@ -65,9 +65,11 @@
       { "math": [ "TIME_TILL_NIGHT", "=", "time_until('night_time', 'unit':'minutes')" ] },
       { "u_message": "Minutes remaining until night time is <global_val:TIME_TILL_NIGHT>", "type": "good" },
       { "math": [ "TIME_TILL_SUNRISE", "=", "time_until('sunrise', 'unit':'minutes')" ] },
-      { "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_SUNRISE>", "type": "good" },
+      { "u_message": "Minutes remaining until sunrise is <global_val:TIME_TILL_SUNRISE>", "type": "good" },
       { "math": [ "TIME_TILL_DAYTIME", "=", "time_until('daylight_time', 'unit':'minutes')" ] },
-      { "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_DAYTIME>", "type": "good" }
+      { "u_message": "Minutes remaining until daylight is <global_val:TIME_TILL_DAYTIME>", "type": "good" },
+      { "math": [ "TIME_TILL_NOON", "=", "time_until('noon', 'unit':'minutes')" ] },
+      { "u_message": "Minutes remaining until noon is <global_val:TIME_TILL_NOON>", "type": "good" }
     ]
   }
 ]

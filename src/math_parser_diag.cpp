@@ -1102,6 +1102,8 @@ std::function<double( dialogue & )> time_since_eval( char /* scope */,
             ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
         } else if( val_str == "midnight" ) {
             ret = to_turns<double>( time_past_midnight( calendar::turn ) );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
         } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
             return -1.0;
         } else {
@@ -1130,6 +1132,8 @@ std::function<double( dialogue & )> time_until_eval( char /* scope */,
             ret = to_turns<double>( sunset( calendar::turn ) - calendar::turn );
         } else if( val_str == "sunrise" ) {
             ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( noon( calendar::turn ) - calendar::turn );
         } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
             return -1.0;
         } else {
