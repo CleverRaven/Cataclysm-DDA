@@ -360,7 +360,7 @@
       "FLASH_PROTECTION",
       "TARDIS"
     ],
-    "power_draw": "6460	mW",
+    "power_draw": "6460 mW",
     "revert_to": "modular_exosuit",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
     "armor": [
