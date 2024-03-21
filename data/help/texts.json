@@ -323,14 +323,14 @@
     "name": "<4>: Description of book colors",
     "messages": [
       "BOOK COLORS:",
-      "<color_red>Red</color> = You haven't read it at all",
-      "<color_blue>Blue</color> = You can read to increase your skills from it (or learn & level spells in the case of Magiclysm spellbooks).",
-      "<color_pink>Pink</color> = You do not have the necessary skills to read to increase your skills from it.",
-      "<color_yellow>Yellow</color> = The book cannot be read to increase your skills, but has unlearned recipes.",
-      "<color_light_gray>Grey</color> = You cannot read to increase skills (or spells for Magiclysm spellbooks), and no unmemorized recipes(or spells) remain.",
+      "<color_red>Red</color> = You don't yet know what the book is about.  You can skim it to find out.",
+      "<color_blue>Blue</color> = Reading will increase your skills (or learn & level spells in the case of Magiclysm spellbooks).",
+      "<color_pink>Pink</color> = You do not have the necessary skills to understand and improve your skills.",
+      "<color_yellow>Yellow</color> = Reading will not increase your skills, but the book has recipes you haven't learned yet.",
+      "<color_light_gray>Grey</color> = Reading will not increase your skills (or spells for Magiclysm spellbooks), nor will you learn recipes (or spells).",
       "BOOK RECIPE COLORS",
       "<color_brown>Brown</color> = You do not have the primary skill requirement to craft that item using the book.",
-      "<color_light_gray>Grey</color> = You can craft the item using the book. The book must be close by or in your inventory to do this.",
+      "<color_light_gray>Grey</color> = You can craft the item using the book.  The book must be close by or in your inventory to do this.",
       "<color_white>White</color> = You already know the recipe, and do not need the book to craft it."
     ]
   },
