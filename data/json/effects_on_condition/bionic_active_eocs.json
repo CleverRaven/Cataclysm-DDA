@@ -60,5 +60,51 @@
       { "u_make_sound": "HISISSS!", "volume": 19, "type": "activity" },
       { "queue_eocs": "EOC_bio_hydraulics_act", "time_in_future": 1 }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bio_blood_filter",
+    "effect": [
+      {
+        "foreach": "array",
+        "var": { "context_val": "effect_id" },
+        "target": [
+          "effect_fungus",
+          "effect_dermatik",
+          "effect_bloodworms",
+          "effect_tetanus",
+          "effect_poison",
+          "effect_badpoison",
+          "effect_pkill1_generic",
+          "effect_pkill1_acetaminophen",
+          "effect_pkill1_nsaid",
+          "effect_pkill2",
+          "effect_pkill3",
+          "effect_pkill_l",
+          "effect_drunk",
+          "effect_cig",
+          "effect_high",
+          "effect_hallu",
+          "effect_visuals",
+          "effect_pblue",
+          "effect_iodine",
+          "effect_datura",
+          "effect_took_xanax",
+          "effect_took_prozac",
+          "effect_took_prozac_bad",
+          "effect_took_flumed",
+          "effect_antifungal",
+          "effect_venom_weaken",
+          "effect_venom_dmg",
+          "effect_paralyzepoison",
+          "adrenaline",
+          "meth"
+        ],
+        "effect": { "u_lose_effect": { "context_val": "effect_id" } }
+      },
+      { "math": [ "u_val('pkill')", "=", "0" ] },
+      { "math": [ "u_val('stim')", "=", "0" ] },
+      { "turn_cost": 1 }
+    ]
   }
 ]

@@ -557,6 +557,7 @@
     "name": { "str": "Blood Filter" },
     "description": "A filtration system near your heart allows you to actively filter out chemical impurities, primarily drugs.  It will have limited impact on viruses.  Note that it is not a targeted filter; ALL drugs in your system will be affected.",
     "occupied_bodyparts": [ [ "torso", 5 ] ],
+    "activated_eocs": [ "EOC_bio_blood_filter" ],
     "act_cost": "600 J"
   },
   {

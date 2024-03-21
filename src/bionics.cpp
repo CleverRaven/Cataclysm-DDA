@@ -87,7 +87,6 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const bionic_id afs_bio_dopamine_stimulators( "afs_bio_dopamine_stimulators" );
 static const bionic_id bio_adrenaline( "bio_adrenaline" );
 static const bionic_id bio_blood_anal( "bio_blood_anal" );
-static const bionic_id bio_blood_filter( "bio_blood_filter" );
 static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_emp( "bio_emp" );
 static const bionic_id bio_evap( "bio_evap" );
@@ -942,29 +941,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
     } else if( bio.id == bio_blood_anal ) {
         add_msg_activate();
         conduct_blood_analysis();
-    } else if( bio.id == bio_blood_filter ) {
-        add_msg_activate();
-        static const std::vector<efftype_id> removable = {{
-                effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_tetanus, effect_poison, effect_badpoison,
-                effect_pkill1_generic, effect_pkill1_acetaminophen, effect_pkill1_nsaid, effect_pkill2, effect_pkill3, effect_pkill_l,
-                effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
-                effect_pblue, effect_iodine, effect_datura,
-                effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
-                effect_took_flumed, effect_antifungal, effect_venom_weaken,
-                effect_venom_dmg, effect_paralyzepoison
-            }
-        };
-
-        for( const string_id<effect_type> &eff : removable ) {
-            remove_effect( eff );
-        }
-        // Purging the substance won't remove the fatigue it caused
-        force_comedown( get_effect( effect_adrenaline ) );
-        force_comedown( get_effect( effect_meth ) );
-        set_painkiller( 0 );
-        set_stim( 0 );
-        mod_moves( -100 );
     } else if( bio.id == bio_torsionratchet ) {
         add_msg_activate();
         add_msg_if_player( m_info, _( "Your torsion ratchet locks onto your joints." ) );
