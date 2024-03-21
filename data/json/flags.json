@@ -49,7 +49,7 @@
   {
     "id": "ABLATIVE_EXOSKELETON_ARMS",
     "type": "json_flag",
-    "info": "This armor will attach to the armos of a <info>combat exoskeleton</info>.",
+    "info": "This armor will attach to the arms of a <info>combat exoskeleton</info>.",
     "restriction": "Item must be a combat exoskeleton armor"
   },
   {
