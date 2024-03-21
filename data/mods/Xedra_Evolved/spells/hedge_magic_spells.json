@@ -320,5 +320,25 @@
     "base_casting_time": 350,
     "min_duration": 30000,
     "max_duration": 30000
+  },
+  {
+    "id": "hedge_no_nightmares",
+    "type": "SPELL",
+    "name": "To Sail on the River of Dreams",
+    "description": "With lavender and thyme, weave a barrier around your sleeping space to keep bad dreams away.  You must perform the charm directly before trying to sleep; moving will breach the barrier and allow the nightmares to find a way in again.",
+    "message": "You place the herbs under your pillow and, while chanting the words of the charm, paint some thyme oil on the four corners of your sleeping space.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "attack",
+    "effect_str": "effect_hedge_no_nightmares",
+    "shape": "blast",
+    "components": "spell_components_hedge_no_nightmares",
+    "max_level": 1,
+    "base_casting_time": 60000,
+    "min_duration": 4320000,
+    "max_duration": 4320000
   }
 ]

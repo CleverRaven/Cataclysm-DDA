@@ -175,5 +175,10 @@
       [ [ "leaves", 1 ], [ "grape_leaves", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "wintergreen_leaves", 2 ] ],
       [ [ "raw_beans", 1 ] ]
     ]
+  },
+  {
+    "id": "spell_components_hedge_no_nightmares",
+    "type": "requirement",
+    "components": [ [ [ "wild_herbs", 15 ] ], [ [ "thyme_oil", 2 ] ] ]
   }
 ]
