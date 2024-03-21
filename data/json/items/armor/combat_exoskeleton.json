@@ -116,7 +116,7 @@
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_HEAD" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
-        "moves": 1000
+        "moves": 10000
       },
       {
         "pocket_type": "CONTAINER",
@@ -127,7 +127,7 @@
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_TORSO" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
-        "moves": 1000
+        "moves": 10000
       },
       {
         "pocket_type": "CONTAINER",
@@ -138,7 +138,7 @@
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_ARMS" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
-        "moves": 1000
+        "moves": 10000
       },
       {
         "pocket_type": "CONTAINER",
@@ -149,7 +149,7 @@
         "flag_restriction": [ "ABLATIVE_EXOSKELETON_LEGS" ],
         "max_contains_volume": "20000 ml",
         "max_contains_weight": "20000 g",
-        "moves": 1000
+        "moves": 10000
       }
     ]
   },
