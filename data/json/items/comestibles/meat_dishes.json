@@ -1974,7 +1974,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 468,
-    "description": "A sandwich of crispy fried chicken topped with condiments and veggies.",
+    "description": "A sandwich of crispy fried chicken topped with condiments and veggies.  Also called chicken burger, or chicken on a bun.",
     "price": 1000,
     "price_postapoc": 250,
     "material": [ "flesh", "wheat", "veggy" ],
