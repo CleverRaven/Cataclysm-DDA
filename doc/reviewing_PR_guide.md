@@ -27,11 +27,11 @@ Remember, *these are suggestions for how to review a PR*, not the rules for PR i
 
 ## 1. Focused on a single area
 
-PRs must focus on a single area of changes.  While it's tempting to "just fix this other thing while I'm in here", this makes a PR messy to read, and even worse, if you add an unexpected bug, makes that bug much harder to track down.  This is a very important rule, and I can't think of any real excuse for violating it, even though I understand the temptation very well and am guilty of it myself.  Note that this doesn't mean that a PR can't reach into a lot of files, or change a lot of things at once.  Sometimes that is inevitable.  On top of that, we don't want to have a PR add code for features that aren't used, most of the time, so we do recommend a PR try to bring everything to a functional level and implement at least a bit of it all at once.
+PRs must focus on a single area of changes.  While it's tempting to "just fix this other thing while I'm in here", this makes a PR messy to read, and even worse, if you add an unexpected bug, makes that bug much harder to track down.  This is a very important rule, and it's tough to think of any real excuse for violating it, even though the temptation is very understandable (and some of our lead devs are occasionally guilty of falling into it).  Note that this doesn't mean that a PR can't reach into a lot of files, or change a lot of things at once.  Sometimes that is inevitable.  On top of that, we don't want to have a PR add code for features that aren't used, most of the time, so we do recommend a PR try to bring everything to a functional level and implement at least a bit of it all at once.
 
 In general, we would prefer even "overhaul" PRs to break their changes into bite-sized chunks where possible.  A PR rewriting how monster attacks work, with associated JSON changes might, for example: first implement the new attack code but leave the legacy attack code intact, and only change attacks on classic zombies; then, a follow-up PR might change attacks in all other zombies; then, a follow-up PR might change attacks on other monsters; then, a final PR might remove the legacy attack code.  Doing it like this gives us time to track the changes and notice problems in between PRs, and lets us review *both* the code for the new attacks *and* the balance of how monsters' attacks are changing.  If this were all done in a single 3000-line PR, it would be nearly impossible to carefully comb through each changed monster and make sure their new attack stats are appropriate.
 
-As with all the other rules, this does NOT mean you should immediately close your large PR and give up.  If you have a large PR and can't see any reasonable way to break it up, there's a good chance it's still fine; it just needs a higher-up person to review it.
+As with all the other guidelines, this does NOT mean you should immediately close your large PR and give up.  If you have a large PR and can't see any reasonable way to break it up, there's a good chance it's still fine; it just needs a higher-up person to review it.
 
 ## 2. Length restrictions
 
@@ -53,7 +53,7 @@ Failing this guideline doesn't mean your PR is rejected, it just means we need t
 
 While the PR description doesn't necessarily need to exhaustively outline every single line of code change, reading the PR description should clearly tell the reviewer what they're going to see in the changes.  There should not be any surprises in there.  If something was changed after the description was written, it needs to be updated.
 
-I find it helpful to think: if I was coming back to this PR in a year trying to remember what was in it to see if it might be responsible for a bug, could I use the PR description to figure that out?  If I *have* to read the code changes to even know if I'm in the right spot, there's a chance the description needs work.
+I find it helpful to think: if I was coming back to this PR in a year trying to remember what was in it to see if it might be responsible for a bug, could I use the PR description to figure that out?  If a person coming later *has* to read the code changes to even know if they're in the right spot, there's a chance the description needs work.
 
 ## 5. Maintainable and extendible
 
@@ -63,7 +63,7 @@ This is obviously very much up to the reviewer.  "Janky" solutions to problems a
 
 Like 4, this is a bit of a personal call.  Changing the durability of a few items, or the spawn frequency of a bunch of things, doesn't require extensive justification.  "No houses have toasters, so I added toasters to most houses" is a fine change that needs very little sourcing.  "There should be more medieval armour in the game region" is a major change to balance and requires a lot more of a source, or failing that, a clear "go ahead" from either a senior project lead (eg. Kevin, Zhilkinserg, KorGgent, Erk) or multiple experienced developers (green names on Discord); sometimes multiple collaborators would be sufficient.  This is particularly true if it touches on any of the previous "controversial" topics, like bows and solar power, or if it touches on sci-fi/fantasy content (cbms, mutations, portals, etc).
 
-Another way to think of this rule might be "Extraordinary claims require extraordinary evidence, and ordinary claims require ordinary evidence".  If you tell me there should be duct tape spawning in hardware stores, I won't need much of a source.  If you tell me that solar panels alone can give an electric car all the power it needs, I'm gonna need some very good evidence of that since nobody is making solar cars.
+Another way to think of this rule might be "Extraordinary claims require extraordinary evidence, and ordinary claims require ordinary evidence".  If you tell me there should be duct tape spawning in hardware stores, we won't need much of a source.  If you state that solar panels alone can give an electric car all the power it needs, we're gonna need some very good evidence of that since nobody is making solar cars.
 
 ## 7. Failing CI tests aren't related
 
