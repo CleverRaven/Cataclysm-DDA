@@ -280,5 +280,25 @@
     "base_casting_time": 540000,
     "min_duration": 8640000,
     "max_duration": 8640000
+  },
+  {
+    "id": "hedge_increase_bandaging_rate",
+    "type": "SPELL",
+    "name": "To Halt the Scarlet Flow",
+    "description": "With some whispered words and a mixture of iron, salt, and herbs, increase your ability to stop the flow of blood.  Best recited right before bandaging a wound.",
+    "message": "You face toward the east and recite the words of the charm as you rub the iron and salt and herbs on your hands.",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "valid_targets": [ "self" ],
+    "difficulty": 1,
+    "spell_class": "HEDGE_MAGIC",
+    "skill": "survival",
+    "effect": "attack",
+    "effect_str": "effect_hedge_increase_bandaging_rate",
+    "shape": "blast",
+    "components": "spell_components_hedge_increase_bandaging_rate",
+    "max_level": 1,
+    "base_casting_time": 1000,
+    "min_duration": 18000,
+    "max_duration": 18000
   }
 ]

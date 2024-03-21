@@ -43,5 +43,20 @@
     "symbol": "?",
     "color": "light_green",
     "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_healing_rate", "hedge_cure_cold_or_flu", "hedge_light_fire" ] }
+  },
+  {
+    "id": "spellbook_hedge_blood_book",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Bloodstoppers of the Appalachians", "str_pl": "copies of Bloodstoppers of the Appalachians" },
+    "description": "This is an anthropological of American folk beliefs in \"bloodstoppers\", individuals believed to be capable of stopping bleeding through ritual or incantation or sheer force of will.  It includes extensive interviews with several bloodstoppers, as well as their patients.",
+    "weight": "211 g",
+    "volume": "500 ml",
+    "price": 5000,
+    "material": [ "paper" ],
+    "looks_like": "cookbook",
+    "symbol": "?",
+    "color": "light_red",
+    "use_action": { "type": "learn_spell", "spells": [ "hedge_increase_bandaging_rate" ] }
   }
 ]
