@@ -236,7 +236,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         item_location obtain( Character &ch, int qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
+            ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
             item obj = target()->split( qty );
@@ -507,7 +507,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         item_location obtain( Character &ch, int qty ) override {
-            ch.moves -= obtain_cost( ch, qty );
+            ch.mod_moves( -obtain_cost( ch, qty ) );
 
             on_contents_changed();
             item obj = target()->split( qty );

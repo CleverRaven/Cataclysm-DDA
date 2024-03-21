@@ -1760,7 +1760,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "15 m",
-    "components": [ [ [ "wire", 2 ] ] ],
+    "components": [ [ [ "lc_wire", 2 ] ] ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_fence_wire"
   },
@@ -1797,7 +1797,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "components": [ [ [ "wire", 20 ] ] ],
+    "components": [ [ [ "lc_wire", 20 ] ] ],
     "pre_terrain": "t_chainfence_posts",
     "post_terrain": "t_chainfence"
   },
@@ -1808,7 +1808,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "150 m",
-    "components": [ [ [ "wire", 20 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
+    "components": [ [ [ "lc_wire", 20 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 12 ] ], [ [ "pipe", 20 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chaingate_c"
@@ -1861,7 +1861,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "components": [ [ [ "wire", 10 ] ] ],
+    "components": [ [ [ "lc_wire", 10 ] ] ],
     "pre_terrain": "t_chickenwire_fence_post",
     "post_terrain": "t_chickenwire_fence"
   },
@@ -1872,7 +1872,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "45 m",
-    "components": [ [ [ "wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ],
+    "components": [ [ [ "lc_wire", 10 ] ], [ [ "2x4", 5 ] ], [ [ "nails", 20, "LIST" ] ], [ [ "hinge", 2 ] ] ],
     "pre_note": "Needs to be supported on both sides by fencing, walls, etc.",
     "pre_special": "check_empty",
     "post_terrain": "t_chickenwire_gate_c"
@@ -2678,7 +2678,11 @@
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "rope_natural", 1, "LIST" ] ], [ [ "bucket", 1 ], [ "bucket_wood", 1 ] ], [ [ "2x4", 4 ], [ "stick", 4 ] ] ],
+    "components": [
+      [ [ "rope_natural", 1, "LIST" ] ],
+      [ [ "bucket", 1 ], [ "bucket_5gal", 1 ], [ "bucket_wood", 1 ] ],
+      [ [ "2x4", 4 ], [ "stick", 4 ] ]
+    ],
     "pre_terrain": "t_covered_well",
     "post_terrain": "t_wooden_well"
   },

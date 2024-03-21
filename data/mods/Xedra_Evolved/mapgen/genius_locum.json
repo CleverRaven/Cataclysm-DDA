@@ -75,8 +75,7 @@
         "2": "f_topiary_animal",
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
-      },
-      "item": { "X": { "item": "mutagen_earthkin" } }
+      }
     }
   },
   {
@@ -155,8 +154,7 @@
         "2": "f_topiary_animal",
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
-      },
-      "item": { "X": { "item": "mutagen_waterkin" } }
+      }
     }
   },
   {
@@ -235,8 +233,7 @@
         "2": "f_topiary_animal",
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
-      },
-      "item": { "X": { "item": "mutagen_plantkin" } }
+      }
     }
   },
   {
@@ -318,8 +315,7 @@
         "2": "f_topiary_animal",
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
-      },
-      "item": { "X": { "item": "mutagen_flamekin" } }
+      }
     }
   },
   {
@@ -398,8 +394,7 @@
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
       },
-      "fields": { "|": { "field": "fd_sylph_solid_fog", "intensity": 1 } },
-      "item": { "X": { "item": "mutagen_airkin" } }
+      "fields": { "|": { "field": "fd_sylph_solid_fog", "intensity": 1 } }
     }
   },
   {
@@ -478,8 +473,7 @@
         "2": "f_topiary_animal",
         "3": "f_topiary_abstract",
         "4": "f_topiary_dragon"
-      },
-      "item": { "X": { "item": "mutagen_dollkin" } }
+      }
     }
   },
   {

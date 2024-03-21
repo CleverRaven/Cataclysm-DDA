@@ -256,10 +256,7 @@
     "type": "item_group",
     "id": "college_lake",
     "items": [
-      [ "bikini_top", 100 ],
-      [ "bikini_bottom", 100 ],
-      [ "bikini_top_short", 20 ],
-      [ "bikini_bottom_short", 20 ],
+      { "group": "bikini", "prob": 120 },
       [ "flag_swimsuit", 100 ],
       [ "trunks", 100 ],
       [ "rashguard", 30 ],

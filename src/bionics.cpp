@@ -334,7 +334,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
     assign( jsobj, "act_cost", power_activate, false, 0_kJ );
     assign( jsobj, "deact_cost", power_deactivate, false, 0_kJ );
     assign( jsobj, "trigger_cost", power_trigger, false, 0_kJ );
-    assign( jsobj, "power_trickle", power_trickle, false, 0_kJ );
 
     optional( jsobj, was_loaded, "time", charge_time, 0_turns );
 
@@ -374,8 +373,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
 
     optional( jsobj, was_loaded, "installation_requirement", installation_requirement );
 
-    optional( jsobj, was_loaded, "vitamin_absorb_mod", vitamin_absorb_mod, 1.0f );
-
     optional( jsobj, was_loaded, "dupes_allowed", dupes_allowed, false );
 
     optional( jsobj, was_loaded, "auto_deactivates", autodeactivated_bionics );
@@ -402,14 +399,6 @@ void bionic_data::load( const JsonObject &jsobj, const std::string &src )
         enchantments.push_back( enchantment::load_inline_enchantment( jv, src, enchant_name ) );
     }
 
-    if( jsobj.has_array( "stat_bonus" ) ) {
-        // clear data first so that copy-from can override it
-        stat_bonus.clear();
-        for( JsonArray ja : jsobj.get_array( "stat_bonus" ) ) {
-            stat_bonus.emplace( io::string_to_enum<character_stat>( ja.get_string( 0 ) ),
-                                ja.get_int( 1 ) );
-        }
-    }
     if( jsobj.has_array( "encumbrance" ) ) {
         // clear data first so that copy-from can override it
         encumbrance.clear();
@@ -1453,8 +1442,10 @@ void Character::burn_fuel( bionic &bio )
     float efficiency;
     if( !bio.powered ) {
         // Modifiers for passive bionic
-        if( bio.info().power_trickle != 0_J ) {
-            mod_power_level( bio.info().power_trickle );
+        units::energy trickle = enchantment_cache->modify_value( enchant_vals::mod::POWER_TRICKLE,
+                                0_J );
+        if( trickle != 0_J ) {
+            mod_power_level( trickle );
         }
 
         efficiency = get_effective_efficiency( bio, bio.info().passive_fuel_efficiency );
@@ -3526,18 +3517,6 @@ std::vector<vehicle *> Character::get_cable_vehicle() const
     }
 
     return remote_vehicles;
-}
-
-int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
-{
-    int ret = 0;
-    for( const bionic_id &bid : get_bionics() ) {
-        const auto St_bn = bid->stat_bonus.find( Stat );
-        if( St_bn != bid->stat_bonus.end() ) {
-            ret += St_bn->second;
-        }
-    }
-    return ret;
 }
 
 bool Character::is_using_bionic_weapon() const

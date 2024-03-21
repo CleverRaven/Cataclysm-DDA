@@ -240,6 +240,19 @@
   },
   {
     "type": "mutation",
+    "id": "IERDE_BUFF_ARMOR_ALLIES",
+    "name": { "str": "Skin of the Mountains" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "When gaining this ability, the Ierde gains the ability to infuse the resilience of the earth into one of their allies.",
+    "prereqs": [ "IERDE_IRON_ARMOR" ],
+    "prereqs2": [ "IERDE_SLOW_ENEMIES" ],
+    "category": [ "IERDE" ],
+    "spells_learned": [ [ "ierde_buff_armor_allies_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "IERDE_NO_SCENT_AND_IRON",
     "name": {
       "//~": "The name is a reference to Chapter 63 of Bleak House by Charles Dickens",
@@ -382,16 +395,16 @@
     "description": "You are resting in the depths of the earth.  You should never actually see this.",
     "player_display": false,
     "points": 0,
-    "healing_awake": 0.8,
-    "healing_multiplier": 2.5,
-    "mending_modifier": 16,
     "enchantments": [
       {
         "values": [
           { "value": "HUNGER", "multiply": -1.0 },
           { "value": "THIRST", "multiply": -1.0 },
           { "value": "METABOLISM", "multiply": -1.0 },
-          { "value": "FATIGUE_REGEN", "multiply": 0.5 }
+          { "value": "FATIGUE_REGEN", "multiply": 0.5 },
+          { "value": "MENDING_MODIFIER", "multiply": 15 },
+          { "value": "REGEN_HP", "multiply": 1.5 },
+          { "value": "REGEN_HP_AWAKE", "multiply": 0.8 }
         ]
       }
     ]
