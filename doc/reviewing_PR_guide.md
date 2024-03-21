@@ -25,7 +25,7 @@ Each item in this checklist will be explained further in this document.  Make su
 
 Remember, *these are suggestions for how to review a PR*, not the rules for PR inclusion.  A PR can break any of these and it may not be a problem, but in general if a reviewer notices that these aren't met, it's a good sign that a PR might need to be looked at by someone higher in the project.
 
-## 1. Focused on a single area.
+## 1. Focused on a single area
 
 PRs must focus on a single area of changes.  While it's tempting to "just fix this other thing while I'm in here", this makes a PR messy to read, and even worse, if you add an unexpected bug, makes that bug much harder to track down.  This is a very important rule, and I can't think of any real excuse for violating it, even though I understand the temptation very well and am guilty of it myself.  Note that this doesn't mean that a PR can't reach into a lot of files, or change a lot of things at once.  Sometimes that is inevitable.  On top of that, we don't want to have a PR add code for features that aren't used, most of the time, so we do recommend a PR try to bring everything to a functional level and implement at least a bit of it all at once.
 
@@ -35,7 +35,7 @@ As with all the other rules, this does NOT mean you should immediately close you
 
 ## 2. Length restrictions
 
-The length restrictions are just a suggestion, but an important one.  If a PR goes longer than this, there's a high chance it violates rule 1.  If it does not violate rule 1 and has good reason for being very long (eg. it's a simple automated change to a ton of documents), then this one might be skipped.  If the changes are very tidily broken into organized commits, and those commits are not squashed during merge, then it might also be safe to ignore this one.  Mapgen changes are also pretty much always exempt because maps are huge... but if you have a lot of other changes, it might be a good idea to do the maps in a separate PR first.
+The length restrictions are just a suggestion, but an important one.  If a PR goes longer than this, there's a high chance it violates point 1.  If it does not violate point 1 and has good reason for being very long (eg. it's a simple automated change to a ton of documents), then this one might be skipped.  If the changes are very tidily broken into organized commits, and those commits are not squashed during merge, then it might also be safe to ignore this one.  Mapgen changes are also pretty much always exempt because maps are huge... but if you have a lot of other changes, it might be a good idea to do the maps in a separate PR first.
 
 The reason for this rule is similar to #1.  Very long PRs have a higher chance of introducing errors, and then those errors are hard to find.  Reviewers and bugfixers are human, and the longer the single block of changes, the harder it is to find the one that introduced the problem.
 
@@ -48,7 +48,6 @@ PRs that break this rule are likely to take longer to merge because they're goin
 CDDA is licensed under CC-BY-SA 4.0.  Unless you're really, really certain you understand *exactly* how this works, then you should not approve any PR using **any** material from outside the project: not even things like names, obvious references, et cetera.  Don't accept someone else's explanation for how it works, don't assume something is too trivial to count, and don't assume the material is fair use.  Just flag it as not meeting this criterion.
 
 Failing this guideline doesn't mean your PR is rejected, it just means we need to take a closer look.  The lead devs have been forced to become pretty expert at this and we'd like to ensure our rules are followed consistently, so if this is flagged, we'll come in and assess if it's okay.
-
 
 ## 4. Changes consistent with the description
 
@@ -68,7 +67,7 @@ Another way to think of this rule might be "Extraordinary claims require extraor
 
 ## 7. Failing CI tests aren't related
 
-We have many CI tests that run for each PR.  If you're going to give a PR a passing review, *you must have looked at these*.  I'm lazy too, I know it's tempting to ignore them, but please don't.
+We have many CI tests that run for each PR.  If you're going to give a PR a passing review, *you must have looked at these*.  We are all lazy (and human) too, we know it's tempting to ignore them, but please don't.
 
 # Indicators to call for a second opinion
 
@@ -84,7 +83,7 @@ These aren't part of the review checklist, but they constitute observations that
 
 # The role of Discord and the Discord roles
 
-We don't expect all contributors to be active on Discord, but the [development Discord server](https://discord.gg/9qUg4Hyejv) is the fastest and most reliable way to find out who to talk to if your PR is having problems, or if you are a reviewer trying to call attention to a PR or ask about these problems.  Especially in the #development channel, there are very few questions on these topics that will get you in trouble.
+We don't expect all contributors to be active on Discord, but the official Discord server (see [README.md](../README.md)) is the fastest and most reliable way to find out who to talk to if your PR is having problems, or if you are a reviewer trying to call attention to a PR or ask about these problems.  Especially in the #development channel, there are very few questions on these topics that will get you in trouble.
 
 These guidelines refer to "lead devs", "developers", and "collaborators" as people whose opinions on a review are extra helpful. The lead dev team is indicated on Discord as people whose names are in gold at the top of the member list, under "senior devs". Most of the green names on Discord are "developers" and have a nearly equal level of say, especially in the parts of the code they work on themselves. The blue names on Discord are 'collaborators', and while a collaborator on their own isn't the final word on what PRs will be accepted or not, the collaborator role is used to indicate people who generally understand how the project works and can be trusted. People with purple names ("contributors") are fine to ask for and offer an opinion, but they don't have any particular extra authority on the project, so take their word with a grain of salt. Heck, even take the word of senior people with a bit of salt; only Kevin is the ultimate authority.
 
