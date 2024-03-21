@@ -42,6 +42,19 @@
         "coverage": 100,
         "material": [ { "type": "lvl4ballisticglass", "thickness": 2 } ]
       }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "300 ml",
+        "max_contains_weight": "500 g",
+        "max_item_length": "14 cm",
+        "moves": 100,
+        "description": "Pocket for a flashlight attachment.",
+        "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ],
+        "transparent": true
+      }
     ]
   },
   {
@@ -69,7 +82,8 @@
           { "type": "qt_steel", "thickness": 6, "covered_by_mat": 95 }
         ]
       }
-    ]
+    ],
+    "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ]
   },
   {
     "id": "combat_exoskeleton_armor_arm_heavy",
