@@ -74,9 +74,7 @@
 #include "wcwidth.h"
 #include "cata_imgui.h"
 
-#if !defined(__ANDROID__)
 std::unique_ptr<cataimgui::client> imclient;
-#endif
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -271,6 +269,10 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
+#if defined(__ANDROID__)
+    // Without this, the game only displays in the top-left 1/4 of the window.
+    window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
+#endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
     if( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
@@ -423,11 +425,9 @@ static void WinCreate()
         geometry = std::make_unique<DefaultGeometryRenderer>();
     }
 
-#if !defined(__ANDROID__)
     cataimgui::client::sdl_renderer = renderer.get();
     cataimgui::client::sdl_window = window.get();
     imclient = std::make_unique<cataimgui::client>();
-#endif
 
     //io.Fonts->AddFontDefault();
     //io.Fonts->Build();
@@ -438,9 +438,7 @@ static void WinDestroy()
 #if defined(__ANDROID__)
     touch_joystick.reset();
 #endif
-#if !defined(__ANDROID__)
     imclient.reset();
-#endif
     shutdown_sound();
     tilecontext.reset();
     gamepad::quit();
@@ -2503,6 +2501,9 @@ void handle_finger_input( uint32_t ticks )
             }
         }
     }
+    if( last_input.type != input_event_t::error ) {
+        imclient->process_cata_input( last_input );
+    }
 }
 
 bool android_is_hardware_keyboard_available()
@@ -2578,6 +2579,7 @@ static void CheckMessages()
 #if defined(__ANDROID__)
     if( visible_display_frame_dirty ) {
         needupdate = true;
+        ui_manager::redraw_invalidated();
         visible_display_frame_dirty = false;
     }
 
@@ -2618,6 +2620,7 @@ static void CheckMessages()
 
             touch_input_context = *new_input_context;
             needupdate = true;
+            ui_manager::redraw_invalidated();
         }
     }
 
@@ -2886,9 +2889,7 @@ static void CheckMessages()
     bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
-#if !defined(__ANDROID__)
         imclient->process_input( &ev );
-#endif
         switch( ev.type ) {
             case SDL_WINDOWEVENT:
                 switch( ev.window.event ) {
@@ -2913,6 +2914,7 @@ static void CheckMessages()
                         WindowHeight = ev.window.data2;
                         SDL_Delay( 500 );
                         SDL_GetWindowSurface( window.get() );
+                        ui_manager::redraw_invalidated();
                         refresh_display();
                         needupdate = true;
                         break;
@@ -3006,6 +3008,7 @@ static void CheckMessages()
                                     !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
                                     qsl.remove( last_input );
                                     add_quick_shortcut( qsl, last_input, false, true );
+                                    ui_manager::redraw_invalidated();
                                     refresh_display();
                                 }
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
@@ -3072,6 +3075,7 @@ static void CheckMessages()
                                                              touch_input_context.get_category() )];
                                 qsl.remove( last_input );
                                 add_quick_shortcut( qsl, last_input, false, true );
+                                ui_manager::redraw_invalidated();
                                 refresh_display();
                             } else if( lc == '\n' || lc == KEY_ESCAPE ) {
                                 if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -3198,6 +3202,7 @@ static void CheckMessages()
                         update_finger_repeat_delay();
                     }
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
+                    ui_manager::redraw_invalidated();
                     finger_curr_x = ev.tfinger.x * WindowWidth;
                     finger_curr_y = ev.tfinger.y * WindowHeight;
 
@@ -3234,6 +3239,7 @@ static void CheckMessages()
                     if( !is_quick_shortcut_touch ) {
                         update_finger_repeat_delay();
                     }
+                    ui_manager::redraw_invalidated();
                     needupdate = true; // ensure virtual joystick and quick shortcuts redraw as we interact
                 } else if( ev.tfinger.fingerId == 1 ) {
                     if( !is_quick_shortcut_touch ) {
@@ -3418,6 +3424,7 @@ static void CheckMessages()
                     finger_down_time = 0;
                     finger_repeat_time = 0;
                     needupdate = true; // ensure virtual joystick and quick shortcuts are updated properly
+                    ui_manager::redraw_invalidated();
                     refresh_display(); // as above, but actually redraw it now as well
                 } else if( ev.tfinger.fingerId == 1 ) {
                     if( is_two_finger_touch ) {
@@ -3463,9 +3470,6 @@ static void CheckMessages()
         // contents are redrawn in the following code.
         ui_manager::invalidate( rectangle<point>( point_zero, point( WindowWidth, WindowHeight ) ), false );
         ui_manager::redraw_invalidated();
-    }
-    if( ui_adaptor::has_imgui() ) {
-        needupdate = true;
     }
     if( needupdate ) {
         try_sdl_update();

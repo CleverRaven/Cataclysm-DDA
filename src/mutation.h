@@ -215,14 +215,7 @@ struct mutation_branch {
         // bodytemp elements:
         units::temperature_delta bodytemp_min = 0_C_delta;
         units::temperature_delta bodytemp_max = 0_C_delta;
-        units::temperature_delta bodytemp_sleep = 0_C_delta;
-        // Healing per turn
-        std::optional<float> healing_awake = std::nullopt;
-        std::optional<float> healing_multiplier = std::nullopt;
-        // Limb mending bonus
-        std::optional<float> mending_modifier = std::nullopt;
         // Additional bonuses
-        float scent_modifier = 1.0f;
         std::optional<int> scent_intensity;
 
         int butchering_quality = 0;
@@ -244,14 +237,6 @@ struct mutation_branch {
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
-
-        // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        std::optional<float> temperature_speed_modifier = std::nullopt;
-        // As above but for thirst.
-        std::optional<float> thirst_modifier = std::nullopt;
-
-        // Multiplier for skill rust delay, defaulting to 1.
-        std::optional<float> skill_rust_multiplier = std::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -339,8 +324,6 @@ struct mutation_branch {
         std::set<json_character_flag> flags; // Mutation flags
         std::set<json_character_flag> active_flags; // Mutation flags only when active
         std::set<json_character_flag> inactive_flags; // Mutation flags only when inactive
-        std::vector<trait_id>
-        prevented_by; // Traits listed here will block this mutation from being acquired
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item

@@ -1422,6 +1422,7 @@
       { "group": "coat_rack", "prob": 5 },
       { "item": "hair_dryer", "prob": 3 },
       { "item": "bucket", "prob": 3 },
+      { "item": "bucket_5gal", "prob": 3 },
       { "item": "briefcase", "prob": 2 },
       { "item": "suitcase_m", "prob": 2 },
       { "item": "candle", "prob": 3, "charges": [ 5, 50 ] },

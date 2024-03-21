@@ -163,6 +163,8 @@ static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
 static const std::array<flag_id, 6> carnivore_blacklist {{
@@ -246,14 +248,6 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
                     }
                 }
             }
-        }
-    }
-    for( const bionic_id &bid : you.get_bionics() ) {
-        if( bid->vitamin_absorb_mod == 1.0f ) {
-            continue;
-        }
-        for( std::pair<const vitamin_id, int> &vit : res ) {
-            vit.second *= bid->vitamin_absorb_mod;
         }
     }
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -942,7 +936,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+    const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
     if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
@@ -1314,7 +1308,7 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+    const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
     if( food_is_human_flesh ) {
