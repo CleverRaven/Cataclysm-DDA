@@ -2346,50 +2346,6 @@ std::optional<int> iuse::manage_exosuit( Character *p, item *it, const tripoint 
     return 0;
 }
 
-std::optional<int> iuse::rm13armor_off( Character *p, item *it, const tripoint & )
-{
-    // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
-    if( !it->ammo_sufficient( p ) ) {
-        p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
-        return std::nullopt;
-    } else {
-        std::string oname = it->typeId().str() + "_on";
-        p->add_msg_if_player( _( "You activate your RM13 combat armor." ) );
-        p->add_msg_if_player( _( "Rivtech Model 13 RivOS v2.19:   ONLINE." ) );
-        p->add_msg_if_player( _( "CBRN defense system:            ONLINE." ) );
-        p->add_msg_if_player( _( "Acoustic dampening system:      ONLINE." ) );
-        p->add_msg_if_player( _( "Thermal regulation system:      ONLINE." ) );
-        p->add_msg_if_player( _( "Vision enhancement system:      ONLINE." ) );
-        p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
-        p->add_msg_if_player( _( "All systems nominal." ) );
-        it->convert( itype_id( oname ), p ).active = true;
-        p->calc_encumbrance();
-        return 1;
-    }
-}
-
-std::optional<int> iuse::rm13armor_on( Character *p, item *it, const tripoint & )
-{
-    if( !p ) { // Normal use
-        debugmsg( "%s called action rm13armor_on that requires character but no character is present",
-                  it->typeId().str() );
-    } else { // Turning it off
-        std::string oname = it->typeId().str();
-        if( string_ends_with( oname, "_on" ) ) {
-            oname.erase( oname.length() - 3, 3 );
-        } else {
-            debugmsg( "no item type to turn it into (%s)!", oname );
-            return 0;
-        }
-        p->add_msg_if_player( _( "RivOS v2.19 shutdown sequence initiated." ) );
-        p->add_msg_if_player( _( "Shutting down." ) );
-        p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
-        it->convert( itype_id( oname ), p ).active = false;
-        p->calc_encumbrance();
-    }
-    return 1;
-}
-
 std::optional<int> iuse::unpack_item( Character *p, item *it, const tripoint & )
 {
     if( p->cant_do_underwater() ) {
