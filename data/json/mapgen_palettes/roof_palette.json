@@ -67,7 +67,15 @@
     "parameters": {
       "roof_type": {
         "type": "ter_str_id",
-        "default": { "distribution": [ "t_flat_roof", "t_shingle_flat_roof", "t_tile_flat_roof", "t_concrete_roof", "t_brick_roof" ] }
+        "default": {
+          "distribution": [
+            [ "t_flat_roof", 3 ],
+            [ "t_shingle_flat_roof", 2 ],
+            [ "t_tile_flat_roof", 2 ],
+            [ "t_concrete_roof", 1 ],
+            [ "t_brick_roof", 1 ]
+          ]
+        }
       }
     },
     "terrain": {
