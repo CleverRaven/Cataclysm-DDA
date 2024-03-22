@@ -896,5 +896,26 @@
         "prob": 10
       }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_child_death_drops_shiv",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "pockknife", "prob": 20, "damage": [ 1, 3 ] },
+          { "item": "knife_swissarmy", "prob": 15, "damage": [ 1, 3 ] },
+          { "item": "knife_folding", "prob": 10, "damage": [ 2, 4 ] },
+          { "item": "knife_steak", "prob": 20, "damage": [ 1, 3 ] },
+          { "item": "screwdriver", "prob": 15, "damage": [ 1, 3 ] },
+          { "item": "scissors", "prob": 15, "damage": [ 1, 3 ] },
+          { "item": "office_letter_opener", "prob": 4, "damage": [ 2, 4 ] },
+          { "item": "scalpel", "prob": 1, "damage": [ 1, 3 ] }
+        ]
+      },
+      { "group": "default_zombie_children_clothes", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "child_items_pockets", "prob": 65 }
+    ]
   }
 ]

@@ -494,5 +494,22 @@
     "no_dmg_msg_npc": "%1$s thrusts their bayonet at <npcname>'s %2$s, but glances off armor!",
     "miss_msg_u": "%s thrusts their bayonet at you, but you evade!",
     "miss_msg_npc": "%s thrusts their bayonet at <npcname>, but they evade!"
+  },
+  {
+    "type": "monster_attack",
+    "attack_type": "melee",
+    "id": "feral_weapon_knife_shiv",
+    "cooldown": 1,
+    "move_cost": 65,
+    "accuracy": 1,
+    "//": "Feral child melee skill + average weapon's to hit, total of 3-2=1",
+    "damage_max_instance": [ { "damage_type": "cut", "amount": 9 } ],
+    "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+    "hit_dmg_u": "%1$s stabs your %2$s with a knife!",
+    "hit_dmg_npc": "%1$s stabs <npcname>'s %2$s with a knife!",
+    "miss_msg_u": "%1$s tries to hit you, but you dodge!",
+    "miss_msg_npc": "%1$s tries to hit <npcname>, but they dodge!",
+    "no_dmg_msg_u": "%1$s stabs your %2$s without penetrating your armor.",
+    "no_dmg_msg_npc": "%1$s stabs <npcname>'s %2$s without penetrating their armor."
   }
 ]

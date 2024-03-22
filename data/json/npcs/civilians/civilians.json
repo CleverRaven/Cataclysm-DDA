@@ -63,5 +63,21 @@
       { "text": "Your child is likely dead by now and you should get to safety!", "topic": "TALK_CIVILIAN_PARENT_EVAC" },
       { "text": "[Let them keep on searching.]", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_CHILD",
+    "dynamic_line": "&You see this child's face and know it does not see yours.  Their expressions and mutterings tell of a great distance between you here, and their far distant daydreams.  In the past, professionals would have struggled to help this child; there is nothing that you can do.",
+    "responses": [
+      { "text": "You need to get to safety!", "topic": "TALK_CIVILIAN_CHILD_EVAC" },
+      { "text": "It's dangerous here, you need to come with me!", "topic": "TALK_CIVILIAN_CHILD_EVAC" },
+      { "text": "[Accept that you cannot help them.]", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_CIVILIAN_CHILD_EVAC",
+    "dynamic_line": "&The child's face turns to an expression of feral animal rage as it focuses for the first time on you.  They growl from their throat and chest like a wolf pup ready to use its fangs.  After a few breaths their attention drifts from you and back to daydreams.",
+    "responses": [ { "text": "[Back away.]", "topic": "TALK_DONE" } ]
   }
 ]

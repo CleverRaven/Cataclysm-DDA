@@ -690,5 +690,42 @@
     ],
     "looks_like": "mon_feral_human_tool",
     "death_drops": "feral_archaelogist_death_drops"
+  },
+  {
+    "id": "mon_feral_child",
+    "type": "MONSTER",
+    "name": { "str": "feral child" },
+    "description": "A human child with murder in its eyes and a sharp in its hand.  The fuming rage you see displayed on its face is not new to you, but still unsettling on a face so young.",
+    "//": "Using 'sharp' as a noun here (I think technically this is 'synecdoche') to keep the exact item ambiguous.  When possible, have this creature attempt to latch onto targets.",
+    "copy-from": "mon_feral_human_pipe",
+    "proportional": { "volume": 0.5, "weight": 0.5, "hp": 0.5, "speed": 0.9 },
+    "looks_like": "mon_child",
+    "melee_dice": 2,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
+    "dodge": 3,
+    "stomach_size": 350,
+    "path_settings": { "max_dist": 45, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [ { "id": "feral_weapon_knife_shiv" }, [ "BROWSE", 100 ], [ "EAT_FOOD", 100 ] ],
+    "death_drops": "feral_child_death_drops_shiv",
+    "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
+    "upgrades": { "half_life": 90, "into_group": "GROUP_CIVILIANS_CHILD_UPGRADE" },
+    "zombify_into": "mon_zombie_child",
+    "fungalize_into": "mon_zombie_child_fungus",
+    "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "HUMAN",
+      "CAN_OPEN_DOORS",
+      "PATH_AVOID_DANGER_1",
+      "WIELDED_WEAPON",
+      "EATS",
+      "GUILT_CHILD"
+    ]
   }
 ]

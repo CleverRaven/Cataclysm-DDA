@@ -1,7 +1,7 @@
 [
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "\"Hello?\"",
     "volume": 20
   },
@@ -37,7 +37,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"You're just copying me, aren't you?\"",
     "volume": 20
   },
@@ -493,7 +493,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"I got a round trip ticket.\"",
     "volume": 20
   },
@@ -511,7 +511,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "\"I love you.\"",
     "volume": 20
   },
@@ -571,7 +571,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Don't worry, it can't hurt us.\"",
     "volume": 20
   },
@@ -691,25 +691,25 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "\"Okay.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "\"Good.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Great.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Fantastic.\"",
     "volume": 20
   },
@@ -775,7 +775,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "\"Excellent.\"",
     "volume": 20
   },
@@ -793,31 +793,31 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Good morning.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Good afternoon.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Good evening.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Good night.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Good luck.\"",
     "volume": 20
   },
@@ -967,7 +967,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Happy Birthday!\"",
     "volume": 32
   },
@@ -1057,13 +1057,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_surgeon", "mon_civilian_child_careless" ],
     "sound": "\"How long have you been here?\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"How many languages do you speak?\"",
     "volume": 20
   },
@@ -1093,7 +1093,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"How much would you like?\"",
     "volume": 20
   },
@@ -1129,13 +1129,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"See you later.\"",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"See you tonight.\"",
     "volume": 20
   },
@@ -1303,7 +1303,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"This place is like a maze.\"",
     "volume": 20
   },
@@ -1327,13 +1327,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "\"Mom, I miss you.\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "\"Me go, you stay.\"",
     "volume": 10
   },
@@ -1363,19 +1363,19 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "beep!",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "beep-beep-beep!",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon", "mon_civilian_child_careless" ],
     "sound": "BEEP!",
     "volume": 40
   },
@@ -1417,7 +1417,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"That creepy abandoned post-apocalyptic lab complex looks safe…\"",
     "volume": 20
   },
@@ -1459,7 +1459,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_mi-go_surgeon", "mon_civilian_child_careless" ],
     "sound": "\"Oi, dingus, you can't keep me in 'ere.\"",
     "volume": 15
   },
@@ -1489,7 +1489,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Hey look, that one's carrying something.  Let's crack it open and steal it.\"",
     "volume": 10
   },
@@ -1615,7 +1615,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "hysterical laughing.",
     "volume": 20
   },
@@ -1627,7 +1627,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mutant_experimental", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "growling.",
     "volume": 20
   },
@@ -1981,13 +1981,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Stop where you are!\"",
     "volume": 15
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"You are under arrest!\"",
     "volume": 15
   },
@@ -2011,7 +2011,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"You have the right to remain silent!\"",
     "volume": 15
   },
@@ -2083,7 +2083,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Hands in the air!\"",
     "volume": 15
   },
@@ -2131,7 +2131,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"I AM FOODPERSON.  AND I BRING SUSTENANCE!\"",
     "volume": 17
   },
@@ -2167,7 +2167,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"♪Eat at Foodplace.  ♫It is a place with food.♪\"",
     "volume": 15
   },
@@ -2180,7 +2180,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"You need food, don't you?  Then come with me to FOODPLACE!!\"",
     "volume": 15
   },
@@ -2228,13 +2228,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Wanna play with me?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_sapien_spear" ],
+    "speaker": [ "mon_feral_sapien_spear", "mon_civilian_child_careless" ],
     "sound": "\"You!\"",
     "volume": 10
   },
@@ -2270,91 +2270,91 @@
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Sing with me!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"I love you!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Please take me with you!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"May I have a cookie?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Let's play together!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Time to play!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Om nom nom!  Delicious!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Are you my mommy?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Oh, how fun!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"You're my best friend!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Heehee!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Let's have fun!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"Let's have a tea party!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy" ],
+    "speaker": [ "talking_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_mannequin_decoy", "mon_civilian_child_careless" ],
     "sound": "\"You're the best!\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"You shouldn't have done that.\"",
     "volume": 10
   },
@@ -2366,7 +2366,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"I hate you.\"",
     "volume": 10
   },
@@ -2408,7 +2408,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "AAAIEEEEEEE!",
     "volume": 10
   },
@@ -2420,13 +2420,13 @@
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"What did you do with my Mommy?\"",
     "volume": 10
   },
   {
     "type": "speech",
-    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver" ],
+    "speaker": [ "creepy_doll", "mon_mi_go", "mon_mi_go_slaver", "mon_civilian_child_careless" ],
     "sound": "\"Stay with me… forever!\"",
     "volume": 10
   },
@@ -2469,7 +2469,8 @@
       "mon_dog_mutant_loper",
       "mon_mi_go",
       "mon_mi_go_slaver",
-      "mon_mi_go_myrmidon"
+      "mon_mi_go_myrmidon",
+      "mon_civilian_child_careless"
     ],
     "sound": "BARK!",
     "volume": 40
@@ -2483,14 +2484,22 @@
       "mon_dog_gshepherd",
       "mon_mi_go",
       "mon_mi_go_slaver",
-      "mon_mi_go_myrmidon"
+      "mon_mi_go_myrmidon",
+      "mon_civilian_child_careless"
     ],
     "sound": "YAP!",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_dog_gpyrenees", "mon_dog_rottweiler", "mon_mi_go", "mon_mi_go_slaver", "mon_mi_go_myrmidon" ],
+    "speaker": [
+      "mon_dog_gpyrenees",
+      "mon_dog_rottweiler",
+      "mon_mi_go",
+      "mon_mi_go_slaver",
+      "mon_mi_go_myrmidon",
+      "mon_civilian_child_careless"
+    ],
     "sound": "WOOF!",
     "volume": 40
   },
@@ -2616,7 +2625,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_memory" ],
+    "speaker": [ "mon_memory", "mon_civilian_child_careless" ],
     "sound": "\"Don't look at the sky!\"",
     "volume": 20
   },
@@ -2779,7 +2788,7 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_civilian_parent" ],
+    "speaker": [ "mon_civilian_parent", "mon_civilian_child_careless" ],
     "sound": "\"I am not leaving without you!\"",
     "volume": 25
   },

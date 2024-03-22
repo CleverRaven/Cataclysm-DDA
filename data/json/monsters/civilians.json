@@ -133,6 +133,34 @@
     "copy-from": "mon_civilian_panic"
   },
   {
+    "id": "mon_civilian_child_careless",
+    "type": "MONSTER",
+    "name": { "str": "careless child" },
+    "description": "This human child dances around in a gleeful craze, clearly far removed from the grim, present reality.  It seems their mind has already been lost to the cataclysm.",
+    "copy-from": "mon_civilian_panic",
+    "proportional": { "volume": 0.5, "weight": 0.5, "hp": 0.5, "speed": 0.9 },
+    "looks_like": "mon_child",
+    "chat_topics": [ "TALK_CIVILIAN_CHILD" ],
+    "special_attacks": [ [ "PARROT", 60 ] ],
+    "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_CHILD_UPGRADE" },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items_pockets", 65 ] ] },
+    "zombify_into": "mon_zombie_child",
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION", "GUILT_CHILD" ]
+  },
+  {
+    "id": "mon_civilian_child_absent",
+    "type": "MONSTER",
+    "name": { "str": "absent adolescent" },
+    "description": "A youth, sitting tucked in on themself with their knees to their chest.  Strangely, they don't appear to be distressed, as if entirely unphased by the chaos around them.  Their eyes look forward, open and vacant.",
+    "copy-from": "mon_civilian_child_careless",
+    "chat_topics": [ "TALK_CIVILIAN_ICU" ],
+    "speed": 0,
+    "diff": 0,
+    "dodge": 0,
+    "//": "Will not be able to do this in their current mental state:",
+    "path_settings": { "max_dist": 30, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false }
+  },
+  {
     "name": "GROUP_CIVILIANS_UPGRADE",
     "type": "monstergroup",
     "monsters": [
@@ -142,6 +170,14 @@
       { "monster": "mon_zombie_crawler", "weight": 66, "cost_multiplier": 0 },
       { "monster": "mon_zombie_brainless", "weight": 30, "cost_multiplier": 0 },
       { "group": "GROUP_FERAL", "weight": 180, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_CIVILIANS_CHILD_UPGRADE",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_child", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_feral_child", "weight": 20, "cost_multiplier": 0 }
     ]
   },
   {
@@ -169,7 +205,16 @@
         "ends": "4 days",
         "pack_size": [ 1, 2 ]
       },
-      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "starts": "4 days", "ends": "6 days" }
+      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "starts": "4 days", "ends": "6 days" },
+      { "monster": "mon_civilian_child_absent", "weight": 20, "cost_multiplier": 0, "ends": "3 days" },
+      {
+        "monster": "mon_civilian_child_careless",
+        "weight": 20,
+        "cost_multiplier": 0,
+        "ends": "2 days",
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_civilian_child_careless", "weight": 20, "cost_multiplier": 0, "starts": "2 days", "ends": "4 days" }
     ]
   }
 ]
