@@ -27,7 +27,7 @@ Remember, *these are suggestions for how to review a PR*, not the rules for PR i
 
 ## 1. Focused on a single area
 
-PRs must focus on a single area of changes.  While it's tempting to "just fix this other thing while I'm in here", this makes a PR messy to read, and even worse, if you add an unexpected bug, makes that bug much harder to track down.  This is a very important rule, and it's tough to think of any real excuse for violating it, even though the temptation is very understandable (and some of our lead devs are occasionally guilty of falling into it).  Note that this doesn't mean that a PR can't reach into a lot of files, or change a lot of things at once.  Sometimes that is inevitable.  On top of that, we don't want to have a PR add code for features that aren't used, most of the time, so we do recommend a PR try to bring everything to a functional level and implement at least a bit of it all at once.
+PRs must focus on a single area of changes.  While it's tempting to "just fix this other thing while I'm in here", this makes a PR messy to read, and even worse, if you add an unexpected bug, makes that bug much harder to track down.  This is a very important recommendation, and it's tough to think of any real excuse for violating it, even though the temptation is very understandable (and some of our lead devs are occasionally guilty of falling into it).  Note that this doesn't mean that a PR can't reach into a lot of files, or change a lot of things at once.  Sometimes that is inevitable.  On top of that, we don't want to have a PR add code for features that aren't used, most of the time, so we do recommend a PR try to bring everything to a functional level and implement at least a bit of it all at once.
 
 In general, we would prefer even "overhaul" PRs to break their changes into bite-sized chunks where possible.  A PR rewriting how monster attacks work, with associated JSON changes might, for example: first implement the new attack code but leave the legacy attack code intact, and only change attacks on classic zombies; then, a follow-up PR might change attacks in all other zombies; then, a follow-up PR might change attacks on other monsters; then, a final PR might remove the legacy attack code.  Doing it like this gives us time to track the changes and notice problems in between PRs, and lets us review *both* the code for the new attacks *and* the balance of how monsters' attacks are changing.  If this were all done in a single 3000-line PR, it would be nearly impossible to carefully comb through each changed monster and make sure their new attack stats are appropriate.
 
@@ -37,11 +37,11 @@ As with all the other guidelines, this does NOT mean you should immediately clos
 
 The length restrictions are just a suggestion, but an important one.  If a PR goes longer than this, there's a high chance it violates point 1.  If it does not violate point 1 and has good reason for being very long (eg. it's a simple automated change to a ton of documents), then this one might be skipped.  If the changes are very tidily broken into organized commits, and those commits are not squashed during merge, then it might also be safe to ignore this one.  Mapgen changes are also pretty much always exempt because maps are huge... but if you have a lot of other changes, it might be a good idea to do the maps in a separate PR first.
 
-The reason for this rule is similar to #1.  Very long PRs have a higher chance of introducing errors, and then those errors are hard to find.  Reviewers and bugfixers are human, and the longer the single block of changes, the harder it is to find the one that introduced the problem.
+The reason for this guideline is similar to #1.  Very long PRs have a higher chance of introducing errors, and then those errors are hard to find.  Reviewers and bugfixers are human, and the longer the single block of changes, the harder it is to find the one that introduced the problem.
 
 Once again though, because it's caused problems before, some changes *can't* be broken into more than one PR, and that's okay if it's sufficiently justified.  In particular, we don't like dead code, so if a PR is long because it implements a new system and also adds a map or a monster that uses the new system, that's usually preferable to adding the map/monster in a follow-up.
 
-PRs that break this rule are likely to take longer to merge because they're going to be very hard to review, but we will eventually get to them.
+PRs that don't adhere to this are likely to take longer to merge because they're going to be very hard to review, but we will eventually get to them.
 
 ## 3. Outside sourced material
 
@@ -57,13 +57,13 @@ I find it helpful to think: if I was coming back to this PR in a year trying to 
 
 ## 5. Maintainable and extendible
 
-This is obviously very much up to the reviewer.  "Janky" solutions to problems are solutions that try to work around a limitation of the codebase with funny tricks.  We see them often in JSON contributions, especially EOC things, but they are also very common in C++.  Sometimes they are allowable, but exploiting the code in strange ways has a high chance of breaking as soon as something else tries to rely on the code.  This rule becomes more important if the PR is changing something that other parts of the game are likely to rely on.
+This is obviously very much up to the reviewer.  "Janky" solutions to problems are solutions that try to work around a limitation of the codebase with funny tricks.  We see them often in JSON contributions, especially EOC things, but they are also very common in C++.  Sometimes they are allowable, but exploiting the code in strange ways has a high chance of breaking as soon as something else tries to rely on the code.  This becomes more important if the PR is changing something that other parts of the game are likely to rely on.
 
 ## 6. Balance changes have been justified
 
 Like 4, this is a bit of a personal call.  Changing the durability of a few items, or the spawn frequency of a bunch of things, doesn't require extensive justification.  "No houses have toasters, so I added toasters to most houses" is a fine change that needs very little sourcing.  "There should be more medieval armour in the game region" is a major change to balance and requires a lot more of a source, or failing that, a clear "go ahead" from either a senior project lead (eg. Kevin, Zhilkinserg, KorGgent, Erk) or multiple experienced developers (green names on Discord); sometimes multiple collaborators would be sufficient.  This is particularly true if it touches on any of the previous "controversial" topics, like bows and solar power, or if it touches on sci-fi/fantasy content (cbms, mutations, portals, etc).
 
-Another way to think of this rule might be "Extraordinary claims require extraordinary evidence, and ordinary claims require ordinary evidence".  If you tell me there should be duct tape spawning in hardware stores, we won't need much of a source.  If you state that solar panels alone can give an electric car all the power it needs, we're gonna need some very good evidence of that since nobody is making solar cars.
+Another way to think of this guideline might be "Extraordinary claims require extraordinary evidence, and ordinary claims require ordinary evidence".  If you tell me there should be duct tape spawning in hardware stores, we won't need much of a source.  If you state that solar panels alone can give an electric car all the power it needs, we're gonna need some very good evidence of that since nobody is making solar cars.
 
 ## 7. Failing CI tests aren't related
 
