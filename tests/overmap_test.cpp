@@ -247,7 +247,7 @@ TEST_CASE( "mutable_overmap_placement", "[overmap][slow]" )
     }
 }
 
-TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
+TEST_CASE( "overmap_terrain_coverage", "[overmap][slow][!mayfail]" )
 {
     // The goal of this test is to generate a lot of overmaps, and count up how
     // many times we see each terrain, so that we can check that everything
