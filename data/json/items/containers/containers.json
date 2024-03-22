@@ -4629,7 +4629,7 @@
   },
   {
     "id": "cardboard_roll",
-    "type": "GENERIC",
+    "type": "MAGAZINE",
     "category": "other",
     "name": { "str": "cardboard roll" },
     "description": "A small cardboard roll used to conveniently store materials such as tape or toilet paper.",
@@ -4641,15 +4641,8 @@
     "material": [ "cardboard" ],
     "symbol": "o",
     "color": "dark_gray",
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
-        "item_restriction": [ "duct_tape", "medical_tape", "toilet_paper" ],
-        "volume_multiplier": 0.75
-      }
-    ],
+    "ammo_type": [ "tape", "toilet_paper" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tape": 200, "medical_tape":200, "toilet_paper": 200 } } ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
