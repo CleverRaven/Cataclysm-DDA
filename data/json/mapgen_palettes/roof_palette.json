@@ -59,5 +59,34 @@
       "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
     },
     "toilets": { "T": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "roof_palette_random",
+    "palettes": [ "roof_palette" ],
+    "parameters": {
+      "roof_type": {
+        "type": "ter_str_id",
+        "default": { "distribution": [ "t_flat_roof", "t_shingle_flat_roof", "t_tile_flat_roof", "t_concrete_roof", "t_brick_roof" ] }
+      }
+    },
+    "terrain": {
+      ".": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "&": { "param": "roof_type", "fallback": "t_flat_roof" },
+      ":": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "X": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "=": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "A": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "b": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "c": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "t": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "r": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "L": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "C": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "Y": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "y": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "Я": { "param": "roof_type", "fallback": "t_flat_roof" },
+      "M": { "param": "roof_type", "fallback": "t_flat_roof" }
+    }
   }
 ]
