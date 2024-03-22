@@ -2842,7 +2842,7 @@ static std::pair<int, bool> find_repair_difficulty( const itype &it )
 
     if( !it.materials.empty() ) {
         for( const auto &mats : it.materials ) {
-            if( mats.first->repair_difficulty() && difficulty < mats.first->repair_difficulty() ) {
+            if( difficulty < mats.first->repair_difficulty() ) {
                 difficulty = mats.first->repair_difficulty();
                 difficulty_defined = true;
             }
