@@ -3749,7 +3749,7 @@
       {
         "id": "tacjacket_marshland",
         "name": { "str": "marshland-camo tactical jacket" },
-        "description": "A staple companion of gamesmen who's trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, grey, green, and black hues.",
+        "description": "A staple companion of gamesmen whose trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, grey, green, and black hues.",
         "color": "brown",
         "weight": 15,
         "append": true
