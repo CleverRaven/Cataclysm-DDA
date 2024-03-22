@@ -13,7 +13,6 @@
     "color": "pink",
     "melee_skill": 3,
     "melee_dice_sides": 4,
-    "vision_night": 3,
     "harvest": "exempt",
     "grab_strength": 25,
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
