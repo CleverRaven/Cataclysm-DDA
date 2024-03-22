@@ -69,7 +69,7 @@
       { "item": "soldering_iron", "prob": 30 },
       { "item": "soldering_iron_portable", "prob": 30, "charges": [ 0, 50 ] },
       { "item": "solder_wire", "prob": 30 },
-      { "item": "cardboard_roll", "prob": 30, "ammo-item": "duct_tape", "charges": [ 200, 200 ], "count": [ 1, 2 ] },
+      { "item": "cardboard_roll", "prob": 30, "ammo-item": "duct_tape", "charges": [ 200, 200 ], "count": [ 1, 2 ] }
     ]
   },
   {
