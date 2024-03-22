@@ -40,6 +40,34 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_ARVORE_FAE_BAN_LIGHT_FIRE",
+    "//": "Ideally this would trigger on any uncontained fire, but outdoor fires will do for now",
+    "eoc_type": "EVENT",
+    "required_event": "character_starts_activity",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "u_has_trait": "ARVORE" },
+        { "compare_string": [ "ACT_START_FIRE", { "context_val": "activity" } ] },
+        {
+          "or": [
+            { "math": [ "u_spell_level('arvore_damage_zombies_heal_living')", ">=", "0" ] },
+            { "math": [ "u_spell_level('arvore_overgrowth_spell')", ">=", "0" ] }
+          ]
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN" },
+      { "queue_eocs": "EOC_PARACLESIAN_BROKE_FAE_BAN_PAIN", "time_in_future": 1 },
+      {
+        "u_message": "Your heart races as you spark the fire.  A fire, outdoors, in the view of the trees and the grasses.  Visions of charred wood, of blackened trunks and broken branches, fill your mind.",
+        "type": "bad"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_ARVORE_FAE_BAN_SLEPT_IN_CITY",
     "eoc_type": "EVENT",
     "required_event": "character_wakes_up",

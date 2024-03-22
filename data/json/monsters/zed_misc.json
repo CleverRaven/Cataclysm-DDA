@@ -1031,6 +1031,8 @@
     "name": { "str": "zombie necro-boomer" },
     "description": "At first this creature looks like nothing more than a grotesque and oleaginous husk, bloated and punctured by jet-black pustules.  When approached, its glowing red eyes and an aching grin take form; its skin tears and its guts teem with unmatched fecundity, as its gaze inspires fear of nothing less than cosmic, inhuman ecstasy.",
     "copy-from": "mon_zombie_necro",
+    "volume": "108500 ml",
+    "weight": "120 kg",
     "diff": 25,
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 65 ], [ "zed_dust", 100 ] ] },
     "death_function": {
