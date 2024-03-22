@@ -1868,7 +1868,7 @@
               ]
             }
           },
-          { "value": "REGEN_HP_AWAKE", "multiply": 0.85 }
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
         ]
       }
     ]
