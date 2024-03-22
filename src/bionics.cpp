@@ -104,22 +104,12 @@ static const bionic_id bio_remote( "bio_remote" );
 static const bionic_id bio_resonator( "bio_resonator" );
 static const bionic_id bio_shockwave( "bio_shockwave" );
 static const bionic_id bio_teleport( "bio_teleport" );
-static const bionic_id bio_time_freeze( "bio_time_freeze" );
 static const bionic_id bio_torsionratchet( "bio_torsionratchet" );
 static const bionic_id bio_water_extractor( "bio_water_extractor" );
 
-static const efftype_id effect_adrenaline( "adrenaline" );
-static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
-static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_cig( "cig" );
-static const efftype_id effect_datura( "datura" );
-static const efftype_id effect_dermatik( "dermatik" );
-static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_heating_bionic( "heating_bionic" );
 static const efftype_id effect_high( "high" );
@@ -588,15 +578,6 @@ void bionic_data::check_bionic_consistency()
 bionic_data::bionic_data() : name( no_translation( "bad bionic" ) ),
     description( no_translation( "This bionic was not set up correctly, this is a bug" ) )
 {
-}
-
-static void force_comedown( effect &eff )
-{
-    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1_turns ) {
-        return;
-    }
-
-    eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
 }
 
 void npc::discharge_cbm_weapon( bool fired, bool stow_real_weapon )
