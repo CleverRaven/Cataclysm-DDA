@@ -86,6 +86,7 @@
     "color": "brown"
   },
   {
+    "//": "Our recipes have traditionally been standardized against sugar units of 5 mg. Refer also to the sugar_standard item group for more sugar-related items and their ratios to one another. Density is now accurate.",
     "type": "COMESTIBLE",
     "id": "sugar",
     "name": { "str_sp": "sugar" },
