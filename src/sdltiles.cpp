@@ -3793,6 +3793,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
     wnoutrefresh( catacurses::stdscr );
+    // This statement is required when the screen is made very small
+    if( ui_adaptor::has_imgui() ) {
+        needupdate = true;
+    }
+
     if( needupdate ) {
         refresh_display();
     }
