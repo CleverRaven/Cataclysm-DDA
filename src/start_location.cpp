@@ -300,64 +300,56 @@ start_location::find_player_initial_location( const city &origin ) const
 }
 
 void start_location::set_parameters( const tripoint_abs_omt &omtstart,
-                                     const std::vector<std::pair<std::string, std::string>> &associated_parameters ) const
+                                     std::vector<std::pair<std::string, std::string>> parameters_to_set ) const
 {
-    if( associated_parameters.empty() ) {
+    std::pair<std::string, std::string> empty_pair;
+    std::remove( parameters_to_set.begin(), parameters_to_set.end(), empty_pair );
+    if( parameters_to_set.empty() ) {
         return;
     }
-    for( const std::pair<std::string, std::string> &key_value_pair : associated_parameters ) {
-        if( key_value_pair.first == "" || key_value_pair.second == "" ) {
-            continue;
-        }
-        set_special_arg( omtstart, key_value_pair.first, key_value_pair.second );
-    }
     overmap_buffer.externally_set_args = true;
-}
-
-void start_location::set_special_arg( const tripoint_abs_omt &omtstart,
-                                      const std::string &param_name_to_set, const std::string &value_to_set ) const
-{
     std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omtstart );
     if( !maybe_args ) {
-        debugmsg( "No overmap special args at this location." );
+        debugmsg( "No overmap special args at start location." );
         return;
     }
     std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( omtstart );
     if( !s ) {
-        debugmsg( "No overmap special at this location from which to fetch parameters." );
+        debugmsg( "No overmap special at start location from which to fetch parameters." );
         return;
     }
     const overmap_special &special = **s;
     const mapgen_parameters &params = special.get_params();
     mapgen_arguments args;
-    for( const std::pair<const std::string, mapgen_parameter> &p : params.map ) {
-        const std::string param_name = p.first;
-        if( param_name != param_name_to_set ) {
+    for( const std::pair<std::string, std::string> &param_to_set : parameters_to_set ) {
+        const std::string &param_name_to_set = param_to_set.first;
+        const std::string &value_to_set = param_to_set.second;
+        auto param_it = params.map.find( param_name_to_set );
+        if( param_it == params.map.end() ) {
+            debugmsg( "Parameter %s not found", param_name_to_set );
             continue;
         }
-        const mapgen_parameter &param = p.second;
+        const mapgen_parameter &param = param_it->second;
         if( param.scope() != mapgen_parameter_scope::overmap_special ) {
             debugmsg( "Parameter %s is not of scope overmap_special", param_name_to_set );
             continue;
         }
         std::vector<std::string> possible_values = param.all_possible_values( params );
-        auto it = std::find( possible_values.begin(), possible_values.end(), value_to_set );
-        if( it == possible_values.end() ) {
+        auto value_it = std::find( possible_values.begin(), possible_values.end(), value_to_set );
+        if( value_it == possible_values.end() ) {
             debugmsg( "Parameter value %s for parameter %s not found", value_to_set, param_name_to_set );
             continue;
         }
         if( *maybe_args ) {
-            maybe_args->value().map[param_name] =
-                cata_variant::from_string( param.type(), std::move( *it ) );
+            maybe_args->value().map[param_name_to_set] =
+                cata_variant::from_string( param.type(), std::move( *value_it ) );
         } else {
             mapgen_arguments args;
-            args.map[param_name] =
-                cata_variant::from_string( param.type(), std::move( *it ) );
+            args.map[param_name_to_set] =
+                cata_variant::from_string( param.type(), std::move( *value_it ) );
             *maybe_args = args;
         }
-        return;
     }
-    debugmsg( "Parameter %s not found", param_name_to_set );
 }
 
 void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const

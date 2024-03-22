@@ -68,7 +68,7 @@ class start_location
          * Set any parameters assigned to the chosen start location
          */
         void set_parameters( const tripoint_abs_omt &omtstart,
-                             const std::vector<std::pair<std::string, std::string>> &parameters ) const;
+                             std::vector<std::pair<std::string, std::string>> parameters_to_set ) const;
         /**
          * Initialize the map at players start location using @ref prepare_map.
          * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
@@ -112,8 +112,6 @@ class start_location
         std::set<std::string> _flags;
         start_location_placement_constraints constraints_;
 
-        void set_special_arg( const tripoint_abs_omt &omtstart,
-                              const std::string &param_name_to_set, const std::string &value_to_set ) const;
         void prepare_map( tinymap &m ) const;
 };
 
