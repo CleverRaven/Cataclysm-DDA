@@ -140,9 +140,9 @@
       ";": { "chunks": [ [ "shelter_graffiti", 10 ], [ "null", 90 ] ] },
       "6": { "chunks": [ "shelter_computer" ] },
       "x": { "chunks": [ [ "shelter_computer", 20 ], [ "shelter_computer_broken", 80 ] ] },
-      ".": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 39 ] ] },
-      "_": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 39 ] ] },
-      "b": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 39 ] ] }
+      ".": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 25 ] ] },
+      "_": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 25 ] ] },
+      "b": { "chunks": [ [ "1x1_group_zombie", 1 ], [ "null", 25 ] ] }
     }
   },
   {
@@ -218,9 +218,9 @@
     "palettes": [ "shelter_infested_scenario" ],
     "//": "Adds back basement zeds",
     "nested": {
-      ".": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 19 ] ], "z": [ -1 ] },
-      "_": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 19 ] ], "z": [ -1 ] },
-      "b": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 19 ] ], "z": [ -1 ] }
+      ".": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
+      "_": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
+      "b": { "chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] }
     }
   },
   {
@@ -247,9 +247,9 @@
     },
     "nested": {
       "6": { "chunks": [ "shelter_computer" ] },
-      ".": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 19 ] ], "z": [ -1 ] },
-      "_": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 19 ] ], "z": [ -1 ] },
-      "b": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 19 ] ], "z": [ -1 ] }
+      ".": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
+      "_": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] },
+      "b": { "else_chunks": [ [ "1x1_group_infested", 1 ], [ "null", 12 ] ], "z": [ -1 ] }
     }
   },
   {
