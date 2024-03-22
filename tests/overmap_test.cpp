@@ -266,7 +266,7 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     map &main_map = get_map();
 
     // Geography scaling is disabled when the TEST_DATA mod is loaded, this test performs very poorly otherwise.
-    REQUIRE( get_option<bool>( "OVERMAP_GEOGRAPHY_CHANGE" ) );
+    REQUIRE( !get_option<bool>( "OVERMAP_GEOGRAPHY_CHANGE" ) );
 
     for( const point_abs_omt &p : closest_points_first( origin, 0, 10 * OMAPX - 1 ) ) {
         // We need to avoid OMTs that overlap with the 'main' map, so we start at a
