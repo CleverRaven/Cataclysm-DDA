@@ -3805,7 +3805,7 @@
       {
         "id": "tacjacket_grey",
         "name": { "str": "wolf tactical jacket" },
-        "description": "Suttle and unassuming, save for the purely Ludacris number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of grey, verging into beige.",
+        "description": "Subtle and unassuming, save for the purely ludicrous number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of grey verging into beige.",
         "color": "dark_gray",
         "weight": 20,
         "append": true
