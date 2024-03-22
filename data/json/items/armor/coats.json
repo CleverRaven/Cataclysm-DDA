@@ -3789,7 +3789,7 @@
       {
         "id": "tacjacket_river",
         "name": { "str": "river-camo tactical jacket" },
-        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and grey — that would make it at home with any river-based huntsman or angler, with its water-repellent construction insuring that one's possessions are protected from river spray.",
+        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and grey — that would make it at home with any river-based huntsman or angler. Its water-repellent construction ensures that one's possessions are protected from river spray.",
         "color": "blue",
         "weight": 12,
         "append": true
