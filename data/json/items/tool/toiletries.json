@@ -21,7 +21,7 @@
     "id": "brush",
     "type": "TOOL",
     "name": { "str": "scrub brush", "str_pl": "scrub brushes" },
-    "description": "A simple scrub brush for cleaning soft objects.",
+    "description": "A simple scrub brush for cleaning hard objects.",
     "weight": "70 g",
     "volume": "350 ml",
     "longest_side": "14 cm",
@@ -32,7 +32,7 @@
     "symbol": "/",
     "color": "light_gray",
     "flags": [ "BELT_CLIP" ],
-    "use_action": [ "WASH_SOFT_ITEMS" ],
+    "use_action": [ "WASH_HARD_ITEMS" ],
     "melee_damage": { "bash": 1 }
   },
   {
