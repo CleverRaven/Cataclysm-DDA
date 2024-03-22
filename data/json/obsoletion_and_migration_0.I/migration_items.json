@@ -1211,5 +1211,15 @@
     "id": "lever_shotgun",
     "type": "MIGRATION",
     "replace": "remington_870"
+  },
+  {
+    "id": "bottle_suppressor",
+    "type": "MIGRATION",
+    "replace": "filter_suppressor"
+  },
+  {
+    "id": "riv_suppressor",
+    "type": "MIGRATION",
+    "replace": "suppressor"
   }
 ]

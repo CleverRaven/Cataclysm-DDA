@@ -590,7 +590,7 @@
     "name": { "str_sp": "fresh gelatin" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "mutant", "name": { "str_sp": "abomination %s" } },
-      { "type": "FLAG", "condition": "CANNIBALISM", "name": { "str_sp": "amoral %s" } },
+      { "type": "VITAMIN", "condition": "human_flesh_vitamin", "name": { "str_sp": "amoral %s" } },
       { "type": "FLAG", "condition": "STRICT_HUMANITARIANISM", "name": { "str_sp": "Orwell's %s" } }
     ],
     "weight": "25 g",
@@ -1406,6 +1406,41 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_small",
+    "name": { "str": "prepared meal (small)", "str_pl": "prepared meals (small)" },
+    "description": "I am an item used in faction camps.  If you see this description, it is a bug.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": "100 cent",
+    "price_postapoc": "100 cent",
+    "material": [ "foodplace_foodstuff" ],
+    "symbol": "F",
+    "color": "brown",
+    "spoils_in": "300 days",
+    "calories": 0,
+    "flags": [ "DEBUG_ONLY" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_medium",
+    "name": { "str": "prepared meal (medium)", "str_pl": "prepared meals (medium)" },
+    "weight": "600 g",
+    "volume": "600 ml",
+    "copy-from": "camp_meal_small"
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "camp_meal_large",
+    "name": { "str": "prepared meal (large)", "str_pl": "prepared meals (large)" },
+    "weight": "1200 g",
+    "volume": "1200 ml",
+    "copy-from": "camp_meal_small"
   },
   {
     "type": "COMESTIBLE",

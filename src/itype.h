@@ -1110,6 +1110,7 @@ struct islot_seed {
 
 enum condition_type {
     FLAG,
+    VITAMIN,
     COMPONENT_ID,
     COMPONENT_ID_SUBSTRING,
     VAR,
