@@ -995,7 +995,7 @@
         "id": "m65_desert",
         "//": "Intended to be US DCU camo.",
         "name": { "str": "desert-camo combat jacket" },
-        "description": "This jacket's brass zipper runs from collar to hem, a river of metallic brown nitting together the coat's arid-hued lapels, printed with a 3-tone mix of pale green, dark brown, and beige.  Looking at it, you wonder how many zombies are wandering about the gulf right now.",
+        "description": "This jacket's brass zipper runs from collar to hem, a river of metallic brown knitting together the coat's arid-hued lapels, printed with a 3-tone mix of pale green, dark brown, and beige.  Looking at it, you wonder how many zombies are wandering about the gulf right now.",
         "color": "brown",
         "weight": 20,
         "append": true
