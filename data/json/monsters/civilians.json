@@ -135,7 +135,7 @@
   {
     "id": "mon_civilian_child_careless",
     "type": "MONSTER",
-    "name": { "str": "careless child" },
+    "name": { "str": "careless child", "str_pl": "careless children" },
     "description": "This human child dances around in a gleeful craze, clearly far removed from the grim, present reality.  It seems their mind has already been lost to the cataclysm.",
     "copy-from": "mon_civilian_panic",
     "proportional": { "volume": 0.5, "weight": 0.5, "hp": 0.5, "speed": 0.9 },

@@ -694,7 +694,7 @@
   {
     "id": "mon_feral_child",
     "type": "MONSTER",
-    "name": { "str": "feral child" },
+    "name": { "str": "feral child", "str_pl": "feral children" },
     "description": "A human child with murder in its eyes and a sharp in its hand.  The fuming rage you see displayed on its face is not new to you, but still unsettling on a face so young.",
     "//": "Using 'sharp' as a noun here (I think technically this is 'synecdoche') to keep the exact item ambiguous.  When possible, have this creature attempt to latch onto targets.",
     "copy-from": "mon_feral_human_pipe",
