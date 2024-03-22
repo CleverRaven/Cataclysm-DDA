@@ -68,12 +68,12 @@ std::string start_location::name() const
 
 int start_location::targets_count() const
 {
-    return _omt_types.size();
+    return _locations.size();
 }
 
-std::pair<std::string, ot_match_type> start_location::random_target() const
+omt_types_parameters start_location::random_target() const
 {
-    return random_entry( _omt_types );
+    return random_entry( _locations );
 }
 
 bool start_location::requires_city() const
@@ -106,14 +106,24 @@ void start_location::load( const JsonObject &jo, const std::string &src )
     std::string ter;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
         ot_match_type ter_match_type = ot_match_type::type;
+        std::vector<std::pair<std::string, std::string>> key_value_pairs;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
             JsonObject jot = entry.get_object();
             ter = jot.get_string( "om_terrain" );
-            ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
+            if( jot.has_string( "om_terrain_match_type" ) ) {
+                ter_match_type = jot.get_enum_value<ot_match_type>( "om_terrain_match_type", ter_match_type );
+            }
+            if( jot.has_object( "parameters" ) ) {
+                std::unordered_map<std::string, std::string> parameter_map;
+                jot.read( "parameters", parameter_map );
+                for( auto key_value_pair : parameter_map ) {
+                    key_value_pairs.emplace_back( key_value_pair );
+                }
+            }
         }
-        _omt_types.emplace_back( ter, ter_match_type );
+        _locations.emplace_back( omt_types_parameters{ ter, ter_match_type, key_value_pairs } );
     }
     if( jo.has_array( "city_sizes" ) ) {
         assign( jo, "city_sizes", constraints_.city_size, strict );
@@ -235,49 +245,119 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint_abs_omt start_location::find_player_initial_location( const point_abs_om &origin ) const
+std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
+start_location::find_player_initial_location( const point_abs_om &origin ) const
 {
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
+    const omt_types_parameters chosen_target = random_target();
     for( const point_abs_om &omp : closest_points_first( origin, radius ) ) {
         overmap &omap = overmap_buffer.get( omp );
-        const tripoint_om_omt omtstart = omap.find_random_omt( random_target() );
+        const tripoint_om_omt omtstart = omap.find_random_omt( std::make_pair( chosen_target.omt,
+                                         chosen_target.omt_type ) );
         if( omtstart.raw() != tripoint_min ) {
-            return project_combine( omp, omtstart );
+            return std::make_pair( project_combine( omp, omtstart ), chosen_target.parameters );
         }
     }
     // Should never happen, if it does we messed up.
     popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
            name(), id.str(), radius );
-    return overmap::invalid_tripoint;
+    return std::make_pair( overmap::invalid_tripoint, chosen_target.parameters );
 }
 
-tripoint_abs_omt start_location::find_player_initial_location( const city &origin ) const
+std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
+start_location::find_player_initial_location( const city &origin ) const
 {
     overmap &omap = overmap_buffer.get( origin.pos_om );
-    std::vector<tripoint_om_omt> valid;
+    std::vector<std::pair<tripoint_om_omt, omt_types_parameters>> valid;
     for( const point_om_omt &omp : closest_points_first( origin.pos, origin.size ) ) {
         for( int k = constraints_.allowed_z_levels.min; k <= constraints_.allowed_z_levels.max; k++ ) {
             tripoint_om_omt p( omp, k );
             if( !can_belong_to_city( p, origin ) ) {
                 continue;
             }
-            for( const auto &target : _omt_types ) {
-                if( is_ot_match( target.first, omap.ter( p ), target.second ) ) {
-                    valid.push_back( p );
-                }
+            auto target_is_ot_match = [&]( omt_types_parameters target ) {
+                return is_ot_match( target.omt, omap.ter( p ), target.omt_type );
+            };
+            auto it = std::find_if( _locations.begin(), _locations.end(),
+                                    target_is_ot_match );
+            if( it != _locations.end() ) {
+                valid.push_back( std::make_pair( p, *it ) );
             }
         }
     }
-    const tripoint_om_omt omtstart = random_entry( valid, tripoint_om_omt( tripoint_min ) );
+    const std::pair<tripoint_om_omt, omt_types_parameters> random_valid = random_entry( valid,
+            std::make_pair( tripoint_om_omt( tripoint_min ), omt_types_parameters() ) );
+    const tripoint_om_omt omtstart = random_valid.first;
     if( omtstart.raw() != tripoint_min ) {
-        return project_combine( origin.pos_om, omtstart );
+        return std::make_pair( project_combine( origin.pos_om, omtstart ), random_valid.second.parameters );
     }
     // Should never happen, if it does we messed up.
     popup( _( "Unable to generate a valid starting location %s [%s] in a city [%s], please report this failure." ),
            name(), id.str(), origin.name );
-    return overmap::invalid_tripoint;
+    return std::make_pair( overmap::invalid_tripoint, random_valid.second.parameters );
+}
+
+void start_location::set_parameters( const tripoint_abs_omt &omtstart,
+                                     const std::vector<std::pair<std::string, std::string>> &associated_parameters ) const
+{
+    if( associated_parameters.empty() ) {
+        return;
+    }
+    for( const std::pair<std::string, std::string> &key_value_pair : associated_parameters ) {
+        if( key_value_pair.first == "" || key_value_pair.second == "" ) {
+            continue;
+        }
+        set_special_arg( omtstart, key_value_pair.first, key_value_pair.second );
+    }
+    overmap_buffer.externally_set_args = true;
+}
+
+void start_location::set_special_arg( const tripoint_abs_omt &omtstart,
+                                      const std::string &param_name_to_set, const std::string &value_to_set ) const
+{
+    std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omtstart );
+    if( !maybe_args ) {
+        debugmsg( "No overmap special args at this location." );
+        return;
+    }
+    std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( omtstart );
+    if( !s ) {
+        debugmsg( "No overmap special at this location from which to fetch parameters." );
+        return;
+    }
+    const overmap_special &special = **s;
+    const mapgen_parameters &params = special.get_params();
+    mapgen_arguments args;
+    for( const std::pair<const std::string, mapgen_parameter> &p : params.map ) {
+        const std::string param_name = p.first;
+        if( param_name != param_name_to_set ) {
+            continue;
+        }
+        const mapgen_parameter &param = p.second;
+        if( param.scope() != mapgen_parameter_scope::overmap_special ) {
+            debugmsg( "Parameter %s is not of scope overmap_special", param_name_to_set );
+            continue;
+        }
+        std::vector<std::string> possible_values = param.all_possible_values( params );
+        auto it = std::find( possible_values.begin(), possible_values.end(), value_to_set );
+        if( it == possible_values.end() ) {
+            debugmsg( "Parameter value %s for parameter %s not found", value_to_set, param_name_to_set );
+            continue;
+        }
+        if( *maybe_args ) {
+            maybe_args->value().map[param_name] =
+                cata_variant::from_string( param.type(), std::move( *it ) );
+        } else {
+            mapgen_arguments args;
+            args.map[param_name] =
+                cata_variant::from_string( param.type(), std::move( *it ) );
+            *maybe_args = args;
+        }
+        return;
+    }
+    debugmsg( "Parameter %s not found", param_name_to_set );
 }
 
 void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const

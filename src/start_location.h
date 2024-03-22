@@ -27,6 +27,12 @@ struct start_location_placement_constraints {
     numeric_interval<int> allowed_z_levels{ -OVERMAP_DEPTH, OVERMAP_HEIGHT };
 };
 
+struct omt_types_parameters {
+    std::string omt;
+    ot_match_type omt_type;
+    std::vector<std::pair<std::string, std::string>> parameters;
+};
+
 class start_location
 {
     public:
@@ -39,7 +45,7 @@ class start_location
 
         std::string name() const;
         int targets_count() const;
-        std::pair<std::string, ot_match_type> random_target() const;
+        omt_types_parameters random_target() const;
         const std::set<std::string> &flags() const;
 
         /**
@@ -48,14 +54,21 @@ class start_location
          * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
          * in the world.
          */
-        tripoint_abs_omt find_player_initial_location( const point_abs_om &origin ) const;
+        std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
+        find_player_initial_location( const point_abs_om &origin ) const;
         /**
          * Find a suitable start location on the overmap in specific city.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
          * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
          * in the world.
          */
-        tripoint_abs_omt find_player_initial_location( const city &origin ) const;
+        std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
+        find_player_initial_location( const city &origin ) const;
+        /**
+         * Set any parameters assigned to the chosen start location
+         */
+        void set_parameters( const tripoint_abs_omt &omtstart,
+                             const std::vector<std::pair<std::string, std::string>> &parameters ) const;
         /**
          * Initialize the map at players start location using @ref prepare_map.
          * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
@@ -95,10 +108,12 @@ class start_location
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
     private:
         translation _name;
-        std::vector<std::pair<std::string, ot_match_type>> _omt_types;
+        std::vector<omt_types_parameters> _locations;
         std::set<std::string> _flags;
         start_location_placement_constraints constraints_;
 
+        void set_special_arg( const tripoint_abs_omt &omtstart,
+                              const std::string &param_name_to_set, const std::string &value_to_set ) const;
         void prepare_map( tinymap &m ) const;
 };
 
