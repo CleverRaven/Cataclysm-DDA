@@ -45,9 +45,7 @@
         "<": "t_stairs_up",
         ">": "t_stairs_down"
       },
-      "items": {
-        "o": { "item": "religious_books", "chance": 60 },
-      }
+      "items": { "o": { "item": "religious_books", "chance": 60 } }
     }
   },
   {
