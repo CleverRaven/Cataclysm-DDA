@@ -21,24 +21,25 @@ There are however things that might be expected but are not guaranteed:
 There are three primary categories of mods:
 
 *  Content mods, which provide some kind of distinct experience from the core Dark Days Ahead game. This could be a change to lore, a change to a specific part of gameplay.
-*  User Experience (UX) mods, which alter the look and feel of the game interface itself.
+*  User Experience (UX) mods, which alter the look and feel of the game interface itself. Accessibility mods, which make it possible for someone to play the game when they otherwise couldn't, fall under this category. Mods which simply adjust game elements for preferences and taste do not.
 *  Development mods, which aren't "mods" in the typical sense but are instead there to ease the transition between "incomplete feature" and "complete feature", when a feature in the core game is sufficiently incomplete that the developers believe it needs to be optional to minimize disruption to players.
 
 ## What is necessary for a mod to be included in the repository?
 
 The most crucial criteria for a mod to be in the CleverRaven repository is that it has someone acting as a curator. This ensures that there is someone who is keeping an eye out for possible problems with the mod, and helping steer its development so that it continues to develop in accordance with its design purpose.
+In some rare cases we might treat a mod as an important but optional extension of the game itself, such as for some accessibility or development mods. When that happens, the 'curator' is the developer and contributor team collectively, just as with Dark Days Ahead itself. We try to do this sparingly, due to the obvious difficulty of pushing volunteers towards tasks they aren't personally interested in.
 
 Furthermore, there are additional criteria:
 
 *  Content mods need to be providing some kind of curated experience. Either they introduce a set of locations, encounters, equipment, or progression mechanisms that do not fit the style of the core game, or they in some fashion modify the game according to some well-defined concept.
 *  *  Mods which do not qualify as curated experiences: Grab bag mods with no defined purpose (i.e. adding a bunch of random guns), "settings" mods that just turn off a possibly undesired but working feature (acid ants).
-*  Development mods need to have an associated work-in-progress feature that they exist to mitigate. 
+*  Development mods need to have an associated work-in-progress feature that they exist to mitigate.
 
 ## What are the responsibilities of a mod curator?
 
 A mod curator's role is to curate additions to mods and ensure they fit the concept of the mod.  Curators are also responsible for at least acknowledging bug reports related to the mod: while curators don't have to personally manage every bugfix, if a bug is reported, the curator should be around to comment and help to find someone to fix it.
 
-It's important to understand that if a mod is in the repository, it is expected that people other than the curator are going to contribute to it, as with anything.  On github, mod curators should Approve or Request Changes on PRs to the mod.  If the curator has approved it, developers with merge permissions will treat that as a request to merge the changes.
+It's important to understand that if a mod is in the repository, it is expected that people other than the curator are going to contribute to it, as with anything.  On GitHub, mod curators should Approve or Request Changes on PRs to the mod.  If the curator has approved it, developers with merge permissions will treat that as a request to merge the changes.
 
 ## When do mods get removed?
 
@@ -54,6 +55,6 @@ Furthermore, mods which are shipped with the game but are not working correctly 
 
 ## How can mods be rescued from removal?
 
-If the mod otherwise meets inclusion criteria but lacks a curator (ie. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
+If the mod otherwise meets inclusion criteria but lacks a curator (i.e. has been declared orphaned), it's as simple as having someone else step forward as the new curator.
 
 Otherwise, it needs to either be made to meet the criteria, or it simply isn't going to be staying in the CleverRaven repository.

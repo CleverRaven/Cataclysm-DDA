@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_golden_monoliths_map",
+    "object": { "place_monster": [ { "monster": "mon_golden_monolith", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 7 ] } ] }
+  }
+]

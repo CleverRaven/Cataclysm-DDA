@@ -1,0 +1,100 @@
+name: Bug Report 🐛
+description: Create a report to help us improve
+labels: ["(S1 - Need confirmation)"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please take the time to fill out all the fields below.
+
+  - type: textarea
+    id: description-of-bug
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: There is no way for aim level to increase.
+    validations:
+      required: true
+
+  - type: textarea
+    id: save-file
+    attributes:
+      label: Attach save file
+      description: |
+        `ESC`Main Menu -> `b`Debug Menu -> `i`Info -> `!`Generate minimized save archive
+      placeholder: |
+        Write N/A if not applicable.
+
+        - this bug report is unlikely to get resolved without a save file, unless it's trivially 
+          reproducible or the reproduction steps are complete.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Make a player with a gun, magazine, and some ammo.
+        2. Try to aim at a wall.
+        3. There's no way to increase aim level.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: |
+        A clear and concise description of what you expected to happen.
+        Ideally also describe *why* you expect it to happen.
+      placeholder: I expected that aim level would increase, because all other skills can increase in level.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: |
+        **If applicable**, add screenshots to help explain your problem.
+        Do not take a screenshot of the crashing window. Please provide the crash logs in the "Additional context"
+    validations:
+      required: false
+
+  - type: textarea
+    id: versions-and-config
+    attributes:
+      label: Versions and configuration
+      description: |
+        `ESC`Main Menu -> `b`Debug Menu -> `i`Info -> `r`Generate game report
+      placeholder: |
+        - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
+        - Game Version: [e.g. d6ec466 (64-bit) ]
+        - Graphics version: [Tiles or Terminal]
+        - Ingame language: [Arabic or Bulgarian or Chinese (Simplified) or Chinese (Traditional) or Dutch or Esperanto or French or German or Italian (Italy) or Japanese or Korean or Polish or Portuguese (Brazil) or Russian or Serbian or Spanish (Argentina) or Spanish (Spain) or Turkish]
+        - Mods loaded: [e.g. dda, boats, hacktheplanet, StatsThroughSkills]
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+      placeholder: |
+        Crash: if your problem refers to a crash, please add the following files to the "Additional Context" paragraph:
+          - From the /config folder (you can zip them both together):
+            - crash.log file.
+            - debug.log file.
+          - Your save file (zipped)
+
+        - note #1: you can drag and drop files in this issue post!
+        - note #2: it is very important for us that you provide a save file in case of a crash. It really helps the developers
+        to reproduce the bug and fix it. If possible, try to provide a save file that occurs in the right conditions, just
+        before the crash happens.
+    validations:
+      required: false
+    

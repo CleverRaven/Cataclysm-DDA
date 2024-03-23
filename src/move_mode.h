@@ -2,14 +2,15 @@
 #ifndef CATA_SRC_MOVE_MODE_H
 #define CATA_SRC_MOVE_MODE_H
 
+#include <cstdint>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
 #include "color.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 template<typename T>
@@ -23,6 +24,7 @@ enum class steed_type : int {
 };
 
 enum class move_mode_type : int {
+    PRONE,
     CROUCHING,
     WALKING,
     RUNNING
@@ -32,9 +34,11 @@ class move_mode
 {
 
         friend class generic_factory<move_mode>;
+        friend struct mod_tracker;
 
         bool was_loaded = false;
         move_mode_id id;
+        std::vector<std::pair<move_mode_id, mod_id>> src;
 
         std::map<steed_type, translation> change_messages_success;
         std::map<steed_type, translation> change_messages_fail;
@@ -45,6 +49,7 @@ class move_mode
         // Which was necessary, because I needed to know the values of the other ones
         // before I could set it
         mutable move_mode_id cycle_to;
+        mutable move_mode_id cycle_back;
         move_mode_type _type = move_mode_type::WALKING;
 
         float _exertion_level = 0.0f;
@@ -63,16 +68,18 @@ class move_mode
 
     public:
         static void load_move_mode( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static void finalize();
         static void reset();
 
         move_mode() = default;
 
+        // name: walk, run, crouch, prone
         std::string name() const;
         std::string change_message( bool success, steed_type steed ) const;
 
         move_mode_id cycle() const;
+        move_mode_id cycle_reverse() const;
         move_mode_id ident() const;
 
         float sound_mult() const;
@@ -80,7 +87,7 @@ class move_mode
         float exertion_level() const;
         float move_speed_mult() const;
 
-        int mech_power_use() const;
+        units::energy mech_power_use() const;
         int swim_speed_mod() const;
 
         nc_color panel_color() const;
@@ -93,6 +100,7 @@ class move_mode
 
         // Const because it's modifying a mutable
         void set_cycle( const move_mode_id &mode ) const;
+        void set_cycle_back( const move_mode_id &mode ) const;
 };
 
 const std::vector<move_mode_id> &move_modes_by_speed();

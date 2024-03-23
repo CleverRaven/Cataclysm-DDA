@@ -1,0 +1,66 @@
+# https://github.com/rytswd/comvent
+trigger: specific
+
+# list of users allowed to use these commands, from labeling an issue in
+# a specific way to mark as duplicate, closing issues, the sky is the limit
+# TODO implement more commands, add more users
+users:
+  active:
+    # maintainer
+    - casswedson
+    # curator
+    - Maleclypse
+    # voluntiers
+    - Termineitor244
+    - Faalagorn
+    - Ilysen
+    - Aerin-of-the-Toast
+    - anoobindisguise
+    - PatrikLundell
+    - alef
+    - TheShadowFerret
+    - Jan-Blasiak
+    - MNG-cataclysm
+    - mqrause
+    - andrei8l
+    - haveric
+    - MylieDaniels
+    - nopenoperson 
+    - Inglonias
+    - GuardianDll
+    - hexagonrecursion
+    - ANickelN
+    - a-chancey
+    - Cimanyd0
+    - LyranRenegade
+    - Stadler76
+    - sonphantrung
+    - sadenar
+    - RenechCDDA
+    - irwiss
+    - strategineer
+    - pjf
+    - SurFlurer
+    - Procyonae
+    - harakka
+    - Karol1223
+    - Bobtron
+
+keywords:
+  - name: confirm-bug
+    value: '\/(C|c)onfirm.*'
+
+  - name: close-duplicate
+    value: '\/(D|d)uplicate.*'
+
+  - name: close-invalid
+    value: '\/(I|i)nvalid.*'
+
+  - name: good-first-issue
+    # example: /good-first-issue
+    value: '\/(G|g)ood[\s-]*(F|f)irst[\s-]*(I|i)ssue.*'
+
+  - name: help-wanted
+    # - only works in PRs
+    # example: /help-wanted
+    value: '\/(H|h)elp[\s-]*(W|w)anted.*'

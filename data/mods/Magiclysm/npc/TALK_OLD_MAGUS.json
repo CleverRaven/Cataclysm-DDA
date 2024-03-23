@@ -7,7 +7,7 @@
       "type": "dialogue",
       "context": "old_magus",
       "value": "yes",
-      "no": "Huh?  *mumble mumble* … Who are you?",
+      "no": "Huh?  *mumble mumble* …Who are you?",
       "yes": "Oh, you again."
     },
     "responses": [
@@ -20,7 +20,7 @@
       { "text": "Let's trade items.", "topic": "TALK_OLD_MAGUS", "effect": "start_trade" },
       {
         "text": "Can I do anything for you?",
-        "topic": "TALK_MISSION_OFFER",
+        "topic": "TALK_MISSION_LIST",
         "condition": {
           "and": [
             { "not": "has_assigned_mission" },

@@ -26,7 +26,12 @@
     "worn_override": "REFUGEE_Fatima_worn",
     "carry_override": "REFUGEE_Fatima_carried",
     "weapon_override": "REFUGEE_Fatima_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_SouthAsian" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_SouthAsian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "proficiencies": [ "prof_metalworking", "prof_welding_basic", "prof_welding" ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ -2, 1 ] } ] } ] } },
@@ -46,7 +51,7 @@
       { "item": "technician_shirt_gray" },
       { "item": "jacket_evac" },
       { "item": "headscarf" },
-      { "item": "boots_steel" },
+      { "item": "sneakers_steel" },
       { "item": "slingpack" }
     ]
   },
@@ -102,27 +107,31 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_1",
-    "dynamic_line": {
-      "u_has_var": "u_met_Fatima_al_Jadir",
-      "type": "general",
-      "context": "meeting",
-      "value": "yes",
-      "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
-      "no": "Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share."
+    "dynamic_line": "*is a fit young woman dressed in smudged coveralls.  She looks at you with interest and concern.  \"Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share.\"",
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
+        { "npc_first_topic": "TALK_REFUGEE_Fatima_1a" }
+      ]
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
-      {
-        "text": "Nice to meet you too, Fatima.  I'm just passing through.",
-        "condition": { "not": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_REFUGEE_Fatima_1_firstmeet"
-      },
-      {
-        "text": "Hi, Fatima.  How are things?",
-        "condition": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
-        "topic": "TALK_REFUGEE_Fatima_2"
-      },
-      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+      { "text": "Nice to meet you too, Fatima.  I'm just passing through.", "topic": "TALK_REFUGEE_Fatima_1_firstmeet" },
+      { "text": "Nice to meet you too, Fatima.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Fatima_1a",
+    "dynamic_line": {
+      "concatenate": [
+        "*futilely dusts a bit of grime on her coveralls, then looks at you.  \"",
+        [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
+        "\""
+      ]
+    },
+    "responses": [
+      { "text": "Hi, Fatima.  How are things?", "topic": "TALK_REFUGEE_Fatima_2" },
+      { "text": "Hi, Fatima.  I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -162,21 +171,24 @@
       "type": "barter",
       "context": "flag",
       "value": "yes",
-      "yes": "Sure.  As agreed, 25 merch, .",
+      "yes": "Sure.  As agreed, 3 merch.",
       "no": {
         "u_has_var": "Fatima_Mission1",
         "type": "mission",
         "context": "flag",
         "value": "yes",
         "no": "Sure, I could teach you the basics, I'll have to charge you though.  Let's say, 5 merch for a teaching session, plus a bit in trade depending on how in-depth you're looking for?",
-        "yes": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?"
+        "yes": {
+          "gendered_line": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
     "speaker_effect": { "effect": { "u_add_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" } },
     "responses": [
       {
         "//": "5 merch if player has not bartered nor finished mission",
-        "text": "All right, here's your money.",
+        "text": "[5 merch] All right, here's your money.",
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
@@ -189,7 +201,7 @@
       },
       {
         "//": "4 merch if player has not bartered but has done the mission",
-        "text": "All right, here's your money.",
+        "text": "[4 merch] All right, here's your money.",
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
@@ -202,7 +214,7 @@
       },
       {
         "//": "3 merch if player has successfully bartered price down",
-        "text": "All right, here's your money.",
+        "text": "[3 merch] All right, here's your money.",
         "topic": "TALK_TRAIN",
         "condition": {
           "and": [
@@ -216,9 +228,7 @@
         "text": "[BARTER] Come on, I'm serious here.",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
           ]
@@ -231,9 +241,7 @@
         "text": "[BARTER] That's still pretty steep, I risked my neck out there for your book.  Can't you manage a little lower?",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }
           ]
@@ -250,7 +258,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach_nobarter",
     "dynamic_line": "Hey, I appreciate that, but I know what I've got, and I can make good money with that time.  Sorry, my price stands.",
-    "speaker_effect": { "effect": { "u_add_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Fatima_barter_fail", "=", "time('now')" ] } },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -305,9 +313,9 @@
     },
     "end": {
       "effect": [
-        { "u_buy_item": "FMCNote", "count": 5 },
+        { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   }

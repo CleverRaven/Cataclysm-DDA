@@ -1,0 +1,365 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "map_extra_fae",
+    "//": "Drugdealer with access to fae drugs.",
+    "entries": [
+      { "group": "drugdealer", "prob": 75 },
+      {
+        "distribution": [
+          { "item": "lsd", "container-item": "null", "entry-wrapper": "bag_zipper", "count-min": 20, "count-max": 30, "prob": 10 },
+          {
+            "item": "faewild",
+            "container-item": "null",
+            "entry-wrapper": "bag_zipper",
+            "count-min": 10,
+            "count-max": 20,
+            "prob": 40
+          },
+          {
+            "item": "lotus_blossom",
+            "container-item": "null",
+            "entry-wrapper": "bag_zipper",
+            "count-min": 8,
+            "count-max": 14,
+            "prob": 30
+          }
+        ],
+        "prob": 50
+      },
+      { "group": "clothing_outdoor_pants", "damage-min": 1, "damage-max": 4 },
+      { "group": "socks_unisex", "damage-min": 1, "damage-max": 4 },
+      { "group": "lab_shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
+      { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 50 },
+      { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+      { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+      { "item": "corpse", "damage": 4 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "//": "Inventor artifact creation itemgroup.",
+    "id": "minor_spark_artifacts",
+    "subtype": "distribution",
+    "items": [
+      [ "xe_art_clock", 100 ],
+      [ "xe_art_rod", 100 ],
+      [ "xe_art_monitor", 100 ],
+      [ "xe_art_mess", 100 ],
+      [ "xe_art_sculpture", 100 ],
+      [ "xe_art_disc", 100 ],
+      [ "xe_art_instrument", 100 ],
+      [ "art_napkin", 100 ],
+      [ "art_urchin", 100 ],
+      [ "art_jelly", 100 ],
+      [ "art_spiral", 100 ],
+      [ "art_pin", 100 ],
+      [ "art_tube", 100 ],
+      [ "art_pyramid", 100 ],
+      [ "art_crystal", 100 ],
+      [ "art_knot", 100 ],
+      [ "art_crescent", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "minor_spark_artifact",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "group": "minor_spark_artifacts",
+        "artifact": {
+          "procgen_id": "spark_items",
+          "rules": { "power_level": 500, "max_attributes": 2, "max_negative_power": -250, "resonant": true }
+        },
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "relic_procgen_data",
+    "id": "spark_items",
+    "//": "Needs to be adjusted and made specific to Xedra Inventor class powers that could be expected.  Remove this note after that is completed.",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "5 h", "7 h" ]
+      },
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 4 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 4 ], "power": 25 },
+        "recharge_type": "solar_sunny",
+        "time": [ "2 h", "3 h" ]
+      },
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 5 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 5 ], "power": 25 },
+        "recharge_type": "solar_cloudy",
+        "time": [ "1 h", "3 h" ]
+      },
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 6 ], "power": 25 },
+        "charges_per_use": { "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 6 ], "power": 25 },
+        "recharge_type": "lunar",
+        "time": [ "2 h", "3 h" ]
+      }
+    ],
+    "active_procgen_values": [
+      { "weight": 100, "spell_id": "AEA_ADRENALINE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_BLOOD", "base_power": 50 },
+      { "weight": 100, "spell_id": "AEA_HEAL", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_CONFUSED", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PAIN", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_TELEPORT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_ATTENTION", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_TELEGLOW", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_VOMIT", "base_power": -50 },
+      { "weight": 100, "spell_id": "AEA_SHADOWS", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_STAMINA_EMPTY", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_RADIATION", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_HURTALL", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_ACIDBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_BUGS", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
+      { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },
+      { "weight": 100, "spell_id": "AEA_MAP", "base_power": 500 },
+      { "weight": 100, "spell_id": "AEA_FIRESTORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_FUN", "base_power": 100 },
+      { "weight": 100, "spell_id": "AEA_MUTATE", "base_power": 150 },
+      { "weight": 100, "spell_id": "AEA_STORM", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_ENTRANCE", "base_power": 1000 },
+      { "weight": 100, "spell_id": "AEA_SCREAM", "base_power": -150 },
+      { "weight": 100, "spell_id": "AEA_PULSE", "base_power": 250 }
+    ],
+    "passive_mult_procgen_values": [
+      { "weight": 100, "min_value": -0.5, "max_value": 1, "type": "METABOLISM", "increment": 0.1, "power_per_increment": -50 },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "THIRST",
+        "increment": 0.1,
+        "power_per_increment": -50
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 1,
+        "type": "CARRY_WEIGHT",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "MAX_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "REGEN_HP",
+        "increment": 0.1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 2,
+        "type": "SHOUT_NOISE",
+        "increment": 0.2,
+        "power_per_increment": 100
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ACID",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BASH",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BIO",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_COLD",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_CUT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_ELEC",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_HEAT",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_STAB",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.2,
+        "max_value": 1,
+        "type": "ARMOR_BULLET",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 50,
+        "min_value": -0.4,
+        "max_value": 0.2,
+        "type": "MOVE_COST",
+        "increment": 0.1,
+        "power_per_increment": -500
+      },
+      {
+        "weight": 100,
+        "min_value": -0.5,
+        "max_value": 0.5,
+        "type": "ATTACK_SPEED",
+        "increment": 0.1,
+        "power_per_increment": 500
+      }
+    ],
+    "passive_add_procgen_values": [
+      { "weight": 100, "min_value": -3, "max_value": 4, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "DEXTERITY",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "PERCEPTION",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -3,
+        "max_value": 4,
+        "type": "INTELLIGENCE",
+        "increment": 1,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 100,
+        "min_value": -20,
+        "max_value": 20,
+        "type": "SPEED",
+        "increment": 5,
+        "power_per_increment": 200
+      },
+      {
+        "weight": 50,
+        "min_value": -50,
+        "max_value": 20,
+        "type": "ATTACK_SPEED",
+        "increment": 5,
+        "power_per_increment": 250
+      },
+      {
+        "weight": 50,
+        "min_value": -2500,
+        "max_value": 10000,
+        "type": "MAX_STAMINA",
+        "increment": 250,
+        "power_per_increment": 125
+      },
+      {
+        "weight": 50,
+        "min_value": -20000,
+        "max_value": 20000,
+        "type": "CARRY_WEIGHT",
+        "increment": 1000,
+        "power_per_increment": 250
+      }
+    ],
+    "type_weights": [
+      { "weight": 100, "value": "passive_enchantment_add" },
+      { "weight": 100, "value": "active_enchantment" },
+      { "weight": 20, "value": "passive_enchantment_mult" }
+    ],
+    "items": [
+      { "weight": 100, "item": "xe_art_clock" },
+      { "weight": 100, "item": "art_rod" },
+      { "weight": 100, "item": "xe_art_monitor" },
+      { "weight": 100, "item": "xe_art_mess" },
+      { "weight": 100, "item": "xe_art_sculpture" },
+      { "weight": 100, "item": "art_disc" },
+      { "weight": 100, "item": "xe_art_instrument" },
+      { "weight": 100, "item": "art_napkin" },
+      { "weight": 100, "item": "art_urchin" },
+      { "weight": 100, "item": "art_jelly" },
+      { "weight": 100, "item": "art_spiral" },
+      { "weight": 100, "item": "art_pin" },
+      { "weight": 100, "item": "art_tube" },
+      { "weight": 100, "item": "art_pyramid" },
+      { "weight": 100, "item": "art_crystal" },
+      { "weight": 100, "item": "art_knot" },
+      { "weight": 100, "item": "art_crescent" }
+    ]
+  }
+]

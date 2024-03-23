@@ -1,0 +1,96 @@
+[
+  {
+    "type": "npc",
+    "id": "cody_miller",
+    "//": "A blacksmith for the faction.",
+    "name_suffix": "Blacksmith",
+    "name_unique": "Cody Miller",
+    "gender": "female",
+    "class": "CODY_MILLER",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_BLACKSMITH_SERVICES",
+    "faction": "isolated_artisans"
+  },
+  {
+    "type": "npc_class",
+    "id": "CODY_MILLER",
+    "name": { "str": "Cody Miller" },
+    "job_description": "A blacksmith who wants everyone to get along.",
+    "common": false,
+    "traits": [
+      { "trait": "TOUGH" },
+      { "trait": "FASTLEARNER" },
+      { "group": "Appearance_African" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "bonus_str": { "rng": [ 0, 3 ] },
+    "bonus_dex": { "rng": [ -1, 1 ] },
+    "bonus_int": { "rng": [ 1, 3 ] },
+    "bonus_per": { "rng": [ -1, 1 ] },
+    "shopkeeper_item_group": [ { "group": "CODY_MILLER_trade", "rigid": true } ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "worn_override": "CODY_MILLER_worn",
+    "carry_override": "CODY_MILLER_carry",
+    "weapon_override": "CODY_MILLER_weild",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "tailor", "bonus": { "rng": [ 6, 9 ] } }
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "jay_ruckers",
+    "//": "A gunsmith for the faction.",
+    "name_suffix": "Banker",
+    "name_unique": "Jay Ruckers",
+    "gender": "male",
+    "class": "JAY_RUCKERS",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_GUNSMITH_SERVICES",
+    "faction": "isolated_artisans"
+  },
+  {
+    "type": "npc_class",
+    "id": "JAY_RUCKERS",
+    "name": { "str": "Jay Ruckers" },
+    "job_description": "A gunsmith looking to become the new central bank.",
+    "common": false,
+    "traits": [
+      { "trait": "FASTLEARNER" },
+      { "group": "Appearance_Caucasian" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "bonus_str": { "rng": [ -1, 1 ] },
+    "bonus_dex": { "rng": [ -1, 2 ] },
+    "bonus_int": { "rng": [ 1, 3 ] },
+    "bonus_per": { "rng": [ 0, 3 ] },
+    "shopkeeper_item_group": [ { "group": "JAY_RUCKERS_trade", "rigid": true } ],
+    "shopkeeper_consumption_rates": "basic_shop_rates",
+    "worn_override": "JAY_RUCKERS_worn",
+    "carry_override": "JAY_RUCKERS_carry",
+    "weapon_override": "JAY_RUCKERS_weild",
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 3 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "cutting", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "fabrication", "bonus": { "rng": [ 6, 8 ] } },
+      { "skill": "mechanics", "bonus": { "rng": [ 6, 10 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  }
+]

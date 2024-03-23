@@ -29,14 +29,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
-    "id": "gun_crossbow_mod",
-    "copy-from": "gun_crossbow",
-    "type": "GUNMOD",
-    "name": { "str": "modified rail-mounted crossbow" },
-    "description": "A kit to attach a pair of crossbow arms and a firing rail to the barrel of a long firearm.  It allows crossbow bolts to be fired.  This one was modified and customized to mount on pretty much any weapon other than pistols and SMGs, if you so want.",
-    "mod_targets": [ "rifle", "shotgun", "launcher", "crossbow" ]
-  },
-  {
     "id": "offset_sights",
     "copy-from": "improve_sights",
     "type": "GUNMOD",
@@ -92,14 +84,16 @@
     "integral_volume": "0 ml",
     "price": 12000,
     "price_postapoc": 500,
-    "install_time": "1 m",
+    "install_time": "5 m",
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "rail",
-    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 30,
-    "aim_speed": 8,
+    "field_of_view": 3000,
+    "aim_speed_modifier": 15,
+    "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
+    "flags": [ "LASER_SIGHT" ],
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
@@ -112,7 +106,7 @@
     "integral_volume": "500 ml",
     "price": 68000,
     "price_postapoc": 750,
-    "install_time": "1 m",
+    "install_time": "10 m",
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",
     "color": "blue",

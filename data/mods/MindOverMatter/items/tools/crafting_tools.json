@@ -1,0 +1,36 @@
+[
+  {
+    "id": "matrix_channeling_tool",
+    "type": "TOOL",
+    "name": { "str": "matrix channeling array" },
+    "description": "A set of matrix crystals arranged together to direct Netherium energy.  You're not entirely sure all the crystals are actually touching the metal assembly soldered around them.",
+    "weight": "2500 g",
+    "volume": "500 ml",
+    "longest_side": "15 cm",
+    "price": 2000,
+    "price_postapoc": 50,
+    "to_hit": -2,
+    "melee_damage": { "bash": 2 },
+    "material": [ "nether_crystal", "steel" ],
+    "symbol": "[",
+    "color": "white",
+    "qualities": [ [ "MATRIX_CHANNEL", 1 ] ]
+  },
+  {
+    "id": "matrix_aligning_tool",
+    "type": "TOOL",
+    "name": { "str": "crystalline focusing assembly", "str_pl": "crystalline focusing assemblies" },
+    "description": "A precise arrangement of cut crystal pieces from the crystal outgrowths left by the portal storms.  The air in the center shimmers like a summer heat gaze when you look through the focal point of the apparatus.",
+    "weight": "4000 g",
+    "volume": "750 ml",
+    "longest_side": "25 cm",
+    "price": 3000,
+    "price_postapoc": 40,
+    "to_hit": -2,
+    "melee_damage": { "bash": 5 },
+    "material": [ "nether_crystal", "steel" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "qualities": [ [ "MATRIX_FOCUS", 1 ] ]
+  }
+]

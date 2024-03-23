@@ -1,0 +1,15 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOO",
+    "//": "Remove shoggoth from group.",
+    "override": true,
+    "monsters": [
+      { "monster": "mon_blob_small", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_blob_small", "weight": 100, "cost_multiplier": 0, "pack_size": [ 2, 12 ] },
+      { "monster": "mon_blob", "weight": 693, "cost_multiplier": 3, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_blob_large", "weight": 5, "cost_multiplier": 6, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_blob_brain", "weight": 1, "cost_multiplier": 10 }
+    ]
+  }
+]

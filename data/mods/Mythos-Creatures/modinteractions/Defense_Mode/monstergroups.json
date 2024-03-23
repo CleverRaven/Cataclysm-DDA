@@ -1,0 +1,13 @@
+[
+  {
+    "name": "GROUP_MYTHOS_SPAWN",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_rat_thing_dm" },
+      { "monster": "mon_ghoul_dm" },
+      { "monster": "mon_ghast_dm" },
+      { "monster": "mon_nightgaunt_dm" },
+      { "monster": "mon_deep_one_dm" }
+    ]
+  }
+]

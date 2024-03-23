@@ -1,0 +1,8 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "catalyic_cracking_items",
+    "entries": [ { "item": "catalytic_cracking_handbook", "prob": 100 } ]
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "type": "item_group",
+    "id": "trash_forest",
+    "items": [
+      [ "rock", 80 ],
+      [ "rock_flaking", 80 ],
+      [ "stick", 80 ],
+      [ "acorns", 80 ],
+      [ "pinecone", 80 ],
+      { "item": "withered", "prob": 80, "count-min": 1, "count-max": 10 },
+      { "item": "plant_fibre", "prob": 80, "count-min": 1, "count-max": 10 },
+      [ "straw_pile", 80 ],
+      [ "tanbark", 80 ],
+      [ "rock_large", 70 ],
+      [ "pine_bough", 70 ],
+      [ "splinter", 70 ],
+      [ "hickory_root", 65 ],
+      [ "hickory_nut", 65 ],
+      [ "tinder", 50 ],
+      { "item": "feather", "prob": 40, "count-min": 1, "count-max": 10 },
+      [ "bone", 30 ],
+      [ "chunk_copper", 1 ],
+      [ "chunk_cassiterite", 1 ],
+      [ "chunk_hematite", 2 ]
+    ]
+  }
+]

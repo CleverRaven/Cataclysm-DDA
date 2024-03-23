@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "translate_dialogue",
+    "name": "Translate Complex Dialogue",
+    "authors": [ "I-am-Erk" ],
+    "description": "Adds a translation for some of the weirder dialogue in game.  Keeps the original flavour dialogue visible.",
+    "category": "accessibility",
+    "dependencies": [ "dda" ]
+  }
+]

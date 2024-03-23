@@ -5,7 +5,7 @@
     "om_terrain": [ "mil_base_3i4" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_open_air",
+      "fill_ter": "t_metal_floor_no_roof",
       "rows": [
         "                        ",
         "                        ",
@@ -20,19 +20,20 @@
         "                        ",
         "                        ",
         "                        ",
-        "    ######              ",
-        "    #Zx'Z#              ",
-        "    #x''x#              ",
-        "    #'>''#              ",
-        "    #Zx'Z#              ",
-        "    ######              ",
+        "    aaaaaa              ",
+        "    a,,,,a              ",
+        "    a,RR,a              ",
+        "    a,RR,a              ",
+        "    av,,,a              ",
+        "    aaaaaa              ",
         "                        ",
         "                        ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "mil_base_roof_palette" ]
+      "palettes": [ "roof_palette" ],
+      "terrain": { "R": "t_radio_tower", "a": "t_railing", ",": "t_metal_floor_no_roof" }
     }
   }
 ]

@@ -9,7 +9,7 @@
  * An interval of numeric values between @ref min and @ref max (including both).
  * By default it's [0, 0].
  */
-template<typename T, typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type>
+template<typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>, T>>
 struct numeric_interval {
     T min = static_cast<T>( 0 );
     T max = static_cast<T>( 0 );
@@ -32,9 +32,8 @@ struct numeric_interval {
         return max == 0 || min > max;
     }
 
-    template<typename JsonStream>
-    void deserialize( JsonStream &jsin ) {
-        auto ja = jsin.get_array();
+    void deserialize( const JsonValue &jsin ) {
+        JsonArray ja = jsin.get_array();
         if( ja.size() != 2 ) {
             ja.throw_error( "Intervals should be in format [min, max]." );
         }

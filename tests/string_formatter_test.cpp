@@ -1,10 +1,12 @@
-#include "catch/catch.hpp"
-
+#include <clocale>
 #include <cstddef>
+#include <iosfwd>
 #include <limits>
 #include <string>
-#include <utility>
+#include <type_traits>
 
+#include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
@@ -22,6 +24,7 @@ void importet_test( const int serial, const char *const expected, const char *co
 {
     CAPTURE( serial );
     CAPTURE( format );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     const std::string original_result = cata::string_formatter::raw_string_format( format,
                                         std::forward<Args>( args )... );
@@ -36,6 +39,7 @@ template<typename ...Args>
 void test_for_expected( const std::string &expected, const char *const format, Args &&... args )
 {
     CAPTURE( format );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     const std::string result = throwing_string_format( format, std::forward<Args>( args )... );
     CHECK( result == expected );
@@ -45,6 +49,7 @@ template<typename ...Args>
 void test_for_error( const char *const format, Args &&... args )
 {
     CAPTURE( format );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     const std::string result = throwing_string_format( format, std::forward<Args>( args )... );
     CAPTURE( result );
@@ -58,6 +63,7 @@ void test_new_old_pattern( const char *const old_pattern, const char *const new_
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
 
     std::string original_result = cata::string_formatter::raw_string_format( old_pattern,
                                   std::forward<Args>( args )... );
@@ -96,16 +102,23 @@ void mingw_test( const char *const old_pattern, const char *const new_pattern, c
 {
     CAPTURE( old_pattern );
     CAPTURE( new_pattern );
+    CAPTURE( std::setlocale( LC_ALL, nullptr ), std::locale().name() );
     std::string original_result = cata::string_formatter::raw_string_format( old_pattern, value );
     std::string new_result = throwing_string_format( new_pattern, value );
     CHECK( original_result == new_result );
 }
 
-// Marking mayfail due to failure in Appveyor.  Looks like a bug in the Visual
-// Studio runtime libraries.  Once that failure stops showing up on Appveyor,
-// this can cease to be marked thus.
-TEST_CASE( "string_formatter", "[!mayfail]" )
+TEST_CASE( "string_formatter" )
 {
+    std::locale const &oldloc = std::locale();
+    on_out_of_scope reset_loc( [&oldloc]() {
+        std::locale::global( oldloc );
+    } );
+    try {
+        std::locale::global( std::locale( "en_US.UTF-8" ) );
+    } catch( std::runtime_error &e ) {
+        WARN( "couldn't set locale for string_formatter test: " << e.what() );
+    }
     test_typed_printf<signed char>( "%hhi", "%i" );
     test_typed_printf<unsigned char>( "%hhu", "%u" );
 
@@ -175,6 +188,13 @@ TEST_CASE( "string_formatter", "[!mayfail]" )
         CHECK( long_string.size() == 100000 );
     }
 
+    // Test formatting of string_view arguments
+    using namespace std::literals::string_view_literals;
+    test_for_expected( "a", "%s", "a"sv );
+    test_for_expected( "a", "%s", "ab"sv.substr( 0, 1 ) );
+    test_for_expected( "a", "%.1s", "ab"sv );
+    test_for_expected( "ab", "%.3s", "ab"sv );
+
     // These calls should cause *compile* errors. Try it out.
 #if 0
     string_format( "", std::vector<int>() );
@@ -223,7 +243,10 @@ TEST_CASE( "string_formatter", "[!mayfail]" )
     importet_test( 38, "42             ", "%0-15d", 42 );
     importet_test( 39, "-42            ", "%0-15d", -42 );
     importet_test( 43, "42.90", "%.2f", 42.8952 );
+#if !(defined(__MINGW32__) || defined(__MINGW64__))
+    // Omit this one that fails on Mingw
     importet_test( 44, "42.90", "%.2F", 42.8952 );
+#endif
     importet_test( 45, "42.8952000000", "%.10f", 42.8952 );
     importet_test( 46, "42.90", "%1.2f", 42.8952 );
     importet_test( 47, " 42.90", "%6.2f", 42.8952 );
@@ -517,6 +540,8 @@ TEST_CASE( "string_formatter", "[!mayfail]" )
     importet_test( 365, "          00edcb5433", "%20.10x", 3989525555U );
     importet_test( 366, "            1234ABCD", "%20.5X", 305441741 );
     importet_test( 367, "          00EDCB5433", "%20.10X", 3989525555U );
+#if !(defined(__MINGW32__) || defined(__MINGW64__))
+    // Omit these ones that fail on Mingw
     importet_test( 369, "               01024", "%020.5d", 1024 );
     importet_test( 370, "              -01024", "%020.5d", -1024 );
     importet_test( 371, "               01024", "%020.5i", 1024 );
@@ -529,6 +554,7 @@ TEST_CASE( "string_formatter", "[!mayfail]" )
     importet_test( 378, "          00edcb5433", "%020.10x", 3989525555U );
     importet_test( 379, "            1234ABCD", "%020.5X", 305441741 );
     importet_test( 380, "          00EDCB5433", "%020.10X", 3989525555U );
+#endif
     importet_test( 381, "", "%.0s", "Hallo heimur" );
     importet_test( 382, "                    ", "%20.0s", "Hallo heimur" );
     importet_test( 383, "", "%.s", "Hallo heimur" );

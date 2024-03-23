@@ -1,0 +1,179 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " wwwww",
+        " w...w",
+        " +...w",
+        " v...w",
+        " w...w",
+        " wwwww"
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_NE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_1" ], "x": 18, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_2",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w...w",
+        "v...w",
+        "+...w",
+        "w...w",
+        "wwwww"
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_ENE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_2" ], "x": 19, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_3",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w...w",
+        "+...w",
+        "v...w",
+        "w...w",
+        "wwwww"
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_ESE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_3" ], "x": 19, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_4",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w...w",
+        "v...w",
+        "+...w",
+        "w...w",
+        "wwwww"
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_SE",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_4" ], "x": 19, "y": 19 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w...w",
+        "w...v",
+        "w...+",
+        "w...w",
+        "wwwww"
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_SW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_5" ], "x": 0, "y": 19 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_6",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "w... ",
+        "w...+",
+        "w...v",
+        "w...w",
+        "wwwww"
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_WSW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_6" ], "x": 0, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_7",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "wwwww",
+        "w...w",
+        "w...v",
+        "w...+",
+        "w... "
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_WNW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_7" ], "x": 0, "y": 5 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmh_2_tent_room_8",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "wwwww",
+        "w...w",
+        "w...+",
+        "w...v",
+        "w...w"
+      ],
+      "palettes": [ "fbmh_2_tent_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmh_2_tent_room_NW",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmh_2_tent_room_8" ], "x": 0, "y": 0 } ] }
+  }
+]

@@ -7,12 +7,12 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "With the mechanically-minded Technomancer and the sheer power of lightning from a Stormshaper, the Artificer has a unique confluence of skills and spells to be perfect for invention.  While modern inventions and machines have won out in a modern society, after a cataclysm one has a chance to go back to roots of things.  To make weird gadgets that are just as likely to explode as explode the thing you're pointing at.",
+    "description": "With the mechanically-minded Technomancer and the sheer power of lightning from a Stormshaper, the Artificer has a unique confluence of skills and spells to be perfect for invention.  While modern inventions and machines have won out in a modern society, after a Cataclysm one has a chance to go back to roots of things.  To make weird gadgets that are just as likely to explode as explode the thing you're pointing at.",
     "prereqs": [ "STORMSHAPER", "TECHNOMANCER" ],
     "spells_learned": [ [ "spy_wasp", 5 ], [ "artificer_toolkit", 5 ] ],
-    "crafting_speed_multiplier": 1.2,
+    "enchantments": [ { "values": [ { "value": "CRAFTING_SPEED_MULTIPLIER", "multiply": 0.2 } ] } ],
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -41,15 +41,17 @@
     "flags": [ "ATTUNEMENT" ]
   },
   {
-    "id": "AURA_MAGE",
+    "id": "ALCHEMIST",
     "type": "mutation",
-    "name": { "str": "Aura Mage" },
+    "name": { "str": "Alchemist" },
     "points": 8,
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "",
+    "description": "The alchemist comes from the technomancer's skills with unliving matter combined with the animist's grasp on the ambient ley lines.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
     "prereqs": [ "ANIMIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "alchemist_make_potion_starter", 5 ], [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
+    "integrated_armor": [ "alchemist_pocket" ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -88,19 +90,17 @@
     "description": "The Biotek is quite simply the marriage of technology and flesh.  It was not even discovered as an attunement until recent times due to the great advancements in technology in the last 50 years.  The Biotek is unique as it is the only known attunement that warps the Aethereum in such a way as to allow cybernetics to coincide with magical abilities, to an extent.",
     "prereqs": [ "BIOMANCER", "TECHNOMANCER" ],
     "spells_learned": [ [ "nitro_boost", 5 ], [ "biotek_healing", 5 ] ],
-    "bionic_mana_penalty": 0.5,
+    "enchantments": [ { "values": [ { "value": "BIONIC_MANA_PENALTY", "multiply": -0.5 } ] } ],
     "bionic_slot_bonuses": { "torso": 20 },
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
-      "BIOTEK",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
-      "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
@@ -109,13 +109,10 @@
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
-      "PERMAFROST_MAGE",
-      "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
-      "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
@@ -134,12 +131,11 @@
     "valid": false,
     "description": "Animists are known for their blood magic, and being a Biomancer you are able to take it another step further by strengthening your blood.  The dark arts have opened to you, and while dangerous, are incredible to behold.",
     "prereqs": [ "BIOMANCER", "ANIMIST" ],
+    "enchantments": [ "BLOOD_MAGE" ],
     "spells_learned": [ [ "banishment_greater", 5 ], [ "demonic_possession", 5 ] ],
-    "bleed_resist": 200,
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
-      "BLOOD_MAGE",
       "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
@@ -162,7 +158,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "BLEED_IMMUNE" ]
   },
   {
     "id": "BOREAL_MAGE",
@@ -173,12 +169,13 @@
     "purifiable": false,
     "valid": false,
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
+    "enchantments": [ "BOREAL_MAGE" ],
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "auroral_wave", 5 ], [ "borealmage_auroral_guard", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
-      "BOREAL_MAGE",
       "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
@@ -213,6 +210,8 @@
     "purifiable": false,
     "valid": false,
     "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.",
+    "enchantments": [ "CLEANSING_FLAME" ],
+    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ], [ "burning_trail", 5 ] ],
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -220,7 +219,6 @@
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CRUSADER",
-      "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
@@ -242,7 +240,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "INFECTION_IMMUNE" ]
   },
   {
     "id": "CRUSADER",
@@ -254,15 +252,14 @@
     "valid": false,
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
-    "passive_mods": { "dex_mod": 5 },
-    "hp_modifier": 1,
+    "spells_learned": [ [ "holy_shield", 5 ], [ "judgement_sword", 5 ] ],
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "multiply": 1 }, { "value": "DEXTERITY", "add": 5 } ] } ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
-      "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
@@ -295,19 +292,15 @@
     "description": "Stone is superior to flesh.  You have allowed this axiom into your life, and work to correct your own weakness with biomancy.  The strength of the Earth rushed up to meet you with open arms.",
     "prereqs": [ "BIOMANCER", "EARTHSHAPER" ],
     "spells_learned": [ [ "quake", 5 ], [ "rock_blast", 5 ] ],
-    "armor": [
-      { "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ], "cut": 15 }
-    ],
-    "passive_mods": { "str_mod": 5 },
+    "enchantments": [ "EARTH_ELEMENTAL" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CRUSADER",
       "CLEANSING_FLAME",
-      "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
@@ -325,7 +318,7 @@
       "VULCANIST",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "FIRE_ELEMENTAL",
@@ -347,7 +340,6 @@
       "CRUSADER",
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
-      "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
@@ -380,15 +372,13 @@
     "description": "Force = Mass x Acceleration.  This is the typical thing that people think of nowadays when the word is used, but Force Mages have a different meaning, coming from traditional roots: untyped magical damage appears to be a ghostly \"force.\"  This might be the effect of the attunement, but the cause is even more intriguing: they appear to turn Newton's Third Law on its head.  Magical scholars of the 21st century have theorized that this isn't really the case; instead of the opposite reaction happening on this plane of existence, a Force Mage uses the Aetherium's alternate Laws to rebound the force back upon itself, effectively doubling the force in the same direction instead.  However this ability comes with limitations, as the Force Mage can only do this for melee damage.",
     "prereqs": [ "MAGUS", "STORMSHAPER" ],
     "spells_learned": [ [ "force_blade", 5 ], [ "force_magical_armor", 5 ] ],
-    "speed_modifier": 1.2,
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
       "FIRE_ELEMENTAL",
-      "FORCE_MAGE",
       "GLACIER_MAGE",
       "GOLEMANCER",
       "GRAVITY_MAGE",
@@ -409,7 +399,8 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT" ],
+    "enchantments": [ "FORCE_MAGE" ]
   },
   {
     "id": "GAIAS_CHOSEN",
@@ -422,9 +413,10 @@
     "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
     "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gaiaschosen_samsara", 5 ], [ "dust_reborn", 5 ], [ "terra_armor", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -432,7 +424,6 @@
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
-      "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
       "GRAVITY_MAGE",
@@ -460,10 +451,11 @@
     "valid": false,
     "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
-    "spells_learned": [ [ "ice_clave", 5 ] ],
+    "enchantments": [ "GLACIER_MAGE" ],
+    "spells_learned": [ [ "ice_clave", 5 ], [ "frozen_winds", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -472,7 +464,6 @@
       "FIRE_ELEMENTAL",
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
-      "GLACIER_MAGE",
       "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
@@ -499,12 +490,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
+    "enchantments": [ "GOLEMANCER" ],
     "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
-    "spells_learned": [ [ "golem_push", 5 ] ],
+    "spells_learned": [ [ "golem_push", 5 ], [ "summon_golem_clay", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -513,7 +505,6 @@
       "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
-      "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ILLUSIONIST",
@@ -540,10 +531,11 @@
     "valid": false,
     "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.",
     "prereqs": [ "MAGUS", "EARTHSHAPER" ],
-    "weight_capacity_modifier": 2,
+    "spells_learned": [ [ "gravitymage_graviton", 5 ], [ "gravity_mage_leap", 5 ], [ "gravity_mage_melee", 5 ] ],
+    "enchantments": [ "GRAVITY_MAGE" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -553,7 +545,6 @@
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
-      "GRAVITY_MAGE",
       "OVERCLOCKER",
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
@@ -577,14 +568,13 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your leylines for spellcasting faster as a result.",
+    "description": "The Technomancer specializes in augmenting humans without actually modifying them; and the Overclocker takes the heat aptitude of a Kelvinist and puts that to work.  You are able to think significantly faster, and are able to align your ley lines for spellcasting faster as a result.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
-    "passive_mods": { "int_mod": 5 },
-    "casting_time_multiplier": 0.75,
-    "spells_learned": [ [ "overaccelerate", 5 ] ],
+    "enchantments": [ { "values": [ { "value": "INTELLIGENCE", "add": 5 }, { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.25 } ] } ],
+    "spells_learned": [ [ "overaccelerate", 5 ], [ "overclocker_drive", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -621,7 +611,7 @@
     "valid": false,
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
     "enchantments": [ "ICE_ELEMENTAL" ],
-    "spells_learned": [ [ "summon_subzero_talons", 5 ] ],
+    "spells_learned": [ [ "summon_subzero_talons", 5 ], [ "cold_heart", 5 ], [ "iceelemental_frostcrystal", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -636,7 +626,6 @@
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "OVERCLOCKER",
-      "ICE_ELEMENTAL",
       "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
@@ -662,11 +651,13 @@
     "purifiable": false,
     "valid": false,
     "description": "Through the fine manipulation of light, an Illusionist might craft deceptively convincing and dangerous illusions.  An Illusionist excels at avoiding direct confrontation, instead relying on decoys and traps to slip by undetected.",
-    "spells_learned": [ [ "spear_of_light", 5 ] ],
+    "spells_learned": [ [ "spear_of_light", 5 ], [ "illusionist_hologram", 5 ], [ "illusionist_transposition", 5 ] ],
     "prereqs": [ "MAGUS", "TECHNOMANCER" ],
+    "ugliness": -7,
+    "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": 10 },
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
@@ -678,7 +669,6 @@
       "GOLEMANCER",
       "GRAVITY_MAGE",
       "OVERCLOCKER",
-      "ILLUSIONIST",
       "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
@@ -690,7 +680,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "HARDTOHIT" ]
   },
   {
     "id": "MAGNETISM_MAGE",
@@ -701,11 +691,12 @@
     "purifiable": false,
     "valid": false,
     "description": "",
+    "enchantments": [ "MAGNETISM_MAGE" ],
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
-    "spells_learned": [ [ "railgun", 5 ] ],
+    "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ], [ "robot_disabler_explosion", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -720,7 +711,6 @@
       "OVERCLOCKER",
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
-      "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
       "STORM_ELEMENTAL",
@@ -731,7 +721,7 @@
       "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "PERMAFROST_MAGE",
@@ -742,10 +732,12 @@
     "purifiable": false,
     "valid": false,
     "description": "",
+    "enchantments": [ "PERMAFROST_MAGE" ],
     "prereqs": [ "KELVINIST", "MAGUS" ],
+    "spells_learned": [ [ "cold_energy", 5 ], [ "permafrost_mage_ice_age", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -758,7 +750,6 @@
       "ICE_ELEMENTAL",
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
-      "PERMAFROST_MAGE",
       "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
@@ -771,7 +762,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "COLD_ENERGY_IMMUNE" ]
   },
   {
     "id": "RADIATION_MAGE",
@@ -781,12 +772,12 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "The Radiation mage was discovered as an attunement in the 20th century, closely guarded as a military secret in close relation to the Manhatten Project.  It was declassified in 1989 as a part of the attunement awareness movement, but it is still poorly understood even by the very few researchers that wrote books on attunements.",
+    "description": "The Radiation mage was discovered as an attunement in the 20th century, closely guarded as a military secret in close relation to the Manhattan Project.  It was declassified in 1989 as a part of the attunement awareness movement, but it is still poorly understood even by the very few researchers that wrote books on attunements.",
     "prereqs": [ "STORMSHAPER", "ANIMIST" ],
     "spells_learned": [ [ "shortwave", 5 ], [ "gamma_burst", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -800,7 +791,6 @@
       "ILLUSIONIST",
       "MAGNETISM_MAGE",
       "PERMAFROST_MAGE",
-      "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
@@ -822,10 +812,12 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world.  Shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
+    "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world, shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
     "prereqs": [ "ANIMIST", "DRUID" ],
+    "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_shambling_mound", 5 ] ],
+    "enchantments": [ "SHAMAN" ],
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -840,7 +832,6 @@
       "ILLUSIONIST",
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
-      "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
@@ -861,11 +852,14 @@
     "purifiable": false,
     "valid": false,
     "description": "The shapeshifter is the Biomancer refined - able to use a flicker of mana to change shape at the drop of a hat to make yourself more inviting or shape others into desired shapes.",
+    "spells_learned": [ [ "shapeshifter_alkahest", 5 ], [ "biomechanic", 5 ] ],
     "prereqs": [ "BIOMANCER", "MAGUS" ],
     "//": "Purposefully omits torso, head, etc.",
     "encumbrance_multiplier_always": { "arm_l": 0.4, "arm_r": 0.4, "hand_l": 0.4, "hand_r": 0.4, "leg_l": 0.4, "leg_r": 0.4, "mouth": 0.4 },
+    "ugliness": -7,
+    "social_modifiers": { "persuade": 10, "lie": 10, "intimidate": 10 },
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -881,7 +875,6 @@
       "PERMAFROST_MAGE",
       "RADIATION_MAGE",
       "SHAMAN",
-      "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
       "SUN_MAGE",
@@ -890,7 +883,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ALKAHEST_IMMUNE" ]
   },
   {
     "id": "SOULFIRE",
@@ -902,11 +895,11 @@
     "valid": false,
     "description": "The Soulfire is a phenomena of the caster's spirit binding to a fragment of a spirit of flame.  This makes it possible for the Soulfire to use its namesake as an element - much like fire, it does burn, but it burns away at the soul instead of the flesh.",
     "spells_learned": [ [ "burn_at_both_ends", 5 ], [ "soul_afterburner", 5 ] ],
-    "enchantments": [ "SOULFIRE" ],
     "prereqs": [ "KELVINIST", "ANIMIST" ],
+    "enchantments": [ "SOULFIRE" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -944,7 +937,7 @@
     "description": "You've used your knowledge of Biomancy to change your body into a form befitting a Stormshaper.  You can better withstand the power of electricity, and sparks leap from your skin when something hits you.  You're beginning to study spells that utilize your body's affinity for the electric.",
     "prereqs": [ "STORMSHAPER", "BIOMANCER" ],
     "enchantments": [ "STORM_ELEMENTAL" ],
-    "spells_learned": [ [ "storm_chain_master", 5 ] ],
+    "spells_learned": [ [ "storm_chain_master", 5 ], [ "storm_elemental_electric_melee", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -964,7 +957,6 @@
       "RADIATION_MAGE",
       "SHAMAN",
       "SHAPESHIFTER",
-      "STORM_ELEMENTAL",
       "STORMCALLER",
       "SUN_MAGE",
       "TUNDRA_MAGE",
@@ -973,7 +965,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "STORMCALLER",
@@ -985,6 +977,7 @@
     "valid": false,
     "description": "A stormcaller is a stormshaper with an additional affinity toward the weather in a localized area.  Historians agree that the druid requirement has something to do with the Druid's affinity for nature, just like their ability to summon animals.  You will know a stormcaller is in the room if your ears pop and your hair stands straight on end.  Stormcallers are not known for their subtlety.",
     "prereqs": [ "STORMSHAPER", "DRUID" ],
+    "spells_learned": [ [ "electric_demon", 5 ], [ "electric_turret", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -1005,7 +998,6 @@
       "SHAMAN",
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
-      "STORMCALLER",
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
@@ -1013,7 +1005,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "ELECTRIC_IMMUNE" ]
   },
   {
     "id": "SUN_MAGE",
@@ -1025,12 +1017,11 @@
     "valid": false,
     "description": "The Sun Mage has been studying the Laws governing heat, and has attained a special relationship with that life-giving yellow orb in the sky.  Glimpses of the Sun meet its foes, and its own burning light pierces the darkness.",
     "prereqs": [ "MAGUS", "KELVINIST" ],
-    "passive_mods": { "per_mod": 5 },
     "enchantments": [ "SUN_MAGE" ],
-    "spells_learned": [ [ "solar_beam", 5 ] ],
+    "spells_learned": [ [ "solar_beam", 5 ], [ "sunmage_pocket_sun", 5 ] ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1049,7 +1040,6 @@
       "SHAPESHIFTER",
       "STORM_ELEMENTAL",
       "STORMCALLER",
-      "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
@@ -1068,6 +1058,7 @@
     "valid": false,
     "description": "The barren cold of the world's far reaches flows through the Tundra Mage.  They find power in the all-pervasive frost of the North and in the creatures that defy its deathly chill.",
     "prereqs": [ "DRUID", "KELVINIST" ],
+    "enchantments": [ "TUNDRA_MAGE" ],
     "spells_learned": [ [ "cold_snap", 5 ], [ "summon_winter_wolf", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -1091,7 +1082,6 @@
       "STORM_ELEMENTAL",
       "STORMCALLER",
       "SUN_MAGE",
-      "TUNDRA_MAGE",
       "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
@@ -1109,10 +1099,11 @@
     "valid": false,
     "description": "Where there is nothing, there is still power, and the Void Mages embody that power.  The ability to wield emptiness itself is at their fingertips, and no living creature can withstand the call of the void.",
     "prereqs": [ "ANIMIST", "KELVINIST" ],
+    "spells_learned": [ [ "voidmage_final_grasp", 5 ], [ "voidmage_horizon_vortex", 5 ] ],
     "enchantments": [ "VOID_MAGE" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BLOOD_MAGE",
       "BOREAL_MAGE",
       "CLEANSING_FLAME",
@@ -1133,7 +1124,6 @@
       "STORMCALLER",
       "SUN_MAGE",
       "TUNDRA_MAGE",
-      "VOID_MAGE",
       "VULCANIST",
       "SOULFIRE",
       "WITHER_MAGE"
@@ -1149,11 +1139,12 @@
     "purifiable": false,
     "valid": false,
     "description": "One of the most destructive forces on earth, a Volcano Mage takes some aspect of its namesake.  Their spells tend to be a little slow, but their resilience in proximity to a volcano is legendary.",
-    "spells_learned": [ [ "lava_bomb_main", 5 ] ],
+    "spells_learned": [ [ "lava_bomb_main", 5 ], [ "vulcanist_pyroclastic_flow", 5 ] ],
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
+    "enchantments": [ "VULCANIST" ],
     "cancels": [
       "ARTIFICER",
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BOREAL_MAGE",
       "CRUSADER",
@@ -1176,10 +1167,9 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "VULCANIST",
       "SOULFIRE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "HEAT_IMMUNE" ]
   },
   {
     "id": "WITHER_MAGE",
@@ -1191,9 +1181,10 @@
     "valid": false,
     "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.",
     "prereqs": [ "DRUID", "MAGUS" ],
-    "spells_learned": [ [ "assassin_strike", 5 ] ],
+    "enchantments": [ "WITHER_MAGE" ],
+    "spells_learned": [ [ "assassin_strike", 5 ], [ "life_drain", 5 ] ],
     "cancels": [
-      "AURA_MAGE",
+      "ALCHEMIST",
       "BIOTEK",
       "BLOOD_MAGE",
       "CRUSADER",
@@ -1215,8 +1206,7 @@
       "SUN_MAGE",
       "TUNDRA_MAGE",
       "VOID_MAGE",
-      "SOULFIRE",
-      "WITHER_MAGE"
+      "SOULFIRE"
     ],
     "flags": [ "ATTUNEMENT" ]
   }

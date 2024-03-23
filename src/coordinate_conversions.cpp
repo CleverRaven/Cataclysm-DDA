@@ -143,16 +143,6 @@ point ms_to_sm_remain( int &x, int &y )
     return point( divide( x, SEEX, x ), divide( y, SEEY, y ) );
 }
 
-point sm_to_ms_copy( const point &p )
-{
-    return point( p.x * SEEX, p.y * SEEY );
-}
-
-tripoint sm_to_ms_copy( const tripoint &p )
-{
-    return tripoint( p.x * SEEX, p.y * SEEY, p.z );
-}
-
 void sm_to_ms( int &x, int &y )
 {
     x *= SEEX;
@@ -183,4 +173,14 @@ point ms_to_omt_remain( int &x, int &y )
 tripoint omt_to_seg_copy( const tripoint &p )
 {
     return tripoint( divide( p.x, SEG_SIZE ), divide( p.y, SEG_SIZE ), p.z );
+}
+
+point sm_to_mmr_remain( int &x, int &y )
+{
+    return point( divide( x, MM_REG_SIZE, x ), divide( y, MM_REG_SIZE, y ) );
+}
+
+tripoint mmr_to_sm_copy( const tripoint &p )
+{
+    return tripoint( p.x * MM_REG_SIZE, p.y * MM_REG_SIZE, p.z );
 }

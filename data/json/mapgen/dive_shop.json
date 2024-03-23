@@ -1,0 +1,197 @@
+[
+  {
+    "id": "dive_shop_tanks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "small_scuba_tank", "prob": 40, "charges": [ 5, 20 ] },
+      { "item": "scuba_tank", "prob": 60, "charges": [ 10, 60 ] }
+    ]
+  },
+  {
+    "id": "dive_shop_books",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "manual_swimming", "prob": 100 },
+      { "item": "emergency_book", "prob": 50 },
+      { "item": "manual_first_aid", "prob": 20 },
+      { "item": "textbook_firstaid", "prob": 10 }
+    ]
+  },
+  {
+    "type": "palette",
+    "id": "dive_shop_palette",
+    "terrain": {
+      ".": "t_region_groundcover_urban",
+      "_": "t_pavement",
+      "v": "t_pavement",
+      ",": "t_pavement_y",
+      "s": "t_concrete",
+      "O": "t_window",
+      ")": "t_door_glass_c",
+      "+": "t_door_metal_c",
+      ":": "t_wall_glass",
+      "|": "t_wall_w",
+      "*": "t_thconc_y",
+      "~": "t_water_pool",
+      "<": "t_ladder_up",
+      "4": "t_gutter_downspout"
+    },
+    "furniture": {
+      "#": "f_counter",
+      "$": "f_counter_gate_c",
+      "c": "f_console_broken",
+      "D": "f_displaycase",
+      "R": "f_rack",
+      "]": "f_glass_cabinet",
+      "^": "f_indoor_plant",
+      "L": "f_stool",
+      "h": "f_chair",
+      "n": "f_table",
+      "b": "f_metal_bench",
+      "l": "f_locker",
+      "G": "f_bulletin",
+      "S": "f_sink",
+      "?": "f_shower",
+      "B": "f_workbench",
+      "3": "f_air_compressor"
+    },
+    "vendingmachines": { "W": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "vehicles": { "v": { "vehicle": "parking_garage_short", "rotation": 90, "chance": 33 } },
+    "toilets": { "t": {  } },
+    "items": {
+      "R": { "item": "SUS_scuba_gear", "chance": 10 },
+      "D": { "item": "SUS_scuba_gear", "chance": 40 },
+      "]": { "item": "swimmer_wetsuit", "chance": 80, "repeat": [ 0, 3 ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_dive_shop",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        ",__v_,__v_,__v_,__v_,sss",
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        "ssssssssssssssssssssssss",
+        "||OOO|OOO|||O)O|||OOO||.",
+        "|^       ^|      $   R|.",
+        "|   hhhh  |      #   R|.",
+        "|G  nnnn  +      # L R|.",
+        "|   hhhh  |      #   R|.",
+        "|         | ]]]] #DD R|.",
+        "||+||||+||||||||||||+||.",
+        "|t S|ll ll| **********|.",
+        "|||||bb bb| *~~~~~~~~*O.",
+        "|S  +     + *~~~~~~~~*O.",
+        "|| |||||||| *~~~~~~~~*|.",
+        "|? ?|  BBB| *~~~~~~~~*O.",
+        "|? ?|   L + *~~~~~~~~*O.",
+        "|? ?|3    | **********|.",
+        "|||||||||||||||+|||||||.",
+        ".4.............sssss<..."
+      ],
+      "palettes": [ "dive_shop_palette" ],
+      "place_items": [
+        { "item": "dive_shop_tanks", "x": 5, "y": [ 19, 20 ], "chance": 90, "repeat": [ 2, 8 ] },
+        { "item": "dive_shop_books", "x": [ 4, 7 ], "y": 11, "chance": 80, "repeat": [ 1, 5 ] },
+        { "item": "cash_register_random", "x": 17, "y": [ 10, 13 ], "chance": 100 }
+      ],
+      "place_monster": [ { "group": "GROUP_DIVING", "x": [ 12, 19 ], "y": [ 16, 20 ], "chance": 80, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_dive_shop",
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        ",__v_,__v_,__v_,__v_,sss",
+        ",____,____,____,____,sss",
+        ",____,____,____,____,sss",
+        "ssssssssssssssssssssssss",
+        "|||OOOOOO||))||OOOOOO||.",
+        "|]            ^RRRRRR^|.",
+        "|]   R R R            |.",
+        "|]   R R R            |.",
+        "|]   R R R            |.",
+        "|]   R R R   ###DDDD$#|.",
+        "|]           #L      ^|.",
+        "|]           |::::::::|.",
+        "|]   R R R   :        |.",
+        "|]   R R R   :  hhhhh |.",
+        "|]   R R R   )  nnnnn O.",
+        "|||| R R R   )  nnnnn O.",
+        "|S +         :G hhhhh |.",
+        "|t | ]]]]]   :        |.",
+        "|||||||||||||||+|OOO|||.",
+        ".4.............sssss<..."
+      ],
+      "palettes": [ "dive_shop_palette" ],
+      "place_items": [
+        { "item": "dive_shop_books", "x": [ 16, 20 ], "y": [ 18, 19 ], "chance": 80, "repeat": [ 2, 7 ] },
+        { "item": "cash_register_random", "x": 13, "y": [ 13, 14 ], "chance": 100 }
+      ],
+      "place_monster": [ { "group": "GROUP_CIVILIAN", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50, "repeat": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_dive_shop_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "-.....................- ",
+        "-.:...................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-.....................- ",
+        "-..............ooo..Я.- ",
+        "-....A.........ooo..Я.- ",
+        "-....MM........ooo....- ",
+        "-..................&..- ",
+        "-.....................- ",
+        "-5--------------------- ",
+        "                   #v## "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_tar_flat_roof" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 16 ], "y": [ 9, 12 ], "chance": 50, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "roof_2x2_golf", 5 ], [ "null", 85 ], [ "roof_3x3_wine", 10 ] ], "x": [ 13, 20 ], "y": 16 },
+        {
+          "chunks": [ [ "null", 40 ], [ "roof_4x4_party", 5 ], [ "roof_4x4_utility", 50 ], [ "roof_4x4_holdout", 3 ] ],
+          "x": [ 4, 13 ],
+          "y": [ 9, 11 ]
+        }
+      ]
+    }
+  }
+]

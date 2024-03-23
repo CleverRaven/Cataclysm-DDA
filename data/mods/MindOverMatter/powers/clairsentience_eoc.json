@@ -1,0 +1,124 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_RAD_SENSE",
+    "effect": [
+      {
+        "run_eoc_selector": [ "EOC_CLAIR_RAD_SENSE_SELF", "EOC_CLAIR_RAD_SENSE_OUTSIDE", "EOC_PORTAL_NULL_AWAKENING" ],
+        "names": [ "Check yourself", "Check your surroundings", "Nevermind" ],
+        "keys": [ "1", "2", "3" ],
+        "descriptions": [
+          "Cast your subtle senses over yourself, seeing if you are contaminated with radiation.",
+          "Open your inner eye, searching your environment for dangerous radiation.",
+          "Do nothing for now."
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_RAD_SENSE_SELF",
+    "effect": [ { "u_cast_spell": { "id": "clair_sense_rads_self" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_RAD_SENSE_OUTSIDE",
+    "effect": [
+      { "u_cast_spell": { "id": "clair_sense_rads_outside" } },
+      { "u_cast_spell": { "id": "clair_sense_rads_outside_spawn_item" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_RAD_SENSE_OUTSIDE_RECURRING",
+    "condition": { "u_has_effect": "effect_clair_sense_rads_self" },
+    "recurrence": 10,
+    "effect": [
+      { "u_remove_item_with": "clair_sense_rad_item" },
+      { "u_cast_spell": { "id": "clair_sense_rads_outside_spawn_item" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT",
+    "condition": { "math": [ "u_val('rad')", "<=", "0" ] },
+    "effect": [
+      {
+        "u_message": "Turning your senses on yourself, you see none of the insidious glow typical of radiation.  You are in the clear, for now.",
+        "type": "good"
+      }
+    ],
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_2",
+          "condition": { "and": [ { "math": [ "u_val('rad')", ">", "0" ] }, { "math": [ "u_val('rad')", "<=", "50" ] } ] },
+          "effect": [
+            {
+              "u_message": "Turning your senses on yourself, you see see a few dull glimmers, hidden deep in your flesh.  The damage is minimal for now, but you had best not let it fester.",
+              "type": "mixed"
+            }
+          ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_3",
+                "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "51" ] }, { "math": [ "u_val('rad')", "<=", "100" ] } ] },
+                "effect": [
+                  {
+                    "u_message": "Turning your senses on yourself, you see a dull glow along your core.  Your radiation is climbing, though it's still not in the danger zone.",
+                    "type": "bad"
+                  }
+                ],
+                "false_effect": {
+                  "run_eocs": [
+                    {
+                      "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_4",
+                      "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "101" ] }, { "math": [ "u_val('rad')", "<=", "200" ] } ] },
+                      "effect": [
+                        {
+                          "u_message": "Turning your senses on yourself, you see a faint glow spreading outward from your core to your limbs.  You're getting closer to dangerous levels--you should deal with it before it gets worse.",
+                          "type": "bad"
+                        }
+                      ],
+                      "false_effect": {
+                        "run_eocs": [
+                          {
+                            "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_5",
+                            "condition": { "and": [ { "math": [ "u_val('rad')", ">=", "201" ] }, { "math": [ "u_val('rad')", "<=", "500" ] } ] },
+                            "effect": [
+                              {
+                                "u_message": "Turning your senses on yourself, you see a glow along your bones.  You had best seek treatment, and soon.",
+                                "type": "bad",
+                                "popup": true
+                              }
+                            ],
+                            "false_effect": {
+                              "run_eocs": [
+                                {
+                                  "id": "EOC_CLAIR_RAD_SENSE_SELF_REPORT_6",
+                                  "condition": { "math": [ "u_val('rad')", ">=", "501" ] },
+                                  "effect": [
+                                    {
+                                      "u_message": "Turning your senses on yourself, you see a steady glow all along your muscles and bones.  You are in real trouble if you don't deal with your radiation immediately.",
+                                      "type": "bad",
+                                      "popup": true
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+]

@@ -1,12 +1,12 @@
 #if !defined(_MSC_VER)
-// the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <string>
 
+// the rewrite_vsnprintf function is explicitly defined for non-MS compilers in output.cpp
+#include "cata_catch.h"
 #include "output.h"
 
-TEST_CASE( "Test vsnprintf_rewrite" )
+TEST_CASE( "Test_vsnprintf_rewrite" )
 {
     CHECK( rewrite_vsnprintf( "%%hello%%" ) == "%%hello%%" );
     CHECK( rewrite_vsnprintf( "hello" ) == "hello" );

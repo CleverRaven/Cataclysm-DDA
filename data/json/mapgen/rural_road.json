@@ -1,0 +1,436 @@
+[
+  {
+    "type": "palette",
+    "id": "rural_road2",
+    "parameters": {
+      "road_terrain": { "type": "ter_str_id", "default": { "distribution": [ [ "t_region_soil", 3 ], [ "t_railroad_rubble", 1 ] ] } }
+    },
+    "terrain": {
+      "/": [ [ { "param": "road_terrain", "fallback": "t_region_soil" }, 40 ], [ "t_region_groundcover", 1 ] ],
+      "i": [
+        [
+          {
+            "switch": { "param": "road_terrain", "fallback": "t_region_soil" },
+            "cases": { "t_region_soil": "t_region_groundcover", "t_railroad_rubble": "t_region_soil" }
+          },
+          20
+        ],
+        [ "t_region_groundcover", 1 ]
+      ],
+      ".": [
+        [
+          {
+            "switch": { "param": "road_terrain", "fallback": "t_region_soil" },
+            "cases": { "t_region_soil": "t_null", "t_railroad_rubble": "t_region_soil" }
+          },
+          5
+        ],
+        [ "t_null", 1 ]
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_end",
+    "object": {
+      "predecessor_mapgen": "field",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_end" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_forest_end",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_end" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_rural_road_end",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "     .///ii/////.       ",
+        "     .///ii//////.      ",
+        "    ./////i///////.     ",
+        "    .//////////////.    ",
+        "    .////////ii/////.   ",
+        "    .///i/////ii/////.  ",
+        "   .///ii//////ii////.  ",
+        "   .///ii///i///ii///.  ",
+        "   .///ii///ii///ii///. ",
+        "   .///ii///ii///ii///. ",
+        "   .///ii///ii///ii///. ",
+        "   .///ii////////ii///. ",
+        "   .////ii//////iii///. ",
+        "   ./////ii///iiii///.  ",
+        "   .//////iiiii/////.   ",
+        "    ./////////////.     ",
+        "     .///////////.      ",
+        "      .////////..       ",
+        "       ........         "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "rural_road2" ],
+      "place_nested": [
+        { "chunks": [ "1x1_farm_vehicles" ], "x": 5, "y": 8, "neighbors": { "east": [ "paddock_end_UR" ] } },
+        {
+          "chunks": [ "24x24_dirt_road_turnback_paddock" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "paddock_end_UR" ] }
+        },
+        { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "west": [ "splitrail_fence" ] } },
+        { "chunks": [ "24x24_fence_gate" ], "x": 0, "y": 0, "neighbors": { "east": [ "splitrail_fence" ] } },
+        {
+          "chunks": [ "1x1_farm_house_parking" ],
+          "x": 15,
+          "y": 11,
+          "neighbors": { "east": [ "farm_horse_house_1" ] }
+        },
+        {
+          "chunks": [ "8x8_dirt_road_turnback_house" ],
+          "x": 16,
+          "y": 4,
+          "neighbors": { "east": [ "farm_horse_house_1" ] }
+        },
+        {
+          "chunks": [ "6x6_dirt_road_turnback_greenhouse" ],
+          "x": 9,
+          "y": 18,
+          "neighbors": { "south": [ "farm_horse_greenhouse" ] }
+        },
+        { "chunks": [ "15x15_dirt_road_turnback_yard" ], "x": 4, "y": 9, "neighbors": { "south": [ "yard" ] } }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_straight",
+    "object": {
+      "predecessor_mapgen": "field",
+      "place_nested": [ { "chunks": [ "24x24_rural_road_straight_meander_east", "24x24_rural_road_straight_meander_west" ], "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_forest_straight",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "place_nested": [ { "chunks": [ "24x24_rural_road_straight_meander_east", "24x24_rural_road_straight_meander_west" ], "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_rural_road_straight_meander_east",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "         .///ii///.     ",
+        "         .///ii///.     ",
+        "         .///ii///.     ",
+        "         .///ii///.     ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "        .///ii///.      ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "rural_road2" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_rural_road_straight_meander_west",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "      .////ii///.       ",
+        "      .///ii////.       ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "      .///ii///.        ",
+        "      .///ii////.       ",
+        "      .////ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "rural_road2" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_curved",
+    "object": {
+      "predecessor_mapgen": "field",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_curved" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_forest_curved",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_curved" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_rural_road_curved",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "               .........",
+        "           ..../////////",
+        "          ./////////////",
+        "         .//////////////",
+        "        .///////iiiiiiii",
+        "        .////iiiiiiiiiii",
+        "        .///iiii////////",
+        "        .///ii//////////",
+        "        .///ii//////////",
+        "       .////ii///.......",
+        "       .///ii////.      ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "rural_road2" ],
+      "place_nested": [ { "chunks": [ "dirtroad_to_farm_twd" ], "x": 0, "y": 0, "neighbors": { "west": "farm_dairy_twd_11" } } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_tee",
+    "object": {
+      "predecessor_mapgen": "field",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_tee" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_forest_tee",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_tee" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_rural_road_tee",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "        ...........     ",
+        "........///////////.....",
+        "////////////////////////",
+        "////////////////////////",
+        "//////////iiiiii////////",
+        "iiiii///iiiiiiiii///iiii",
+        "iiiii///iiiiiiii///iiiii",
+        "ii//////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "///../////ii//////......",
+        "...  .////ii/////.      ",
+        "      .///ii////.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       ",
+        "       .///ii///.       "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "rural_road2" ],
+      "place_nested": [
+        { "chunks": [ "dirtroad_to_farm_stills" ], "x": 0, "y": 0, "neighbors": { "north": "farm_stills_3" } },
+        { "chunks": [ "dirtroad_to_farm_2side" ], "x": 0, "y": 0, "neighbors": { "north": "2farm_11" } },
+        {
+          "chunks": [ "dirtroad_to_farm_parking" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": "dirt_road_farm_parking" }
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_four_way",
+    "object": {
+      "predecessor_mapgen": "field",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_four_way" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_road_forest_four_way",
+    "object": {
+      "predecessor_mapgen": "forest",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "place_nested": [ { "chunks": [ "24x24_rural_road_four_way" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_rural_road_four_way",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "      .////ii////.      ",
+        "     ./////ii/////.     ",
+        "    .//////ii//////.    ",
+        "   .///////ii///////.   ",
+        "  .////i///ii///i////.  ",
+        " .////ii///ii///ii////. ",
+        ".////iii///ii///iii////.",
+        "////iii////ii///iiii////",
+        "////////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "iiiiiii///ii///iiiiiiiii",
+        "iiiiiii///ii///iiiiiiiii",
+        "////////////////////////",
+        "////////////////////////",
+        "////////////////////////",
+        "////iii///ii///iiiii////",
+        ".////ii///ii///iiii////.",
+        " .////ii//ii////ii////. ",
+        "  .////i///ii///i////.  ",
+        "   .///////ii///////.   ",
+        "    .//////ii//////.    ",
+        "     ./////ii/////.     ",
+        "      .////ii////.      "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "rural_road2" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "dirt_road_farm_parking",
+    "object": {
+      "predecessor_mapgen": "field",
+      "rows": [
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .//////////.      ",
+        "      .///////i//.      ",
+        "      .//i///////.      ",
+        "      .///////i//.      ",
+        "      .//i////i//.      ",
+        "       .////////.       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "rural_road2" ],
+      "place_vehicles": [
+        { "vehicle": "farm_horse_vehicles", "x": [ 8, 9 ], "y": [ 9, 14 ], "rotation": 270, "status": 0, "chance": 100 },
+        {
+          "vehicle": "farm_horse_vehicles",
+          "x": [ 14, 15 ],
+          "y": [ 9, 14 ],
+          "rotation": 270,
+          "status": 0,
+          "chance": 25
+        }
+      ]
+    }
+  }
+]

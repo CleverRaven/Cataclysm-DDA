@@ -1,0 +1,600 @@
+[
+  {
+    "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tentacle_bounds_h",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "###        ###",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  }
+    }
+  },
+  {
+    "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tentacle_bounds_h1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "###           ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  }
+    }
+  },
+  {
+    "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tentacle_bounds_h2",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "           ###",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  }
+    }
+  },
+  {
+    "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tentacle_bounds_v",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "#             ",
+        "#             ",
+        "#             ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "#             ",
+        "#             ",
+        "#             "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  }
+    }
+  },
+  {
+    "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tentacle_bounds_v1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "#             ",
+        "#             ",
+        "#             ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  }
+    }
+  },
+  {
+    "//": "walls of tentacle wall that can shift from side to side to make the tunnel wind",
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "tentacle_bounds_v2",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rows": [
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "              ",
+        "#             ",
+        "#             ",
+        "#             "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_tentacle_straight",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 1, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
+      "furniture": {
+        " ": [
+          [ "f_null", 1000 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 28 ],
+          [ "f_nm_nether_grass_tall", 20 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      },
+      "place_nested": [
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 4 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 5 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 6 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 7 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 8 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 9 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 10 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 11 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 12 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 13 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 14 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 15 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 16 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 19 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 20 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 21 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 22 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 23 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_tentacle_end",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXxxxxxxxxxxxxxxxxXXXX",
+        "XXXxxxxxxxxxxxxxxxxxxXXX",
+        "XXTxxxxxxxxxxxxxxxxxxTXX",
+        "XTTxxTxxT      TxxTxxTTX",
+        "X@@xxTxxT      Txx@xx@@X",
+        "XX@xx@xT        Tx@xx@XX",
+        "XXX@x@@          @@x@XXX",
+        "XXXX@@            @@XXXX",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
+      "furniture": {
+        " ": [
+          [ "f_null", 1000 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 28 ],
+          [ "f_nm_nether_grass_tall", 20 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      },
+      "place_nested": [
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 12 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 13 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 14 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 15 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 16 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 19 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 20 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 21 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 22 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 23 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_tentacle_curved",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######                  ",
+        "######           #######",
+        "######           #######",
+        "######           #######",
+        "######           #######",
+        "######           #######",
+        "######           #######",
+        "######           #######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
+      "furniture": {
+        " ": [
+          [ "f_null", 1000 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 28 ],
+          [ "f_nm_nether_grass_tall", 20 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      },
+      "place_nested": [
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 7 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 8 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 9 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 10 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 11 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 12 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 13 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 14 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 15 },
+        { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 16 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 19 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 20 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 21 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 22 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 23 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 7 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 8 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 9 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 10 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 11 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 12 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 13 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 14 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 15 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 16 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 17 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 18 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 19 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 20 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 21 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 22 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 23 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_tentacle_tee",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######",
+        "######            ######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 8, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
+      "furniture": {
+        " ": [
+          [ "f_null", 1000 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 28 ],
+          [ "f_nm_nether_grass_tall", 20 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      },
+      "place_nested": [
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 19 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 20 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 21 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 22 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 23 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 0 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 1 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 2 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 3 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 4 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 5 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 6 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 7 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 8 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 9 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 10 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 11 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 12 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 13 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 14 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 15 },
+        { "chunks": [ "tentacle_bounds_v1" ], "y": [ 4, 6 ], "x": 16 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 17 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 18 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 19 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 20 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 21 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 22 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 23 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_tentacle_four_way",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######",
+        "#######          #######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
+      "place_monsters": [
+        {
+          "monster": "GROUP_NETHER_CORPSE_TENTACLES",
+          "x": [ 7, 18 ],
+          "y": [ 1, 23 ],
+          "chance": 70,
+          "repeat": [ 1, 2 ],
+          "density": 0.2
+        }
+      ],
+      "furniture": {
+        " ": [
+          [ "f_null", 1000 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 28 ],
+          [ "f_nm_nether_grass_tall", 20 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      },
+      "place_nested": [
+        { "chunks": [ "ant_up_to_surface" ], "joins": { "above": "tunnel_to_surface" }, "x": 11, "y": 11 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 4 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 5 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 6 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 19 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 20 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 21 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 22 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 23 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 0 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 1 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 2 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 3 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 4 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 5 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 6 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 17 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 18 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 19 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 20 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 21 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 22 },
+        { "chunks": [ "tentacle_bounds_v" ], "y": [ 4, 6 ], "x": 23 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "type": "terrain",
+    "id": "test_t_boltcut1",
+    "name": "Boltcut Test Terrain 1",
+    "description": "Boltcut terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "boltcut": { "result": "t_dirt", "duration": "10 seconds" }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_boltcut2",
+    "name": "Boltcut Test Terrain 2",
+    "description": "Boltcut terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "boltcut": {
+      "result": "t_dirt",
+      "duration": "5 seconds",
+      "byproducts": [ { "item": "test_rock", "count": 3 }, { "item": "test_2x4", "count": [ 7, 9 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_hacksaw1",
+    "name": "Hacksaw Test Terrain 1",
+    "description": "Hacksaw terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "hacksaw": { "result": "t_dirt", "duration": "10 minutes" }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_hacksaw2",
+    "name": "Hacksaw Test Terrain 2",
+    "description": "Hacksaw terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "hacksaw": {
+      "result": "t_dirt",
+      "duration": "5 minutes",
+      "byproducts": [ { "item": "test_rock", "count": 3 }, { "item": "test_2x4", "count": [ 7, 9 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_oxytorch1",
+    "name": "Oxytorch Test Terrain 1",
+    "description": "Oxytorch terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "oxytorch": { "result": "t_dirt", "duration": "10 seconds" }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_oxytorch2",
+    "name": "Oxytorch Test Terrain 2",
+    "description": "Oxytorch terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "5 seconds",
+      "byproducts": [ { "item": "test_rock", "count": 3 }, { "item": "test_2x4", "count": [ 7, 9 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying1",
+    "name": "Prying Test Terrain 1",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "prying": {
+      "result": "t_dirt",
+      "duration": "30 seconds",
+      "byproducts": [ { "item": "test_rock", "count": 3 }, { "item": "test_2x4", "count": [ 7, 9 ] } ],
+      "prying_data": { "prying_nails": true }
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying2",
+    "name": "Prying Test Terrain 2",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "prying": { "result": "t_dirt", "duration": "30 seconds", "prying_data": { "difficulty": 100 } }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying3",
+    "name": "Prying Test Terrain 3",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "prying": { "result": "t_dirt", "duration": "30 seconds", "prying_data": { "difficulty": 8, "prying_level": 2 } }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_prying4",
+    "name": "Prying Test Terrain 4",
+    "description": "Prying terrain with valid data.",
+    "symbol": "t",
+    "color": "blue",
+    "move_cost": 1,
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_dirt",
+      "items": [ { "item": "glass_shard", "count": [ 21, 29 ] } ]
+    },
+    "prying": { "result": "t_grass", "duration": "30 seconds", "prying_data": { "difficulty": 100, "breakable": true } }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_bash_persist",
+    "name": "Bash persistence furniture",
+    "description": "Testing that bashing data does not persist when terrain changes",
+    "symbol": "t",
+    "color": "blue",
+    "bash": {
+      "str_min": 4,
+      "str_max": 100,
+      "sound": "Tests testing!",
+      "sound_fail": "Tests testing!",
+      "ter_set": "test_t_pit_shallow"
+    },
+    "move_cost": 1
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_pit_shallow",
+    "name": "shallow pit",
+    "description": "test shallow pit",
+    "symbol": "0",
+    "color": "yellow",
+    "move_cost": 8,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "DIGGABLE_CAN_DEEPEN" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_pit",
+    "name": "pit",
+    "description": "test deep pit",
+    "symbol": "0",
+    "color": "brown",
+    "connect_groups": "PIT_DEEP",
+    "connects_to": "PIT_DEEP",
+    "move_cost": 10,
+    "trap": "tr_pit",
+    "flags": [ "TRANSPARENT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true },
+    "examine_action": "pit"
+  },
+  {
+    "type": "terrain",
+    "id": "test_t_window_no_curtains",
+    "name": "window without curtains",
+    "description": "barricadable window",
+    "symbol": "\"",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 60,
+    "roof": "t_flat_roof",
+    "flags": [ "BARRICADABLE_WINDOW" ]
+  }
+]

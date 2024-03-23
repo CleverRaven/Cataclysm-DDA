@@ -1,0 +1,290 @@
+"[C++]":
+  - "**/*.cpp"
+  - "**/*.h"
+
+"[JSON]":
+  - "**/*.json"
+
+"[Markdown]":
+  - "**/*.md"
+
+"Game: Achievements / Conducts / Scores":
+  - "**/scores**"
+  - "**/**statistics**"
+  - "**/statistics**"
+  - "**/**achievement**"
+  - "**/achievement**"
+  - "**/**conducts**"
+  - "**/conducts**"
+
+"[Python]":
+  - "**/*.py"
+
+"<Documentation>":
+  - "**/*.md"
+  - "doc/**"
+  - "doxygen_doc/**"
+
+"Code: Tooling":
+  - ".github/**"
+  - "utilities/**"
+  - any: ['tools/**', '!tools/spell_checker/dictionary.txt']
+
+"Code: Tests":
+  - "tests/**"
+  - "data/mods/TEST_DATA/**"
+
+"Character / World Generation":
+  - "**/newcharacter**"
+  - "**/worldfactory**"
+
+"Code: Build":
+  - "build-data/**"
+  - "build-scripts/**"
+  - "**/Makefile"
+  - "**/CMakeLists.txt"
+  - "**/*.cmake"
+
+"Code: Infrastructure / Style / Static Analysis":
+  - .astylerc
+  - .clang-tidy
+  - .editorconfig
+  - .lgtm.yml
+
+"Crafting / Construction / Recipes":
+  - "**/**crafting**"
+  - "**/crafting**"
+  - "**/**recipe**"
+  - "**/recipe**"
+  - "**/**construction**"
+  - "**/construction**"
+
+"EOC: Effects On Condition":
+  - "**/**effect_on_condition**"
+  - "**/effect_on_condition**"
+  - "**/**eoc**"
+  - "**/eoc**"
+  - "**/condition**"
+
+"Fields / Furniture / Terrain / Traps":
+  - "**/**furniture**"
+  - "**/furniture**"
+  - "**/**field**"
+  - "**/field**"
+  - "**/**terrain**"
+  - "**/terrain**"
+  - "**/**trap**"
+  - "**/trap**"
+
+"Items: Food / Vitamins":
+  - "**/**food**"
+  - "**/food**"
+  - "**/**comestible**"
+  - "**/comestible**"
+
+"NPC / Factions":
+  - "**/**npc**"
+  - "**/npc**"
+  - "**/**NPC**"
+  - "**/NPC**"
+
+"Melee":
+  - "**/**melee**"
+  - "**/melee**"
+  - "**/**techniques**"
+  - "**/techniques**"
+
+"Missions":
+  - "**/**mission**"
+  - "**/mission**"
+
+"Info / User Interface":
+  - "src/**ui**"
+  - "**/ui/**"
+  - "**/**widget**"
+  - "**/widget**"
+  - "**/**view**"
+  - "**/view**"
+
+"Items: Archery":
+  - "**/archery**"
+  - "**/crossbow**"
+
+"Items: Armor / Clothing":
+  - "**/**armor**"
+  - "**/armor**"
+  - "**/armor/**"
+
+"Items: Battery / UPS":
+  - "**/**battery**"
+  - "**/battery**"
+
+"Items: Containers":
+  - "**/container**"
+  - "**/**pocket**"
+  - "**/pocket**"
+  - "**/**contents**"
+  - "**/contents**"
+
+"Items: Magazines":
+  - "**/**magazine**"
+  - "**/magazine**"
+
+"Appliance/Power Grid":
+  - "**/**appliance**"
+  - "**/appliance**"
+
+"Monsters":
+  - "**/**monster**"
+  - "**/monster**"
+  - "**/**monsters**"
+  - "**/monsters**"
+
+"Mutations / Traits / Professions/ Hobbies":
+  - "**/**profession**"
+  - "**/profession**"
+  - "**/**mutation**"
+  - "**/mutation**"
+  - "**/hobbies**"
+
+"Lore":
+  - data/json/npcs/BG_trait_groups.json
+  - data/json/npcs/Personality_trait_groups.json
+  - data/json/npcs/personality_traits.json
+  - "**/**Backgrounds**"
+  - "**/Backgrounds**"
+  - "**/**snippets**"
+  - "**/snippets**"
+
+"Limbs":
+  - "**/**bodypart**"
+  - "**/bodypart**"
+  - "data/json/limb_scores.json"
+
+"Spawn":
+  - "**/**itemgroup**"
+  - "**/itemgroup**"
+  - "**/itemgroups/**"
+  - "**/**monstergroup**"
+  - "**/monstergroup**"
+  - "**/monstergroups/**"
+
+"Bionics":
+  - "**/bionic**"
+  - "**/**bionic**"
+
+"Map / Mapgen":
+  - "**/**mapgen**"
+  - "**/mapgen**"
+  - "**/mapgen/**"
+  - "**/**overmap**"
+  - "**/overmap**"
+  - "**/overmap/**"
+  - "data/json/regional_map_settings.json"
+
+"Martial Arts":
+  - "**/martialart**"
+
+"Player Faction Base / Camp":
+  - "**/basecamp**"
+  - "**/faction_camp**"
+
+"Items: Ammo / Guns":
+  - "**/**gun**"
+  - "**/gun**"
+  - "**/**ammo**"
+  - "**/ammo**"
+
+"Items: Gunmod / Toolmod":
+  - "**/**gunmod**"
+  - "**/gunmod**"
+  - "**/**toolmod**"
+  - "**/toolmod**"
+
+"SDL: Tiles / Sound":
+  - "gfx/**"
+  - "sound/**"
+
+"Scenarios":
+  - "**/scenario**"
+  - "**/start_location**"
+
+"Translation":
+  - "lang/**"
+  - "**/**translation**"
+  - "**/translation**"
+
+"Mods: Bombastic Perks":
+  - data/mods/BombasticPerks/**/*
+
+"Mods: Aftershock":
+  - data/mods/Aftershock/**/*
+  - data/mods/aftershock_exoplanet/**/*
+
+"Mods: Dark Days of the Dead":
+  - data/mods/classic_zombies/**/*
+
+"Mods: Dark Skies":
+  - data/mods/Dark-Skies-Above/**/*
+
+"Mods: Desert Region":
+  - data/mods/desert_region/**/*
+
+"Mods: DinoMod":
+  - data/mods/DinoMod/**/*
+
+"Mods: Generic Guns":
+  - data/mods/Generic_Guns/**/*
+
+"Mods: MA":
+  - data/mods/MA/**/*
+
+"Mods: MMA":
+  - data/mods/MMA/**/*
+
+"Mods: Magiclysm":
+  - data/mods/Magiclysm/**/*
+
+"Mods: Innawood 🌲":
+  - data/mods/innawood/**/*
+
+"Mods: No Hope":
+  - data/mods/No_Hope/**/*
+
+"Mods: TropiCataclysm 🌴":
+  - data/mods/TropiCataclysm/**/*
+
+"Mods: Tamable Wildlife":
+  - data/mods/Tamable_Wildlife/**/*
+
+"Mods: Xedra Evolved":
+  - data/mods/Xedra_Evolved/**/*
+
+"Mods: Mind Over Matter":
+  - data/mods/MindOverMatter/**/*
+
+"Mods: Sky Island":
+  - data/mods/Sky_Island/**/*
+
+"Mods":
+  - any: [ 'data/mods/**' ]
+    all: [ '!data/mods/TEST_DATA/**' ]
+
+"Mechanics: Enchantments / Spells":
+  - "**/**enchantment**"
+  - "**/enchantment**"
+  - "**/**spells**"
+  - "**/spells**"
+  - "**/Spells/**"
+  - any: ['**/**spell**', '!tools/**']
+
+"Mechanics: Weather":
+  - "**/weather**"
+
+"Vehicles":
+  - "**/**vehicle**"
+  - "**/vehicle**"
+  - "src/veh_**"
+ 
+"Game: Defense Mode":
+  - "data/mods/Defense_Mode/**"

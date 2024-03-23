@@ -16,12 +16,16 @@
     "id": "NC_ISHERWOOD_LISA",
     "name": { "str": "Lisa Isherwood" },
     "job_description": "Part of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_female_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
     "skills": [
       {
         "skill": "ALL",
@@ -40,7 +44,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "I see that badge, I think you need to keep on walking, straight off this property.",
-      "no": { "u_male": true, "yes": "Hello, what brings you here?", "no": "Hi, what brings you here?" }
+      "no": "Hi, what brings you here?"
     },
     "responses": [
       {
@@ -50,7 +54,7 @@
         "condition": { "u_is_wearing": "badge_marshal" }
       },
       {
-        "text": "Hi, this is a nice farm, your family live here?",
+        "text": "Hi, this is a nice farm, your family lives here?",
         "topic": "TALK_ISHERWOOD_LISA_TALK1",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },

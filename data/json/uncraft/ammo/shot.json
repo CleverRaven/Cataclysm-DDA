@@ -7,8 +7,7 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 11 ] ], [ [ "lead", 11 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 11 ] ], [ [ "lead", 11 ] ] ]
   },
   {
     "result": "shot_beanbag",
@@ -18,8 +17,7 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 2 ] ], [ [ "rubber_slug", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 2 ] ], [ [ "rubber_slug", 1 ] ] ]
   },
   {
     "result": "shot_bird",
@@ -29,8 +27,7 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 15 ] ], [ [ "lead", 10 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 15 ] ], [ [ "lead", 10 ] ] ]
   },
   {
     "result": "shot_dragon",
@@ -40,8 +37,7 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 15 ] ], [ [ "magnesium", 5 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 15 ] ], [ [ "magnesium", 5 ] ] ]
   },
   {
     "result": "shot_flechette",
@@ -51,8 +47,7 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 8 ] ], [ [ "combatnail", 10 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 8 ] ], [ [ "combatnail", 10 ] ] ]
   },
   {
     "type": "uncraft",
@@ -63,8 +58,7 @@
     "time": "50 s",
     "//": "A little more carefully...",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 8 ] ], [ [ "chem_rdx", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 8 ] ], [ [ "chem_rdx", 1 ] ] ]
   },
   {
     "result": "shot_slug",
@@ -74,7 +68,6 @@
     "difficulty": 5,
     "time": "1 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 17 ] ], [ [ "lead", 10 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder_shotgun", 17 ] ], [ [ "lead", 10 ] ] ]
   }
 ]

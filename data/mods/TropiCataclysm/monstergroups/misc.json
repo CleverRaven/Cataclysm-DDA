@@ -1,0 +1,45 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DOMESTIC",
+    "default": "mon_dog",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_guinea_fowl", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 12 ] },
+      { "monster": "mon_llama", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 8 ] },
+      { "monster": "mon_camel", "weight": 50, "cost_multiplier": 25, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_guinea_pig", "weight": 10, "cost_multiplier": 25, "pack_size": [ 1, 6 ] },
+      { "monster": "mon_quail", "weight": 50, "cost_multiplier": 10, "pack_size": [ 1, 16 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SAFE",
+    "is_safe": true,
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_tapir", "weight": 10 },
+      { "monster": "mon_capybara", "weight": 10 },
+      { "monster": "mon_guinea_pig", "weight": 10 },
+      { "monster": "mon_bushdog", "weight": 10 },
+      { "monster": "mon_guinea_fowl", "weight": 10 },
+      { "monster": "mon_quail", "weight": 10 },
+      { "monster": "mon_camel", "weight": 10 },
+      { "monster": "mon_boa", "weight": 10 },
+      { "monster": "mon_anaconda", "weight": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SUBWAY",
+    "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
+    "default": "mon_spider_cellar_giant",
+    "monsters": [
+      { "monster": "mon_caecilian", "weight": 180, "ends": "180 hours" },
+      { "monster": "mon_caecilian_small", "weight": 180, "starts": "180 hours", "ends": "360 hours" },
+      { "monster": "mon_minhocao", "weight": 180, "starts": "360 hours" },
+      { "monster": "mon_onicophore", "weight": 180, "ends": "180 hours" },
+      { "monster": "mon_onicophore_giant", "weight": 180, "starts": "180 hours" }
+    ]
+  }
+]

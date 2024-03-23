@@ -1,0 +1,253 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_radio_tower_0",
+    "blueprint_provides": [
+      { "id": "fbmc_radio_tower_0" },
+      { "id": "fbmc_radio_tower" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "gathering" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_1_0",
+    "description": "We should survey the base site and set up a bulletin board.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmc_radio_tower_1",
+    "blueprint_provides": [
+      { "id": "fbmc_radio_tower_1" },
+      { "id": "fbmc_radio_tower" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "gathering" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_root_cellar",
+    "description": "Digging a root cellar will give us a way to preserve food.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_root_cellar",
+    "blueprint_name": "root cellar",
+    "blueprint_provides": [ { "id": "pantry" }, { "id": "trapping" }, { "id": "fbmc_radio_tower_root_cellar" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_root_cellar" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_water_well",
+    "description": "Digging a well will give us easy access to water.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_water_well",
+    "blueprint_name": "water well",
+    "blueprint_provides": [ { "id": "relaying" }, { "id": "fbmc_radio_tower_water_well" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_water_well" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_fix_controls",
+    "description": "Let's fix up radio tower and controls to improve our recruitment efforts.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_fix_controls",
+    "blueprint_name": "fix radio tower and controls",
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_water_well" }, { "id": "fbmc_radio_tower_root_cellar" } ],
+    "blueprint_provides": [
+      { "id": "fbmc_radio_tower_fix_controls" },
+      { "id": "recruiting" },
+      { "id": "scouting" },
+      { "id": "patrolling" },
+      { "id": "radio" }
+    ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_fix_controls" } ],
+    "blueprint_needs": {
+      "time": "10 h",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M" } ], [ { "id": "SCREW" } ], [ { "id": "WRENCH" } ] ],
+        "components": [
+          [
+            [ "wind_turbine", 4 ],
+            [ "xl_wind_turbine", 1 ],
+            [ "solar_panel", 4 ],
+            [ "reinforced_solar_panel", 4 ],
+            [ "solar_panel_v2", 2 ],
+            [ "reinforced_solar_panel_v2", 2 ]
+          ],
+          [ [ "storage_battery", 1 ], [ "medium_storage_battery", 4 ], [ "small_storage_battery", 32 ] ],
+          [ [ "processor", 1 ] ],
+          [ [ "RAM", 1 ] ],
+          [ [ "large_lcd_screen", 1 ] ],
+          [ [ "e_scrap", 2 ] ],
+          [ [ "circuit", 2 ] ],
+          [ [ "power_supply", 1 ] ],
+          [ [ "amplifier", 1 ] ],
+          [ [ "cable", 160 ] ]
+        ]
+      }
+    },
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_0_prepalisade",
+    "description": "We should dig pits for palisade around camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_0_prepalisade",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_0_prepalisade" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_0" }, { "id": "fbmc_radio_tower_shack_5" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_prepalisade" } ],
+    "blueprint_name": "dig pits"
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_1_prepalisade",
+    "description": "We should dig pits for palisade around camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_1_prepalisade",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_1_prepalisade" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_1" }, { "id": "fbmc_radio_tower_shack_8" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_prepalisade" } ],
+    "blueprint_name": "dig pits"
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_0_palisade",
+    "description": "We should build palisade around camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_0_palisade",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_0_palisade" }, { "id": "fbmc_radio_tower_palisade" }, { "id": "walls" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_0_prepalisade" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_palisade" } ],
+    "blueprint_name": "build palisade"
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_1_palisade",
+    "description": "We should build palisade around camp.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_radio_tower_1_palisade",
+    "blueprint_provides": [ { "id": "fbmc_radio_tower_1_palisade" }, { "id": "fbmc_radio_tower_palisade" }, { "id": "walls" } ],
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_1_prepalisade" } ],
+    "blueprint_excludes": [ { "id": "fbmc_radio_tower_palisade" } ],
+    "blueprint_name": "build palisade"
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_radio_tower_fix_tower",
+    "description": "We could try to fix whole tower and supply it with enough power, which could give us remote access to computer systems connected to backbone network or communication satellites.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "faction_base_radio_tower_fix_tower",
+    "blueprint_name": "fix whole radio tower",
+    "blueprint_requires": [ { "id": "fbmc_radio_tower_palisade" }, { "id": "fbmc_radio_tower_fix_controls" } ],
+    "blueprint_provides": [
+      { "id": "faction_base_radio_tower_fix_tower" },
+      { "id": "hack_recipes_general" },
+      { "id": "hack_recipes_science" },
+      { "id": "hack_recipes_satellite" }
+    ],
+    "blueprint_excludes": [ { "id": "faction_base_radio_tower_fix_tower" } ],
+    "using": [ [ "soldering_standard", 200 ], [ "welding_standard", 80 ] ],
+    "blueprint_needs": {
+      "time": "3 d",
+      "skills": [ [ "fabrication", 3 ], [ "computer", 4 ], [ "electronics", 8 ] ],
+      "inline": {
+        "tools": [ [ [ "laptop", 600 ] ], [ [ "radio_book", -1 ] ] ],
+        "qualities": [
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_M" } ],
+          [ { "id": "SCREW" } ],
+          [ { "id": "SCREW_FINE" } ],
+          [ { "id": "WRENCH", "level": 2 } ],
+          [ { "id": "WRENCH_FINE" } ],
+          [ { "id": "GLARE", "level": 1 } ]
+        ],
+        "components": [
+          [
+            [ "wind_turbine", 16 ],
+            [ "xl_wind_turbine", 4 ],
+            [ "solar_panel", 16 ],
+            [ "reinforced_solar_panel", 16 ],
+            [ "solar_panel_v2", 8 ],
+            [ "reinforced_solar_panel_v2", 8 ]
+          ],
+          [ [ "storage_battery", 4 ], [ "medium_storage_battery", 16 ] ],
+          [ [ "sheet_metal", 8 ], [ "wire", 32 ] ],
+          [ [ "pipe", 24 ] ],
+          [ [ "processor", 16 ] ],
+          [ [ "RAM", 16 ] ],
+          [ [ "e_scrap", 40 ] ],
+          [ [ "frame", 1 ] ],
+          [ [ "circuit", 32 ] ],
+          [ [ "power_supply", 16 ] ],
+          [ [ "amplifier", 16 ] ],
+          [ [ "cable", 400 ] ],
+          [ [ "software_electronics_reference", 1 ] ]
+        ]
+      }
+    },
+    "check_blueprint_needs": false
+  }
+]

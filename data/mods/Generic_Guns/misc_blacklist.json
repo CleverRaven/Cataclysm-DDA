@@ -1,0 +1,7 @@
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "whitelist": false,
+    "items": [ "box_retool_huge", "box_retool_large", "box_retool_sbr", "box_retool_sbr_micro", "box_retool", "retool_instructions" ]
+  }
+]

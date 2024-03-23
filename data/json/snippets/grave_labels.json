@@ -2,6 +2,7 @@
   {
     "type": "snippet",
     "category": "grave_label",
+    "//": "these labels are meant for graves made during or after the initial cataclysm, riots, or portal storm craziness and are not meant for pre-apocalypse grave sites.",
     "text": [
       "Here lies our beloved friend",
       "Here lies my best friend",
@@ -10,12 +11,34 @@
       "Sorry I couldn't save you",
       "Sorry we failed you",
       "Sorry I failed you",
-      "<illegible text>",
+      "<lt>illegible text<gt>",
       "I will always remember you",
       "We will always remember you",
       "This was all my fault",
       "This was all our fault",
-      "I hope you feel better up there"
+      "I hope you feel better up there",
+      "You won't suffer no more",
+      "You were the best of us",
+      "And when the earth shall claim your limbs, then shall you truly dance",
+      "The song is ended but the melody lingers on",
+      "Step softly, a dream lies buried here",
+      "Miss you Mom",
+      "Miss you Dad",
+      "May you never walk again, may I not kill you again",
+      "Vita mutatur non tollitur",
+      "Let your hunger calm down",
+      "The child is the father of the man",
+      "Now we learned that death is a gift",
+      "I held you your whole life",
+      "So small, so sweet, so soon",
+      "Ours for a little while",
+      "You died for us, we'll live for you",
+      "Sorry, you had it coming",
+      "<lt>nothing is written here<gt>",
+      "Didn't have to end like this",
+      "Should've left your corpse where it lay, but I'm afraid it'd rise again and I'd have to put you down again",
+      "I wish you could've seen reason",
+      "A lesser man would've let you turn"
     ]
   }
 ]

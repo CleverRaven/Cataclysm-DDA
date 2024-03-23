@@ -1,0 +1,258 @@
+[
+  {
+    "id": "stamina_fatigue_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Fatigue",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph", "fatigue_graph" ]
+  },
+  {
+    "id": "stats_narrow_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stats",
+    "arrange": "rows",
+    "widgets": [ "mood_focus_layout", "move_speed_layout", "str_dex_layout", "int_per_layout" ]
+  },
+  {
+    "id": "speed_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Speed/Focus",
+    "arrange": "columns",
+    "widgets": [ "speed_num", "focus_num" ]
+  },
+  {
+    "id": "weapon_style_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weapon/Style",
+    "arrange": "rows",
+    "widgets": [ "wielding_desc", "style_desc" ]
+  },
+  {
+    "id": "needs_desc_layout_label",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "rows",
+    "widgets": [
+      "hunger_desc_label",
+      "thirst_desc_label",
+      "weight_desc_label",
+      "fatigue_desc_label",
+      "pain_desc_label",
+      "body_temp_desc_label"
+    ]
+  },
+  {
+    "id": "needs_desc_sa_layout_label",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs",
+    "arrange": "rows",
+    "widgets": [
+      "hunger_desc_label",
+      "thirst_desc_label",
+      "weight_desc_label",
+      "fatigue_desc_label",
+      "pain_num_label",
+      "body_temp_desc_label"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "needs_desc_layout_no_label",
+    "type": "widget",
+    "style": "layout",
+    "label": "Needs (self-aware)",
+    "arrange": "rows",
+    "widgets": [
+      "hunger_desc_no_label",
+      "thirst_desc_no_label",
+      "weight_desc_no_label",
+      "fatigue_desc_no_label",
+      "pain_desc_no_label",
+      "body_temp_desc_no_label"
+    ]
+  },
+  {
+    "id": "stamina_speed_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Speed",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "speed_num" ]
+  },
+  {
+    "id": "stamina_speed_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Speed/Move",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "speed_num", "move_num" ]
+  },
+  {
+    "id": "stamina_activity_weary_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Weariness",
+    "arrange": "rows",
+    "widgets": [ "stamina_graph", "activity_desc", "weariness_desc", "weary_malus_desc" ]
+  },
+  {
+    "id": "mood_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mood/Focus",
+    "arrange": "columns",
+    "widgets": [ "mood_desc_label", "focus_num" ]
+  },
+  {
+    "id": "stamina_fatigue_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Fatigue/Focus",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "fatigue_graph", "focus_num" ]
+  },
+  {
+    "id": "move_speed_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move/Speed",
+    "arrange": "columns",
+    "widgets": [ "move_num", "speed_num" ]
+  },
+  {
+    "id": "move_cost_mode_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move Cost/Mode",
+    "arrange": "columns",
+    "widgets": [ "move_cost_num", "move_mode_desc" ]
+  },
+  {
+    "id": "move_count_cost_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move count/cost",
+    "arrange": "columns",
+    "widgets": [ "move_num", "move_cost_num" ]
+  },
+  {
+    "id": "move_mode_speed_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Move mode/speed",
+    "arrange": "columns",
+    "widgets": [ "move_mode_desc", "speed_num" ]
+  },
+  {
+    "id": "movement_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Movement",
+    "arrange": "rows",
+    "widgets": [ "move_count_cost_layout", "move_mode_speed_layout" ]
+  },
+  {
+    "id": "safe_sound_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Safe/Sound",
+    "arrange": "columns",
+    "widgets": [ "safe_mode_desc", "sound_num" ]
+  },
+  {
+    "id": "pain_health_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Pain/Health",
+    "arrange": "columns",
+    "widgets": [ "pain_num_label", "health_num" ]
+  },
+  {
+    "id": "stamina_cardio_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Stamina/Cardio",
+    "arrange": "columns",
+    "widgets": [ "stamina_num_label", "cardio_fit_num" ]
+  },
+  {
+    "id": "vital_numbers_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Vital Numbers",
+    "//": "Shows numerical values for attributes normally hidden or obfuscated. Disabled by default.",
+    "arrange": "rows",
+    "widgets": [ "pain_health_num_layout", "stamina_cardio_num_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "sound_fatigue_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sound/Fatigue/Focus",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "fatigue_graph", "focus_num" ]
+  },
+  {
+    "id": "sound_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sound/Focus",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "focus_num" ]
+  },
+  {
+    "id": "sound_mood_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sound/Mood",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "mood_desc_label" ]
+  },
+  {
+    "id": "sound_mood_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Sound/Mood/Focus",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "mood_desc_label", "focus_num" ]
+  },
+  {
+    "id": "wind_temp_layout",
+    "type": "widget",
+    "label": "Wind/Temp",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wind_desc", "env_temp_desc" ]
+  },
+  {
+    "id": "light_moon_wind_temp_layout",
+    "type": "widget",
+    "label": "Environment",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "lighting_desc", "moon_phase_desc", "wind_desc", "env_temp_desc" ]
+  },
+  {
+    "id": "all_location_info_rows_layout",
+    "type": "widget",
+    "label": "Location",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "place_desc", "lighting_desc", "weather_desc", "moon_phase_desc", "date_desc_label", "time_desc_label" ]
+  },
+  {
+    "id": "place_date_time_layout",
+    "type": "widget",
+    "label": "Place/Date/Time",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "place_desc", "date_desc_label", "time_desc_label" ]
+  }
+]

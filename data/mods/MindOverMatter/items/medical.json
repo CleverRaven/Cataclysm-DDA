@@ -1,0 +1,70 @@
+[
+  {
+    "id": "psionic_instability_remover",
+    "name": { "str_sp": "morphic resilience cream" },
+    "description": "An extremely thick cream that will \"enhance your resilience to the deleterious effects of XE037 overexposure\" if you rub it on your skin.  It smells like nail polish somehow gone rotten, and even touching it makes your fingertips itch terribly.",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "weight": "265 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "price_postapoc": 3000,
+    "fun": -3,
+    "symbol": "q",
+    "container": "bottle_plastic_small",
+    "color": "blue",
+    "flags": [ "EATEN_COLD" ],
+    "phase": "solid",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Rub the cream on your skin.",
+      "effect_on_conditions": [ "EOC_INSTABILITY_CREAM" ]
+    }
+  },
+  {
+    "id": "psionic_purifier_vita",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "morphic reversion serum" },
+    "description": "A faintly-glowing green liquid, the document you found told you that this would \"restore your morphology to baseline\", whatever that means.",
+    "weight": "20 g",
+    "volume": "10ml",
+    "charges": 1,
+    "price": 1200000,
+    "price_postapoc": 3000,
+    "material": [ "nether_crystal", "alien_liquid" ],
+    "phase": "liquid",
+    "container": "flask_glass",
+    "symbol": "!",
+    "color": "green",
+    "vitamins": [  ],
+    "healthy": -4,
+    "flags": [ "SINGLE_USE" ],
+    "use_action": [ "PURIFY_SMART" ]
+  },
+  {
+    "id": "psi_noetic_resilience_treatment",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "noetic resilience treatment" },
+    "description": "A clear liquid, designed to alleviate some of the unpredictable effects of excessive psionic channeling.",
+    "weight": "20 g",
+    "volume": "10ml",
+    "charges": 1,
+    "price": 1200000,
+    "price_postapoc": 3000,
+    "material": [ "nether_crystal", "alien_liquid" ],
+    "phase": "liquid",
+    "container": "flask_glass",
+    "symbol": "!",
+    "color": "white",
+    "vitamins": [  ],
+    "healthy": -4,
+    "flags": [ "SINGLE_USE" ],
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Inject the concoction.",
+      "effect_on_conditions": [ "EOC_DRAIN_RESIST_POTION" ]
+    }
+  }
+]

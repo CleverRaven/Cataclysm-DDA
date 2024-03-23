@@ -1,0 +1,55 @@
+[
+  {
+    "copy-from": "leather_journal",
+    "type": "TOOL",
+    "name": { "str": "leather journal" },
+    "looks_like": "book_nonf_soft_psych_cggamers",
+    "use_action": [ "CALORIES_INTAKE_TRACKER" ],
+    "extend": { "flags": [ "TRADER_AVOID", "CALORIES_INTAKE" ] }
+  },
+  {
+    "id": "light_battery_shell",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "light battery shell" },
+    "description": "This is the outer casing of a light battery.  It will need to be refilled to be useful.",
+    "ascii_picture": "light_battery_cell",
+    "weight": "10 g",
+    "volume": "35 ml",
+    "price_postapoc": 100,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "looks_like": "battery"
+  },
+  {
+    "id": "medium_battery_shell",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "medium battery shell" },
+    "description": "This is the outer casing of a medium battery.  It will need to be refilled to be useful.",
+    "ascii_picture": "medium_battery_cell",
+    "weight": "175 g",
+    "volume": "525 ml",
+    "price_postapoc": 250,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "looks_like": "battery"
+  },
+  {
+    "id": "heavy_battery_shell",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "heavy battery shell" },
+    "description": "This is the outer casing of a heavy battery.  It will need to be refilled to be useful.",
+    "ascii_picture": "heavy_battery_cell",
+    "weight": "450 g",
+    "volume": "1500 ml",
+    "price_postapoc": 375,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "looks_like": "battery"
+  }
+]

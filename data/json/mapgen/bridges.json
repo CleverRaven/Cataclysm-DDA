@@ -3,9 +3,6 @@
     "type": "palette",
     "id": "bridge_ground_palette",
     "terrain": {
-      ",": "t_region_soil",
-      "s": "t_water_moving_sh",
-      "~": "t_water_moving_dp",
       ".": "t_pavement",
       ":": "t_pavement_y",
       "_": "t_sidewalk",
@@ -44,33 +41,34 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridge" ],
+    "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
-      "fill_ter": "t_water_moving_dp",
+      "fallback_predecessor_mapgen": "river_center",
       "rows": [
-        "~~~~~~~~s######s~~~~~~~~",
-        "~~~~~~~~ss####ss~~~~~~~~",
-        "~~~~~~~~~ss##ss~~~~~~~~~",
-        "~~~~~~~~~~ssss~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~ssss~~~~~~~~~~",
-        "~~~~~~~~~ss##ss~~~~~~~~~",
-        "~~~~~~~~ss####ss~~~~~~~~",
-        "~~~~~~~~s######s~~~~~~~~"
+        "         ######         ",
+        "          ####          ",
+        "           ##           ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ##           ",
+        "          ####          ",
+        "         ######         "
       ],
       "palettes": [ "bridge_ground_palette" ]
     }
@@ -79,6 +77,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridge_road" ],
+    "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -107,48 +106,77 @@
         "  =_.......::......._=  ",
         "  =_.......::......._=  "
       ],
-      "palettes": [ "bridge_road_palette" ]
+      "palettes": [ "bridge_road_palette" ],
+      "place_nested": [
+        { "chunks": [ "24x24_bridge_road_trash" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_bridge_road_vehicles" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridgehead_ground" ],
+    "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
-      "fill_ter": "t_water_moving_dp",
+      "fallback_predecessor_mapgen": "river_north",
       "rows": [
-        ",,__................__,,",
-        ",,__.......::.......__,,",
-        ",,__.......::.......__,,",
-        ",,__.......::.......__,,",
-        "ss=_................_=ss",
-        "ss=_.......::......._=ss",
-        "ss=_.......::......._=ss",
-        "ss=_.......::......._=ss",
-        "ss=_................_=ss",
-        "ss=_.......::......._=ss",
-        "ss=_.......::......._=ss",
-        "ss=_.......::......._=ss",
-        "ss=_................_=ss",
-        "ss=wuuuuuuuuuuuuuuuuw=ss",
-        "ss=<UUUUUUUUUUUUUUUU<=ss",
-        "ss####################ss",
-        "ss####################ss",
-        "ssssssssssssssssssssssss",
-        "~~ssssssssssssssssssss~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~ssss~~~~~~~~~~",
-        "~~~~~~~~~ss##ss~~~~~~~~~",
-        "~~~~~~~~ss####ss~~~~~~~~",
-        "~~~~~~~~s######s~~~~~~~~"
+        "  __................__  ",
+        "  __.......::.......__  ",
+        "  __.......::.......__  ",
+        "  __.......::.......__  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_.......::......._=  ",
+        "  =_................_=  ",
+        "  =wuuuuuuuuuuuuuuuuw=  ",
+        "  =<UUUUUUUUUUUUUUUU<=  ",
+        "  ####################  ",
+        "  ####################  ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
       ],
-      "palettes": [ "bridge_ground_palette" ]
+      "palettes": [ "bridge_ground_palette" ],
+      "place_nested": [
+        { "chunks": [ "24x24_bridgehead_ground_trash" ], "x": 0, "y": 0 },
+        { "chunks": [ "24x24_bridgehead_ground_vehicles" ], "x": 0, "y": 0 },
+        {
+          "chunks": [ "3x3_road_corner_ne" ],
+          "x": 1,
+          "y": 0,
+          "neighbors": {
+            "north_west": [ { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ],
+            "north": [ { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ]
+          }
+        },
+        {
+          "chunks": [ "3x3_road_corner_nw" ],
+          "x": 20,
+          "y": 0,
+          "neighbors": {
+            "north_east": [ { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ],
+            "north": [ { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ]
+          }
+        }
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "bridgehead_ramp" ],
+    "weight": { "global_val": "vanilla_bridge_weight", "default": 1000 },
     "object": {
       "fill_ter": "t_open_air",
       "rows": [
@@ -177,7 +205,38 @@
         "  =_.......::......._=  ",
         "  =_.......::......._=  "
       ],
-      "palettes": [ "bridge_road_palette" ]
+      "palettes": [ "bridge_road_palette" ],
+      "place_nested": [ { "chunks": [ "24x24_bridgehead_ramp_trash" ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bridge_road_trash",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_items": [ { "item": "bridge", "x": [ 4, 19 ], "y": [ 0, 23 ], "chance": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bridgehead_ground_trash",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_items": [ { "item": "bridge", "x": [ 4, 19 ], "y": [ 0, 12 ], "chance": 5 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "24x24_bridgehead_ramp_trash",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rotation": [ 0, 3 ],
+      "place_items": [ { "item": "bridge", "x": [ 4, 19 ], "y": [ 15, 23 ], "chance": 5 } ]
     }
   }
 ]

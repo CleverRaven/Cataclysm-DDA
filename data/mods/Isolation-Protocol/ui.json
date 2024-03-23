@@ -1,0 +1,87 @@
+[
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_classic_sidebar",
+    "type": "widget",
+    "id": "legacy_classic_sidebar",
+    "extend": { "widgets": [ "iso_danger" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_compact_sidebar",
+    "type": "widget",
+    "id": "legacy_compact_sidebar",
+    "extend": { "widgets": [ "iso_danger" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_labels_narrow_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_narrow_sidebar",
+    "extend": { "widgets": [ "iso_danger" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "legacy_labels_sidebar",
+    "type": "widget",
+    "id": "legacy_labels_sidebar",
+    "extend": { "widgets": [ "iso_danger" ] }
+  },
+  {
+    "//": "Extend with the danger widget",
+    "copy-from": "structured_sidebar",
+    "type": "widget",
+    "id": "structured_sidebar",
+    "extend": { "widgets": [ "iso_danger" ] }
+  },
+  {
+    "id": "iso_danger",
+    "type": "widget",
+    "label": "Location normality",
+    "style": "text",
+    "clauses": [
+      {
+        "id": "safe",
+        "text": "Stable",
+        "color": "light_green",
+        "condition": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] }
+      },
+      {
+        "id": "ok",
+        "text": "Deteriorating",
+        "color": "light_gray",
+        "condition": {
+          "and": [
+            { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "0" ] },
+            { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "10" ] },
+            {
+              "not": { "or": [ { "u_at_om_location": "iso_hallway_safe" }, { "u_at_om_location": "iso_elevator_safe" } ] }
+            }
+          ]
+        }
+      },
+      {
+        "id": "wrong",
+        "text": "Distorted",
+        "color": "dark_gray",
+        "condition": {
+          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "10" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "15" ] } ]
+        }
+      },
+      {
+        "id": "bad",
+        "text": "Unstable",
+        "color": "magenta",
+        "condition": {
+          "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "15" ] }, { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", "<", "20" ] } ]
+        }
+      },
+      {
+        "id": "vbad",
+        "text": "Unraveling",
+        "color": "pink",
+        "condition": { "and": [ { "math": [ "u_ISO_CURRENT_LEVEL_DANGER", ">=", "20" ] } ] }
+      }
+    ]
+  }
+]

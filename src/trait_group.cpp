@@ -3,10 +3,11 @@
 #include <algorithm>
 #include <cstddef>
 #include <map>
+#include <string>
+#include <type_traits>
 #include <utility>
 
 #include "cata_assert.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "json.h"
 #include "mutation.h"
@@ -44,7 +45,7 @@ static Trait_group_tag get_unique_trait_group_id()
     // names should not be seen anywhere.
     static const std::string unique_prefix = "\u01F7 ";
     while( true ) {
-        const Trait_group_tag new_group( unique_prefix + to_string( next_id++ ) );
+        Trait_group_tag new_group( unique_prefix + std::to_string( next_id++ ) );
         if( !new_group.is_valid() ) {
             return new_group;
         }
@@ -57,7 +58,7 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
     if( value.test_string() ) {
         return Trait_group_tag( value.get_string() );
     } else if( value.test_object() ) {
-        const Trait_group_tag group = get_unique_trait_group_id();
+        Trait_group_tag group = get_unique_trait_group_id();
 
         JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
@@ -66,7 +67,7 @@ Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
 
         return group;
     } else if( value.test_array() ) {
-        const Trait_group_tag group = get_unique_trait_group_id();
+        Trait_group_tag group = get_unique_trait_group_id();
 
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
             value.throw_error( "invalid subtype for trait group" );
@@ -98,9 +99,9 @@ void trait_group::debug_spawn()
         // Spawn traits from the group 100 times
         std::map<std::string, int> traitnames;
         for( size_t a = 0; a < 100; a++ ) {
-            const auto traits = traits_from( groups[index] );
-            for( const string_id<mutation_branch> &tr : traits ) {
-                traitnames[mutation_branch::get_name( tr )]++;
+            const Trait_list traits = traits_from( groups[index] );
+            for( const trait_and_var &tr : traits ) {
+                traitnames[tr.name()]++;
             }
         }
         // Invert the map to get sorting!
@@ -121,7 +122,7 @@ void trait_group::debug_spawn()
 Trait_list Trait_creation_data::create() const
 {
     RecursionList rec;
-    auto result = create( rec );
+    trait_group::Trait_list result = create( rec );
     return result;
 }
 
@@ -130,14 +131,15 @@ Trait_group::Trait_group( int probability )
 {
 }
 
-Single_trait_creator::Single_trait_creator( const trait_id &id, int probability )
-    : Trait_creation_data( probability ), id( id )
+Single_trait_creator::Single_trait_creator( const trait_id &id, const std::string &var,
+        int probability )
+    : Trait_creation_data( probability ), id( id ), variant( var )
 {
 }
 
 Trait_list Single_trait_creator::create( RecursionList & /* rec */ ) const
 {
-    return Trait_list { id };
+    return Trait_list { { id, variant } };
 }
 
 void Single_trait_creator::check_consistency() const
@@ -204,9 +206,9 @@ bool Trait_group_creator::has_trait( const trait_id &tid ) const
     return mutation_branch::get_group( id )->has_trait( tid );
 }
 
-void Trait_group::add_trait_entry( const trait_id &tid, int probability )
+void Trait_group::add_trait_entry( const trait_id &tid, const std::string &var, int probability )
 {
-    add_entry( std::make_unique<Single_trait_creator>( tid, probability ) );
+    add_entry( std::make_unique<Single_trait_creator>( tid, var, probability ) );
 }
 
 void Trait_group::add_group_entry( const Trait_group_tag &gid, int probability )
@@ -256,10 +258,10 @@ Trait_list Trait_group_collection::create( RecursionList &rec ) const
 {
     Trait_list result;
     for( const auto &creator : creators ) {
-        if( rng( 0, 99 ) >= ( creator )->probability ) {
+        if( rng( 0, 99 ) >= creator->probability ) {
             continue;
         }
-        Trait_list tmp = ( creator )->create( rec );
+        Trait_list tmp = creator->create( rec );
         result.insert( result.end(), tmp.begin(), tmp.end() );
     }
     return result;
@@ -275,7 +277,6 @@ void Trait_group_collection::add_entry( std::unique_ptr<Trait_creation_data> ptr
     ptr->probability = std::min( 100, ptr->probability );
 
     creators.push_back( std::move( ptr ) );
-    ptr.release();
 }
 
 void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> ptr )
@@ -288,7 +289,6 @@ void Trait_group_distribution::add_entry( std::unique_ptr<Trait_creation_data> p
     sum_prob += ptr->probability;
 
     creators.push_back( std::move( ptr ) );
-    ptr.release();
 }
 
 Trait_list Trait_group_distribution::create( RecursionList &rec ) const
@@ -296,11 +296,11 @@ Trait_list Trait_group_distribution::create( RecursionList &rec ) const
     Trait_list result;
     int p = rng( 0, sum_prob - 1 );
     for( const auto &creator : creators ) {
-        p -= ( creator )->probability;
+        p -= creator->probability;
         if( p >= 0 ) {
             continue;
         }
-        Trait_list tmp = ( creator )->create( rec );
+        Trait_list tmp = creator->create( rec );
         result.insert( result.end(), tmp.begin(), tmp.end() );
         break;
     }

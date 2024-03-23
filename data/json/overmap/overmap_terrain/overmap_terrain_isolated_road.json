@@ -1,0 +1,36 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": [ "isolated_road_field_0", "isolated_road_field_1" ],
+    "name": "yard",
+    "sym": ".",
+    "color": "green",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "isolated_house_farm_gunsmith", "isolated_house_farm_roof_gunsmith" ],
+    "name": "gunsmith's home",
+    "sym": "v",
+    "color": "red",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "isolated_house_farm_blacksmith", "isolated_house_farm_roof_blacksmith" ],
+    "name": "blacksmith's home",
+    "sym": "^",
+    "color": "cyan",
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "gunshow_0", "gunshow_1" ],
+    "name": "gun show",
+    "sym": "G",
+    "color": "red",
+    "see_cost": 5
+  }
+]

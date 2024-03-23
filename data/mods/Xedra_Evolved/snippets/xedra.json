@@ -1,0 +1,181 @@
+[
+  {
+    "type": "snippet",
+    "category": "changeling_march_lord_report",
+    "text": [
+      {
+        "id": "changeling_march_lord_1",
+        "text": "Field Report CO001141: We've managed to capture one of what we are calling the nobles of these people.  It claims to be a 'March Lord' and that it rules a small barony right across the border between our worlds."
+      },
+      {
+        "id": "changeling_march_lord_2",
+        "text": "Interrogation Report: CO001141-a1: Chapfax Æelgar Llywelyn, as our prisoner has identified himself can both speak and write our language.  Chapfax had listened to use speak about him for days and only today did he respond to any of our questions.  He claims this is because we just now began to interest him."
+      },
+      {
+        "id": "changeling_march_lord_3",
+        "text": "Interrogation Report: CO001141: The creature has spent three days sitting and watching our attempts to communicate.  It has made no attempts to communicate back to us."
+      },
+      {
+        "id": "changeling_march_lord_4",
+        "text": "Interrogation Report: CO001141-b2: Chapfax has only spoken with specific staff members and ignores any interaction from others.  We are trying to find a pattern of who he is choosing and why."
+      },
+      {
+        "id": "changeling_march_lord_5",
+        "text": "Interrogation Report: CO001141-f7: In the last 24 hours half of the staff members Chapfax interacted with have gone missing.  Some even disappeared from this office, we have no idea what has happened to them and if this is some kind of kidnapping to ransom back Chapfax.  The so-called March Lord, has said that he doesn't imagine it is anyone from his barony but that there are many across the borderlands.  And that beyond those border lands are the great states of the 'Far Lands'."
+      },
+      {
+        "id": "changeling_march_lord_6",
+        "text": "Interrogation Report: CO001141-f75: Chapfax has been unusually talkative since we informed him of the missing staff, I finally asked him why he was being so talkative suddenly and he looked at me right in the eyes and sorrowfully said 'I don't imagine anything I say will matter soon, I can feel a change coming in your world and I'd prefer to watch it from my home.  I'll grant you and your family safe passage if we leave before nightfall.'  I know the riots and weirdness have been escalating *the report stops midsentence*."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "desk_postit_field_agent",
+    "text": [
+      {
+        "name": "green postit 1",
+        "id": "desk_postit_field_agent_1",
+        "text": "Remember to make the mortgage payment every month by the 5th!"
+      },
+      { "name": "green postit 2", "id": "desk_postit_field_agent_2", "text": "Password: J@ckboot1" },
+      {
+        "name": "green postit 3",
+        "id": "desk_postit_field_agent_3",
+        "text": "Call neighbors and try to identify date the McFarland's went missing."
+      },
+      {
+        "name": "green postit 4",
+        "id": "desk_postit_field_agent_4",
+        "text": "Cultists?  Foreign Agents?  Pod people?"
+      },
+      { "name": "green postit 5", "id": "desk_postit_field_agent_5", "text": "Carcosa?  Leng?" },
+      { "name": "green postit 6", "id": "desk_postit_field_agent_6", "text": "Delta Green?  Majestic 12?" },
+      {
+        "name": "green postit 7",
+        "id": "desk_postit_field_agent_7",
+        "text": "Surveillance to continue on home until Jamison returns."
+      },
+      {
+        "name": "green postit 8",
+        "id": "desk_postit_field_agent_8",
+        "text": "Suspect appears to have hung from the ceiling waiting for the Smith's to return home."
+      },
+      {
+        "name": "green postit 9",
+        "id": "desk_postit_field_agent_9",
+        "text": "Local doctor said it looked like viral cancer similar to some stories he'd seen out of Tazmania."
+      },
+      { "name": "green postit 10", "id": "desk_postit_field_agent_10", "text": "Requisition heavier weaponry" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "agent_postit_gray",
+    "text": [
+      {
+        "name": "gray postit 1",
+        "id": "agent_postit_gray_1",
+        "text": "Several of the victims appear to have been exsanguinated and the others were killed while they fled.  Suspicion that the first victims in the club were killed by exsanguination and only upon their death did the other club goers recognize the danger and attempt to flee."
+      },
+      {
+        "name": "gray postit 2",
+        "id": "agent_postit_gray_2",
+        "text": "Every scene is permeated by the smell of rosemary and mint.  All victims set on fire after their death."
+      },
+      {
+        "name": "gray postit 3",
+        "id": "agent_postit_gray_3",
+        "text": "Three different types of shapechangers found in the last month?  Separate successful experiments from one power or different incursions that we should expect more from each type?"
+      },
+      {
+        "name": "gray postit 4",
+        "id": "agent_postit_gray_4",
+        "text": "Does Danvers State have room for more guests?"
+      },
+      {
+        "name": "gray postit 5",
+        "id": "agent_postit_gray_5",
+        "text": "Field Office in Utah was recently hit by some kind of strike team unsure if it was a foreign squad trying to grab something specific or if they had attracted the attention of other forces that decided to cross over."
+      },
+      { "name": "gray postit 6", "id": "agent_postit_gray_6", "text": "Need more armor piercing rounds." },
+      {
+        "name": "gray postit 7",
+        "id": "agent_postit_gray_7",
+        "text": "Victims found decapitated and staked.  Send bodies out for autopsy."
+      },
+      {
+        "name": "gray postit 8",
+        "id": "agent_postit_gray_8",
+        "text": "Folklore says to burn any remains and then scatter the ashes in running water."
+      },
+      {
+        "name": "gray postit 9",
+        "id": "agent_postit_gray_9",
+        "text": "Shapeshifter Suspect is *NOT* allergic to salt."
+      },
+      {
+        "name": "gray postit 10",
+        "id": "agent_postit_gray_10",
+        "text": "Call requisitions to find out about silver rounds?"
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "agent_postit_migo",
+    "text": [
+      {
+        "name": "pink postit 1",
+        "id": "agent_postit_migo_1",
+        "text": "Any missions that end up discovering 'mi-go' class aliens require approval from an external agency before engagement."
+      },
+      {
+        "name": "pink postit 2",
+        "id": "agent_postit_migo_2",
+        "text": "Aliens are mirrorshades territory, and you know how they feel about us. Cowboys and adventurers they call us."
+      },
+      {
+        "name": "pink postit 3",
+        "id": "agent_postit_migo_3",
+        "text": "Off books, there are bonuses available to any agent that is able to execute any 'mi-go' and make it disappear."
+      },
+      {
+        "name": "pink postit 4",
+        "id": "agent_postit_migo_4",
+        "text": "Memo: Several agents appear to have broken protocols and gone rogue in regards to mi-go interactions.  They have been missing for three weeks and became presumed dead after pieces of their bodies totalling 30% of their weight had been mailed home in individual packages."
+      },
+      {
+        "name": "pink postit 5",
+        "id": "agent_postit_migo_5",
+        "text": "They seem to be here to take captives and animals to go back to their homeworld/s."
+      },
+      {
+        "name": "pink postit 6",
+        "id": "agent_postit_migo_6",
+        "text": "Off books, we need more intel on the mirrorshades so we can avenge Tony, Martell, and Picarelli."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "border_patrol_files",
+    "text": [
+      {
+        "name": "incursion_zero",
+        "id": "incursion_zero_report",
+        "text": "Date: 07/13/2008\nLocation: Old Cain Springs, Kentucky\nIncident: Faerie Incursion\nDescription: Our department has received reports of strange occurrences in the area, including sightings of small, barkskinned creatures that match the description of faeries from folklore.  Witnesses have reported missing objects, strange noises, and unexplained lights in the vicinity.\nResponse: Our team has been dispatched to the area to investigate.  We are working closely with local law enforcement and other relevant agencies to determine the nature of the incursion and to neutralize any potential threats.  We advise residents to stay indoors and report any suspicious activity to the authorities.\nStatus: The situation is ongoing.  We have set up a temporary command center in the area and are conducting a thorough investigation.  Our team is equipped with specialized equipment to detect and track interdimensional activity.  We will provide further updates as the situation develops.\nRecommendation: Based on our findings, we recommend that the area be designated as a potential hotspot for interdimensional activity.  We suggest that ongoing surveillance and monitoring be put in place to ensure the safety of local residents and to prevent any further incursions.  We also recommend that education programs be put in place to help residents understand the nature of these creatures and how to avoid potential conflicts."
+      },
+      {
+        "name": "abduction_report",
+        "id": "abduction_report_1",
+        "text": "Date: 07/25/2008\nLocation: Old Cain Springs, Kentucky\nIncident: Abduction of Locals\nDescription: Our team has received reports of several local residents who have gone missing under mysterious circumstances.  Witnesses have reported seeing small, floating lights in the area around the time of the disappearances, leading us to believe that fae-class cryptids may be involved.\nResponse: Our team has launched a full investigation into the matter, working in close coordination with local law enforcement.  We have engaged significant animal based tracking resources, and are gathering intelligence from witnesses and other sources to build a comprehensive picture of the situation.\nStatus: The situation is ongoing.  At this time, we have not been able to locate the missing individuals or definitively establish the involvement of fae-class cryptids.  However, we are actively pursuing all leads and are dedicating significant resources to this investigation.\nRecommendation: Based on our findings to date, we recommend that the area be designated as a high-risk zone for fae cryptid activity.  We urge all residents to exercise caution and report any suspicious activity to the authorities.  Additionally, we recommend that public awareness campaigns be initiated to educate the public about the potential dangers of fae cryptids and how to avoid potential conflicts.  Our team will continue to provide updates as the investigation progresses."
+      },
+      {
+        "name": "lights_in_swamp_report",
+        "id": "lights_in_swamp_report",
+        "text": "Date: 04/29/2016\nLocation: Norton, Massachusetts wetlands\nIncident: Strange lights and sounds in bogs at night\nDescription: Sam 'Goatman' Simmons, has reported numerous strange lights and sounds emanating from the bogs on the northern edge of Norton, MA on the way to Rehobeth.  He'd been drinking and walking his goat late one night and as he neared the edge of the wetlands he heard strange music and multicoloured lights.  He suspected one of his neighbors who's property adjoined the bog of throwing a party but after walking around the edges he couldn't figure out how to get through the various streams and ponds to get to it.  Finally at some point, he remembered stories his grandparents had told about people going missing in the bogs and decided to go home and call the police.  The police passed it on to the Border Patrol who investigated for dimensional spillage.  While they were unable to find any cryptids or artifacts at the bogs, they measured a weakness in reality that suggests that the stories might have basis in fact.  Border Patrol left emergency contact information with the local police in the event of any future incursions."
+      }
+    ]
+  }
+]

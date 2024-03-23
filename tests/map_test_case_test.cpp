@@ -1,6 +1,6 @@
-#include <iomanip>
+#include <array>
+#include <iterator>
 
-#include "map.h"
 #include "map_test_case.h"
 
 // test some of the map_test_case helpers
@@ -53,7 +53,7 @@ TEST_CASE( "map_test_case_common", "[map_test_case]" )
             counter++;
             return true;
         };
-        auto f = inc + inc + inc;
+        map_test_case_common::tile_predicate f = inc + inc + inc;
         CHECK( counter == 0 );
         f( {} );
         CHECK( counter == 3 );

@@ -1,0 +1,78 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "lab_1x1x2_RES_8_apartments_upper",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "||||||||||||||||||||||||",
+        "|9Yt|d.T@@|__|@@T.d|tY9|",
+        "|8,S|D..@@|__|@@..D|S,8|",
+        "||+||||..R|__|R..||||+||",
+        "|H..xx||+||__||+||xx..H|",
+        "|H.......h|__|h.......H|",
+        "|sHHH....f|__|f....HHHs|",
+        "|........h|__|h........|",
+        "|:+||3....+__+....3|:+:|",
+        "|...:5...7|__|7...5:...|",
+        "|..h|42OF1|__|1FO24|h..|",
+        "|..f|||||||__|||||||f..|",
+        "|..h|42OF1|__|1FO24|h..|",
+        "|...:5...7|__|7...5:...|",
+        "|:+:|3....+__+....3|:+:|",
+        "|.........|__|.........|",
+        "|........h|__|h........|",
+        "|sHHH....f|__|f....HHHs|",
+        "|H.......h|##|h.......H|",
+        "|H..xx||+||>>||+|||xx.H|",
+        "||+||||..R||+|R...|||+||",
+        "|8,S|D..@@|__|@@..D|S,8|",
+        "|9Yt|d.T@@|UU|@@T.d|tY9|",
+        "|||||||||||±||||||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
+      "place_monsters": [ { "monster": "GROUP_LAB_HOSPITAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "terrain": { ":": "t_window_domestic", "Y": "t_linoleum_gray" }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "lab_1x1x2_RES_8_apartments_lower",
+    "type": "mapgen",
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_linoleum_white",
+      "rows": [
+        "|||||||||||__|||||||||||",
+        "|9Yt|d.T@@|__|@@T.d|tY9|",
+        "|8,S|D..@@|__|@@..D|S,8|",
+        "||+||||..R|__|R..||||+||",
+        "|H..xx||+||__||+||xx..H|",
+        "|H.......h|__|h.......H|",
+        "|sHHH....f|__|f....HHHs|",
+        "|........h|__|h........|",
+        "|:+:|3....+__+....3|:+:|",
+        "|...:5...7|__|7...5:...|",
+        "|..h|42OF1|__|1FO24|h..|",
+        "|..f|||||||__|||||||f..|",
+        "|..h|42OF1|__|1FO24|h..|",
+        "|...:5...7|__|7...5:...|",
+        "|:+:|3....+__+....3|:+:|",
+        "|.........|__|.........|",
+        "|........h|__|h........|",
+        "|sHHH....f|__|f....HHHs|",
+        "|H.......h|##|h.......H|",
+        "|H..xx||+||<<||+|||xx.H|",
+        "||+||||..R||+|R...|||+||",
+        "|8,S|D..@@|__|@@..D|S,8|",
+        "|9Yt|d.T@@|UU|@@T.d|tY9|",
+        "|||||||||||±||||||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
+      "place_monsters": [ { "monster": "GROUP_LAB_HOSPITAL", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "terrain": { ":": "t_window_domestic", "Y": "t_linoleum_gray" }
+    }
+  }
+]

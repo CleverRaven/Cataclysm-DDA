@@ -1,16 +1,15 @@
 #include "iuse_software_minesweeper.h"
 
-#include <algorithm>
 #include <array>
 #include <functional>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "optional.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
@@ -90,15 +89,14 @@ void minesweeper_game::new_level()
     mLevel.clear();
     mLevelReveal.clear();
 
-    int iRandX;
-    int iRandY;
+    point iRand;
     for( int i = 0; i < iBombs; i++ ) {
         do {
-            iRandX = rng( 0, level.x - 1 );
-            iRandY = rng( 0, level.y - 1 );
-        } while( mLevel[iRandY][iRandX] == bomb );
+            iRand.x = rng( 0, level.x - 1 );
+            iRand.y = rng( 0, level.y - 1 );
+        } while( mLevel[iRand.y][iRand.x] == bomb );
 
-        mLevel[iRandY][iRandX] = bomb;
+        mLevel[iRand.y][iRand.x] = bomb;
     }
 
     for( int y = 0; y < level.y; y++ ) {
@@ -182,9 +180,9 @@ int minesweeper_game::start_game()
         draw_border( w_minesweeper_border );
 
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<n>ew level" ) );
-        shortcuts.push_back( _( "<f>lag" ) );
-        shortcuts.push_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( _( "<n>ew level" ) );
+        shortcuts.emplace_back( _( "<f>lag" ) );
+        shortcuts.emplace_back( _( "<q>uit" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
@@ -310,12 +308,11 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
-            const int new_x = iPlayerX + vec->x;
-            const int new_y = iPlayerY + vec->y;
-            if( new_x >= 0 && new_x < level.x && new_y >= 0 && new_y < level.y ) {
-                iPlayerX = new_x;
-                iPlayerY = new_y;
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            const point new_( vec->xy() + point( iPlayerX, iPlayerY ) );
+            if( new_.x >= 0 && new_.x < level.x && new_.y >= 0 && new_.y < level.y ) {
+                iPlayerX = new_.x;
+                iPlayerY = new_.y;
             }
         } else if( action == "FLAG" ) {
             if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
@@ -332,7 +329,7 @@ int minesweeper_game::start_game()
                     popup_top( _( "Boom, you're dead!  Better luck next time." ) );
                     action = "QUIT";
                 } else if( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
-                    rec_reveal( point( iPlayerY, iPlayerX ) );
+                    rec_reveal( point( iPlayerX, iPlayerY ) );
                 }
             }
         }

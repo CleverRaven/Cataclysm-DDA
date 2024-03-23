@@ -2,22 +2,23 @@
 #ifndef CATA_SRC_TRAIT_GROUP_H
 #define CATA_SRC_TRAIT_GROUP_H
 
+#include <iosfwd>
 #include <memory>
-#include <string>
 #include <vector>
 
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
 class JsonValue;
 class Trait_group;
 
+struct trait_and_var;
+
 namespace trait_group
 {
 
 using Trait_group_tag = string_id<Trait_group>;
-using Trait_list = std::vector<trait_id>;
+using Trait_list = std::vector<trait_and_var>;
 
 /**
  * Returns a randomized list of traits from the given trait group.
@@ -71,7 +72,7 @@ class Trait_creation_data
     public:
         using RecursionList = std::vector<trait_group::Trait_group_tag>;
 
-        Trait_creation_data( int _probability ) : probability( _probability ) {}
+        explicit Trait_creation_data( int _probability ) : probability( _probability ) {}
         virtual ~Trait_creation_data() = default;
         Trait_creation_data( const Trait_creation_data & ) = delete;
         Trait_creation_data &operator=( const Trait_creation_data & ) = delete;
@@ -110,10 +111,11 @@ class Trait_creation_data
 class Single_trait_creator : public Trait_creation_data
 {
     public:
-        Single_trait_creator( const trait_id &id, int probability );
+        Single_trait_creator( const trait_id &id, const std::string &var, int probability );
         ~Single_trait_creator() override = default;
 
         trait_id id;
+        std::string variant;
 
         trait_group::Trait_list create( RecursionList &rec ) const override;
         void check_consistency() const override;
@@ -147,10 +149,10 @@ class Trait_group : public Trait_creation_data
     public:
         using CreatorList = std::vector<std::unique_ptr<Trait_creation_data> >;
 
-        Trait_group( int probability );
+        explicit Trait_group( int probability );
         ~Trait_group() override = default;
 
-        void add_trait_entry( const trait_id &tid, int probability );
+        void add_trait_entry( const trait_id &tid, const std::string &var, int probability );
         void add_group_entry( const trait_group::Trait_group_tag &gid, int probability );
 
         /**
@@ -178,7 +180,7 @@ class Trait_group : public Trait_creation_data
 class Trait_group_collection : public Trait_group
 {
     public:
-        Trait_group_collection( int probability );
+        explicit Trait_group_collection( int probability );
         ~Trait_group_collection() override = default;
 
         trait_group::Trait_list create( RecursionList &rec ) const override;
@@ -193,7 +195,7 @@ class Trait_group_collection : public Trait_group
 class Trait_group_distribution : public Trait_group
 {
     public:
-        Trait_group_distribution( int probability ) :
+        explicit Trait_group_distribution( int probability ) :
             Trait_group( probability ) {}
         ~Trait_group_distribution() override = default;
 

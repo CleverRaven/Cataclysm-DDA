@@ -1,0 +1,84 @@
+[
+  {
+    "id": "extra_str_aspirin",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "eXtra strength aspirin" },
+    "description": "Alchemically altered aspirin.  Take to relieve pain and injury.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": "2 cent",
+    "price_postapoc": "37 cent",
+    "material": [ "powder" ],
+    "symbol": "!",
+    "color": "white",
+    "container": "bottle_plastic_pill_painkiller",
+    "healthy": -1,
+    "flags": [ "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You take some eXtra strength aspirin.",
+      "effects": [ { "id": "xtr_str_aspirin", "duration": 720 } ]
+    }
+  },
+  {
+    "id": "truckstop_viagra",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "horny rhino pill" },
+    "description": "DOES YOUR PARTNER FIND YOUR LACK OF SEXUAL POTENCY PATHETHIC?!??!  SMASH YOUR BEDROOM LIKE A WILD ANIMAL ALL NIGHT LONG!!!  -ingredients not confirmed with the FDA.",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": "4 cent",
+    "price_postapoc": "5 cent",
+    "symbol": "!",
+    "color": "magenta",
+    "container": "bottle_plastic_pill_supplement",
+    "quench": -4,
+    "stim": 10,
+    "healthy": -3,
+    "fun": 10,
+    "addiction_potential": 10,
+    "addiction_type": "amphetamine",
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "EDIBLE_FROZEN" ],
+    "use_action": { "type": "consume_drug", "activation_message": "You take the %s.  Your skin feels like it is vibrating." }
+  },
+  {
+    "id": "blood_of_saints",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "blood of the saints" },
+    "description": "A rare substance of uncertain origins.  Causes you to mutate.",
+    "price": "2500 USD",
+    "price_postapoc": "500 USD",
+    "//": "Not commercially traded, in case there was any question.",
+    "comestible_type": "MED",
+    "category": "mutagen",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "charges": 1,
+    "phase": "liquid",
+    "container": "flask_glass",
+    "symbol": "~",
+    "color": "light_green",
+    "healthy": -2,
+    "addiction_potential": 2,
+    "addiction_type": "mutagen",
+    "flags": [ "NO_INGEST", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [  ],
+    "material": [ "water" ],
+    "freezing_point": -8,
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Drink the blood.",
+      "effect_on_conditions": [
+        {
+          "id": "learn_blood_of_saints",
+          "effect": [
+            { "u_message": "You imbibed the concoction and you feel your veins flex in a warm glow." },
+            { "u_add_trait": "BLOOD_OF_SAINTS" }
+          ]
+        }
+      ]
+    }
+  }
+]

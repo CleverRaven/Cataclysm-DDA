@@ -1,0 +1,70 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_pouch_gun&mags&cans",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_223_pouch_gun&ammo" },
+      {
+        "distribution": [
+          { "item": "ammo_can_50_556_m855a1_clipped_840", "count": [ 1, 4 ], "prob": 100 },
+          { "item": "ammo_can_50_556tracer_820", "count": [ 1, 4 ], "prob": 5 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_pouch_gun&ammo",
+    "//": "only default 223 because have no info about using another one in such pouches",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_223_gun&mags" },
+      { "group": "ammo_can_223_any_full", "prob": 30 },
+      { "group": "ammo_can_223_any_part", "prob": 80, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223_gun&mags",
+    "//": "only default 223 because have no info about using another one in such pouches",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_223", "count": [ 1, 2 ] },
+      { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 40 },
+      { "group": "milspec_arsenal_223", "count": [ 1, 2 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_223",
+    "items": [ { "group": "nested_m4_carbine_no_ammo", "prob": 70 }, { "group": "nested_m27_assault_rifle_no_ammo", "prob": 40 } ]
+  },
+  {
+    "id": "nested_m4_carbine_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "modular_m4_carbine" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "nested_m27_assault_rifle_no_ammo",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [ { "item": "modular_m27_assault_rifle" }, { "group": "stanag_mags", "count": [ 1, 3 ] } ]
+  },
+  {
+    "id": "stanag_mags",
+    "type": "item_group",
+    "items": [
+      { "item": "stanag30", "prob": 1000 },
+      { "item": "stanag40", "prob": 100 },
+      { "item": "stanag50", "prob": 80 },
+      { "item": "stanag60", "prob": 60 },
+      { "item": "stanag60drum", "prob": 40 },
+      { "item": "stanag90", "prob": 20 },
+      { "item": "stanag100", "prob": 10 },
+      { "item": "stanag100drum", "prob": 5 },
+      { "item": "stanag150", "prob": 3 }
+    ]
+  }
+]

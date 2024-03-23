@@ -1,0 +1,150 @@
+[
+  {
+    "id": "SUS_gunstore_safe",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the contents of gunsafes",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ammo_common_collection", "prob": 85 },
+      { "group": "ammo_rare_collection", "prob": 20 },
+      { "group": "ammo_obscure_collection", "prob": 10 },
+      { "group": "guns_rare_display", "prob": 10 }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_safe_obscure",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the contents of rare back of house safes, with guns paired with their corresponding magazines",
+    "subtype": "collection",
+    "entries": [
+      { "group": "guns_pistol_obscure_display", "prob": 15 },
+      {
+        "collection": [ { "group": "guns_rifle_obscure_display" }, { "group": "mags_rifle_rare", "count": [ 1, 6 ] } ],
+        "prob": 45
+      },
+      {
+        "collection": [ { "group": "guns_shotgun_obscure_display" }, { "group": "mags_shotgun_rare", "count": [ 1, 2 ] } ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "group": "guns_smg_display" },
+          { "group": "mags_smg_common", "count": [ 1, 8 ] },
+          { "group": "mags_smg_rare", "count": [ 1, 8 ] }
+        ],
+        "prob": 45
+      }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_crate",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the contents of gunstore delivery crates",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_common_display", "prob": 80 },
+      { "group": "mags_common_gunstore", "prob": 80 },
+      { "group": "gunmod_common", "prob": 15 },
+      { "group": "conversion_kits", "prob": 15 },
+      { "group": "book_gunmags", "prob": 60 },
+      { "group": "SUS_gunstore_gear", "prob": 60 },
+      { "group": "ammo_parts", "prob": 80 },
+      { "group": "tools_gunsmith", "prob": 5 }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_looted_floor",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for damaged items that can spawn on the floor of looted gunstores",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_common", "prob": 15, "damage": [ 0, 4 ] },
+      { "group": "book_gunmags", "prob": 25, "damage": [ 0, 4 ] },
+      { "group": "looted_store", "prob": 75 },
+      { "group": "ammo_parts", "prob": 5 },
+      { "group": "SUS_gunstore_gear", "prob": 30, "damage": [ 0, 4 ] }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_looted_storage",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for damaged items that can spawn on storage furniture in looted gunstores",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_common_display", "prob": 5, "damage": [ 0, 2 ] },
+      { "group": "mags_common", "prob": 10, "damage": [ 0, 2 ] },
+      { "group": "gunmod_common", "prob": 5, "damage": [ 0, 2 ] },
+      { "group": "conversion_kits", "prob": 5, "damage": [ 0, 2 ] },
+      { "group": "book_gunmags", "prob": 10, "damage": [ 0, 2 ] },
+      { "group": "ammo_parts", "prob": 10, "damage": [ 0, 2 ] },
+      { "group": "SUS_gunstore_gear", "prob": 10, "damage": [ 0, 2 ] },
+      { "group": "tools_gunsmith", "prob": 1, "damage": [ 0, 2 ] }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_displaycase",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for the contents of gunstore displaycases",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_rifle_rare_display", "prob": 80 },
+      { "group": "guns_pistol_rare_display", "prob": 40 },
+      { "group": "guns_shotgun_rare_display", "prob": 5 }
+    ]
+  },
+  {
+    "id": "SUS_gunstore_gear",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for tactical and military gear sold by gunstores",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "clothing_tactical_torso", "count": [ 1, 3 ], "prob": 80 },
+      { "group": "clothing_tactical_leg", "count": [ 1, 3 ], "prob": 80 },
+      { "item": "winter_pants_army", "prob": 40 },
+      { "item": "winter_jacket_army", "prob": 40 },
+      { "item": "jacket_army", "prob": 40 },
+      { "item": "pants_army", "prob": 40 },
+      { "group": "gun_cases", "prob": 60 },
+      { "group": "mil_food_nodrugs", "prob": 80 },
+      { "item": "gloves_tactical", "prob": 10 },
+      { "item": "tac_helmet", "prob": 5 },
+      { "item": "helmet_army", "prob": 5 },
+      { "item": "knee_pads", "prob": 20 },
+      { "item": "kevlar", "prob": 5 },
+      { "item": "elbow_pads", "prob": 20 },
+      { "item": "nylon_holster", "prob": 25 },
+      { "item": "holster", "prob": 20 },
+      { "item": "sholster", "prob": 20 },
+      { "item": "shoulder_holster", "prob": 5 },
+      { "item": "boots_combat", "prob": 10 },
+      { "item": "helmet_liner", "prob": 30 },
+      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "knife_combat", "container-item": "sheath", "prob": 3 },
+      { "item": "knife_combat_marine", "container-item": "sheath", "prob": 1 },
+      { "item": "knife_combat_army", "container-item": "sheath", "prob": 1 },
+      { "item": "knife_KABAR", "container-item": "sheath", "prob": 20 },
+      { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
+      { "item": "beret", "prob": 30 },
+      { "item": "beret_wool", "prob": 30 },
+      { "item": "bandolier_shotgun", "prob": 15 },
+      { "group": "loaded_lbv", "prob": 15 },
+      { "item": "goggles_nv", "prob": 1 },
+      { "item": "goggles_ir", "prob": 1 },
+      { "item": "bootsheath", "prob": 10 },
+      { "item": "leg_sheath6", "prob": 5 },
+      { "item": "throwing_knife", "count-min": 1, "count-max": 6, "entry-wrapper": "leg_sheath6", "prob": 5 },
+      { "group": "ear_protection", "prob": 45 },
+      { "item": "hat_boonie", "prob": 30 },
+      { "item": "balclava", "prob": 30 },
+      { "item": "ballistic_vest_esapi", "prob": 5 },
+      { "item": "aim_game", "prob": 35 }
+    ]
+  }
+]

@@ -1,0 +1,389 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food",
+    "dynamic_line": {
+      "u_has_var": "godco_notalk_to_u",
+      "type": "dialogue",
+      "context": "godco",
+      "value": "yes",
+      "yes": "You better step away from me real quick, sinner.  I don't want your kind here.",
+      "no": {
+        "npc_has_var": "u_met_food_guard",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [ "Hey there.", "You're back.", "So…?" ],
+        "no": "Hello.  What brings you around here?"
+      }
+    },
+    "speaker_effect": { "effect": { "run_eocs": "GODCO_EDDIE_CANNING_MISSION_ADD" } },
+    "responses": [
+      {
+        "text": "Who are you?",
+        "effect": { "npc_add_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_guard_food_who"
+      },
+      {
+        "text": "Just stopping by for a moment.  See ya.",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" } },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Who are you again?",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_guard_food_who"
+      },
+      {
+        "text": "Care to talk for a bit?",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_GODCO_guard_food_idlechat"
+      },
+      {
+        "text": "I'll see you around.",
+        "condition": {
+          "and": [
+            { "npc_has_var": "u_met_food_guard", "type": "general", "context": "meeting", "value": "yes" },
+            { "not": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" } }
+          ]
+        },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Alright then, fuck you <name_b>.",
+        "condition": { "u_has_var": "godco_notalk_to_u", "type": "dialogue", "context": "godco", "value": "yes" },
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_idlechat",
+    "dynamic_line": [ "Sure, what's happening?" ],
+    "responses": [
+      { "text": "Could you tell me a bit about yourself?", "topic": "TALK_GODCO_guard_food_about_self" },
+      { "text": "What are you planning on doing in the future?", "topic": "TALK_GODCO_guard_food_future_plans" },
+      { "text": "Could I borrow something from the stock?", "topic": "TALK_GODCO_guard_food_borrow" },
+      { "text": "Would you be willing to buy any food?", "topic": "TALK_GODCO_guard_food_buy" },
+      { "text": "Has anyone stolen from here?", "topic": "TALK_GODCO_guard_food_theft" },
+      { "text": "How much food do you have?", "topic": "TALK_GODCO_guard_food_stock" },
+      { "text": "Is there anything I can do to help you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Good luck with that.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_who",
+    "dynamic_line": [ "Name's Eddie.  I'm making sure this stockpile is alright." ],
+    "responses": [
+      { "text": "Could you just chat for a bit?", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "Is there anything I can do to help you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Could I borrow something from the stock?", "topic": "TALK_GODCO_guard_food_borrow" },
+      { "text": "Has anyone stolen from here?", "topic": "TALK_GODCO_guard_food_theft" },
+      { "text": "How much food do you have?", "topic": "TALK_GODCO_guard_food_stock" },
+      { "text": "Good luck with that.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_borrow",
+    "dynamic_line": [ "Nope, you can't do that.  I'd like to help you, but we've already got enough mouths to feed." ],
+    "responses": [
+      {
+        "text": "Could some money persuade you?",
+        "trial": { "type": "PERSUADE", "difficulty": 10 },
+        "failure": { "topic": "TALK_GODCO_guard_food_bribe_fail", "opinion": { "trust": -2 } },
+        "success": { "topic": "TALK_GODCO_guard_food_bribe_sucess" }
+      },
+      {
+        "text": "I can give these people one less mouth to feed, if you'd prefer that.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 10 },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "success": { "topic": "TALK_GODCO_guard_food_intimidate_sucess", "opinion": { "trust": -4 } }
+      },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food" },
+      { "text": "Alright.  See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_theft",
+    "dynamic_line": [ "Nobody's tried to yet.  It can get a little boring sometimes, standing around and doing nothing." ],
+    "responses": [
+      { "text": "I can understand that.  Let's talk about something else.", "topic": "TALK_GODCO_guard_food" },
+      { "text": "I hope it isn't too boring.  See ya.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_stock",
+    "dynamic_line": [ "That's private info, <name_g>." ],
+    "responses": [ { "text": "Okay.", "topic": "TALK_GODCO_guard_food" }, { "text": "Alright.  I gotta go.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_bribe_fail",
+    "dynamic_line": [ "Nope, it couldn't.  Don't try and <swear> bribe me again, you <swear> <name_b>." ],
+    "responses": [ { "text": "Geez, I'm leaving.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_intimidate_sucess",
+    "dynamic_line": [ "Alright, alright.  Here's some food and water, <name_b>.  Get out of my <swear> sight." ],
+    "responses": [
+      {
+        "text": "Keep that in mind.",
+        "effect": [
+          { "u_spawn_item": "can_beans", "container": "can_medium" },
+          { "u_spawn_item": "water_clean", "count": 2, "container": "bottle_plastic" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_bribe_sucess",
+    "dynamic_line": [ "Okay, here's some food and water.  Don't tell anyone I gave you that." ],
+    "responses": [
+      {
+        "text": "I won't.  Pleasure doin' business.",
+        "effect": [
+          { "u_spawn_item": "can_beans", "container": "can_medium" },
+          { "u_spawn_item": "water_clean", "count": 2, "container": "bottle_plastic" }
+        ],
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_about_self",
+    "dynamic_line": [
+      "I'm just a regular guy, been with the Church for a while now.  I kept a good, solid job before <the_cataclysm>, lived in a nice apartment on Chestnut Street."
+    ],
+    "responses": [
+      { "text": "What did you do for a job before <the_cataclysm>?", "topic": "TALK_GODCO_guard_food_precata_job" },
+      { "text": "Do you have any family?", "topic": "TALK_GODCO_guard_food_family" },
+      { "text": "Do you have any hobbies?", "topic": "TALK_GODCO_guard_food_hobbies" },
+      { "text": "What are you planning on doing in the future?", "topic": "TALK_GODCO_guard_food_future_plans" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_family",
+    "dynamic_line": [
+      "I used to, me and my mother were pretty close.  I didn't know my father very well for the first four years of my life, he was always out on deployment with the Navy someplace.  Me and him got to know each other after he retired from the service, we'd always go fishing on Sunday afternoons for years.  My mother though, she was the sweetest lady you'd ever meet, always took care of me and Dad.  Now they're gone, been that way for the last three years."
+    ],
+    "responses": [
+      { "text": "You're mother must've been very nice.", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_mother",
+    "dynamic_line": [
+      "She sure was, helped me through some very hard times in my life.  I used to be bullied in middle school, whenever I'd get beat up, she'd always help clean me up and tell me I'd be alright.  She had this recipe for peach casserole too, best one in the world.  It was hard for me when she passed, but I found some solace right here in this Church.  We'd always been religious, but this one just clicked for me, ya know?"
+    ],
+    "responses": [
+      { "text": "Is that why you joined the Church?", "topic": "TALK_GODCO_guard_food_church" },
+      { "text": "What was your father like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_father",
+    "dynamic_line": [
+      "He was a nice fellow, taught me everything I know about firearms, wildlife, and sailing.  We lived next to this big ol' lake, so we had plenty of opportunities to catch bass and catfish.  He'd skin and filet them, and we'd have it for dinner.  My mother always cooked them, and she was great at it."
+    ],
+    "responses": [
+      { "text": "You're mother sounds very nice, what was she like?", "topic": "TALK_GODCO_guard_food_mother" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_church",
+    "dynamic_line": [
+      "Yeah, her death was hard on me.  I wound up goin' here one day, and I felt something come over me, like I belonged here.  I haven't left since, and I've been able to move on with them."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_precata_job",
+    "dynamic_line": [
+      "I used to work for the U.S Postal Service, I was a mail carrier.  Delivered all the letters, packages, and mail orders to the residents of <city>, door-to-door.  It was pretty hard at times, but it kept me fit and on the road."
+    ],
+    "responses": [
+      { "text": "Do you have any family?", "topic": "TALK_GODCO_guard_food_family" },
+      { "text": "Do you have any hobbies?", "topic": "TALK_GODCO_guard_food_hobbies" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_hobbies",
+    "dynamic_line": [
+      "I really like to draw things, I primarily did landscapes in my spare time.  I like paper-and-pencil sketches, but I have worked with watercolors and oil canvases.  Never could get my head around the digital stuff, though, too complex for me and I never had a good free hand with a stylus.  I also shot a bit, went hunting a few times.  I mainly went to the gun range though, shotguns were always my forte.  Besides that, I watched some TV and regular ol' stuff.  I also like to read quite a bit, too."
+    ],
+    "responses": [
+      {
+        "text": "I guess those shooting skills come in handy these days.",
+        "topic": "TALK_GODCO_guard_food_gunskills_inhandy"
+      },
+      {
+        "text": "You must be a very good artist then.  Do you still have time to draw?",
+        "topic": "TALK_GODCO_guard_food_art"
+      },
+      { "text": "Do you have any family?", "topic": "TALK_GODCO_guard_food_family" },
+      { "text": "What did you do for a job before <the_cataclysm>?", "topic": "TALK_GODCO_guard_food_precata_job" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_gunskills_inhandy",
+    "dynamic_line": [
+      "I guess they will.  I pray to God that I won't have to shoot someone, I never want to be forced into deciding between life or death."
+    ],
+    "responses": [
+      { "text": "What did you do for a job before <the_cataclysm>?", "topic": "TALK_GODCO_guard_food_precata_job" },
+      { "text": "Do you have any family?", "topic": "TALK_GODCO_guard_food_family" },
+      { "text": "Could you tell me about your hobbies again?", "topic": "TALK_GODCO_guard_food_hobbies" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_art",
+    "dynamic_line": [
+      "I'm alright at it, I guess.  I'm no Van Gough or Botticelli, but I get along with it and do my best.  I've started using the desk up here to work on these days, I just need to keep my firearm close and one eye on the door."
+    ],
+    "responses": [
+      { "text": "What did you do for a job before <the_cataclysm>?", "topic": "TALK_GODCO_guard_food_precata_job" },
+      { "text": "Do you have any family?", "topic": "TALK_GODCO_guard_food_family" },
+      { "text": "Could you tell me about your hobbies again?", "topic": "TALK_GODCO_guard_food_hobbies" },
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_future_plans",
+    "dynamic_line": [
+      "I don't know anymore, to tell you the truth.  I was planning on settling down and having kids, but now that everyone's dead and the judgement of God has come to pass, I'll seek His truth and try to keep on living.  One day, when this is all over, I'll fly away to Heaven's pearly gates and be with the angels.  As for the Earth, I'd rather not think about the things that have come to pass."
+    ],
+    "responses": [
+      { "text": "Let's talk about something else.", "topic": "TALK_GODCO_guard_food_idlechat" },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_GODCO_guard_food_buy",
+    "dynamic_line": "Sure, I'd be willing to purchase some.  I'll have to work up the money with Helena, but I'm sure we've got it.  I'd prefer canned, and preserved goods.  How much are you talkin'?",
+    "repeat_responses": {
+      "for_item": [
+        "jerky",
+        "meat_smoked",
+        "fish_smoked",
+        "dry_meat",
+        "dry_veggy",
+        "dry_fruit",
+        "dry_fish",
+        "dry_lobster",
+        "dry_corn",
+        "salted_fish",
+        "cooking_oil",
+        "cooking_oil2",
+        "cornmeal",
+        "flour",
+        "fruit_wine",
+        "beer",
+        "sugar",
+        "salt",
+        "vinegar",
+        "kompot",
+        "freeze_dried_meal",
+        "offal_canned",
+        "can_coconut",
+        "con_milk",
+        "milk_evap",
+        "sauce_red",
+        "can_peach",
+        "apple_canned",
+        "fish_canned",
+        "lobster_canned",
+        "can_sardine",
+        "can_tuna",
+        "can_salmon",
+        "can_clams",
+        "can_chicken",
+        "can_corn",
+        "meat_canned",
+        "confit_meat",
+        "can_tomato",
+        "broth",
+        "broth_bone",
+        "soup_veggy",
+        "soup_meat",
+        "soup_fish",
+        "soup_lobsterstew",
+        "curry_veggy",
+        "curry_meat",
+        "soup_woods",
+        "soup_chicken",
+        "soup_mushroom",
+        "soup_tomato",
+        "soup_dumplings",
+        "soup_cullenskink",
+        "cooked_pumpkin",
+        "veggy_canned"
+      ],
+      "response": { "text": "I have <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [
+      {
+        "text": "I don't have anything right now.  Let's talk about something else.",
+        "topic": "TALK_GODCO_guard_food_idlechat"
+      },
+      { "text": "I have to go, see you later.", "topic": "TALK_DONE" }
+    ]
+  }
+]

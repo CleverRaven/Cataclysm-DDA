@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="installTitle">Oyun verileri yükleniyor...</string>
+    <string name="upgradeTitle">Oyun verileri güncelleniyor...</string>
+    <string name="helpTitle">Yardım &amp; Kontroller</string>
+    <string name="helpMessage">Yönlü hareket için \"Kaydırın\" (sanal joystick için basılı tutun). Menüde seçimi onaylamak veya oyunda bir turu atlamak için \"Dokunun\" (birkaç Tur Atlamak için basılı tutun). İptal etmek veya menülere geri dönmek için \"Çift dokunun\" (ESC tuşu gibi çalışır). (Oyun İçinde) yakınlaştırmak/uzaklaştırmak için \"Sıkıştırın\". Sanal klavyeyi açmak için telefonun \"Geri\" tuşunu kullanın (klavye kısayollarını değiştirmek için basılı tutun).</string>
+    <string name="softwareRendering">Software rendering</string>
+    <string name="forceFullscreen">Tam ekrana zorla</string>
+    <string name="trapBackButton">Geri düğmesi</string>
+    <string name="settings">Ayarlar</string>
+    <string name="startGame">Oyunu başlat</string>
+    <string name="showHelp">Yardımı göster</string>
+    <string name="crashAlert">Oyun geçen sefer düzgün şekilde kapatılmadı</string>
+    <string name="crashMessage">\"./config/crash.log\" \'taki çökme raporu geliştiricilerin program hatalarını gidermelerine yardımcı olabilir.</string>
+    </resources>

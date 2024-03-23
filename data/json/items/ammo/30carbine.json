@@ -1,0 +1,139 @@
+[
+  {
+    "id": "30carbine",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine FMJ" },
+    "//": ".30 Carbine .308, 110gr Hornady FMJ 3017, 15.5 gr Hodgdon H110 ",
+    "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.",
+    "ascii_picture": "30carbine",
+    "weight": "12 g",
+    "volume": "160 ml",
+    "longest_side": "43 mm",
+    "price": 200,
+    "price_postapoc": 1200,
+    "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
+    "material": [ "brass", "lead", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 50,
+    "stack_size": 50,
+    "ammo_type": "30carbine",
+    "casing": "30carbine_casing",
+    "range": 25,
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 36,
+      "armor_penetration": 4,
+      "barrels": [
+        { "barrel_length": "28 mm", "amount": 17 },
+        { "barrel_length": "32 mm", "amount": 18 },
+        { "barrel_length": "36 mm", "amount": 19 },
+        { "barrel_length": "41 mm", "amount": 20 },
+        { "barrel_length": "46 mm", "amount": 21 },
+        { "barrel_length": "52 mm", "amount": 22 },
+        { "barrel_length": "59 mm", "amount": 23 },
+        { "barrel_length": "67 mm", "amount": 24 },
+        { "barrel_length": "76 mm", "amount": 25 },
+        { "barrel_length": "86 mm", "amount": 26 },
+        { "barrel_length": "98 mm", "amount": 27 },
+        { "barrel_length": "111 mm", "amount": 28 },
+        { "barrel_length": "127 mm", "amount": 29 },
+        { "barrel_length": "146 mm", "amount": 30 },
+        { "barrel_length": "168 mm", "amount": 31 },
+        { "barrel_length": "193 mm", "amount": 32 },
+        { "barrel_length": "224 mm", "amount": 33 },
+        { "barrel_length": "261 mm", "amount": 34 },
+        { "barrel_length": "305 mm", "amount": 35 },
+        { "barrel_length": "359 mm", "amount": 36 },
+        { "barrel_length": "425 mm", "amount": 37 },
+        { "barrel_length": "507 mm", "amount": 38 },
+        { "barrel_length": "609 mm", "amount": 40 },
+        { "barrel_length": "739 mm", "amount": 41 },
+        { "barrel_length": "904 mm", "amount": 42 },
+        { "barrel_length": "1244 mm", "amount": 43 }
+      ]
+    },
+    "dispersion": 30,
+    "recoil": 1000,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "30carbine_jsp",
+    "copy-from": "30carbine",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine JSP" },
+    "description": ".30 Carbine ammunition with a 110gr jacketed soft point bullet, which will perform better as a hunting round than FMJ.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.",
+    "ascii_picture": "762_jhp",
+    "price": 100,
+    "price_postapoc": 750,
+    "relative": { "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": -4 } }
+  },
+  {
+    "id": "bp_30carbine_jsp",
+    "copy-from": "30carbine_jsp",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine JSP, black powder" },
+    "description": ".30 Carbine ammunition with a 110gr jacketed soft point bullet, which will perform better as a hunting round than FMJ.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.  This one is filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_30carbine_jsp",
+    "copy-from": "30carbine_jsp",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine JSP, reloaded" },
+    "description": ".30 Carbine ammunition with a 110gr jacketed soft point bullet, which will perform better as a hunting round than FMJ.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.  This one has been hand-reloaded, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+  },
+  {
+    "id": "matchhead_30carbine_jsp",
+    "copy-from": "bp_30carbine_jsp",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".30 Carbine JSP, matchhead powder" },
+    "description": ".30 Carbine ammunition with a 110gr jacketed soft point bullet, which will perform better as a hunting round than FMJ.  A light rifle round developed during the Second World War for use in the M1 carbine, it remains a popular sporting round today.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_30carbine",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  },
+  {
+    "id": "bp_30carbine",
+    "copy-from": "30carbine",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine, black powder" },
+    "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  This one is filled with black powder instead of smokeless powder.  Expect lower velocity, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "proportional": {
+      "price": 0.3,
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
+      "recoil": 0.76,
+      "dispersion": 1.2
+    },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER", "MUZZLE_SMOKE" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
+  },
+  {
+    "id": "reloaded_30carbine",
+    "copy-from": "30carbine",
+    "type": "AMMO",
+    "name": { "str_sp": ".30 Carbine, reloaded" },
+    "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  This one has been hand-reloaded, leading to slightly inferior performance compared to factory-produced ammo.",
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1, "recoil": 0.9 }
+  },
+  {
+    "id": "matchhead_30carbine",
+    "copy-from": "bp_30carbine",
+    "type": "AMMO",
+    "//": "matchhead bullets assumed to have about 75% of the muzzle energy of black powder",
+    "name": { "str_sp": ".30 Carbine, matchhead powder" },
+    "description": ".30 Carbine ammunition with a 110gr full metal jacket bullet.  This one was a victim of a truly desperate survivor, being loaded with powder from ground match heads.  Red phosphorous is less energetic than even black powder, but its fast burn rate also limits the amount that can be used due to the danger of blowing up the gun from overpressure.  As a result, it's even weaker than its black powder counterpart, and the ammo is still dirty and corrosive meaning it needs to be cleaned quickly or else the gun will suffer.",
+    "proportional": { "price": 0.5, "damage": { "damage_type": "bullet", "amount": 0.85 }, "dispersion": 1.1 },
+    "looks_like": "bp_30carbine",
+    "extend": { "effects": [ "MATCHHEAD" ] }
+  }
+]

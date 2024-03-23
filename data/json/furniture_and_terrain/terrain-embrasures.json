@@ -1,0 +1,315 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_embrasure_brick",
+    "name": "brick wall with embrasure",
+    "description": "This brick wall has an embrasure that lets you shoot and use reach weapons against enemies on the outside, while also protecting you.",
+    "symbol": "o",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_brick_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 48,
+      "str_max": 80,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 15 ] }, { "item": "brick", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_embrasure_adobe_brick",
+    "name": "adobe wall with embrasure",
+    "description": "This adobe brick wall has an embrasure that lets you shoot and use reach weapons against enemies on the outside, while also protecting you.",
+    "symbol": "o",
+    "color": "brown",
+    "looks_like": "t_embrasure_brick",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_brick_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 32,
+      "str_max": 60,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_embrasure_rock",
+    "name": "stone wall with embrasure",
+    "description": "The small opening on this stone wall allows you to shoot and use reach weapons against enemies on the other side, while also providing cover for you.",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_rock_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "AUTO_WALL_SYMBOL",
+      "WALL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 64,
+      "str_max": 150,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "rock", "count": [ 8, 18 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_embrasure_wood",
+    "name": "wooden wall with embrasure",
+    "description": "This wooden wall has a hole that lets you shoot and use reach weapons against enemies on the other side.  Highly flammable.",
+    "symbol": "o",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 75,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_wood_widened",
+      "items": [
+        { "item": "2x4", "count": [ 1, 5 ] },
+        { "item": "wood_panel", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": [ 1, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_wood_widened",
+    "name": "wooden wall with a wide opening",
+    "description": "This wooden wall previously had an embrasure, but the hole has been smashed wide enough that you can climb through it, rendering it kind of pointless.  Highly flammable.",
+    "looks_like": "t_embrasure_wood",
+    "symbol": "o",
+    "color": "light_red",
+    "move_cost": 4,
+    "coverage": 60,
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "PERMEABLE",
+      "SMALL_PASSAGE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 90,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 2, 7 ] },
+        { "item": "wood_panel", "count": [ 0, 3 ] },
+        { "item": "nail", "charges": [ 4, 12 ] },
+        { "item": "splinter", "count": [ 2, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_embrasure_log",
+    "name": "log wall with embrasure",
+    "description": "This timber wall has a hole that lets you shoot through and use reach weapons against enemies on the other side, while also protecting you.  Quite flammable.",
+    "symbol": "o",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 48,
+      "str_max": 90,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wall_log_widened",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_log_widened",
+    "name": "log wall with a wide opening",
+    "description": "This timber wall previously had an embrasure, but now the hole is so big that you can climb through it, rendering it kind of pointless.  Quite flammable.",
+    "looks_like": "t_embrasure_log",
+    "symbol": "o",
+    "color": "brown",
+    "move_cost": 4,
+    "coverage": 60,
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "PERMEABLE",
+      "SMALL_PASSAGE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 52,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_palisade_embrasure",
+    "name": "palisade wall with embrasure",
+    "looks_like": "t_embrasure_log",
+    "description": "An age-old type of fortification consisting of hefty lumber staked into the ground and cabled together.  This section in particular has an embrasure, so you can shoot or use reach weapons through it while staying safe.",
+    "symbol": "o",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 90,
+    "flags": [
+      "FLAMMABLE",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "CONNECT_WITH_WALL",
+      "WALL",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 28,
+      "str_max": 75,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [ { "item": "splinter", "count": [ 10, 30 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_embrasure_sconc",
+    "name": "simple concrete wall with embrasure",
+    "description": "A durable and uniform concrete wall.  This one has an embrasure, so you can shoot or use reach weapons through it while staying safe.",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_concrete_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 72,
+      "str_max": 175,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_embrasure_strconcrete",
+    "name": "reinforced concrete wall with embrasure",
+    "description": "A section of wall with a nice small hole, letting you shoot your machine gun from the safety of your reinforced bunker.",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 90,
+    "roof": "t_concrete_roof",
+    "flags": [
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "MOUNTABLE",
+      "PERMEABLE",
+      "TRANSPARENT",
+      "THIN_OBSTACLE"
+    ],
+    "bash": {
+      "str_min": 96,
+      "str_max": 230,
+      "sound": "scrrrash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_reb_cage",
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  }
+]

@@ -3,12 +3,12 @@
 #define CATA_SRC_MEMORIAL_LOGGER_H
 
 #include <iosfwd>
-#include <string>
+#include <new>
+#include <optional>
 #include <vector>
 
 #include "calendar.h"
 #include "event_subscriber.h"
-#include "optional.h"
 #include "string_formatter.h"
 #include "type_id.h"
 
@@ -16,20 +16,20 @@ namespace cata
 {
 class event;
 }  // namespace cata
-class JsonIn;
+class JsonObject;
 class JsonOut;
 
 class memorial_log_entry
 {
     public:
         memorial_log_entry() = default;
-        memorial_log_entry( const std::string &preformatted_msg );
-        memorial_log_entry( time_point, const oter_type_str_id &, const std::string &oter_name,
-                            const std::string &msg );
+        explicit memorial_log_entry( const std::string &preformatted_msg );
+        memorial_log_entry( time_point, const oter_type_str_id &, std::string_view oter_name,
+                            std::string_view msg );
 
         std::string to_string() const;
 
-        void deserialize( JsonIn & );
+        void deserialize( const JsonObject &jo );
         void serialize( JsonOut & ) const;
     private:
         time_point time_;
@@ -40,7 +40,7 @@ class memorial_log_entry
         // For legacy lines loaded from the text memorial file.  For any given
         // memorial_log_entry either the following value will be populated or
         // the above four values (but not both).
-        cata::optional<std::string> preformatted_;
+        std::optional<std::string> preformatted_;
 };
 
 class memorial_logger : public event_subscriber
@@ -48,18 +48,13 @@ class memorial_logger : public event_subscriber
     public:
         void clear();
 
-        void add( const std::string &male_msg,
-                  const std::string &female_msg );
-        template<typename ...Args>
-        void add( const char *const male_msg, const char *const female_msg, Args &&... args ) {
-            return add( string_format( male_msg, args... ),
-                        string_format( female_msg, args... ) );
-        }
-        template<typename ...Args>
-        void add( const std::string &male_msg, const std::string &female_msg,
-                  Args &&... args ) {
-            return add( string_format( male_msg, args... ),
-                        string_format( female_msg, args... ) );
+        void add( std::string_view male_msg,
+                  std::string_view female_msg );
+        template<typename Arg, typename ...Args>
+        void add( const std::string_view male_msg, const std::string &female_msg,
+                  Arg &&arg, Args &&... args ) {
+            return add( string_format( male_msg, arg, args... ),
+                        string_format( female_msg, arg, args... ) );
         }
 
         // Loads the memorial log from a file
@@ -75,6 +70,7 @@ class memorial_logger : public event_subscriber
                                   const std::string &epitaph ) const;
         void write_json_memorial( std::ostream &memorial_file ) const;
 
+        using event_subscriber::notify;
         void notify( const cata::event & ) override;
     private:
         std::vector<memorial_log_entry> log;

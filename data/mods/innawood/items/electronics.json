@@ -1,0 +1,63 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "makeshift_transformer",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "makeshift transformer" },
+    "category": "spare_parts",
+    "looks_like": "power_supply",
+    "description": "A bundle of cables around an iron core.  Useful for controlling voltage.",
+    "price": 170,
+    "price_postapoc": 15,
+    "material": [ "iron", "copper" ],
+    "weight": "113 g",
+    "volume": "1 L",
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
+  },
+  {
+    "id": "magazine_battery_mod",
+    "copy-from": "mod_battery",
+    "type": "TOOLMOD",
+    "category": "spare_parts",
+    "name": { "str": "battery compartment mod" },
+    "description": "A battery compartment mod that allows using vehicle batteries and small storage batteries in regular tools.",
+    "color": "light_green",
+    "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike", "battery_car_clay" ]
+      }
+    ],
+    "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike", "battery_car_clay" ] ] ]
+  },
+  {
+    "id": "electrolysis_kit",
+    "type": "TOOL",
+    "name": { "str": "electrolysis kit" },
+    "description": "A set of wiring and electrodes for applying a direct current, usually to a liquid.  Useful for crafting.  Load with a storage battery or 12V vehicle battery to use.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 750,
+    "material": [ "steel", "copper", "plastic" ],
+    "symbol": ";",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "//": "this tool is small and has no actual battery compartment, but can connect to large batteries.",
+        "item_restriction": [
+          "battery_car",
+          "battery_car_clay",
+          "battery_motorbike",
+          "small_storage_battery",
+          "medium_storage_battery",
+          "storage_battery"
+        ]
+      }
+    ]
+  }
+]

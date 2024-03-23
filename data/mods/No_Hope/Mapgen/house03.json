@@ -1,0 +1,64 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "house_03",
+    "//": "normal variant",
+    "type": "mapgen",
+    "weight": 10000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "....[.[.[.%``%p.[.......",
+        "..........%``%........[.",
+        "....X.....%``%..........",
+        ".........%````%.......[.",
+        "....!!!.%``````%.!!!....",
+        ".[##ooo###o#*####ooo##..",
+        "..#457Y6|y    L|RNNNR#.[",
+        "..#F   6|      +  A  o..",
+        "..oO J    hfh r|Ey TP#..",
+        "..o3 J    hfh  ||||||#.[",
+        "[.#2 J y| |||| +----9#..",
+        ".[#1   U|  k~ T|8S8tQ#..",
+        ".[#||||||E l  E||||||#..",
+        "..#s    + HHH  + dbDT#..",
+        "..o@@  I|     R|     o..",
+        "..o@@ hI###++### @@ Eo.[",
+        ".^#d   D#!````!#y@@I #^.",
+        "..##ooo##!`G`G!##ooo##..",
+        "..........````...jjj.%..",
+        "........................",
+        ".................[......",
+        "........................",
+        "................[...[...",
+        "[......................."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "`": "t_concrete",
+        "K": "t_concrete",
+        "G": "t_concrete",
+        "-": "t_linoleum_white",
+        "Q": "t_linoleum_white",
+        "8": "t_linoleum_white",
+        "9": "t_linoleum_white",
+        "S": "t_linoleum_white",
+        "t": "t_linoleum_white",
+        "k": "t_thconc_floor",
+        "~": "t_thconc_floor"
+      },
+      "furniture": { "!": "f_region_flower" },
+      "place_items": [ { "item": "stash_wood", "x": 12, "y": 11, "chance": 50, "repeat": [ 2, 6 ] } ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 25 ], [ "playset_4x4_2", 25 ], [ "firepit_5x5_1", 25 ], [ "firepit_5x5_2", 25 ], [ "playset_4x4_1", 25 ] ],
+          "x": 3,
+          "y": 19
+        }
+      ]
+    }
+  }
+]

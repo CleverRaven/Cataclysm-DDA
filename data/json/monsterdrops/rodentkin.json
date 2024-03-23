@@ -1,0 +1,90 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "ratkin_death_drops_mausketeer",
+    "entries": [
+      { "group": "mausketeer_swords", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "ratkin_mausketeer_clothes", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "ratkin_death_drops_teke",
+    "entries": [ { "group": "ratkin_teke_clothes", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for mausketeer",
+    "id": "ratkin_mausketeer_clothes",
+    "entries": [
+      { "group": "mausketeer_coats", "damage": [ 0, 3 ], "prob": 60 },
+      { "group": "gloves_unisex", "damage": [ 0, 4 ], "prob": 20 },
+      { "group": "hatstore_hats", "damage": [ 0, 4 ], "prob": 20 },
+      { "group": "scarfs_unisex", "damage": [ 0, 4 ], "prob": 20 },
+      { "group": "mausketeer_swords", "damage": [ 0, 4 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "damage": [ 0, 4 ], "prob": 45 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "contains cloth for a telekinetic rat",
+    "id": "ratkin_teke_clothes",
+    "entries": [
+      { "item": "coat_lab", "damage": [ 0, 4 ], "prob": 60 },
+      { "group": "drugs_emergency", "damage": [ 0, 2 ], "prob": 20 },
+      { "group": "drugs_pharmacy", "damage": [ 0, 3 ], "prob": 20 },
+      { "group": "chem_lab", "damage": [ 0, 2 ], "prob": 20 },
+      { "group": "accesories_personal_unisex", "damage": [ 0, 2 ], "prob": 45 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "contains shiny drops from a pack rat's mouth",
+    "id": "ratkin_death_drops_pack_rat",
+    "entries": [
+      { "group": "coins", "damage": [ 0, 1 ], "prob": 25, "count": [ 1, 10 ] },
+      { "group": "silverware", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 3 ] },
+      { "group": "looted_store", "damage": [ 0, 2 ], "prob": 25, "count": [ 1, 2 ] },
+      { "group": "hardware_trash", "damage": [ 0, 3 ], "prob": 25, "count": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "contains coats for mausketeers",
+    "id": "mausketeer_coats",
+    "entries": [
+      { "item": "greatcoat", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "duster_leather", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "sleeveless_trenchcoat_leather", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "trenchcoat_leather", "damage": [ 0, 4 ], "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "contains swords for mausketeers",
+    "id": "mausketeer_swords",
+    "entries": [
+      { "item": "sword_metal", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "cavalry_sabre", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "estoc", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "estoc_inferior", "damage": [ 0, 4 ], "prob": 10 },
+      { "item": "estoc_fake", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "fencing_foil_sharpened", "damage": [ 0, 4 ], "prob": 10 },
+      { "item": "fencing_sabre_sharpened", "damage": [ 0, 4 ], "prob": 10 },
+      { "item": "cutlass_fake", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "cutlass_inferior", "damage": [ 0, 4 ], "prob": 10 },
+      { "item": "cutlass", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "rapier", "damage": [ 0, 4 ], "prob": 5 },
+      { "item": "cavalry_sabre_fake", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "rapier_fake", "damage": [ 0, 4 ], "prob": 20 },
+      { "item": "fencing_epee_sharpened", "damage": [ 0, 4 ], "prob": 10 }
+    ]
+  }
+]

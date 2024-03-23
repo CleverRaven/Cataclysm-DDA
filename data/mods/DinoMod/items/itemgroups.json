@@ -1,0 +1,244 @@
+[
+  {
+    "id": "mut_lab",
+    "type": "item_group",
+    "copy-from": "mut_lab",
+    "extend": {
+      "items": [
+        [ "kiernans_notes", 1 ],
+        [ "iv_mutagen_tyrant", 3 ],
+        [ "iv_mutagen_stego", 3 ],
+        [ "iv_mutagen_horns", 3 ],
+        [ "mutagen_tyrant", 5 ],
+        [ "mutagen_stego", 5 ],
+        [ "mutagen_horns", 5 ]
+      ]
+    }
+  },
+  {
+    "id": "lab_mutagen_ingredients_fridge",
+    "type": "item_group",
+    "subtype": "collection",
+    "copy-from": "lab_mutagen_ingredients_fridge",
+    "extend": {
+      "entries": [
+        { "item": "raptor_sample", "prob": 40, "count": [ 1, 3 ] },
+        { "item": "tyrant_sample", "prob": 40, "count": [ 1, 3 ] },
+        { "item": "stego_sample", "prob": 40, "count": [ 1, 3 ] },
+        { "item": "horns_sample", "prob": 40, "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "id": "raptor_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample" } ]
+  },
+  {
+    "id": "raptor_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "raptor_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "raptor_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "raptor_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "tyrant_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample" } ]
+  },
+  {
+    "id": "tyrant_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "tyrant_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "tyrant_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "tyrant_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "stego_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample" } ]
+  },
+  {
+    "id": "stego_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "stego_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "stego_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "stego_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "id": "horns_sample_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "horns_sample" } ]
+  },
+  {
+    "id": "horns_sample_small",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "horns_sample", "count-min": 1, "count-max": 3 } ]
+  },
+  {
+    "id": "horns_sample_large",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "horns_sample", "count-min": 3, "count-max": 6 } ]
+  },
+  {
+    "id": "horns_sample_huge",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "horns_sample", "count-min": 10, "count-max": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "office_DinoLab",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [
+      { "group": "office", "prob": 100 },
+      [ "newest_newspaper", 100 ],
+      [ "egg_dino", 75 ],
+      [ "egg_dino_theropod", 75 ],
+      [ "mutagen_tyrant", 30 ],
+      [ "mutagen_stego", 30 ],
+      [ "mutagen_horns", 30 ],
+      [ "kiernans_notes", 10 ],
+      { "item": "kevlar_armor_elephant", "prob": 10 },
+      { "item": "acidchitin_armor_elephant", "prob": 10 },
+      { "item": "chitin_armor_elephant", "prob": 10 },
+      { "item": "chainmail_armor_elephant", "prob": 10 },
+      { "item": "leather_armor_elephant", "prob": 10 },
+      { "item": "leatherbone_armor_elephant", "prob": 10 },
+      { "item": "rubber_armor_elephant", "prob": 10 },
+      { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
+      { "item": "iron_armor_elephant", "prob": 10 },
+      { "item": "steel_armor_elephant", "prob": 10 },
+      { "item": "bronze_armor_elephant", "prob": 10 },
+      { "item": "kevlar_armor_ostrich", "prob": 10 },
+      { "item": "acidchitin_armor_ostrich", "prob": 10 },
+      { "item": "chitin_armor_ostrich", "prob": 10 },
+      { "item": "chainmail_armor_ostrich", "prob": 10 },
+      { "item": "leather_armor_ostrich", "prob": 10 },
+      { "item": "leatherbone_armor_ostrich", "prob": 10 },
+      { "item": "rubber_armor_ostrich", "prob": 10 },
+      { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" },
+      { "item": "iron_armor_ostrich", "prob": 10 },
+      { "item": "steel_armor_ostrich", "prob": 10 },
+      { "item": "bronze_armor_ostrich", "prob": 10 },
+      { "item": "dino_carrier", "prob": 10 },
+      { "item": "dino_carrier_wooden", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "museum_armor_pet",
+    "copy-from": "museum_armor_pet",
+    "extend": {
+      "items": [
+        { "item": "kevlar_armor_elephant", "prob": 10 },
+        { "item": "acidchitin_armor_elephant", "prob": 10 },
+        { "item": "chitin_armor_elephant", "prob": 10 },
+        { "item": "chainmail_armor_elephant", "prob": 10 },
+        { "item": "leather_armor_elephant", "prob": 10 },
+        { "item": "leatherbone_armor_elephant", "prob": 10 },
+        { "item": "rubber_armor_elephant", "prob": 10 },
+        { "item": "sweater_armor_elephant", "prob": 10, "event": "christmas" },
+        { "item": "iron_armor_elephant", "prob": 10 },
+        { "item": "steel_armor_elephant", "prob": 10 },
+        { "item": "bronze_armor_elephant", "prob": 10 },
+        { "item": "kevlar_armor_ostrich", "prob": 10 },
+        { "item": "acidchitin_armor_ostrich", "prob": 10 },
+        { "item": "chitin_armor_ostrich", "prob": 10 },
+        { "item": "chainmail_armor_ostrich", "prob": 10 },
+        { "item": "leather_armor_ostrich", "prob": 10 },
+        { "item": "leatherbone_armor_ostrich", "prob": 10 },
+        { "item": "rubber_armor_ostrich", "prob": 10 },
+        { "item": "sweater_armor_ostrich", "prob": 10, "event": "christmas" },
+        { "item": "iron_armor_ostrich", "prob": 10 },
+        { "item": "steel_armor_ostrich", "prob": 10 },
+        { "item": "bronze_armor_ostrich", "prob": 10 }
+      ]
+    }
+  }
+]

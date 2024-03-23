@@ -6,9 +6,9 @@
     "type": "vehicle_part",
     "item": "steam_triple_large",
     "durability": 200,
-    "epower": 0,
-    "power": 242450,
-    "energy_consumption": 485000,
+    "epower": "0 W",
+    "power": "242450 W",
+    "energy_consumption": "485000 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -16,8 +16,8 @@
       { "item": "water", "count": [ 50, 120 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     }
   },
@@ -28,9 +28,9 @@
     "type": "vehicle_part",
     "item": "steam_triple_giant",
     "durability": 200,
-    "epower": 0,
-    "power": 447600,
-    "energy_consumption": 895250,
+    "epower": "0 W",
+    "power": "447600 W",
+    "energy_consumption": "895250 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -38,8 +38,8 @@
       { "item": "water", "count": [ 50, 120 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     }
   },
@@ -61,9 +61,9 @@
     "type": "vehicle_part",
     "item": "steam_turbine_small",
     "durability": 200,
-    "epower": 0,
-    "power": 93250,
-    "energy_consumption": 207250,
+    "epower": "0 W",
+    "power": "93250 W",
+    "energy_consumption": "207250 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -71,8 +71,8 @@
       { "item": "water", "count": [ 50, 120 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     }
   },
@@ -83,9 +83,9 @@
     "type": "vehicle_part",
     "item": "steam_turbine_medium",
     "durability": 200,
-    "epower": 0,
-    "power": 149200,
-    "energy_consumption": 331750,
+    "epower": "0 W",
+    "power": "149200 W",
+    "energy_consumption": "331750 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -93,8 +93,8 @@
       { "item": "water", "count": [ 50, 120 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     }
   },
@@ -105,9 +105,9 @@
     "type": "vehicle_part",
     "item": "steam_turbine_large",
     "durability": 200,
-    "epower": 0,
-    "power": 242450,
-    "energy_consumption": 539000,
+    "epower": "0 W",
+    "power": "242450 W",
+    "energy_consumption": "539000 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -115,8 +115,8 @@
       { "item": "water", "count": [ 50, 120 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     }
   },
@@ -127,9 +127,9 @@
     "type": "vehicle_part",
     "item": "steam_turbine_giant",
     "durability": 200,
-    "epower": 0,
-    "power": 447600,
-    "energy_consumption": 994750,
+    "epower": "0 W",
+    "power": "447600 W",
+    "energy_consumption": "994750 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -137,8 +137,8 @@
       { "item": "water", "count": [ 50, 120 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     }
   }

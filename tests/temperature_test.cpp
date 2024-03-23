@@ -1,34 +1,21 @@
-#include "catch/catch.hpp"
-
-#include <cmath>
-#include <string>
-
 #include "calendar.h"
 #include "cata_utility.h"
+#include "cata_catch.h"
 #include "enums.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "item.h"
+#include "map.h"
 #include "point.h"
 #include "weather.h"
 
-static bool is_nearly( float value, float expected )
-{
-    // Rounding errors make the values change around a bit
-    // Inside reality bubble and outside reality bubble also get slightly different results
-    // Lets just check that they are within 5% of expected
-
-    bool ret_val = std::abs( value - expected ) / expected < 0.05;
-    return ret_val;
-}
-
-static void set_map_temperature( int new_temperature )
+static void set_map_temperature( units::temperature new_temperature )
 {
     get_weather().temperature = new_temperature;
     get_weather().clear_temp_cache();
 }
 
-TEST_CASE( "Item spawns with right thermal attributes" )
+TEST_CASE( "Item_spawns_with_right_thermal_attributes", "[temperature]" )
 {
     item D( "meat_cooked" );
 
@@ -36,22 +23,21 @@ TEST_CASE( "Item spawns with right thermal attributes" )
     CHECK( D.get_specific_heat_solid() == 2.15f );
     CHECK( D.get_latent_heat() == 260 );
 
-    CHECK( D.temperature == 0 );
-    CHECK( D.specific_energy == -10 );
+    CHECK( units::to_kelvin( D.temperature ) == 0 );
+    CHECK( units::to_joule_per_gram( D.specific_energy ) == -10 );
 
-    set_map_temperature( 122 );
-    D.process_temperature_rot( 1, tripoint_zero, nullptr );
+    set_map_temperature( units::from_fahrenheit( 122 ) );
+    D.process_temperature_rot( 1, tripoint_zero, get_map(), nullptr );
 
-    CHECK( is_nearly( D.temperature, 323.15 * 100000 ) );
+    CHECK( units::to_kelvin( D.temperature ) == Approx( 323.15 ) );
 }
 
-TEST_CASE( "Rate of temperature change" )
+TEST_CASE( "Rate_of_temperature_change", "[temperature]" )
 {
     // Fahrenheits and kelvins get used and converted around
-    // So there are small rounding errors everywhere
-    // Check ranges instead of values when rounding errors
-    // The calculations are done once every 101 turns (10 min 6 seconds)
-    // Don't bother with times shorter than this
+    // So there are small rounding errors everywhere. Use margins.
+    // The calculations are done once every 10 minutes.
+    // Don't bother with times shorter than that.
 
     // Note: If process interval is longer than 1 hour the calculations will be done using the environment temperature
     // IMPORTANT: Processing intervals should be kept below 1 hour to avoid this.
@@ -61,6 +47,7 @@ TEST_CASE( "Rate of temperature change" )
     // Cool down test
     // heat up test
 
+    map &here = get_map();
     SECTION( "Water bottle test (ralisticity)" ) {
         // Water at 55 C
         // Environment at 20 C
@@ -75,193 +62,202 @@ TEST_CASE( "Rate of temperature change" )
         item water1( "water" );
         item water2( "water" );
 
-        set_map_temperature( 131 ); // 55 C
+        set_map_temperature( units::from_fahrenheit( 131 ) ); // 55 C
 
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        water2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        water2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         // 55 C
-        CHECK( is_nearly( water1.temperature, 328.15 * 100000 ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( 328.15 ) );
 
-        set_map_temperature( 68 ); // 20C
+        set_map_temperature( units::from_fahrenheit( 68 ) ); // 20C
 
         calendar::turn += 11_minutes;
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 20_minutes;
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 29_minutes;
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        water2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        water2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 15_minutes;
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        water2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        water2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
-        // 29.4 C
-        CHECK( is_nearly( water1.temperature, 30259330 ) );
-        CHECK( is_nearly( water1.temperature, water2.temperature ) );
+        // about 29.6 C
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( 302.71802 ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( units::to_kelvin( water2.temperature ) ) );
     }
 
     SECTION( "Hot liquid to frozen" ) {
         // 2x cooked meat (50 C) cooling in -20 C environment for several hours
         // 1) Both at 50C and hot
-        // 2) Wait a short time then Meat 1 at 33.5 C and not hot
-        // 3) Wait less than an hour then Meat 1 and 2 at 0 C not frozen
-        // 4) Wait a few hours then Meat 1 and 2 at 0 C frozen
-        // 5) Wait a short time then Meat 1 and 2 at -x C
+        // 2) Wait a short time then Meat 1 at about 34.6 C and not hot
+        // 3) Wait an hour at different intervals then Meat 1 and 2 at 0 C not frozen
+        // 4) Wait two hours then Meat 1 and 2 at 0 C frozen
+        // 5) Wait a bit over hour then Meat 1 and 2 at about -5.2 C
 
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
 
-        set_map_temperature( 122 ); //50 C
+        set_map_temperature( units::from_fahrenheit( 122 ) ); //50 C
 
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         // 50 C
-        CHECK( is_nearly( meat1.temperature, 323.15 * 100000 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 323.15 ) );
         CHECK( meat1.has_own_flag( flag_HOT ) );
 
-        set_map_temperature( -4 ); // -20 C
+        set_map_temperature( units::from_fahrenheit( -4 ) ); // -20 C
 
         calendar::turn += 15_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
-        // 33.5 C
-        CHECK( is_nearly( meat1.temperature, 30673432 ) );
+        // about 34.6 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 307.78338 ) );
         CHECK( !meat1.has_own_flag( flag_HOT ) );
 
         calendar::turn += 11_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
         calendar::turn += 11_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 30_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        calendar::turn += 11_minutes;
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+
         // 0C
         // not frozen
-        CHECK( is_nearly( meat1.temperature, 27315000 ) );
-        CHECK( is_nearly( meat2.temperature, 27315000 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 273.15 ) );
+        CHECK( units::to_kelvin( meat2.temperature ) == Approx( 273.15 ) );
         CHECK( !meat1.has_own_flag( flag_FROZEN ) );
         CHECK( !meat2.has_own_flag( flag_FROZEN ) );
 
         calendar::turn += 60_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
         calendar::turn += 60_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         // 0C
         // frozen
         // same energy as meat 2
-        CHECK( is_nearly( meat1.temperature, 27315000 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 273.15 ) );;
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
-        CHECK( is_nearly( meat1.specific_energy, meat2.specific_energy ) );
+        CHECK( units::to_joule_per_gram( meat1.specific_energy ) == Approx( units::to_joule_per_gram(
+                    meat2.specific_energy ) ) );
 
         calendar::turn += 11_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
         calendar::turn += 20_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 20_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        calendar::turn += 50_minutes;
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
-        // -7.2 C
+        // about -5.2 C
         // frozen
         // same temp as meat 2
-        CHECK( is_nearly( meat1.temperature, 26595062 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 267.98050 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
-        CHECK( is_nearly( meat1.temperature, meat2.temperature ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( units::to_kelvin( meat2.temperature ) ) );
     }
 
     SECTION( "Cold solid to liquid" ) {
-        // 2x cooked meat (-20 C) warming in 20 C environment for ~190 minutes
-        // 0 min: both at -20 C and frozen
-        // 11 min: meat 1 at -5.2 C
-        // 22 min: meat 1 step
-        // 33 min: meat 1 step
-        // 53 min: Meat 1, 2 at 0 C an frozen
-        // 143 min: Meat 1 and 2 at 0 C not frozen.
-        //          Both have same energy (within rounding error)
-        // 154 min: meat 1 step
-        // 174 min: meat 1 step
-        // 194 min: Meat 1 and 2 at 13.3 C
+        // 2x cooked meat (-20 C) warming in 20 C environment
+        // Start: both at -20 C and frozen
+        // 11 min: meat 1 at about -9.3 C
+        // Process 32 min in different steps
+        // Both meats frozen at 0 C
+        // Process 90 min
+        // Both meats not frozen at 9 C
+        // Process 100 min in different steps
+        // Both meats at about 2.2 C
 
         item meat1( "meat_cooked" );
         item meat2( "meat_cooked" );
 
-        set_map_temperature( -4 ); // -20 C
+        set_map_temperature( units::from_fahrenheit( -4 ) ); // -20 C
 
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         // -20 C
-        CHECK( is_nearly( meat1.temperature, 253.15 * 100000 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 253.15 ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
 
-        set_map_temperature( 68 ); // 20 C
+        set_map_temperature( units::from_fahrenheit( 68 ) ); // 20 C
 
         calendar::turn += 11_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        // -5.2 C
-        CHECK( is_nearly( meat1.temperature, 26789608 ) );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        // about -9.3 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 263.89390 ) );
 
         calendar::turn += 11_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 11_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 20_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         // 0C
         // same temp
         // frozen
-        CHECK( is_nearly( meat1.temperature, 27315000 ) );
-        CHECK( is_nearly( meat2.temperature, meat1.temperature ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 273.15 ) );
+        CHECK( units::to_kelvin( meat2.temperature ) == units::to_kelvin( meat1.temperature ) );
         CHECK( meat1.has_own_flag( flag_FROZEN ) );
         CHECK( meat2.has_own_flag( flag_FROZEN ) );
 
         calendar::turn += 45_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 45_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         // 0C
         // same temp
         // not frozen
-        CHECK( is_nearly( meat1.temperature, 27315000 ) );
-        CHECK( is_nearly( meat2.temperature, meat1.temperature ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 273.15 ) );
+        CHECK( units::to_kelvin( meat2.temperature ) == units::to_kelvin( meat1.temperature ) );
         CHECK( !meat1.has_own_flag( flag_FROZEN ) );
 
         calendar::turn += 11_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
         calendar::turn += 20_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
 
         calendar::turn += 20_minutes;
-        meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
-        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-        // 13.3 C
-        // same temp
-        CHECK( is_nearly( meat1.temperature, 28654986 ) );
-        CHECK( is_nearly( meat1.temperature, meat2.temperature ) );
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        calendar::turn += 50_minutes;
+        meat1.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, here, nullptr );
+
+        // about 2.2 C
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( 275.32468 ) );
+        CHECK( units::to_kelvin( meat1.temperature ) == Approx( units::to_kelvin( meat2.temperature ) ) );
     }
 }
 
-TEST_CASE( "Temperature controlled location" )
+TEST_CASE( "Temperature_controlled_location", "[temperature]" )
 {
     SECTION( "Heater test" ) {
         // Spawn water
@@ -270,23 +266,27 @@ TEST_CASE( "Temperature controlled location" )
         // Process water 2h 3m later. Should still be temperatures::normal.
         item water1( "water" );
 
-        set_map_temperature( 0 ); // -17 C
+        set_map_temperature( units::from_fahrenheit( 0 ) ); // -17 C
 
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+        map &here = get_map();
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( units::to_kelvin(
+                    temperatures::normal ) ) );
 
         calendar::turn += 15_minutes;
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( units::to_kelvin(
+                    temperatures::normal ) ) );
 
         calendar::turn += 2_hours + 3_minutes;
-        water1.process_temperature_rot( 1, tripoint_zero, nullptr,
+        water1.process_temperature_rot( 1, tripoint_zero, here, nullptr,
                                         temperature_flag::HEATER );
 
-        CHECK( is_nearly( water1.temperature, 100000 * temp_to_kelvin( temperatures::normal ) ) );
+        CHECK( units::to_kelvin( water1.temperature ) == Approx( units::to_kelvin(
+                    temperatures::normal ) ) );
     }
 }

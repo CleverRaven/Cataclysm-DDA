@@ -37,7 +37,7 @@ def icon_from_app(app_path):
 format = defines.get('format', 'UDBZ')
 
 # Volume size (must be large enough for your files)
-size = defines.get('size', '200M')
+size = defines.get('size', '400M')
 
 # Files to include
 files = [application]
@@ -82,7 +82,7 @@ icon_locations = {
 #
 # Other color components may be expressed either in the range 0 to 1, or
 # as percentages (e.g. 60% is equivalent to 0.6).
-background = 'data/osx/dmgback.png'
+background = 'build-data/osx/dmgback.png'
 
 show_status_bar = False
 show_tab_view = False

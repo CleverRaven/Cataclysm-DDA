@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_OFSTREAM_WRAPPER_H
 #define CATA_SRC_OFSTREAM_WRAPPER_H
 
-#include <fstream>
+#include "filesystem.h"
 
 /**
  * Wrapper around std::ofstream that handles error checking and throws on errors.
@@ -23,19 +23,19 @@ class ofstream_wrapper
 {
     private:
         std::ofstream file_stream;
-        std::string path;
-        std::string temp_path;
+        fs::path path;
+        fs::path temp_path;
 
         void open( std::ios::openmode mode );
 
     public:
-        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
+        ofstream_wrapper( const fs::path &path, std::ios::openmode mode );
         ~ofstream_wrapper();
 
         std::ostream &stream() {
             return file_stream;
         }
-        operator std::ostream &() {
+        explicit operator std::ostream &() {
             return file_stream;
         }
 

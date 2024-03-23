@@ -8,12 +8,13 @@ enum class quadrant : int;
  */
 struct fragment_cloud {
     fragment_cloud() : velocity( 0.0 ), density( 0.0 ) {}
-    fragment_cloud( float initial_value ) : velocity( initial_value ), density( initial_value ) {}
+    explicit fragment_cloud( float initial_value ) : velocity( initial_value ),
+        density( initial_value ) {}
     fragment_cloud( float initial_velocity, float initial_density )
         : velocity( initial_velocity ), density( initial_density ) {
     }
     fragment_cloud &operator=( const float &value );
-    bool operator==( const fragment_cloud &that );
+    bool operator==( const fragment_cloud &that ) const;
     /* Velocity is in m/sec. */
     float velocity;
     /* Density is a fuzzy count of number of fragments per cubic meter (one square). */

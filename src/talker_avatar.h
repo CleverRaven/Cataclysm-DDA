@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_TALKER_AVATAR_H
 #define CATA_SRC_TALKER_AVATAR_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "talker_character.h"
@@ -15,10 +15,10 @@ class translation;
 /*
  * Talker wrapper class for avatar.
  */
-class talker_avatar: public talker_character
+class talker_avatar: public talker_cloner<talker_avatar, talker_character>
 {
     public:
-        talker_avatar( avatar *new_me );
+        explicit talker_avatar( avatar *new_me );
         ~talker_avatar() override = default;
 
         // mandatory functions for starting a dialogue
@@ -27,7 +27,7 @@ class talker_avatar: public talker_character
         int trial_chance_mod( const std::string &trial_type ) const override;
 
         // inventory and such
-        void buy_monster( talker &seller, const mtype_id &mtype, int cost,
+        bool buy_monster( talker &seller, const mtype_id &mtype, int cost,
                           int count, bool pacified, const translation &name ) override;
 };
 #endif // CATA_SRC_TALKER_AVATAR_H

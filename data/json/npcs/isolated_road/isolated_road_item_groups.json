@@ -1,0 +1,209 @@
+[
+  {
+    "type": "item_group",
+    "id": "CODY_MILLER_trade",
+    "subtype": "collection",
+    "entries": [
+      { "group": "sca_smith_manuals", "count": [ 0, 4 ], "prob": 100 },
+      { "group": "sca_smith_armor", "count": [ 4, 8 ], "prob": 100 },
+      { "group": "sca_smith_ranged", "count": [ 0, 4 ], "prob": 100 },
+      { "group": "sca_smith_weapons", "count": [ 0, 4 ], "prob": 100 },
+      { "group": "sca_smith_accessories", "count": [ 0, 4 ], "prob": 100 },
+      { "group": "sca_smith_ammo", "count": [ 0, 8 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "JAY_RUCKERS_trade",
+    "subtype": "collection",
+    "entries": [
+      { "group": "ammo_rifle_common", "count": 1, "prob": 100 },
+      { "group": "guns_rifle_milspec", "count": 1, "prob": 100 },
+      { "group": "gunsmith_basic_ammo", "count": [ 4, 16 ], "prob": 100 },
+      { "group": "gunsmith_repack_ammo", "count": [ 9, 18 ], "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sca_smith_armor",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gambeson", "prob": 2 },
+      { "item": "armor_lamellar", "prob": 2 },
+      { "item": "cuirass_lightplate", "prob": 2 },
+      { "item": "armguard_lightplate", "prob": 2 },
+      { "item": "legguard_lightplate", "prob": 2 },
+      { "item": "armor_samurai", "prob": 2 },
+      { "item": "helmet_kabuto", "prob": 2 },
+      { "item": "gloves_plate", "prob": 2 },
+      { "item": "boots_plate", "prob": 2 },
+      { "item": "helmet_barbute", "prob": 2 },
+      { "item": "helmet_conical", "prob": 2 },
+      { "item": "helmet_galea", "prob": 2 },
+      { "item": "helmet_nasal", "prob": 2 },
+      { "item": "helmet_kettle", "prob": 2 },
+      { "item": "helmet_sallet", "prob": 2 },
+      { "item": "helmet_armet", "prob": 2 },
+      { "item": "legguard_metal", "prob": 2 },
+      { "item": "helmet_plate", "prob": 2 },
+      { "item": "helmet_larmor", "prob": 2 },
+      { "item": "boots_larmor", "prob": 2 },
+      { "item": "armor_larmor", "prob": 2 },
+      { "item": "armguard_larmor", "prob": 2 },
+      { "item": "vambrace_larmor", "prob": 2 },
+      { "item": "helmet_corinthian", "prob": 2 },
+      { "item": "armor_cuirass", "prob": 2 },
+      { "item": "legguard_bronze", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sca_smith_manuals",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "textbook_weapwest", "prob": 5 },
+      { "item": "textbook_weapeast", "prob": 5 },
+      { "item": "textbook_armwest", "prob": 5 },
+      { "item": "textbook_armeast", "prob": 5 },
+      { "item": "textbook_armschina", "prob": 5 },
+      { "item": "textbook_weparabic", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sca_smith_weapons",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "katana", "prob": 1 },
+      { "item": "cestus", "prob": 1 },
+      { "item": "mace", "prob": 3 },
+      { "item": "morningstar", "prob": 3 },
+      { "item": "glaive", "prob": 2 },
+      { "item": "rapier", "prob": 2 },
+      { "item": "cavalry_sabre", "prob": 2 },
+      { "item": "estoc", "prob": 2 },
+      { "item": "cutlass", "prob": 2 },
+      { "item": "scimitar", "prob": 2 },
+      { "item": "arming_sword", "prob": 4 },
+      { "item": "broadsword", "prob": 4 },
+      { "item": "longsword", "prob": 3 },
+      { "item": "zweihander", "prob": 2 },
+      { "item": "battleaxe", "prob": 2 },
+      { "item": "warhammer", "prob": 2 },
+      { "item": "halberd", "prob": 4 },
+      { "item": "lucern_hammer", "prob": 2 },
+      { "item": "pike", "prob": 2 },
+      { "item": "spear_steel", "prob": 2 },
+      { "item": "shillelagh_weighted", "prob": 1 },
+      { "item": "nodachi", "prob": 1 },
+      { "item": "knife_baselard", "prob": 2 },
+      { "item": "q_staff", "prob": 1 },
+      { "item": "i_staff", "prob": 2 },
+      { "item": "bagh_nakha", "prob": 1 },
+      { "item": "kris", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sca_smith_ranged",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "huge_crossbow", "prob": 2 },
+      { "item": "rep_crossbow", "prob": 1 },
+      { "item": "compcrossbow", "prob": 2 },
+      { "item": "compositecrossbow", "prob": 2 },
+      { "item": "shortbow", "prob": 1 },
+      { "item": "compbow", "prob": 2 },
+      { "item": "compositebow", "prob": 2 },
+      { "item": "reflexbow", "prob": 2 },
+      { "item": "recurbow", "prob": 2 },
+      { "item": "longbow", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sca_smith_ammo",
+    "subtype": "distribution",
+    "entries": [ { "group": "makeshift_archery_ammo", "prob": 2 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "sca_smith_accessories",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tunic", "prob": 1 },
+      { "item": "quiver", "prob": 2 },
+      { "item": "quiver_large", "prob": 1 },
+      { "item": "baldric", "prob": 2 },
+      { "item": "scabbard", "prob": 2 },
+      { "item": "bscabbard", "prob": 2 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunsmith_basic_ammo",
+    "//": "basic ammo that the gunsmith will trade to start",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "9mm", "prob": 1 },
+      { "item": "44magnum", "prob": 1 },
+      { "item": "45_acp", "prob": 1 },
+      { "item": "57mm", "prob": 1 },
+      { "item": "shot_00", "prob": 2 },
+      { "item": "shot_slug", "prob": 1 },
+      { "item": "3006", "prob": 1 },
+      { "item": "762_m87", "prob": 3 },
+      { "item": "556", "prob": 3 },
+      { "item": "545", "prob": 3 },
+      { "item": "762_51", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "gunsmith_repack_ammo",
+    "//": "repacked ammo that the gunsmith will trade to start",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "reloaded_9mm", "prob": 1 },
+      { "item": "reloaded_44magnum", "prob": 1 },
+      { "item": "reloaded_45_acp", "prob": 1 },
+      { "item": "reloaded_57mm", "prob": 1 },
+      { "item": "reloaded_shot_00", "prob": 2 },
+      { "item": "reloaded_3006", "prob": 1 },
+      { "item": "reloaded_762_m87", "prob": 3 },
+      { "item": "reloaded_556", "prob": 3 },
+      { "item": "reloaded_545", "prob": 3 },
+      { "item": "reloaded_762_51", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "kitted_kord",
+    "subtype": "collection",
+    "items": [
+      {
+        "item": "kord",
+        "ammo-item": "545",
+        "charges": 30,
+        "contents-item": [ "shoulder_strap", "holo_sight", "muzzle_brake", "rail_laser_sight" ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "blacksmith_prototypes",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "looks_like": "paper",
+    "name": { "str_sp": "engineering notes" },
+    "snippet_category": "artisan_docs",
+    "description": "A collection of sketches and CAD designs marked up with pencil.  There are two peoples handwriting.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "weight": "3 g",
+    "volume": "1 ml",
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "id": "iv_mutagen_tyrant",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "tyrant mutagenic primer" },
+    "description": "A super-concentrated mutagenic primer strongly resembling children's toy slime.",
+    "price": 1000000,
+    "color": "light_green",
+    "healthy": -4,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the tyrant mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_tyrant", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_tyrant",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "tyrant mutagen" },
+    "description": "An extremely rare mutagen cocktail, it smells like blood and is a green goop with blood-red streaks.",
+    "color": "light_green",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the tyrant mutagen.",
+      "vitamins": [ [ "mutagen_tyrant", 175 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
+    "id": "iv_mutagen_stego",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "stego mutagenic primer" },
+    "description": "A super-concentrated mutagenic primer not for those frightened of this thing they have become.",
+    "price": 1000000,
+    "color": "light_green",
+    "healthy": -4,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the stego mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_stego", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_stego",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "stego mutagen" },
+    "description": "An extremely rare mutagen cocktail, it seeks to cure what's deep inside.",
+    "color": "light_green",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the stego mutagen.",
+      "vitamins": [ [ "mutagen_stego", 175 ], [ "mutagen", 125 ] ]
+    }
+  },
+  {
+    "id": "iv_mutagen_horns",
+    "copy-from": "iv_mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "horns mutagenic primer" },
+    "description": "A super-concentrated mutagenic primer containing refined and purified biological samples, spiked with rum.",
+    "price": 1000000,
+    "color": "light_green",
+    "healthy": -4,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject the horns mutagenic primer.",
+      "tools_needed": { "syringe": -1 },
+      "vitamins": [ [ "mutagen_horns", 450, 550 ] ]
+    }
+  },
+  {
+    "id": "mutagen_horns",
+    "copy-from": "mutagen_flavor",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "horns mutagen" },
+    "description": "An extremely rare mutagen cocktail containing a mix of biological samples, spiked with rum.",
+    "color": "light_green",
+    "price": 500000,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You drink the horns mutagen.",
+      "vitamins": [ [ "mutagen_horns", 175 ], [ "mutagen", 125 ] ]
+    }
+  }
+]

@@ -10,6 +10,7 @@
       ".": "t_metal_floor",
       "A": "t_metal_floor",
       "#": "t_metal_pontoon_dp",
+      "≷": "t_ladder_up_down",
       ">": "t_ladder_down",
       "<": "t_ladder_up",
       "|": "t_wall_bulkhead",
@@ -19,11 +20,11 @@
       "`": "t_bulkhead_roof",
       "^": "t_lake_bed_concrete",
       "y": "t_lake_bed_concrete_yellow",
-      ";": "t_lake_bed",
-      "2": "t_machinery_electronic"
+      ";": "t_lake_bed"
     },
     "furniture": {
       "1": "f_control_station",
+      "2": "f_machinery_electronic",
       "A": "f_air_compressor",
       "B": "f_sample_freezer",
       "C": "f_workbench",
@@ -41,12 +42,13 @@
       "c": "f_cupboard",
       "f": "f_tourist_table",
       "h": "f_camp_chair",
-      "l": "f_foot_locker",
+      "l": [ "f_foot_locker", "f_foot_locker_aluminum" ],
       "@": "f_bed",
       "&": "f_cleat"
     },
     "toilets": { "t": {  } },
     "gaspumps": { "!": {  } },
+    "items": { "I": [ { "item": "saline_bottle_random", "chance": 100 } ] },
     "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } }
   }
 ]

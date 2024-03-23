@@ -51,7 +51,7 @@
       "k": "f_desk",
       "l": "f_locker",
       "m": "f_makeshift_bed",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "P": "f_mailbox",
       "r": "f_rack",
       "s": "f_rack",

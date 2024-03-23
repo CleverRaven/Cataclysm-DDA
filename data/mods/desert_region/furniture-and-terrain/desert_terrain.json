@@ -1,0 +1,174 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_outcrop",
+    "name": "outcrop",
+    "description": "An assortment of various large, sharp rocks that jut out from the surrounding terrain.  Could be as a surface for a number of things or climbed on if worn with proper footwear.",
+    "symbol": "O",
+    "color": "dark_gray",
+    "looks_like": "f_boulder_large",
+    "move_cost": 8,
+    "coverage": 100,
+    "flags": [ "BLOCK_WIND", "BUTCHER_EQ", "FLAT_SURF", "MINEABLE", "ROUGH", "SEEN_FROM_ABOVE", "UNSTABLE" ],
+    "//": "Missing feature to allow survivors to climb to increase overmap vision range.",
+    "bash": {
+      "str_min": 64,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "ter_set": "t_rock_floor",
+      "str_min_supported": 100,
+      "bash_below": false,
+      "items": [ { "item": "rock", "count": [ 10, 22 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sanddune",
+    "name": "dune",
+    "description": "A huge sand dune that is continually reshaped by the wind.  Climbing it will be troublesome.",
+    "symbol": "~",
+    "color": "yellow",
+    "looks_like": "t_sandmound",
+    "move_cost": 6,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "UNSTABLE" ],
+    "bash": { "sound": "thump", "ter_set": "t_sand", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_desertpavement",
+    "name": "desert pavement",
+    "description": "Not that kind of pavement!  Naturally occurring pockets of densely packed rock fragments that is easier to traverse than sand, with the right footwear.",
+    "symbol": ".",
+    "color": "dark_gray",
+    "looks_like": "t_railroad_rubble",
+    "move_cost": 2,
+    "flags": [ "DIGGABLE", "FLAT", "ROUGH", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "ter_set": "t_rock_floor",
+      "str_min_supported": 100,
+      "bash_below": true,
+      "items": [ { "item": "rock", "count": [ 5, 11 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_searth",
+    "name": "scorched earth",
+    "description": "Cracked and dry soil that doesn't look like it will be capable of supporting anything in your lifetime.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_mudcrack",
+    "name": "mudcrack",
+    "description": "Large continuous cracks mark what once was a bottom of a body of water.  With the proper tools, you could extract clay from here.",
+    "symbol": ".",
+    "looks_like": "t_dirt",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_sandstone",
+    "name": "sandstone",
+    "description": "A wall of yellowish brown sandstone.",
+    "symbol": "#",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "roof": "t_searth",
+    "looks_like": "t_adobe_brick_wall",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "wham!",
+      "sound_fail": "whump!",
+      "ter_set": "t_searth",
+      "ter_set_bashed_from_above": "t_searth"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_fake",
+    "name": "artificial grass",
+    "description": "A carpet of synthetic fibers made to resemble natural grass.",
+    "symbol": ".",
+    "color": "green",
+    "looks_like": "t_grass",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grass_fake_white",
+    "name": "white artificial grass",
+    "description": "A carpet of synthetic fibers made to resemble natural grass.  Covered in white latex-based paint, it is used to mark lines in recreational sports.",
+    "symbol": ".",
+    "color": "white",
+    "looks_like": "t_grass_white",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 40, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_shrub_dead",
+    "name": "withered shrub",
+    "description": "A small shrub that has withered away.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 8,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHRUB", "SHORT" ],
+    "looks_like": "t_shrub",
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_searth",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "stick", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_cactus_cholla",
+    "name": "buckhorn cholla",
+    "description": "A shrub-like cactus belonging to the 'Cylindropuntia' genus, commonly found throughout the deserts of North America.  If you look closely, you can see some unharvested cholla buds hiding behind clusters of stiff spines.",
+    "symbol": "#",
+    "color": "green",
+    "move_cost": 8,
+    "coverage": 40,
+    "looks_like": "f_mutcactus_test",
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "PLACE_ITEM", "SHARP" ],
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "spring" ], "id": "cactus_harv" } ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "brush.",
+      "ter_set": "t_searth",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "id": "cactus_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "cholla_bud", "base_num": [ 2, 5 ] } ]
+  }
+]

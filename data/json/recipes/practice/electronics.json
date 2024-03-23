@@ -1,0 +1,95 @@
+[
+  {
+    "id": "prac_soldering",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ELECTRONICS",
+    "name": "electronics soldering",
+    "description": "Practice soldering and de-soldering wires and electronic components.",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "autolearn": [ [ "electronics", 1 ] ],
+    "book_learn": [ [ "mag_electronics", 0 ], [ "manual_electronics", 0 ] ],
+    "components": [ [ [ "cable", 5 ] ], [ [ "e_scrap", 2 ] ] ],
+    "using": [ [ "soldering_standard", 5 ] ]
+  },
+  {
+    "id": "prac_elec_circuit",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ELECTRONICS",
+    "name": "electrical circuit design",
+    "description": "Practice designing and building simple electrical circuits, such as a battery-powered motor or light bulb, and measuring their properties to understand the flow of current.",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "proficiencies": [ { "proficiency": "prof_elec_circuits", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "book_learn": [ [ "mag_electronics", 1 ], [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_electronics", 3 ] ],
+    "//": "Some parts are listed as tools so they are not destroyed during crafting, while the components are consumed.",
+    "tools": [
+      [ [ "voltmeter", 5 ], [ "multimeter", 5 ] ],
+      [ [ "antenna", -1 ], [ "circuit", -1 ], [ "element", -1 ], [ "light_bulb", -1 ], [ "motor_micro", -1 ] ]
+    ],
+    "components": [ [ [ "cable", 10 ] ], [ [ "e_scrap", 5 ] ] ],
+    "byproducts": [ [ "e_scrap", 2 ] ],
+    "using": [ [ "soldering_standard", 10 ] ]
+  },
+  {
+    "id": "prac_elec_semiconductors",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ELECTRONICS",
+    "name": "semiconductor circuits",
+    "description": "Practice prototyping circuits using transistors for switching or amplifying electrical signals.",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 3, "skill_limit": 4 },
+    "proficiencies": [
+      { "proficiency": "prof_elec_circuits", "required": true },
+      { "proficiency": "prof_elec_semiconductors", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_electronics", 3 ] ],
+    "tools": [
+      [ [ "multimeter", 50 ] ],
+      [ [ "breadboard", -1 ] ],
+      [ [ "power_supply", -1 ] ],
+      [ [ "amplifier", -1 ], [ "element", -1 ], [ "receiver", -1 ], [ "transponder", -1 ] ]
+    ],
+    "components": [ [ [ "cable", 20 ] ], [ [ "e_scrap", 10 ] ], [ [ "circuit", 1 ] ] ],
+    "byproducts": [ [ "e_scrap", 5 ] ],
+    "using": [ [ "soldering_standard", 20 ] ]
+  },
+  {
+    "id": "prac_elec_integrated_circuits",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_ELECTRONICS",
+    "name": "integrated circuits",
+    "description": "Practice building electronic circuits using standard IC chips for voltage regulation, timing, logic, and simple processing.",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 5, "skill_limit": 6 },
+    "proficiencies": [
+      { "proficiency": "prof_elec_circuits", "required": true },
+      { "proficiency": "prof_elec_semiconductors", "required": true },
+      { "proficiency": "prof_elec_integrated_circuits", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ], [ "ic_reference_electronics", 3 ] ],
+    "tools": [
+      [ [ "multimeter", 100 ] ],
+      [ [ "breadboard", -1 ] ],
+      [ [ "power_supply", -1 ] ],
+      [ [ "processor", -1 ] ],
+      [ [ "amplifier", -1 ], [ "receiver", -1 ], [ "transponder", -1 ] ]
+    ],
+    "components": [ [ [ "cable", 40 ] ], [ [ "e_scrap", 20 ] ], [ [ "circuit", 2 ] ] ],
+    "byproducts": [ [ "e_scrap", 10 ] ],
+    "using": [ [ "soldering_standard", 40 ] ]
+  }
+]

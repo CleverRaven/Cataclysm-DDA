@@ -3,52 +3,97 @@
 #define CATA_SRC_STOMACH_H
 
 #include <map>
+#include <variant>
 
 #include "calendar.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class Character;
-class JsonIn;
+class JsonObject;
 class JsonOut;
 struct needs_rates;
+
+namespace vitamin_units
+{
+using mass = units::quantity<int, units::mass_in_microgram_tag>;
+
+constexpr mass microgram = units::quantity<int, units::mass_in_microgram_tag>( 1, {} );
+constexpr mass milligram = units::quantity<int, units::mass_in_microgram_tag>( 1000, {} );
+constexpr mass gram = units::quantity<int, units::mass_in_microgram_tag>( 1'000'000, {} );
+const std::vector<std::pair<std::string, mass>> mass_units = { {
+        { "ug", microgram },
+        { "μg", microgram },
+        { "mcg", microgram },
+        { "mg", milligram },
+        { "g", gram }
+    }
+};
+} // namespace vitamin_units
 
 // Separate struct for nutrients so that we can easily perform arithmetic on
 // them
 struct nutrients {
-    /** amount of kcal this food has */
-    int kcal = 0;
+        /** amount of calories (1/1000s of kcal) this food has */
+        int64_t calories = 0;
 
-    /** vitamins potentially provided by this comestible (if any) */
-    std::map<vitamin_id, int> vitamins;
+        /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
+         * values taken from r. */
+        void min_in_place( const nutrients &r );
+        void max_in_place( const nutrients &r );
 
-    /** Replace the values here with the minimum (or maximum) of themselves and the corresponding
-     * values taken from r. */
-    void min_in_place( const nutrients &r );
-    void max_in_place( const nutrients &r );
+        // vitamin -> how many vitamin units of it are included
+        std::map<vitamin_id, int> vitamins() const;
 
-    int get_vitamin( const vitamin_id & ) const;
+        // For vitamins that support units::mass quantities
+        // If finalized == true, these will instantly convert to units,
+        // so make sure finalized = false if you call these before vitamins are loaded
+        void set_vitamin( const vitamin_id &, vitamin_units::mass mass );
+        void add_vitamin( const vitamin_id &, vitamin_units::mass mass );
 
-    bool operator==( const nutrients &r ) const;
-    bool operator!=( const nutrients &r ) const {
-        return !( *this == r );
-    }
+        void set_vitamin( const vitamin_id &, int units );
+        void add_vitamin( const vitamin_id &, int units );
 
-    nutrients &operator+=( const nutrients &r );
-    nutrients &operator-=( const nutrients &r );
-    nutrients &operator*=( int r );
-    nutrients &operator/=( int r );
+        // Remove a vitamin completely from the data structure
+        void remove_vitamin( const vitamin_id & );
 
-    friend nutrients operator*( nutrients l, int r ) {
-        l *= r;
-        return l;
-    }
+        int get_vitamin( const vitamin_id & ) const;
+        int kcal() const;
 
-    friend nutrients operator/( nutrients l, int r ) {
-        l /= r;
-        return l;
-    }
+        void finalize_vitamins();
+
+        bool operator==( const nutrients &r ) const;
+        bool operator!=( const nutrients &r ) const {
+            return !( *this == r );
+        }
+
+        nutrients &operator+=( const nutrients &r );
+        nutrients &operator-=( const nutrients &r );
+        nutrients &operator*=( int r );
+        nutrients &operator*=( double r );
+        nutrients &operator/=( int r );
+
+        friend nutrients operator*( nutrients l, int r ) {
+            l *= r;
+            return l;
+        }
+
+        friend nutrients operator/( nutrients l, int r ) {
+            l /= r;
+            return l;
+        }
+
+        // All vitamins are in vitamin units, not units::mass (e.g. all JSON has been loaded)
+        // defaults to true because this is only false when nutrients are loaded from JSON,
+        // where it is set explicitly to false
+        bool finalized = true; // NOLINT(cata-serialize)
+
+        void serialize( JsonOut & ) const;
+        void deserialize( const JsonObject &jo );
+
+    private:
+        /** vitamins potentially provided by this comestible (if any) */
+        std::map<vitamin_id, std::variant<int, vitamin_units::mass>> vitamins_; // NOLINT(cata-serialize)
 };
 
 // Contains all information that can pass out of (or into) a stomach
@@ -64,7 +109,8 @@ struct stomach_digest_rates {
     units::volume solids = 0_ml;
     units::volume water = 0_ml;
     float percent_kcal = 0.0f;
-    int min_kcal = 0;
+    // calories, or 1/1000s of kcals
+    int min_calories = 0;
     float percent_vitamin = 0.0f;
     int min_vitamin = 0;
 };
@@ -127,7 +173,7 @@ class stomach_contents
         units::volume get_water() const;
 
         // changes calorie amount
-        void mod_calories( int calories );
+        void mod_calories( int kcal );
 
         // changes calorie amount based on old nutr value
         void mod_nutr( int nutr );
@@ -147,12 +193,12 @@ class stomach_contents
         void ate();
 
         void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &json );
+        void deserialize( const JsonObject &jo );
 
     private:
 
         // If true, this object represents a stomach; if false, this object represents guts.
-        bool stomach = false;
+        bool stomach = false; // NOLINT(cata-serialize)
 
         // nutrients (calories and vitamins)
         nutrients nutr;
@@ -171,7 +217,7 @@ class stomach_contents
 
         // Gets the rates at which this stomach will digest things.
         stomach_digest_rates get_digest_rates( const needs_rates &metabolic_rates,
-                                               const Character &owner );
+                                               const Character &owner ) const;
 
 };
 

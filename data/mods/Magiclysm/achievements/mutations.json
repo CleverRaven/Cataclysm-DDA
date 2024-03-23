@@ -1,0 +1,16 @@
+[
+  {
+    "id": "achievement_mutation_threshold_dragon_black",
+    "type": "achievement",
+    "name": "Dragons don't have nightmares, nightmares have dragons!",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "DRAGON_BLACK" ],
+        "description": "crossed black dragon mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  }
+]

@@ -4,36 +4,17 @@
 
 #include <array>
 #include <bitset>
-#include <climits>
-#include <cstddef>
-#include <cstdint>
-#include <functional>
-#include <list>
-#include <map>
-#include <memory>
 #include <set>
-#include <string>
-#include <tuple>
+#include <unordered_map>
 #include <utility>
-#include <vector>
 
-#include "cata_utility.h"
-#include "coordinates.h"
 #include "game_constants.h"
 #include "lightmap.h"
-#include "line.h"
-#include "lru_cache.h"
 #include "point.h"
-#include "reachability_cache.h"
 #include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 class vehicle;
-struct pathfinding_cache;
-struct pathfinding_settings;
 
 struct level_cache {
     public:
@@ -48,25 +29,28 @@ struct level_cache {
         // This is a single value indicating that the entire level is floored.
         bool no_floor_gaps = false;
 
-        four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
-        float sm[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<four_quadrants, point_bub_ms> lm;
+        cata::mdarray<float, point_bub_ms> sm;
         // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
         // This is only valid for the duration of generate_lightmap
-        float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<float, point_bub_ms> light_source_buffer;
+
+        // Cache of natural light level is useful if it needs to be in sync with the light cache.
+        float natural_light_level_cache;
 
         // if false, means tile is under the roof ("inside"), true means tile is "outside"
-        // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
-        bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
+        // "inside" tiles are protected from sun, rain, etc. (see ter_furn_flag::TFLAG_INDOORS flag)
+        cata::mdarray<bool, point_bub_ms> outside_cache;
 
-        // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has "SUN_ROOF_ABOVE"
-        //      or terrain doesn't have "NO_FLOOR" flag
+        // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has ter_furn_flag::TFLAG_SUN_ROOF_ABOVE
+        //      or terrain doesn't have ter_furn_flag::TFLAG_NO_FLOOR flag
         // false otherwise
         // i.e. true == has floor
-        bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<bool, point_bub_ms> floor_cache;
 
         // stores cached transparency of the tiles
         // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
-        float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<float, point_bub_ms>transparency_cache;
 
         // materialized  (transparency_cache[i][j] > LIGHT_TRANSPARENCY_SOLID)
         // doesn't consider fields (i.e. if tile is covered in thick smoke, it's still
@@ -77,29 +61,20 @@ struct level_cache {
         // stores "adjusted transparency" of the tiles
         // initial values derived from transparency_cache, uses same units
         // examples of adjustment: changed transparency on player's tile and special case for crouching
-        float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<float, point_bub_ms> vision_transparency_cache;
 
         // stores "visibility" of the tiles to the player
         // values range from 1 (fully visible to player) to 0 (not visible)
-        float seen_cache[MAPSIZE_X][MAPSIZE_Y];
+        cata::mdarray<float, point_bub_ms> seen_cache;
 
         // same as `seen_cache` (same units) but contains values for cameras and mirrors
         // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
-        float camera_cache[MAPSIZE_X][MAPSIZE_Y];
-
-        // reachability caches
-        // Note: indirection here is introduced, because caches are quite large:
-        // at least (MAPSIZE_X * MAPSIZE_Y) * 4 bytes (≈69,696 bytes) each
-        // so having them directly as part of the level_cache interferes with
-        // CPU cache coherency of level_cache
-        cata::value_ptr<reachability_cache_horizontal>r_hor_cache =
-            cata::make_value<reachability_cache_horizontal>();
-        cata::value_ptr<reachability_cache_vertical> r_up_cache =
-            cata::make_value<reachability_cache_vertical>();
+        cata::mdarray<float, point_bub_ms> camera_cache;
 
         // stores resulting apparent brightness to player, calculated by map::apparent_light_at
-        lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
-        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
+        cata::mdarray<lit_level, point_bub_ms> visibility_cache;
+        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_cache_dec;
+        std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_cache_ter;
         std::bitset<MAPSIZE *MAPSIZE> field_cache;
 
         std::set<vehicle *> vehicle_list;

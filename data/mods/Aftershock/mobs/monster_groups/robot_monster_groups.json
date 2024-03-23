@@ -1,0 +1,25 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "AFS_GROUP_ROBOT_NEUTRAL_OLD",
+    "//": "Neutral bots from the original colony.",
+    "monsters": [
+      { "monster": "mon_utilibot_const", "weight": 550, "cost_multiplier": 0 },
+      { "monster": "mon_utilibot_const", "weight": 250, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_utilibot_fire", "weight": 100, "cost_multiplier": 0 },
+      { "monster": "mon_hazmatbot", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_mech_horse", "weight": 15, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "AFS_GROUP_ROBOT_LOW_RISK",
+    "default": "mon_skitterbot_rat",
+    "monsters": [
+      { "monster": "mon_bloodhound_drone", "weight": 100, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_manhack", "weight": 200, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_skitterbot", "weight": 200, "cost_multiplier": 0 },
+      { "monster": "mon_skitterbot_rat", "weight": 500, "cost_multiplier": 0 }
+    ]
+  }
+]

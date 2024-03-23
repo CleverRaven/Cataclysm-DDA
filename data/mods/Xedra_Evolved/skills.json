@@ -1,0 +1,22 @@
+[
+  {
+    "type": "skill",
+    "ident": "deduction",
+    "name": { "str": "deduction" },
+    "description": "Your ability to see the pattern behind a series of data points.  Allows you to ask questions that you otherwise couldn't ask and find things you might have missed otherwise.",
+    "companion_industry_rank_factor": 1,
+    "tags": [ "combat_skill" ],
+    "time_to_attack": { "min_time": 60, "base_time": 200, "time_reduction_per_level": 14 },
+    "display_category": "display_interaction",
+    "sort_rank": 26500,
+    "companion_skill_practice": [ { "skill": "speech", "weight": 1 }, { "skill": "devices", "weight": 1 } ]
+  },
+  {
+    "type": "skill",
+    "id": "spellcraft",
+    "name": "spellcraft",
+    "display_category": "display_ranged",
+    "sort_rank": 14500,
+    "description": "Your skill in the arcane.  Represents magic theory and all that entails.  A higher skill increases how quickly you can learn spells, and decreases their spell failure chance.  You learn this skill by studying books or spells."
+  }
+]

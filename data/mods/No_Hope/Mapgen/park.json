@@ -1,0 +1,41 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "park",
+    "//": "Scenic Park",
+    "weight": 50000,
+    "object": {
+      "fill_ter": "t_region_groundcover_urban",
+      "rows": [
+        "qqqqqqqqqqqqqqqqqqqqqqqq",
+        "qqzzzzzzzzqqqqzzzzzzzzqq",
+        "qzz  &     qq        zzq",
+        "qz t   bTb qq t *```* zq",
+        "qz  ,,,bTb qq   ````` zq",
+        "qz  ,,qqqqqqqqqq````` zq",
+        "qz  ,qq    qq   ````` zq",
+        "qz bbq !   qq   *```* zq",
+        "qz TTq   qqqqqq   q   zq",
+        "qz bbq  qqssssqq  q t zq",
+        "qq   q  qss~~ssq  q   qq",
+        "qqqqqqqqqs~~~~sqqqqqqqqq",
+        "qqqqqqqqqs~~~~sqqqqqqqqq",
+        "qq   q  qss~~ssq  q   qq",
+        "qz t q  qqssssqq  q t zq",
+        "qz   q   qqqqqq   q   zq",
+        "qz   q !   qq   ! q b zq",
+        "qz   qq    qq    qq b zq",
+        "qz fssqqqqqqqqqqqq    zq",
+        "qz sAs     qq         zq",
+        "qz fsf   t qq t bb  t zq",
+        "qzz        qq        zzq",
+        "qqzzzzzzzzqqqqzzzzzzzzqq",
+        "qqqqqqqqqqqqqqqqqqqqqqqq"
+      ],
+      "palettes": [ "park_scenic_palette" ],
+      "place_item": [ { "item": "char_smoker", "x": 5, "y": 5, "chance": 50 } ],
+      "place_monster": [ { "group": "GROUP_PARK_SCENIC", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 10 ], "chance": 50 } ]
+    }
+  }
+]

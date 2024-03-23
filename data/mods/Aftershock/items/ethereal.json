@@ -1,0 +1,64 @@
+[
+  {
+    "id": "cold_res_cream",
+    "type": "ARMOR",
+    "name": { "str": "cold resistance cream" },
+    "description": "A thick layer of something that smells worse than walrus fat.  But it keeps you warm.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "warmth": 150,
+    "color": "green",
+    "material": [ "oil" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "WATER_FRIENDLY",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  },
+  {
+    "id": "cold_res_cream_greater",
+    "type": "ARMOR",
+    "name": "heat retention xtreme cream",
+    "description": "The last word in cold snap protection designed to give short term protection in the event of a suit breach in vacuum.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "warmth": 150,
+    "color": "green",
+    "material": [ "oil" ],
+    "flags": [
+      "AURA",
+      "SEMITANGIBLE",
+      "OVERSIZE",
+      "ONLY_ONE",
+      "WATER_FRIENDLY",
+      "TRADER_AVOID",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "UNBREAKABLE",
+      "ALLOWS_NATURAL_ATTACKS"
+    ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" }, { "id": "ench_cold_armor" } ] },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
+  }
+]

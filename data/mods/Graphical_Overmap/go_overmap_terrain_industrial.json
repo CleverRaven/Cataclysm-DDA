@@ -107,11 +107,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "warehouse_roof",
-    "copy-from": "warehouse"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "small_storage_units",
     "copy-from": "small_storage_units",
     "sym": "\u00E6",

@@ -15,7 +15,13 @@ constexpr inline int sgn( const T x )
 enum class aim_exit : int {
     none = 0,
     okay,
-    re_entry
+    re_entry,
+    last
+};
+
+template<>
+struct enum_traits<aim_exit> {
+    static constexpr aim_exit last = aim_exit::last;
 };
 
 // be explicit with the values
@@ -23,28 +29,34 @@ enum class aim_entry : int {
     START     = 0,
     VEHICLE   = 1,
     MAP       = 2,
-    RESET     = 3
+    RESET     = 3,
+    last
+};
+
+template<>
+struct enum_traits<aim_entry> {
+    static constexpr aim_entry last = aim_entry::last;
 };
 
 using I = std::underlying_type_t<aim_entry>;
-static constexpr aim_entry &operator++( aim_entry &lhs )
+inline constexpr aim_entry &operator++( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
     return lhs;
 }
 
-static constexpr aim_entry &operator--( aim_entry &lhs )
+inline constexpr aim_entry &operator--( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
     return lhs;
 }
 
-static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+inline constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
 }
 
-static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+inline constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
@@ -119,6 +131,9 @@ enum class ot_match_type : int {
     // terrain id, which means that suffixes for rotation and linear terrain types
     // are ignored.
     type,
+    // The provided string must completely match the base type id of the overmap
+    // terrain id as well as the linear subtype.
+    subtype,
     // The provided string must be a complete prefix (with additional parts delimited
     // by an underscore) of the overmap terrain id. For example, "forest" will match
     // "forest" or "forest_thick" but not "forestcabin".
@@ -138,7 +153,6 @@ struct enum_traits<ot_match_type> {
 enum class special_game_type : int {
     NONE = 0,
     TUTORIAL,
-    DEFENSE,
     NUM_SPECIAL_GAME_TYPES
 };
 
@@ -276,9 +290,9 @@ enum class layer_level : int {
     /* "Personal effects" layer, corresponds to PERSONAL flag */
     PERSONAL = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR,
-    /* "Normal" layer, default if no flags set */
-    REGULAR,
+    SKINTIGHT,
+    /* "Normal" layer, default if no flags set, also if NORMAL flag is used*/
+    NORMAL,
     /* "Waist" layer, corresponds to WAIST flag. */
     WAIST,
     /* "Outer" layer, corresponds to OUTER flag. */
@@ -313,6 +327,20 @@ enum class distraction_type : int {
     asthma,
     motion_alarm,
     weather_change,
+    portal_storm_popup,
+    eoc,
+    dangerous_field,
+    hunger,
+    thirst,
+    temperature,
+    mutation,
+    oxygen,
+    last,
+};
+
+template<>
+struct enum_traits<distraction_type> {
+    static constexpr distraction_type last = distraction_type::last;
 };
 
 enum game_message_type : int {
@@ -323,7 +351,7 @@ enum game_message_type : int {
     m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
     m_info,    /* informs the player about something, e.g. on examination, seeing an item,
                   about how to use a certain function, etc. */
-    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
+    m_neutral,  /* neutral or indifferent events which aren't informational or nothing really happened e.g.
                   a miss, a non-critical failure. May also effect for good or bad effects which are
                   just very slight to be notable. This is the default message type. */
 
@@ -350,6 +378,7 @@ enum game_message_flags {
 /** Structure allowing a combination of `game_message_type` and `game_message_flags`.
  */
 struct game_message_params {
+    // NOLINTNEXTLINE(google-explicit-constructor)
     game_message_params( const game_message_type message_type ) : type( message_type ),
         flags( gmf_none ) {}
     game_message_params( const game_message_type message_type,
@@ -359,6 +388,34 @@ struct game_message_params {
     game_message_type type;
     /* Flags pertaining to the message */
     game_message_flags flags;
+};
+
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
+    }
+};
+
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
 };
 
 enum class reachability_cache_quadrant : int {
@@ -393,5 +450,45 @@ constexpr bool is_decreasing( monotonically m )
 {
     return m == monotonically::constant || m == monotonically::decreasing;
 }
+
+enum class character_type : int {
+    CUSTOM,
+    RANDOM,
+    TEMPLATE,
+    NOW,
+    FULL_RANDOM,
+};
+
+enum class aggregate_type : int {
+    FIRST,
+    LAST,
+    MIN,
+    MAX,
+    SUM,
+    AVERAGE,
+    num_aggregate_types
+};
+
+template<>
+struct enum_traits<aggregate_type> {
+    static constexpr aggregate_type last = aggregate_type::num_aggregate_types;
+};
+
+enum class link_state : int {
+    no_link = 0,     // No connection, the default state
+    needs_reeling,   // Cable has been disconnected and needs to be manually reeled in before it can be used again
+    ups,             // Linked to a UPS the cable holder is holding
+    solarpack,       // Linked to a solarpack the cable holder is wearing
+    vehicle_port,    // Linked to a vehicle's cable ports / electrical controls or an appliance
+    vehicle_battery, // Linked to a vehicle's battery or an appliance
+    bio_cable,       // Linked to the cable holder's cable system bionic - source if connected to a vehicle, target otherwise
+    vehicle_tow,     // Linked to a valid tow point on a vehicle - source if it's the towing vehicle, target if the towed one
+    automatic,       // Use in link_to() to automatically set the type of connection based on the connected vehicle part. Is always true as a link_has_states() parameter.
+    last
+};
+template<>
+struct enum_traits<link_state> {
+    static constexpr link_state last = link_state::last;
+};
 
 #endif // CATA_SRC_ENUMS_H

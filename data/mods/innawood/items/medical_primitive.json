@@ -1,0 +1,34 @@
+[
+  {
+    "id": "bandages_birchbark",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "birchbark bandage" },
+    "description": "A small roll of birchbark with cord, to tie around wounds to help stop bleeding and protect from dirt.  It's better than nothing.",
+    "weight": "70 g",
+    "volume": "41 ml",
+    "price": "4 cent",
+    "price_postapoc": "4 cent",
+    "material": "wood",
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 8, "move_cost": 6000 }
+  },
+  {
+    "id": "bandages_birchbark_adv",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str": "salved birchbark bandage" },
+    "description": "Birchbark bandages with added garlic salve.  They're better for wounds but not as good as real bandages.",
+    "weight": "70 g",
+    "volume": "250 ml",
+    "price": 25,
+    "price_postapoc": 100,
+    "material": "wood",
+    "symbol": "!",
+    "color": "white",
+    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
+  }
+]

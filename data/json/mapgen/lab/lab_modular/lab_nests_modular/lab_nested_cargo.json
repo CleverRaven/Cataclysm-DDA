@@ -1,0 +1,83 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab cargo areas.  Includes cold fields.",
+    "nested_mapgen_id": "lab_cargo_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "     ",
+        "  ^  ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "^": [ [ "f_vent_cold_air2_stream", 30 ], [ "f_vent_cold_air2_stream", 30 ] ] },
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "surface_sub_f_crate", 50 ] ], "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab cargo research areas.  Includes hot fields.",
+    "nested_mapgen_id": "lab_cargo_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "     ",
+        "  ^  ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "^": [ [ "f_vent_hot_air2_blast", 30 ], [ "f_vent_hot_air2_stream", 30 ] ] },
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "surface_sub_f_crate", 50 ] ], "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab cargo research areas.",
+    "nested_mapgen_id": "lab_cargo_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "     ",
+        "  ^  ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "surface_sub_f_crate", 50 ] ], "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab cargo research areas.",
+    "weight": 10,
+    "nested_mapgen_id": "lab_cargo_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   z ",
+        "     ",
+        "  ^  ",
+        " z   ",
+        "     "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "place_monster": [ { "monster": "mon_zombie_static", "x": 2, "y": 2 } ],
+      "items": { "z": { "item": "batteries", "chance": 100 } },
+      "place_nested": [ { "chunks": [ [ "null", 50 ], [ "surface_sub_f_crate", 50 ] ], "x": [ 0, 4 ], "y": [ 0, 4 ], "repeat": [ 1, 3 ] } ]
+    }
+  }
+]

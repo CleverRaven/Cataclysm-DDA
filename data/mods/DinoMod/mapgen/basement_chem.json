@@ -4,7 +4,6 @@
     "method": "json",
     "om_terrain": [ "basement_chem" ],
     "//": "matches house_29",
-    "weight": 250,
     "object": {
       "fill_ter": "t_rock",
       "rows": [
@@ -59,7 +58,7 @@
         "c": "f_counter",
         "h": "f_chair",
         "R": "f_rack",
-        "E": "f_water_heater",
+        "E": [ "f_water_heater", "f_water_heater_family" ],
         "W": "f_water_purifier",
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf",
@@ -83,7 +82,7 @@
         "H": [ { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "hardware_books", "chance": 30 } ]
       },
       "toilets": { "&": {  } },
-      "place_monsters": [ { "monster": "GROUP_DINOSAUR_DANGEROUS", "x": [ 9, 16 ], "y": [ 9, 14 ], "chance": 4 } ]
+      "monsters": { " ": { "monster": "GROUP_DINOSAUR_ASIA", "chance": 1, "density": 0.0001 } }
     }
   },
   {
@@ -91,7 +90,6 @@
     "method": "json",
     "om_terrain": "basement_chem2",
     "//": "matches house_30",
-    "weight": 200,
     "object": {
       "fill_ter": "t_rock",
       "rows": [
@@ -157,7 +155,7 @@
         "h": "f_chair",
         "A": "f_air_filter",
         "C": "f_air_conditioner",
-        "E": "f_water_heater",
+        "E": [ "f_water_heater", "f_water_heater_family" ],
         "W": [ "f_water_purifier", "f_home_furnace" ],
         "X": [ "f_crate_c", "f_crate_o", "f_cardboard_box" ],
         "U": "f_utility_shelf",
@@ -191,7 +189,7 @@
         "H": [ { "item": "magazines", "chance": 40, "repeat": [ 1, 2 ] }, { "item": "lab_bookshelves", "chance": 20 } ]
       },
       "toilets": { "&": {  } },
-      "place_monsters": [ { "monster": "GROUP_DINOSAUR_DANGEROUS", "x": [ 9, 16 ], "y": [ 9, 14 ] } ]
+      "monsters": { " ": { "monster": "GROUP_DINOSAUR_ASIA", "chance": 1, "density": 0.0001 } }
     }
   }
 ]

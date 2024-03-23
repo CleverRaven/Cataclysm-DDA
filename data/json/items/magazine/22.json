@@ -5,11 +5,11 @@
     "type": "MAGAZINE",
     "name": { "str": ".22 8-round speedloader" },
     "description": "This speedloader can hold 8 rounds of .22 and quickly reload a compatible revolver.",
-    "weight": "64 g",
-    "volume": "250 ml",
+    "weight": "32 g",
+    "volume": "47 ml",
     "price": 600,
     "price_postapoc": 100,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -20,10 +20,19 @@
     "id": "a180mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "American-180 165-round magazine" },
-    "description": "An unusually shaped pan magazine for the American-180.",
-    "weight": "760 g",
-    "volume": "500 ml",
+    "name": { "str": ".22 165-round magazine" },
+    "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag",
+        "name": { "str": "American-180 165-round magazine" },
+        "description": "An unusually-shaped pan magazine for the American-180."
+      }
+    ],
+    "weight": "1039 g",
+    "volume": "892 ml",
+    "longest_side": "14 cm",
     "price": 7300,
     "price_postapoc": 250,
     "material": [ "steel" ],
@@ -35,13 +44,130 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
   },
   {
+    "id": "a180mag1",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".22 165-round polymer magazine" },
+    "description": "An unusually-shaped polymer constructed pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag1",
+        "name": { "str": "American-180 polymer 165-round magazine" },
+        "description": "An unusually-shaped, polymer pan magazine for the American-180."
+      }
+    ],
+    "weight": "779 g",
+    "volume": "892 ml",
+    "longest_side": "14 cm",
+    "price": 7300,
+    "price_postapoc": 250,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
+  },
+  {
+    "id": "a180mag2",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".22 177-round magazine" },
+    "description": "An unusually-shaped pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag2",
+        "name": { "str": "American-180 177-round magazine" },
+        "description": "An unusually-shaped pan magazine for the American-180."
+      }
+    ],
+    "weight": "1133 g",
+    "volume": "973 ml",
+    "longest_side": "15 cm",
+    "price": 7500,
+    "price_postapoc": 300,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 177 } } ]
+  },
+  {
+    "id": "a180mag3",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".22 220-round polymer magazine" },
+    "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag3",
+        "name": { "str": "American-180 polymer 220-round magazine" },
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
+      }
+    ],
+    "weight": "1258 g",
+    "volume": "1081 ml",
+    "longest_side": "16 cm",
+    "price": 8000,
+    "price_postapoc": 400,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 220 } } ]
+  },
+  {
+    "id": "a180mag4",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".22 275-round polymer magazine" },
+    "description": "An unusually-shaped polymer pan magazine for use with .22 caliber submachine guns.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "a180mag4",
+        "name": { "str": "American-180 polymer 275-round magazine" },
+        "description": "An unusually-shaped polymer pan magazine for the American-180."
+      }
+    ],
+    "weight": "1258 g",
+    "volume": "1081 ml",
+    "longest_side": "17 cm",
+    "price": 8000,
+    "price_postapoc": 400,
+    "material": [ "plastic", "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 275 } } ]
+  },
+  {
     "id": "marlin_tubeloader",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".22 19-round tube loader" },
-    "description": "This is a tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with tubular magazine.",
-    "weight": "180 g",
-    "volume": "250 ml",
+    "name": { "str": "small game rifle 19-round tube loader" },
+    "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "marlin_tubeloader",
+        "name": { "str": "Marlin 39A 19-round tube loader" },
+        "description": "A tube which holds 19 rounds of .22, designed for quick reloading of a compatible rifle with a tubular magazine."
+      }
+    ],
+    "weight": "10 g",
+    "volume": "14 ml",
+    "longest_side": "49 cm",
     "price": 1200,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -55,10 +181,19 @@
     "id": "mosquitomag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "SIG Mosquito 10-round magazine" },
-    "description": "A factory specification 10-round magazine for the SIG Mosquito.",
+    "name": { "str": "Mosquito 10-round magazine" },
+    "description": "A factory specification 10-round magazine for the Mosquito pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mosquitomag",
+        "name": { "str": "SIG Mosquito 10-round magazine" },
+        "description": "A factory specification 10-round magazine for the SIG Mosquito."
+      }
+    ],
     "weight": "60 g",
-    "volume": "250 ml",
+    "volume": "72 ml",
+    "longest_side": "9 cm",
     "price": 1700,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -72,13 +207,22 @@
     "id": "ruger1022bigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger 10/22 25-round magazine" },
-    "description": "Extended 25-round stick magazine for the Ruger 10/22, known as BX-25.",
-    "weight": "180 g",
-    "volume": "500 ml",
+    "name": { "str": "25-round varmint magazine" },
+    "description": "An extended capacity 25-round magazine, for use with .22 caliber varmint rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022bigmag",
+        "name": { "str": "Ruger 10/22 25-round magazine" },
+        "description": "An extended 25-round stick magazine for the Ruger 10/22, known as the BX-25."
+      }
+    ],
+    "weight": "245 g",
+    "volume": "159 ml",
+    "longest_side": "185 mm",
     "price": 7900,
     "price_postapoc": 200,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -89,13 +233,22 @@
     "id": "ruger1022mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger 10/22 10-round rotary magazine" },
-    "description": "Removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
-    "weight": "80 g",
-    "volume": "250 ml",
+    "name": { "str": "10-round varmint magazine" },
+    "description": "A flush fitting 10-round rotary magazine, for use with .22 caliber varmint rifles.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "ruger1022mag",
+        "name": { "str": "Ruger 10/22 10-round rotary magazine" },
+        "description": "A removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock."
+      }
+    ],
+    "weight": "57 g",
+    "volume": "34 ml",
+    "longest_side": "4 cm",
     "price": 1400,
     "price_postapoc": 100,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
@@ -107,10 +260,19 @@
     "id": "sw22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "22A 10-round magazine" },
-    "description": "A standard capacity magazine for the popular S&W 22A pistol.",
-    "weight": "70 g",
-    "volume": "250 ml",
+    "name": { "str": ".22 10-round S&W magazine" },
+    "description": "A 10-round handgun magazine for use with Smith and Wesson's .22 caliber pocket pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "sw22mag",
+        "name": { "str": "22A 10-round magazine" },
+        "description": "A standard capacity magazine for the popular S&W 22A pistol."
+      }
+    ],
+    "weight": "60 g",
+    "volume": "72 ml",
+    "longest_side": "9 cm",
     "price": 2100,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -124,10 +286,19 @@
     "id": "j22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "J-22 6-round magazine" },
-    "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
+    "name": { "str": "cheap 6-round magazine" },
+    "description": "A cheaply built, low quality 6-round magazine, for use in only the most ineffectual of .22 caliber pocket pistols.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "j22mag",
+        "name": { "str": "J-22 6-round magazine" },
+        "description": "A cheap 6-round steel box magazine for the Jennings J-22."
+      }
+    ],
     "weight": "55 g",
     "volume": "27ml",
+    "longest_side": "7 cm",
     "price": 2800,
     "price_postapoc": 100,
     "material": [ "steel" ],
@@ -141,13 +312,22 @@
     "id": "wp22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "P22 10-round magazine" },
-    "description": "A 10-round box magazine for the Walther P22.",
-    "weight": "25 g",
-    "volume": "126 ml",
+    "name": { "str": ".22 10-round Walther magazine" },
+    "description": "A 10-round handgun magazine for use with Walther's .22 caliber pocket pistol.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "wp22mag",
+        "name": { "str": "P22 10-round magazine" },
+        "description": "A 10-round box magazine for the Walther P22."
+      }
+    ],
+    "weight": "60 g",
+    "volume": "44 ml",
+    "longest_side": "10 cm",
     "price": 3250,
     "price_postapoc": 100,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],

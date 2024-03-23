@@ -1,0 +1,189 @@
+[
+  {
+    "abstract": "veh_tools_abstract",
+    "type": "GENERIC",
+    "name": { "str": "vehicle tool station" },
+    "category": "veh_parts",
+    "weight": "40000 g",
+    "volume": "20 L",
+    "price": 40000,
+    "price_postapoc": 2000,
+    "material": [ "steel" ],
+    "symbol": "&",
+    "color": "light_cyan"
+  },
+  {
+    "type": "GENERIC",
+    "id": "veh_tools_kitchen",
+    "copy-from": "veh_tools_abstract",
+    "name": { "str": "mounted kitchen" },
+    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for for fuel tank connections.",
+    "looks_like": "kitchen_unit"
+  },
+  {
+    "type": "GENERIC",
+    "id": "veh_tools_workshop",
+    "copy-from": "veh_tools_abstract",
+    "name": { "str": "mounted workshop" },
+    "description": "A table rig with drawers and fixtures for storing tools, wiring for high power electric connectors and valves for for fuel tank connections.",
+    "looks_like": "welding_rig"
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "veh_tools_kitchen",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 3 ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_appliance_repair" }
+    ],
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "frame", 1 ] ],
+      [ [ "water_faucet", 1 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "pipe_fittings", 8 ] ],
+      [ [ "pipe", 16 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "cable", 40 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "veh_tools_workshop",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 3,
+    "time": "1 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "frame", 1 ] ],
+      [ [ "duct_tape", 100 ] ],
+      [ [ "sheet_metal", 4 ] ],
+      [ [ "pipe_fittings", 4 ] ],
+      [ [ "pipe", 16 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "power_supply", 4 ] ],
+      [ [ "cable", 200 ] ]
+    ]
+  },
+  {
+    "abstract": "veh_tools_part_abstract",
+    "type": "vehicle_part",
+    "breaks_into": [
+      { "count": [ 4, 6 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" }
+    ],
+    "broken_color": "light_cyan",
+    "categories": [ "utility" ],
+    "color": "light_cyan",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "size": "50 L",
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "VEH_TOOLS" ],
+    "//": "allow tools common for both kitchen unit and workshop; unpowered or low-power and no fume hood required",
+    "allowed_tools": [
+      "aluminum_pan",
+      "angle_grinder",
+      "atomic_coffeepot",
+      "coffeemaker",
+      "con_mix",
+      "copper_pan",
+      "cordless_drill",
+      "corded_powerdrill",
+      "elec_hairtrimmer",
+      "elec_shears",
+      "electric_spinwheel",
+      "food_processor",
+      "large_repairkit",
+      "makeshift_sealer",
+      "makeshift_vacuum_mold",
+      "oil_press_manual",
+      "pan",
+      "polisher",
+      "pot",
+      "press",
+      "puller",
+      "small_repairkit",
+      "soldering_iron",
+      "steel_pan",
+      "vac_mold",
+      "vac_sealer",
+      "water_purifier",
+      "wire_draw_machine",
+      "casserole",
+      "tongs",
+      "metalworking_tongs"
+    ],
+    "item": "veh_tools_abstract",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
+      }
+    },
+    "variants": [ { "symbols": "&", "symbols_broken": "x" } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "veh_tools_kitchen",
+    "copy-from": "veh_tools_part_abstract",
+    "description": "A table rig with a faucet for water tank access, fume hood, drawers and fixtures for storing tools, low power electric connectors and valves for for fuel tank connections.",
+    "item": "veh_tools_kitchen",
+    "looks_like": "kitchen_unit",
+    "pseudo_tools": [ { "id": "water_faucet" } ],
+    "//": "allow tools here that require a fume hood but unpowered or low-power",
+    "extend": {
+      "allowed_tools": [
+        "chemistry_set",
+        "closed_loop_extractor_large",
+        "closed_loop_extractor_small",
+        "dehydrator",
+        "electrolysis_kit",
+        "electrolyzer_makeshift",
+        "hotplate",
+        "hotplate_induction",
+        "ketene_lamp",
+        "microwave",
+        "oven",
+        "propane_cooker",
+        "towel",
+        "vac_oven_small",
+        "vac_pump"
+      ]
+    }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "veh_tools_workshop",
+    "copy-from": "veh_tools_part_abstract",
+    "description": "A table rig with drawers and fixtures for storing tools, wiring for high power electric connectors and valves for for fuel tank connections.",
+    "looks_like": "welding_rig",
+    "item": "veh_tools_workshop",
+    "//": "allow tools here that require high power draw but no fume hood",
+    "extend": {
+      "allowed_tools": [ "circsaw_off", "cordless_impact_wrench", "reciprocating_saw", "welder", "welder_crude", "welding_kit" ]
+    }
+  }
+]

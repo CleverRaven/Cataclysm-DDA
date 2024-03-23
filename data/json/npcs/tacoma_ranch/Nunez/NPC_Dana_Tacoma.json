@@ -1,0 +1,190 @@
+[
+  {
+    "type": "npc",
+    "id": "tacoma_DanaNunez",
+    "name_unique": "Dana Nunez",
+    "gender": "female",
+    "name_suffix": "baker",
+    "class": "NC_TACOMA_Dana",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_TACOMA_Dana_1",
+    "faction": "free_merchants",
+    "age": 26,
+    "height": 164,
+    "str": 8,
+    "dex": 9,
+    "int": 9,
+    "per": 11,
+    "personality": { "aggression": -2, "bravery": -1, "collector": 1, "altruism": 4 }
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_TACOMA_Dana",
+    "name": { "str": "baker" },
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "Dana is a young woman who survived with her husband, but she was pregnant and lost the baby.  This class def is for after she moves to Tacoma.",
+    "worn_override": "TACOMA_Dana_worn",
+    "carry_override": "TACOMA_Dana_carried",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "PAINRESIST" },
+      { "trait": "MYOPIC" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" },
+      { "trait": "hair_ponytail", "variant": "red" },
+      { "trait": "SKIN_LIGHT" },
+      { "trait": "eye_color", "variant": "blue" }
+    ],
+    "skills": [
+      { "skill": "cooking", "bonus": 6 },
+      { "skill": "cutting", "bonus": 3 },
+      { "skill": "driving", "bonus": 2 },
+      { "skill": "fabrication", "bonus": 1 },
+      { "skill": "melee", "bonus": 3 },
+      { "skill": "speech", "bonus": 1 },
+      { "skill": "survival", "bonus": 1 },
+      { "skill": "unarmed", "bonus": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "TACOMA_Dana_worn",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bra" },
+      { "item": "panties" },
+      { "item": "socks" },
+      { "item": "longshirt" },
+      { "item": "jeans" },
+      { "item": "leather_belt" },
+      { "item": "jacket_leather" },
+      { "item": "apron_leather" },
+      { "item": "boots" },
+      { "item": "purse" },
+      { "item": "glock_17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
+      { "item": "machete", "container-item": "scabbard" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "TACOMA_Dana_carried",
+    "subtype": "collection",
+    "entries": [ { "item": "bandages", "count": 3 } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_1",
+    "dynamic_line": {
+      "gendered_line": "*stands in the middle of a cramped kitchen, covered in flour.  The scene looks reminiscent of easier times, but the illusion is broken as he apron shifts to reveal a heavy machete and holstered pistol on  her belt.  She looks up as you approach, then beams in recognition.  \"Welcome to Dana's Bakery, stranger!\"  She laughs brightly.  \"Glad you made out this way.  What can I do for you?\"",
+      "relevant_genders": [ "u" ]
+    },
+    "responses": [
+      { "text": "Hi Dana, how are things here?", "topic": "TALK_TACOMA_Dana_2" },
+      { "text": "Got any bread for sale?", "topic": "TALK_TACOMA_Dana_Baking" },
+      { "text": "Hello, Dana!  What's with the trailer?", "topic": "TALK_TACOMA_Dana_Trailer1" },
+      {
+        "text": "Hey, Pablo!  Dana said you had some plans to build a bakery?",
+        "topic": "TALK_TACOMA_Dana_Bakery1",
+        "condition": { "u_has_var": "tacoma_bakery", "context": "knowledge", "value": "knows" }
+      },
+      { "text": "Nice to see you Dana, I'm just checking in.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_2",
+    "dynamic_line": "Not bad.  Much better than before.  Pablo and I have privacy, and the folks here actually appreciate my bread instead of paying me a pittance for it and then taking it to the basement without so much as a 'thanks'.",
+    "responses": [
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Dana_Trailer1" },
+      {
+        "text": "Any luck with the pregnancy?",
+        "topic": "TALK_TACOMA_Dana_Pregnancy",
+        "condition": { "u_has_var": "dana_pregnancy", "context": "knowledge", "value": "knows" }
+      },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_Baking",
+    "//": "Remainder of this topic is stored in npcs/surface_refugees/NPC_Dana_Nunez.json with her other refugee talk_topics.",
+    "responses": [
+      { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_Trailer1",
+    "dynamic_line": "Ha, this thing!\"  She dusts the flour off her hands and tucks a loose lock of hair back behind her ear.  \"You remember, we signed on as caravan hands to get us out here.  Well, we had a bunch of stops along the way first.  We were headed to a little group of survivors that snagged themselves a huge stock of dry food somehow, and passed this trailer sales yard smack dab in the middle of nowhere, nobody to be seen for miles.  Pablo managed to sweet talk the group into taking a rest stop there.  We searched the yard, and a lot of the stuff wasn't suitable, but this baby was ready to go.  Long story short, we got the keys to that vintage truck outside, hitched this thing up, and upgraded our caravan.\"",
+    "responses": [
+      { "text": "How did you get the keys to the truck?", "topic": "TALK_TACOMA_Dana_TrailerKeys" },
+      { "text": "What made this trailer so good?", "topic": "TALK_TACOMA_Dana_Trailer2" },
+      {
+        "text": "Any luck with the pregnancy?",
+        "topic": "TALK_TACOMA_Dana_Pregnancy",
+        "condition": { "u_has_var": "dana_pregnancy", "context": "knowledge", "value": "knows" }
+      },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_TrailerKeys",
+    "dynamic_line": "*turns serious.  \"We went inside the dealership to see if they were there.  Owner was still in there.  I… I think he took his own life, maybe figured destroying the brain would keep him from reviving.  It… it didn't.  The shotgun took out enough though, he couldn't, uh, he couldn't really see.  Just this miserable, half-faced… we put him down.  I think we did him a favor, if there was any of him left in there.  Didn't feel wrong going through his pockets.  Gross, but not wrong.\"  She blows out a stream of air, sending a small cloud of flour rising in the air, then shrugs.",
+    "responses": [
+      { "text": "What made this trailer so good?", "topic": "TALK_TACOMA_Dana_Trailer2" },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_Trailer2",
+    "dynamic_line": "It's all propane!\"  She grins.  \"The oven, especially.  We don't need electric, which means we don't need to run the gennie and attract attention.\"",
+    "responses": [
+      { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
+      {
+        "text": "Won't you run out of propane?",
+        "topic": "TALK_TACOMA_Dana_TrailerPropane",
+        "condition": { "not": { "u_has_var": "propane_scavenging", "context": "knowledge", "value": "knows" } }
+      },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_Trailer3",
+    "dynamic_line": "*sighs and nods.  \"Making do with what I've got, but yeah.  I can only crank out a couple loaves a day, and can't do anything fun.  Pablo has been talking about setting me up a separate kitchen to really get going, but we've got so much critical work to do, and fresh bread is a luxury, even if it's great for morale.\"",
+    "speaker_effect": { "effect": { "u_add_var": "tacoma_bakery", "context": "knowledge", "value": "knows" } },
+    "responses": [
+      { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
+      {
+        "text": "Any luck with the pregnancy?",
+        "topic": "TALK_TACOMA_Dana_Pregnancy",
+        "condition": { "u_has_var": "dana_pregnancy", "context": "knowledge", "value": "knows" }
+      },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_TrailerPropane",
+    "dynamic_line": "You bet we will.  We've been collecting tanks and have enough for a while, but I'm burning through it faster than the scavengers can bring in more.  Pablo is working out some plans with the others to get me a real wood fired kitchen soon, and that'll also boost my capacity.  Maybe he could give you some scavenging work if you ask.",
+    "speaker_effect": { "effect": { "u_add_var": "propane_scavenging", "context": "knowledge", "value": "knows" } },
+    "responses": [
+      { "text": "Seems like a tiny kitchen for a bakery.", "topic": "TALK_TACOMA_Dana_Trailer3" },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TACOMA_Dana_Pregnancy",
+    "dynamic_line": "*shrugs.  \"We got our hands on a few boxes of test strips so that's good.  Being stressed isn't good for conception and I've been pretty fuckin' stressed for a while.  I like our chances a lot better now, that's for sure.  And, well, we've got our own private space at least.\"  She smirks and then blushes slightly, hiding it by fiddling with her baking project.",
+    "responses": [
+      { "text": "What's with the trailer?", "topic": "TALK_TACOMA_Dana_Trailer1" },
+      { "text": "I'd better go.  See you later.", "topic": "TALK_DONE" }
+    ]
+  }
+]

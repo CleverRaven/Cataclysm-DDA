@@ -12,8 +12,7 @@
       [ [ "combatnail", 115 ] ],
       [ [ "gunpowder_shotgun", 86 ] ],
       [ [ "lgrifle_primer", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "40x53mm_m430a1",
@@ -29,7 +28,6 @@
       [ [ "gunpowder_shotgun", 42 ] ],
       [ [ "impact_fuze", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

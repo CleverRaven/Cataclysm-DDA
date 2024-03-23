@@ -1,0 +1,118 @@
+[
+  {
+    "type": "addiction_type",
+    "id": "caffeine",
+    "name": "Caffeine Withdrawal",
+    "type_name": "caffeine",
+    "description": "Strength - 1;   Slight sluggishness;   Occasional cravings",
+    "craving_morale": "morale_craving_caffeine",
+    "effect_on_condition": "EOC_CAFFEINE_ADDICTION"
+  },
+  {
+    "type": "addiction_type",
+    "id": "nicotine",
+    "name": "Nicotine Withdrawal",
+    "type_name": "nicotine",
+    "description": "Intelligence - 1;   Occasional cravings",
+    "craving_morale": "morale_craving_nicotine",
+    "builtin": "nicotine_effect"
+  },
+  {
+    "type": "addiction_type",
+    "id": "alcohol",
+    "name": "Alcohol Withdrawal",
+    "type_name": "alcohol",
+    "description": "Perception - 1;   Intelligence - 1;   Occasional Cravings;\nRisk of delirium tremens",
+    "craving_morale": "morale_craving_alcohol",
+    "builtin": "alcohol_effect"
+  },
+  {
+    "type": "addiction_type",
+    "id": "sleeping pill",
+    "name": "Sleeping Pill Dependence",
+    "type_name": "sleeping pills",
+    "description": "You may find it difficult to sleep without medication.",
+    "effect_on_condition": "EOC_SLEEP_ADDICTION"
+  },
+  {
+    "type": "addiction_type",
+    "id": "opiate",
+    "name": "Opiate Withdrawal",
+    "type_name": "opiates",
+    "description": "Strength - 1;   Perception - 1;   Dexterity - 1;\nDepression and physical pain to some degree.  Frequent cravings.  Vomiting.",
+    "craving_morale": "morale_craving_opiate",
+    "builtin": "opiate_effect"
+  },
+  {
+    "type": "addiction_type",
+    "id": "amphetamine",
+    "name": "Amphetamine Withdrawal",
+    "type_name": "amphetamine",
+    "description": "Strength - 1;   Intelligence - 1;\nMovement rate reduction.  Depression.  Weak immune system.  Frequent cravings.",
+    "craving_morale": "morale_craving_speed",
+    "builtin": "amphetamine_effect"
+  },
+  {
+    "type": "addiction_type",
+    "id": "cocaine",
+    "name": "Cocaine Withdrawal",
+    "type_name": "cocaine",
+    "description": "Perception - 1;   Intelligence - 1;   Frequent cravings.",
+    "craving_morale": "morale_craving_cocaine",
+    "builtin": "cocaine_effect"
+  },
+  {
+    "type": "addiction_type",
+    "id": "crack",
+    "name": "Crack Cocaine Withdrawal",
+    "type_name": "crack cocaine",
+    "description": "Perception - 2;   Intelligence - 2;   Frequent cravings.",
+    "craving_morale": "morale_craving_crack",
+    "builtin": "crack_effect"
+  },
+  {
+    "type": "addiction_type",
+    "id": "mutagen",
+    "name": "Mutation Withdrawal",
+    "type_name": "mutation",
+    "description": "You've gotten a taste for mutating and the chemicals that cause it.  But you can stop, yeah, any time you want.",
+    "craving_morale": "morale_craving_mutagen",
+    "effect_on_condition": "EOC_MUTAGEN_ADDICTION"
+  },
+  {
+    "type": "addiction_type",
+    "id": "diazepam",
+    "name": "Diazepam Withdrawal",
+    "type_name": "diazepam",
+    "description": "Perception - 1;   Intelligence - 1;\nAnxiety, nausea, hallucinations, and general malaise.",
+    "craving_morale": "morale_craving_diazepam",
+    "builtin": "diazepam_effect"
+  },
+  {
+    "type": "addiction_type",
+    "id": "marloss_r",
+    "name": "Marloss Longing",
+    "type_name": "Marloss berries",
+    "description": "You should try some of those pink berries.",
+    "craving_morale": "morale_craving_marloss",
+    "effect_on_condition": "EOC_MARLOSS_R_ADDICTION"
+  },
+  {
+    "type": "addiction_type",
+    "id": "marloss_b",
+    "name": "Marloss Desire",
+    "type_name": "Marloss seeds",
+    "description": "You should try some of those cyan seeds.",
+    "craving_morale": "morale_craving_marloss",
+    "effect_on_condition": "EOC_MARLOSS_B_ADDICTION"
+  },
+  {
+    "type": "addiction_type",
+    "id": "marloss_y",
+    "name": "Marloss Cravings",
+    "type_name": "Marloss gel",
+    "description": "You should try some of that golden gel.",
+    "craving_morale": "morale_craving_marloss",
+    "effect_on_condition": "EOC_MARLOSS_Y_ADDICTION"
+  }
+]

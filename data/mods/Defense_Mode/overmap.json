@@ -1,0 +1,144 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_CITIES",
+    "info": "Allows to place cities during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_ROADS",
+    "info": "Allows to place procgen roads during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "dm_hospital_1",
+      "dm_hospital_2",
+      "dm_hospital_3",
+      "dm_hospital_4",
+      "dm_hospital_5",
+      "dm_hospital_6",
+      "dm_hospital_7",
+      "dm_hospital_8",
+      "dm_hospital_9"
+    ],
+    "copy-from": "generic_hospital"
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_mansion_entrance",
+    "name": "mansion",
+    "sym": "M",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SOURCE_FOOD", "SOURCE_DRINK", "SOURCE_LUXURY", "SOURCE_BOOKS" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_mansion",
+    "copy-from": "generic_mansion_entrance",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "dm_mansion_+1",
+      "dm_mansion_+1d",
+      "dm_mansion_+1u",
+      "dm_mansion_+2",
+      "dm_mansion_+2d",
+      "dm_mansion_+2u",
+      "dm_mansion_+3",
+      "dm_mansion_+3u",
+      "dm_mansion_+4",
+      "dm_mansion_+4d",
+      "dm_mansion_+4u",
+      "dm_mansion_c1",
+      "dm_mansion_c1d",
+      "dm_mansion_c1u",
+      "dm_mansion_c2",
+      "dm_mansion_c2d",
+      "dm_mansion_c2u",
+      "dm_mansion_c3",
+      "dm_mansion_c3d",
+      "dm_mansion_c3u",
+      "dm_mansion_c4",
+      "dm_mansion_c4d",
+      "dm_mansion_c4u",
+      "dm_mansion_c5",
+      "dm_mansion_c5d",
+      "dm_mansion_c5u",
+      "dm_mansion_e1d",
+      "dm_mansion_e1u",
+      "dm_mansion_e2",
+      "dm_mansion_e2d",
+      "dm_mansion_e2u",
+      "dm_mansion_t1",
+      "dm_mansion_t1d",
+      "dm_mansion_t1u",
+      "dm_mansion_t2",
+      "dm_mansion_t2d",
+      "dm_mansion_t2u",
+      "dm_mansion_t4",
+      "dm_mansion_t4d",
+      "dm_mansion_t4u",
+      "dm_mansion_t5",
+      "dm_mansion_t5d",
+      "dm_mansion_t5u",
+      "dm_mansion_t6",
+      "dm_mansion_t6d",
+      "dm_mansion_t6u",
+      "dm_mansion_t7",
+      "dm_mansion_t7d",
+      "dm_mansion_t7u"
+    ],
+    "copy-from": "generic_mansion"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dm_public_works_NE", "dm_public_works_NW", "dm_public_works_SE" ],
+    "name": "public works",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dm_public_works_SW",
+    "name": "public works",
+    "sym": "W",
+    "color": "light_gray",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK", "SOURCE_VEHICLES", "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "public_works_NE_roof", "public_works_NW_roof", "public_works_SE_roof" ],
+    "name": "public works roof",
+    "sym": "w",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "public_works_SW_roof",
+    "name": "public works roof",
+    "sym": "W",
+    "color": "light_gray",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "dm_survivor_forest_camp" ],
+    "name": "survivor forest camp",
+    "sym": "+",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  }
+]

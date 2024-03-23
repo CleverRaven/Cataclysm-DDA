@@ -8,7 +8,6 @@
       "2": "t_door_metal_c",
       "4": "t_door_metal_pickable",
       "5": "t_door_metal_locked",
-      "6": "t_console_broken",
       "[": "t_door_glass_c",
       "-": "t_wall",
       "|": "t_concrete_wall",
@@ -31,6 +30,7 @@
     },
     "furniture": {
       "&": "f_toilet",
+      "6": "f_console_broken",
       "~": "f_shower",
       "@": "f_bed",
       "a": "f_armchair",

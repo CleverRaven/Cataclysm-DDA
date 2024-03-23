@@ -1,0 +1,32 @@
+[
+  {
+    "type": "material",
+    "id": "telekinetic_force",
+    "name": "Telekinetic Force",
+    "density": 1.5,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "soft": true,
+    "chip_resist": 6,
+    "resist": { "bash": 3, "cut": 4, "acid": 4, "heat": 0, "bullet": 6, "electric": 2 },
+    "breathability": "SECOND_SKIN",
+    "dmg_adj": [ "damaged", "strained", "fractured", "eradicated" ],
+    "bash_dmg_verb": "rippled",
+    "cut_dmg_verb": "pierced"
+  },
+  {
+    "type": "material",
+    "id": "nether_crystal",
+    "name": "Netherum Crystal",
+    "density": 15,
+    "specific_heat_liquid": 0.52,
+    "specific_heat_solid": 0.52,
+    "latent_heat": 5200,
+    "chip_resist": 100,
+    "resist": { "bash": 5, "cut": 5, "acid": 100, "heat": 10, "bullet": 2, "electric": 100 },
+    "dmg_adj": [ "marked", "chipped", "cracked", "shattered" ],
+    "bash_dmg_verb": "chipped",
+    "cut_dmg_verb": "scratched"
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "id": "psionic_serum_base",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": { "str_sp": "psychoreactive catalyst" },
+    "description": "A thick liquid, mixed with ground matrix crystal and ready to be catalyzed.  In total darkness, it glows very faintly.",
+    "material": [ "alien_liquid", "nether_crystal", "water" ],
+    "weight": "30 g",
+    "volume": "25 ml",
+    "charges": 1,
+    "phase": "liquid",
+    "price": 10,
+    "price_postapoc": 1,
+    "container": "flask_glass",
+    "flags": [ "TRADER_AVOID" ],
+    "symbol": "~",
+    "color": "black",
+    "freezing_point": -8,
+    "use_action": [ "POISON" ]
+  }
+]

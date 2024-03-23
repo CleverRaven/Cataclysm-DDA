@@ -2,8 +2,7 @@
 #ifndef CATA_SRC_AMMO_H
 #define CATA_SRC_AMMO_H
 
-#include <string>
-#include <utility>
+#include <iosfwd>
 
 #include "translations.h"
 #include "type_id.h"

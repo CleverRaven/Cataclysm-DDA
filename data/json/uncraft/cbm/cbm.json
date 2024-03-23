@@ -52,28 +52,6 @@
   {
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "bio_power_armor_interface",
-    "skill_used": "electronics",
-    "difficulty": 6,
-    "time": "10 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 2 ] ], [ [ "amplifier", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "bio_power_armor_interface_mkII",
-    "skill_used": "electronics",
-    "difficulty": 9,
-    "time": "10 m",
-    "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 5 ] ], [ [ "amplifier", 3 ] ], [ [ "plut_cell", 5 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
-  },
-  {
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
     "result": "bio_evap",
     "skill_used": "electronics",
     "difficulty": 7,

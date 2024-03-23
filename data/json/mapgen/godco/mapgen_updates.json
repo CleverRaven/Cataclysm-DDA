@@ -1,0 +1,112 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "darryl_place_coop",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "darryl_coop" ], "x": 10, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_solar_farm",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "solar_farm_spawn" ], "x": 22, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_herb_garden",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "kostas_herb_garden" ], "x": 0, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "olwen_radio_adapter",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "olwen_radio_adapter" ], "x": 1, "y": 18 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_left_corner_wall",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_left_corner" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_right_corner_wall",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_right_corner" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_right_corner_wall_bottom",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_right_corner_bottom" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_left_corner_wall_bottom",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_left_corner_bottom" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_straight_up_wall_left",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_up_straight_left" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_straight_up_wall_right",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_up_straight_right" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_straight_bottom_wall",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_bottom_straight" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_straight_top_wall",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_top_straight" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_gate_wall",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_wall_gate" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "place_food_warehouse",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "eddie_food_storage" ], "x": 6, "y": 6 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "helena_planer",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "spawn_planer" ], "x": 6, "y": 11 }, { "chunks": [ "spawn_planer" ], "x": 11, "y": 11 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "theresa_remove",
+    "object": { "remove_npcs": [ { "class": "godco_theresa", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "godco_permanent_trader_change",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader_predatory_remove" ], "x": 1, "y": 8 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "godco_permanent_trader_predatory_add",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader_predatory" ], "x": 1, "y": 8 } ] }
+  }
+]

@@ -1,0 +1,111 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nested_vampire_pack",
+    "object": {
+      "place_monster": [
+        { "monster": "mon_vampire_strigoi", "x": 12, "y": 12, "spawn_data": { "patrol": [ { "x": 12, "y": 12 } ] } },
+        { "monster": "mon_vampire_moroi", "x": 4, "y": 4, "repeat": [ 6, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_vamp_nest_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " &   ",
+        "   i ",
+        "& 0  ",
+        " i i ",
+        "     "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "0": "f_brazier", "i": "f_coffin_o", "&": "f_coffin_c" },
+      "place_loot": [
+        { "item": "blood_rice_pudding", "x": [ 2, 4 ], "y": [ 1, 3 ], "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
+        { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
+      ],
+      "place_monster": [
+        { "monster": "mon_vampire_strigoi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 8 },
+        { "monster": "mon_vampire_moroi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 16 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_corpse_pile_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "     ",
+        "     ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "place_item": [ { "item": "corpse_generic_human", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 65 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "intensity": [ 1, 3 ], "age": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_messy_nest_W",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " &   ",
+        "   i ",
+        "& 0  ",
+        " i i ",
+        "     "
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
+      "furniture": { "0": "f_brazier", "i": "f_coffin_o", "&": "f_coffin_c" },
+      "place_loot": [
+        { "item": "blood_rice_pudding", "x": [ 2, 4 ], "y": [ 1, 3 ], "chance": 60, "repeat": [ 1, 2 ] },
+        { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
+        { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
+        { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
+      ],
+      "place_item": [ { "item": "corpse_generic_human", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 65 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 4 ], "y": [ 0, 4 ], "intensity": [ 1, 3 ], "age": 10 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_bat_house_1",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "%#++#%",
+        "%1  1%",
+        "#1  1#",
+        "#1  1#",
+        "%1  1%",
+        "%#++#%"
+      ],
+      "terrain": {
+        "#": "t_reinforced_glass_shutter_open",
+        "+": "t_reinforced_door_glass_c",
+        "%": "t_reinforced_glass_shutter",
+        "$": "t_wall_glass"
+      },
+      "furniture": { "1": "f_bat_roost" },
+      "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } }
+    }
+  }
+]

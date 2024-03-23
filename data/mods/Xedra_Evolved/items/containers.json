@@ -1,0 +1,91 @@
+[
+  {
+    "id": "wrapper_wyld",
+    "type": "GENERIC",
+    "name": { "str": "candy wrapper" },
+    "description": { "str": "\"Wyld Candy, our flavors span the possible\" is emblazoned proudly upon this shiny colorful wrapper." },
+    "copy-from": "wrapper",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "225 ml", "max_contains_weight": "1 kg" } ]
+  },
+  {
+    "id": "blood_bank",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "blood bank" },
+    "looks_like": "canteen",
+    "description": "A large moon tear canteen.  It radiates the cold of the grave and smells strongly of blood.  Any blood stored inside is protected from spoilage by some kind of fae enchantment.",
+    "weight": "155 g",
+    "volume": "2625 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "melee_damage": { "bash": 1 },
+    "material": [ "moon_tears" ],
+    "symbol": ")",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "2500 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "5 kg",
+        "material_restriction": [ "blood", "hblood" ],
+        "spoil_multiplier": 0
+      }
+    ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 4,
+          "coverage": 10,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "blood_camel",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "blood camel" },
+    "looks_like": "runner_bag",
+    "description": "A slim and lightweight insulated moon tear bladder worn on the back or within a hydration pouch in a backpack.  Perfect for the renfield on the go.  It has a large pocket and a capped mouth for filling with blood, with a hose that allows the wearer to drink hands-free.  Any blood stored inside is protected from spoilage by some kind of fae enchantment.",
+    "weight": "286 g",
+    "volume": "3001 ml",
+    "price": 10000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "melee_damage": { "bash": 1 },
+    "material": [ "moon_tears" ],
+    "symbol": ")",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "3000 ml",
+        "max_item_volume": "32 ml",
+        "max_contains_weight": "20 kg",
+        "material_restriction": [ "blood", "hblood" ],
+        "spoil_multiplier": 0
+      }
+    ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "moon_tears", "covered_by_mat": 100, "thickness": 1.0 } ],
+          "coverage": 30,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "COLLAPSE_CONTENTS" ]
+  }
+]

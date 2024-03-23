@@ -1,0 +1,50 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "mom_pulse_rifle_ammo",
+    "name": "Pulse rifle charge",
+    "default": "mom_pulse_rifle_ammo"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "psionic_charge_power",
+    "name": "matrix charge",
+    "default": "psionic_charge_power"
+  },
+  {
+    "id": "mom_pulse_rifle_ammo",
+    "type": "AMMO",
+    "name": { "str_sp": "LV429 pulse shot" },
+    "description": "A charge for the LV429.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 160,
+    "price_postapoc": 800,
+    "material": [ "superalloy", "steel" ],
+    "symbol": "=",
+    "color": "red",
+    "count": 1,
+    "stack_size": 1,
+    "ammo_type": "mom_pulse_rifle_ammo",
+    "range": 40,
+    "dispersion": 0,
+    "recoil": 0,
+    "damage": { "damage_type": "psi_photokinetic_damage", "amount": 55, "armor_penetration": 4 }
+  },
+  {
+    "type": "AMMO",
+    "id": "psionic_charge_power",
+    "category": "spare_parts",
+    "price": 1000,
+    "name": { "str_sp": "matrix charge" },
+    "symbol": "=",
+    "color": "white",
+    "description": "Power charge for matrix technology.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "weight": "0 mg",
+    "volume": "0 ml",
+    "ammo_type": "psionic_charge_power",
+    "material": [ "nether_crystal" ],
+    "count": 100
+  }
+]

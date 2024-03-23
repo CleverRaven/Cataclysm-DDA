@@ -16,6 +16,9 @@ import subprocess
 import sys
 
 try:
+    vips_path = os.getenv("LIBVIPS_PATH")
+    if vips_path is not None and vips_path != "":
+        os.environ["PATH"] += ";" + os.path.join(vips_path, "bin")
     import pyvips
     Vips = pyvips
 except ImportError:
@@ -25,8 +28,8 @@ except ImportError:
 
 
 def write_to_json(pathname, data, prettify=False):
-    with open(pathname, "w") as fp:
-        json.dump(data, fp)
+    with open(pathname, "w", encoding="utf-8") as fp:
+        json.dump(data, fp, ensure_ascii=False)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if prettify and os.path.isfile(json_formatter):
@@ -52,9 +55,21 @@ class TileSheetData(object):
             "sprite_width", refs.default_width)
         self.sprite_offset_x = tilesheet_data.get("sprite_offset_x", 0)
         self.sprite_offset_y = tilesheet_data.get("sprite_offset_y", 0)
+        self.sprite_offset_x_retracted = tilesheet_data.get(
+            "sprite_offset_x_retracted",
+            self.sprite_offset_x
+        )
+        self.sprite_offset_y_retracted = tilesheet_data.get(
+            "sprite_offset_y_retracted",
+            self.sprite_offset_y
+        )
+        self.pixelscale = tilesheet_data.get("pixelscale", 1.0)
+
         self.write_dim = self.sprite_width != refs.default_width
         self.write_dim |= self.sprite_height != refs.default_height
         self.write_dim |= self.sprite_offset_x or self.sprite_offset_y
+        self.write_dim |= \
+            self.sprite_offset_x_retracted or self.sprite_offset_y_retracted
         self.ts_pathname = refs.tileset_pathname + "/" + self.ts_filename
         self.ts_image = Vips.Image.pngload(self.ts_pathname)
         self.ts_width = self.ts_image.width
@@ -222,6 +237,15 @@ class TileSheetData(object):
                 ts_tile_info["sprite_offset_y"] = self.sprite_offset_y
                 ts_tile_info["sprite_width"] = self.sprite_width
                 ts_tile_info["sprite_height"] = self.sprite_height
+                if self.sprite_offset_x_retracted != self.sprite_offset_x \
+                        or self.sprite_offset_y_retracted \
+                        != self.sprite_offset_y:
+                    ts_tile_info["sprite_offset_x_retracted"] = \
+                        self.sprite_offset_x_retracted
+                    ts_tile_info["sprite_offset_y_retracted"] = \
+                        self.sprite_offset_y_retracted
+            if self.pixelscale != 1.0:
+                ts_tile_info["pixelscale"] = self.pixelscale
             #print("{}: {}".format(
             #    self.ts_filename, json.dumps(ts_tile_info, indent=2)))
             tile_info.append({self.ts_filename: ts_tile_info})
@@ -333,7 +357,7 @@ class PngRefs(object):
             sys.exit(-1)
 
         if delete_pathname:
-            with open(delete_pathname) as del_file:
+            with open(delete_pathname, encoding="utf-8") as del_file:
                 del_ranges = json.load(del_file)
                 for delete_range in del_ranges:
                     if not isinstance(delete_range, list):
@@ -345,8 +369,8 @@ class PngRefs(object):
                     for i in range(min_png, max_png + 1):
                         self.delete_pngnums.append(i)
 
-        with open(tileset_confname) as conf_file:
-            return(json.load(conf_file))
+        with open(tileset_confname, encoding="utf-8") as conf_file:
+            return json.load(conf_file)
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):

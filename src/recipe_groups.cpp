@@ -9,7 +9,6 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "overmap.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -24,12 +23,13 @@ using group_id = string_id<recipe_group_data>;
 
 struct recipe_group_data {
     group_id id;
+    std::vector<std::pair<group_id, mod_id>> src;
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::set<std::string>> om_terrains;
     bool was_loaded = false;
 
-    void load( const JsonObject &jo, const std::string &src );
+    void load( const JsonObject &jo, std::string_view src );
     void check() const;
 };
 
@@ -37,7 +37,7 @@ generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 
 } // namespace
 
-void recipe_group_data::load( const JsonObject &jo, const std::string & )
+void recipe_group_data::load( const JsonObject &jo, const std::string_view )
 {
     building_type = jo.get_string( "building_type" );
     for( JsonObject ordering : jo.get_array( "recipes" ) ) {
@@ -90,20 +90,34 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     }
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     if( om_terrain_id != "ANY" ) {
-        std::string base_om_ter_id = oter_no_dir( oter_id( om_terrain_id ) );
+        std::string base_om_ter_id{ oter_no_dir( oter_id( om_terrain_id ) ) };
 
         for( const auto &recp : group.recipes ) {
             const auto &recp_terrain = group.om_terrains.find( recp.first );
             if( recp_terrain == group.om_terrains.end() ) {
                 continue;
             }
-            if( recp_terrain->second.find( base_om_ter_id ) != recp_terrain->second.end() ) {
+            if( recp_terrain->second.find( base_om_ter_id ) != recp_terrain->second.end() ||
+                recp_terrain->second.find( "ANY" ) != recp_terrain->second.end() ) {
                 all_rec.emplace( recp );
             }
         }
         return all_rec;
     }
     return group.recipes;
+}
+
+std::string recipe_group::get_building_of_recipe( const std::string &recipe )
+{
+    for( const auto &group : recipe_groups_data.get_all() ) {
+        for( const auto &rec : group.recipes ) {
+            if( rec.first.str() == recipe ) {
+                return group.building_type;
+            }
+        }
+    }
+
+    return "";
 }
 
 void recipe_group::load( const JsonObject &jo, const std::string &src )

@@ -1,0 +1,335 @@
+[
+  {
+    "type": "snippet",
+    "category": "mapgen_test",
+    "text": "This is a test of the sign snippet system"
+  },
+  {
+    "type": "snippet",
+    "category": "mapgen_test",
+    "text": "Snippets should also support tags like <full_name>, <given_name>, <family_name>, and <city>"
+  },
+  {
+    "type": "snippet",
+    "category": "mapgen_test",
+    "text": "This should repeat the same city several times: <city>, <city>, <city>"
+  },
+  {
+    "id": "mapgen-test",
+    "type": "overmap_terrain",
+    "name": "no name",
+    "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
+    "sym": "%",
+    "color": "white",
+    "mondensity": 1,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "mapgen_test",
+    "terrain": [ { "result": "t_dirt", "valid_terrain": [ "t_grass" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mapgen_test_nested",
+    "object": { "mapgensize": [ 1, 1 ], "place_terrain": [ { "ter": "t_pillar", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mapgen_test_nested",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "  ",
+        "  "
+      ],
+      "terrain": { " ": "t_region_groundcover" },
+      "furniture": { " ": "f_armchair" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "test_nested_remove_shopping_cart",
+    "object": { "mapgensize": [ 24, 24 ], "remove_vehicles": [ { "vehicles": [ "shopping_cart" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_remove_shopping_cart",
+    "object": { "remove_vehicles": [ { "vehicles": [ "shopping_cart" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "test_nested_place_shopping_cart",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
+      "place_vehicles": [ { "vehicle": "shopping_cart", "chance": 100, "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_place_shopping_cart",
+    "object": {
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
+      "place_vehicles": [ { "vehicle": "shopping_cart", "chance": 100, "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_place_npc",
+    "object": {
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 0, "y": 0 } ],
+      "place_npcs": [ { "class": "test_npc_trader", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_place_npc_thug",
+    "object": {
+      "set": [ { "point": "terrain", "id": "t_dirt", "x": 1, "y": 0 } ],
+      "place_npcs": [ { "class": "thug", "x": 0, "y": 0 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "test_update_remove_npc",
+    "object": { "remove_npcs": [ { "class": "test_npc_trader", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "palette",
+    "id": "test_pallete_remove_all",
+    "remove_all": { "Z": {  } }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "test_nested_remove_all_1x1",
+    "object": { "mapgensize": [ 1, 1 ], "rows": [ "Z" ], "palettes": [ "test_pallete_remove_all" ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "mapgen-test" ],
+    "object": {
+      "//": "Some of the squares should have a frame, but not all.",
+      "fill_ter": "t_grass",
+      "rows": [
+        "                       r",
+        "                      A ",
+        "                        ",
+        "                    W   ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                 a      ",
+        "    1                   ",
+        "                        ",
+        "22222222                ",
+        "                 p      ",
+        "tttttttt                ",
+        "tttttttt       ss oo    ",
+        "               ss oo    ",
+        "                        ",
+        "      X                 ",
+        "                        ",
+        "T          B           S",
+        "                        ",
+        "                        ",
+        "   ;;;;----gggg R     G ",
+        "   ;;;;----gggg         ",
+        " V O . , u fF       Y   "
+      ],
+      "mapping": {
+        "X": {
+          "terrain": "t_dirt",
+          "traps": "tr_pit",
+          "fields": { "field": "fd_fire" },
+          "items": { "item": "survivorzed_boots", "chance": 30 },
+          "item": { "item": "2x4" }
+        }
+      },
+      "set": [
+        { "line": "terrain", "id": "t_concrete", "x": 17, "x2": 21, "y": 3, "y2": 3 },
+        { "square": "radiation", "amount": [ 10, 30 ], "x": 0, "y": 0, "x2": 23, "y2": 23 },
+        { "point": "trap", "id": "tr_cot", "x": [ 17, 21 ], "y": [ 1, 2 ], "chance": 2, "repeat": [ 2, 5 ] },
+        { "point": "variable", "id": "test_variable", "x": 4, "y": 2 }
+      ],
+      "terrain": { ".": "t_shrub", ";": [ "t_door_o", { "ter": "t_pit_spiked" } ] },
+      "place_terrain": [ { "ter": "t_rock", "x": 11, "y": 3 } ],
+      "furniture": { ",": "f_table", "-": [ "f_chair", { "furn": "f_bed" } ], "g": "f_brazier" },
+      "place_furniture": [ { "furn": "f_rack", "x": 9, "y": 3 } ],
+      "traps": { "F": "tr_cot", "f": { "trap": "tr_funnel" }, "g": { "trap": "tr_funnel" } },
+      "place_traps": [ { "trap": "tr_funnel", "x": 7, "y": 3 } ],
+      "fields": { "B": { "field": "fd_blood", "intensity": 1, "age": 10 }, "A": { "field": "fd_blood", "remove": true } },
+      "place_fields": [ { "field": "fd_bile", "x": 5, "y": 1, "intensity": 2, "age": 20 } ],
+      "signs": { "S": { "signage": "<color_white_green>it works.</color>" } },
+      "place_signs": [
+        { "signage": "it works again.", "x": 7, "y": 1 },
+        { "signage": "<given_name> <family_name> owned <full_name> at <city>", "x": 7, "y": 2 },
+        { "snippet": "mapgen_test", "x": 8, "y": 2 },
+        { "signage": "<given_name>, <given_name>, and <given_name> were here!", "x": 8, "y": 1 }
+      ],
+      "vendingmachines": { "V": { "item_group": "farming_seeds", "reinforced": true } },
+      "place_vendingmachines": [ { "item_group": "jewelry_front", "x": 3, "y": 1, "lootable": true } ],
+      "toilets": { "T": { "amount": [ 44, 46 ] } },
+      "place_toilets": [ { "x": 9, "y": 1, "amount": [ 88, 111 ] } ],
+      "gaspumps": { "O": { "amount": [ 110, 112 ], "fuel": "gasoline" } },
+      "place_gaspumps": [ { "x": 1, "y": 1, "amount": [ 200, 222 ], "fuel": "avgas" } ],
+      "items": { "o": { "item": "clothing_work_set", "chance": 20 }, "s": { "item": "bionics", "chance": 70 } },
+      "place_items": [ { "item": "bionics", "x": 1, "y": 3, "chance": 70 }, { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 } ],
+      "item": {
+        "t": { "item": "cotton_patchwork", "chance": 4, "custom-flags": [ "FILTHY" ] },
+        "u": [ { "item": "television", "chance": 1 }, { "item": "electrohack", "chance": 1 } ]
+      },
+      "place_item": [ { "item": "frame", "x": [ 0, 7 ], "y": [ 4, 5 ], "chance": 4, "repeat": 10 } ],
+      "sealed_item": { "p": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_harvest" } },
+      "place_loot": [
+        { "group": "cannedfood", "x": [ 13, 13 ], "y": [ 22, 23 ], "chance": 90 },
+        {
+          "item": "modular_m4_carbine",
+          "variant": "modular_m4a1",
+          "x": 12,
+          "y": [ 9, 11 ],
+          "magazine": 100,
+          "ammo": 100,
+          "chance": 75,
+          "repeat": 30
+        }
+      ],
+      "npcs": { "T": { "class": "guard", "add_trait": "ASTHMA" } },
+      "place_npcs": [ { "class": "arsonist", "x": 9, "y": 1 } ],
+      "monsters": {
+        "B": { "monster": "GROUP_BEE", "chance": 4, "density": 1 },
+        "S": { "monster": "GROUP_ANT", "chance": 1, "density": 0.1 }
+      },
+      "place_monsters": [
+        { "monster": "GROUP_BEE", "x": 5, "y": 1, "chance": 4, "density": 1 },
+        { "monster": "GROUP_ANT", "x": 7, "y": 1, "chance": 1, "density": 0.1 }
+      ],
+      "monster": { "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" } },
+      "place_monster": [
+        { "monster": "mon_deer", "x": 13, "y": 3, "friendly": true, "name": "THE OTHER DEER", "target": true },
+        {
+          "monster": "mon_secubot",
+          "x": [ 17, 18 ],
+          "y": [ 2, 3 ],
+          "chance": 30,
+          "repeat": [ 1, 3 ],
+          "one_or_none": true,
+          "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ] }
+        },
+        {
+          "monster": "mon_zombie",
+          "x": 19,
+          "y": 3,
+          "pack_size": [ 1, 3 ],
+          "spawn_data": { "patrol": [ { "x": 14, "y": 8 }, { "x": 7, "y": 8 } ] }
+        }
+      ],
+      "vehicles": {
+        "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 },
+        "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 }
+      },
+      "place_vehicles": [ { "vehicle": "unicycle", "x": 5, "y": 3, "chance": 100, "status": 1 } ],
+      "remove_vehicles": [ { "vehicles": [ "fire_engine" ], "x": [ 10, 15 ], "y": [ 10, 15 ] } ],
+      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ], "chance": 1 } },
+      "place_liquids": [ { "liquid": "gasoline", "x": 18, "y": 3 } ],
+      "corpses": { "G": { "group": "GROUP_PETS", "age": 10 } },
+      "place_corpses": [ { "group": "GROUP_PETS", "x": 19, "y": 19 } ],
+      "computers": {
+        "a": {
+          "name": "Test computer 1",
+          "security": 3,
+          "options": [ { "name": "Test unlock action", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ],
+          "access_denied": "ERROR!  Access denied!  Unauthorized access will be met with lethal force!"
+        }
+      },
+      "place_computers": [
+        {
+          "name": "Test computer 2",
+          "eocs": [ "EOC_REFUGEE_CENTER_COMPUTER" ],
+          "chat_topics": [ "COMP_REFUGEE_CENTER_MAIN" ],
+          "x": 20,
+          "y": 20
+        }
+      ],
+      "rubble": { "R": { "items": true, "overwrite": true, "floor_type": "t_grass" } },
+      "place_rubble": [ { "rubble_type": "f_rubble_rock", "x": 15, "y": 1 } ],
+      "graffiti": { "1": { "snippet": "mapgen_test" } },
+      "place_graffiti": [ { "text": "test graffiti", "x": 17, "y": 17 }, { "snippet": "mapgen_test", "x": 18, "y": 18 } ],
+      "place_zones": [
+        {
+          "type": "NPC_INVESTIGATE_ONLY",
+          "faction": "prisoners",
+          "x": [ 1, 2 ],
+          "y": [ 1, 2 ],
+          "name": "Dont-check_sounds_outside_of_this_zone"
+        },
+        {
+          "type": "NPC_NO_INVESTIGATE",
+          "faction": "prisoners",
+          "x": [ 3, 4 ],
+          "y": [ 3, 4 ],
+          "name": "Dont-check_sounds_inside_of_this_zone"
+        },
+        {
+          "type": "NPC_RETREAT",
+          "faction": "prisoners",
+          "x": [ 5, 6 ],
+          "y": [ 5, 6 ],
+          "name": "Retreat_to_this_zone"
+        }
+      ],
+      "nested": { "2": { "chunks": [ [ "mapgen_test_nested", 50 ], [ "null", 50 ] ] } },
+      "place_nested": [ { "chunks": [ "mapgen_test_nested" ], "x": [ 2, 22 ], "y": [ 2, 22 ] } ],
+      "ter_furn_transforms": { "r": { "transform": "mapgen_test" } },
+      "place_ter_furn_transforms": [ { "transform": "mapgen_test", "x": 22, "y": 0 } ]
+    }
+  },
+  {
+    "id": "mx_crater",
+    "type": "map_extra",
+    "copy-from": "mx_crater",
+    "generator": {  }
+  },
+  {
+    "id": "test_spawn_w_modifier",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "butter", "prob": 100, "count": 1, "container-item": "null", "entry-wrapper": "wrapper" } ]
+  },
+  {
+    "id": "test_spawn_custom_container",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "alcohol_wipes", "prob": 100, "count": 1 } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "auto_wl_test",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "place_loot": [
+        { "item": "aspirin", "x": 0, "y": 0 },
+        { "group": "test_spawn_w_modifier", "x": 1, "y": 0 },
+        { "group": "test_spawn_custom_container", "x": 0, "y": 1 }
+      ]
+    }
+  }
+]

@@ -2,7 +2,7 @@
   {
     "type": "npc",
     "id": "isherwood_eddie",
-    "//": "Dairy farmer the Isherwood family.",
+    "//": "Dairy farmer of the Isherwood family.",
     "name_unique": "Eddie Isherwood",
     "gender": "male",
     "class": "NC_ISHERWOOD_EDDIE",
@@ -17,12 +17,16 @@
     "id": "NC_ISHERWOOD_EDDIE",
     "name": { "str": "Eddie Isherwood" },
     "job_description": "I'm a dairy farmer, part of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_per": { "one_in": 4 },
-    "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "worn_override": "NC_Isherwood_male_worn",
+    "weapon_override": "NC_ISHERWOOD_rifle",
     "shopkeeper_item_group": "NC_ISHERWOOD_EDDIE_misc",
     "skills": [
       {
@@ -42,9 +46,9 @@
     "id": "NC_ISHERWOOD_EDDIE_misc",
     "subtype": "distribution",
     "entries": [
-      { "item": "cheese_hard", "prob": 55 },
-      { "item": "cheese", "prob": 55 },
-      { "item": "butter", "prob": 55 },
+      { "prob": 55, "group": "cheese_hard_wrapper_8" },
+      { "prob": 55, "group": "cheese_bag_plastic_8" },
+      { "prob": 55, "group": "butter_wrapper_32" },
       { "item": "meat_smoked", "prob": 45 },
       { "item": "fish_smoked", "prob": 25 },
       { "item": "milk", "prob": 70, "charges": 12, "container-item": "jar_3l_glass_sealed" }
@@ -98,12 +102,19 @@
         "effect": "start_trade",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       },
+      { "text": "When will your cows produce again?", "topic": "TALK_ISHERWOOD_EDDIE_RESTOCK" },
       {
         "text": "I'd better get going.",
         "topic": "TALK_DONE",
         "condition": { "not": { "u_is_wearing": "badge_marshal" } }
       }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ISHERWOOD_EDDIE_RESTOCK",
+    "dynamic_line": "If the cows don't get anything nasty it should be around <interval>.",
+    "responses": [ { "text": "Cheers, bye.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
@@ -127,7 +138,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE2",
-    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, Carlos might be willing to tell you the story, he managed to allude it.",
+    "dynamic_line": "Barry and Carlos went to hunt down something that killed our livestock, they tracked it into the forest.  It grabbed Barry and ran off, you might be able to get Carlos to tell you the story, if he can bring himself to share what happened.",
     "responses": [
       { "text": "Let's talk about something else.", "topic": "TALK_ISHERWOOD_EDDIE_TOPICS" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -211,8 +222,8 @@
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [
-        { "u_buy_item": "meat_smoked", "count": 12 },
-        { "u_buy_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 }
+        { "u_spawn_item": "meat_smoked", "count": 12 },
+        { "u_spawn_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 }
       ],
       "update_mapgen": [
         {
@@ -239,7 +250,10 @@
     "followup": "MISSION_ISHERWOOD_EDDIE_3",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_item": "butter", "count": 6 }, { "u_buy_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 } ]
+      "effect": [
+        { "u_spawn_item": "butter", "count": 6 },
+        { "u_spawn_item": "milk", "container": "jar_3l_glass_sealed", "count": 12 }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
@@ -258,26 +272,26 @@
   {
     "id": "MISSION_ISHERWOOD_EDDIE_3",
     "type": "mission_definition",
-    "name": { "str": "Gather 1000 units of clay" },
+    "name": { "str": "Gather 100 units of clay" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
     "item": "clay_lump",
-    "count": 1000,
+    "count": 100,
     "end": {
       "opinion": { "trust": 2, "value": 2 },
       "effect": [
         { "u_add_var": "u_did_eddie_missions", "type": "general", "context": "mission", "value": "yes" },
-        { "u_buy_item": "rope_6", "count": 1 },
+        { "u_spawn_item": "rope_6", "count": 1 },
         { "u_buy_monster": "mon_cow", "count": 1, "name": "Daisy" },
-        { "u_buy_item": "cattlefodder", "count": 3 }
+        { "u_spawn_item": "cattlefodder", "count": 3 }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "I do have some resource gathering I could use help if you have time.",
-      "offer": "Now that the clay kiln is set up, we could use 1000 units of clay to get production going.",
+      "offer": "Now that the clay kiln is set up, we could use 100 units of clay to get production going.",
       "accepted": "Thank you.",
       "rejected": "Oh well.  I'll try to find time to get it myself, thanks.",
       "advice": "You can find it along river banks, or maybe look for deposits in the forest.",

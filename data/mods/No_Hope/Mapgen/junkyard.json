@@ -1,0 +1,62 @@
+[
+  {
+    "method": "json",
+    "om_terrain": [ [ "junkyard_1a", "junkyard_1b" ] ],
+    "type": "mapgen",
+    "weight": 10000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "__......________________________________......__",
+        "__......e_%%%---%r%---%%%4_____________e......__",
+        "_$qqqqqq%$%ffBBBfffBBBff%%%%%%%%%%%%%%$%dddddd$_",
+        "_$......e_%ffffffffffffff%ttttttttttt%_e......$_",
+        "_$......__%KffcccccccffffDtttttttttttD__......$_",
+        "_$......__%fffccnnnccfUUf%tttttttttte%e.......$_",
+        "_$......__%fffccnnnccfxff%Cttmmmmmmmmd........$_",
+        "_$......__%FffcccccccfUaf%Cttmmmmmmmmd........$_",
+        "_$......__%fffffffffffUff%Cttmmmmmmmmd........$_",
+        "_$......__%%D%ffpppfffUff%&ttmmmmmmmmd........$_",
+        "_$......__%Rf%r---------r%Cttmmmmmmmmd........$_",
+        "_$......__%bf%fffffffffff%Cttmmmmmmmmd........$_",
+        "_$......__%ff%fIIfIIfffff%Ctttttttttt%_.......$_",
+        "_$......__%fT%ffaffafffff%ttttttttttt%__......$_",
+        "_$......__%%%%%%%%%%%%%D%%%%%%%%%%%%%%__......$_",
+        "_$......__sssss__sssss_SS_sssss__sssss__......$_",
+        "_$......__sssss__sssss_SS_sssss__sssss__......$_",
+        "_$......__sssss__sssss_SS_sssss__sssss__......$_",
+        "_$......__sssss__sssss_SS_sssss__sssss__......$_",
+        "_$......__sssss__sssss_SS_sssss__sssss__......$_",
+        "_$......__sssss__sssss_SS_sssss__sssss_.......$_",
+        "_$......._sssss__sssss_SS_sssss__sssss........$_",
+        "_$............................................$_",
+        "_$............................................$_"
+      ],
+      "palettes": [ "junkyard_palette" ],
+      "place_toilets": [ { "x": 12, "y": 13 } ],
+      "vendingmachines": { "K": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+      "place_loot": [ { "item": "television", "x": 17, "y": 9, "chance": 50 } ],
+      "place_items": [
+        { "chance": 25, "item": "cubical_office", "x": [ 18, 19 ], "y": 12 },
+        { "chance": 25, "item": "cubical_office", "x": [ 15, 16 ], "y": 12 },
+        { "chance": 30, "item": "trash", "x": 11, "y": 10 },
+        { "chance": 5, "item": "vending_food_items", "x": 11, "y": 4 },
+        { "chance": 5, "item": "vending_drink_items", "x": 11, "y": 7 },
+        { "chance": 40, "repeat": 3, "item": "magazines", "x": [ 16, 18 ], "y": [ 5, 6 ] },
+        { "chance": 20, "repeat": 2, "item": "tools_mechanic", "x": 26, "y": [ 10, 12 ] },
+        { "chance": 20, "repeat": 2, "item": "tools_mechanic", "x": 26, "y": [ 6, 8 ] },
+        { "chance": 25, "repeat": 2, "item": "trash", "x": 26, "y": 9 }
+      ],
+      "place_vehicles": [
+        { "chance": 75, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "junkyard_vehicles", "x": 12, "y": 18 },
+        { "chance": 75, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "junkyard_vehicles", "x": 19, "y": 18 },
+        { "chance": 90, "fuel": 0, "rotation": 0, "status": -1, "vehicle": "engine_crane", "x": 28, "y": 3 },
+        { "chance": 90, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "handjack", "x": 31, "y": 3 },
+        { "chance": 90, "fuel": 30, "rotation": 180, "status": -1, "vehicle": "welding_cart", "x": 34, "y": 3 },
+        { "chance": 75, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "junkyard_vehicles", "x": 31, "y": 9 },
+        { "chance": 75, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "junkyard_vehicles", "x": 28, "y": 18 },
+        { "chance": 75, "fuel": 0, "rotation": 270, "status": 1, "vehicle": "junkyard_vehicles", "x": 35, "y": 18 }
+      ]
+    }
+  }
+]

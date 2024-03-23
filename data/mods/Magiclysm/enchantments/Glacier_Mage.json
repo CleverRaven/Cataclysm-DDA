@@ -1,0 +1,99 @@
+[
+  {
+    "id": "glacier_mage_attack",
+    "type": "SPELL",
+    "name": "Glacier Mage Attack",
+    "description": "Deal some damage to a monster you attack.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "RANDOM_DAMAGE", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "ice_age_eff",
+    "min_range": 1,
+    "max_range": 1,
+    "min_damage": 19,
+    "max_damage": 31,
+    "min_duration": 150,
+    "max_duration": 900,
+    "shape": "blast",
+    "damage_type": "bash"
+  },
+  {
+    "type": "enchantment",
+    "id": "GLACIER_MAGE",
+    "condition": "ALWAYS",
+    "name": { "str": "Stalactite" },
+    "description": "Your Glacier Mage abilities grant you good resistance to temperature conditions, and enemies are often hurt when try to attack you in melee.",
+    "//": "push attacks",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
+    "hit_you_effect": [ { "id": "glacier_mage_attack", "once_in": 14 } ]
+  },
+  {
+    "id": "glacier_mage_bash_damage",
+    "type": "SPELL",
+    "name": "Glacier Mage Bash AoE",
+    "description": "Deal some bash damage around the player.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_damage": 13,
+    "max_damage": 13,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "damage_type": "bash"
+  },
+  {
+    "type": "enchantment",
+    "id": "glacier_mage_bash_aoe",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "glacier_mage_bash_damage" } ] } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_FROZEN_PRESSURE_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "GLACIER_MAGE" },
+        {
+          "not": { "u_has_var": "u_got_glacier_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "GLACIER_MAGE" } },
+    "effect": [
+      { "u_add_trait": "FROZEN_PRESSURE_OFF" },
+      { "u_add_var": "u_got_glacier_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "FROZEN_PRESSURE_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Frozen Pressure" },
+    "points": 0,
+    "active": true,
+    "description": "Your presence is so dangerous living creatures nearby are smashed.  You are currently suppressing this power.",
+    "transform": {
+      "target": "FROZEN_PRESSURE_ON",
+      "msg_transform": "Living creatures around you are crushed!",
+      "active": true,
+      "moves": 10
+    }
+  },
+  {
+    "type": "mutation",
+    "id": "FROZEN_PRESSURE_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Frozen Pressure (on)" },
+    "points": 0,
+    "description": "Your presence is so dangerous living creatures nearby are smashed.",
+    "enchantments": [ "glacier_mage_bash_aoe" ],
+    "transform": { "target": "FROZEN_PRESSURE_OFF", "msg_transform": "You suppress your frozen pressure.", "active": false, "moves": 10 }
+  }
+]

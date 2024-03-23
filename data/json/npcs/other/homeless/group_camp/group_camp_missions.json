@@ -1,0 +1,234 @@
+[
+  {
+    "id": "MISSION_KILL_SLIMES",
+    "type": "mission_definition",
+    "name": "Sticky Situation",
+    "description": "Kill some slimes in exchange for credit with some of the traders and bring back six of their slime scraps.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "slime_scrap",
+    "count": 6,
+    "difficulty": 1,
+    "value": 4000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_HUNT_ANTS",
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 15, "min_distance": 10 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_blob", "pack_size": [ 6, 6 ], "x": 8, "y": 8, "target": true } ] }
+    },
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "We've had some trouble with slimes not far from us.  It's been hard going through there with all them around, so I want you to go take care of it.",
+      "advice": "Sure, they can be cut, but I'd say it's better to splatter them with something large and heavy.",
+      "accepted": "I'll be here when you get back.",
+      "rejected": "No problem.  I'm sure one of us will get to it anyway.",
+      "inquire": "Are those slimes dead yet?",
+      "success": "Nice.  I'll just take those off your hands.  Might be good for greasing the bike chains and door hinges around here even though it is a bit… abnormal.",
+      "success_lie": "You don't look nearly as sticky as you're supposed to.  Get back to it.",
+      "failure": "Did they give you the slip?  It's worse than I thought, then."
+    }
+  },
+  {
+    "id": "MISSION_HUNT_ANTS",
+    "type": "mission_definition",
+    "name": "Arthropod Hunting",
+    "description": "Kill some ants and bring back ten slices of their meat in exchange for credit with some of the traders.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "mutant_meat",
+    "count": 10,
+    "difficulty": 1,
+    "value": 4000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_BUILD_CAMP_1",
+    "start": {
+      "assign_mission_target": { "om_terrain": "field", "reveal_radius": 1, "random": true, "search_range": 15 },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_ant", "pack_size": [ 2, 2 ], "x": 8, "y": 8, "target": true } ] }
+    },
+    "end": { "effect": [ { "npc_add_var": "ant_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ] },
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "The last time we went out scouting we found some gargantuan ants crawling around.  We thought we might see how they taste, if they could be cooked and whatnot.  I want you to go kill one and bring back some of its meat.",
+      "advice": "A shotgun of some sort might work well.",
+      "accepted": "I'll be here when you get back.",
+      "rejected": "Alright, I can understand that.",
+      "inquire": "Do you have the meat?",
+      "success": "Nice.  I'll get these cooked up.  Who knows, we might want some more in the future.",
+      "success_lie": "You sure?  I don't see my meat anywhere.",
+      "failure": "Ah, well.  It's no big deal."
+    }
+  },
+  {
+    "id": "MISSION_BUILD_CAMP_1",
+    "type": "mission_definition",
+    "name": "Refurbishments",
+    "description": "Obtain 100 planks.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "2x4",
+    "count": 100,
+    "difficulty": 1,
+    "value": 10000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_BUILD_CAMP_2",
+    "end": {
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_1" ], "x": 0, "y": 0 } ] }
+    },
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "My buddies and I have decided to stay here for a while.  This is about the only safe place out here, and it's kinda become our home.  Anyway, we're going to build a wall.  Our old logs have provided a bunch of the wood, but we still need quite a few planks.  About 100 of them.  If you could get it for us, I'd be grateful.",
+      "advice": "Any nearby forest should have all you need.  Otherwise, you might try breaking down some furniture in town.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
+      "inquire": "Do you have my lumber?",
+      "success": "Thank you.  We'll start right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah, well.  It's no big deal."
+    }
+  },
+  {
+    "id": "MISSION_BUILD_CAMP_2",
+    "type": "mission_definition",
+    "name": "Refurbishments Pt. II",
+    "description": "Obtain 150 planks.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "2x4",
+    "count": 150,
+    "difficulty": 1,
+    "value": 15000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_BUILD_CAMP_3",
+    "end": {
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_2" ], "x": 0, "y": 0 } ] }
+    },
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "Now that we've got the wall done, we decided to move out of these old tents.  We still have some leftover nails but we need more wood.  So, if you could get us 150 planks, we'd be grateful.",
+      "advice": "Any nearby forest should have all you need.  Otherwise, you might try breaking down some furniture in town.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
+      "inquire": "Do you have my lumber?",
+      "success": "Thank you.  We'll start right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah, well.  It's no big deal."
+    }
+  },
+  {
+    "id": "MISSION_BUILD_CAMP_3",
+    "type": "mission_definition",
+    "name": "Refurbishments Pt. III",
+    "description": "Obtain 6 ropes.",
+    "//": "TO-DO - Dynamic response dialogs would be more natural to accept so many alternate items here and everywhere else these conditional item accept conditions appear.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "or": [
+        { "u_has_items": { "item": "rope_6", "count": 6 } },
+        { "u_has_items": { "item": "rope_30", "count": 6 } },
+        { "u_has_items": { "item": "rope_makeshift_6", "count": 6 } },
+        { "u_has_items": { "item": "rope_makeshift_30", "count": 6 } }
+      ]
+    },
+    "difficulty": 1,
+    "value": 2500,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_BUILD_CAMP_4",
+    "end": {
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_3" ], "x": 0, "y": 0 } ] }
+    },
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "Our entrance is wide open so we're building a gate over it.  Problem is we don't have any ropes.  If you could find some for us, we'll pay you.",
+      "advice": "If you can't find any rope around, one of our books should have something on rope-making.  Most plants can be woven into a halfway decent rope.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
+      "inquire": "Do you have my ropes?",
+      "success": "Thank you.  We'll start right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah, well.  It's no big deal."
+    }
+  },
+  {
+    "id": "MISSION_BUILD_CAMP_4",
+    "type": "mission_definition",
+    "name": "Refurbishments Pt. IV",
+    "description": "Obtain a wood saw.",
+    "//": "TO-DO - Dynamic response dialogs would be more natural to accept so many alternate items here and everywhere else these conditional item accept conditions appear.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "or": [ { "u_has_item": "saw" }, { "u_has_item": "bow_saw" }, { "u_has_item": "misc_repairkit" } ] },
+    "difficulty": 1,
+    "value": 2500,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_BUILD_CAMP_5",
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "We appreciate all of your help but we can't rely on everyone else to do things for us.  I'd be willing to buy a wood saw of some kind from you so we can cut our own wood as needed.",
+      "advice": "A hardware store or lumbermill should have one.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
+      "inquire": "Do you have my saw?",
+      "success": "Thank you.  Pick what you want from our stash.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah, well.  It's no big deal."
+    }
+  },
+  {
+    "id": "MISSION_BUILD_CAMP_5",
+    "type": "mission_definition",
+    "name": "Refurbishments Pt. V",
+    "description": "Obtain a shovel.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "shovel",
+    "count": 1,
+    "difficulty": 1,
+    "value": 2500,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_BUILD_CAMP_6",
+    "end": {
+      "update_mapgen": { "om_terrain": "homelesscamp", "place_nested": [ { "chunks": [ "homeless_camp_refurb_4" ], "x": 0, "y": 0 } ] }
+    },
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "Our sanitation here has become… problematic.  We've mostly just been going outside the walls to piss.  Not only is it kinda unhealthy, but the last time I wandered out I almost got eaten!  So, if you'd get us a shovel, we could make a latrine for ourselves.  We'll pay you fairly, as usual.",
+      "advice": "A hardware store should have one lying around.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
+      "inquire": "Do you have the shovel?",
+      "success": "Thank you.  We're eternally grateful to you.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "I'll do it myself, then."
+    }
+  },
+  {
+    "id": "MISSION_BUILD_CAMP_6",
+    "type": "mission_definition",
+    "name": "Refurbishments Pt. VI",
+    "//": "TO-DO - Maybe add a physical charcoal smoker 'fake_char_smoker' to the camp mapgen?",
+    "description": "Obtain a charcoal smoker.",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "char_smoker",
+    "count": 1,
+    "difficulty": 1,
+    "value": 5000,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "end": {
+      "update_mapgen": { "om_terrain": "homelesscamp_npc", "place_nested": [ { "chunks": [ "homeless_camp_refurb_5" ], "x": 0, "y": 0 } ] },
+      "effect": [ { "npc_add_var": "smoked_meat_tradeable", "type": "dialogue", "context": "trade", "value": "yes" } ]
+    },
+    "has_generic_rewards": true,
+    "dialogue": {
+      "describe": "I need some help.",
+      "offer": "Turns out that ant meat you got us wasn't actually too bad.  A little tough, sure, but perfectly edible.  The problem now is we need a way of preserving it.  One of those portable charcoal smokers would be really great.  Heck, you might even wanna buy some.",
+      "advice": "Maybe try a farm?  I bet those rural folks were pretty invested in preserving their food.",
+      "accepted": "Thank you.  We'll be sure to compensate your efforts.",
+      "rejected": "Alright, I can understand that.  I guess I'll have to get it myself.",
+      "inquire": "Do you have the charcoal smoker?",
+      "success": "Thank you.  We'll get started right away.",
+      "success_lie": "I can tell you're lying.  I don't see shit.",
+      "failure": "Ah, well.  It's no big deal."
+    }
+  }
+]

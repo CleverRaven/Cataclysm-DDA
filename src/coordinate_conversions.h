@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_COORDINATE_CONVERSIONS_H
 #define CATA_SRC_COORDINATE_CONVERSIONS_H
 
+#include "game_constants.h"
 #include "point.h"
 
 /**
@@ -11,6 +12,7 @@
  * For documentation on coordinate systems in general see
  * doc/POINTS_COORDINATES.md.
  *
+
  * This file provides static translation functions, named like this:
 @code
     static point <from>_to_<to>_copy(int x, int y);
@@ -135,8 +137,15 @@ inline tripoint ms_to_sm_remain( tripoint &p )
 // submap back to map squares, basically: x *= SEEX
 // Note: this gives you the map square coordinates of the top-left corner
 // of the given submap.
-point sm_to_ms_copy( const point &p );
-tripoint sm_to_ms_copy( const tripoint &p );
+inline point sm_to_ms_copy( const point &p )
+{
+    return point( p.x * SEEX, p.y * SEEY );
+}
+
+inline tripoint sm_to_ms_copy( const tripoint &p )
+{
+    return tripoint( p.x * SEEX, p.y * SEEY, p.z );
+}
 void sm_to_ms( int &x, int &y );
 inline void sm_to_ms( point &p )
 {
@@ -165,5 +174,10 @@ inline point ms_to_omt_remain( point &p )
 }
 // overmap terrain to map segment.
 tripoint omt_to_seg_copy( const tripoint &p );
+// Submap to memory map region.
+point sm_to_mmr_remain( int &x, int &y );
+// Memory map region to submap.
+// Note: this produces sm coords of top-left corner of the region.
+tripoint mmr_to_sm_copy( const tripoint &p );
 
 #endif // CATA_SRC_COORDINATE_CONVERSIONS_H

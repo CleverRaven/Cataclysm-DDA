@@ -1,0 +1,100 @@
+[
+  {
+    "type": "enchantment",
+    "id": "WITHER_MAGE",
+    "name": { "str": "Fading" },
+    "description": "Your Wither Mage abilities grant you the ability to consume the enemies powers for a short time.",
+    "hit_you_effect": [ { "id": "wither_mage_withering", "hit_self": true, "once_in": 6 } ]
+  },
+  {
+    "id": "wither_mage_withering",
+    "type": "SPELL",
+    "name": "Withering",
+    "description": "Give some stats when you attack your enemies.",
+    "valid_targets": [ "self" ],
+    "effect": "attack",
+    "effect_str": "withering_eff",
+    "shape": "blast",
+    "flags": [ "SILENT", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
+    "min_duration": 800,
+    "max_duration": 1600
+  },
+  {
+    "type": "effect_type",
+    "id": "withering_eff",
+    "name": [ "Withering" ],
+    "desc": [ "Consume their nature for your own purposes." ],
+    "apply_message": "You take a withering effect!",
+    "rating": "good",
+    "max_intensity": 30,
+    "int_add_val": 1,
+    "base_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] },
+    "scaling_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] }
+  },
+  {
+    "id": "wither_mage_bio_damage",
+    "type": "SPELL",
+    "name": "Wither Mage bio DoT AoE",
+    "description": "Deal some toxic DoT around the player.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "shape": "blast",
+    "min_dot": 1,
+    "max_dot": 1,
+    "min_duration": 1500,
+    "max_duration": 1500,
+    "min_aoe": 4,
+    "max_aoe": 4,
+    "damage_type": "biological"
+  },
+  {
+    "type": "enchantment",
+    "id": "WITHER_MAGE_BIO_AOE",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "wither_mage_bio_damage" } ] } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GIVE_TOXIC_AURA_OFF",
+    "recurrence": [ "60 s", "60 s" ],
+    "condition": {
+      "and": [
+        { "u_has_trait": "WITHER_MAGE" },
+        {
+          "not": { "u_has_var": "u_got_wither_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+        }
+      ]
+    },
+    "deactivate_condition": { "not": { "u_has_trait": "WITHER_MAGE" } },
+    "effect": [
+      { "u_add_trait": "TOXIC_AURA_OFF" },
+      { "u_add_var": "u_got_wither_mage_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "TOXIC_AURA_OFF",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "name": { "str": "Toxic Aura" },
+    "points": 0,
+    "active": true,
+    "description": "Your body can emit deadly venoms.  You suppress this ability now.",
+    "transform": { "target": "TOXIC_AURA_ON", "msg_transform": "Living creatures around you are poisoned!", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "TOXIC_AURA_ON",
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "active": true,
+    "name": { "str": "Toxic Aura (on)" },
+    "points": 0,
+    "description": "Your body can emit deadly venoms.",
+    "enchantments": [ "WITHER_MAGE_BIO_AOE" ],
+    "transform": { "target": "TOXIC_AURA_OFF", "msg_transform": "You suppress your toxic aura.", "active": false, "moves": 10 }
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "broken_sniperbot",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken sniper bot",
+    "category": "other",
+    "description": "A broken sniper bot.  Total scrap, but some stuff is still useful.",
+    "material": [ "steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_shotgunbot",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken shotgun bot",
+    "category": "other",
+    "description": "A broken shotgun bot.  Total scrap, but some stuff is still useful.",
+    "material": [ "steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_meleebot",
+    "symbol": "x",
+    "color": "brown",
+    "name": "broken cutthroater",
+    "category": "other",
+    "description": "A broken cutthroater.  Total scrap, but some stuff is still useful.",
+    "material": [ "steel" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_exodii_quad_jotunn",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": { "str": "broken Exodii quadruped" },
+    "category": "other",
+    "description": "A broken Exodii Jotunn walker.  Still looks incredibly intimidating despite being permanently inoperative, due to the sheer size, mass, and protruding weapons.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel" ],
+    "volume": "410 L",
+    "weight": "498 kg",
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ],
+    "melee_damage": { "bash": 20, "cut": 15 }
+  }
+]

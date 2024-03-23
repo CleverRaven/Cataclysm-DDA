@@ -1,0 +1,218 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmf_0",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_farm_0",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmf_0" ], "x": 10, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_long_fields",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "mmmmmm",
+        "mmmmmm",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_short_fields",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rows": [
+        "mm",
+        "mm"
+      ],
+      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_0",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "       U___U ",
+        "       _____ ",
+        "       _____ ",
+        "       _____ ",
+        "       _____ ",
+        "             "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_2",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "       *,,,* ",
+        "       ,''', ",
+        "       ,''H, ",
+        "       *'HH* ",
+        "       ***** ",
+        "             "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_3",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "        *+*  ",
+        "       *   * ",
+        "       *   * ",
+        "             ",
+        "             ",
+        "             "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "bc_prim_farm_4",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rows": [
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "             ",
+        "  ***+**     ",
+        "  *c''u      ",
+        "  wc'''      ",
+        "  *c'cc      ",
+        "  wc'''      ",
+        "  *c'cc      ",
+        "  ******     "
+      ],
+      "palettes": [ "acidia_camp_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmf_1",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "bc_prim_farm_0" ], "x": 1, "y": 10 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_field_camp_farm_1",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 1, "y": 0 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 9, "y": 0 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 17, "y": 0 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 1, "y": 3 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 9, "y": 3 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 17, "y": 3 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 1, "y": 6 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 9, "y": 6 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 17, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_field_camp_farm_2",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_farm_2" ], "x": 1, "y": 10 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 1, "y": 6 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 9, "y": 6 },
+        { "chunks": [ "bc_prim_farm_long_fields" ], "x": 17, "y": 6 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_field_camp_farm_3",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "bc_prim_farm_3" ], "x": 1, "y": 10 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 15, "y": 14 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 18, "y": 14 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 21, "y": 14 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 15, "y": 16 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 18, "y": 16 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 21, "y": 16 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 15, "y": 18 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 18, "y": 18 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 21, "y": 18 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 15, "y": 20 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 18, "y": 20 },
+        { "chunks": [ "bc_prim_farm_short_fields" ], "x": 21, "y": 20 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_field_camp_farm_4",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "bc_prim_farm_4" ], "x": 1, "y": 10 } ] }
+  }
+]

@@ -7,6 +7,18 @@
   },
   {
     "type": "SPECIES",
+    "id": "ALIEN_ARTHROPOD",
+    "description": "an alien arthropod",
+    "footsteps": "chittering."
+  },
+  {
+    "type": "SPECIES",
+    "id": "ALIEN_FLOATER",
+    "description": "a floating alien",
+    "bleeds": "fd_blood"
+  },
+  {
+    "type": "SPECIES",
     "id": "MOXIE",
     "description": "a humanoid monster",
     "footsteps": "shuffling."

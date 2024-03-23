@@ -1,0 +1,42 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_workshop_0",
+    "description": "Survey Light Industry Workshop.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "3 h",
+    "construction_blueprint": "faction_base_lightindustry_workshop_0",
+    "blueprint_provides": [
+      { "id": "dismantling" },
+      { "id": "blacksmith" },
+      { "id": "industrial_recipes_power_lathe" },
+      { "id": "industrial_recipes_drill_press" },
+      { "id": "industrial_recipes_hydraulic_press" },
+      { "id": "industrial_recipes_air_compressor" },
+      { "id": "fbmc_lightindustry_workshop" }
+    ],
+    "blueprint_resources": [ "heavy_lathe_tool", "drill_press_tool", "hydraulic_press_tool", "air_compressor_tool", "fake_arc_furnace" ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "expansion survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_lightindustry_workshop_drop_hammer",
+    "description": "Let's add a drop hammer for even more crafting possibilities.",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmc_lightindustry_workshop_drop_hammer",
+    "blueprint_provides": [ { "id": "blacksmith_recipes_7" }, { "id": "fbmc_lightindustry_workshop_drop_hammer" } ],
+    "blueprint_requires": [ { "id": "fbmc_lightindustry_workshop" } ]
+  }
+]

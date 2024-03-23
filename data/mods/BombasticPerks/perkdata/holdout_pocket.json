@@ -1,0 +1,29 @@
+[
+  {
+    "id": "integrated_holdout_pocket",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "holdout pocket" },
+    "description": "A secret pocket no one knows about that can easily store a weapon.",
+    "volume": "10 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh" ],
+    "symbol": "x",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_SALVAGE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "300 ml",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "8200 g",
+        "max_item_length": "120 cm",
+        "moves": 120,
+        "volume_encumber_modifier": 0.3
+      }
+    ],
+    "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
+  }
+]

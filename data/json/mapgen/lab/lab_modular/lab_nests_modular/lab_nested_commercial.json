@@ -1,0 +1,494 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_bar_front_A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   AJ",
+        "Aee J",
+        " ee J",
+        " ee J",
+        "   AJ"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "items": { "J": [ { "item": "bar_food", "chance": 30, "repeat": [ 1, 2 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_bar_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Ø  AJ",
+        "AA  Æ",
+        "JJJɤJ",
+        "    Y",
+        "ww 35"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "items": {
+        "J": [
+          { "item": "bar_food", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] }
+        ],
+        "w": [ { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_convenience_shop_front_A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Y   y",
+        "m s q",
+        "m s q",
+        "m s q",
+        "     "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "s": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "m": [ { "item": "fridgesnacks", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "q": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_convenience_shop_front_A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ɤJ  s",
+        "    s",
+        "m Q q",
+        "m Q q",
+        "m Q q"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "s": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "m": [ { "item": "fridgesnacks", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "q": [ { "item": "dollar_food", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "Q": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_convenience_shop_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        "q s Q",
+        "q s Q",
+        "q s Q",
+        "     "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "s": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "q": [ { "item": "dollar_food", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Q": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_convenience_shop_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "q s Q",
+        "q s Q",
+        "q s Q",
+        "Y   A",
+        "2   1"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "terrain": { "2": "t_atm", "1": "t_slot_machine" },
+      "items": {
+        "s": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "q": [ { "item": "dollar_food", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Q": [ { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 4 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_convenience_shop_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "     ",
+        " sss ",
+        "     ",
+        " sss ",
+        "     "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "s": [ { "item": "beauty", "chance": 30, "repeat": [ 1, 2 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_pizza_shop_front_A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " M AJ",
+        " M AJ",
+        "JJ AJ",
+        "m  AJ",
+        "m   Y"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "M": [ { "item": "pizza_display", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "J": [ { "item": "pizza_table", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "m": [ { "item": "vending_drink", "chance": 30 }, { "item": "prepared_teas", "chance": 30 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab food shops.",
+    "nested_mapgen_id": "lab_5x5_pizza_shop_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y  hh",
+        "   ff",
+        "HH hh",
+        "ff  h",
+        "HH hf"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "q": [ { "item": "pizza_display", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "f": [ { "item": "pizza_table", "chance": 30, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_restaurant_mexican_front_A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " J  m",
+        "ɤJ  m",
+        "    Y",
+        "HH HH",
+        "ff ff"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "f": [ { "item": "restaurant_mexican_table", "chance": 30 } ],
+        "Y": [ { "item": "trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "m": [ { "item": "vending_drink", "chance": 30 }, { "item": "pizza_beer", "chance": 30 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab food shops.",
+    "nested_mapgen_id": "lab_5x5_restaurant_mexican_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "HH HH",
+        "y    ",
+        "HH HH",
+        "ff ff",
+        "HH HH"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "f": [ { "item": "restaurant_mexican_table", "chance": 30 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_5x5_coffee_shop_front_A",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " M AJ",
+        " M AJ",
+        "ɤJ AJ",
+        "   AJ",
+        "m   m"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "M": [ { "item": "baked_goods", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "J": [ { "item": "coffee_counter", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "coffee_trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "m": [
+          { "item": "coffee_freezer", "chance": 30, "repeat": [ 1, 6 ] },
+          { "item": "prepared_teas", "chance": 30, "repeat": [ 0, 6 ] }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab food shops.",
+    "nested_mapgen_id": "lab_5x5_coffee_shop_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "w   w",
+        "  h Y",
+        "h f h",
+        "f h f",
+        "h   h"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "w": [ { "item": "coffee_display_2", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Y": [ { "item": "coffee_trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "f": [ { "item": "coffee_condiments", "chance": 30, "repeat": [ 1, 2 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab food shops.",
+    "nested_mapgen_id": "lab_5x5_coffee_shop_front_B",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "H   H",
+        "H   H",
+        "JJJɤJ",
+        " A  S",
+        "Qq Ym"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "m": [
+          { "item": "coffee_freezer", "chance": 30, "repeat": [ 1, 6 ] },
+          { "item": "prepared_teas", "chance": 30, "repeat": [ 0, 6 ] }
+        ],
+        "Q": [
+          { "item": "coffee_condiments", "chance": 30, "repeat": [ 1, 6 ] },
+          { "item": "coffee_prep", "chance": 30, "repeat": [ 0, 6 ] }
+        ],
+        "q": [
+          { "item": "coffee_display_2", "chance": 30, "repeat": [ 1, 6 ] },
+          { "item": "prepared_teas", "chance": 30, "repeat": [ 0, 6 ] }
+        ],
+        "Y": [ { "item": "coffee_trash", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "H": [ { "item": "coffee_newsstand", "chance": 30 } ],
+        "J": [ { "item": "coffee_prep", "chance": 30, "repeat": [ 1, 3 ] }, { "item": "coffee_dishes", "chance": 30 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_6x6_pizza_kitchen",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Y    J",
+        "2 J  n",
+        "O J  J",
+        "O J  5",
+        "3    m",
+        "wwww m"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "items": {
+        "J": [ { "item": "pizza_kitchen", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "2": { "item": "pizza_display", "chance": 30, "repeat": [ 1, 3 ] },
+        "3": { "item": "pizza_display", "chance": 70, "repeat": [ 1, 3 ] },
+        "m": { "item": "pizza_fridge", "chance": 70, "repeat": [ 1, 3 ] },
+        "w": [
+          { "item": "produce", "chance": 30, "repeat": [ 1, 3 ] },
+          { "item": "pizza_kitchen", "chance": 60, "repeat": [ 1, 3 ] }
+        ],
+        "Y": { "item": "pizza_trash", "chance": 30, "repeat": [ 1, 4 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_6x6_bar_kitchen",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Q    J",
+        "m    O",
+        "|+|U J",
+        "P ||+|",
+        "Ih|   ",
+        "I |   "
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "place_items": [ { "item": "keg_beer", "x": [ 3, 5 ], "y": [ 4, 5 ], "chance": 60, "repeat": [ 1, 2 ] } ],
+      "items": {
+        "J": [ { "item": "bar_food", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "Q": { "item": "bar_alcohol", "chance": 30, "repeat": [ 1, 3 ] },
+        "q": { "item": "cleaning", "chance": 70, "repeat": [ 1, 3 ] },
+        "m": { "item": "bar_fridge", "chance": 70, "repeat": [ 1, 3 ] },
+        "Y": { "item": "bar_trash", "chance": 30, "repeat": [ 1, 4 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_6x6_restaurant_mexican_kitchen",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Y    J",
+        "2 J  n",
+        "O J  J",
+        "O J  5",
+        "3    m",
+        "wwww m"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "items": {
+        "J": [
+          { "item": "SUS_utensils", "chance": 5 },
+          { "item": "SUS_appliances_cupboard", "chance": 5 },
+          { "item": "SUS_oven", "chance": 5 }
+        ],
+        "2": { "item": "restaurant_mexican_table", "chance": 30 },
+        "3": { "item": "restaurant_mexican_table", "chance": 60 },
+        "m": { "item": "restaurant_mexican_fridge", "chance": 70 },
+        "w": [ { "item": "restaurant_mexican_pantry", "chance": 40 } ],
+        "Y": { "item": "pizza_trash", "chance": 30, "repeat": [ 1, 4 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_6x6_shop_backroom",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "T     ",
+        "I    H",
+        "Ih   H",
+        "Y    L",
+        "   h y",
+        "PP IIT"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "I": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "P": [ { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "L": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_6x6_shop_backroom",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "y    T",
+        "L   hI",
+        "L    I",
+        "|+|| P",
+        "U U| P",
+        "U U| P"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "I": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "P": [ { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "U": [ { "item": "cleaning", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "L": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab commercial shops.",
+    "nested_mapgen_id": "lab_6x6_shop_backroom",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "U    P",
+        "U   II",
+        "U   h ",
+        "|+||||",
+        "L     ",
+        "L HHs "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "I": [ { "item": "office", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "P": [ { "item": "office_paper", "chance": 30, "repeat": [ 1, 2 ] } ],
+        "U": [ { "item": "cleaning", "chance": 30, "repeat": [ 0, 4 ] } ],
+        "L": [ { "item": "jackets", "chance": 30, "repeat": [ 0, 1 ] }, { "item": "bags", "chance": 30, "repeat": [ 0, 1 ] } ]
+      }
+    }
+  }
+]

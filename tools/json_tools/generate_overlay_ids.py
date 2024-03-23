@@ -31,6 +31,9 @@ CPP_IDS = (
     'animation_hit', 'player_male', 'player_female', 'npc_male', 'npc_female',
     'animation_line', 'line_target', 'line_trail',
     'infrared_creature',
+    'run_nw', 'run_n', 'run_ne', 'run_w', 'run_e', 'run_sw', 'run_s', 'run_se',
+    'bash_complete', 'bash_effective', 'bash_ineffective',
+    'shadow',
 )
 ATTITUDES = ('hostile', 'neutral', 'friendly', 'other')
 
@@ -76,7 +79,10 @@ TILESET_OVERLAY_TYPES = {
     },
     'movement_mode': {
         'prefix': 'overlay_'
-    }
+    },
+    'vehicle_part': {
+        'prefix': 'vp_'
+    },
 }
 
 
@@ -94,7 +100,7 @@ if __name__ == '__main__':
 
         if not game_id:
             continue
-        if datum.get('asbstract'):
+        if datum.get('abstract'):
             continue
         if 'PSEUDO' in flags or 'NO_DROP' in flags:
             continue
@@ -102,14 +108,19 @@ if __name__ == '__main__':
             continue
 
         variable_prefix = ('',)
+        variable_suffix = ('',)
         if 'BIONIC_TOGGLED' in flags:
             variable_prefix = ('', 'active_')
         if datum_type == 'MONSTER':
             variable_prefix = ('corpse_', 'overlay_wielded_corpse_')
+        if datum_type == 'vehicle_part':
+            variable_suffix = datum.get('symbols', {}).keys()
+            if variable_suffix:
+                variable_suffix = ['', ] + [f'_{s}' for s in variable_suffix]
+            else:
+                variable_suffix = ('',)
 
-        for p in product(
-                variable_prefix,
-                (game_id,)):
+        for p in product(variable_prefix, (game_id,), variable_suffix):
             output = [overlay_data['prefix']]
             output.extend(p)
             # print(output)

@@ -1,0 +1,1626 @@
+[
+  {
+    "id": "default_zombie_clothes_halloween",
+    "type": "item_group",
+    "//": "For use in halloween as special sets of zombie cloth drops.",
+    "//2": "Current prob is based around the number of male/female/unisex sets of clothing, to be adjusted if more are added.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "halloween_male", "prob": 20 },
+      { "group": "halloween_female", "prob": 30 },
+      { "group": "halloween_unisex", "prob": 60 }
+    ]
+  },
+  {
+    "id": "halloween_male",
+    "type": "item_group",
+    "//": "For use in halloween as special sets of zombie cloth drops for male zombies.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "sexy_santa_costume_male", "prob": 25 },
+      { "group": "butler_costume_male", "prob": 25 },
+      { "group": "groom_costume_male", "prob": 10 },
+      { "group": "priest_costume_male", "prob": 15 }
+    ]
+  },
+  {
+    "id": "halloween_female",
+    "type": "item_group",
+    "//": "For use in halloween as special sets of zombie cloth drops for female zombies.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "vampire_costume_female", "prob": 45 },
+      { "group": "ninja_costume_female", "prob": 20 },
+      { "group": "sexy_santa_costume_female", "prob": 25 },
+      { "group": "bride_costume_female", "prob": 25 },
+      { "group": "mummy_costume_female", "prob": 40 },
+      { "group": "wizard_costume_female", "prob": 50 },
+      { "group": "bee_costume_female", "prob": 20 },
+      { "group": "cheerleader_costume_female", "prob": 35 },
+      { "group": "maid_costume_female", "prob": 20 }
+    ]
+  },
+  {
+    "id": "halloween_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as special unisex sets of zombie cloth drops for zombies.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "vampire_costume_unisex", "prob": 45 },
+      { "group": "ninja_costume_unisex", "prob": 20 },
+      { "group": "mummy_costume_unisex", "prob": 40 },
+      { "group": "wizard_costume_unisex", "prob": 50 },
+      { "group": "skeleton_costume_unisex", "prob": 50 },
+      { "group": "ghost_costume_unisex", "prob": 65 },
+      { "group": "grim_reaper_costume_unisex", "prob": 35 },
+      { "group": "clown_costume_unisex", "prob": 25 },
+      { "group": "army_costume_unisex", "prob": 20 },
+      { "group": "chef_costume_unisex", "prob": 20 },
+      { "group": "leather_jacket_costume_unisex", "prob": 15 },
+      { "group": "cowboy_costume_unisex", "prob": 25 },
+      { "group": "japan_costume_unisex", "prob": 15 },
+      { "group": "pirate_costume_unisex", "prob": 30 },
+      { "group": "scientist_costume_unisex", "prob": 20 },
+      { "group": "beekeeping_costume_unisex", "prob": 5 },
+      { "group": "bondage_costume_unisex", "prob": 30 },
+      { "group": "fursuit_costume_unisex", "prob": 30 }
+    ]
+  },
+  {
+    "id": "sexy_santa_costume_male",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for sexy male santa zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "santa_hat", "damage": [ 1, 4 ] },
+          { "item": "santa_belt", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "santa_beard", "prob": 55, "damage": [ 1, 4 ] },
+              { "group": "scarfs_unisex", "prob": 45, "damage": [ 1, 4 ] }
+            ],
+            "prob": 15
+          },
+          {
+            "distribution": [
+              { "item": "gloves_white", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "santa_gloves", "prob": 80, "damage": [ 1, 4 ] }
+            ],
+            "prob": 45
+          },
+          {
+            "distribution": [
+              { "item": "santa_jacket", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "santa_jacket_short", "prob": 90, "damage": [ 1, 4 ] }
+            ],
+            "prob": 85
+          },
+          {
+            "distribution": [
+              { "item": "santa_pants", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "santa_shorts", "prob": 80, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "boots_winter", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "boots_fur", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "male_underwear", "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "prob": 40, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_unisex", "prob": 15, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sexy_santa_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for sexy female santa zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "santa_hat", "damage": [ 1, 4 ] },
+          { "item": "santa_belt", "prob": 75, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "santa_beard", "prob": 10, "damage": [ 1, 4 ] },
+              { "group": "scarfs_unisex", "prob": 90, "damage": [ 1, 4 ] }
+            ],
+            "prob": 10
+          },
+          {
+            "distribution": [
+              { "item": "gloves_white", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "santa_gloves", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "long_glove_white", "prob": 30, "damage": [ 1, 4 ] }
+            ],
+            "prob": 50
+          },
+          {
+            "distribution": [
+              { "item": "santa_dress", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "santa_dress_long", "prob": 5, "damage": [ 1, 4 ] },
+              { "item": "santa_dress_short", "prob": 75, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "boots_winter", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "heels", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "shirts_summer_womens", "prob": 10, "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 20, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "butler_costume_male",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for cosplay butler zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "glasses_monocle", "prob": 55, "damage": [ 1, 4 ] },
+          { "item": "pocketwatch", "prob": 35, "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "gloves_white", "prob": 55, "damage": [ 1, 4 ] },
+          {
+            "distribution": [ { "item": "tux", "prob": 50, "damage": [ 1, 4 ] }, { "item": "suit", "prob": 50, "damage": [ 1, 4 ] } ]
+          },
+          {
+            "distribution": [
+              { "item": "dress_shirt", "prob": 95, "damage": [ 1, 4 ] },
+              { "group": "shirts_unisex", "prob": 5, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "cane", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "umbrella", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "sinister_cane", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "wizard_cane", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+              { "item": "wizard_cane_cheap", "prob": 10, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+              { "item": "hollow_cane", "prob": 4, "damage": [ 1, 4 ] },
+              { "item": "sword_cane", "container-item": "hollow_cane", "prob": 1, "damage": [ 1, 4 ] }
+            ],
+            "prob": 20
+          },
+          { "group": "male_underwear", "damage": [ 1, 4 ] },
+          { "item": "dress_shoes", "prob": 90, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_mens", "prob": 95, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "maid_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for cosplay maid zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "glasses_monocle", "prob": 15, "damage": [ 1, 4 ] },
+          { "item": "pocketwatch", "prob": 25, "damage": [ 1, 4 ] },
+          { "item": "broom", "prob": 15, "damage": [ 1, 4 ] },
+          { "item": "maid_hat", "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "gloves_white", "prob": 45, "damage": [ 1, 4 ] },
+              { "item": "long_glove_white", "prob": 55, "damage": [ 1, 4 ] }
+            ],
+            "prob": 60
+          },
+          {
+            "distribution": [
+              { "item": "maid_dress", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "maid_dress_short", "prob": 80, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "heels", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "dance_shoes", "prob": 25, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "group": "female_underwear", "prob": 75, "damage": [ 1, 4 ] },
+              {
+                "collection": [
+                  { "item": "bikini_top", "variant": "maid_bikini_top", "damage": [ 1, 4 ] },
+                  { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "damage": [ 1, 4 ] }
+                ],
+                "prob": 25
+              }
+            ]
+          },
+          { "group": "accesories_personal_womens", "prob": 20, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 50, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "groom_costume_male",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for cosplay groom zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "ring_wedding", "damage": [ 1, 4 ] },
+          { "item": "cufflinks_intricate", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "tie_bow", "prob": 85, "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "leather_belt", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "dress_shirt", "damage": [ 1, 4 ] },
+          {
+            "distribution": [ { "item": "tux", "prob": 60, "damage": [ 1, 4 ] }, { "item": "suit", "prob": 40, "damage": [ 1, 4 ] } ]
+          },
+          {
+            "distribution": [
+              { "item": "wristwatch", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "silver_watch", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "gold_watch", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "platinum_watch", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "sf_watch", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "pocketwatch", "prob": 5, "damage": [ 1, 4 ] }
+            ],
+            "prob": 75
+          },
+          {
+            "distribution": [ { "item": "withered", "prob": 95, "damage": [ 1, 4 ] }, { "item": "bouquet", "prob": 5, "damage": [ 1, 4 ] } ],
+            "prob": 75
+          },
+          { "group": "male_underwear", "damage": [ 1, 4 ] },
+          { "item": "dress_shoes", "prob": 90, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bride_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for cosplay bride zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "ring_wedding", "damage": [ 1, 4 ] },
+          { "group": "tiaras_silver", "prob": 75, "damage": [ 1, 4 ] },
+          { "group": "earrings_silver", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "veil_wedding", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "dress_wedding", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "gloves_white", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "long_glove_white", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 75
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "heels", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "dance_shoes", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [ { "item": "withered", "prob": 25, "damage": [ 1, 4 ] }, { "item": "bouquet", "prob": 75, "damage": [ 1, 4 ] } ],
+            "prob": 75
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 70, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "priest_costume_male",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for cosplay priest zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "cassock", "damage": [ 1, 4 ] },
+          { "item": "cape_catholic", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "zucchetto", "prob": 85, "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 25, "damage": [ 1, 4 ] },
+          { "item": "leather_belt", "prob": 75, "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "damage": [ 1, 4 ] },
+          { "group": "pants_male", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "holybook_bible4", "prob": 95, "damage": [ 1, 4 ] },
+              { "group": "religious_books", "prob": 5, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 75, "damage": [ 1, 4 ] },
+              { "group": "shoes_unisex", "prob": 25, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "male_underwear", "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vampire_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for vampire female zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "sinister_cane", "prob": 25, "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "vampire_fangs", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 80, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 75
+          },
+          {
+            "distribution": [
+              { "item": "gloves_black", "prob": 80, "damage": [ 1, 4 ] },
+              { "item": "gloves_claws", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 10
+          },
+          {
+            "distribution": [
+              { "item": "sinister_gown", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "sinister_dress", "prob": 60, "damage": [ 1, 4 ] },
+              { "item": "sinister_dress_short", "prob": 30, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [ { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] }, { "item": "heels", "prob": 60, "damage": [ 1, 4 ] } ]
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vampire_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for vampire zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "sinister_cane", "prob": 35, "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "vampire_fangs", "damage": [ 1, 4 ] },
+          { "item": "cloak_vampire", "damage": [ 1, 4 ] },
+          { "item": "dress_shirt", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "pants", "variant": "pants_black", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 80, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 55
+          },
+          {
+            "distribution": [
+              { "item": "gloves_black", "prob": 80, "damage": [ 1, 4 ] },
+              { "item": "gloves_claws", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 10
+          },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] },
+                  { "item": "dress_shoes", "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "dress_shoes", "prob": 50, "damage": [ 1, 4 ] }, { "item": "heels", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ninja_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for ninja female zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "bokken_fake", "container-item": "scabbard", "prob": 5, "damage": [ 1, 4 ] },
+          { "item": "gloves_black", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "hood_ninja", "prob": 75, "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "ninja_dress", "prob": 60, "damage": [ 1, 4 ] },
+              { "item": "ninja_dress_sleeveless", "prob": 40, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [
+                      { "item": "dress_shoes", "prob": 20, "damage": [ 1, 4 ] },
+                      { "item": "heels", "prob": 20, "damage": [ 1, 4 ] },
+                      { "item": "thigh_high_boots", "prob": 35, "damage": [ 1, 4 ] },
+                      { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 25, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  {
+                    "distribution": [
+                      {
+                        "collection": [
+                          {
+                            "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                          },
+                          { "item": "garter_belt", "prob": 20, "damage": [ 1, 4 ] }
+                        ]
+                      },
+                      { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+                    ]
+                  }
+                ]
+              },
+              {
+                "collection": [ { "item": "geta", "damage": [ 1, 4 ] }, { "item": "tabi_dress", "damage": [ 1, 4 ] } ],
+                "prob": 25
+              }
+            ]
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ninja_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for ninja zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "bokken_fake", "container-item": "scabbard", "prob": 5, "damage": [ 1, 4 ] },
+          { "item": "gloves_black", "prob": 50, "damage": [ 1, 4 ] },
+          { "item": "hood_ninja", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "jacket_ninja", "damage": [ 1, 4 ] },
+          { "item": "trousers_ninja", "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [
+                      { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] },
+                      { "item": "boots", "prob": 40, "damage": [ 1, 4 ] },
+                      { "item": "thigh_high_boots", "prob": 10, "damage": [ 1, 4 ] },
+                      { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "group": "socks_unisex", "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [ { "item": "geta", "damage": [ 1, 4 ] }, { "item": "tabi_dress", "damage": [ 1, 4 ] } ],
+                "prob": 25
+              }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mummy_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for mummy female zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "mummy_dress", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 5
+          },
+          {
+            "distribution": [ { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] }, { "item": "heels", "prob": 60, "damage": [ 1, 4 ] } ]
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mummy_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for mummy zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "mummy_jumpsuit", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 3
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wizard_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for wizard female zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "gloves_black", "prob": 5, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "wizard_hat_costume", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "pointed_hat", "prob": 90, "damage": [ 1, 4 ] }
+            ],
+            "prob": 60
+          },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 5
+          },
+          {
+            "distribution": [
+              { "item": "witch_dress_long", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "witch_dress", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "witch_dress_short", "prob": 25, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [ { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] }, { "item": "heels", "prob": 60, "damage": [ 1, 4 ] } ]
+          },
+          {
+            "distribution": [
+              { "item": "cane", "prob": 5, "damage": [ 1, 4 ] },
+              { "item": "umbrella", "prob": 5, "damage": [ 1, 4 ] },
+              { "item": "sinister_cane", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "wizard_cane", "prob": 30, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+              { "item": "wizard_cane_cheap", "prob": 35, "charges": [ 0, 100 ], "damage": [ 1, 4 ] }
+            ],
+            "prob": 65
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 20, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wizard_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for wizard zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "gloves_black", "prob": 5, "damage": [ 1, 4 ] },
+          { "item": "robe_wizard", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "wizard_hat_costume", "prob": 80, "damage": [ 1, 4 ] },
+              { "item": "pointed_hat", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 60
+          },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 5
+          },
+          {
+            "distribution": [
+              { "item": "cane", "prob": 5, "damage": [ 1, 4 ] },
+              { "item": "umbrella", "prob": 5, "damage": [ 1, 4 ] },
+              { "item": "sinister_cane", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "wizard_cane", "prob": 30, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
+              { "item": "wizard_cane_cheap", "prob": 35, "charges": [ 0, 100 ], "damage": [ 1, 4 ] }
+            ],
+            "prob": 65
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          },
+          { "group": "shirts_unisex", "prob": 95, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bee_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for bee female zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "gloves_black", "prob": 15, "damage": [ 1, 4 ] },
+          { "item": "bee_dress", "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          {
+            "distribution": [ { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] }, { "item": "heels", "prob": 60, "damage": [ 1, 4 ] } ]
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [ { "item": "stockings", "prob": 50, "damage": [ 1, 4 ] }, { "item": "tights", "prob": 50, "damage": [ 1, 4 ] } ]
+                  },
+                  { "item": "garter_belt", "prob": 20, "damage": [ 1, 4 ] }
+                ]
+              },
+              { "group": "socks_unisex", "prob": 50, "damage": [ 1, 4 ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cheerleader_costume_female",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for cheerleader female zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "group": "costume_cheerleader_set_any", "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          {
+            "distribution": [ { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] }, { "item": "heels", "prob": 60, "damage": [ 1, 4 ] } ]
+          },
+          { "group": "female_underwear", "damage": [ 1, 4 ] },
+          { "group": "accesories_personal_womens", "prob": 10, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "skeleton_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for skeleton zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "gloves_skeleton", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "jumpsuit_skeleton", "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 5
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 60, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          },
+          { "group": "shirts_unisex", "prob": 55, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "prob": 55, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ghost_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for ghost zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "gloves_skeleton", "prob": 45, "damage": [ 1, 4 ] },
+          { "item": "jumpsuit_skeleton", "prob": 30, "damage": [ 1, 4 ] },
+          { "item": "mask_skull", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "mask_skull", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 5
+          },
+          {
+            "distribution": [
+              { "item": "ghost_robe", "prob": 55, "damage": [ 1, 4 ] },
+              { "item": "ghost_robe_sheet", "prob": 45, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 60, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          },
+          { "group": "shirts_unisex", "prob": 75, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "prob": 85, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "grim_reaper_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for grim reaper zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "gloves_skeleton", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "jumpsuit_skeleton", "prob": 80, "damage": [ 1, 4 ] },
+          { "item": "mask_skull", "prob": 55, "damage": [ 1, 4 ] },
+          { "item": "grim_reaper_robe", "damage": [ 1, 4 ] },
+          { "item": "scythe_toy", "prob": 75, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 15
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 25, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          },
+          { "group": "shirts_unisex", "prob": 25, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "prob": 25, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clown_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for clown zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "clown_wig", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "clown_nose", "prob": 70, "damage": [ 1, 4 ] },
+          { "item": "clown_suit", "damage": [ 1, 4 ] },
+          { "item": "clownshoes", "prob": 95, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "group": "costume_jewelry_vampire", "prob": 25, "damage": [ 1, 4 ] },
+              { "group": "costume_jewelry_dark", "prob": 75, "damage": [ 1, 4 ] }
+            ],
+            "prob": 15
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 2, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          },
+          { "group": "shirts_unisex", "prob": 75, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "prob": 95, "damage": [ 1, 4 ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "army_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for army cosplay zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "jacket_army", "damage": [ 1, 4 ] },
+          { "item": "pants_army", "damage": [ 1, 4 ] },
+          { "item": "leather_belt", "damage": [ 1, 4 ] },
+          { "item": "beret", "prob": 70, "damage": [ 1, 4 ] },
+          { "item": "mask_dust", "variant": "camo_mask_dust", "prob": 25, "damage": [ 1, 4 ] },
+          { "item": "leg_bag", "variant": "camo_leg_bag", "prob": 15, "damage": [ 1, 4 ] },
+          { "item": "sheath", "prob": 20, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "boots_combat", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "boots_hiking", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "item": "tank_top", "variant": "tank_top_camo", "prob": 75, "damage": [ 1, 4 ] },
+                  { "group": "male_underwear_bottom", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "item": "tank_top", "variant": "tank_top_camo", "prob": 75, "damage": [ 1, 4 ] },
+                  { "item": "bikini_top", "variant": "camo_bikini_top", "damage": [ 1, 4 ] },
+                  { "item": "bikini_bottom", "variant": "camo_bikini_bottom", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "chef_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for chef cosplay zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "jacket_chef", "damage": [ 1, 4 ] },
+          { "item": "pants_checkered", "damage": [ 1, 4 ] },
+          { "item": "hat_chef", "prob": 70, "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "prob": 75, "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "knife_butcher", "container-item": "sheath", "prob": 60, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "apron_cotton", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "waist_apron_long", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "waist_apron_short", "prob": 20, "damage": [ 1, 4 ] }
+            ],
+            "prob": 75
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 40, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "leather_jacket_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for generic leather jacket cosplay zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "bandana_head", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "sunglasses", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "gloves_leather", "prob": 45, "damage": [ 1, 4 ] },
+          { "item": "leather_belt", "damage": [ 1, 4 ] },
+          { "group": "costume_masks", "prob": 20, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "jacket_leather", "prob": 70, "damage": [ 1, 4 ] },
+              { "item": "leather_police_jacket", "prob": 30, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "jeans", "prob": 60, "damage": [ 1, 4 ] },
+              { "item": "pants_leather", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "motorbike_pants", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "dress_shoes", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 5, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "item": "tshirt", "prob": 95, "damage": [ 1, 4 ] },
+                  { "group": "male_underwear_bottom", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 20, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "item": "tshirt", "prob": 75, "damage": [ 1, 4 ] },
+                  { "item": "bikini_top", "damage": [ 1, 4 ] },
+                  { "item": "bikini_bottom", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 35, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "bat", "prob": 70, "damage": [ 1, 4 ] },
+              { "item": "nailbat", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "bwirebat", "prob": 15, "damage": [ 1, 4 ] }
+            ],
+            "prob": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "cowboy_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for cowboy zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "cowboy_hat", "damage": [ 1, 4 ] },
+          { "item": "sunglasses", "prob": 35, "damage": [ 1, 4 ] },
+          { "item": "gloves_leather", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "dress_shirt", "damage": [ 1, 4 ] },
+          { "item": "chaps_leather", "prob": 60, "damage": [ 1, 4 ] },
+          { "item": "leather_belt", "damage": [ 1, 4 ] },
+          { "item": "rope_30", "prob": 30, "damage": [ 1, 4 ] },
+          { "item": "bullwhip", "prob": 35, "damage": [ 1, 4 ] },
+          { "item": "western_holster", "contents-group": "bandolier_cowboy", "prob": 10 },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [ { "item": "jacket_leather", "prob": 70, "damage": [ 1, 4 ] }, { "item": "duster", "prob": 30, "damage": [ 1, 4 ] } ]
+          },
+          {
+            "distribution": [
+              { "item": "jeans", "prob": 60, "damage": [ 1, 4 ] },
+              { "item": "pants_leather", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "pants", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "boots_western", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 30, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 10, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "japan_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for japanese cosplay zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "group": "scarfs_unisex", "prob": 15, "damage": [ 1, 4 ] },
+          { "item": "sunglasses", "prob": 35, "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "item": "haori", "prob": 45, "damage": [ 1, 4 ] },
+                  { "item": "hakama", "prob": 45, "damage": [ 1, 4 ] },
+                  { "item": "kimono", "damage": [ 1, 4 ] }
+                ]
+              },
+              { "item": "yukata", "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  {
+                    "distribution": [
+                      { "item": "dress_shoes", "prob": 40, "damage": [ 1, 4 ] },
+                      { "item": "boots", "prob": 20, "damage": [ 1, 4 ] },
+                      { "item": "thigh_high_boots", "prob": 15, "damage": [ 1, 4 ] },
+                      { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 15, "damage": [ 1, 4 ] },
+                      { "item": "sneakers", "prob": 10, "damage": [ 1, 4 ] }
+                    ]
+                  },
+                  { "group": "socks_unisex", "damage": [ 1, 4 ] }
+                ],
+                "prob": 45
+              },
+              {
+                "collection": [ { "item": "geta", "damage": [ 1, 4 ] }, { "item": "tabi_dress", "damage": [ 1, 4 ] } ],
+                "prob": 55
+              }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pirate_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for pirate zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "group": "scarfs_unisex", "prob": 15, "damage": [ 1, 4 ] },
+          { "item": "tricorne", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "bandana_head", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "eyepatch_leather", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "tshirt", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "pistol_flintlock", "container-item": "baldric_holster", "prob": 10, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "collection": [
+              { "item": "trenchcoat", "prob": 45, "damage": [ 1, 4 ] },
+              { "item": "trenchcoat_leather", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "jacket_leather", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "jeans", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "pants", "variant": "pants_black", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "pants", "variant": "pants_brown", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "pants", "variant": "pants_coffee", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "pants_leather", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [ { "item": "santa_belt", "prob": 60, "damage": [ 1, 4 ] }, { "item": "leather_belt", "prob": 40, "damage": [ 1, 4 ] } ]
+          },
+          {
+            "distribution": [
+              { "item": "boots", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 40, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 10, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "item": "cutlass_fake", "container-item": "scabbard", "prob": 80, "damage": [ 1, 4 ] },
+              { "item": "cutlass_inferior", "container-item": "scabbard", "prob": 19, "damage": [ 1, 4 ] },
+              { "item": "cutlass", "container-item": "scabbard", "prob": 1, "damage": [ 1, 4 ] }
+            ],
+            "prob": 20
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "scientist_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for scientist zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "group": "scarfs_unisex", "prob": 10, "damage": [ 1, 4 ] },
+          { "item": "glasses_safety", "prob": 95, "damage": [ 1, 4 ] },
+          { "item": "coat_lab", "damage": [ 1, 4 ] },
+          { "item": "gloves_rubber", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "apron_plastic", "prob": 45, "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "prob": 95, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "boots_rubber", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 15, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "collection": [
+              { "item": "flask_glass", "prob": 50, "damage": [ 1, 4 ] },
+              { "item": "beaker", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "test_tube", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "scissors_medical", "prob": 5, "damage": [ 1, 4 ] }
+            ],
+            "prob": 40
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "beekeeping_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for beekeper zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "beekeeping_hood", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "beekeeping_suit", "damage": [ 1, 4 ] },
+          { "item": "beekeeping_gloves", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "honey_scraper", "prob": 65, "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "prob": 95, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "boots_rubber", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 5, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bondage_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for bondage cosplay zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "bondage_mask", "prob": 85, "damage": [ 1, 4 ] },
+          { "item": "leather_belt", "prob": 75, "damage": [ 1, 4 ] },
+          { "item": "gloves_leather", "prob": 65, "damage": [ 1, 4 ] },
+          { "item": "rope_6", "prob": 35, "damage": [ 1, 4 ] },
+          { "item": "bullwhip", "prob": 25, "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "bondage_suit", "prob": 65, "damage": [ 1, 4 ] },
+              { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 45, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "heels", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "boots", "prob": 15, "damage": [ 1, 4 ] },
+              { "item": "thigh_high_boots", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "knee_high_boots", "variant": "chelsea_boots", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 5, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "fursuit_costume_unisex",
+    "type": "item_group",
+    "//": "For use in halloween as a set of zombie cloth drops for fursuit cosplay zombies",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "leather_belt", "prob": 55, "damage": [ 1, 4 ] },
+          { "group": "shirts_unisex", "prob": 65, "damage": [ 1, 4 ] },
+          { "group": "pants_unisex", "damage": [ 1, 4 ] },
+          { "group": "socks_unisex", "damage": [ 1, 4 ] },
+          {
+            "distribution": [
+              { "item": "wolfsuit", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "dragonsuit", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "felinesuit", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "dinosuit", "prob": 20, "damage": [ 1, 4 ] },
+              { "item": "sharksuit", "prob": 20, "damage": [ 1, 4 ] }
+            ]
+          },
+          {
+            "distribution": [
+              { "item": "flip_flops", "prob": 35, "damage": [ 1, 4 ] },
+              { "item": "leathersandals", "prob": 25, "damage": [ 1, 4 ] },
+              { "item": "sneakers", "prob": 65, "damage": [ 1, 4 ] }
+            ],
+            "prob": 30
+          },
+          {
+            "distribution": [
+              {
+                "collection": [
+                  { "group": "male_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_mens", "prob": 10, "damage": [ 1, 4 ] }
+                ]
+              },
+              {
+                "collection": [
+                  { "group": "female_underwear", "damage": [ 1, 4 ] },
+                  { "group": "accesories_personal_womens", "prob": 15, "damage": [ 1, 4 ] }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

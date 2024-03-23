@@ -1,0 +1,225 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "reading_light",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 1 ] ],
+      [ [ "light_bulb", 1 ], [ "e_scrap", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "electric_lantern",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 }, { "proficiency": "prof_elec_soldering" } ],
+    "using": [ [ "soldering_standard", 7 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 8 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 2 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "flashlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
+      [
+        [ "scrap", 4 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
+        [ "canister_empty", 1 ],
+        [ "bottle_glass", 1 ],
+        [ "bottle_plastic", 1 ],
+        [ "bottle_bathroom", 1 ],
+        [ "bottle_plastic_small", 1 ]
+      ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "floodlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "components": [
+      [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
+      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "directed_floodlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "components": [
+      [ [ "amplifier", 4 ], [ "makeshift_transformer", 8 ] ],
+      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "car_headlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "time": "15 m",
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "time_multiplier": 1.5 } ],
+    "components": [
+      [ [ "amplifier", 2 ], [ "makeshift_transformer", 4 ] ],
+      [ [ "plastic_chunk", 2 ], [ "scrap", 3 ] ],
+      [ [ "lightstrip_inactive", 2 ], [ "light_bulb", 2 ] ],
+      [ [ "cable", 10 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "car_wide_headlight",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_LIGHTING",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 1 ],
+    "difficulty": 2,
+    "reversible": true,
+    "decomp_learn": 1,
+    "autolearn": true,
+    "time": "15 m",
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 } ],
+    "components": [
+      [ [ "amplifier", 3 ], [ "makeshift_transformer", 6 ] ],
+      [ [ "plastic_chunk", 3 ], [ "scrap", 4 ] ],
+      [ [ "lightstrip_inactive", 3 ], [ "light_bulb", 3 ] ],
+      [ [ "cable", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "wearable_light",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "book_learn": [ [ "textbook_fabrication", 0 ], [ "manual_fabrication", 0 ], [ "mag_electronics", 0 ] ],
+    "components": [
+      [ [ "flashlight", 1 ] ],
+      [
+        [ "cotton_patchwork", 2 ],
+        [ "leather", 2 ],
+        [ "cordage", 1, "LIST" ],
+        [ "duct_tape", 10 ],
+        [ "medical_tape", 20 ]
+      ]
+    ]
+  },
+  {
+    "result": "standing_lamp",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_LIGHTING",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 2 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "steel_lump", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "pipe", 2 ] ]
+    ]
+  },
+  {
+    "result": "standing_floodlight",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "reversible": true,
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "10 m",
+    "autolearn": [ [ "electronics", 1 ] ],
+    "category": "CC_APPLIANCE",
+    "subcategory": "CSC_APPLIANCE_LIGHTING",
+    "skills_required": [ [ "fabrication", 1 ] ],
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "cable", 2 ] ],
+      [ [ "amplifier", 1 ], [ "makeshift_transformer", 2 ] ],
+      [ [ "floodlight", 1 ] ],
+      [ [ "steel_lump", 1 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "pipe", 2 ] ]
+    ]
+  }
+]

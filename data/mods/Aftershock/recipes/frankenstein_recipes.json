@@ -1,14 +1,14 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "inactive_frankenstein",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",
     "skill_used": "electronics",
     "skills_required": [ "firstaid", 8 ],
     "difficulty": 7,
-    "time": 50000,
+    "time": "500 s",
     "reversible": true,
     "decomp_learn": 5,
     "book_learn": [ [ "cyrus'_notes", 7 ] ],

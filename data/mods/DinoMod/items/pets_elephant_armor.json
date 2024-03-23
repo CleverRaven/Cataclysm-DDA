@@ -1,0 +1,200 @@
+[
+  {
+    "abstract": "elephant_armor",
+    "type": "PET_ARMOR",
+    "name": { "str": "elephant armor" },
+    "symbol": "[",
+    "min_pet_vol": "380 L",
+    "max_pet_vol": "1000 L",
+    "pet_bodytype": "elephant",
+    "longest_side": "60 cm",
+    "flags": [ "IS_PET_ARMOR" ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "kevlar_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "yellow",
+    "name": { "str": "Kevlar-lined elephant-sized peto" },
+    "description": "A heavy mattress-like armor of cloth, leather, and thick linings of Kevlar, originally used as horse protection for bullfighting.  You could put this on a friendly elephant.",
+    "price": 50000,
+    "price_postapoc": 5000,
+    "material": [ "cotton", "leather", "kevlar" ],
+    "weight": "30 kg",
+    "volume": "150 L",
+    "material_thickness": 10
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "acidchitin_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "green",
+    "name": { "str": "biosilicified chitin elephant armor" },
+    "description": "A makeshift assembly of criniere, peytral, and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly elephant.",
+    "price": 120000,
+    "price_postapoc": 8000,
+    "material": [ "acidchitin", "leather" ],
+    "weight": "35 kg",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "environmental_protection": 7
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chitin_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "green",
+    "name": { "str": "chitin elephant armor" },
+    "description": "A makeshift assembly of criniere, peytral, and croupiere made from chitin fitted to a thin mesh.  You could put this on a friendly elephant.",
+    "price": 100000,
+    "price_postapoc": 6000,
+    "material": [ "chitin", "leather" ],
+    "weight": "35 kg",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "environmental_protection": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "chainmail_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "green",
+    "name": { "str": "chainmail elephant armor" },
+    "description": "A heavy covering of chainmail, suitably made for elephants as protection.  You could put this on a friendly elephant.",
+    "price": 40000,
+    "price_postapoc": 10000,
+    "material": [ "steel", "leather" ],
+    "weight": "40 kg",
+    "volume": "150 L",
+    "material_thickness": 6
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leather_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "green",
+    "name": { "str": "boiled leather elephant barding with caparison", "str_pl": "boiled leather elephant bardings with caparison" },
+    "description": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts a battle between a monstrous demon and a regal warrior astride an elephant and wielding an elaborate vajra.  You could put this on a friendly elephant.",
+    "price": 30000,
+    "price_postapoc": 3000,
+    "material": [ "cotton", "leather" ],
+    "weight": "15 kg",
+    "volume": "150 L",
+    "material_thickness": 6,
+    "snippet_category": [
+      {
+        "id": "vritra",
+        "text": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts a battle between a monstrous demon and a regal warrior astride an elephant and wielding an elaborate vajra.  You could put this on a friendly elephant."
+      },
+      {
+        "id": "khajurahoshiva",
+        "text": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts a being, a goddess?  with many arms bearing different items with one large uncovered breast on the left side.  You could put this on a friendly elephant."
+      },
+      {
+        "id": "elephantry",
+        "text": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts several charging elephants trampling enemy soldiers.  You could put this on a friendly elephant."
+      },
+      {
+        "id": "diamond",
+        "text": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts an assortment of diamonds and gems.  You could put this on a friendly elephant."
+      },
+      {
+        "id": "ashoka",
+        "text": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts a man in rich garments and a full uncovered belly, riding in an elaborate chariot.  You could put this on a friendly elephant."
+      },
+      {
+        "id": "singh",
+        "text": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts several identical smiling men in turbans of various bright colors performing a dance.  You could put this on a friendly elephant."
+      },
+      {
+        "id": "triceratops",
+        "text": "A full barding for elephants, consisting of boiled leather with cloth underneath.  This caparison depicts a fierce, three-horned dinosaur bursting out the side of a 1970s-era van.  You could put this on a friendly elephant."
+      }
+    ]
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "leatherbone_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "green",
+    "name": { "str": "boiled leather elephant barding with bones", "str_pl": "boiled leather elephant bardings with bones" },
+    "description": "Leather elephant barding with decorative bones affixed, meant to invoke fear in bandits and raiders and traders all!  You could put this on a friendly elephant.",
+    "price": 45000,
+    "price_postapoc": 3000,
+    "material": [ "bone", "leather" ],
+    "weight": "17 kg",
+    "volume": "150 L",
+    "material_thickness": 6
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "rubber_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "green",
+    "name": { "str": "elephant rain sheet" },
+    "description": "A thin plastic covering, adapted to protect an elephant from acid zombie splashes and similar caustic substances.  You could put this on a friendly elephant.",
+    "price": 15000,
+    "price_postapoc": 1500,
+    "material": [ "neoprene", "plastic" ],
+    "weight": "14 kg",
+    "volume": "150 L",
+    "material_thickness": 3
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "sweater_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "red",
+    "name": { "str": "elephant-sized holiday sweater" },
+    "description": "A very large warm wool sweater with a festive holiday pattern.  You could put this on a friendly elephant.",
+    "price": 10000,
+    "price_postapoc": 1000,
+    "material": [ "wool" ],
+    "weight": "3 kg",
+    "volume": "20 L",
+    "looks_like": "longshirt",
+    "material_thickness": 1
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "iron_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "brown",
+    "name": { "str": "iron elephant armor" },
+    "description": "A heavy covering of strategically placed iron plates and leather, suitably made for elephants as protection.  You could put this on a friendly elephant.",
+    "price": 50000,
+    "price_postapoc": 10000,
+    "material": [ "iron", "leather" ],
+    "weight": "30 kg",
+    "volume": "150 L",
+    "material_thickness": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "steel_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "light_gray",
+    "name": { "str": "steel elephant armor" },
+    "description": "A heavy covering of steel plate and leather, suitably made for elephants as protection.  You could put this on a friendly elephant.",
+    "price": 60000,
+    "price_postapoc": 15000,
+    "material": [ "steel", "leather" ],
+    "weight": "50 kg",
+    "volume": "150 L",
+    "material_thickness": 4
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "bronze_armor_elephant",
+    "copy-from": "elephant_armor",
+    "color": "yellow",
+    "name": { "str": "bronze elephant armor" },
+    "description": "A heavy covering of strategically placed bronze plates and leather, suitably made for elephants as protection.  You could put this on a friendly elephant.",
+    "price": 50000,
+    "price_postapoc": 10000,
+    "material": [ "bronze", "leather" ],
+    "weight": "30 kg",
+    "volume": "150 L",
+    "material_thickness": 4
+  }
+]

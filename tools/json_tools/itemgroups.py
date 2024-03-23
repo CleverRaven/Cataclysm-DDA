@@ -53,7 +53,7 @@ def load_json_data(data_directory):
         if filename.name in ignore_filenames:
             continue
         try:
-            with open(filename) as json_fp:
+            with open(filename, encoding="utf-8") as json_fp:
                 json_data = json.load(json_fp)
             for data in json_data:
                 if isinstance(data, str):
@@ -201,12 +201,17 @@ if __name__ == "__main__":
             name = orphan[oid].get("name")
             if not name:
                 name = "*no name entry*"
-            if "str" in name:
-                name = name["str"]
-            elif "str_sp" in name:
-                name = name["str_sp"]
-            elif "str_pl" in name:
-                name = name["str_pl"]
+            if isinstance(name, dict):
+                if "str" in name:
+                    name = name["str"]
+                elif "str_sp" in name:
+                    name = name["str_sp"]
+                elif "str_pl" in name:
+                    name = name["str_pl"]
+            else:
+                print("WARNING: the 'name' property of '%s' is not a dict" %
+                      (oid), file=sys.stderr)
+                print(orphan[oid], file=sys.stderr)
             print("%s ('%s')" % (oid, name))
     if args.map:
         print("item to itemgroup mapping:")

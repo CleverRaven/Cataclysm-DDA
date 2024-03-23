@@ -7,6 +7,12 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_turret_artisans",
+    "name": { "str_sp": "broken CROWS II" },
+    "copy-from": "broken_turret_artisans"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_crows_m240",
     "name": { "str_sp": "broken CROWS II" },
     "copy-from": "broken_crows_m240"

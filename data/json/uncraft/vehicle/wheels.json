@@ -1,0 +1,146 @@
+[
+  {
+    "result": "wheel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_medium", 1 ] ], [ [ "wheel_rim_medium", 1 ] ] ]
+  },
+  {
+    "result": "wheel_slick",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_medium_slick", 1 ] ], [ [ "wheel_rim_medium", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_medium", 1 ] ], [ [ "wheel_rim_medium", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel_slick",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_medium_slick", 1 ] ], [ [ "wheel_rim_medium", 1 ] ] ]
+  },
+  {
+    "result": "wheel_motorbike",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_motorbike", 1 ] ], [ [ "wheel_rim_motorbike", 1 ] ] ]
+  },
+  {
+    "result": "wheel_motorbike_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_motorbike_or", 1 ] ], [ [ "wheel_rim_motorbike", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel_motorbike",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_motorbike", 1 ] ], [ [ "wheel_rim_motorbike", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel_motorbike_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_motorbike_or", 1 ] ], [ [ "wheel_rim_motorbike", 1 ] ] ]
+  },
+  {
+    "result": "wheel_wide",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_wide", 1 ] ], [ [ "wheel_rim_wide", 1 ] ] ]
+  },
+  {
+    "result": "wheel_wide_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_wide_or", 1 ] ], [ [ "wheel_rim_wide", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel_wide",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_wide", 1 ] ], [ [ "wheel_rim_wide", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel_wide_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "15 m",
+    "tools": [ [ [ "fake_tire_changer", -1 ] ] ],
+    "components": [ [ [ "tire_wide_or", 1 ] ], [ [ "wheel_rim_wide", 1 ] ] ]
+  },
+  {
+    "result": "wheel_bicycle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "tire_bicycle", 1 ] ], [ [ "wheel_rim_bicycle", 1 ] ] ]
+  },
+  {
+    "result": "wheel_bicycle_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "tire_bicycle_or", 1 ] ], [ [ "wheel_rim_bicycle", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel_bicycle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "tire_bicycle", 1 ] ], [ [ "wheel_rim_bicycle", 1 ] ] ]
+  },
+  {
+    "result": "deflated_wheel_bicycle_or",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "PRY", "level": 1 } ],
+    "components": [ [ [ "tire_bicycle_or", 1 ] ], [ [ "wheel_rim_bicycle", 1 ] ] ]
+  }
+]

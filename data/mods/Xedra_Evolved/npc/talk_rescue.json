@@ -1,0 +1,87 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_RESCUED_1",
+    "dynamic_line": [
+      "I've been listening to those things eat the others they've brought back to here.",
+      "Please, help me.",
+      "Can you get me out of this spider pit?",
+      "Who are you?  Are you real?",
+      "Can you please save me?  I have to get out of here.",
+      "Hallelujah, rescue!",
+      "I can't believe my eyes.  Thank you, thank you!",
+      "You're… you're actually real!",
+      "I hate spiders!"
+    ],
+    "responses": [
+      { "text": "Let's get out of here before more spiders show up.", "topic": "TALK_DONE", "effect": "follow" },
+      { "text": "I don't need another mouth to feed.  Get out of my sight.", "topic": "TALK_DONE", "effect": "flee" },
+      {
+        "text": "[Investigation 2] Are you feeling ok after all of this?  I can see some of your wounds.",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "EGGSAC_SURVIVABLE" }, { "npc_has_trait": "EGGSAC_FATAL" } ] },
+            { "math": [ "u_skill('deduction')", ">=", "2" ] }
+          ]
+        },
+        "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },
+        "topic": "TALK_RESCUED_INFESTED"
+      }
+    ]
+  },
+  {
+    "id": "TALK_RESCUED_INFESTED",
+    "type": "talk_topic",
+    "dynamic_line": "They bit me and when I woke up I had wounds that feel like they have something under them.  You don't think they could have put something in me, do you?",
+    "responses": [
+      {
+        "text": "I'm going to bring you a bottle of antiparasitics.  Let's do ten to make sure.",
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_mission": "BRING_INFESTED_ANTIPARASITICS" },
+              { "u_has_var": "antiparasitic", "type": "mission", "context": "completed", "value": "yes" }
+            ]
+          }
+        },
+        "effect": { "assign_mission": "BRING_INFESTED_ANTIPARASITICS" },
+        "topic": "TALK_RESCUED_1"
+      },
+      {
+        "text": "I've brought the antiparasitic for you.  Do you want it?",
+        "condition": {
+          "and": [ { "u_has_items": { "item": "antiparasitic", "count": 10 } }, { "u_has_mission": "BRING_INFESTED_ANTIPARASITICS" } ]
+        },
+        "effect": [
+          { "u_sell_item": "antiparasitic", "count": 10 },
+          { "npc_lose_trait": "EGGSAC_SURVIVABLE" },
+          { "npc_lose_trait": "EGGSAC_FATAL" },
+          { "finish_mission": "BRING_INFESTED_ANTIPARASITICS", "success": true }
+        ],
+        "topic": "TALK_RESCUED_1"
+      }
+    ]
+  },
+  {
+    "id": "BRING_INFESTED_ANTIPARASITICS",
+    "type": "mission_definition",
+    "name": { "str": "Bring 10 antiparasitic pills to %s" },
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": { "npc_has_var": "-", "type": "-", "context": "-", "value": "-" },
+    "difficulty": 2,
+    "value": 240,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If you think those things put something inside of me we need to get me medicine asap!",
+      "offer": "Please bring me some antiparasitic drugs, I don't want anything hatching out of ME!",
+      "accepted": "Thank you!",
+      "rejected": "Hopefully nothing is wrong with me",
+      "advice": "You've managed to terrify me.",
+      "inquire": "Every itch leaves me with a panic attack now",
+      "success": "Thank you so very much I hope this works!",
+      "success_lie": "You're telling me you brought it but you aren't giving them to me.",
+      "failure": "Please try harder and get me some medicine, I don't know how long I've got!"
+    },
+    "end": { "effect": [ { "u_add_var": "antiparasitic", "type": "mission", "context": "completed", "value": "yes" } ] }
+  }
+]

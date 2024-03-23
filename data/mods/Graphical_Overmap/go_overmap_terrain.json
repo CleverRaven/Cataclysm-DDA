@@ -472,12 +472,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "looted_building",
-    "copy-from": "looted_building",
-    "sym": "\u00E5"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "campsite",
     "name": "campsite",
     "copy-from": "campsite",
@@ -516,19 +510,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "pond_forest",
-    "copy-from": "pond_forest",
-    "sym": "\u00DC"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pond_swamp",
-    "copy-from": "pond_swamp",
-    "sym": "\u00DC",
-    "color": "green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "hunter_shack",
     "copy-from": "hunter_shack",
     "sym": "\u00E0"
@@ -550,74 +531,6 @@
     "id": "hunter_shack_roof_1",
     "copy-from": "hunter_shack_roof_1",
     "sym": "\u00E0"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_1a",
-    "copy-from": "campground_1a",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_1b",
-    "copy-from": "campground_1b",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2a",
-    "copy-from": "campground_2a",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2b",
-    "copy-from": "campground_2b",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_roof",
-    "copy-from": "campground_roof",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_1a_npc",
-    "copy-from": "campground_1a_npc",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_1b_npc",
-    "copy-from": "campground_1b_npc",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2a_npc",
-    "copy-from": "campground_2a_npc",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_2b_npc",
-    "copy-from": "campground_2b_npc",
-    "sym": "\u00C5",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "campground_roof_npc",
-    "copy-from": "campground_1a_npc"
   },
   {
     "type": "overmap_terrain",

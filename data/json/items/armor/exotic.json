@@ -1,0 +1,466 @@
+[
+  {
+    "id": "migo_plate_overgrown",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "overgrown iridescent carapace plate" },
+    "description": "A chunk of otherworldly carapace that looks like it was at one point shaped like armor, but is now bulky and overgrown with sharp pieces jutting out haphazardly.  Scarred into the outer surface you can barely make out the label \"STRIKE FACE\".  It looks like you could force it into a ballistic vest.",
+    "weight": "2800 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "alien_carapace", "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 10,
+    "non_functional": "migo_plate",
+    "damage_verb": "crumbles as blood oozes from its insides",
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
+    "armor": [
+      {
+        "encumbrance": 6,
+        "coverage": 45,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 5.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "migo_plate",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "iridescent carapace plate" },
+    "description": "A chunk of otherworldly carapace that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  Scarred into the outer surface is the label \"STRIKE FACE\".  It looks like you could force it into a ballistic vest.",
+    "weight": "2000 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "alien_carapace", "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 8,
+    "non_functional": "migo_plate_undergrown",
+    "damage_verb": "crumbles as blood oozes from its insides",
+    "//": "transforms over a day",
+    "countdown_interval": "24 hours",
+    "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
+    "revert_to": "migo_plate_overgrown",
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 42,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 4.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "migo_plate_undergrown",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "undergrown iridescent carapace plate" },
+    "description": "A chunk of otherworldly carapace that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  Scarred into the outer surface is the label \"STRIKE FACE\".  The armor coverage is spotty and it appears to be oozing and pulsing like it is in pain.",
+    "weight": "1500 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "alien_carapace", "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 6,
+    "non_functional": "migo_plate_naked",
+    "damage_verb": "crumbles as blood oozes from its insides",
+    "//": "transforms over a day",
+    "countdown_interval": "24 hours",
+    "countdown_action": { "type": "message", "message": "The iridescent carapace plate expands as it grows." },
+    "revert_to": "migo_plate",
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 39,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [
+          { "type": "alien_carapace", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "flesh", "covered_by_mat": 95, "thickness": 4.0 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "migo_plate_naked",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "plate of scarred flesh", "str_pl": "plates of scarred flesh" },
+    "description": "A chunk of otherworldly flesh that seems to have been forced into the shape of a ballistic plate with a slightly concave profile.  There is no armor left on this plate, just a mass of writhing alien flesh oozing in pain.  However, it looks like it is slowly growing back.",
+    "weight": "1000 g",
+    "volume": "1533 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh" ],
+    "symbol": ",",
+    "color": "dark_gray",
+    "material_thickness": 4,
+    "//": "transforms over a day",
+    "countdown_interval": "24 hours",
+    "countdown_action": { "type": "message", "message": "The plate of scarred flesh expands as it grows." },
+    "revert_to": "migo_plate_undergrown",
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID", "SPAWN_ACTIVE" ],
+    "armor": [
+      {
+        "encumbrance": 2,
+        "coverage": 0,
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "material": [ { "type": "flesh", "covered_by_mat": 100, "thickness": 4.0 } ]
+      }
+    ]
+  },
+  {
+    "id": "migo_skin",
+    "type": "ARMOR",
+    "name": { "str": "second skin" },
+    "description": "A slimy layer of liquid has completely engulfed your body from the neck down and seems to move with you - the sensation is uncomfortable.  The liquid appears bound to the resonating collar at your neck; the inside of the collar reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".  The ooze flows freely, covering your entire body but never crossing the gorget to get to your head.",
+    "weight": "1500 g",
+    "volume": "1 L",
+    "price": 2500,
+    "price_postapoc": 400,
+    "material": [ "alien_liquid", "unobtanium" ],
+    "symbol": "[",
+    "looks_like": "union_suit",
+    "color": "white",
+    "armor": [
+      {
+        "material": [
+          { "type": "unobtanium", "covered_by_mat": 10, "thickness": 0.5 },
+          { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [
+          { "type": "unobtanium", "covered_by_mat": 85, "thickness": 0.5 },
+          { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "torso", "arm_l", "arm_r" ],
+        "specifically_covers": [ "torso_lower", "arm_upper_l", "arm_elbow_l", "arm_lower_l", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "alien_liquid", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "hand_l", "hand_r" ],
+        "coverage": 100,
+        "encumbrance": 2
+      }
+    ],
+    "use_action": [
+      {
+        "target": "migo_skin_off",
+        "msg": "The gorget hums and the liquid gets sucked back into it.",
+        "menu_text": "Deactivate the device",
+        "type": "transform"
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 1,
+    "environmental_protection": 5,
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "FILTHY", "NO_CLEAN", "SOFT", "OVERSIZE" ]
+  },
+  {
+    "id": "migo_skin_off",
+    "type": "ARMOR",
+    "name": { "str": "resonating gorget" },
+    "description": "A heavy-duty gorget or collar made from odd materials that hums slightly.  It feels damp to the touch and there is a mechanical button of some kind on the front.  The inside reads \"CAREFUL CHOKING HAZARD!  THIS WAY DOWN\".",
+    "weight": "1500 g",
+    "volume": "100 ml",
+    "price": 2500,
+    "price_postapoc": 400,
+    "material": [ "unobtanium" ],
+    "symbol": "[",
+    "looks_like": "silver_necklace",
+    "color": "white",
+    "use_action": {
+      "need_worn": true,
+      "target": "migo_skin",
+      "msg": "Murky ooze begins to leak out of the gorget and engulf your body from the neck down!",
+      "menu_text": "Activate the device",
+      "type": "transform"
+    },
+    "armor": [
+      {
+        "material": [ { "type": "unobtanium", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper" ],
+        "coverage": 10,
+        "encumbrance": 0
+      },
+      {
+        "material": [ { "type": "unobtanium", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 85,
+        "encumbrance": 0
+      }
+    ],
+    "warmth": 1,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "SKINTIGHT", "STURDY", "TRADER_AVOID", "SOFT" ]
+  },
+  {
+    "id": "feeding_kit",
+    "type": "TOOL",
+    "name": { "str": "feeding kit" },
+    "description": "This is a collection of syringes with nozzles, an aerosol sprayer, and a few other attachments.  It seems designed for looking after some kind of creature that wants to stay wet.",
+    "weight": "85 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 50,
+    "to_hit": -1,
+    "material": [ "plastic", "steel" ],
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "water": 5 }, "watertight": true } ],
+    "charges_per_use": 1,
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_metal",
+        "materials": [ "alien_liquid" ],
+        "skill": "survival",
+        "tool_quality": 0,
+        "cost_scaling": 0.1,
+        "move_cost": 100
+      }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "armor_star_samurai",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ryūsei battle kit" },
+    "description": "A strange belt wrapped with circuitry and hundreds of banded metal discs.  When you touch it, it seems to vibrate slightly.",
+    "weight": "40 g",
+    "volume": "200 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ "unobtanium", "superalloy" ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "40 cm",
+    "material_thickness": 3,
+    "flags": [ "STURDY", "BELTED", "MUNDANE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei dō plate.",
+        "flag_restriction": [ "STAR_PLATE" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei kote plate.",
+        "flag_restriction": [ "STAR_SHOULDER" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "5000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei kote plate.",
+        "flag_restriction": [ "STAR_SHOULDER" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "weight_multiplier": 0.0,
+        "max_contains_volume": "6000 ml",
+        "max_contains_weight": "20000 kg",
+        "max_item_length": "100 cm",
+        "moves": 800,
+        "description": "Synchronization point for ryūsei hai-date plate.",
+        "flag_restriction": [ "STAR_SKIRT" ]
+      },
+      {
+        "description": "Floating clip (seems like anything would fit).",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "150 cm",
+        "min_item_length": "30 cm",
+        "moves": 80,
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "weight_multiplier": 0.0
+      },
+      {
+        "description": "Large Quiver.",
+        "weight_multiplier": 0.0,
+        "ammo_restriction": { "strange_arrow": 5 },
+        "moves": 40,
+        "volume_encumber_modifier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "305 mm",
+        "moves": 80,
+        "volume_encumber_modifier": 0.3,
+        "weight_multiplier": 0.0
+      }
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ],
+    "relic_data": { "passive_effects": [ { "id": "ench_meteor_armor" } ] }
+  },
+  {
+    "id": "armor_star_samurai_mask",
+    "type": "TOOL_ARMOR",
+    "name": { "str_sp": "filtering menpo" },
+    "category": "armor",
+    "description": "A sealed mask with strange filtering components on the front turned up in the shape of horns.  Inscriptions mark the glass of the lenses creating spiral patterns that blur the vision.",
+    "flags": [ "SLEEP_IGNORE", "MUNDANE" ],
+    "weight": "897 g",
+    "volume": "1 L",
+    "price": 4900,
+    "price_postapoc": 750,
+    "to_hit": -3,
+    "material": [ "monolith" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor": [
+      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 10 },
+      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 100, "encumbrance": 30 }
+    ],
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 16,
+    "relic_data": { "passive_effects": [ { "id": "ench_meteor_mask" } ] }
+  },
+  {
+    "id": "armor_star_samurai_torso",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ryūsei dō" },
+    "//": "torso armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It seems shaped to fit over a humanoid torso.",
+    "weight": "300 kg",
+    "volume": "6000 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "60 cm",
+    "material_thickness": 25,
+    "flags": [ "STURDY", "OUTER", "STAR_PLATE" ],
+    "armor": [
+      { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] },
+      {
+        "encumbrance": 0,
+        "coverage": 100,
+        "covers": [ "head" ],
+        "specifically_covers": [ "head_nape", "head_throat" ]
+      }
+    ]
+  },
+  {
+    "id": "armor_star_samurai_shoulder",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ryūsei kote" },
+    "//": "shoulder armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It seems shaped as though it would tie to the upper arms.",
+    "weight": "100 kg",
+    "volume": "4000 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "60 cm",
+    "material_thickness": 25,
+    "flags": [ "STURDY", "OUTER", "STAR_SHOULDER" ],
+    "armor": [
+      {
+        "encumbrance": 8,
+        "coverage": 95,
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_upper_l", "arm_shoulder_r", "arm_upper_r" ]
+      }
+    ]
+  },
+  {
+    "id": "armor_star_samurai_legs",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ryūsei hai-date" },
+    "//": "leg armor for the space samurai",
+    "description": "An impossibly large slab of dark reflective material wrapped in bands of multicolored alloy.  It has been forced into a conical shape as though it could somehow be worn as a skirt.",
+    "weight": "275 kg",
+    "volume": "5500 ml",
+    "price": 0,
+    "price_postapoc": 8000,
+    "material": [ { "type": "monolith_heavy", "portion": 19 }, { "type": "superalloy", "portion": 1 } ],
+    "symbol": "[",
+    "looks_like": "armor_lightplate",
+    "color": "dark_gray",
+    "warmth": 0,
+    "longest_side": "60 cm",
+    "material_thickness": 25,
+    "flags": [ "STURDY", "OUTER", "STAR_SKIRT" ],
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_upper_l", "leg_hip_r", "leg_upper_r" ]
+      }
+    ]
+  }
+]

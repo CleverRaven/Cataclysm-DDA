@@ -1,0 +1,142 @@
+[
+  {
+    "id": "afs_exo_standard_underlayer",
+    "type": "TOOL_ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This standard model uses a scale mail of overlapping plastic disks for incidental protection.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "plastic" ],
+    "environmental_protection": 5,
+    "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "plastic", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_exo_underlayer" } ] }
+  },
+  {
+    "id": "afs_exo_combat_underlayer",
+    "type": "TOOL_ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit combat underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  The suit is not designed for use outside of armor.  This model offers tough kevlar to protect from spalling.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "kevlar" ],
+    "environmental_protection": 5,
+    "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "kevlar", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_exo_underlayer" } ] }
+  },
+  {
+    "id": "afs_exo_eva_underlayer",
+    "type": "TOOL_ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit EVA underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for EVA operation, offering protection against breaches.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "nanoprinted_alloy" ],
+    "environmental_protection": 100,
+    "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "nanoprinted_alloy", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_exo_underlayer" } ] }
+  },
+  {
+    "id": "afs_exo_hazard_underlayer",
+    "type": "TOOL_ARMOR",
+    "copy-from": "jumpsuit",
+    "looks_like": "robofac_enviro_suit",
+    "name": { "str": "exosuit utility underlayer" },
+    "description": "A form-fitting suit meant to be worn by the exosuit pilot.  Although not a requirement for the operation of an exosuit, it features haptic feedback systems that offer improved performance and comfort while doing so.  This model is designed for hazardous environments and sacrifices mobility for extra protection.",
+    "weight": "610 g",
+    "volume": "3500 ml",
+    "color": "brown",
+    "material": [ "nomex", "kevlar_rigid" ],
+    "environmental_protection": 10,
+    "armor": [
+      {
+        "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 3 } ],
+        "covers": [ "eyes" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 3.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100
+      },
+      {
+        "material": [
+          { "type": "kevlar_rigid", "covered_by_mat": 80, "thickness": 1.2 },
+          { "type": "nomex", "covered_by_mat": 100, "thickness": 0.8 }
+        ],
+        "covers": [ "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
+        "coverage": 100
+      }
+    ],
+    "warmth": 10,
+    "flags": [ "EXO_UNDERLAYER", "SKINTIGHT", "WATERPROOF", "POWERARMOR_COMPATIBLE", "SOFT", "GAS_PROOF", "RAD_RESIST", "RAINPROOF" ],
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_exo_underlayer" } ] }
+  }
+]

@@ -3295,6 +3295,7 @@
     "type": "overmap_terrain",
     "abstract": "generic_rc_underground",
     "name": "solid rock",
+    "looks_like": "empty_rock",
     "sym": "%",
     "color": "dark_gray",
     "see_cost": 5

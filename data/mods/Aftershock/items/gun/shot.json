@@ -1,0 +1,110 @@
+[
+  {
+    "id": "afs_shotgun",
+    "copy-from": "mossberg_590",
+    "type": "GUN",
+    "name": { "str": "Benelli 315" },
+    "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
+    "variants": [
+      {
+        "id": "vatforged",
+        "name": { "str": "vatforged shotgun" },
+        "description": "A crude but otherwise serviceable pump-action shotgun built from a hacked or scavenged template.  Frequently seen in the hands of frontier pirates, settlers or salvors.  Not that such groups are much different from one another.",
+        "weight": 3
+      },
+      {
+        "id": "military",
+        "name": { "str": "m2101-UASTA shotgun" },
+        "description": "The standard issue combat shotgun of UICA marine and colonial forces.  Shot shells have poor performance against modern combat armor, so the M2101 is more often used during policing and peacekeeping operations.",
+        "weight": 2
+      },
+      {
+        "id": "branded",
+        "name": { "str": "Benelli 315" },
+        "description": "A widely popular combat shotgun featuring minor iterative refinements to a base design nearly three centuries old.  Whether the design is outdated or unsurpassable remains a matter of personal opinion.",
+        "weight": 2
+      }
+    ]
+  },
+  {
+    "id": "afs_shotgun_magnastorm",
+    "copy-from": "mossberg_590",
+    "type": "GUN",
+    "name": { "str": "Accipiter Magnastorm-12" },
+    "description": "An advanced shotgun that combines chemical and electromagnetic propulsion systems to accelerate and focus a cloud of steel flechettes.  Resulting in a longer effective range and greater penetration than whats conventionally possible.  Most often deployed during low-intensity corporate conflicts.",
+    "built_in_mods": [ "afs_magnetic_choke", "afs_shotgun_gauss" ]
+  },
+  {
+    "id": "afs_raketa_shotgun",
+    "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "Raketa" },
+    "description": "A massive TSKBEM-design shotgun intended for exosuit forces, the Raketa aka 'Rocket' is a magazine-fed bullpup shotgun featuring twin barrels.  This design remains popular for extra-atmospheric operations as the 12ga rounds are less likely to pierce a ship or station's delicate hull.",
+    "weight": "8 kg",
+    "volume": "3064 ml",
+    "longest_side": "1250 mm",
+    "min_strength": 16,
+    "to_hit": -1,
+    "material": [ "qt_steel", "plastic", "carbide" ],
+    "symbol": "r",
+    "color": "light_gray",
+    "ammo": [ "shot" ],
+    "dispersion": 125,
+    "durability": 7,
+    "min_cycle_recoil": 1250,
+    "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "2 rd.", 2 ] ],
+    "barrel_volume": "500 ml",
+    "valid_mod_locations": [
+      [ "sling", 1 ],
+      [ "mechanism", 4 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "bore", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "afs_raketa30mag" ] } ],
+    "melee_damage": { "bash": 20 }
+  },
+  {
+    "id": "afs_drotik_shotpistol",
+    "copy-from": "pistol_revolver",
+    "looks_like": "sw_619",
+    "type": "GUN",
+    "name": { "str": "Drotik Shotpistol" },
+    "description": "A massive TSKBEM-designed 'sidearm' intended for exosuits and uplifts, the Drotik aka 'Dart' is a large revolver firing 12ga shells.",
+    "weight": "2250 g",
+    "volume": "1450 ml",
+    "longest_side": "475 mm",
+    "min_strength": 14,
+    "to_hit": -2,
+    "material": [ "qt_steel", "plastic", "carbide" ],
+    "symbol": "r",
+    "color": "light_gray",
+    "ammo": [ "shot" ],
+    "dispersion": 350,
+    "durability": 8,
+    "clip_size": 8,
+    "valid_mod_locations": [
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "bore", 1 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "shot": 8 },
+        "allowed_speedloaders": [ "afs_shot_speedloader8" ]
+      }
+    ],
+    "melee_damage": { "bash": 16 },
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
+  }
+]

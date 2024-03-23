@@ -1,0 +1,73 @@
+[
+  {
+    "name": "GROUP_NECROPOLIS_ROBOT",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "monsters": [ { "monster": "mon_chickenbot", "weight": 1, "cost_multiplier": 50 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT",
+    "monsters": [
+      { "monster": "mon_tripod", "weight": 110, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "weight": 60, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 20, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_BASE",
+    "monsters": [
+      { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_MIL",
+    "monsters": [
+      { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_STRONG",
+    "monsters": [
+      { "monster": "mon_tripod", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "weight": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "weight": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "name": "GROUP_MIL_MASS_GRAVE",
+    "type": "monstergroup",
+    "//": "Lots of hazmats and burners.",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 10 },
+      { "monster": "mon_zombie_flamer", "weight": 20, "starts": "5 days" },
+      { "monster": "mon_zombie_hazmat", "weight": 20 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "monsters": [ { "monster": "mon_staring_eye", "weight": 100, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER",
+    "monsters": [ { "monster": "mon_staring_eye", "weight": 120, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_PORTAL",
+    "monsters": [ { "monster": "mon_staring_eye", "weight": 200, "cost_multiplier": 0 } ]
+  }
+]

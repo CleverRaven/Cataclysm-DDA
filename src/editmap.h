@@ -3,16 +3,16 @@
 #define CATA_SRC_EDITMAP_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
-#include <string>
+#include <optional>
 #include <vector>
 
 #include "color.h"
 #include "coordinates.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -23,7 +23,6 @@ class tinymap;
 class ui_adaptor;
 class uilist;
 class vehicle;
-struct real_coords;
 
 enum shapetype {
     editmap_rect, editmap_rect_filled, editmap_line, editmap_circle,
@@ -51,7 +50,7 @@ class editmap
     public:
         tripoint pos2screen( const tripoint &p );
         bool eget_direction( tripoint &p, const std::string &action ) const;
-        cata::optional<tripoint> edit();
+        std::optional<tripoint> edit();
         void uber_draw_ter( const catacurses::window &w, map *m );
         void update_view_with_help( const std::string &txt, const std::string &title );
 
@@ -61,9 +60,8 @@ class editmap
         void edit_fld();
         void edit_itm();
         void edit_critter( Creature &critter );
-        void edit_veh();
         void edit_mapgen();
-        void cleartmpmap( tinymap &tmpmap );
+        void cleartmpmap( tinymap &tmpmap ) const;
         void mapgen_preview( const real_coords &tc, uilist &gmenu );
         vehicle *mapgen_veh_query( const tripoint_abs_omt &omt_tgt );
         bool mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target );

@@ -1,0 +1,149 @@
+[
+  {
+    "id": "kevlar_shears",
+    "type": "TOOL",
+    "name": { "str": "pair of Kevlar cutters", "str_pl": "pairs of Kevlar cutters" },
+    "description": "These are a pair of heavy-duty shears with a blade suitable for cutting particularly tough materials, from polyaramid fabrics to tough plastics and thin metals.  The blades feature a flat shearing edge and a fine serration.",
+    "ascii_picture": "scissors",
+    "weight": "113 g",
+    "volume": "145 ml",
+    "price": 3500,
+    "price_postapoc": 350,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": ",",
+    "color": "yellow",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ], [ "FABRIC_CUT", 2 ], [ "SHEAR", 1 ] ],
+    "flags": [ "BELT_CLIP", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ],
+    "melee_damage": { "stab": 10 }
+  },
+  {
+    "id": "sewing_kit",
+    "type": "TOOL",
+    "name": { "str": "sewing kit" },
+    "description": "This is a wrapped leather kit with a variety of needles, some wooden spools for thread, small scissors, and a few other useful textile tools.  Use a sewing kit on an article of clothing to attempt to repair or reinforce that clothing.  This uses your tailoring skill.",
+    "weight": "85 g",
+    "volume": "250 ml",
+    "price": 1000,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "wood", "steel" ],
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 200 } } ],
+    "charges_per_use": 1,
+    "qualities": [ [ "SEW", 3 ], [ "FABRIC_CUT", 1 ], [ "CUT", 2 ] ],
+    "use_action": {
+      "type": "repair_item",
+      "item_action_type": "repair_fabric",
+      "materials": [ "cotton", "leather", "lycra", "nylon", "wool", "fur", "faux_fur", "nomex", "kevlar", "kevlar_layered", "gutskin" ],
+      "skill": "tailor",
+      "tool_quality": 0,
+      "cost_scaling": 0.1,
+      "move_cost": 1000
+    },
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "tailors_kit",
+    "type": "TOOL",
+    "name": { "str": "tailor's kit" },
+    "description": "This is a high quality kit consisting of a variety of needles, some wooden spools for thread, some small scissors, and an awl.  Use a tailor's kit to customize your clothing and armor.  This uses your tailoring skill.",
+    "weight": "100 g",
+    "volume": "500 ml",
+    "price": 1000,
+    "price_postapoc": 1000,
+    "to_hit": -2,
+    "material": [ "wood", "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "thread" ],
+    "sub": "sewing_kit",
+    "charges_per_use": 1,
+    "qualities": [ [ "SEW", 4 ], [ "SEW_CURVED", 1 ], [ "KNIT", 1 ], [ "LEATHER_AWL", 2 ], [ "CUT", 2 ], [ "FABRIC_CUT", 2 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 400 } } ],
+    "use_action": [
+      {
+        "type": "repair_item",
+        "item_action_type": "repair_fabric",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "kevlar_layered",
+          "neoprene",
+          "gutskin"
+        ],
+        "skill": "tailor",
+        "tool_quality": 1,
+        "cost_scaling": 0.1,
+        "move_cost": 800
+      },
+      {
+        "type": "sew_advanced",
+        "materials": [
+          "cotton",
+          "leather",
+          "lycra",
+          "nylon",
+          "wool",
+          "fur",
+          "faux_fur",
+          "nomex",
+          "kevlar",
+          "neoprene",
+          "gutskin",
+          "plastic",
+          "kevlar_rigid"
+        ],
+        "skill": "tailor",
+        "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
+      }
+    ],
+    "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "sheet_fibercloth",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "fibercloth sheet" },
+    "description": "A 12 inch by 24 inch sheet of fabric woven from plant fiber, suitable for making clothing.",
+    "weight": "38 g",
+    "volume": "47 ml",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": [ "fibercloth" ],
+    "symbol": "=",
+    "color": "green"
+  },
+  {
+    "id": "fibercloth_patchwork",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "fibercloth patch", "str_pl": "fibercloth patches" },
+    "description": "A 6 inch square fibercloth patch, suitable for use in repairing and tailoring of clothing.",
+    "weight": "5 g",
+    "volume": "6 ml",
+    "price": 200,
+    "price_postapoc": 2,
+    "material": [ "fibercloth" ],
+    "symbol": ",",
+    "color": "green",
+    "use_action": [
+      {
+        "type": "heal",
+        "move_cost": 200,
+        "used_up_item": { "id": "fibercloth_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
+      },
+      "WASH_HARD_ITEMS"
+    ],
+    "flags": [ "NO_SALVAGE" ]
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "nether_attunement_cold_chill",
+    "type": "SPELL",
+    "name": { "str": "Nether Attunement Cold Chill" },
+    "valid_targets": [ "self" ],
+    "description": "Drops the temperature when you use your powers.",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
+    "message": "",
+    "shape": "blast",
+    "effect": "emit",
+    "effect_str": "emit_nether_chill"
+  },
+  {
+    "id": "nether_attunement_everyone_downed",
+    "type": "SPELL",
+    "name": { "str": "Nether Attunement Everyone Downed" },
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "description": "Knocks you and everyone else nearby off their feet when you use your powers.",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "attack",
+    "effect_str": "downed",
+    "shape": "blast",
+    "extra_effects": [ { "id": "nether_attunement_everyone_dazed", "hit_self": true } ],
+    "min_aoe": { "math": [ "(clamp( (( u_vitamin('vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] }
+  },
+  {
+    "id": "nether_attunement_everyone_dazed",
+    "type": "SPELL",
+    "name": { "str": "Nether Attunement Everyone Dazed" },
+    "valid_targets": [ "self", "ally", "hostile" ],
+    "description": "Dazes you and everyone else nearby when you use your powers.",
+    "flags": [ "PSIONIC", "SILENT", "NO_EXPLOSION_SFX", "RANDOM_DURATION" ],
+    "effect": "attack",
+    "effect_str": "psi_dazed",
+    "shape": "blast",
+    "min_aoe": { "math": [ "(clamp( (( u_vitamin('vitamin_psionic_drain') * 0.25) - 125), 0, 30)) + 2" ] },
+    "min_duration": 200,
+    "max_duration": 1500
+  }
+]

@@ -1,8 +1,6 @@
 #include "mapgenformat.h"
 
-#include <algorithm>
 #include <cctype>
-#include <string>
 
 #include "map.h"
 #include "mapdata.h"
@@ -50,7 +48,7 @@ format_effect<ID>::format_effect( const std::string &chars, std::vector<ID> dets
 template<typename ID>
 ID format_effect<ID>::translate( const char c ) const
 {
-    const auto index = characters.find( c );
+    const size_t index = characters.find( c );
     if( index == std::string::npos ) {
         return ID( 0 );
     }

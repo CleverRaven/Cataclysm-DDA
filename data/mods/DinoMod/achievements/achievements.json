@@ -1,0 +1,83 @@
+[
+  {
+    "id": "achievement_kill_dino",
+    "type": "achievement",
+    "name": "They should all be destroyed\u2026",
+    "requirements": [ { "event_statistic": "num_avatar_dino_kills", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_kill_10_dinos",
+    "type": "achievement",
+    "name": "Muldoon",
+    "requirements": [ { "event_statistic": "num_avatar_dino_kills", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_kill_100_dinos",
+    "type": "achievement",
+    "name": "Sharptooth",
+    "hidden_by": [ "achievement_kill_10_dinos" ],
+    "requirements": [ { "event_statistic": "num_avatar_dino_kills", "is": ">=", "target": 100 } ]
+  },
+  {
+    "id": "achievement_kill_1000_dinos",
+    "type": "achievement",
+    "name": "KILL ALL DINOS",
+    "requirements": [ { "event_statistic": "num_avatar_dino_kills", "is": ">=", "target": 1000 } ]
+  },
+  {
+    "id": "achievement_kill_10000_dinos",
+    "type": "achievement",
+    "name": "Red",
+    "hidden_by": [ "achievement_kill_1000_dinos" ],
+    "requirements": [ { "event_statistic": "num_avatar_dino_kills", "is": ">=", "target": 10000 } ]
+  },
+  {
+    "id": "achievement_kill_100000_dinos",
+    "type": "achievement",
+    "name": "Giant Asteroid",
+    "hidden_by": [ "achievement_kill_10000_dinos" ],
+    "requirements": [ { "event_statistic": "num_avatar_dino_kills", "is": ">=", "target": 100000 } ]
+  },
+  {
+    "id": "achievement_mutation_threshold_tyrant",
+    "type": "achievement",
+    "name": "Unending hunger",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "TYRANT" ],
+        "description": "crossed tyrant mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_stego",
+    "type": "achievement",
+    "name": "Fortress secure",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "STEGO" ],
+        "description": "crossed stego mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  },
+  {
+    "id": "achievement_mutation_threshold_horns",
+    "type": "achievement",
+    "name": "Too dangerous to mess with",
+    "requirements": [
+      {
+        "event_statistic": "avatar_last_crosses_mutation_threshold",
+        "is": "==",
+        "target": [ "mutation_category_id", "HORNS" ],
+        "description": "crossed horns mutation threshold",
+        "visible": "when_achievement_completed"
+      }
+    ]
+  }
+]

@@ -1,0 +1,67 @@
+[
+  {
+    "type": "snippet",
+    "category": "<eyes_blind>",
+    "text": [
+      "Something snaps behind your eyes, and the world turns black.",
+      "A sudden sharp pain in your eyes, then you are lost in the darkness.",
+      "Your eyes fail you, and everything turns dark."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<eyes_glare>",
+    "text": [ "The lights grow uncomfortably bright." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<eyes_stun>",
+    "text": [ "The world starts turning wildly, and you stumble." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<insect_failure>",
+    "text": [
+      "You need the right nectar, otherwise you will never be queen.",
+      "You long for a safe, dark place to complete your change.",
+      "You could build a hive, if only you were better.  What are you missing?",
+      "More of the <color_yellow> good nectar</color>.  That's what you need.",
+      "You can't be expected to metamorphose with so little.  You need more.",
+      "You need enough insect primer and catalyst in your system while you are sleeping to complete your change.",
+      "You won't be able to change without enough catalyst, the right primer and being asleep."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<insect_dream>",
+    "text": [
+      "You and your sisters have worked diligently, made your home safe and prosperous.  You felt so proud.  But lately Mother has been growing slower, and more cells are empty than with brood.  You see hesitation on your sisters as well…does the hive need you to step up?  Would they follow?  Could you defeat Her?",
+      "You dream of a dark, damp place permeated by the smell of sawdust.  You feel like this is all you've ever known, each bend in the walls and scratch on the floor your handiwork.  It feels like home, but deep down you know that you'll have to change and emerge into the dangerous, light-battered outside.",
+      "You have stuffed yourself to bursting for the fourth time today, but your hunger doesn't abate.  You would need to escape your too-small skin to be able to eat enough, you're sure of it.  Take the knife to one of the stretch marks on your back, and part the skin - it springs to the side readily and with no pain.  You work your way down your sides, changing the knife between hands as needed and free your <color_light_green>new skin</color> from its fleshy prison.",
+      "Getting the bodybag was harder than you would have thought, and ordinary garbage bags would just not do.  You eat your fill for the last time with this mouth, undress (you won't need clothes after the change), and climb in the bag.  Closing the zipper from the inside is a challenge, but you need complete darkness for what comes now.  You wait.\nAnd wait.\nAnd wait.\n\nCould you have been wrong?  You were so sure the time was right.\nYou need to get out of here, but you can't move your…anything.  Do you even have anything to move?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<insect_eye_dream>",
+    "text": [
+      "<insect_dream>",
+      "Your try going about your day as usual, but your vision seems to dim every few seconds for no reason.  You reach to your eyes in annoyance and feel a disgusting fleshy membrane periodically covering them with a squeaky, wet motion.  You grasp them tightly and pull hard despite the pain until they tear off with a shower of red ichor coating your eyes.  You lick it away, and finally you can see clearly."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<insect_eye_success>",
+    "text": [
+      "After another day of dazed mundaneity you make your way back home to your dingy cellar apartment, but miss a step and fall down the stairs, landing on your face with a wet thud.  Consciousness fades, but the pain stays.  The pain, and the feeling of myriad cockroach legs running on your skin, coating your wounds in a skittering, biting cloak.\n\nYou wake, shedding the weird apey memories, and you are stunned by a dizzying cavalcade of colors you could never have imagined before.  This is a step in the right direction, you decide, regarding your newly-expanded perspective with appreciation before the vertigo takes you."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<insect_eye_2_success>",
+    "text": [
+      "<insect_eye_success>",
+      "You dream of a throbbing headache, and the feeling of an imminent molt.  You find a suitable recess, freeze in place and **push**, trying to rip your old exoskeleton up with you pressure of your new armor but nothing happens.  All the pressure seems to well up into your head, and finally you feel a wet snap and a shower of too-warm mammal ichor on your feelers.\n\nYou wake up in a puddle of your own blood under your head, a puddle you can see despite looking straight up.  It will be some time before your eyes' crystals harden properly, but already the colors are even richer than they were before, and the world seems somehow sluggish."
+    ]
+  }
+]

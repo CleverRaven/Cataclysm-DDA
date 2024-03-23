@@ -1,0 +1,24 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_meadow",
+    "copy-from": "generic_open_land",
+    "name": "meadow",
+    "sym": ",",
+    "color": "brown",
+    "travel_cost_type": "field",
+    "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "flags": [ "REQUIRES_PREDECESSOR" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "meadow_core",
+    "copy-from": "generic_meadow",
+    "extend": { "flags": [ "NO_ROTATE" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "meadow_end",
+    "copy-from": "generic_meadow"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "afs_jetpack",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "rocket pack" },
+    "description": "A back mounted rocket pack, its well worn superalloy nozzles seem to suggest great age.  Units like this one are rarely used by elite military forces and by scavenger-explorers hoping to find high value salvage.  Not powerful enough to enable true flight within a gravity well, but it may still be used to perform short jumps and air-dashes.",
+    "weight": "4350 g",
+    "volume": "15 L",
+    "price": 3900,
+    "price_postapoc": 500,
+    "material": [ "steel", "superalloy" ],
+    "symbol": "[",
+    "looks_like": "rpg",
+    "ammo": [ "ammonia_liquid" ],
+    "use_action": { "type": "cast_spell", "spell_id": "spell_rocket_jump", "no_fail": true, "level": 1 },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "description": "The rocket pack fuel tank.  Holds up to 10 liters of pressurized fuel.",
+        "rigid": true,
+        "watertight": true,
+        "ammo_restriction": { "ammonia_liquid": 10 }
+      }
+    ],
+    "color": "white",
+    "charges_per_use": 1,
+    "warmth": 6,
+    "material_thickness": 5,
+    "flags": [ "BELTED", "JETPACK", "ONLY_ONE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 60, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] } ]
+  }
+]

@@ -1,0 +1,988 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_TOGGLE_REMOVE_EFFECTS",
+    "effect": [
+      {
+        "run_eocs": [
+          "EOC_BIOKIN_REMOVE_METABOLISM_ENHANCE",
+          "EOC_CLAIR_REMOVE_SPEED_READ",
+          "EOC_CLAIR_REMOVE_SEE_AURAS",
+          "EOC_CLAIR_REMOVE_CRAFT_BONUS",
+          "EOC_PHOTOKIN_REMOVE_LIGHT_LOCAL",
+          "EOC_PHOTOKIN_REMOVE_HIDE_UGLY",
+          "EOC_PHOTOKIN_REMOVE_RADIO",
+          "EOC_PYRO_REMOVE_FIRE_TOOL",
+          "EOC_PYRO_REMOVE_TORCH_WELD",
+          "EOC_TELEKIN_REMOVE_TELEKINETIC_STRENGTH",
+          "EOC_TELEKIN_REMOVE_JACKING_TOOL",
+          "EOC_TELEKIN_REMOVE_LEVITATION",
+          "EOC_TELEPATH_REMOVE_TELEPATHIC_CONCENTRATION"
+        ]
+      },
+      { "u_lose_effect": "telepathic_ignorance_self" },
+      { "u_lose_effect": "effect_clair_perfect_shot" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_monster",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_clair_see_auras" },
+        { "u_has_effect": "effect_clair_craft_bonus" },
+        { "u_has_effect": "effect_photokin_light_local" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "telepathic_ignorance_self" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MELEE_CHARACTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_melee_attacks_character",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_clair_see_auras" },
+        { "u_has_effect": "effect_clair_craft_bonus" },
+        { "u_has_effect": "effect_photokin_light_local" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "telepathic_ignorance_self" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANGED_MONSTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_monster",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_clair_see_auras" },
+        { "u_has_effect": "effect_clair_craft_bonus" },
+        { "u_has_effect": "effect_clair_perfect_shot" },
+        { "u_has_effect": "effect_photokin_light_local" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "telepathic_ignorance_self" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RANGED_CHARACTER_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "character_ranged_attacks_character",
+    "condition": {
+      "or": [
+        { "u_has_trait": "CLAIR_SPEED_READ" },
+        { "u_has_effect": "effect_clair_speed_reader" },
+        { "u_has_effect": "effect_clair_see_auras" },
+        { "u_has_effect": "effect_clair_craft_bonus" },
+        { "u_has_effect": "effect_clair_perfect_shot" },
+        { "u_has_effect": "effect_photokin_light_local" },
+        { "u_has_item": "pyrokinetic_fire_tool" },
+        { "u_has_item": "pyrokinetic_torch_weld" },
+        { "u_has_effect": "effect_telekinetic_strength" },
+        { "u_has_item": "telekin_lifting_jack_1" },
+        { "u_has_item": "telekin_lifting_jack_2" },
+        { "u_has_item": "telekin_lifting_jack_3" },
+        { "u_has_item": "telekin_lifting_jack_4" },
+        { "u_has_item": "telekin_lifting_jack_5" },
+        { "u_has_item": "telekin_lifting_jack_6" },
+        { "u_has_item": "telekin_lifting_jack_7" },
+        { "u_has_item": "telekin_lifting_jack_8" },
+        { "u_has_item": "telekin_lifting_jack_9" },
+        { "u_has_item": "telekin_lifting_jack_10" },
+        { "u_has_item": "telekin_lifting_jack_11" },
+        { "u_has_item": "telekin_lifting_jack_12" },
+        { "u_has_item": "telekin_lifting_jack_13" },
+        { "u_has_item": "telekin_lifting_jack_14" },
+        { "u_has_item": "telekin_lifting_jack_15" },
+        { "u_has_item": "telekin_lifting_jack_16" },
+        { "u_has_item": "telekin_lifting_jack_17" },
+        { "u_has_item": "telekin_lifting_jack_18" },
+        { "u_has_item": "telekin_lifting_jack_19" },
+        { "u_has_item": "telekin_lifting_jack_20" },
+        { "u_has_effect": "effect_telekinetic_levitation" },
+        { "u_has_effect": "effect_telepathic_learning_bonus" },
+        { "u_has_effect": "telepathic_ignorance_self" }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] }, { "npc_lose_effect": "telepathic_ignorance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SPELL_CANCEL_TOGGLES",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "u_has_trait": "CLAIR_SPEED_READ" },
+            { "u_has_effect": "effect_clair_speed_reader" },
+            { "u_has_effect": "effect_clair_see_auras" },
+            { "u_has_effect": "effect_clair_craft_bonus" },
+            { "u_has_effect": "effect_clair_perfect_shot" },
+            { "u_has_effect": "effect_photokin_light_local" },
+            { "u_has_item": "pyrokinetic_fire_tool" },
+            { "u_has_item": "pyrokinetic_torch_weld" },
+            { "u_has_effect": "effect_telekinetic_strength" },
+            { "u_has_item": "telekin_lifting_jack_1" },
+            { "u_has_item": "telekin_lifting_jack_2" },
+            { "u_has_item": "telekin_lifting_jack_3" },
+            { "u_has_item": "telekin_lifting_jack_4" },
+            { "u_has_item": "telekin_lifting_jack_5" },
+            { "u_has_item": "telekin_lifting_jack_6" },
+            { "u_has_item": "telekin_lifting_jack_7" },
+            { "u_has_item": "telekin_lifting_jack_8" },
+            { "u_has_item": "telekin_lifting_jack_9" },
+            { "u_has_item": "telekin_lifting_jack_10" },
+            { "u_has_item": "telekin_lifting_jack_11" },
+            { "u_has_item": "telekin_lifting_jack_12" },
+            { "u_has_item": "telekin_lifting_jack_13" },
+            { "u_has_item": "telekin_lifting_jack_14" },
+            { "u_has_item": "telekin_lifting_jack_15" },
+            { "u_has_item": "telekin_lifting_jack_16" },
+            { "u_has_item": "telekin_lifting_jack_17" },
+            { "u_has_item": "telekin_lifting_jack_18" },
+            { "u_has_item": "telekin_lifting_jack_19" },
+            { "u_has_item": "telekin_lifting_jack_20" },
+            { "u_has_effect": "effect_telekinetic_levitation" },
+            { "u_has_effect": "effect_telepathic_learning_bonus" },
+            { "u_has_effect": "telepathic_ignorance_self" }
+          ]
+        },
+        { "math": [ "_damage", ">=", "1" ] },
+        {
+          "and": [
+            {
+              "u_has_any_trait": [
+                "BIOKINETIC",
+                "CLAIRSENTIENT",
+                "ELECTROKINETIC",
+                "PHOTOKINETIC",
+                "PYROKINETIC",
+                "TELEKINETIC",
+                "TELEPATH",
+                "TELEPORTER",
+                "VITAKINETIC"
+              ]
+            },
+            {
+              "or": [
+                { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+                { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+                { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+                { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_POWER_TOGGLE_REMOVE_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_HURRICANE_BLOWS_MOVE_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "or": [ { "u_has_effect": "effect_biokin_hurricane_blows" }, { "u_has_effect": "effect_biokin_hurricane_blows_2" } ] },
+    "effect": [ { "u_lose_effect": "effect_biokin_hurricane_blows" }, { "u_lose_effect": "effect_biokin_hurricane_blows_2" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_INVISIBILITY_CANCEL_WALK",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "u_has_effect": "effect_photokin_invisibility" },
+        {
+          "or": [
+            { "compare_string": [ "walk", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "crouch", { "context_val": "movement_mode" } ] },
+            { "compare_string": [ "prone", { "context_val": "movement_mode" } ] }
+          ]
+        },
+        {
+          "x_in_y_chance": { "x": { "math": [ "max( (20 - u_spell_level('photokinetic_invisibility')),4)" ] }, "y": 1000 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you move, light scatters around you in coruscating shards, revealing your position!", "type": "bad" },
+      { "u_lose_effect": "effect_photokin_invisibility" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_INVISIBILITY_CANCEL_RUN",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "u_has_effect": "effect_photokin_invisibility" },
+        { "compare_string": [ "run", { "context_val": "movement_mode" } ] },
+        {
+          "x_in_y_chance": { "x": { "math": [ "max( (80 - ( u_spell_level('photokinetic_invisibility') * 3)),30)" ] }, "y": 1000 }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you run, a shower of light outlines your path, revealing your position!", "type": "bad" },
+      { "u_lose_effect": "effect_photokin_invisibility" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PHOTOKIN_DODGE_CANCEL_ATTACKED",
+    "eoc_type": "EVENT",
+    "required_event": "character_takes_damage",
+    "condition": { "u_has_effect": "effect_photokin_dodge" },
+    "effect": [ { "u_lose_effect": "effect_photokin_dodge" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_BIOKINETIC_CHANNELING_FAILURE",
+    "//": "Once focus becomes more persistant and doesn't immediately drop to 25 on doing basically anything, low focus should also make overload more likely",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "BIOKINETIC" },
+        { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_biokin_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_CLAIRSENTIENT_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "CLAIRSENTIENT" },
+        { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "blind_clair_overload",
+        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "deaf_clair_overload",
+        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_ELECTROKINETIC_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "ELECTROKINETIC" },
+        { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_electrokin_overload",
+        "duration": { "math": [ "time(' 5 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      { "run_eocs": "EOC_ELECTRO_OVERLOAD_ZAP" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_PHOTOKINETIC_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PHOTOKINETIC" },
+        { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_photokin_myopia_overload",
+        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_photokin_lumination_overload",
+        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_PYROKINETIC_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "PYROKINETIC" },
+        { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_pyrokin_overload",
+        "duration": { "math": [ "time(' 5 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_TELEKINETIC_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEKINETIC" },
+        { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_telekin_overload",
+        "duration": { "math": [ "time(' 15 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_TELEPATH_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPATH" },
+        { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "nightmares",
+        "duration": { "math": [ "time(' 30 m') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "disrupted_sleep",
+        "duration": { "math": [ "time(' 30 m') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_TELEPORTER_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+        {
+          "or": [
+            { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] },
+            { "math": [ "_success", "==", "false" ] },
+            { "is_weather": "distant_portal_storm" },
+            { "is_weather": "portal_storm" },
+            { "is_weather": "close_portal_storm" }
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_portal_storm_teleport",
+        "duration": { "math": [ "time(' 1 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_VITAKINETIC_CHANNELING_FAILURE",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "VITAKINETIC" },
+        { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] },
+        {
+          "or": [ { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "200" ] }, { "math": [ "_success", "==", "false" ] } ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [ "(10 * (min(0,( _difficulty - 1 - ( u_skill('metaphysics') / 2 ) ) * 15) ) + u_vitamin('vitamin_psionic_drain'))" ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your powers rage out of control!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS" ] },
+      {
+        "u_add_effect": "psionic_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      },
+      {
+        "u_add_effect": "effect_vitakin_overload",
+        "duration": { "math": [ "time(' 30 s') * (1 + ( u_vitamin('vitamin_psionic_drain') / 2 ) ) * rng(1, _difficulty)" ] }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ELECTRO_OVERLOAD_ZAP",
+    "condition": { "u_has_effect": "effect_electrokin_overload" },
+    "effect": [
+      { "u_message": "Your muscles suddenly seize up!", "type": "bad" },
+      { "u_add_effect": "downed", "duration": 5 },
+      { "u_add_effect": "motor_seizure", "duration": 4 },
+      { "u_add_effect": "stunned", "duration": 1 },
+      { "queue_eocs": "EOC_ELECTRO_OVERLOAD_ZAP", "time_in_future": [ "1 minutes", "45 minutes" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_KCAL_COST",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "math": [ "u_val('stored_kcal')", "-=", "psionics_kcal_cost(_difficulty)" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_MAINTENANCE_PLUS_ONE",
+    "condition": {
+      "math": [
+        "u_vitamin('vitamin_maintained_powers')",
+        ">=",
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "It's taking you a lot of concentration to maintain your powers.  You're not sure you'll be able to do it for very long.",
+        "type": "bad"
+      },
+      { "u_add_effect": "effect_psi_intense_concentration", "duration": "PERMANENT" },
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] }
+    ],
+    "false_effect": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", "+=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_MAINTENANCE_MINUS_ONE",
+    "condition": {
+      "math": [
+        "u_vitamin('vitamin_maintained_powers')",
+        "==",
+        "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()) + 1"
+      ]
+    },
+    "effect": [
+      { "u_message": "As you stop concentrating, your mind clears a bit.  It's easier to think now.", "type": "good" },
+      { "u_lose_effect": "effect_psi_intense_concentration" },
+      { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] }
+    ],
+    "false_effect": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK",
+    "condition": {
+      "and": [
+        {
+          "math": [
+            "u_vitamin('vitamin_maintained_powers')",
+            ">",
+            "( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses())"
+          ]
+        },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "((u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))) * 5"
+              ]
+            },
+            "y": 100
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "u_message": "Your concentration breaks!", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED", "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS" ] },
+      {
+        "math": [
+          "u_vitamin('vitamin_psionic_drain')",
+          "+=",
+          "rng( 3,8 ) * (u_vitamin('vitamin_maintained_powers')) / (( u_val('intelligence') / 4) + (u_bonus_concentration_powers) + (concentration_trait_bonuses()))"
+        ]
+      }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY" }, { "run_eocs": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY",
+    "condition": {
+      "and": [
+        { "not": { "u_has_proficiency": "prof_concentration_basic" } },
+        { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+      ]
+    },
+    "effect": [ { "math": [ "u_proficiency('prof_concentration_basic', 'format': 'percent')", "+=", "rand(4) / 24" ] } ],
+    "//": "adds 0% - 0.16% experience per run",
+    "false_effect": {
+      "run_eocs": [
+        {
+          "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_INT",
+          "condition": {
+            "and": [
+              { "not": { "u_has_proficiency": "prof_concentration_intermediate" } },
+              { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+            ]
+          },
+          "effect": [ { "math": [ "u_proficiency('prof_concentration_intermediate', 'format': 'percent')", "+=", "rand(4) / 48" ] } ],
+          "false_effect": {
+            "run_eocs": [
+              {
+                "id": "EOC_CONCENTRATION_SUCCESS_PROFICIENCY_MASTER",
+                "condition": {
+                  "and": [
+                    { "not": { "u_has_proficiency": "prof_concentration_master" } },
+                    { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }
+                  ]
+                },
+                "effect": [ { "math": [ "u_proficiency('prof_concentration_master', 'format': 'percent')", "+=", "rand(4) / 96" ] } ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_SUCCESS_REDUCE_FOCUS",
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "1" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CONCENTRATION_FAILURE_REDUCE_FOCUS",
+    "condition": {
+      "and": [ { "math": [ "u_vitamin('vitamin_maintained_powers')", ">", "0" ] }, { "math": [ "u_val('focus')", ">=", "25" ] } ]
+    },
+    "effect": [ { "math": [ "u_val('focus')", "-=", "5" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_CHANNEL_MAINTENANCE_CHECK",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        {
+          "u_has_any_trait": [
+            "BIOKINETIC",
+            "CLAIRSENTIENT",
+            "ELECTROKINETIC",
+            "PHOTOKINETIC",
+            "PYROKINETIC",
+            "TELEKINETIC",
+            "TELEPATH",
+            "TELEPORTER",
+            "VITAKINETIC"
+          ]
+        },
+        {
+          "or": [
+            { "compare_string": [ "BIOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "CLAIRSENTIENT", { "context_val": "school" } ] },
+            { "compare_string": [ "ELECTROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PHOTOKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "PYROKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEKINETIC", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPATH", { "context_val": "school" } ] },
+            { "compare_string": [ "TELEPORTER", { "context_val": "school" } ] },
+            { "compare_string": [ "VITAKINETIC", { "context_val": "school" } ] }
+          ]
+        },
+        {
+          "math": [ "u_vitamin('vitamin_maintained_powers')", ">=", "( u_val('intelligence') / 4) + (u_bonus_concentration_powers)" ]
+        }
+      ]
+    },
+    "effect": [ { "run_eocs": "EOC_POWER_MAINTENANCE_CONCENTRATION_CHECK" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW",
+    "eoc_type": "EVENT",
+    "required_event": "spellcasting_finish",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        {
+          "or": [
+            { "compare_string": [ "teleport_blink", { "context_val": "spell" } ] },
+            { "compare_string": [ "teleport_phase", { "context_val": "spell" } ] },
+            { "compare_string": [ "teleport_transpose", { "context_val": "spell" } ] },
+            { "compare_string": [ "teleport_farstep", { "context_val": "spell" } ] }
+          ]
+        },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "not": { "u_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "As you come out of the darkness and the cold of the teleport, you feel the prickling sensation of watching eyes and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
+        "type": "bad"
+      },
+      { "u_add_effect": "tindrift", "duration": "1 day" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY",
+    "eoc_type": "EVENT",
+    "required_event": "character_casts_spell",
+    "condition": {
+      "and": [
+        { "u_has_trait": "TELEPORTER" },
+        { "compare_string": [ "teleport_gateway", { "context_val": "spell" } ] },
+        { "math": [ "u_monsters_nearby('mon_hound_tindalos', 'radius': 50)", ">", "0" ] },
+        { "not": { "u_has_flag": "TEEPSHIELD" } }
+      ]
+    },
+    "effect": [ { "queue_eocs": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_2", "time_in_future": 0 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TELEPORTER_THE_HOUNDS_FOLLOW_GATEWAY_2",
+    "//": "This is a separate EoC so you don't see the message until *after* you exit the Gateway",
+    "effect": [
+      {
+        "u_message": "As you come out of the darkness and the cold of the teleport, you feel the prickling sensation of watching eyes and see wisps of swirling fog in the corners of your vision.  They're still on your trail.",
+        "type": "bad"
+      },
+      { "u_add_effect": "tindrift", "duration": "1 day" }
+    ]
+  }
+]

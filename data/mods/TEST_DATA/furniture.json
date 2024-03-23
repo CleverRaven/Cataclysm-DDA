@@ -1,0 +1,142 @@
+[
+  {
+    "type": "furniture",
+    "id": "test_f_boltcut1",
+    "name": "Boltcut Test Furniture 1",
+    "description": "Boltcut furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "boltcut": { "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_boltcut2",
+    "name": "Boltcut Test Furniture 2",
+    "description": "Boltcut furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "boltcut": { "result": "test_f_boltcut1", "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_boltcut3",
+    "name": "Boltcut Test Furniture 1",
+    "description": "Boltcut furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "boltcut": { "duration": "80 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_hacksaw1",
+    "name": "Hacksaw Test Furniture 1",
+    "description": "Hacksaw furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "hacksaw": { "duration": "5 minutes" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_hacksaw2",
+    "name": "Hacksaw Test Furniture 2",
+    "description": "Hacksaw furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "hacksaw": { "result": "test_f_hacksaw1", "duration": "5 minutes" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_hacksaw3",
+    "name": "Hacksaw Test Furniture 1",
+    "description": "Hacksaw furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "hacksaw": { "duration": "80 minutes" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_oxytorch1",
+    "name": "Oxytorch Test Furniture 1",
+    "description": "Oxytorch furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "oxytorch": { "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_oxytorch2",
+    "name": "Oxytorch Test Furniture 2",
+    "description": "Oxytorch furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "oxytorch": { "result": "test_f_oxytorch1", "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_oxytorch3",
+    "name": "Oxytorch Test Furniture 1",
+    "description": "Oxytorch furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "oxytorch": { "duration": "80 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_prying1",
+    "name": "Prying Test Furniture 1",
+    "description": "Prying furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "prying": { "duration": "17 seconds", "prying_data": { "prying_nails": true } }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_bash_persist",
+    "name": "Bash persistence furniture",
+    "description": "Testing that bashing data does not persist when furniture changes",
+    "symbol": "f",
+    "color": "blue",
+    "bash": { "str_min": 4, "str_max": 100, "sound": "Tests testing!", "sound_fail": "Tests testing!" },
+    "move_cost_mod": 1,
+    "required_str": 8
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_eoc",
+    "name": "EoC Test Furniture 1",
+    "description": "Prying furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_test_f_eoc" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_test_f_eoc",
+    "effect": [
+      { "set_string_var": { "context_val": "this" }, "target_var": { "global_val": "this" } },
+      { "set_string_var": { "context_val": "pos" }, "target_var": { "global_val": "pos" } }
+    ]
+  }
+]

@@ -1,0 +1,133 @@
+[
+  {
+    "type": "snippet",
+    "category": "shelter_graffiti_snippets",
+    "text": [
+      { "id": "shelter_graffiti_psi_1", "text": "I can see now.  This place isn't safe.  Leave." },
+      {
+        "id": "shelter_graffiti_psi_2",
+        "text": "<given_name> come find me.  What you told me about, it's real.  I can do it too."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "general_graffiti_snippets",
+    "text": [
+      { "id": "general_graffiti_psi_1", "text": "VOS OMNES SPECULAMUR" },
+      {
+        "id": "general_graffiti_psi_2",
+        "text": "This is a detailed drawing of a pyramid with an eye in it.  Below is written \"We see now.\""
+      },
+      { "id": "general_graffiti_psi_3", "text": "We greet the new dawn" },
+      { "id": "general_graffiti_psi_4", "text": "Dawn is breaking" }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "newest_news",
+    "text": [
+      {
+        "id": "newest_news_psi_1",
+        "text": "BURNING MAN!  Eyewitnesses at the recent Bank Rhode Island fire in Cranston stated that they saw a man standing in the burning building, waving his arms as though directing the flames.  The fire raged out of control for nearly four hours before local firefighters were able to extinguish it, but never spread beyond the bank building.  No human remains were found in the debris; investigation is ongoing."
+      },
+      {
+        "id": "newest_news_psi_2",
+        "text": "THE END.  I have written the horoscopes column for almost a decade now but this is the first true prediction of the future I have written.  The end of the world is at hand, in weeks if not in days.  Take your loved ones, leave the cities, head for the hills.  The government will not save you.  This will be my last column."
+      },
+      {
+        "id": "newest_news_psi_3",
+        "text": "LOCAL MAN DISAPPEARS.  Jackson Townsend of Bangor was reported missing this morning.  According to his wife Julie, he was eating breakfast with his family before work when he suddenly looked up and then disappeared.  No foul play is suspected at this time."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "note",
+    "text": [
+      {
+        "id": "note_psi_1",
+        "text": "\"Amazing I lived through whatever the fuck happened to the sky but I should be glad.  Ever since then I've been in the best health of my life.  I got caught by a Z while foraging--fucking stupid of me I know--and it bit me.  I put it down and by the time I was done beating it to hell the wound had already stopped bleeding.  It's almost gone now and I won't even have a scar.  No infection, no fever, nothing.  Not sure what's going on but maybe I should go outside again.\""
+      },
+      { "id": "note_psi_2", "text": "\"I call the fire and it comes.  I send the fire and they burn.  Glorious.\"" },
+      {
+        "id": "note_psi_3",
+        "text": "\"I put that crystal I found under my pillow and all I got was nightmares.  Burning cities, the dead walking, horrible monsters, things kidnapping people.  I threw it away but it didn't help.  Now I have nightmares when I'm awake too.\""
+      },
+      {
+        "id": "note_psi_4",
+        "text": "\"Jumping is definitely the reason I'm still alive.  Feels awful but only for a moment.  When that thing grabbed me I bet it thought its dinner was made.  I kind of wish I could have seen the look on its face when I just disappeared.\""
+      },
+      {
+        "id": "note_psi_5",
+        "text": "\"Using the Force is way easier than going into the houses.  Stand out in a storm.  You'll thank me later, if you survive.\""
+      },
+      {
+        "id": "note_psi_6",
+        "text": "\"This is it, the next stage in human evolution.  The sheep weren't worthy and will fall before the ascension of Homo Superior.\""
+      },
+      {
+        "id": "note_psi_7",
+        "text": "\"All this meditating has finally paid off.  You need me to get you something, leave me a note at the old gas station south of Ashland on 93.  You'll have what you need in a couple days.\""
+      },
+      {
+        "id": "note_psi_8",
+        "text": "\"Those things, the ones that sound like people, it's not just their claws.  I saw them lift another guy clear off his feet from thirty feet away and take him apart while he screamed and screamed.  All the while saying shit like \"The store is closing in fifteen minutes.\"  I don't care what they have in those towers, I'm never going anywhere near them again.\""
+      },
+      {
+        "id": "note_psi_9",
+        "text": "\"I always knew there was something off about that office building on main.  I'm not going to check it out because downtown is overrun but I saw weird lights from the top floor two lights running.  Something's still happening up there.\""
+      },
+      {
+        "id": "note_psi_10",
+        "text": "\"Met some girl living out in the wilds west of town.  She snuck up perfectly behind me and held me at gunpoint until she was sure I wouldn't try to steal from her.  Once we had that cleared up, told me to skip north and avoid 90 because some assholes had set up a roadblock.  I asked her how she knew where I was going and she said, \"It was revealed to me in a dream.\"  I should have listened to her.\""
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_psych",
+    "text": [
+      {
+        "id": "lab_file_psych_psi_1",
+        "text": "Preliminary approval is given to use successful candidates from Project GREY DAWN who also have therapeutic training to provide counseling for staff.  Candidates must be paired with a non-candidate member of Counseling staff, who will review all of candidates' notes and session records; members of Counseling staff and candidate counselors are forbidden to be in the same room at any time."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_file_portal",
+    "text": [
+      {
+        "id": "lab_file_portal_psi_1",
+        "text": "Manned immersion dives to sub-planes with the PHAVIAN designation are to be overseen by at least one mathematician from Project COLD BELOW.  Immersion personnel must obey all instructions given by the mathematician, including collection of anomalous samples or aborting an in-progress dive."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_postit_portal",
+    "text": [
+      {
+        "name": "purple postit 1",
+        "id": "lab_postit_portal_psi_1",
+        "text": "When you collect the crystals, use sampling tongs.  Do not touch!"
+      },
+      {
+        "name": "purple postit 2",
+        "id": "lab_postit_portal_psi_2",
+        "text": "Do not calibrate to sub-plane 305PG.  It knows"
+      },
+      {
+        "name": "purple postit 3",
+        "id": "lab_postit_portal_psi_3",
+        "text": "The \"mathematician\" from upstairs wants to watch the immersion today.  Ugh"
+      },
+      {
+        "name": "purple postit 4",
+        "id": "lab_postit_portal_psi_4",
+        "text": "Accidentally touched a sample, now my head's all fuzzy"
+      }
+    ]
+  }
+]

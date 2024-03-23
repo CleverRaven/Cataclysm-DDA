@@ -1,0 +1,22 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "fresh_honeydew",
+    "name": { "str_sp": "fresh honeydew" },
+    "description": "Turgid, but still liquid honeydew, fresh from the… bug.",
+    "weight": "33 g",
+    "color": "green",
+    "symbol": "~",
+    "material": [ "honey" ],
+    "quench": 6,
+    "calories": 30,
+    "charges": 16,
+    "fun": 1,
+    "comestible_type": "FOOD",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "mutant_toxin", 3 ] ],
+    "//": "Liquid for milking flag, so more quench and volume and less toxins and fun per unit.",
+    "volume": "250 ml",
+    "phase": "liquid"
+  }
+]

@@ -1,0 +1,157 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "bunker_shop_g" ],
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  ||0||$$$$$$$$$$$$###  ",
+        "  |R==|   WW  WW   #>#  ",
+        "$$|R==|  WWW   WWW #-#  ",
+        "$ ||+||   W    W    ,$  ",
+        "$   ,,,,,,,,,,,,,,,,,$  ",
+        "$   ,   ww0||0|||ww ,$  ",
+        "$   ,  ^w^rr@@y|^^w ,$  ",
+        "$______ w^r.@@.|r^0 ,$  ",
+        "$______ |rr....|rr| ,$  ",
+        "$______ |||+|||||+||D|| ",
+        "$______ |...Owhh..|^^^| ",
+        "$______ |...Ownn..+^^r0 ",
+        "$______%%'...w....|^rr| ",
+        "$______%t'r..ww|..|rr.0 ",
+        "$______%%'rrr.....|...| ",
+        "$______ |^^^rrr...wwww| ",
+        "$______Fw^^^^^r..rw^^   ",
+        "#÷÷÷÷÷÷#wwwwww+wwww W   ",
+        " ______F D..r^^^D^  WWW ",
+        " ______  w..rr^^w    W  ",
+        " ______  ww000rww       "
+      ],
+      "palettes": [ "derelict_palette" ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": {
+        "y": "t_floor",
+        "#": "t_concrete_wall",
+        "%": "t_rock",
+        "t": "t_rock_floor",
+        "'": "t_rock_floor",
+        "$": "t_chainfence",
+        "-": "t_door_metal_c",
+        ">": "t_stairs_down",
+        "_": "t_railroad_rubble",
+        ",": "t_region_soil",
+        "÷": "t_door_metal_locked",
+        "F": "t_gates_mech_control_lab"
+      },
+      "furniture": { "t": "f_fireplace", "@": "f_bed", "y": "f_dresser" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "bunker_shop_b" ],
+    "object": {
+      "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "              ||||||||  ",
+        "              |.+...<|  ",
+        "              |.||||||  ",
+        "              |.|       ",
+        "            |||.|||     ",
+        "            |....x|||   ",
+        "            |.....-.|   ",
+        "            |.....|.|   ",
+        "            ||===||;|   ",
+        "            |jnnn.|.|   ",
+        "    |||||||||..h..+.|   ",
+        "    |;rrrrr;|wrrr.|||   ",
+        "  |||.......|..;..|     ",
+        "  |k+.rrrrr.+....n|     ",
+        "  |||.......|rqq.n|     ",
+        "    |;rrrrr;||||+||     ",
+        "    ||||||||||@@'m|     ",
+        "         |.;.+''''|     ",
+        "         |!ST|'oo'|     ",
+        "         ||||||||||     ",
+        "                        "
+      ],
+      "terrain": {
+        " ": "t_soil",
+        "<": "t_stairs_up",
+        ".": "t_thconc_floor",
+        ";": "t_thconc_floor_olight",
+        "+": "t_door_metal_c",
+        "-": "t_door_metal_locked",
+        "|": "t_concrete_wall",
+        "=": "t_reinforced_glass",
+        "'": "t_carpet_concrete_red",
+        "o": "t_carpet_concrete_red",
+        "m": "t_carpet_concrete_red",
+        "N": "t_carpet_concrete_red",
+        "@": "t_carpet_concrete_red",
+        "x": "t_atm"
+      },
+      "furniture": {
+        "w": "f_console_broken",
+        "k": "f_compact_ASRG_containment",
+        "r": "f_rack",
+        "j": "f_locker",
+        "@": "f_bed",
+        "m": "f_dresser",
+        "n": "f_table",
+        "N": "f_table",
+        "h": "f_chair",
+        "q": "f_sofa",
+        "o": "f_sofa",
+        "S": "f_sink",
+        "!": "f_shower"
+      },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": 16, "y": 13 },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_BUNKER_MERCHANT_misc",
+          "faction": "wasteland_scavengers",
+          "x": [ 14, 16 ],
+          "y": [ 14, 14 ]
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_BUNKER_MERCHANT_sell",
+          "faction": "wasteland_scavengers",
+          "x": [ 14, 16 ],
+          "y": [ 14, 14 ]
+        }
+      ],
+      "place_loot": [
+        { "group": "cash_register_random", "x": [ 14, 16 ], "y": 12 },
+        { "group": "book_military", "chance": 90, "repeat": [ 1, 4 ], "x": [ 14, 16 ], "y": 12 },
+        { "group": "mil_food_nodrugs", "chance": 90, "repeat": [ 5 ], "x": 13, "y": 17 },
+        { "group": "mil_food_nodrugs", "chance": 90, "repeat": [ 8, 16 ], "x": [ 6, 10 ], "y": 18 },
+        { "group": "ammo_rifle_milspec", "chance": 90, "repeat": 10, "x": [ 6, 10 ], "y": 16 },
+        { "group": "camping", "chance": 90, "repeat": 10, "x": [ 6, 10 ], "y": 14 },
+        { "group": "mil_armor", "chance": 90, "repeat": 5, "x": 17, "y": [ 16, 17 ] }
+      ],
+      "toilets": { "T": {  } },
+      "items": {
+        "j": { "item": "SUS_janitors_closet", "chance": 100 },
+        "T": { "item": "SUS_toilet", "chance": 100 },
+        "S": { "item": "SUS_kitchen_sink", "chance": 100 },
+        "@": { "item": "army_bed", "chance": 70 },
+        "o": { "item": "livingroom", "chance": 33 },
+        "'": { "item": "bedroom", "chance": 20 },
+        "m": { "item": "clothing_soldier_heavy_set", "chance": 100 },
+        "!": { "item": "shower", "chance": 50, "repeat": [ 1, 2 ] }
+      },
+      "place_npcs": [ { "class": "bunker_merchant", "x": 15, "y": 13 } ]
+    }
+  }
+]

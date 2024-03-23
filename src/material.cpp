@@ -4,14 +4,14 @@
 #include <iterator>
 #include <map>
 #include <set>
-#include <string>
 
 #include "assign.h"
+#include "calendar.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "item.h"
 #include "json.h"
-#include "string_id.h"
+#include "make_static.h"
 
 namespace
 {
@@ -34,6 +34,31 @@ const material_type &string_id<material_type>::obj() const
     return material_data.obj( *this );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<breathability_rating>( breathability_rating data )
+{
+    switch( data ) {
+        case breathability_rating::IMPERMEABLE:
+            return "IMPERMEABLE";
+        case breathability_rating::POOR:
+            return "POOR";
+        case breathability_rating::AVERAGE:
+            return "AVERAGE";
+        case breathability_rating::GOOD:
+            return "GOOD";
+        case breathability_rating::MOISTURE_WICKING:
+            return "MOISTURE_WICKING";
+        case breathability_rating::SECOND_SKIN:
+            return "SECOND_SKIN";
+        case breathability_rating::last:
+            break;
+    }
+    cata_fatal( "Invalid breathability" );
+}
+} // namespace io
+
 material_type::material_type() :
     id( material_id::NULL_ID() ),
     _bash_dmg_verb( to_translation( "damages" ) ),
@@ -53,30 +78,41 @@ static mat_burn_data load_mat_burn_data( const JsonObject &jsobj )
     return bd;
 }
 
-void material_type::load( const JsonObject &jsobj, const std::string & )
+void material_type::load( const JsonObject &jsobj, const std::string_view )
 {
     mandatory( jsobj, was_loaded, "name", _name );
 
-    mandatory( jsobj, was_loaded, "bash_resist", _bash_resist );
-    mandatory( jsobj, was_loaded, "cut_resist", _cut_resist );
-    mandatory( jsobj, was_loaded, "acid_resist", _acid_resist );
-    mandatory( jsobj, was_loaded, "elec_resist", _elec_resist );
-    mandatory( jsobj, was_loaded, "fire_resist", _fire_resist );
-    mandatory( jsobj, was_loaded, "bullet_resist", _bullet_resist );
+    if( jsobj.has_object( "resist" ) ) {
+        _res_was_loaded.clear();
+        JsonObject jo = jsobj.get_object( "resist" );
+        _resistances = load_resistances_instance( jo );
+        for( const JsonMember &jmemb : jo ) {
+            _res_was_loaded.emplace_back( jmemb.name() );
+        }
+    }
+
+    optional( jsobj, was_loaded, "conductive", _conductive );
     mandatory( jsobj, was_loaded, "chip_resist", _chip_resist );
     mandatory( jsobj, was_loaded, "density", _density );
 
+    optional( jsobj, was_loaded, "sheet_thickness", _sheet_thickness );
+
+    optional( jsobj, was_loaded, "repair_difficulty", _repair_difficulty );
+
+    optional( jsobj, was_loaded, "wind_resist", _wind_resist );
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
-    optional( jsobj, was_loaded, "freeze_point", _freeze_point );
+    optional( jsobj, was_loaded, "freezing_point", _freeze_point );
+
+    optional( jsobj, was_loaded, "breathability", _breathability, breathability_rating::IMPERMEABLE );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, itype_id::NULL_ID() );
     optional( jsobj, was_loaded, "edible", _edible, false );
     optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
-    optional( jsobj, was_loaded, "reinforces", _reinforces, false );
+    optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
 
     for( JsonArray pair : jsobj.get_array( "vitamins" ) ) {
         _vitamins.emplace( vitamin_id( pair.get_string( 0 ) ), pair.get_float( 1 ) );
@@ -95,7 +131,7 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     if( _burn_data.empty() ) {
         // If not specified, supply default
         mat_burn_data mbd;
-        if( _fire_resist <= 0 ) {
+        if( _resistances.type_resist( STATIC( damage_type_id( "heat" ) ) ) <= 0.f ) {
             mbd.burn = 1;
         }
         _burn_data.emplace_back( mbd );
@@ -104,10 +140,15 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "fuel_data", fuel );
 
     jsobj.read( "burn_products", _burn_products, true );
+}
 
-    optional( jsobj, was_loaded, "compact_accepts", _compact_accepts,
-              auto_flags_reader<material_id>() );
-    optional( jsobj, was_loaded, "compacts_into", _compacts_into, auto_flags_reader<itype_id>() );
+void material_type::finalize_all()
+{
+    material_data.finalize();
+    for( const material_type &mtype : material_data.get_all() ) {
+        material_type &mt = const_cast<material_type &>( mtype );
+        finalize_damage_map( mt._resistances.resist_vals );
+    }
 }
 
 void material_type::check() const
@@ -124,15 +165,28 @@ void material_type::check() const
     if( !item::type_is_defined( _repaired_with ) ) {
         debugmsg( "invalid \"repaired_with\" %s for %s.", _repaired_with.c_str(), id.c_str() );
     }
-    for( const material_id &ca : _compact_accepts ) {
-        if( !ca.is_valid() ) {
-            debugmsg( "invalid \"compact_accepts\" %s for %s.", ca.c_str(), id.c_str() );
+
+    if( _wind_resist && ( *_wind_resist > 100 || *_wind_resist < 0 ) ) {
+        debugmsg( "Wind resistance outside of range (100%% to 0%%, is %d%%) for %s.", *_wind_resist,
+                  id.str() );
+    }
+
+    if( _repair_difficulty && ( _repair_difficulty > 10 || _repair_difficulty < 0 ) ) {
+        debugmsg( "Repair difficulty out of skill range (0 to 10, is %d) for %s.", _repair_difficulty,
+                  id.str() );
+    }
+
+    for( const auto &dt : _resistances.resist_vals ) {
+        if( !dt.first.is_valid() ) {
+            debugmsg( "Invalid resistance type \"%s\" for material %s", dt.first.c_str(), id.c_str() );
         }
     }
-    for( const itype_id &ci : _compacts_into ) {
-        if( !item::type_is_defined( ci ) ||
-            !item( ci, calendar::turn_zero ).only_made_of( std::set<material_id> { id } ) ) {
-            debugmsg( "invalid \"compacts_into\" %s for %s.", ci.c_str(), id.c_str() );
+
+    for( const damage_type &dt : damage_type::get_all() ) {
+        bool type_defined =
+            std::find( _res_was_loaded.begin(), _res_was_loaded.end(),  dt.id ) != _res_was_loaded.end();
+        if( dt.material_required && !type_defined ) {
+            debugmsg( "material %s is missing required resistance for \"%s\"", id.c_str(), dt.id.c_str() );
         }
     }
 }
@@ -147,7 +201,7 @@ std::string material_type::name() const
     return _name.translated();
 }
 
-cata::optional<itype_id> material_type::salvaged_into() const
+std::optional<itype_id> material_type::salvaged_into() const
 {
     return _salvaged_into;
 }
@@ -157,19 +211,15 @@ itype_id material_type::repaired_with() const
     return _repaired_with;
 }
 
-int material_type::bash_resist() const
+float material_type::resist( const damage_type_id &dmg_type ) const
 {
-    return _bash_resist;
+    return _resistances.type_resist( dmg_type );
 }
 
-int material_type::cut_resist() const
+bool material_type::has_dedicated_resist( const damage_type_id &dmg_type ) const
 {
-    return _cut_resist;
-}
-
-int material_type::bullet_resist() const
-{
-    return _bullet_resist;
+    return std::find( _res_was_loaded.begin(), _res_was_loaded.end(),
+                      dmg_type ) != _res_was_loaded.end();
 }
 
 std::string material_type::bash_dmg_verb() const
@@ -182,35 +232,23 @@ std::string material_type::cut_dmg_verb() const
     return _cut_dmg_verb.translated();
 }
 
-std::string material_type::dmg_adj( int damage ) const
+std::string material_type::dmg_adj( int damage_level ) const
 {
-    if( damage <= 0 ) {
-        // not damaged (+/- reinforced)
-        return std::string();
+    if( damage_level <= 1 ) {
+        return std::string(); // not damaged
     }
-
-    // apply bounds checking
-    return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
-}
-
-int material_type::acid_resist() const
-{
-    return _acid_resist;
-}
-
-int material_type::elec_resist() const
-{
-    return _elec_resist;
-}
-
-int material_type::fire_resist() const
-{
-    return _fire_resist;
+    const int idx = std::clamp( damage_level - 2, 0, static_cast<int>( _dmg_adj.size() ) );
+    return _dmg_adj[idx].translated();
 }
 
 int material_type::chip_resist() const
 {
     return _chip_resist;
+}
+
+int material_type::repair_difficulty() const
+{
+    return _repair_difficulty;
 }
 
 float material_type::specific_heat_liquid() const
@@ -228,14 +266,66 @@ float material_type::latent_heat() const
     return _latent_heat;
 }
 
-int material_type::freeze_point() const
+float material_type::freeze_point() const
 {
     return _freeze_point;
 }
 
-int material_type::density() const
+float material_type::density() const
 {
     return _density;
+}
+
+bool material_type::is_conductive() const
+{
+    return _conductive;
+}
+
+bool material_type::is_valid_thickness( float thickness ) const
+{
+    // if this doesn't have an expected thickness return true
+    if( _sheet_thickness == 0 ) {
+        return true;
+    }
+
+    // float calcs so rounding need to be mindful of
+    return std::fmod( thickness, _sheet_thickness ) < .01f;
+}
+
+float material_type::thickness_multiple() const
+{
+    return _sheet_thickness;
+}
+
+int material_type::breathability_to_rating( breathability_rating breathability )
+{
+    // this is where the values for each of these exist
+    switch( breathability ) {
+        case breathability_rating::IMPERMEABLE:
+            return 0;
+        case breathability_rating::POOR:
+            return 30;
+        case breathability_rating::AVERAGE:
+            return 50;
+        case breathability_rating::GOOD:
+            return 80;
+        case breathability_rating::MOISTURE_WICKING:
+            return 110;
+        case breathability_rating::SECOND_SKIN:
+            return 140;
+        case breathability_rating::last:
+            break;
+    }
+    return 0;
+}
+int material_type::breathability() const
+{
+    return material_type::breathability_to_rating( _breathability );
+}
+
+std::optional<int> material_type::wind_resist() const
+{
+    return _wind_resist;
 }
 
 bool material_type::edible() const
@@ -253,9 +343,9 @@ bool material_type::soft() const
     return _soft;
 }
 
-bool material_type::reinforces() const
+bool material_type::uncomfortable() const
 {
-    return _reinforces;
+    return _uncomfortable;
 }
 
 fuel_data material_type::get_fuel_data() const
@@ -271,16 +361,6 @@ const mat_burn_data &material_type::burn_data( size_t intensity ) const
 const mat_burn_products &material_type::burn_products() const
 {
     return _burn_products;
-}
-
-const material_id_list &material_type::compact_accepts() const
-{
-    return _compact_accepts;
-}
-
-const mat_compacts_into &material_type::compacts_into() const
-{
-    return _compacts_into;
 }
 
 void materials::load( const JsonObject &jo, const std::string &src )
@@ -301,17 +381,6 @@ void materials::reset()
 material_list materials::get_all()
 {
     return material_data.get_all();
-}
-
-material_list materials::get_compactable()
-{
-    material_list all = get_all();
-    material_list compactable;
-    std::copy_if( all.begin(), all.end(),
-    std::back_inserter( compactable ), []( const material_type & mt ) {
-        return !mt.compacts_into().empty();
-    } );
-    return compactable;
 }
 
 std::set<material_id> materials::get_rotting()
@@ -342,13 +411,12 @@ void fuel_data::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "perpetual", is_perpetual_fuel );
 }
 
-void fuel_data::deserialize( JsonIn &jsin )
+void fuel_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }
 
-bool fuel_explosion_data::is_empty()
+bool fuel_explosion_data::is_empty() const
 {
     return explosion_chance_cold == 0 && explosion_chance_hot == 0 && explosion_factor == 0.0f &&
            !fiery_explosion && fuel_size_factor == 0.0f;
@@ -363,8 +431,7 @@ void fuel_explosion_data::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "fiery", fiery_explosion );
 }
 
-void fuel_explosion_data::deserialize( JsonIn &jsin )
+void fuel_explosion_data::deserialize( const JsonObject &jo )
 {
-    const JsonObject &jo = jsin.get_object();
     load( jo );
 }

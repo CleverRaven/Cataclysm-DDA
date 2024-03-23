@@ -1,4 +1,4 @@
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 #include <initializer_list>
 #include <iterator>

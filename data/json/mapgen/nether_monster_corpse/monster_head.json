@@ -1,0 +1,465 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_neck",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######",
+        "#######    BB    #######",
+        "#######@   BB   @#######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  },
+      "place_monster": [ { "monster": "mon_nether_fish", "x": [ 11 ], "y": [ 0, 23 ], "chance": 100, "pack_size": [ 2, 4 ] } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "nm_cartilage_web", 50 ] ], "x": [ 7 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "null", 50 ], [ "nm_cartilage_web", 50 ] ], "x": [ 7 ], "y": [ 0, 23 ] },
+        { "chunks": [ [ "null", 50 ], [ "nm_cartilage_web", 50 ] ], "x": [ 7 ], "y": [ 0, 23 ] },
+        {
+          "chunks": [ [ "nm_gas_emit1", 25 ], [ "nm_gas_emit2", 25 ], [ "nm_gas_emit3", 25 ], [ "nm_gas_emit4", 25 ] ],
+          "x": [ 10 ],
+          "y": [ 0, 4 ]
+        },
+        {
+          "chunks": [ [ "nm_gas_emit1", 25 ], [ "nm_gas_emit2", 25 ], [ "nm_gas_emit3", 25 ], [ "nm_gas_emit4", 25 ] ],
+          "x": [ 10 ],
+          "y": [ 7, 11 ]
+        },
+        {
+          "chunks": [ [ "nm_gas_emit1", 25 ], [ "nm_gas_emit2", 25 ], [ "nm_gas_emit3", 25 ], [ "nm_gas_emit4", 25 ] ],
+          "x": [ 10 ],
+          "y": [ 13, 17 ]
+        },
+        {
+          "chunks": [ [ "nm_gas_emit1", 25 ], [ "nm_gas_emit2", 25 ], [ "nm_gas_emit3", 25 ], [ "nm_gas_emit4", 25 ] ],
+          "x": [ 10 ],
+          "y": [ 19, 23 ]
+        },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 4 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 6 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 8 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 10 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 12 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 14 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 16 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 20 },
+        { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 22 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_neck_center",
+    "weight": 150,
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#################### #  ",
+        "###################  ###",
+        "############# ###   ####",
+        "############     # #####",
+        "############ ###########",
+        "###############   ######",
+        "#############   #   ####",
+        "############   #### ####",
+        "####    ###  # #### ####",
+        "     ##     ## ####     ",
+        "####  ######## #########",
+        "##### ########    ######",
+        "#####          ###      ",
+        "############ ##### #####",
+        "#########  #    ##  ####",
+        "#########  #######   ###",
+        "###           ##  ## ###",
+        "    ### #####        ###",
+        "#######     #######     ",
+        "########################",
+        "########################"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": {  }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "corpse_head_neck_r", "corpse_head_neck_center", "corpse_head_neck_l" ] ],
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "@BB                                BB                                BB@",
+        "@BB                               BBBB                               BB@",
+        "@#B                             BBBBBBBB                             BB@",
+        "@BB                           BBBBBBBBBBBB                           B#@",
+        "@BB                          BBBBBBBBBBBBBB                          B#@",
+        "@#B                         BBB          BBB                         B#@",
+        "@#B                        BBB            BBB                        B#@",
+        "@#B                       BBB              BBB                       B#@",
+        "@#B                      BBB                BBB                      B#@",
+        "@#B                     BBB                  BBB                     B#@",
+        "@#B                    BBB         ##         BBB                    BB@",
+        "@#B                   BBB         ####         BBB                   B#@",
+        "@#B                  BBB         ######         BBB                  B#@",
+        "@#B                 BBB         ########         BBB                 B#@",
+        "@#B                BBB         ##########         BBB                B#@",
+        "@#B               BBB         ############         BBB               B#@",
+        "@#BB             BBB         ##############         BBB             BB#@",
+        "@#BBB           BBB         ################         BBB           BBB#@",
+        "@#  BBB        BBB         #######@@@@#######         BBB        BBB  #@",
+        "#@#   BBB     BBB         #######@@@@@@#######         BBB     BBB   #@#",
+        "##@#    BBB  BBB         #######@@@@@@@@#######         BBB  BBB    #@##",
+        "###@#    BBBBBB        ########@@@@@@@@@@########        BBBBBB    #@###",
+        "#####@@   BBBB   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   BBBB   @@#####",
+        "#######@@  BB  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  BB  @@#######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 3 ] ] },
+      "furniture": {
+        " ": [
+          [ "f_null", 800 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 40 ],
+          [ "f_nm_nether_grass_tall", 30 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "corpse_head_neck_r_decap", "corpse_head_neck_center_decap", "corpse_head_neck_l_decap" ] ],
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "XXXXXXXXXXX#@xxXxXXXXX@@XXXXXXXXXXXXXXXXXXXXXxX#@xXXXXXXXXXXXXXXXXXXXXXX",
+        "XX@XXXxXxXX#@xxXxXXxXXX@@@xXXXXXXXBXXXXxx###XXX#@xXX#####XXX@@@@@@@XXX@X",
+        "XX@B@@@xxXxx@x XxXXxxxX####XXXXxxxxXXXxBxxxxXXXx@xXxx@@xx XXxXx###xXXX@X",
+        "X@@BXxXxxXxxxxxxxXXx xxxxxxxXXxBBxxXXXxxBBxxxXXxxxXxxxxxxXXXxxxXXXxxXX@X",
+        "X@XXXxxxxxx xxxxxxxxxxxx xxxXXxBBxxxBXxxBBxxxXXxxxxxxxxxxxxx xxxxXxXXX@X",
+        "@#XXBx#@@@@xxxxxx xx xxxx B  BB B  xxxxx BBB xxxxx  x xxxXxxxxxxxx@xXX@@",
+        "@#XXBx##x xxxxx xxxxx   x  BBBB x   xx  B BBB   x x    xx xx##xx x@xXXX@",
+        "@#XXBxxxxxx   xxxxxx  x   BBB      xxxx  xBBBBx       xxxxxx##xxxx@xxB#@",
+        "@#XXxxx xxx  xxx  xx     BBB   x    xx      BBB     x xxxx xxxxxxx@xxx#@",
+        "@#B xx  xxx    x      x BBB             x    BBB      xx   xxx   xxxxB#@",
+        "@#Bxxxx x  x   x       BBB         ##         BBB        x   x  xxx xxB@",
+        "@#Bxx xx     x        BBB         ####         BBB       x     xxxxxxB#@",
+        "@#Bxxxxxxxx      x   BBB         ######         BBB  x       x x x xxB#@",
+        "@#Bxxx  xx  x       BBB         ########         BBB                xB#@",
+        "@#Bxx  x           BBB         ##########         BBB            x  xB#@",
+        "@#Bxx x           BBB         ############         BBB               B#@",
+        "@#BB             BBB         ##############         BBB             BB#@",
+        "@#BBB           BBB         ################         BBB     x     BBB#@",
+        "@#  BBB        BBB         #######@@@@#######         BBB        BBB  #@",
+        "#@#   BBB     BBB         #######@@@@@@#######         BBB     BBB   #@#",
+        "##@#    BBB  BBB         #######@@@@@@@@#######         BBB  BBB    #@##",
+        "###@#    BBBBBB        ########@@@@@@@@@@########        BBBBBB    #@###",
+        "#####@@   BBBB   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@   BBBB   @@#####",
+        "#######@@  BB  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  BB  @@#######"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 3 ] ] },
+      "furniture": {
+        " ": [
+          [ "f_null", 800 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 40 ],
+          [ "f_nm_nether_grass_tall", 30 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_head",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 3 ] ] },
+      "furniture": {
+        " ": [
+          [ "f_null", 800 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 40 ],
+          [ "f_nm_nether_grass_tall", 30 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      },
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 50 ], [ "nm_portal_incursion1", 35 ], [ "nm_portal_incursion2", 15 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        },
+        {
+          "chunks": [ [ "null", 40 ], [ "nm_plant_incursion1", 20 ], [ "nm_plant_incursion2", 20 ], [ "nm_plant_incursion3", 20 ] ],
+          "x": [ 6, 17 ],
+          "y": [ 6, 17 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_under_brain",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "           BB           "
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 3 ] ] },
+      "furniture": {
+        " ": [
+          [ "f_null", 800 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 40 ],
+          [ "f_nm_nether_grass_tall", 30 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_brain",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "           BB           ",
+        "           BB           ",
+        "           BB           ",
+        "         BBBBBB   BB    ",
+        "    B   BBBBBBBB  B     ",
+        "    BB BBCCCCCCBBBB     ",
+        "     BBBCCCCCCCCBB      ",
+        "     BBCCCCCCCCCCBB     ",
+        "  B BBCCCCCCCCCCCCBB    ",
+        "  BBBCCCCCCCCCCCCCCBB BB",
+        "   BBCCCCCBBBBCCCCCBBBB ",
+        "   BBCCCCCBPPBCCCCCBB   ",
+        "  BBBCCCCCBPPBCCCCCBB   ",
+        "   BBCCCCCBBBBCCCCCBB   ",
+        "  BBBCCCCCCBBCCCCCCBBBB ",
+        "  B BBCCCCCBBCCCCCBB  BB",
+        " BBB BBCCCCBBCCCCBB     ",
+        "   B  BBCCCBBCCCBB      ",
+        "       BBCCBBCCBBBBB    ",
+        "       BBBBBBBBB   BB   ",
+        "      B  BBBBBB         ",
+        "           BB           ",
+        "            BB          ",
+        "                        "
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { "C": "t_nm_brain" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "corpse_head_lcorner", "corpse_head_edge", "corpse_head_rcorner" ] ],
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "@B                                                                    B@",
+        "@B                                                                    B@",
+        "@B                                                                    B@",
+        "@BB                                                                  B#@",
+        "@#B                                                                  B#@",
+        "@#B                                                                  B#@",
+        "#@BB                                                                BB#@",
+        "#@#B                                                                B#@#",
+        "#@#B                                                                B#@#",
+        "#@#BB                                                              BB#@#",
+        "X#@#B                                                              B#@#X",
+        "X#@#BB                                                            BB#@#X",
+        "X##@#B                                                            B#@##X",
+        "XX#@#BB                                                          BB#@#XX",
+        "XX##@#BB                                                        BB#@##XX",
+        "XXX##@#BB                                                      BB#@##XXX",
+        "XXXX##@#BB                                                    BB#@##XXXX",
+        "XXXXX##@#BB                                                  BB#@##XXXXX",
+        "XXXXXX##@#BBB                                              BBB#@##XXXXXX",
+        "XXXXXXX##@@#BBB                                          BBB#@@##XXXXXXX",
+        "XXXXXXXX###@@#BBBB                                    BBBB#@@###XXXXXXXX",
+        "XXXXXXXXXX###@@@#BBBB   BBBBBBBBBBBBBBBBBBBBBBBB   BBBB#@@@###XXXXXXXXXX",
+        "XXXXXXXXXXXX####@@@#BBBBB###BB#####BBB####BBB##BBBBB#@@@####XXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXX####@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@####XXXXXXXXXXXXXXX"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 3 ] ] },
+      "furniture": {
+        " ": [
+          [ "f_null", 800 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 40 ],
+          [ "f_nm_nether_grass_tall", 30 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "corpse_head_fin",
+    "object": {
+      "fill_ter": "t_nm_floor_flesh",
+      "rows": [
+        "@#B                  B#@",
+        "@#B                  B#@",
+        "@#B                  B#@",
+        "@#B                  B#@",
+        "@#B                  B#@",
+        "@#BB                BB#@",
+        "#@#BB              BB#@#",
+        "##@#BB            BB#@##",
+        "###@#BB          BB#@###",
+        "####@#BB        BB#@####",
+        "#####@#BB      BB#@#####",
+        "XX####@#BB    BB#@####XX",
+        "XXXXX##@#BB  BB#@###XXXX",
+        "XXXXX##@##BBBB##@##XXXXX",
+        "XXXXXX##@#BBBB#@##XXXXXX",
+        "XXXXXXX##@#BB##@##XXXXXX",
+        "XXXXXXX##@####@##XXXXXXX",
+        "XXXXXXXX##@@@@##XXXXXXXX",
+        "XXXXXXXXXX####XXXXXXXXXX",
+        "XXXXXXXXXXX##XXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXXXXXXXXXXXX"
+      ],
+      "palettes": [ "nether_monster_palette" ],
+      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 3 ] ] },
+      "furniture": {
+        " ": [
+          [ "f_null", 800 ],
+          [ "f_nm_tube", 20 ],
+          [ "f_nm_tube_emitter", 13 ],
+          [ "f_nm_nether_lily", 5 ],
+          [ "f_nm_nether_grass", 40 ],
+          [ "f_nm_nether_grass_tall", 30 ],
+          [ "f_nm_nether_patchwork", 10 ],
+          [ "f_nm_nether_lichen", 10 ]
+        ]
+      }
+    }
+  }
+]

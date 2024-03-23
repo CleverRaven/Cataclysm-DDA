@@ -1,0 +1,156 @@
+[
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_weapon&ammo_collection",
+    "//": "This file provides some milspec loot groups for use in military armament rooms - part is deployed and ready to use (or already used), and part is stored. This was made to make some consistency and order in arsenals.",
+    "//2": "the list of armament picked from <https://en.wikipedia.org/wiki/List_of_equipment_of_the_United_States_Army#Small_arms>. If you have a better source you're welcome.",
+    "//3": "i tried to make them flexible enough, so each part can be reused, without making 10 different copies for each using",
+    "//4": "each file contains (in basic): an ammo can with weapon of one caliber, a gun with its mags, a group of these guns, the group of few gun groups (gun&mags), gun&mags + ammo (gun&ammo), and gun&ammo + empty cans (gun&mags&cans).  Then each of them can be united in group of similar weapons, so we can generate, for example, group from only guns, only ammo or, as the very first idea, the 'deployed' group with a bit of ammo and a few guns of same caliber.",
+    "//5": "this one contain a group of weapon and ammo that kinda 'deployed', in term 'there is a stuff that common soldier will use in operation'",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_group_armament" },
+      { "group": "arsenal_mics_group", "prob": 70 },
+      { "group": "grenade_can_pa120_grenades_part", "prob": 5 },
+      { "group": "c4_box_part", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_small_arms_arsenal_weapon&ammo_collection",
+    "subtype": "collection",
+    "items": [
+      { "group": "milspec_arsenal_group_guns&mags&cans" },
+      { "group": "arsenal_mics_group", "prob": 70 },
+      { "group": "grenade_can_pa120_grenades_part", "prob": 5 },
+      { "group": "c4_box_part", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_armament",
+    "items": [
+      { "group": "milspec_arsenal_group_guns&mags&cans", "prob": 100 },
+      { "group": "milspec_arsenal_group_heavy_guns&mags&cans", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_guns&mags&cans",
+    "//": "probability is pure wild guess, that rely on <https://www.battleorder.org/usa-rifleco-ibct-2020> and with some own thouhts",
+    "items": [
+      { "group": "milspec_arsenal_9mm_gun&mags&cans", "prob": 96 },
+      { "group": "milspec_arsenal_9mm_sub_gun&mags&cans", "prob": 100 },
+      { "group": "milspec_arsenal_shot_gun&mags&cans", "prob": 150 },
+      { "group": "milspec_arsenal_223_pouch_gun&mags&cans", "prob": 1000 },
+      { "group": "milspec_arsenal_223_mg_gun&mags&cans", "prob": 260 },
+      { "group": "milspec_arsenal_300blk_gun&mags&cans", "prob": 100 },
+      { "group": "milspec_arsenal_300_sniper_gun&mags&cans", "prob": 95 },
+      { "group": "milspec_arsenal_338lapua_sniper_gun&mags&cans", "prob": 60 },
+      { "group": "milspec_arsenal_308_sniper_gun&mags&cans", "prob": 95 },
+      { "group": "milspec_arsenal_308_mg_gun&mags&cans", "prob": 192 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_heavy_guns&mags&cans",
+    "items": [
+      { "group": "milspec_arsenal_50bmg_sniper_gun&mags&cans", "prob": 60 },
+      { "group": "milspec_arsenal_50_mg_gun&mags&cans", "prob": 192 },
+      { "group": "milspec_arsenal_40x46_gun&mags&cans", "prob": 192 },
+      { "group": "milspec_arsenal_40x53_gun&mags&cans", "prob": 50 },
+      { "group": "milspec_arsenal_66_gun&mags", "prob": 30 },
+      { "group": "milspec_arsenal_84x246_gun&mags&cans", "prob": 192 },
+      { "group": "milspec_arsenal_atgm_gun", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_only_ammo",
+    "items": [
+      { "group": "milspec_arsenal_group_ammo_full", "prob": 100 },
+      { "group": "milspec_arsenal_group_ammo_heavy_full", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_ammo_full",
+    "//1": "this one contain a group of ammo that can have a common ammo rack",
+    "//2": "between the same and double as much as in gun&mags",
+    "items": [
+      { "group": "ammo_can_9mm_any_full", "count": [ 3, 6 ], "prob": 96 },
+      { "group": "ammo_can_shot_any_full", "count": [ 3, 6 ], "prob": 150 },
+      { "group": "ammo_can_223_any_full", "count": [ 3, 6 ], "prob": 1000 },
+      { "group": "ammo_can_223_mg_any_full", "count": [ 3, 6 ], "prob": 260 },
+      { "group": "ammo_can_300AAC_any_full", "count": [ 3, 6 ], "prob": 100 },
+      { "group": "ammo_can_300_full", "count": [ 3, 6 ], "prob": 95 },
+      { "group": "ammo_can_338_any_full", "count": [ 3, 6 ], "prob": 60 },
+      { "group": "ammo_can_308_any_full", "count": [ 3, 6 ], "prob": 95 },
+      { "group": "ammo_can_308_mg_any_full", "count": [ 3, 6 ], "prob": 192 },
+      { "group": "ammo_can_50_any_full", "count": [ 3, 6 ], "prob": 30 },
+      { "group": "ammo_can_50_mg_any_full", "count": [ 2, 4 ], "prob": 90 },
+      { "group": "ammo_can_40x46mm_m433_full", "count": [ 3, 6 ], "prob": 192 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_ammo_heavy_full",
+    "items": [
+      { "group": "ammo_can_belt40mm_full", "count": [ 2, 4 ], "prob": 50 },
+      { "group": "ammo_box_84x246mm_any_full", "count": [ 3, 6 ], "prob": 192 },
+      { "item": "LAW_Packed", "count": [ 2, 6 ], "prob": 30 },
+      { "item": "atgm_heat", "count": [ 2, 6 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_only_guns",
+    "items": [ { "group": "milspec_arsenal_group_guns", "prob": 100 }, { "group": "milspec_arsenal_group_heavy", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_guns",
+    "items": [
+      { "group": "milspec_arsenal_9mm_gun&mags", "count": [ 1, 2 ], "prob": 96 },
+      { "group": "milspec_arsenal_9mm_sub_gun&mags", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "milspec_arsenal_shot_gun&mags", "count": [ 1, 2 ], "prob": 150 },
+      { "group": "milspec_arsenal_223_gun&mags", "count": [ 1, 2 ], "prob": 1000 },
+      { "group": "milspec_arsenal_223_mg_gun&mags", "count": [ 1, 2 ], "prob": 260 },
+      { "group": "milspec_arsenal_300blk_gun&mags", "count": [ 1, 2 ], "prob": 100 },
+      { "group": "milspec_arsenal_300_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
+      { "group": "milspec_arsenal_338lapua_sniper_gun&mags", "count": [ 1, 2 ], "prob": 60 },
+      { "group": "milspec_arsenal_308_sniper_gun&mags", "count": [ 1, 2 ], "prob": 95 },
+      { "group": "milspec_arsenal_308_mg_gun&mags", "count": [ 1, 2 ], "prob": 192 },
+      { "group": "milspec_arsenal_50bmg_sniper_gun&mags", "count": [ 1, 2 ], "prob": 30 },
+      { "group": "milspec_arsenal_50_mg_gun&mags", "count": [ 1, 2 ], "prob": 90 },
+      { "group": "milspec_arsenal_40x46_gun&mags", "count": [ 1, 2 ], "prob": 192 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_group_heavy",
+    "items": [
+      { "group": "milspec_arsenal_40x53_gun&mags", "count": [ 1, 2 ], "prob": 50 },
+      { "group": "milspec_arsenal_66_gun&mags", "count": [ 1, 2 ], "prob": 30 },
+      { "group": "milspec_arsenal_84x246_gun&mags", "count": [ 1, 2 ], "prob": 192 },
+      { "group": "milspec_arsenal_atgm_gun", "count": [ 1, 2 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_only_guns_or_ammo",
+    "items": [
+      { "group": "milspec_arsenal_group_only_guns", "prob": 100 },
+      { "group": "milspec_arsenal_group_only_ammo", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "milspec_arsenal_only_guns_or_ammo_or_armor",
+    "items": [
+      { "group": "milspec_arsenal_group_only_guns", "prob": 100 },
+      { "group": "arsenal_armor+plates", "prob": 70 },
+      { "group": "milspec_arsenal_group_only_ammo", "prob": 10 }
+    ]
+  }
+]

@@ -13,8 +13,7 @@
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 8 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   },
   {
     "result": "460_rowland",
@@ -30,7 +29,6 @@
       [ [ "lgpistol_primer", 1 ] ],
       [ [ "gunpowder_magnum_pistol", 8 ] ],
       [ [ "copper", 2 ] ]
-    ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    ]
   }
 ]

@@ -1,0 +1,105 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmsw_wood_palette",
+    "terrain": {
+      ".": "t_floor",
+      "b": "t_floor",
+      "r": "t_floor",
+      "t": "t_floor",
+      "#": "t_floor",
+      "c": "t_floor",
+      "H": "t_floor",
+      "O": "t_floor",
+      "~": "t_swater_sh",
+      "o": "t_window_no_curtains",
+      "w": "t_wall_wood",
+      "+": "t_door_c"
+    },
+    "furniture": {
+      ".": "f_clear",
+      "b": "f_bench",
+      "r": "f_rack",
+      "t": "f_table",
+      "#": "f_stool",
+      "c": "f_counter",
+      "H": "f_wood_keg",
+      "O": "f_fvat_empty",
+      "~": "f_clear",
+      "o": "f_clear",
+      "w": "f_clear",
+      "+": "f_clear"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_saltpan_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwowww",
+        "w.....w",
+        "w.c.c.w",
+        "o.~t~.o",
+        "w.~#~.w",
+        "w.....w",
+        "www+www"
+      ],
+      "palettes": [ "fbmsw_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_saltpan_wood_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_saltpan_wood" ], "x": 14, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_shack_wood",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  woww",
+        " wwrrw",
+        " +..to",
+        " orrrw",
+        " wwoww"
+      ],
+      "palettes": [ "fbmsw_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_shack_wood_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_shack_wood" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_brewery0_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "w.rrr.w",
+        "oH....+",
+        "wO....w",
+        "o.....w",
+        "w.....w",
+        "wwwwwww"
+      ],
+      "palettes": [ "fbmsw_wood_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_brewery0_wood_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_wood" ], "x": 3, "y": 14 } ] }
+  }
+]

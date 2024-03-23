@@ -1,0 +1,67 @@
+[
+  {
+    "type": "weakpoint_set",
+    "id": "wps_bird_body",
+    "weakpoints": [
+      {
+        "name": "the head",
+        "armor_mult": { "physical": 0.75 },
+        "crit_mult": { "all": 1.1 },
+        "difficulty": { "melee": 2, "ranged": 2 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "effects": [
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 5,
+            "message": "The %s is stunned!",
+            "damage_required": [ 1, 10 ]
+          },
+          {
+            "effect": "stunned",
+            "duration": [ 1, 2 ],
+            "chance": 25,
+            "message": "The %s is stunned!",
+            "damage_required": [ 11, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the belly",
+        "armor_mult": { "physical": 0.5 },
+        "crit_mult": { "all": 1.2 },
+        "difficulty": { "melee": 4, "ranged": 1 },
+        "coverage_mult": { "ranged": 0.75 },
+        "coverage": 3,
+        "required_effects": [ "downed" ]
+      },
+      {
+        "name": "the eye",
+        "armor_mult": { "physical": 0 },
+        "coverage": 1,
+        "crit_mult": { "all": 1.25 },
+        "coverage_mult": { "ranged": 0.5 },
+        "difficulty": { "point": 10, "broad": 10 },
+        "effects": [
+          { "effect": "blind", "duration": [ 1, 2 ], "chance": 25, "message": "The %s is blinded!", "damage_required": [ 1, 25 ] },
+          {
+            "effect": "blind",
+            "permanent": true,
+            "chance": 30,
+            "message": "The %s's eyes are obliterated!",
+            "damage_required": [ 26, 100 ]
+          }
+        ]
+      },
+      {
+        "name": "the wing",
+        "crit_mult": { "all": 0.75 },
+        "difficulty": { "ranged": 1, "melee": 2 },
+        "coverage_mult": { "point": 0.75 },
+        "effects": [ { "effect": "downed", "chance": 25, "message": "The %s is knocked down!", "damage_required": [ 15, 100 ] } ],
+        "coverage": 8
+      }
+    ]
+  }
+]

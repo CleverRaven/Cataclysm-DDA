@@ -4,6 +4,7 @@
 #include <exception>
 
 #include "cata_assert.h"
+#include "cata_utility.h"
 
 char cata::string_formatter::consume_next_input()
 {
@@ -39,14 +40,14 @@ bool cata::string_formatter::has_digit() const
     return c >= '0' && c <= '9';
 }
 
-cata::optional<int> cata::string_formatter::read_argument_index()
+std::optional<int> cata::string_formatter::read_argument_index()
 {
     const char c = get_current_input();
     // can't use has_digit because '0' is not allowed as first character
     if( c >= '1' && c <= '9' ) {
         const size_t pos = format.find_first_not_of( "012345678", current_index_in_format + 1 );
         if( pos == std::string::npos || format[pos] != '$' ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         const int result = parse_integer() - 1; // arguments are 1-based
         // We already know this is true because of the `find_first_not_of` check above.
@@ -55,11 +56,11 @@ cata::optional<int> cata::string_formatter::read_argument_index()
         cata_assert( had_next );
         return result;
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
-int cata::string_formatter::parse_integer( )
+int cata::string_formatter::parse_integer()
 {
     int result = 0;
     while( has_digit() ) {
@@ -69,7 +70,7 @@ int cata::string_formatter::parse_integer( )
     return result;
 }
 
-cata::optional<int> cata::string_formatter::read_number_or_argument_index()
+std::optional<int> cata::string_formatter::read_number_or_argument_index()
 {
     if( consume_next_input_if( '*' ) ) {
         if( !has_digit() ) {
@@ -84,27 +85,28 @@ cata::optional<int> cata::string_formatter::read_number_or_argument_index()
     while( has_digit() ) {
         current_format.push_back( consume_next_input() );
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<int> cata::string_formatter::read_width()
+std::optional<int> cata::string_formatter::read_width()
 {
     return read_number_or_argument_index();
 }
 
-cata::optional<int> cata::string_formatter::read_precision()
+std::optional<int> cata::string_formatter::read_precision()
 {
     if( !consume_next_input_if( '.' ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     current_format.push_back( '.' );
     return read_number_or_argument_index();
 }
 
-void cata::string_formatter::throw_error( const std::string &msg ) const
+void cata::string_formatter::throw_error( const std::string_view msg ) const
 {
-    throw std::runtime_error( msg + " at: \"" + format.substr( 0,
-                              current_index_in_format ) + "|" + format.substr( current_index_in_format ) + "\"" );
+    throw std::runtime_error(
+        str_cat( msg, " at: \"", format.substr( 0, current_index_in_format ), "|",
+                 format.substr( current_index_in_format ), "\"" ) );
 }
 
 std::string cata::handle_string_format_error()

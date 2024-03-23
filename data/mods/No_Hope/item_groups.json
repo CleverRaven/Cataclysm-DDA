@@ -1,0 +1,344 @@
+[
+  {
+    "id": "clothing_soldier_set_no_hope",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_military_no_hope" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 60 },
+      { "item": "helmet_army", "prob": 60 },
+      { "item": "gloves_tactical", "prob": 60 },
+      { "item": "ballistic_vest_esapi", "prob": 20 },
+      { "item": "molle_pack", "prob": 60 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5 },
+          { "item": "goggles_ir", "prob": 5 }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_soldier_winter_set_no_hope",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Winter set of clothes and combat gear worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_military_winter_no_hope" },
+      { "item": "elbow_pads", "prob": 10 },
+      { "item": "knee_pads", "prob": 60 },
+      { "collection": [ { "item": "helmet_army" }, { "item": "helmet_liner" } ], "prob": 60 },
+      { "collection": [ { "item": "gloves_liner", "prob": 20 }, { "item": "winter_gloves_army" } ], "prob": 60 },
+      { "item": "ballistic_vest_esapi", "prob": 20 },
+      { "item": "molle_pack", "prob": 60 },
+      { "group": "clothing_tactical_leg", "prob": 15 },
+      {
+        "distribution": [
+          { "group": "clothing_glasses", "prob": 60 },
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 5 },
+          { "item": "goggles_ir", "prob": 5 }
+        ],
+        "prob": 20
+      },
+      { "group": "clothing_watch", "prob": 5 }
+    ]
+  },
+  {
+    "id": "clothing_military_no_hope",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Standard (non-winter) set of clothes worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_soldier_shirt", "prob": 90 },
+      { "item": "jacket_army", "prob": 70 },
+      { "item": "pants_army", "prob": 80 },
+      { "item": "webbing_belt", "prob": 50 },
+      { "distribution": [ { "item": "socks", "prob": 95 }, { "item": "socks_wool", "prob": 5 } ], "prob": 90 },
+      { "item": "boots_combat", "prob": 70 },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clothing_military_winter_no_hope",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Winter set of clothes worn by soldiers and paramilitary forces.",
+    "items": [
+      { "group": "clothing_soldier_shirt", "prob": 90 },
+      { "item": "winter_jacket_army", "prob": 70 },
+      { "item": "winter_pants_army", "prob": 80 },
+      { "item": "webbing_belt", "prob": 50 },
+      { "distribution": [ { "item": "socks", "prob": 10 }, { "item": "socks_wool", "prob": 90 } ] },
+      { "item": "boots_combat", "prob": 70 },
+      {
+        "collection": [ { "distribution": [ { "item": "balclava", "prob": 90 }, { "item": "balaclava_cut_resistant", "prob": 10 } ] } ],
+        "prob": 25
+      },
+      {
+        "distribution": [
+          { "collection": [ { "item": "sports_bra" }, { "item": "boy_shorts" } ] },
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "nohope_fuel_jp8",
+    "items": [
+      { "item": "jp8", "prob": 70, "charges-min": 0, "charges-max": 5000, "container-item": "jerrycan" },
+      { "item": "jp8", "prob": 30, "charges-min": 0, "charges-max": 5000, "container-item": "jerrycan_big" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "trash_no_hope",
+    "items": [
+      [ "bottle_plastic", 5 ],
+      [ "bottle_plastic_small", 5 ],
+      [ "bottle_glass", 2 ],
+      { "group": "tinware", "prob": 2 },
+      [ "can_drink", 5 ],
+      [ "plastic_shopping_bag", 5 ],
+      [ "bag_plastic", 5 ],
+      [ "wrapper", 5 ],
+      [ "flyer", 5 ],
+      [ "scorecard", 5 ],
+      [ "plastic_sheet", 5 ],
+      [ "string_6", 5 ],
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
+      [ "ceramic_shard", 5 ],
+      [ "joint_roach", 10 ],
+      [ "bag_canvas_small", 5 ],
+      [ "can_food", 5 ],
+      [ "bubblewrap", 3 ],
+      [ "cig_butt", 15 ],
+      { "item": "cotton_patchwork", "prob": 8, "custom-flags": [ "FILTHY" ] },
+      { "item": "syringe", "prob": 5, "custom-flags": [ "FILTHY" ] },
+      { "item": "lighter", "prob": 5, "charges-min": 0, "charges-max": 10 },
+      { "item": "matches", "prob": 5, "charges-min": 0, "charges-max": 20 },
+      { "group": "newspaper", "prob": 10 },
+      [ "handflare_dead", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "chickenbot",
+    "items": [
+      [ "robot_controls", 5 ],
+      [ "ai_module", 5 ],
+      [ "sensor_module", 5 ],
+      [ "memory_module", 5 ],
+      [ "pathfinding_module", 5 ],
+      [ "identification_module", 5 ],
+      [ "reverse_jointed_legs", 40 ],
+      [ "chickenbot_chassis", 40 ],
+      [ "targeting_module", 5 ],
+      [ "gun_module", 30 ],
+      [ "mark19", 5 ],
+      [ "tazer", 5 ],
+      [ "m249", 5 ],
+      [ "storage_battery", 5 ],
+      [ "plut_cell", 5 ],
+      [ "mil_plate", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "tankbot",
+    "items": [
+      [ "tazer", 3 ],
+      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
+      [ "556", 8 ],
+      [ "alloy_plate", 10 ],
+      [ "sheet_kevlar_layered", 10 ],
+      [ "ceramic_armor", 10 ],
+      [ "hard_plate", 30 ],
+      [ "robot_controls", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "tripod",
+    "items": [
+      { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },
+      [ "sheet_kevlar_layered", 10 ],
+      [ "ceramic_armor", 15 ],
+      [ "alloy_plate", 10 ],
+      [ "robot_controls", 3 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "rare",
+    "subtype": "distribution",
+    "copy-from": "rare",
+    "extend": { "entries": [ { "item": "bio_blade", "prob": 10 }, { "item": "bio_speed", "prob": 10 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "sewage_plant",
+    "subtype": "distribution",
+    "copy-from": "sewage_plant",
+    "extend": {
+      "entries": [
+        { "item": "bio_tools", "prob": 10 },
+        { "item": "bio_flashlight", "prob": 10 },
+        { "item": "bio_lighter", "prob": 10 },
+        { "item": "bio_magnet", "prob": 10 },
+        { "item": "bio_purifier", "prob": 10 },
+        { "item": "bio_heatsink", "prob": 10 },
+        { "item": "bio_blood_filter", "prob": 10 },
+        { "item": "bio_meteorologist", "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "toxic_dump_equipment",
+    "subtype": "distribution",
+    "copy-from": "toxic_dump_equipment",
+    "extend": {
+      "entries": [
+        { "item": "bio_tools", "prob": 10 },
+        { "item": "bio_flashlight", "prob": 10 },
+        { "item": "bio_lighter", "prob": 10 },
+        { "item": "bio_magnet", "prob": 10 },
+        { "item": "bio_purifier", "prob": 10 },
+        { "item": "bio_heatsink", "prob": 10 },
+        { "item": "bio_blood_filter", "prob": 10 },
+        { "item": "bio_meteorologist", "prob": 10 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "vault",
+    "subtype": "distribution",
+    "copy-from": "vault",
+    "extend": {
+      "entries": [
+        { "item": "bio_time_freeze", "prob": 4 },
+        { "item": "bio_teleport", "prob": 4 },
+        { "item": "bio_probability_travel", "prob": 4 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "drugdealer",
+    "subtype": "distribution",
+    "copy-from": "drugdealer",
+    "extend": { "entries": [ { "item": "bio_shotgun", "prob": 10 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "hospital_medical_items",
+    "subtype": "distribution",
+    "copy-from": "hospital_medical_items",
+    "extend": { "entries": [ { "group": "bionics_common", "prob": 5 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "robofac_basic_trade",
+    "subtype": "distribution",
+    "copy-from": "robofac_basic_trade",
+    "extend": { "entries": [ { "group": "bionics_common", "prob": 100 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "science",
+    "subtype": "distribution",
+    "copy-from": "science",
+    "extend": {
+      "entries": [
+        { "item": "bio_purifier", "prob": 10 },
+        { "item": "bio_sunglasses", "prob": 10 },
+        { "item": "bio_eye_optic", "prob": 10 },
+        { "item": "bio_climate", "prob": 10 },
+        { "item": "bio_heatsink", "prob": 10 },
+        { "item": "bio_blood_filter", "prob": 10 },
+        { "item": "bio_watch", "prob": 10 },
+        { "item": "bio_leukocyte", "prob": 10 },
+        { "item": "bio_faraday", "prob": 10 },
+        { "item": "bio_remote", "prob": 10 },
+        { "item": "bio_soporific", "prob": 5 },
+        { "item": "bio_surgical_razor", "prob": 5 },
+        { "item": "bio_syringe", "prob": 8 }
+      ]
+    }
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_flamer",
+    "ammo": 50,
+    "magazine": 100,
+    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bunker_basement_loot",
+    "subtype": "distribution",
+    "copy-from": "bunker_basement_loot",
+    "extend": { "entries": [ { "group": "bionics_mil", "prob": 1 } ] }
+  }
+]

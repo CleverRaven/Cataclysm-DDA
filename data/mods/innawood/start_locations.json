@@ -1,0 +1,20 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_cave_innawood",
+    "name": "Cave - on the surface",
+    "terrain": [ "cave_innawood" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_cave_underground_innawood",
+    "name": "Cave - underground",
+    "terrain": [ "cave_underground_innawood" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_river",
+    "copy-from": "sloc_river",
+    "terrain": [ "river", "stream", "stream_corner", "stream_end" ]
+  }
+]

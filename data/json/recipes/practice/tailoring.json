@@ -1,0 +1,221 @@
+[
+  {
+    "id": "prac_knitting",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "knitting",
+    "description": "Practice knitting whatever comes to your mind, from simple forms to elaborate and rich designs.",
+    "skill_used": "tailor",
+    "proficiencies": [
+      { "proficiency": "prof_knitting", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_knitting_speed", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
+    "autolearn": [ [ "tailor", 0 ] ],
+    "using": [ [ "tailoring_wool_knitting", 40 ] ],
+    "result_eocs": [
+      {
+        "id": "EOC_KNITTING_MORALE",
+        "condition": { "math": [ "u_skill('tailor')", ">=", "3" ] },
+        "effect": [
+          {
+            "u_message": "You admire your designs and find happiness in your advancements in the field of knitting.",
+            "type": "good"
+          },
+          {
+            "u_add_morale": "morale_feeling_good",
+            "bonus": 10,
+            "max_bonus": 20,
+            "duration": "60 minutes",
+            "decay_start": "60 minutes"
+          }
+        ],
+        "false_effect": [
+          {
+            "u_message": "You contemplate your designs but fail to see any artistic value in them.  At least you learnt something.",
+            "type": "mixed"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "prac_closures",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "garment closures",
+    "description": "Practice the principles of garment closures by sewing some buttons and similar fasteners to some cotton patches.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ], [ "cotton_patchwork", 4 ], [ "scrap_cotton", 8 ] ] ],
+    "using": [ [ "sewing_standard", 10 ], [ "fastener_small", 2 ] ]
+  },
+  {
+    "id": "prac_closures_waterproofing",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "fabric waterproofing",
+    "description": "Practice the principles of sealing garments and fabric against water by making a basic waterproof layer from plastic sheets duct taped together, you will need some water and a rag.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures_waterproofing", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "components": [ [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "cotton_patchwork", 1 ] ] ],
+    "byproducts": [ [ "water", 2 ], [ "cotton_patchwork", 1 ] ],
+    "using": [ [ "waterproofing_plastic_sheets", 4 ] ]
+  },
+  {
+    "id": "prac_polymerworking",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "advanced polymer sewing",
+    "description": "Practice cutting and sewing together advanced polymers like Kevlar or Nomex.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_polymerworking", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "components": [
+      [
+        [ "sheet_kevlar", 1 ],
+        [ "sheet_kevlar_patchwork", 1 ],
+        [ "kevlar_patch", 6 ],
+        [ "scrap_kevlar", 20 ],
+        [ "sheet_nomex", 1 ],
+        [ "sheet_nomex_patchwork", 1 ],
+        [ "nomex", 6 ],
+        [ "scrap_nomex", 20 ]
+      ]
+    ],
+    "using": [ [ "sewing_aramids", 20 ] ]
+  },
+  {
+    "id": "prac_elastics",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "stretch fabric",
+    "description": "Practice the use of stretch fabric in clothing by making and modifying some basic garment forms with lycra patches.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_elastics", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ] ],
+    "components": [ [ [ "sheet_lycra", 1 ], [ "sheet_lycra_patchwork", 1 ], [ "lycra_patch", 6 ] ] ],
+    "using": [ [ "sewing_standard", 20 ] ],
+    "byproducts": [ [ "scrap_lycra", 6 ] ]
+  },
+  {
+    "id": "prac_quilting",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "fabric quilting",
+    "description": "Practice the beautiful art of quilting by efficiently sewing a pair of padded sheets together in different patterns.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_quilting", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "textbook_armwest", 1 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 2 ] ], [ [ "gambeson_batting", 2 ] ] ],
+    "using": [ [ "filament_canvas", 20 ] ],
+    "byproducts": [ [ "cotton_patchwork", 6 ], [ "gambeson_batting", 2 ] ]
+  },
+  {
+    "id": "prac_leather_beg",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "leatherworking (beginner)",
+    "description": "Practice basic leatherworking skills by cutting and punching holes in leather, and stitching together leather patches.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
+    "autolearn": [ [ "tailor", 2 ] ],
+    "book_learn": [ [ "mag_animecon", 0 ], [ "dieselpunk_tailor", 0 ] ],
+    "using": [ [ "tailoring_leather_small", 4 ], [ "filament", 20 ] ]
+  },
+  {
+    "id": "prac_leather_adv",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "leatherworking (advanced)",
+    "description": "Practice the correct cut and sewing of big leather patches in clothing making, using your knowledge to give it practical forms.",
+    "skill_used": "tailor",
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": true },
+      { "proficiency": "prof_leatherworking", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
+    "autolearn": [ [ "tailor", 3 ] ],
+    "book_learn": [ [ "dieselpunk_tailor", 2 ], [ "manual_tailor", 2 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ],
+    "using": [ [ "sewing_standard", 30 ] ]
+  },
+  {
+    "id": "prac_chitinworking",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "chitinworking",
+    "description": "Practice the use of chitin as an armor component by shaping and attaching several pieces together.",
+    "skill_used": "tailor",
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic", "required": true },
+      { "proficiency": "prof_chitinworking", "time_multiplier": 1, "skill_penalty": 0 }
+    ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
+    "autolearn": [ [ "tailor", 4 ], [ "fabrication", 3 ] ],
+    "book_learn": [ [ "textbook_arthropod", 3 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "chitin_piece", 6 ], [ "acidchitin_piece", 6 ] ] ],
+    "using": [ [ "sewing_standard", 30 ] ]
+  },
+  {
+    "id": "prac_articulation",
+    "type": "practice",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_PRACTICE",
+    "subcategory": "CSC_PRACTICE_TAILORING",
+    "name": "joint articulation",
+    "description": "Practice the making of articulated joints in clothing by sewing some gloves and other basic cloth joints with several layers of cotton patches for rigidity.",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_articulation", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "time": "1 h",
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 4, "skill_limit": 5 },
+    "autolearn": [ [ "tailor", 4 ] ],
+    "book_learn": [ [ "textbook_tailor", 3 ] ],
+    "components": [ [ [ "gloves_light", 1 ], [ "gloves_liner", 1 ], [ "long_glove_white", 1 ] ] ],
+    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "filament", 30 ] ]
+  }
+]

@@ -1,0 +1,566 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_safety_graffiti",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "lab_safety_snippet", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Rats in cages.",
+    "nested_mapgen_id": "lab_black_rats_1x1_caged",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [ { "monster": "mon_black_rat", "x": 0, "y": 0, "chance": 100 } ],
+      "place_loot": [ { "item": "pet_carrier", "x": 0, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas. Lab rats in cages.",
+    "nested_mapgen_id": "lab_rats_1x1_caged",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [ { "monster": "mon_lab_rat", "x": 0, "y": 0, "chance": 100 } ],
+      "place_loot": [ { "item": "pet_carrier", "x": 0, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general science areas.",
+    "nested_mapgen_id": "lab_common_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "LLL",
+        "   ",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "L": [
+          { "item": "lab_shoes", "chance": 70, "repeat": 2 },
+          { "item": "lab_pants", "chance": 70, "repeat": 2 },
+          { "item": "lab_torso", "chance": 70, "repeat": 2 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general science areas.",
+    "nested_mapgen_id": "lab_common_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "VVV",
+        "   ",
+        "VVV"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "V": [ { "item": "hospital_medical_items", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general science areas.",
+    "nested_mapgen_id": "lab_common_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "LLL",
+        "   ",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "L": [ { "item": "hazmat_masks", "chance": 70 }, { "item": "hazmat_suits", "chance": 70 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general science areas.",
+    "nested_mapgen_id": "lab_common_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "UUU",
+        "   ",
+        "UUU"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "U": [ { "item": "supplies_reagents_lab", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general science areas.",
+    "nested_mapgen_id": "lab_common_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "qqq",
+        "   ",
+        "QQQ"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "q": [ { "item": "tools_science", "chance": 30, "repeat": [ 1, 3 ] } ],
+        "Q": [ { "item": "tools_electronics", "chance": 30, "repeat": [ 1, 3 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for walls variety.",
+    "nested_mapgen_id": "lab_wall_glass_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "XX-XX",
+        "     ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "palettes": [ "lab_common_palette" ],
+      "place_signs": [
+        { "snippet": "lab_safety_snippet", "x": [ 0, 1 ], "y": 0 },
+        { "snippet": "lab_safety_snippet", "x": [ 3, 4 ], "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for door variety.",
+    "nested_mapgen_id": "lab_wall_door_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "place_terrain": [ { "ter": "t_door_lab_c", "x": 2, "y": 0 } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "lab_safety_graffiti", 50 ] ], "x": [ 0, 1 ], "y": 0 },
+        { "chunks": [ [ "null", 50 ], [ "lab_safety_graffiti", 50 ] ], "x": [ 3, 4 ], "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for door variety.",
+    "nested_mapgen_id": "lab_wall_glassdoor_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "place_terrain": [ { "ter": "t_door_glass_lab_c", "x": 2, "y": 0 } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "lab_safety_graffiti", 50 ] ], "x": [ 0, 1 ], "y": 0 },
+        { "chunks": [ [ "null", 50 ], [ "lab_safety_graffiti", 50 ] ], "x": [ 3, 4 ], "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for door variety, includes slime spawns for rooms that use this wall.",
+    "nested_mapgen_id": "lab_wall_glassdoor_5x5",
+    "weight": 10,
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "place_terrain": [ { "ter": "t_door_glass_lab_c", "x": 2, "y": 0 } ],
+      "place_monsters": [ { "monster": "GROUP_SLIME", "x": [ 0, 4 ], "y": [ 1, 4 ], "density": 0.1 } ],
+      "place_loot": [ { "item": "canister_empty", "x": 3, "y": 2, "chance": 100 } ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "lab_safety_graffiti", 50 ] ], "x": [ 0, 1 ], "y": 0 },
+        { "chunks": [ [ "null", 50 ], [ "lab_safety_graffiti", 50 ] ], "x": [ 3, 4 ], "y": 0 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for walls variety.",
+    "nested_mapgen_id": "lab_wall_chain_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "XX-XX",
+        "     ",
+        "     ",
+        "     ",
+        "     "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "terrain": { "-": "t_chaingate_c", "X": "t_chainfence_h" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Includes cold fields.",
+    "nested_mapgen_id": "lab_common_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "mm.mm",
+        "f...f",
+        "..^..",
+        "f...f",
+        "aa.aa"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "terrain": {  },
+      "furniture": { "^": [ [ "f_vent_cold_air2_stream", 10 ], [ "f_vent_cold_air2_blast", 10 ] ] },
+      "items": {
+        "f": { "item": "science", "chance": 30, "repeat": [ 1, 10 ] },
+        "a": { "item": "snacks", "chance": 20 },
+        "m": [ { "item": "chem_lab", "chance": 25 }, { "item": "cloning_vat", "chance": 25 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Includes hot fields.",
+    "nested_mapgen_id": "lab_common_5x5",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "mm.mm",
+        "f...f",
+        "..^..",
+        "f...f",
+        "aa.aa"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "terrain": {  },
+      "furniture": { "^": [ [ "f_vent_hot_air2_blast", 10 ], [ "f_vent_hot_air2_stream", 10 ] ] },
+      "items": {
+        "f": { "item": "science", "chance": 20, "repeat": [ 1, 10 ] },
+        "a": { "item": "science", "chance": 5 },
+        "m": [ { "item": "chem_lab", "chance": 25 }, { "item": "cloning_vat", "chance": 25 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Includes cold fields.",
+    "nested_mapgen_id": "lab_common_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "qq..qq",
+        "......",
+        ".qqqq.",
+        ".qqqq.",
+        "..^...",
+        "qq..qq"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "^": [ [ "f_vent_cold_air2_stream", 70 ], [ "f_null", 30 ] ] },
+      "items": { "q": [ { "item": "supplies_reagents_lab", "chance": 50 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general science areas.",
+    "nested_mapgen_id": "lab_generic_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "VVV",
+        "   ",
+        "VVV"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "V": [ { "item": "hospital_medical_items", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Includes hot fields.",
+    "nested_mapgen_id": "lab_common_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "qq..qq",
+        "......",
+        ".Af...",
+        "..f.A.",
+        "..^...",
+        "qq..qq"
+      ],
+      "palettes": [ "lab_mutagen_palette" ],
+      "furniture": { "^": [ [ "f_vent_hot_air2_blast", 30 ], [ "f_vent_hot_air2_stream", 30 ] ] },
+      "items": { "q": [ { "item": "supplies_reagents_lab", "chance": 50 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Includes toxic fields.",
+    "nested_mapgen_id": "lab_common_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "qn...k",
+        "w.Ac.l",
+        "...c..",
+        "..^d..",
+        ".o....",
+        "ef..fe"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "^": "f_vent_toxic_leak" },
+      "items": { "F": [ { "item": "goo", "chance": 50 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas. Classic goo trap room.",
+    "nested_mapgen_id": "lab_common_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        ".....F",
+        "......",
+        "......",
+        "..^...",
+        "......",
+        "......"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "place_traps": [ { "trap": "tr_goo", "x": [ 0, 5 ], "y": [ 0, 5 ], "repeat": [ 1, 10 ] } ],
+      "items": { "F": [ { "item": "goo", "chance": 50 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas. Radiation room.",
+    "nested_mapgen_id": "lab_common_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "......",
+        ".    .",
+        ". ^^ .",
+        ". ^^ .",
+        ".   ɱ.",
+        "......"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "terrain": { " ": "t_floor_green" },
+      "furniture": { "^": "f_vent_rad_leak" },
+      "place_monster": [ { "monster": "mon_hazmatbot", "x": 3, "y": 3, "chance": 100 } ],
+      "place_liquids": [ { "liquid": "plut_slurry", "x": [ 1, 4 ], "y": [ 1, 3 ], "amount": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Includes freezing fields.",
+    "nested_mapgen_id": "lab_common_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "......",
+        ".****.",
+        ".*^.*.",
+        "...^*.",
+        ".****.",
+        "......"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "^": "f_vent_cold_air2_blast" },
+      "items": { "*": [ { "item": "cloning_vat", "chance": 50 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab common research areas.  Includes freezing fields.",
+    "nested_mapgen_id": "lab_common_6x6",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "**..**",
+        "......",
+        ".AJb..",
+        "..ab..",
+        "^...A.",
+        "**..**"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "^": "f_vent_cold_air2_blast" },
+      "items": { "*": { "item": "cloning_vat", "chance": 50 }, "J": { "item": "dissection", "chance": 50 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on east wall.  This is a small library.",
+    "nested_mapgen_id": "lab_common_9x9_E",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "RR RR|   ",
+        "R    X   ",
+        "REI  X   ",
+        "R IE |   ",
+        "R    -   ",
+        "REI  |   ",
+        "R IE X   ",
+        "R    X   ",
+        "RR RR|   "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "R": [ { "item": "lab_bookshelves", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on west wall.  This is a small library.",
+    "nested_mapgen_id": "lab_common_9x9_W",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   |RR RR",
+        "   X    R",
+        "   X IE R",
+        "   |EI  R",
+        "   -    R",
+        "   |EI  R",
+        "   X IE R",
+        "   X    R",
+        "   |RR RR"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "R": [ { "item": "lab_bookshelves", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on west wall.  This is a small armory for emergent situations.",
+    "nested_mapgen_id": "lab_common_9x9_W",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   |∞∞∞∞∞",
+        "   |Q    ",
+        "   |Q j L",
+        "  6|  j L",
+        "   =    L",
+        "   ||Y  L",
+        "   ||||||",
+        "   |UUUUU",
+        "   +    U"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "L": [
+          { "item": "clothing_soldier_set_pristine", "chance": 30 },
+          { "item": "book_military", "chance": 33 },
+          { "item": "snacks", "chance": 10 }
+        ],
+        "∞": [
+          { "item": "ammo_milspec", "chance": 30 },
+          { "item": "mags_milspec", "chance": 30 },
+          { "item": "mags_flamethrower_xedra", "chance": 15 }
+        ],
+        "j": [ { "item": "gear_soldier_sidearm", "chance": 33 } ],
+        "U": [ { "item": "cleaning", "chance": 33 } ],
+        "Q": [
+          { "item": "guns_milspec", "chance": 33, "repeat": [ 1, 3 ] },
+          { "item": "guns_launcher_flame_xedra", "chance": 50, "repeat": [ 0, 1 ] },
+          { "item": "military", "chance": 33 }
+        ]
+      },
+      "computers": {
+        "6": {
+          "name": "Magazine Entrance",
+          "security": 6,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on east wall. This is a small armory for emergent situations.",
+    "nested_mapgen_id": "lab_common_9x9_E",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "∞∞∞∞∞|   ",
+        "    Q|   ",
+        "L   Q|   ",
+        "L j  |6  ",
+        "L j  =   ",
+        "L   Y|   ",
+        "||||||   ",
+        "UUUUU|   ",
+        "U    +   "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "L": [
+          { "item": "clothing_soldier_set_pristine", "chance": 30 },
+          { "item": "book_military", "chance": 33 },
+          { "item": "snacks", "chance": 10 }
+        ],
+        "∞": [
+          { "item": "ammo_milspec", "chance": 30 },
+          { "item": "mags_milspec", "chance": 30 },
+          { "item": "mags_flamethrower_xedra", "chance": 15 }
+        ],
+        "j": [ { "item": "gear_soldier_sidearm", "chance": 33 } ],
+        "U": [ { "item": "cleaning", "chance": 33 } ],
+        "Q": [
+          { "item": "guns_milspec", "chance": 33, "repeat": [ 1, 3 ] },
+          { "item": "guns_launcher_flame_xedra", "chance": 50, "repeat": [ 0, 1 ] },
+          { "item": "military", "chance": 33 }
+        ]
+      },
+      "computers": {
+        "6": {
+          "name": "Magazine Entrance",
+          "security": 6,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 7 } ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      }
+    }
+  }
+]

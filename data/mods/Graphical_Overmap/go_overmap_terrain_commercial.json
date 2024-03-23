@@ -578,13 +578,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "s_restaurant_foodplace",
-    "copy-from": "s_restaurant_foodplace",
-    "sym": "\u00E7",
-    "color": "light_red"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "s_restaurant_foodplace_roof",
     "copy-from": "s_restaurant_foodplace_roof",
     "sym": "\u00E7",
@@ -967,13 +960,6 @@
     "id": "s_music_roof",
     "copy-from": "s_music_roof",
     "sym": "\u00E7"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "copy-from": "megastore_parking",
-    "sym": "\u00F4",
-    "color": "dark_gray"
   },
   {
     "type": "overmap_terrain",
@@ -1426,48 +1412,6 @@
     "id": "s_gas_rural_roof",
     "copy-from": "s_gas_rural_roof",
     "sym": "\u00FA"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_entrance",
-    "copy-from": "hdwr_large_entrance",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_SW",
-    "copy-from": "hdwr_large_SW",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_NW",
-    "copy-from": "hdwr_large_NW",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_NE",
-    "copy-from": "hdwr_large_NE",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_backroom",
-    "copy-from": "hdwr_large_backroom",
-    "sym": "\u00C1",
-    "color": "light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hdwr_large_loadingbay",
-    "copy-from": "hdwr_large_loadingbay",
-    "sym": "\u00D6",
-    "color": "light_green"
   },
   {
     "type": "overmap_terrain",

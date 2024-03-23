@@ -1,0 +1,66 @@
+[
+  {
+    "id": "structured_mana_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Mana",
+    "description": "Shows <color_yellow>mana</color> and max mana.\n\nOnly useful with <color_yellow>Magiclysm</color> mod.",
+    "arrange": "columns",
+    "widgets": [ "structured_mana_graph_layout", "structured_mana_num_layout", "structured_max_mana_num_layout" ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_mana_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 32,
+    "widgets": [ "structured_mana_graph" ]
+  },
+  {
+    "id": "structured_mana_graph",
+    "type": "widget",
+    "label": "Mana",
+    "style": "graph",
+    "var": "mana",
+    "width": 26,
+    "separator": ": ",
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ]
+  },
+  {
+    "id": "structured_mana_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 6,
+    "widgets": [ "structured_mana_num" ]
+  },
+  {
+    "id": "structured_mana_num",
+    "type": "widget",
+    "label": "Mana",
+    "style": "number",
+    "var": "mana",
+    "text_align": "right",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_max_mana_num_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "width": 6,
+    "widgets": [ "structured_max_mana_num" ]
+  },
+  {
+    "id": "structured_max_mana_num",
+    "type": "widget",
+    "label": "/",
+    "style": "number",
+    "var": "max_mana",
+    "colors": [ "c_light_blue" ]
+  }
+]

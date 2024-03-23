@@ -1,7 +1,31 @@
 [
   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "seedling_corn",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "#" ],
+      "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "seedling_wheat",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "#" ],
+      "sealed_item": { "#": { "item": { "item": "seed_wheat" }, "furniture": "f_plant_seedling", "chance": 70 } }
+    }
+  },
+  {
     "type": "palette",
     "id": "farm_lots",
+    "parameters": {
+      "variant": { "type": "nested_mapgen_id", "default": { "distribution": [ [ "seedling_corn", 70 ], [ "seedling_wheat", 30 ] ] } }
+    },
+    "nested": { "#": { "chunks": [ { "param": "variant", "fallback": "seedling_corn" } ] } },
     "terrain": {
       ",": "t_dirtfloor",
       ":": "t_metal_floor",
@@ -9,15 +33,10 @@
       "%": "t_fence_wire",
       "+": "t_door_c",
       "|": [ [ "t_wall_wood", 500 ], [ "t_wall_wood_chipped", 4 ], [ "t_wall_wood_broken", 1 ] ],
-      " ": [
-        [ "t_region_groundcover", 380 ],
-        [ "t_region_groundcover_barren", 70 ],
-        [ "t_region_shrub", 2 ],
-        [ "t_dirtmound", 2 ]
-      ],
+      " ": [ [ "t_region_soil", 25 ], [ "t_region_groundcover", 3 ], [ "t_dirtmound", 2 ] ],
       "i": "t_region_groundcover",
       ".": "t_null",
-      "/": [ [ "t_region_groundcover_barren", 225 ], [ "t_region_groundcover", 45 ], [ "t_region_shrub", 3 ] ],
+      "/": [ [ "t_region_soil", 200 ], [ "t_region_groundcover", 5 ] ],
       "5": "t_barndoor",
       "6": "t_palisade_pulley",
       "T": [ [ "t_region_groundcover_barren", 20 ], [ "t_region_tree_shade", 30 ] ],
@@ -33,6 +52,7 @@
       "y": "t_palisade",
       "3": "t_splitrail_fencegate_c",
       "2": "t_wall_metal",
+      "≷": "t_ladder_up_down",
       "<": "t_ladder_up",
       ">": "t_ladder_down",
       "-": "t_grate",
@@ -44,21 +64,13 @@
       "t": "t_region_groundcover_barren",
       "B": "t_region_groundcover_barren"
     },
-    "furniture": {
-      "r": "f_rack",
-      "t": "f_table",
-      "B": "f_bench",
-      "x": "f_crate_c",
-      "@": "f_hay",
-      " ": [ [ "f_null", 198 ], [ "f_hay", 2 ] ],
-      "/": "f_null"
-    },
-    "sealed_item": { "#": { "item": { "item": "seed_corn" }, "furniture": "f_plant_seedling", "chance": 70 } },
-    "item": { ":": { "item": "corn", "repeat": [ 1, 20 ] } }
+    "furniture": { "r": "f_rack", "t": "f_table", "B": "f_bench", "x": "f_crate_c", "@": "f_hay", "/": "f_null" },
+    "item": { ":": { "item": "cattlefodder_large", "repeat": [ 1, 20 ], "chance": 60 } }
   },
   {
     "type": "palette",
     "id": "farm_house",
+    "remove_all": { "P": {  }, "H": {  }, "%": {  } },
     "terrain": {
       " ": "t_floor",
       "#": "t_railing",
@@ -85,7 +97,7 @@
       "B": "f_bathtub",
       "D": "f_trashcan",
       "L": "f_locker",
-      "o": "f_oven",
+      "o": [ "f_oven", "f_gas_oven_microwave_combo" ],
       "S": "f_sink",
       "Y": "f_sofa",
       "c": "f_counter",

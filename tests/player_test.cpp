@@ -1,26 +1,30 @@
-#include "catch/catch.hpp"
-
 #include <array>
-#include <string>
+#include <functional>
+#include <iosfwd>
 
+#include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
+#include "player_helpers.h"
 #include "type_id.h"
 #include "weather.h"
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
-static void temperature_check( Character *p, const int ambient_temp, const int target_temp )
+static void temperature_check( Character *p, const int ambient_temp,
+                               const units::temperature target_temp )
 {
     p->set_body();
-    get_weather().temperature = ambient_temp;
+    get_weather().temperature = units::from_fahrenheit( ambient_temp );
     p->set_all_parts_temp_cur( BODYTEMP_NORM );
     p->set_all_parts_temp_conv( BODYTEMP_NORM );
 
-    int prev_temp = 0;
-    int prev_diff = 0;
+    units::temperature prev_temp = 0_K;
+    units::temperature_delta prev_diff = 0_C_delta;
     for( int i = 0; i < 10000; i++ ) {
-        const int torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
+        const units::temperature torso_temp_cur = p->get_part_temp_cur( bodypart_id( "torso" ) );
         if( prev_diff != prev_temp - torso_temp_cur ) {
             prev_diff = prev_temp - torso_temp_cur;
         } else if( prev_temp == torso_temp_cur ) {
@@ -29,8 +33,29 @@ static void temperature_check( Character *p, const int ambient_temp, const int t
         prev_temp = torso_temp_cur;
         p->update_bodytemp();
     }
-    int high = target_temp + 100;
-    int low = target_temp - 100;
+    const units::temperature high = target_temp + 0.2_C_delta;
+    const units::temperature low = target_temp - 0.2_C_delta;
+    CHECK( low < p->get_part_temp_cur( bodypart_id( "torso" ) ) );
+    CHECK( high > p->get_part_temp_cur( bodypart_id( "torso" ) ) );
+}
+
+// Set the stage for a particular ambient and target temperature and run update_bodytemp() until
+// core body temperature settles.
+static void temperature_and_sweat_check( Character *p, const int ambient_temp,
+        const units::temperature target_temp )
+{
+
+    weather_manager &weather = get_weather();
+
+    weather.temperature = units::from_fahrenheit( ambient_temp );
+
+    for( int i = 0; i < 1000; i++ ) {
+        p->process_effects();
+        p->update_bodytemp();
+        p->update_body_wetness( *weather.weather_precise );
+    }
+    const units::temperature high = target_temp + 0.2_C_delta;
+    const units::temperature low = target_temp - 0.2_C_delta;
     CHECK( low < p->get_part_temp_cur( bodypart_id( "torso" ) ) );
     CHECK( high > p->get_part_temp_cur( bodypart_id( "torso" ) ) );
 }
@@ -54,7 +79,7 @@ static void test_temperature_spread( Character *p, const std::array<int, 7> &amb
     temperature_check( p, ambient_temps[6], BODYTEMP_SCORCHING );
 }
 
-TEST_CASE( "player body temperatures converge on expected values.", "[.bodytemp]" )
+TEST_CASE( "player_body_temperatures_converge_on_expected_values", "[.bodytemp]" )
 {
 
     Character &dummy = get_player_character();
@@ -123,5 +148,38 @@ TEST_CASE( "player body temperatures converge on expected values.", "[.bodytemp]
 
         //test_temperature_spread( &dummy, { -47, -32, -17, -2, 13, 28, 43 } );
         test_temperature_spread( &dummy, {{ -115, -87, -54, -6, 36, 64, 80 }} );
+    }
+}
+
+TEST_CASE( "sweating", "[char][suffer][.bodytemp]" )
+{
+    avatar &dummy = get_avatar();
+    clear_character( dummy );
+
+    // three different materials of breathability, same warmth
+    item fur_jumper( "test_jumpsuit_fur" );
+    item lycra_jumper( "test_jumpsuit_lycra" );
+    item cotton_jumper( "test_jumpsuit_cotton" );
+
+    GIVEN( "avatar wears outfit and sweats for an hour" ) {
+        WHEN( "wearing fur" ) {
+            dummy.clear_worn();
+            dummy.wear_item( fur_jumper, false );
+
+            temperature_and_sweat_check( &dummy, 100, 43.2_C );
+        }
+        WHEN( "wearing cotton" ) {
+            dummy.clear_worn();
+            dummy.wear_item( cotton_jumper, false );
+
+            temperature_and_sweat_check( &dummy, 100, 42.8_C );
+        }
+        WHEN( "wearing lycra" ) {
+            dummy.clear_worn();
+            dummy.wear_item( lycra_jumper, false );
+
+            temperature_and_sweat_check( &dummy, 100, 41_C );
+        }
+
     }
 }

@@ -1,0 +1,84 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_pants_male",
+    "items": [ [ "pants_cargo", 60 ], [ "pants", 20 ], [ "shorts_cargo", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_pants_female",
+    "items": [ [ "pants_cargo", 60 ], [ "pants", 20 ], [ "shorts_cargo", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_shoes",
+    "items": [ [ "boots_combat", 90 ], [ "boots", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_shirt_male",
+    "items": [ [ "undershirt", 30 ], [ "sweatshirt", 20 ], [ "under_armor", 20 ], [ "longshirt", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_shirt_female",
+    "items": [ [ "undershirt", 30 ], [ "sweatshirt", 20 ], [ "under_armor", 20 ], [ "longshirt", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_gloves",
+    "items": [ [ "null", 20 ], [ "gloves_tactical", 60 ], [ "gloves_fingerless", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_coat",
+    "items": [ [ "hoodie", 50 ], [ "kevlar", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_extra",
+    "items": [ [ "rucksack", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_hat",
+    "items": [ [ "hat_ball", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_eyes",
+    "items": [ [ "null", 80 ], [ "glasses_bal", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_masks",
+    "items": [ [ "scarf", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_sell",
+    "items": [
+      { "group": "book_military", "prob": 70 },
+      { "group": "guns_milspec", "prob": 70 },
+      { "group": "mil_armor", "prob": 70 },
+      { "group": "mil_food_nodrugs", "prob": 80 },
+      { "group": "ammo_rifle_milspec", "prob": 80 },
+      { "group": "camping", "prob": 90 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_misc",
+    "items": [
+      { "group": "ammo_reloaded", "prob": 100 },
+      { "group": "everyday_gear", "prob": 100 },
+      { "group": "guns_survival", "prob": 100 },
+      { "group": "tools_survival", "prob": 100 },
+      { "group": "supplies_electronics", "prob": 100 },
+      { "group": "clothing_outdoor_torso", "prob": 100 },
+      { "group": "clothing_outdoor_pants", "prob": 100 },
+      { "group": "clothing_outdoor_shoes", "prob": 100 },
+      { "group": "drugs_soldier", "prob": 100 }
+    ]
+  }
+]

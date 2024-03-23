@@ -1,0 +1,168 @@
+[
+  {
+    "id": "stomach_sauropod",
+    "copy-from": "stomach_large",
+    "type": "COMESTIBLE",
+    "name": { "str": "sauropod stomach" },
+    "description": "The stomach of an enormous sauropod dinosaur.  It is surprisingly durable and very roomy.",
+    "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "sauropod_stomach_boiled",
+    "copy-from": "stomach_boiled",
+    "name": { "str": "boiled sauropod stomach" },
+    "description": "A boiled stomach from a sauropod, nothing else.  It looks all but appetizing.",
+    "proportional": { "price": 2.0, "calories": 2.0, "volume": 2.0, "weight": 2.0 },
+    "fun": -5
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_dino_small",
+    "name": { "str": "smaller dinosaur skull" },
+    "description": "The skull of a smaller plant eating dinosaur.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "1 kg",
+    "volume": "1400 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_dino_med",
+    "name": { "str": "dinosaur skull" },
+    "description": "The skull of a plant eating dinosaur.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "2 kg",
+    "volume": "2800 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 20,
+    "price_postapoc": 20,
+    "material": [ "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_dino_large",
+    "name": { "str": "larger dinosaur skull" },
+    "description": "The skull of a larger plant eating dinosaur.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "4 kg",
+    "volume": "5600 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 40,
+    "price_postapoc": 40,
+    "material": [ "bone" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_dino_pred_small",
+    "name": { "str": "smaller dinosaur predator skull" },
+    "description": "A smaller dinosaur skull with sharp teeth.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "1 kg",
+    "volume": "1400 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "bone" ],
+    "qualities": [ [ "CUT_FINE", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_dino_pred_med",
+    "name": { "str": "dinosaur predator skull" },
+    "description": "The skull of a dinosaur with sharp teeth.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "2 kg",
+    "volume": "2800 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 20,
+    "price_postapoc": 20,
+    "material": [ "bone" ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_dino_pred_large",
+    "name": { "str": "larger dinosaur predator skull" },
+    "description": "The skull of a larger dinosaur with sharp teeth.",
+    "category": "spare_parts",
+    "looks_like": "skull_human",
+    "weight": "4 kg",
+    "volume": "5600 ml",
+    "symbol": "@",
+    "color": "white",
+    "price": 40,
+    "price_postapoc": 40,
+    "material": [ "bone" ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_tyrannosaurus",
+    "name": { "str": "tyrannosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_allosaurus",
+    "name": { "str": "allosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_acrocanthosaurus",
+    "name": { "str": "acrocanthosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_giganotosaurus",
+    "name": { "str": "giganotosaurus skull" },
+    "copy-from": "skull_dino_pred_large"
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_triceratops",
+    "name": { "str": "triceratops skull" },
+    "description": "Large dinosaur skull with three large horns and a large crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_torosaurus",
+    "name": { "str": "torosaurus skull" },
+    "description": "Large dinosaur skull with three large horns and a large crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_styracosaurus",
+    "name": { "str": "styracosaurus skull" },
+    "description": "Large dinosaur skull with a large horn above the nose and a spiked crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "skull_centrosaurus",
+    "name": { "str": "centrosaurus skull" },
+    "description": "Large dinosaur skull with a large horn above the nose and a bony crest.",
+    "copy-from": "skull_dino_large",
+    "qualities": [ [ "COOK", 1 ] ]
+  }
+]

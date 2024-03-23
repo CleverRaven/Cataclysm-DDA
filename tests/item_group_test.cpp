@@ -1,13 +1,20 @@
-#include "catch/catch.hpp"
-#include "item_group.h"
-
 #include <algorithm>
+#include <iosfwd>
+#include <list>
+#include <set>
+#include <string>
 #include <utility>
 #include <vector>
 
+#include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
+#include "item_group.h"
+#include "options.h"
+#include "options_helpers.h"
 #include "type_id.h"
+
+static const itype_id itype_match( "match" );
 
 TEST_CASE( "truncate_spawn_when_items_dont_fit", "[item_group]" )
 {
@@ -21,7 +28,7 @@ TEST_CASE( "truncate_spawn_when_items_dont_fit", "[item_group]" )
         const item_group::ItemList items = item_group::items_from( truncate_test_id );
         REQUIRE( items.size() == 1 );
         REQUIRE( items[0].typeId().str() == "test_balloon" );
-        std::list<const item *> contents = items[0].contents.all_items_top();
+        std::list<const item *> contents = items[0].all_items_top();
         REQUIRE( contents.size() == 2 );
         observed_pairs.emplace( contents.front()->typeId(), contents.back()->typeId() );
     }
@@ -53,7 +60,7 @@ TEST_CASE( "spill_when_items_dont_fit", "[item_group]" )
             other = &items[0];
         }
         REQUIRE( container->typeId().str() == "test_balloon" );
-        std::list<const item *> contents = container->contents.all_items_top();
+        std::list<const item *> contents = container->all_items_top();
         REQUIRE( contents.size() == 2 );
         observed_pairs_inside.emplace( contents.front()->typeId(), contents.back()->typeId() );
         observed_outside.emplace( other->typeId() );
@@ -66,13 +73,13 @@ TEST_CASE( "spill_when_items_dont_fit", "[item_group]" )
     CHECK( observed_outside.size() == 3 );
 }
 
-TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
+TEST_CASE( "spawn_with_default_charges_and_with_ammo", "[item_group]" )
 {
     Item_modifier default_charges;
     default_charges.with_ammo = 100;
     SECTION( "tools without ammo" ) {
         item matches( "matches" );
-        REQUIRE( matches.ammo_default() == itype_id( "match" ) );
+        REQUIRE( matches.ammo_default() == itype_match );
         default_charges.modify( matches, "modifier test (matches ammo)" );
         CHECK( matches.remaining_ammo_capacity() == 0 );
     }
@@ -85,7 +92,7 @@ TEST_CASE( "spawn with default charges and with ammo", "[item_group]" )
     }
 }
 
-TEST_CASE( "Item_modifier damages item", "[item_group]" )
+TEST_CASE( "Item_modifier_damages_item", "[item_group]" )
 {
     Item_modifier damaged;
     damaged.damage.first = 1;
@@ -106,7 +113,7 @@ TEST_CASE( "Item_modifier damages item", "[item_group]" )
     }
 }
 
-TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
+TEST_CASE( "Item_modifier_gun_fouling", "[item_group]" )
 {
     Item_modifier fouled;
     fouled.dirt.first = 1;
@@ -126,7 +133,7 @@ TEST_CASE( "Item_modifier gun fouling", "[item_group]" )
     }
 }
 
-TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
+TEST_CASE( "item_modifier_modifies_charges_for_item", "[item_group]" )
 {
     GIVEN( "an ammo item that uses charges" ) {
         const std::string item_id = "40x46mm_m1006";
@@ -231,5 +238,26 @@ TEST_CASE( "item_modifier modifies charges for item", "[item_group]" )
                 }
             }
         }
+    }
+}
+
+TEST_CASE( "Event-based_item_spawns_do_not_spawn_outside_event", "[item_group]" )
+{
+    override_option ev_spawn_opt( "EVENT_SPAWNS", "items" );
+    REQUIRE( get_option<std::string>( "EVENT_SPAWNS" ) == "items" );
+
+    item_group_id event_test_id( "test_event_item_spawn" );
+    itype_id test_rock( "test_rock" );
+    const item_group::ItemList items = item_group::items_from( event_test_id );
+    REQUIRE( item_group::every_possible_item_from( event_test_id ).size() == 6 );
+    holiday cur_event = get_holiday_from_time();
+
+    if( cur_event == holiday::christmas ) {
+        CHECK( items.size() == 4 );
+    } else if( cur_event == holiday::halloween ) {
+        CHECK( items.size() == 3 );
+    } else {
+        CHECK( items.size() == 1 );
+        CHECK( items[0].typeId() == test_rock );
     }
 }

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "LIFESHIELD",
+    "type": "json_flag",
+    "info": "You are immune to life drain."
+  },
+  {
+    "id": "TELEKIN_SHIELD",
+    "type": "json_flag",
+    "//": "Immune to telekinetic damage"
+  },
+  {
+    "id": "TEEPSHIELD",
+    "type": "json_flag",
+    "info": "You are immune to telepathy."
+  },
+  {
+    "id": "TELESTOP",
+    "type": "json_flag",
+    "info": "You are immune to forcible teleportation."
+  },
+  {
+    "id": "PSYSHIELD_PROTECT",
+    "type": "json_flag",
+    "info": "You are protected against telepathic attack.  Sometimes."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_BIOKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to biokinesis."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_CLAIRSENTIENCE",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to clairsentience."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_ELECTROKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to electrokinesis."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_PHOTOKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to photokinesis."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_PYROKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to pyrokinesis."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_TELEKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to telekinesis."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_TELEPATHY",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to telepathy."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_TELEPORTATION",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to teleportation."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_VITAKINESIS",
+    "type": "json_flag",
+    "info": "This is a matrix crystal attuned to vitakinesis."
+  },
+  {
+    "id": "MATRIX_CRYSTAL_CORUSCATING",
+    "type": "json_flag",
+    "info": "This is a matrix crystal with an unclear attunement."
+  },
+  {
+    "id": "ENERVATE_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to cellular breakdown"
+  },
+  {
+    "id": "PHOTOKINETIC",
+    "type": "json_flag"
+  },
+  {
+    "id": "PHOTOKIN_CHAR_IMMUNE",
+    "type": "json_flag",
+    "//": "Immune to photokinetic damage"
+  },
+  {
+    "id": "PHOTOKIN_MONSTER_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to photokinetic damage"
+  },
+  {
+    "id": "TELEKIN_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telekinetic damage"
+  },
+  {
+    "id": "HIVE_MIND",
+    "type": "monster_flag",
+    "//": "This monster is part of a hive mind"
+  },
+  {
+    "id": "TEEP_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to telepathic damage"
+  },
+  {
+    "id": "TELEPORT_IMMUNE",
+    "type": "monster_flag",
+    "//": "Immune to forcible teleportation"
+  }
+]

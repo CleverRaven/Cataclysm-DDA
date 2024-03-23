@@ -1,0 +1,136 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GENERIC_SPELL_MUTATION",
+    "//energy_amount": "optional, how much stamina you spend on activation of the mutation - EoC works exclusively with stamina, to consume calories, fatigue or thirst use corresponding booleans in mutation; default zero if you don't need to consume stamina",
+    "//prep_time": "time you spend to prepare the activation, in seconds. Use 0 to make activation instant.  Decimals are allowed, 0.5 means 50 moves",
+    "//spell_to_cast": "spell that would be casted if activation is successful",
+    "//message_success": "message that would be printed if activation is successful",
+    "//message_fail": "message, that would be printed, if you have less stamina than required",
+    "condition": {
+      "and": [
+        { "expects_vars": [ "prep_time", "spell_to_cast", "message_success", "message_fail" ] },
+        { "math": [ "u_val('stamina')", ">", "energy_amount" ] }
+      ]
+    },
+    "effect": [
+      { "turn_cost": { "context_val": "prep_time" } },
+      { "math": [ "u_val('stamina')", "-=", "_energy_amount" ] },
+      { "run_eocs": [ "EOC_GENERIC_SPELL_MUTATION_ACT" ] }
+    ],
+    "false_effect": [ { "u_message": { "context_val": "message_fail" }, "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_GENERIC_SPELL_MUTATION_ACT",
+    "effect": [
+      {
+        "u_cast_spell": { "id": { "context_val": "spell_to_cast" }, "message": { "context_val": "message_success" } },
+        "targeted": true
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOLUM3_activated",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": "3",
+          "spell_to_cast": "spell_spit_flare",
+          "message_success": { "i18n": true, "str": "You launch a glob of bioluminescent material!" },
+          "message_fail": { "i18n": true, "str": "Your body is too starved to activate your bioluminescent flare." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SLIME_SPRAY",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "prep_time": "1",
+          "spell_to_cast": "spell_slime_spray",
+          "message_success": { "i18n": true, "str": "You spit out some goo onto your enemies!" },
+          "message_fail": { "i18n": true, "str": "Your body is too starved to activate your slime spray." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_FELINE_LEAP",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "2000",
+          "prep_time": "1",
+          "spell_to_cast": "spell_feline_leap",
+          "message_success": {
+            "i18n": true,
+            "str": "You squat down, build up tension in your legs, waggling your tail, then release, launching yourself quite a distance."
+          },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SHORT_LEAP",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "2000",
+          "prep_time": "2",
+          "spell_to_cast": "spell_short_leap",
+          "message_success": {
+            "i18n": true,
+            "str": "You squat down, build up tension in your legs and release, launching yourself quite a distance."
+          },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CRUSHING_LEAP",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "6000",
+          "prep_time": "3",
+          "spell_to_cast": "spell_crushing_leap",
+          "message_success": { "i18n": true, "str": "You squat down, build up tension in your legs and release.  Death from above." },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_AVIAN_LEAP",
+    "effect": [
+      {
+        "run_eoc_with": "EOC_GENERIC_SPELL_MUTATION",
+        "variables": {
+          "energy_amount": "2500",
+          "prep_time": "1",
+          "spell_to_cast": "spell_avian_leap",
+          "message_success": {
+            "i18n": true,
+            "str": "You jump at your target with your talons up front, attempting to deal devastating damage to your target."
+          },
+          "message_fail": { "i18n": true, "str": "Your legs are too tired to perform a jump." }
+        }
+      }
+    ]
+  }
+]

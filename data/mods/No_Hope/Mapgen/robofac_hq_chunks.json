@@ -1,0 +1,69 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "robofac_hq_surface_freemerchant_camp",
+    "object": {
+      "faction_owner": [ { "id": "free_merchants", "x": [ 0, 14 ], "y": [ 0, 14 ] } ],
+      "mapgensize": [ 15, 15 ],
+      "rows": [
+        "        ...... ",
+        " ###### ...... ",
+        " #x.rrrr.......",
+        " #t.rrrr.......",
+        " #x.rrrr...F...",
+        " #+++##..h.....",
+        " #c.t#v........",
+        " #####v........",
+        "       #+# #+# ",
+        "       #c# #c# ",
+        "       ### ### ",
+        "               ",
+        "               ",
+        "               ",
+        "               "
+      ],
+      "terrain": {
+        ".": "t_dirt",
+        "r": "t_carpet_concrete_yellow",
+        "M": "t_pavement",
+        "#": "t_dirt",
+        "x": "t_dirt",
+        "c": "t_dirt",
+        "F": "t_pit_shallow"
+      },
+      "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_c", "t": "f_table", "h": "f_chair", "F": "f_firering" },
+      "traps": { "c": "tr_fur_rollmat", "v": "tr_funnel" },
+      "place_npcs": [
+        { "class": "roabofac_free_merchant", "x": 5, "y": 3 },
+        { "class": "guard", "x": 7, "y": 7 },
+        { "class": "guard", "x": 10, "y": 4 }
+      ],
+      "items": { "c": { "item": "bed", "chance": 50 } },
+      "item": {
+        "r": { "item": "pillow", "chance": 33 },
+        "F": { "item": "pot", "chance": 50 },
+        "v": { "item": "jug_plastic", "chance": 50 }
+      },
+      "place_zones": [
+        { "type": "LOOT_UNSORTED", "faction": "free_merchants", "x": 2, "y": [ 2, 4 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 2
+        },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "NC_ROBOFAC_FREE_MERCHANT_misc",
+          "faction": "free_merchants",
+          "x": 2,
+          "y": 4
+        }
+      ],
+      "//": "migration from older saved games - remove older shop stocks",
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  }
+]

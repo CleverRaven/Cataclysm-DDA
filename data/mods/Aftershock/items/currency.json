@@ -1,0 +1,87 @@
+[
+  {
+    "type": "AMMO",
+    "id": "money",
+    "price": 1,
+    "price_postapoc": 1,
+    "//": "= one cent, gives correct prices for cash cards",
+    "name": { "str": "cent" },
+    "symbol": "=",
+    "color": "light_gray",
+    "description": "A unit of currency equivalent to 0.01 US dollars.",
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "volume": "0 ml",
+    "ammo_type": "money"
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
+    "id": "UICA_1d",
+    "name": { "str": "$1 chit" },
+    "description": "UICA's normally digital currency, rendered physical for use in the frontier.  Worth exactly 1 United Solar Denomination.",
+    "price": "1 USD",
+    "price_postapoc": "1 USD",
+    "weight": "5 g",
+    "volume": "2ml",
+    "to_hit": -3,
+    "color": "red",
+    "symbol": "$",
+    "flags": [ "COIN_SHAPED", "NO_UNLOAD", "NO_RELOAD" ],
+    "material": [ "steel" ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
+    "id": "UICA_10d",
+    "copy-from": "UICA_1d",
+    "name": { "str": "$10 chit" },
+    "description": "UICA's normally digital currency, rendered physical for use in the frontier.  Worth exactly 10 United Solar Denominations.",
+    "price": "10 USD",
+    "color": "yellow",
+    "price_postapoc": "10 USD"
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
+    "id": "UICA_50d",
+    "copy-from": "UICA_1d",
+    "name": { "str": "$50 chit" },
+    "description": "UICA's normally digital currency, rendered physical for use in the frontier.  Worth exactly 50 United Solar Denominations.",
+    "price": "50 USD",
+    "color": "yellow",
+    "price_postapoc": "50 USD"
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
+    "id": "UICA_100d",
+    "copy-from": "UICA_1d",
+    "name": { "str": "$100 chit" },
+    "description": "UICA's normally digital currency, rendered physical for use in the frontier.  Worth exactly a 100 United Solar Denominations.",
+    "price": "100 USD",
+    "color": "light_gray",
+    "price_postapoc": "100 USD"
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
+    "id": "UICA_1000d",
+    "copy-from": "UICA_1d",
+    "name": { "str": "$1000 chit" },
+    "description": "UICA's normally digital currency, rendered physical for use in the frontier.  Worth exactly a 1000 United Solar Denominations.",
+    "price": "1 kUSD",
+    "color": "white",
+    "price_postapoc": "1 kUSD"
+  },
+  {
+    "type": "GENERIC",
+    "category": "currency",
+    "id": "UICA_10000d",
+    "copy-from": "UICA_1d",
+    "name": { "str": "$10000 chit" },
+    "description": "UICA's normally digital currency, rendered physical for use in the frontier.  Worth exactly 10000 United Solar Denominations.",
+    "price": "10 kUSD",
+    "color": "cyan",
+    "price_postapoc": "10 kUSD"
+  }
+]

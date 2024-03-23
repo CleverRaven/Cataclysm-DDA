@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_CHANGE_APPEARANCE",
+    "effect": [ "barber_hair", "barber_beard", { "u_activate": "change_appearance" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIOKIN_ADRENALINE_TRIGGER",
+    "condition": { "not": { "u_has_effect": "adrenaline" } },
+    "effect": [ { "u_add_effect": "adrenaline", "duration": "450 seconds" } ],
+    "false_effect": [ { "u_message": "You already have a surge of adrenaline in your system!", "type": "mixed" } ]
+  }
+]

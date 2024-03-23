@@ -1,16 +1,15 @@
 #include "iuse_software_sokoban.h"
 
 #include <algorithm>
-#include <functional>
-#include <memory>
+#include <optional>
 #include <stdexcept>
+#include <string>
 
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "optional.h"
+#include "input_context.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -89,8 +88,8 @@ void sokoban_game::parse_level( std::istream &fin )
             }
 
             if( sLine[i] == '.' || sLine[i] == '*' || sLine[i] == '+' ) {
-                vLevelDone[iNumLevel].push_back( std::make_pair( static_cast<int>
-                                                 ( mLevelInfo[iNumLevel]["MaxLevelY"] ), static_cast<int>( i ) ) );
+                vLevelDone[iNumLevel].emplace_back( static_cast<int>
+                                                    ( mLevelInfo[iNumLevel]["MaxLevelY"] ), static_cast<int>( i ) );
             }
 
             vLevel[iNumLevel][mLevelInfo[iNumLevel]["MaxLevelY"]][i] = sLine[i];
@@ -218,8 +217,9 @@ int sokoban_game::start_game()
     int iDirY = 0;
     int iDirX = 0;
 
-    using namespace std::placeholders;
-    read_from_file( PATH_INFO::sokoban(), std::bind( &sokoban_game::parse_level, this, _1 ) );
+    read_from_file( PATH_INFO::sokoban(), [this]( std::istream & is ) {
+        parse_level( is );
+    } );
 
     catacurses::window w_sokoban;
     ui_adaptor ui;
@@ -246,11 +246,11 @@ int sokoban_game::start_game()
         draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
 
         std::vector<std::string> shortcuts;
-        shortcuts.push_back( _( "<+> next" ) ); // '+': next
-        shortcuts.push_back( _( "<-> prev" ) ); // '-': prev
-        shortcuts.push_back( _( "<r>eset" ) ); // 'r': reset
-        shortcuts.push_back( _( "<q>uit" ) );  // 'q': quit
-        shortcuts.push_back( _( "<u>ndo move" ) ); // 'u': undo move
+        shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
+        shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
+        shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset
+        shortcuts.emplace_back( _( "<q>uit" ) ); // 'q': quit
+        shortcuts.emplace_back( _( "<u>ndo move" ) ); // 'u': undo move
 
         int indent = 10;
         for( auto &shortcut : shortcuts ) {
@@ -302,7 +302,7 @@ int sokoban_game::start_game()
         }
 
         bMoved = false;
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             iDirX = vec->x;
             iDirY = vec->y;
             bMoved = true;
@@ -376,7 +376,7 @@ int sokoban_game::start_game()
                         bMovePlayer = true;
                         mLevel[iPlayerY + iDirY * 2][iPlayerX + iDirX * 2] = sMovePackTo == "." ? "*" : "$";
 
-                        vUndo.push_back( cUndo( point( iDirX, iDirY ), sMoveTo ) );
+                        vUndo.emplace_back( point( iDirX, iDirY ), sMoveTo );
 
                         iMoves--;
                     }
@@ -386,7 +386,7 @@ int sokoban_game::start_game()
 
                 if( bMovePlayer ) {
                     //move player
-                    vUndo.push_back( cUndo( point( iPlayerX, iPlayerY ), mLevel[iPlayerY][iPlayerX] ) );
+                    vUndo.emplace_back( point( iPlayerX, iPlayerY ), mLevel[iPlayerY][iPlayerX] );
 
                     mLevel[iPlayerY][iPlayerX] = mLevel[iPlayerY][iPlayerX] == "+" ? "." : " ";
                     mLevel[iPlayerY + iDirY][iPlayerX + iDirX] = sMoveTo == "." || sMoveTo == "*" ? "+" : "@";

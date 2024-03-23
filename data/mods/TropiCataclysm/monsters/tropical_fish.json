@@ -1,0 +1,472 @@
+[
+  {
+    "id": "mon_fish_crab",
+    "type": "MONSTER",
+    "name": { "str": "crab" },
+    "description": "A crustacean belonging to either Trichodactylidae or Pseudothelphusidae.  Freshwater crabs are widely spread around Central and South America, some even found in mountain streams.",
+    "default_faction": "fish",
+    "bodytype": "crab",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "FISH" ],
+    "volume": "300 ml",
+    "weight": "100 g",
+    "hp": 3,
+    "speed": 150,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "red",
+    "aggression": -50,
+    "morale": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "luminance": 0,
+    "harvest": "shellfish",
+    "dissect": "dissect_gastropod_sample_single",
+    "reproduction": { "baby_monster": "mon_crab_manca", "baby_count": 1, "baby_timer": 21 },
+    "baby_flags": [ "AUTUMN" ],
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ARTHROPOD_BLOOD" ]
+  },
+  {
+    "id": "mon_crab_manca",
+    "type": "MONSTER",
+    "name": { "str": "baby crab" },
+    "description": "A crab in its larval stage, incredibly fragile and tiny but produced by a truckload of eggs that have been carried by their mother.",
+    "copy-from": "mon_fish_crab",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 ml",
+    "weight": "30 g",
+    "upgrades": { "age_grow": 15, "into": "mon_fish_crab" }
+  },
+  {
+    "id": "mon_fish_pancora",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_crab",
+    "name": { "str": "pancora crab" },
+    "reproduction": { "baby_monster": "mon_pancora_manca", "baby_count": 1, "baby_timer": 21 },
+    "description": "A crustacean belonging to the Aeglidae family.  They are among the only living freshwater anomurans, being restricted solely to South America."
+  },
+  {
+    "id": "mon_pancora_manca",
+    "type": "MONSTER",
+    "name": { "str": "baby pancora crab" },
+    "description": "A pancora crab in its larval stage, incredibly fragile and tiny but produced by a truckload of eggs that have been carried by their mother.",
+    "copy-from": "mon_fish_pancora",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 ml",
+    "weight": "30 g",
+    "upgrades": { "age_grow": 15, "into": "mon_fish_pancora" }
+  },
+  {
+    "id": "mon_shark",
+    "type": "MONSTER",
+    "name": { "str": "bull shark" },
+    "description": "The bull shark is one of the few known species of shark capable of living in both fresh and salty waters.  With the advent of the Cataclysm many of them have migrated up river to exploit the new food sources in the waters.",
+    "default_faction": "fish",
+    "bodytype": "fish",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "FISH" ],
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 200,
+    "speed": 120,
+    "material": [ "flesh" ],
+    "symbol": "^",
+    "color": "blue_white",
+    "aggression": 15,
+    "morale": 60,
+    "melee_skill": 5,
+    "melee_dice": 3,
+    "melee_dice_sides": 5,
+    "melee_damage": [ { "damage_type": "cut", "amount": 7 } ],
+    "dodge": 4,
+    "luminance": 0,
+    "harvest": "fish_large",
+    "zombify_into": "mon_zhark",
+    "reproduction": { "baby_monster": "mon_shark_pup", "baby_count": 8, "baby_timer": 364 },
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ],
+    "armor": { "bash": 5, "cut": 1, "bullet": 1 }
+  },
+  {
+    "id": "mon_shark_pup",
+    "type": "MONSTER",
+    "name": { "str": "bull shark pup" },
+    "description": "Unlike other fish bull sharks are viviparous and their pups are as well equipped as their parents.",
+    "copy-from": "mon_shark",
+    "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "1200 ml",
+    "weight": "800 g",
+    "fear_triggers": [ "PLAYER_CLOSE", "SOUND", "HURT" ],
+    "upgrades": { "age_grow": 365, "into": "mon_shark" },
+    "flags": [ "FISHABLE", "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_fish_lungfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str_sp": "lungfish" },
+    "reproduction": { "baby_egg": "egg_lungfish", "baby_count": 2, "baby_timer": 17 },
+    "description": "A lungfish.  This strange fish has relatives in both Africa and Australia, all of them can breathe air and some consider them living fossils."
+  },
+  {
+    "id": "mon_fry_lungfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_lungfish" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_eel_electric",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "electric eel" },
+    "description": "An electric eel.  A strange elongated fish known for its hability to use electricity to hunt prey, despite their name they are not actually eels.",
+    "special_when_hit": [ "ZAPBACK", 100 ],
+    "reproduction": { "baby_egg": "egg_eel_electric", "baby_count": 2, "baby_timer": 17 },
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "ELECTRIC" ]
+  },
+  {
+    "id": "mon_fry_eel_electric",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_eel_electric" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_pacu",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "pacu" },
+    "reproduction": { "baby_egg": "egg_pacu", "baby_count": 2, "baby_timer": 17 },
+    "description": "A pacu.  There are several species of these piranha relatives in the rivers of South America, they are usually small to medium size."
+  },
+  {
+    "id": "mon_fry_pacu",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_pacu" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_pacu_giant",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "tambaqui" },
+    "reproduction": { "baby_egg": "egg_tambaqui", "baby_count": 2, "baby_timer": 17 },
+    "description": "Also known as black or giant pacu.  This is the largest member of the family and the most known worldwide."
+  },
+  {
+    "id": "mon_fry_tambaqui",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_pacu_giant" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_piranha",
+    "type": "MONSTER",
+    "name": { "str": "piranha" },
+    "description": "A small to medium fish with a wide diet.  Contrary to popular belief these fish are not vicious predators and instead react to the availability of food in their environment.",
+    "default_faction": "fish",
+    "bodytype": "fish",
+    "species": [ "FISH" ],
+    "volume": "3200 ml",
+    "weight": "3200 g",
+    "hp": 15,
+    "speed": 180,
+    "material": [ "flesh" ],
+    "symbol": "t",
+    "color": "light_green",
+    "aggression": 15,
+    "morale": 60,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "dodge": 6,
+    "vision_day": 1,
+    "vision_night": 30,
+    "harvest": "fish_small",
+    "reproduction": { "baby_egg": "egg_piranha", "baby_count": 2, "baby_timer": 17 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
+    "path_settings": { "max_dist": 5 },
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE" ]
+  },
+  {
+    "id": "mon_fry_piranha",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_piranha" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_arowana",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "arowana" },
+    "reproduction": { "baby_egg": "egg_arowana", "baby_count": 2, "baby_timer": 17 },
+    "description": "A member of the Osteoglossidade family.  These fishes can be found on South America, Asia and Australia."
+  },
+  {
+    "id": "mon_fry_arowana",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_arowana" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_arapaima",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_huge",
+    "name": { "str": "arapaima" },
+    "reproduction": { "baby_egg": "egg_arapaima", "baby_count": 2, "baby_timer": 17 },
+    "description": "A member of the Arapaimidae family.  These fishes can be found on South America and Africa, some species can grow to truly huge sizes."
+  },
+  {
+    "id": "mon_fry_arapaima",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_arapaima" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_piraiba",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_huge",
+    "name": { "str": "piraiba" },
+    "reproduction": { "baby_egg": "egg_piraiba", "baby_count": 2, "baby_timer": 17 },
+    "description": "A huge species of South American catfish native to the Amazon and Orinoco rivers, they can reach almost 3 meters in length."
+  },
+  {
+    "id": "mon_fry_piraiba",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_piraiba" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_pleco",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "pleco" },
+    "reproduction": { "baby_egg": "egg_pleco", "baby_count": 2, "baby_timer": 17 },
+    "description": "A catfish species native to South America, Panama and even Costa Rica.  They are distinguished by their bony spines and suction adapted mouths."
+  },
+  {
+    "id": "mon_fry_pleco",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_pleco" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_stingray",
+    "type": "MONSTER",
+    "name": { "str_sp": "river stingray" },
+    "description": "A fish of the Potamotrygonidae family.  These freshwater stingrays are found mostly in South America with a few bred in other parts of the world.",
+    "default_faction": "fish",
+    "bodytype": "fish",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "FISH" ],
+    "volume": "2 L",
+    "weight": "1500 g",
+    "hp": 6,
+    "speed": 150,
+    "dodge": 8,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "white",
+    "aggression": -50,
+    "morale": 60,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
+    "luminance": 0,
+    "reproduction": { "baby_monster": "mon_fry_stingray", "baby_count": 8, "baby_timer": 364 },
+    "harvest": "fish_small",
+    "dissect": "dissect_fish_sample_single",
+    "flags": [ "FISHABLE", "SEES", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "BADVENOM" ]
+  },
+  {
+    "id": "mon_fry_stingray",
+    "type": "MONSTER",
+    "name": { "str": "stingray fry", "str_pl": "stingray fries" },
+    "copy-from": "mon_fish_stingray",
+    "description": "A baby stingray.  Like many other cartilaginous fishes, river stingrays are ovoviviparous and carry the eggs until the fries are ready to get out in to the world.",
+    "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "10 ml",
+    "weight": "1 g",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s is smashed to non-recognizable pieces." },
+    "upgrades": { "half_life": 14, "into": "mon_fish_stingray" }
+  },
+  {
+    "id": "mon_fish_gar",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_huge",
+    "name": { "str": "gar" },
+    "reproduction": { "baby_egg": "egg_gar", "baby_count": 2, "baby_timer": 17 },
+    "description": "A fish belonging to the Lepisosteidae family.  These enormous fishes can be found from North America to the Caribbean and are well known for their prehistoric appearance."
+  },
+  {
+    "id": "mon_fry_gar",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_gar" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_tucunare",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "tucunaré", "str_pl": "tucunarés" },
+    "reproduction": { "baby_egg": "egg_tucunare", "baby_count": 2, "baby_timer": 17 },
+    "description": "A vicious predatory cichlid found along the northern tributaries of South America from Panama to the Amazon.  Very sought among sport fishing enthusiasts."
+  },
+  {
+    "id": "mon_fry_tucunare",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_tucunare" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_discus",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str": "discus", "str_pl": "discuses" },
+    "reproduction": { "baby_egg": "egg_discus", "baby_count": 2, "baby_timer": 17 },
+    "description": "A round and colorful genus of fish native to the Amazon river basin.  Very popular in aquariums but expensive to maintain in captivity."
+  },
+  {
+    "id": "mon_fry_discus",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_discus" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_angelfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "angelfish" },
+    "reproduction": { "baby_egg": "egg_angelfish", "baby_count": 2, "baby_timer": 17 },
+    "description": "A genus of freshwater fish with a triangular shape native to South America.  Unrelated to the marine angel fishes and known to be semi-aggressive in captivity."
+  },
+  {
+    "id": "mon_fry_angelfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_angelfish" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_tiny",
+    "name": { "str_sp": "goldfish" },
+    "reproduction": { "baby_egg": "egg_goldfish", "baby_count": 2, "baby_timer": 17 },
+    "description": "A tiny domestic fish related to the carp.  This one must be part of a feral population but still keeps the golden hue of its domestic counterpart."
+  },
+  {
+    "id": "mon_fry_goldfish",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_goldfish" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_koi",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "koi" },
+    "reproduction": { "baby_egg": "egg_koi", "baby_count": 2, "baby_timer": 17 },
+    "description": "A domestic variant of the Amur carp originally bred in Japan for its color variations.  These fishes are known to devolve quickly to feral status if left to escape."
+  },
+  {
+    "id": "mon_fry_koi",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_koi" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_tilapia",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_medium",
+    "name": { "str": "tilapia" },
+    "reproduction": { "baby_egg": "egg_tilapia", "baby_count": 2, "baby_timer": 17 },
+    "description": "A genus of cichlids native to Africa but bred worldwide for food.  They are adaptable herbivorous fishes that can survive well even in salt water."
+  },
+  {
+    "id": "mon_fry_tilapia",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_tilapia" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_sabalo",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_large",
+    "name": { "str": "sabalo" },
+    "reproduction": { "baby_egg": "egg_sabalo", "baby_count": 2, "baby_timer": 17 },
+    "description": "A fish belonging to the Prochilodontidae family.  They are native to South America and most species can be found feeding on detritus."
+  },
+  {
+    "id": "mon_fry_sabalo",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_sabalo" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_oscar",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "oscar" },
+    "reproduction": { "baby_egg": "egg_oscar", "baby_count": 2, "baby_timer": 17 },
+    "description": "A species of omnivorous cichlid native to South America.  Quite popular in aquariums with several different colored breeds."
+  },
+  {
+    "id": "mon_fry_oscar",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_oscar" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_guapote",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "guapote" },
+    "reproduction": { "baby_egg": "egg_guapote", "baby_count": 2, "baby_timer": 17 },
+    "description": "A genus of cichlids found in Central America.  All of the species are predatory with different coloration and sizes."
+  },
+  {
+    "id": "mon_fry_guapote",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_guapote" },
+    "name": { "str_sp": "fry" }
+  },
+  {
+    "id": "mon_fish_mayaheros",
+    "type": "MONSTER",
+    "copy-from": "mon_fish_small",
+    "name": { "str": "mayaheros", "str_pl": "mayaheri" },
+    "reproduction": { "baby_egg": "egg_mayaheros", "baby_count": 2, "baby_timer": 17 },
+    "description": "A genus of adaptable cichlids native to Central America.  They can survive in marine environments with some populations even reaching Florida."
+  },
+  {
+    "id": "mon_fry_mayaheros",
+    "type": "MONSTER",
+    "copy-from": "mon_fry",
+    "upgrades": { "half_life": 14, "into": "mon_fish_mayaheros" },
+    "name": { "str_sp": "fry" }
+  }
+]

@@ -144,7 +144,8 @@ class CDDAPullRequest(PullRequest):
     "Summary" descriptions"""
 
     SUMMARY_REGEX = re.compile(
-        r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
+        r'(?i:####\sSummary)\s*'
+        r'`*(?i:SUMMARY:?\s*)?(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
         re.MULTILINE)
 
     VALID_SUMMARY_CATEGORIES = (
@@ -163,6 +164,7 @@ class CDDAPullRequest(PullRequest):
 
     EXAMPLE_SUMMARIES_IN_TEMPLATE = (
         ("Category", "description"),
+        ("Category", "Brief description"),
         ("Content", "Adds new mutation category 'Mouse'"),
     )
 
@@ -552,7 +554,7 @@ class CommitApi:
                 results_queue.append(commit)
 
             if request_generator.is_active and len(commit_list) == 0:
-                log.debug(f'Target page found, stop giving threads more '
+                log.debug('Target page found, stop giving threads more '
                           f'requests. Target URL: {api_request.full_url}')
                 request_generator.deactivate()
         return _process_commit_data_callback_closure
@@ -615,7 +617,7 @@ class PullRequestApi:
         requests per minute.
         """
         params = {
-            'q': f'is:pr is:merged repo:CleverRaven/Cataclysm-DDA '
+            'q': 'is:pr is:merged repo:CleverRaven/Cataclysm-DDA '
                  f'{commit_hash}'
         }
         request_builder = GitHubApiRequestBuilder(self.api_token)
@@ -699,7 +701,7 @@ class PullRequestApi:
             if len(pull_request_list) == 0 or target_page_found:
                 if request_generator.is_active:
                     log.debug(
-                        f'Target page found, stop giving threads more '
+                        'Target page found, stop giving threads more '
                         f'requests. Target URL: {api_request.full_url}')
                     request_generator.deactivate()
 
@@ -769,13 +771,13 @@ class MultiThreadedGitHubApi:
     def _process_api_requests_on_threads(request_generator, callback):
         """Process HTTP API requests and call the callback for each result
         JSON"""
-        log.debug(f'Thread Started!')
+        log.debug('Thread Started!')
         api_request = request_generator.generate()
         while api_request is not None:
             callback(do_github_request(api_request), request_generator,
                      api_request)
             api_request = request_generator.generate()
-        log.debug(f'No more requests left, killing Thread.')
+        log.debug('No more requests left, killing Thread.')
 
 
 class GitHubApiRequestBuilder(object):
@@ -944,6 +946,8 @@ def do_github_request(api_request, retry_on_limit=3):
         except urllib.error.HTTPError as err:
             # hit rate limit, wait and retry
             is_403 = err.code == 403
+            is_502 = err.code == 502
+
             if is_403 and err.getheader('Retry-After'):
                 wait = int(err.getheader('Retry-After')) + 5
                 log.info(f'Reached GitHub API rate limit. Retry {retry}, '
@@ -956,12 +960,17 @@ def do_github_request(api_request, retry_on_limit=3):
                 log.info(f'Reached GitHub API rate limit. Retry {retry}, '
                          f'waiting {wait} secs...')
                 time.sleep(wait)
+            elif is_502:
+                wait = 5
+                log.info(f'GitHub API 502 Gateway Error. Retry {retry}, '
+                         f'waiting {wait} secs...')
+                time.sleep(wait)
             else:
                 # other kind of http error, just implode
                 log.exception(f'Unhandled Exception: {err} - '
                               f'HTTP Headers: {err.getheaders()}')
                 raise
-    raise Exception(f'Retry limit reached')
+    raise Exception('Retry limit reached')
 
 
 def read_personal_token(filename):
@@ -975,7 +984,9 @@ def read_personal_token(filename):
         return None
 
     try:
-        with open(pathlib.Path(str(filename)).expanduser()) as token_file:
+        with open(
+                pathlib.Path(str(filename)).expanduser(),
+                encoding="utf-8") as token_file:
             match = re.search('(?P<token>\\S+)', token_file.read(),
                               flags=re.MULTILINE)
             if match is not None:
@@ -1026,7 +1037,7 @@ def main_entry(argv):
         if x == '-':
             return sys.stdout
         else:
-            pathlib.Path(x).expanduser().resolve()
+            return pathlib.Path(x).expanduser().resolve()
 
     parser.add_argument(
         '-D', '--by-date',
@@ -1061,6 +1072,12 @@ def main_entry(argv):
     )
 
     parser.add_argument(
+        '-T', '--token-string',
+        help='Specify the Personal Token as an inline argument.',
+        default=None
+    )
+
+    parser.add_argument(
         '-N', '--include-summary-none',
         action='store_true',
         help='Indicates if Pull Requests with Summary "None" should be '
@@ -1092,17 +1109,19 @@ def main_entry(argv):
     log.debug(f'Commandline Arguments (+defaults): {arguments}')
 
     if validate_file_for_writing(arguments.by_date):
-        raise ValueError(f"Specified directory in --by-date doesn't exist: "
+        raise ValueError("Specified directory in --by-date doesn't exist: "
                          f"{arguments.by_date.parent}")
 
     if validate_file_for_writing(arguments.by_build):
-        raise ValueError(f"Specified directory in --by-build doesn't exist: "
+        raise ValueError("Specified directory in --by-build doesn't exist: "
                          f"{arguments.by_build.parent}")
 
     personal_token = read_personal_token(arguments.token_file)
     if personal_token is None:
-        log.warning("GitHub Token was not provided, API calls will have "
-                    "severely limited rates.")
+        personal_token = arguments.token_string
+        if personal_token is None:
+            log.warning("GitHub Token was not provided, API calls will have "
+                        "severely limited rates.")
 
     if arguments.by_date is None and arguments.by_build is None:
         raise ValueError("Script should be called with either --by-date or "
@@ -1228,7 +1247,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm,
 
         if curr_date in commits_with_no_pr:
             if not flatten:
-                print(f"    MISC. COMMITS", file=output_file)
+                print("    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
                 if not flatten:
                     print(f"        * {commit.message} (by {commit.author} in "
@@ -1242,7 +1261,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm,
             include_summary_none and curr_date in pr_with_summary_none)
         if curr_date in pr_with_invalid_summary or is_included_summary_none:
             if not flatten:
-                print(f"    MISC. PULL REQUESTS", file=output_file)
+                print("    MISC. PULL REQUESTS", file=output_file)
             for pr in pr_with_invalid_summary[curr_date]:
                 if not flatten:
                     print(f"        * {pr.title} (by {pr.author} in "
@@ -1348,7 +1367,7 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file,
             print(file=output_file)
 
         if len(commits_with_no_pr) > 0:
-            print(f"    MISC. COMMITS", file=output_file)
+            print("    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr:
                 print(f"        * {commit.message} (by {commit.author} in "
                       f"Commit {commit.hash[:7]})", file=output_file)
@@ -1357,7 +1376,7 @@ def build_output_by_build(build_repo, pr_repo, commit_repo, output_file,
         is_included_summary_none = (
             include_summary_none and len(pr_with_summary_none) > 0)
         if len(pr_with_invalid_summary) > 0 or is_included_summary_none:
-            print(f"    MISC. PULL REQUESTS", file=output_file)
+            print("    MISC. PULL REQUESTS", file=output_file)
             for pr in pr_with_invalid_summary:
                 print(f"        * {pr.title} (by {pr.author} in PR {pr.id})",
                       file=output_file)

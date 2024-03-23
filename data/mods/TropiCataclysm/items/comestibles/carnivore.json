@@ -1,0 +1,58 @@
+[
+  {
+    "id": "echinoderm",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of echinoderm flesh", "str_pl": "chunks of echinoderm flesh" },
+    "description": "The flesh of an echinoderm.  Considered a delicacy in several parts of the world but otherwise poor in nutritional value.",
+    "//": "Nutrition information roughly based on edible sea cucumbers, if you know more pls expand",
+    "weight": "148 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 4 ], [ "iron", 1 ] ],
+    "calories": 83
+  },
+  {
+    "id": "echinoderm_cooked",
+    "copy-from": "echinoderm",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked echinoderm" },
+    "description": "Freshly cooked echinoderm.  Not so glamorous without the rest of ingredients.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": "1 day",
+    "price_postapoc": 150,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "cnidarian",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": { "str": "chunk of cnidarian meat", "str_pl": "chunks of cnidarian meat" },
+    "description": "The flesh of a cnidarian.  Cultivated in some parts of the planet as an exotic ingredient but otherwise a low nutrient edible.",
+    "//": "Nutrition information taken from google for cultivated edible jellyfish. if you know more pls expand",
+    "weight": "148 g",
+    "volume": "250 ml",
+    "price": 500,
+    "price_postapoc": 50,
+    "spoils_in": "12 hours",
+    "flags": [ "RAW" ],
+    "vitamins": [ [ "vitC", 0 ], [ "calcium", 3 ], [ "iron", 3 ] ],
+    "calories": 54
+  },
+  {
+    "id": "cnidarian_cooked",
+    "copy-from": "cnidarian",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "cooked cnidarian" },
+    "description": "Freshly cooked cnidarian.  Looks translucent and tasteless, you may want to add something to flavor it.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": "1 day",
+    "price_postapoc": 150,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  }
+]

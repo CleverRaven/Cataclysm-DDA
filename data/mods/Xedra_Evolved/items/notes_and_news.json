@@ -1,0 +1,74 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "report_march_lord",
+    "name": { "str": "Report CO001141" },
+    "description": "A page from a report.",
+    "copy-from": "survnote",
+    "snippet_category": "changeling_march_lord_report"
+  },
+  {
+    "type": "GENERIC",
+    "id": "border_patrol_files",
+    "name": { "str_sp": "border patrol files" },
+    "description": "A folder filled with pages.",
+    "copy-from": "survnote",
+    "snippet_category": "border_patrol_files"
+  },
+  {
+    "type": "GENERIC",
+    "id": "green_postit_field_agent",
+    "copy-from": "survnote",
+    "name": { "str": "post-it note" },
+    "description": "A bright green post-it note.",
+    "snippet_category": "desk_postit_field_agent"
+  },
+  {
+    "type": "GENERIC",
+    "id": "agent_postit_gray",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "description": "A bright gray post-it note.",
+    "snippet_category": "agent_postit_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "agent_postit_migo",
+    "copy-from": "lab_postit_bio",
+    "name": { "str": "post-it note" },
+    "description": "A bright pink post-it note.",
+    "snippet_category": "agent_postit_migo"
+  },
+  {
+    "type": "GENERIC",
+    "id": "museum_plaques_visitors",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "museum plaque" },
+    "snippet_category": "museum_plaques_visitors",
+    "description": "A paper plaque.  It has words printed on it.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "12 mg",
+    "volume": "1 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "museum_plaques_items",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "museum plaque" },
+    "snippet_category": "museum_plaques_items",
+    "description": "A paper plaque.  It has words printed on it.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "12 mg",
+    "volume": "1 ml"
+  }
+]

@@ -1,5 +1,15 @@
 [
   {
+    "result": "22_blank",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "22_casing_new_short", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ]
+  },
+  {
     "result": "22_cb",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -7,8 +17,7 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ] ]
   },
   {
     "result": "22_fmj",
@@ -18,8 +27,7 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 1 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ], [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "lead", 1 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "22_lr",
@@ -29,8 +37,7 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 1 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ], [ [ "copper", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "lead", 1 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "22_ratshot",
@@ -40,7 +47,6 @@
     "difficulty": 5,
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ],
-    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "22_casing_new", 1 ] ], [ [ "gunpowder_pistol", 1 ] ] ]
   }
 ]

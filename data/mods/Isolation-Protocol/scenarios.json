@@ -1,0 +1,15 @@
+[
+  {
+    "type": "scenario",
+    "id": "fractal_facility",
+    "name": "Fractal facility",
+    "points": 0,
+    "description": "Room by room and level by level the facility drills into depths beyond the logical.  An endless mode where the only goal is to reach the lowest level possible.",
+    "allowed_locs": [ "iso_entry_setpiece" ],
+    "professions": [ "iso_deliveryboy", "iso_cop", "iso_paramedic", "iso_hacker" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Facility Lobby",
+    "forbidden_traits": [ "ROBUST", "XS", "XXXL", "CHAOTIC_BAD", "QUICK", "NOMAD", "WAYFARER", "NYCTOPHOBIA" ],
+    "eoc": [ "scenario_fractal_facility" ]
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DEFENSE_MODE_EXODII",
+    "//": "A small Exodii hunter/killer unit or party, respecialized for Defense Mode.",
+    "monsters": [
+      { "monster": "mon_dm_exodii_quad_jotunn", "weight": 20 },
+      { "monster": "mon_dm_exodii_quad", "weight": 100 },
+      { "monster": "mon_dm_exodii_worker", "weight": 50, "cost_multiplier": 20, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DEFENSE_MODE_XEDRA",
+    "monsters": [
+      { "monster": "mon_dm_changeling", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_dm_fetch_child", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_dm_fae_wolf", "weight": 250, "cost_multiplier": 5 },
+      { "monster": "mon_dm_goblin_spider", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_dm_changeling_bannerman", "weight": 100, "cost_multiplier": 1 },
+      { "monster": "mon_dm_fetch_daffodil_warrior", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_dm_pooka_aspirant", "weight": 10, "cost_multiplier": 4 },
+      { "monster": "mon_dm_redcap_aspirant", "weight": 10, "cost_multiplier": 4 },
+      { "monster": "mon_dm_vampire_moroi", "weight": 25 },
+      { "monster": "mon_dm_vampire_strigoi", "weight": 15 },
+      { "monster": "mon_dm_water_sprite", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_dm_spitting_lizard", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_dm_smoke_mephit", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_dm_skyglass_butterflies", "weight": 80, "cost_multiplier": 0 },
+      { "monster": "mon_dm_dragonfly_fae", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_dm_vineling", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_dm_ratatosk_children", "weight": 400, "cost_multiplier": 0 },
+      { "monster": "mon_dm_zoomorphic_figure_small", "weight": 40, "cost_multiplier": 0 },
+      { "monster": "mon_dm_venus_doll", "weight": 400, "cost_multiplier": 0 }
+    ]
+  }
+]

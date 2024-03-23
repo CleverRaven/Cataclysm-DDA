@@ -1,0 +1,26 @@
+[
+  {
+    "id": "directions_exodii_signpost",
+    "type": "mission_definition",
+    "name": { "str": "Follow the directions on the pictographic sign" },
+    "description": "I found a weird pictographic sign that seemed to point towards someone willing to trade.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 2,
+    "value": 0,
+    "start": {
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I found a weird pictographic sign that seemed to point towards someone willing to trade.",
+      "offer": "This is a sign with a series of simple line-art pictograms showing what appears to be a basic trade transaction.  A pair of hands offers a piece of some kind of junk, and another pair of hands offers a small pouch in return.",
+      "accepted": ".",
+      "rejected": ".",
+      "advice": ".",
+      "inquire": ".",
+      "success": ".",
+      "success_lie": ".",
+      "failure": "."
+    }
+  }
+]

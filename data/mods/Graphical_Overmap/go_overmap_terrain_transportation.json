@@ -1,18 +1,6 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "hiway_ns",
-    "copy-from": "hiway_ns",
-    "sym": "\u00BD"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "hiway_ew",
-    "copy-from": "hiway_ew",
-    "sym": "\u00BE"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "road_nesw_manhole",
     "copy-from": "road_nesw_manhole",
     "sym": "\u00D8",
@@ -55,14 +43,6 @@
     "id": "roadstop_b_roof",
     "copy-from": "roadstop_b_roof",
     "sym": "\u00EE"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirtroad",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "dirt road",
-    "sym": "#",
-    "color": "brown"
   },
   {
     "type": "overmap_terrain",

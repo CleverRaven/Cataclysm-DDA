@@ -1,0 +1,104 @@
+[
+  {
+    "type": "proficiency_category",
+    "id": "prof_weakpoint",
+    "name": "Weakpoint",
+    "description": "Proficiencies that help target weak points on specific creatures."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_combat",
+    "name": "Weapons Proficiencies",
+    "description": "Proficiencies for various weapons."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_chem",
+    "name": "Applied Science",
+    "description": "Proficiencies for scientific understanding and working with certain chemicals and substances."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_food",
+    "name": "Food Handling",
+    "description": "Proficiencies for cooking and food preparation, as well as experience with food handling tools."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_electronic",
+    "name": "Electronics",
+    "description": "Proficiencies for building and maintaining electronics and powered devices."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_gunmaking",
+    "name": "Projectile Weaponry",
+    "description": "Proficiencies for creating and modifying projectile weapons."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_firstaid",
+    "name": "Health Care",
+    "description": "Proficiencies for treating injuries and general health care knowledge."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_mechanic",
+    "name": "Mechanics",
+    "description": "Proficiencies for building and maintaining vehicles, engines, and similar equipment."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_smithing",
+    "name": "Metalworking",
+    "description": "Proficiencies for welding, casting and shaping metal."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_woodworking",
+    "name": "Woodworking",
+    "description": "Proficiencies for creating and modifying wood-based crafts."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_devices",
+    "name": "Device Manipulation",
+    "description": "Proficiencies for lockpicking, cracking safes, and general tinkering."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_survival",
+    "name": "Wilderness",
+    "description": "Proficiencies for surviving out in the wild."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_archery",
+    "name": "Archery",
+    "description": "Proficiencies for all things bow and arrows.  Includes knowledge and experience of making and modifying bows, as well as archery form and posture."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_misc_craft",
+    "name": "Miscellaneous Crafts",
+    "description": "Proficiencies for various domain-specific crafts."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_tailoring",
+    "name": "Fabrics and Tailoring",
+    "description": "Proficiencies for sewing, binding and mending fabrics and clothing materials."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_vehicles",
+    "name": "Vehicles",
+    "description": "Proficiencies for driving, piloting, and general vehicle operations."
+  },
+  {
+    "type": "proficiency_category",
+    "id": "prof_athletics",
+    "name": "Athletics",
+    "description": "Proficiencies for various athletic activities."
+  }
+]
