@@ -806,7 +806,7 @@ int widget::get_var_value( const avatar &ava ) const
             value = ava.movecounter;
             break;
         case widget_var::move_remainder:
-            value = ava.moves;
+            value = ava.get_moves();
             break;
         case widget_var::move_cost:
             value = ava.run_cost( 100 );

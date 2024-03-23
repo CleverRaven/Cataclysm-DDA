@@ -498,7 +498,7 @@ bool aim_activity_actor::load_RAS_weapon()
     int sta_percent = ( 100 * you.get_stamina() ) / you.get_stamina_max();
     reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
 
-    you.moves -= reload_time;
+    you.mod_moves( -reload_time );
     return true;
 }
 
@@ -513,7 +513,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
     gun_mode gun = weapon->gun_current_mode();
     if( gun->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-        int moves_before_unload = you.moves;
+        int moves_before_unload = you.get_moves();
 
         // Note: this code works only for avatar
         item_location loc = item_location( you, gun.target );
@@ -521,7 +521,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
         // Give back time for unloading as essentially nothing has been done.
         if( first_turn ) {
-            you.moves = moves_before_unload;
+            you.set_moves( moves_before_unload );
         }
     }
 }
@@ -550,17 +550,17 @@ void autodrive_activity_actor::start( player_activity &, Character &who )
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
     if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
-        if( who.moves <= 0 ) {
+        if( who.get_moves() <= 0 ) {
             // out of moves? the driver's not doing anything this turn
             // (but the vehicle will continue moving)
             return;
         }
         switch( player_vehicle->do_autodrive( who ) ) {
             case autodrive_result::ok:
-                if( who.moves > 0 ) {
+                if( who.get_moves() > 0 ) {
                     // if do_autodrive() didn't eat up all our moves, end the turn
                     // equivalent to player pressing the "pause" button
-                    who.moves = 0;
+                    who.set_moves( 0 );
                 }
                 sounds::reset_markers();
                 break;
@@ -1598,7 +1598,7 @@ void glide_activity_actor::do_turn( player_activity &act, Character &you )
         g->vertical_move( -1, false, false );
         moved_tiles = 0;
     }
-    you.moves -= 50;
+    you.mod_moves( -you.get_speed() * 0.5 );
     get_map().update_visibility_cache( you.pos().z );
     get_map().update_visibility_cache( you.pos().x );
     get_map().update_visibility_cache( you.pos().y );
@@ -2295,7 +2295,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
 {
     const tripoint_bub_ms dest = relative_destination + who.pos_bub();
 
-    while( who.moves > 0 && !target_items.empty() ) {
+    while( who.get_moves() > 0 && !target_items.empty() ) {
         item_location target = std::move( target_items.back() );
         const int quantity = quantities.back();
         target_items.pop_back();
@@ -4074,7 +4074,7 @@ static std::list<item> obtain_activity_items( std::vector<drop_or_stash_item_inf
             // Pure cost to handling item excluding overhead.
             consumed_moves = std::max( who.item_handling_cost( *loc, true, 0, it->count(), true ), 1 );
         }
-        if( !who.is_npc() && who.moves <= 0 && consumed_moves > 0 ) {
+        if( !who.is_npc() && who.get_moves() <= 0 && consumed_moves > 0 ) {
             break;
         }
 
@@ -5988,7 +5988,7 @@ bool avatar_action::check_stealing( Character &who, item &weapon )
 
 void wield_activity_actor::do_turn( player_activity &, Character &who )
 {
-    if( who.moves > 0 ) {
+    if( who.get_moves() > 0 ) {
         if( target_item ) {
             // Make copies so the original remains untouched if wielding fails
             item newit = *target_item;
@@ -6050,7 +6050,7 @@ std::unique_ptr<activity_actor> wield_activity_actor::deserialize( JsonValue &js
 void wear_activity_actor::do_turn( player_activity &, Character &who )
 {
     // ACT_WEAR has item_location targets, and int quantities
-    while( who.moves > 0 && !target_items.empty() ) {
+    while( who.get_moves() > 0 && !target_items.empty() ) {
         item_location target = std::move( target_items.back() );
         int quantity = quantities.back();
         target_items.pop_back();
@@ -7239,7 +7239,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
-                        if( you.moves <= 0 ) {
+                        if( you.get_moves() <= 0 ) {
                             return;
                         }
                     }
@@ -7269,7 +7269,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                                 }
                             }
                         }
-                        if( you.moves <= 0 ) {
+                        if( you.get_moves() <= 0 ) {
                             return;
                         }
                     }
@@ -7279,7 +7279,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
                         }
-                        if( you.moves <= 0 ) {
+                        if( you.get_moves() <= 0 ) {
                             return;
                         }
                     }
@@ -7292,7 +7292,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             continue;
                         }
                         you.gunmod_remove( *it->first, *mod );
-                        if( you.moves <= 0 ) {
+                        if( you.get_moves() <= 0 ) {
                             return;
                         }
                     }
@@ -7303,7 +7303,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     while( !it->first->get_contents().get_added_pockets().empty() ) {
                         item removed = it->first->get_contents().remove_pocket( 0 );
                         move_item( you, removed, 1, src_loc, src_loc, this_veh, this_part );
-                        if( you.moves <= 0 ) {
+                        if( you.get_moves() <= 0 ) {
                             return;
                         }
                     }
@@ -7315,7 +7315,7 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                 return;
             }
 
-            if( you.moves <= 0 ) {
+            if( you.get_moves() <= 0 ) {
                 return;
             }
         }

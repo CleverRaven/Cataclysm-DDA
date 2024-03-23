@@ -40,7 +40,7 @@
     "name": "pipe rifles",
     "description": "Recipes related to constructing pistol-caliber rifles using pipes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_40", "rifle_45", "rifle_9mm", "rifle_44", "rifle_32", "rifle_9x18", "rifle_380" ],
+    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_44" ],
     "difficulty": 3
   },
   {
@@ -7099,6 +7099,18 @@
       "qt_esbi_plate"
     ],
     "difficulty": 5
+  },
+  {
+    "id": "nested_cardboard_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "cardboard armor",
+    "description": "Recipes related to the construction of cardboard 'armor'.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "helmet_cardboard", "armor_cardboard", "armor_cardboard_cuirass", "cardboard_shield", "cardboard_crown" ],
+    "difficulty": 1
   },
   {
     "id": "nested_bullet_necklaces",
