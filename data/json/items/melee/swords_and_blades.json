@@ -642,7 +642,7 @@
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 21 }
   },
   {
     "id": "knife_swissarmy",
@@ -1009,7 +1009,7 @@
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 21 }
   },
   {
     "id": "kris_fake",
@@ -1062,7 +1062,7 @@
     "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "cut": 21 }
+    "melee_damage": { "cut": 22 }
   },
   {
     "id": "hc_kukri",
@@ -1730,7 +1730,7 @@
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 2, "stab": 19 }
+    "melee_damage": { "bash": 2, "stab": 20 }
   },
   {
     "id": "tanto_inferior",
