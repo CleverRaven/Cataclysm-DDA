@@ -8,6 +8,7 @@ on:
       - '.github/workflows/release.yml'
       - 'android/**'
       - 'build-data/**'
+      - 'build-scripts/generate-release-notes.js'
       - 'cataclysm-launcher'
       - 'data/**'
       - 'doc/**'

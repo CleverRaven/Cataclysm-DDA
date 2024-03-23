@@ -253,7 +253,7 @@
     "color": "red",
     "flags": [ "PERSONAL", "PADDED", "UNBREAKABLE", "INTEGRATED", "SEMITANGIBLE", "ZERO_WEIGHT", "LIGHT_20", "FIRE", "NO_DROP" ],
     "qualities": [ [ "BLOW_HOT_AIR", 1 ] ],
-    "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HEAT_FOOD" } ],
+    "use_action": [ { "type": "firestarter", "moves": 30 }, { "type": "HOTPLATE" } ],
     "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {

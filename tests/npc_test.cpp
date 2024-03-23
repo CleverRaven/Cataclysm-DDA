@@ -375,7 +375,7 @@ TEST_CASE( "npc-board-player-vehicle" )
 
             int turns = 0;
             while( turns++ < 100 && companion->pos() != data.npc_target ) {
-                companion->moves = 100;
+                companion->set_moves( 100 );
                 /* Uncommment for extra debug info
                 tripoint npc_pos = companion->pos();
                 optional_vpart_position vp = here.veh_at( npc_pos );

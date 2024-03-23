@@ -1239,7 +1239,7 @@ void game::chat()
         add_msg( emote_msg );
     }
 
-    u.moves -= 100;
+    u.mod_moves( -u.get_speed() );
 }
 
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
@@ -4123,7 +4123,7 @@ talk_effect_fun_t::func f_turn_cost( const JsonObject &jo, std::string_view memb
     return [cost]( dialogue & d ) {
         Character *target = d.actor( false )->get_character();
         if( target ) {
-            target->moves -= to_moves<int>( cost.evaluate( d ) );
+            target->mod_moves( -to_moves<int>( cost.evaluate( d ) ) );
         }
     };
 }

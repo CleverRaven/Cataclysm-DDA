@@ -161,15 +161,13 @@ static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 
-// (x,y,z) are absolute coordinates of a submap
-// x%2 and y%2 must be 0!
-void map::generate( const tripoint &p, const time_point &when )
+void map::generate( const tripoint_abs_omt &p, const time_point &when )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
 
-    // TODO: fix point types
-    set_abs_sub( tripoint_abs_sm( p ) );
+    const tripoint_abs_sm p_sm = project_to<coords::sm>( p );
+    set_abs_sub( p_sm );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -179,31 +177,28 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t grid_pos = get_nonant( { gridx, gridy, p.z } );
+            const size_t grid_pos = get_nonant( { gridx, gridy, p_sm.z()} );
             if( getsubmap( grid_pos ) ) {
-                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
+                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p_sm.z() );
                 continue;
             }
             setsubmap( grid_pos, new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
-    // x, and y are submap coordinates, convert to overmap terrain coordinates
-    // TODO: fix point types
-    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
-    oter_id terrain_type = overmap_buffer.ter( abs_omt );
+    oter_id terrain_type = overmap_buffer.ter( p );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
     float density = 0.0f;
     for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
         for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( abs_omt + point( i, j ) )->get_mondensity();
+            density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
         }
     }
     density = density / 100;
 
-    mapgendata dat( abs_omt, *this, density, when, nullptr );
+    mapgendata dat( p, *this, density, when, nullptr );
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
@@ -212,7 +207,7 @@ void map::generate( const tripoint &p, const time_point &when )
     if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
         DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
                                          " (extra type \"" << terrain_type->get_extras() <<
-                                         "\") zlevel = " << abs_omt.z() <<
+                                         "\") zlevel = " << p.z() <<
                                          " is out of range of all assigned map extras.  Skipping map extra generation.";
     } else if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
@@ -262,13 +257,13 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
 
-    // Okay, we know who are neighbors are.  Let's draw!
+    // Okay, we know who our neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
-            const tripoint pos( i, j, p.z );
+            const tripoint pos( i, j, p_sm.z() );
             if( i <= 1 && j <= 1 ) {
                 saven( pos );
             } else {
@@ -278,12 +273,6 @@ void map::generate( const tripoint &p, const time_point &when )
             }
         }
     }
-}
-
-void map::generate( const tripoint_abs_sm &p, const time_point &when )
-{
-    // TODO: fix point types
-    generate( p.raw(), when );
 }
 
 void mapgen_function_builtin::generate( mapgendata &mgd )
