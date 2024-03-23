@@ -2432,12 +2432,7 @@ class tinymap : private map
 
         using map::is_main_cleanup_queued;
         using map::main_cleanup_override;
-        void generate( const tripoint &p, const time_point &when ) {
-            map::generate( p, when );    // TODO: Remove when below is converted
-        }
-        void generate( const tripoint_abs_sm &p, const time_point &when ) {
-            map::generate( p, when );    // TODO: Convert to tripoint_abs_omt
-        }
+        using map::generate;
         void place_spawns( const mongroup_id &group, int chance,
                            const point_omt_ms &p1, const point_omt_ms &p2, float density,
                            bool individual = false, bool friendly = false,
