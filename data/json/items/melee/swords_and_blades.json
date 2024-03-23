@@ -1739,7 +1739,7 @@
     "name": { "str_sp": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
     "replace_materials": { "steel": "budget_steel" },
-    "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.28 }, "price": 0.1, "price_postapoc": 0.1 },
+    "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.15 }, "price": 0.1, "price_postapoc": 0.1 },
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
@@ -1749,7 +1749,7 @@
     "name": { "str_sp": "tanto" },
     "description": "A dull, cheaply-made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
     "replace_materials": { "steel": "aluminum", "leather": "nylon" },
-    "proportional": { "melee_damage": { "bash": 3.5, "stab": 0.047 }, "price": 0.05, "price_postapoc": 0.05 },
+    "proportional": { "melee_damage": { "bash": 3.5, "stab": 0.03 }, "price": 0.05, "price_postapoc": 0.05 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
@@ -1980,7 +1980,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 17 }
+    "melee_damage": { "stab": 16 }
   },
   {
     "id": "kirpan_cheap",
