@@ -1172,8 +1172,8 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: Self<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 8000<br />
-*Channeling Time*: 1 hour<br />
-*Effects*: Sink deep into meditation and increase the speed of healing hundreds of times. When the channeling time ends, the psion heals from 3 to 8 damage to every body part, plus 0.5 to 2 per power level.<br />
+*Channeling Time*: 5 seconds<br />
+*Effects*: Sink deep into meditation and greatly increase healing speed. While meditating, the psion heals 4 times faster, plus 0.75 times per power level. In addition, broken limbs heal 2 times faster, plus 0.25 times per power level.<br />
 *Prerequisites*: Damage Balancing 6, Allay Infection 5<br />
 
 ## Lacerating Touch 
