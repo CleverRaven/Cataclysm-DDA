@@ -227,7 +227,15 @@
     "vision_day": 14,
     "harvest": "zombie_humanoid",
     "grab_strength": 20,
-    "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
+    "special_attacks": [
+      { "id": "bite_humanoid", "cooldown": 5 },
+      {
+        "id": "smash",
+        "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ],
+        "throw_strength": 35,
+        "cooldown": 10
+      }
+    ],
     "death_drops": "default_zombie_death_drops",
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "burn_into": "mon_zombie_scorched",
@@ -237,7 +245,6 @@
       "SMELLS",
       "STUMBLES",
       "WARM",
-      "GRABS",
       "BASHES",
       "GROUP_BASH",
       "POISON",
