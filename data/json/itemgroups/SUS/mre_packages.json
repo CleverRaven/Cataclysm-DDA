@@ -233,7 +233,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": 10 } ]
+    "entries": [ { "item": "sugar", "container-item": "null", "count": 6 } ]
   },
   {
     "type": "item_group",
@@ -257,7 +257,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bag_zipper",
-    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 0, 10 ] } ]
+    "entries": [ { "item": "sugar", "container-item": "null", "count": [ 0, 6 ] } ]
   },
   {
     "type": "item_group",
