@@ -241,7 +241,7 @@
     "id": "mon_feral_labsecurity_9mm",
     "type": "MONSTER",
     "name": { "str": "feral security guard" },
-    "description": "This security guard still breathes, but has been lost to some terrible madness.  They move among the undead, with a baton in their arms and saucer pupils scanning for threats in a mockery of their former duty.",
+    "description": "This security guard still breathes, but has been lost to some terrible madness.  They move among the undead, with a baton in their arms and saucer pupils scanning for threats in a mockery of their former duty.",
     "copy-from": "mon_feral_human_pipe",
     "default_faction": "science",
     "melee_skill": 6,
