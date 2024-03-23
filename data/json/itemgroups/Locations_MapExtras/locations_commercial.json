@@ -215,7 +215,6 @@
       [ "458wm", 1 ],
       [ "sw629", 3 ],
       { "group": "modular_deagle_44", "prob": 2 },
-      [ "lemat_revolver", 1 ],
       [ "m1911", 5 ],
       [ "mosin91_30", 1 ],
       [ "match_trigger", 3 ],

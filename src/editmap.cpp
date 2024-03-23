@@ -1842,9 +1842,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    // TODO: fix point types
-    tmpmap.generate( tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                     calendar::turn );
+    tmpmap.generate( omt_pos, calendar::turn );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1887,10 +1885,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             lastsel = gmenu.selected;
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( omt_pos,
+                             calendar::turn );
         }
 
         if( showpreview ) {
@@ -1914,10 +1910,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
-            // TODO: fix point types
-            tmpmap.generate(
-                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
-                calendar::turn );
+            tmpmap.generate( omt_pos,
+                             calendar::turn );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
