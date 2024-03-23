@@ -432,6 +432,10 @@ class generic_factory
          * Postcondition: `size() == 0`
          */
         void reset() {
+            /* Avoid unvisited member errors when iterating on json */
+            for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+                deferred_json.first.allow_omitted_members();
+            }
             deferred.clear();
             list.clear();
             map.clear();

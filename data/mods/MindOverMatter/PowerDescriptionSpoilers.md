@@ -1092,7 +1092,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 4 minutes and 50 seconds to 19 minutes and 34 seconds, plus 18 seconds to 2 minutes and 43 seconds per power level<br />
 *Stamina Cost*: 2500, minus 95 per level to a minimum of 1250<br />
 *Channeling Time*: 200 moves, minus 6.5 moves per level to a minimum of 50<br />
-*Effects*: Increases the coagulation rate of blood, slowing bleeding.  From level 1 through 7, bleeding is slowed by a third. From level 8 through 15, bleeding is slowed by two thirds. At level 16 or above, bleeding is slowed by two thirds, or prevented entirely if inflicted when the power is active.<br />
+*Effects*: Increases the coagulation rate of blood, slowing bleeding.  From level 1 through 7, bleeding is slowed by a third. From level 8 through 15, bleeding is slowed by two thirds. At level 16 or above, bleeding is slowed by two thirds, or prevented entirely if inflicted when the power is active. In addition, all power levels increase the effectiveness of any attempt to stop bleeding by 15%, plus 5% per power level.<br />
 *Prerequisites*: Starting power<br />
 
 ## Staunch Wound
@@ -1172,8 +1172,8 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Target*: Self<br />
 *Duration*: Instant<br />
 *Stamina Cost*: 8000<br />
-*Channeling Time*: 1 hour<br />
-*Effects*: Sink deep into meditation and increase the speed of healing hundreds of times. When the channeling time ends, the psion heals from 3 to 8 damage to every body part, plus 0.5 to 2 per power level.<br />
+*Channeling Time*: 5 seconds<br />
+*Effects*: Sink deep into meditation and greatly increase healing speed. While meditating, the psion heals 4 times faster, plus 0.75 times per power level. In addition, broken limbs heal 2 times faster, plus 0.25 times per power level.<br />
 *Prerequisites*: Damage Balancing 6, Allay Infection 5<br />
 
 ## Lacerating Touch 

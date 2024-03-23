@@ -76,7 +76,6 @@
     "entries": [
       { "item": "pistol_flintlock", "prob": 60 },
       { "item": "carbine_flintlock", "prob": 40 },
-      { "item": "lemat_revolver", "prob": 30 },
       { "item": "rifle_flintlock", "prob": 75 },
       { "item": "colt_army", "prob": 30 },
       { "item": "colt_navy", "prob": 30 }
@@ -91,7 +90,6 @@
     "entries": [
       { "item": "pistol_flintlock", "prob": 60 },
       { "item": "carbine_flintlock", "prob": 40 },
-      { "item": "lemat_revolver", "prob": 30 },
       { "item": "rifle_flintlock", "prob": 75 },
       { "item": "colt_army", "prob": 30 },
       { "item": "colt_navy", "prob": 30 }

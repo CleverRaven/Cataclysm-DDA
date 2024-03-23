@@ -86,10 +86,11 @@
     "color": "brown"
   },
   {
+    "//": "Our recipes have traditionally been standardized against sugar units of 5 mg. Refer also to the sugar_standard item group for more sugar-related items and their ratios to one another. Density is now accurate.",
     "type": "COMESTIBLE",
     "id": "sugar",
     "name": { "str_sp": "sugar" },
-    "weight": "2 g",
+    "weight": "5 g",
     "color": "white",
     "container": "box_small",
     "comestible_type": "FOOD",
@@ -98,11 +99,9 @@
     "price": "5 cent",
     "price_postapoc": "4 cent",
     "material": [ "sugar" ],
-    "volume": "3 ml",
+    "volume": "6 ml",
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "//2": "originally was 5g 3ml, and recipes probably use this ratio still;",
-    "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted."
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
