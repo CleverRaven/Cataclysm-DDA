@@ -4682,5 +4682,184 @@
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "pillbox",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "pillbox", "str_pl": "pillboxes" },
+    "description": "A simple plastic pill organizer with a small compartment for each day of the week.",
+    "weight": "40 g",
+    "volume": "200 ml",
+    "longest_side": "15 cm",
+    "price": 200,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "COLLAPSE_CONTENTS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "40 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "40 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "40 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "40 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "40 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "40 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "20 ml",
+        "max_contains_weight": "40 g",
+        "moves": 150
+      }
+    ]
+  },
+  {
+    "id": "pillbox_large",
+    "type": "GENERIC",
+    "copy-from": "pillbox",
+    "name": { "str": "large pillbox", "str_pl": "large pillboxes" },
+    "description": "A large plastic pill organizer with compartments for two weeks of daily medication.",
+    "weight": "120 g",
+    "volume": "500 ml",
+    "longest_side": "22 cm",
+    "price": 500,
+    "price_postapoc": 25,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 ml",
+        "max_contains_weight": "60 g",
+        "moves": 150
+      }
+    ]
   }
 ]
