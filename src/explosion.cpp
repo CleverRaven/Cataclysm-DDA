@@ -794,10 +794,8 @@ void emp_blast( const tripoint &p )
 
 void nuke( const tripoint_abs_omt &p )
 {
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
-
     tinymap tmpmap;
-    tmpmap.load( pos_sm, false );
+    tmpmap.load( p, false );
 
     item mininuke( itype_mininuke_act );
     mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );

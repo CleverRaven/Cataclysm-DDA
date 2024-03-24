@@ -42,6 +42,8 @@ static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 // Test cases for `Character::modify_morale` defined in `src/consumption.cpp`
 
 TEST_CASE( "food_enjoyability", "[food][modify_morale][fun]" )
@@ -271,7 +273,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
     dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
 
     item_location human = dummy.i_add( item( "bone_human" ) );
-    REQUIRE( human->has_flag( flag_CANNIBALISM ) );
+    REQUIRE( human->has_vitamin( vitamin_human_flesh_vitamin ) );
 
     GIVEN( "character is not a cannibal or sapiovore" ) {
         REQUIRE_FALSE( dummy.has_trait( trait_CANNIBAL ) );

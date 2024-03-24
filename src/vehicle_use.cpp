@@ -124,7 +124,7 @@ void handbrake()
             veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
         }
     }
-    player_character.moves = 0;
+    player_character.set_moves( 0 );
 }
 
 void vehicle::control_doors()

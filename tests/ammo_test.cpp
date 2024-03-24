@@ -192,11 +192,9 @@ TEST_CASE( "ammo_default", "[ammo][ammo_default]" )
         // GUN type items with integral magazine
         item slingshot( "slingshot" );
         item colt( "colt_army" );
-        item lemat( "lemat_revolver" );
         CHECK( slingshot.ammo_default() == itype_pebble );
         // Revolver ammo is "44paper" but default ammunition type is "44army"
         CHECK( colt.ammo_default() == itype_44army );
-        CHECK( lemat.ammo_default() == itype_44army );
     }
 }
 

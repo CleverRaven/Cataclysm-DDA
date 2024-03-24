@@ -139,6 +139,18 @@
   },
   {
     "type": "mutation",
+    "id": "HOMULLUS_REDUCED_VISIBILITY_ALLY",
+    "name": { "str": "The Average Joe" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_INVISIBLE_TO_HUMANS" ],
+    "spells_learned": [ [ "homullus_reduced_visibility_ally_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,

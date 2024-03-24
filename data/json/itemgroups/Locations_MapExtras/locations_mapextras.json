@@ -201,7 +201,8 @@
       [ "camera_bag", 10 ],
       [ "chem_hexamine", 5 ],
       { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
-      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 }
+      { "item": "ar_glasses_advanced", "prob": 1, "charges-min": 0 },
+      { "group": "pillbox_any_used", "prob": 10 }
     ]
   },
   {
@@ -256,10 +257,7 @@
     "type": "item_group",
     "id": "college_lake",
     "items": [
-      [ "bikini_top", 100 ],
-      [ "bikini_bottom", 100 ],
-      [ "bikini_top_short", 20 ],
-      [ "bikini_bottom_short", 20 ],
+      { "group": "bikini", "prob": 120 },
       [ "flag_swimsuit", 100 ],
       [ "trunks", 100 ],
       [ "rashguard", 30 ],

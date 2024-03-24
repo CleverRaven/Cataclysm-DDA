@@ -264,19 +264,48 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
     point_abs_omt origin;
     map &main_map = get_map();
 
-    for( const point_abs_omt &p : closest_points_first( origin, 0, 10 * OMAPX - 1 ) ) {
-        // We need to avoid OMTs that overlap with the 'main' map, so we start at a
-        // non-zero minimum radius and ensure that the 'main' map is inside that
-        // minimum radius.
-        if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
-            continue;
+    for( int i = 0; i < 10; ++i ) {
+        std::unordered_map<oter_type_id, omt_stats> loop_stats;
+        for( const point_abs_omt &p : closest_points_first( origin, 0, 3 * OMAPX - 1 ) ) {
+            // We need to avoid OMTs that overlap with the 'main' map, so we start at a
+            // non-zero minimum radius and ensure that the 'main' map is inside that
+            // minimum radius.
+            if( main_map.inbounds( tripoint_abs_ms( project_to<coords::ms>( p ), 0 ) ) ) {
+                continue;
+            }
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
+                tripoint_abs_omt tp( p, z );
+                oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
+                auto iter_bool = stats.emplace( id, tp );
+                ++iter_bool.first->second.count;
+                // Just the first time we see a oter_type, stash it here to run mapgen on it.
+                if( iter_bool.second ) {
+                    loop_stats.emplace( id, tp );
+                }
+            }
         }
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; ++z ) {
-            tripoint_abs_omt tp( p, z );
-            oter_type_id id = overmap_buffer.ter( tp )->get_type_id();
-            auto it = stats.emplace( id, tp ).first;
-            ++it->second.count;
+        // The second phase of this test is to perform the tile-level mapgen once
+        // for each oter_type, in hopes of triggering any errors that might arise
+        // with that.
+        int num_generated_since_last_clear = 0;
+        for( const std::pair<const oter_type_id, omt_stats> &p : loop_stats ) {
+            const std::string oter_type_id = p.first->id.str();
+            const tripoint_abs_omt pos = p.second.first_observed;
+            CAPTURE( oter_type_id );
+            const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
+                tinymap tm;
+                tm.load( pos, false );
+
+                // Periodically clear the generated maps to save memory
+                if( ++num_generated_since_last_clear >= 64 ) {
+                    MAPBUFFER.clear_outside_reality_bubble();
+                    num_generated_since_last_clear = 0;
+                }
+            } );
+            CAPTURE( msg );
+            REQUIRE( msg.empty() );
         }
+        overmap_buffer.clear();
     }
 
     std::unordered_set<oter_type_id> done;
@@ -337,27 +366,5 @@ TEST_CASE( "overmap_terrain_coverage", "[overmap][slow]" )
               "(inteded for terrains that sometimes spawn, but cannot be expected to spawn "
               "reliably enough for this test)" );
         CHECK( num_missing == 0 );
-    }
-
-    // The second phase of this test is to perform the tile-level mapgen once
-    // for each oter_type, in hopes of triggering any errors that might arise
-    // with that.
-    int num_generated_since_last_clear = 0;
-    for( const std::pair<const oter_type_id, omt_stats> &p : stats ) {
-        const std::string oter_type_id = p.first->id.str();
-        const tripoint_abs_omt pos = p.second.first_observed;
-        CAPTURE( oter_type_id );
-        const std::string msg = capture_debugmsg_during( [pos, &num_generated_since_last_clear]() {
-            tinymap tm;
-            tm.load( project_to<coords::sm>( pos ), false );
-
-            // Periodically clear the generated maps to save memory
-            if( ++num_generated_since_last_clear >= 64 ) {
-                MAPBUFFER.clear_outside_reality_bubble();
-                num_generated_since_last_clear = 0;
-            }
-        } );
-        CAPTURE( msg );
-        REQUIRE( msg.empty() );
     }
 }

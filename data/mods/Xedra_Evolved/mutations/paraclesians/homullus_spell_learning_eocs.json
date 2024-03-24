@@ -12,6 +12,7 @@
             "HOMULLUS_SUMMON_FERALS",
             "HOMULLUS_SELF_DECEPTION",
             "HOMULLUS_INVISIBLE_TO_HUMANS",
+            "HOMULLUS_REDUCED_VISIBILITY_ALLY",
             "HOMULLUS_CULTIVATE_GOBLIN_FRUIT",
             "PARACLESIAN_MAKE_GOSSAMER"
           ]
@@ -59,6 +60,7 @@
         { "math": [ "u_spell_level('homullus_summon_feral_spell')", "<", "35" ] },
         { "math": [ "u_spell_level('homullus_self_deception_spell')", "<", "per_to_level(1)" ] },
         { "math": [ "u_spell_level('homullus_invisible_to_humans_spell')", "<", "int_to_level(1)" ] },
+        { "math": [ "u_spell_level('homullus_reduced_visibility_ally_spell')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('homullus_cultivate_goblin_fruit')", "<", "int_to_level(1)" ] },
         { "math": [ "u_spell_level('paraclesian_spell_make_gossamer')", "<", "8" ] }
       ]
@@ -68,6 +70,7 @@
         [ "EOC_LEVELER_HOMULLUS_SUMMON_FERALS", 8 ],
         [ "EOC_LEVELER_HOMULLUS_SELF_DECEPTION", 7 ],
         [ "EOC_LEVELER_HOMULLUS_INVISIBLE_TO_HUMANS", 5 ],
+        [ "EOC_LEVELER_HOMULLUS_REDUCED_VISIBILITY_ALLY", 7 ],
         [ "EOC_LEVELER_HOMULLUS_CULTIVATE_GOBLIN_FRUIT", 3 ],
         [ "EOC_LEVELER_HOMULLUS_MAKE_GOSSAMER", 4 ]
       ]
@@ -124,6 +127,26 @@
         "type": "good"
       },
       { "math": [ "u_spell_exp('homullus_invisible_to_humans_spell')", "+=", "paraclesian_passive_spell_exp(1)" ] }
+    ],
+    "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LEVELER_HOMULLUS_REDUCED_VISIBILITY_ALLY",
+    "condition": {
+      "and": [
+        { "math": [ "u_spell_level('homullus_reduced_visibility_ally_spell')", ">=", "0" ] },
+        { "math": [ "u_spell_level('homullus_reduced_visibility_ally_spell')", "<", "int_to_level(1)" ] }
+      ]
+    },
+    "effect": [
+      {
+        "u_message": "Your time spent surrounded by the remnants of civilization has increased your facility with your fae magicks.",
+        "type": "good"
+      },
+      {
+        "math": [ "u_spell_exp('homullus_reduced_visibility_ally_spell')", "+=", "paraclesian_passive_spell_exp(1)" ]
+      }
     ],
     "false_effect": [ { "run_eocs": "EOC_HOMULLUS_SPELL_EXPERIENCE_INCREASER_SELECTOR" } ]
   },

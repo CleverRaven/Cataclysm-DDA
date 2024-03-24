@@ -78,7 +78,7 @@ void remote_test( vehicle *veh, tripoint const &test_loc, F const &fmg, ID const
     check_vehicle_still_works( *veh );
 
     tinymap tm;
-    tm.load( project_to<coords::sm>( this_test_omt ), true );
+    tm.load( this_test_omt, true );
     REQUIRE( tm.get_vehicles().empty() );
 }
 

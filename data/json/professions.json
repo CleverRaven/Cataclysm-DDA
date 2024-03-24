@@ -7120,7 +7120,7 @@
       "both": {
         "entries": [
           { "item": "wristwatch" },
-          { "item": "jacket_army" },
+          { "item": "jacket_army", "variant": "m65_player" },
           { "item": "service_medal" },
           { "item": "boots_combat" },
           { "item": "socks" },
@@ -7128,7 +7128,6 @@
           { "item": "pipe_tobacco" },
           { "item": "tobacco" },
           { "item": "beret" },
-          { "item": "pants", "variant": "pants_british_khaki" },
           { "item": "cane", "custom-flags": [ "auto_wield" ] },
           { "group": "charged_ref_lighter" },
           { "item": "chestrig", "contents-group": "army_mags_m14" },

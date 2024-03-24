@@ -1788,17 +1788,45 @@
     "rating": "good",
     "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
-    "flags": [ "BLEEDSLOW" ]
+    "flags": [ "BLEEDSLOW" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
-    "id": "effect_vitakin_slow_bleeding_01",
+    "id": "effect_vitakin_slow_bleeding_02",
     "name": [ "Coagulation" ],
     "desc": [ "You bleed much less than normal." ],
     "rating": "good",
     "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
-    "flags": [ "BLEEDSLOW2" ]
+    "flags": [ "BLEEDSLOW2" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1809,7 +1837,21 @@
     "remove_message": "For just a moment, you feel your blood rushing through your veins.",
     "max_duration": "7 days",
     "blocks_effects": [ "bleed" ],
-    "flags": [ "BLEEDSLOW2" ]
+    "flags": [ "BLEEDSLOW2" ],
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "BLEED_STOP_BONUS",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_slow_bleeding') * 0.05 ) + 0.15 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1842,6 +1884,36 @@
     "remove_message": "",
     "rating": "good",
     "max_duration": "7 days"
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_vitakin_healing_trance",
+    "name": [ "Revitalizing Meditation" ],
+    "desc": [ "Thanks to your meditations you are healing much more quickly" ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.25 ) + 1 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_type",
