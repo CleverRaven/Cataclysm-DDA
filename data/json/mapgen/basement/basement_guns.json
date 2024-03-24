@@ -4,7 +4,7 @@
     "method": "json",
     "om_terrain": [ "basement" ],
     "//": "used by house_31 and house_32",
-    "weight": 250,
+    "weight": 25,
     "object": {
       "fill_ter": "t_soil",
       "rotation": [ 0, 3 ],

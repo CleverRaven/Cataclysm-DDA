@@ -295,7 +295,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 12, -1 ],
     "occurrences": [ 30, 100 ],
-    "flags": [ "CLASSIC", "FARM", "UNIQUE", "MAN_MADE" ]
+    "flags": [ "CLASSIC", "FARM", "GLOBAL_UNIQUE", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
