@@ -537,7 +537,6 @@
       { "monster": "mon_feral_maid_knife", "weight": 10 },
       { "monster": "mon_feral_fancy_rapier", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 10 },
-      { "monster": "mon_feral_fancy_crossbow", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_feral_armored_mace", "weight": 1, "cost_multiplier": 10 },
       { "monster": "mon_feral_armored_battleaxe", "weight": 1, "cost_multiplier": 10 },
       { "monster": "mon_shoggoth", "weight": 1, "cost_multiplier": 10, "starts": "3 days" },
