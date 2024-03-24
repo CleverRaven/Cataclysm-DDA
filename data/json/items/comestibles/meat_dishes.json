@@ -2016,7 +2016,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 403,
-    "description": "This staple dish of poached chicken and rice is one of the national dishes of Singapore.",
+    "description": "This delicious serving of poached chicken with rice is one of the national dishes of Singapore.",
     "price": 1000,
     "price_postapoc": 250,
     "material": [ "flesh", "veggy" ],
