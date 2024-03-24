@@ -3520,42 +3520,6 @@ bool overmap::generate_sub( const int z )
         { oter_type_slimepit_down.id(), add_goo_point },
         { oter_type_slimepit_bottom.id(), add_goo_point },
         {
-            oter_type_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            }
-        },
-        {
-            oter_type_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                if( z == -1 ) {
-                    lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-                } else {
-                    ter_set( p, oter_lab.id() );
-                }
-            }
-        },
-        {
-            oter_type_ice_lab_core.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-            }
-        },
-        {
-            oter_type_ice_lab_stairs.id(),
-            [&]( const tripoint_om_omt & p )
-            {
-                if( z == -1 ) {
-                    ice_lab_points.emplace_back( p.xy(), rng( 1, 5 + z ) );
-                } else {
-                    ter_set( p, oter_ice_lab.id() );
-                }
-            }
-        },
-        {
             oter_type_central_lab_core.id(),
             [&]( const tripoint_om_omt & p )
             {
