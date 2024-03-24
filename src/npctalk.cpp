@@ -3701,7 +3701,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             target_pos = target_pos + tripoint( 0, 0,
                                                 dov_z_adjust.evaluate( d ) );
         }
-        write_var_value( type, var_name, d.actor( type == var_type::npc ), &d, target_pos.to_string() );
+        write_var_value( type, var_name, &d, target_pos.to_string() );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -3738,11 +3738,9 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
             target_pos = target_pos + tripoint( 0, 0, dov_z_adjust.evaluate( d ) );
         }
         if( output_var.has_value() ) {
-            write_var_value( output_var.value().type, output_var.value().name,
-                             d.actor( output_var.value().type == var_type::npc ), &d, target_pos.to_string() );
+            write_var_value( output_var.value().type, output_var.value().name, &d, target_pos.to_string() );
         } else {
-            write_var_value( input_var.value().type, input_var.value().name,
-                             d.actor( input_var.value().type == var_type::npc ), &d, target_pos.to_string() );
+            write_var_value( input_var.value().type, input_var.value().name,   &d, target_pos.to_string() );
         }
     };
 }
@@ -4576,7 +4574,7 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
             talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
             parse_tags( str, alpha, beta, d );
         }
-        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ), &d, str );
+        write_var_value( var.type, var.name, &d, str );
     };
 }
 
@@ -5334,7 +5332,7 @@ talk_effect_fun_t::func f_set_talker( const JsonObject &jo, std::string_view mem
     std::string var_name = var.name;
     return [is_npc, var, type, var_name]( dialogue & d ) {
         int id = d.actor( is_npc )->getID().get_value();
-        write_var_value( type, var_name, d.actor( type == var_type::npc ), &d, id );
+        write_var_value( type, var_name, &d, id );
     };
 }
 
@@ -5536,7 +5534,7 @@ talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member
         }
 
         for( std::string_view str : list ) {
-            write_var_value( itr.type, itr.name, d.actor( itr.type == var_type::npc ), &d, str.data() );
+            write_var_value( itr.type, itr.name, &d, str.data() );
             effect.apply( d );
         }
     };

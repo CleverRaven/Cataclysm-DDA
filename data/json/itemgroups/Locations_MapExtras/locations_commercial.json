@@ -2059,9 +2059,12 @@
   {
     "type": "item_group",
     "id": "hotel_luggage",
-    "subtype": "distribution",
+    "subtype": "collection",
     "container-item": "suitcase_l",
-    "items": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
+    "entries": [
+      { "distribution": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ] },
+      { "group": "pillbox_any_used", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",

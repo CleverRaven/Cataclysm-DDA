@@ -1379,10 +1379,25 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_hedge_no_nightmares",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_hedge_increase_healing_rate",
     "name": [ "Convalescence" ],
-    "desc": [ "Your wounds are healing more quickly, as long as you don't do to much to upset the charm." ],
+    "desc": [ "Your wounds are healing more quickly, as long as you don't do too much to upset the charm." ],
     "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.2 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_increase_bandaging_rate",
+    "name": [ "Halt the Scarlet Flow" ],
+    "desc": [ "Blood easily stops flowing under your touch." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "BLEED_STOP_BONUS", "multiply": 0.66 } ] } ]
   },
   {
     "type": "effect_type",
