@@ -113,7 +113,7 @@
     "id": "telepathic_morale",
     "type": "SPELL",
     "name": "[Ψ]Mood Stabilization (C)",
-    "description": "With the ability to edit others' thoughts comes the ability to edit your own, removing negative moods to a degree.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>..",
+    "description": "With the ability to edit others' thoughts comes the ability to edit your own, removing negative moods to a degree.\n\nThis power <color_yellow>is maintained by concentration</color> and <color_red>may fail</color> if <color_yellow>concentration is interrupted</color>.",
     "message": "",
     "teachable": false,
     "valid_targets": [ "self" ],
