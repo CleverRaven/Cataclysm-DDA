@@ -78,8 +78,7 @@ double jmath_func::eval( dialogue &d, std::vector<double> const &params ) const
 {
     dialogue d_next( d );
     for( std::vector<double>::size_type i = 0; i < params.size(); i++ ) {
-        write_var_value( var_type::context, "npctalk_var_" + std::to_string( i ),
-                         nullptr, &d_next, params[i] );
+        write_var_value( var_type::context, "npctalk_var_" + std::to_string( i ), &d_next, params[i] );
     }
 
     return eval( d_next );
