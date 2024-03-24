@@ -737,16 +737,6 @@
   },
   {
     "type": "item_action",
-    "id": "RM13ARMOR_OFF",
-    "name": { "str": "Turn on" }
-  },
-  {
-    "type": "item_action",
-    "id": "RM13ARMOR_ON",
-    "name": { "str": "Turn off" }
-  },
-  {
-    "type": "item_action",
     "id": "SEED",
     "name": { "str": "Consume" }
   },

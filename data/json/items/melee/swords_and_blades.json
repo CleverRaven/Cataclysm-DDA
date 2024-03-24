@@ -1061,7 +1061,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
-    "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
+    "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
     "melee_damage": { "cut": 21 }
