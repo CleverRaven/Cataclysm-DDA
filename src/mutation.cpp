@@ -175,12 +175,12 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
 {
     int mut_count = 0;
     bool robust = has_trait( trait_ROBUST );
-    // for each and every trait we have...
+    // For each and every trait we have...
     for( const trait_id &mut : get_mutations() ) {
-        // only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait
+        // only count muts that have 0 or more points, aren't a threshold, are valid, and aren't a base trait.
         if( mut.obj().points > -1 && !mut.obj().threshold && mut.obj().valid && !has_base_trait( mut ) ) {
             bool in_categ = false;
-            // if among all allowed categories the mutation has, the input category is one of them
+            // If among all allowed categories the mutation has, the input category is one of them.
             for( const mutation_category_id &Ch_cat : mut.obj().category ) {
                 if( Ch_cat == categ ) {
                     in_categ = true;
@@ -189,8 +189,8 @@ int Character::get_instability_per_category( const mutation_category_id &categ )
 
             const int height = mutation_height( mut );
 
-            // thus add 1 point if it's in the tree we mutate into, otherwise add 2 points
-            // or if we have Robust Genetics, treat all mutations as in-tree
+            // Thus add 1 point if it's in the tree we mutate into, otherwise add 2 points
+            // or, if we have Robust Genetics, treat all mutations as in-tree.
             if( in_categ || robust ) {
                 mut_count += height * 1;
             } else {
@@ -205,7 +205,7 @@ int get_total_nonbad_in_category( const mutation_category_id &categ )
 {
     int mut_count = 0;
 
-    // iterate through all available traits in this category and count every one that isn't bad or the threshold
+    // Iterate through all available traits in this category and count every one that isn't bad or the threshold.
     for( const trait_id &traits_iter : mutations_category[categ] ) {
         const mutation_branch &mdata = traits_iter.obj();
         if( mdata.points > -1 && !mdata.threshold ) {
@@ -1027,15 +1027,15 @@ bool Character::mutation_ok( const trait_id &mutation, bool allow_good, bool all
 
 bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
 {
-    // we will never have worse odds than this no matter our instability
+    // We will never have worse odds than this no matter our instability
     float MAX_BAD_CHANCE = 0.67;
-    // or if we have Robust, cap it lower
+    // or, if we have Robust, cap it lower.
 
     bool ret = false;
 
-    // the following values are, respectively, the total number of nonbad traits in a category and
+    // The following values are, respectively, the total number of non-bad traits in a category and
     int muts_max = get_total_nonbad_in_category( categ );
-    // how many good mutations we have in total. mutations which don't belong to the tree we're mutating towards, count double for this value. Starting traits don't count at all.
+    // how many good mutations we have in total. Mutations which don't belong to the tree we're mutating towards count double for this value. Starting traits don't count at all.
     int insta_actual = get_instability_per_category( categ );
 
     if( insta_actual == 0 ) {
@@ -1088,12 +1088,12 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         cat = *cat_list.pick();
         cat_list.add_or_replace( cat, 0 );
         add_msg_debug( debugmode::DF_MUTATION, "Picked category %s", cat.c_str() );
-        // only decide if it's good or bad after we pick the category
+        // Only decide if it's good or bad after we pick the category.
         if( roll_bad_mutation( cat ) ) {
-            // If we picked bad, mutation can be bad or neutral
+            // If we picked bad, mutation can be bad or neutral.
             allow_bad = true;
         } else {
-            // Otherwise, can be good or neutral
+            // Otherwise, can be good or neutral.
             allow_good = true;
         }
     } else {

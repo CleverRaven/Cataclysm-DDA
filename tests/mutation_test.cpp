@@ -568,14 +568,14 @@ TEST_CASE( "All_valid_mutations_can_be_purified", "[mutations][purifier]" )
     }
 }
 
-// your odds of getting a good or bad mutation depend on what mutations you have and what tree you're in.
-// you are given an integer that is first multiplied by 0.5 and then divided by the total non-bad mutations in the tree.
-// for example if you mutate into Alpha, that tree has 21 mutations (as of 3/14/2024) that aren't bad.
+// Your odds of getting a good or bad mutation depend on what mutations you have and what tree you're in.
+// You are given an integer that is first multiplied by 0.5 and then divided by the total non-bad mutations in the tree.
+// For example if you mutate into Alpha, that tree has 21 mutations (as of 3/14/2024) that aren't bad.
 // Troglobite has 28 mutations that aren't bad. (as of 3/4/2024).
-// Thus for all things equal, Alpha gets more bad mutations per good mutation than Trog,
+// Thus, for all things equal, Alpha gets more bad mutations per good mutation than Trog,
 // but since Trog gets more good muts total it has more chances to get bad mutations.
 // The aforementioned "integer" is increased from 0 by 1 for each non-bad mutation you have.
-// mutations you have are counted as two if they don't belong to the tree you're mutating into.
+// Mutations you have are counted as two if they don't belong to the tree you're mutating into.
 // Starting traits are never counted, and bad mutations are never counted. Only "valid" (mutable) mutations count.
 // This test case compares increasing instability in both Alpha and Trog as more mutations are added.
 // Given that Alpha and Trog share some mutations but not all, they should either increase instability at the same or different rates.
@@ -664,7 +664,7 @@ TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" 
         }
     }
 
-    // then increase our instability and try again.
+    // Then, increase our instability and try again.
     dummy.set_mutation( trait_FELINE_EARS );
     dummy.set_mutation( trait_EAGLEEYED );
     dummy.set_mutation( trait_GOURMAND );
