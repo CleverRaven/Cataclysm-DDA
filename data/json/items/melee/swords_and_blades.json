@@ -1749,7 +1749,7 @@
     "name": { "str_sp": "tanto" },
     "description": "A dull, cheaply-made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
     "replace_materials": { "steel": "aluminum", "leather": "nylon" },
-    "proportional": { "melee_damage": { "bash": 2.5, "stab": 0.047 }, "price": 0.05, "price_postapoc": 0.05 },
+    "proportional": { "melee_damage": { "bash": 3.5, "stab": 0.047 }, "price": 0.05, "price_postapoc": 0.05 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
