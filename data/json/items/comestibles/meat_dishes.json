@@ -1914,7 +1914,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "friedchicken",
+    "id": "chicken_fried",
     "name": { "str_sp": "fried chicken" },
     "weight": "181 g",
     "spoils_in": "4 days",
@@ -1928,7 +1928,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "friedchicken_buttermilk",
+    "id": "chicken_fried_buttermilk",
     "name": { "str_sp": "buttermilk fried chicken" },
     "weight": "181 g",
     "spoils_in": "4 days",
@@ -1942,7 +1942,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "tandoorichicken",
+    "id": "chicken_tandoori",
     "name": { "str": "tandoori chicken" },
     "weight": "200 g",
     "color": "brown",
@@ -1962,7 +1962,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "chickensandwich",
+    "id": "chicken_sandwich",
     "name": { "str": "chicken sandwich" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast %s" } }
@@ -1985,7 +1985,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "chickensandwich_wheat_free",
+    "id": "chicken_sandwich_wheat_free",
     "name": { "str": "wheat-free chicken sandwich" },
     "conditional_names": [
       { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast chicken sandwich" } }
@@ -2008,7 +2008,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "chickenrice",
+    "id": "chicken_rice_hianese",
     "name": { "str": "Hinanese chicken rice" },
     "weight": "195 g",
     "color": "brown",
@@ -2027,7 +2027,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "chickenparm",
+    "id": "chicken_parm",
     "name": { "str": "chicken parmesan" },
     "weight": "401 g",
     "color": "brown",
