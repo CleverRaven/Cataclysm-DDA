@@ -45,7 +45,7 @@
     "toilets": { "$": {  } },
     "items": {
       "$": { "item": "stash_drugs", "chance": 75 },
-      "Y": { "item": "mansion_safe", "chance": 100, "repeat": [ 3, 8 ] },
+      "Y": { "item": "mansion_safe_nogun", "chance": 100, "repeat": [ 3, 8 ] },
       "l": { "item": "trash", "chance": 66, "repeat": [ 1, 3 ] },
       "e": { "item": "SUS_office_desk", "chance": 50 },
       "K": { "item": "unisex_coat_rack", "chance": 33, "repeat": [ 1, 3 ] },
