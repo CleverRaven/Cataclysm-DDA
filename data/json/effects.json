@@ -3387,6 +3387,11 @@
   },
   {
     "type": "effect_type",
+    "id": "bio_hydraulics_eff",
+    "//": "used so bio_hydraulics could detect bionic is going off. remove if enchantments could produce sound each second or eoc could check you have active bionic"
+  },
+  {
+    "type": "effect_type",
     "id": "crushed",
     "apply_message": "The ceiling collapses on you!",
     "rating": "bad"

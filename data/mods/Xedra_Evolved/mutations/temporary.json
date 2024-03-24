@@ -93,5 +93,18 @@
     "starting_trait": false,
     "purifiable": false,
     "activated_eocs": [ "EOC_LUCID_DREAM_FORCE_END" ]
+  },
+  {
+    "type": "mutation",
+    "id": "HEDGE_FOREST_BUSH_SHAPE",
+    "name": { "str": "To Vanish Amidst the Leaves" },
+    "points": 99,
+    "description": "You still sleep, yet your dreams still can impact the world.  Activate to wake up.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false,
+    "player_display": false,
+    "override_look": { "id": "t_shrub", "tile_category": "terrain" },
+    "flags": [ "INVISIBLE", "NO_SCENT" ]
   }
 ]

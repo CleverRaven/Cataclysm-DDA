@@ -1,40 +1,59 @@
 [
   {
     "type": "effect_on_condition",
-    "id": "EOC_HEDGE_MAGIC_REMOVE_EFFECTS",
-    "effect": [ { "u_remove_item_with": "hedge_witchlight" } ]
+    "id": "EOC_HEDGE_MAGIC_REMOVE_MOVEMENT_EFFECTS",
+    "effect": [ { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_lose_effect": "effect_hedge_no_nightmares" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS",
+    "effect": [ { "u_remove_item_with": "hedge_witchlight" }, { "u_lose_trait": "HEDGE_FOREST_BUSH_SHAPE" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MOVEMENT_CANCEL",
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": { "or": [ { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_has_effect": "effect_hedge_no_nightmares" } ] },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_MOVEMENT_EFFECTS" ] } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS",
+    "condition": { "or": [ { "u_has_trait": "HEDGE_FOREST_BUSH_SHAPE" }, { "u_has_item": "hedge_witchlight" } ] },
+    "effect": [  ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_MAGIC_MELEE_MONSTER_CANCEL",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_monster",
-    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
-    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_MAGIC_MELEE_CHARACTER_CANCEL",
     "eoc_type": "EVENT",
     "required_event": "character_melee_attacks_character",
-    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
-    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_MAGIC_RANGED_MONSTER_CANCEL",
     "eoc_type": "EVENT",
     "required_event": "character_ranged_attacks_monster",
-    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
-    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_HEDGE_MAGIC_RANGED_CHARACTER_CANCEL",
     "eoc_type": "EVENT",
     "required_event": "character_ranged_attacks_character",
-    "condition": { "or": [ { "u_has_item": "hedge_witchlight" } ] },
-    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_EFFECTS" ] } ]
+    "condition": { "test_eoc": "EOC_HEDGE_MAGIC_MELEE_EOC_CONDITIONS" },
+    "effect": [ { "run_eocs": [ "EOC_HEDGE_MAGIC_REMOVE_ATTACK_EFFECTS" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -190,5 +209,12 @@
       "and": [ { "u_has_effect": "effect_hedge_increase_healing_rate" }, { "math": [ "u_val('activity_level')", ">=", "3" ] } ]
     },
     "effect": [ { "u_lose_effect": "effect_hedge_increase_healing_rate" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_HEDGE_HIDE_IN_FOREST",
+    "condition": { "and": [ "u_is_outside", { "or": [ { "u_at_om_location": "forest_thick" }, { "u_at_om_location": "forest" } ] } ] },
+    "effect": [ { "u_add_trait": "HEDGE_FOREST_BUSH_SHAPE" } ],
+    "false_effect": [ { "u_message": "Without being in a forest, the charm has no effect." } ]
   }
 ]

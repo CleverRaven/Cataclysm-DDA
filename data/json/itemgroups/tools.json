@@ -966,6 +966,20 @@
     ]
   },
   {
+    "id": "tools_tractor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Tools that would be found in a tractor.",
+    "items": [
+      [ "wrench", 35 ],
+      [ "wrench_small", 35 ],
+      [ "hammer", 20 ],
+      [ "multitool", 20 ],
+      [ "pliers_locking", 15 ],
+      [ "wrench_large", 5 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "pur_tablets_bottle_plastic_small_15",
     "subtype": "collection",

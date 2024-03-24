@@ -149,7 +149,6 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
-static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
@@ -3764,11 +3763,6 @@ void Character::reset_stats()
 {
     if( calendar::once_every( 1_minutes ) ) {
         update_mental_focus();
-    }
-
-    // Bionic buffs
-    if( has_active_bionic( bio_hydraulics ) ) {
-        mod_str_bonus( 20 );
     }
 
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */

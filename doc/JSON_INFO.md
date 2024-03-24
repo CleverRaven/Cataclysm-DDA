@@ -58,24 +58,11 @@ Use the `Home` key to return to the top.
     - [Names](#names)
     - [Profession item substitution](#profession-item-substitution)
     - [Professions](#professions)
-      - [`description`](#description)
-      - [`name`](#name)
-      - [`points`](#points)
-      - [`addictions`](#addictions)
-      - [`skills`](#skills)
-      - [`missions`](#missions)
-      - [`proficiencies`](#proficiencies)
       - [`items`](#items)
-      - [`age_lower`](#age_lower)
-      - [`age_upper`](#age_upper)
-      - [`pets`](#pets)
       - [`hobbies`](#hobbies)
       - [`whitelist_hobbies`](#whitelist_hobbies)
-      - [`vehicle`](#vehicle)
-      - [`flags`](#flags)
-      - [`cbms`](#cbms)
-      - [`traits`](#traits)
-      - [`requirement`](#requirement)
+      - [Hobbies](#hobbies-1)
+      - [Profession groups](#profession-groups)
     - [Recipes](#recipes)
       - [Practice recipes](#practice-recipes)
       - [Nested recipes](#nested-recipes)
@@ -1936,183 +1923,134 @@ If the JSON objects contains a "bonus" member, it defines which items will be re
 
 ### Professions
 
-Professions are specified as JSON object with "type" member set to "profession":
-
-```C++
-{
-    "type": "profession",
-    "id": "hunter",
-    ...
-}
-```
-
-The id member should be the unique id of the profession.
-
+Professions are specified as JSON objects with the "type" member set to "profession".
 The following properties (mandatory, except if noted otherwise) are supported:
 
-#### `description`
-(string)
-
-The in-game description.
-
-#### `name`
-(string or object with members "male" and "female")
-
-The in-game name, either one gender-neutral string, or an object with gender specific names. Example:
-```C++
-"name": {
-    "male": "Groom",
-    "female": "Bride"
-}
-```
-
-#### `points`
-(integer)
-
-Point cost of profession. Positive values cost points and negative values grant points.
-
-#### `addictions`
-(optional, array of addictions)
-
-List of starting addictions. Each entry in the list should be an object with the following members:
-- "type": the string id of the addiction (see [JSON_FLAGS.md](JSON_FLAGS.md)),
-- "intensity": intensity (integer) of the addiction.
-
-Example:
-```C++
-"addictions": [
-    { "type": "nicotine", "intensity": 10 }
-]
-```
-
-#### `skills`
-
-(optional, array of skill levels)
-
-List of starting skills. Each entry in the list should be an object with the following members:
-- "name": the string id of the skill (see skills.json),
-- "level": level (integer) of the skill. This is added to the skill level that can be chosen in the character creation.
-
-Example:
-```C++
-"skills": [
-    { "name": "archery", "level": 2 }
-]
-```
-
-#### `missions`
-
-(optional, array of mission ids)
-
-List of starting missions for this profession/hobby.
-
-Example:
-```JSON
-"missions": [ "MISSION_LAST_DELIVERY" ]
-```
-
-#### `proficiencies`
-
-(optional, array of proficiency ids)
-
-List of starting proficiency ids.
-
-Example:
 ```json
-"proficiencies": [ "prof_knapping" ]
+  {
+    "type": "profession",
+    "id": "profession_example",                                // Unique ID for the profession
+    "name": { "male": "Groom", "female": "Bride" },            // String, either a single gender neutral (i.e. "Survivor") or object with members "male" and "female"
+    "description": "This is an example profession.",           // In-game description
+    "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ], // (optional) Array of addictions. Requires "type" as the string ID of the addiction (see JSON_FLAGS.md) and "intensity"
+    "skills": [ { "name": "archery", "level": 2 } ],           // (optional) Array of starting skills. Requires "name" as the string ID of the skill (see skills.json) and "level", which is a value added to the skill level after character creation
+    "missions": [ "MISSION_LAST_DELIVERY" ],                   // (optional) Array of starting mission IDs
+    "proficiencies": [ "prof_knapping" ],                      // (optional) Array of starting proficiencies
+    "items": {                                                 // (optional) Object of items the character starts with (see below for further explanation)
+      "both": {
+        "entries": [
+          { "item": "jeans" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "water_clean", "container-item": "canteen" },
+          { "item": "m1911", "ammo-item": "45_acp", "charges": 7, "container-item": "holster" },
+          { "item": "45_acp", "charges": 23 },
+          { "item": "legpouch_large", "contents-group": "army_mags_m4" }
+        ]
+      },
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
+    }
+    "age_lower": 18,                                           // (optional) Int. The lowest age that a character with this profession can generate with. This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 21
+    "age_upper": 25,                                           // (optional) Int. Similar as above
+    "pets": [ { "name": "mon_black_rat", "amount": 13 } ],     // (optional) Array of starting monster IDs, tamed as pets
+    "vehicle": "car_sports",                                   // (optional) String of a starting vehicle ID. The vehicle will be spawned at the closest road, with the character "remembering" its location in the overmap
+    "flags": [ "SCEN_ONLY", "NO_BONUS_ITEMS" ],                // (optional) Array of flags applied to the character, for character creation purposes
+    "CBMs": [ "bio_fuel_cell_blood" ],                         // (optional) Array of starting implanted CMBs
+    "traits": [ "PROF_CHURL", "ILLITERATE" ],                  // (optional) Array of starting traits/mutations. For further information, see mutations.json and MUTATIONS.md. Note: "trait" is also supported, used for a single trait/mutation ID (legacy!)
+    "requirement": "achievement_survive_28_days",              // (optional) String of an achievement ID required to unlock this profession
+    "spells": [                                                // (optional) Array of starting spell IDs the character knows upon creation. For further information, see MAGIC.md
+      { "id": "magic_missile", "level": 4 },
+      { "id": "summon_undead", "level": 5 },
+      { "id": "necrotic_gaze", "level": 1 }
+    ],
+    "recipes": [ "beartrap" ]                                  // (optional) Array of starting recipe IDs the character knows upon creation
+  },
 ```
+
+The following fields are further described
 
 #### `items`
 
-(optional, object with optional members "both", "male" and "female")
+Items the player starts with when selecting this profession.  One can specify different items based on the gender of the character.  Each lists of items should be an array of items IDs, or pairs of item IDs and snippet IDs.  Item IDs may appear multiple times, in which case multiple times are spawned.  The syntax for each of the three lists is identical.  The old and new formats can be combined, with the old format shown here for legacy purposes:
 
-Items the player starts with when selecting this profession. One can specify different items based on the gender of the character. Each lists of items should be an array of items ids, or pairs of item ids and snippet ids. Item ids may appear multiple times, in which case the item is created multiple times. The syntax for each of the three lists is identical.
-
-Example:
-```C++
-"items": {
+```json
+  "items": {
     "both": [
-        "pants",
-        "rock",
-        "rock",
-        ["tshirt_text", "allyourbase"],
-        "socks"
+      { "item": "jeans" },
+      "rock",
+      [ "tshirt_text", "allyourbase" ],
+      { "item": "tank_top", "variant": "tank_top_camo" }
     ],
-    "male": [
-        "briefs"
-    ],
-    "female": [
-        "panties"
-    ]
-}
+    "male": { "entries": [ { "item": "boxer_shorts" } ] },
+    "female": [ "panties" ]
+  }
 ```
 
-This gives the player pants, two rocks, a t-shirt with the snippet id "allyourbase" (giving it a special description), socks and (depending on the gender) briefs or panties.
-
-#### `age_lower`
-
-(optional, int)
-The lowest age that a character with this profession can generate with. 
-This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 21.
-
-#### `age_upper`
-
-(optional, int)
-The highest age that a character with this profession can generate with.
-This places no limits on manual input, only on random generation (i.e. Play Now!). Defaults to 55.
-
-#### `pets`
-
-(optional, array of string mtype_ids )
-
-A list of strings, each is the same as a monster id
-player will start with these as tamed pets.
 
 #### `hobbies`
 
-(optional, array of string profession_ids)
-
-A list of hobbies that will be the only hobbies this profession can choose from. If empty, all hobbies will be allowed.
+(optional) Array of string profession IDs.  A list of hobbies that will be the only hobbies this profession can choose from.  If empty, all hobbies will be allowed.
 
 #### `whitelist_hobbies`
 
-(optional, bool)
+(optional) Boolean.  If false, `hobbies` will instead be a list of hobbies that this profession _cannot_ choose from.  Defaults to true.
 
-If this is false, `hobbies` will instead be a list of hobbies that this profession _cannot_ choose from. This defaults to true.
 
-#### `vehicle`
+### Hobbies
 
-(optional, string vproto_id )
+Hobbies consist of backgrounds for the character upon creation, designed in the code as subtype professions.
+These can be combined with the "primary" profession, adding minor bonuses and/or demerits on top of the starting parameters, allowing more flexibility and character identity.
+Note: hobby fields derive from those used in professions.  The following is a non-exhaustive list:
 
-A  string, which is the same as a vehicle ( vproto_id )
-player will start with this as a nearby vehicle.
-( it will find the nearest road and place it there, then mark it as "remembered" on the overmap )
+```json
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_profession",                                  // Unique ID of the hobby
+    "name": "Driving License",                                 // String, in-game name
+    "description": "Description goes here",                    // In-game description
+    "points": 0,                                               // Point cost of profession. Positive values cost points and negative values grant points. Has no effect as of 0.G
+    "skills": [                                                // (optional) Array of starting skills, added on top of the profession starting skills
+      { "level": 2, "name": "driving" }
+    ],
+    "proficiencies": [ "prof_driver" ],                        // (optional) Array of starting proficiencies
+    "addictions": [ { "intensity": 40, "type": "opiate" } ],   // (optional) Array of addictions, added on top of the profession starting addictions
+    "traits": [ "LOVES_BOOKS" ],                               // (optional) Array of starting traits/mutations
+    "CBMs": [ "bio_adrenaline" ],                              // (optional) Array of starting implanted CMBs
+    "spells": [ { "id": "create_atomic_light", "level": 5 } ]  // (optional) Array of starting spell IDs the character knows upon creation
+  },
+```
 
-#### `flags`
+### Profession groups
 
-(optional, array of strings)
+Profession groups are a list of hobbies added to the character upon creation.
+While the list is automatically added by hardcode to each character upon creation (adding a minimum set of skills to all characters, regardless of their professions), the list can be modified via JSON.
+Thus, it is listed here for reference and modding purposes only.
 
-A list of flags. TODO: document those flags here.
+```json
+  {
+    "type": "profession_group",
+    "id": "adult_basic_background",
+    "professions": [
+      "driving_license",
+      "simple_home_cooking",
+      "computer_literate",
+      "social_skills",
+      "high_school_graduate",
+      "mundane_survival"
+    ]
+  }
+```
 
-- `NO_BONUS_ITEMS` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
+The array of hobbies (listed as professions) is whitelisted to all characters.  Thus, if one wants to start with no hobbies, the list has to be set as:
 
-#### `cbms`
-
-(optional, array of strings)
-
-A list of CBM ids that are implanted in the character.
-
-#### `traits`
-
-(optional, array of strings)
-
-A list of trait/mutation ids that are applied to the character.
-
-#### `requirement`
-
-(optional, an achievement ID)
-
-The achievement you need to do to access this profession
+```json
+    "professions": [  ]
+```
 
 ### Recipes
 

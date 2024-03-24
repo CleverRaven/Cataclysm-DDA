@@ -1887,6 +1887,36 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_vitakin_healing_trance",
+    "name": [ "Revitalizing Meditation" ],
+    "desc": [ "Thanks to your meditations you are healing much more quickly" ],
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_HP",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.75 ) + 4 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          {
+            "value": "MENDING_MODIFIER",
+            "multiply": {
+              "math": [
+                "( ( u_spell_level('vita_healing_trance') * 0.25 ) + 1 ) * scaling_factor(u_val('intelligence') ) * u_nether_attunement_power_scaling"
+              ]
+            }
+          },
+          { "value": "REGEN_HP_AWAKE", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakin_hurt",
     "name": [ "Enervating Touch" ],
     "desc": [ "This reduces monsters' regeneration.  It's a bug if you have it." ],
