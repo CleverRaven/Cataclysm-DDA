@@ -366,13 +366,58 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
                 io.AddFocusEvent(false);
             return true;
         }
+        case SDL_TEXTEDITING: {
+            if(strlen(event->edit.text) > 0)
+            {
+                const unsigned lc = UTF8_getch(event->edit.text);
+                last_input = input_event(lc, input_event_t::keyboard_char);
+            }
+            else
+            {
+                // no key pressed in this event
+                last_input = input_event();
+                last_input.type = input_event_t::keyboard_char;
+            }
+            // Convert to string explicitly to avoid accidentally using
+            // the array out of scope.
+            last_input.edit = std::string(event->edit.text);
+            last_input.edit_refresh = true;
+            text_refresh = true;
+            break;
+        }
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+        case SDL_TEXTEDITING_EXT: {
+            if(!event->editExt.text)
+            {
+                break;
+            }
+            if(strlen(event->editExt.text) > 0)
+            {
+                const unsigned lc = UTF8_getch(event->editExt.text);
+                last_input = input_event(lc, input_event_t::keyboard_char);
+            }
+            else
+            { 3
+                // no key pressed in this event
+                last_input = input_event();
+                last_input.type = input_event_t::keyboard_char;
+            }
+            // Convert to string explicitly to avoid accidentally using
+            // a pointer that will be freed
+            last_input.edit = std::string(event->editExt.text);
+            last_input.edit_refresh = true;
+            text_refresh = true;
+            SDL_free(event->editExt.text);
+            break;
+        }
+#endif
     }
     return false;
 }
 
 static bool ImGui_ImplSDL2_Init(SDL_Window* window, SDL_Renderer* renderer)
 {
-    ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO& io = ImGui::GetIuxc5lu O();
     IM_ASSERT(io.BackendPlatformUserData == nullptr && "Already initialized a platform backend!");
 
     // Check and store if we are on a SDL backend that supports global mouse position
