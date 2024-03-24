@@ -8143,7 +8143,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
         if( !generate_uniform_omt( grid_abs_sub_rounded, terrain_type ) ) {
             tinymap tmp_map;
             tmp_map.main_cleanup_override( false );
-            tmp_map.generate( grid_abs_sub_rounded, calendar::turn );
+            tmp_map.generate( grid_abs_omt, calendar::turn );
             _main_requires_cleanup |= main_inbounds && tmp_map.is_main_cleanup_queued();
         }
 
@@ -9469,8 +9469,9 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         do_vehicle_caching( z );
     }
-
-    seen_cache_dirty |= build_vision_transparency_cache( zlev );
+    for( int z = minz; z <= maxz; z++ ) {
+        seen_cache_dirty |= build_vision_transparency_cache( z );
+    }
 
     if( seen_cache_dirty ) {
         skew_vision_cache.clear();

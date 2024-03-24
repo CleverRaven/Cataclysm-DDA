@@ -1750,7 +1750,6 @@ class map
 
         /**
          * Handles map objects of given type (not creatures) falling down.
-         * Returns true if anything changed.
          */
         /*@{*/
         void drop_everything( const tripoint &p );
@@ -1768,9 +1767,9 @@ class map
         bool is_cornerfloor( const tripoint &p ) const;
 
         // mapgen.cpp functions
-        // TODO: fix point types (remove the first overload)
-        void generate( const tripoint &p, const time_point &when );
-        void generate( const tripoint_abs_sm &p, const time_point &when );
+        // The code relies on the submap coordinate falling on omt boundaries, so taking a
+        // tripoint_abs_omt coordinate guarantees this will be fulfilled.
+        void generate( const tripoint_abs_omt &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false,
@@ -2414,12 +2413,7 @@ class tinymap : private map
 
         using map::is_main_cleanup_queued;
         using map::main_cleanup_override;
-        void generate( const tripoint &p, const time_point &when ) {
-            map::generate( p, when );    // TODO: Remove when below is converted
-        }
-        void generate( const tripoint_abs_sm &p, const time_point &when ) {
-            map::generate( p, when );    // TODO: Convert to tripoint_abs_omt
-        }
+        using map::generate;
         void place_spawns( const mongroup_id &group, int chance, // TODO: Convert to typed
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false,

@@ -449,8 +449,8 @@ translation_var_info read_translation_var_info( const JsonObject &jo )
     return abstract_read_var_info<translation>( jo );
 }
 
-void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
-                      const std::string &value )
+void write_var_value( var_type type, const std::string &name, dialogue *d,
+                      const std::string &value, int call_depth )
 {
     global_variables &globvars = get_globals();
     std::string ret;
@@ -462,11 +462,27 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
         case var_type::var:
             ret = d->get_value( name );
             vinfo = process_variable( ret );
-            write_var_value( vinfo.type, vinfo.name, talk, d, value );
+            if( call_depth > 1000 ) {
+                debugmsg( "Possible infinite loop detected: var_val points to itself or forms a cycle.  %s->%s %s",
+                          name, vinfo.name, d->get_callstack() );
+            } else {
+                write_var_value( vinfo.type, vinfo.name, d, value,
+                                 call_depth + 1 );
+            }
             break;
         case var_type::u:
+            if( d->has_alpha ) {
+                d->actor( false )->set_value( name, value );
+            } else {
+                debugmsg( "Tried to use an invalid alpha talker.  %s", d->get_callstack() );
+            }
+            break;
         case var_type::npc:
-            talk->set_value( name, value );
+            if( d->has_beta ) {
+                d->actor( true )->set_value( name, value );
+            } else {
+                debugmsg( "Tried to use an invalid beta talker.  %s", d->get_callstack() );
+            }
             break;
         case var_type::faction:
             debugmsg( "Not implemented yet." );
@@ -483,11 +499,11 @@ void write_var_value( var_type type, const std::string &name, talker *talk, dial
     }
 }
 
-void write_var_value( var_type type, const std::string &name, talker *talk, dialogue *d,
+void write_var_value( var_type type, const std::string &name, dialogue *d,
                       double value )
 {
     // NOLINTNEXTLINE(cata-translate-string-literal)
-    write_var_value( type, name, talk, d, string_format( "%g", value ) );
+    write_var_value( type, name, d, string_format( "%g", value ) );
 }
 
 static bodypart_id get_bp_from_str( const std::string &ctxt )
@@ -1527,7 +1543,7 @@ conditional_t::func f_query_tile( const JsonObject &jo, std::string_view member,
         }
         if( loc.has_value() ) {
             tripoint_abs_ms pos_global = get_map().getglobal( *loc );
-            write_var_value( target_var.type, target_var.name, d.actor( target_var.type == var_type::npc ), &d,
+            write_var_value( target_var.type, target_var.name, &d,
                              pos_global.to_string() );
         }
         return loc.has_value();
