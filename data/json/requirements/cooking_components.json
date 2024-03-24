@@ -450,7 +450,17 @@
     "id": "meat_raw_steak",
     "type": "requirement",
     "//": "An unbroken slab of raw meat.  For when scraps just aren't good enough.",
-    "components": [ [ [ "meat", 1 ], [ "mutant_meat", 1 ], [ "human_flesh", 1 ], [ "mutant_human_flesh", 1 ], [ "demihuman_flesh", 1 ], ["poultry", 1 ], ["poultry_fatty", 1 ] ] ]
+    "components": [
+      [
+        [ "meat", 1 ],
+        [ "mutant_meat", 1 ],
+        [ "human_flesh", 1 ],
+        [ "mutant_human_flesh", 1 ],
+        [ "demihuman_flesh", 1 ],
+        [ "poultry", 1 ],
+        [ "poultry_fatty", 1 ]
+      ]
+    ]
   },
   {
     "id": "meat_red_raw",
@@ -567,7 +577,14 @@
     "type": "requirement",
     "//": "Any type of raw meat except for fish.  About 300-400kcal of meat.",
     "components": [
-      [ [ "meat_red", 1, "LIST" ], [ "meat_offal", 1, "LIST" ], [ "can_spam", 2 ], [ "lunchmeat", 2 ], [ "can_chicken", 1 ], [ "poultry_raw_any", 1, "LIST" ] ]
+      [
+        [ "meat_red", 1, "LIST" ],
+        [ "meat_offal", 1, "LIST" ],
+        [ "can_spam", 2 ],
+        [ "lunchmeat", 2 ],
+        [ "can_chicken", 1 ],
+        [ "poultry_raw_any", 1, "LIST" ]
+      ]
     ]
   },
   {
@@ -1366,6 +1383,16 @@
     "id": "poultry_cooked_any",
     "type": "requirement",
     "//": "Any cooked and ready-to-eat bird meat, about 250ml",
-    "components": [ [ [ "poultry_cooked", 1 ], [ "poultry_scrap_cooked", 10 ], [ "poultry_pepper", 1 ], [ "poultry_scrap_pepper", 10 ], [ "poultry_smoked", 1 ], [ "poultry_fatty_smoked", 1 ], [ "can_chicken", 1 ] ] ]
+    "components": [
+      [
+        [ "poultry_cooked", 1 ],
+        [ "poultry_scrap_cooked", 10 ],
+        [ "poultry_pepper", 1 ],
+        [ "poultry_scrap_pepper", 10 ],
+        [ "poultry_smoked", 1 ],
+        [ "poultry_fatty_smoked", 1 ],
+        [ "can_chicken", 1 ]
+      ]
+    ]
   }
 ]

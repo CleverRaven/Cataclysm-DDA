@@ -1964,9 +1964,7 @@
     "type": "COMESTIBLE",
     "id": "chicken_sandwich",
     "name": { "str": "chicken sandwich" },
-    "conditional_names": [
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast %s" } }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "breakfast %s" } } ],
     "weight": "187 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -1987,9 +1985,7 @@
     "type": "COMESTIBLE",
     "id": "chicken_sandwich_wheat_free",
     "name": { "str": "wheat-free chicken sandwich" },
-    "conditional_names": [
-      { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast chicken sandwich" } }
-    ],
+    "conditional_names": [ { "type": "COMPONENT_ID_SUBSTRING", "condition": "egg", "name": { "str": "wheat-free breakfast chicken sandwich" } } ],
     "weight": "187 g",
     "color": "brown",
     "spoils_in": "2 days",
