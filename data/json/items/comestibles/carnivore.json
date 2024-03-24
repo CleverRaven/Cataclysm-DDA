@@ -2192,8 +2192,6 @@
     "spoils_in": "17 days",
     "calories": 594,
     "price_postapoc": 200,
-    "quench": -1,
-    "fun": 5,
     "flags": [ "EATEN_HOT", "SMOKED" ]
   }
 ]

@@ -10367,7 +10367,7 @@
       [ [ "bacon", 2 ] ],
       [ [ "flour_any", 1 ] ],
       [ [ "sauce_red", 1 ] ],
-      [ [ "worthy_wine", 4, "LIST" ], [ "fruit_wine", 4 ] ]
+      [ [ "worthy_wine", 4, "LIST" ], [ "fruit_wine", 4 ] ],
       [ [ "broth", 2 ] ],
       [ [ "garlic_clove", 2 ], [ "rehydrated_garlic", 2 ], [ "garlic_powder", 2 ] ],
       [ [ "pepper", 2 ] ],
