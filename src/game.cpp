@@ -166,6 +166,7 @@
 #include "stats_tracker.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "surroundings_menu.h"
 #include "talker.h"
 #include "text_snippets.h"
 #include "tileray.h"
@@ -8343,18 +8344,27 @@ void game::list_items_monsters()
     }
 
     temp_exit_fullscreen();
-    game::vmenu_ret ret;
-    while( true ) {
-        ret = uistate.vmenu_show_items ? list_items( items ) : list_monsters( mons );
-        if( ret == game::vmenu_ret::CHANGE_TAB ) {
-            uistate.vmenu_show_items = !uistate.vmenu_show_items;
-        } else {
-            break;
+    std::optional<tripoint> path_start = u.pos();
+    std::optional<tripoint> path_end = std::nullopt;
+    if( get_option<bool>( "USE_IMGUI" ) ) {
+        surroundings_menu vmenu( u, m, path_end, 55 );
+        shared_ptr_fast<draw_callback_t> trail_cb = create_trail_callback( path_start, path_end, true );
+        add_draw_callback( trail_cb );
+        vmenu.execute();
+    } else {
+        game::vmenu_ret ret;
+        while( true ) {
+            ret = uistate.vmenu_show_items ? list_items( items ) : list_monsters( mons );
+            if( ret == game::vmenu_ret::CHANGE_TAB ) {
+                uistate.vmenu_show_items = !uistate.vmenu_show_items;
+            } else {
+                break;
+            }
         }
-    }
 
-    if( ret == game::vmenu_ret::FIRE ) {
-        avatar_action::fire_wielded_weapon( u );
+        if( ret == game::vmenu_ret::FIRE ) {
+            avatar_action::fire_wielded_weapon( u );
+        }
     }
     reenter_fullscreen();
 }
