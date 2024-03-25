@@ -2069,7 +2069,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     }
 
     if( power_grid ) {
-        menu.add( _( "Disconnect from power grid" ) )
+        menu.add( is_appliance() ? _( "Disconnect from power grid" ) : _( "Disconnect power connections" ) )
         .enable( !cable_linked )
         .desc( string_format( !cable_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
