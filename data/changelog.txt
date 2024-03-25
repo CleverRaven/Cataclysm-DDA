@@ -104,6 +104,7 @@ EoCs support mutate_towards directly
 make `u_spawn_item` to support the item group whose subtype is `collection`
 Add u_wants_to_talk/npc_wants_to_talk EOC effects
 Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
+Limbify limb drying rate
 
 
 ## Content:
@@ -210,6 +211,15 @@ Simulate hair growth over time.
 Add earthworms to the game, as a food source
 Add cougar kittens and fix cougar taming in mods
 Boomers now leave fleshy gibs on detonation```
+Added large plastic buckets (20 L)
+Add artwork in various forms.
+Adjusts various muzzle devices
+Add 'Stretch Fabric' requirement to nomad bodygloves
+Adds snakeskins and sets rattlesnakes to drop them periodically
+Audits nightmare prose to avoid imposing RP traits
+Adds reward for Dino Dave's quests
+Add rural church map special
+Collection of fixes and updates to Exosuits
 
 
 ## Interface:
@@ -264,6 +274,7 @@ Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
 Set priority for containers that have auto whitelisting.
+Add book colors in help text
 
 
 ## Mods:
@@ -380,6 +391,15 @@ Fix Brackenwight special attack message
 [Magiclysm] Last Mage on Earth start
 Tamable Wildlife: add Cougars to list of tameables
 [Magiclysm] Add spellcasting proficiencies.
+Fix Magiclsym spellcasting proficiency setup triggers.
+[Xedra Evolved] Add Paraclesian ally buff spells
+Aftershock: Create a start scenario within Port Augustmoon
+[Xedra Evolved] Add "Tranquil Pool" Undine elemental eruption
+[Xedra Evolved] Arvore fae ban: No outdoor fires
+[Magiclysm] Add ankhegs and otyughs
+[MoM] Add BLEED_STOP_BONUS to Coagulation
+[MoM] Rework Revitalizing Meditation
+[Xedra Evolved] Yet more hedge magic
 
 
 ## Balance:
@@ -438,6 +458,12 @@ Bring ice axe in line with reality
 Audit remaining magazines (.223, 9mm, .308)
 Update books.json to rebalance religious book spawning
 Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
+NPCs consider allergies, cannibalism, other issues before eating from camp larder
+Dead NPCs give samples when dissected, like other humans
+Fix sugar
+Farming Vehicles + Forklifts
+Adds grass cutting quality to kukris
+Did you heard ferals can shoot you? now they can't
 
 
 ## Bugfixes:
@@ -566,6 +592,26 @@ Fix assignment ID's with NECC mapgen EOCs.
 Allows Infrared vision to see through smoke
 [Magiclysm] Fix Peaceful Rest hobby
 NPCs can overeat, starve, and dehydrate to death
+[MoM] Fix possibility of multiple lifting fields
+Can't craft while driving
+Refugee's teamster dialogue which doesn't roll directions anymore
+Lockpicks can use all wires
+Butchering, and similar activities, don't consume stamina
+Fix NPC guard's decision to pulp corpses
+Mutation attack error triggered while wielding REACH_ATTACK weapons.
+Fixes an issue with Android where window shows small and in the top-left corner
+Meadow are now navigable and traversable by autodriving
+Smoke effects are no longer excluded from monster gas immunity
+[Xedra Evolved] Arvore brambles are flammable
+Fixing cmake build that was failing due to not compiling imgui_demo.cpp in
+Fixing issue where ImGui screens stop drawing themselves when CDDA window is made small
+[MoM] Add missing welding elements to Incandescent Lance
+[MoM] Add EoC activity check for stopping learning power meditation
+Remove some guns
+Fix brush action to wash soft items as described
+Fixed railroad track length and barter price
+fix some issues of `var_val`
+Bugfix Biokinetic learning conditions in biokinesis.json
 
 
 ## Performance:
@@ -639,6 +685,11 @@ Effect enchantments can now apply to monsters
 Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
 Added SMALL_HIDER flag to various monsters.
+Cannibalism checks converted to vitamin, accessible by mods and other content
+Unhardcoded RM13's use actions
+Fix unrelated json errors being thrown when hotloading json edits
+EOCs have a 'time_until' function, works like time_since
+A guide to reviewing PRs for smoother and more consistent merging
 
 
 ## Build:
@@ -655,6 +706,7 @@ Report game's RNG seed during testing
 Added WebAssembly build via Emscripten
 CMake: Add LLVM build for Windows and other linker fixes
 Use one precompiled header
+Version strings are now release tags instead of git commits
 
 
 ## I18N and A11Y:
