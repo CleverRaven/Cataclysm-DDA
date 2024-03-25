@@ -1341,7 +1341,7 @@
   {
     "id": "holybook_mithraic",
     "type": "BOOK",
-    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the Mithraic Inscriptions" },
+    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of The Mithraic Inscriptions" },
     "description": "A commercial-grade, paperback English edition of The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
     "weight": "500 g",
     "volume": "1 L",
