@@ -2925,29 +2925,31 @@ void map::drop_items( const tripoint &p )
             // We use sqrt here because it trends back towards 1. Spectacularly low hit_mod will still have SOME chance to hit while
             // hits of >1 avoid_chance are not always going to strike the head
             creature_hit_chance /= sqrt( avoid_chance );
+            bodypart_id hit_part;
             if( creature_hit_chance < 15 ) {
-                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the head!" ), i.tname(),
-                                        creature_below->get_name() );
-                creature_below->deal_damage( nullptr, bodypart_id( "head" ), damage_instance( damage_bash,
-                                             damage ) );
+                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::head );
             } else if( creature_hit_chance < 30 ) {
-                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the torso!" ), i.tname(),
-                                        creature_below->get_name() );
-                creature_below->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_bash,
-                                             damage ) );
-            } else if( creature_hit_chance < 65 ) {
-                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the left arm!" ),
-                                        i.tname(), creature_below->get_name() );
-                creature_below->deal_damage( nullptr, bodypart_id( "arm_l" ), damage_instance( damage_bash,
-                                             damage ) );
+                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::torso );
+            } else if( creature_hit_chance < 90 ) {
+                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::arm );
             } else if( creature_hit_chance < 100 ) {
-                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the right arm!" ),
-                                        i.tname(), creature_below->get_name() );
-                creature_below->deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance( damage_bash,
-                                             damage ) );
+                hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::leg );
             } else {
                 add_msg_if_player_sees( creature_below->pos(), _( "Falling %s misses the %s!" ), i.tname(),
                                         creature_below->get_name() );
+            }
+            // Did we hit at all? Then run the message.
+            if( creature_hit_chance < 100 ) {
+                // For some reason bp_null is_valid???
+                if( hit_part.is_valid() ) {
+                    add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in their %s for %i damage!" ),
+                                            i.tname(), creature_below->get_name(), hit_part->name, static_cast<int>( damage ) );
+                } else {
+                    add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s for %i damage!" ),
+                                            i.tname(), creature_below->get_name(), static_cast<int>( damage ) );
+                }
+                // FIXME: Hardcoded damage type!
+                creature_below->deal_damage( nullptr, hit_part, damage_instance( damage_bash, damage ) );
             }
         }
 
