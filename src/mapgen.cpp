@@ -2219,7 +2219,7 @@ class jmapgen_item_group : public jmapgen_piece
             group_id = item_group::load_item_group( group, "collection",
                                                     str_cat( "mapgen item group ", context ) );
             if( jsi.has_int( "prob" ) ) {
-                debugmsg( "prob definition in group %s with context %s should be replaced with chance",
+                debugmsg( "prob definition in group %s with context %s should be replaced with chance where chance is a percent and defaults to 100",
                           group_id.c_str(), context );
             }
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
