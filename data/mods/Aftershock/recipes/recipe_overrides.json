@@ -248,7 +248,8 @@
       [ [ "sweetbread", 1 ], [ "human_sweetbread", 1 ], [ "demihuman_sweetbread", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
       [ [ "vinegar", 1 ] ],
-      [ [ "salt", 2 ] ] ]
+      [ [ "salt", 2 ] ]
+    ]
   },
   {
     "result": "recharge_station",
