@@ -106,7 +106,7 @@ void start_location::load( const JsonObject &jo, const std::string &src )
     std::string ter;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
         ot_match_type ter_match_type = ot_match_type::type;
-        std::vector<std::pair<std::string, std::string>> key_value_pairs;
+        std::unordered_map<std::string, std::string> parameter_map;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
@@ -118,12 +118,9 @@ void start_location::load( const JsonObject &jo, const std::string &src )
             if( jot.has_object( "parameters" ) ) {
                 std::unordered_map<std::string, std::string> parameter_map;
                 jot.read( "parameters", parameter_map );
-                for( auto key_value_pair : parameter_map ) {
-                    key_value_pairs.emplace_back( key_value_pair );
-                }
             }
         }
-        _locations.emplace_back( omt_types_parameters{ ter, ter_match_type, key_value_pairs } );
+        _locations.emplace_back( omt_types_parameters{ ter, ter_match_type, parameter_map } );
     }
     if( jo.has_array( "city_sizes" ) ) {
         assign( jo, "city_sizes", constraints_.city_size, strict );
@@ -245,8 +242,8 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
-start_location::find_player_initial_location( const point_abs_om &origin ) const
+std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+        start_location::find_player_initial_location( const point_abs_om &origin ) const
 {
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
@@ -266,8 +263,8 @@ start_location::find_player_initial_location( const point_abs_om &origin ) const
     return std::make_pair( overmap::invalid_tripoint, chosen_target.parameters );
 }
 
-std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
-start_location::find_player_initial_location( const city &origin ) const
+std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+        start_location::find_player_initial_location( const city &origin ) const
 {
     overmap &omap = overmap_buffer.get( origin.pos_om );
     std::vector<std::pair<tripoint_om_omt, omt_types_parameters>> valid;
@@ -277,13 +274,13 @@ start_location::find_player_initial_location( const city &origin ) const
             if( !can_belong_to_city( p, origin ) ) {
                 continue;
             }
-            auto target_is_ot_match = [&]( omt_types_parameters target ) {
+            auto target_is_ot_match = [&]( const omt_types_parameters & target ) {
                 return is_ot_match( target.omt, omap.ter( p ), target.omt_type );
             };
             auto it = std::find_if( _locations.begin(), _locations.end(),
                                     target_is_ot_match );
             if( it != _locations.end() ) {
-                valid.push_back( std::make_pair( p, *it ) );
+                valid.emplace_back( std::make_pair( p, *it ) );
             }
         }
     }
@@ -300,10 +297,8 @@ start_location::find_player_initial_location( const city &origin ) const
 }
 
 void start_location::set_parameters( const tripoint_abs_omt &omtstart,
-                                     std::vector<std::pair<std::string, std::string>> parameters_to_set ) const
+                                     const std::unordered_map<std::string, std::string> &parameters_to_set ) const
 {
-    std::pair<std::string, std::string> empty_pair;
-    std::remove( parameters_to_set.begin(), parameters_to_set.end(), empty_pair );
     if( parameters_to_set.empty() ) {
         return;
     }
@@ -321,7 +316,7 @@ void start_location::set_parameters( const tripoint_abs_omt &omtstart,
     const overmap_special &special = **s;
     const mapgen_parameters &params = special.get_params();
     mapgen_arguments args;
-    for( const std::pair<std::string, std::string> &param_to_set : parameters_to_set ) {
+    for( const auto &param_to_set : parameters_to_set ) {
         const std::string &param_name_to_set = param_to_set.first;
         const std::string &value_to_set = param_to_set.second;
         auto param_it = params.map.find( param_name_to_set );

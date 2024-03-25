@@ -30,7 +30,7 @@ struct start_location_placement_constraints {
 struct omt_types_parameters {
     std::string omt;
     ot_match_type omt_type;
-    std::vector<std::pair<std::string, std::string>> parameters;
+    std::unordered_map<std::string, std::string> parameters;
 };
 
 class start_location
@@ -54,21 +54,21 @@ class start_location
          * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
          * in the world.
          */
-        std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
-        find_player_initial_location( const point_abs_om &origin ) const;
+        std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+                find_player_initial_location( const point_abs_om &origin ) const;
         /**
          * Find a suitable start location on the overmap in specific city.
          * @return Global, absolute overmap terrain coordinates where the player should spawn.
          * It may return `overmap::invalid_tripoint` if no suitable starting location could be found
          * in the world.
          */
-        std::pair<tripoint_abs_omt, std::vector<std::pair<std::string, std::string>>>
-        find_player_initial_location( const city &origin ) const;
+        std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
+                find_player_initial_location( const city &origin ) const;
         /**
          * Set any parameters assigned to the chosen start location
          */
         void set_parameters( const tripoint_abs_omt &omtstart,
-                             std::vector<std::pair<std::string, std::string>> parameters_to_set ) const;
+                             const std::unordered_map<std::string, std::string> &parameters_to_set ) const;
         /**
          * Initialize the map at players start location using @ref prepare_map.
          * @param omtstart Global overmap terrain coordinates where the player is to be spawned.
