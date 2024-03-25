@@ -14600,9 +14600,6 @@ bool item::on_drop( const tripoint &pos, map &m )
 
     avatar &player_character = get_avatar();
 
-    // set variable storing information of character dropping item
-    dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
-
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }
 

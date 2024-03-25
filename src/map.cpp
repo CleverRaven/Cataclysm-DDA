@@ -2888,7 +2888,7 @@ void map::drop_items( const tripoint &p )
             // Discount most of the first z-level's falling distance, depending on how big the creature is
             // Characters (player/NPC) are normally medium, which is 0.5 or standing about 1.2m tall.
             // This is shorter than the average adult, but it's an *okay* approximation.
-            height_fallen - occupied_tile_fraction( creature_below->get_size() );
+            height_fallen -= occupied_tile_fraction( creature_below->get_size() );
         }
         // in meters, assuming one z-level is ~2.5m.
         const double distance_to_fall = ( height_fallen ) * 2.5;
@@ -2915,15 +2915,16 @@ void map::drop_items( const tripoint &p )
         if( creature_below ) {
             // creature's dodge modifier
             float dodge_mod = creature_below->dodge_roll();
-            // if item dropped by character their throwing skill modifier -1 if not dropped by a character
-            float throwing_mod = i.dropped_char_stats.throwing == -1.0f ? 0.0f : 5 *
-                                 i.dropped_char_stats.throwing;
 
-            // values calibrated so that %hit chance starts from 60% going up and down according to the two modifiers
-            float hit_mod = ( throwing_mod + 18 ) / ( dodge_mod + 15 );
+            // Most of the threat comes from the projectile going very fast before it enters a creature's vertical FOV
+            // or e.g. it fell from so high up that there was no indication of something coming down before it (possibly) hits
+            float hit_mod = velocity_at_impact / ( dodge_mod + 5 );
 
             int creature_hit_chance = rng( 0, 100 );
-            creature_hit_chance /= hit_mod * occupied_tile_fraction( creature_below->get_size() );
+            double avoid_chance = hit_mod * occupied_tile_fraction( creature_below->get_size() );
+            // We use sqrt here because it trends back towards 1. Spectacularly low hit_mod will still have SOME chance to hit while
+            // hits of >1 avoid_chance are not always going to strike the head
+            creature_hit_chance /= sqrt( avoid_chance );
             if( creature_hit_chance < 15 ) {
                 add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in the head!" ), i.tname(),
                                         creature_below->get_name() );
@@ -2951,6 +2952,7 @@ void map::drop_items( const tripoint &p )
         }
 
         // Bash items at bottom since currently bash_items only bash glass items
+        // FIXME: Hardcoded damage type!
         int chance = static_cast<int>( 200 * i.resist( damage_bash, true ) / damage + 1 );
         if( one_in( chance ) ) {
             i.inc_damage();
