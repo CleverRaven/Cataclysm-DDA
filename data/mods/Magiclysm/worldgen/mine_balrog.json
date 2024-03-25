@@ -115,7 +115,8 @@
           { "item": "balrog_mine_weapons", "chance": 70, "damage": 4 }
       },
       "item": {
-        "!": [ { "item": "helmet_plate", "chance": 50, "damage": 4 },
+        "!": [
+          { "item": "helmet_plate", "chance": 50, "damage": 4 },
           { "item": "boots_plate", "chance": 75, "damage": 4 },
           { "item": "armguard_lightplate", "chance": 60, "damage": 4 },
           { "item": "gloves_plate", "chance": 40, "damage": 4 },
