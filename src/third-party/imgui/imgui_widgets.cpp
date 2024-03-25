@@ -5012,7 +5012,27 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         if (is_multiline || (buf_display_end - buf_display) < buf_display_max_length)
         {
             ImU32 col = GetColorU32(is_displaying_hint ? ImGuiCol_TextDisabled : ImGuiCol_Text);
-            draw_window->DrawList->AddText(g.Font, g.FontSize, draw_pos - draw_scroll, col, buf_display, buf_display_end, 0.0f, is_multiline ? NULL : &clip_rect);
+
+            if(GImGui->IO.PreEditText)
+            {
+                const char *preEditTextEnd = GImGui->IO.PreEditText + strlen(GImGui->IO.PreEditText);
+                ImWchar wcharBuf[255] = { 0 };
+                int wlen = ImTextStrFromUtf8(wcharBuf, 255, GImGui->IO.PreEditText, preEditTextEnd);
+                ImVec2 drawPosStart = draw_pos - draw_scroll;
+                const char *buf_display_cursor = buf_display + state->Stb.select_end;
+                draw_window->DrawList->AddText(g.Font, g.FontSize, drawPosStart, col, buf_display, buf_display_cursor, 0.0f, is_multiline ? NULL : &clip_rect);
+                drawPosStart.x += InputTextCalcTextSizeW(GImGui, text_begin, text_begin + state->Stb.select_end).x;
+                draw_window->DrawList->AddText(g.Font, g.FontSize, drawPosStart, col, GImGui->IO.PreEditText, preEditTextEnd, 0.0f, is_multiline ? NULL : &clip_rect);
+                if(buf_display_cursor != buf_display_end)
+                {
+                    drawPosStart.x += InputTextCalcTextSizeW(GImGui, wcharBuf, wcharBuf + wlen).x;
+                    draw_window->DrawList->AddText(g.Font, g.FontSize, drawPosStart, col, buf_display_cursor, buf_display_end, 0.0f, is_multiline ? NULL : &clip_rect);
+                }
+            }
+            else
+            {
+                draw_window->DrawList->AddText(g.Font, g.FontSize, draw_pos - draw_scroll, col, buf_display, buf_display_end, 0.0f, is_multiline ? NULL : &clip_rect);
+            }
         }
 
         // Draw blinking cursor
