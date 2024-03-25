@@ -86,12 +86,12 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
             // so now is the time to generate the arguments
             if( std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
                 const overmap_special &special = **s;
-                auto tmp = special.get_args( *this );
+                mapgen_arguments internally_set_args = special.get_args( *this );
                 if( overmap_buffer.externally_set_args ) {
-                    maybe_args->value().map.merge( tmp.map );
+                    maybe_args->value().map.merge( internally_set_args.map );
                     overmap_buffer.externally_set_args = false;
                 } else {
-                    *maybe_args = tmp;
+                    *maybe_args = internally_set_args;
                 }
                 mapgen_args_ = **maybe_args;
             } else {
