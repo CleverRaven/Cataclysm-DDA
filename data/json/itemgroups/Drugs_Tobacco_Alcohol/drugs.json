@@ -798,6 +798,7 @@
     "id": "pillbox_used",
     "subtype": "distribution",
     "container-item": "pillbox",
+    "on_overflow": "discard",
     "entries": [ { "group": "pillbox_contents" } ]
   },
   {
@@ -805,6 +806,7 @@
     "id": "pillbox_large_used",
     "subtype": "distribution",
     "container-item": "pillbox_large",
+    "on_overflow": "discard",
     "entries": [ { "group": "pillbox_contents" } ]
   },
   {
