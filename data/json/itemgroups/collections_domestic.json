@@ -647,7 +647,7 @@
       { "item": "balloon", "prob": 5 },
       { "group": "memorial", "prob": 3 },
       { "item": "air_launcher", "prob": 1 },
-      { "item": "home_picture", "prob": 50 }
+      { "item": "home_picture", "prob": 75 }
     ]
   },
   {
