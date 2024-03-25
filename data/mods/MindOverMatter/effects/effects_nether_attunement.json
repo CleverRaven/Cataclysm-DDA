@@ -61,7 +61,7 @@
   {
     "type": "effect_type",
     "id": "effect_nether_attunement_raiser",
-    "name": [ "Tingling Sensation" ],
+    "name": [ "Nether Conduit" ],
     "desc": [ "Your skin prickles." ],
     "remove_message": "The tingling sensation finally vanishes.",
     "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "5 m" ] } ]
