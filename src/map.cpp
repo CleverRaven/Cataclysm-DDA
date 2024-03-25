@@ -2864,10 +2864,10 @@ void map::drop_items( const tripoint &p )
     // rather than disappearing if it would be overloaded
 
     tripoint below( p );
-    int height_fallen = 0;
+    int max_height_fallen = 0;
     while( !has_floor_or_water( below ) ) {
         below.z--;
-        height_fallen++;
+        max_height_fallen++;
     }
 
     if( below == p ) {
@@ -2877,14 +2877,41 @@ void map::drop_items( const tripoint &p )
     float damage_total = 0.0f;
     for( item &i : items ) {
         units::mass wt_dropped = i.weight();
-        float item_density = i.get_base_material().density();
-        float damage = 5 * to_kilogram( wt_dropped ) * height_fallen * item_density;
+
+        if( max_height_fallen <= 0 ) {
+            debugmsg( "Tried to calculate damage for falling item, but item somehow fell less than one z-level!" );
+            max_height_fallen = 1;
+        }
+        Creature *creature_below = get_creature_tracker().creature_at( below );
+        double height_fallen = max_height_fallen;
+        if( creature_below ) {
+            // Discount most of the first z-level's falling distance, depending on how big the creature is
+            // Characters (player/NPC) are normally medium, which is 0.5 or standing about 1.2m tall.
+            // This is shorter than the average adult, but it's an *okay* approximation.
+            height_fallen - occupied_tile_fraction( creature_below->get_size() );
+        }
+        // in meters, assuming one z-level is ~2.5m.
+        const double distance_to_fall = ( height_fallen ) * 2.5;
+
+        // in meters per second (squared).
+        const double gravity_acceleration_constant = 9.8;
+
+        // in seconds.
+        double falling_time = sqrt( 2 * distance_to_fall / gravity_acceleration_constant );
+
+        // in meters per second.
+        double velocity_at_impact = gravity_acceleration_constant * falling_time;
+
+        // in joules.
+        double impact_energy = to_kilogram( wt_dropped ) * std::pow( velocity_at_impact, 2.0 ) / 2.0;
+
+        // in faces smashed (parts per hundred).
+        double damage = sqrt( impact_energy );
         damage_total += damage;
 
         add_item_or_charges( below, i );
 
         // Bash creature standing below
-        Creature *creature_below = get_creature_tracker().creature_at( below );
         if( creature_below ) {
             // creature's dodge modifier
             float dodge_mod = creature_below->dodge_roll();
