@@ -312,11 +312,11 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
 
     std::map<itype_id, double> fuels; // lets tanks of same fuel type have even contents
     const auto rng_fuel_amount = [&fuels, init_veh_fuel]( vehicle_part & vp, const itype_id & fuel ) {
-        if( !fuel || !fuel->ammo || !fuel->ammo->type ) {
+        if( !fuel ) {
             vp.ammo_unset(); // clear if no valid fuel
             return;
         }
-        const int max = vp.ammo_capacity( fuel->ammo->type );
+        const int max = vp.item_capacity( fuel );
         if( init_veh_fuel < 0 ) {
             // map.emplace(...).first returns iterator to the new or existing element
             const double roll = fuels.emplace( fuel, normal_roll( 0.3, 0.15 ) ).first->second;

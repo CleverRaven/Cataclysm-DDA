@@ -307,6 +307,9 @@ struct vehicle_part {
         /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
         int ammo_capacity( const ammotype &ammo ) const;
 
+        /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
+        int item_capacity( const itype_id &stuffing_id ) const;
+
         /** Amount of fuel, charges or ammunition currently contained by a part */
         int ammo_remaining() const;
         int remaining_ammo_capacity() const;
