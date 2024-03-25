@@ -377,7 +377,7 @@
     "id": "art_penrose",
     "type": "GENERIC",
     "copy-from": "art_pyramid",
-    "name": { "str": "strangle triangle" },
+    "name": { "str": "strange triangle" },
     "description": "A large triangle made out of three thick rectangles that connect to eachother in an angle.  No matter how much you turn it around, you can't seem to comprehend how it links together.  It is the only one of its kind.\nIt may have unknown powers; try activating them.",
     "volume": "2 L",
     "weight": "2 kg"
