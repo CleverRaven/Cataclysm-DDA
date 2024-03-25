@@ -1,0 +1,32 @@
+[
+  {
+    "type": "start_location",
+    "id": "sloc_road_desert_bus",
+    "name": "Road",
+    "terrain": [
+      { "om_terrain": "road", "om_terrain_match_type": "PREFIX" },
+      { "om_terrain": "subway", "om_terrain_match_type": "PREFIX" }
+    ],
+    "city_sizes": [ 0, 16 ],
+    "city_distance": [ 0, -1 ],
+    "allowed_z_levels": [ 0, 0 ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "scenario",
+    "id": "scen_desert_bus",
+    "name": "Desert Bus",
+    "points": 0,
+    "description": "The middle of nowhere.",
+    "vehicle": "bus",
+    "allowed_locs": [ "sloc_road_desert_bus" ],
+    "start_name": "The middle of nowhere",
+    "reveal_locale": false,
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "SCENARIO_BLACKLIST",
+    "subtype": "whitelist",
+    "scenarios": [ "scen_desert_bus" ]
+  }
+]

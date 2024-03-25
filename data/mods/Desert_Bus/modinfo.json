@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "Desert_Bus",
+    "name": "Desert Bus",
+    "authors": [ "Ringtail", "Procyonae" ],
+    "maintainers": [ "Ringtail", "Procyonae" ],
+    "description": "One long road.",
+    "category": "total_conversion",
+    "dependencies": [ "dda", "desertpack" ]
+  }
+]
