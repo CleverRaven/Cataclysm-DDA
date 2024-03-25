@@ -110,10 +110,7 @@
       },
       "furniture": { "$": [ [ "f_grave_monument", 1 ], [ "f_statue", 4 ] ] },
       "fields": { "W": { "field": "fd_web", "intensity": 3, "age": 10 } },
-      "items": {
-        "!":
-          { "item": "balrog_mine_weapons", "chance": 70, "damage": 4 }
-      },
+      "items": { "!": { "item": "balrog_mine_weapons", "chance": 70, "damage": 4 } },
       "item": {
         "!": [
           { "item": "helmet_plate", "chance": 50, "damage": 4 },
