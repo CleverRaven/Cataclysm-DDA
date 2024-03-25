@@ -709,6 +709,47 @@
         "topic": "TALK_PERK_MENU_SELECT"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_perfect_time" } },
+        "text": "Gain [<trait_name:perk_perfect_time>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_perfect_time>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_perfect_time>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_perfect_time", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_bedtime_reader" } },
+        "text": "Gain [<trait_name:perk_bedtime_reader>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_bedtime_reader>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_bedtime_reader>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_bedtime_reader", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "Cannot have the Hates Books or Illiterate traits",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          {
+            "set_condition": "perk_condition",
+            "condition": { "and": [ { "not": { "u_has_trait": "HATES_BOOKS" } }, { "not": { "u_has_trait": "ILLITERATE" } } ] }
+          }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_chainsmoker" } },
         "text": "Gain [<trait_name:perk_chainsmoker>]",
         "effect": [
@@ -863,6 +904,25 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_eating_window" } },
+        "text": "Gain [<trait_name:perk_eating_window>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_eating_window>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_eating_window>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_eating_window", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_skeleton" } },
         "text": "Gain [<trait_name:perk_skeleton>]",
         "effect": [
@@ -882,28 +942,21 @@
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },
       {
-        "condition": {
-          "and": [
-            { "not": { "u_has_trait": "perk_enchanting_master" } },
-            {
-              "or": [ { "mod_is_loaded": "magiclysm" }, { "mod_is_loaded": "mindovermatter" }, { "mod_is_loaded": "xedra_evolved" } ]
-            }
-          ]
-        },
-        "text": "Gain [<trait_name:perk_enchanting_master>]",
+        "condition": { "not": { "u_has_trait": "perk_ascetic_empowerment" } },
+        "text": "Gain [<trait_name:perk_ascetic_empowerment>]",
         "effect": [
-          { "set_string_var": "<trait_name:perk_enchanting_master>", "target_var": { "context_val": "trait_name" } },
+          { "set_string_var": "<trait_name:perk_ascetic_empowerment>", "target_var": { "context_val": "trait_name" } },
           {
-            "set_string_var": "<trait_description:perk_enchanting_master>",
+            "set_string_var": "<trait_description:perk_ascetic_empowerment>",
             "target_var": { "context_val": "trait_description" }
           },
-          { "set_string_var": "perk_enchanting_master", "target_var": { "context_val": "trait_id" } },
+          { "set_string_var": "perk_ascetic_empowerment", "target_var": { "context_val": "trait_id" } },
           {
-            "set_string_var": "No Requirements",
+            "set_string_var": "Must not have the Gourmand trait",
             "target_var": { "context_val": "trait_requirement_description" },
             "i18n": true
           },
-          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+          { "set_condition": "perk_condition", "condition": { "not": { "u_has_trait": "GOURMAND" } } }
         ],
         "topic": "TALK_PERK_MENU_SELECT_PLAYSTYLE"
       },

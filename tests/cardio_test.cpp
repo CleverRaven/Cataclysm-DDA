@@ -75,7 +75,7 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
     int last_moves = they.get_speed();
     int last_stamina = they.get_stamina_max();
     // Take a deep breath and start running
-    they.moves = last_moves;
+    they.set_moves( last_moves );
     they.set_stamina( last_stamina );
     they.set_movement_mode( move_mode_run );
     // Run as long as possible
@@ -91,12 +91,12 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
         ++steps;
 
         // Ensure moves are decreasing, or else a turn will never pass
-        REQUIRE( they.moves < last_moves );
-        const int move_cost = last_moves - they.moves;
+        REQUIRE( they.get_moves() < last_moves );
+        const int move_cost = last_moves - they.get_moves();
         // When moves run out, one turn has passed
-        if( they.moves <= 0 ) {
+        if( they.get_moves() <= 0 ) {
             // Get "speed" moves back each turn
-            they.moves += they.get_speed();
+            they.mod_moves( they.get_speed() );
             calendar::turn += 1_turns;
             turns += 1;
 
@@ -111,7 +111,7 @@ static int running_steps( Character &they, const ter_id &terrain = t_pavement )
             REQUIRE( they.get_stamina() < last_stamina );
             last_stamina = they.get_stamina();
         }
-        last_moves = they.moves;
+        last_moves = they.get_moves();
     }
     // Reset to starting position
     they.setpos( left );
@@ -178,7 +178,7 @@ TEST_CASE( "base_cardio", "[cardio][base]" )
 //
 // Some traits affect stamina regen and total running distance without affecting cardio:
 //
-// - stamina_regen_modifier
+// - STAMINA_REGEN_MOD
 //   - Fast Metabolism, Persistence Hunter: Increased stamina regeneration
 //
 TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]" )
@@ -225,7 +225,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "GOODCARDIO2", 1.6 * base_cardio, 11500, 121 );
     }
 
-    SECTION( "Traits with metabolism_modifier AND stamina_regen_modifier" ) {
+    SECTION( "Traits with metabolism_modifier AND STAMINA_REGEN_MOD" ) {
         // Fast Metabolism
         check_trait_cardio_stamina_run( they, "HUNGER", base_cardio, base_stamina, 83 );
         // Very Fast Metabolism
@@ -234,7 +234,7 @@ TEST_CASE( "cardio_is_and_is_not_affected_by_certain_traits", "[cardio][traits]"
         check_trait_cardio_stamina_run( they, "HUNGER3", base_cardio, base_stamina, 88 );
     }
 
-    SECTION( "Traits with ONLY stamina_regen_modifier" ) {
+    SECTION( "Traits with ONLY STAMINA_REGEN_MOD" ) {
         check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER", base_cardio, base_stamina, 83 );
         check_trait_cardio_stamina_run( they, "PERSISTENCE_HUNTER2", base_cardio, base_stamina, 84 );
     }

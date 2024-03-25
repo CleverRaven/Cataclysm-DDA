@@ -146,5 +146,39 @@
     "type": "requirement",
     "tools": [  ],
     "components": [ [ [ "salt", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_extra_lock_door",
+    "type": "requirement",
+    "components": [ [ [ "string_6", 3 ], [ "cordage_6", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_clairvoyance_cone",
+    "type": "requirement",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_increase_healing_rate",
+    "type": "requirement",
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "components": [ [ [ "wild_herbs", 50 ] ], [ [ "willowbark", 4 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_increase_bandaging_rate",
+    "type": "requirement",
+    "components": [ [ [ "scrap_cast_iron", 1 ] ], [ [ "salt", 10 ] ], [ [ "wild_herbs", 4 ] ] ]
+  },
+  {
+    "id": "spell_components_hedge_hide_in_forest",
+    "type": "requirement",
+    "components": [
+      [ [ "leaves", 1 ], [ "grape_leaves", 1 ], [ "young_leaves", 2 ], [ "chicory_leaves", 2 ], [ "wintergreen_leaves", 2 ] ],
+      [ [ "raw_beans", 1 ] ]
+    ]
+  },
+  {
+    "id": "spell_components_hedge_no_nightmares",
+    "type": "requirement",
+    "components": [ [ [ "wild_herbs", 15 ] ], [ [ "thyme_oil", 2 ] ] ]
   }
 ]

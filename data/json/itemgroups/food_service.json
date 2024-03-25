@@ -1676,6 +1676,7 @@
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "jar_glass_sealed",
+    "on_overflow": "spill",
     "entries": [ { "item": "sugar", "container-item": "null", "count-min": 10, "count-max": 142 } ]
   },
   {

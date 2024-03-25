@@ -71,9 +71,7 @@
     "category": [ "ARVORE" ],
     "changes_to": [ "ARVORE_SUN_NUTRIENTS_AND_MANA" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 2 } ] } ],
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS", "msg_transform": "", "active": false, "moves": 0 }
@@ -91,10 +89,7 @@
     "prereqs": [ "ARVORE_SUN_NUTRIENTS" ],
     "changes_to": [ "ARVORE_SUN_MANA_BONUS" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
-    "mana_regen_multiplier": 1.5,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 2 } ] } ],
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_NUTRIENTS_AND_MANA", "msg_transform": "", "active": false, "moves": 0 }
@@ -112,12 +107,8 @@
     "threshreq": [ "THRESH_ARVORE" ],
     "changes_to": [ "ARVORE_SUN_POWER_MANA_STATS" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 2 } ] } ],
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_regen_multiplier": 1.5,
-    "mana_multiplier": 1.5,
     "triggers": [ [ { "condition": { "and": [ "is_day", "u_is_outside" ] }, "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "ARVORE_SUN_MANA_BONUS", "msg_transform": "", "active": false, "moves": 0 }
   },
@@ -133,19 +124,15 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "vitamin_rates": [ [ "calcium", -1200, "vitC", -1200, "iron", -1200 ] ],
-    "healing_awake": 0.25,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 3.0,
     "//": "Halfway between fast healer and very fast healer, but only outside in the sun",
-    "mana_regen_multiplier": 1.5,
-    "mana_multiplier": 1.5,
     "enchantments": [
       {
         "values": [
           { "value": "STRENGTH", "add": 2 },
           { "value": "DEXTERITY", "add": 2 },
           { "value": "INTELLIGENCE", "add": 2 },
-          { "value": "PERCEPTION", "add": 2 }
+          { "value": "PERCEPTION", "add": 2 },
+          { "value": "MENDING_MODIFIER", "multiply": 2 }
         ]
       }
     ],
@@ -235,7 +222,6 @@
     "description": "In the whispers of the leaves and the movement of the grasses, the forest warns you of approaching dangers.  The foliage is whispering to you of hidden dangers nearby and revealing the lay of the land to you.",
     "category": [ "ARVORE" ],
     "enchantments": [ "arvore_forest_detect_enemies" ],
-    "overmap_sight": 5,
     "triggers": [
       [
         {
@@ -273,7 +259,7 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "flags": [ "MEND_ALL" ],
-    "mending_modifier": 20.0,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 19 } ] } ],
     "triggers": [
       [
         {
@@ -329,8 +315,7 @@
     "category": [ "SYLPH" ],
     "valid": false,
     "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
-    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8
+    "transform": { "target": "SYLPH_FAST_CAST", "msg_transform": "", "active": false, "moves": 0 }
   },
   {
     "type": "mutation",
@@ -345,7 +330,6 @@
     "valid": false,
     "triggers": [ [ { "condition": "u_is_outside", "msg_on": { "text": "", "rating": "good" } } ] ],
     "transform": { "target": "SYLPH_FAST_CAST2", "msg_transform": "", "active": false, "moves": 0 },
-    "casting_time_multiplier": 0.8,
     "flags": [ "SUBTLE_SPELL" ]
   },
   {
@@ -358,11 +342,8 @@
     "valid": false,
     "description": "The Salamander gains strength from heat and becomes faster and heals much quicker in hot weather.  The heat is speeding your healing.",
     "category": [ "SALAMANDER" ],
-    "healing_awake": 0.44,
-    "healing_multiplier": 1.5,
-    "mending_modifier": 4,
+    "enchantments": [ { "values": [ { "value": "MENDING_MODIFIER", "multiply": 3 } ] } ],
     "//": "Numbers taken from Very Fast Healer",
-    "temperature_speed_modifier": 1,
     "triggers": [
       [
         {
@@ -398,7 +379,6 @@
     "valid": false,
     "description": "As fae spirits of fire, Salamanders also partake of the heat of the forge and the glow of white-hot iron.  Your crafting speed is increased.",
     "category": [ "SALAMANDER" ],
-    "crafting_speed_multiplier": 1.15,
     "triggers": [
       [
         {
@@ -455,7 +435,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "mana_regen_multiplier": 1.15,
     "flags": [ "NO_SCENT" ]
   },
   {
@@ -466,7 +445,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "casting_time_multiplier": 0.85,
     "flags": [ "SUBTLE_SPELL" ]
   },
   {
@@ -477,7 +455,6 @@
     "player_display": false,
     "valid": false,
     "points": 2,
-    "noise_modifier": 0.4,
     "flags": [ "STEADY", "SLUDGE_IMMUNE" ]
   }
 ]

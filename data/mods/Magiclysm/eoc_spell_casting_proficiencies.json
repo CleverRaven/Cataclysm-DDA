@@ -3,9 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELLCASTING_EVOCATION_PROFICIENCY_ADD",
     "global": false,
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "math": [ "_spell_id", "==", "eoc_evocation_setup" ] },
+    "eoc_type": "ACTIVATION",
     "effect": [
       { "math": [ "u_prof_lowest", "=", "4" ] },
       {
@@ -43,9 +41,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELLCASTING_CHANNELING_PROFICIENCY_ADD",
     "global": false,
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "math": [ "_spell_id", "==", "eoc_channeling_setup" ] },
+    "eoc_type": "ACTIVATION",
     "effect": [
       { "math": [ "u_prof_lowest", "=", "4" ] },
       {
@@ -83,9 +79,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELLCASTING_SUMMONING_PROFICIENCY_ADD",
     "global": false,
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "math": [ "_spell_id", "==", "eoc_summon_setup" ] },
+    "eoc_type": "ACTIVATION",
     "effect": [
       { "math": [ "u_prof_lowest", "=", "4" ] },
       {
@@ -123,9 +117,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELLCASTING_ENHANCEMENT_PROFICIENCY_ADD",
     "global": false,
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "math": [ "_spell_id", "==", "eoc_enhancement_setup" ] },
+    "eoc_type": "ACTIVATION",
     "effect": [
       { "math": [ "u_prof_lowest", "=", "4" ] },
       {
@@ -163,9 +155,7 @@
     "type": "effect_on_condition",
     "id": "EOC_SPELLCASTING_CONVEYANCE_PROFICIENCY_ADD",
     "global": false,
-    "eoc_type": "EVENT",
-    "required_event": "spellcasting_finish",
-    "condition": { "math": [ "_spell_id", "==", "eoc_conveyance_setup" ] },
+    "eoc_type": "ACTIVATION",
     "effect": [
       { "math": [ "u_prof_lowest", "=", "4" ] },
       {

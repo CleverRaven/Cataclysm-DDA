@@ -388,6 +388,20 @@
         "description": "It's a cheesy plastic zombie mask.  You miss when they were just fiction.",
         "weight": 15,
         "append": true
+      },
+      {
+        "id": "payday_plastic_mask",
+        "name": { "str": "plastic heister mask" },
+        "description": "It's a plastic mask of a certain heister who heists the loud way.",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "noface_plastic_mask",
+        "name": { "str": "plastic no-face mask" },
+        "description": "It's a plastic mask of a lonely spirit.",
+        "weight": 15,
+        "append": true
       }
     ]
   },

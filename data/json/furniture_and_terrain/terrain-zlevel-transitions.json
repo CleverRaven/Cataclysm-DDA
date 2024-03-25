@@ -157,6 +157,7 @@
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
+    "examine_action": "locked_object",
     "prying": {
       "result": "t_manhole",
       "message": "You lift the manhole cover.",

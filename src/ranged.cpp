@@ -850,7 +850,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
         add_msg_if_player_sees( *source, m_warning, _( "You hear %s." ), data.sound );
         curshot++;
-        moves -= 100;
+        mod_moves( -get_speed() );
     }
 }
 
@@ -919,7 +919,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     int delay = 0; // delayed recoil that has yet to be applied
     while( curshot != shots ) {
         if( gun.faults.count( fault_gun_chamber_spent ) && curshot == 0 ) {
-            moves -= 50;
+            mod_moves( -get_speed() * 0.5 );
             gun.faults.erase( fault_gun_chamber_spent );
             add_msg_if_player( _( "You cycle your %s manually." ), gun.tname() );
         }
@@ -1054,7 +1054,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         }
     }
     // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_attack( *this, *gun_id );
+    mod_moves( -time_to_attack( *this, *gun_id ) );
 
     const islot_gun &firing = *gun.type->gun;
     for( const std::pair<const bodypart_str_id, int> &hurt_part : firing.hurt_part_when_fired ) {
@@ -1523,7 +1523,7 @@ static void do_aim( Character &you, const item &relevant, const double min_recoi
             practice_archery_proficiency( you, relevant );
 
             // Only drain stamina on initial draw
-            if( you.moves == 1 ) {
+            if( you.get_moves() == 1 ) {
                 mod_stamina_archery( you, relevant );
             }
         }
@@ -3423,7 +3423,7 @@ bool target_ui::action_aim()
     // We've changed pc.recoil, update penalty
     recalc_aim_turning_penalty();
 
-    return you->moves > 0;
+    return you->get_moves() > 0;
 }
 
 bool target_ui::action_drop_aim()
@@ -3454,7 +3454,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     const double min_recoil = calculate_aim_cap( *you, dst );
     do {
         do_aim( *you, relevant ? *relevant : null_item_reference(), min_recoil );
-    } while( you->moves > 0 && you->recoil > aim_threshold &&
+    } while( you->get_moves() > 0 && you->recoil > aim_threshold &&
              you->recoil - sight_dispersion > min_recoil );
 
     // If we made it under the aim threshold, go ahead and fire.

@@ -14,5 +14,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_crazy_cataclysm_benadryl"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bile_in_eyes"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bile_stink"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "bile_unstink"
   }
 ]
