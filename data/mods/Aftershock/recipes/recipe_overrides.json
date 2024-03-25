@@ -157,7 +157,12 @@
     "book_learn": [ [ "mag_cooking", 4 ], [ "mag_glam", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "liver", 3 ], [ "human_liver", 3 ], [ "demihuman_liver", 3 ] ], [ [ "salt", 1 ] ], [ [ "sweet_fruit_like", 1, "LIST" ] ], [ [ "vinegar", 2 ] ] ]
+    "components": [
+      [ [ "liver", 3 ], [ "human_liver", 3 ], [ "demihuman_liver", 3 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "sweet_fruit_like", 1, "LIST" ] ],
+      [ [ "vinegar", 2 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -174,7 +179,11 @@
     "batch_time_factors": [ 80, 1 ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "stomach", 1 ], [ "human_stomach", 1 ], [ "demihuman_stomach", 1 ] ], [ [ "batter", 3, "LIST" ] ], [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ] ]
+    "components": [
+      [ [ "stomach", 1 ], [ "human_stomach", 1 ], [ "demihuman_stomach", 1 ] ],
+      [ [ "batter", 3, "LIST" ] ],
+      [ [ "cooking_oil", 4 ], [ "cooking_oil2", 4 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -235,7 +244,11 @@
     "book_learn": [ [ "scots_cookbook", 2 ], [ "cookbook", 1 ], [ "textbook_survival", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "sweetbread", 1 ], [ "human_sweetbread", 1 ], [ "demihuman_sweetbread", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "vinegar", 1 ] ], [ [ "salt", 2 ] ] ]
+    "components": [
+      [ [ "sweetbread", 1 ], [ "human_sweetbread", 1 ], [ "demihuman_sweetbread", 1 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "vinegar", 1 ] ],
+      [ [ "salt", 2 ] ] ]
   },
   {
     "result": "recharge_station",
