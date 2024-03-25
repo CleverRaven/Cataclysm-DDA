@@ -344,6 +344,12 @@ void test_scenario::run()
                                     {}
                                 }
                             }
+                        },
+                        initialization {
+                            itype_test_solid_1ml,
+                            true,
+                            false,
+                            {}
                         }
                     }
                 }
@@ -596,6 +602,12 @@ void test_scenario::run()
                             false,
                             false,
                             {}
+                        },
+                        final_result {
+                            itype_test_solid_1ml,
+                            false,
+                            false,
+                            {}
                         }
                     }
                 };
@@ -605,6 +617,41 @@ void test_scenario::run()
                         false,
                         false,
                         {}
+                    }
+                };
+            } else if( !will_spill_outer && !do_spill ) {
+                original_location = final_result{
+                    itype_test_watertight_open_sealed_container_1L,
+                    false,
+                    false,
+                    {
+                        final_result {
+                            itype_test_solid_1ml,
+                            false,
+                            false,
+                            {}
+                        }
+                    }
+                };
+                ground = {
+                    final_result {
+                        itype_test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false,
+                        false,
+                        {
+                            final_result {
+                                itype_test_liquid_1ml,
+                                false,
+                                false,
+                                {}
+                            },
+                            final_result {
+                                itype_test_liquid_1ml,
+                                false,
+                                false,
+                                {}
+                            }
+                        }
                     }
                 };
             } else if( !do_spill ) {
@@ -633,6 +680,12 @@ void test_scenario::run()
                                 {}
                             }
                         }
+                    },
+                    final_result {
+                        itype_test_solid_1ml,
+                        false,
+                        false,
+                        {}
                     }
                 };
             } else {
@@ -651,6 +704,12 @@ void test_scenario::run()
                     },
                     final_result {
                         itype_test_watertight_open_sealed_multipocket_container_2x250ml,
+                        false,
+                        false,
+                        {}
+                    },
+                    final_result {
+                        itype_test_solid_1ml,
                         false,
                         false,
                         {}
