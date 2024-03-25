@@ -1305,7 +1305,7 @@
   {
     "id": "holybook_golden",
     "type": "BOOK",
-    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of the Orphic Gold Tablets" },
+    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of The Orphic Gold Tablets" },
     "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods' will.",
     "weight": "300 g",
     "volume": "900 ml",
