@@ -458,6 +458,7 @@
                 [ "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS", 2 ],
+                [ "EOC_NETHER_EFFECT_CHECK_MUTATION", 2 ],
                 [ "EOC_NETHER_EFFECT_CHECK_RIFT", 1 ]
               ]
             }
@@ -469,7 +470,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_HEADACHE",
-    "//": "Base is 0.5% chance from 15 attunement to 60 attunement, then scaling up 0.1% per attunement up to 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus the Difficulty squared.",
+    "//": "Base is 0.5% chance from 15 attunement to 60 attunement, then scaling up 0.1% per attunement up to 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
@@ -498,7 +499,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_COLD_WIND",
-    "//": "Base is 3% chance from 15 attunement to 50 attunement, then scaling up 0.1% per attunement up to 11% chance at 130 attunement, then scaling up 0.25% chance per attunement up to 41% chance at max, plus the Difficulty squared.",
+    "//": "Base is 3% chance from 15 attunement to 50 attunement, then scaling up 0.1% per attunement up to 11% chance at 130 attunement, then scaling up 0.25% chance per attunement up to 41% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
@@ -522,7 +523,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_EXTRA_ATTUNEMENT",
-    "//": "Base is 2% chance from 15 attunement to 150 attunement, then scaling up 0.05% per attunement up 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus the Difficulty squared.",
+    "//": "Base is 2% chance from 15 attunement to 150 attunement, then scaling up 0.05% per attunement up 10.5% chance at 160 attunement, then scaling up 0.25% chance per attunement up to 33% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "15" ] },
@@ -546,7 +547,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE",
-    "//": "Base is 1.5% chance from 25 attunement to 70 attunement, then scaling up 0.1% per attunement up to 6.5% chance at 120 attunement, then scaling up 0.2% chance per attunement up to 32.5% chance at max, plus the Difficulty squared.",
+    "//": "Base is 1.5% chance from 25 attunement to 70 attunement, then scaling up 0.1% per attunement up to 6.5% chance at 120 attunement, then scaling up 0.2% chance per attunement up to 32.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "25" ] },
@@ -584,7 +585,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED",
-    "//": "Base is 1% chance from 25 attunement to 60 attunement, then scaling up 0.1% per attunement up to 12% chance at 150 attunement, then scaling up 0.25% chance per attunement up to 37% chance at max, plus the Difficulty squared.",
+    "//": "Base is 1% chance from 25 attunement to 60 attunement, then scaling up 0.1% per attunement up to 12% chance at 150 attunement, then scaling up 0.25% chance per attunement up to 37% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "25" ] },
@@ -609,7 +610,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS",
-    "//": "Base is 2% chance from 50 attunement to 100 attunement, then scaling up 0.1% per attunement up to 8% chance at 160 attunement, then scaling up 0.28% chance per attunement up to 17.2% chance at 200 attunement, then scaling up 0.18% to 26.2% chance at max, plus the Difficulty squared.",
+    "//": "Base is 2% chance from 50 attunement to 100 attunement, then scaling up 0.1% per attunement up to 8% chance at 160 attunement, then scaling up 0.28% chance per attunement up to 17.2% chance at 200 attunement, then scaling up 0.18% to 26.2% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "50" ] },
@@ -633,7 +634,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_FATIGUE",
-    "//": "Base is 2% chance from 70 attunement to 125 attunement, then scaling up 0.15% per attunement up to 9.5% chance at 175 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus the Difficulty squared.",
+    "//": "Base is 2% chance from 70 attunement to 125 attunement, then scaling up 0.15% per attunement up to 9.5% chance at 175 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "70" ] },
@@ -657,7 +658,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_ATTUNEMENT_RAISING_EFFECT",
-    "//": "Base is 3% chance from 70 attunement to 90 attunement, then scaling up 0.15% per attunement up to 15.75% chance at 175 attunement, then scaling up 0.3% chance per attunement up to 38.25% chance at max, plus the Difficulty squared.",
+    "//": "Base is 3% chance from 70 attunement to 90 attunement, then scaling up 0.15% per attunement up to 15.75% chance at 175 attunement, then scaling up 0.3% chance per attunement up to 38.25% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "70" ] },
@@ -697,7 +698,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_FEEDBACK",
-    "//": "Base is 3% chance from 100 attunement to 135 attunement, then scaling up 0.1% per attunement up to 7.5% chance at 175 attunement, then scaling up 0.25% chance per attunement up to 32% chance at 210 attunement, then scaling up 0.5% to 39.5% chance at max, plus the Difficulty squared.",
+    "//": "Base is 3% chance from 100 attunement to 135 attunement, then scaling up 0.1% per attunement up to 7.5% chance at 175 attunement, then scaling up 0.25% chance per attunement up to 32% chance at 210 attunement, then scaling up 0.5% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "100" ] },
@@ -727,7 +728,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE",
-    "//": "Base is 1.5% chance from 80 attunement to 120 attunement, then scaling up 0.1% per attunement up to 7.5% chance at 180 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus the Difficulty squared.",
+    "//": "Base is 1.5% chance from 80 attunement to 120 attunement, then scaling up 0.1% per attunement up to 7.5% chance at 180 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "85" ] },
@@ -754,7 +755,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK",
-    "//": "Base is 1% chance from 85 attunement to 120 attunement, then scaling up 0.1% per attunement up to 8% chance at 190 attunement, then scaling up 0.35% chance per attunement up to 29% chance at max, plus the Difficulty squared.",
+    "//": "Base is 1% chance from 85 attunement to 120 attunement, then scaling up 0.1% per attunement up to 8% chance at 190 attunement, then scaling up 0.35% chance per attunement up to 29% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "85" ] },
@@ -783,7 +784,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_DRAIN_EFFECT_CHECK_WEAKNESS",
-    "//": "Base is 2% chance from 100 attunement to 150 attunement, then scaling up 0.1% per attunement up to 9% chance at 220 attunement, then scaling up 0.5% chance per attunement up to 24% chance at max, plus the Difficulty squared.",
+    "//": "Base is 2% chance from 100 attunement to 150 attunement, then scaling up 0.1% per attunement up to 9% chance at 220 attunement, then scaling up 0.5% chance per attunement up to 24% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "100" ] },
@@ -812,7 +813,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_ATTENUATION",
-    "//": "Base is 4% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 11.5% chance at 210 attunement, then scaling up 0.35% chance per attunement up to 25.5% chance at max, plus the Difficulty squared.",
+    "//": "Base is 4% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 11.5% chance at 210 attunement, then scaling up 0.35% chance per attunement up to 25.5% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "125" ] },
@@ -849,7 +850,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_BREATHING",
-    "//": "Base is 2% chance from 100 attunement to 150 attunement, then scaling up 0.1% per attunement up to 9% chance at 220 attunement, then scaling up 0.5% chance per attunement up to 24% chance at max, plus the Difficulty squared.",
+    "//": "Base is 2% chance from 100 attunement to 150 attunement, then scaling up 0.1% per attunement up to 9% chance at 220 attunement, then scaling up 0.5% chance per attunement up to 24% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "100" ] },
@@ -878,7 +879,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_HALLUCINATIONS",
-    "//": "Base is 1% chance from 125 attunement to 160 attunement, then scaling up 0.1% per attunement up to 6% chance at 210 attunement, then scaling up 0.35% chance per attunement up to 20% chance at max, plus the Difficulty squared.",
+    "//": "Base is 1% chance from 125 attunement to 160 attunement, then scaling up 0.1% per attunement up to 6% chance at 210 attunement, then scaling up 0.35% chance per attunement up to 20% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "125" ] },
@@ -907,7 +908,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_FORCE_WAVE",
-    "//": "Base is 3% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 9.75% chance at 205 attunement, then scaling up 0.45% chance per attunement up to 29.75% chance at max, plus the Difficulty squared.",
+    "//": "Base is 3% chance from 125 attunement to 160 attunement, then scaling up 0.15% per attunement up to 9.75% chance at 205 attunement, then scaling up 0.45% chance per attunement up to 29.75% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "125" ] },
@@ -931,7 +932,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_NO_PSIONICS",
-    "//": "Base is 2% chance from 150 attunement to 200 attunement, then scaling up 0.15% per attunement up to 5.75% chance at 225 attunement, then scaling up 0.5% chance per attunement up to 18.25% chance at max, plus the Difficulty squared.",
+    "//": "Base is 2% chance from 150 attunement to 200 attunement, then scaling up 0.15% per attunement up to 5.75% chance at 225 attunement, then scaling up 0.5% chance per attunement up to 18.25% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "150" ] },
@@ -964,7 +965,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_NETHER_LIGHTNING",
-    "//": "Base is 3% chance from 175 attunement to 200 attunement, then scaling up 0.2% per attunement up to 8% chance at 225 attunement, then scaling up 0.45% chance per attunement up to 19.25% chance at max, plus the Difficulty squared.",
+    "//": "Base is 3% chance from 175 attunement to 200 attunement, then scaling up 0.2% per attunement up to 8% chance at 225 attunement, then scaling up 0.45% chance per attunement up to 19.25% chance at max, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "175" ] },
@@ -988,7 +989,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_SUMMON_HOUNDS",
-    "//": "Base is 3% chance at 200 attunement, scaling up 0.1% per attunement up to 8% chance at 250 attunement, plus the Difficulty squared.",
+    "//": "Base is 3% chance at 200 attunement, scaling up 0.1% per attunement up to 8% chance at 250 attunement, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "or": [ { "u_has_effect": "psi_nether_attention" }, { "u_has_effect": "effect_nether_attunement_raiser" } ] },
@@ -1012,8 +1013,32 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_NETHER_EFFECT_CHECK_MUTATION",
+    "//": "Base is 3% chance at 235 attunement, scaling up 0.2% per attunement up to 6% chance at 250 attunement, plus 1/10th the Difficulty squared.",
+    "condition": {
+      "and": [
+        { "math": [ "u_vitamin('vitamin_psionic_drain')", ">=", "235" ] },
+        {
+          "x_in_y_chance": {
+            "x": {
+              "math": [
+                "(clamp( ((u_vitamin('vitamin_psionic_drain') - 235) * 2), 0, 15) ) + (nether_attune_difficulty_scaler(u_latest_channeled_power_difficulty)) + 30"
+              ]
+            },
+            "y": 1000
+          }
+        }
+      ]
+    },
+    "effect": [
+      { "run_eocs": "EOC_NETHER_ATTUNEMENT_MUTATION_GAINER" },
+      { "u_message": "As you unleash your powers, feel an internal wrenching sensation.", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_NETHER_EFFECT_CHECK_RIFT",
-    "//": "Base is 2% chance at 235 attunement, scaling up 0.1% per attunement up to 3.5% chance at 250 attunement, plus the Difficulty squared.",
+    "//": "Base is 2% chance at 235 attunement, scaling up 0.1% per attunement up to 3.5% chance at 250 attunement, plus 1/10th the Difficulty squared.",
     "condition": {
       "and": [
         { "or": [ { "u_has_effect": "psi_nether_attention" }, { "u_has_effect": "effect_nether_attunement_raiser" } ] },
@@ -1074,7 +1099,29 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, you feel a burning sensation in your veins!", "type": "bad" },
-      { "math": [ "u_pain()", "+=", "rand(5) + 1" ] }
+      { "math": [ "u_pain()", "+=", "rand(4) + 1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTUNEMENT_MUTATION_GAINER",
+    "effect": {
+      "u_roll_remainder": [ "BADTEMPER", "INSOMNIA", "ANIMALDISCORD", "MOODSWINGS", "CHEMIMBALANCE", "SCHIZOPHRENIC", "JITTERY" ],
+      "type": "mutation"
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_NETHER_ATTUNEMENT_FEEDBACK_CHECK_CONCENTRATION",
+    "condition": {
+      "and": [
+        { "u_has_effect": "effect_nether_attunement_feedback" },
+        { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] }, "y": 250 } }
+      ]
+    },
+    "effect": [
+      { "u_message": "As you concentrate on your powers, you feel a burning sensation in your veins!", "type": "bad" },
+      { "math": [ "u_pain()", "+=", "rand(4) + 1" ] }
     ]
   },
   {
