@@ -65,5 +65,13 @@
     "desc": [ "Your skin prickles." ],
     "remove_message": "The tingling sensation finally vanishes.",
     "vitamins": [ { "vitamin": "vitamin_psionic_drain", "rate": [ [ 1, 2 ] ], "tick": [ "5 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_nether_attunement_attenuation",
+    "name": [ "Nether Attenuation" ],
+    "desc": [ "You feel strangely listless." ],
+    "remove_message": "The listless feeling vanishes.",
+    "enchantments": [ { "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": 9 } ] } ]
   }
 ]
