@@ -1205,7 +1205,7 @@
       { "item": "mask_dust", "prob": 15 },
       { "item": "manual_mechanics", "prob": 35 },
       { "item": "manual_fabrication", "prob": 20 },
-      { "item": "cardboard_roll", "prob": 70 "ammo-item": "duct_tape", "charges": [ 50, 200 ] },
+      { "item": "cardboard_roll", "prob": 70, "ammo-item": "duct_tape", "charges": [ 50, 200 ] },
       { "item": "superglue", "prob": 25 },
       { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       { "group": "tools_toolbox", "prob": 2 }
