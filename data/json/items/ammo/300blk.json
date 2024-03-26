@@ -67,7 +67,7 @@
     "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  When fired, it only emits extremely low noise, making it ideal for silently eliminating your enemies.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
     "weight": "21 g",
     "range": 40,
-    "loudness": 50,
+    "loudness": 55,
     "proportional": { "damage": { "damage_type": "bullet", "amount": 0.65 } },
     "recoil": 1700
   },
