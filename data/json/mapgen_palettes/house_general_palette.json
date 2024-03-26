@@ -11,9 +11,9 @@
         "default": {
           "distribution": [
             [ "standard_domestic_migration_palette", 9500 ],
-            [ "standard_domestic_abandoned_palette", 280 ],
+            [ "standard_domestic_abandoned_palette", 370 ],
             [ "house_hoarder_palette", 40 ],
-            [ "house_survivor_palette", 180 ]
+            [ "house_survivor_palette", 90 ]
           ]
         }
       }
