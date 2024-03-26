@@ -101,45 +101,65 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_bldg( const std::s
     }
 }
 
-std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id, const std::optional<mapgen_arguments> *maybe_args,
-        const std::optional<oter_id> &omt_ter )
+std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id )
 {
     std::map<recipe_id, translation> all_rec;
     if( !recipe_groups_data.is_valid( group_id( id ) ) ) {
         return all_rec;
     }
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
-    if( !omt_ter ) {
-        return group.recipes;
+    return group.recipes;
+}
+
+std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id,
+        const oter_id &omt_ter )
+{
+    std::map<recipe_id, translation> all_rec;
+    if( !recipe_groups_data.is_valid( group_id( id ) ) ) {
+        return all_rec;
     }
+    const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     for( const auto &recp : group.recipes ) {
         const auto &recp_terrain_it = group.om_terrains.find( recp.first );
-        if( !is_ot_match( recp_terrain_it->second.omt, *omt_ter, recp_terrain_it->second.omt_type ) ) {
-        continue;
+        if( is_ot_match( recp_terrain_it->second.omt, omt_ter, recp_terrain_it->second.omt_type ) ) {
+            all_rec.emplace( recp );
+        }
     }
-    if( recp_terrain_it->second.parameters.empty() ) {
-        all_rec.emplace( recp );
+    return all_rec;
+}
+
+std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::string &id,
+        const oter_id &omt_ter, const mapgen_arguments &args )
+{
+    std::map<recipe_id, translation> all_rec;
+    if( !recipe_groups_data.is_valid( group_id( id ) ) ) {
+        return all_rec;
+    }
+    const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
+    for( const auto &recp : group.recipes ) {
+        const auto &recp_terrain_it = group.om_terrains.find( recp.first );
+        if( !is_ot_match( recp_terrain_it->second.omt, omt_ter, recp_terrain_it->second.omt_type ) ) {
             continue;
         }
-        if( !!maybe_args ) {
+        if( recp_terrain_it->second.parameters.empty() ) {
+            all_rec.emplace( recp );
+            continue;
+        }
         std::set<std::string> keys_found;
         std::set<std::string> keys_matched;
         for( const auto &key_value_pair : recp_terrain_it->second.parameters ) {
-                keys_found.insert( key_value_pair.first );
-                auto map_key_it = *maybe_args->map.find( key_value_pair.first );
-                if( map_key_it == *maybe_args->map.end() ) {
-                    debugmsg( "Parameter key %s in recipe %s not found", key_value_pair.first, recipe_id.str() );
-                    continue;
-                }
-                if( key_value_pair.second == map_key_it.second.get_string() ) {
-                    keys_matched.insert( key_value_pair.first );
-                }
+            keys_found.insert( key_value_pair.first );
+            auto map_key_it = args.map.find( key_value_pair.first );
+            if( map_key_it == args.map.end() ) {
+                debugmsg( "Parameter key %s in recipe %s not found", key_value_pair.first, recipe_id.str() );
+                continue;
             }
-            if( keys_found == keys_matched ) {
-                all_rec.emplace( recp );
+            if( key_value_pair.second == map_key_it.second.get_string() ) {
+                keys_matched.insert( key_value_pair.first );
             }
-        } else {
-            debugmsg( "Parameter(s) expected for recipe %s but none found", recipe_id.str() );
+        }
+        if( keys_found == keys_matched ) {
+            all_rec.emplace( recp );
         }
     }
     return all_rec;

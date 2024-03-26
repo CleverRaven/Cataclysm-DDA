@@ -975,7 +975,10 @@ conditional_t::func f_at_om_location( const JsonObject &jo, std::string_view mem
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location_value == "FACTION_CAMP_START" ) {
             const std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( omt_pos );
-            return !recipe_group::get_recipes_by_id( "all_faction_base_types", maybe_args, omt_ter ).empty();
+            if( !maybe_args ) {
+                return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter ).empty();
+            }
+            return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_ter, *maybe_args ).empty();
         } else {
             return oter_no_dir( omt_ter ) == location_value;
         }
