@@ -19,8 +19,9 @@ void check();
 void reset();
 
 std::map<recipe_id, translation> get_recipes_by_bldg( const std::string &bldg );
-std::map<recipe_id, translation> get_recipes_by_id( const std::string &id, const std::optional<mapgen_arguments> *maybe_args,
-        const std::optional<oter_id> &omt_ter = std::nullopt );
+std::map<recipe_id, translation> get_recipes_by_id( const std::string &id );
+std::map<recipe_id, translation> get_recipes_by_id( const std::string &id, const oter_id &omt_ter );
+std::map<recipe_id, translation> get_recipes_by_id( const std::string &id, const oter_id &omt_ter, const mapgen_arguments &args );
 std::string get_building_of_recipe( const std::string &recipe );
 } // namespace recipe_group
 
