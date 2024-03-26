@@ -276,7 +276,7 @@
     "subcategory": "CSC_FOOD_OTHER",
     "skill_used": "cooking",
     "difficulty": 3,
-    "autolearn": "true",
+    "autolearn": true,
     "charges": 4,
     "time": "50 m",
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
@@ -285,7 +285,7 @@
     "//": "1L of water, chicken is poached for 40m for total of 12u boiling heat, everything else for 12u surface heat including reducing the sauce",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
-      [ [ "poultry_raw_any", 2 ] ],
+      [ [ "poultry_raw_any", 2, "LIST" ] ],
       [ [ "dry_rice", 2 ], [ "dry_wild_rice", 2 ] ],
       [ [ "garlic_clove", 2 ] ],
       [ [ "veggy_any_fresh_uncooked", 2, "LIST" ] ],
@@ -314,8 +314,8 @@
     "//": "2 portions of meat, frying oil and ingredients for 55u surface, 1L water to boil the noodles for 5u, reducing the sauce for 3u",
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_knife_skills" } ],
     "components": [
-      [ [ "poultry_raw_any", 2 ] ],
-      [ [ "any_butter_or_oil", 1 ] ],
+      [ [ "poultry_raw_any", 2, "LIST" ] ],
+      [ [ "any_butter_or_oil", 1, "LIST" ] ],
       [ [ "garlic_clove", 4 ] ],
       [ [ "sauce_red", 12 ] ],
       [ [ "onion", 1 ] ],

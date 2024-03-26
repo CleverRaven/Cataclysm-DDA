@@ -10365,7 +10365,7 @@
     "components": [
       [ [ "poultry_raw_any", 3, "LIST" ] ],
       [ [ "bacon", 2 ] ],
-      [ [ "flour_any", 1 ] ],
+      [ [ "flour_any", 1, "LIST" ] ],
       [ [ "sauce_red", 1 ] ],
       [ [ "worthy_wine", 4, "LIST" ], [ "fruit_wine", 4 ] ],
       [ [ "broth", 2 ] ],
