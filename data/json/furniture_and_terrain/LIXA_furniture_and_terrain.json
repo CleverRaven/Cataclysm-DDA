@@ -248,7 +248,7 @@
     "type": "terrain",
     "id": "t_card_LIXA_mil",
     "name": "card reader",
-    "description": "A smartcard reader.  Ii is a forbidding black, with no symbols of any sort to identify it.",
+    "description": "A smartcard reader.  It is a forbidding black, with no symbols of any sort to identify it.",
     "//": "Science",
     "symbol": "6",
     "color": "dark_gray",

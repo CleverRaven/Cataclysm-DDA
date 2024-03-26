@@ -1347,7 +1347,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": { "str": "Radioactive Leak CBM" },
-    "description": "A broken CBM that been leaking radiation into its user.  The danger seems to have been sealed off during the removal process, but you definitely shouldn't put it back.",
+    "description": "A broken CBM that has been leaking radiation into its user.  The danger seems to have been sealed off during the removal process, but you definitely shouldn't put it back.",
     "weight": "100 g",
     "difficulty": 9
   },
