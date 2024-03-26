@@ -121,8 +121,10 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     for( const auto &recp : group.recipes ) {
         const auto &recp_terrain_it = group.om_terrains.find( recp.first );
-        if( !is_ot_match( recp_terrain_it->second.omt, omt_ter, recp_terrain_it->second.omt_type ) ) {
-            continue;
+        if( recp_terrain_it->second.omt != "ANY" ) {
+            if( !is_ot_match( recp_terrain_it->second.omt, omt_ter, recp_terrain_it->second.omt_type ) ) {
+                continue;
+            }
         }
         if( recp_terrain_it->second.parameters.empty() ) {
             all_rec.emplace( recp );
@@ -133,10 +135,12 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
             for( const auto &key_value_set_pair : recp_terrain_it->second.parameters ) {
                 auto map_key_it = maybe_args->value().map.find( key_value_set_pair.first );
                 if( map_key_it == maybe_args->value().map.end() ) {
-                    debugmsg( "Parameter key %s in recipe %s not found for omt %s", key_value_set_pair.first, id, omt_ter.id().str() );
+                    debugmsg( "Parameter key %s in recipe %s not found for omt %s", key_value_set_pair.first, id,
+                              omt_ter.id().str() );
                     continue;
                 }
-                if( key_value_set_pair.second.find( map_key_it->second.get_string() ) == key_value_set_pair.second.end() ) {
+                if( key_value_set_pair.second.find( map_key_it->second.get_string() ) ==
+                    key_value_set_pair.second.end() ) {
                     parameters_matched = false;
                     break;
                 }
