@@ -321,9 +321,7 @@
     "id": "guns_pistol_improvised",
     "//": "Makeshift or otherwise poor quality pistols.",
     "items": [
-      { "item": "ashot", "prob": 100 },
-      { "item": "surv_hand_cannon", "prob": 100, "charges-min": 0, "charges-max": 5 },
-      { "item": "surv_six_shooter", "prob": 100, "charges-min": 0, "charges-max": 6 }
+      { "item": "ashot", "prob": 100 }
     ]
   },
   {
