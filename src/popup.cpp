@@ -78,7 +78,7 @@ void query_popup_impl::draw_controls()
             ImGui::SameLine();
         }
 
-        if( keyboard_selected_option == -1 ) {
+        if( keyboard_selected_option == -1 && ImGui::IsWindowFocused() ) {
             ImGui::SetKeyboardFocusHere( -1 );
             keyboard_selected_option = parent->buttons.size() - 1;
         }
