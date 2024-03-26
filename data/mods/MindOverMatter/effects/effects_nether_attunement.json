@@ -78,7 +78,7 @@
     "type": "effect_type",
     "id": "effect_nether_attunement_feedback",
     "name": [ "Feedback" ],
-    "desc": [ "You feel a persistant itching that will not go away." ],
+    "desc": [ "You feel a persistent itching that will not go away." ],
     "rating": "bad"
   }
 ]
