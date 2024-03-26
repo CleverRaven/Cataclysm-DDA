@@ -69,7 +69,6 @@
     "range": 40,
     "loudness": 50,
     "proportional": { "damage": { "damage_type": "bullet", "amount": 0.65 } },
-    "damage": { "damage_type": "bullet", "amount": 26 },
     "recoil": 1700
   },
   {
