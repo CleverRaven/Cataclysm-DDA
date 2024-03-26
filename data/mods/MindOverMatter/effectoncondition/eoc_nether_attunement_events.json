@@ -1037,7 +1037,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSIONICS_KCAL_COST",
+    "id": "EOC_NETHER_ATTUNEMENT_FEEDBACK_CHECK",
     "eoc_type": "EVENT",
     "required_event": "spellcasting_finish",
     "condition": {
@@ -1072,7 +1072,10 @@
         { "x_in_y_chance": { "x": { "math": [ "u_vitamin('vitamin_psionic_drain')" ] }, "y": 250 } }
       ]
     },
-    "effect": [ { "math": [ "u_pain()", "+=", "rand(5) + 1" ] } ]
+    "effect": [
+      { "u_message": "As you unleash your powers, you feel a burning sensation in your veins!", "type": "bad" },
+      { "math": [ "u_pain()", "+=", "rand(5) + 1" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
