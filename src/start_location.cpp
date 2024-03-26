@@ -280,7 +280,7 @@ std::pair<tripoint_abs_omt, std::unordered_map<std::string, std::string>>
             auto it = std::find_if( _locations.begin(), _locations.end(),
                                     target_is_ot_match );
             if( it != _locations.end() ) {
-                valid.emplace_back( std::make_pair( p, *it ) );
+                valid.emplace_back( p, *it );
             }
         }
     }
