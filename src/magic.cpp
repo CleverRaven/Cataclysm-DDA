@@ -2770,8 +2770,7 @@ int known_magic::select_spell( Character &guy )
     } );
     if( favorites.size() > 0 ) {
         spell_menu.set_category( "favorites" );
-    }else
-    {
+    } else {
         spell_menu.set_category( "all" );
     }
 
