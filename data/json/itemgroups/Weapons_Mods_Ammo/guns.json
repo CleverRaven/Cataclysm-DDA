@@ -320,9 +320,7 @@
     "type": "item_group",
     "id": "guns_pistol_improvised",
     "//": "Makeshift or otherwise poor quality pistols.",
-    "items": [
-      { "item": "ashot", "prob": 100 }
-    ]
+    "items": [ { "item": "ashot", "prob": 100 } ]
   },
   {
     "type": "item_group",
