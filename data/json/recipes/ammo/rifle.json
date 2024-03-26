@@ -827,7 +827,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 2 ], [ "ammo_300blk", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "1133 mg gunpowder rounded to 11 100 mg 'pieces'",
     "components": [ [ [ "gunpowder_rifle", 11 ] ], [ [ "copper", 1 ] ] ]
@@ -846,7 +846,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 2 ], [ "ammo_300blk", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 11 ] ], [ [ "copper", 1 ] ] ]
   },
@@ -864,7 +864,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 5 ], [ "ammo_300blk", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "//": "5.5-6.4 mg gunpowder rounded to 6 100 mg 'pieces'",
     "components": [ [ [ "gunpowder_rifle", 6 ] ], [ [ "copper", 1 ] ] ]
@@ -883,7 +883,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "reversible": true,
-    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 5 ], [ "ammo_300blk", 1 ] ],
+    "using": [ [ "bullet_forming", 4 ], [ "ammo_bullet", 3 ], [ "ammo_300blk", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "chem_black_powder", 6 ] ], [ [ "copper", 1 ] ] ]
   },
