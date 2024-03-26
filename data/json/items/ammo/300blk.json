@@ -96,7 +96,7 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
-    {
+  {
     "id": "bp_300blk_ss",
     "copy-from": "300blk_ss",
     "type": "AMMO",
