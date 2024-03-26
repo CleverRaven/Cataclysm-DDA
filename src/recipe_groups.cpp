@@ -24,7 +24,7 @@ using group_id = string_id<recipe_group_data>;
 struct omt_types_parameters {
     std::string omt;
     ot_match_type omt_type;
-    std::unordered_multimap<std::string, std::string> parameters;
+    std::unordered_map<std::string, std::unordered_set<std::string>> parameters;
 };
 
 struct recipe_group_data {
@@ -55,7 +55,7 @@ void recipe_group_data::load( const JsonObject &jo, const std::string_view )
         for( const JsonValue jv : ordering.get_array( "om_terrains" ) ) {
             std::string ter;
             ot_match_type ter_match_type = ot_match_type::type;
-            std::unordered_multimap<std::string, std::string> parameter_map;
+            std::unordered_map<std::string, std::unordered_set<std::string>> parameter_map;
             if( jv.test_string() ) {
                 ter = jv.get_string();
             } else {
@@ -129,24 +129,23 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
             continue;
         }
         if( !!maybe_args ) {
-            std::set<std::string> keys_found;
-            std::set<std::string> keys_matched;
-            for( const auto &key_value_pair : recp_terrain_it->second.parameters ) {
-                keys_found.insert( key_value_pair.first );
-                auto map_key_it = maybe_args->value().map.find( key_value_pair.first );
+            bool parameters_matched = true;
+            for( const auto &key_value_set_pair : recp_terrain_it->second.parameters ) {
+                auto map_key_it = maybe_args->value().map.find( key_value_set_pair.first );
                 if( map_key_it == maybe_args->value().map.end() ) {
-                    debugmsg( "Parameter key %s in recipe %s not found", key_value_pair.first, id );
+                    debugmsg( "Parameter key %s in recipe %s not found for omt %s", key_value_set_pair.first, id, omt_ter.id().str() );
                     continue;
                 }
-                if( key_value_pair.second == map_key_it->second.get_string() ) {
-                    keys_matched.insert( key_value_pair.first );
+                if( key_value_set_pair.second.find( map_key_it->second.get_string() ) == key_value_set_pair.second.end() ) {
+                    parameters_matched = false;
+                    break;
                 }
             }
-            if( keys_found == keys_matched ) {
+            if( parameters_matched ) {
                 all_rec.emplace( recp );
             }
         } else {
-            debugmsg( "Parameter(s) expected for recipe %s but none found", id );
+            debugmsg( "Parameter(s) expected for recipe %s but none found for omt %s", id, omt_ter.id().str() );
         }
     }
     return all_rec;
