@@ -45,7 +45,7 @@
     "bonus_aggression": { "rng": [ 0, 1 ] },
     "bonus_collector": { "rng": [ 0, 2 ] },
     "shopkeeper_item_group": "NC_ARSONIST_STOCK",
-    "shopkeeper_price_rules":  [
+    "shopkeeper_price_rules": [
       { "item": "FMCNote", "fixed_adj": 0 },
       { "item": "money_strap_FMCNote", "fixed_adj": 0 },
       { "item": "money_bundle_FMCNote", "fixed_adj": 0 }
