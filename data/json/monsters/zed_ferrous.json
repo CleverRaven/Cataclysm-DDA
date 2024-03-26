@@ -29,7 +29,7 @@
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "upgrades": { "half_life": 30, "into_group": "GROUP_FERROUS_UPGRADE" },
     "flags": [
       "SEES",
@@ -77,7 +77,7 @@
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "flags": [
       "SEES",
       "HEARS",
@@ -126,7 +126,7 @@
     "special_attacks": [ { "id": "bite_humanoid", "cooldown": 5 }, { "id": "grab", "cooldown": 7 }, { "id": "scratch_humanoid" } ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "flags": [
       "SEES",
       "HEARS",
@@ -180,7 +180,7 @@
     ],
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 20 } ],
     "death_drops": "default_zombie_death_drops",
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_scorched_rust",
     "flags": [
       "SEES",
       "HEARS",
@@ -238,7 +238,7 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
-    "burn_into": "mon_zombie_scorched",
+    "burn_into": "mon_zombie_fiend_rust",
     "flags": [
       "SEES",
       "HEARS",
