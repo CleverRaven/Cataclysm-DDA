@@ -2768,7 +2768,7 @@ int known_magic::select_spell( Character &guy )
         }
         return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
     } );
-    if( favorites.size() > 0 ) {
+    if( !favorites.empty() ) {
         spell_menu.set_category( "favorites" );
     } else {
         spell_menu.set_category( "all" );
