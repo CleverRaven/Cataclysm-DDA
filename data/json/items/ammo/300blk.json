@@ -67,6 +67,7 @@
     "description": "A subsonic .300 AAC Blackout round with a 220gr open tip match bullet.  .300 BLK is an intermediate cartridge necked up from 5.56x45mm, designed to achieve similar ballistics to 7.62x39mm.  It is compatible with standard AR-15 lower receivers and will feed from STANAG magazines.",
     "weight": "21 g",
     "range": 40,
+    "loudness": 50,
     "damage": { "damage_type": "bullet", "amount": 26 },
     "recoil": 1700
   },
