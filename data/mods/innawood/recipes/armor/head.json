@@ -17,5 +17,11 @@
       [ [ "duct_tape", 40 ], [ "medical_tape", 40 ], [ "superglue", 2 ] ]
     ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "mask_filter",
+    "copy-from": "mask_filter",
+    "autolearn": true
   }
 ]

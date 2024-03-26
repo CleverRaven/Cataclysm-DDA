@@ -1,81 +1,34 @@
 [
   {
+    "type": "recipe",
     "result": "gin",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
+    "copy-from": "gin_from_mash",
     "id_suffix": "from_mash",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREW",
-    "skill_used": "cooking",
-    "difficulty": 4,
-    "time": "5 m",
-    "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
-    "components": [ [ [ "gin_mash", 21 ] ] ]
+    "autolearn": true
   },
   {
+    "type": "recipe",
     "result": "vodka",
-    "type": "recipe",
-    "activity_level": "NO_EXERCISE",
+    "copy-from": "vodka_from_wash",
     "id_suffix": "from_wash",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREW",
-    "skill_used": "cooking",
-    "difficulty": 5,
-    "time": "30 m",
-    "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
-    "components": [ [ [ "wash_vodka", 21 ] ] ]
+    "autolearn": true
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "rum",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREW",
-    "skill_used": "cooking",
-    "difficulty": 5,
-    "time": "30 m",
-    "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
-    "components": [ [ [ "wash_rum", 21 ] ] ]
+    "copy-from": "rum",
+    "autolearn": true
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "whiskey",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREW",
-    "skill_used": "cooking",
-    "difficulty": 5,
-    "time": "30 m",
-    "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
-    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
-    "components": [ [ [ "wash_whiskey", 21 ] ] ]
+    "copy-from": "whiskey",
+    "autolearn": true
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
     "result": "moonshine",
-    "//": "should produce 12-15% foreshot with significant methanol",
-    "//2": "1 unit of methanol in the JSON is 250 units in game",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_BREW",
-    "skill_used": "cooking",
-    "difficulty": 2,
-    "time": "30 m",
-    "batch_time_factors": [ 50, 4 ],
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
-    "components": [ [ [ "wash_moonshine", 21 ] ] ]
+    "copy-from": "moonshine",
+    "autolearn": true
   }
 ]

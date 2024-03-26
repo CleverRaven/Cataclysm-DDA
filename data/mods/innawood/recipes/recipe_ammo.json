@@ -1,0 +1,8 @@
+[
+  {
+    "type": "recipe",
+    "result": "bearing",
+    "copy-from": "bearing",
+    "autolearn": [ [ "fabrication", 2 ] ]
+  }
+]
