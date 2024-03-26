@@ -2,25 +2,31 @@
   {
     "id": "BGSS_CONFUSED_1_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you.",
-    "responses": [ { "text": "Huh.", "topic": "TALK_FRIEND" } ]
+    "dynamic_line": {
+      "gendered_line": "I don't even <swear> know anymore.  I have no <swear> idea what is going on.  I'm just doing what I can to stay alive.  The world ended and I bungled along not dying, until I met you.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [ { "text": "Huh.", "topic": "TALK_FRIEND_CONVERSATION" } ]
   },
   {
     "id": "CWH_CONFUSED_1_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "I barely understand what's going on *now*.  Why do you think I'd know how the world ended?",
+    "dynamic_line": {
+      "gendered_line": "I barely understand what's going on *now*.  Why do you think I'd know how the world ended?",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "text": "OK, fine.  Can you at least tell me what you remember about the events leading up to now?",
         "topic": "CWH_CONFUSED_1_IDEAS2"
       },
-      { "text": "Never mind then.", "topic": "TALK_FRIEND" }
+      { "text": "Never mind then.", "topic": "TALK_FRIEND_CONVERSATION" }
     ]
   },
   {
     "id": "CWH_CONFUSED_1_IDEAS2",
     "type": "talk_topic",
     "dynamic_line": "What, don't you remember?  No, sorry, that's not fair, it was a weird time.  OK, well, I guess this all started with the riots, didn't it?  We were just leading our lives, doing our jobs, and then people started rioting.  Not the usual protests that turned violent or anything, either, people just left their houses and started breaking shit.  The news tried to downplay it but they couldn't keep it off the internet.  I don't know what caused it, they said it was some kind of drug or toxin in the water?  Still, I didn't really realize how bad it was getting at first.  Somewhere along the way the \"rioters\" started getting up and walking around with holes in their chests, and that's when the real panic took over.  The next few days - or weeks, not really sure - are a blur to me.  You'd have to ask someone else how we got from there to total collapse.",
-    "responses": [ { "text": "Thanks for filling me in.", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "Thanks for filling me in.", "topic": "TALK_FRIEND_CONVERSATION" } ]
   }
 ]

@@ -1,7 +1,7 @@
 # Mind Over Matter
 A Psionics mod for Cataclysm: Dark Days Ahead
 
-This mod adds (currently) eight separate psionic power paths to Cataclysm, including:
+This mod adds (currently) nine separate psionic power paths to Cataclysm, including:
 
 1) Biokinesis - Control of the body. Biokinetics can become stronger and faster than an ordinary human, and even change their form in limited ways. (starting profession: Star Athlete)
 2) Clairsentience - Extending the senses beyond the body. Clairsentients can see in the dark and through walls, and eventually gain a bird's eye view of their surroundings, as well as perform in combat by anticipating their enemies' movements. (starting profession: Doomseer)
@@ -47,7 +47,7 @@ Broadly speaking, there are three types of powers:
 
 By default, you can maintain concentration on a number of powers equal to your (Intelligence / 4) + any traits, mutations, proficiencies, or effects that change this limit. This is either listed in the description, like how Easily Distracted reduces the concentration potential by 1, or is common sense, like how being set on fire, covered in rotting zombie barf, or so tired you're doubled over and breathing heavily all make it harder to concentrate.  You may maintain your powers for an indefinite length of time as long as you are under your limit, but if you're over your limit, when a concentration check comes up or when you channel a new power you have a chance to lose your concentration. This is checked independently per concentrated power, so being more powers over your limit greatly increases the odds your concentration will break. 
 
-GAINING POWERS
+GAINING PSIONICS
 
 The easiest way to gain psionics is to pick a profession that starts with them or choose one of the "newly-awakened [X]" hobbies. There are also some strange crystals you might find in places with a strong connection with the Nether, or which are carried by feral psions, or in ruined secret scientific facilities. Or you could walk out into a portal storm unprotected.
 
@@ -56,4 +56,17 @@ Listen to the voices.
 Bathe in the energies of the Nether.
 
 We have such sights to show you. 
+
+LEARNING NEW POWERS
+
+New powers are unlocked by leveling existing powers. When particular prerequisites are reached and after a certain amount of time (anywhere from a couple of days to a couple of weeks, depending on power difficulty), you have the chance to unlock the possibility of a new power. Once you’ve done so, you can attempt its contemplation recipe, found in the Practice crafting tab, to attempt to understand the power. If you succeed (success depends on your Metaphysics skill), you’ll unlock the power and it will appear in your powers list. If you fail, you’ll have to try again. You can try repeatedly until you successfully unlock it. 
+
+There is a small chance you can sidestep the prerequisites and discover powers that would normally be beyond your ability. If this happens, you can contemplate to attempt to unlock it the same as any other power. 
+
+To be eligible to learn new powers, you must be in a generally good mental and physical state. Not sick, not suffering from broken bones, not starving, not severely depressed, not asleep, not poisoned and covered in boomer bile, etc.
+
+Further Information
+
+For a listing of powers, including their requirements to learn, check the [Power Spoilers document](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/data/mods/MindOverMatter/PowerDescriptionSpoilers.md).
+
 

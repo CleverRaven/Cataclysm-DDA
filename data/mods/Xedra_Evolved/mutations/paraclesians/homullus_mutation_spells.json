@@ -1,0 +1,167 @@
+[
+  {
+    "id": "homullus_summon_feral_spell",
+    "type": "SPELL",
+    "name": "Calling the Lost and the Damned",
+    "description": "Feral humans come to your aid.",
+    "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": 35,
+    "difficulty": 3,
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "effect": "summon",
+    "effect_str": "GROUP_FERAL",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 4,
+    "min_range": 1,
+    "max_range": 15,
+    "range_increment": 1,
+    "damage_increment": 0.15,
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "base_casting_time": 3000,
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
+  },
+  {
+    "id": "homullus_self_deception_spell",
+    "type": "SPELL",
+    "name": "Everything Will Be Fine",
+    "description": "Sometimes, it is best to focus on the positive.  This spell increases the Homullus's mood when cast.",
+    "valid_targets": [ "self" ],
+    "spell_class": "HOMULLUS",
+    "flags": [ "VERBAL", "SOMATIC", "NO_HANDS" ],
+    "teachable": false,
+    "difficulty": 4,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_SELF_DECEPTION",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 360000 + (u_spell_level('homullus_self_deception_spell') * 90000) ) * scaling_factor(u_val('perception') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 360000 + (u_spell_level('homullus_self_deception_spell') * 90000) ) * scaling_factor(u_val('perception') )" ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 300,
+    "final_energy_cost": 150,
+    "energy_increment": -8,
+    "base_casting_time": 30000,
+    "final_casting_time": 6000,
+    "casting_time_increment": -1000
+  },
+  {
+    "id": "homullus_invisible_to_humans_spell",
+    "type": "SPELL",
+    "name": "A Face in the Crowd",
+    "description": "Though the teeming masses of humanity are gone, the Homullus can evoke their anonymizing essence with magick, rendering them invisible to any humans affected by the spell.",
+    "valid_targets": [ "hostile", "ally" ],
+    "spell_class": "HOMULLUS",
+    "flags": [ "VERBAL", "SOMATIC", "NO_HANDS", "IGNORE_WALLS" ],
+    "teachable": false,
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_INVISIBLE_TO_HUMANS",
+    "extra_effects": [ { "id": "homullus_invisible_to_humans_spell_self", "hit_self": true } ],
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "min_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('homullus_invisible_to_humans_spell') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) ), 25)"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "min( ( ( (u_spell_level('homullus_invisible_to_humans_spell') * 1) + 3) * (scaling_factor(u_val('intelligence') ) ) ), 25)"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 200,
+    "energy_increment": -10,
+    "base_casting_time": 250,
+    "final_casting_time": 75,
+    "casting_time_increment": -5
+  },
+  {
+    "id": "homullus_invisible_to_humans_spell_self",
+    "type": "SPELL",
+    "name": "A Face in the Crowd Self",
+    "description": "Puts an effect on you so anyone affected by A Face in the Crowd knows to ignore you.  It's a bug if you have this directly.",
+    "message": "",
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "effect": "attack",
+    "effect_str": "telepathic_ignorance_self",
+    "shape": "blast",
+    "min_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    },
+    "max_duration": {
+      "math": [ "( 6000 + (u_spell_level('homullus_invisible_to_humans_spell') * 3000) ) * scaling_factor(u_val('intelligence') )" ]
+    }
+  },
+  {
+    "id": "homullus_reduced_visibility_ally_spell",
+    "type": "SPELL",
+    "name": "The Average Joe",
+    "description": "Weave a cloak of glamour around a target, making it more difficult for enemies to spot them.  This is not invisibility, and getting to close to a hostile target will allow them to see through the magick.",
+    "valid_targets": [ "ally" ],
+    "skill": "deduction",
+    "effect": "attack",
+    "effect_str": "effect_homullus_reduced_visibility_ally",
+    "shape": "blast",
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 4,
+    "min_range": 1,
+    "max_range": 20,
+    "range_increment": 0.4,
+    "base_casting_time": 450,
+    "energy_source": "MANA",
+    "base_energy_cost": 400,
+    "final_energy_cost": 250,
+    "energy_increment": -8,
+    "min_duration": 30000,
+    "max_duration": 1080000,
+    "duration_increment": 16500
+  },
+  {
+    "id": "homullus_cultivate_goblin_fruit",
+    "type": "SPELL",
+    "name": "Discover Goblin Fruit",
+    "description": "With the aid of a bit of fae magick, you may find a goblin fruit abandoned among the ruins.  Goblin fruit have a variety of effects, never predictable but always at least somewhat beneficial.  This spell may only be cast in the remnants of civilization.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HOMULLUS_GOBLIN_FRUIT",
+    "shape": "blast",
+    "spell_class": "HOMULLUS",
+    "teachable": false,
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 8,
+    "base_casting_time": 180000,
+    "final_casting_time": 100,
+    "casting_time_increment": -6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
+  }
+]

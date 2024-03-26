@@ -1162,7 +1162,7 @@
           "chance": 50,
           "repeat": [ 20, 60 ]
         },
-        { "group": "aspirin_bottle_plastic_pill_painkiller_20", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
+        { "group": "bottle_otc_painkiller_20", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 80 ] },
         {
           "group": "oxycodone_bottle_plastic_pill_prescription_10",
           "x": 28,
@@ -1309,7 +1309,7 @@
         { "vehicle": "helicopter_blackhawk_3a", "x": 50, "y": 32, "chance": 5, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 5, "y": 61, "chance": 25, "rotation": 180, "status": 1 },
         { "vehicle": "military_vehicles", "x": 7, "y": 54, "chance": 25, "rotation": 180, "status": 1 },
-        { "vehicle": "portable_generator", "x": 76, "y": 12, "chance": 50, "status": 1 }
+        { "vehicle": "portable_diesel_generator", "x": 76, "y": 12, "chance": 50, "status": 1 }
       ],
       "computers": {
         "0": {

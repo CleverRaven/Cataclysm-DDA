@@ -4,7 +4,7 @@
     "id": "EOC_WINCH_INITIAL",
     "effect": [
       { "u_location_variable": { "u_val": "winch_teleport" }, "min_radius": 0, "max_radius": 0 },
-      { "u_message": "You draw a coordinates in constructed beam.", "type": "good" }
+      { "u_message": "You draw coordinates in a constructed beam.", "type": "good" }
     ]
   },
   {
@@ -27,7 +27,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_WOLF_SLEDGE_TRHOW",
-    "condition": { "compare_num": [ { "u_val": "stamina" }, ">=", { "const": 3000 } ] },
+    "condition": { "math": [ "u_val('stamina')", ">=", "3000" ] },
     "effect": [
       {
         "u_run_inv_eocs": "all",

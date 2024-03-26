@@ -4,10 +4,8 @@
 
 #include <functional>
 #include <initializer_list>
-#include <iosfwd>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
 #include <type_traits>
@@ -18,7 +16,7 @@
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
@@ -587,6 +585,7 @@ class pointmenu_cb : public uilist_callback
 };
 
 void kill_advanced_inv();
+void temp_hide_advanced_inv();
 
 /**
  * Helper for typical UI list navigation with wrap-around

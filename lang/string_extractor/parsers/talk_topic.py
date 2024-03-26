@@ -41,20 +41,30 @@ def parse_dynamic_line(json, origin, comment=[]):
             parse_dynamic_line(line, origin, comment)
 
     elif type(json) is dict:
+        if "str" in json:
+            write_text(json, origin, comment=comment, c_format=False)
+
         if "gendered_line" in json:
             text = json["gendered_line"]
             subjects = json["relevant_genders"]
             options = [gender_options(subject) for subject in subjects]
+            gendered_comment = [
+                *comment,
+                "You don't need to translate genders that "
+                "aren't in your language",
+                "Check: https://github.com/CleverRaven/"
+                "Cataclysm-DDA/blob/master/doc/"
+                "TRANSLATING.md#grammatical-gender"]
             for context_list in itertools.product(*options):
                 context = " ".join(context_list)
                 write_text(text, origin, context=context,
-                           comment=comment, c_format=False)
+                           comment=gendered_comment, c_format=False)
 
         for key in dynamic_line_string_keys:
             if key in json:
                 parse_dynamic_line(json[key], origin, comment=comment)
 
-    elif type(json) == str:
+    elif type(json) is str:
         if not is_tag(json):
             write_text(json, origin, comment=comment, c_format=False)
 
@@ -69,6 +79,10 @@ def parse_response(json, origin):
                    comment="Affirmative response to NPC dialogue")
         write_text(json["truefalsetext"]["false"], origin, c_format=False,
                    comment="Negative response to NPC dialogue")
+
+    if "failure_explanation" in json:
+        write_text(json["failure_explanation"], origin, c_format=False,
+                   comment="Failure explanation for NPC dialogue response")
 
     if "success" in json:
         parse_response(json["success"], origin)
@@ -91,8 +105,6 @@ def parse_response(json, origin):
 def parse_talk_topic(json, origin):
     if "dynamic_line" in json:
         comment = ["NPC dialogue line"]
-        if "//~" in json:
-            comment.append(json["//~"])
         parse_dynamic_line(json["dynamic_line"], origin, comment=comment)
 
     if "responses" in json:

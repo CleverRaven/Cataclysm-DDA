@@ -37,6 +37,7 @@
       { "trait": "VEGETARIAN" },
       { "trait": "SQUEAMISH" },
       { "trait": "MOODSWINGS" },
+      { "trait": "SEASONAL_ALLERGIES" },
       { "trait": "SLOWHEALER" },
       { "trait": "SLOWRUNNER" },
       { "trait": "DISORGANIZED" },
@@ -74,7 +75,10 @@
       "yes": {
         "npc_has_effect": "beggar_has_eaten",
         "yes": "So, any luck with convincing the others to come on your crazy adventure yet?",
-        "no": "I'm sorry to say it after all you've done for me, but… I don't suppose you've got anything to eat?"
+        "no": {
+          "gendered_line": "I'm sorry to say it after all you've done for me, but… I don't suppose you've got anything to eat?",
+          "relevant_genders": [ "u" ]
+        }
       },
       "no": {
         "npc_has_effect": "beggar_has_eaten",
@@ -105,9 +109,14 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_INTRO",
     "dynamic_line": {
-      "npc_has_effect": "beggar_has_eaten",
-      "yes": "They won't let me in.  They say they're too full.  I'm allowed to camp out here as long as I keep it clean and don't make a fuss, but I'm reduced to begging to survive.",
-      "no": "They won't let me in.  They say they're too full.  I'm allowed to camp out here as long as I keep it clean and don't make a fuss, but I'm so hungry."
+      "concatenate": [
+        "They won't let me in.  They say they're too full.  I'm allowed to camp out here as long as I keep it clean and don't make a fuss",
+        {
+          "npc_has_effect": "beggar_has_eaten",
+          "yes": ", but I'm reduced to begging to survive.",
+          "no": ", but I'm so hungry."
+        }
+      ]
     },
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
@@ -327,7 +336,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_RECRUIT2",
-    "dynamic_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+    "dynamic_line": {
+      "gendered_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "OK.  For now let's talk about something else.", "topic": "TALK_NONE" },
       { "text": "OK, I'll talk to them too.", "topic": "TALK_DONE" }
@@ -336,7 +348,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_RECRUITED",
-    "dynamic_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+    "dynamic_line": {
+      "gendered_line": "Well… you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "All right!  Let's get going.", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]

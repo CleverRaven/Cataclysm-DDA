@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "itype.h"
+#include "map_selector.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "player_helpers.h"
@@ -28,7 +29,7 @@ TEST_CASE( "basic_price_check", "[npc][trade]" )
         seller = &u;
     }
 
-    item m4( "m4_carbine" );
+    item m4( "modular_m4_carbine" );
     item mag( m4.magazine_default() );
     int const ammo_amount = mag.remaining_ammo_capacity();
     item ammo( mag.ammo_default(), calendar::turn, ammo_amount );

@@ -95,7 +95,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC only has an m16a4" ) {
-            arm_shooter( main_npc, "m16a4" );
+            arm_shooter( main_npc, "modular_m16a4" );
 
             WHEN( "NPC is allowed to use loud ranged weapons" ) {
                 main_npc.rules.set_flag( ally_rule::use_guns );

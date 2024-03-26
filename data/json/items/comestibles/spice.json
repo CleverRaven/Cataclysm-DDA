@@ -86,6 +86,7 @@
     "color": "brown"
   },
   {
+    "//": "Our recipes have traditionally been standardized against sugar units of 5 mg. Refer also to the sugar_standard item group for more sugar-related items and their ratios to one another. Density is now accurate.",
     "type": "COMESTIBLE",
     "id": "sugar",
     "name": { "str_sp": "sugar" },
@@ -97,12 +98,10 @@
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
     "price": "5 cent",
     "price_postapoc": "4 cent",
-    "material": [ "powder", "junk" ],
-    "primary_material": "powder",
-    "volume": "3 ml",
+    "material": [ "sugar" ],
+    "volume": "6 ml",
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "//": "a tbsp is 4.2g of sugar, meaning the volume needed to be adjusted."
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -187,6 +186,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "artificial sweetener" },
     "description": "Sweet, sweet sugar?  No, it is bitter-sweet artificial sweetener.  No calories, no worries.",
+    "material": [ "powder" ],
     "calories": 0
   }
 ]

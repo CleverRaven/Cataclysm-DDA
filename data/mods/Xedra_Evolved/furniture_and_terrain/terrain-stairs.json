@@ -1,0 +1,22 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_earthen_stairs_up",
+    "name": "earthen stairs",
+    "description": "A set of stone and dirt steps leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earthen_stairs_down",
+    "name": "earthen stairs",
+    "description": "A set of stone and dirt steps leading down.",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM", "SUPPORTS_ROOF" ]
+  }
+]

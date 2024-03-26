@@ -40,6 +40,7 @@
     "looks_like": "field",
     "see_cost": 2,
     "spawns": { "group": "GROUP_FOREST", "population": [ 0, 1 ], "chance": 13 },
+    "travel_cost_type": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -130,7 +131,8 @@
       "mil_base_8f1",
       "mil_base_8h1",
       "mil_base_8i1",
-      "mil_base_8j1"
+      "mil_base_8j1",
+      "s_gas_g0_roof"
     ],
     "copy-from": "generic_air"
   },

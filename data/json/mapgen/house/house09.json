@@ -33,9 +33,8 @@
         ".####oo################.",
         "...................^...."
       ],
-      "palettes": [ "domestic_general_and_variant_palette" ],
-      "terrain": { "#": "t_adobe_brick_wall", "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ] },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 12, "y": 1, "chance": 80, "status": 0 } ],
+      "palettes": [ "domestic_general_and_variant_palette", "standard_domestic_landscaping_palette" ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 17, "y": 0 } ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 },
         { "monster": "GROUP_PLAGUE_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 6 },

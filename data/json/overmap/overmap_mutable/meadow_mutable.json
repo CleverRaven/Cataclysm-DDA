@@ -1,0 +1,36 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "meadow_mutable",
+    "subtype": "mutable",
+    "locations": [ "field_no_meadow" ],
+    "occurrences": [ 1, 5 ],
+    "flags": [ "WILDERNESS" ],
+    "check_for_locations_area": [ { "type": [ "field_no_meadow" ], "from": [ 2, 2, 0 ], "to": [ -2, -2, 0 ] } ],
+    "joins": [ "meadow_to_meadow" ],
+    "overmaps": {
+      "meadow_core": {
+        "overmap": "meadow_core",
+        "north": "meadow_to_meadow",
+        "east": "meadow_to_meadow",
+        "south": "meadow_to_meadow",
+        "west": "meadow_to_meadow"
+      },
+      "meadow_end": { "overmap": "meadow_end_north", "north": "meadow_to_meadow" },
+      "meadow_fill": {
+        "overmap": "meadow_end_north",
+        "north": { "id": "meadow_to_meadow", "type": "available" },
+        "east": { "id": "meadow_to_meadow", "type": "available" },
+        "west": { "id": "meadow_to_meadow", "type": "available" }
+      }
+    },
+    "root": "meadow_core",
+    "phases": [
+      [
+        { "overmap": "meadow_core", "weight": 200 },
+        { "overmap": "meadow_end", "weight": 100 },
+        { "overmap": "meadow_fill", "weight": 1 }
+      ]
+    ]
+  }
+]

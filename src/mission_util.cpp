@@ -551,7 +551,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     };
 
     for( talk_effect_fun_t &effect : talk_effects.effects ) {
-        auto rewards = effect.get_likely_rewards();
+        talk_effect_fun_t::likely_rewards_t rewards = effect.get_likely_rewards();
         if( !rewards.empty() ) {
             likely_rewards.insert( likely_rewards.end(), rewards.begin(), rewards.end() );
         }

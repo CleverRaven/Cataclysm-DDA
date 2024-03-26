@@ -2,14 +2,11 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <functional>
 #include <initializer_list>
 #include <list>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -25,22 +22,20 @@
 #include "cata_scope_helpers.h"
 #include "catacharset.h"
 #include "character.h"
-#include "colony.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_location.h"
-#include "item_stack.h"
 #include "localized_comparator.h"
 #include "map.h"
-#include "map_selector.h"
 #include "messages.h"
 #include "options.h"
 #include "output.h"
@@ -60,13 +55,15 @@
 #include "units.h"
 #include "units_utility.h"
 #include "vehicle.h"
-#include "vehicle_selector.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
+
+static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 using move_all_entry = std::pair<std::pair<int, int>, drop_or_stash_item_info>;
 
@@ -127,6 +124,13 @@ void kill_advanced_inv()
 {
     advinv.reset();
     cancel_aim_processing();
+}
+
+void temp_hide_advanced_inv()
+{
+    if( advinv ) {
+        advinv->temp_hide();
+    }
 }
 
 // *INDENT-OFF*
@@ -281,7 +285,6 @@ void advanced_inventory::print_items( side p, bool active )
     const int index = pane.index;
     bool compact = TERMX <= 100;
     pane.other_cont = -1;
-    //std::vector<item *> other_pane_conts;
     std::unordered_set<const item *> other_pane_conts;
     if( panes[-p + 1].container ) {
         item_location parent_recursive = panes[-p + 1].container;
@@ -298,7 +301,7 @@ void advanced_inventory::print_items( side p, bool active )
     nc_color norm = active ? c_white : c_dark_gray;
 
     Character &player_character = get_player_character();
-    //print inventory's current and total weight + volumeS
+    //print inventory's current and total weight + volume
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ||
         ( pane.get_area() == AIM_CONTAINER && pane.container ) ) {
 
@@ -410,9 +413,8 @@ void advanced_inventory::print_items( side p, bool active )
                 break;
             }
             // insert category header
-            mvwprintz( window, point( ( columns - utf8_width( sitem.cat->name() ) - 6 ) / 2, 6 + line ), c_cyan,
-                       "[%s]",
-                       sitem.cat->name() );
+            mvwprintz( window, point( ( columns - utf8_width( sitem.cat->name_header() ) - 6 ) / 2, 6 + line ),
+                       c_cyan, "[%s]", sitem.cat->name_header() );
             item_line = line + 1;
         }
 
@@ -646,7 +648,8 @@ struct advanced_inv_sorter {
         }
         // secondary sort by name and link length
         auto const sort_key = []( advanced_inv_listitem const & d ) {
-            return std::make_tuple( d.name_without_prefix, d.name, d.items.front()->link_sort_key() );
+            return std::make_tuple( d.name_without_prefix, d.contents_count, d.name,
+                                    d.items.front()->link_sort_key() );
         };
         return localized_compare( sort_key( d1 ), sort_key( d2 ) );
     }
@@ -707,7 +710,7 @@ void advanced_inventory::recalc_pane( side p )
     advanced_inv_area &other = squares[there.get_area()];
     avatar &player_character = get_avatar();
     if( pane.container &&
-        pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_NORTHEAST ) {
+        pane.container_base_loc >= AIM_SOUTHWEST && pane.container_base_loc <= AIM_ALL ) {
 
         const tripoint_rel_ms offset = player_character.pos_bub() - pane.container.pos_bub();
 
@@ -717,7 +720,7 @@ void advanced_inventory::recalc_pane( side p )
 
             pane.container = item_location::nowhere;
             pane.container_base_loc = NUM_AIM_LOCATIONS;
-        } else {
+        } else if( pane.container_base_loc <= AIM_NORTHEAST ) {
             pane.container_base_loc = static_cast<aim_location>( ( offset.y() + 1 ) * 3 - offset.x() + 2 );
         }
     }
@@ -995,6 +998,16 @@ bool advanced_inventory::move_all_items()
             popup_getkey( _( "You already have everything in that container." ) );
             return false;
         }
+    }
+    if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
+        popup_getkey( _( "Source container can't be unloaded." ) );
+        return false;
+    }
+    if( dpane.get_area() == AIM_CONTAINER &&
+        dpane.container.get_item()->has_flag( json_flag_NO_RELOAD ) ) {
+        popup_getkey( _( "Destination container can't be reloaded." ) );
+        return false;
     }
     size_t liquid_items = 0;
     for( const advanced_inv_listitem &elem : spane.items ) {
@@ -1561,7 +1574,16 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
     if( !query_charges( destarea, *sitem, action, amount_to_move ) ) {
         return false;
     }
+    if( spane.get_area() == AIM_CONTAINER &&
+        spane.container.get_item()->has_flag( json_flag_NO_UNLOAD ) ) {
+        popup_getkey( _( "Source container can't be unloaded." ) );
+        return false;
+    }
     if( destarea == AIM_CONTAINER ) {
+        if( dpane.container.get_item()->has_flag( json_flag_NO_RELOAD ) ) {
+            popup_getkey( _( "Destination container can't be reloaded." ) );
+            return false;
+        }
         ret_val<void> can_contain = dpane.container->can_contain( *sitem->items.front() );
         if( can_contain.success() ) {
             can_contain = dpane.container.parents_can_contain_recursive( &*sitem->items.front() );
@@ -1697,7 +1719,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         ret = g->inventory_item_menu( loc, info_startx, info_width,
                                       src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
         always_recalc = false;
-        if( !player_character.has_activity( ACT_ADV_INVENTORY ) ) {
+        if( !player_character.has_activity( ACT_ADV_INVENTORY ) || !ui ) {
             exit = true;
         } else {
             player_character.cancel_activity();
@@ -1810,7 +1832,7 @@ void advanced_inventory::display()
     }
 
     while( !exit ) {
-        if( player_character.moves < 0 ) {
+        if( player_character.get_moves() < 0 ) {
             do_return_entry();
             return;
         }
@@ -2303,6 +2325,13 @@ void advanced_inventory::do_return_entry()
     player_character.assign_activity( ACT_ADV_INVENTORY );
     player_character.activity.auto_resume = true;
     save_state->exit_code = aim_exit::re_entry;
+}
+
+void advanced_inventory::temp_hide()
+{
+    ui.reset();
+    do_return_entry();
+    cancel_aim_processing();
 }
 
 bool advanced_inventory::is_processing() const

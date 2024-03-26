@@ -22,7 +22,6 @@
 #include "type_id.h"
 #include "subbodypart.h"
 #include "localized_comparator.h"
-#include "type_id.h"
 #include "weather.h"
 
 class JsonObject;
@@ -239,6 +238,11 @@ struct body_part_type {
         // Limb-specific attacks
         std::set<matec_id> techniques;
 
+        // Effect to trigger on being winded
+        efftype_id windage_effect;
+        // Effect to trigger on draining all bionic power
+        efftype_id no_power_effect;
+
         // Effects to trigger on getting hit
         std::vector<bp_onhit_effect> effects_on_hit;
 
@@ -308,11 +312,17 @@ struct body_part_type {
         units::temperature_delta temp_max = 0_C_delta;
         int drench_max = 0;
         int drench_increment = 2;
-        int drying_chance = 1;
-        int drying_increment = 1;
+        float drying_rate = 1.0f;
         // Wetness morale bonus/malus of the limb
         int wet_morale = 0;
         int technique_enc_limit = 50;
+
+        // this is the number of millijoules used per stamina point
+        int power_efficiency = 0;
+
+        // These limbs should be covered by armor covering this limb (1:1 coverage)
+        // TODO: Coverage/Encumbrance multiplier
+        std::vector<bodypart_str_id> similar_bodyparts;
 
     private:
         int bionic_slots_ = 0;
@@ -475,6 +485,11 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs() const;
 
+        /** Returns the string id of the effect to be used. */
+        efftype_id get_windage_effect() const;
+        /** Returns the string id of the effect to be used. */
+        efftype_id get_no_power_effect() const;
+
         // Get onhit effects
         std::vector<bp_onhit_effect> get_onhit_effects( damage_type_id dtype ) const;
 
@@ -486,6 +501,7 @@ class bodypart
 
         int get_hp_cur() const;
         int get_hp_max() const;
+        float get_hit_size() const;
         int get_healed_total() const;
         int get_damage_bandaged() const;
         int get_damage_disinfected() const;
@@ -496,6 +512,7 @@ class bodypart
         units::temperature get_temp_conv() const;
         int get_bmi_encumbrance_threshold() const;
         float get_bmi_encumbrance_scalar() const;
+        int get_power_efficiency() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 

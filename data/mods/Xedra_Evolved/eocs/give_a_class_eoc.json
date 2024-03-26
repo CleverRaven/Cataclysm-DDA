@@ -81,12 +81,16 @@
             "cases": [
               {
                 "case": 2,
-                "effect": { "u_message": "In your dream, you standed at the edge of two world, and it felt bad.", "type": "mixed", "popup": true }
+                "effect": {
+                  "u_message": "In your dream, you stand at the edge of two worlds, a bad feeling overcoming you.",
+                  "type": "mixed",
+                  "popup": true
+                }
               },
               {
                 "case": 3,
                 "effect": {
-                  "u_message": "One world was infinitely small, concentrated into one dot, and infinitely heavy, with strong, neverending wind, and scorching heat.",
+                  "u_message": "One world's infinitely dense, concentrated into a singular dot with neverending gales and scorching heat.",
                   "type": "mixed",
                   "popup": true
                 }
@@ -94,7 +98,7 @@
               {
                 "case": 4,
                 "effect": {
-                  "u_message": "Another world was limitless, with no boundaries, and full of all odds.  You watched at it, and you didn't know what you saw.",
+                  "u_message": "The other world is limitless, full to the brim with potential and boundless possibilities.  You watched it, but can't comprehend what you saw.",
                   "type": "mixed",
                   "popup": true
                 }
@@ -102,9 +106,13 @@
               {
                 "case": 5,
                 "effect": [
-                  { "u_message": "In your dream, there is only you to decide.", "type": "mixed", "popup": true },
                   {
-                    "u_message": "You don't remember much from this dream, but what you remember is there was something… or someone, and you answered a questions for this.",
+                    "u_message": "You watch for a while but there is only you to decide and decide you must.",
+                    "type": "mixed",
+                    "popup": true
+                  },
+                  {
+                    "u_message": "You don't remember much from your dream, but what little you do is that there was something… or someone, and you answered their questions.",
                     "type": "mixed",
                     "popup": true
                   },
@@ -138,15 +146,15 @@
             "cases": [
               {
                 "case": 2,
-                "effect": { "u_message": "It happens again.  Otherworldy nightmares, they haunt you.", "type": "mixed", "popup": true }
+                "effect": { "u_message": "It happens again.  Otherworldy nightmares haunt you.", "type": "mixed", "popup": true }
               },
               {
                 "case": 3,
-                "effect": { "u_message": "Another time, another two world.", "type": "mixed", "popup": true }
+                "effect": { "u_message": "Another time, another two worlds.", "type": "mixed", "popup": true }
               },
               {
                 "case": 4,
-                "effect": { "u_message": "You don't remember much from this two, they felt very similar.", "type": "mixed", "popup": true }
+                "effect": { "u_message": "You don't remember much from these two, they felt very similar.", "type": "mixed", "popup": true }
               },
               {
                 "case": 5,
@@ -154,7 +162,7 @@
               },
               {
                 "case": 6,
-                "effect": { "u_message": "Another was information, information, and nothing but information.", "type": "mixed", "popup": true }
+                "effect": { "u_message": "The second was information, information, and nothing but information.", "type": "mixed", "popup": true }
               },
               {
                 "case": 7,

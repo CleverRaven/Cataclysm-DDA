@@ -9,7 +9,7 @@
     "type": "effect_on_condition",
     "id": "get_deagle_44",
     "global": true,
-    "effect": { "u_spawn_item": "deagle_44" }
+    "effect": { "u_spawn_item": "modular_deagle_44", "use_item_group": true }
   },
   {
     "type": "effect_on_condition",
@@ -73,5 +73,123 @@
     "id": "EOC_swap_glass_apple_for_arms",
     "type": "effect_on_condition",
     "effect": [ { "u_remove_item_with": "glass_apple" }, { "u_spawn_item": "imperfect_doll_arms", "suppress_message": true } ]
+  },
+  {
+    "id": "EOC_toolweapon_activate",
+    "type": "effect_on_condition",
+    "condition": { "not": "u_is_underwater" },
+    "effect": [
+      {
+        "if": "has_ammo",
+        "then": [
+          { "turn_cost": { "context_val": "turn_cost" } },
+          {
+            "u_make_sound": { "context_val": "success_message" },
+            "type": "combat",
+            "volume": { "context_val": "volume" }
+          },
+          { "u_message": { "context_val": "success_message" } },
+          { "transform_item": { "context_val": "transform_target" }, "active": true }
+        ],
+        "else": { "u_message": { "context_val": "failure_message" } }
+      }
+    ],
+    "false_effect": { "u_message": "The <npc_name> won't start underwater." }
+  },
+  {
+    "id": "EOC_toolweapon_running",
+    "type": "effect_on_condition",
+    "condition": { "not": "u_is_underwater" },
+    "effect": {
+      "if": { "one_in_chance": { "context_val": "sound_chance" } },
+      "then": [
+        { "u_message": { "context_val": "sound_message" }, "sound": true },
+        {
+          "u_make_sound": { "context_val": "sound_message" },
+          "type": "activity",
+          "volume": { "context_val": "volume" },
+          "ambient": true
+        }
+      ]
+    },
+    "false_effect": [
+      { "u_message": "Your <npc_name> gurgles in the water and stops." },
+      { "transform_item": { "context_val": "revert_to" } }
+    ]
+  },
+  {
+    "id": "EOC_toolweapon_deactivate",
+    "type": "effect_on_condition",
+    "effect": [ { "u_message": "Your <npc_name> goes quiet." }, { "transform_item": { "context_val": "transform_target" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "barber_hair",
+    "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_HAIR" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "barber_beard",
+    "effect": { "open_dialogue": { "topic": "TALK_CUT_YOUR_BEARD" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "barber_hair_and_beard",
+    "effect": { "open_dialogue": { "topic": "TALK_CUT_HAIR_OR_BEARD" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "reset_all_hair_types",
+    "//": "This will reset all hair types for the purposes of applying new ones.",
+    "effect": [
+      { "u_lose_trait": "hair_buzzcut" },
+      { "u_lose_trait": "hair_crewcut" },
+      { "u_lose_trait": "hair_short" },
+      { "u_lose_trait": "hair_short_no_fringe" },
+      { "u_lose_trait": "hair_short_over_eye" },
+      { "u_lose_trait": "hair_medium" },
+      { "u_lose_trait": "hair_mohawk" },
+      { "u_lose_trait": "hair_long" },
+      { "u_lose_trait": "hair_long_mohawk" },
+      { "u_lose_trait": "hair_mullet" },
+      { "u_lose_trait": "hair_long_over_eye" },
+      { "u_lose_trait": "hair_messy" },
+      { "u_lose_trait": "hair_very_long" },
+      { "u_lose_trait": "hair_extremely_long" },
+      { "u_lose_trait": "hair_body_length" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "reset_all_beard_types",
+    "//": "This will reset all beard types for the purposes of applying new ones.",
+    "effect": [
+      { "u_lose_trait": "FACIAL_HAIR_NECKBEARD" },
+      { "u_lose_trait": "FACIAL_HAIR_SIDEBURNS" },
+      { "u_lose_trait": "FACIAL_HAIR_SOUL_PATCH" },
+      { "u_lose_trait": "FACIAL_HAIR_CHIN_STRIP" },
+      { "u_lose_trait": "FACIAL_HAIR_3DAYSTUBBLE" },
+      { "u_lose_trait": "FACIAL_HAIR_TOOTHBRUSH" },
+      { "u_lose_trait": "FACIAL_HAIR_CHIN_STRAP" },
+      { "u_lose_trait": "FACIAL_HAIR_MUSTACHE" },
+      { "u_lose_trait": "FACIAL_HAIR_NECKBEARD" },
+      { "u_lose_trait": "FACIAL_HAIR_WALRUS" },
+      { "u_lose_trait": "FACIAL_HAIR_ZAPPA" },
+      { "u_lose_trait": "FACIAL_HAIR_GOATEE" },
+      { "u_lose_trait": "FACIAL_HAIR_CIRCLE" },
+      { "u_lose_trait": "FACIAL_HAIR_SHORTBOXED" },
+      { "u_lose_trait": "FACIAL_HAIR_HORSESHOE" },
+      { "u_lose_trait": "FACIAL_HAIR_MUTTONCHOPS" },
+      { "u_lose_trait": "FACIAL_HAIR_GUNSLINGER" },
+      { "u_lose_trait": "FACIAL_HAIR_CHIN_CURTAIN" },
+      { "u_lose_trait": "FACIAL_HAIR_HANDLEBAR" },
+      { "u_lose_trait": "FACIAL_HAIR_VANDYKE" },
+      { "u_lose_trait": "FACIAL_HAIR_BEARD" },
+      { "u_lose_trait": "FACIAL_HAIR_ANCHOR" },
+      { "u_lose_trait": "FACIAL_HAIR_ROYALE" },
+      { "u_lose_trait": "FACIAL_HAIR_SHENANDOAH" },
+      { "u_lose_trait": "FACIAL_HAIR_BEARD_LONG" },
+      { "u_lose_trait": "FACIAL_HAIR_BEARD_VERY_LONG" }
+    ]
   }
 ]

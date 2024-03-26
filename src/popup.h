@@ -4,19 +4,16 @@
 
 #include <cstddef>
 #include <functional>
-#include <iosfwd>
 #include <memory>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
-#include "point.h"
-#include "string_formatter.h"
+#include "input_enums.h"
 
 class ui_adaptor;
+class query_popup_impl;
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -35,8 +32,10 @@ class ui_adaptor;
  *
  * Please refer to documentation of individual functions for detailed explanation.
  **/
+
 class query_popup
 {
+        friend class query_popup_impl;
     public:
         /**
          * Query result returned by `query_once` and `query`.
@@ -185,6 +184,7 @@ class query_popup
          * for this function to properly generate option text.
          **/
         void show() const;
+
         /**
          * Query once and return the result. In order for this method to return
          * valid results, the popup must either have at least one option, or
@@ -196,13 +196,18 @@ class query_popup
          * Query until a valid action or an error happens and return the result.
          */
         result query();
-        catacurses::window get_window();
     protected:
         /**
          * Create or get a ui_adaptor on the UI stack to handle redrawing and
          * resizing of the popup.
          */
         std::shared_ptr<ui_adaptor> create_or_get_adaptor();
+        std::shared_ptr<query_popup_impl> create_or_get_impl();
+
+        result query_imgui();
+        result query_once_imgui();
+        result query_legacy();
+        result query_once_legacy();
 
     private:
         struct query_option {
@@ -234,6 +239,7 @@ class query_popup
         };
 
         std::weak_ptr<ui_adaptor> adaptor;
+        std::weak_ptr<query_popup_impl> p_impl;
 
         // UI caches
         mutable catacurses::window win;
@@ -290,6 +296,7 @@ class static_popup : public query_popup
 
     private:
         std::shared_ptr<ui_adaptor> ui;
+        std::shared_ptr<query_popup_impl> ui_imgui;
 };
 
 #endif // CATA_SRC_POPUP_H

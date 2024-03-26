@@ -123,7 +123,7 @@
   {
     "type": "furniture",
     "id": "f_55gal_firebarrel",
-    "name": "fire barrel (200L)",
+    "name": "fire barrel (200 L)",
     "description": "A huge metal barrel used to safely contain a fire.  It has multiple holes punched in the sides for air supply.",
     "symbol": "#",
     "color": "red",
@@ -149,7 +149,7 @@
   {
     "type": "furniture",
     "id": "f_30gal_firebarrel",
-    "name": "fire barrel (100L)",
+    "name": "fire barrel (100 L)",
     "description": "A large metal barrel used to safely contain a fire.  It has multiple holes punched in the sides for air supply.",
     "symbol": "#",
     "color": "red",

@@ -35,7 +35,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR_CALM",
-    "dynamic_line": "Oh, you're not one of the <zombies>.  Come on in, just don't cause any trouble.",
+    "dynamic_line": {
+      "gendered_line": "Oh, you're not one of the <zombies>.  Come on in, just don't cause any trouble.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       { "text": "Alright, let's chat.", "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO" },
       { "text": "I'll be back later.", "topic": "TALK_DONE" }
@@ -47,6 +50,16 @@
     "dynamic_line": "What can I do for you?",
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_NPC_PREPPER_SURVIVOR_STORY" },
+      {
+        "text": "I'd like to ask you a few questions.",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [
+            { "math": [ "n_val('npc_trust')", ">=", "2" ] },
+            { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+          ]
+        }
+      },
       {
         "text": "Would you be interested in bartering?",
         "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO",
@@ -70,7 +83,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_NPC_PREPPER_SURVIVOR_STORY",
-    "dynamic_line": "They all said I was crazy for preparing for <the_cataclysm>.  Now, they're all dead, and I'm still kickin'.  When the riots turned to hordes, I was ready; all I had to do was dodge a few <zombies> to get back to my bastion.  I've been living safely here ever since.",
+    "dynamic_line": {
+      "gendered_line": "They all said I was crazy for preparing for <the_cataclysm>.  Now, they're all dead, and I'm still kickin'.  When the riots turned to hordes, I was ready; all I had to do was dodge a few <zombies> to get back to my bastion.  I've been living safely here ever since.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "Interesting.", "topic": "TALK_NPC_PREPPER_SURVIVOR_INTRO" },
       { "text": "Can I stay here for a while?", "topic": "TALK_NPC_PREPPER_SURVIVOR_STAY" }

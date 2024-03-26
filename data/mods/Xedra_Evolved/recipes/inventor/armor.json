@@ -6,10 +6,10 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_elec_circuits", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_elec_circuits", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
       [
@@ -39,10 +39,10 @@
     "result": "inventor_backpack",
     "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "tools": [ [ [ "vac_pump", 300 ] ] ],
@@ -62,10 +62,10 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 60 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
       [ [ "pipe", 12 ] ],
@@ -88,10 +88,10 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 40 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
       [ [ "boots_combat", 1 ], [ "boots_hiking", 1 ] ],
@@ -115,10 +115,10 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
       [ [ "scrap_aluminum", 35 ] ],
@@ -144,12 +144,12 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_elec_circuits", "time_multiplier": 2, "skill_penalty": -100 },
-      { "proficiency": "prof_elec_semiconductors", "time_multiplier": 2, "skill_penalty": -100 },
-      { "proficiency": "prof_elec_integrated_circuits", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_elec_circuits", "time_multiplier": 2, "skill_penalty": 0 },
+      { "proficiency": "prof_elec_semiconductors", "time_multiplier": 2, "skill_penalty": 0 },
+      { "proficiency": "prof_elec_integrated_circuits", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
       [ [ "scrap_aluminum", 30 ] ],
@@ -176,9 +176,9 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 220 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [ [ [ "pipe", 7 ] ], [ [ "scrap_aluminum", 100 ] ], [ [ "scrap", 20 ] ], [ [ "sheet_metal_small", 10 ] ] ],
     "time": "15 h",
@@ -196,9 +196,9 @@
     "using": [ [ "welding_standard", 80 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [ [ [ "inventor_fists", 1 ] ], [ [ "compressor", 1 ] ], [ [ "scrap", 22 ] ], [ [ "sheet_metal_small", 9 ] ] ],
     "time": "5 h",
@@ -216,10 +216,10 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [ [ [ "cable", 10 ] ], [ [ "scrap_aluminum", 50 ] ], [ [ "e_scrap", 2 ] ], [ [ "power_supply", 4 ] ] ],
     "time": "7 h",
@@ -237,10 +237,10 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [ [ [ "cable", 10 ] ], [ [ "scrap_aluminum", 10 ] ], [ [ "e_scrap", 5 ] ], [ [ "power_supply", 4 ] ] ],
     "time": "7 h",
@@ -258,10 +258,10 @@
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": -100 },
-      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 },
-      { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": -100 }
+      { "proficiency": "prof_metalworking", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 3, "skill_penalty": 0 },
+      { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": 0 },
+      { "proficiency": "prof_plasticworking", "time_multiplier": 2, "skill_penalty": 0 }
     ],
     "components": [
       [ [ "cable", 120 ] ],

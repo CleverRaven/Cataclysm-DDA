@@ -184,7 +184,7 @@
     "name": [ "Enormous power" ],
     "desc": [ "Your muscles scream with force." ],
     "apply_message": "Unleash the power.",
-    "remove_message": "The power fade away.",
+    "remove_message": "The power fades away.",
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 15 } ] } ]

@@ -19,7 +19,7 @@
     "type": "effect_on_condition",
     "id": "scenario_quick_portal_storm",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "math": [ "ps_min_woc", "=", "u_val('time: 1 d')" ] }, { "math": [ "ps_max_woc", "=", "u_val('time: 2 d')" ] } ]
+    "effect": [ { "math": [ "ps_min_woc", "=", "time(' 1 d')" ] }, { "math": [ "ps_max_woc", "=", "time(' 2 d')" ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -38,7 +38,7 @@
     },
     "deactivate_condition": { "not": { "is_weather": "early_portal_storm" } },
     "effect": {
-      "switch": { "distance": [ "u", { "global_val": "portal_storm_center" } ] },
+      "switch": { "math": [ "distance('u', portal_storm_center)" ] },
       "cases": [
         {
           "case": 0,
@@ -133,7 +133,13 @@
       }
     },
     "effect": [
-      { "u_location_variable": { "global_val": "portal_storm_center" }, "min_radius": 30, "max_radius": 75 },
+      {
+        "u_location_variable": { "global_val": "portal_storm_center" },
+        "min_radius": 30,
+        "max_radius": 75,
+        "z_override": true,
+        "z_adjust": 0
+      },
       { "math": [ "cause_early_portal_storm", "=", "1" ] },
       "next_weather",
       { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
@@ -235,19 +241,17 @@
       { "remove_active_mission": "MISSION_INVESTIGATE_PORTAL_STORM_CENTER" },
       { "alter_timed_events": "portal_dungeon_entrance" },
       { "math": [ "u_counter_portal_storm_counter", "++" ] },
-      { "math": [ "talked_to_storm", "=", "0" ] }
+      { "math": [ "talked_to_storm", "=", "0" ] },
+      {
+        "trigger_event": "u_var_changed",
+        "args": [ "portal_storm_counter", { "u_val": "counter_portal_storm_counter" } ]
+      }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_WORSEN_PORTAL_STORM",
-    "effect": {
-      "weighted_list_eocs": [
-        [ "EOC_PORTAL_STRENGTHEN", { "const": 1 } ],
-        [ "EOC_PORTAL_LENGTHEN", { "const": 1 } ],
-        [ "EOC_PORTAL_EXPAND", { "const": 3 } ]
-      ]
-    }
+    "effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STRENGTHEN", 1 ], [ "EOC_PORTAL_LENGTHEN", 1 ], [ "EOC_PORTAL_EXPAND", 3 ] ] }
   },
   {
     "type": "effect_on_condition",
@@ -258,13 +262,9 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_LENGTHEN",
     "effect": [
+      { "math": [ "ps_min_length", "=", "min( time('4 h'), value_or( ps_min_length, time('2 h') ) + time('15 minutes') )" ] },
       {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_min_length", "default_time": "2 hours" }, "+=", { "time": "15 minutes" } ],
-        "max_time": "4 hours"
-      },
-      {
-        "arithmetic": [ { "global_val": "var", "var_name": "ps_max_length", "default_time": "4 hours" }, "+=", { "time": "15 minutes" } ],
-        "max_time": "6 hours"
+        "math": [ "ps_max_length", "=", "min( time('6 h'), value_or( ps_max_length, time('4 h') ) + time('15 minutes') )" ]
       }
     ]
   },
@@ -304,14 +304,14 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": {
       "weighted_list_eocs": [
-        [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
-        [ "EOC_PORTAL_LIGHT", { "const": 2 } ],
-        [ "EOC_PORTAL_ABSENCE", { "const": 4 } ],
-        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", { "const": 5 } ],
-        [ "EOC_PORTAL_FLATLANDER", { "const": 5 } ],
-        [ "EOC_PORTAL_MEMORIES", { "const": 1 } ],
-        [ "EOC_PORTAL_GIANT_APPENDAGE", { "const": 1 } ],
-        [ "EOC_PORTAL_NPC", { "const": 1 } ]
+        [ "EOC_PORTAL_GRASS_CHANGE", 10 ],
+        [ "EOC_PORTAL_LIGHT", 2 ],
+        [ "EOC_PORTAL_ABSENCE", 4 ],
+        [ "EOC_PORTAL_IMPOSSIBLE_SHAPE", 5 ],
+        [ "EOC_PORTAL_FLATLANDER", 5 ],
+        [ "EOC_PORTAL_MEMORIES", 1 ],
+        [ "EOC_PORTAL_GIANT_APPENDAGE", 1 ],
+        [ "EOC_PORTAL_NPC", 1 ]
       ]
     }
   },
@@ -339,14 +339,14 @@
       { "run_eocs": "EOC_PORTAL_MESSAGE" },
       {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
-          [ "EOC_PORTAL_PAIN", { "const": 2 } ],
-          [ "EOC_PORTAL_HALLUCINATOR", { "const": 2 } ],
-          [ "EOC_PORTAL_SMOKE", { "const": 2 } ],
-          [ "EOC_PORTAL_SWARM_STRUCTURE", { "const": 2 } ],
-          [ "EOC_PORTAL_TAUNT", { "const": 1 } ],
-          [ "EOC_PORTAL_SHIFTING_MASS", { "const": 1 } ],
-          [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ]
+          [ "EOC_PORTAL_TELEPORT_STUCK_START", 2 ],
+          [ "EOC_PORTAL_PAIN", 2 ],
+          [ "EOC_PORTAL_HALLUCINATOR", 2 ],
+          [ "EOC_PORTAL_SMOKE", 2 ],
+          [ "EOC_PORTAL_SWARM_STRUCTURE", 2 ],
+          [ "EOC_PORTAL_TAUNT", 1 ],
+          [ "EOC_PORTAL_SHIFTING_MASS", 1 ],
+          [ "EOC_PORTAL_ARTIFACT_WEAK", 1 ]
         ]
       }
     ]
@@ -402,7 +402,7 @@
     "//": "This displays messages depending on the storms strength.",
     "condition": { "and": [ "u_can_see", { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } } ] },
     "effect": {
-      "switch": { "distance": [ "u", { "global_val": "portal_storm_center" } ] },
+      "switch": { "math": [ "distance('u', portal_storm_center)" ] },
       "cases": [
         {
           "case": 0,
@@ -411,9 +411,7 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_3",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_3", "snippet": true },
-              "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_3", { "const": 1 } ] ]
-              }
+              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_3", 1 ], [ "EOC_PORTAL_STORM_VOICES_3", 1 ] ] }
             }
           }
         },
@@ -424,9 +422,7 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_2",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_2", "snippet": true },
-              "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_2", { "const": 1 } ] ]
-              }
+              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_2", 1 ], [ "EOC_PORTAL_STORM_VOICES_2", 1 ] ] }
             }
           }
         },
@@ -437,9 +433,7 @@
               "id": "EOC_PORTAL_STORM_MESSAGE_INDOOR_OUTDOOR_1",
               "condition": "u_is_outside",
               "effect": { "u_message": "PORTAL_STORM_MESSAGES_1", "snippet": true },
-              "false_effect": {
-                "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", { "const": 1 } ], [ "EOC_PORTAL_STORM_VOICES_1", { "const": 1 } ] ]
-              }
+              "false_effect": { "weighted_list_eocs": [ [ "EOC_PORTAL_STORM_INDOOR_MESSAGES_1", 1 ], [ "EOC_PORTAL_STORM_VOICES_1", 1 ] ] }
             }
           }
         }
@@ -632,7 +626,7 @@
         "u_message": "You awake with a start from what must have been a violent and horrifying daydream.  Your body aches as if the wounds were real.",
         "type": "bad"
       },
-      { "math": [ "u_pain()", "+=", "30" ] },
+      { "math": [ "u_pain()", "+=", "10" ] },
       { "u_set_field": "fd_blood", "radius": 2 },
       { "math": [ "u_ire", "-=", "3" ] }
     ]
@@ -697,8 +691,8 @@
           {
             "id": "portal_storm_dark_light",
             "condition": "is_day",
-            "effect": { "custom_light_level": 0, "length": [ "1 minutes", { "math": [ "ps_str * u_val('time: 1 m')" ] } ] },
-            "false_effect": { "custom_light_level": 125, "length": [ "1 minutes", { "math": [ "ps_str * u_val('time: 1 m')" ] } ] }
+            "effect": { "custom_light_level": 0, "length": [ "1 minutes", { "math": [ "ps_str * time(' 1 m')" ] } ] },
+            "false_effect": { "custom_light_level": 125, "length": [ "1 minutes", { "math": [ "ps_str * time(' 1 m')" ] } ] }
           },
           {
             "id": "portal_storm_outside_message",
@@ -726,7 +720,7 @@
         "type": "bad",
         "popup": true
       },
-      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str * u_val('time: 1 s')" ] } }
+      { "u_add_effect": "incorporeal", "duration": { "math": [ "ps_str * time(' 1 s')" ] } }
     ]
   },
   {
@@ -860,7 +854,7 @@
       { "u_location_variable": { "global_val": "original_loc" } },
       { "u_location_variable": { "global_val": "cell_loc" }, "z_adjust": 6, "z_override": true },
       { "u_location_variable": { "global_val": "cell_roof_loc" }, "z_adjust": 7, "z_override": true },
-      { "math": [ "u_cell_time", "=", "u_val('time: 5 m') + rand(60)" ] },
+      { "math": [ "u_cell_time", "=", "time(' 5 m') + rand(60)" ] },
       { "math": [ "u_in_portal_cell", "=", "1" ] },
       {
         "revert_location": { "global_val": "cell_loc" },
@@ -873,7 +867,8 @@
       },
       {
         "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
-        "target_var": { "global_val": "place_name" }
+        "target_var": { "global_val": "place_name" },
+        "i18n": true
       },
       {
         "place_override": { "global_val": "place_name", "default": "1 minutes" },
@@ -930,7 +925,8 @@
       { "revert_location": { "global_val": "dungeon_loc" }, "key": "portal_dungeon", "time_in_future": "infinite" },
       {
         "set_string_var": [ "Somewhere", "Nowhere", "Everywhere", "Yesterday", "Tomorrow" ],
-        "target_var": { "global_val": "place_name" }
+        "target_var": { "global_val": "place_name" },
+        "i18n": true
       },
       {
         "place_override": { "global_val": "place_name", "default_str": "Error" },
@@ -962,7 +958,7 @@
       { "u_teleport": { "global_val": "dungeon_start" }, "fail_message": "Something is very wrong!", "force": true },
       { "run_eocs": [ "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "capture_generic_nre_anomaly" ] },
       { "mapgen_update": "portal_dungeon", "target_var": { "global_val": "dungeon_loc" } },
-      { "u_message": "Weren't you just here? It feels thicker somehow though." },
+      { "u_message": "Weren't you just here?  It feels thicker somehow though." },
       { "u_message": { "global_val": "portal_storm_voice_mood", "default_str": "none" }, "snippet": true }
     ]
   },
@@ -992,7 +988,7 @@
       ]
     },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" },
+      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength", "default": 0 },
       "cases": [
         {
           "case": 0,
@@ -1077,13 +1073,13 @@
       "switch": { "global_val": "var", "var_name": "portal_dungeon_level" },
       "cases": [
         {
-          "case": 0,
+          "case": 2,
           "effect": [
             {
               "weighted_list_eocs": [
-                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", { "const": 1 } ],
-                [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", { "const": 1 } ],
-                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", { "const": 1 } ]
+                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA", 1 ],
+                [ "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT", 1 ],
+                [ "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY", 1 ]
               ]
             },
             {
@@ -1098,7 +1094,7 @@
           ]
         },
         {
-          "case": 5,
+          "case": 7,
           "effect": {
             "run_eocs": [
               { "id": "EOC_PORTAL_DUNGEON_REWARD_ITEM" },
@@ -1117,7 +1113,7 @@
     "id": "EOC_DEATH_PORTAL_DUNGEON",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "condition": { "math": [ "portal_dungeon_level", "!=", "0" ] },
     "effect": [
       {
         "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
@@ -1129,17 +1125,17 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_INERTIA",
-    "effect": { "u_add_effect": "weakened_inertia", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": { "u_add_effect": "weakened_inertia", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WARPED_VIEWPOINT",
-    "effect": { "u_add_effect": "warped_viewpoint", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": { "u_add_effect": "warped_viewpoint", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_REWARD_WEAKENED_GRAVITY",
-    "effect": { "u_add_effect": "weakened_gravity", "duration": { "global_val": "ps_effect_length", "default": "5 days" } }
+    "effect": { "u_add_effect": "weakened_gravity", "duration": { "math": [ "(portal_dungeon_level + rng(-1, 1)) * time(' 1 d')" ] } }
   },
   {
     "type": "effect_on_condition",
@@ -1167,11 +1163,11 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_PUNISHMENT",
     "effect": [
-      { "math": [ "ps_effect_length", "=", "u_val('time: 3 h')" ] },
+      { "math": [ "ps_effect_length", "=", "time(' 3 h')" ] },
       {
         "weighted_list_eocs": [
-          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA", { "const": 10 } ],
-          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT", { "const": 10 } ]
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_STRENGTHENED_INERTIA", 10 ],
+          [ "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT", 10 ]
         ]
       }
     ]
@@ -1219,8 +1215,8 @@
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
       { "u_message": "Everything feels fuzzy.", "type": "info" },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_feline" }, "=", { "const": 450 } ] },
-      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 750 } ] },
+      { "math": [ "u_vitamin('mutagen_feline')", "=", "450" ] },
+      { "math": [ "u_vitamin('mutagen')", "=", "750" ] },
       {
         "run_eocs": [
           {

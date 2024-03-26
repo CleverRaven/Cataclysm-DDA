@@ -1,6 +1,7 @@
 [
   {
     "id": "makarovmag",
+    "//": "Audited with ImageJ used on schematics.",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Makarov 8-round magazine" },
@@ -13,8 +14,9 @@
         "description": "A standard 8-round magazine for the Makarov pistol."
       }
     ],
-    "weight": "60 g",
-    "volume": "250 ml",
+    "weight": "32 g",
+    "volume": "34 ml",
+    "longest_side": "10 cm",
     "price": 2300,
     "price_postapoc": 100,
     "material": [ "steel" ],

@@ -41,7 +41,7 @@
         "success": { "topic": "MSU14_UNIT_ACCESS" },
         "failure": { "topic": "MSU14_HACK_FAILURE" }
       },
-      { "text": "Browse stored documents.", "topic": "MSU14_DOCS" },
+      { "text": "Browse stored documents.", "topic": "MSU14_PRE_DOCS" },
       { "text": "Log Off", "topic": "TALK_DONE" }
     ]
   },
@@ -59,16 +59,42 @@
   },
   {
     "type": "talk_topic",
-    "id": "MSU14_DOCS",
+    "id": "MSU14_PRE_DOCS",
     "dynamic_line": "&Listing all saved files:\nA. P-144MS TALON UGV platform - Generative optimizations",
     "responses": [
       {
         "text": "View and print the Talon Schematics.",
-        "topic": "MSU14_DOCS",
-        "effect": [ { "u_spawn_item": "schematics_secubot", "count": 1 } ]
+        "topic": "MSU14_DOCS_SUCCESS",
+        "condition": { "not": { "u_has_var": "msu14_printed_docs", "type": "computer", "context": "hacking", "value": "yes" } }
+      },
+      {
+        "text": "View and print the Talon Schematics.",
+        "topic": "MSU14_DOCS_FAILURE",
+        "condition": { "u_has_var": "msu14_printed_docs", "type": "computer", "context": "hacking", "value": "yes" }
       },
       { "text": "Return.", "topic": "MSU14_MAIN" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MSU14_DOCS_SUCCESS",
+    "dynamic_line": "&Printing…",
+    "responses": [
+      {
+        "text": "Return.",
+        "topic": "MSU14_MAIN",
+        "effect": [
+          { "u_spawn_item": "schematics_secubot", "count": 1 },
+          { "u_add_var": "msu14_printed_docs", "type": "computer", "context": "hacking", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "MSU14_DOCS_FAILURE",
+    "dynamic_line": "&ERROR: Schematic access denied - too many requests.\nPlease contact the system administrator.",
+    "responses": [ { "text": "Return.", "topic": "MSU14_MAIN" } ]
   },
   {
     "type": "talk_topic",
@@ -88,12 +114,7 @@
         "effect": [
           { "run_eocs": [ "capture_generic_nre_anomaly" ] },
           { "u_spawn_item": "melchior_science_doc", "count": 1 },
-          {
-            "u_adjust_var": "dimensional_heuristics",
-            "type": "counter",
-            "context": "robofac_knowledge",
-            "adjustment": 1
-          }
+          { "math": [ "u_counter_robofac_knowledge_dimensional_heuristics", "++" ] }
         ],
         "topic": "TALK_DONE"
       }

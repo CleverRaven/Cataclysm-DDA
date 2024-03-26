@@ -1,6 +1,5 @@
 #include "monster_helpers.h"
 
-#include "item.h"
 #include "monster.h"
 
 void move_monster_turn( monster &mon )

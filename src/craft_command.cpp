@@ -348,7 +348,8 @@ static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, 
     !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
     return p.type == pocket_type::CONTAINER && p.watertight;
 } ) ) {
-        return crafter->consume_items( it, batch, filter );
+        std::list<item> consumed = crafter->consume_items( it, batch, filter );
+        return consumed;
     }
 
     // Everything below only occurs for item components that are liquid containers

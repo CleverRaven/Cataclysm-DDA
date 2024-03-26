@@ -189,11 +189,17 @@ double rng_normal( double lo, double hi )
     return clamp( val, lo, hi );
 }
 
+cata_default_random_engine::result_type rng_get_first_seed()
+{
+    using rep = std::chrono::high_resolution_clock::rep;
+    static rep seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    return static_cast<cata_default_random_engine::result_type>( seed );
+}
+
 cata_default_random_engine &rng_get_engine()
 {
     // NOLINTNEXTLINE(cata-determinism)
-    static cata_default_random_engine eng(
-        std::chrono::high_resolution_clock::now().time_since_epoch().count() );
+    static cata_default_random_engine eng( rng_get_first_seed() );
     return eng;
 }
 

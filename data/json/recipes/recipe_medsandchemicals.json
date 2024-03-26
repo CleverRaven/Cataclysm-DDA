@@ -1034,7 +1034,7 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ],
-    "charges": 5
+    "charges": 50
   },
   {
     "type": "recipe",

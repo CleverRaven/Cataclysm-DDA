@@ -27,7 +27,6 @@
       { "item": "SICP", "prob": 3 },
       { "item": "recipe_serum", "prob": 2 },
       { "item": "recipe_chimera", "prob": 1 },
-      { "item": "recipe_mil_augs", "prob": 1 },
       { "item": "recipe_labchem", "prob": 1 },
       { "item": "soldering_iron_portable", "prob": 70, "charges": [ 0, 50 ] },
       { "item": "solder_wire", "prob": 70 },

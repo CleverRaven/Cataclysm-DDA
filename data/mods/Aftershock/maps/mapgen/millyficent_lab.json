@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mortuary_2story" ],
-    "weight": 100,
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
@@ -94,7 +93,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "mortuary_basement" ],
-    "weight": 200,
     "object": {
       "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rotation": [ 0, 3 ],

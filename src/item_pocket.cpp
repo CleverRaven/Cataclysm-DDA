@@ -443,7 +443,7 @@ bool item_pocket::stacks_with( const item_pocket &rhs, int depth, int maxdepth )
             rhs.contents.begin(), rhs.contents.end(),
     [depth, maxdepth]( const item & a, const item & b ) {
         return depth < maxdepth && a.charges == b.charges &&
-               a.stacks_with( b, false, false, depth + 1, maxdepth );
+               a.stacks_with( b, false, false, false, depth + 1, maxdepth );
     } );
 }
 
@@ -1331,15 +1331,33 @@ static int charges_per_volume_recursive( const units::volume &max_item_volume,
 
 ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) const
 {
-    if( it.has_flag( flag_NO_UNWIELD ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_MOD, _( "cannot unwield item" ) );
+    if( data->type == pocket_type::MIGRATION ) {
+        // migration pockets need to always succeed
+        return ret_val<item_pocket::contain_code>::make_success();
+    }
+
+    if( data->type == pocket_type::MOD ) {
+        if( it.is_toolmod() || it.is_gunmod() ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only mods can go into mod pocket" ) );
+        }
     }
 
     if( data->type == pocket_type::CORPSE ) {
         // corpses can't have items stored in them the normal way,
         // we simply don't want them to "spill"
         return ret_val<item_pocket::contain_code>::make_success();
+    }
+
+    if( data->type == pocket_type::SOFTWARE ) {
+        if( it.has_flag( flag_NO_DROP ) && it.has_flag( flag_IRREMOVABLE ) ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only immaterial items can go into software pocket" ) );
+        }
     }
 
     if( data->type == pocket_type::EBOOK ) {
@@ -1360,13 +1378,9 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
         }
     }
 
-    if( data->type == pocket_type::MOD ) {
-        if( it.is_toolmod() || it.is_gunmod() ) {
-            return ret_val<item_pocket::contain_code>::make_success();
-        } else {
-            return ret_val<item_pocket::contain_code>::make_failure(
-                       contain_code::ERR_MOD, _( "only mods can go into mod pocket" ) );
-        }
+    if( it.has_flag( flag_NO_UNWIELD ) ) {
+        return ret_val<item_pocket::contain_code>::make_failure(
+                   contain_code::ERR_MOD, _( "cannot unwield item" ) );
     }
 
     if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ||
@@ -1456,12 +1470,6 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
     if( copies_remaining <= 0 ) {
         return ret_val<item_pocket::contain_code>::make_success();
     }
-    if( data->type == pocket_type::CORPSE ) {
-        // corpses can't have items stored in them the normal way,
-        // we simply don't want them to "spill"
-        copies_remaining = 0;
-        return ret_val<item_pocket::contain_code>::make_success();
-    }
     // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
     if( data->type == pocket_type::MAGAZINE && it.has_flag( flag_CASING ) ) {
         copies_remaining = 0;
@@ -1470,6 +1478,10 @@ ret_val<item_pocket::contain_code> item_pocket::_can_contain( const item &it,
 
     if( !compatible.success() ) {
         return compatible;
+    }
+    if( !is_standard_type() ) {
+        copies_remaining = 0;
+        return ret_val<item_pocket::contain_code>::make_success();
     }
 
     if( it.made_of( phase_id::LIQUID ) ) {
@@ -2185,8 +2197,7 @@ std::list<item> &item_pocket::edit_contents()
 ret_val<item *> item_pocket::insert_item( const item &it,
         const bool into_bottom, bool restack_charges, bool ignore_contents )
 {
-    ret_val<item_pocket::contain_code> containable = !is_standard_type() ?
-            ret_val<item_pocket::contain_code>::make_success() : can_contain( it, ignore_contents );
+    ret_val<item_pocket::contain_code> containable = can_contain( it, ignore_contents );
 
     if( !containable.success() ) {
         return ret_val<item *>::make_failure( nullptr, containable.str() );
@@ -2211,12 +2222,12 @@ std::pair<item_location, item_pocket *> item_pocket::best_pocket_in_contents(
     const bool allow_sealed, const bool ignore_settings )
 {
     std::pair<item_location, item_pocket *> ret( this_loc, nullptr );
-    // If the current pocket has restrictions or blacklists the item,
+    // If the current pocket has restrictions or blacklists the item or is a holster,
     // try the nested pocket regardless of whether it's soft or rigid.
     const bool ignore_rigidity =
         !settings.accepts_item( it ) ||
         !get_pocket_data()->get_flag_restrictions().empty() ||
-        settings.priority() > 0;
+        settings.priority() > 0 || is_holster();
 
     for( item &contained_item : contents ) {
         if( &contained_item == &it || &contained_item == avoid ) {
@@ -2613,7 +2624,9 @@ bool item_pocket::favorite_settings::accepts_item( const item &it ) const
         return false;
     }
     const itype_id &id = it.typeId();
-    const item_category_id &cat = it.get_category_of_contents().id;
+    const item_category_id &cat = category_blacklist.empty() && category_whitelist.empty()
+                                  ? item_category_id{} :
+                                  it.get_category_of_contents().id;
 
     // if the item is explicitly listed in either of the lists, then it's clear what to do with it
     if( item_blacklist.count( id ) ) {

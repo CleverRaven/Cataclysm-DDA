@@ -1,5 +1,6 @@
 #include "cached_options.h"
 #include "character.h"
+#include "event_bus.h"
 #include "proficiency.h"
 
 bool Character::has_proficiency( const proficiency_id &prof ) const
@@ -72,6 +73,7 @@ bool Character::practice_proficiency( const proficiency_id &prof, const time_dur
     }
 
     if( learned ) {
+        get_event_bus().send<event_type::gains_proficiency>( getID(), prof );
         add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
     }
     return learned;

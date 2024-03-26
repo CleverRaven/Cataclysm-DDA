@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "debug.h"
+#include "enum_conversions.h"
 
 template <typename E> struct enum_traits;
 
@@ -59,6 +60,8 @@ enum class event_type : int {
     character_starts_activity,
     character_takes_damage,
     character_triggers_trap,
+    character_attempt_to_fall_asleep,
+    character_falls_asleep,
     character_wakes_up,
     character_wields_item,
     character_wears_item,
@@ -89,6 +92,7 @@ enum class event_type : int {
     fuel_tank_explodes,
     gains_addiction,
     gains_mutation,
+    gains_proficiency,
     gains_skill_level,
     game_avatar_death,
     game_avatar_new,
@@ -101,6 +105,7 @@ enum class event_type : int {
     installs_faulty_cbm,
     learns_martial_art,
     loses_addiction,
+    loses_mutation,
     npc_becomes_hostile,
     opens_portal,
     opens_spellbook,
@@ -182,7 +187,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 97,
+static_assert( static_cast<int>( event_type::num_event_types ) == 101,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -470,6 +475,23 @@ struct event_spec<event_type::character_wakes_up> {
 };
 
 template<>
+struct event_spec<event_type::character_falls_asleep> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "duration", cata_variant_type::int_ },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::character_attempt_to_fall_asleep> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+            { "character", cata_variant_type::character_id },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::character_wears_item> : event_spec_character_item {};
 
 template<>
@@ -605,6 +627,15 @@ struct event_spec<event_type::gains_mutation> {
 };
 
 template<>
+struct event_spec<event_type::gains_proficiency> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "proficiency", cata_variant_type::proficiency_id },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::gains_skill_level> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
             { "character", cata_variant_type::character_id },
@@ -713,6 +744,14 @@ struct event_spec<event_type::loses_addiction> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
             { "character", cata_variant_type::character_id },
             { "add_type", cata_variant_type::addiction_id },
+        }
+    };
+};
+template<>
+struct event_spec<event_type::loses_mutation> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
+            { "character", cata_variant_type::character_id },
+            { "trait", cata_variant_type::trait_id },
         }
     };
 };
@@ -882,6 +921,7 @@ class event
             , time_( time )
             , data_( std::move( data ) )
         {}
+        event() : type_( event_type::num_event_types ) {}
 
         // Call this to construct an event in a type-safe manner.  It will
         // verify that the types you pass match the expected types for the
@@ -900,6 +940,10 @@ class event
                    Type, std::make_index_sequence<sizeof...( Args )>
                    > ()( calendar::turn, std::forward<Args>( args )... );
         }
+
+        // Call this to construct an event from a runtime-defined type and string arguments.
+        // All arguments will be converted to the respective types with the same index in the event spec
+        static event make_dyn( event_type type, std::vector<std::string> &args );
 
         using fields_type = std::unordered_map<std::string, cata_variant_type>;
         static fields_type get_fields( event_type );

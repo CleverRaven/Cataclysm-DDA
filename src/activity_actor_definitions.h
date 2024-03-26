@@ -22,6 +22,7 @@
 #include "memory_fast.h"
 #include "pickup.h"
 #include "point.h"
+#include "recipe.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -176,7 +177,8 @@ class hacksaw_activity_actor : public activity_actor
     public:
         explicit hacksaw_activity_actor( const tripoint &target,
                                          const item_location &tool ) : target( target ), tool( tool ) {};
-
+        explicit hacksaw_activity_actor( const tripoint &target, const itype_id &type,
+                                         const tripoint &veh_pos ) : target( target ), type( type ), veh_pos( veh_pos ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_HACKSAW" );
         }
@@ -197,7 +199,8 @@ class hacksaw_activity_actor : public activity_actor
     private:
         tripoint target;
         item_location tool;
-
+        std::optional<itype_id> type;
+        std::optional<tripoint> veh_pos;
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override;
 };
@@ -205,7 +208,7 @@ class hacksaw_activity_actor : public activity_actor
 class hacking_activity_actor : public activity_actor
 {
     public:
-        hacking_activity_actor() = default;
+        explicit hacking_activity_actor( const item_location &tool ): tool( tool ) {};
 
         activity_id get_type() const override {
             return activity_id( "ACT_HACKING" );
@@ -224,6 +227,9 @@ class hacking_activity_actor : public activity_actor
         }
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        item_location tool;
 };
 
 class bookbinder_copy_activity_actor: public activity_actor
@@ -336,6 +342,34 @@ class hotwire_car_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<hotwire_car_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class glide_activity_actor : public activity_actor
+{
+    private:
+        int jump_direction;
+        int glide_distance;
+        int moved_tiles = 0;
+        int moves_total = to_moves<int>( 1_seconds );
+        explicit glide_activity_actor() = default;
+
+    public:
+        explicit glide_activity_actor( Character *you, int jump_direction, int glide_distance );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_GLIDE" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &act, Character &you ) override;
+        void finish( player_activity &act, Character &you ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<glide_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
@@ -711,7 +745,7 @@ class open_gate_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        tripoint placement;
+        tripoint_bub_ms placement;
 
         /**
          * @pre @p other is a open_gate_activity_actor
@@ -722,7 +756,7 @@ class open_gate_activity_actor : public activity_actor
         }
 
     public:
-        open_gate_activity_actor( int gate_moves, const tripoint &gate_placement ) :
+        open_gate_activity_actor( int gate_moves, const tripoint_bub_ms &gate_placement ) :
             moves_total( gate_moves ), placement( gate_placement ) {}
 
         activity_id get_type() const override {

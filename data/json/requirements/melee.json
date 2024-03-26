@@ -11,12 +11,15 @@
     "//": "Any basic shivs not explicity designed for combat, or low-quality things.",
     "tools": [
       [
+        [ "glass_shiv", -1 ],
+        [ "sharp_toothbrush", -1 ],
         [ "bone_knife", -1 ],
         [ "knuckle_katar", -1 ],
         [ "sharp_toothbrush", -1 ],
         [ "knife_steak", -1 ],
         [ "knife_paring", -1 ],
         [ "knife_carving", -1 ],
+        [ "knife_bread", -1 ],
         [ "screwdriver", -1 ],
         [ "scissors_child", -1 ],
         [ "scissors_medical", -1 ],
@@ -28,7 +31,7 @@
     "id": "real_shivs",
     "type": "requirement",
     "//": "Any real, small weapons that can be concealed and stab someone at close range, like pocket knives.",
-    "tools": [ [ [ "switchblade", -1 ], [ "knife_swissarmy", -1 ], [ "punch_dagger", -1 ] ] ]
+    "tools": [ [ [ "switchblade", -1 ], [ "knife_swissarmy", -1 ], [ "punch_dagger", -1 ], [ "knuckle_katar", -1 ] ] ]
   },
   {
     "id": "real_claws",
@@ -48,6 +51,9 @@
         [ "makeshift_scythe_war", -1 ],
         [ "battleaxe_fake", -1 ],
         [ "battleaxe_inferior", -1 ],
+        [ "ax_sheets_welded", -1 ],
+        [ "ax_sheets_bolted", -1 ],
+        [ "hockey_stick", -1 ],
         [ "lucern_hammerfake", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
@@ -70,6 +76,7 @@
         [ "glaive", -1 ],
         [ "battleaxe", -1 ],
         [ "lucern_hammer", -1 ],
+        [ "warhammer", -1 ],
         [ "lc_battleaxe", -1 ],
         [ "mc_battleaxe", -1 ],
         [ "hc_battleaxe", -1 ],
@@ -158,6 +165,8 @@
         [ "fencing_sabre_sharpened", -1 ],
         [ "shock_sabre", -1 ],
         [ "rapier_fake", -1 ],
+        [ "broadsword_fake", -1 ],
+        [ "broadsword_inferior", -1 ],
         [ "sharpened_pipe", -1 ]
       ]
     ]
@@ -223,6 +232,8 @@
         [ "sword_xiphos", -1 ],
         [ "sword_bronze", -1 ],
         [ "sword_bayonet", -1 ],
+        [ "butterfly_swords", -1 ],
+        [ "arisaka_bayonet", -1 ],
         [ "survivor_machete", -1 ],
         [ "survivor_machete_qt", -1 ]
       ]
@@ -248,8 +259,10 @@
         [ "cutlass_fake", -1 ],
         [ "cutlass_inferior", -1 ],
         [ "sword_wood", -1 ],
+        [ "sword_nail", -1 ],
         [ "sword_crude", -1 ],
-        [ "sword_sheets_welded", -1 ]
+        [ "sword_sheets_welded", -1 ],
+        [ "sword_metal", -1 ]
       ]
     ]
   },
@@ -335,7 +348,6 @@
         [ "sword_nail", -1 ],
         [ "sword_crude", -1 ],
         [ "sword_sheets_welded", -1 ],
-        [ "sword_sheets_bolted", -1 ],
         [ "sword_metal", -1 ],
         [ "longsword_inferior", -1 ],
         [ "longsword_fake", -1 ],
@@ -347,7 +359,7 @@
   {
     "id": "real_long_swords",
     "type": "requirement",
-    "//": "Any real, edged long swords you could practice with, like katanas, scimitars, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
+    "//": "Any real, edged long swords you could practice with, like katanas, longswords, etc.  I reckon that anything with a straight, sharp point to it that primarily swings side-to-side can qualify.",
     "tools": [
       [
         [ "katana", -1 ],
@@ -356,7 +368,6 @@
         [ "hc_katana", -1 ],
         [ "ch_katana", -1 ],
         [ "qt_katana", -1 ],
-        [ "scimitar", -1 ],
         [ "longsword", -1 ],
         [ "lc_longsword", -1 ],
         [ "mc_longsword", -1 ],
@@ -377,7 +388,6 @@
         [ "sword_wood_large", -1 ],
         [ "sword_crude_large", -1 ],
         [ "sword_sheets_welded_large", -1 ],
-        [ "sword_sheets_bolted_large", -1 ],
         [ "sword_metal_large", -1 ],
         [ "zweihander_inferior", -1 ],
         [ "zweihander_fake", -1 ],
@@ -466,11 +476,11 @@
         [ "PR24-extended", -1 ],
         [ "bowling_pin", -1 ],
         [ "cane", -1 ],
+        [ "hollow_cane", -1 ],
         [ "makeshift_cane", -1 ],
         [ "club_wooden", -1 ],
         [ "glass_macuahuitl", -1 ],
         [ "club_wooden", -1 ],
-        [ "homewrecker", -1 ],
         [ "makeshift_sap", -1 ],
         [ "shillelagh_fake", -1 ],
         [ "pipe", -1 ],
@@ -513,6 +523,10 @@
     "tools": [
       [
         [ "club_wooden_large", -1 ],
+        [ "homewrecker", -1 ],
+        [ "glass_macuahuitl", -1 ],
+        [ "aztec_sword_stone", -1 ],
+        [ "aztec_sword_scrap", -1 ],
         [ "hammer_sledge", -1 ],
         [ "hammer_sledge_short", -1 ],
         [ "hammer_sledge_heavy", -1 ],
@@ -532,7 +546,11 @@
         [ "lucern_hammer", -1 ],
         [ "2h_club_kanabo_studded", -1 ],
         [ "2h_club_kanabo_spiked", -1 ],
-        [ "lucern_hammer", -1 ]
+        [ "lc_aztec_sword", -1 ],
+        [ "mc_aztec_sword", -1 ],
+        [ "hc_aztec_sword", -1 ],
+        [ "ch_aztec_sword", -1 ],
+        [ "qt_aztec_sword", -1 ]
       ]
     ]
   },
@@ -549,9 +567,13 @@
         [ "mace_simple", -1 ],
         [ "morningstar_fake", -1 ],
         [ "morningstar_inferior", -1 ],
+        [ "club_wooden", -1 ],
         [ "nailbat", -1 ],
+        [ "nailboard", -1 ],
+        [ "bwirebat", -1 ],
         [ "bat", -1 ],
-        [ "bat_metal", -1 ]
+        [ "bat_metal", -1 ],
+        [ "bat_nerf", -1 ]
       ]
     ]
   },
@@ -599,9 +621,12 @@
   {
     "id": "basic_polearms",
     "type": "requirement",
-    "//": "Any basic weapon you can use as a polearm.",
+    "//": "Any basic weapon you can use as a cutting polearm.",
     "tools": [
       [
+        [ "aztec_spear_scrap", -1 ],
+        [ "aztec_spear_glass", -1 ],
+        [ "aztec_spear_stone", -1 ],
         [ "makeshift_halberd", -1 ],
         [ "halberd_fake", -1 ],
         [ "makeshift_glaive", -1 ],
@@ -621,6 +646,11 @@
     "//": "Any real, top-heavy cutting weapons with a long pole and a blade on the end, designed to swing side-to-side.  Think like a sword with a really long handle.",
     "tools": [
       [
+        [ "lc_aztec_spear", -1 ],
+        [ "mc_aztec_spear", -1 ],
+        [ "hc_aztec_spear", -1 ],
+        [ "ch_aztec_spear", -1 ],
+        [ "qt_aztec_spear", -1 ],
         [ "glaive", -1 ],
         [ "halberd", -1 ],
         [ "lajatang", -1 ],

@@ -6,7 +6,7 @@
       {
         "text": "[Premonition] *Determine if <npc_name> is a threat*",
         "topic": "TALK_EVAC_GUARD3_danger_sense",
-        "condition": { "math": [ "u_val('spell_level', 'spell: clair_danger_sense')", ">=", "2" ] }
+        "condition": { "math": [ "u_spell_level('clair_danger_sense')", ">=", "2" ] }
       },
       {
         "text": "[Telepathy] *Read <npc_name>'s mind*",
@@ -39,7 +39,7 @@
       {
         "text": "[Telepathy 8+] *Go deeper*.",
         "topic": "TALK_EVAC_GUARD3_deep_scan",
-        "condition": { "math": [ "u_val('spell_level', 'school: TELEPATH')", ">=", "8" ] }
+        "condition": { "math": [ "u_school_level('TELEPATH')", ">=", "8" ] }
       }
     ]
   },
@@ -103,7 +103,7 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')" ] },
+            "roll_contested": { "math": [ "u_school_level('TELEKINETIC')" ] },
             "difficulty": { "math": [ "n_val('strength')" ] },
             "die_size": 5
           }
@@ -115,7 +115,7 @@
         "text": "[Brilliant Flash Check] *blind <npc_name>*",
         "condition": {
           "and": [
-            { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')", ">=", "1" ] },
+            { "math": [ "u_spell_level('pyrokinetic_flash')", ">=", "1" ] },
             { "not": { "npc_has_worn_with_flag": "FLASH_PROTECTION" } }
           ]
         },
@@ -123,7 +123,7 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'spell: pyrokinetic_flash')" ] },
+            "roll_contested": { "math": [ "u_spell_level('pyrokinetic_flash')" ] },
             "difficulty": { "math": [ "n_val('perception')" ] },
             "die_size": 10
           }
@@ -136,14 +136,14 @@
       },
       {
         "text": "[Sensory Deprivation Check] *Shut off <npc_name>'s senses*.",
-        "condition": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('telepathic_confusion')", ">=", "1" ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
           "condition": {
             "and": [
               {
-                "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_confusion')" ] },
+                "roll_contested": { "math": [ "u_spell_level('telepathic_confusion')" ] },
                 "difficulty": { "math": [ "n_val('perception')" ] },
                 "die_size": 10
               },
@@ -162,14 +162,14 @@
       },
       {
         "text": "[Synaptic Overload Check] *Attack <npc_name>'s mind*.",
-        "condition": { "and": [ { "math": [ "u_val('spell_level', 'spell: telepathic_blast')", ">=", "1" ] } ] },
+        "condition": { "and": [ { "math": [ "u_spell_level('telepathic_blast')", ">=", "1" ] } ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
           "condition": {
             "and": [
               {
-                "roll_contested": { "math": [ "u_val('spell_level', 'spell: telepathic_blast')" ] },
+                "roll_contested": { "math": [ "u_spell_level('telepathic_blast')" ] },
                 "difficulty": { "math": [ "n_val('intelligence')" ] },
                 "die_size": 10
               },
@@ -181,10 +181,7 @@
           "topic": "TALK_DONE",
           "effect": [
             "hostile",
-            {
-              "npc_set_hp": { "math": [ "(80 - (6 * (u_val('spell_level', 'spell: telepathic_blast'))))" ] },
-              "target_part": "head"
-            },
+            { "math": [ "n_hp('head')", "=", "80 - (6 * (u_spell_level('telepathic_blast')))" ] },
             { "npc_add_effect": "stunned", "duration": "2 s" }
           ]
         },
@@ -195,15 +192,11 @@
       },
       {
         "text": "[Transposition Check] *Teleport away <npc_name>'s weapon*.",
-        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_transpose')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('teleport_transpose')", ">=", "1" ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
-          "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'spell: teleport_transpose')" ] },
-            "difficulty": 10,
-            "die_size": 10
-          }
+          "condition": { "roll_contested": { "math": [ "u_spell_level('teleport_transpose')" ] }, "difficulty": 10, "die_size": 10 }
         },
         "success": {
           "topic": "TALK_EVAC_GUARD3_WEAPON_TELEPORT_DISAMED",
@@ -228,11 +221,11 @@
       },
       {
         "text": "[Oubliette Check] *Banish <npc_name> to another dimension*.",
-        "condition": { "math": [ "u_val('spell_level', 'spell: teleport_banish')", ">=", "1" ] },
+        "condition": { "math": [ "u_spell_level('teleport_banish')", ">=", "1" ] },
         "switch": false,
         "trial": {
           "type": "CONDITION",
-          "condition": { "roll_contested": { "math": [ "u_val('spell_level', 'spell: teleport_banish')" ] }, "difficulty": 15, "die_size": 10 }
+          "condition": { "roll_contested": { "math": [ "u_spell_level('teleport_banish')" ] }, "difficulty": 15, "die_size": 10 }
         },
         "success": {
           "topic": "TALK_DONE",

@@ -3,7 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "large_storage_units_3",
-    "weight": 1000,
+    "weight": 2000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

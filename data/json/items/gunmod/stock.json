@@ -285,7 +285,7 @@
     "id": "under_folding_stock",
     "type": "GUNMOD",
     "name": { "str": "under folding stock" },
-    "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  The wire construction means that it’s less comfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
+    "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  The wire construction means that it's less comfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
     "weight": "100 g",
     "volume": "300 ml",
     "integral_volume": "100 ml",
@@ -379,7 +379,7 @@
       "moves": 300
     },
     "handling_modifier": -10,
-    "//": "This mod shouldn’t get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
+    "//": "This mod shouldn't get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
   },
   {
     "id": "m26_mass_stock",
@@ -402,5 +402,34 @@
     "handling_modifier": 4,
     "min_skills": [ [ "shotgun", 2 ] ],
     "melee_damage": { "bash": 6 }
+  },
+  {
+    "id": "scout_stock",
+    "type": "GUNMOD",
+    "name": { "str": "hollow polymer stock" },
+    "description": "An extremely lightweight stock.  There's a hollow cavity at the bottom where a spare magazine can be stored.",
+    "weight": "260 g",
+    "volume": "500 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": 400,
+    "price_postapoc": 500,
+    "install_time": "5 m",
+    "to_hit": 1,
+    "material": [ "plastic" ],
+    "symbol": ":",
+    "color": "dark_gray",
+    "location": "stock",
+    "mod_targets": [ "steyr_scout" ],
+    "melee_damage": { "bash": 6 },
+    "pocket_mods": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "item_restriction": [ "steyr_scout_mag", "steyr_scout_mag_makeshift" ],
+        "max_contains_volume": "200 ml",
+        "max_contains_weight": "200 g"
+      }
+    ]
   }
 ]

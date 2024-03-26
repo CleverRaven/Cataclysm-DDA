@@ -2,42 +2,48 @@
   {
     "id": "guns",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "GUNS" },
+    "name_header": { "str": "Guns" },
+    "name_noun": { "ctxt": "item_category", "str": "gun" },
     "zone": "LOOT_GUNS",
     "sort_rank": -23
   },
   {
     "id": "magazines",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "MAGAZINES" },
+    "name_header": { "str": "Magazines" },
+    "name_noun": { "ctxt": "item_category", "str": "magazine" },
     "zone": "LOOT_MAGAZINES",
     "sort_rank": -22
   },
   {
     "id": "ammo",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "AMMO" },
+    "name_header": { "str": "Ammo" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "ammo" },
     "zone": "LOOT_AMMO",
     "sort_rank": -21
   },
   {
     "id": "weapons",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "WEAPONS" },
+    "name_header": { "str": "Weapons" },
+    "name_noun": { "ctxt": "item_category", "str": "weapon" },
     "zone": "LOOT_WEAPONS",
     "sort_rank": -20
   },
   {
     "id": "tools",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "TOOLS" },
+    "name_header": { "str": "Tools" },
+    "name_noun": { "ctxt": "item_category", "str": "tool" },
     "zone": "LOOT_TOOLS",
     "sort_rank": -19
   },
   {
     "id": "clothing",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "CLOTHING" },
+    "name_header": { "str": "Clothing" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "clothing" },
     "priority_zones": [ { "id": "LOOT_FCLOTHING", "filthy": true } ],
     "zone": "LOOT_CLOTHING",
     "sort_rank": 19
@@ -45,161 +51,184 @@
   {
     "id": "food",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "FOOD" },
+    "name_header": { "str": "Food" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "food" },
     "//": "zone is hardcoded",
     "sort_rank": -18
   },
   {
     "id": "drugs",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "DRUGS" },
+    "name_header": { "str": "Drugs" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "drug" },
     "zone": "LOOT_DRUGS",
     "sort_rank": -17
   },
   {
     "id": "manuals",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "MANUALS" },
+    "name_header": { "str": "Manuals" },
+    "name_noun": { "ctxt": "item_category", "str": "manual" },
     "zone": "LOOT_MANUALS",
     "sort_rank": -16
   },
   {
     "id": "books",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "BOOKS" },
+    "name_header": { "str": "Books" },
+    "name_noun": { "ctxt": "item_category", "str": "book" },
     "zone": "LOOT_BOOKS",
     "sort_rank": -15
   },
   {
     "id": "maps",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "MAPS" },
+    "name_header": { "str": "Maps" },
+    "name_noun": { "ctxt": "item_category", "str": "map" },
     "zone": "LOOT_MAPS",
     "sort_rank": -14
   },
   {
     "id": "mods",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "MODS" },
+    "name_header": { "str": "Mods" },
+    "name_noun": { "ctxt": "item_category", "str": "mod" },
     "zone": "LOOT_MODS",
     "sort_rank": -13
   },
   {
     "id": "mutagen",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "MUTAGENS" },
+    "name_header": { "str": "Mutagens" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "mutagen" },
     "zone": "LOOT_MUTAGENS",
     "sort_rank": -12
   },
   {
     "id": "bionics",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "BIONICS" },
+    "name_header": { "str": "Bionics" },
+    "name_noun": { "ctxt": "item_category", "str": "bionic" },
     "zone": "LOOT_BIONICS",
     "sort_rank": -12
   },
   {
     "id": "currency",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "CURRENCY" },
+    "name_header": { "str": "Currency" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "currency" },
     "zone": "LOOT_CURRENCY",
     "sort_rank": -11
   },
   {
     "id": "veh_parts",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "VEHICLE PARTS" },
+    "name_header": { "str": "Vehicle parts" },
+    "name_noun": { "ctxt": "item_category", "str": "vehicle part" },
     "zone": "LOOT_VEHICLE_PARTS",
     "sort_rank": -10
   },
   {
     "id": "other",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "OTHER" },
+    "name_header": { "str": "Other" },
+    "name_noun": { "ctxt": "item_category", "str": "other" },
     "zone": "LOOT_OTHER",
     "sort_rank": -9
   },
   {
     "id": "fuel",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "FUEL" },
+    "name_header": { "str": "Fuel" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "fuel" },
     "zone": "LOOT_FUEL",
     "sort_rank": -8
   },
   {
     "id": "seeds",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "SEEDS" },
+    "name_header": { "str": "Seeds" },
+    "name_noun": { "ctxt": "item_category", "str": "seed" },
     "zone": "LOOT_SEEDS",
     "sort_rank": -7
   },
   {
     "id": "ma_manuals",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "MARTIAL ARTS MANUALS" },
+    "name_header": { "str": "Martial arts manuals" },
+    "name_noun": { "ctxt": "item_category", "str": "martial arts manual" },
     "zone": "LOOT_MA_MANUALS",
     "sort_rank": -6
   },
   {
     "id": "traps",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "TRAPS" },
+    "name_header": { "str": "Traps" },
+    "name_noun": { "ctxt": "item_category", "str": "trap" },
     "zone": "LOOT_TRAPS",
     "sort_rank": -5
   },
   {
     "id": "chems",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "CHEMICAL STUFF" },
+    "name_header": { "str": "Chemical stuff" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "chemical" },
     "zone": "LOOT_CHEMICAL",
     "sort_rank": 5
   },
   {
     "id": "spare_parts",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "SPARE PARTS" },
+    "name_header": { "str": "Spare parts" },
+    "name_noun": { "ctxt": "item_category", "str": "spare part" },
     "zone": "LOOT_SPARE_PARTS",
     "sort_rank": 8
   },
   {
     "id": "container",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "CONTAINERS" },
+    "name_header": { "str": "Containers" },
+    "name_noun": { "ctxt": "item_category", "str": "container" },
     "zone": "LOOT_CONTAINERS",
     "sort_rank": 9
   },
   {
     "id": "artifacts",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "ARTIFACTS" },
+    "name_header": { "str": "Artifacts" },
+    "name_noun": { "ctxt": "item_category", "str": "artifact" },
     "zone": "LOOT_ARTIFACTS",
     "sort_rank": 10
   },
   {
     "id": "keys",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "KEYS" },
+    "name_header": { "str": "Keys" },
+    "name_noun": { "ctxt": "item_category", "str": "key" },
     "zone": "LOOT_KEYS",
     "sort_rank": 11
   },
   {
     "id": "corpses",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "CORPSES" },
+    "name_header": { "str": "Corpses" },
+    "name_noun": { "ctxt": "item_category", "str": "corpse" },
     "zone": "LOOT_CORPSES",
     "sort_rank": 12
   },
   {
     "id": "tool_magazine",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "TOOL MAGAZINES" },
+    "name_header": { "str": "Tool magazines" },
+    "name_noun": { "ctxt": "item_category", "str": "tool magazine" },
     "zone": "LOOT_TOOL_MAGAZINE",
     "sort_rank": -15
   },
   {
     "id": "armor",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "ARMOR" },
+    "name_header": { "str": "Armor" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "armor" },
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true } ],
     "zone": "LOOT_ARMOR",
     "sort_rank": 20
@@ -207,32 +236,37 @@
   {
     "id": "exosuit",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "EXOSUIT" },
+    "name_header": { "str": "Exosuit" },
+    "name_noun": { "ctxt": "item_category", "str": "exosuit" },
     "zone": "LOOT_EXOSUIT",
     "sort_rank": 20
   },
   {
     "id": "ITEMS_WORN",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "ITEMS WORN" },
+    "name_header": { "str": "Items worn" },
+    "name_noun": { "ctxt": "item_category", "str": "item worn", "str_pl": "items worn" },
     "sort_rank": -100
   },
   {
     "id": "INTEGRATED",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "INTEGRATED" },
+    "name_header": { "str": "Integrated" },
+    "name_noun": { "ctxt": "item_category", "str_sp": "integrated" },
     "sort_rank": -99
   },
   {
     "id": "BIONIC_FUEL_SOURCE",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "BIONIC FUEL SOURCE" },
+    "name_header": { "str": "Bionic fuel source" },
+    "name_noun": { "ctxt": "item_category", "str": "bionic fuel source" },
     "sort_rank": -98
   },
   {
     "id": "WEAPON_HELD",
     "type": "ITEM_CATEGORY",
-    "name": { "str": "WEAPON HELD" },
+    "name_header": { "str": "Weapon held" },
+    "name_noun": { "ctxt": "item_category", "str": "weapon held", "str_pl": "weapons held" },
     "sort_rank": -200
   }
 ]

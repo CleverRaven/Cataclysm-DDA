@@ -128,7 +128,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_GODCO_Julian_Leave",
-    "dynamic_line": "You sure?  I mean, you've been traveling for a long time, haven't you?  Alright, it's your decision.  Let me know when you changed your mind.",
+    "dynamic_line": {
+      "gendered_line": "You sure?  I mean, you've been traveling for a long time, haven't you?  Alright, it's your decision.  Let me know when you changed your mind.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [ { "text": "I'd better get going.  Nice meeting you.", "topic": "TALK_DONE" } ]
   },
   {

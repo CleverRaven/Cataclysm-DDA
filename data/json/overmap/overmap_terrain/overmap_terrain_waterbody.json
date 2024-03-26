@@ -7,7 +7,7 @@
     "sym": "#",
     "color": "blue",
     "see_cost": 1,
-    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK" ]
+    "flags": [ "NO_ROTATE", "LAKE", "SOURCE_DRINK", "WATER" ]
   },
   {
     "type": "overmap_terrain",
@@ -16,7 +16,7 @@
     "name": "lake shore",
     "color": "light_blue",
     "delete": { "flags": [ "LAKE" ] },
-    "extend": { "flags": [ "LAKE_SHORE" ] },
+    "extend": { "flags": [ "LAKE_SHORE", "IGNORE_ROTATION_FOR_ADJACENCY" ] },
     "extras": "lake_shore",
     "travel_cost_type": "shore",
     "mapgen": [ { "method": "builtin", "name": "lake_shore" } ]
@@ -56,7 +56,7 @@
     "name": "ocean shore",
     "color": "light_blue",
     "delete": { "flags": [ "OCEAN" ] },
-    "extend": { "flags": [ "OCEAN_SHORE" ] },
+    "extend": { "flags": [ "OCEAN_SHORE", "IGNORE_ROTATION_FOR_ADJACENCY" ] },
     "extras": "ocean_shore",
     "travel_cost_type": "shore",
     "mapgen": [ { "method": "builtin", "name": "ocean_shore" } ]

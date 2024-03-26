@@ -2,6 +2,11 @@
   {
     "type": "overmap_location",
     "id": "field",
+    "terrains": [ "field", "meadow_core", "meadow_end" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "field_no_meadow",
     "terrains": [ "field" ]
   },
   {
@@ -27,7 +32,7 @@
   {
     "type": "overmap_location",
     "id": "land",
-    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail" ]
+    "terrains": [ "field", "meadow_core", "meadow_end", "forest", "forest_thick", "forest_water", "forest_trail" ]
   },
   {
     "type": "overmap_location",
@@ -154,5 +159,21 @@
     "type": "overmap_location",
     "id": "open_air",
     "terrains": [ "open_air" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "agricultural",
+    "terrains": [
+      "rural_road",
+      "rural_road_forest",
+      "farmland_straight",
+      "farmland_turn",
+      "farmland_turn_inside",
+      "farmland_U",
+      "hayfield_straight",
+      "hayfield_turnL",
+      "hayfield_turnR",
+      "hayfield_end"
+    ]
   }
 ]

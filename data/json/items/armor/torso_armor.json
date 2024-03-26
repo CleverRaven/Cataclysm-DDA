@@ -190,7 +190,6 @@
     "id": "xs_armor_lamellar_lc",
     "type": "ARMOR",
     "copy-from": "armor_lamellar_lc",
-    "looks_like": "armor_lamellar_lc",
     "name": { "str": "XS mild steel lamellar cuirass", "str_pl": "XS mild steel lamellar cuirasses" },
     "description": "A cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Perfectly sized for a particularly angry rat-person, yes-yes.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -218,7 +217,6 @@
     "id": "xs_armor_lamellar_ch",
     "type": "ARMOR",
     "copy-from": "armor_lamellar_ch",
-    "looks_like": "armor_lamellar_ch",
     "name": { "str": "XS hardened steel lamellar cuirass", "str_pl": "XS hardened steel lamellar cuirasses" },
     "description": "A hardened cuirass made of small strips of sheet metal laced together, something of an intermediary between chain mail and plate armor.  Just the right size for a fantasy dwarf.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
@@ -522,6 +520,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "base chainmail vest" },
+    "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "weight": "6894 g",
     "volume": "1 L",
     "longest_side": "10 cm",
@@ -625,120 +624,105 @@
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "mild steel chainmail vest" },
-    "description": "A customized mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "mild steel chainmail vest" }
   },
   {
     "id": "xl_lc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL mild steel chainmail vest" },
-    "description": "A customized XL mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL mild steel chainmail vest" }
   },
   {
     "id": "xs_lc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "lc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS mild steel chainmail vest" },
-    "description": "A customized XS mild steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS mild steel chainmail vest" }
   },
   {
     "id": "mc_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "medium steel chainmail vest" },
-    "description": "A customized medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "medium steel chainmail vest" }
   },
   {
     "id": "xl_mc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL medium steel chainmail vest" },
-    "description": "A customized XL medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL medium steel chainmail vest" }
   },
   {
     "id": "xs_mc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "mc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS medium steel chainmail vest" },
-    "description": "A customized XS medium steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS medium steel chainmail vest" }
   },
   {
     "id": "hc_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "high steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "high steel chainmail vest" }
   },
   {
     "id": "xl_hc_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL high steel chainmail vest" },
-    "description": "A customized XL high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL high steel chainmail vest" }
   },
   {
     "id": "xs_hc_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "hc_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS high steel chainmail vest" },
-    "description": "A customized XS high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS high steel chainmail vest" }
   },
   {
     "id": "ch_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "hardened steel chainmail vest" },
-    "description": "A customized high steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "hardened steel chainmail vest" }
   },
   {
     "id": "xl_ch_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL hardened steel chainmail vest" },
-    "description": "A customized XL hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL hardened steel chainmail vest" }
   },
   {
     "id": "xs_ch_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "ch_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS hardened steel chainmail vest" },
-    "description": "A customized XS hardened steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS hardened steel chainmail vest" }
   },
   {
     "id": "qt_chainmail_vest",
     "copy-from": "base_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "tempered steel chainmail vest" },
-    "description": "A customized tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "tempered steel chainmail vest" }
   },
   {
     "id": "xl_qt_chainmail_vest",
     "copy-from": "xl_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XL tempered steel chainmail vest" },
-    "description": "A customized XL tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XL tempered steel chainmail vest" }
   },
   {
     "id": "xs_qt_chainmail_vest",
     "copy-from": "xs_chainmail_vest",
     "replace_materials": { "steel": "qt_steel_chain" },
     "type": "ARMOR",
-    "name": { "str": "XS tempered steel chainmail vest" },
-    "description": "A customized XS tempered steel chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight."
+    "name": { "str": "XS tempered steel chainmail vest" }
   },
   {
     "id": "cloth_shirt_padded",
@@ -881,7 +865,6 @@
     "id": "xs_cuirass_lightplate",
     "type": "ARMOR",
     "copy-from": "cuirass_lightplate",
-    "looks_like": "cuirass_lightplate",
     "name": { "str": "XS cuirass", "str_pl": "XS cuirasses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -995,8 +978,8 @@
   {
     "id": "jacket_leather_mod",
     "type": "ARMOR",
-    "name": { "str": "armored leather jacket" },
-    "description": "An armored jacket made from thick leather and metal plates.",
+    "name": { "str": "armored motorcycle jacket" },
+    "description": "A thick motorcycle jacket with metal plates drilled onto various areas for increased protection.",
     "weight": "7500 g",
     "volume": "4500 ml",
     "price": 17900,
@@ -1047,10 +1030,107 @@
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "STURDY" ]
   },
   {
+    "id": "jacket_jean_mod",
+    "type": "ARMOR",
+    "name": { "str": "armored jean jacket" },
+    "description": "A denim jacket reinforced with metal plates.  Adequately protective, but not very sturdy.",
+    "weight": "6350 g",
+    "volume": "5750 ml",
+    "price": 15000,
+    "price_postapoc": 2000,
+    "material": [ "denim", "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "jacket_jean",
+    "color": "light_blue",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 15, 16 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 15, 15 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "lc_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 35,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "vest_jean_mod",
+    "type": "ARMOR",
+    "name": { "str": "armored jean vest" },
+    "description": "A denim vest reinforced with metal plates.  Adequately protective, but not very sturdy.",
+    "weight": "4100 g",
+    "volume": "4100 ml",
+    "price": 13000,
+    "price_postapoc": 1800,
+    "material": [ "denim", "lc_steel" ],
+    "symbol": "[",
+    "looks_like": "jacket_jean",
+    "color": "light_blue",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 15, 16 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.55 },
+          { "type": "lc_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 20,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
     "id": "jacket_leather_mod_ch",
     "type": "ARMOR",
-    "name": { "str": "hardened armored leather jacket" },
-    "description": "An armored jacket made from thick leather and metal plates which have been hardened for superb protection.",
+    "name": { "str": "hardened armored motorcycle jacket" },
+    "description": "A thick motorcycle jacket with hardened metal plates drilled onto various areas for highly increased protection.",
     "copy-from": "jacket_leather_mod",
     "price_postapoc": 3500,
     "material": [ "leather", "ch_steel" ],
@@ -1072,6 +1152,57 @@
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 },
           { "type": "ch_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "jacket_jean_mod_ch",
+    "type": "ARMOR",
+    "name": { "str": "hardened armored jean jacket" },
+    "description": "A denim jacket reinforced with hardened steel plates.  Highly protective, but not very sturdy.",
+    "copy-from": "jacket_jean_mod",
+    "price_postapoc": 3000,
+    "material": [ "denim", "ch_steel" ],
+    "looks_like": "jacket_jean_mod",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 15, 16 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
+        ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 15, 15 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "ch_steel", "covered_by_mat": 75, "thickness": 1.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "vest_jean_mod_ch",
+    "type": "ARMOR",
+    "name": { "str": "hardened armored jean vest" },
+    "description": "A denim vest reinforced with hardened steel plates.  Highly protective, but not very sturdy.",
+    "copy-from": "vest_jean_mod",
+    "price_postapoc": 2800,
+    "material": [ "denim", "ch_steel" ],
+    "looks_like": "jacket_jean_mod",
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 15, 16 ],
+        "material": [
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "ch_steel", "covered_by_mat": 80, "thickness": 1.5 }
         ]
       }
     ]
@@ -1111,8 +1242,8 @@
     "id": "jacket_leather_tire",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str_sp": "tire leather jacket" },
-    "description": "A jacket reinforced with chunks of thick rubber tire.  Thick and highly resistant to blunt force.",
+    "name": { "str_sp": "tire motorcycle jacket" },
+    "description": "A motorcycle jacket reinforced with chunks of thick rubber tire.  Thick and highly resistant to blunt force.",
     "weight": "5800 g",
     "volume": "6 L",
     "price_postapoc": 2500,
@@ -1396,7 +1527,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel light chestplate" },
-    "description": "A light chestplate, 2mm thick.  This one has been made with mild steel.",
+    "description": "A light chestplate, 2 mm thick.  This one has been made with mild steel.",
     "weight": "7500 g",
     "volume": "8750 ml",
     "price": 60000,
@@ -1448,7 +1579,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "medium steel light chestplate" },
-    "description": "A light chestplate, 2mm thick.  Made with tougher medium steel, offering solid protection.",
+    "description": "A light chestplate, 2 mm thick.  Made with tougher medium steel, offering solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -1464,7 +1595,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "high steel light chestplate" },
-    "description": "A light chestplate, 2mm thick.  Made with high steel, offering excellent protection.",
+    "description": "A light chestplate, 2 mm thick.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -1480,7 +1611,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "hardened light chestplate" },
-    "description": "A light chestplate, 2mm thick.  The mild steel has been hardened, offering superior protection.",
+    "description": "A light chestplate, 2 mm thick.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -1496,7 +1627,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_light_chestplate",
     "name": { "str": "tempered light chestplate" },
-    "description": "A light chestplate, 2mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "description": "A light chestplate, 2 mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -1512,7 +1643,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel chestplate" },
-    "description": "A chestplate, 4mm thick.  This one has been made with mild steel.",
+    "description": "A chestplate, 4 mm thick.  This one has been made with mild steel.",
     "weight": "10 kg",
     "volume": "17500 ml",
     "price": 60000,
@@ -1564,7 +1695,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "medium steel chestplate" },
-    "description": "A chestplate, 4mm thick.  Made with tougher medium steel, offering solid protection.",
+    "description": "A chestplate, 4 mm thick.  Made with tougher medium steel, offering solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -1580,7 +1711,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "high steel chestplate" },
-    "description": "A chestplate, 4mm thick.  Made with high steel, offering excellent protection.",
+    "description": "A chestplate, 4 mm thick.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -1596,7 +1727,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "hardened chestplate" },
-    "description": "A chestplate, 4mm thick.  The mild steel has been hardened, offering superior protection.",
+    "description": "A chestplate, 4 mm thick.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -1612,7 +1743,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_chestplate",
     "name": { "str": "tempered chestplate" },
-    "description": "A chestplate, 4mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "description": "A chestplate, 4 mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {
@@ -1628,7 +1759,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "mild steel heavy chestplate" },
-    "description": "A heavy chestplate, 6mm thick.  This one has been made with mild steel.",
+    "description": "A heavy chestplate, 6 mm thick.  This one has been made with mild steel.",
     "weight": "17500 g",
     "volume": "17500 ml",
     "price": 60000,
@@ -1680,7 +1811,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "medium steel heavy chestplate" },
-    "description": "A heavy chestplate, 6mm thick.  Made with tougher medium steel, offering solid protection.",
+    "description": "A heavy chestplate, 6 mm thick.  Made with tougher medium steel, offering solid protection.",
     "replace_materials": { "lc_steel": "mc_steel", "lc_steel_chain": "mc_steel_chain" }
   },
   {
@@ -1696,7 +1827,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "high steel heavy chestplate" },
-    "description": "A heavy chestplate, 6mm thick.  Made with high steel, offering excellent protection.",
+    "description": "A heavy chestplate, 6 mm thick.  Made with high steel, offering excellent protection.",
     "replace_materials": { "lc_steel": "hc_steel", "lc_steel_chain": "hc_steel_chain" }
   },
   {
@@ -1712,7 +1843,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "hardened heavy chestplate" },
-    "description": "A heavy chestplate, 6mm thick.  The mild steel has been hardened, offering superior protection.",
+    "description": "A heavy chestplate, 6 mm thick.  The mild steel has been hardened, offering superior protection.",
     "replace_materials": { "lc_steel": "ch_steel", "lc_steel_chain": "ch_steel_chain" }
   },
   {
@@ -1728,7 +1859,7 @@
     "type": "ARMOR",
     "copy-from": "armor_lc_heavy_chestplate",
     "name": { "str": "tempered heavy chestplate" },
-    "description": "A heavy chestplate, 6mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
+    "description": "A heavy chestplate, 6 mm thick.  The medium steel has been quenched and tempered, offering top-of-the-line protection.",
     "replace_materials": { "lc_steel": "qt_steel", "lc_steel_chain": "qt_steel_chain" }
   },
   {

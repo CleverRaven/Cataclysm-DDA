@@ -2,7 +2,10 @@
   {
     "id": "BGSS_EVACUEE_2_STORY1",
     "type": "talk_topic",
-    "dynamic_line": "Same as most people who didn't get killed straight up during the riots.  I went to one of those <dumb> <swear> evacuation death traps.  I actually lived there for a while with three others.  One guy who I guess had watched a lot of movies kinda ran the show, because he seemed to really know what was going on.  Spoiler alert: he <swear> didn't.",
+    "dynamic_line": {
+      "gendered_line": "Same as most people who didn't get killed straight up during the riots.  I went to one of those <dumb> <swear> evacuation death traps.  I actually lived there for a while with three others.  One guy who I guess had watched a lot of movies kinda ran the show, because he seemed to really know what was going on.  Spoiler alert: he <swear> didn't.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       {
         "text": "What happened to your original crew?",
@@ -11,27 +14,39 @@
         "success": { "topic": "BGSS_EVACUEE_2_STORY2" },
         "failure": { "topic": "BGSS_EVACUEE_2_NOTYET" }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_EVACUEE_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Things went south when our fearless leader decided we had to put down one of the other survivors that had been bitten.  Her husband felt a bit strongly against that, and I wasn't too keen on it either; by this point, he'd already been wrong about a lot.  Well, he took matters into his own hands and killed her.  Then her husband decided one good turn deserves another, and killed the idiot.  And then she got back up and I killed her again, and pulped our former leader.  Unfortunately she'd given her husband a hell of a nip during the struggle, when he couldn't get his shit together enough to fight back.  Not that I fucking blame him.  We made it out of there together, but it was too much for him, he clearly wasn't in it anymore… the bite got infected, but it was another <zombie> that finally killed him.  And then I was alone.",
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "gendered_line": "Things went south when our fearless leader decided we had to put down one of the other survivors that had been bitten.  Her husband felt a bit strongly against that, and I wasn't too keen on it either; by this point, he'd already been wrong about a lot.  Well, he took matters into his own hands and killed her.  Then her husband decided one good turn deserves another, and killed the idiot.  And then she got back up and I killed her again, and pulped our former leader.  Unfortunately she'd given her husband a hell of a nip during the struggle, when he couldn't get his shit together enough to fight back.  Not that I fucking blame him.  We made it out of there together, but it was too much for him, he clearly wasn't in it anymore… the bite got infected, but it was another <zombie> that finally killed him.  And then I was alone.",
+      "relevant_genders": [ "npc" ]
+    },
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "BGSS_EVACUEE_2_NOTYET",
     "type": "talk_topic",
     "dynamic_line": "What do you think happened?  You see them around anywhere?",
     "speaker_effect": [ { "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": 14000 } } ],
-    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   },
   {
     "id": "CWH_EVACUEE_2_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "Well, I assume you know about the riots and the military and police and the freakin' nightmare monsters walking the earth beside zombies, right?  If you're asking what I think caused it all, well, I dunno.  My best guess it was some huge government overreach, maybe some kind of experimental bioweapon that got away.  They tried to lie so much at the start about everything that was going on, I don't think the whole 'Chinese attack' shit measures up.  They were trying to cover something up.  As for the real end times, maybe the rest of the world tried to contain it.  I heard there were honest-to-god nukes going off here on American soil.  To me that seems like somewhere else, maybe Europe, trying to get whatever is going on here contained.  Maybe it even worked.  It's bad now but it's not like it was.",
+    "dynamic_line": {
+      "gendered_line": "Well, I assume you know about the riots and the military and police and the freakin' nightmare monsters walking the earth beside zombies, right?  If you're asking what I think caused it all, well, I dunno.  My best guess it was some huge government overreach, maybe some kind of experimental bioweapon that got away.  They tried to lie so much at the start about everything that was going on, I don't think the whole 'Chinese attack' shit measures up.  They were trying to cover something up.  As for the real end times, maybe the rest of the world tried to contain it.  I heard there were honest-to-god nukes going off here on American soil.  To me that seems like somewhere else, maybe Europe, trying to get whatever is going on here contained.  Maybe it even worked.  It's bad now but it's not like it was.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

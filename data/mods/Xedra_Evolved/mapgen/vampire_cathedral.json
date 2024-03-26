@@ -3,7 +3,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedralv_b_NW", "cathedralv_b_NE" ], [ "cathedralv_b_SW", "cathedralv_b_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -72,7 +71,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedralv_1_NW", "cathedralv_1_NE" ], [ "cathedralv_1_SW", "cathedralv_1_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -155,7 +153,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedralv_2_NW", "cathedralv_2_NE" ], [ "cathedralv_2_SW", "cathedralv_2_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -230,7 +227,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedralv_3_NW", "cathedralv_3_NE" ], [ "cathedralv_3_SW", "cathedralv_3_SE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -295,7 +291,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedralv_4_NW", "cathedralv_4_NE" ], [ "cathedralv_5_NW", "cathedralv_5_NE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -362,7 +357,6 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ [ "cathedralv_6_NW", "cathedralv_6_NE" ], [ "cathedralv_7_NW", "cathedralv_7_NE" ] ],
-    "weight": 250,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [

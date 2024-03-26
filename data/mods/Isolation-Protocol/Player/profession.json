@@ -16,15 +16,23 @@
     ],
     "items": {
       "both": {
-        "items": [ "hat_ball", "jeans", "jacket_light", "socks", "sneakers", "pizza_meat", "money_strap_one", "wristwatch", "mbag" ],
         "entries": [
+          { "item": "hat_ball" },
+          { "item": "jeans" },
+          { "item": "jacket_light" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "pizza_meat" },
+          { "item": "money_strap_one" },
+          { "item": "wristwatch" },
+          { "item": "mbag" },
           { "group": "charged_smart_phone" },
           { "item": "tshirt", "variant": "generic_tshirt" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "bra", "boy_shorts" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
     }
   },
   {
@@ -38,8 +46,15 @@
     "traits": [ "PROF_POLICE", "iso_trait", "iso_backup" ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "whistle", "wristwatch", "baton" ],
         "entries": [
+          { "item": "pants_army" },
+          { "item": "socks" },
+          { "item": "badge_deputy" },
+          { "item": "police_belt" },
+          { "item": "boots" },
+          { "item": "whistle" },
+          { "item": "wristwatch" },
+          { "item": "baton" },
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
@@ -48,8 +63,8 @@
           { "item": "sheriffshirt", "variant": "sheriff" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boy_shorts" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "boy_shorts" } ] }
     }
   },
   {
@@ -63,9 +78,23 @@
     "proficiencies": [ "prof_elec_soldering", "prof_appliance_repair" ],
     "items": {
       "both": {
-        "items": [ "pants", "tshirt_text", "hoodie", "socks", "sneakers", "mbag", "caffeine", "caff_gum", "memory_card", "usb_drive" ],
         "entries": [
-          { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "electrohack" },
+          { "item": "pants" },
+          { "item": "tshirt_text" },
+          { "item": "hoodie" },
+          { "item": "socks" },
+          { "item": "sneakers" },
+          { "item": "mbag" },
+          { "item": "caffeine" },
+          { "item": "caff_gum" },
+          { "item": "memory_card" },
+          { "item": "usb_drive" },
+          {
+            "item": "light_plus_battery_cell",
+            "ammo-item": "battery",
+            "charges": 150,
+            "container-item": "electrohack"
+          },
           {
             "item": "light_plus_battery_cell",
             "ammo-item": "battery",
@@ -77,8 +106,8 @@
           { "group": "charged_laptop" }
         ]
       },
-      "male": [ "briefs" ],
-      "female": [ "sports_bra", "panties" ]
+      "male": { "entries": [ { "item": "briefs" } ] },
+      "female": { "entries": [ { "item": "sports_bra" }, { "item": "panties" } ] }
     }
   },
   {
@@ -91,29 +120,27 @@
     "traits": [ "PROF_MED", "iso_trait", "iso_hypo_o" ],
     "items": {
       "both": {
-        "items": [
-          "technician_shirt_gray",
-          "socks",
-          "gloves_medical",
-          "wristwatch",
-          "boots",
-          "mbag",
-          { "item": "bandages", "count": 3 },
-          "stethoscope",
-          "scissors",
-          "syringe",
-          "morphine",
-          "adrenaline_injector"
-        ],
         "entries": [
+          { "item": "technician_shirt_gray" },
+          { "item": "socks" },
+          { "item": "gloves_medical" },
+          { "item": "wristwatch" },
+          { "item": "boots" },
+          { "item": "mbag" },
+          { "item": "bandages", "count": 3 },
+          { "item": "stethoscope" },
+          { "item": "scissors" },
+          { "item": "syringe" },
+          { "item": "morphine" },
+          { "item": "adrenaline_injector" },
           { "group": "charged_smart_phone" },
           { "group": "full_1st_aid" },
           { "item": "pants", "variant": "pants_blue" },
           { "item": "mask_dust", "variant": "white_mask_dust" }
         ]
       },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
+      "male": { "entries": [ { "item": "boxer_shorts" } ] },
+      "female": { "entries": [ { "item": "bra" }, { "item": "panties" } ] }
     }
   }
 ]

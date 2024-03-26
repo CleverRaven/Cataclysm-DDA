@@ -15,11 +15,11 @@
       [ [ "duct_tape", 25 ] ]
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 2, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 2, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -38,17 +38,17 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -76,17 +76,17 @@
     "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 40 ] ],
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -119,23 +119,23 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -162,17 +162,17 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "bio_launcher",
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -199,17 +199,17 @@
     "result": "bio_warhead",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -235,23 +235,23 @@
     "result": "ion_gun",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_elec_circuits",
         "time_multiplier": 2,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -278,24 +278,24 @@
     "result": "inventor_sniper",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
     "components": [
       [
         [ "ar10", 1 ],
-        [ "fn_fal", 1 ],
+        [ "fn_fal_semi", 1 ],
         [ "hk417_13", 1 ],
         [ "m14ebr", 1 ],
         [ "M24", 1 ],
@@ -305,7 +305,7 @@
       ],
       [
         [ "ar10", 1 ],
-        [ "fn_fal", 1 ],
+        [ "fn_fal_semi", 1 ],
         [ "hk417_13", 1 ],
         [ "m14ebr", 1 ],
         [ "M24", 1 ],
@@ -331,23 +331,23 @@
     "result": "inventor_shotgun",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "GRIND", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_metalworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_welding_basic",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -383,23 +383,23 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 50 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -430,17 +430,17 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 80 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -471,17 +471,17 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -510,17 +510,17 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -549,17 +549,17 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -588,23 +588,23 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -632,23 +632,23 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -676,23 +676,23 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_electromagnetics",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       },
       {
         "proficiency": "prof_plasticworking",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -720,11 +720,11 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 30 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -754,11 +754,11 @@
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 40 ] ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": -100, "learning_time_multiplier": 0.3 },
+      { "proficiency": "prof_elec_soldering", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 },
       {
         "proficiency": "prof_gunsmithing_improv",
         "time_multiplier": 3,
-        "skill_penalty": -100,
+        "skill_penalty": 0,
         "learning_time_multiplier": 0.3
       }
     ],
@@ -786,14 +786,9 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "inventor_pistol",
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
     "proficiencies": [
-      {
-        "proficiency": "prof_gunsmithing_improv",
-        "time_multiplier": 3,
-        "skill_penalty": -100,
-        "learning_time_multiplier": 0.3
-      }
+      { "proficiency": "prof_gunsmithing_improv", "time_multiplier": 3, "skill_penalty": 0, "learning_time_multiplier": 0.3 }
     ],
     "components": [ [ [ "pipe", 9 ] ], [ [ "scrap", 36 ] ], [ [ "nuts_bolts", 10 ] ], [ [ "duct_tape", 40 ] ] ],
     "skill_used": "deduction",

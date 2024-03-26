@@ -1,0 +1,17 @@
+[
+  {
+    "type": "palette",
+    "id": "fear_hawk_copse_trees_palette",
+    "terrain": {
+      ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
+      ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
+      ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_tree_hawk_nest", 6 ], "t_region_shrub" ],
+      "|": [ [ "t_region_groundcover_forest", 7 ], "t_puddle" ]
+    },
+    "furniture": {
+      ".": [ [ "f_null", 2000 ], [ "f_region_plain", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      ",": [ [ "f_null", 2000 ], [ "f_region_plain", 40 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ],
+      ";": [ [ "f_null", 2000 ], [ "f_region_plain", 60 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ]
+    }
+  }
+]

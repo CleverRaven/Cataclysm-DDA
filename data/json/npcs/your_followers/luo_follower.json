@@ -58,7 +58,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FRIEND_LUO_CHAT",
-    "dynamic_line": "Seen any good movies lately?",
+    "dynamic_line": { "gendered_line": "Seen any good movies lately?", "relevant_genders": [ "u" ] },
     "//": "TK: custom chat topics here that actually include small talk that expands her character, while still giving the socialize bonus.",
     "responses": [
       {

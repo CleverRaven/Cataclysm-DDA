@@ -14,6 +14,7 @@
 #include "clone_ptr.h"
 #include "color.h"
 #include "enum_bitset.h"
+#include "game_constants.h"
 #include "iexamine.h"
 #include "translations.h"
 #include "type_id.h"
@@ -69,6 +70,12 @@ struct map_bash_info {
     bool load( const JsonObject &jsobj, std::string_view member, map_object_type obj_type,
                const std::string &context );
 };
+struct map_deconstruct_skill {
+    skill_id id; // Id of skill to increase on successful deconstruction
+    int min; // Minimum level to recieve xp
+    int max; // Level cap after which no xp is recieved but practise still occurs delaying rust
+    double multiplier; // Multiplier of the base xp given that's calced using the mean of the min and max
+};
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
     bool can_do;
@@ -79,6 +86,7 @@ struct map_deconstruct_info {
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
+    std::optional<map_deconstruct_skill> skill;
     bool load( const JsonObject &jsobj, std::string_view member, bool is_furniture,
                const std::string &context );
 };
@@ -313,6 +321,9 @@ enum class ter_furn_flag : int {
     TFLAG_ACTIVE_GENERATOR,
     TFLAG_SMALL_HIDE,
     TFLAG_NO_FLOOR_WATER,
+    TFLAG_SINGLE_SUPPORT,
+    TFLAG_CLIMB_ADJACENT,
+    TFLAG_FLOATS_IN_AIR,
 
     NUM_TFLAG_FLAGS
 };
@@ -330,7 +341,6 @@ struct connect_group {
         std::set<ter_furn_flag> connects_to_flags;
         std::set<ter_furn_flag> rotates_to_flags;
 
-        bool was_loaded;
         static void load( const JsonObject &jo );
         static void reset();
 };
@@ -495,7 +505,7 @@ struct map_data_common_t {
         units::temperature_delta floor_bedding_warmth = 0_C_delta;
         int comfort = 0;
         // Maximal volume of items that can be stored in/on this furniture
-        units::volume max_volume = 1000_liter;
+        units::volume max_volume = DEFAULT_TILE_VOLUME;
 
         translation description;
 
@@ -764,7 +774,7 @@ extern ter_id t_null,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
        t_water_moving_dp, t_water_moving_sh, t_water_sh, t_swater_sh, t_water_dp, t_swater_dp,
-       t_water_pool, t_sewage,
+       t_swater_surf, t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,

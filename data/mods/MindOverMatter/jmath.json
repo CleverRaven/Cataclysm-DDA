@@ -57,7 +57,19 @@
     "type": "jmath_function",
     "id": "contemplation_factor",
     "num_args": 1,
-    "return": "(u_val('focus') * 5.8) * (_0)"
+    "return": "(u_val('focus') * 9) * (_0)"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_lower_time_bound",
+    "num_args": 1,
+    "return": "(((_0 + 2) * 60) * 60) * 0.8"
+  },
+  {
+    "type": "jmath_function",
+    "id": "learn_new_power_upper_time_bound",
+    "num_args": 1,
+    "return": "(((_0 + 2) * 60) * 60) * 1.2"
   },
   {
     "type": "jmath_function",

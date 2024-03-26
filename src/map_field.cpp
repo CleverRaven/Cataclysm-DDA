@@ -80,6 +80,8 @@ static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
+
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
@@ -87,14 +89,6 @@ static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 
 static const material_id material_iflesh( "iflesh" );
 static const material_id material_veggy( "veggy" );
-
-static const mon_flag_str_id mon_flag_ELECTRONIC( "ELECTRONIC" );
-static const mon_flag_str_id mon_flag_FIREPROOF( "FIREPROOF" );
-static const mon_flag_str_id mon_flag_FIREY( "FIREY" );
-static const mon_flag_str_id mon_flag_INSECTICIDEPROOF( "INSECTICIDEPROOF" );
-static const mon_flag_str_id mon_flag_NO_BREATHE( "NO_BREATHE" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-static const mon_flag_str_id mon_flag_SLUDGEPROOF( "SLUDGEPROOF" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 
@@ -993,11 +987,13 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
 
             if( destroyed ) {
                 // If we decided the item was destroyed by fire, remove it.
-                // But remember its contents, except for irremovable mods, if any
-                const std::list<item *> content_list = fuel->all_items_top();
-                for( item *it : content_list ) {
-                    if( !it->is_irremovable() ) {
-                        new_content.emplace_back( *it );
+                // But remember its contents, except for irremovable stuff, if any
+                if( !fuel->has_flag( json_flag_NO_UNLOAD ) ) {
+                    const std::list<item *> content_list = fuel->all_items_top();
+                    for( item *it : content_list ) {
+                        if( !it->is_irremovable() ) {
+                            new_content.emplace_back( *it );
+                        }
                     }
                 }
                 fuel = items_here.erase( fuel );
@@ -1506,7 +1502,7 @@ void map::player_in_field( Character &you )
             // Sludge is on the ground, but you are above the ground when boarded on a vehicle
             if( !you.has_trait( trait_GASTROPOD_FOOT ) && ( !you.in_vehicle ) ) {
                 you.add_msg_if_player( m_bad, _( "The sludge is thick and sticky.  You struggle to pull free." ) );
-                you.moves -= cur.get_field_intensity() * 300;
+                you.mod_moves( -cur.get_field_intensity() * 300 );
                 cur.set_field_intensity( 0 );
             }
         }
@@ -1728,7 +1724,7 @@ void map::player_in_field( Character &you )
                 const auto &npc_complain_data = ft->npc_complain_data;
                 ( static_cast<npc *>( &you ) )->complain_about( std::get<1>( npc_complain_data ),
                         std::get<2>( npc_complain_data ),
-                        std::get<3>( npc_complain_data ) );
+                        std::get<3>( npc_complain_data ).translated() );
             }
         }
     }
@@ -1839,13 +1835,13 @@ void map::monster_in_field( monster &z )
 
         }
         if( cur_field_type == fd_sap ) {
-            z.moves -= cur.get_field_intensity() * 5;
+            z.mod_moves( -cur.get_field_intensity() * 5 );
             mod_field_intensity( z.pos(), cur.get_field_type(), -1 );
         }
         if( cur_field_type == fd_sludge ) {
             if( !z.digs() && !z.flies() &&
                 !z.has_flag( mon_flag_SLUDGEPROOF ) ) {
-                z.moves -= cur.get_field_intensity() * 300;
+                z.mod_moves( -cur.get_field_intensity() * 300 );
                 cur.set_field_intensity( 0 );
             }
         }
@@ -1877,7 +1873,7 @@ void map::monster_in_field( monster &z )
             } else if( cur.get_field_intensity() == 2 ) {
                 dam += rng( 6, 12 );
                 if( !z.flies() ) {
-                    z.moves -= 20;
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
                     if( dam > 0 ) {
                         z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
                     }
@@ -1885,7 +1881,7 @@ void map::monster_in_field( monster &z )
             } else if( cur.get_field_intensity() == 3 ) {
                 dam += rng( 10, 20 );
                 if( !z.flies() || one_in( 3 ) ) {
-                    z.moves -= 40;
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
                     if( dam > 0 ) {
                         z.add_effect( effect_onfire, 1_turns * rng( dam / 2, dam * 2 ) );
                     }
@@ -1895,11 +1891,11 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_smoke ) {
             if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
-                    z.moves -= rng( 10, 20 );
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.1, 0.2 ) );
                 }
                 // Plants suffer from smoke even worse
                 if( z.made_of( material_veggy ) ) {
-                    z.moves -= rng( 1, cur.get_field_intensity() * 12 );
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.01, cur.get_field_intensity() * 0.12 ) );
                 }
             }
 
@@ -1935,24 +1931,25 @@ void map::monster_in_field( monster &z )
         if( cur_field_type == fd_toxic_gas ) {
             if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 dam += cur.get_field_intensity();
-                z.moves -= cur.get_field_intensity();
+                z.mod_moves( -cur.get_field_intensity() );
             }
 
         }
         if( cur_field_type == fd_nuke_gas ) {
             if( !z.has_flag( mon_flag_NO_BREATHE ) ) {
                 if( cur.get_field_intensity() == 3 ) {
-                    z.moves -= rng( 60, 120 );
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.6, 1.2 ) );
                     dam += rng( 30, 50 );
                 } else if( cur.get_field_intensity() == 2 ) {
-                    z.moves -= rng( 20, 50 );
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.2, 0.5 ) );
                     dam += rng( 10, 25 );
                 } else {
-                    z.moves -= rng( 0, 15 );
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.0, 0.15 ) );
                     dam += rng( 0, 12 );
                 }
                 if( z.made_of( material_veggy ) ) {
-                    z.moves -= rng( cur.get_field_intensity() * 5, cur.get_field_intensity() * 12 );
+                    z.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( cur.get_field_intensity() * 0.05,
+                                 cur.get_field_intensity() * 0.12 ) );
                     dam *= cur.get_field_intensity();
                 }
             }
@@ -1976,7 +1973,7 @@ void map::monster_in_field( monster &z )
                 dam += -25;
             }
             dam += rng( 0, 8 );
-            z.moves -= 20;
+            z.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
         }
         if( cur_field_type == fd_electricity ) {
             // We don't want to increase dam, but deal a separate hit so that it can apply effects
@@ -2012,13 +2009,13 @@ void map::monster_in_field( monster &z )
                 dam += rng( 2, 6 );
             } else if( cur.get_field_intensity() == 2 ) {
                 dam += rng( 6, 12 );
-                z.moves -= 20;
+                z.mod_moves( -to_moves<int>( 1_seconds ) * 0.2 );
                 if( !z.made_of( phase_id::LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                     z.add_effect( effect_onfire, rng( 8_turns, 12_turns ) );
                 }
             } else if( cur.get_field_intensity() == 3 ) {
                 dam += rng( 10, 20 );
-                z.moves -= 40;
+                z.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
                 if( !z.made_of( phase_id::LIQUID ) && !z.made_of_any( Creature::cmat_flameres ) ) {
                     z.add_effect( effect_onfire, rng( 12_turns, 16_turns ) );
                 }
@@ -2030,21 +2027,21 @@ void map::monster_in_field( monster &z )
                 !z.make_fungus() ) {
                 // Don't insta-kill jabberwocks, that's silly
                 const int intensity = cur.get_field_intensity();
-                z.moves -= rng( 10 * intensity, 30 * intensity );
+                z.mod_moves( -rng( 10 * intensity, 30 * intensity ) );
                 dam += rng( 0, 10 * intensity );
             }
         }
         if( cur_field_type == fd_fungicidal_gas ) {
             if( z.type->in_species( species_FUNGUS ) ) {
                 const int intensity = cur.get_field_intensity();
-                z.moves -= rng( 10 * intensity, 30 * intensity );
+                z.mod_moves( -rng( 10 * intensity, 30 * intensity ) );
                 dam += rng( 4, 7 * intensity );
             }
         }
         if( cur_field_type == fd_insecticidal_gas ) {
             if( z.made_of( material_iflesh ) && !z.has_flag( mon_flag_INSECTICIDEPROOF ) ) {
                 const int intensity = cur.get_field_intensity();
-                z.moves -= rng( 10 * intensity, 30 * intensity );
+                z.mod_moves( -rng( 10 * intensity, 30 * intensity ) );
                 dam += rng( 4, 7 * intensity );
             }
         }

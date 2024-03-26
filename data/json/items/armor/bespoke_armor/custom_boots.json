@@ -66,7 +66,6 @@
     "id": "xs_boots_lsurvivor",
     "type": "ARMOR",
     "copy-from": "boots_lsurvivor",
-    "looks_like": "boots_lsurvivor",
     "name": { "str": "pair of XS light survivor boots", "str_pl": "pairs of XS light survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -130,19 +129,15 @@
     "id": "boots_xlsurvivor",
     "type": "ARMOR",
     "copy-from": "boots_survivor",
-    "looks_like": "boots_survivor",
     "proportional": { "weight": 1.4, "volume": 1.4 },
     "name": { "str": "pair of XL survivor boots", "str_pl": "pairs of XL survivor boots" },
-    "description": "A pair of huge, custom-made boots constructed of thick Kevlar and a chemical resistant layer, featuring steel toes for extra protection.  Keeps your feet safe from the myriad dangers of the apocalypse.",
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "boots_xssurvivor",
     "type": "ARMOR",
     "copy-from": "boots_survivor",
-    "looks_like": "boots_survivor",
     "name": { "str": "pair of XS survivor boots", "str_pl": "pairs of XS survivor boots" },
-    "description": "A tiny pair of customized leather boots armored with Kevlar.  Balancing comfort and protection, these boots will keep you alive, even when knee-deep in the dead.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -198,12 +193,8 @@
   {
     "id": "xl_boots_wsurvivor_nofur",
     "type": "ARMOR",
+    "copy-from": "boots_wsurvivor_nofur",
     "name": { "str": "pair of XL faux fur winter survivor boots", "str_pl": "pairs of XL faux fur winter survivor boots" },
-    "copy-from": "boots_wsurvivor",
-    "material": [ "kevlar", "faux_fur" ],
-    "description": "A pair of customized and oversized Kevlar-armored boots.  Warm thanks to a faux-fur lining, these will keep you alive even when knee-deep in the dead.",
-    "color": "pink",
-    "warmth": 50,
     "proportional": { "weight": 1.3, "volume": 1.3 },
     "extend": { "flags": [ "OVERSIZE" ] }
   },
@@ -211,9 +202,7 @@
     "id": "xs_boots_wsurvivor_nofur",
     "type": "ARMOR",
     "copy-from": "boots_wsurvivor_nofur",
-    "looks_like": "boots_wsurvivor_nofur",
     "name": { "str": "pair of XS faux fur winter survivor boots", "str_pl": "pairs of XS faux fur winter survivor boots" },
-    "description": "A pair of customized and undersized Kevlar-armored boots.  Warm thanks to a faux-fur lining, these will keep you alive even when knee-deep in the dead.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
@@ -287,7 +276,6 @@
     "id": "xs_boots_wsurvivor",
     "type": "ARMOR",
     "copy-from": "boots_wsurvivor",
-    "looks_like": "boots_wsurvivor",
     "name": { "str": "pair of XS winter survivor boots", "str_pl": "pairs of XS winter survivor boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -360,7 +348,6 @@
     "id": "xl_boots_h20survivor",
     "type": "ARMOR",
     "copy-from": "boots_h20survivor",
-    "looks_like": "boots_h20survivor",
     "name": { "str": "pair of XL Kevlar diving boots", "str_pl": "pairs of XL Kevlar diving boots" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -369,7 +356,6 @@
     "id": "xs_boots_h20survivor",
     "type": "ARMOR",
     "copy-from": "boots_h20survivor",
-    "looks_like": "boots_h20survivor",
     "name": { "str": "pair of XS Kevlar diving boots", "str_pl": "pairs of XS Kevlar diving boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -443,7 +429,6 @@
     "id": "xl_boots_h20survivor_light",
     "type": "ARMOR",
     "copy-from": "boots_h20survivor_light",
-    "looks_like": "boots_h20survivor_light",
     "name": { "str": "pair of XL Kevlar diving overboots", "str_pl": "pairs of XL light Kevlar diving overboots" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -452,7 +437,6 @@
     "id": "xs_boots_h20survivor_light",
     "type": "ARMOR",
     "copy-from": "boots_h20survivor_light",
-    "looks_like": "boots_h20survivor_light",
     "name": { "str": "pair of XS light Kevlar diving overboots", "str_pl": "pairs of XS light Kevlar diving overboots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
@@ -525,7 +509,6 @@
     "id": "xl_boots_h20survivor_thick",
     "type": "ARMOR",
     "copy-from": "boots_h20survivor_thick",
-    "looks_like": "boots_h20survivor_thick",
     "name": { "str": "pair of XL thick Kevlar diving boots", "str_pl": "pairs of XL thick Kevlar diving boots" },
     "proportional": { "weight": 1.3, "volume": 1.3, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
@@ -534,7 +517,6 @@
     "id": "xs_boots_h20survivor_thick",
     "type": "ARMOR",
     "copy-from": "boots_h20survivor_thick",
-    "looks_like": "boots_h20survivor_thick",
     "name": { "str": "pair of XS thick Kevlar diving boots", "str_pl": "pairs of XS thick Kevlar diving boots" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

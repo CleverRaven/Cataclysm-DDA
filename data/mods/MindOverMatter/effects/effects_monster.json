@@ -153,6 +153,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleporting_lock",
+    "name": [ "Caught in the Angles" ],
+    "desc": [ "You feel a strange, inward force." ],
+    "apply_message": "You feel a strange, inward force.",
+    "remove_message": "The strange, inward force suddenly vanishes.",
+    "rating": "bad",
+    "flags": [ "TELEPORT_LOCK" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakinetic_health_down",
     "name": [ "Feeling Unwell" ],
     "desc": [ "You feel weak and shaky." ],
@@ -187,6 +197,39 @@
       "healing_rate": [ 0.5 ]
     },
     "vitamins": [ { "vitamin": "iron", "rate": [ [ -10, -10 ] ], "tick": [ "1 m" ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "psi_vitakinetic_degeneration",
+    "name": [ "Deteriorating" ],
+    "desc": [ "Your skin seems to be slowly crumbling as you watch." ],
+    "rating": "bad",
+    "max_duration": "120 minutes",
+    "base_mods": {
+      "per_mod": [ -1 ],
+      "pain_chance": [ 15 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 2 ],
+      "pain_max_val": [ 40 ],
+      "pain_tick": [ 60 ],
+      "hurt_chance": [ 50 ],
+      "hurt_min": [ 1 ],
+      "hurt_tick": [ 120 ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "pigeon_aura",
+    "name": [ "" ],
+    "blood_analysis_description": "Blood sample contains noetic steroid particles and pigeon dander.",
+    "base_mods": { "str_mod": [ 1 ], "stim_amount": [ 1 ], "stim_tick": [ 500 ], "stim_max_val": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "pigeon_aura_prep",
+    "rating": "neutral",
+    "blood_analysis_description": "Patient has allergens in blood stream.",
+    "base_mods": { "cough_chance": [ 2 ], "perspiration_chance": [ 1 ] }
   },
   {
     "type": "effect_type",

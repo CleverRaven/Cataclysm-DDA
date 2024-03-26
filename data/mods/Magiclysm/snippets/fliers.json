@@ -1,0 +1,20 @@
+[
+  {
+    "type": "snippet",
+    "category": "flier",
+    "text": [
+      {
+        "id": "magiclysm_flier_1",
+        "text": "This is an advertisement for a magus-for-hire.  \"Heavy things lifted, light things vanished, distances shortened, good times lengthened!  Borunar son of Hrimzon of Clan Ironfist, ThD\""
+      },
+      {
+        "id": "magiclysm_flier_2",
+        "text": "This is an advertisement for magical protective services.  There is a large glossy picture of a spiky, clawed creature with a a single, enormous green eye taking up most of its head.  \"With a trained krabgek, your possessions will be safe!  Any thieves will have their flesh rotted right off of their bones!\"  The paragraph of tiny text at the bottom of the flyer containing a series of disclaimers makes you wonder how safe or trained those krabgeks really are."
+      },
+      {
+        "id": "magiclysm_flier_3",
+        "text": "This is a public warning from the Federal Government.  Its brief message, repeated in several languages, reads:  \"The Federal Department of Thaumaturgy is investigating the riots for evidence of possible magical activity.  You or members of your family may be subject to a random inspection by a licensed federal thaumaturgical investigator.  Do not attempt to cure or examine any rioters yourself.  Your cooperation is appreciated.  If you are trained in medical biomancy and would like to assist in the investigation, please contact…\"  The flier ends with a list of numbers and email addresses."
+      }
+    ]
+  }
+]

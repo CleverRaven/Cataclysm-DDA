@@ -21,6 +21,7 @@ C++ flags used by all builds:
 /GF     Eliminate Duplicate Strings
 /wd4068 unknown pragma
 /wd4146 negate unsigned
+/wd4661 explicit template undefined
 /wd4819 codepage?
 /wd6237 short-circuit eval
 /wd6319 a, b: unused a
@@ -47,6 +48,21 @@ Linker flags used by all builds:
 /NXCOMPAT     same as above
 No need to force /TLBID:1 because is default
 
+CMake defaults seen in generators:
+CMAKE_CXX_FLAGS=/DWIN32 /D_WINDOWS /EHsc
+CMAKE_CXX_FLAGS_DEBUG=/Zi /Ob0 /Od /RTC1
+CMAKE_CXX_FLAGS_RELWITHDEBINFO=/Zi /O2 /Ob1 /DNDEBUG
+CMAKE_EXE_LINKER_FLAGS=/machine:x64
+CMAKE_EXE_LINKER_FLAGS_DEBUG=/debug /INCREMENTAL
+CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO=/debug /INCREMENTAL
+
+Use the following for Dr. Memory:
+/Zi or /ZI
+/DEBUG:FULL
+/Ob0    disable inlining
+/Oy-    don't omit frame pointers
+Remove /RTC1
+
 #]=======================================================================]
 
 # Path has changed, so this configure run will find cl.exe
@@ -54,12 +70,13 @@ set(CMAKE_C_COMPILER   cl.exe)
 set(CMAKE_CXX_COMPILER ${CMAKE_C_COMPILER})
 set(CMAKE_CXX_FLAGS_INIT "\
 /MP /utf-8 /bigobj /permissive- /sdl- /FC /Gd /GS- /Gy /GF \
-/wd4068 /wd4146 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
+/wd4068 /wd4146 /wd4661 /wd4819 /wd6237 /wd6319 /wd26444 /wd26451 /wd26495 /WX- /W1 \
 /TP /Zc:forScope /Zc:inline /Zc:wchar_t"
 )
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT
 "/Oi"
 )
+
 add_compile_definitions(
     _SCL_SECURE_NO_WARNINGS
     _CRT_SECURE_NO_WARNINGS
@@ -67,17 +84,19 @@ add_compile_definitions(
     LOCALIZE
     USE_VCPKG
 )
+
 add_link_options(
     /OPT:REF
     /OPT:ICF
     /LTCG:OFF
-    /MANIFEST:NO
     /INCREMENTAL:NO
     /DYNAMICBASE
     /NXCOMPAT
+    "$<$<CONFIG:Debug>:/NODEFAULTLIB:LIBCMT>"
+    "$<$<CONFIG:RelWithDebInfo>:/NODEFAULTLIB:LIBCMTD>"
 )
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 # Where is vcpkg.json ?
 set(VCPKG_MANIFEST_DIR ${CMAKE_SOURCE_DIR}/msvc-full-features)

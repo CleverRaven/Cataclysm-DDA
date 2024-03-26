@@ -92,6 +92,7 @@ TEST_CASE( "memorials", "[memorial]" )
     trait_id mut2( "SAPROPHAGE" );
     trait_id mut3( "NONE" );
     bionic_id cbm( "bio_alarm" );
+    proficiency_id prof( "prof_wound_care" );
 
     check_memorial<event_type::activates_artifact>(
         m, b, "Activated the art_name.", ch, "art_name" );
@@ -216,6 +217,9 @@ TEST_CASE( "memorials", "[memorial]" )
 
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
+
+    check_memorial<event_type::gains_proficiency>(
+        m, b, "Gained the proficiency 'Wound Care'.", ch, prof );
 
     check_memorial<event_type::gains_skill_level>(
         m, b, "Reached skill level 8 in vehicles.", ch, skill_driving, 8 );

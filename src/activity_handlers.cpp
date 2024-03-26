@@ -59,6 +59,7 @@
 #include "iuse_actor.h"
 #include "line.h"
 #include "magic.h"
+#include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -178,12 +179,15 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_stab( "stab" );
 
+static const efftype_id effect_asocial_dissatisfied( "asocial_dissatisfied" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_social_dissatisfied( "social_dissatisfied" );
+static const efftype_id effect_social_satisfied( "social_satisfied" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const harvest_drop_type_id harvest_drop_blood( "blood" );
@@ -196,14 +200,17 @@ static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
 static const itype_id itype_muscle( "muscle" );
+static const itype_id itype_pseudo_magazine( "pseudo_magazine" );
 
+static const json_character_flag json_flag_ASOCIAL1( "ASOCIAL1" );
+static const json_character_flag json_flag_ASOCIAL2( "ASOCIAL2" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SILENT_SPELL( "SILENT_SPELL" );
-
-static const mon_flag_str_id mon_flag_RIDEABLE_MECH( "RIDEABLE_MECH" );
+static const json_character_flag json_flag_SOCIAL1( "SOCIAL1" );
+static const json_character_flag json_flag_SOCIAL2( "SOCIAL2" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
@@ -217,6 +224,7 @@ static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
+static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -260,15 +268,8 @@ activity_handlers::do_turn_functions = {
     { ACT_ATM, atm_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
-    { ACT_BLEED, butcher_do_turn },
-    { ACT_BUTCHER, butcher_do_turn },
-    { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIELD_DRESS, butcher_do_turn },
-    { ACT_SKIN, butcher_do_turn },
-    { ACT_QUARTER, butcher_do_turn },
-    { ACT_DISMEMBER, butcher_do_turn },
-    { ACT_DISSECT, butcher_do_turn },
+    { ACT_DISMEMBER, dismember_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
@@ -528,7 +529,9 @@ static void set_up_butchery( player_activity &act, Character &you, butcher_type 
         }
     }
 
-    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( corpse.in_species( species_HUMAN ) &&
+
+    const bool is_human = corpse.id == mtype_id::NULL_ID() || ( ( corpse.in_species( species_HUMAN ) ||
+                          corpse.in_species( species_FERAL ) ) &&
                           !corpse.in_species( species_ZOMBIE ) );
 
     // applies to all butchery actions except for dissections
@@ -840,7 +843,7 @@ static std::vector<item> create_charge_items( const itype *drop, int count,
     std::vector<item> objs;
     while( count > 0 ) {
         item obj( drop, calendar::turn, 1 );
-        obj.charges = std::min( count, 1000_liter / obj.volume() );
+        obj.charges = std::min( count, DEFAULT_TILE_VOLUME / obj.volume() );
         count -= obj.charges;
 
         if( obj.has_temperature() ) {
@@ -1757,7 +1760,8 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
                 here.add_splatter_trail( type_blood, pos, dest );
             }
 
-            you->mod_stamina( -pulp_effort );
+            // mixture of isaac clarke stomps and swinging your weapon
+            you->burn_energy_all( -pulp_effort );
             you->recoil = MAX_RECOIL;
 
             if( one_in( 4 ) ) {
@@ -1769,12 +1773,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             moves += 100 / std::max( 0.25f,
                                      stamina_ratio ) * you->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || you->is_npc() ) {
-                you->moves = std::min( 0, you->moves - moves );
+                you->set_moves( std::min( 0, you->get_moves() - moves ) );
                 return;
             }
-            if( moves >= you->moves ) {
+            if( moves >= you->get_moves() ) {
                 // Enough for this turn;
-                you->moves -= moves;
+                you->mod_moves( -moves );
                 return;
             }
         }
@@ -1798,6 +1802,7 @@ void activity_handlers::pulp_finish( player_activity *act, Character *you )
     if( you->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( you );
         guy->revert_after_activity();
+        guy->pulp_location.reset();
     } else {
         act->set_to_null();
     }
@@ -1897,7 +1902,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
         return;
     }
 
-    you->mod_moves( -you->moves );
+    you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
     const float light = actor->light_mod( you->pos() );
     act->moves_left -= light * 100;
@@ -2303,11 +2308,29 @@ struct weldrig_hack {
             // null item should be handled just fine
             return null_item_reference();
         }
-
-        item pseudo_magazine( pseudo.magazine_default() );
-        pseudo.put_in( pseudo_magazine, pocket_type::MAGAZINE_WELL );
+        pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+        item mag_mod( "pseudo_magazine_mod" );
+        mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+        if( !pseudo.put_in( mag_mod, pocket_type::MOD ).success() ) {
+            debugmsg( "tool %s has no space for a %s, this is likely a bug",
+                      pseudo.typeId().str(), mag_mod.type->nname( 1 ) );
+        }
+        itype_id mag_type;
+        if( pseudo.can_link_up() ) {
+            mag_type = itype_pseudo_magazine;
+        } else {
+            mag_type = pseudo.magazine_default();
+        }
+        item mag( mag_type );
+        mag.clear_items(); // no initial ammo
+        if( !pseudo.put_in( mag, pocket_type::MAGAZINE_WELL ).success() ) {
+            debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
+                      mag.typeId().str(), pseudo.typeId().str() );
+            return null_item_reference();
+        }
         pseudo.ammo_set( itype_battery, part->vehicle().drain( itype_battery,
-                         pseudo.ammo_capacity( ammo_battery ) ) );
+                         pseudo.ammo_capacity( ammo_battery ),
+                         return_true< vehicle_part &>, false ) ); // no cable loss since all of this is virtual
         return pseudo;
     }
 
@@ -2316,7 +2339,8 @@ struct weldrig_hack {
             return;
         }
 
-        part->vehicle().charge_battery( pseudo.ammo_remaining() ); // return unused charges
+        part->vehicle().charge_battery( pseudo.ammo_remaining(),
+                                        false ); // return unused charges without cable loss
     }
 
     ~weldrig_hack() {
@@ -2471,7 +2495,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                            fix.tname() );
         ammotype current_ammo;
         std::string ammo_name;
-        if( used_tool->link || used_tool->has_flag( flag_USE_UPS ) ) {
+        if( used_tool->has_flag( flag_USE_UPS ) || used_tool->has_link_data() ) {
             ammo_name = _( "battery" );
             current_ammo = ammo_battery;
         } else if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
@@ -2911,19 +2935,19 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
     const float exertion_mult = you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    const int effective_moves = you->moves / ( you->fine_detail_vision_mod() * exertion_mult );
+    const int effective_moves = you->get_moves() / ( you->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
-        you->moves = 0;
+        you->set_moves( 0 );
     } else {
-        you->moves -= act->moves_left * you->fine_detail_vision_mod();
+        you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity * /*act*/, Character *you )
+void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character *you )
 {
-    you->mod_stamina( -20 );
+    you->burn_energy_arms( -20 );
 }
 
 void activity_handlers::wait_finish( player_activity *act, Character *you )
@@ -3501,7 +3525,7 @@ static void perform_zone_activity_turn(
             // we are at destination already
             /* Perform action */
             tile_action( *you, tile_loc );
-            if( you->moves <= 0 ) {
+            if( you->get_moves() <= 0 ) {
                 return;
             }
         }
@@ -3691,6 +3715,19 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, Character 
                 you->add_morale( MORALE_TREE_COMMUNION, 1, 15, 2_hours, 1_hours );
             }
             if( one_in( 128 ) ) {
+                if( one_in( 256 ) ) {
+                    if( you->has_effect( effect_social_dissatisfied ) ) {
+                        you->remove_effect( effect_social_dissatisfied );
+                    }
+                    if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
+                        !you->has_effect( effect_social_satisfied ) ) {
+                        you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
+                    }
+                    if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
+                        !you->has_effect( effect_asocial_dissatisfied ) ) {
+                        you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
+                    }
+                }
                 you->add_msg_if_player( "%s", SNIPPET.random_from_category( "tree_communion" ).value_or(
                                             translation() ) );
             }
@@ -3802,7 +3839,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                         you->mod_stamina( -cost );
                         break;
                     case magic_energy_type::bionic:
-                        you->mod_power_level( -units::from_kilojoule( cost ) );
+                        you->mod_power_level( -units::from_kilojoule( static_cast<std::int64_t>( cost ) ) );
                         break;
                     case magic_energy_type::hp:
                         blood_magic( you, cost );
@@ -3835,9 +3872,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                 }
             }
             if( !act->targets.empty() ) {
-                item &it = *act->targets.front();
-                if( !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
-                    you->consume_charges( it, it.type->charges_to_use() );
+                item *it = act->targets.front().get_item();
+                if( it && !it->has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                    you->consume_charges( *it, it->type->charges_to_use() );
                 }
             }
             get_event_bus().send<event_type::spellcasting_finish>( you->getID(), true, sp,

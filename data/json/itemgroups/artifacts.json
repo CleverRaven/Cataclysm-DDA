@@ -17,7 +17,7 @@
   {
     "type": "item_group",
     "id": "altered_object_i",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       {
         "group": "altered_item",
@@ -26,7 +26,8 @@
           "rules": { "power_level": 750, "max_attributes": 4, "max_negative_power": -1000, "resonant": true }
         },
         "prob": 100
-      }
+      },
+      { "item": "resonance_measurement_device", "prob": 25 }
     ]
   },
   {

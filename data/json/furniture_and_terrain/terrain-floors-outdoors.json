@@ -315,6 +315,31 @@
   },
   {
     "type": "terrain",
+    "id": "t_thconc_floor_no_roof",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor.",
+    "looks_like": "t_thconc_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAT", "ROAD" ],
+    "connect_groups": "CONCRETE",
+    "connects_to": "CONCRETE",
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_strconc_floor_no_roof",
     "name": "reinforced concrete floor",
     "description": "An extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",

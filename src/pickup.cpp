@@ -1,59 +1,40 @@
 #include "pickup.h"
 
 #include <algorithm>
-#include <cstddef>
-#include <functional>
-#include <iosfwd>
-#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
 #include "activity_actor_definitions.h"
 #include "auto_pickup.h"
-#include "cata_utility.h"
-#include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "color.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
 #include "input.h"
+#include "input_context.h"
 #include "item.h"
 #include "item_location.h"
-#include "item_search.h"
 #include "item_stack.h"
 #include "line.h"
 #include "map.h"
-#include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
 #include "options.h"
-#include "output.h"
-#include "panels.h"
 #include "player_activity.h"
 #include "point.h"
 #include "popup.h"
 #include "ret_val.h"
-#include "sdltiles.h"
 #include "string_formatter.h"
-#include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "ui_manager.h"
 #include "units.h"
 #include "units_utility.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
-#include "vpart_position.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -328,11 +309,11 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool
         info.total_bulk_volume += loc->volume( false, false, quantity );
         if( !is_bulk_load( pre_info, info ) ) {
             // Cost to take an item from a container or map
-            player_character.moves -= loc.obtain_cost( player_character, quantity );
+            player_character.mod_moves( -loc.obtain_cost( player_character, quantity ) );
         } else {
             // Pure cost to handling item excluding overhead.
-            player_character.moves -= std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
-                                                true ), 1 );
+            player_character.mod_moves( -std::max( player_character.item_handling_cost( *loc, true, 0, quantity,
+                                                   true ), 1 ) );
         }
         contents_change_handler handler;
         handler.unseal_pocket_containing( loc );
@@ -367,7 +348,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     PickupMap mapPickup;
 
     bool problem = false;
-    while( !problem && player_character.moves >= 0 && !targets.empty() ) {
+    while( !problem && player_character.get_moves() >= 0 && !targets.empty() ) {
         item_location target = std::move( targets.back() );
         int quantity = quantities.back();
         // Whether we pick the item up or not, we're done trying to do so,

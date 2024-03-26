@@ -72,7 +72,7 @@
     "global": true,
     "effect": {
       "weighted_list_eocs": [
-        [ { "id": "slots_lose", "effect": { "u_message": "Oh, you lost!", "popup": true } }, { "const": 1000 } ],
+        [ { "id": "slots_lose", "effect": { "u_message": "Oh, you lost!", "popup": true } }, 1000 ],
         [
           {
             "id": "three_cherries",
@@ -82,7 +82,7 @@
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
-          { "const": 200 }
+          200
         ],
         [
           {
@@ -93,7 +93,7 @@
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
-          { "const": 50 }
+          50
         ],
         [
           {
@@ -104,7 +104,7 @@
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
-          { "const": 20 }
+          20
         ],
         [
           {
@@ -115,7 +115,7 @@
               { "run_eocs": "slot_machine_win_payout" }
             ]
           },
-          { "const": 1 }
+          1
         ]
       ]
     }

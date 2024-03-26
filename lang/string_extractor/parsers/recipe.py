@@ -1,4 +1,4 @@
-from .effect_on_condition import parse_effect_on_condition
+from .effect import parse_effect_on_condition
 from ..write_text import write_text
 
 
@@ -45,4 +45,6 @@ def parse_recipe(json, origin):
     if "result_eocs" in json:
         for eoc in json["result_eocs"]:
             if type(eoc) is dict:
-                parse_effect_on_condition(eoc, origin)
+                parse_effect_on_condition(eoc, origin,
+                                          "result of recipe crafting \"{}\""
+                                          .format(result_hint(json)))

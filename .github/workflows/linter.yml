@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: '${{ github.event.pull_request.head.sha }}'
 
@@ -40,4 +40,4 @@ jobs:
       uses: reviewdog/action-suggester@v1
       if: ${{ always() }}
       with:
-        tool_name: 'JSON & C++ formatters'
+        tool_name: '[JSON & C++ formatters](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/DEVELOPER_TOOLING.md)'

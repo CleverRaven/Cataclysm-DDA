@@ -81,6 +81,11 @@ class npc_class
         distribution bonus_int;
         distribution bonus_per;
 
+        distribution bonus_aggression;
+        distribution bonus_bravery;
+        distribution bonus_collector;
+        distribution bonus_altruism;
+
         std::map<skill_id, distribution> skills;
         // Just for finalization
         std::map<skill_id, distribution> bonus_skills;
@@ -119,6 +124,11 @@ class npc_class
         int roll_dexterity() const;
         int roll_intelligence() const;
         int roll_perception() const;
+
+        int roll_aggression() const;
+        int roll_bravery() const;
+        int roll_collector() const;
+        int roll_altruism() const;
 
         int roll_skill( const skill_id & ) const;
 

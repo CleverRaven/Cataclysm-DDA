@@ -159,7 +159,7 @@
       ],
       "items": { "x": [ { "item": "corpses_verydead", "chance": 75 } ] },
       "item": {
-        "#": [ { "item": "bag_canvas", "amount": [ 2, 5 ] }, { "item": "material_sand", "amount": [ 3, 5 ] } ],
+        "#": [ { "item": "bag_canvas", "amount": [ 2, 5 ] }, { "item": "material_sand", "amount": [ 300, 2400 ] } ],
         ".": [ { "item": "splinter", "chance": 100, "amount": [ 1, 3 ] }, { "item": "2x4", "chance": 25 } ]
       },
       "place_loot": [ { "group": "cop_armory", "x": [ 6, 10 ], "y": [ 15, 18 ], "chance": 100, "repeat": [ 4, 10 ] } ],

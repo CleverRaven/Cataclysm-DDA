@@ -25,6 +25,7 @@ class tripoint_range;
 void rng_set_engine_seed( unsigned int seed );
 
 using cata_default_random_engine = std::minstd_rand0;
+cata_default_random_engine::result_type rng_get_first_seed();
 cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 

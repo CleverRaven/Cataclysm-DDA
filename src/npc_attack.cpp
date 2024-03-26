@@ -58,7 +58,8 @@ static bool can_move( const npc &source )
 
 static bool can_move_melee( const npc &source )
 {
-    return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE;
+    return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE &&
+           source.rules.engagement != combat_engagement::NO_MOVE;
 }
 
 bool npc_attack_rating::operator>( const npc_attack_rating &rhs ) const
@@ -285,9 +286,14 @@ void npc_attack_melee::use( npc &source, const tripoint &location ) const
                     //add_msg_debug( debugmode::DF_NPC_MOVEAI,
                     //               "<color_light_gray>%s is at least %i away from allies, enemy within %i of ally.  Going for attack.</color>",
                     //               source.name, source.mem_combat.formation_distance, source.closest_enemy_to_friendly_distance() );
+                } else if( source.mem_combat.formation_distance <= source.mem_combat.engagement_distance ) {
+                    add_msg_debug( debugmode::DF_NPC_MOVEAI,
+                                   "<color_light_gray>%s can't path to melee target, and is staying close to ranged allies.  Stay in place.</color>",
+                                   source.name );
+                    source.move_pause();
                 } else {
                     add_msg_debug( debugmode::DF_NPC_MOVEAI,
-                                   "<color_light_gray>%s can't path to melee target, or is staying close to ranged allies.</color>",
+                                   "<color_light_gray>%s can't path to melee target, and is not staying close to ranged allies.  Get close to player.</color>",
                                    source.name );
                     source.look_for_player( get_player_character() );
                 }
@@ -461,7 +467,7 @@ void npc_attack_gun::use( npc &source, const tripoint &location ) const
 bool npc_attack_gun::can_use( const npc &source ) const
 {
     // can't attack with something you can't wield
-    return source.can_wield( *gunmode ).success();
+    return source.is_wielding( *gunmode ) || source.can_wield( *gunmode ).success();
 }
 
 int npc_attack_gun::base_time_penalty( const npc &source ) const

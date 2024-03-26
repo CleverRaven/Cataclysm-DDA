@@ -15,7 +15,7 @@ jobs:
     if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: "Get current date"
         uses: 1466587594/get-current-time@v2
         id: current-date

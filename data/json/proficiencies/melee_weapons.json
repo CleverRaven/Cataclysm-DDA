@@ -49,7 +49,7 @@
     "type": "proficiency",
     "id": "prof_auto_pistols_pro",
     "category": "prof_combat",
-    "name": { "str": "Hand Gun CQC Proficiency" },
+    "name": { "str": "Handgun CQC Proficiency" },
     "description": "You're proficient in striking with your handgun and can do so precisely.",
     "can_learn": true,
     "default_time_multiplier": 1.5,

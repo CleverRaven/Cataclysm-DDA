@@ -43,7 +43,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "mutation.h"
-#include "name.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -116,6 +115,7 @@ static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 
 static const json_character_flag json_flag_ALBINO( "ALBINO" );
 static const json_character_flag json_flag_DAYFEAR( "DAYFEAR" );
+static const json_character_flag json_flag_ETHEREAL( "ETHEREAL" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 static const json_character_flag json_flag_GRAB( "GRAB" );
@@ -125,8 +125,6 @@ static const json_character_flag json_flag_NYCTOPHOBIA( "NYCTOPHOBIA" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_RAD_DETECT( "RAD_DETECT" );
 static const json_character_flag json_flag_SUNBURN( "SUNBURN" );
-
-static const mon_flag_str_id mon_flag_GROUP_BASH( "GROUP_BASH" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
@@ -165,11 +163,12 @@ static const trait_id trait_SORES( "SORES" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
+static const trait_id trait_UNDINE_ABSORB_WATER( "UNDINE_ABSORB_WATER" );
 static const trait_id trait_UNSTABLE( "UNSTABLE" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+static const trait_id trait_WINGS_INSECT_active( "WINGS_INSECT_active" );
 
 static const vitamin_id vitamin_vitC( "vitC" );
 
@@ -177,7 +176,7 @@ namespace suffer
 {
 static void from_sunburn( Character &you, bool severe );
 static void in_sunlight( Character &you );
-static void water_damage( Character &you, const trait_id &mut_id );
+static void water_damage( Character &you );
 static void mutation_power( Character &you, const trait_id &mut_id );
 static void while_underwater( Character &you );
 static void while_grabbed( Character &you );
@@ -207,17 +206,19 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
     return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
 }
 
-void suffer::water_damage( Character &you, const trait_id &mut_id )
+void suffer::water_damage( Character &you )
 {
     for( const std::pair<const bodypart_str_id, bodypart> &elem : you.get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
-        const int dmg = mut_id->weakness_to_water * wetness_percentage;
+        float dmg_float = you.enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                          0 ) * wetness_percentage / 100;
+        const int dmg = roll_remainder( dmg_float );
         if( dmg > 0 ) {
             you.apply_damage( nullptr, elem.first, dmg );
             you.add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                        _( "<npcname>'s %s is damaged by the water." ),
                                        body_part_name( elem.first ) );
-        } else if( dmg < 0 && elem.second.is_at_max_hp() ) {
+        } else if( dmg < 0 && !elem.second.is_at_max_hp() ) {
             you.heal( elem.first, std::abs( dmg ) );
             you.add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                        _( "<npcname>'s %s is healed by the water." ),
@@ -303,6 +304,9 @@ void suffer::while_underwater( Character &you )
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
         you.get_thirst() > -60 ) {
+        you.mod_thirst( -1 );
+    }
+    if( you.has_trait( trait_UNDINE_ABSORB_WATER ) && you.get_thirst() > -60 ) {
         you.mod_thirst( -1 );
     }
 }
@@ -485,7 +489,7 @@ void suffer::from_chemimbalance( Character &you )
     }
     if( one_turn_in( 6_hours ) && !you.has_effect( effect_sleep ) ) {
         you.add_msg_if_player( m_bad, _( "You feel dizzy for a moment." ) );
-        you.moves -= rng( 10, 30 );
+        you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.1, 0.3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
         int hungadd = 5 * rng( -1, 3 );
@@ -554,7 +558,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     }
 
     you.add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
-                               "<npcname> starts wheezing and coughing." );
+                               _( "<npcname> starts wheezing and coughing." ) );
 
     map &here = get_map();
     if( you.in_sleep_state() && !you.has_effect( effect_narcosis ) ) {
@@ -605,7 +609,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     } else if( auto_use ) {
         int charges = 0;
         if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
-            you.moves -= 40;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.4 );
             charges = you.charges_of( itype_inhaler );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
@@ -619,7 +623,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
             you.add_effect( effect_took_antiasthmatic, rng( 6_hours, 12_hours ) );
         } else if( you.use_charges_if_avail( itype_oxygen_tank, 1 ) ||
                    you.use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
-            you.moves -= 500; // synched with use action
+            you.mod_moves( -to_moves<int>( 5_seconds ) ); // synched with use action
             charges = you.charges_of( itype_oxygen_tank ) + you.charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
                 you.add_msg_if_player( m_bad, _( "You breathe in the last bit of oxygen "
@@ -669,12 +673,10 @@ void suffer::in_sunlight( Character &you )
             const int rate = ( 100 * sleeve_factor + flux ) * 2;
             sunlight_nutrition += rate * ( leafiest ? 2 : 1 ) * weather_factor;
         }
+        if( x_in_y( sunlight_nutrition, 18000 ) ) {
+            you.vitamin_mod( vitamin_vitC, 1 );
+        }
     }
-
-    if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        you.vitamin_mod( vitamin_vitC, 1 );
-    }
-
     if( you.has_flag( json_flag_SUNBURN ) ) {
         suffer::from_sunburn( you, true );
     }
@@ -970,7 +972,7 @@ void suffer::from_sunburn( Character &you, bool severe )
 
 void suffer::from_item_dropping( Character &you )
 {
-    if( you.has_effect( effect_incorporeal ) ) {
+    if( you.has_effect( effect_incorporeal ) && !you.has_flag( json_flag_ETHEREAL ) ) {
         std::vector<item *> dump = you.inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {
@@ -995,7 +997,7 @@ void suffer::from_other_mutations( Character &you )
         here.spawn_item( position, "bone", 1 );
     }
 
-    if( you.has_active_mutation( trait_WINGS_INSECT ) ) {
+    if( you.has_trait( trait_WINGS_INSECT_active ) ) {
         //~Sound of buzzing Insect Wings
         sounds::sound( position, 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
                        "insect_wings" );
@@ -1217,7 +1219,7 @@ void suffer::from_bad_bionics( Character &you )
         } else {
             you.add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
         }
-        you.moves -= 150;
+        you.mod_moves( -to_moves<int>( 1_seconds ) * 1.5 );
         you.mod_power_level( -bio_dis_shock->power_trigger );
 
         item_location weapon = you.get_wielded_item();
@@ -1443,7 +1445,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
         }
         if( one_turn_in( 100_minutes ) ) {
             you.add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
@@ -1458,7 +1460,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
         if( one_turn_in( 75_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
-            you.moves -= rng( 20, 80 );
+            you.mod_moves( -to_moves<int>( 1_seconds ) * rng_float( 0.2, 0.8 ) );
         }
         if( one_turn_in( 125_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
@@ -1486,7 +1488,7 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
                                              "trouble keeping your balance." ) );
             you.add_effect( effect_shakes, 15_minutes );
         } else if( you.has_effect( effect_shakes ) && one_turn_in( 75_seconds ) ) {
-            you.moves -= 10;
+            you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
             you.add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
                                        _( "<npcname> stumbles." ) );
             if( !you.is_on_ground() && one_in( 10 ) ) {
@@ -1640,8 +1642,10 @@ void Character::suffer()
     }
 
     for( const trait_id &mut_id : get_mutations() ) {
-        if( calendar::once_every( 1_minutes ) && mut_id->weakness_to_water != 0 ) {
-            suffer::water_damage( *this, mut_id );
+        if( calendar::once_every( 1_seconds ) &&
+            enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER,
+                                             0 ) != 0 ) {
+            suffer::water_damage( *this );
         }
         if( has_active_mutation( mut_id ) || ( !mut_id->activated && !mut_id->processed_eocs.empty() ) ) {
             suffer::mutation_power( *this, mut_id );
@@ -1826,11 +1830,8 @@ void Character::mend( int rate_multiplier )
     // Mutagenic healing factor!
     bool needs_splint = true;
 
-    healing_factor *= mutation_value( "mending_modifier" );
-
-    if( has_flag( json_flag_MEND_ALL ) ) {
-        needs_splint = false;
-    }
+    healing_factor = enchantment_cache->modify_value( enchant_vals::mod::MENDING_MODIFIER,
+                     healing_factor );
 
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Limb mend healing factor: %.2f", healing_factor );
     if( healing_factor <= 0.0f ) {
@@ -1840,6 +1841,7 @@ void Character::mend( int rate_multiplier )
 
     for( const bodypart_id &bp : get_all_body_parts() ) {
         const bool broken = is_limb_broken( bp );
+        needs_splint = !has_flag( json_flag_MEND_ALL );
         if( !broken ) {
             continue;
         }
@@ -1917,8 +1919,10 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         restore_scent();
     }
 
-    if( is_weak_to_water() ) {
+    if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) > 0 ) {
         add_msg_if_player( m_bad, _( "You feel the water burning your skin." ) );
+    } else if( enchantment_cache->modify_value( enchant_vals::mod::WEAKNESS_TO_WATER, 0 ) < 0 ) {
+        add_msg_if_player( m_bad, _( "You feel the water runs on your skin, making you feel better." ) );
     }
 
     // Remove onfire effect

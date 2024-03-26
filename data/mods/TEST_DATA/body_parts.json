@@ -1,5 +1,42 @@
 [
   {
+    "type": "body_part",
+    "id": "test_arm_l",
+    "name": "left arm",
+    "copy-from": "arm_l",
+    "similar_bodyparts": [ "test_bird_wing_l" ],
+    "opposite_part": "test_arm_r"
+  },
+  {
+    "type": "body_part",
+    "id": "test_arm_r",
+    "name": "right arm",
+    "copy-from": "arm_r",
+    "similar_bodyparts": [ "test_bird_wing_r" ],
+    "opposite_part": "test_arm_l"
+  },
+  {
+    "id": "test_foot_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "foot_l",
+    "side": 0,
+    "opposite": "test_foot_r",
+    "name_multiple": "feet",
+    "name": "left foot"
+  },
+  {
+    "id": "test_foot_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "foot_r",
+    "side": 0,
+    "opposite": "test_foot_l",
+    "name_multiple": "feet",
+    "similar_bodyparts": [ "sub_limb_test_bird_foot_r", "sub_limb_test_bird_foot_l" ],
+    "name": "right foot"
+  },
+  {
     "type": "limb_score",
     "id": "test",
     "name": "Testing",
@@ -27,6 +64,29 @@
     "base_hp": 20,
     "limb_scores": [ [ "test", 0.8 ] ],
     "armor": { "bash": 5.0, "acid": 5.0 },
+    "sub_parts": [ "sub_limb_debug_tail" ]
+  },
+  {
+    "id": "test_lizard_tail",
+    "type": "body_part",
+    "//": "Test tail to check mend rate and heal bonus",
+    "name": "test lizard tail",
+    "name_multiple": "test lizard tails",
+    "heading": "TST LZD Tail",
+    "heading_multiple": "Tails",
+    "encumbrance_text": "Your testing tail feels heavy",
+    "hit_size": 1,
+    "drench_capacity": 4,
+    "main_part": "test_tail",
+    "hit_difficulty": 0.8,
+    "limb_type": "tail",
+    "opposite_part": "test_lizard_tail",
+    "side": "both",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "test lizard tail" },
+    "hp_bar_ui_text": "TST LZD TAIL",
+    "base_hp": 20,
+    "heal_bonus": 1,
+    "flags": [ "HEAL_OVERRIDE", "ALWAYS_HEAL", "MEND_LIMB" ],
     "sub_parts": [ "sub_limb_debug_tail" ]
   },
   {
@@ -88,14 +148,40 @@
     "side": "left",
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
+    "drying_rate": 2,
     "fire_warmth_bonus": 600,
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 10,
+    "drench_capacity": 1000,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+    "ugliness": 30,
+    "ugliness_mandatory": 12,
+    "health_limit": 50,
+    "encumbrance_limit": 99,
+    "conditional_flags": [ "WALL_CLING" ],
+    "sub_parts": [ "sub_test_wing_l" ]
+  },
+  {
+    "id": "sub_test_wing_l",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bird_wing_l",
+    "side": 1,
+    "opposite": "sub_test_wing_r",
+    "name_multiple": "wings",
+    "name": "left bird wing"
+  },
+  {
+    "id": "sub_test_wing_r",
+    "type": "sub_body_part",
+    "max_coverage": 100,
+    "parent": "test_bird_wing_r",
+    "side": 1,
+    "opposite": "sub_test_wing_l",
+    "name_multiple": "wings",
+    "name": "right bird wing"
   },
   {
     "id": "test_bird_wing_r",
@@ -123,10 +209,16 @@
     "squeamish_penalty": 5,
     "is_limb": true,
     "base_hp": 60,
-    "drench_capacity": 10,
+    "drench_capacity": 1000,
+    "drying_rate": 0.5,
     "smash_message": "You elbow-smash the %s.",
     "bionic_slots": 20,
-    "sub_parts": [ "arm_shoulder_r", "arm_upper_r", "arm_elbow_r", "arm_lower_r" ]
+    "ugliness": 30,
+    "ugliness_mandatory": 12,
+    "health_limit": 50,
+    "encumbrance_limit": 99,
+    "conditional_flags": [ "WALL_CLING" ],
+    "sub_parts": [ "sub_test_wing_r" ]
   },
   {
     "id": "test_bird_foot_l",
@@ -213,6 +305,12 @@
     "id": "ENCH_TEST_TAIL",
     "condition": "ALWAYS",
     "modified_bodyparts": [ { "gain": "test_tail" } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ENCH_TEST_LIZARD_TAIL",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "gain": "test_lizard_tail" } ]
   },
   {
     "type": "enchantment",

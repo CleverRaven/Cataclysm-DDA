@@ -100,6 +100,19 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_ACID_RESIST_ALLY",
+    "name": { "str": "Caustic Cloak" },
+    "points": 0,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Undine gains the ability to weave an enchantment on an ally which will protect them from acid and causes anything who attacks that ally to be splashed with acid themselves.",
+    "prereqs": [ "ACIDIC_MIST" ],
+    "prereqs2": [ "RESIST_ACID" ],
+    "category": [ "UNDINE" ],
+    "spells_learned": [ [ "undine_acid_resist_ally_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_CULTIVATE_GOBLIN_FRUIT",
     "name": { "str": "Cultivate Goblin Fruit" },
     "points": 3,
@@ -226,25 +239,439 @@
   },
   {
     "type": "mutation",
+    "id": "UNDINE_BASH_AND_SLOW",
+    "name": { "str": "Crushing Pressure" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Undine to slow and damage a single target, as though they were caught in the depths of the ocean.",
+    "category": [ "UNDINE" ],
+    "prereqs": [ "WATER_SEALED" ],
+    "spells_learned": [ [ "undine_bash_and_slow_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_DRAG_INWARD",
+    "name": { "str": "Whirlpool Catches the Shoal" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Undine to force an entire group inward toward a central point, as though caught in a whirlpool.",
+    "category": [ "UNDINE" ],
+    "prereqs": [ "UNDINE_BASH_AND_SLOW" ],
+    "spells_learned": [ [ "undine_drag_inward_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_TIDAL_WAVE",
+    "name": { "str": "Tidal Wave" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Allows the Undine to force an entire group inward toward a central point, as though caught in a whirlpool.",
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "prereqs": [ "UNDINE_DRAG_INWARD" ],
+    "spells_learned": [ [ "undine_tidal_wave_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "UNDINE_EYES",
     "name": { "str": "Undine Eyes" },
     "points": 1,
     "visibility": 2,
     "ugliness": 0,
-    "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them.",
+    "description": "Upon gaining this ability the Undine's eyes begin reflecting their mood with colors of the deep waters, pitch black when angry or sad and green-blue when pleased.  Glare no longer impacts them, and neither do light levels when trying to sleep.  They can also see without problem underwater.",
     "category": [ "UNDINE" ],
-    "integrated_armor": [ "integrated_undine_eyes" ]
+    "integrated_armor": [ "integrated_undine_eyes" ],
+    "flags": [ "SEESLEEP", "SWIM_GOGGLES" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_EARS",
+    "name": { "str": "Undine Ears" },
+    "points": 1,
+    "visibility": 2,
+    "ugliness": 0,
+    "description": "The Undine's ears are longer and pointed, like a stream of water poured into a glass from on high.  This is purely cosmetic.",
+    "category": [ "UNDINE" ]
   },
   {
     "type": "mutation",
     "id": "SUMMON_WATER_ELEMENTAL",
-    "name": { "str": "Summon Water Elemental" },
+    "name": { "str": "Calling the Children of the Waves" },
     "points": 0,
     "visibility": 0,
     "ugliness": 0,
-    "description": "Allows the Undine to summon a minor water elemental to support you in the world for a short time.",
+    "description": "Allows the Undine to summon a minor water elemental to support them in the world for a short time.",
     "category": [ "UNDINE" ],
     "spells_learned": [ [ "summon_water_sprite", 1 ] ],
     "//": "Eventually add further spells in this area with more powerful elementals."
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_SLEEP_WATER",
+    "name": { "str": "Embrace of the Waters" },
+    "points": 1,
+    "description": "Surrounded by the waters, Undines find it easy to rest.  Falling asleep underwater is easy for you, and you spend less time asleep when you rest there.  You can also eat underwater, though you can't drink.",
+    "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
+    "prereqs2": [ "BREATH_UNDERWATER" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "SLEEPY", "add": 40 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_ABSORB_WATER",
+    "name": { "str": "The Sea Sustains Me" },
+    "points": 4,
+    "description": "Undines are born of the flowing waters and the waters provide for their children.  While submerged in fresh water, any thirst you have will be slaked.",
+    "prereqs": [ "UNDINE_SLEEP_WATER" ],
+    "category": [ "UNDINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_ESCAPE_GRABS",
+    "name": { "str": "Flow Like Water" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "With the Undine's more fluid skin has come more fluid motion.  Activate this trait to immediately escape a grab and suffer less damage from falls for a few seconds.",
+    "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
+    "category": [ "UNDINE" ],
+    "active": true,
+    "activated_is_setup": false,
+    "cost": 2,
+    "thirst": true,
+    "activated_eocs": [ "EOC_UNDINE_ESCAPE_GRABS" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_FAST_SWIM_SPEED",
+    "name": { "str": "Like a Fish in the River" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Undines are born of the waters and water is their home.  This trait allows them to move much faster when in water.",
+    "prereqs": [ "BREATH_UNDERWATER" ],
+    "category": [ "UNDINE" ],
+    "flags": [ "WEBBED_FEET", "WEBBED_HANDS" ],
+    "enchantments": [ { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.7 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_PUSH_AWAY",
+    "name": { "str": "Crashing Waves" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The waters come to the Undine's defense.  When attacked, there is a chance that a burst of water will surge out and push their attackers back.",
+    "prereqs": [ "UNDINE_ESCAPE_GRABS" ],
+    "category": [ "UNDINE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_DO_MORE_MELEE_DAMAGE",
+    "name": { "str": "Pounding Surf Strikes" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like the relentless pounding of the waves against the shore, the Undine's strikes hammer into their enemies.  While this trait is active, the Undine does 25% more melee damage.",
+    "prereqs": [ "UNDINE_WATER_PUSH_AWAY" ],
+    "category": [ "UNDINE" ],
+    "active": true,
+    "thirst": true,
+    "cost": 1,
+    "time": 30,
+    "activated_is_setup": false,
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_RIVER_MAPPING",
+    "name": { "str": "All Rivers Flow to the Sea" },
+    "description": "Water falls as rain, flows into streams, and then into rivers to the sea, and rises as clouds to fall as rain once again.  While submerged in a river, lake, or the ocean, the Undine can exploit this connection to locate other sources of water.",
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "category": [ "UNDINE" ],
+    "prereqs": [ "UNDINE_EYES" ],
+    "prereqs2": [ "BREATH_UNDERWATER" ],
+    "active": true,
+    "activated_eocs": [ "EOC_UNDINE_RIVER_MAPPING" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_STR_UP_1",
+    "name": { "str": "Waves Erode the Stones" },
+    "points": 1,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Even the weakest waves will erode the strongest rock, given enough time.  +1 Strength.",
+    "prereqs": [ "UNDINE_WATER_PUSH_AWAY" ],
+    "changes_to": [ "UNDINE_STR_UP_2" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_STR_UP_2",
+    "name": { "str": "Waves Erode the Shore" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Year by year, meter by meter, the waves gradually erode the beaches.  +3 Strength.",
+    "prereqs": [ "UNDINE_STR_UP_1" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 3 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_DEX_UP_1",
+    "name": { "str": "Grace of the Creek" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Undine's flexibility has increased, allowing them to move in increasingly more fluid ways.  +2 Dexterity.",
+    "prereqs": [ "UNDINE_SKIN_1" ],
+    "changes_to": [ "UNDINE_DEX_UP_2" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_DEX_UP_2",
+    "name": { "str": "Grace of the Stream" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like the babbling brook, the Undine flows over everything in their way.  +4 Dexterity.  However, they must also drink 15% more water.",
+    "prereqs": [ "UNDINE_DEX_UP_1" ],
+    "changes_to": [ "UNDINE_DEX_UP_3" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 4 }, { "value": "THIRST", "multiply": 0.15 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_DEX_UP_3",
+    "name": { "str": "Grace of the River" },
+    "points": 6,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Like the flowing river, the Undine can twist back on themselves and pass through any obstacle.  +6 Dexterity.  However, they must also drink 25% more water.",
+    "prereqs": [ "UNDINE_DEX_UP_2" ],
+    "prereqs2": [ "UNDINE_WATER_BODY" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "values": [ { "value": "DEXTERITY", "add": 6 }, { "value": "THIRST", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_PER_UP_1",
+    "name": { "str": "Seeing the Depths" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Undine's senses take in their environment like a fisher gazing to the bottom of a clear pond.  +2 Perception.",
+    "prereqs": [ "UNDINE_RIVER_MAPPING" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "values": [ { "value": "PERCEPTION", "add": 2 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_NO_COLD_UNDERWATER",
+    "name": { "str": "The Pond's Depths Do Not Freeze" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_ABSORB_WATER" ],
+    "description": "Though the ice over the top grows thick, the water below remains liquid.  The Undine is completely immune to cold temperatures when underwater.",
+    "category": [ "UNDINE" ],
+    "enchantments": [ { "condition": "u_is_underwater", "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 1000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_BODY",
+    "name": { "str": "Fluid Body" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Even the Undine's internal organs are becoming more liquid.  Bashing and cutting damage is reduced even further, and ballistic damage is halved.  However, the Undine needs to drink more water.",
+    "prereqs": [ "UNDINE_SKIN_2", "UNDINE_SKIN_3" ],
+    "category": [ "UNDINE" ],
+    "enchantments": [ "ench_undine_water_body", { "values": [ { "value": "THIRST", "multiply": 0.25 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_MORE_MANA_REGEN",
+    "name": { "str": "Like the Flowing Fountain" },
+    "points": 4,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_FAST_SWIM_SPEED" ],
+    "changes_to": "UNDINE_MORE_MANA_REGEN_AND_MANA",
+    "description": "Like the fountain continuously flowing with water, the Undine's mana regenerates 50% faster while standing in or under water.",
+    "category": [ "UNDINE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            "u_is_underwater",
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" }
+          ]
+        },
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_MORE_MANA_REGEN_AND_MANA",
+    "name": { "str": "Like the Rushing Fountain" },
+    "points": 7,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_MORE_MANA_REGEN" ],
+    "prereqs2": [ "UNDINE_RIVER_MAPPING" ],
+    "changes_to": "UNDINE_MORE_MANA_REGEN_AND_MANA_AND_STAMINA",
+    "description": "Like the fountain continuously flowing to the brim with water, the Undine's mana regenerates 50% faster and they have 50% more mana while standing in or under water.",
+    "category": [ "UNDINE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            "u_is_underwater",
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" }
+          ]
+        },
+        "values": [ { "value": "REGEN_MANA", "multiply": 0.5 }, { "value": "MAX_MANA", "multiply": 0.5 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_MORE_MANA_REGEN_AND_MANA_AND_STAMINA",
+    "name": { "str": "Like the Overflowing Fountain" },
+    "points": 10,
+    "visibility": 0,
+    "ugliness": 0,
+    "prereqs": [ "UNDINE_MORE_MANA_REGEN_AND_MANA" ],
+    "description": "Like the fountain overflowing with water, the Undine's mana regenerates 50% faster, they have 50% more mana, and their stamina regenerates 100% faster while standing in or under water.",
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "enchantments": [
+      {
+        "condition": {
+          "or": [
+            "u_is_underwater",
+            { "u_is_on_terrain": "t_water_dp" },
+            { "u_is_on_terrain": "t_water_sh" },
+            { "u_is_on_terrain": "t_swater_dp" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_dp_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_water_hot" },
+            { "u_is_on_terrain": "t_water_murky" },
+            { "u_is_on_terrain": "t_water_sh_underground" },
+            { "u_is_on_terrain": "t_swater_dp_underground" },
+            { "u_is_on_terrain": "t_swater_sh_underground" },
+            { "u_is_on_terrain": "t_swater_sh" },
+            { "u_is_on_terrain": "t_water_moving_dp" },
+            { "u_is_on_terrain": "t_water_moving_dp_underground" },
+            { "u_is_on_terrain": "t_water_sh_murky_underground" }
+          ]
+        },
+        "values": [
+          { "value": "REGEN_MANA", "multiply": 0.5 },
+          { "value": "MAX_MANA", "multiply": 0.5 },
+          { "value": "REGEN_STAMINA", "multiply": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM",
+    "name": { "str": "Form of the Flowing Waters" },
+    "points": 8,
+    "description": "You may transform your body into pure water, becoming much more difficult to hurt (except by fire), able to flow easily over all terrain, and capable of moving much faster and more stealthily when in water.  However, you will be unable to attack, cold will do triple damage to you, and cold weather will affect you more.",
+    "prereqs": [ "UNDINE_WATER_BODY" ],
+    "prereqs2": [ "UNDINE_ABSORB_WATER" ],
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "active": true,
+    "thirst": true,
+    "cost": 1,
+    "time": 3,
+    "activated_is_setup": true,
+    "activated_eocs": [ "EOC_UNDINE_WATER_FORM_ON" ],
+    "deactivated_eocs": [ "EOC_UNDINE_WATER_FORM_OFF" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM_TRAITS",
+    "name": { "str": "Water Form" },
+    "description": "You are a mass of pure water.  It is much harder to damage you, and you can move over any terrain without penalty, but you cannot attack.",
+    "points": 10,
+    "valid": false,
+    "override_look": { "id": "mon_water_sprite", "tile_category": "monster" },
+    "enchantments": [
+      "ench_undine_water_form_no_attack",
+      "ench_undine_water_form_armor",
+      { "values": [ { "value": "MOVECOST_SWIM_MOD", "multiply": -0.4 } ] }
+    ],
+    "flags": [ "STEADY", "WALK_UNDERWATER", "BULLET_IMMUNE" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_WATER_FORM_CAMOUFLAGE",
+    "name": { "str": "Watery Camouflage" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Being made entirely of water, it is easy for you to disguise yourself when underwater.",
+    "category": [ "UNDINE" ],
+    "valid": false,
+    "enchantments": [ "undine_water_form_hiding" ]
+  },
+  {
+    "type": "mutation",
+    "id": "UNDINE_LIQUID_WATER_POCKET",
+    "name": { "str": "The Sea Is Always With Me" },
+    "points": 5,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "The Undine can draw a bit of extra water into their watery skin, fortifying them for journeys away from a water source.",
+    "prereqs": [ "UNDINE_SKIN_3" ],
+    "prereqs2": [ "WATER_SEALED" ],
+    "category": [ "UNDINE" ],
+    "threshreq": [ "THRESH_UNDINE" ],
+    "integrated_armor": [ "item_undine_liquid_water_pocket" ]
   }
 ]

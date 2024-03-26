@@ -499,11 +499,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "house_05ab_basement",
-    "copy-from": "generic_city_house_basement"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "house_06",
     "copy-from": "house_06",
     "sym": "\u00E0",
@@ -1197,13 +1192,6 @@
     "type": "overmap_terrain",
     "id": "house_05",
     "copy-from": "house_05",
-    "sym": "\u00E0",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "house_05ab",
-    "copy-from": "house_05ab",
     "sym": "\u00E0",
     "color": "light_gray"
   },

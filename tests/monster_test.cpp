@@ -32,9 +32,6 @@ class item;
 
 using move_statistics = statistics<int>;
 
-static const mon_flag_str_id mon_flag_PUSH_VEH( "PUSH_VEH" );
-static const mon_flag_str_id mon_flag_SEES( "SEES" );
-
 static const mtype_id mon_dog_zombie_brute( "mon_dog_zombie_brute" );
 
 static int moves_to_destination( const std::string &monster_type,
@@ -51,11 +48,11 @@ static int moves_to_destination( const std::string &monster_type,
     int moves_spent = 0;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_monster.mod_moves( monster_speed );
-        while( test_monster.moves >= 0 ) {
+        while( test_monster.get_moves() >= 0 ) {
             test_monster.anger = 100;
-            const int moves_before = test_monster.moves;
+            const int moves_before = test_monster.get_moves();
             test_monster.move();
-            moves_spent += moves_before - test_monster.moves;
+            moves_spent += moves_before - test_monster.get_moves();
             if( test_monster.get_location() == test_monster.get_dest() ) {
                 g->remove_zombie( test_monster );
                 return moves_spent;
@@ -121,7 +118,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     std::vector<track> tracker;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
-        while( test_player.moves >= 0 ) {
+        while( test_player.get_moves() >= 0 ) {
             test_player.setpos( test_player.pos() + direction_of_flight );
             if( test_player.pos().x < SEEX * static_cast<int>( MAPSIZE / 2 ) ||
                 test_player.pos().y < SEEY * static_cast<int>( MAPSIZE / 2 ) ||
@@ -143,10 +140,10 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
         get_map().clear_traps();
         test_monster.set_dest( test_player.get_location() );
         test_monster.mod_moves( monster_speed );
-        while( test_monster.moves >= 0 ) {
-            const int moves_before = test_monster.moves;
+        while( test_monster.get_moves() >= 0 ) {
+            const int moves_before = test_monster.get_moves();
             test_monster.move();
-            tracker.push_back( {'m', moves_before - test_monster.moves,
+            tracker.push_back( {'m', moves_before - test_monster.get_moves(),
                                 rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_monster.pos()
                                } );

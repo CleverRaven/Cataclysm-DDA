@@ -32,7 +32,7 @@
     ],
     "responses": [
       {
-        "text": "Bar… barshender!  we… we?",
+        "text": "Bar… barshender!  We… we?",
         "effect": [
           "end_conversation",
           { "queue_eocs": "EOC_BEM_BEM_CHATTING_VETERANS_DRUNK_MESSAGE", "time_in_future": [ "0s", "0s" ] }
@@ -88,7 +88,7 @@
       },
       {
         "text": "Try to gross each other out with tales of mutant butchery.",
-        "condition": { "math": [ "u_val('proficiency', 'proficiency_id: prof_wp_basic_bug', 'format: percent')", ">=", "50" ] },
+        "condition": { "math": [ "u_proficiency('prof_wp_basic_bug', 'format': 'percent')", ">=", "50" ] },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_BUTCHERY"
       },
       {

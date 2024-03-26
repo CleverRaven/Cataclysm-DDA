@@ -20,9 +20,9 @@
         "...........--...........",
         "..../.?????--?????......",
         ".##o#######o*#####o#o##.",
-        ".#t_|QQ|qU|L iii|R   R#.",
-        ".#S_|++|q +     +  h  o.",
-        ".#8_+  ||||b   y|PrrrP#.",
+        ".#t~|QQ|qU|L iii|R   R#.",
+        ".#S~|++|q +     +  h  o.",
+        ".#8~+  ||||b   y|PrrrP#.",
         "^#BB|y         |||||||#.",
         ".#||||||||++|  +     D#.",
         ".:y h   V|WZ|  |++|  @o.",
@@ -31,22 +31,21 @@
         ".:  ff                *-",
         ".:y h   Y      RR||+||#-",
         ".#||| ||||  l H|||   ¤#.",
-        ".#723_JJJ|a l H|d|  @@o.",
-        ".o6______|    H| +  @@o.",
+        ".#723=JJJ|a l H|d|  @@o.",
+        ".o6======|    H| +  @@o.",
         ".#641F5OJ|sHHHs|d|D  ¤#.",
         ".###o##o##:::::####oo##.",
         ".................^......",
         "........................"
       ],
       "terrain": {
-        "_": "t_linoleum_gray",
         ",": "t_dirtmound",
         "?": "t_region_shrub_decorative",
         "/": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
         "Q": "t_floor_waxed"
       },
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 5, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 5, "y": 0 } ],
       "furniture": { "&": "f_boulder_large", "/": [ [ "f_null", 4 ], "f_ladder" ] }
     }
   },

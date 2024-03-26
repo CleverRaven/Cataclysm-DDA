@@ -15,6 +15,7 @@
 #include "magic.h"
 #include "type_id.h"
 #include "units_fwd.h"
+#include <monster.h>
 
 class Character;
 class Creature;
@@ -42,13 +43,18 @@ enum class mod : int {
     MAX_MANA,
     REGEN_MANA,
     BIONIC_POWER,
+    POWER_TRICKLE,
     MAX_STAMINA,
     REGEN_STAMINA,
+    FAT_TO_MAX_HP,
+    CARDIO_MULTIPLIER,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
+    REGEN_HP_AWAKE,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
+    FATIGUE_REGEN,
     PAIN,
     PAIN_REMOVE,
     BONUS_DODGE,
@@ -60,6 +66,7 @@ enum class mod : int {
     FOOTSTEP_NOISE,
     SIGHT_RANGE_ELECTRIC,
     MOTION_VISION_RANGE,
+    SIGHT_RANGE_FAE,
     SIGHT_RANGE_NETHER,
     SIGHT_RANGE_MINDS,
     CARRY_WEIGHT,
@@ -68,22 +75,38 @@ enum class mod : int {
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
     SLEEPY,
+    BODYTEMP_SLEEP,
     LUMINATION,
     EFFECTIVE_HEALTH_MOD,
     MOD_HEALTH,
     MOD_HEALTH_CAP,
+    HEALTHY_RATE,
     READING_EXP,
     SKILL_RUST_RESIST,
+    READING_SPEED_MULTIPLIER,
+    OVERMAP_SIGHT,
+    KCAL,
+    VITAMIN_ABSORB_MOD,
+    MELEE_STAMINA_CONSUMPTION,
+    OBTAIN_COST_MULTIPLIER,
+    CASTING_TIME_MULTIPLIER,
+    CRAFTING_SPEED_MULTIPLIER,
+    BIONIC_MANA_PENALTY,
+    STEALTH_MODIFIER,
+    WEAKNESS_TO_WATER,
+    MENDING_MODIFIER,
+    STOMACH_SIZE_MULTIPLIER,
     LEARNING_FOCUS,
-    ARMOR_BASH,
-    ARMOR_CUT,
-    ARMOR_STAB,
-    ARMOR_BULLET,
-    ARMOR_HEAT,
-    ARMOR_COLD,
-    ARMOR_ELEC,
     ARMOR_ACID,
+    ARMOR_ALL,
+    ARMOR_BASH,
     ARMOR_BIO,
+    ARMOR_BULLET,
+    ARMOR_COLD,
+    ARMOR_CUT,
+    ARMOR_ELEC,
+    ARMOR_HEAT,
+    ARMOR_STAB,
     EXTRA_BASH,
     EXTRA_CUT,
     EXTRA_STAB,
@@ -127,6 +150,21 @@ enum class mod : int {
     OVERKILL_DAMAGE,
     RANGE,
     AVOID_FRIENDRY_FIRE,
+    MOVECOST_SWIM_MOD,
+    MOVECOST_OBSTACLE_MOD,
+    MOVECOST_FLATGROUND_MOD,
+    SHOUT_NOISE_STR_MULT,
+    NIGHT_VIS,
+    HEARING_MULT,
+    BANDAGE_BONUS,
+    DISINFECTANT_BONUS,
+    BLEED_STOP_BONUS,
+    UGLINESS,
+    VOMIT_MUL,
+    SCENT_MASK,
+    CONSUME_TIME_MOD,
+    SWEAT_MULTIPLIER,
+    STAMINA_REGEN_MOD,
     NUM_MOD
 };
 } // namespace enchant_vals
@@ -167,6 +205,11 @@ class enchantment
         // this enchantment has a valid item independent conditions
         // @active means the container for the enchantment is active, for comparison to active flag.
         bool is_active( const Character &guy, bool active ) const;
+
+        // same as above except for monsters. Much more limited.
+        bool is_active( const monster &mon ) const;
+
+        bool is_monster_relevant() const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -235,8 +278,13 @@ class enchant_cache : public enchantment
         double modify_value( const skill_id &mod_val, double value ) const;
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
         units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
+        units::volume modify_value( enchant_vals::mod mod_val, units::volume value ) const;
+        units::temperature_delta modify_value( enchant_vals::mod mod_val,
+                                               units::temperature_delta value ) const;
+        time_duration modify_value( enchant_vals::mod mod_val, time_duration value ) const;
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs, const Character &guy );
+        void force_add( const enchantment &rhs );
         void force_add( const enchant_cache &rhs );
 
         // modifies character stats, or does other passive effects
@@ -257,6 +305,8 @@ class enchant_cache : public enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+        //Clears all the maps and vectors in the cache.
+        void clear();
 
         // casts all the hit_you_effects on the target
         void cast_hit_you( Character &caster, const Creature &target ) const;

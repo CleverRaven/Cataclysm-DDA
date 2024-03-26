@@ -9,7 +9,7 @@
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "input.h"
+#include "input_context.h"
 #include "mission.h"
 #include "npc.h"
 #include "output.h"
@@ -97,13 +97,25 @@ void game::list_missions()
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
 
         mission_row_coords.clear();
+        dialogue d( get_talker_for( get_avatar() ), nullptr, {} );
+        auto format_tokenized_description = [&d]( const std::string & description,
+        const talk_effect_fun_t::likely_rewards_t &rewards ) {
+            std::string formatted_description = description;
+            for( const auto &reward : rewards ) {
+                std::string token = "<reward_count:" + itype_id( reward.second.evaluate( d ) ).str() + ">";
+                formatted_description = string_replace( formatted_description, token, string_format( "%g",
+                                                        reward.first.evaluate( d ) ) );
+            }
+            parse_tags( formatted_description, get_avatar(), get_avatar() );
+            return formatted_description;
+        };
         for( int i = top_of_page; i <= bottom_of_page; i++ ) {
             mission *miss = umissions[i];
             const nc_color col = u.get_active_mission() == miss ? c_light_green : c_white;
             const int y = i - top_of_page + 3;
             trim_and_print( w_missions, point( 1, y ), MAX_CHARS_PER_MISSION_ROW_NAME,
                             static_cast<int>( selection ) == i ? hilite( col ) : col,
-                            miss->name() );
+                            format_tokenized_description( miss->name(), miss->get_likely_rewards() ) );
             inclusive_rectangle<point> rec( point( 1, y ), point( 1 + MAX_CHARS_PER_MISSION_ROW_NAME - 1, y ) );
             mission_row_coords.emplace( i, rec );
         }
@@ -121,16 +133,6 @@ void game::list_missions()
 
             int y = 3;
 
-            auto format_tokenized_description = []( const std::string & description,
-            const std::vector<std::pair<int, itype_id>> &rewards ) {
-                std::string formatted_description = description;
-                for( const auto &reward : rewards ) {
-                    std::string token = "<reward_count:" + reward.second.str() + ">";
-                    formatted_description = string_replace( formatted_description, token, string_format( "%d",
-                                                            reward.first ) );
-                }
-                return formatted_description;
-            };
             y += fold_and_print( w_missions, point( 41, y ), getmaxx( w_missions ) - 43, col,
                                  format_tokenized_description( miss->name(), miss->get_likely_rewards() ) + for_npc );
             y++;
