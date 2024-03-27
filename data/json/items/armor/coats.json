@@ -890,68 +890,185 @@
   },
   {
     "id": "jacket_army",
+    "//": "Intended to be, and modelled off of, an M65 combat jacket.",
+    "//2": "Considering that this is a stand-in for both original and reproduction M65 jackets, we're basing our overall dimensions and price on: https://www.helikon-tex.com/en_eur/ku-c65-dc-covert-m-65-jacket.html",
     "type": "ARMOR",
-    "name": { "str": "army jacket" },
-    "description": "A vintage army jacket, or at least a copy of one, with lots of pockets.  Favored by the military.",
-    "weight": "780 g",
-    "volume": "3 L",
-    "price": 3500,
-    "price_postapoc": 750,
-    "material": [ "nylon" ],
-    "symbol": "[",
     "looks_like": "coat_winter",
+    "name": { "str": "army jacket" },
+    "description": "A vintage article of military surplus with an adjustable waist drawstring, or at least a civilian reproduction of one — it's resplendent with a cotton liner, an integral hood tucked away in a zip-up pouch in the collar, and epaulettes upon the shoulders.",
+    "weight": "1400 g",
+    "volume": "3 L",
+    "price": 14147,
+    "//3": "The price of a surplus jacket would be much, much cheaper, but such is the compromise when you're simulating new and old in the same basket.",
+    "price_postapoc": 425,
+    "material": [ { "type": "nylon", "portion": 3 }, { "type": "cotton_quilted", "portion": 1 } ],
+    "//4": "The shell is made from a midweight NyCo blend wind resistant sateen, fully lined with a lightweight NyCo blend wind resistant poplin: https://omegamilitaria.com/blogs/reference-guides/the-ultimate-visual-buyers-guide-to-the-m65-field-jacket",
+    "//5": "M65 jackets have a quilted liner of cotton that's generally removable. Considering that the player isn't able to extract the liner from this garment, we're assuming that the liner is in all the time, hence the quilted cotten material.",
+    "symbol": "[",
     "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 9 ] }
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "cotton_quilted", "covered_by_mat": 60, "thickness": 0.4 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 8, 12 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.5 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 100,
+        "encumbrance": [ 7, 7 ]
+      }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "//": "6 inches tall, 4 inches wide, and 1.5 inches deep.",
+        "max_contains_volume": "590 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
+        "description": "Button-fastened hip pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "1 L",
+        "//": "6 inches tall, 4 inches wide, and 1.5 inches deep.",
+        "max_contains_volume": "590 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "15 cm",
+        "description": "Button-fastened hip pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
+        "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
+        "max_contains_volume": "361 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "18 cm",
+        "description": "Button-fastened chest pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "900 ml",
-        "max_contains_weight": "2 kg",
-        "max_item_length": "15 cm",
+        "//": "7 inches tall, 3 inches wide, and 1 inch deep.",
+        "max_contains_volume": "361 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "18 cm",
+        "description": "Button-fastened chest pocket.",
         "moves": 80
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
+        "//": "4 inches tall, 2 inches wide, and 1 inch deep.",
+        "max_contains_volume": "131 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
-        "moves": 120
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "500 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "13 cm",
-        "moves": 120
+        "description": "Velcro-fastened internal pocket.",
+        "moves": 150
       }
     ],
     "warmth": 20,
-    "material_thickness": 0.3,
-    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+    "material_thickness": 0.4,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "m65_woodland",
+        "//": "Intended to be US M81 woodland camo.",
+        "name": { "str": "woodland-camo combat jacket" },
+        "description": "Tried and true, the US military's antiquated 4-tone woodland camouflage pattern covers this particular jacket: large, high-contrast patches of green, black, brown, and sand hues, all rather faded from years and ware.",
+        "color": "green",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "m65_desert",
+        "//": "Intended to be US DCU camo.",
+        "name": { "str": "desert-camo combat jacket" },
+        "description": "This jacket's brass zipper runs from collar to hem, a river of metallic brown knitting together the coat's arid-hued lapels, printed with a 3-tone mix of pale green, dark brown, and beige.  Looking at it, you wonder how many zombies are wandering about the gulf right now.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "m65_olive",
+        "//": "Either original Vietnam M65 jackets, before M81 camo, or modern reproductions.",
+        "name": { "str": "olive-drab combat jacket" },
+        "description": "Lacking much frills and fanfare, this simple, traditional jacket is dyed a solid shade of olive green with a brass zipper and buttons.",
+        "color": "green",
+        "weight": 35,
+        "append": true
+      },
+      {
+        "id": "m65_flecktarn",
+        "name": { "str": "mottled-camo combat jacket" },
+        "description": "This particular garment has a base hue of dark tan, coated by myriad spots, blobs, and splotches of green, reddish brown, black, and greyish green to form a mottled, disruptive camouflage pattern.",
+        "color": "green",
+        "weight": 15,
+        "append": true
+      },
+      {
+        "id": "m65_ocean",
+        "name": { "str": "ocean-camouflage combat jacket" },
+        "description": "This jacket's exterior shell is dyed a mix of blue and grey hues, with extra patches and disruptive striations, flipping between black and dark grey, covering the garment from collar to hem.  Crome buttons, zips, and other fixtures glint from their home upon the coat.",
+        "color": "blue",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "m65_digital",
+        "//": "Intended to be US military UCP camo.",
+        "name": { "str": "digital-camo combat jacket" },
+        "description": "The fabric of this particular jacket is coated in the pixelized camouflage pattern of the United States Army's former combat uniform, combining a sand-brown base with disruptive patterns of urban grey and sage green, as well as plastic zips and buttons.",
+        "color": "green",
+        "weight": 5,
+        "append": true
+      },
+      {
+        "id": "m65_black",
+        "name": { "str": "urban black combat jacket" },
+        "description": "Fitted with a brass main zip and corresponding buttons, this entire jacket forgoes frivolities and is, instead, dyed a solid shade of midnight black.",
+        "color": "black",
+        "weight": 25,
+        "append": true
+      },
+      {
+        "id": "m65_swedish",
+        "//": "Intended to be Swedish M90 camo. This is a civilian variant, and, yes, for some reason, out of all camo patterns, this exists: https://www.epicmilitaria.com/brandit-m65-giant-jacket-swedish-camo.html",
+        "name": { "str": "splinter-camo combat jacket" },
+        "description": "This particular jacket is sown from fabric dyed a base colour of stoney grey with notes of brown, sprinkled through with large, splinter-like geometric shapes of green, grey, and hues of deep naval blue.",
+        "color": "dark_gray",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "m65_coyote",
+        "name": { "str": "coyote combat jacket" },
+        "description": "Dyed in a solid shade of rugged, earthen brown with a brass main zip and press-studs, this is a relatively hansom coat, so far as reproduction military equipment goes.  Obviously, the would-be soldier, prepper, and general wearer would most appreciate its utility in going undercover among the insurgent coyote population.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
+      },
+      {
+        "id": "m65_player",
+        "//": "Only used as a cosmetic variant for player professions that start with army jackets: currently the old veteran.",
+        "name": { "str": "woodland-camo combat jacket" },
+        "description": "Dyed in a 4-tone blend of worn green, black, sand, and brown hues, this particular overcoat had been your own issued service jacket when you'd still been in the forces, with your name stitched upon the right lapel and insignia pinned to the appropriate shoulder board.",
+        "color": "green",
+        "weight": 0,
+        "append": true
+      }
+    ]
   },
   {
     "id": "jacket_army_modern",
@@ -3505,163 +3622,217 @@
   },
   {
     "id": "tacjacket",
+    "//": "Based off of: https://www.helikon-tex.com/en_eur/ku-gun-fm-gunfighter-jacket-shark-skin-windblocker.html",
     "type": "ARMOR",
-    "name": { "str": "tactical jacket" },
-    "description": "A jacket with a hood and several pockets.",
-    "weight": "227 g",
-    "volume": "2250 ml",
-    "price": 4500,
-    "price_postapoc": 250,
-    "material": [ { "type": "nylon", "portion": 7 }, { "type": "cotton", "portion": 3 } ],
-    "symbol": "[",
-    "color": "blue",
     "looks_like": "jacket_army",
+    "name": { "str": "tactical jacket" },
+    "description": "A hefty camouflage jacket rattling with a spade of zippers, press-studs, and attachment points, featuring a high mandarin collar, Velcro cuffs, plates for ID tags, and enough pockets to make your internal Militiaman weep for joy.",
+    "weight": "1052 g",
+    "volume": "2250 ml",
+    "price": 14222,
+    "price_postapoc": 375,
+    "material": [ { "type": "nylon", "portion": 6 }, { "type": "cotton", "portion": 2 } ],
+    "symbol": "[",
+    "color": "green",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 4, 8 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 4, 4 ] }
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.4 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": [ 6, 12 ]
+      },
+      {
+        "material": [ { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r", "arm_upper_l", "arm_upper_r", "arm_lower_l", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": [ 5, 7 ]
+      },
+      {
+        "material": [
+          { "type": "nylon", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "cotton_quilted", "covered_by_mat": 85, "thickness": 0.5 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_r", "arm_elbow_l" ],
+        "coverage": 100
+      }
     ],
+    "//2": "Pocket dimensions are sourced from the reliable fountain of knowledge known as: I made a plausible enough guess after measuring the pockets of several other jackets that aren't this particular one to extrapolate them out into what they might feasibly be.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "14 cm",
+        "max_contains_volume": "812 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "16 cm",
         "moves": 80,
-        "description": "Side pocket."
+        "description": "Zip-up chest pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "700 ml",
-        "max_contains_weight": "3 kg",
-        "max_item_length": "14 cm",
+        "max_contains_volume": "812 ml",
+        "max_contains_weight": "2500 g",
+        "max_item_length": "16 cm",
         "moves": 80,
-        "description": "Side pocket."
+        "description": "Zip-up chest pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "300 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "10 cm",
-        "moves": 120,
-        "description": "Arm pocket."
+        "max_contains_volume": "442 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "15 cm",
+        "moves": 150,
+        "description": "Velcro-fastened internal pocket."
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "300 ml",
-        "max_contains_weight": "1 kg",
-        "max_item_length": "10 cm",
+        "max_contains_volume": "348 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "12 cm",
         "moves": 120,
-        "description": "Arm pocket."
+        "description": "Upper arm pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "348 ml",
+        "max_contains_weight": "1500 g",
+        "max_item_length": "12 cm",
+        "moves": 120,
+        "description": "Upper arm pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "114 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "9 cm",
+        "moves": 120,
+        "description": "Zip-up left sleeve pocket."
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1176 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "moves": 350,
+        "description": "rear channel pocket."
       }
     ],
     "warmth": 15,
-    "material_thickness": 0.5,
+    "material_thickness": 0.4,
     "flags": [ "VARSIZE", "POCKETS", "RAINPROOF", "HOOD", "OUTER" ],
     "variant_type": "generic",
     "variants": [
       {
-        "id": "generic_tacjacket",
-        "name": { "str": "tactical jacket" },
-        "description": "A jacket with a hood and several pockets.  Perfect for hunting.",
-        "weight": 10
-      },
-      {
         "id": "tacjacket_woodland",
-        "name": { "str": "woodland-camo tactical jacket" },
-        "description": "Not too dissimilar from the pattern adopted by older US Marine uniforms, this otherwise conventional tactical jacket is printed with a green, brown, and black woodland camouflage pattern.",
+        "name": { "str": "forest-camo tactical jacket" },
+        "description": "Paying homage to the field-proven camouflage pattern of old US military uniforms, this huntsman's jacket is printed with a green, brown, and black woodland camouflage pattern.",
         "color": "green",
-        "weight": 6
+        "weight": 30,
+        "append": true
       },
       {
         "id": "tacjacket_jungle",
         "name": { "str": "jungle-camo tactical jacket" },
-        "description": "Similar in color to the old frog skin uniforms issued to Marine Raiders during the Second World War, this warm, comfortable tactical jacket is dyed a greenish gray hue.  Completely conventional in every other respect, the patterning would be incredibly helpful if you were planning to take a trip down to the Amazon any time soon.",
+        "description": "Bright and dark green shades meet within the patterning of this tactical jacket, embellished by tones of earthen brown and other natural hues.  The trees of the Amazon will speak your native tongue as you stalk around, waging guerilla warfare against the undead, with this jacket on.  It's just a shame that the rainforest is quite a walk away.",
         "color": "green",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_grassland",
-        "name": { "str": "grassland-camo tactical jacket" },
-        "description": "Possessing reinforced knees and a hardy construction, this tactical jacket is resplendent in a camouflage pattern of mixed light greens, browns, and beige tones.  With a set of deep pockets and an insulated design, it's an ideal piece for outdoor ventures.",
+        "name": { "str": "savanna tactical jacket" },
+        "description": "This adventurous-looking jacket would be at home on a safari to the Horn of Africa, dyed, as it is, in light greens, browns, and beige tones.  Then again, you suppose that every day's a safari now.  You're just not sure who's meant to be the hunter: you or the dead.",
         "color": "green",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_marshland",
         "name": { "str": "marshland-camo tactical jacket" },
-        "description": "The faithful friend of waterfowl hunters, this tactical jacket is printed with a brown, gray, tan, and green camouflage pattern designed to blend in with the vegetation and reeds present in swamps and marshlands.",
+        "description": "A staple companion of gamesmen whose trade lies within the watery recesses of wetlands, this water-resistant jacket is festooned with profile-disrupting lines and patterns printed in tan, grey, green, and black hues.",
         "color": "brown",
-        "weight": 6
+        "weight": 15,
+        "append": true
       },
       {
         "id": "tacjacket_desert",
-        "name": { "str": "desert-camo tactical jacket" },
-        "description": "Dyed a mix of brown, tan, and yellowish beige hues, this tactical jacket is designed to seamlessly blend into arid environments.  That being said, the fact that New England is famously devoid of deserts means that the pattern's only utility is in looking cool.",
+        "name": { "str": "arid tactical jacket" },
+        "description": "If you were traipsing off to the Sonoran desert, this pocket-layden jacket, with its sand-tan hues, streaks of beige and black, and ventilated interior, would have been your friend.  Now, all it is is a reminder of a part of the world that may as well be the crust of Mars, for how remote and unreachable it is.",
         "color": "brown",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_alpine",
         "name": { "str": "alpine-camo tactical jacket" },
-        "description": "The companion of aspiring mountaineers and alpine hunters, these brown, gray, and white dyed tactical jacket possess a network of jagged shapes and mottled lines, designed to break up the wearer's profile and better conceal them against the background landscape of mountains.",
+        "description": "A comfortable overcoat for the summer-time mountaineer, hiker, or alpine hunter, this predominantly grey jacket is coated in jagged lines and geometric shapes of brown and white dye.",
         "color": "light_gray",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_urban",
         "name": { "str": "urban-camo tactical jacket" },
-        "description": "A rugged yet comfortable tactical jacket dyed in various scales of gray, black, and dirty white, possessing a set of sizable pockets, and printed with squares and irregular polygons to disrupt a wearer's silhouette within man-made environments.  You would honestly not be surprised if you learned that this singular tactical jacket contains 50 shades of gray.",
+        "description": "This particular pattern of jacket proved a relatively common sight among preppers during the end of days, printed in industrial colours — blacks, greys, and dirty whites — to offer better concealment within New England's man-made battle grounds.  Needless to say, a simple camo pattern proved of little help when push came to actual shove.",
         "color": "dark_gray",
-        "weight": 6
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_ocean",
-        "name": { "str": "ocean-camo tactical jacket" },
-        "description": "Printed with a camouflage pattern most commonly associated with naval vessels or aircraft, this tactical jacket is festooned with a wide array of blue hues and disruptive lines, with a touch of light gray also making its presence known.  Possessing a number of deep pockets, this comfortable tactical jacket would do an admirable job of concealing you in maritime environments.  You have yet to come up with a reason why you'd ever be in a maritime environment.",
+        "name": { "str": "maritime tactical jacket" },
+        "description": "Resplendent in a wide assortment of blue and light grey tones, this versatile outerwear is the garment of choice for ocean-side activities, namely ocean activities with less fun sea-side paddling and more marine security and over-the-beach gunfights.",
         "color": "blue",
-        "weight": 6
+        "weight": 10,
+        "append": true
       },
       {
         "id": "tacjacket_river",
         "name": { "str": "river-camo tactical jacket" },
-        "description": "Employed by anglers and river-side hunters for camouflage in freshwater habitats, this tactical jacket incorporates shades of green, brown, blue, and gray, along with sizable pockets and a construction favoring heat retention.",
-        "color": "green",
-        "weight": 6
+        "description": "The fabric of this particular jacket is festooned with a camouflage pattern — a muddle of greens, light blues, browns, and grey — that would make it at home with any river-based huntsman or angler.  Its water-repellent construction ensures that one's possessions are protected from river spray.",
+        "color": "blue",
+        "weight": 12,
+        "append": true
       },
       {
         "id": "tacjacket_arctic",
-        "name": { "str": "arctic-camo tactical jacket" },
-        "description": "Featuring a camouflage pattern consisting of white, shades of gray, and a slight tinge of brown, this tactical jacket is fit for snowy tundra and polar regions—or it would be, had the garment not been only moderately warmer than a light jacket.  You have yet to grasp their point for existing.",
+        "name": { "str": "poler-camo tactical jacket" },
+        "description": "Fit for utility in light snowfall and in the colder months, this jacket, while not as insulating as thicker winter overcoats, is resplendent with a mixed camo palette of snowy white, grey, and a hint of light brown.",
         "color": "white",
-        "weight": 6
+        "weight": 5,
+        "append": true
       },
       {
         "id": "tacjacket_grey",
         "name": { "str": "wolf tactical jacket" },
-        "description": "This particular tactical jacket is dyed a muted, beige-like shade of wolf gray.",
-        "color": "blue",
-        "weight": 6
+        "description": "Subtle and unassuming, save for the purely ludicrous number of pockets it's coated in, this hardy overgarment's outer shell is dyed a muted tone of grey verging into beige.",
+        "color": "dark_gray",
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_coyote",
-        "name": { "str": "coyote tactical jacket" },
-        "description": "This tactical jacket is predominantly an earthy shade of coyote brown.",
-        "color": "green",
-        "weight": 6
+        "name": { "str": "coyote-brown tactical jacket" },
+        "description": "Modest and relatively plain, as far as tactical equipment goes, this particular jacket is dyed a solid shade of earthen brown.",
+        "color": "brown",
+        "weight": 20,
+        "append": true
       },
       {
         "id": "tacjacket_green",
         "name": { "str": "olive-drab tactical jacket" },
-        "description": "This remarkably drab, traditional camouflage tactical jacket is dyed a muted shade of OD green, much like old US Army battle dress.",
+        "description": "The venerable shade of old military equipment, modern reproductions, and prepper camo-closets, this particular jacket is completely dyed a traditional shade of olive green.",
         "color": "green",
-        "weight": 6
+        "weight": 25,
+        "append": true
       },
       {
         "id": "tacjacket_black_camo",
-        "name": { "str": "black-camo tactical jacket" },
-        "description": "Dyed a deep hue of urban black, this tactical jacket is designed to assist a wearer in concealing themselves within nighttime environments and low-light conditions.  While it's a simple tactical jacket given a stealth-black paint job and don't hold a candle to their more marshal brothers, they still look cool and are great at making you feel like you're Spetsnaz.",
+        "name": { "str": "urban-black tactical jacket" },
+        "description": "Pitch-black, from its mandarin collar to its hems, this jacket is a coat for the aspiring nocturnal operator, tacticool edge lord, and those in the business to be afoot during the small hours of the night.",
         "color": "black",
-        "weight": 6
+        "weight": 15,
+        "append": true
       }
     ]
   }

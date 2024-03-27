@@ -163,6 +163,8 @@ static const trait_id trait_VEGAN( "VEGAN" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
 static const std::array<flag_id, 6> carnivore_blacklist {{
@@ -246,14 +248,6 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
                     }
                 }
             }
-        }
-    }
-    for( const bionic_id &bid : you.get_bionics() ) {
-        if( bid->vitamin_absorb_mod == 1.0f ) {
-            continue;
-        }
-        for( std::pair<const vitamin_id, int> &vit : res ) {
-            vit.second *= bid->vitamin_absorb_mod;
         }
     }
     for( std::pair<const vitamin_id, int> &vit : res ) {
@@ -706,8 +700,7 @@ float Character::metabolic_rate_base() const
 {
     static const std::string hunger_rate_string( "PLAYER_HUNGER_RATE" );
     float hunger_rate = get_option< float >( hunger_rate_string );
-    static const std::string metabolism_modifier( "metabolism_modifier" );
-    return hunger_rate * ( 1.0f + mutation_value( metabolism_modifier ) );
+    return enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, hunger_rate );
 }
 
 // TODO: Make this less chaotic to let NPC retroactive catch up work here
@@ -943,7 +936,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     }
 
     const bool carnivore = has_trait( trait_CARNIVORE );
-    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+    const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
     if( ( food_is_human_flesh && !has_flag( STATIC( json_character_flag( "CANNIBAL" ) ) ) &&
@@ -1315,7 +1308,7 @@ void Character::modify_morale( item &food, const int nutr )
         }
     }
 
-    const bool food_is_human_flesh = food.has_flag( flag_CANNIBALISM ) ||
+    const bool food_is_human_flesh = food.has_vitamin( vitamin_human_flesh_vitamin ) ||
                                      ( food.has_flag( flag_STRICT_HUMANITARIANISM ) &&
                                        !has_flag( json_flag_STRICT_HUMANITARIAN ) );
     if( food_is_human_flesh ) {
@@ -1712,10 +1705,12 @@ time_duration Character::get_consume_time( const item &it ) const
     const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
     if( eat_verb || comest_type == "FOOD" ) {
         time = time_duration::from_seconds( volume / 5 ); //Eat 5 mL (1 teaspoon) per second
-        consume_time_modifier = mutation_value( "consume_time_modifier" );
+        consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
+                                consume_time_modifier );
     } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
-        consume_time_modifier = mutation_value( "consume_time_modifier" );
+        consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
+                                consume_time_modifier );
     } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
         time = time_duration::from_moves( dynamic_cast<heal_actor const *>
                                           ( fun->get_actor_ptr() )->move_cost );
@@ -1751,7 +1746,8 @@ time_duration Character::get_consume_time( const item &it ) const
     } else if( it.get_category_shallow().get_id() == item_category_chems ) {
         time = time_duration::from_seconds( std::max( ( volume / 15 ),
                                             1 ) ); //Consume 15 mL (1 tablespoon) per second
-        consume_time_modifier = mutation_value( "consume_time_modifier" );
+        consume_time_modifier = enchantment_cache->modify_value( enchant_vals::mod::CONSUME_TIME_MOD,
+                                consume_time_modifier );
     }
 
     // Minimum consumption time, without mutations, is always 1 second.

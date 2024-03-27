@@ -144,6 +144,51 @@ TEST_CASE( "Healing/mending_bonuses", "[character][limb]" )
     }
 }
 
+TEST_CASE( "drying_rate", "[character][limb]" )
+{
+    standard_npc dude( "Test NPC" );
+    clear_character( dude, true );
+    const weather_manager weather = get_weather();
+    REQUIRE( body_part_arm_l->drying_rate == 1.0f );
+    dude.drench( 100, dude.get_drenching_body_parts(), false );
+    REQUIRE( dude.get_part_wetness( body_part_arm_l ) == 200 );
+
+    // Baseline arm dries in 450ish turns
+    int base_dry = 0;
+    while( dude.get_part_wetness( body_part_arm_l ) > 0 ) {
+        dude.update_body_wetness( *weather.weather_precise );
+        base_dry++;
+    }
+    REQUIRE( base_dry == Approx( 450 ).margin( 125 ) );
+
+    // Birdify, clear water
+    clear_character( dude, true );
+    create_bird_char( dude );
+    REQUIRE( body_part_test_bird_wing_l->drying_rate == 2.0f );
+    REQUIRE( body_part_test_bird_wing_r->drying_rate == 0.5f );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 0 );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_r ) == 0 );
+    dude.drench( 100, dude.get_drenching_body_parts(), false );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_l ) == 200 );
+    REQUIRE( dude.get_part_wetness( body_part_test_bird_wing_r ) == 200 );
+
+    int high_dry = 0;
+    int low_dry = 0;
+    // Filter on the slower drying limb
+    while( dude.get_part_wetness( body_part_test_bird_wing_r ) > 0 ) {
+        dude.update_body_wetness( *weather.weather_precise );
+        if( dude.get_part_wetness( body_part_test_bird_wing_l ) > 0 ) {
+            high_dry++;
+        }
+        low_dry++;
+    }
+
+    // A drying rate of 2 should halve the drying time
+    // Higher margin for the lower rate to account for the randomness
+    CHECK( high_dry == Approx( 200 ).margin( 100 ) );
+    CHECK( low_dry == Approx( 900 ).margin( 300 ) );
+}
+
 TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
 {
     standard_npc dude( "Test NPC" );
@@ -181,4 +226,7 @@ TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )
            100 );
     CHECK( bird_boots.portion_for_bodypart( sub_body_part_sub_limb_test_bird_foot_r )->coverage ==
            100 );
+    // Backwards population of coverage works as well
+    CHECK( bird_boots.covers( body_part_test_bird_foot_l ) );
+    CHECK( bird_boots.covers( body_part_test_bird_foot_r ) );
 }

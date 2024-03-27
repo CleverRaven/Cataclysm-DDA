@@ -23,6 +23,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "fault.h"
 #include "flag.h"
 #include "game.h"
 #include "game_constants.h"
@@ -327,7 +328,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     if( !you.move_effects( attacking ) ) {
-        you.moves -= 100;
+        // move_effects determined we could not move, waste all moves
+        you.set_moves( 0 );
         return false;
     }
 
@@ -437,7 +439,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             if( you.is_auto_moving() ) {
                 you.clear_destination();
             }
-            you.moves -= 20;
+            you.mod_moves( -you.get_speed() * 0.2 );
             return false;
         }
     }
@@ -473,7 +475,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         && you.is_walking()
         && !veh_closed_door
         && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
-        you.moves -= 100;
+        you.mod_moves( -you.get_speed() );
         you.add_msg_if_player( _( "You open the %s." ), door_name );
         // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
@@ -500,7 +502,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             //~ %1$s - vehicle name, %2$s - part name
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
         }
-        you.moves -= 100;
+        you.mod_moves( -you.get_speed() );
         // if auto move is on, continue moving next turn
         if( you.is_auto_moving() ) {
             you.defer_move( dest_loc );
@@ -509,7 +511,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     if( m.furn( dest_loc ) != f_safe_c && m.open_door( you, dest_loc, !m.is_outside( you.pos() ) ) ) {
-        you.moves -= 100;
+        you.mod_moves( -you.get_speed() );
         if( veh1 != nullptr ) {
             //~ %1$s - vehicle name, %2$s - part name
             you.add_msg_if_player( _( "You open the %1$s's %2$s." ), veh1->name, door_name );
@@ -529,7 +531,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         add_msg( _( "You bump into the %s!" ), m.obstacle_name( dest_loc ) );
         // Only lose movement if we're blind
         if( waste_moves ) {
-            you.moves -= 100;
+            you.mod_moves( -you.get_speed() );
         }
     } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
                m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {
@@ -589,7 +591,8 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     move( you, m, tripoint( dp.xy(), 1 ) );
     // We can't just take the result of the above function here
     if( you.pos() != old_pos ) {
-        you.moves -= 50 + ( aligned_ramps ? 0 : 50 );
+        const double total_move_cost = aligned_ramps ? 0.5 : 1.0;
+        you.mod_moves( -you.get_speed() * total_move_cost );
     }
 
     return true;
@@ -659,7 +662,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
         m.board_vehicle( you.pos(), &you );
     }
-    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 );
+    you.mod_moves( -( ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 ) ) );
     you.inv->rust_iron_items();
 
     if( !you.is_mounted() ) {
@@ -1115,7 +1118,11 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
     if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
         if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
             loc->deactivate();
-            loc->set_flag( flag_ITEM_BROKEN );
+            loc.get_item()->set_fault( random_entry( fault::get_by_type( std::string( "wet" ) ) ) );
+            // An electronic item in water is also shorted.
+            if( loc->has_flag( flag_ELECTRONIC ) ) {
+                loc.get_item()->set_fault( random_entry( fault::get_by_type( std::string( "shorted" ) ) ) );
+            }
         } else {
             return;
         }
@@ -1123,7 +1130,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 
     item_pocket *parent_pocket = nullptr;
     bool on_person = true;
-    int pre_obtain_moves = you.moves;
+    int pre_obtain_moves = you.get_moves();
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) || you.is_worn( *loc ) ) {
         use_in_place = true;
         // Activate holster on map only if hands are free.
@@ -1150,7 +1157,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
             parent_pocket->on_contents_changed();
         }
         if( pre_obtain_moves == -1 ) {
-            pre_obtain_moves = you.moves;
+            pre_obtain_moves = you.get_moves();
         }
         if( !loc ) {
             you.add_msg_if_player( _( "Couldn't pick up the %s." ), name );

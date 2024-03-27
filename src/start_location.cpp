@@ -136,7 +136,7 @@ void start_location::finalize()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const tinymap &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -157,7 +157,7 @@ static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint
     vec.push_back( p );
 }
 
-static void board_up( map &m, const tripoint_range<tripoint> &range )
+static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
 {
     std::vector<tripoint> furnitures1;
     std::vector<tripoint> furnitures2;
@@ -283,9 +283,8 @@ tripoint_abs_omt start_location::find_player_initial_location( const city &origi
 void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap player_start;
-    player_start.load( player_location, false );
+    player_start.load( omtstart, false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -443,9 +442,8 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
 void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
                            const int rad ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
-    m.load( player_location, false );
+    m.load( omtstart, false );
     m.build_outside_cache( m.get_abs_sub().z() );
     point player_pos = get_player_character().pos().xy();
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
@@ -471,11 +469,10 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
                                     const map_extra_id &map_extra ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
-    m.load( player_location, false );
+    m.load( omtstart, false );
 
-    MapExtras::apply_function( map_extra, m, player_location );
+    MapExtras::apply_function( map_extra, m, omtstart );
 
     m.save();
 }
@@ -513,9 +510,8 @@ void start_location::handle_heli_crash( avatar &you ) const
 static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
                           float expected_points )
 {
-    const tripoint_abs_sm spawn_location = project_to<coords::sm>( omtstart );
     tinymap m;
-    m.load( spawn_location, false );
+    m.load( omtstart, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
     const float density = expected_points / ( ( 10 + 50 ) / 2.0 );
     m.place_spawns( type, 1, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), density );

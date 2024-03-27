@@ -63,10 +63,10 @@
     "subtype": "collection",
     "entries": [
       { "item": "machete", "prob": 20 },
-      { "group": "preserved_food", "custom-flags": [ "CANNIBALISM" ], "prob": 30 },
+      { "item": "meat_salted", "components": [ "human_flesh", "salt" ], "prob": 30 },
       { "group": "preserved_food", "prob": 20 },
       { "group": "dry_goods", "prob": 30 },
-      { "group": "dry_goods", "custom-flags": [ "CANNIBALISM" ], "prob": 60 },
+      { "item": "meat_smoked", "components": [ "human_flesh" ], "prob": 60 },
       { "group": "pantry", "prob": 10 }
     ]
   }

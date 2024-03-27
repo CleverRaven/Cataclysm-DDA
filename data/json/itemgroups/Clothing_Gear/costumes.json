@@ -351,10 +351,6 @@
     "//": "undergarments for costumes, cosplay and costume parties",
     "subtype": "distribution",
     "entries": [
-      { "item": "bikini_top", "prob": 20 },
-      { "item": "bikini_bottom", "prob": 20 },
-      { "item": "bikini_top_short", "prob": 10 },
-      { "item": "bikini_bottom_short", "prob": 10 },
       { "item": "flag_swimsuit", "prob": 15 },
       { "item": "wetsuit_spring", "prob": 5 },
       { "item": "wetsuit_spring_sleeveless", "prob": 5 },
@@ -365,12 +361,18 @@
       { "item": "tights", "prob": 25 },
       { "item": "stockings", "prob": 25 },
       { "item": "garter_belt", "prob": 25 },
-      { "item": "bikini_top_fur", "prob": 5 },
-      { "item": "bikini_top_leather", "prob": 10 },
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 5 },
-      { "item": "bikini_top", "variant": "skull_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "skull_bikini_bottom", "prob": 5 },
+      { "group": "bikini", "prob": 35 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "skull_bikini_top" },
+          { "item": "bikini_bottom", "variant": "skull_bikini_bottom" }
+        ],
+        "prob": 5
+      },
       { "item": "flag_swimsuit", "variant": "lifeguard_swimsuit", "prob": 10 }
     ]
   },
@@ -390,6 +392,121 @@
       { "item": "hat_hard", "variant": "flag_hat_hard", "prob": 10 },
       { "item": "hat_hard_hooded", "variant": "flag_hat_hard", "prob": 1 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ],
+        "prob": 30,
+        "event": "independence_day"
+      },
+      { "group": "bikini_matching", "prob": 10 },
+      { "group": "bikini_unmatching", "prob": 1 },
+      { "group": "bikini_fur", "prob": 1 },
+      { "group": "bikini_leather", "prob": 1 },
+      { "group": "bikini_short", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_matching",
+    "//": "Uses same weights as the variant weights",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "generic_bikini_top" },
+          { "item": "bikini_bottom", "variant": "generic_bikini_bottom" }
+        ],
+        "prob": 30
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "black_bikini_top" },
+          { "item": "bikini_bottom", "variant": "black_bikini_bottom" }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "white_bikini_top" },
+          { "item": "bikini_bottom", "variant": "white_bikini_bottom" }
+        ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "red_bikini_top" }, { "item": "bikini_bottom", "variant": "red_bikini_bottom" } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "blue_bikini_top" }, { "item": "bikini_bottom", "variant": "blue_bikini_bottom" } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "flag_bikini_top" }, { "item": "bikini_bottom", "variant": "flag_bikini_bottom" } ],
+        "prob": 7
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "pink_bikini_top" }, { "item": "bikini_bottom", "variant": "pink_bikini_bottom" } ],
+        "prob": 6
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "tropical_bikini_top" },
+          { "item": "bikini_bottom", "variant": "tropical_bikini_bottom" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "floral_bikini_top" },
+          { "item": "bikini_bottom", "variant": "floral_bikini_bottom" }
+        ],
+        "prob": 5
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "camo_bikini_top" }, { "item": "bikini_bottom", "variant": "camo_bikini_bottom" } ],
+        "prob": 4
+      },
+      {
+        "collection": [
+          { "item": "bikini_top", "variant": "skull_bikini_top" },
+          { "item": "bikini_bottom", "variant": "skull_bikini_bottom" }
+        ],
+        "prob": 2
+      },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 1
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_unmatching",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top" }, { "item": "bikini_bottom" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_fur",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top_fur" }, { "item": "bikini_bottom" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_leather",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top_leather" }, { "item": "bikini_bottom" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "bikini_short",
+    "subtype": "collection",
+    "entries": [ { "item": "bikini_top_short" }, { "item": "bikini_bottom_short" } ]
   },
   {
     "type": "item_group",

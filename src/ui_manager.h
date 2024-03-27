@@ -7,14 +7,12 @@
 #include "cuboid_rectangle.h"
 #include "point.h"
 
-#if !defined(__ANDROID__)
 namespace cataimgui
 {
 class client;
 } // namespace cataimgui
 
 extern std::unique_ptr<cataimgui::client> imclient;
-#endif
 
 namespace catacurses
 {

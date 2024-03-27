@@ -99,6 +99,19 @@
   },
   {
     "type": "terrain",
+    "id": "t_afs_escapepod_g_shipboard",
+    "name": "escape pod guidance system",
+    "description": "The rudimentary descent guidance system and easy-use control console of an escape pod.  Can be activated to launch the pod.",
+    "roof": "t_metal_flat_roof",
+    "looks_like": "t_intercom",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
+    "symbol": "o",
+    "color": "white",
+    "copy-from": "t_afs_space_ship_hull_wall",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_ESCAPE_POD_CHAIR" ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_escape_pod_floor",
     "name": "escape pod floor",
     "description": "A relatively flat slab of heat-treated metal, designed to withstand the crushing pressure of space and the searing heat of reentry.",
