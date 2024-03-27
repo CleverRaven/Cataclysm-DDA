@@ -2768,7 +2768,11 @@ int known_magic::select_spell( Character &guy )
         }
         return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
     } );
-    spell_menu.set_category( "all" );
+    if( !favorites.empty() ) {
+        spell_menu.set_category( "favorites" );
+    } else {
+        spell_menu.set_category( "all" );
+    }
 
     std::set<int> used_invlets{ cb.reserved_invlets };
 
