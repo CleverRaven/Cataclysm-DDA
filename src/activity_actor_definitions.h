@@ -55,6 +55,8 @@ class aim_activity_actor : public activity_actor
         bool snap_to_target = false;
         bool shifting_view = false;
         tripoint initial_view_offset;
+        /** RELOAD_AND_SHOOT weapon is kept loaded by the activity */
+        bool loaded_RAS_weapon = false;
         /** Target UI requested to abort aiming */
         bool aborted = false;
         /** if true abort if no targets are available when re-entering aiming ui after shooting */
