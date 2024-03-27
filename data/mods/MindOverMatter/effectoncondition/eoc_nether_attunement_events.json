@@ -983,7 +983,7 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, crackling energy erupts all around you!", "type": "bad" },
-      { "u_cast_spell": { "id": "nether_attunement_nether_lightning", "hit_self": true } }
+      { "u_cast_spell": { "id": "nether_attunement_nether_lightning", "hit_self": false } }
     ]
   },
   {
