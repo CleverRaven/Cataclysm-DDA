@@ -1698,6 +1698,36 @@ class wash_activity_actor : public activity_actor
         washing_requirements requirements;
 };
 
+class heat_activity_actor : public activity_actor
+{
+    private:
+        heat_activity_actor() = default;
+    public:
+        heat_activity_actor( drop_locations to_heat,
+                             heating_requirements &requirements ) :
+            to_heat( std::move( to_heat ) ),
+            requirements( requirements ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_HEAT" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<heat_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        drop_locations to_heat;
+        heating_requirements requirements;
+};
+
 class wear_activity_actor : public activity_actor
 {
     public:
