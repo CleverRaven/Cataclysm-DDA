@@ -8,7 +8,7 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 3 ] ],
+      [ [ "lead", 2 ] ],
       [ [ "300blk_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
       [ [ "gunpowder_rifle", 11 ] ],
@@ -24,10 +24,10 @@
     "time": "5 s",
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [
-      [ [ "lead", 5 ] ],
+      [ [ "lead", 3 ] ],
       [ [ "300blk_casing", 1 ] ],
       [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 11 ] ],
+      [ [ "gunpowder", 6 ] ],
       [ [ "copper", 1 ] ]
     ]
   }

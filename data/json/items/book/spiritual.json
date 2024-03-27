@@ -1305,7 +1305,7 @@
   {
     "id": "holybook_golden",
     "type": "BOOK",
-    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of the The Orphic Gold Tablets" },
+    "name": { "str": "The Orphic Gold Tablets", "str_pl": "copies of The Orphic Gold Tablets" },
     "description": "A paperback English translation of the many texts, hymns and inscriptions found in the Orphic Gold Tablets, a series of ancient Greek texts found on gold leaves, dating back to the 4th century BCE.  This book contain Orphic teachings and rituals, which are believed to have been used by initiates in Orphic mystery cults, offering guidance on purification, initiation, and the afterlife, as well as instructions for living a virtuous life in accordance with the Greek gods' will.",
     "weight": "300 g",
     "volume": "900 ml",
@@ -1341,7 +1341,7 @@
   {
     "id": "holybook_mithraic",
     "type": "BOOK",
-    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of the The Mithraic Inscriptions" },
+    "name": { "str": "The Mithraic Inscriptions", "str_pl": "copies of The Mithraic Inscriptions" },
     "description": "A commercial-grade, paperback English edition of The Mithraic Inscriptions, a book that explains the ancient Mithraic religion and its various inscriptions, artifacts, characteristics and rituals.  The book, written by a team of scholars and experts in the field, aims to provide a comprehensive understanding of the Mithraism and its significance in the ancient world.",
     "weight": "500 g",
     "volume": "1 L",
@@ -1655,7 +1655,7 @@
           "str": "Talmud, Vol. 19, Tractate Pesachim (Part 1)",
           "str_pl": "copies of the Talmud, Vol. 19, Tractate Pesachim (Part 1)"
         },
-        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the the proper disposal of leaven and the preparation of unleavened bread.",
+        "description": "This is volume 19 of 51, containing the first part of Tractate Pesachim.  It discusses laws relating to Passover, such as the proper disposal of leaven and the preparation of unleavened bread.",
         "append": true
       },
       {
@@ -1676,13 +1676,13 @@
       {
         "id": "holybook_talmud_22",
         "name": { "str": "Talmud, Vol. 22, Tractate Yoma", "str_pl": "copies of the Talmud, Vol. 22, Tractate Yoma" },
-        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
+        "description": "This is volume 22 of 51, containing Tractate Yoma.  It discusses the rituals and laws related to Yom Kippur, primarily concerned with the Temple service.",
         "append": true
       },
       {
         "id": "holybook_talmud_23",
         "name": { "str": "Talmud, Vol. 23, Tractate Sukkah", "str_pl": "copies of the Talmud, Vol. 23, Tractate Sukkah" },
-        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
+        "description": "This is volume 23 of 51, containing Tractate Sukkah.  It discusses the rituals and laws related to Sukkot, such as dwelling in the Sukkah and the four species of plants.",
         "append": true
       },
       {
