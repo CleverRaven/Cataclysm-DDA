@@ -125,7 +125,7 @@ static const efftype_id effect_pet( "pet" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
-static const flag_id json_flag_LEVITATION( "LEVITATION" );
+static const flag_id json_flag_LEVITATION( "LEVITATION" );,
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
