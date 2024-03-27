@@ -1910,6 +1910,41 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
     return false;
 }
 
+void vehicle::separate_from_grid( const point mount )
+{
+    // Disconnect items and power cords
+    unlink_cables( mount, get_player_character(), true, true, true );
+    part_removal_cleanup();
+    if( part_count() <= 1 ) {
+        // No need to split the power grid up.
+        return;
+    }
+
+    // Split the target part away from the power grid.
+    const int idx = part_displayed_at( mount, true );
+    if( idx == -1 ) {
+        debugmsg( "no part at mount point %s", mount.to_string() );
+        return;
+    }
+    map &here = get_map();
+    const std::string part_name = part( idx ).name();
+    std::vector<std::vector<int>> split_indices( { { idx } } );
+    const std::vector<vehicle *> null_vehicles( 2, nullptr );
+    const std::vector<std::vector<point>> null_mounts( 2, std::vector<point>() );
+    if( !split_vehicles( here, split_indices, null_vehicles, null_mounts ) ) {
+        debugmsg( "unable to split %s from power grid", part( idx ).name( false ) );
+        return;
+    }
+
+    // Split again if removing the target part separated the power grid into multiple sections.
+    find_and_split_vehicles( here, {} );
+
+    add_msg( _( "You separate the %s from the power grid" ), part_name );
+
+    part_removal_cleanup();
+    here.rebuild_vehicle_level_caches();
+}
+
 bool vehicle::is_powergrid() const
 {
     if( !has_tag( flag_APPLIANCE ) ) {

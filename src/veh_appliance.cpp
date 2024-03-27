@@ -149,6 +149,7 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
     ctxt.register_action( "RENAME" );
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "MERGE" );
+    ctxt.register_action( "DISCONNECT_GRID" );
 }
 
 // @returns true if a battery part exists on any vehicle connected to veh
@@ -511,6 +512,23 @@ void veh_app_interact::remove()
     }
 }
 
+bool veh_app_interact::can_disconnect()
+{
+    for( int &i : veh->parts_at_relative( a_point, true ) ) {
+        if( veh->part( i ).has_flag( vp_flag::linked_flag ) ||
+            veh->part( i ).info().has_flag( "TOW_CABLE" ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void veh_app_interact::disconnect()
+{
+    veh->separate_from_grid( a_point );
+    get_player_character().pause();
+}
+
 void veh_app_interact::plug()
 {
     const int part = veh->part_at( veh->coord_translate( a_point ) );
@@ -612,6 +630,17 @@ void veh_app_interact::populate_app_actions()
     imenu.addentry( -1, can_merge(), ctxt.keys_bound_to( "MERGE" ).front(),
                     ctxt.get_action_name( "MERGE" ) );
 
+    if( veh->is_powergrid() && veh->part_count() > 1 ) {
+        // Disconnect from power grid
+        app_actions.emplace_back( [this]() {
+            disconnect();
+            veh = nullptr;
+        } );
+        const bool can_disc = can_disconnect();
+        imenu.addentry_desc( -1, can_disc, ctxt.keys_bound_to( "DISCONNECT_GRID" ).front(),
+                             ctxt.get_action_name( "DISCONNECT_GRID" ), can_disc ? "" : _( "Remove other cables first" ) );
+    }
+
     /*************** Get part-specific actions ***************/
     veh_menu menu( veh, "IF YOU SEE THIS IT IS A BUG" );
     veh->build_interact_menu( menu, veh->mount_to_tripoint( a_point ), false );
@@ -664,7 +693,7 @@ void veh_app_interact::app_loop()
             app_actions[ret]();
         }
         // Player activity queued up, close interaction menu
-        if( !act.is_null() || !get_player_character().activity.is_null() ) {
+        if( veh == nullptr || !act.is_null() || !get_player_character().activity.is_null() ) {
             done = true;
         }
     }

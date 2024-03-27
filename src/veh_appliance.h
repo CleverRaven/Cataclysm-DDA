@@ -134,6 +134,17 @@ class veh_app_interact
         */
         void remove();
         /**
+         * Checks whether the part has any items linked to it so it can tell the player
+         * to disconnect those first. This prevents players from doing this by accident.
+         * @returns True if there aren't any tow cable parts or items linked to the mount point.
+        */
+        bool can_disconnect();
+        /**
+         * Function associated with the "DISCONNECT_GRID" action.
+         * Removes appliance from a power grid, allowing it to be moved individually.
+        */
+        void disconnect();
+        /**
         * Function associated with the "PLUG" action.
         * Connects the power cable to selected tile.
         */

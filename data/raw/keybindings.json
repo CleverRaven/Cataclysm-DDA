@@ -1753,10 +1753,10 @@
   },
   {
     "type": "keybinding",
-    "id": "MERGE",
+    "id": "DISCONNECT_GRID",
     "category": "APP_INTERACT",
-    "name": "Merge power grids",
-    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+    "name": "Separate from power grid",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
