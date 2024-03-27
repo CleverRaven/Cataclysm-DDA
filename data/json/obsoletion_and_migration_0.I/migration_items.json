@@ -1225,11 +1225,11 @@
   {
     "id": "surv_six_shooter",
     "type": "MIGRATION",
-    "replace": "hptjcp"
+    "replace": "hptjcpmag"
   },
   {
     "id": "surv_hand_cannon",
     "type": "MIGRATION",
-    "replace": "hptjhp"
+    "replace": "hptjhpmag"
   }
 ]
