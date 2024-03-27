@@ -18,6 +18,20 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_invisibility( "invisibility" );
 static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
 
+static const mtype_id debug_mon("debug_mon");
+
+static void advance_turn( Character &guy )
+{
+    guy.process_turn();
+    calendar::turn += 1_turns;
+}
+
+static void give_item( Character &guy, const std::string &item_id )
+{
+    guy.i_add( item( item_id ) );
+    guy.recalculate_enchantment_cache();
+}
+
 struct enchant_test {
     int dex_before;
     int lie_before;
