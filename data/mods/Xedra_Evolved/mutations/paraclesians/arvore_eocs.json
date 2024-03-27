@@ -173,7 +173,7 @@
         { "u_at_om_location": "arvore_genius_loci_SE" }
       ]
     },
-    "effect": [  
+    "effect": [
       {
         "if": {
           "u_query_tile": "anywhere",
