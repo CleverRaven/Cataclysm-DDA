@@ -465,7 +465,7 @@
   {
     "id": "xl_nanomesh_vest",
     "type": "ARMOR",
-    "name": { "str": "XL nanomesh_vest" },
+    "name": { "str": "XL nanomesh vest" },
     "copy-from": "nanomesh_vest",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }

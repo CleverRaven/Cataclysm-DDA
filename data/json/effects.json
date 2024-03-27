@@ -1728,7 +1728,7 @@
     "desc": [
       "You consumed chiropteran primer.",
       "You taste iron, and you want more.",
-      "Every sound is a painful screech in your ears.  It's all too much!."
+      "Every sound is a painful screech in your ears.  It's all too much!"
     ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_CHIROPTERAN" ],

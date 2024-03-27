@@ -312,11 +312,11 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
 
     std::map<itype_id, double> fuels; // lets tanks of same fuel type have even contents
     const auto rng_fuel_amount = [&fuels, init_veh_fuel]( vehicle_part & vp, const itype_id & fuel ) {
-        if( !fuel || !fuel->ammo || !fuel->ammo->type ) {
+        if( !fuel ) {
             vp.ammo_unset(); // clear if no valid fuel
             return;
         }
-        const int max = vp.ammo_capacity( fuel->ammo->type );
+        const int max = vp.item_capacity( fuel );
         if( init_veh_fuel < 0 ) {
             // map.emplace(...).first returns iterator to the new or existing element
             const double roll = fuels.emplace( fuel, normal_roll( 0.3, 0.15 ) ).first->second;
@@ -1289,7 +1289,7 @@ ret_val<void> vehicle::can_mount( const point &dp, const vpart_info &vpi ) const
     return ret_val<void>::make_success();
 }
 
-ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove ) const
+ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove, bool allow_splits ) const
 {
     const vpart_info &vpi_to_remove = vp_to_remove.info();
     const std::vector<int> parts_here = parts_at_relative( vp_to_remove.mount, false );
@@ -1322,16 +1322,20 @@ ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove ) const
         return ret_val<void>::make_success(); // non-structure parts don't have extra requirements
     }
 
-    // structure parts can only be removed when no non-structure parts are on tile
+    // structure parts can only be removed when no non-structure/non-cable parts are on tile
+    bool cable_here = false;
     for( const int elem : parts_here ) {
         const vehicle_part &vp_here = parts[elem];
-        if( vp_here.info().location != part_location_structure ) {
+        bool vp_is_cable = vp_here.info().has_flag( VPFLAG_POWER_TRANSFER ) ||
+                           vp_here.info().has_flag( "TOW_CABLE" );
+        cable_here = cable_here || vp_is_cable;
+        if( vp_here.info().location != part_location_structure && !vp_is_cable ) {
             return ret_val<void>::make_failure( _( "Remove all other attached parts first." ) );
         }
     }
 
-    // reaching here means only structure parts left on this tile
-    if( parts_here.size() > 1 ) {
+    // reaching here means only structure parts and/or cables left on this tile
+    if( parts_here.size() > 1 && !cable_here ) {
         return ret_val<void>::make_success(); // wrecks can have more than one structure part, so it's valid for removal
     }
 
@@ -1357,7 +1361,7 @@ ret_val<void> vehicle::can_unmount( const vehicle_part &vp_to_remove ) const
         }
     }
 
-    if( adjacent_parts.size() > 1 ) {
+    if( !allow_splits && adjacent_parts.size() > 1 ) {
         // Reaching here means there is more than one adjacent tile, which means it's possible
         // for removal of this part to split the vehicle in two or more disjoint parts, for
         // example removing the middle section of a quad bike. To prevent that we'll run BFS
@@ -1842,21 +1846,26 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
     turn_dir = 0_degrees;
     veh_target.turn_dir = 0_degrees;
 
-    veh_target.shift_parts( get_map(), veh_target.pivot_displacement() );
+    // Ensure both vehicles have the correct position and a part at 0,0. get_bounding_box will update precalcs.
+    shift_if_needed( get_map() );
+    pos -= pivot_anchor[0];
+    veh_target.shift_if_needed( get_map() );
+    veh_target.pos -= veh_target.pivot_anchor[0];
 
-    bounding_box vehicle_box = get_bounding_box( true, true );
+    bounding_box vehicle_box = get_bounding_box( false, true );
+    bounding_box target_vehicle_box = veh_target.get_bounding_box( false, true );
+
+    bounding_box combined_box;
+    combined_box.p1 = point( std::min( vehicle_box.p1.x, target_vehicle_box.p1.x ),
+                             std::min( vehicle_box.p1.y, target_vehicle_box.p1.y ) );
+    combined_box.p2 = point( std::max( vehicle_box.p2.x, target_vehicle_box.p2.x ),
+                             std::max( vehicle_box.p2.y, target_vehicle_box.p2.y ) );
     point size;
-    size.x = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).x ) + 1;
-    size.y = std::abs( ( vehicle_box.p2 - vehicle_box.p1 ).y ) + 1;
+    size.x = std::abs( ( combined_box.p2 - combined_box.p1 ).x ) + 1;
+    size.y = std::abs( ( combined_box.p2 - combined_box.p1 ).y ) + 1;
 
-    bounding_box target_vehicle_box = veh_target.get_bounding_box( true, true );
-
-    point target_size;
-    target_size.x = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).x ) + 1;
-    target_size.y = std::abs( ( target_vehicle_box.p2 - target_vehicle_box.p1 ).y ) + 1;
-    //Make sur the resulting vehicle would not be too large
-    if( size.x + target_size.x <= MAX_WIRE_VEHICLE_SIZE &&
-        size.y + target_size.y <= MAX_WIRE_VEHICLE_SIZE ) {
+    //Make sure the resulting vehicle would not be too large
+    if( size.x <= MAX_WIRE_VEHICLE_SIZE && size.y <= MAX_WIRE_VEHICLE_SIZE ) {
         if( !merge_vehicle_parts( &veh_target ) ) {
             debugmsg( "failed to merge vehicle parts" );
         } else {
@@ -6930,6 +6939,48 @@ void vehicle::shed_loose_parts( const trinary shed_cables, const tripoint_bub_ms
             remove_remote_part( vp_loose );
         }
         remove_part( vp_loose );
+    }
+}
+
+void vehicle::unlink_cables( const point &mount, Character &remover,
+                             bool unlink_items, bool unlink_tow_cables, bool unlink_power_cords )
+{
+    if( !unlink_items && !unlink_tow_cables && !unlink_power_cords ) {
+        return;
+    }
+    for( const int index : parts_at_relative( mount, true, false ) ) {
+        vehicle_part &part = parts[ index ];
+
+        if( unlink_items && part.has_flag( vp_flag::linked_flag ) ) {
+            part.remove_flag( vp_flag::linked_flag );
+            part.last_disconnected = calendar::turn;
+            linked_item_epower_this_turn = 0_W;
+            remover.add_msg_if_player( _( "You detach items connected to the %s." ), part.name( false ) );
+        }
+        if( unlink_tow_cables && part.info().has_flag( "TOW_CABLE" ) ) {
+            bool u_can_stash_tow = remover.can_stash( part.get_base() );
+            invalidate_towing( true, &remover );
+            if( u_can_stash_tow ) {
+                remover.add_msg_if_player( _( "You detach the %s and take it." ), part.name( false ) );
+            } else {
+                remover.add_msg_if_player( _( "You detach the %s and drop it." ), part.name( false ) );
+            }
+        }
+        if( unlink_power_cords && part.info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
+            item drop = part_to_item( part );
+            bool u_can_stash = remover.can_stash( drop );
+            if( !magic && !drop.has_flag( flag_NO_DROP ) && remover.i_add_or_drop( drop ) ) {
+                if( u_can_stash ) {
+                    remover.add_msg_if_player( _( "You detach the %s and take it." ), drop.type_name() );
+                } else {
+                    remover.add_msg_if_player( _( "You detach the %s and drop it." ), drop.type_name() );
+                }
+            } else {
+                remover.add_msg_if_player( _( "You detached the %s." ), drop.type_name() );
+            }
+            remove_remote_part( part );
+            remove_part( part );
+        }
     }
 }
 

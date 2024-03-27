@@ -1477,7 +1477,6 @@
       "type": "transform",
       "msg": "You deactivate your RM13 combat armor.\nRivOS v2.19 shutdown sequence initiated.\nShutting down.\nYour RM13 combat armor turns off.",
       "target": "rm13_armor",
-      "active": true,
       "need_worn": true
     },
     "environmental_protection": 40,

@@ -117,7 +117,7 @@
     "id": "shed_snakeskin_big",
     "name": { "str": "big shed snakeskin" },
     "copy-from": "shed_snakeskin",
-    "description": "A very large shed snakeskin.  This didn't come from anything native, or natural, to New England",
+    "description": "A very large shed snakeskin.  This didn't come from anything native, or natural, to New England.",
     "weight": "500 g",
     "volume": "2 L"
   },

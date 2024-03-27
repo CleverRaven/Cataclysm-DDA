@@ -864,6 +864,11 @@ Character status value  | Description
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
 `OVERMAP_SIGHT`         | Increases the amount of overmap tiles you can see around.
 `PAIN`                  | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
+`PAIN_PENALTY_MOD_STR`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
+`PAIN_PENALTY_MOD_DEX`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
+`PAIN_PENALTY_MOD_INT`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
+`PAIN_PENALTY_MOD_PER`  | Amount of this stat you lose from pain. Default value is `((pain^0.8)/10)*0.66`. Can't be lower than 0
+`PAIN_PENALTY_MOD_SPEED`| Amount of speed you lose from pain. Default value is `pain^0.7`. Can't be bigger than 50 speed.
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `PERCEPTION`            | Affects the perception stat.
 `POWER_TRICKLE`         | Generates this amount of joules each second. Default value is zero, so better to use `add`

@@ -5695,14 +5695,14 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             } );
             if( any_encumb_increase ) {
                 info.emplace_back( "BASE",
-                                   _( "* This items pockets are <info>not rigid</info>.  Its"
+                                   _( "* This item's pockets are <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
                 not_rigid = true;
             }
         }
         if( !not_rigid && !all_pockets_rigid() && !is_corpse() ) {
             info.emplace_back( "BASE",
-                               _( "* This items pockets are <info>not rigid</info>.  Its"
+                               _( "* This item's pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
         }
     }

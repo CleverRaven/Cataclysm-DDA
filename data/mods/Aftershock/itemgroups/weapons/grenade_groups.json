@@ -6,6 +6,10 @@
     "entries": [
       { "item": "afs_electroshock_grenade_1", "count-min": 1, "count-max": 3 },
       { "item": "grenade_cryo", "count-min": 1, "count-max": 3 },
+      { "item": "grenade", "count-min": 1, "count-max": 3 },
+      { "item": "afs_HE_grenade", "count-min": 1, "count-max": 3 },
+      { "item": "grenade_inc", "count-min": 1, "count-max": 3 },
+      { "item": "smokebomb", "count-min": 1, "count-max": 3 },
       { "item": "scrambler", "count-min": 1, "count-max": 3 },
       { "item": "grenade_emp", "count-min": 1, "count-max": 3 }
     ]
