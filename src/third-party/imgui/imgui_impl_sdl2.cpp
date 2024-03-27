@@ -362,57 +362,38 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
                 bd->MouseWindowID = event->window.windowID;
                 bd->PendingMouseLeaveFrame = 0;
             }
-            if (window_event == SDL_WINDOWEVENT_LEAVE)
+            if( window_event == SDL_WINDOWEVENT_LEAVE ) {
                 bd->PendingMouseLeaveFrame = ImGui::GetFrameCount() + 1;
+                ImGui::GetIO().ClearPreEditText();
+            }
             if (window_event == SDL_WINDOWEVENT_FOCUS_GAINED)
                 io.AddFocusEvent(true);
-            else if (event->window.event == SDL_WINDOWEVENT_FOCUS_LOST)
-                io.AddFocusEvent(false);
+            else if( event->window.event == SDL_WINDOWEVENT_FOCUS_LOST ) {
+                io.AddFocusEvent( false );
+                ImGui::GetIO().ClearPreEditText();
+            }
             return true;
         }
         case SDL_TEXTEDITING: {
             if(strlen(event->edit.text) > 0)
             {
                 ImGui::GetIO().SetPreEditText(event->edit.text);
-                //const unsigned lc = UTF8_getch(event->edit.text);
-                //last_input = input_event(lc, input_event_t::keyboard_char);
             }
             else
             {
-                // no key pressed in this event
-                //last_input = input_event();
-                //last_input.type = input_event_t::keyboard_char;
+                io.ClearPreEditText();
             }
-            // Convert to string explicitly to avoid accidentally using
-            // the array out of scope.
-            //last_input.edit = std::string(event->edit.text);
-            //last_input.edit_refresh = true;
-            //text_refresh = true;
             break;
         }
 #if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
         case SDL_TEXTEDITING_EXT: {
-            if(!event->editExt.text)
-            {
-                ImGui::GetIO().ClearPreEditText( );
-                break;
-            }
-            if(strlen(event->editExt.text) > 0)
+            if( event->editExt.text != nullptr && strlen(event->editExt.text) > 0)
             {
                 ImGui::GetIO().SetPreEditText( event->editExt.text );
             }
-//            else
-//            { 3
-//                // no key pressed in this event
-//                last_input = input_event();
-//                last_input.type = input_event_t::keyboard_char;
-//            }
-//            // Convert to string explicitly to avoid accidentally using
-//            // a pointer that will be freed
-//            last_input.edit = std::string(event->editExt.text);
-//            last_input.edit_refresh = true;
-//            text_refresh = true;
-//            SDL_free(event->editExt.text);
+            else {
+                ImGui::GetIO().ClearPreEditText();
+            }
             break;
         }
 #endif
