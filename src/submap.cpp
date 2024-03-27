@@ -13,8 +13,6 @@
 #include "units.h"
 #include "vehicle.h"
 
-static const furn_str_id furn_f_console( "f_console" );
-
 void maptile_soa::swap_soa_tile( const point &p1, const point &p2 )
 {
     std::swap( ter[p1.x][p1.y], ter[p2.x][p2.y] );
