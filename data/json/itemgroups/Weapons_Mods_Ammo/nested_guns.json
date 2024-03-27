@@ -546,8 +546,8 @@
     "ammo": 100,
     "entries": [
       { "item": "cz75", "charges-min": 0, "charges-max": 26 },
-      { "item": "cz75mag_12rd" },
-      { "item": "cz75mag_12rd", "prob": 50 },
+      { "item": "cz75mag_16rd" },
+      { "item": "cz75mag_16rd", "prob": 50 },
       { "group": "on_hand_9mm" }
     ]
   },

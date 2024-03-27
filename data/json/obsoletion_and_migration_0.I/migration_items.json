@@ -1221,5 +1221,10 @@
     "id": "riv_suppressor",
     "type": "MIGRATION",
     "replace": "suppressor"
+  },
+  {
+    "id": "cz75mag_12rd",
+    "type": "MIGRATION",
+    "replace": "cz75mag_16rd"
   }
 ]
