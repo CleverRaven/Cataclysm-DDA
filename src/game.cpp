@@ -2491,6 +2491,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "cast_spell" );
     ctxt.register_action( "fire_burst" );
     ctxt.register_action( "select_fire_mode" );
+    ctxt.register_action( "select_default_ammo" );
     ctxt.register_action( "drop" );
     ctxt.register_action( "unload_container" );
     ctxt.register_action( "drop_adj" );
@@ -9816,9 +9817,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         if( !opt ) {
             return;
         } else if( u.ammo_location && opt.ammo == u.ammo_location ) {
+            u.add_msg_if_player( _( "Cleared ammo preferences for %s." ), loc->tname() );
             u.ammo_location = item_location();
-        } else {
+        } else if( u.has_item( *opt.ammo ) ) {
+            u.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), loc->tname() );
             u.ammo_location = opt.ammo;
+        } else {
+            u.add_msg_if_player( _( "You need to keep that ammo on you to select it as default ammo." ) );
         }
         return;
     }

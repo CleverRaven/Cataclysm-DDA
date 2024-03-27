@@ -2572,6 +2572,13 @@
   },
   {
     "type": "keybinding",
+    "name": "Select default ammo for wielded item",
+    "category": "DEFAULTMODE",
+    "id": "select_default_ammo",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F3" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "Drop item",
     "category": "DEFAULTMODE",
     "id": "drop",
