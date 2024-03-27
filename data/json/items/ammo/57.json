@@ -43,7 +43,7 @@
     "copy-from": "57mm",
     "type": "AMMO",
     "name": { "str_sp": "5.7x28mm, black powder" },
-    "description": "A 5.7x28mm cartridge hand reloaded with black powder, leading to lower velocities, muzzle smoke, and a dirtier barrel if you shoot it.  The round was designed by FN Herstal to replace the 9x19mm round in NATO use, and although the project to replace the 9mm Parabellum was effectively cancelled, the 5.7x28mm round has seen action in many conflicts.  It has very low recoil but lacks its usual armour penetration due to using a simple lead bullet rather than a proper factory-made penetrator projectile.",
+    "description": "A 5.7x28mm cartridge hand reloaded with black powder, leading to lower velocities, muzzle smoke, and a dirtier barrel if you shoot it.  The round was designed by FN Herstal to replace the 9x19mm round in NATO use, and although the project to replace the 9mm Parabellum was effectively cancelled, the 5.7x28mm round has seen action in many conflicts.  It has very low recoil but lacks its usual armor penetration due to using a simple lead bullet rather than a proper factory-made penetrator projectile.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.56, "armor_penetration": 0.1 },
