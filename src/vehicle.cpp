@@ -126,6 +126,8 @@ static const proficiency_id proficiency_prof_driver( "prof_driver" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const vpart_id vpart_power_cord( "power_cord" );
+
 static const vproto_id vehicle_prototype_none( "none" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
@@ -1817,9 +1819,24 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
 
 bool vehicle::merge_vehicle_parts( vehicle *veh )
 {
+    map &here = get_map();
     for( const vehicle_part &part : veh->parts ) {
         if( part.is_fake || part.removed ) {
             continue;
+        }
+        if( part.info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
+            // Disconnect cables that are attached between the merging vehicles.
+            // Delete power cords, drop extension cords on the ground.
+            item drop = veh->part_to_item( part );
+            if( drop.link().t_veh.get() == this ) {
+                if( !veh->magic && part.info().id != vpart_power_cord ) {
+                    const tripoint drop_pos = veh->global_part_pos3( part );
+                    drop.reset_link( false, nullptr, -1, true, drop_pos );
+                    here.add_item_or_charges( drop_pos, drop );
+                }
+                veh->remove_remote_part( part );
+                continue;
+            }
         }
         point part_loc = veh->mount_to_tripoint( part.mount ).xy();
 
@@ -1831,7 +1848,6 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
         refresh();
     }
 
-    map &here = get_map();
     here.destroy_vehicle( veh );
 
     return true;
