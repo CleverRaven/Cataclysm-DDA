@@ -10300,5 +10300,82 @@
       [ [ "vinegar", 1 ], [ "lemon", 1 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "poultry_cooked",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "15 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "//": "I guess I'm copying whatever meat does",
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "poultry_raw_steak", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "poultry_pepper",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "time": "17 m",
+    "autolearn": true,
+    "batch_time_factors": [ 67, 5 ],
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
+    "proficiencies": [ { "proficiency": "prof_food_prep" } ],
+    "components": [ [ [ "poultry_raw_steak", 1, "LIST" ] ], [ [ "pepper", 1 ] ], [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "poultry_scrap_pepper",
+    "copy-from": "poultry_cooked",
+    "time": "45 s",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [
+      [ [ "poultry_scrap", 1 ], [ "poultry_fatty_scrap", 1 ] ],
+      [ [ "pepper", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "coqauvin",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": "45 m",
+    "charges": 4,
+    "book_learn": [ [ "cookbook_italian", 4 ] ],
+    "//1": "I KNOW coq au vin is French food, I deeply apologize for the heresy I've committed",
+    "batch_time_factors": [ 60, 2 ],
+    "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 2 } ],
+    "tools": [ [ [ "water_boiling_heat", 6, "LIST" ] ], [ [ "surface_heat", 9, "LIST" ] ] ],
+    "//2": "4 servings worth of meat cooked on surface heat, boiling heat 2u for broth, 3u for ingredients, 4u for time spent reducing everything",
+    "components": [
+      [ [ "poultry_raw_any", 3, "LIST" ] ],
+      [ [ "bacon", 2 ] ],
+      [ [ "flour_any", 1, "LIST" ] ],
+      [ [ "sauce_red", 1 ] ],
+      [ [ "worthy_wine", 4, "LIST" ], [ "fruit_wine", 4 ] ],
+      [ [ "broth", 2 ] ],
+      [ [ "garlic_clove", 2 ], [ "rehydrated_garlic", 2 ], [ "garlic_powder", 2 ] ],
+      [ [ "pepper", 2 ] ],
+      [ [ "salt", 2 ] ],
+      [ [ "seasoning_italian", 2 ] ],
+      [ [ "any_butter", 1, "LIST" ] ],
+      [ [ "vinegar", 2 ], [ "lemon", 1 ] ],
+      [ [ "veggy_any_fresh_uncooked", 2, "LIST" ] ]
+    ]
   }
 ]
