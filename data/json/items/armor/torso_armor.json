@@ -474,6 +474,39 @@
     "extend": { "flags": [ "STURDY" ] }
   },
   {
+    "id": "armor_aztec",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ichcahuipilli" },
+    "description": "A Mesoamerican armor of Nahuatl origin, very similar to a European aketon, and somewhat resembling a tshirt.  It is made of unspun cotton between two layers of quilted cotton crystalized by brine, edged with leather around its holes.  This bad boy once stopped Spanish bullets and Aztec missiles alike, now its time has come to stop zombie bites.",
+    "weight": "3200 g",
+    "volume": "3000 ml",
+    "symbol": "[",
+    "color": "light_gray",
+    "price": 12000,
+    "price_postapoc": 1200,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "warmth": 20,
+    "environmental_protection": 4,
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "WATER_FRIENDLY" ],
+    "armor": [
+      {
+        "material": [ { "type": "cotton_quilted_salted", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 15
+      },
+      {
+        "material": [ { "type": "cotton_quilted_salted", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 60,
+        "encumbrance": 10
+      }
+    ]
+  },
+  {
     "id": "bookplate",
     "type": "ARMOR",
     "category": "armor",
