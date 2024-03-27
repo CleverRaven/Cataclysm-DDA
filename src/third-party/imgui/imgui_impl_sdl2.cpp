@@ -333,6 +333,7 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
         }
         case SDL_TEXTINPUT:
         {
+            io.ClearPreEditText();
             io.AddInputCharactersUTF8(event->text.text);
             return true;
         }
@@ -389,17 +390,17 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
             //text_refresh = true;
             break;
         }
-//#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
-//        case SDL_TEXTEDITING_EXT: {
-//            if(!event->editExt.text)
-//            {
-//                break;
-//            }
-//            if(strlen(event->editExt.text) > 0)
-//            {
-//                const unsigned lc = UTF8_getch(event->editExt.text);
-//                last_input = input_event(lc, input_event_t::keyboard_char);
-//            }
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+        case SDL_TEXTEDITING_EXT: {
+            if(!event->editExt.text)
+            {
+                ImGui::GetIO().ClearPreEditText( );
+                break;
+            }
+            if(strlen(event->editExt.text) > 0)
+            {
+                ImGui::GetIO().SetPreEditText( event->editExt.text );
+            }
 //            else
 //            { 3
 //                // no key pressed in this event
@@ -412,9 +413,9 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
 //            last_input.edit_refresh = true;
 //            text_refresh = true;
 //            SDL_free(event->editExt.text);
-//            break;
-//        }
-//#endif
+            break;
+        }
+#endif
     }
     return false;
 }
