@@ -155,7 +155,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": "derelict_property",
-    "//": "rows only defined bc otherwise palettes, needed for nest selection, throws an error",
+    "//": "rows only defined because otherwise palettes, needed for parameter selection, throws a skipped member error",
     "object": {
       "rows": [
         "                        ",
