@@ -799,10 +799,10 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
         }
     }
 
-    //add an optional enchantment of the value of ret's power (the artifact being created) - resonance is equal to its power (min zero)
+    //add an optional enchantment of the value of ret's power (the artifact being created) - resonance is equal to its power
     if( rules.resonant ) {
         enchant_cache resonance;
-        int value = std::max( 0, ret.power_level( id ) );
+        int value = std::max( -1000, ret.power_level( id ) );
         resonance.add_value_add( enchant_vals::mod::ARTIFACT_RESONANCE, value );
         resonance.set_has( enchantment::has::HELD );
         ret.add_passive_effect( resonance );
