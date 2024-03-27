@@ -100,8 +100,9 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         }
         vehicle &veh_target = vp->vehicle();
         if( veh_target.has_tag( flag_APPLIANCE ) ) {
-            if( veh->is_powergrid() && veh_target.is_powergrid() ) {
-                veh->merge_appliance_into_grid( veh_target );
+            if( veh->is_powergrid() && veh_target.is_powergrid() &&
+                veh->merge_appliance_into_grid( veh_target ) ) {
+                add_msg( _( "You merge it into the adjacent power grid." ) );
                 continue;
             }
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {

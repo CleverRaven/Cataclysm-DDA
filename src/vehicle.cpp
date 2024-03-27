@@ -1837,7 +1837,7 @@ bool vehicle::merge_vehicle_parts( vehicle *veh )
     return true;
 }
 
-void vehicle::merge_appliance_into_grid( vehicle &veh_target )
+bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
 {
     if( &veh_target == this ) {
         return;
@@ -1877,10 +1877,12 @@ void vehicle::merge_appliance_into_grid( vehicle &veh_target )
             //But it's not a problem if a grid without any has this flag, thus we can add it without issue
             add_tag( flag_WIRING );
             name = _( "power grid" );
+            return true;
         }
     } else {
         add_msg( m_bad, _( "Can't merge into %s, the resulting grid would be too big." ), veh_target.name );
     }
+    return false;
 }
 
 bool vehicle::is_powergrid() const
