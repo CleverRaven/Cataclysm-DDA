@@ -51,6 +51,10 @@
   },
   {
     "type": "connect_group",
+    "id": "BEACH_FORMATIONS"
+  },
+  {
+    "type": "connect_group",
     "id": "SAND"
   },
   {

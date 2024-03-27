@@ -33,7 +33,7 @@
     "color": "yellow",
     "move_cost": 3,
     "connect_groups": "SAND",
-    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS" ],
+    "connects_to": [ "SAND", "SANDMOUND", "SANDGLASS", "BEACH_FORMATIONS" ],
     "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   },
