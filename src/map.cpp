@@ -2891,7 +2891,7 @@ void map::drop_items( const tripoint &p )
             height_fallen -= occupied_tile_fraction( creature_below->get_size() );
         }
         // in meters, assuming one z-level is ~2.5m.
-        const double distance_to_fall = ( height_fallen ) * 2.5;
+        const double distance_to_fall = height_fallen * 2.5;
 
         // in meters per second (squared).
         const double gravity_acceleration_constant = 9.8;
@@ -2935,18 +2935,19 @@ void map::drop_items( const tripoint &p )
             } else if( creature_hit_chance < 100 ) {
                 hit_part = creature_below->get_random_body_part_of_type( body_part_type::type::leg );
             } else {
-                add_msg_if_player_sees( creature_below->pos(), _( "Falling %s misses the %s!" ), i.tname(),
-                                        creature_below->get_name() );
+                add_msg_if_player_sees( creature_below->pos(), _( "Falling %1$s misses %2$s!" ), i.tname(),
+                                        creature_below->disp_name() );
             }
             // Did we hit at all? Then run the message.
             if( creature_hit_chance < 100 ) {
-                // For some reason bp_null is_valid???
-                if( hit_part.is_valid() ) {
-                    add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s in their %s for %i damage!" ),
-                                            i.tname(), creature_below->get_name(), hit_part->name, static_cast<int>( damage ) );
+                if( hit_part.is_valid() && !creature_below->is_monster() ) {
+                    //~First positional argument: Item name. Second: Name of a person (e.g. "Jane") or player (e.g. "you"). Third: Body part name, accusative.
+                    add_msg_if_player_sees( creature_below->pos(), _(
+                                                "Falling %1$s hits %2$s on the %3$s for %4$i damage!" ),
+                                            i.tname(), creature_below->disp_name(), hit_part->accusative, static_cast<int>( damage ) );
                 } else {
-                    add_msg_if_player_sees( creature_below->pos(), _( "Falling %s hits %s for %i damage!" ),
-                                            i.tname(), creature_below->get_name(), static_cast<int>( damage ) );
+                    add_msg_if_player_sees( creature_below->pos(), _( "Falling %1$s hits %2$s for %3$i damage!" ),
+                                            i.tname(), creature_below->disp_name(), static_cast<int>( damage ) );
                 }
                 // FIXME: Hardcoded damage type!
                 creature_below->deal_damage( nullptr, hit_part, damage_instance( damage_bash, damage ) );
