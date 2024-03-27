@@ -500,7 +500,7 @@
     "id": "chem_nickel_powder",
     "category": "chems",
     "price": 12,
-    "price_postapoc": 2,
+    "price_postapoc": 2
     "name": { "str_sp": "nickel powder" },
     "symbol": "=",
     "color": "white",
