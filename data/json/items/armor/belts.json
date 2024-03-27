@@ -257,11 +257,35 @@
     "color": "brown",
     "pocket_data": [
       {
-        "description": "flashlight storage",
-        "max_contains_volume": "500 ml",
-        "max_item_length": "40 cm",
-        "max_contains_weight": "1500 g",
+        "description": "tear gas pouch",
+        "max_contains_volume": "125 ml",
+        "max_item_length": "11 cm",
+        "max_contains_weight": "1 kg",
         "moves": 100
+      },
+      {
+        "description": "pistol magazine pouch",
+        "max_contains_volume": "150 ml",
+        "max_item_length": "14 cm",
+        "max_contains_weight": "2 kg",
+        "moves": 100
+      },
+      {
+        "description": "pistol magazine pouch",
+        "max_contains_volume": "150 ml",
+        "max_item_length": "14 cm",
+        "max_contains_weight": "2 kg",
+        "moves": 100
+      },
+      {
+        "description": "stun gun holster",
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "16 cm",
+        "moves": 50,
+        "item_restriction": [ "tazer" ]
       },
       {
         "description": "radio storage",
@@ -269,35 +293,47 @@
         "max_contains_weight": "1500 g",
         "moves": 100
       },
-      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
-      { "max_contains_volume": "500 ml", "max_contains_weight": "1500 g", "moves": 100 },
       {
+        "description": "space for clipping an item",
         "holster": true,
         "volume_encumber_modifier": 0.5,
-        "max_contains_volume": "2250 ml",
-        "max_contains_weight": "3600 g",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
         "max_item_length": "70 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ],
         "transparent": true
       },
       {
+        "description": "space for clipping an item",
         "holster": true,
         "volume_encumber_modifier": 0.5,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "1750 g",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "70 cm",
+        "moves": 50,
+        "flag_restriction": [ "BELT_CLIP" ],
+        "transparent": true
+      },
+      {
+        "description": "space for clipping an item",
+        "holster": true,
+        "volume_encumber_modifier": 0.5,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
         "max_item_length": "70 cm",
         "moves": 60,
         "flag_restriction": [ "BELT_CLIP" ],
         "transparent": true
       },
       {
+        "description": "space for clipping an item",
         "holster": true,
         "volume_encumber_modifier": 0.5,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "1750 g",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
         "max_item_length": "70 cm",
-        "moves": 60,
+        "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ],
         "transparent": true
       }

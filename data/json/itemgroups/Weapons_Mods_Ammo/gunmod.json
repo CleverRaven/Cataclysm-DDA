@@ -18,6 +18,9 @@
       [ "match_trigger", 20 ],
       [ "offset_sights", 40 ],
       [ "offset_sight_rail", 30 ],
+      [ "compact_tac_flashlight", 40 ],
+      [ "tac_flashlight", 30 ],
+      [ "rail_mount_light", 50 ],
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
       [ "red_dot_sight", 70 ],
@@ -39,6 +42,7 @@
       [ "gun_crossbow", 20 ],
       [ "stabilizer", 10 ],
       [ "laser_sight", 40 ],
+      [ "rail_LAM", 40 ],
       [ "light_grip", 50 ],
       [ "pistol_bayonet", 10 ],
       [ "pistol_scope", 10 ],
@@ -72,6 +76,7 @@
       [ "red_dot_sight", 100 ],
       [ "holo_magnifier", 80 ],
       [ "hybrid_sight_4x", 100 ],
+      [ "rail_LAM", 80 ],
       [ "m203", 30 ],
       [ "m320_mod", 10 ],
       [ "masterkey", 30 ],
@@ -100,17 +105,211 @@
   },
   {
     "type": "item_group",
+    "id": "issued_rail",
+    "//": "AN/PEQ modules were very common in pictures I reviewed of deployments overseas as well as National Guard units.",
+    "items": [ [ "rail_LAM", 67 ], [ "null", 33 ] ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "issued_carbine_mods",
     "//": "Weapon mod loadouts that represent the average US Army carbine loadout.",
-    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "issued_grip" } ]
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "issued_carbine_sights" },
+      { "group": "issued_rail" },
+      { "group": "issued_grip" }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "issued_grenadier_mods",
     "//": "Weapon mod loadouts that represent the average US Army grenadier loadout.",
-    "items": [ { "group": "issued_slings" }, { "group": "issued_carbine_sights" }, { "group": "military_grenadier_mods" } ]
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "issued_carbine_sights" },
+      { "group": "issued_rail" },
+      { "group": "military_grenadier_mods" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "rifle_light",
+    "subtype": "collection",
+    "//": "Small group to represent a tactical light attached to the mount, appropriate for rifles.",
+    "entries": [ { "item": "rail_mount_light" }, { "item": "tac_flashlight" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pistol_light",
+    "subtype": "collection",
+    "//": "Small group to represent a compact tactical light attached to the mount, appropriate for pistols.",
+    "entries": [ { "item": "rail_mount_light" }, { "item": "compact_tac_flashlight" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "underbarrel_light",
+    "subtype": "collection",
+    "//": "Small group to represent a tactical light attached to the underbarrel, usually necessary for shotguns.",
+    "entries": [ { "item": "underbarrel_mount_light" }, { "item": "tac_flashlight" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_rail",
+    "subtype": "collection",
+    "//": "A lower chance of having laser modules, but can much more commonly spawn with tactical lights.  They can also rarely have both.",
+    "items": [ { "group": "rifle_light", "prob": 80 }, { "item": "rail_LAM", "prob": 15 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_underbarrel",
+    "subtype": "collection",
+    "//": "Gives SWAT shotguns/SMGs a chance to have a flashlight.",
+    "items": [ { "group": "underbarrel_light", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_grip",
+    "subtype": "distribution",
+    "//": "SWAT is more likely to have CQB attachments than the military.",
+    "items": [ [ "grip", 67 ], [ "null", 33 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_sights",
+    "subtype": "distribution",
+    "//": "SWAT is more likely to have CQB optics than the military.",
+    "items": [ [ "acog_scope", 5 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 40 ], [ "red_dot_sight", 40 ], [ "null", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_sights_CQB",
+    "subtype": "distribution",
+    "//": "This group of sights better represents those present on SWAT shotguns or submachine guns.",
+    "items": [ [ "holo_sight", 50 ], [ "red_dot_sight", 20 ], [ "null", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "SWAT_muzzle",
+    "subtype": "distribution",
+    "//": "SWAT is known to use suppressors with their firearms.",
+    "items": [ { "item": "suppressor", "prob": 40 }, { "item": "null", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SWAT_carbine_mods",
+    "//": "Weapon mod loadouts that represent the average SWAT carbine loadout.",
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "SWAT_sights" },
+      { "group": "SWAT_rail" },
+      { "group": "SWAT_muzzle" },
+      { "group": "SWAT_grip" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SWAT_shotgun_mods",
+    "//": "Weapon mod loadouts that represent the average SWAT shotgun loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "SWAT_sights_CQB" }, { "group": "SWAT_underbarrel" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "SWAT_smg_mods",
+    "//": "Weapon mod loadouts that represent the average SWAT smg loadout.",
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "SWAT_sights_CQB" },
+      { "group": "SWAT_muzzle" },
+      { "group": "SWAT_underbarrel" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_rail",
+    "subtype": "collection",
+    "//": "Lights are a common sight on patrol rifles.",
+    "items": [ { "group": "rifle_light", "prob": 80 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_rail_pistol",
+    "subtype": "collection",
+    "//": "Lights are a common sight on duty pistols.",
+    "items": [ { "group": "pistol_light", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_underbarrel",
+    "subtype": "collection",
+    "//": "Gives police shotguns a chance to have a flashlight.",
+    "items": [ { "group": "underbarrel_light", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_grip",
+    "subtype": "distribution",
+    "//": "police are more likely to have CQB attachments than the military.",
+    "items": [ [ "grip", 67 ], [ "null", 33 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_sights",
+    "subtype": "distribution",
+    "//": "police are more likely to have CQB optics than the military.",
+    "items": [ [ "acog_scope", 5 ], [ "hybrid_sight_4x", 5 ], [ "holo_sight", 40 ], [ "red_dot_sight", 40 ], [ "null", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_sights_CQB",
+    "subtype": "distribution",
+    "//": "This group of sights better represents those present on police shotguns or submachine guns.",
+    "items": [ [ "holo_sight", 50 ], [ "red_dot_sight", 20 ], [ "null", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_sights_pistol",
+    "subtype": "distribution",
+    "//": "This group of sights belongs on a duty pistol, empty until proper pistol red dots are added.",
+    "items": [ [ "null", 30 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "police_muzzle",
+    "subtype": "distribution",
+    "//": "placeholder group for when more muzzle attachments are added.",
+    "items": [ { "item": "null", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "police_carbine_mods",
+    "//": "Weapon mod loadouts that represent the average police carbine loadout.",
+    "items": [
+      { "group": "issued_slings" },
+      { "group": "police_sights" },
+      { "group": "police_rail" },
+      { "group": "police_muzzle" },
+      { "group": "police_grip" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "police_shotgun_mods",
+    "//": "Weapon mod loadouts that represent the average police shotgun loadout.",
+    "items": [ { "group": "issued_slings" }, { "group": "police_sights_CQB" }, { "group": "police_underbarrel" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "police_pistol_mods",
+    "//": "Weapon mod loadouts that represent the average police duty pistol loadout.",
+    "items": [ { "group": "police_sights_pistol" }, { "group": "police_rail_pistol" } ]
   },
   {
     "type": "item_group",

@@ -233,6 +233,151 @@
     "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "HEAD_STRAP_MOUNT" ]
   },
   {
+    "id": "compact_tac_flashlight",
+    "type": "TOOL",
+    "//": "Based on the TLR-1, this can go on a pistol or a long-arm",
+    "looks_like": "flashlight",
+    "name": { "str": "compact weaponlight (off)", "str_pl": "compact weaponlights (off)" },
+    "description": "A flashlight designed to endure rough conditions.  You could attach it to a firearm with a mount.  This one is shorter than a regular weaponlight.",
+    "material": [ "plastic", "aluminum", "glass" ],
+    "symbol": ";",
+    "color": "black",
+    "weight": "119 g",
+    "volume": "117 ml",
+    "longest_side": "86 mm",
+    "price": 500,
+    "price_postapoc": 100,
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the light on.",
+      "target": "compact_tac_flashlight_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The weaponlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ]
+  },
+  {
+    "id": "compact_tac_flashlight_on",
+    "copy-from": "compact_tac_flashlight",
+    "looks_like": "flashlight_on",
+    "type": "TOOL",
+    "name": { "str": "compact weaponlight (on)", "str_pl": "compact weaponlights (on)" },
+    "power_draw": "10 W",
+    "revert_to": "compact_tac_flashlight",
+    "use_action": [
+      {
+        "menu_text": "Turn off",
+        "type": "transform",
+        "msg": "You turn the light off.",
+        "target": "compact_tac_flashlight",
+        "ammo_scale": 0
+      }
+    ],
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ]
+  },
+  {
+    "id": "tac_flashlight",
+    "type": "TOOL",
+    "//": "Based on the Streamlight HLX",
+    "looks_like": "flashlight",
+    "name": { "str": "weaponlight (off)", "str_pl": "weaponlights (off)" },
+    "description": "A bright flashlight designed to endure rough conditions.  You could attach it to a firearm with a mount.",
+    "material": [ "plastic", "aluminum", "glass" ],
+    "symbol": ";",
+    "color": "black",
+    "weight": "150 g",
+    "volume": "95 ml",
+    "longest_side": "14 cm",
+    "price": 500,
+    "price_postapoc": 100,
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK_ACTIVE", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the light on.",
+      "target": "tac_flashlight_on_low",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The weaponlight's batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "default_magazine": "light_disposable_cell"
+      }
+    ]
+  },
+  {
+    "id": "tac_flashlight_on_low",
+    "copy-from": "tac_flashlight",
+    "looks_like": "flashlight_on",
+    "type": "TOOL",
+    "name": { "str": "weaponlight (on) (low)", "str_pl": "weaponlights (on) (low)" },
+    "power_draw": "10 W",
+    "revert_to": "tac_flashlight",
+    "use_action": [
+      {
+        "menu_text": "Turn to High",
+        "type": "transform",
+        "msg": "You turn the light to the high setting.",
+        "target": "tac_flashlight_on_high",
+        "ammo_scale": 0
+      },
+      {
+        "menu_text": "Turn off",
+        "type": "delayed_transform",
+        "transform_age": 1,
+        "msg": "You turn the weaponlight off.",
+        "not_ready_msg": "You shouldn't see this message.",
+        "target": "tac_flashlight",
+        "ammo_scale": 0
+      }
+    ],
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ]
+  },
+  {
+    "id": "tac_flashlight_on_high",
+    "copy-from": "tac_flashlight",
+    "looks_like": "flashlight_on",
+    "type": "TOOL",
+    "name": { "str": "weaponlight (on) (high)", "str_pl": "weaponlights (on) (high)" },
+    "power_draw": "15 W",
+    "revert_to": "tac_flashlight",
+    "use_action": [
+      {
+        "menu_text": "Turn off",
+        "type": "transform",
+        "msg": "You turn the light off.",
+        "target": "tac_flashlight",
+        "ammo_scale": 0
+      },
+      {
+        "menu_text": "Turn to Low",
+        "type": "delayed_transform",
+        "transform_age": 1,
+        "not_ready_msg": "You shouldn't see this message.",
+        "msg": "You turn the light to the low setting.",
+        "target": "tac_flashlight_on_low",
+        "ammo_scale": 0
+      }
+    ],
+    "flags": [ "LIGHT_500", "CHARGEDIM", "TRADER_AVOID", "WATER_BREAK", "HELMET_HEAD_ATTACHMENT", "GUNLIGHT" ]
+  },
+  {
     "id": "diving_flashlight_small",
     "type": "TOOL",
     "name": { "str": "mini diving flashlight (off)", "str_pl": "mini diving flashlights (off)" },

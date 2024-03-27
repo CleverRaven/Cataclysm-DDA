@@ -390,6 +390,11 @@
     "restriction": "Item must be some kind of flashlight"
   },
   {
+    "id": "GUNLIGHT",
+    "type": "json_flag",
+    "info": "This flashlight will withstand the recoil of firearms without breaking."
+  },
+  {
     "id": "HELMET_AVENTAIL",
     "type": "json_flag",
     "info": "This item is attachable to metal cap helmets as a face and neck protective layer.",

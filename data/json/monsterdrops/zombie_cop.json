@@ -59,18 +59,17 @@
         "collection": [
           { "item": "tacvest", "damage": [ 1, 4 ] },
           {
-            "distribution": [ { "group": "longguns_cop_in_field", "prob": 10 }, { "group": "longguns_cop_in_field_no_gun", "prob": 90 } ],
+            "distribution": [
+              { "group": "police_carbines_damaged_extramags", "prob": 33 },
+              { "group": "longguns_cop_in_field_no_gun", "prob": 66 }
+            ],
             "prob": 50
-          },
-          { "group": "cop_holster_field", "damage": [ 1, 4 ], "prob": 90 }
+          }
         ],
         "prob": 30
       },
       {
-        "collection": [
-          { "group": "longguns_cop", "prob": 10, "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ] },
-          { "group": "cop_holster", "damage": [ 0, 3 ], "dirt": [ 1500, 7050 ], "prob": 90 }
-        ],
+        "collection": [ { "group": "police_carbines_extramags", "charges": [ 0, 30 ], "damage": [ 0, 3 ], "dirt": [ 0, 1000 ], "prob": 10 } ],
         "prob": 90
       }
     ]
@@ -82,12 +81,10 @@
     "container-item": "police_belt",
     "on_overflow": "discard",
     "items": [
+      { "group": "police_pistols_damaged_extramags_holstered", "prob": 50 },
       { "item": "heavy_flashlight", "prob": 90, "charges": [ 0, 300 ] },
       { "item": "two_way_radio", "prob": 90, "charges": [ 0, 300 ] },
       { "item": "tazer", "prob": 50 },
-      { "item": "airhorn", "prob": 5 },
-      { "item": "rope_30", "prob": 5 },
-      { "item": "sm_extinguisher", "prob": 5 },
       { "group": "cop_melee", "prob": 60 },
       { "item": "teargas_sprayer", "prob": 50, "charges": [ 1, 10 ] }
     ]
