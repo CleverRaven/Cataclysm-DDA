@@ -1394,7 +1394,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     you->recoil = MAX_RECOIL;
 
-    get_event_bus().send<event_type::player_butchered_corpse>( you->getID(),
+    get_event_bus().send<event_type::character_butchered_corpse>( you->getID(),
             corpse_item.get_mtype()->id, ( std::string )act->id() );
 
     // Ready to move on to the next item, if there is one (for example if multibutchering)

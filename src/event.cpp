@@ -115,7 +115,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::uses_debug_menu: return "uses_debug_menu";
         case event_type::u_var_changed: return "u_var_changed";
         case event_type::vehicle_moves: return "vehicle_moves";
-        case event_type::player_butchered_corpse: return "player_butchered_corpse";
+        case event_type::character_butchered_corpse: return "character_butchered_corpse";
         // *INDENT-ON*
         case event_type::num_event_types:
             break;
@@ -211,7 +211,7 @@ DEFINE_EVENT_FIELDS( teleports_into_wall )
 DEFINE_EVENT_FIELDS( uses_debug_menu )
 DEFINE_EVENT_FIELDS( u_var_changed )
 DEFINE_EVENT_FIELDS( vehicle_moves )
-DEFINE_EVENT_FIELDS( player_butchered_corpse )
+DEFINE_EVENT_FIELDS( character_butchered_corpse )
 
 } // namespace event_detail
 

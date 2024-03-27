@@ -127,7 +127,7 @@ enum class event_type : int {
     uses_debug_menu,
     u_var_changed,
     vehicle_moves,
-    player_butchered_corpse,
+    character_butchered_corpse,
     num_event_types // last
 };
 
@@ -493,7 +493,7 @@ struct event_spec<event_type::character_attempt_to_fall_asleep> {
 };
 
 template<>
-struct event_spec<event_type::player_butchered_corpse> {
+struct event_spec<event_type::character_butchered_corpse> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = { {
             { "character", cata_variant_type::character_id },
             { "monster_id", cata_variant_type::mtype_id },
