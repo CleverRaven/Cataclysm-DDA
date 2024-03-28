@@ -778,5 +778,24 @@
     "name": { "str": "banded wooden cart wheel" },
     "description": "A handmade wooden cart wheel with metal bands for durability.",
     "relative": { "weight": "500 g" }
+  },
+  {
+    "id": "wheel_mount_concrete_mix",
+    "type": "GENERIC",
+    "name": { "str_sp": "concrete mixer wheel mounts" },
+    "description": "A set of two small wheel mounts from a concrete mixer.",
+    "copy-from": "wheel_mount_light",
+    "weight": "300 g",
+    "volume": "500 ml"
+  },
+  {
+    "id": "wheel_set_concrete_mix",
+    "type": "WHEEL",
+    "name": { "str_sp": "concrete mixer wheels" },
+    "description": "A set of two small wheels from a concrete mixer.",
+    "copy-from": "wheel_small",
+    "weight": "5444 g",
+    "volume": "5500 ml",
+    "width": 6
   }
 ]

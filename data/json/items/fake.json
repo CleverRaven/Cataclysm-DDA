@@ -406,5 +406,12 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
     "charges_per_use": 100,
     "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
+  },
+  {
+    "id": "concrete_mix_tool",
+    "type": "TOOL",
+    "name": { "str": "concrete mixer" },
+    "copy-from": "fake_appliance_tool",
+    "charges_per_use": 20
   }
 ]
