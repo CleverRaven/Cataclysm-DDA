@@ -173,7 +173,23 @@
         { "u_at_om_location": "arvore_genius_loci_SE" }
       ]
     },
-    "effect": [ { "u_cast_spell": { "id": "arvore_traverse_the_wilds_real" }, "targeted": true } ],
+    "effect": [
+      {
+        "if": {
+          "u_query_tile": "anywhere",
+          "target_var": { "u_val": "arvore_walk_wilds_location" },
+          "range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] },
+          "z_level": false,
+          "message": "Select tree to step to"
+        },
+        "then": {
+          "if": { "map_terrain_with_flag": [ "TREE", "YOUNG" ], "loc": { "u_val": "arvore_walk_wilds_location" } },
+          "then": { "u_teleport": { "u_val": "arvore_walk_wilds_location" }, "force": true },
+          "else": { "u_message": "You must select a tree to step from." }
+        },
+        "else": { "u_message": "Canceled" }
+      }
+    ],
     "false_effect": { "u_message": "You need to be in a forest or swamp to traverse the wilds.", "type": "bad" }
   },
   {
