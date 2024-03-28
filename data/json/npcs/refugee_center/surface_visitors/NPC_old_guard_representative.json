@@ -285,10 +285,7 @@
     "start": {
       "assign_mission_target": { "om_terrain": "field", "reveal_radius": 5, "random": true, "search_range": 30 },
       "update_mapgen": {
-        "place_monster": [
-          { "monster": "mon_graboid", "name": "Little Guy", "x": 12, "y": 12, "target": true },
-          { "monster": "mon_graboid", "x": [ 9, 15 ], "y": [ 9, 15 ] }
-        ]
+        "place_monster": [ { "monster": "mon_spider_trapdoor_small", "x": 12, "y": 12, "target": true, "repeat": [ 3, 5 ] } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
