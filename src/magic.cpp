@@ -2521,8 +2521,8 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
         info_txt.emplace_back( );
     } else {
         info_txt.emplace_back(
-        colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
-                                 moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+            colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
 
         info_txt.emplace_back( );
     };
