@@ -138,6 +138,9 @@ static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 static const std::string flag_WIRING( "WIRING" );
 
+//~ Name for an array of electronic power grid appliances, like batteries and solar panels
+static const translation power_grid_name = to_translation( "power grid" );
+
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
 
@@ -1901,7 +1904,7 @@ bool vehicle::merge_appliance_into_grid( vehicle &veh_target )
             //A grid with only wires needs this flag to count as a powergrid
             //But it's not a problem if a grid without any has this flag, thus we can add it without issue
             add_tag( flag_WIRING );
-            name = _( "power grid" );
+            name = power_grid_name.translated();
             return true;
         }
     } else {
@@ -2141,6 +2144,10 @@ void vehicle::part_removal_cleanup()
         }
     }
     shift_if_needed( here );
+    // If we've split away all of a power grid's parts, rename it from "power grid" to its part name.
+    if( is_powergrid() && name == power_grid_name.translated() && part_count() == 1 ) {
+        name = parts[0].info().name();
+    }
     refresh( false ); // Rebuild cached indices
     coeff_air_dirty = coeff_air_changed;
     coeff_air_changed = false;
@@ -2371,6 +2378,7 @@ bool vehicle::split_vehicles( map &here,
                               std::vector<vehicle *> *added_vehicles )
 {
     bool did_split = false;
+    bool from_powergrid = is_powergrid();
     size_t i = 0;
     for( i = 0; i < new_vehs.size(); i ++ ) {
         std::vector<int> split_parts = new_vehs[ i ];
@@ -2415,7 +2423,9 @@ bool vehicle::split_vehicles( map &here,
             if( added_vehicles != nullptr ) {
                 added_vehicles->emplace_back( new_vehicle );
             }
-            new_vehicle->name = name;
+            // If we've split a power grid down to one part, rename it from "power grid" to its part name.
+            new_vehicle->name = from_powergrid && split_parts.size() == 1 ?
+                                parts[ split_part0 ].info().name() : name;
             new_vehicle->owner = owner;
             new_vehicle->old_owner = old_owner;
             new_vehicle->move = move;
