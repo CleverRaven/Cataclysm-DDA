@@ -2020,19 +2020,6 @@
     "entries": [ { "item": "carbine_flintlock", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_flintlock" } ]
   },
   {
-    "id": "nested_famas",
-    "type": "item_group",
-    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
-    "subtype": "collection",
-    "ammo": 100,
-    "entries": [
-      { "item": "famas", "charges-min": 0, "charges-max": 25 },
-      { "item": "famasmag" },
-      { "item": "famasmag", "prob": 50 },
-      { "group": "on_hand_223" }
-    ]
-  },
-  {
     "id": "nested_m60_semi",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
