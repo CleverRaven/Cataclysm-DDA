@@ -84,7 +84,7 @@
     ]
   },
   {
-    "id": "mansion_safe_nogun",
+    "id": "mansion_safe_nogun"
     "type": "item_group",
     "subtype": "collection",
     "items": [
