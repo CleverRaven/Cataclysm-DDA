@@ -98,17 +98,6 @@ class veh_app_interact
         */
         bool can_siphon();
         /**
-         * Checks whether the current appliance is power storage
-         * or powergen or a cable and can thus be merged into a powergrid.
-         * @returns True if the appliance can be merged.
-        */
-        bool can_merge();
-        /**
-         * Function associated with the "MERGE" action.
-         * Merge power grid elements together into a single appliance
-         */
-        void merge();
-        /**
          * Function associated with the "REFILL" action.
          * Checks all appliance parts for a watertight container to refill. If multiple
          * parts are eligible, the player is prompted to select one. A refill activity

@@ -327,11 +327,6 @@ bool veh_app_interact::can_siphon()
     return false;
 }
 
-bool veh_app_interact::can_merge()
-{
-    return veh->is_powergrid();
-}
-
 // Helper function for selecting a part in the parts list.
 // If only one part is available, don't prompt the player.
 static vehicle_part *pick_part( const std::vector<vehicle_part *> &parts,
@@ -540,41 +535,6 @@ void veh_app_interact::plug()
     }
 }
 
-void veh_app_interact::merge()
-{
-    map &here = get_map();
-
-    const int part = veh->part_at( a_point );
-    const tripoint app_pos = veh->global_part_pos3( part );
-
-    const std::function<bool( const tripoint & )> f = [&here, app_pos]( const tripoint & pnt ) {
-        if( pnt == app_pos ) {
-            return false;
-        }
-        const optional_vpart_position target_vp = here.veh_at( pnt );
-        if( !target_vp ) {
-            return false;
-        }
-        vehicle &target_veh = target_vp->vehicle();
-        if( !target_veh.is_powergrid() ) {
-            return false;
-        }
-        return true;
-    };
-
-    const std::optional<tripoint> target_pos = choose_adjacent_highlight( app_pos,
-            _( "Merge the appliance into which grid?" ), _( "Target must be adjacent." ), f, false, false );
-    if( !target_pos ) {
-        return;
-    }
-    const optional_vpart_position target_vp = here.veh_at( *target_pos );
-    if( !target_vp ) {
-        return;
-    }
-    vehicle &target_veh = target_vp->vehicle();
-    veh->merge_appliance_into_grid( target_veh );
-}
-
 void veh_app_interact::populate_app_actions()
 {
     map &here = get_map();
@@ -621,14 +581,9 @@ void veh_app_interact::populate_app_actions()
         plug();
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
-                    ctxt.get_action_name( "PLUG" ) );
-
-    // Merge
-    app_actions.emplace_back( [this]() {
-        merge();
-    } );
-    imenu.addentry( -1, can_merge(), ctxt.keys_bound_to( "MERGE" ).front(),
-                    ctxt.get_action_name( "MERGE" ) );
+                    string_format( "%s%s", ctxt.get_action_name( "PLUG" ),
+                                   //~ An addition to the description if the appliance is a power grid.
+                                   veh->is_powergrid() ? _( " / merge power grid" ) : "" ) );
 
     if( veh->is_powergrid() && veh->part_count() > 1 ) {
         // Disconnect from power grid
