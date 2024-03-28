@@ -3,8 +3,8 @@
 
 #include "font_loader.h"
 #include "output.h"
-#include "imgui/imgui.h"
 #include "sdl_utils.h"
+#include "ui_manager.h"
 
 #if defined(_WIN32)
 #   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
@@ -299,26 +299,11 @@ CachedTTFFont::CachedTTFFont(
         throw std::runtime_error( TTF_GetError() );
     }
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
-
-    ImGuiIO &io = ImGui::GetIO();
-    if( io.FontDefault == nullptr && typeface.find( "unifont" ) != std::string::npos ) {
-        static const std::array<ImWchar, 17> ranges = {
-            0x0020, 0x052F,
-            0x1D00, 0x1DFF,
-            0x2000, 0x20CF,
-            0x2100, 0x214F,
-            0x2190, 0x22FF,
-            0x2500, 0x27BF,
-            0xC900, 0xC9FF,
-            //0x0020, 0xCFFF,
-            0
-        };
-        io.FontDefault = io.Fonts->AddFontFromFileTTF( typeface.c_str(), fontsize, nullptr, ranges.data() );
-    }
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         const std::string &ch,
+        int &ch_width,
         const int color )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
@@ -328,11 +313,12 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
         return nullptr;
     }
     const int wf = utf8_width( ch );
+    ch_width = width * wf;
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface = create_surface_32( width * wf, height );
+    SDL_Surface_Ptr surface = create_surface_32( ch_width, height );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
-    SDL_Rect dst_rect = { 0, 0, width * wf, height };
+    SDL_Rect dst_rect = { 0, 0, ch_width, height };
     if( src_rect.w < dst_rect.w ) {
         dst_rect.x = ( dst_rect.w - src_rect.w ) / 2;
         dst_rect.w = src_rect.w;
@@ -380,10 +366,8 @@ void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const Geometry
 
     auto it = glyph_cache_map.find( key );
     if( it == std::end( glyph_cache_map ) ) {
-        cached_t new_entry {
-            create_glyph( renderer, key.codepoints, key.color ),
-            static_cast<int>( width * utf8_width( key.codepoints ) )
-        };
+        cached_t new_entry;
+        new_entry.texture = create_glyph( renderer, key.codepoints, new_entry.width, key.color );
         it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
     }
     const cached_t &value = it->second;

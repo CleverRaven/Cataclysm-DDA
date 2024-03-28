@@ -333,6 +333,7 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
         }
         case SDL_TEXTINPUT:
         {
+            io.ClearPreEditText();
             io.AddInputCharactersUTF8(event->text.text);
             return true;
         }
@@ -345,6 +346,9 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
             io.SetKeyEventNativeData(key, event->key.keysym.sym, event->key.keysym.scancode, event->key.keysym.scancode); // To support legacy indexing (<1.87 user code). Legacy backend uses SDLK_*** as indices to IsKeyXXX() functions.
             return true;
         }
+        case SDL_WINDOWEVENT_FOCUS_LOST:
+            ImGui::GetIO().ClearPreEditText();
+            return true;
         case SDL_WINDOWEVENT:
         {
             // - When capturing mouse, SDL will send a bunch of conflicting LEAVE/ENTER event on every mouse move, but the final ENTER tends to be right.
@@ -358,14 +362,41 @@ bool ImGui_ImplSDL2_ProcessEvent(const SDL_Event* event)
                 bd->MouseWindowID = event->window.windowID;
                 bd->PendingMouseLeaveFrame = 0;
             }
-            if (window_event == SDL_WINDOWEVENT_LEAVE)
+            if( window_event == SDL_WINDOWEVENT_LEAVE ) {
                 bd->PendingMouseLeaveFrame = ImGui::GetFrameCount() + 1;
+                ImGui::GetIO().ClearPreEditText();
+            }
             if (window_event == SDL_WINDOWEVENT_FOCUS_GAINED)
                 io.AddFocusEvent(true);
-            else if (event->window.event == SDL_WINDOWEVENT_FOCUS_LOST)
-                io.AddFocusEvent(false);
+            else if( event->window.event == SDL_WINDOWEVENT_FOCUS_LOST ) {
+                io.AddFocusEvent( false );
+                ImGui::GetIO().ClearPreEditText();
+            }
             return true;
         }
+        case SDL_TEXTEDITING: {
+            if(strlen(event->edit.text) > 0)
+            {
+                ImGui::GetIO().SetPreEditText(event->edit.text);
+            }
+            else
+            {
+                io.ClearPreEditText();
+            }
+            break;
+        }
+#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
+        case SDL_TEXTEDITING_EXT: {
+            if( event->editExt.text != nullptr && strlen(event->editExt.text) > 0)
+            {
+                ImGui::GetIO().SetPreEditText( event->editExt.text );
+            }
+            else {
+                ImGui::GetIO().ClearPreEditText();
+            }
+            break;
+        }
+#endif
     }
     return false;
 }
