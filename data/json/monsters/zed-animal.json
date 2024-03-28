@@ -836,7 +836,8 @@
     ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
-    "extend": { "flags": [ "POISON", "ACIDPROOF", "ACID_BLOOD" ] },
+    "burn_into": "mon_frog_smoker_hulk",
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ] },
     "delete": { "flags": [ "RANGED_ATTACKER" ] }
   }
 ]
