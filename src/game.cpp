@@ -11399,6 +11399,8 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
     m.rebuild_vehicle_level_caches();
     m.access_cache( m.get_abs_sub().z() ).map_memory_cache_dec.reset();
     m.access_cache( m.get_abs_sub().z() ).map_memory_cache_ter.reset();
+    // Set this now, if game::place_player fails we'll need it to recover.
+    const tripoint_abs_sm tele_from = u.global_sm_location();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
     const tripoint_abs_sm map_sm_pos =
@@ -11413,6 +11415,18 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest, bool move_play
     if( move_player ) {
         place_player( player_pos );
     }
+    tripoint_abs_sm tele_to = u.global_sm_location();
+    if( tele_from != tele_to || !move_player ) {
+        return;
+    } // else tele_from == tele_to !!!
+    // We've failed to teleport for some reason (probably monsters occupying destination squares).
+    // Let's try to recover gracefully. But also throw a warning, this is bad!
+    debugmsg( "Failed to place player at destination. If you see this outside of debug teleporting it is a bug." );
+    bool z_level_shifted = tele_from.z() != tele_to.z();
+    update_map( u, z_level_shifted );
+    // This recursive call safely calls map::load_map() again after making sure everything has been unloaded properly.
+    // Basically, its only purpose it to reset the z-level to the z-level you teleported *from*. Otherwise, it's redundant after update_map
+    place_player_overmap( project_to<coords::omt>( tele_from ) );
 }
 
 bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
