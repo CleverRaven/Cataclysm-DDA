@@ -168,8 +168,8 @@ bool monster::monster_move_in_vehicle( const tripoint &p ) const
                     return false; // Return false if there's just no room whatsoever. Anything over 850 liters will simply never fit in a vehicle part that isn't specifically made for it.
                     // I'm sorry but you can't let a kaiju ride shotgun.
                 }
-                if( ( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
-                      has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) ) {
+                if( type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
+                    has_flag( mon_flag_PLASTIC ) || has_flag( mon_flag_SMALL_HIDER ) ) {
                     return true; // Return true if we're wiggly enough to be fine with cramped space.
                 }
                 critter.add_effect( effect_cramped_space, 2_turns, true );
@@ -282,7 +282,8 @@ bool monster::know_danger_at( const tripoint &p ) const
             }
 
             // Some things are only avoided if we're not attacking
-            if( attitude( &get_player_character() ) != MATT_ATTACK ) {
+            if( get_player_character().get_location() != get_dest() ||
+                attitude( &get_player_character() ) != MATT_ATTACK ) {
                 // Sharp terrain is ignored while attacking
                 if( avoid_sharp && here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) &&
                     !( type->size == creature_size::tiny || flies() ||
@@ -1068,7 +1069,25 @@ void monster::move()
             if( pf_settings.max_dist >= rl_dist( get_location(), get_dest() ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != local_dest ) ) {
                 // We need a new path
-                path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
+                if( can_pathfind() ) {
+                    path = here.route( pos(), local_dest, pf_settings, get_path_avoid() );
+                    if( path.empty() ) {
+                        increment_pathfinding_cd();
+                    }
+                } else {
+                    path = here.straight_route( pos(), local_dest );
+                    if( !path.empty() ) {
+                        std::unordered_set<tripoint> closed = get_path_avoid();
+                        if( std::any_of( path.begin(), path.end(), [&closed]( const tripoint & p ) {
+                        return closed.count( p );
+                        } ) ) {
+                            path.clear();
+                        }
+                    }
+                }
+                if( !path.empty() ) {
+                    reset_pathfinding_cd();
+                }
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
@@ -1279,7 +1298,7 @@ void monster::move()
             move_to( local_next_step, false, false, get_stagger_adjust( pos(), destination, local_next_step ) );
 
         if( !did_something ) {
-            moves -= 100; // If we don't do this, we'll get infinite loops.
+            mod_moves( -get_speed() ); // If we don't do this, we'll get infinite loops.
         }
         if( has_effect( effect_dragging ) && dragged_foe != nullptr ) {
 
@@ -1409,7 +1428,7 @@ void monster::footsteps( const tripoint &p )
     }
     made_footstep = true;
     int volume = 6; // same as player's footsteps
-    if( flies() ) {
+    if( flies() || has_flag( mon_flag_SILENTMOVES ) ) {
         volume = 0;    // Flying monsters don't have footsteps!
     }
     if( digging() ) {
@@ -1435,6 +1454,8 @@ void monster::footsteps( const tripoint &p )
     }
     if( has_flag( mon_flag_LOUDMOVES ) ) {
         volume += 6;
+    } else if( has_flag( mon_flag_QUIETMOVES ) ) {
+        volume -= 3;
     }
     if( volume == 0 ) {
         return;
@@ -1683,7 +1704,7 @@ bool monster::bash_at( const tripoint &p )
 
     int bashskill = group_bash_skill( p );
     here.bash( p, bashskill );
-    moves -= 100;
+    mod_moves( -get_speed() );
     return true;
 }
 
@@ -1852,7 +1873,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( here.has_flag( ter_furn_flag::TFLAG_CLIMBABLE, destination ) ) {
         if( here.impassable( destination ) && critter == nullptr ) {
             if( flies() ) {
-                moves -= 100;
+                mod_moves( -get_speed() );
                 force = true;
                 if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
                     add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
@@ -1860,7 +1881,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                                             here.tername( p ) );
                 }
             } else if( climbs() ) {
-                moves -= 150;
+                mod_moves( -get_speed() * 1.5 );
                 force = true;
                 if( get_option<bool>( "LOG_MONSTER_MOVEMENT" ) ) {
                     add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
@@ -1891,7 +1912,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                                                        destination ) : calc_movecost( pos(),
                                                                destination ) );
         if( cost > 0.0f ) {
-            moves -= static_cast<int>( std::ceil( cost ) );
+            mod_moves( -static_cast<int>( std::ceil( cost ) ) );
         } else {
             return false;
         }
@@ -2148,11 +2169,11 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                     move_to( p );
                 }
 
-                moves -= movecost_attacker;
+                mod_moves( -movecost_attacker );
 
                 // Don't knock down a creature that successfully
                 // pushed another creature, just reduce moves
-                critter->moves -= dest_movecost_from;
+                critter->mod_moves( -dest_movecost_from );
                 return true;
             } else {
                 return false;
@@ -2167,7 +2188,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         } else if( !critter->has_flag( mon_flag_IMMOBILE ) ) {
             critter->setpos( dest );
             move_to( p );
-            moves -= movecost_attacker;
+            mod_moves( -movecost_attacker );
             critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
         }
         return true;
@@ -2188,11 +2209,11 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
                                 name(), critter->disp_name() );
     }
 
-    moves -= movecost_attacker;
+    mod_moves( -movecost_attacker );
     if( movecost_from > 100 ) {
         critter->add_effect( effect_downed, time_duration::from_turns( movecost_from / 100 + 1 ) );
     } else {
-        critter->moves -= movecost_from;
+        critter->mod_moves( -movecost_from );
     }
 
     return true;

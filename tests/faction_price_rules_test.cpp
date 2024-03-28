@@ -1,6 +1,7 @@
 #include "avatar.h"
 #include "cata_catch.h"
 #include "itype.h"
+#include "map_selector.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "player_helpers.h"

@@ -532,6 +532,11 @@
     "monsters": [ { "monster": "mon_fry_fallfish" } ]
   },
   {
+    "name": "GROUP_EGG_MUTANT_SALMON",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_fry_mutant_salmon" } ]
+  },
+  {
     "name": "GROUP_EGG_LEO_FROG",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_leo_tadpole" } ]

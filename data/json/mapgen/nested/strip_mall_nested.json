@@ -3018,7 +3018,7 @@
     "method": "json",
     "//": "Hunting Supply Store",
     "nested_mapgen_id": "strip_mall_shop_d",
-    "weight": 100,
+    "weight": 50,
     "object": {
       "mapgensize": [ 23, 23 ],
       "rotation": [ 0, 3 ],

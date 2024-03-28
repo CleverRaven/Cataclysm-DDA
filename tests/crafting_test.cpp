@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "craft_command.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -388,14 +389,8 @@ static void give_tools( const std::vector<item> &tools, const bool plug_in )
             item_location added_tool = player_character.i_add( gear );
             REQUIRE( added_tool );
             if( plug_in && added_tool->can_link_up() ) {
-                added_tool->link = cata::make_value<item::link_data>();
-                added_tool->link->t_state = link_state::vehicle_port;
-                added_tool->link->t_abs_pos = get_map().getglobal( player_character.pos() + tripoint_north );
-                added_tool->link->last_processed = calendar::turn;
-                added_tool->link->t_veh_safe = get_map().veh_at( player_character.pos() +
-                                               tripoint_north )->vehicle().get_safe_reference();
-                added_tool->set_link_traits();
-                REQUIRE( added_tool->link->t_veh_safe );
+                REQUIRE( added_tool->link_to( get_map().veh_at( player_character.pos() + tripoint_north ),
+                                              link_state::automatic ).success() );
             }
         } else {
             boil.emplace_back( gear );
@@ -512,7 +507,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.activity.do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();
@@ -533,7 +528,7 @@ static int test_craft_for_prof( const recipe_id &rid, const proficiency_id &prof
             set_time( midnight );
         }
 
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.set_focus( 100 );
         player_character.activity.do_turn( player_character );
         ++turns;
@@ -625,7 +620,7 @@ static std::pair<float, float> scen_fail_chance( const recipe_id &rid, int offse
                                     player_character.item_destruction_chance( *rid ) * 100.f );
 }
 
-TEST_CASE( "synthetic_recipe_fail_chances", "[synthetic][.][crafting]" )
+TEST_CASE( "synthetic_recipe_fail_chances", "[.]" )
 {
     std::vector<std::pair<int, bool>> scens = {
         { -MAX_SKILL, false },
@@ -1032,7 +1027,7 @@ static int resume_craft()
     int turns = 0;
     while( player_character.activity.id() == ACT_CRAFT ) {
         ++turns;
-        player_character.moves = 100;
+        player_character.set_moves( 100 );
         player_character.activity.do_turn( player_character );
         if( turns % 60 == 0 ) {
             player_character.update_mental_focus();

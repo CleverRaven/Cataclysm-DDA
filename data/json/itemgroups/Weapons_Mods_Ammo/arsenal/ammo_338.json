@@ -13,13 +13,13 @@
     "//": "---------------------------------------------------",
     "type": "item_group",
     "id": "ammo_can_338lapua_full",
-    "container-item": "ammo_can_30_338fmjbt_200",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_338fmjbt_200" },
     "items": [ { "group": "ammo_box_338lapua", "count": 20 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_338lapua_part",
-    "container-item": "ammo_can_30_338fmjbt_200",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_338fmjbt_200" },
     "items": [ { "group": "ammo_box_338lapua", "count": [ 1, 10 ] } ]
   },
   {
@@ -32,13 +32,13 @@
     "//": "---------------------------------------------------",
     "type": "item_group",
     "id": "ammo_can_338lapua_50_full",
-    "container-item": "ammo_can_50_338fmjbt_400",
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_338fmjbt_400" },
     "items": [ { "group": "ammo_box_338lapua_20", "count": 20 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_338lapua_50_part",
-    "container-item": "ammo_can_50_338fmjbt_400",
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_338fmjbt_400" },
     "items": [ { "group": "ammo_box_338lapua_20", "count": [ 1, 10 ] } ]
   },
   {

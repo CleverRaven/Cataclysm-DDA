@@ -14,6 +14,7 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "monster.h"
+#include "options_helpers.h"
 #include "point.h"
 
 static const activity_id ACT_AIM( "ACT_AIM" );
@@ -65,7 +66,7 @@ static const itype_id itype_test_shears_off( "test_shears_off" );
 static const itype_id itype_test_weldtank( "test_weldtank" );
 static const itype_id itype_water_clean( "water_clean" );
 
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 
 static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );
 static const mtype_id mon_test_shearable( "mon_test_shearable" );
@@ -183,7 +184,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
         GIVEN( "player without the required tools" ) {
             mp.furn_set( safe, f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -199,7 +200,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -217,7 +218,7 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.add_bionic( bio_ears );
             mp.furn_set( safe, f_safe_l );
             REQUIRE( !dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
@@ -234,12 +235,12 @@ TEST_CASE( "safecracking", "[activity][safecracking]" )
             dummy.i_add( item( "stethoscope" ) );
             mp.furn_set( safe, f_safe_l );
             REQUIRE( dummy.cache_has_item_with( flag_SAFECRACK ) );
-            REQUIRE( !dummy.has_flag( json_flag_SUPER_HEARING ) );
+            REQUIRE( !dummy.has_flag( json_flag_SAFECRACK_NO_TOOL ) );
             REQUIRE( dummy.activity.id() == ACT_CRACKING );
             REQUIRE( mp.furn( safe ) == f_safe_l );
 
             WHEN( "player is safecracking" ) {
-                dummy.moves += dummy.get_speed();
+                dummy.mod_moves( dummy.get_speed() );
                 for( int i = 0; i < 100; ++i ) {
                     dummy.activity.do_turn( dummy );
                 }
@@ -435,7 +436,7 @@ TEST_CASE( "shearing", "[activity][shearing][animals]" )
             dummy.activity.start_or_resume( dummy, false );
             REQUIRE( dummy.activity.id() == ACT_SHEARING );
 
-            dummy.moves += dummy.get_speed();
+            dummy.mod_moves( dummy.get_speed() );
             for( int i = 0; i < 100; ++i ) {
                 dummy.activity.do_turn( dummy );
             }
@@ -710,7 +711,7 @@ TEST_CASE( "boltcut", "[activity][boltcut]" )
 
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( boltcutter_elec );
-                        dummy.moves = dummy.get_speed();
+                        dummy.mod_moves( dummy.get_speed() );
                         dummy.activity.do_turn( dummy );
                         CHECK( dummy.activity.id() == ACT_BOLTCUTTING );
                         CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_boltcut3->boltcut->duration() ) );
@@ -975,7 +976,7 @@ TEST_CASE( "hacksaw", "[activity][hacksaw]" )
 
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( hacksaw_elec );
-                        dummy.moves = dummy.get_speed();
+                        dummy.mod_moves( dummy.get_speed() );
                         dummy.activity.do_turn( dummy );
                         CHECK( dummy.activity.id() == ACT_HACKSAW );
                         CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_hacksaw3->hacksaw->duration() ) );
@@ -1230,7 +1231,7 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
 
                     AND_THEN( "player can resume the activity" ) {
                         setup_activity( welding_torch );
-                        dummy.moves = dummy.get_speed();
+                        dummy.mod_moves( dummy.get_speed() );
                         dummy.activity.do_turn( dummy );
                         CHECK( dummy.activity.id() == ACT_OXYTORCH );
                         CHECK( dummy.activity.moves_left < to_moves<int>( furn_test_f_oxytorch3->oxytorch->duration() ) );
@@ -1693,7 +1694,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( firstaid_activity_actor( 1, std::string(), get_avatar().getID() ) ); },
     [] { return player_activity( forage_activity_actor( 1 ) ); },
     [] { return player_activity( gunmod_remove_activity_actor( 1, item_location(), 0 ) ); },
-    [] { return player_activity( hacking_activity_actor() ); },
+    [] { return player_activity( hacking_activity_actor( item_location() ) ); },
     //player_activity( hacksaw_activity_actor( p, loc ) ),
     [] { return player_activity( haircut_activity_actor() ); },
     //player_activity( harvest_activity_actor( p ) ),
@@ -1707,7 +1708,7 @@ static const std::vector<std::function<player_activity()>> test_activities {
     [] { return player_activity( mop_activity_actor( 1 ) ); },
     //player_activity( move_furniture_activity_actor( p, false ) ),
     [] { return player_activity( move_items_activity_actor( {}, {}, false, get_avatar().pos() + tripoint_north ) ); },
-    [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos() ) ); },
+    [] { return player_activity( open_gate_activity_actor( 1, get_avatar().pos_bub() ) ); },
     //player_activity( oxytorch_activity_actor( p, loc ) ),
     [] { return player_activity( pickup_activity_actor( {}, {}, std::nullopt, false ) ); },
     [] { return player_activity( play_with_pet_activity_actor() ); },
@@ -1762,9 +1763,9 @@ TEST_CASE( "activity_interruption_by_distractions", "[activity][interruption]" )
     clear_avatar();
     clear_map();
     set_time_to_day();
+    scoped_weather_override clear_weather( WEATHER_CLEAR );
     avatar &dummy = get_avatar();
     map &m = get_map();
-    calendar::turn = daylight_time( calendar::turn ) + 2_hours;
 
     for( const std::function<player_activity()> &setup_activity : test_activities ) {
         player_activity activity = setup_activity();

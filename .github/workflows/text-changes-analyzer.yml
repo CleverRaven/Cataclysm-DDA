@@ -28,7 +28,7 @@ jobs:
           sudo apt-get install python3-pip gettext
           sudo pip3 install polib pyspellchecker
       - name: "Checkout test merge commit"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: "Compute base commit and test merge commit"
         id: get-commit-hash
         run: |
@@ -41,7 +41,7 @@ jobs:
           ./lang/update_pot.sh
           cp lang/po/cataclysm-dda.pot ~/merge.pot
       - name: "Checkout base commit"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-commit-hash.outputs.base_commit }}
       - name: "Generate translation template on base commit"
@@ -50,7 +50,7 @@ jobs:
           ./lang/update_pot.sh
           cp lang/po/cataclysm-dda.pot ~/base.pot
       - name: "Checkout test merge commit"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ steps.get-commit-hash.outputs.test_merge_commit }}
       - name: "List text changes"

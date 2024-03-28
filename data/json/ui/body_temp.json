@@ -8,68 +8,43 @@
         "id": "scorching",
         "text": "Scorching!",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 9500 } ] }
+        "condition": { "math": [ "u_val('body_temp')", ">", "9500" ] }
       },
       {
         "id": "very_hot",
         "text": "Very hot!",
         "color": "light_red",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 9500 } ] },
-            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 8000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "9500" ] }, { "math": [ "u_val('body_temp')", ">", "8000" ] } ] }
       },
       {
         "id": "warm",
         "text": "Warm",
         "color": "yellow",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 8000 } ] },
-            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 6500 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "8000" ] }, { "math": [ "u_val('body_temp')", ">", "6500" ] } ] }
       },
       {
         "id": "comfortable",
         "text": "Comfortable",
         "color": "green",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 6500 } ] },
-            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 3500 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "6500" ] }, { "math": [ "u_val('body_temp')", ">", "3500" ] } ] }
       },
       {
         "id": "chilly",
         "text": "Chilly",
         "color": "light_blue",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 3500 } ] },
-            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 2000 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "3500" ] }, { "math": [ "u_val('body_temp')", ">", "2000" ] } ] }
       },
       {
         "id": "very_cold",
         "text": "Very cold!",
         "color": "cyan",
-        "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 500 } ] }
-          ]
-        }
+        "condition": { "and": [ { "math": [ "u_val('body_temp')", "<=", "2000" ] }, { "math": [ "u_val('body_temp')", ">", "500" ] } ] }
       },
       {
         "id": "freezing",
         "text": "Freezing!",
         "color": "blue",
-        "condition": { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 500 } ] }
+        "condition": { "math": [ "u_val('body_temp')", "<=", "500" ] }
       }
     ]
   },
@@ -84,7 +59,7 @@
         "text": "(Rising!!)",
         "sym": "↑↑↑",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "body_temp_delta" }, ">", { "const": 4500 } ] }
+        "condition": { "math": [ "u_val('body_temp_delta')", ">", "4500" ] }
       },
       {
         "id": "rising2",
@@ -92,10 +67,7 @@
         "sym": "↑↑",
         "color": "light_red",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp_delta" }, "<=", { "const": 4500 } ] },
-            { "compare_num": [ { "u_val": "body_temp_delta" }, ">", { "const": 3000 } ] }
-          ]
+          "and": [ { "math": [ "u_val('body_temp_delta')", "<=", "4500" ] }, { "math": [ "u_val('body_temp_delta')", ">", "3000" ] } ]
         }
       },
       {
@@ -104,10 +76,7 @@
         "sym": "↑",
         "color": "yellow",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp_delta" }, "<=", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "body_temp_delta" }, ">", { "const": 1500 } ] }
-          ]
+          "and": [ { "math": [ "u_val('body_temp_delta')", "<=", "3000" ] }, { "math": [ "u_val('body_temp_delta')", ">", "1500" ] } ]
         }
       },
       {
@@ -116,10 +85,7 @@
         "sym": "↓",
         "color": "light_blue",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp_delta" }, "<", { "const": -1500 } ] },
-            { "compare_num": [ { "u_val": "body_temp_delta" }, ">=", { "const": -3000 } ] }
-          ]
+          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-1500" ] }, { "math": [ "u_val('body_temp_delta')", ">=", "-3000" ] } ]
         }
       },
       {
@@ -128,10 +94,7 @@
         "sym": "↓↓",
         "color": "cyan",
         "condition": {
-          "and": [
-            { "compare_num": [ { "u_val": "body_temp_delta" }, "<", { "const": -3000 } ] },
-            { "compare_num": [ { "u_val": "body_temp_delta" }, ">=", { "const": -4500 } ] }
-          ]
+          "and": [ { "math": [ "u_val('body_temp_delta')", "<", "-3000" ] }, { "math": [ "u_val('body_temp_delta')", ">=", "-4500" ] } ]
         }
       },
       {
@@ -139,7 +102,7 @@
         "text": "(Falling!!)",
         "sym": "↓↓↓",
         "color": "blue",
-        "condition": { "compare_num": [ { "u_val": "body_temp_delta" }, "<", { "const": -4500 } ] }
+        "condition": { "math": [ "u_val('body_temp_delta')", "<", "-4500" ] }
       }
     ]
   },

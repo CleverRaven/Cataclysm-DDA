@@ -79,7 +79,7 @@
     "dynamic_line": "*rolls his eyes.  \"Tell me about it.  My actual name is Gavin, which I think I told you.  I used to be a firefighter, and people started recognizing me because of the helmet.  Someone called me 'smokes' because of it, and it stuck.  I hate it.  I've never even touched a cigarette.\"",
     "responses": [
       {
-        "text": "[PER 8+] If you hate it, then why are you smiling?",
+        "text": "[PER 8] If you hate it, then why are you smiling?",
         "topic": "TALK_FREE_MERCHANTS_MERCHANT_AboutMe_Smokes2",
         "condition": { "u_has_perception": 8 }
       },

@@ -668,5 +668,29 @@
         { "item": "leaves", "count": [ 7, 10 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_beaver_dam",
+    "name": "dam",
+    "description": "A house that beavers built.  The entrance is underwater making it harder for predators to access.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_wall_log",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "flags": [ "FLAMMABLE_ASH", "TRANSPARENT" ],
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "sound": "crunch.",
+      "sound_fail": "bonk.",
+      "items": [
+        { "item": "twig", "count": [ 5, 12 ] },
+        { "item": "stick", "count": [ 5, 12 ] },
+        { "item": "stick_long", "count": [ 5, 12 ] },
+        { "item": "splinter", "count": [ 12, 38 ] }
+      ]
+    }
   }
 ]

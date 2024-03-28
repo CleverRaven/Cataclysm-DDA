@@ -54,7 +54,9 @@
     "effect": [
       {
         "set_condition": "random_enc_condition",
-        "condition": { "and": [ { "not": { "is_season": "winter" } }, "is_day", { "not": { "days_since_cataclysm": 45 } } ] }
+        "condition": {
+          "and": [ { "not": { "is_season": "winter" } }, "is_day", { "math": [ "time_since('cataclysm', 'unit':'days') < 45" ] } ]
+        }
       },
       {
         "run_eoc_with": "EOC_RandEnc",

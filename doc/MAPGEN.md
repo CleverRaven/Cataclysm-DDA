@@ -243,7 +243,9 @@ in [`ants.json`](../data/json/mapgen/bugs/ants.json).
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
+is the default, so having two maps with the same `"om_terrain"` id, one using the default weight and the other with weight '500',
+the latter will appear half as often. Changing this to non-zero values does nothing if only one map uses the `om_terrain` id.
+(An insanely high value like 10000000 is useful for testing.)
 
 Values: number or [variable object](NPCs.md#variable-object) - *0 disables*
 
@@ -258,7 +260,7 @@ Examples:
     "//3": "evaluated dynamically from global variable"
     "weight": { "global_val": "my_weight" },
     "//4": "evaluated dynamically from math expression"
-    "weight": { "math": [ "my_weight * u_val('time_since_cataclysm: days')" ] }
+    "weight": { "math": [ "my_weight * time_since('cataclysm', 'unit': 'days')" ] }
 ```
 
 
@@ -1153,6 +1155,7 @@ Place_nested allows for conditional spawning of chunks based on the `"id"`s and/
 | flags              | (optional) Any overmap terrain flags that should be checked before placing the chunk.  Each direction is associated with a list of `oter_flags` flags.
 | flags_any          | (optional) Identical to flags except only requires a single direction to pass.  Useful to check if there's at least one of a flag in cardinal or orthoganal directions etc.
 | predecessors       | (optional) Any of the maps' predecessors that should be checked before placing the chunk. Only useful if using fallback_predecessor_mapgen.
+| z                  | (optional, array of ints ) Any number of z-levels that should be checked before placing the chunk.
 
 
 The adjacent overmaps which can be checked in this manner are:
@@ -1172,7 +1175,8 @@ Example:
     { "chunks": [ "nest4" ], "x": 0, "y": 0, "flags": { "north": [ "RIVER" ] }, "flags_any": { "north_east": [ "RIVER" ], "north_west": [ "RIVER" ] } },
     { "else_chunks": [ "nest5" ], "x": 0, "y": 0, "flags": { "north_west": [ "RIVER", "LAKE", "LAKE_SHORE" ] } },
     { "chunks": [ "nest6" ], "x": 0, "y": 0, "predecessors": [ "field", { "om_terrain": "river", "om_terrain_match_type": "PREFIX" } ] },
-    { "chunks": [ "nest7" ], "x": 0, "y": 0, "neighbors": { "north": [  { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ] } }
+    { "chunks": [ "nest7" ], "x": 0, "y": 0, "neighbors": { "north": [  { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ] } },
+    { "chunks": [ "nest8" ], "x": 0, "y": 0, "neighbors": { "z": [ -3, 1, 3, 5 ] } }
   ],
 ```
 The code excerpt above will place chunks as follows:
@@ -1183,6 +1187,7 @@ The code excerpt above will place chunks as follows:
 * `"nest5"` if the north west neighboring overmap terrain has neither the `"RIVER"`, `"LAKE"` nor `"LAKE_SHORE"` flags.
 * `"nest6"` if the there's a predecessor present of either `"field"` or any overmap with the prefix `"river"`.
 * `"nest7"` if the north neighbor's om terrain is one of `"road_ne"`, `"road_es"`, `"road_sw"` and `"road_wn"`.
+* `"nest8"` if the omt's z-level is either -3, 1, 3 or 5.
 
 
 ### Place monster corpse from a monster group with "place_corpses"

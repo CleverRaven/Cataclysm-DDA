@@ -662,7 +662,7 @@ std::vector<tripoint_bub_ms> route_adjacent( const Character &you, const tripoin
     const std::vector<tripoint_bub_ms> &sorted =
         get_sorted_tiles_by_distance( you.pos_bub(), passable_tiles );
 
-    const std::set<tripoint> &avoid = you.get_path_avoid();
+    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
     for( const tripoint_bub_ms &tp : sorted ) {
         std::vector<tripoint_bub_ms> route =
             here.route( you.pos_bub(), tp, you.get_pathfinding_settings(), avoid );
@@ -736,7 +736,7 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
         return best_bench_multi_a > best_bench_multi_b;
     };
     std::stable_sort( sorted.begin(), sorted.end(), cmp );
-    const std::set<tripoint> &avoid = you.get_path_avoid();
+    const std::unordered_set<tripoint> &avoid = you.get_path_avoid();
     if( sorted.front() == you.pos_bub() ) {
         // We are on the best tile
         return {};
@@ -1777,29 +1777,8 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
             comp_selection<item_comp> sel;
             sel.use_from = usage_from::both;
             sel.comp = comp;
-            std::list<item> empty_consumed = you.consume_items( sel, 1, is_empty_crafting_component );
-
-            int left_to_consume = 0;
-
-            if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                int consumed = 0;
-                for( item &itm : empty_consumed ) {
-                    consumed += itm.charges;
-                }
-                left_to_consume = comp.count - consumed;
-            } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                left_to_consume = comp.count - empty_consumed.size();
-            }
-
-            if( left_to_consume > 0 ) {
-                comp_selection<item_comp> remainder = sel;
-                remainder.comp.count = 1;
-                std::list<item>used_consumed = you.consume_items( remainder,
-                                               left_to_consume, is_crafting_component );
-                empty_consumed.splice( empty_consumed.end(), used_consumed );
-            }
-
-            used.splice( used.end(), empty_consumed );
+            std::list<item> consumed = you.consume_items( sel, 1, is_crafting_component );
+            used.splice( used.end(), consumed );
         }
     }
     pc.components = used;
@@ -2371,7 +2350,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     break;
                 }
             }
-            if( you.moves <= 0 || move_and_reset ) {
+            if( you.get_moves() <= 0 || move_and_reset ) {
                 return;
             }
         }
@@ -3211,7 +3190,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                 continue;
             }
             if( !check_only ) {
-                if( you.moves <= 0 ) {
+                if( you.get_moves() <= 0 ) {
                     // Restart activity and break from cycle.
                     you.assign_activity( activity_to_restore );
                     return true;
@@ -3250,7 +3229,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
     }
     if( !check_only ) {
-        if( you.moves <= 0 ) {
+        if( you.get_moves() <= 0 ) {
             // Restart activity and break from cycle.
             you.assign_activity( activity_to_restore );
             you.activity_vehicle_part_index = -1;
@@ -3518,8 +3497,8 @@ int get_auto_consume_moves( Character &you, const bool food )
 
     if( best_comestible ) {
         //The moves it takes you to walk there and back.
-        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos(),
-                            here.getlocal( best_comestible.position() ) ), 1 );
+        int consume_moves = 2 * you.run_cost( 100, false ) * std::max( rl_dist( you.pos_bub(),
+                            best_comestible.pos_bub() ), 1 );
         consume_moves += to_moves<int>( you.get_consume_time( *best_comestible ) );
 
         you.consume( best_comestible );

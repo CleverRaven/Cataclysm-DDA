@@ -1,11 +1,8 @@
 #include "safemode_ui.h"
 
 #include <algorithm>
-#include <cstdlib>
-#include <functional>
 #include <map>
 #include <string>
-#include <type_traits>
 #include <utility>
 
 #include "cata_utility.h"
@@ -14,7 +11,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "input.h"
+#include "input_context.h"
 #include "json.h"
 #include "json_loader.h"
 #include "monstergenerator.h"

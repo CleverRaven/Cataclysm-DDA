@@ -304,8 +304,8 @@ Makes the monster leap a few tiles over passable terrain as long as it can see i
 | `prefer_leap`           | Leap even when adjacent to target, will still choose the closest acceptable destination.             |
 | `random_leap`           | Disregard target location entirely when leaping, leading to completely random jumps.                 |
 | `ignore_dest_terrain`   | Leap even if the destination is terrain that it doesn't usually move on.                             |
-| `ignore_dest_danger`    | Leap even if the destination is tiles that it would usually avoid, such fire, traps.                 |
-| `allow_no_target`       | Default `false` prevents monster from using the ability without a hostile target at its destination. |
+| `ignore_dest_danger`    | Leap even if the destination is tiles that it would usually avoid, such as fire or traps.            |
+| `allow_no_target`       | Default `false`.  Prevents the monster from using the ability without a hostile target at its destination.
 | `move_cost`             | Moves needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.     |
 | `min_consider_range`    | Minimal distance to target to consider for using specific attack.                                    |
 | `max_consider_range`    | Maximal distance to target to consider for using specific attack.        

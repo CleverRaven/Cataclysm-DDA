@@ -27,54 +27,32 @@
       { "u_add_effect": "antivirals", "duration": "16 hours" },
       { "u_message": "You take an antiviral.", "type": "info" },
       {
-        "run_eocs": [
+        "if": { "math": [ "u_effect_intensity('zombie_virus')", "==", "2" ] },
+        "then": [
+          { "u_add_effect": "zombie_virus", "intensity": 1, "duration": "PERMANENT" },
           {
-            "id": "EOC_REDUCE_ZVIRUS1",
-            "condition": {
-              "and": [
-                { "u_has_effect": "zombie_virus", "intensity": 2 },
-                { "compare_num": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 2 } ] }
-              ]
-            },
-            "effect": [
-              { "u_add_effect": "zombie_virus", "intensity": 1, "duration": "PERMANENT" },
-              {
-                "u_message": "You seem to be feeling a little better, but the prickling sensation remains.",
-                "type": "good"
-              }
-            ]
-          },
+            "u_message": "You seem to be feeling a little better, but the prickling sensation remains.",
+            "type": "good"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('zombie_virus')", "==", "3" ] },
+        "then": [
+          { "u_add_effect": "zombie_virus", "intensity": 2, "duration": "PERMANENT" },
           {
-            "id": "EOC_REDUCE_ZVIRUS2",
-            "condition": {
-              "and": [
-                { "u_has_effect": "zombie_virus", "intensity": 3 },
-                { "compare_num": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 3 } ] }
-              ]
-            },
-            "effect": [
-              { "u_add_effect": "zombie_virus", "intensity": 2, "duration": "PERMANENT" },
-              {
-                "u_message": "You no longer feel uncomfortably itchy, but your skin is still concerningly pale.",
-                "type": "good"
-              }
-            ]
-          },
+            "u_message": "You no longer feel uncomfortably itchy, but your skin is still concerningly pale.",
+            "type": "good"
+          }
+        ]
+      },
+      {
+        "if": { "math": [ "u_effect_intensity('zombie_virus')", "==", "4" ] },
+        "then": [
+          { "u_add_effect": "zombie_virus", "intensity": 3, "duration": "PERMANENT" },
           {
-            "id": "EOC_REDUCE_ZVIRUS3",
-            "condition": {
-              "and": [
-                { "u_has_effect": "zombie_virus", "intensity": 4 },
-                { "compare_num": [ { "u_val": "effect_intensity", "effect": "zombie_virus" }, "=", { "const": 4 } ] }
-              ]
-            },
-            "effect": [
-              { "u_add_effect": "zombie_virus", "intensity": 3, "duration": "PERMANENT" },
-              {
-                "u_message": "Some of the lesions on your skin have begun to heal, but the itchiness remains.",
-                "type": "good"
-              }
-            ]
+            "u_message": "Some of the lesions on your skin have begun to heal, but the itchiness remains.",
+            "type": "good"
           }
         ]
       }

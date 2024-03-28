@@ -52,7 +52,7 @@
       },
       {
         "text": "I'm back for your records.",
-        "condition": { "npc_compare_time_since_var": "fixing_records", "type": "timer", "context": "trade", "op": ">=", "time": "2 d" },
+        "condition": { "math": [ "time_since(n_timer_trade_fixing_records)", ">=", "time('2 d')" ] },
         "effect": [
           { "u_spawn_item": "godcotrader_accounting_records_clean" },
           { "npc_lose_var": "fixing_records", "type": "timer", "context": "trade" }
@@ -64,7 +64,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_PICKUP",
-    "dynamic_line": "Really, I haven't heard anything about it.  What's it you need?",
+    "dynamic_line": { "gendered_line": "Really, I haven't heard anything about it.  What's it you need?", "relevant_genders": [ "npc" ] },
     "responses": [
       { "text": "The boss wants your accounting papers, I need them.", "topic": "TALK_CARAVAN_GUARD_PREDATORY_ACCRECORDS" },
       { "text": "Oh nothing, I must have the wrong person.", "topic": "TALK_DONE" }
@@ -93,7 +93,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_NOW",
-    "dynamic_line": "I told you already, I'm not finished with them, come back later.",
+    "dynamic_line": { "gendered_line": "I told you already, I'm not finished with them, come back later.", "relevant_genders": [ "npc" ] },
     "responses": [
       {
         "text": "We both know that's a lie.  Hand them over, or else.",
@@ -114,7 +114,7 @@
       {
         "text": "Alright, I'll be back then.",
         "effect": [
-          { "npc_add_var": "fixing_records", "type": "timer", "context": "trade", "time": true },
+          { "math": [ "n_timer_trade_fixing_records", "=", "time('now')" ] },
           { "npc_add_var": "u_talked_about_records", "type": "general", "context": "trade", "value": "yes" }
         ],
         "topic": "TALK_DONE"
@@ -218,7 +218,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_GUARD_PREDATORY_RECORDS_FIFTY_WIN",
-    "dynamic_line": "Ah, a rich man I see.  I think you have yourself a deal.",
+    "dynamic_line": { "gendered_line": "Ah, a rich man I see.  I think you have yourself a deal.", "relevant_genders": [ "u" ] },
     "responses": [
       {
         "text": "Sounds great to me.",

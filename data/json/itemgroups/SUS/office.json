@@ -21,8 +21,7 @@
       { "item": "phonebook", "prob": 10 },
       { "item": "family_photo", "prob": 10 },
       { "item": "coin_quarter", "prob": 10 },
-      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 },
-      { "group": "loose_chess_pieces", "prob": 1 }
+      { "group": "oa_discarded_news", "count": [ 2, 12 ], "prob": 20 }
     ]
   },
   {
@@ -35,7 +34,6 @@
       { "item": "file", "count": [ 1, 15 ], "prob": 95 },
       { "item": "paper", "count": [ 2, 30 ], "prob": 80 },
       { "item": "book_binder", "prob": 80 },
-      { "group": "loose_chess_pieces", "prob": 1 },
       { "item": "memory_card_unread", "count": [ 1, 5 ], "prob": 30 }
     ]
   },
@@ -56,6 +54,7 @@
       { "item": "towel", "count": [ 1, 2 ], "prob": 80 },
       { "item": "brush", "prob": 95 },
       { "item": "bucket", "prob": 90 },
+      { "item": "bucket_5gal", "prob": 90, "count": [ 1, 2 ] },
       { "item": "boots_rubber", "prob": 90 },
       { "item": "gloves_rubber", "prob": 90 },
       { "item": "apron_plastic", "prob": 40 },

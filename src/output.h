@@ -596,7 +596,6 @@ std::string rewrite_vsnprintf( const char *msg );
 
 // TODO: move these elsewhere
 // string manipulations.
-void replace_name_tags( std::string &input );
 void replace_city_tag( std::string &input, const std::string &name );
 void replace_keybind_tag( std::string &input );
 
@@ -1168,6 +1167,9 @@ int get_terminal_height();
  * be a lot of switching around in the map drawing code.
  */
 bool is_draw_tiles_mode();
+
+int get_window_width();
+int get_window_height();
 
 /**
  * Make changes made to the display visible to the user immediately.

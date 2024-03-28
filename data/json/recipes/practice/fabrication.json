@@ -54,7 +54,7 @@
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "You destroy the wood with your practice, and the nails are now unusable.",
-    "components": [ [ [ "stick", 4 ], [ "2x4", 2 ] ], [ [ "nail", 20 ] ] ],
+    "components": [ [ [ "stick", 4 ], [ "2x4", 2 ] ], [ [ "nails", 20, "LIST" ] ] ],
     "byproducts": [ [ "splinter", 15 ] ],
     "autolearn": [ [ "fabrication", 0 ] ]
   },

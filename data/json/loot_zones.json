@@ -1,274 +1,161 @@
 [
   {
-    "id": "LOOT_UNSORTED",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Unsorted",
-    "can_be_personal": true,
-    "description": "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types."
-  },
-  {
-    "id": "LOOT_DEFAULT",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Default",
-    "can_be_personal": true,
-    "description": "Destination for any loot without a more specific zone defined."
-  },
-  {
-    "id": "LOOT_FOOD",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Food",
-    "can_be_personal": true,
-    "description": "Destination for comestibles.  If more specific food zone is not defined, all food is moved here."
-  },
-  {
-    "id": "LOOT_PFOOD",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Perishable Food",
-    "can_be_personal": true,
-    "description": "Destination for perishable comestibles.  Does include perishable drinks if such zone is not specified."
-  },
-  {
-    "id": "LOOT_DRINK",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Drink",
-    "can_be_personal": true,
-    "description": "Destination for drinks.  Does include perishable drinks if such zone is not specified."
-  },
-  {
-    "id": "LOOT_PDRINK",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Perishable Drink",
-    "can_be_personal": true,
-    "description": "Destination for perishable drinks."
-  },
-  {
-    "id": "LOOT_CONTAINERS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Containers",
-    "can_be_personal": true,
-    "description": "Destination for empty containers."
-  },
-  {
-    "id": "LOOT_GUNS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Guns",
-    "can_be_personal": true,
-    "description": "Destination for guns, bows and similar weapons."
-  },
-  {
-    "id": "LOOT_MAGAZINES",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Magazines",
-    "can_be_personal": true,
-    "description": "Destination for gun magazines."
-  },
-  {
     "id": "LOOT_AMMO",
     "type": "LOOT_ZONE",
     "name": "Loot: Ammo",
+    "display_field": "fd_ammo_loot_zone",
     "can_be_personal": true,
     "description": "Destination for ammo."
-  },
-  {
-    "id": "LOOT_WEAPONS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Weapons",
-    "can_be_personal": true,
-    "description": "Destination for melee weapons."
-  },
-  {
-    "id": "LOOT_TOOLS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Tools",
-    "can_be_personal": true,
-    "description": "Destination for tools."
-  },
-  {
-    "id": "LOOT_TOOL_MAGAZINE",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Tool Magazines",
-    "can_be_personal": true,
-    "description": "Destination for tool magazines."
-  },
-  {
-    "id": "LOOT_CLOTHING",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Clothing",
-    "can_be_personal": true,
-    "description": "Destination for clothing.  Does include filthy clothing if such zone is not specified."
-  },
-  {
-    "id": "LOOT_FCLOTHING",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Filthy Clothing",
-    "can_be_personal": true,
-    "description": "Destination for filthy clothing."
-  },
-  {
-    "id": "LOOT_DRUGS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Drugs",
-    "can_be_personal": true,
-    "description": "Destination for drugs and other medical items."
-  },
-  {
-    "id": "LOOT_BOOKS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Books",
-    "can_be_personal": true,
-    "description": "Destination for books and magazines."
-  },
-  {
-    "id": "LOOT_MANUALS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Manuals",
-    "can_be_personal": true,
-    "description": "Destination for instructional books and magazines."
-  },
-  {
-    "id": "LOOT_MA_MANUALS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Martial arts manuals",
-    "can_be_personal": true,
-    "description": "Destination for manuals for martial arts."
-  },
-  {
-    "id": "LOOT_TRAPS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Traps",
-    "can_be_personal": true,
-    "description": "Destination for traps."
-  },
-  {
-    "id": "LOOT_MODS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Mods",
-    "can_be_personal": true,
-    "description": "Destination for firearm modifications and similar items."
-  },
-  {
-    "id": "LOOT_MUTAGENS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Mutagens",
-    "can_be_personal": true,
-    "description": "Destination for mutagens, serums, and purifiers."
-  },
-  {
-    "id": "LOOT_BIONICS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Bionics",
-    "can_be_personal": true,
-    "description": "Destination for Compact Bionics Modules, a.k.a. CBMs."
-  },
-  {
-    "id": "LOOT_VEHICLE_PARTS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Vehicle Parts",
-    "can_be_personal": true,
-    "description": "Destination for vehicle parts."
-  },
-  {
-    "id": "LOOT_OTHER",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Other",
-    "can_be_personal": true,
-    "description": "Destination for other miscellaneous items."
-  },
-  {
-    "id": "LOOT_MAPS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Maps",
-    "can_be_personal": true,
-    "description": "Destination for maps."
-  },
-  {
-    "id": "LOOT_KEYS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Keys",
-    "can_be_personal": true,
-    "description": "Destination for keys."
-  },
-  {
-    "id": "LOOT_CURRENCY",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Currency",
-    "can_be_personal": true,
-    "description": "Destination for currency."
-  },
-  {
-    "id": "LOOT_FUEL",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Fuel",
-    "can_be_personal": true,
-    "description": "Destination for gasoline, diesel, kerosene and other substances used as a fuel."
-  },
-  {
-    "id": "LOOT_SEEDS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Seeds",
-    "can_be_personal": true,
-    "description": "Destination for seeds, stems and similar items."
-  },
-  {
-    "id": "LOOT_CHEMICAL",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Chemical",
-    "can_be_personal": true,
-    "description": "Destination for chemicals."
-  },
-  {
-    "id": "LOOT_SPARE_PARTS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Spare Parts",
-    "can_be_personal": true,
-    "description": "Destination for spare parts."
-  },
-  {
-    "id": "LOOT_ARTIFACTS",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Artifacts",
-    "can_be_personal": true,
-    "description": "Destination for artifacts."
-  },
-  {
-    "id": "LOOT_CORPSE",
-    "type": "LOOT_ZONE",
-    "name": "Loot: Corpses",
-    "can_be_personal": true,
-    "description": "Destination for corpses."
   },
   {
     "id": "LOOT_ARMOR",
     "type": "LOOT_ZONE",
     "name": "Loot: Armor",
+    "display_field": "fd_armor_loot_zone",
     "can_be_personal": true,
     "description": "Destination for armor.  Does include filthy armor if such zone is not specified."
   },
   {
-    "id": "LOOT_FARMOR",
+    "id": "LOOT_ARTIFACTS",
     "type": "LOOT_ZONE",
-    "name": "Loot: Filthy Armor",
+    "name": "Loot: Artifacts",
+    "display_field": "fd_artifacts_loot_zone",
     "can_be_personal": true,
-    "description": "Destination for filthy armor."
+    "description": "Destination for artifacts."
   },
   {
-    "id": "LOOT_WOOD",
+    "id": "LOOT_BIONICS",
     "type": "LOOT_ZONE",
-    "name": "Loot: Wood",
+    "name": "Loot: Bionics",
+    "display_field": "fd_bionics_loot_zone",
     "can_be_personal": true,
-    "description": "Destination for firewood and items that can be used as such."
+    "description": "Destination for Compact Bionics Modules, a.k.a. CBMs."
+  },
+  {
+    "id": "LOOT_BOOKS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Books",
+    "display_field": "fd_books_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for books and magazines."
+  },
+  {
+    "id": "LOOT_CHEMICAL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Chemical",
+    "display_field": "fd_chemical_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for chemicals."
+  },
+  {
+    "id": "LOOT_CLOTHING",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Clothing",
+    "display_field": "fd_clothing_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for clothing.  Does include filthy clothing if such zone is not specified."
+  },
+  {
+    "id": "LOOT_CONTAINERS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Containers",
+    "display_field": "fd_containers_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for empty containers."
+  },
+  {
+    "id": "LOOT_CORPSE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Corpses",
+    "display_field": "fd_corpses_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for corpses."
+  },
+  {
+    "id": "LOOT_CURRENCY",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Currency",
+    "display_field": "fd_currency_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for currency."
   },
   {
     "id": "LOOT_CUSTOM",
     "type": "LOOT_ZONE",
     "name": "Loot: Custom",
+    "display_field": "fd_custom_loot_zone",
     "can_be_personal": true,
     "description": "Destination for loot with a custom filter that you can modify."
+  },
+  {
+    "id": "LOOT_DEFAULT",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Default",
+    "display_field": "fd_default_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for any loot without a more specific zone defined."
+  },
+  {
+    "id": "LOOT_DRINK",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Drink",
+    "display_field": "fd_drink_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for drinks.  Does include perishable drinks if such zone is not specified."
+  },
+  {
+    "id": "LOOT_DRUGS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Drugs",
+    "display_field": "fd_drugs_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for drugs and other medical items."
+  },
+  {
+    "id": "LOOT_FARMOR",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Filthy Armor",
+    "display_field": "fd_filthy_armor_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for filthy armor."
+  },
+  {
+    "id": "LOOT_FCLOTHING",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Filthy Clothing",
+    "display_field": "fd_filthy_clothing_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for filthy clothing."
+  },
+  {
+    "id": "LOOT_FOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Food",
+    "display_field": "fd_food_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for comestibles.  If more specific food zone is not defined, all food is moved here."
+  },
+  {
+    "id": "LOOT_FUEL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Fuel",
+    "display_field": "fd_fuel_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for gasoline, diesel, kerosene and other substances used as a fuel."
+  },
+  {
+    "id": "LOOT_GUNS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Guns",
+    "display_field": "fd_guns_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for guns, bows and similar weapons."
   },
   {
     "id": "LOOT_IGNORE",
     "type": "LOOT_ZONE",
     "name": "Loot: Ignore",
+    "display_field": "fd_ignore_loot_zone",
     "can_be_personal": true,
     "description": "Items inside of this zone are ignored by \"sort out loot\" zone-action."
   },
@@ -276,6 +163,7 @@
     "id": "LOOT_IGNORE_FAVORITES",
     "type": "LOOT_ZONE",
     "name": "Loot: Ignore Favorites",
+    "display_field": "fd_ignore_favorites_loot_zone",
     "can_be_personal": true,
     "description": "Favorite items inside of this zone are ignored by \"sort out loot\" zone-action."
   },
@@ -283,38 +171,177 @@
     "id": "LOOT_ITEM_GROUP",
     "type": "LOOT_ZONE",
     "name": "Loot: Item Group",
+    "display_field": "fd_item_group_loot_zone",
     "can_be_personal": false,
     "hidden": true,
     "description": "Destination for items from an item group."
   },
   {
-    "id": "NO_AUTO_PICKUP",
+    "id": "LOOT_KEYS",
     "type": "LOOT_ZONE",
-    "name": "No Auto Pickup",
-    "description": "You won't auto-pickup items inside the zone."
+    "name": "Loot: Keys",
+    "display_field": "fd_keys_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for keys."
   },
   {
-    "id": "NO_NPC_PICKUP",
+    "id": "LOOT_MAGAZINES",
     "type": "LOOT_ZONE",
-    "name": "No NPC Pickup",
-    "description": "Friendly NPCs don't pickup items inside the zone."
+    "name": "Loot: Magazines",
+    "display_field": "fd_magazines_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for gun magazines."
   },
   {
-    "id": "NPC_RETREAT",
+    "id": "LOOT_MANUALS",
     "type": "LOOT_ZONE",
-    "name": "NPC Retreat",
-    "description": "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles."
+    "name": "Loot: Manuals",
+    "display_field": "fd_manuals_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for instructional books and magazines."
   },
   {
-    "id": "NPC_NO_INVESTIGATE",
+    "id": "LOOT_MAPS",
     "type": "LOOT_ZONE",
-    "name": "NPC Ignore Sounds",
-    "description": "Friendly NPCs won't investigate unseen sounds coming from this zone."
+    "name": "Loot: Maps",
+    "display_field": "fd_maps_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for maps."
   },
   {
-    "id": "NPC_INVESTIGATE_ONLY",
+    "id": "LOOT_MA_MANUALS",
     "type": "LOOT_ZONE",
-    "name": "NPC Investigation Area",
-    "description": "Friendly NPCs will investigate unseen sounds only if they come from inside this area."
+    "name": "Loot: Martial arts manuals",
+    "display_field": "fd_martial_arts_manuals_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for manuals for martial arts."
+  },
+  {
+    "id": "LOOT_MODS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Mods",
+    "display_field": "fd_mods_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for firearm modifications and similar items."
+  },
+  {
+    "id": "LOOT_MUTAGENS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Mutagens",
+    "display_field": "fd_mutagens_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for mutagens, serums, and purifiers."
+  },
+  {
+    "id": "LOOT_OTHER",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Other",
+    "display_field": "fd_other_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for other miscellaneous items."
+  },
+  {
+    "id": "LOOT_PDRINK",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Perishable Drink",
+    "display_field": "fd_perishable_drink_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for perishable drinks."
+  },
+  {
+    "id": "LOOT_PFOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Perishable Food",
+    "display_field": "fd_perishable_food_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for perishable comestibles.  Does include perishable drinks if such zone is not specified."
+  },
+  {
+    "id": "LOOT_SEEDS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Seeds",
+    "display_field": "fd_seeds_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for seeds, stems and similar items."
+  },
+  {
+    "id": "LOOT_SPARE_PARTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Spare Parts",
+    "display_field": "fd_spare_parts_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for spare parts."
+  },
+  {
+    "id": "LOOT_TOOL_MAGAZINE",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tool Magazines",
+    "display_field": "fd_tool_magazines_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for tool magazines."
+  },
+  {
+    "id": "LOOT_TOOLS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Tools",
+    "display_field": "fd_tools_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for tools."
+  },
+  {
+    "id": "LOOT_TRAPS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Traps",
+    "display_field": "fd_traps_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for traps."
+  },
+  {
+    "id": "LOOT_UNSORTED",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Unsorted",
+    "display_field": "fd_unsorted_loot_zone",
+    "can_be_personal": true,
+    "description": "Place to drop unsorted loot.  You can use \"sort out loot\" zone-action to sort items inside.  It can overlap with Loot zones of different types."
+  },
+  {
+    "id": "LOOT_VEHICLE_PARTS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Vehicle Parts",
+    "display_field": "fd_vehicle_parts_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for vehicle parts."
+  },
+  {
+    "id": "LOOT_WEAPONS",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Weapons",
+    "display_field": "fd_weapons_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for melee weapons."
+  },
+  {
+    "id": "LOOT_WOOD",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Wood",
+    "display_field": "fd_wood_loot_zone",
+    "can_be_personal": true,
+    "description": "Destination for firewood and items that can be used as such."
+  },
+  {
+    "id": "STRIP_CORPSES",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Strip Corpses",
+    "display_field": "fd_strip_corpses_loot_zone",
+    "can_be_personal": true,
+    "description": "Corpses in this zone you don't otherwise sort will have everything taken off them and dropped on the same tile."
+  },
+  {
+    "id": "UNLOAD_ALL",
+    "type": "LOOT_ZONE",
+    "name": "Loot: Unload Everything",
+    "display_field": "fd_unload_everything_loot_zone",
+    "can_be_personal": true,
+    "description": "Any containers in this zone you don't otherwise sort will have their contents dumped out and placed on the same tile.  This includes corpses, magazines, and magazine wells."
   }
 ]

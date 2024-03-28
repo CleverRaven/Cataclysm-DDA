@@ -8,5 +8,41 @@
     "points": 3,
     "CBMs": [ "afs_bio_chemical_enhancement_rig", "bio_adrenaline", "bio_metabolics", "bio_power_storage_mkII" ],
     "skills": [ { "level": 1, "name": "dodge" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_earthling",
+    "name": "Earth born",
+    "description": "Your mannerisms and accent are a dead giveaway that you were raised on Earth.  Whatever your thoughts about the homeworld might be, the simple fact that you can call it home is likely to affect relationships with people liable to care about such things.",
+    "points": -1
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_armament_license",
+    "name": "Armament License",
+    "description": "You have a license to own and operate military grade weaponry and can legally purchase such items without any difficulty.  A privilege usually reserved for the politically or economically favored.",
+    "points": 3,
+    "proficiencies": [ "prof_armament_license" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_spacer",
+    "name": "Space Operations",
+    "description": "You have ample experience working in space, either on a station or on a ship.  You are familiar with safety protocols, capable of piloting small shuttlecraft and can operate and perform maintenance on a variety of space equipment and colony systems.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "electronics" }, { "level": 2, "name": "mechanics" } ],
+    "proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "afs_leadership",
+    "name": "Empathic Leadership",
+    "description": "You have a natural talent for leadership and can easily see yourself in others.  Quite literally.  In fact, you can swap control to any other character that follows you.",
+    "points": 3,
+    "traits": [ "AFS_LEADERSHIP" ]
   }
 ]

@@ -88,7 +88,7 @@
     "item": "sheet_metal",
     "durability": 120,
     "breaks_into": "ig_vp_sheet_metal",
-    "//": "1m square sheet, assume 200cm weld, 50cm weld per damage quadrant to repair",
+    "//": "1 m square sheet, assume 200 cm weld, 50 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -164,7 +164,7 @@
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": "62500 ml",
-    "//": "1m square sheet, assume 200cm weld, 50cm weld per damage quadrant to repair",
+    "//": "1 m square sheet, assume 200 cm weld, 50 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 2 ] ],
@@ -197,7 +197,7 @@
     "durability": 450,
     "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_steel_plate",
-    "//": "steel plating doesn't have a defined length so assume 200cm weld like regular board, 50cm weld per damage quadrant to repair",
+    "//": "steel plating doesn't have a defined length so assume 200 cm weld like regular board, 50 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -268,7 +268,7 @@
     "durability": 70,
     "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
-    "//": "60cm pipe, assume 120cm weld, 30 weld per damage quadrant to repair",
+    "//": "60 cm pipe, assume 120 cm weld, 30 weld per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -291,7 +291,7 @@
     "durability": 600,
     "name": { "str": "counterweight" },
     "description": "A half-height heavy metal wall.  Commonly used in forklifts to balance them when lifting heavy things.",
-    "//": "110cm block, so 1/4 that, 30cm weld per damage quadrant to repair",
+    "//": "110 cm block, so 1/4 that, 30 cm weld per damage quadrant to repair",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },

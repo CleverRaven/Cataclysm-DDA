@@ -616,7 +616,7 @@
   {
     "type": "palette",
     "id": "lab_loot_serum_vault",
-    "mapping": { "r": { "items": [ { "item": "mut_iv", "chance": 50 } ] } },
+    "mapping": { "r": { "items": [ { "item": "mutagen_kits", "chance": 50 } ] } },
     "terrain": { "r": "t_thconc_floor" },
     "computers": {
       "6": {

@@ -464,7 +464,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_metal_sheets_heavy",
@@ -528,7 +528,7 @@
       { "proficiency": "prof_case_hardening" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_metal_sheets_chain",
@@ -604,7 +604,7 @@
     "components": [ [ [ "armor_metal_sheets_chain", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 256 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_ch_metal_sheets_chain_heavy",
@@ -620,7 +620,7 @@
     "components": [ [ [ "armor_metal_sheets_chain_heavy", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs", -1 ] ] ]
+    "tools": [ [ [ "forge", 312 ] ], [ [ "metalworking_tongs_any", 1, "LIST" ] ] ]
   },
   {
     "result": "armor_tiresuit",
@@ -1646,6 +1646,20 @@
     "using": [ [ "tailoring_cotton_patchwork_simple", 34 ] ]
   },
   {
+    "result": "cloak_denim",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "time": "4 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "tailoring_denim_patchwork", 24 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
     "result": "cloak_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1689,6 +1703,21 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "tailoring_felt_patchwork_simple", 36 ] ]
+  },
+  {
+    "result": "denim_overalls",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": "22 h",
+    "autolearn": true,
+    "using": [ [ "tailoring_denim_patchwork", 16 ], [ "strap_large", 2 ] ],
+    "qualities": [ { "id": "FABRIC_CUT", "level": 2 } ],
+    "byproducts": [ [ "scrap_denim", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "entry_suit",
@@ -1754,75 +1783,6 @@
         [ "sheet_kevlar_layered", 30 ]
       ]
     ]
-  },
-  {
-    "result": "mask_wsurvivor_nofur",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ "tailor", 7 ],
-    "time": "4 h",
-    "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
-      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "faux_fur", 6 ] ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 1 ] ]
-  },
-  {
-    "result": "mask_wsurvivor_nofur_xs",
-    "type": "recipe",
-    "copy-from": "mask_wsurvivor_nofur",
-    "time": "4 h",
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 7 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
-      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 3 ] ],
-      [ [ "faux_fur", 4 ] ]
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 1 ] ]
-  },
-  {
-    "result": "mask_wsurvivorxl_nofur",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "difficulty": 7,
-    "skills_required": [ "tailor", 7 ],
-    "time": "4 h",
-    "autolearn": true,
-    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 20 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 }, { "id": "FABRIC_CUT", "level": 2 } ],
-    "components": [
-      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
-      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
-      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ],
-      [ [ "faux_fur", 12 ] ]
-    ],
-    "proficiencies": [
-      { "proficiency": "prof_plasticworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_closures_waterproofing" },
-      { "proficiency": "prof_polymerworking" }
-    ],
-    "byproducts": [ [ "scrap_faux_fur", 3 ] ]
   },
   {
     "result": "hsurvivor_jumpsuit",
@@ -2561,7 +2521,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_lightplate",
@@ -2570,7 +2530,7 @@
     "time": "46 d 18 h 46 m",
     "using": [ [ "blacksmithing_standard", 128 ], [ "mc_steel_standard", 32 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "armor_qt_lightplate",
@@ -2932,7 +2892,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_plate",
@@ -2941,7 +2901,7 @@
     "time": "51 d 11 h 2 m",
     "using": [ [ "blacksmithing_standard", 156 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "armor_qt_plate",
@@ -3315,7 +3275,7 @@
       { "proficiency": "prof_articulation" },
       { "proficiency": "prof_quenching", "skill_penalty": 1 }
     ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -240 ], [ "water_clean", -240 ] ] ]
   },
   {
     "result": "xl_armor_qt_heavyplate",
@@ -3324,7 +3284,7 @@
     "time": "56 d 3 h 19 m",
     "using": [ [ "blacksmithing_standard", 156 ], [ "mc_steel_standard", 39 ], [ "tailoring_leather_patchwork", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
+    "tools": [ [ [ "hotcut_any", 1, "LIST" ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   },
   {
     "result": "armor_qt_heavyplate",

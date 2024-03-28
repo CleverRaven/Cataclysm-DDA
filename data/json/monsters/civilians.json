@@ -8,7 +8,7 @@
     "default_faction": "human",
     "bodytype": "human",
     "species": [ "HUMAN" ],
-    "material": [ "flesh" ],
+    "material": [ "hflesh" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "chat_topics": [ "TALK_CIVILIAN_PANIC" ],
     "volume": "62500 ml",
@@ -27,13 +27,15 @@
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "special_attacks": [ [ "PARROT_AT_DANGER", 0 ] ],
     "//": "They are human after all",
+    "harvest": "human",
+    "dissect": "dissect_human_sample_single",
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
     "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "upgrades": { "half_life": 1, "age_grow": 1, "into_group": "GROUP_CIVILIANS_UPGRADE" },
     "dodge": 1,
     "death_drops": "default_zombie_death_drops",
     "zombify_into": "mon_zombie",
-    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION" ]
+    "flags": [ "SEES", "HEARS", "WARM", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_1", "CONVERSATION", "GUILT_HUMAN" ]
   },
   {
     "id": "mon_civilian_stationary",
@@ -85,7 +87,7 @@
         "fake_dex": 8,
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
-        "condition": { "and": [ { "not": { "u_has_effect": "maimed_arm" } }, { "not": { "u_has_effect": "disarmed" } } ] },
+        "condition": { "test_eoc": "is_disarmed" },
         "require_targeting_player": false,
         "description": "The officer fires their Glock 22!"
       }
@@ -117,7 +119,7 @@
     "speed": 0,
     "//": "So they are not perpetually fleeing despite lying in a hospital bed",
     "morale": 0,
-    "upgrades": { "into": "mon_zombie_crawler", "into_group": "GROUP_NULL" },
+    "upgrades": { "into": "mon_zombie_crawler" },
     "delete": { "flags": [ "SEES", "HEARS" ] },
     "copy-from": "mon_civilian_stationary"
   },

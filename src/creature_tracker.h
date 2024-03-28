@@ -148,6 +148,9 @@ class creature_tracker
 
         void rebuild_cache();
 
+        // If the creature is in the tracker.
+        bool is_present( Creature *creature ) const;
+
         std::list<shared_ptr_fast<npc>> active_npc; // NOLINT(cata-serialize)
         std::vector<shared_ptr_fast<monster>> monsters_list;
         // NOLINTNEXTLINE(cata-serialize)
@@ -165,9 +168,8 @@ class creature_tracker
         bool dirty_ = true;  // NOLINT(cata-serialize)
         int zone_tick_ = 1;  // NOLINT(cata-serialize)
         int zone_number_ = 0;  // NOLINT(cata-serialize)
-        std::unordered_map<int, std::unordered_map<mfaction_id, std::vector<Creature *>>>
+        std::unordered_map<int, std::unordered_map<mfaction_id, std::vector<shared_ptr_fast<Creature>>>>
         creatures_by_zone_and_faction_;  // NOLINT(cata-serialize)
-        std::unordered_set<Creature *> removed_;  // NOLINT(cata-serialize)
 
         friend game;
 };
@@ -192,15 +194,20 @@ Creature *creature_tracker::find_reachable( const Creature &origin, FactionPredi
 
     const auto map_iter = creatures_by_zone_and_faction_.find( origin.get_reachable_zone() );
     if( map_iter != creatures_by_zone_and_faction_.end() ) {
-        for( const auto& [faction, creatures] : map_iter->second ) {
+        for( auto& [faction, creatures] : map_iter->second ) {
             if( !faction_fn( faction ) ) {
                 continue;
             }
-            for( Creature *other : creatures ) {
-                if( removed_.count( other ) == 0 ) {
+            for( std::size_t i = 0; i < creatures.size(); ) {
+                if( Creature *other = creatures[i].get(); is_present( other ) ) {
                     if( creature_fn( other ) ) {
                         return other;
                     }
+                    ++i;
+                } else {
+                    using std::swap;
+                    swap( creatures[i], creatures.back() );
+                    creatures.pop_back();
                 }
             }
         }

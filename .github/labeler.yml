@@ -137,6 +137,8 @@
 "Monsters":
   - "**/**monster**"
   - "**/monster**"
+  - "**/**monsters**"
+  - "**/monsters**"
 
 "Mutations / Traits / Professions/ Hobbies":
   - "**/**profession**"
@@ -178,6 +180,7 @@
   - "**/**overmap**"
   - "**/overmap**"
   - "**/overmap/**"
+  - "data/json/regional_map_settings.json"
 
 "Martial Arts":
   - "**/martialart**"

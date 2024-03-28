@@ -7,7 +7,7 @@
     "default_faction": "fungus",
     "species": [ "FUNGUS" ],
     "diff": 20,
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 30,
     "speed": 100,
@@ -175,7 +175,7 @@
       }
     ],
     "death_drops": [ { "group": "wreckage", "count": 5 }, { "group": "trash_forest", "count": 5 } ],
-    "upgrades": {  },
+    "upgrades": false,
     "armor": { "bash": 4, "cut": 10, "stab": 20, "acid": 3, "bullet": 20, "electric": 3 }
   },
   {

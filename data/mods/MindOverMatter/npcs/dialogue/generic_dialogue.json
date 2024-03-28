@@ -12,7 +12,7 @@
           "condition": {
             "and": [
               {
-                "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEPATH')" ] },
+                "roll_contested": { "math": [ "u_school_level('TELEPATH')" ] },
                 "difficulty": { "math": [ "n_val('intelligence')" ] },
                 "die_size": 5
               },
@@ -75,7 +75,7 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "roll_contested": { "math": [ "u_val('spell_level', 'school: TELEKINETIC')" ] },
+            "roll_contested": { "math": [ "u_school_level('TELEKINETIC')" ] },
             "difficulty": { "math": [ "n_val('strength')" ] },
             "die_size": 5
           }
@@ -166,10 +166,7 @@
           "topic": "TALK_DONE",
           "effect": [
             "hostile",
-            {
-              "npc_set_hp": { "math": [ "(80 - (6 * (u_spell_level('telepathic_blast'))))" ] },
-              "target_part": "head"
-            },
+            { "math": [ "n_hp('head')", "=", "80 - (6 * (u_spell_level('telepathic_blast')))" ] },
             { "npc_add_effect": "stunned", "duration": "2 s" }
           ]
         },

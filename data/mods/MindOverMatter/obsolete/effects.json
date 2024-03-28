@@ -1,0 +1,138 @@
+[
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_1",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 2 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_2",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 4 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_3",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 6 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_4",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_5",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 10 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_6",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 12 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_7",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 14 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_clair_night_eyes_8",
+    "name": [ "Night Eyes" ],
+    "desc": [ "You can sense your surroundings in the dark." ],
+    "apply_message": "",
+    "remove_message": "The darkness hides your surroundings again.",
+    "decay_messages": [
+      [ "The shadows are growing darker and darker to your sight.", "bad" ],
+      [ "Darkness begins to creep across your vision.", "bad" ]
+    ],
+    "rating": "good",
+    "max_duration": "7 days",
+    "max_intensity": 106,
+    "limb_score_mods": [ { "limb_score": "night_vis", "modifier": 16 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+  }
+]

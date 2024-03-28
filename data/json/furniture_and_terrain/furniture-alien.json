@@ -385,7 +385,7 @@
     "id": "f_exodii_printer_small",
     "name": "circuit printer",
     "looks_like": "t_machinery_electronic",
-    "description": "A tall device with a lattice of pipes and nozzles.  Based on the pile of products sitting in the output hopper, it looks like it’s used as a printer for complex electronic components.",
+    "description": "A tall device with a lattice of pipes and nozzles.  Based on the pile of products sitting in the output hopper, it looks like it's used as a printer for complex electronic components.",
     "symbol": "U",
     "color": "light_gray",
     "move_cost_mod": -1,
@@ -700,31 +700,21 @@
       "effect_on_conditions": [
         {
           "id": "EOC_EXOWARE_LOCATOR_ACTIVE",
-          "condition": { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 1 } ] },
+          "condition": { "math": [ "u_rebooted_locator", "==", "1" ] },
           "effect": [ { "u_message": "The locator is already active" } ]
         },
         {
           "id": "EOC_EXOWARE_LOCATOR_FALSE",
-          "condition": {
-            "and": [
-              { "not": { "u_has_item": "warehouse_rebooter" } },
-              { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 0 } ] }
-            ]
-          },
+          "condition": { "and": [ { "not": { "u_has_item": "warehouse_rebooter" } }, { "math": [ "u_rebooted_locator", "==", "0" ] } ] },
           "effect": [ { "u_message": "You don't have anything that could reactivate this device" } ]
         },
         {
           "id": "EOC_EXOWARE_LOCATOR",
-          "condition": {
-            "and": [
-              { "u_has_item": "warehouse_rebooter" },
-              { "compare_int": [ { "u_val": "var", "var_name": "rebooted_locator" }, "==", { "const": 0 } ] }
-            ]
-          },
+          "condition": { "and": [ { "u_has_item": "warehouse_rebooter" }, { "math": [ "u_rebooted_locator", "==", "0" ] } ] },
           "effect": [
             { "u_message": "You plug the rebooter in the locator.\n<color_light_green>The locator reactivates.</color>" },
             { "u_consume_item": "warehouse_rebooter" },
-            { "arithmetic": [ { "u_val": "var", "var_name": "rebooted_locator" }, "=", { "const": 1 } ] }
+            { "math": [ "u_rebooted_locator", "=", "1" ] }
           ]
         }
       ]
@@ -752,7 +742,7 @@
     "color": "black",
     "move_cost_mod": -1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "FLOATS_IN_AIR" ]
   },
   {
     "type": "furniture",

@@ -77,7 +77,7 @@ extern "C" {
 #if defined(TILES)
         if( SDL_ShowSimpleMessageBox( SDL_MESSAGEBOX_ERROR, "Error",
                                       log_text.str().c_str(), nullptr ) != 0 ) {
-            log_text << "Error creating SDL message box: " << SDL_GetError() << '\n';
+            log_text << "\nError creating SDL message box: " << SDL_GetError();
         }
 #endif
 #endif
@@ -135,7 +135,9 @@ extern "C" {
             default:
                 return;
         }
-        log_crash( "Signal", msg );
+        if( !isDebuggerActive() ) {
+            log_crash( "Signal", msg );
+        }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
@@ -159,10 +161,12 @@ extern "C" {
             type = msg = "Unexpected termination";
         }
     } catch( const std::exception &e ) {
-        type = typeid( e ).name();
-        msg = e.what();
-        // call here to avoid `msg = e.what()` going out of scope
-        log_crash( type, msg );
+        if( !isDebuggerActive() ) {
+            type = typeid( e ).name();
+            msg = e.what();
+            // call here to avoid `msg = e.what()` going out of scope
+            log_crash( type, msg );
+        }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"
@@ -174,7 +178,9 @@ extern "C" {
         type = "Unknown exception";
         msg = "Not derived from std::exception";
     }
-    log_crash( type, msg );
+    if( !isDebuggerActive() ) {
+        log_crash( type, msg );
+    }
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #pragma GCC diagnostic ignored "-Wold-style-cast"

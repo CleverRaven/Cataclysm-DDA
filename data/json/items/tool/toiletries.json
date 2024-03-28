@@ -21,7 +21,7 @@
     "id": "brush",
     "type": "TOOL",
     "name": { "str": "scrub brush", "str_pl": "scrub brushes" },
-    "description": "A simple scrub brush for cleaning soft objects.",
+    "description": "A simple scrub brush for cleaning hard objects.",
     "weight": "70 g",
     "volume": "350 ml",
     "longest_side": "14 cm",
@@ -78,7 +78,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "use_action": [ "HAIRKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -130,29 +130,6 @@
     "qualities": [ [ "MOP", 1 ] ],
     "use_action": [ "MOP" ],
     "melee_damage": { "bash": 3 }
-  },
-  {
-    "id": "rag",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": { "str": "rag" },
-    "description": "A largish piece of cloth, useful in crafting and possibly for staunching bleeding.",
-    "weight": "80 g",
-    "volume": "250 ml",
-    "//": "This is much, much bigger than it should be.",
-    "//2": "Based on the density used for cotton patchwork, which disassembles into rags, it should be 52ml.",
-    "//3": "But I don't want to touch the tests that are insistent it should take longer to manipulate, so here we are.",
-    "//4": "Rags will be going away soonish. I need to finish the other recipe changes first.",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "cotton" ],
-    "symbol": ",",
-    "color": "white",
-    "use_action": [
-      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "rag", "quantity": 1, "flags": [ "FILTHY" ] } },
-      "WASH_HARD_ITEMS"
-    ],
-    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "cotton_patchwork",
@@ -207,7 +184,7 @@
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": [ "SHAVEKIT" ]
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] }
   },
   {
     "id": "sponge",
@@ -248,7 +225,7 @@
     "material": [ "leather", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": [ "HAIRKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your hair", "effect_on_conditions": [ "barber_hair" ] },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -268,7 +245,7 @@
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "charges_per_use": 1,
-    "use_action": [ "SHAVEKIT" ],
+    "use_action": { "type": "effect_on_conditions", "description": "Trim your beard", "effect_on_conditions": [ "barber_beard" ] },
     "melee_damage": { "bash": 1 }
   },
   {
@@ -303,5 +280,21 @@
     "color": "yellow",
     "use_action": [ "WASH_ALL_ITEMS" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_SALVAGE" ]
+  },
+  {
+    "id": "hair_dye_kit",
+    "type": "TOOL",
+    "name": { "str": "hair dye kit" },
+    "description": "A kit featuring all the tools needed to dye hair, including an applicator brush, combs, and plastic gloves.",
+    "ascii_picture": "box_small",
+    "weight": "154 g",
+    "volume": "2250 ml",
+    "longest_side": "21 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard", "plastic" ],
+    "symbol": ")",
+    "color": "brown",
+    "use_action": { "type": "effect_on_conditions", "description": "Dye your hair", "effect_on_conditions": [ "use_hair_dye_kit" ] }
   }
 ]

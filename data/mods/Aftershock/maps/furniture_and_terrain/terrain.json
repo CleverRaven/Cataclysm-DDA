@@ -85,5 +85,16 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAT", "ROAD", "SUPPORTS_ROOF" ],
     "bash": { "ter_set": "t_null", "str_min": 75, "str_max": 400, "str_min_supported": 30, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_hard_vacuum",
+    "name": "hard vacuum",
+    "symbol": " ",
+    "color": "black",
+    "description": "The cold inhospitable vacuum of space.  Going this way without an EVA pack will end in either a slow cold death as your life support fades or a slow hot death as you drop into the planet's atmosphere.",
+    "move_cost": 1000,
+    "light_emitted": 420,
+    "flags": [ "DESTROY_ITEM" ]
   }
 ]

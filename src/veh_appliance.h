@@ -2,12 +2,11 @@
 #ifndef CATA_SRC_VEH_APPLIANCE_H
 #define CATA_SRC_VEH_APPLIANCE_H
 
-#include "input.h"
+#include "input_context.h"
 #include "player_activity.h"
 
 class vehicle;
 class ui_adaptor;
-struct point;
 
 vpart_id vpart_appliance_from_item( const itype_id &item_id );
 void place_appliance( const tripoint &p, const vpart_id &vpart,

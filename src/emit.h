@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_EMIT_H
 #define CATA_SRC_EMIT_H
 
-#include <iosfwd>
 #include <map>
 #include <string>
 

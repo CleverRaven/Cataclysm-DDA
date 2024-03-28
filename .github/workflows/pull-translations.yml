@@ -29,7 +29,7 @@ jobs:
               console.log(error)
             }
       - name: "Checkout"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: "Get current date"
         uses: josStorer/get-current-time@v2.0.2
         id: current-date

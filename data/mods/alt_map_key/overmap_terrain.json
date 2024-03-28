@@ -869,13 +869,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "megastore_parking",
-    "copy-from": "megastore_parking",
-    "sym": "p",
-    "color": "light_blue"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "megastore_0_0_0",
     "copy-from": "megastore_0_0_0",
     "sym": "m",
@@ -2102,12 +2095,6 @@
     "type": "overmap_terrain",
     "id": "basement",
     "copy-from": "basement",
-    "sym": "b"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "basement_bionic",
-    "copy-from": "basement_bionic",
     "sym": "b"
   },
   {
@@ -5588,7 +5575,15 @@
     "type": "overmap_terrain",
     "id": "zoo_2_0",
     "copy-from": "zoo_2_0",
-    "name": "zoo pavilion",
+    "name": "zoo entrance",
+    "sym": "Z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_0",
+    "copy-from": "zoo_3_0",
+    "name": "zoo entrance",
     "sym": "Z",
     "color": "i_blue"
   },
@@ -5618,6 +5613,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "zoo_3_1",
+    "copy-from": "zoo_3_1",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "zoo_0_2",
     "copy-from": "zoo_0_2",
     "name": "zoo",
@@ -5636,6 +5639,46 @@
     "type": "overmap_terrain",
     "id": "zoo_2_2",
     "copy-from": "zoo_2_2",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_2",
+    "copy-from": "zoo_3_2",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_0_3",
+    "copy-from": "zoo_0_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_1_3",
+    "copy-from": "zoo_1_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_2_3",
+    "copy-from": "zoo_2_3",
+    "name": "zoo",
+    "sym": "z",
+    "color": "i_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "zoo_3_3",
+    "copy-from": "zoo_3_3",
     "name": "zoo",
     "sym": "z",
     "color": "i_blue"

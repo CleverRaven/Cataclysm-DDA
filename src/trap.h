@@ -153,9 +153,9 @@ struct trap {
          */
         units::mass trigger_weight = 500_gram;
         /**
-         * If a sound of at least this volume reaches the trap, it triggers.
+         * Determines how much sound is needed to trigger the trap. Defined as {min,max}.
          */
-        int sound_threshold = 0;
+        std::pair<int, int> sound_threshold = {0, 0};
         int funnel_radius_mm = 0;
         // For disassembly?
         std::vector<std::tuple<itype_id, int, int>> components;
@@ -239,6 +239,10 @@ struct trap {
          * Whether this kind of trap will be detected by ground sonar (e.g. via the bionic).
          */
         bool detected_by_ground_sonar() const;
+        /**
+         * Whether this kind of trap will be detected by regular sonar ( it is not buried and it's a solid object ).
+         */
+        bool detected_by_echolocation() const;
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
         bool detect_trap( const tripoint &pos, const Character &p ) const;

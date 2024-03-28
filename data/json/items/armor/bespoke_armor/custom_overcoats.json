@@ -87,7 +87,6 @@
     "id": "xs_duster_survivor",
     "type": "ARMOR",
     "copy-from": "duster_survivor",
-    "looks_like": "duster_survivor",
     "name": { "str": "XS survivor duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }

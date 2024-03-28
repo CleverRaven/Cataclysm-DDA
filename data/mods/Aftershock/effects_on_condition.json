@@ -38,14 +38,14 @@
           }
         ]
       },
-      { "u_adjust_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "adjustment": 1 },
-      { "queue_eocs": "afs_motion_sensor_eoc_end_ping", "time_in_future": [ "2 seconds", "2 seconds" ] }
+      { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping", "++" ] },
+      { "queue_eocs": "afs_motion_sensor_eoc_end_ping", "time_in_future": "2 seconds" }
     ]
   },
   {
     "type": "effect_on_condition",
     "id": "afs_motion_sensor_eoc_end_ping",
-    "effect": [ { "u_add_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "value": "0" } ]
+    "effect": [ { "math": [ "u_flag_motion_sensor_afs_motion_sensor_ping", "=", "0" ] } ]
   },
   {
     "type": "effect_on_condition",

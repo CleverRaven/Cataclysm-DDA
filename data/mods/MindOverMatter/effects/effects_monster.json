@@ -153,6 +153,16 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_teleporting_lock",
+    "name": [ "Caught in the Angles" ],
+    "desc": [ "You feel a strange, inward force." ],
+    "apply_message": "You feel a strange, inward force.",
+    "remove_message": "The strange, inward force suddenly vanishes.",
+    "rating": "bad",
+    "flags": [ "TELEPORT_LOCK" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_vitakinetic_health_down",
     "name": [ "Feeling Unwell" ],
     "desc": [ "You feel weak and shaky." ],

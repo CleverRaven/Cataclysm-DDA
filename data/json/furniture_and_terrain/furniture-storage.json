@@ -1033,7 +1033,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1057,7 +1057,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1112,7 +1112,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1144,7 +1144,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1198,7 +1198,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1221,7 +1221,7 @@
     "bash": {
       "str_min": 6,
       "str_max": 20,
-      "sound": "glass breaking",
+      "sound": "glass breaking!",
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 12,
@@ -1499,6 +1499,7 @@
     "required_str": 12,
     "max_volume": "1000 L",
     "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
+    "examine_action": "locked_object",
     "prying": {
       "result": "f_metal_crate_o",
       "message": "You wrench open the metal crate.",
@@ -1523,7 +1524,7 @@
     "id": "f_metal_crate_o",
     "name": "open metal crate",
     "looks_like": "f_metal_crate_c",
-    "description": "This large metal crate’s lid is unsealed, and hinges open easily to reveal a number of storage shelves inside.  Once open, the side panels also swing wider for easy access.",
+    "description": "This large metal crate's lid is unsealed, and hinges open easily to reveal a number of storage shelves inside.  Once open, the side panels also swing wider for easy access.",
     "symbol": "X",
     "color": "light_gray",
     "move_cost_mod": 5,
@@ -1694,7 +1695,7 @@
     "type": "furniture",
     "id": "f_pallet_belted_open",
     "name": "damaged pallet",
-    "description": "A wooden pallet, containing cargo and possessing a torn cover.  You can reach the contents, but it’s awfully hard due to the belts still being in place.",
+    "description": "A wooden pallet, containing cargo and possessing a torn cover.  You can reach the contents, but it's awfully hard due to the belts still being in place.",
     "symbol": "O",
     "bgcolor": "brown",
     "move_cost_mod": -1,

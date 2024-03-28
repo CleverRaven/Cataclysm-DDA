@@ -1,6 +1,9 @@
 [
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": "overtakenlot",
+    "weight": 1000,
     "object": {
       "furniture": {
         "#": "f_null",
@@ -72,13 +75,13 @@
       },
       "place_signs": [ { "signage": "Cheap lot for sale!  Call <given_name> at 555-5151!", "x": 12, "y": 1 } ],
       "monster": { "X": { "monster": "mon_fungaloid_ganglion" }, "Y": { "monster": "mon_fungal_blossom" } }
-    },
-    "om_terrain": "overtakenlot",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": "overtakenlot",
+    "weight": 1000,
     "object": {
       "furniture": { "#": "f_null", ".": "f_null", "1": "f_null", "7": "f_null", "P": "f_sign", "_": "f_null", "s": "f_null" },
       "rows": [
@@ -120,13 +123,13 @@
       },
       "place_signs": [ { "signage": "Property for sale, call <city> Real Estate at 555-8255!", "x": 12, "y": 3 } ],
       "monster": { "X": { "monster": "mon_fungaloid_ganglion" }, "Y": { "monster": "mon_fungal_blossom" } }
-    },
-    "om_terrain": "overtakenlot",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": "overtakenlot",
+    "weight": 1000,
     "object": {
       "furniture": {
         "#": "f_null",
@@ -188,13 +191,13 @@
       },
       "place_signs": [ { "signage": "Empty lot, great for your small business!  Call <full_name> at 555-2117!", "x": 9, "y": 3 } ],
       "monster": { "X": { "monster": "mon_fungaloid_ganglion" }, "Y": { "monster": "mon_fungal_blossom" } }
-    },
-    "om_terrain": "overtakenlot",
-    "type": "mapgen",
-    "weight": 100
+    }
   },
   {
     "method": "json",
+    "type": "mapgen",
+    "om_terrain": "overtakenlot",
+    "weight": 1000,
     "object": {
       "furniture": {
         "+": "f_null",
@@ -284,9 +287,6 @@
         "Y": "t_fungus_mound"
       },
       "monster": { "X": { "monster": "mon_fungaloid_ganglion" }, "Y": { "monster": "mon_fungal_blossom" } }
-    },
-    "om_terrain": "overtakenlot",
-    "type": "mapgen",
-    "weight": 100
+    }
   }
 ]

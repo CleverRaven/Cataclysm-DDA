@@ -33,7 +33,7 @@
     "size": "150 L",
     "item": "basket",
     "location": "center",
-    "//": "weld together the edges of the basket, assume roughly 60cm length each for 120 total, 30cm per damage quadrant to repair",
+    "//": "weld together the edges of the basket, assume roughly 60 cm length each for 120 total, 30 cm per damage quadrant to repair",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 1 ] ],
@@ -66,7 +66,7 @@
     "broken_color": "brown",
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
-    "//": "weld together the edges of the basket, assume roughly 60cm length, but only on one side, still 30cm per repair.",
+    "//": "weld together the edges of the basket, assume roughly 60 cm length, but only on one side, still 30 cm per repair.",
     "size": "50 L",
     "damage_modifier": 60,
     "requirements": {
@@ -92,7 +92,7 @@
     "folded_volume": "6 L",
     "item": "folding_basket",
     "location": "center",
-    "//": "weld together the edges of the basket, assume roughly 60cm length each, 30cm per damage quadrant to repair",
+    "//": "weld together the edges of the basket, assume roughly 60 cm length each, 30 cm per damage quadrant to repair",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 120 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -116,7 +116,7 @@
     "size": "20 L",
     "item": "bike_basket",
     "location": "center",
-    "//": "10cm per damage quadrant to repair",
+    "//": "10 cm per damage quadrant to repair",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -145,7 +145,7 @@
     "broken_color": "brown",
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
-    "//": "weld one edge of the bike basket, assume roughly 20 cm, or 10cm per repair",
+    "//": "weld one edge of the bike basket, assume roughly 20 cm, or 10 cm per repair",
     "size": "15 L",
     "damage_modifier": 60,
     "requirements": {
@@ -216,7 +216,7 @@
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": "250 L",
     "breaks_into": [  ],
-    "//": "assume 1m sq cargo space affixed on one edge, 100cm weld and 50cm weld to repair each damage quadrant",
+    "//": "assume 1 m sq cargo space affixed on one edge, 100 cm weld and 50 cm weld to repair each damage quadrant",
     "requirements": {
       "install": {
         "skills": [ [ "mechanics", 3 ] ],
@@ -245,7 +245,7 @@
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
-    "//": "20cm weld per damage quadrant to repair",
+    "//": "20 cm weld per damage quadrant to repair",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

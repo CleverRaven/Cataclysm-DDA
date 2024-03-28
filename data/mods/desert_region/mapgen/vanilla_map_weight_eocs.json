@@ -1,0 +1,9 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VANILLA_LAKE_WEIGHT",
+    "eoc_type": "EVENT",
+    "required_event": "game_begin",
+    "effect": [ { "math": [ "vanilla_lake_weight", "=", "0" ] } ]
+  }
+]

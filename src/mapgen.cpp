@@ -4,11 +4,8 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <functional>
-#include <list>
 #include <map>
 #include <memory>
-#include <new>
 #include <optional>
 #include <ostream>
 #include <set>
@@ -39,12 +36,11 @@
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "global_vars.h"
-#include "init.h"
+#include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "itype.h"
-#include "json.h"
 #include "level_cache.h"
 #include "line.h"
 #include "magic_ter_furn_transform.h"
@@ -58,7 +54,6 @@
 #include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
-#include "name.h"
 #include "npc.h"
 #include "omdata.h"
 #include "options.h"
@@ -166,15 +161,13 @@ static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 
-// (x,y,z) are absolute coordinates of a submap
-// x%2 and y%2 must be 0!
-void map::generate( const tripoint &p, const time_point &when )
+void map::generate( const tripoint_abs_omt &p, const time_point &when )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
 
-    // TODO: fix point types
-    set_abs_sub( tripoint_abs_sm( p ) );
+    const tripoint_abs_sm p_sm = project_to<coords::sm>( p );
+    set_abs_sub( p_sm );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -184,31 +177,28 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t grid_pos = get_nonant( { gridx, gridy, p.z } );
+            const size_t grid_pos = get_nonant( { gridx, gridy, p_sm.z()} );
             if( getsubmap( grid_pos ) ) {
-                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
+                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p_sm.z() );
                 continue;
             }
             setsubmap( grid_pos, new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
-    // x, and y are submap coordinates, convert to overmap terrain coordinates
-    // TODO: fix point types
-    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
-    oter_id terrain_type = overmap_buffer.ter( abs_omt );
+    oter_id terrain_type = overmap_buffer.ter( p );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
     float density = 0.0f;
     for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
         for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( abs_omt + point( i, j ) )->get_mondensity();
+            density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
         }
     }
     density = density / 100;
 
-    mapgendata dat( abs_omt, *this, density, when, nullptr );
+    mapgendata dat( p, *this, density, when, nullptr );
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
@@ -217,7 +207,7 @@ void map::generate( const tripoint &p, const time_point &when )
     if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
         DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
                                          " (extra type \"" << terrain_type->get_extras() <<
-                                         "\") zlevel = " << abs_omt.z() <<
+                                         "\") zlevel = " << p.z() <<
                                          " is out of range of all assigned map extras.  Skipping map extra generation.";
     } else if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
@@ -267,13 +257,13 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
 
-    // Okay, we know who are neighbors are.  Let's draw!
+    // Okay, we know who our neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
-            const tripoint pos( i, j, p.z );
+            const tripoint pos( i, j, p_sm.z() );
             if( i <= 1 && j <= 1 ) {
                 saven( pos );
             } else {
@@ -283,12 +273,6 @@ void map::generate( const tripoint &p, const time_point &when )
             }
         }
     }
-}
-
-void map::generate( const tripoint_abs_sm &p, const time_point &when )
-{
-    // TODO: fix point types
-    generate( p.raw(), when );
 }
 
 void mapgen_function_builtin::generate( mapgendata &mgd )
@@ -378,8 +362,8 @@ class mapgen_basic_container
                 mapgen_function_ptr.obj->finalize_parameters();
             }
         }
-        void check_consistency() {
-            for( auto &mapgen_function_ptr : weights_ ) {
+        void check_consistency() const {
+            for( const auto &mapgen_function_ptr : weights_ ) {
                 mapgen_function_ptr.obj->check();
             }
         }
@@ -443,11 +427,11 @@ class mapgen_factory
                 omw.second.finalize_parameters();
             }
         }
-        void check_consistency() {
+        void check_consistency() const {
             // Cache all strings that may get looked up here so we don't have to go through
             // all the sources for them upon each loop.
             const std::set<std::string> usages = get_usages();
-            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
+            for( const std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
                 omw.second.check_consistency();
                 if( usages.count( omw.first ) == 0 ) {
                     debugmsg( "Mapgen %s is not used by anything!", omw.first );
@@ -577,12 +561,12 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
 void check_mapgen_definitions()
 {
     oter_mapgen.check_consistency();
-    for( auto &oter_definition : nested_mapgens ) {
+    for( const auto &oter_definition : nested_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr.obj->check();
         }
     }
-    for( auto &oter_definition : update_mapgens ) {
+    for( const auto &oter_definition : update_mapgens ) {
         for( const auto &mapgen_function_ptr : oter_definition.second.funcs() ) {
             mapgen_function_ptr->check();
         }
@@ -1830,8 +1814,7 @@ class jmapgen_npc : public jmapgen_piece
                 return;
             }
             if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
-                get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
-                                                      unique_id );
+                add_msg_debug( debugmode::DF_NPC, "NPC with unique id %s already exists.", unique_id );
                 return;
             }
             tripoint const dst( x.get(), y.get(), dat.m.get_abs_sub().z() );
@@ -1939,7 +1922,6 @@ class jmapgen_sign : public jmapgen_piece
         std::string apply_all_tags( std::string signtext, const std::string &cityname ) const {
             signtext = SNIPPET.expand( signtext );
             replace_city_tag( signtext, cityname );
-            replace_name_tags( signtext );
             return signtext;
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -1990,7 +1972,6 @@ class jmapgen_graffiti : public jmapgen_piece
         std::string apply_all_tags( std::string graffiti, const std::string &cityname ) const {
             graffiti = SNIPPET.expand( graffiti );
             replace_city_tag( graffiti, cityname );
-            replace_name_tags( graffiti );
             return graffiti;
         }
 };
@@ -2337,7 +2318,7 @@ class jmapgen_monster : public jmapgen_piece
         jmapgen_int pack_size;
         bool one_or_none;
         bool friendly;
-        std::string name;
+        std::optional<translation> name = std::nullopt;
         std::string random_name_str;
         bool target;
         bool use_pack_size;
@@ -2349,10 +2330,19 @@ class jmapgen_monster : public jmapgen_piece
                                          !( jsi.has_member( "repeat" ) ||
                                             jsi.has_member( "pack_size" ) ) ) )
             , friendly( jsi.get_bool( "friendly", false ) )
-            , name( jsi.get_string( "name", "NONE" ) )
             , random_name_str( jsi.get_string( "random_name", "" ) )
             , target( jsi.get_bool( "target", false ) )
             , use_pack_size( jsi.get_bool( "use_pack_size", false ) ) {
+
+            {
+                translation translated_name;
+                if( jsi.read( "name", translated_name ) ) {
+                    name.emplace( std::move( translated_name ) );
+                } else if( random_name_str == "snippet" ) {
+                    debugmsg( "Field \"name\" is missing for random name 'snippet'" );
+                }
+            }
+
             if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
@@ -2434,22 +2424,20 @@ class jmapgen_monster : public jmapgen_piece
             }
 
             mongroup_id chosen_group = m_id.get( dat );
-            std::string chosen_name = name;
+            std::optional<std::string> chosen_name = std::nullopt;
             if( !random_name_str.empty() ) {
                 if( random_name_str == "female" ) {
-                    chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
+                    chosen_name.emplace( SNIPPET.expand( "<female_given_name>" ) );
                 } else if( random_name_str == "male" ) {
-                    chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
+                    chosen_name.emplace( SNIPPET.expand( "<male_given_name>" ) );
                 } else if( random_name_str == "random" ) {
-                    // I want to use IsUnisexName, but that always gives "Tom"
-                    if( one_in( 2 ) ) {
-                        chosen_name = Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName );
-                    } else {
-                        chosen_name = Name::get( nameFlags::IsMaleName | nameFlags::IsGivenName );
-                    }
-                } else if( random_name_str == "snippet" ) {
-                    chosen_name = SNIPPET.expand( name );
+                    chosen_name.emplace( SNIPPET.expand( "<given_name>" ) );
+                } else if( random_name_str == "snippet" && name.has_value() ) {
+                    chosen_name.emplace( SNIPPET.expand( name.value().translated() ) );
                 }
+            }
+            if( !chosen_name.has_value() && name.has_value() ) {
+                chosen_name.emplace( name.value().translated() );
             }
             if( !chosen_group.is_null() ) {
                 std::vector<MonsterGroupResult> spawn_details =
@@ -3406,7 +3394,7 @@ class jmapgen_remove_npcs : public jmapgen_piece
             for( auto const &npc : overmap_buffer.get_npcs_near_omt(
                      project_to<coords::omt>( dat.m.get_abs_sub() ), 0 ) ) {
                 if( !npc->is_dead() &&
-                    ( npc_class.empty() || npc->idz == npc_class_id( npc_class ) ) &&
+                    ( npc_class.empty() || npc->idz == string_id<npc_template>( npc_class ) ) &&
                     ( unique_id.empty() || unique_id == npc->get_unique_id() ) ) {
                     overmap_buffer.remove_npc( npc->getID() );
                     if( !unique_id.empty() ) {
@@ -3658,6 +3646,20 @@ class jmapgen_nested : public jmapgen_piece
                     return allowed_predecessors.empty();
                 }
         };
+        class correct_z_level_check
+        {
+            private:
+                std::unordered_set<int> required_z;
+            public:
+                explicit correct_z_level_check( const JsonArray &jarr ) {
+                    for( const JsonValue entry : jarr ) {
+                        required_z.emplace( entry.get_int() );
+                    }
+                }
+                bool test( const mapgendata &dat ) const {
+                    return required_z.empty() || required_z.count( dat.zlevel() ) == 1;
+                }
+        };
 
     public:
         weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
@@ -3667,12 +3669,14 @@ class jmapgen_nested : public jmapgen_piece
         neighbor_flag_check neighbor_flags;
         neighbor_flag_any_check neighbor_flags_any;
         predecessor_oter_check predecessors;
+        correct_z_level_check correct_z_level;
         jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
             , neighbor_joins( jsi.get_object( "joins" ) )
             , neighbor_flags( jsi.get_object( "flags" ) )
             , neighbor_flags_any( jsi.get_object( "flags_any" ) )
-            , predecessors( jsi.get_array( "predecessors" ) ) {
+            , predecessors( jsi.get_array( "predecessors" ) )
+            , correct_z_level( jsi.get_array( "z" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -3701,11 +3705,9 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : entries ) {
                 merge_from( name.obj );
             }
-
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
                 merge_from( name.obj );
             }
@@ -3713,7 +3715,7 @@ class jmapgen_nested : public jmapgen_piece
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
-                neighbor_flags_any.test( dat ) && predecessors.test( dat ) ) {
+                neighbor_flags_any.test( dat ) && predecessors.test( dat ) && correct_z_level.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
@@ -4102,7 +4104,7 @@ bool string_id<mapgen_palette>::is_valid() const
     return palettes.find( *this ) != palettes.end();
 }
 
-void mapgen_palette::check()
+void mapgen_palette::check() const
 {
     std::string context = "palette " + id.str();
     jmapgen_int fake_coord( -1 );
@@ -4149,7 +4151,7 @@ const mapgen_palette &mapgen_palette::get( const palette_id &id )
 
 void mapgen_palette::check_definitions()
 {
-    for( auto &p : palettes ) {
+    for( const auto &p : palettes ) {
         p.second.check();
     }
 }
@@ -4491,10 +4493,10 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         }
         for( int c = m_offset.y; c < expected_dim.y; c++ ) {
             const std::string row = parray.get_string( c );
-            std::vector<map_key> row_keys;
-            for( const std::string &key : utf8_display_split( row ) ) {
-                row_keys.emplace_back( key );
-            }
+            static std::vector<std::string_view> row_keys;
+            row_keys.clear();
+            row_keys.reserve( total_size.x );
+            utf8_display_split_into( row, row_keys );
             if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
                 parray.throw_error(
                     string_format( "  format: row %d must have at least %d columns, not %d",
@@ -4507,7 +4509,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             }
             for( int i = m_offset.x; i < expected_dim.x; i++ ) {
                 const point p = point( i, c ) - m_offset;
-                const map_key key = row_keys[i];
+                const map_key key{ std::string( row_keys[i] ) };
                 const auto iter_ter = keys_with_terrain.find( key );
                 const auto fpi = format_placings.find( key );
 
@@ -6309,7 +6311,8 @@ void map::draw_slimepit( const mapgendata &dat )
 
 void map::place_spawns( const mongroup_id &group, const int chance,
                         const point &p1, const point &p2, const float density,
-                        const bool individual, const bool friendly, const std::string &name, const int mission_id )
+                        const bool individual, const bool friendly, const std::optional<std::string> &name,
+                        const int mission_id )
 {
     if( !group.is_valid() ) {
         const tripoint_abs_omt omt = project_to<coords::omt>( get_abs_sub() );
@@ -6550,19 +6553,19 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
 
 void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p )
 {
-    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
+    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, std::nullopt,
                spawn_details.data );
 }
 
 void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
-                     int faction_id, int mission_id, const std::string &name )
+                     int faction_id, int mission_id, const std::optional<std::string> &name )
 {
     add_spawn( type, count, p, friendly, faction_id, mission_id, name, spawn_data() );
 }
 
 void map::add_spawn(
     const mtype_id &type, int count, const tripoint &p, bool friendly, int faction_id,
-    int mission_id, const std::string &name, const spawn_data &data )
+    int mission_id, const std::optional<std::string> &name, const spawn_data &data )
 {
     if( p.x < 0 || p.x >= SEEX * my_MAPSIZE || p.y < 0 || p.y >= SEEY * my_MAPSIZE ) {
         debugmsg( "Out of bounds add_spawn(%s, %d, %d, %d)", type.c_str(), count, p.x, p.y );
@@ -6583,8 +6586,8 @@ void map::add_spawn(
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
-    spawn_point tmp( type, count, offset, faction_id, mission_id, friendly, name, data );
-    place_on_submap->spawns.push_back( tmp );
+    place_on_submap->spawns.emplace_back( type, count, offset, faction_id, mission_id, friendly, name,
+                                          data );
 }
 
 vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const units::angle &dir,
@@ -7580,7 +7583,15 @@ void line( map *m, const ter_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_ter( type, p1, p2 );
 }
+void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 )
+{
+    m->draw_line_ter( type, p1, p2 );
+}
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+{
+    m->draw_line_furn( type, p1, p2 );
+}
+void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_line_furn( type, p1, p2 );
 }
@@ -7597,6 +7608,10 @@ void square( map *m, const ter_id &type, const point &p1, const point &p2 )
     m->draw_square_ter( type, p1, p2 );
 }
 void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 )
+{
+    m->draw_square_furn( type, p1, p2 );
+}
+void square_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 )
 {
     m->draw_square_furn( type, p1, p2 );
 }
@@ -7675,20 +7690,19 @@ bool update_mapgen_function_json::update_map(
 
     std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
     tinymap &update_tmap = *p_update_tmap;
-    const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    update_tmap.load( sm_pos, true );
+    update_tmap.load( omt_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
-    mapgendata md_base( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
+    mapgendata md_base( omt_pos, *update_tmap.cast_to_map(), 0.0f, calendar::start_of_cataclysm, miss );
     mapgendata md( md_base, args );
 
     bool const u = update_map( md, offset, verify );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
     update_tmap.rotate( rotation );
 
-    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+    if( get_map().inbounds( project_to<coords::ms>( omt_pos ) ) ) {
         // trigger main map cleanup
         p_update_tmap.reset();
         // trigger new traps, etc
@@ -7698,34 +7712,35 @@ bool update_mapgen_function_json::update_map(
     return u;
 }
 
+class rotation_guard
+{
+    public:
+        explicit rotation_guard( const mapgendata &md )
+            : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
+            // If the existing map is rotated, we need to rotate it back to the north
+            // orientation before applying our updates.
+            if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
+                md.m.rotate( rotation, true );
+            }
+        }
+
+        ~rotation_guard() {
+            // If we rotated the map before applying updates, we now need to rotate
+            // it back to where we found it.
+            if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
+                md.m.rotate( 4 - rotation, true );
+            }
+        }
+    private:
+        const mapgendata &md;
+        const int rotation;
+};
+
 bool update_mapgen_function_json::update_map( const mapgendata &md, const point &offset,
         const bool verify ) const
 {
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::omt ), flags_ );
 
-    class rotation_guard
-    {
-        public:
-            explicit rotation_guard( const mapgendata &md )
-                : md( md ), rotation( oter_get_rotation( md.terrain_type() ) ) {
-                // If the existing map is rotated, we need to rotate it back to the north
-                // orientation before applying our updates.
-                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                    md.m.rotate( rotation, true );
-                }
-            }
-
-            ~rotation_guard() {
-                // If we rotated the map before applying updates, we now need to rotate
-                // it back to where we found it.
-                if( rotation != 0 && !md.has_flag( jmapgen_flags::no_underlying_rotate ) ) {
-                    md.m.rotate( 4 - rotation, true );
-                }
-            }
-        private:
-            const mapgendata &md;
-            const int rotation;
-    };
     rotation_guard rot( md_with_params );
 
     return apply_mapgen_in_phases( md_with_params, setmap_points, objects, offset, context_,
@@ -7793,6 +7808,64 @@ void set_queued_points()
     queued_points.clear();
 }
 
+bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
+                                const tripoint_abs_omt &omt_pos,
+                                const mapgen_arguments &args, bool mirror_horizontal,
+                                bool mirror_vertical, int rotation, bool apply )
+{
+
+    const auto update_function = update_mapgens.find( update_mapgen_id );
+
+    if( update_function == update_mapgens.end() || update_function->second.funcs().empty() ) {
+        return false;
+    }
+
+    fake_map tmp_map( t_grass );
+
+    mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
+    mapgendata fake_md( base_fake_md, args );
+    fake_md.skip = { mapgen_phase::zones };
+
+    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
+    tinymap &update_tmap = *p_update_tmap;
+
+    update_tmap.load( omt_pos, true );
+    update_tmap.rotate( 4 - rotation );
+    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+
+    {
+        // Make sure rot goes out of scope and its destructor restores the map before the
+        // "outer scope" mirroring/rotation is undone. It's unlikely inherent map rotation will
+        // be present at the same time as construction rotation/mirroring is, but better safe than sorry.
+
+        mapgendata md_base( omt_pos, *update_tmap.cast_to_map(), 0.0f, calendar::start_of_cataclysm,
+                            nullptr );
+        mapgendata md( md_base, args );
+
+        rotation_guard rot( md );
+
+        if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
+            for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
+                ter_id ter_at_pos = tmp_map.ter( pos );
+                const tripoint level_pos = tripoint( pos.xy(), omt_pos.z() );
+
+                if( ter_at_pos != t_grass || tmp_map.has_furn( level_pos ) ) {
+                    if( apply ) {
+                        update_tmap.add_field( level_pos, fd_construction_site, 1, time_duration::from_turns( 0 ), false );
+                    } else {
+                        update_tmap.delete_field( level_pos, fd_construction_site );
+                    }
+                }
+            }
+        }
+    }
+
+    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+    update_tmap.rotate( rotation );
+
+    return true;
+}
+
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const update_mapgen_id &update_mapgen_id,
             const mapgen_arguments &mapgen_args, ter_id const &base_ter )
@@ -7808,7 +7881,7 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     fake_map tmp_map( base_ter );
 
-    mapgendata base_fake_md( tmp_map, mapgendata::dummy_settings );
+    mapgendata base_fake_md( *tmp_map.cast_to_map(), mapgendata::dummy_settings );
     mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 

@@ -198,13 +198,8 @@ struct vision_test_case {
             player_character.set_mutation( trait_MYOPIC );
         }
 
-        // test both 2d and 3d cases
-        restore_on_out_of_scope<bool> restore_fov_3d( fov_3d );
-        fov_3d = GENERATE( false, true );
-
         std::stringstream section_name;
         section_name << section_prefix;
-        section_name << ( fov_3d ? "3d" : "2d" ) << "_casting__";
         section_name << t.generate_transform_combinations();
 
         // Sanity check on player placement in relation to `t`

@@ -130,5 +130,22 @@
     "pre_flags": "WALL",
     "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_druid_chair",
+    "name": "Place a gnarled chair"
+  },
+  {
+    "type": "construction",
+    "id": "constr_druid_chair",
+    "group": "build_druid_chair",
+    "category": "FURN",
+    "time": "15 s",
+    "components": [ [ [ "druid_chair_item", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_druid_chair",
+    "activity_level": "LIGHT_EXERCISE",
+    "required_skills": [ [ "fabrication", 0 ] ]
   }
 ]

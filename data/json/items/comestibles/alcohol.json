@@ -685,7 +685,7 @@
     "id": "drink_karsk",
     "looks_like": "coffee",
     "name": { "str_sp": "karsk" },
-    "weight": "252 g",
+    "weight": "250 g",
     "color": "brown",
     "addiction_type": [ "alcohol", { "addiction": "caffeine", "potential": 3 } ],
     "use_action": [ "ALCOHOL" ],

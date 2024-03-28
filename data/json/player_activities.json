@@ -907,15 +907,6 @@
     "can_resume": false
   },
   {
-    "id": "ACT_MUTANT_TREE_COMMUNION",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "verb": "communing with the mutant tree",
-    "rooted": true,
-    "based_on": "time",
-    "can_resume": false
-  },
-  {
     "id": "ACT_EAT_MENU",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -1123,5 +1114,25 @@
     "interruptable": false,
     "can_resume": false,
     "interruptable_with_kb": false
+  },
+  {
+    "id": "ACT_GLIDE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "gliding",
+    "based_on": "neither",
+    "interruptable": false,
+    "can_resume": false,
+    "refuel_fires": false,
+    "auto_needs": false,
+    "interruptable_with_kb": false
+  },
+  {
+    "id": "ACT_SALINE_INFUSE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "infusing saline",
+    "based_on": "time",
+    "do_turn_eoc": "SALINE_INFUSION_eff"
   }
 ]

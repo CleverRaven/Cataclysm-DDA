@@ -259,13 +259,6 @@
     "extend": { "flags": [ "OLD_GUN" ] }
   },
   {
-    "id": "m2browning_sawn",
-    "type": "GUN",
-    "copy-from": "m2browning_sawn",
-    "name": { "str": ".50 caliber rifle" },
-    "extend": { "flags": [ "OLD_GUN" ] }
-  },
-  {
     "id": "shotgun_410",
     "type": "GUN",
     "copy-from": "shotgun_410",

@@ -12,21 +12,27 @@
   {
     "id": "BGSS_WEDDING_1_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Yeah, in hindsight it maybe wasn't the best choice of dates, huh?  I admit I had cold feet though.  Anyway we were getting hitched at the church.  Lucky for me I was late to the ceremony… I guess some of the fresher corpses in the graveyard had gotten up and started harassing the party.",
+    "dynamic_line": {
+      "gendered_line": "Yeah, in hindsight it maybe wasn't the best choice of dates, huh?  I admit I had cold feet though.  Anyway we were getting hitched at the church.  Lucky for me I was late to the ceremony… I guess some of the fresher corpses in the graveyard had gotten up and started harassing the party.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "What did you do next?", "topic": "BGSS_WEDDING_1_STORY3" },
       { "text": "You seem surprisingly calm about all this.", "topic": "BGSS_WEDDING_1_CALM" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
   {
     "id": "BGSS_WEDDING_1_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "After I saw what was going on, I turned around and headed out in the opposite direction.  I've seen zombie movies before.  I picked up some stuff from home and I managed to get out of town before things went really bad.  At the time I thought I was being a coward, but now I know if I'd stayed to help, I'd just be another dripping corpse.",
+    "dynamic_line": {
+      "gendered_line": "After I saw what was going on, I turned around and headed out in the opposite direction.  I've seen zombie movies before.  I picked up some stuff from home and I managed to get out of town before things went really bad.  At the time I thought I was being a coward, but now I know if I'd stayed to help, I'd just be another dripping corpse.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [
       { "text": "You seem surprisingly calm about all this.", "topic": "BGSS_WEDDING_1_CALM" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
@@ -47,7 +53,10 @@
   {
     "id": "CWH_WEDDING_1_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "I'll be honest with you, I was paying more attention to wedding planning than current events leading up to things.  I knew there were riots going on, but they were out of town.  Even when they got closer to home, I tried to ignore them so we could have our big day.  After the zombies started coming, though, well that's when stuff got really weird.  When I was running from the wedding I swear I saw the sky rip open and monsters fly out of the hole, like something out of Independence Day.  I don't know what it all was, it looked like black magic or something.",
+    "dynamic_line": {
+      "gendered_line": "I'll be honest with you, I was paying more attention to wedding planning than current events leading up to things.  I knew there were riots going on, but they were out of town.  Even when they got closer to home, I tried to ignore them so we could have our big day.  After the zombies started coming, though, well that's when stuff got really weird.  When I was running from the wedding I swear I saw the sky rip open and monsters fly out of the hole, like something out of Independence Day.  I don't know what it all was, it looked like black magic or something.",
+      "relevant_genders": [ "npc" ]
+    },
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

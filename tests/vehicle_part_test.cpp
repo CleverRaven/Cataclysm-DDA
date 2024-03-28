@@ -183,7 +183,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         REQUIRE( character.activity );
         REQUIRE( character.activity.id() == ACT_CRAFT );
         while( character.activity.id() == ACT_CRAFT ) {
-            character.moves = 100;
+            character.set_moves( 100 );
             character.activity.do_turn( character );
         }
 
