@@ -41,6 +41,19 @@
     "components": [ [ [ "cardboard", 10 ] ] ]
   },
   {
+    "result": "outfit_storage",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "1 s",
+    "autolearn": true,
+    "reversible": true,
+    "//": "Tying equipment or other fasteners. Maybe one day we will have coat hangars.",
+    "components": [ [ [ "cordage", 10, "LIST" ] ] ]
+  },
+  {
     "result": "tic_tac",
     "type": "recipe",
     "activity_level": "NO_EXERCISE",

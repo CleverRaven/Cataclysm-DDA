@@ -532,6 +532,11 @@
   },
   {
     "type": "item_action",
+    "id": "CHANGE_OUTFIT",
+    "name": { "str": "Swap outfits" }
+  },
+  {
+    "type": "item_action",
     "id": "PLAY_GAME",
     "name": { "str": "Play" }
   },
