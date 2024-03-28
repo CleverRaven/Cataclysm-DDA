@@ -752,7 +752,11 @@
     "copy-from": "robofac_skirt",
     "name": "Hub 01 ballistic skirt",
     "description": "3D printed armor for the thighs and knees, consisting of a skirt made of segmented armor plates.  It includes a reinforcing layer of aramid fabric in addition to leg sleeves made of high-strength material, protecting your sensitive bits from small-arms fire.  Designed to clip to the waist, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar_layered", "portion": 4 } ],
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
