@@ -706,6 +706,49 @@
     "melee_damage": { "bash": 2 }
   },
   {
+  "id": "flotation_vest_tac",
+  "type": "ARMOR",
+  "name": {
+    "str": "flotation tac harness"
+  },
+  "//": "Based on the Eagle-Industries H-Harness with the provided flotation inserts",
+  "description": "A full-torso harness covered in webbing for easy attachment of accesories, with flotation pads in the torso belt and shoulder straps. Used in maritime environments by naval forces such as the SEALS, or people who want to be them",
+  "weight": "1150 g",
+  "volume": "2000 ml",
+  "price": 80000,
+  "price_postapoc": 5000,
+  "material": [
+    "nylon",
+    "plastic_pad"
+  ],
+  "symbol": "[",
+  "looks_like": "load_bearing_vest",
+  "color": "green",
+  "warmth": 0,
+  "flags": [
+    "STURDY",
+    "BELTED",
+    "WATER_FRIENDLY",
+    "FLOTATION"
+  ],
+  "use_action": [
+    { "type": "attach_molle", "size": 6 },
+    { "type": "detach_molle" }
+  ],
+  "armor": [
+    {
+      "material": [
+        { "type": "nylon", "covered_by_mat": 100, "thickness": 1.5 },
+        { "type": "plastic_pad", "covered_by_mat": 80, "thickness": 2 }
+      ],
+      "encumbrance": 15,
+      "coverage": 75,
+      "covers": [ "torso" ],
+      "volume_encumber_modifier": 0.25
+    }
+  ]
+},
+  {
     "id": "gown",
     "type": "ARMOR",
     "name": { "str": "evening gown" },
