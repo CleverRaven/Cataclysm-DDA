@@ -2502,7 +2502,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     } else {
         std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
         std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-                             string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
         if( !pc.magic->has_enough_energy( pc, sp ) ) {
             cost_string = colorize( _( "Not Enough Energy" ), c_red );
             energy_cur.clear();
