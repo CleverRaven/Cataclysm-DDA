@@ -2455,5 +2455,15 @@
   {
     "id": "DRACULIN_VENOM",
     "type": "json_flag"
+  },
+  {
+    "id": "PREFIX_XL",
+    "type": "json_flag",
+    "item_prefix": "XL "
+  },
+  {
+    "id": "PREFIX_XS",
+    "type": "json_flag",
+    "item_prefix": "XS "
   }
 ]

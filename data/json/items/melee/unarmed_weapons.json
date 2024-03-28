@@ -47,18 +47,18 @@
   {
     "id": "xl_cestus",
     "type": "ARMOR",
-    "name": { "str": "XL cestus", "str_pl": "XL cesti" },
+    "name": { "str": "cestus", "str_pl": "cesti" },
     "copy-from": "cestus",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_cestus",
     "type": "ARMOR",
-    "name": { "str": "XS cestus", "str_pl": "XS cesti" },
+    "name": { "str": "cestus", "str_pl": "cesti" },
     "copy-from": "cestus",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "type": "ARMOR",
@@ -87,18 +87,18 @@
   {
     "id": "xl_knuckle_brass",
     "type": "ARMOR",
-    "name": { "str": "pair of XL brass knuckles", "str_pl": "pairs of XL brass knuckles" },
+    "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
     "copy-from": "knuckle_brass",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_knuckle_brass",
     "type": "ARMOR",
-    "name": { "str": "pair of XS brass knuckles", "str_pl": "pairs of XS brass knuckles" },
+    "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
     "copy-from": "knuckle_brass",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "type": "ARMOR",
@@ -127,18 +127,18 @@
   {
     "id": "xl_knuckle_nail",
     "type": "ARMOR",
-    "name": { "str": "pair of XL nail knuckles", "str_pl": "pairs of XL nail knuckles" },
+    "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
     "copy-from": "knuckle_nail",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_knuckle_nail",
     "type": "ARMOR",
-    "name": { "str": "pair of XS nail knuckles", "str_pl": "pairs of XS nail knuckles" },
+    "name": { "str": "pair of nail knuckles", "str_pl": "pairs of nail knuckles" },
     "copy-from": "knuckle_nail",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "type": "ARMOR",
@@ -167,18 +167,18 @@
   {
     "id": "xl_knuckle_steel",
     "type": "ARMOR",
-    "name": { "str": "pair of XL scrap knuckles", "str_pl": "pairs of XL scrap knuckles" },
+    "name": { "str": "pair of scrap knuckles", "str_pl": "pairs of scrap knuckles" },
     "copy-from": "knuckle_steel",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_knuckle_steel",
     "type": "ARMOR",
-    "name": { "str": "pair of XS scrap knuckles", "str_pl": "pairs of XS scrap knuckles" },
+    "name": { "str": "pair of scrap knuckles", "str_pl": "pairs of scrap knuckles" },
     "copy-from": "knuckle_steel",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "type": "ARMOR",
@@ -209,18 +209,18 @@
   {
     "id": "xl_knuckle_steel_forged",
     "type": "ARMOR",
-    "name": { "str": "pair of XL steel knuckles", "str_pl": "pairs of XL steel knuckles" },
+    "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
     "copy-from": "knuckle_steel_forged",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_knuckle_steel_forged",
     "type": "ARMOR",
-    "name": { "str": "pair of XS steel knuckles", "str_pl": "pairs of XS steel knuckles" },
+    "name": { "str": "pair of steel knuckles", "str_pl": "pairs of steel knuckles" },
     "copy-from": "knuckle_steel_forged",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "gloves_studded",
@@ -278,18 +278,18 @@
   {
     "id": "xl_gloves_studded",
     "type": "ARMOR",
-    "name": { "str": "pair of XL studded gloves", "str_pl": "pairs of XL studded gloves" },
+    "name": { "str": "pair of studded gloves", "str_pl": "pairs of studded gloves" },
     "copy-from": "gloves_studded",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_gloves_studded",
     "type": "ARMOR",
-    "name": { "str": "pair of XS studded gloves", "str_pl": "pairs of XS studded gloves" },
+    "name": { "str": "pair of studded gloves", "str_pl": "pairs of studded gloves" },
     "copy-from": "gloves_studded",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "knuckle_impact",
@@ -320,18 +320,18 @@
   {
     "id": "xl_knuckle_impact",
     "type": "ARMOR",
-    "name": { "str_sp": "XL impact knuckles" },
+    "name": { "str_sp": "impact knuckles" },
     "copy-from": "knuckle_impact",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_knuckle_impact",
     "type": "ARMOR",
-    "name": { "str_sp": "XS impact knuckles" },
+    "name": { "str_sp": "impact knuckles" },
     "copy-from": "knuckle_impact",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "knuckle_skewer",
@@ -355,17 +355,17 @@
   {
     "id": "xl_knuckle_skewer",
     "type": "ARMOR",
-    "name": { "str_sp": "XL skewer knuckles" },
+    "name": { "str_sp": "skewer knuckles" },
     "copy-from": "knuckle_skewer",
     "proportional": { "weight": 1.5, "volume": 1.5 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_knuckle_skewer",
     "type": "ARMOR",
-    "name": { "str_sp": "XS skewer knuckles" },
+    "name": { "str_sp": "skewer knuckles" },
     "copy-from": "knuckle_skewer",
     "proportional": { "weight": 0.75, "volume": 0.75 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]

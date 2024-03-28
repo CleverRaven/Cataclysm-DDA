@@ -78,18 +78,18 @@
   {
     "id": "xl_duster_survivor",
     "type": "ARMOR",
-    "name": { "str": "XL survivor duster" },
+    "name": { "str": "survivor duster" },
     "copy-from": "duster_survivor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_duster_survivor",
     "type": "ARMOR",
     "copy-from": "duster_survivor",
-    "name": { "str": "XS survivor duster" },
+    "name": { "str": "survivor duster" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   },
   {
     "id": "sleeveless_duster_survivor",

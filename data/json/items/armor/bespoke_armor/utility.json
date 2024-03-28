@@ -183,16 +183,16 @@
     "id": "xl_survivor_vest",
     "type": "ARMOR",
     "copy-from": "survivor_vest",
-    "name": { "str": "XL survivor harness", "str_pl": "XL survivor harnesses" },
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
+    "extend": { "flags": [ "OVERSIZE", "PREFIX_XL" ] }
   },
   {
     "id": "xs_survivor_vest",
     "type": "ARMOR",
     "copy-from": "survivor_vest",
-    "name": { "str": "XS survivor harness", "str_pl": "XS survivor harnesses" },
+    "name": { "str": "survivor harness", "str_pl": "survivor harnesses" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] }
+    "extend": { "flags": [ "UNDERSIZE", "PREFIX_XS" ] }
   }
 ]
