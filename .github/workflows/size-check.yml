@@ -1,0 +1,44 @@
+name: Sort large PRs
+
+on:
+  pull_request_target:
+    branches:
+      - master
+    # TODO: make this work on synchronize, be smart about don't spam with
+    # warning message each push
+    types: [opened]
+    paths:
+      - 'data/**.json'
+      - '**.cpp'
+      - '**.h'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+
+jobs:
+  changed_files:
+    runs-on: ubuntu-latest
+    name: Warn and label
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: calculate changes
+        id: lines_changed
+        run: |
+          git remote add upstream https://github.com/CleverRaven/Cataclysm-DDA.git
+          git fetch --no-tags --prune --depth=1 upstream master
+
+          json_changed=$(git diff --numstat upstream/master..HEAD -- 'data/*.json' | awk '{sum+=$1+$2} END{print sum}')
+          echo "Debug: lines of data/*.json added or deleted: $json_changed"
+
+          cpp_changed=$(git diff --numstat upstream/master..HEAD -- '*.cpp' '*.h' | awk '{sum+=$1+$2} END{print sum}')
+          echo "Debug: lines of *.cpp and *.h added or deleted: $cpp_changed"
+
+          echo "json_changed=$json_changed" >> $GITHUB_OUTPUT
+          echo "cpp_changed=$cpp_changed" >> $GITHUB_OUTPUT
+
+      - if: ${{ steps.lines_changed.outputs.json_changed > 1000 || steps.lines_changed.outputs.cpp_changed > 300 }}
+        run: |
+          gh pr comment "$PR_NUMBER" --body "This is a large PR! Merging has been blocked until one of the project leads can take a look and approve it. That doesn't mean your PR is not wanted or that you've done anything wrong, this is a safety feature."
+          gh pr edit "$PR_NUMBER" --add-label "needs review"
