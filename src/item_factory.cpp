@@ -1880,6 +1880,7 @@ void Item_factory::init()
     add_iuse( "WASH_HARD_ITEMS", &iuse::wash_hard_items );
     add_iuse( "WASH_ALL_ITEMS", &iuse::wash_all_items );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
+    add_iuse( "WATER_TABLETS", &iuse::water_tablets );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "SEXTANT", &iuse::sextant );

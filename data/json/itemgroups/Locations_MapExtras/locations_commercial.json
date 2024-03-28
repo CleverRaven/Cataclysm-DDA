@@ -757,7 +757,7 @@
       [ "jacket_army", 40 ],
       [ "helmet_army_outdated", 10 ],
       [ "helmet_soviet_tanker", 1 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],

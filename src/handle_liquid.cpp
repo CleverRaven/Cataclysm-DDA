@@ -37,6 +37,7 @@
 #include "units.h"
 #include "veh_interact.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 
@@ -348,7 +349,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 }
 
 bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
-                              const vehicle *const source_veh, const int part_num,
+                              vehicle *const source_veh, const int part_num,
                               const monster *const /*source_mon*/, liquid_dest_opt &target )
 {
     if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
@@ -374,10 +375,19 @@ bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
     };
 
     map &here = get_map();
+    item_location liquid_loc;
     switch( target.dest_opt ) {
         case LD_CONSUME:
-            player_character.assign_activity( consume_activity_actor( liquid ) );
-            liquid.charges--;
+            if( source_pos ) {
+                liquid_loc = item_location( map_cursor( *source_pos ), &liquid );
+            } else if( source_veh ) {
+                liquid_loc = item_location( vehicle_cursor( *source_veh, part_num ), &liquid );
+            } else {
+                player_character.assign_activity( consume_activity_actor( liquid ) );
+                return true;
+            }
+
+            player_character.assign_activity( consume_activity_actor( liquid_loc ) );
             return true;
         case LD_ITEM: {
             // Currently activities can only store item position in the players inventory,
@@ -458,7 +468,7 @@ bool can_handle_liquid( const item &liquid )
 
 bool handle_liquid( item &liquid, const item *const source, const int radius,
                     const tripoint *const source_pos,
-                    const vehicle *const source_veh, const int part_num,
+                    vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
     bool success = false;

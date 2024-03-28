@@ -842,6 +842,11 @@
   },
   {
     "type": "item_action",
+    "id": "WATER_TABLETS",
+    "name": { "str": "Purify some water" }
+  },
+  {
+    "type": "item_action",
     "id": "WEATHER_TOOL",
     "name": { "str": "Check weather information" }
   },

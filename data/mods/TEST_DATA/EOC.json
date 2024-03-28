@@ -284,15 +284,21 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_math_addiction",
+    "id": "EOC_math_addiction_setup",
     "effect": [
-      { "set_string_var": "caffeine", "target_var": { "global_val": "add_id" } },
       { "u_spawn_item": "backpack", "force_equip": true },
       { "u_spawn_item": "test_whiskey_caffenated", "container": "bottle_glass" },
       {
         "u_run_inv_eocs": "all",
         "true_eocs": [ { "id": "EOC_math_addiction_nested", "effect": [ { "u_activate": "ALCOHOL" } ] } ]
-      },
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_addiction_check",
+    "effect": [
+      { "set_string_var": "caffeine", "target_var": { "global_val": "add_id" } },
       { "math": [ "key_add_intensity", "=", "u_addiction_intensity(add_id)" ] },
       { "math": [ "key_add_turn", "=", "u_addiction_turns(add_id)" ] }
     ]

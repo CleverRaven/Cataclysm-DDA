@@ -1038,7 +1038,7 @@
       { "item": "gasoline_lantern", "prob": 7, "charges-min": 100 },
       { "item": "oil_lamp", "prob": 7, "charges-min": 100 },
       { "item": "lamp_oil", "prob": 5, "charges-min": 100 },
-      { "item": "pur_tablets", "prob": 10, "count": [ 5, 15 ] },
+      { "item": "pur_tablets", "prob": 10, "count": [ 15, 50 ] },
       { "item": "mess_kit", "prob": 33 },
       { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
       {

@@ -408,7 +408,7 @@
       [ "pocketwatch", 5 ],
       [ "boots_hiking", 20 ],
       [ "runner_bag", 15 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       [ "e_tool", 10 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
@@ -545,7 +545,7 @@
       [ "pocketwatch", 5 ],
       [ "boots_hiking", 20 ],
       [ "runner_bag", 15 ],
-      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
+      { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_50" },
       [ "e_tool", 10 ],
       [ "knife_trench", 7 ],
       [ "flaregun", 20 ],
@@ -745,10 +745,10 @@
   },
   {
     "type": "item_group",
-    "id": "pur_tablets_bottle_plastic_small_1_15",
+    "id": "pur_tablets_bottle_plastic_small_1_50",
     "subtype": "collection",
     "//": "This group was created automatically and may contain errors.",
     "container-item": "bottle_plastic_small",
-    "entries": [ { "item": "pur_tablets", "count": [ 1, 15 ] } ]
+    "entries": [ { "item": "pur_tablets", "count": [ 1, 50 ] } ]
   }
 ]
