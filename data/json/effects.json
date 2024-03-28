@@ -2152,10 +2152,10 @@
   },
   {
     "type": "effect_type",
-    "id": "anticoagulant",
+    "id": "anticoagulant_aspirin",
     "max_intensity": 3,
     "rating": "bad",
-    "blood_analysis_description": "Blood Thinner",
+    "blood_analysis_description": "Anticoagulant (Acetylsalicylic Acid)",
     "effect_dur_scaling": [ { "effect_id": "bleed", "modifier": 1.05, "same_bp": false } ]
   },
   {

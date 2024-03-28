@@ -15,6 +15,60 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "ocean_bed" ],
-    "object": { "fill_ter": "t_ocean_bed" }
+    "object": {
+      "fill_ter": "t_ocean_bed",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "nested": {
+        " ": { "chunks": [ [ "groundover_sea_floor", 1 ], [ "null", 99 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "groundover_sea_floor",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "0" ],
+      "terrain": { "0": "t_null" },
+      "furniture": {
+        "0": [
+          [ "f_algae_red", 4 ],
+          [ "f_algae_green", 3 ],
+          [ "f_kelp_sugar", 1 ],
+          [ "f_boulder_small", 8 ],
+          [ "f_boulder_medium", 4 ],
+          [ "f_boulder_large", 2 ],
+          [ "f_sea_anemone", 1 ],
+          [ "f_sea_sponge", 1 ]
+        ]
+      },
+      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
+    }
   }
 ]

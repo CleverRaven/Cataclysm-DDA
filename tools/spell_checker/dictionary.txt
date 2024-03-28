@@ -345,6 +345,8 @@ blacklists
 blackpowder
 blackpowders
 blacksmithing
+bladelike
+bladderwrack
 blocky
 bloodbank
 bloodborne
@@ -1657,6 +1659,7 @@ knuckleduster
 knuckledusters
 knyf
 kokanee
+kombu
 kompot
 koom
 kops

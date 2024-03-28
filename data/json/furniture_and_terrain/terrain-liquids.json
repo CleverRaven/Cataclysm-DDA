@@ -334,14 +334,13 @@
   {
     "type": "terrain",
     "id": "t_lake_bed",
-    "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "lake bed",
     "description": "You are standing at the bottom of a body of fresh water.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
     "looks_like": "t_sand",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "WATER_CUBE", "GOES_UP" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
@@ -349,14 +348,13 @@
   {
     "type": "terrain",
     "id": "t_ocean_bed",
-    "//": "for eventual use with water z levels.  Currently non-functional.",
     "name": "ocean bed",
     "description": "You are standing at the bottom of a body of salt water.  With a watertight container, you could gather salt water from here.  Not safe to drink as is.",
     "symbol": "~",
     "looks_like": "t_sand",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "GOES_UP" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "DEEP_WATER", "SALT_WATER", "GOES_UP" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
@@ -364,7 +362,6 @@
   {
     "type": "terrain",
     "id": "t_bulkhead_roof",
-    "//": "for eventual use with water z levels.  Currently non-functional.  Roof for submerged structures.",
     "name": "bulkhead",
     "description": "The top of a submerged structure.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "#",
@@ -403,7 +400,6 @@
   {
     "type": "terrain",
     "id": "t_lake_bed_concrete",
-    "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
     "name": "submerged concrete",
     "description": "You are standing at the bottom of a body of fresh water on a pad of concrete.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
@@ -425,7 +421,6 @@
   {
     "type": "terrain",
     "id": "t_lake_bed_concrete_yellow",
-    "//": "for eventual use with water z levels.  Currently non-functional.  Cement on the lake floor.",
     "name": "submerged concrete",
     "description": "You are standing at the bottom of a body of fresh water on a pad of yellow-painted concrete.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "#",

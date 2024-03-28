@@ -11859,7 +11859,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     bool wall_cling = u.has_flag( json_flag_WALL_CLING );
     bool adjacent_climb = false;
-    if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
+    if( !force && movez == 1 && !here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos() ) && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) &&
         !u.is_underwater() ) {
         // Climbing
         for( const tripoint &p : here.points_in_radius( u.pos(), 2 ) ) {
@@ -11931,7 +11931,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) &&
+    if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) && !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, u.pos() ) &&
         !u.is_underwater() && !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR_WATER, u.pos() ) &&
         !u.has_effect( effect_gliding ) ) {
         if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
@@ -11945,7 +11945,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             return;
         }
     } else if( !climbing && !force && movez == 1 &&
-               !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) && !u.is_underwater() ) {
+               !here.has_flag( ter_furn_flag::TFLAG_WATER_CUBE, u.pos() ) && !here.has_flag( ter_furn_flag::TFLAG_GOES_UP, u.pos() ) && !u.is_underwater() ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -11995,7 +11995,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 // ...and we're already submerged
                 if( u.is_underwater() ) {
                     // ...and there's more water beneath us.
-                    if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) ) {
+                    if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) ||
+                        target_ter->has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
                         // Then go ahead and move down.
                         add_msg( _( "You swim down." ) );
                     } else {
@@ -12044,7 +12045,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             // ...and we're trying to swim down
             if( movez == -1 ) {
                 // ...and there's more water beneath us.
-                if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) ) {
+                if( target_ter->has_flag( ter_furn_flag::TFLAG_WATER_CUBE ) || target_ter->has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
                     // Then go ahead and move down.
                     add_msg( _( "You swim down." ) );
                 } else {

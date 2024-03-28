@@ -60,11 +60,11 @@
     "disease_excess": [ [ 10, 864 ], [ 865, 1728 ], [ 1729, 2592 ] ]
   },
   {
-    "id": "vit_bloodthinner",
+    "id": "vit_anticoagulant_aspirin",
     "type": "vitamin",
     "vit_type": "drug",
-    "name": { "str": "Blood thinner" },
-    "excess": "anticoagulant",
+    "name": { "str": "" },
+    "excess": "anticoagulant_aspirin",
     "min": 0,
     "max": 4320,
     "rate": "100 s",

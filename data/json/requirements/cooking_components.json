@@ -1094,7 +1094,10 @@
         [ "veggy", 1 ],
         [ "veggy_wild", 1 ],
         [ "veggy_salted", 1 ],
-        [ "spinach", 1 ]
+        [ "spinach", 1 ],
+        [ "sea_lettuce", 1 ],
+        [ "bladderwrack", 1 ],
+        [ "kelp_sugar", 1 ]
       ]
     ]
   },
@@ -1201,7 +1204,8 @@
         [ "mushroom_cooked", 1 ],
         [ "morel_cooked", 1 ],
         [ "mushroom", 1 ],
-        [ "dry_mushroom", 1 ]
+        [ "dry_mushroom", 1 ],
+        [ "kombu", 1 ]
       ],
       [
         [ "hot_sauce", 1 ],
