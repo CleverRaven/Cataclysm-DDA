@@ -58,6 +58,7 @@ std::string enum_to_string<proficiency_bonus_type>( const proficiency_bonus_type
         case proficiency_bonus_type::dexterity: return "dexterity";
         case proficiency_bonus_type::intelligence: return "intelligence";
         case proficiency_bonus_type::perception: return "perception";
+        case proficiency_bonus_type::stamina: return "stamina";
         case proficiency_bonus_type::last: break;
         // *INDENT-ON*
     }
@@ -218,6 +219,22 @@ std::vector<proficiency_bonus> proficiency::get_bonuses( const std::string &cate
         return std::vector<proficiency_bonus>();
     }
     return bonus_it->second;
+}
+
+std::optional<float> proficiency::bonus_for( const std::string &category,
+        proficiency_bonus_type type ) const
+{
+    auto bonus_it = _bonuses.find( category );
+    if( bonus_it == _bonuses.end() ) {
+        return std::nullopt;
+    }
+    for( const proficiency_bonus &b : bonus_it->second ) {
+        if( b.type == type ) {
+            return b.value;
+        }
+    }
+
+    return std::nullopt;
 }
 
 learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &target )

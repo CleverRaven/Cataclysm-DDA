@@ -32,9 +32,11 @@ class weapon_category
 {
     public:
         static void load_weapon_categories( const JsonObject &jo, const std::string &src );
+        static void verify_weapon_categories();
         static void reset();
 
         void load( const JsonObject &jo, std::string_view src );
+        void check() const;
 
         static const std::vector<weapon_category> &get_all();
 
@@ -46,12 +48,17 @@ class weapon_category
             return name_;
         }
 
+        const std::vector<proficiency_id> &category_proficiencies() const {
+            return proficiencies_;
+        }
+
     private:
         friend class generic_factory<weapon_category>;
         friend struct mod_tracker;
 
         weapon_category_id id;
         std::vector<std::pair<weapon_category_id, mod_id>> src;
+        std::vector<proficiency_id> proficiencies_;
         bool was_loaded = false;
 
         translation name_;

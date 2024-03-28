@@ -32,6 +32,7 @@ enum class proficiency_bonus_type : int {
     dexterity,
     intelligence,
     perception,
+    stamina,
     last
 };
 
@@ -112,6 +113,7 @@ class proficiency
         std::set<proficiency_id> required_proficiencies() const;
 
         std::vector<proficiency_bonus> get_bonuses( const std::string &category ) const;
+        std::optional<float> bonus_for( const std::string &category, proficiency_bonus_type type ) const;
 };
 
 // The proficiencies you know, and the ones you're learning.

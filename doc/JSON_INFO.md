@@ -4856,9 +4856,12 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 {
     "type": "weapon_category",
     "id": "WEAP_CAT"
-    "name": "Weapon Category"
+    "name": "Weapon Category",
+    "proficiencies": [ "prof_baz" ]
 }
 ```
+
+`proficiencies` is a list of proficiencies that may apply bonuses when using weapons with this category. See the proficiency documentation for more details.
 
 ### Connect group definitions
 

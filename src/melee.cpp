@@ -160,6 +160,8 @@ static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
+static const weapon_category_id weapon_category_UNARMED( "UNARMED" );
+
 static void player_hit_message( Character *attacker, const std::string &message,
                                 Creature &t, int dam, bool crit = false, bool technique = false, const std::string &wp_hit = {} );
 static int stumble( Character &u, const item_location &weap );
@@ -579,6 +581,15 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed, forced_movecost );
 }
 
+static const std::set<weapon_category_id> &wielded_weapon_categories( const Character &c )
+{
+    static const std::set<weapon_category_id> unarmed{ weapon_category_UNARMED };
+    if( c.get_wielded_item() ) {
+        return c.get_wielded_item()->typeId()->weapon_category;
+    }
+    return unarmed;
+}
+
 bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed, int forced_movecost )
@@ -943,6 +954,13 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                enchant_vals::mod::MELEE_STAMINA_CONSUMPTION,
                                get_total_melee_stamina_cost() );
 
+    // Train weapon proficiencies
+    for( const weapon_category_id &cat : wielded_weapon_categories( *this ) ) {
+        for( const proficiency_id &prof : cat->category_proficiencies() ) {
+            practice_proficiency( prof, 1_seconds );
+        }
+    }
+
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
                    total_stam + deft_bonus );
@@ -975,7 +993,23 @@ int Character::get_total_melee_stamina_cost( const item *weap ) const
                                !has_flag( json_flag_PSEUDOPOD_GRASP ) ) ? 50 : ( !has_flag( json_flag_PSEUDOPOD_GRASP ) &&
                                        ( !has_effect( effect_natural_stance ) && ( !unarmed_attack() ) ) && is_crouching() ? 20 : 0 );
 
-    return std::min( -50, mod_sta + melee - stance_malus );
+    float proficiency_multiplier = 1.f;
+    for( const weapon_category_id &cat : wielded_weapon_categories( *this ) ) {
+        float loss = 0.f;
+        for( const proficiency_id &prof : cat->category_proficiencies() ) {
+            if( !has_proficiency( prof ) ) {
+                continue;
+            }
+            std::optional<float> bonus = prof->bonus_for( "melee_attack", proficiency_bonus_type::stamina );
+            if( !bonus.has_value() ) {
+                continue;
+            }
+            loss += bonus.value();
+        }
+        proficiency_multiplier = std::clamp( 1.f - loss, 0.f, proficiency_multiplier );
+    }
+
+    return std::min<int>( -50, proficiency_multiplier * ( mod_sta + melee - stance_malus ) );
 }
 
 void Character::reach_attack( const tripoint &p, int forced_movecost )
