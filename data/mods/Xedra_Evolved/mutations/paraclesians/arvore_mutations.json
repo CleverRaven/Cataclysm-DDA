@@ -131,6 +131,18 @@
   },
   {
     "type": "mutation",
+    "id": "ARVORE_ROOT_AND_SOIL",
+    "name": { "str": "Nurturing the Green" },
+    "points": 2,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Arvore with this ability have a seed pocket on their body that over time fills with a set of from this region of the world.  Each time new seeds appear they will all be of the same type, but the types will vary at random.",
+    "category": [ "ARVORE" ],
+    "spells_learned": [ [ "arvore_root_and_soil_spell", 1 ] ],
+    "//": "This is currently character creation only, ideally there will be ways to get this later in game."
+  },
+  {
+    "type": "mutation",
     "id": "ARVORE_SUMMON_WOOD_WALL",
     "name": { "str": "The Forest Offers Shelter" },
     "points": 4,
