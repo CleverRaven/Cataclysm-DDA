@@ -40,7 +40,7 @@
           { "item": "spacer_cap" },
           { "item": "socks" },
           { "item": "boots" },
-          { "item": "duct_tape" },
+          { "item": "cardboard_roll", "ammo-item": "duct_tape", "charges": 200 },
           { "item": "screwdriver" },
           { "item": "wristwatch" },
           { "item": "hat_hard", "variant": "orange_hat_hard" },

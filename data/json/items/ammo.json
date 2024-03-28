@@ -996,7 +996,7 @@
     "material": [ "plastic" ],
     "volume": "250 ml",
     "weight": "3 g",
-    "ammo_type": "components",
+    "ammo_type": "medical_tape",
     "count": 35
   },
   {

@@ -469,6 +469,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "medical_tape",
+    "name": "medical tape",
+    "default": "medical_tape"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "toilet_paper",
+    "name": "toilet paper",
+    "default": "toilet_paper"
+  },
+  {
+    "type": "ammunition_type",
     "id": "battery",
     "name": "kJ",
     "default": "battery"
