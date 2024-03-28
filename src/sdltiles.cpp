@@ -425,12 +425,7 @@ static void WinCreate()
         geometry = std::make_unique<DefaultGeometryRenderer>();
     }
 
-    cataimgui::client::sdl_renderer = renderer.get();
-    cataimgui::client::sdl_window = window.get();
-    imclient = std::make_unique<cataimgui::client>();
-
-    //io.Fonts->AddFontDefault();
-    //io.Fonts->Build();
+    imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 }
 
 static void WinDestroy()
@@ -3688,7 +3683,7 @@ void catacurses::init_interface()
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-
+    imclient->load_fonts( font, windowsPalette );
 #if defined(__ANDROID__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
