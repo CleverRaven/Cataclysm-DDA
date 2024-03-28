@@ -2498,7 +2498,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
         }
         info_txt.emplace_back(
             colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
-                                 sp.energy_string(), energy_cur ), c_light_gray ) );
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
     } else {
         std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
         std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
