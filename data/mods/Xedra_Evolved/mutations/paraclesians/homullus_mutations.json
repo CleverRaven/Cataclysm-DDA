@@ -277,7 +277,7 @@
     "points": 8,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You embody the tales of ancient knights, increasing the strength of armor you wear by 40%",
+    "description": "You embody the tales of ancient knights, increasing the strength of armor you wear by 40%.",
     "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],

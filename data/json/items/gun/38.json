@@ -56,7 +56,6 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "belt clip", 1 ],
-      [ "bore", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 2 ],
       [ "sights mount", 1 ],
@@ -126,9 +125,8 @@
     "clip_size": 6,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
@@ -211,9 +209,8 @@
     "clip_size": 5,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "stock mount", 1 ],
@@ -254,9 +251,8 @@
     "clip_size": 7,
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ],

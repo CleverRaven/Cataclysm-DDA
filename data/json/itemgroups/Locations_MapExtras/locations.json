@@ -33,7 +33,7 @@
   {
     "id": "vfw_tools",
     "type": "item_group",
-    "items": [ { "item": "glock_19", "prob": 1, "charges": [ 0, 15 ] }, [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
+    "items": [ [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
   },
   {
     "id": "vfw_books",
