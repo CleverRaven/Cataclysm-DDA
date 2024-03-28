@@ -1,0 +1,65 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLOAK_OF_ELVENKIND_TURN_ON",
+    "global": true,
+    "run_for_npcs": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        { "not": { "u_has_trait": "FOREST_STEALTH" } },
+        { "u_has_effect": "effect_elven_cloak_effect" },
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_add_trait": "FOREST_STEALTH" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CLOAK_OF_ELVENKIND_TURN_OFF",
+    "global": true,
+    "run_for_npcs": true,
+    "eoc_type": "EVENT",
+    "required_event": "avatar_moves",
+    "condition": {
+      "and": [
+        { "u_has_trait": "FOREST_STEALTH" },
+        {
+          "or": [
+            { "not": "u_is_outside" },
+            { "not": { "u_has_effect": "effect_elven_cloak_effect" } },
+            {
+              "and": [
+                { "not": { "u_is_on_terrain_with_flag": "SHRUB" } },
+                { "not": { "u_is_on_terrain": "t_tree_young" } },
+                { "not": { "u_is_on_terrain": "t_bamboo_tall" } },
+                { "not": { "u_is_on_terrain": "t_grass_long" } },
+                { "not": { "u_at_om_location": "forest" } },
+                { "not": { "u_at_om_location": "forest_thick" } }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "effect": [ { "u_lose_trait": "FOREST_STEALTH" } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_elven_cloak_effect",
+    "//": "This is a dummy effect because EoCs can't tell what you're wearing",
+    "name": [ "" ],
+    "desc": [ "" ]
+  }
+]

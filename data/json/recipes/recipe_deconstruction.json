@@ -2333,7 +2333,39 @@
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "sheet_cotton", 12 ] ] ]
+    "components": [ [ [ "sheet_cotton", 11 ] ] ]
+  },
+  {
+    "result": "national_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
+  },
+  {
+    "result": "pride_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
+  },
+  {
+    "result": "american_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
+  },
+  {
+    "result": "state_flag",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "sheet", 7 ] ], [ [ "sheet_cotton", 6 ] ] ]
   },
   {
     "result": "sheet_cotton_patchwork",
@@ -3222,7 +3254,7 @@
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
-    "components": [ [ [ "material_limestone", 10 ] ] ]
+    "components": [ [ [ "material_limestone", 150 ] ] ]
   },
   {
     "result": "mess_kit",
@@ -7672,7 +7704,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "45 m",
     "qualities": [ { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "i4_diesel", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
+    "components": [ [ [ "generator_7500w", 1 ] ], [ [ "engine_1cyl_diesel_large", 1 ] ], [ [ "frame", 1 ] ], [ [ "jerrycan_big", 1 ] ] ]
   },
   {
     "result": "apron_cut_resistant",

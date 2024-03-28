@@ -303,5 +303,22 @@
     "sym": "#",
     "color": "brown",
     "see_cost": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "undine_warp_pool_surface",
+    "name": "tranquil pool",
+    "sym": ".",
+    "color": "blue",
+    "looks_like": "pond_field",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "undine_warp_pool_zneg", "undine_warp_pool_zneg_dirt", "undine_warp_pool_warper" ],
+    "name": "pool depths",
+    "sym": ".",
+    "color": "blue",
+    "see_cost": 5
   }
 ]

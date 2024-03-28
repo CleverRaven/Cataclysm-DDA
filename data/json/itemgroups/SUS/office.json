@@ -54,6 +54,7 @@
       { "item": "towel", "count": [ 1, 2 ], "prob": 80 },
       { "item": "brush", "prob": 95 },
       { "item": "bucket", "prob": 90 },
+      { "item": "bucket_5gal", "prob": 90, "count": [ 1, 2 ] },
       { "item": "boots_rubber", "prob": 90 },
       { "item": "gloves_rubber", "prob": 90 },
       { "item": "apron_plastic", "prob": 40 },

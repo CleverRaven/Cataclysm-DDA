@@ -222,7 +222,7 @@ bool leap_actor::call( monster &z ) const
         return false;    // Nowhere to leap!
     }
 
-    z.moves -= move_cost;
+    z.mod_moves( -move_cost );
     viewer &player_view = get_player_view();
     const tripoint chosen = random_entry( options );
     bool seen = player_view.sees( z ); // We can see them jump...
@@ -306,7 +306,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
                             spell_instance.name(), target_name );
 
     avatar fake_player;
-    mon.moves -= spell_instance.casting_time( fake_player, true );
+    mon.mod_moves( -spell_instance.casting_time( fake_player, true ) );
     spell_instance.cast_all_effects( mon, target );
 
     return true;
@@ -497,7 +497,7 @@ int melee_actor::do_grab( monster &z, Creature *target, bodypart_id bp_id ) cons
             const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
             if( vp_seatbelt ) {
                 if( grab_data.respect_seatbelts ) {
-                    z.moves -= move_cost * 2;
+                    z.mod_moves( -move_cost * 2 );
                     foe->add_msg_player_or_npc( msg_type, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                                 _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
                                                 z.disp_name( false, true ), vp_seatbelt->part().name( false ) );
@@ -1202,7 +1202,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
                                       _( "You're not sure why you've got a laser dot on you…" ) );
         }
 
-        z.moves -= targeting_cost;
+        z.mod_moves( -targeting_cost );
         return false;
     }
 
@@ -1219,7 +1219,7 @@ bool gun_actor::try_target( monster &z, Creature &target ) const
 void gun_actor::shoot( monster &z, const tripoint &target, const gun_mode_id &mode,
                        int inital_recoil ) const
 {
-    z.moves -= move_cost;
+    z.mod_moves( -move_cost );
 
     itype_id mig_gun_type = item_controller->migrate_id( gun_type );
     item gun( mig_gun_type );

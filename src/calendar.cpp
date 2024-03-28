@@ -336,6 +336,13 @@ time_point daylight_time( const time_point &p )
     return sun_at_altitude( civil_dawn, location.longitude, p, false );
 }
 
+time_point noon( const time_point &p )
+{
+    const time_duration time_of_day = ( p - calendar::turn_zero ) % 1_days;
+    const time_duration till_noon = time_of_day - 12_hours;
+    return ( till_noon > 0_seconds ) ? p - till_noon : p + till_noon;
+}
+
 bool is_night( const time_point &p )
 {
     return sun_altitude( p ) <= civil_dawn;

@@ -28,6 +28,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
+#include "fault.h"
 #include "field_type.h"
 #include "flag.h"
 #include "game.h"
@@ -772,7 +773,7 @@ void emp_blast( const tripoint &p )
                 !player_character.has_flag( json_flag_EMP_IMMUNE ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
-                it->set_flag( flag_ITEM_BROKEN );
+                it->faults.insert( random_entry( fault::get_by_type( "shorted" ) ) );
             }
         }
     }
@@ -785,7 +786,7 @@ void emp_blast( const tripoint &p )
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }
             it.deactivate();
-            it.set_flag( flag_ITEM_BROKEN );
+            it.set_fault( random_entry( fault::get_by_type( "shorted" ) ) );
         }
     }
     // TODO: Drain NPC energy reserves
@@ -793,10 +794,8 @@ void emp_blast( const tripoint &p )
 
 void nuke( const tripoint_abs_omt &p )
 {
-    const tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
-
     tinymap tmpmap;
-    tmpmap.load( pos_sm, false );
+    tmpmap.load( p, false );
 
     item mininuke( itype_mininuke_act );
     mininuke.set_flag( json_flag_ACTIVATE_ON_PLACE );

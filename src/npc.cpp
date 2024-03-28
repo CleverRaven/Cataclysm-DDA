@@ -101,6 +101,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_amf( "amf" );
 static const faction_id faction_no_faction( "no_faction" );
@@ -257,6 +258,9 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 {
     this->name = name;
     set_pos_only( pos );
+    if( !getID().is_valid() ) {
+        setID( g->assign_npc_id() );
+    }
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -1752,9 +1756,51 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+        // Always shouting when in danger or short time since being in danger
+        sounds::sound( pos(), danger_assessment() > NPC_DANGER_VERY_LOW ?
+                       get_shout_volume() : indoor_voice(),
+                       sounds::sound_t::speech,
+                       sound, false, "speech",
                        male ? "NPC_m_loud" : "NPC_f_loud" );
     }
+}
+
+int npc::indoor_voice() const
+{
+    const int max_volume = get_shout_volume();
+    const int min_volume = 1;
+    // Actual hearing distance is incredibly dependent on ambient noise and our noise propagation model is... rather binary
+    // But we'll assume people normally want to project their voice about 6 meters away.
+    int wanted_volume = 6;
+    Character &player = get_player_character();
+    const int distance_to_player = rl_dist( pos(), player.pos() );
+    if( is_following() || is_ally( player ) ) {
+        wanted_volume = distance_to_player;
+    } else if( is_enemy() && sees( player.pos() ) ) {
+        // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
+        wanted_volume = max_volume;
+    }
+    // Possible fallthrough: neutral or unaware enemy NPCs talk at default wanted_volume
+
+    // Don't wake up friends when using our indoor voice
+    for( const auto &bunk_buddy : get_cached_friends() ) {
+        Character *char_buddy = nullptr;
+        if( auto buddy = bunk_buddy.lock() ) {
+            char_buddy = dynamic_cast<Character *>( buddy.get() );
+        }
+        if( !char_buddy ) {
+            continue;
+        }
+        if( char_buddy->has_effect( effect_sleep ) ) {
+            int distance_to_sleeper = rl_dist( pos(), char_buddy->pos() );
+            if( wanted_volume >= distance_to_sleeper ) {
+                // Speak just quietly enough to not disturb anyone
+                wanted_volume = distance_to_sleeper - 1;
+            }
+        }
+    }
+
+    return std::clamp( wanted_volume, min_volume, max_volume );
 }
 
 bool npc::wants_to_sell( const item_location &it ) const
