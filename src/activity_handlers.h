@@ -86,7 +86,8 @@ enum class do_activity_reason : int {
 
 };
 
-const std::string do_activity_reason_string[int( do_activity_reason::NEEDS_DISASSEMBLE ) + 1] = {
+// Vector because of style demands => no built in consistency check when number of enum elements change.
+const std::vector<std::string> do_activity_reason_string = {
     "CAN_DO_CONSTRUCTION",
     "CAN_DO_FETCH",
     "NO_COMPONENTS",
