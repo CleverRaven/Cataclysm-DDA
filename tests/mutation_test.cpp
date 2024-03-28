@@ -24,9 +24,16 @@ static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
 static const mutation_category_id mutation_category_REMOVAL_TEST( "REMOVAL_TEST" );
+static const mutation_category_id mutation_category_TROGLOBITE( "TROGLOBITE" );
 
+static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
+static const trait_id trait_FELINE_EARS( "FELINE_EARS" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
+static const trait_id trait_MYOPIC( "MYOPIC" );
+static const trait_id trait_QUICK( "QUICK" );
 static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_STR_UP( "STR_UP" );
+static const trait_id trait_STR_UP_2( "STR_UP_2" );
 static const trait_id trait_TEST_OVERMAP_SIGHT_5( "TEST_OVERMAP_SIGHT_5" );
 static const trait_id trait_TEST_OVERMAP_SIGHT_MINUS_10( "TEST_OVERMAP_SIGHT_MINUS_10" );
 static const trait_id trait_TEST_REMOVAL_0( "TEST_REMOVAL_0" );
@@ -37,10 +44,8 @@ static const trait_id trait_TEST_TRIGGER_2_active( "TEST_TRIGGER_2_active" );
 static const trait_id trait_TEST_TRIGGER_active( "TEST_TRIGGER_active" );
 static const trait_id trait_UGLY( "UGLY" );
 
-static const vitamin_id vitamin_instability( "instability" );
 static const vitamin_id vitamin_mutagen( "mutagen" );
 static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
-static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
 static const vitamin_id vitamin_mutagen_test_removal( "mutagen_test_removal" );
 
 static std::string get_mutations_as_string( const Character &you );
@@ -563,70 +568,129 @@ TEST_CASE( "All_valid_mutations_can_be_purified", "[mutations][purifier]" )
     }
 }
 
-//The chance of a mutation being bad is a function of instability, see
-//Character::roll_bad_mutation. This can't be easily tested on in-game
-//mutations, because exceptions exist - e.g., you can roll a good mutation, but
-//end up mutating a bad one, because the bad mutation is a prerequisite for the one
-//you actually rolled.
-//For this reason, this tests on an artificial category that doesn't
-//mix good and bad mutations within trees. Additionally, it doesn't contain
-//neutral mutations, because those are always allowed.
-//This also incidentally tests that, given available mutations and enough mutagen,
-//Character::mutate always succeeds to give exactly one mutation.
+// Your odds of getting a good or bad mutation depend on what mutations you have and what tree you're in.
+// You are given an integer that is first multiplied by 0.5 and then divided by the total non-bad mutations in the tree.
+// For example if you mutate into Alpha, that tree has 21 mutations (as of 3/14/2024) that aren't bad.
+// Troglobite has 28 mutations that aren't bad. (as of 3/4/2024).
+// Thus, for all things equal, Alpha gets more bad mutations per good mutation than Trog,
+// but since Trog gets more good muts total it has more chances to get bad mutations.
+// The aforementioned "integer" is increased from 0 by 1 for each non-bad mutation you have.
+// Mutations you have are counted as two if they don't belong to the tree you're mutating into.
+// Starting traits are never counted, and bad mutations are never counted. Only "valid" (mutable) mutations count.
+// This test case compares increasing instability in both Alpha and Trog as more mutations are added.
+// Given that Alpha and Trog share some mutations but not all, they should either increase instability at the same or different rates.
+// This test then also checks and makes sure that Alpha gets more bad mutations than Trog given the same total instability in each.
+// After that it checks to make sure each tree gets more bad mutations than before after increasing effective instability by 4x.
+
 TEST_CASE( "Chance_of_bad_mutations_vs_instability", "[mutations][instability]" )
 {
     Character &dummy = get_player_character();
+    clear_avatar();
 
-    static const std::vector<std::pair<int, float>> bad_chance_by_inst = {
-        {0, 0.0f},
-        {500, 0.0f},
-        {1000, 0.062f},
-        {1500, 0.268f},
-        {2000, 0.386f},
-        {2500, 0.464f},
-        {3000, 0.521f},
-        {4000, 0.598f},
-        {5000, 0.649f},
-        {6000, 0.686f},
-        {8000, 0.737f}
-    };
+    REQUIRE( dummy.get_instability_per_category( mutation_category_ALPHA ) == 0 );
+    REQUIRE( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 0 );
 
-    const int tries = 1000;
-    const int muts_per_try = 5;
-    const float margin = 0.05f;
 
-    for( const std::pair<int, float> &ilevel : bad_chance_by_inst ) {
-        int bad = 0;
-        for( int i = 0; i < tries; i++ ) {
-            clear_avatar();
-            dummy.vitamin_set( vitamin_mutagen_test, 10000 );
-            for( int ii = 0; ii < muts_per_try; ii++ ) {
-                dummy.vitamin_set( vitamin_instability, ilevel.first );
-                dummy.mutate( 0, true );
-            }
-
-            std::vector<trait_id> muts = dummy.get_mutations();
-            REQUIRE( muts.size() == static_cast<size_t>( muts_per_try ) );
-            for( const trait_id &m : muts ) {
-                REQUIRE( m.obj().points != 0 );
-                if( m.obj().points < 0 ) {
-                    bad += 1;
-                }
-            }
-        }
-
-        INFO( "Current instability: " << ilevel.first );
-        if( ilevel.second == 0.0f ) {
-            CHECK( bad == 0 );
-        } else {
-            float lower = ilevel.second - margin;
-            float upper = ilevel.second + margin;
-            float frac_bad = static_cast<float>( bad ) / ( tries * muts_per_try );
-
-            CHECK( frac_bad > lower );
-            CHECK( frac_bad < upper );
+    WHEN( "character mutates Strong, a mutation belonging to both Alpha and Troglobite" ) {
+        dummy.set_mutation( trait_STR_UP );
+        THEN( "Both Alpha and Troglobite see their instability increase by 1" ) {
+            CHECK( dummy.get_instability_per_category( mutation_category_ALPHA ) == 1 );
+            CHECK( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 1 );
         }
     }
+
+    WHEN( "they then mutate Very Strong, which requires Strong and also belongs to both trees" ) {
+        dummy.set_mutation( trait_STR_UP_2 );
+        THEN( "Both Alpha and Troglobite see their instability increase by 1 more (2 total)" ) {
+            CHECK( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
+            CHECK( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 2 );
+        }
+    }
+
+    WHEN( "they then mutate Quick, which belongs to Troglobite but not Alpha" ) {
+        dummy.set_mutation( trait_STR_UP_2 );
+        dummy.set_mutation( trait_QUICK );
+        THEN( "Alpha increases instability by 2 and Troglobite increases by 1" ) {
+            CHECK( dummy.get_instability_per_category( mutation_category_ALPHA ) == 4 );
+            CHECK( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 3 );
+        }
+    }
+
+    WHEN( "The character has Quick as a starting trait instead of a mutation" ) {
+        dummy.set_mutation( trait_STR_UP_2 );
+        dummy.toggle_trait( trait_QUICK );
+        REQUIRE( dummy.has_trait( trait_QUICK ) );
+        THEN( "Neither Alpha or Troglobite have their instability increased" ) {
+            CHECK( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
+            CHECK( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 2 );
+        }
+    }
+
+    WHEN( "The character mutates Near Sighted, which is a \"bad\" mutation" ) {
+        dummy.set_mutation( trait_STR_UP_2 );
+        dummy.set_mutation( trait_MYOPIC );
+        THEN( "They do not gain instability since only 0+ point mutations increase that" ) {
+            CHECK( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
+            CHECK( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 2 );
+        }
+    }
+
+    const int tries = 10000;
+    int trogBads = 0;
+    int alphaBads = 0;
+
+    clear_avatar();
+    dummy.set_mutation( trait_STR_UP_2 );
+    REQUIRE( dummy.get_instability_per_category( mutation_category_ALPHA ) == 2 );
+    REQUIRE( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 2 );
+
+    // 10k trials, compare the number of successes of bad mutations.
+    // As of 3/4/2024, Alpha has 21 non-bad mutations and Trog has 28.
+    // Given that effective instability is currently 2, Alpha should see avg. 475 badmuts and trog 357 avg.
+    // The odds of Trog rolling well enough to "win" are effectively zero if roll_bad_mutation() works correctly.
+    // roll_bad_mutation does not actually give a bad mutation; it is called by the primary mutate function.
+    for( int i = 0; i < tries; i++ ) {
+        if( dummy.roll_bad_mutation( mutation_category_ALPHA ) ) {
+            alphaBads++;
+        }
+        if( dummy.roll_bad_mutation( mutation_category_TROGLOBITE ) ) {
+            trogBads++;
+        }
+    }
+
+    WHEN( "Alpha and Troglobite both have the same level of instability" ) {
+        THEN( "Alpha has fewer total mutations, so its odds of a bad mutation are higher than Trog's" ) {
+            CHECK( alphaBads > trogBads );
+        }
+    }
+
+    // Then, increase our instability and try again.
+    dummy.set_mutation( trait_FELINE_EARS );
+    dummy.set_mutation( trait_EAGLEEYED );
+    dummy.set_mutation( trait_GOURMAND );
+    REQUIRE( dummy.get_instability_per_category( mutation_category_ALPHA ) == 8 );
+    REQUIRE( dummy.get_instability_per_category( mutation_category_TROGLOBITE ) == 8 );
+
+    int trogBads2 = 0;
+    int alphaBads2 = 0;
+
+    for( int i = 0; i < tries; i++ ) {
+        if( dummy.roll_bad_mutation( mutation_category_ALPHA ) ) {
+            alphaBads2++;
+        }
+        if( dummy.roll_bad_mutation( mutation_category_TROGLOBITE ) ) {
+            trogBads2++;
+        }
+    }
+
+    WHEN( "The player has more mutation instability than before" ) {
+        THEN( "They have a higher chance of getting bad mutations than before" ) {
+            CHECK( alphaBads2 > alphaBads );
+            CHECK( trogBads2 > trogBads );
+        }
+    }
+    clear_avatar();
+
 }
 
 // Verify that flags linked to core mutations are still there.
