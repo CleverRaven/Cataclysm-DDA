@@ -694,7 +694,11 @@
     "copy-from": "robofac_mantle",
     "name": "Hub 01 ballistic mantle",
     "description": "3D printed armor for the upper body, made of thick and pliable polymer with metallic fibers for reinforcement.  Thanks to a slim under-layer of synthetic fibers, it provides fantastic defense from small-arms fire, and could take the edge off of a rifle bullet, too.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar_layered", "portion": 4 } ],
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
