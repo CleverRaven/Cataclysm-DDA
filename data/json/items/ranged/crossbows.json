@@ -206,7 +206,7 @@
     "loudness": 3,
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -244,7 +244,7 @@
     "reload": 1200,
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ],
@@ -319,7 +319,7 @@
     "reload": 1200,
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -360,7 +360,7 @@
     "reload": 1200,
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],

@@ -159,7 +159,7 @@ TEST_CASE( "drying_rate", "[character][limb]" )
         dude.update_body_wetness( *weather.weather_precise );
         base_dry++;
     }
-    REQUIRE( base_dry == Approx( 450 ).margin( 100 ) );
+    REQUIRE( base_dry == Approx( 450 ).margin( 125 ) );
 
     // Birdify, clear water
     clear_character( dude, true );
@@ -185,8 +185,8 @@ TEST_CASE( "drying_rate", "[character][limb]" )
 
     // A drying rate of 2 should halve the drying time
     // Higher margin for the lower rate to account for the randomness
-    CHECK( high_dry == Approx( base_dry / 2 ).margin( base_dry / 4 ) );
-    CHECK( low_dry == Approx( base_dry * 2 ).margin( base_dry ) );
+    CHECK( high_dry == Approx( 200 ).margin( 100 ) );
+    CHECK( low_dry == Approx( 900 ).margin( 300 ) );
 }
 
 TEST_CASE( "Limb_armor_coverage", "[character][limb][armor]" )

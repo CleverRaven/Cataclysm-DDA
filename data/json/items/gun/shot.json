@@ -26,7 +26,7 @@
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -92,10 +92,9 @@
     "built_in_mods": [ "ksg_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -137,10 +136,9 @@
     "built_in_mods": [ "ksg25_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -216,11 +214,10 @@
     "barrel_volume": "0 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "loading port", 1 ],
       [ "rail mount", 1 ],
@@ -273,7 +270,7 @@
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -420,11 +417,10 @@
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "loading port", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -524,7 +520,7 @@
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -554,7 +550,6 @@
     "barrel_volume": "494 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "mechanism", 2 ],
@@ -588,7 +583,6 @@
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "muzzle", 1 ],
       [ "mechanism", 1 ],
       [ "sights mount", 1 ],
@@ -634,10 +628,9 @@
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -678,10 +671,9 @@
     "sight_dispersion": 500,
     "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "underbarrel", 2 ],
       [ "rail mount", 1 ],
