@@ -1221,5 +1221,15 @@
     "id": "riv_suppressor",
     "type": "MIGRATION",
     "replace": "suppressor"
+  },
+  {
+    "id": "surv_six_shooter",
+    "type": "MIGRATION",
+    "replace": "hptjcpmag"
+  },
+  {
+    "id": "surv_hand_cannon",
+    "type": "MIGRATION",
+    "replace": "hptjhpmag"
   }
 ]
