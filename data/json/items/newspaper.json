@@ -592,5 +592,21 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "home_picture",
+    "category": "books",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "Picture" },
+    "snippet_category": "home_pictures",
+    "description": "A medium picture of something that the owner wished to decorate their house with.",
+    "weight": "600 g",
+    "volume": "650 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper", "wood" ],
+    "flags": [ "TRADER_AVOID" ]
   }
 ]
