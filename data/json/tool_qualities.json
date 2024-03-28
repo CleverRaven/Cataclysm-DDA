@@ -312,6 +312,12 @@
   },
   {
     "type": "tool_quality",
+    "id": "LUTHIER",
+    "name": { "str": "luthier" },
+    "//": "Tools specifically for turning wood into musical instruments.  Used for a complete tool kit of objects required for this process."
+  },
+  {
+    "type": "tool_quality",
     "id": "GRIND",
     "name": { "str": "grinding" }
   },

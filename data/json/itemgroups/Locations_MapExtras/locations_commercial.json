@@ -995,9 +995,11 @@
           { "item": "harmonica_holder", "prob": 70 },
           { "item": "jug_clay", "prob": 20 },
           { "item": "saw", "prob": 20 },
+          { "item": "tonewood", "prob": 30 },
           { "item": "saxophone", "prob": 50 },
           { "item": "trumpet", "prob": 50 },
           { "item": "tuba", "prob": 25 },
+          { "item": "drum_percussion", "prob": 10 },
           { "item": "kantele", "prob": 10 },
           { "item": "ukulele", "prob": 50 },
           { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] },
@@ -1024,6 +1026,7 @@
       [ "clarinet", 25 ],
       [ "saxophone", 25 ],
       [ "harmonica_holder", 25 ],
+      [ "tonewood", 10 ],
       [ "bagpipes", 5 ]
     ]
   },
@@ -1037,6 +1040,7 @@
       [ "ukulele", 90 ],
       [ "kantele", 10 ],
       [ "banjo", 100 ],
+      [ "tonewood", 10 ],
       [ "guitar_electric", 100 ]
     ]
   },
