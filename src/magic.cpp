@@ -2496,7 +2496,6 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
             cost_string = colorize( _( "Not Enough Stamina" ), c_red );
             energy_cur.clear();
         }
-    
         info_txt.emplace_back(
             colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
                                  sp.energy_string(), energy_cur ), c_light_gray ) );
