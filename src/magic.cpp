@@ -2509,7 +2509,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
         }
         info_txt.emplace_back(
             colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
-                                 sp.energy_string(), energy_cur ), c_light_gray ) );
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
     };
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
     if( is_psi) {
