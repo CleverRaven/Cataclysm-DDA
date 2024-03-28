@@ -1,5 +1,83 @@
 [
   {
+    "id": [ "TALK_EXODII_MERCHANT_Talk" ],
+    "type": "talk_topic",
+    "insert_before_standard_exits": true,
+    "responses": [
+      {
+        "text": "What's with those clusters of weird plants I've seen around?",
+        "topic": "TALK_EXODII_MERCHANT_alien_flora",
+        "condition": { "math": [ "time_since('cataclysm', 'unit':'days') >= 30" ] }
+      }
+    ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_alien_flora" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Oh, right, the alien plants.  The portals bring them.  As far as I've seen in the past, it's just going to keep getting worse.",
+      "str": "Sure, the plants o' otherworlds.  Them as comes from the wibbles.  Like as this'n's seen, 'tis all down 'n down, an I'm ken."
+    },
+    "responses": [
+      {
+        "text": " 'Down 'n down'?  So it's going to keep happening until…what?",
+        "topic": "TALK_EXODII_MERCHANT_alien_flora2"
+      },
+      {
+        "text": "From the portals…like you, right?  You've seen this before?",
+        "topic": "TALK_EXODII_MERCHANT_alien_flora_source",
+        "condition": { "u_has_var": "u_knows_exodiilore", "type": "knowledge", "context": "exodii_transdimensional", "value": "yes" }
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_alien_flora2" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Until the normal world is covered in alien biomes and then all falls to dust.  That's just how it goes.",
+      "str": "Til the green and brown be yellowred and blue afore it be to grey and black.  'Tis the course."
+    },
+    "responses": [
+      {
+        "text": "Is there any way to stop it?  Can we cut them down or burn them or something?",
+        "topic": "TALK_EXODII_MERCHANT_alien_flora_burn"
+      },
+      { "text": "The course? What's going to happen?", "topic": "TALK_EXODII_MERCHANT_Talk_CataclysmTimeline" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_alien_flora_burn" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "You could burn it, but the portals will just bring it back.  No, there's no stopping it at this point.  Even if you burned every single one you found, you're just one person and there's an endless supply of them, so it's futile.  There's only one way this goes.",
+      "str": "Aye, mayhap, but more'll dribble through the wobbles.  You can't athwart all o' the bridges.  If'n you light each and every, you're a wolf alone an' their banks'll flow over.  'Twould be no point.  The road only goes south."
+    },
+    "responses": [
+      { "text": "Well, we'll see about that.  Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_EXODII_MERCHANT_alien_flora_source" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "//~": "Many times.  It doesn't always go the same, and sometimes they only show up right before we leave the world, but they always do.",
+      "str": "Time an' time.\"  Rubik pauses for a moment.  \""
+    },
+    "responses": [
+      {
+        "text": "Is there any way to stop it?  Can we cut them down or burn them or something?",
+        "topic": "TALK_EXODII_MERCHANT_alien_flora_burn"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
     "id": [ "TALK_EXODII_MERCHANT_New", "TALK_EXODII_MERCHANT_Talk" ],
     "type": "talk_topic",
     "responses": [
@@ -37,7 +115,7 @@
   {
     "id": [ "TALK_EXODII_MERCHANT_scan" ],
     "type": "talk_topic",
-    "dynamic_line": "&You weren't expecting to be able to understand Rubik's thoughts.  Whatever language it is he speaks, this \"Anglic\", the resemblance to English is clearly a fortunate coincidence.  But you are surprised that your telepathic scan doesn't pick up anything at all.  Just a faint static hum, rising and falling in an irregular pattern.",
+    "dynamic_line": "&You weren't expecting to be able to understand Rubik's thoughts.  Whatever language it is, this \"Anglic\", the resemblance to English is clearly a fortunate coincidence.  But you are surprised that your telepathic scan doesn't pick up anything at all.  Just a faint static hum, rising and falling in an irregular pattern.",
     "responses": [
       { "text": "*Withdraw from <npc_name>'s mind*.", "topic": "TALK_EXODII_MERCHANT_Talk" },
       {
@@ -50,13 +128,13 @@
   {
     "id": [ "TALK_EXODII_MERCHANT_deep_scan" ],
     "type": "talk_topic",
-    "dynamic_line": "&Your awareness of the outside world fades as you fall into Rubik's mind.\n\nYou see a young boy in a thriving metropolis, doing odd jobs for spare coins, playing in the alleys with his friends, coming home at dusk for supper.  You see a young man running from a group of zombies.  You see this castle, or near enough--some towers are missing, some missing towers are there, but obviously the same--and its denizens fending off an attack from a group of winged things.  You see a conversation in a language you've never heard before among a group of Exodii, before everyone files into rooms, secures themselves with restraints, and there's a brief moment of searing pain and then darkness, filled with static and bursts of light half-glimpsed in your peripheral vision.\n\nYou see worlds.  World after world, in a procession over…decades?  Centuries?  You can't tell; you have no sense of time during the vision.  Most worlds were less advanced than the Earth, and the few survivors fought the dead with human wave tactics and trench warfare, or lines of musketeers, or archers from behind the trees.  Sometimes, doughty warriors clad in iron or bronze hurled themselves at the enemy with sword and shield in hand, until they fell and their corpses rose again.  In one world, the survivors fought with powered armor and particle-beam weapons.  But on every world, slowly, inexorably, the dead or the fungus or the walking trees ground down the defenders until humanity was on the brink of extinction and, with a few survivors in tow, the Exodii powered up their jump devices and continued the Long Retreat.\n\nIn the end, not once, in a dozen or a hundred or you know not how many worlds, was there anything left to save.",
-    "responses": [ { "text": "*Withdraw from his mind*.", "topic": "TALK_EXODII_MERCHANT_Post_Scan" } ]
+    "dynamic_line": "&Your awareness of the outside world fades as you fall into Rubik's mind.\n\nYou see a child in a thriving metropolis, doing odd jobs for spare coins, playing in the alleys with friends, coming home at dusk for supper.  You see a young adult running from a group of zombies.  You see this castle, or near enough--some towers are missing, some missing towers are there, but obviously the same--and its denizens fending off an attack from a group of winged things.  You see a conversation in a language you've never heard before among a group of Exodii, before everyone files into rooms, secures themselves with restraints, and there's a brief moment of searing pain and then darkness, filled with static and bursts of light half-glimpsed in your peripheral vision.\n\nYou see worlds.  World after world, in a procession over…decades?  Centuries?  You can't tell; you have no sense of time during the vision.  Most worlds were less advanced than the Earth, and the few survivors fought the dead with human wave tactics and trench warfare, or lines of musketeers, or archers from behind the trees.  Sometimes, doughty warriors clad in iron or bronze hurled themselves at the enemy with sword and shield in hand, until they fell and their corpses rose again.  In one world, the survivors fought with powered armor and particle-beam weapons.  But on every world, slowly, inexorably, the dead or the fungus or the walking trees or things you have no name for ground down the defenders until humanity was on the brink of extinction and, with a few survivors in tow, the Exodii powered up their jump devices and continued the Long Retreat.\n\nIn the end, not once, in a dozen or a hundred or you know not how many worlds, was there anything left to save.",
+    "responses": [ { "text": "*Withdraw from Rubik's mind*.", "topic": "TALK_EXODII_MERCHANT_Post_Scan" } ]
   },
   {
     "id": [ "TALK_EXODII_MERCHANT_Post_Scan" ],
     "type": "talk_topic",
-    "dynamic_line": "&Rubik is looking at you oddly.  Whatever he had been saying before, he's stopped.",
+    "dynamic_line": "&Rubik is looking at you oddly.  The silence is palpable.",
     "responses": [
       {
         "text": "Sorry, I must have zoned out for a moment there.  It's been a long day.  You were saying?",
