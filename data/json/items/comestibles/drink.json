@@ -1485,10 +1485,29 @@
   {
     "id": "water",
     "type": "COMESTIBLE",
-    "comestible_type": "DRINK",
-    "category": "food",
+    "copy-from": "water_clean",
     "name": { "str_sp": "water" },
     "description": "Water, the stuff of life, necessary for all kinds of crafting, cleaning, and avoiding an agonizing death by dehydration.  You should boil or purify it before using it as drinking water.",
+    "color": "light_blue",
+    "container": "bottle_plastic",
+    "sealed": false,
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 0.1 }, { "disease": "bad_food", "probability": 1 } ]
+  },
+  {
+    "id": "water_murky",
+    "type": "COMESTIBLE",
+    "copy-from": "water",
+    "name": { "str_sp": "murky water" },
+    "description": "Water, the stuff of life.  This water looks like it has quite a bit of life in it in fact, and not the good kind.  You should filter and sterilize it if you want to drink it.",
+    "quench": 30,
+    "parasites": 5,
+    "contamination": [ { "disease": "highly_contaminated_food", "probability": 100 } ]
+  },
+  {
+    "id": "water_clean",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "category": "food",
     "material": [ "water" ],
     "weight": "250 g",
     "volume": "250 ml",
@@ -1496,38 +1515,32 @@
     "price": 50,
     "price_postapoc": 1,
     "symbol": "~",
-    "color": "light_blue",
     "phase": "liquid",
-    "container": "bottle_plastic",
-    "sealed": false,
     "quench": 50,
     "ammo_data": { "ammo_type": "water" },
     "flags": [ "EATEN_COLD" ],
-    "use_action": [ "BLECH_BECAUSE_UNCLEAN" ]
-  },
-  {
-    "id": "water_clean",
-    "copy-from": "water",
-    "type": "COMESTIBLE",
     "name": { "str_sp": "clean water" },
     "description": "Fresh, clean water.  Truly the best thing to quench your thirst.",
     "container": "bottle_plastic",
     "sealed": true,
-    "color": "light_cyan",
-    "extend": { "flags": [ "NUTRIENT_OVERRIDE" ] },
-    "use_action": [  ]
+    "color": "light_cyan"
+  },
+  {
+    "id": "water_spring",
+    "copy-from": "water_clean",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "spring water" },
+    "description": "Natural alpine spring water, bottled at the source.",
+    "relative": { "fun": 1 }
   },
   {
     "id": "water_mineral",
-    "copy-from": "water",
+    "copy-from": "water_clean",
     "type": "COMESTIBLE",
     "name": { "str_sp": "mineral water" },
     "description": "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
-    "container": "bottle_plastic",
-    "sealed": true,
     "proportional": { "quench": 1.2 },
-    "relative": { "fun": 1 },
-    "use_action": [  ]
+    "relative": { "fun": 1 }
   },
   {
     "type": "COMESTIBLE",

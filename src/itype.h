@@ -171,7 +171,7 @@ struct islot_comestible {
         std::vector<effect_on_condition_id> consumption_eocs;
 
         /**List of diseases carried by this comestible and their associated probability*/
-        std::map<diseasetype_id, int> contamination;
+        std::map<diseasetype_id, float> contamination;
 
         // Materials to generate the below
         std::map<material_id, int> materials;

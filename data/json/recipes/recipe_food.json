@@ -75,7 +75,7 @@
     "category": "CC_FOOD",
     "id_suffix": "using_water_purifier",
     "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
+    "skill_used": "survival",
     "time": "9 s",
     "//": "https://www.netsolwater.com/how-much-energy-does-an-ro-system-use.php?blog=484",
     "//1": "Unclear if this is a RO filter but basing it off that.  0.03 KwH per 2 liters in a RO filter = 14kJ for 1u of water",
@@ -84,6 +84,33 @@
     "autolearn": true,
     "tools": [ [ [ "water_purifier", 14 ], [ "pur_tablets", 1 ], [ "char_purifier", 12 ], [ "char_purifier_clay", 12 ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water",
+    "category": "CC_FOOD",
+    "id_suffix": "using_water_purifier",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "survival",
+    "time": "1 m",
+    "autolearn": true,
+    "tools": [ [ [ "pur_tablets", 1 ] ] ],
+    "components": [ [ [ "water_murky", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "water",
+    "charges": 10,
+    "category": "CC_FOOD",
+    "id_suffix": "using_water_purifier",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "survival",
+    "time": "15 m",
+    "autolearn": true,
+    "tools": [ [ "water_filter_sand" ] ],
+    "components": [ [ [ "water_murky", 10 ] ] ]
   },
   {
     "type": "recipe",
