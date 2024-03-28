@@ -7430,7 +7430,7 @@ int item::attack_time( const Character &you ) const
                    weapon_type == weapon_category_medium_swords;
         } );
         ret = base_move * std::sqrt( weight() * ( is_sword ? sword_factor : 1 ) / 1000_gram * std::pow(
-                                         ( double )( length() / 1_mm ) / 1000,
+                                         static_cast<double>( length() / 1_mm ) / 1000,
                                          2 ) / const_weild + 1 );
     }
     ret = calculate_by_enchantment_wield( you, ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
