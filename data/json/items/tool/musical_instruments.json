@@ -318,6 +318,17 @@
     "melee_damage": { "bash": 9 }
   },
   {
+    "id": "krar",
+    "looks_like": "krar_golden",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "krar" },
+    "description": "A wooden krar, similar to a harp.",
+    "copy-from": "krar_golden",
+    "material": "wood",
+    "weight": "2500 g"
+  },
+  {
     "id": "drum_percussion",
     "type": "TOOL",
     "category": "tools",
