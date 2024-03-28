@@ -80,6 +80,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "motor_drone",
+    "name": { "str": "set of tiny drone motors", "str_pl": "sets of tiny drone motors" },
+    "description": "A set of 4 small electric motors, used for powering small airborne drones and such.",
+    "weight": "90 g",
+    "color": "light_cyan",
+    "symbol": ".",
+    "material": [ "carbonfiber", "aluminum" ],
+    "volume": "50 ml",
+    "category": "veh_parts",
+    "price": 2000,
+    "price_postapoc": 100
+  },
+  {
+    "type": "GENERIC",
     "id": "motor_train1300",
     "name": { "str": "1,300 HP electric train engine" },
     "description": "A 1,300 horsepower 3-phase 60 Hz electric engine.  Normally used in trains.",

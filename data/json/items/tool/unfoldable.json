@@ -43,6 +43,53 @@
     }
   },
   {
+    "id": "folded_camera_drone",
+    "type": "TOOL",
+    "copy-from": "generic_folded_vehicle",
+    "name": { "str": "folded camera drone" },
+    "description": "A folded camera drone.  Charge it, unfold it, and fly it using remote controls.",
+    "weight": "800 g",
+    "volume": "1750 ml",
+    "symbol": "/",
+    "color": "white",
+    "//": [
+      {
+        "id": "fold_flying_drone_frame",
+        "base": { "typeid": "fold_flying_drone_frame", "item_tags": [ "VEHICLE" ] },
+        "mount_dx": 0,
+        "mount_dy": 0
+      },
+      {
+        "id": "motor_drone",
+        "base": { "typeid": "motor_drone", "item_tags": [ "VEHICLE" ] },
+        "mount_dx": 0,
+        "mount_dy": 0
+      },
+      {
+        "id": "drone_rotor",
+        "base": { "typeid": "drone_rotor", "item_tags": [ "VEHICLE" ] },
+        "mount_dx": 0,
+        "mount_dy": 0
+      },
+      {
+        "id": "tiny_flight_battery",
+        "base": { "typeid": "tiny_flight_battery", "item_tags": [ "VEHICLE" ] },
+        "mount_dx": 0,
+        "mount_dy": 0
+      },
+      {
+        "id": "drone_drive_by_wire_controls",
+        "base": { "typeid": "drone_drive_by_wire_controls", "item_tags": [ "VEHICLE" ] },
+        "mount_dx": 0,
+        "mount_dy": 0
+      }
+    ],
+    "variables": {
+      "vehicle_name": "Camera Drone",
+      "folded_parts": "[{\"id\":\"fold_flying_drone_frame\",\"base\":{\"typeid\":\"fold_flying_drone_frame\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"motor_drone\",\"base\":{\"typeid\":\"motor_drone\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"drone_rotor\",\"base\":{\"typeid\":\"drone_rotor\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"tiny_flight_battery\",\"base\":{\"typeid\":\"tiny_flight_battery\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0},{\"id\":\"drone_drive_by_wire_controls\",\"base\":{\"typeid\":\"drone_drive_by_wire_controls\",\"item_tags\":[\"VEHICLE\"]},\"mount_dx\":0,\"mount_dy\":0}]"
+    }
+  },
+  {
     "id": "folded_inflatable_boat",
     "type": "TOOL",
     "copy-from": "generic_folded_vehicle",

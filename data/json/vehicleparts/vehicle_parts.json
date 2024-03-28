@@ -2691,6 +2691,39 @@
   },
   {
     "type": "vehicle_part",
+    "id": "drone_drive_by_wire_controls",
+    "name": { "str": "tiny drive by wire controls" },
+    "categories": [ "operations" ],
+    "color": "light_red",
+    "broken_color": "red",
+    "location": "under",
+    "durability": 10,
+    "description": "A tiny electronic unmanned aerial vehicle control system.  You could control it remotely if you had the proper tools.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
+    "folded_volume": "25 ml",
+    "item": "drone_drive_by_wire_controls",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 6 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "CONTROLS", "REMOTE_CONTROLS", "VISION", "CAMERA", "CAMERA_CONTROL" ],
+    "breaks_into": [ { "item": "motor_tiny" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
+    "variants": [ { "symbols": "$", "symbols_broken": "$" } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "cam_control",
     "name": { "str": "camera control system" },
     "categories": [ "operations" ],

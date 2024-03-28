@@ -279,5 +279,33 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
     },
     "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "fold_flying_drone_frame",
+    "type": "vehicle_part",
+    "copy-from": "frame_abstract",
+    "name": { "str": "foldable drone frame" },
+    "item": "fold_flying_drone_frame",
+    "durability": 10,
+    "description": "A nearly weightless flying drone frame made from plastic and carbon fiber.",
+    "folded_volume": "250 ml",
+    "epower": "-10 W",
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 3, 10 ] } ],
+    "//": "assuming about 50 cm square for a frame's welds",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "10 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "9 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
+    },
+    "damage_reduction": { "all": 7 },
+    "flags": [ "MOUNTABLE", "INITIAL_PART", "VISION", "CAMERA", "CAMERA_CONTROL", "ENABLED_DRAINS_EPOWER" ]
   }
 ]

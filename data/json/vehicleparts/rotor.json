@@ -26,6 +26,30 @@
     "damage_reduction": { "all": 66 }
   },
   {
+    "id": "drone_rotor",
+    "type": "vehicle_part",
+    "name": { "str": "Drone rotors" },
+    "description": "A set of 4 small rotor blades for flying drones.",
+    "rotor_diameter": 0.5,
+    "item": "drone_rotor",
+    "variants": [ { "symbols": "x", "symbols_broken": "*" } ],
+    "location": "on_roof",
+    "categories": [ "movement" ],
+    "color": "black",
+    "durability": 10,
+    "folded_volume": "100 ml",
+    "breaks_into": [
+      { "item": "scrap", "count": [ 2, 3 ] }
+    ],
+    "flags": [ "ROTOR", "NO_INSTALL_PLAYER", "NO_REPAIR", "SMASH_REMOVE", "REMOTE_CONTROLS", "ENHANCED_VISION", "CABLE_PORTS" ],
+    "control_requirements": {
+      "air": {
+        "skills": [ [ "computer", 1 ] ]
+      }
+    },
+    "requirements": { "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "1 h", "using": "vehicle_weld_removal" } }
+  },
+  {
     "id": "small_civilian_rotors",
     "copy-from": "helicopter_rotors",
     "type": "vehicle_part",

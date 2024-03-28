@@ -315,7 +315,7 @@ You can test your item groups in the game:
 
 You should not add items to the item group `EMPTY_GROUP`.  This group can be used when the game requires a group id, but you don't want to spawn any items there; it will never spawn items.
 
-#### SUS
+#### SUS ඞ
 
 When adding items to item groups, attempt to locate or create **SUS item groups.**  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given piece of storage furniture.  SUS stands for "specific use storage."  One of the aims of organizing item groups into SUS groups is to promote reusable tables that can be maintained and extended.
 

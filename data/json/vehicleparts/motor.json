@@ -40,6 +40,29 @@
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "cable", "charges": [ 1, 3 ] } ]
   },
   {
+    "id": "motor_drone",
+    "copy-from": "engine_motor",
+    "type": "vehicle_part",
+    "name": { "str": "set of tiny drone motors" },
+    "description": "A set of 4 small electric motors, used for powering small airborne drones and such.",
+    "item": "motor_drone",
+    "looks_like": "motor_small",
+    "durability": 10,
+    "power": "1600 W",
+    "energy_consumption": "2 kW",
+    "folded_volume": "250 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ], [ "vehicle_screw", 1 ] ]
+      }
+    },
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 1, 2 ] } ]
+  },
+  {
     "id": "engine_electric_small",
     "copy-from": "engine_motor",
     "type": "vehicle_part",

@@ -49,6 +49,19 @@
     "capacity": 225,
     "//": "~2.4Ah @ 12VDC. Could supply ~125 watts 30 minutes or so",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 225 } } ]
+  },  
+  {
+    "id": "tiny_flight_battery",
+    "copy-from": "battery_motorbike_small",
+    "type": "MAGAZINE",
+    "name": { "str": "tiny flight battery", "str_pl": "tiny flight batteries" },
+    "description": "A tiny, high-performance li-ion flying drone battery.  Provides the drone with up to 40 minutes of flight time, allowing you to explore your surroundings during a single flight.",
+    "ascii_picture": "battery_motorbike_small",
+    "weight": "100 g",
+    "volume": "80 ml",
+    "price": 20000,
+    "price_postapoc": 200,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 750 } } ]
   },
   {
     "type": "GENERIC",

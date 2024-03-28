@@ -124,6 +124,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "drone_drive_by_wire_controls",
+    "copy-from": "drive_by_wire_controls",
+    "name": { "str": "tiny fly by wire controls", "str_pl": "set of tiny fly by wire controls" },
+    "description": "A tiny electronic unmanned aerial vehicle control system.  You could control it remotely if you had the proper tools.",
+    "weight": "50 g",
+    "color": "black",
+    "volume": "25 ml",
+    "price": 200000,
+    "price_postapoc": 500,
+    "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "GENERIC",
     "id": "robot_controls",
     "name": { "str": "robot driving unit" },
     "description": "A set of servos, microcontrollers, and other devices, together capable of driving an unmanned vehicle.  Its AI is not functional, but it should still have some sort of maintenance mode.",
