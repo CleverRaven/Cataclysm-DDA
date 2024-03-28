@@ -2514,8 +2514,9 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
     if( is_psi ) {
         info_txt.emplace_back(
-        colorize( string_format( "%s: %s", c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" ),
-                                 moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+            colorize( string_format( "%s: %s",
+                                     c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
 
         info_txt.emplace_back( );
     } else {
