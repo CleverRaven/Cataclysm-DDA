@@ -1,4 +1,4 @@
-[
+f[
   {
     "id": "calico",
     "looks_like": "hk_mp5",
@@ -1220,7 +1220,7 @@
       {
         "magazine_well": "230 ml",
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "cz75mag_12rd", "cz75mag_20rd", "cz75mag_26rd" ]
+        "item_restriction": [ "cz75mag_16rd", "cz75mag_20rd", "cz75mag_26rd" ]
       }
     ],
     "melee_damage": { "bash": 8 }

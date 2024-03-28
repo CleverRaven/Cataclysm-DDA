@@ -1392,7 +1392,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 15 } } ]
   },
   {
-    "id": "cz75mag_12rd",
+    "id": "cz75mag_16rd",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "CZ 75 16-round magazine" },
@@ -1407,7 +1407,7 @@
     "color": "light_gray",
     "ammo_type": [ "9mm" ],
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9mm": 16 } } ]
   },
   {
     "id": "cz75mag_20rd",
