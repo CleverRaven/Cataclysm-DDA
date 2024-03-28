@@ -4811,11 +4811,7 @@ void submap::store( JsonOut &jsout ) const
     }
     jsout.end_array();
 
-    if( legacy_computer ) {
-        // it's possible that no access to computers has been made and legacy_computer
-        // is not cleared
-        jsout.member( "computers", *legacy_computer );
-    } else if( !computers.empty() ) {
+    if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
         for( const auto &elem : computers ) {
@@ -5105,11 +5101,6 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                                                       tripoint_zero ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
-        } else {
-            // only load legacy data here, but do not update to std::map, since
-            // the terrain may not have been loaded yet.
-            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100, tripoint_zero );
-            legacy_computer->deserialize( jv );
         }
     } else if( member_name == "camp" ) {
         camp = std::make_unique<basecamp>();

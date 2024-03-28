@@ -1031,6 +1031,37 @@ Check the north terrain or furniture has `TRANSPARENT` flag.
 },
 ```
 
+### `map_terrain_id`, `map_furniture_id`
+- type: string or [variable object](##variable-object)
+- return true if the terrain or furniture has specific id
+- `loc` will specify location of terrain or furniture (**mandatory**)
+
+#### Valid talkers:
+
+No talker is needed.
+
+#### Examples
+Runs a query, allowing you to pick specific tile around. When picked, stores coordinates of this tile in `check_terrain` variable, and then check is it a `t_grass`. If yes, `effect` is run, otherwise `false_effect` is run
+```json
+{
+  "type": "effect_on_condition",
+  "id": "EOC_TEST_QUERY",
+  "condition": {
+    "and": [
+      {
+        "u_query_tile": "line_of_sight",
+        "target_var": { "context_val": "check_terrain" },
+        "message": "Check what terrain it is",
+        "range": 10
+      },
+      { "map_terrain_id": "t_grass", "loc": { "context_val": "check_terrain" } }
+    ]
+  },
+  "effect": [ { "u_message": "it is a grass" } ],
+  "false_effect": [ { "u_message": "it is NOT a grass" } ]
+}
+```
+
 ### `map_in_city`
 - type: location string or [variable object](##variable-object)
 - return true if the location is in a city
@@ -1139,6 +1170,7 @@ Every event EOC passes context vars with each of their key value pairs that the 
 | broken_bone_mends | Triggered when `mending` effect is removed by expiry (Character::mend) | { "character", `character_id` },<br/> { "part", `body_part` }, | character / NONE |
 | buries_corpse | Triggers when item with flag CORPSE is located on same tile as construction with post-special `done_grave` is completed | { "character", `character_id` },<br/> { "corpse_type", `mtype_id` },<br/> { "corpse_name", `string` }, | character / NONE |
 | causes_resonance_cascade | Triggers when resonance cascade option is activated via "old lab" finale's computer | NONE | avatar / NONE |
+| character_butchered_corpse | Triggers after succesful butchering action. Possible values of butcher_type are `ACT_BLEED`, `ACT_BUTCHER`, `ACT_BUTCHER_FULL`, `ACT_FIELD_DRESS`, `ACT_SKIN`, `ACT_QUARTER`, `ACT_DISMEMBER`, `ACT_DISSECT` | { "character", `character_id` }, { "monster_id", `mtype_id` }, { "butcher_type", `string` }, | character / NONE |
 | character_casts_spell | Triggers when a character casts spells. When a spell with multiple effects is cast, the number of effects will be triggered | { "character", `character_id` },<br/> { "spell", `spell_id` },<br/> { "school", `trait_id` },<br/> { "difficulty", `int` },<br/> { "cost", `int` },<br/> { "cast_time", `int` },<br/> { "damage", `int` }, | character / NONE |
 | character_consumes_item |  | { "character", `character_id` },<br/> { "itype", `itype_id` }, | character / NONE |
 | character_dies |  | { "character", `character_id` }, | character / NONE |
