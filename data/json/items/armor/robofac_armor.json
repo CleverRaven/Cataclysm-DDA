@@ -868,7 +868,11 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 ballistic greaves", "str_pl": "pairs of Hub 01 ballistic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  This model features leggings made of durable aramid and a reinforced plate design; combined, they do a good job of mitigating damage from small-arms fire.",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "kevlar_layered", "portion": 4 } ],
+    "material": [
+      { "type": "plastic", "portion": 2 },
+      { "type": "qt_steel", "portion": 1 },
+      { "type": "kevlar_layered", "portion": 4 }
+    ],
     "proportional": { "weight": 1.5 }
   },
   {
