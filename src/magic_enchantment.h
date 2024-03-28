@@ -170,6 +170,7 @@ enum class mod : int {
     CONSUME_TIME_MOD,
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
+    MOVEMENT_EXERTION_MODIFIER,
     NUM_MOD
 };
 } // namespace enchant_vals
