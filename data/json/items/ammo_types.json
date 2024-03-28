@@ -529,6 +529,18 @@
   },
   {
     "type": "ammunition_type",
+    "id": "methane",
+    "name": "methane",
+    "default": "methane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "unfinished_methane",
+    "name": "fermenting pulp",
+    "default": "unfinished_methane"
+  },
+  {
+    "type": "ammunition_type",
     "id": "conc_alcohol",
     "name": "concentrated alcohol",
     "default": "denat_alcohol"

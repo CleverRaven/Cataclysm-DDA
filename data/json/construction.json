@@ -8997,5 +8997,18 @@
     "pre_special": "check_empty",
     "post_terrain": "f_piano",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_digester",
+    "group": "digester",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "25 m",
+    "qualities": [ [ { "id": "SAW_M", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CUT", "level": 2 } ] ],
+    "components": [ [ [ "55gal_drum", 1 ], [ "pipe", 2 ] ], [ [ "hose", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_digester_empty",
+    "activity_level": "MODERATE_EXERCISE"
   }
 ]

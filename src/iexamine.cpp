@@ -47,6 +47,7 @@
 #include "input_context.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -141,6 +142,8 @@ static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
+static const item_group_id Item_spawn_data_corpses_all( "corpses_all" );
+
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -163,6 +166,7 @@ static const itype_id itype_leg_splint( "leg_splint" );
 static const itype_id itype_maple_sap( "maple_sap" );
 static const itype_id itype_marloss_berry( "marloss_berry" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
+static const itype_id itype_methane( "methane" );
 static const itype_id itype_mycus_fruit( "mycus_fruit" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_nanomaterial( "nanomaterial" );
@@ -172,6 +176,7 @@ static const itype_id itype_stick( "stick" );
 static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_unfinished_cac2( "unfinished_cac2" );
 static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
+static const itype_id itype_unfinished_methane( "unfinished_methane" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
@@ -183,11 +188,22 @@ static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
 static const material_id material_ch_steel( "ch_steel" );
+static const material_id material_dry_plant( "dry_plant" );
+static const material_id material_egg( "egg" );
+static const material_id material_feces( "feces" );
+static const material_id material_flesh( "flesh" );
+static const material_id material_fruit( "fruit" );
 static const material_id material_hc_steel( "hc_steel" );
+static const material_id material_iflesh( "iflesh" );
+static const material_id material_junk( "junk" );
 static const material_id material_lc_steel( "lc_steel" );
 static const material_id material_mc_steel( "mc_steel" );
+static const material_id material_milk( "milk" );
 static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
+static const material_id material_tomato( "tomato" );
+static const material_id material_veggy( "veggy" );
+static const material_id material_wheat( "wheat" );
 static const material_id material_wood( "wood" );
 
 static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
@@ -2961,6 +2977,172 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
     here.furn_set( examp, next_kiln_type );
     add_msg( _( "It has finished burning, yielding %d charcoal." ), result.charges );
 }
+
+// Modified charcoal kiln functions
+void iexamine::digester_empty( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+    furn_id cur_digester_type = here.furn( examp );
+    furn_id next_digester_type = f_null;
+    if( cur_digester_type == f_digester_empty ) {
+        next_digester_type = f_digester_full;
+    } else {
+        debugmsg( "Examined furniture has action digester_empty, but is of type %s",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
+
+    static const std::set<material_id> methanable{ material_dry_plant, material_flesh, material_iflesh, material_wheat, material_veggy, material_fruit, material_feces, material_tomato, material_junk, material_egg, material_milk };
+    bool fuel_present = false;
+    map_stack items = here.i_at( examp );
+    for( const item &i : items ) {
+        if( i.typeId() == itype_methane ) {
+            add_msg( _( "This digester already finished producing methane." ) );
+            add_msg( _( "Remove it before starting the process again." ) );
+            return;
+        } else if( i.made_of_any( methanable ) &&
+                   !item_group::group_contains_item( Item_spawn_data_corpses_all, i.typeId() ) ) {
+            fuel_present = true;
+        } else {
+            add_msg( m_bad, _( "This digester contains %s, which can't be used to produce methane!" ),
+                     i.tname( 1,
+                              false ) );
+            return;
+        }
+    }
+
+
+
+    if( !fuel_present ) {
+        add_msg( _( "This digester is empty.  Fill it with organic matter and try again." ) );
+        return;
+    }
+
+    ///\EFFECT_FABRICATION decreases loss when firing a furnace
+    const float skill = you.get_skill_level( skill_fabrication );
+    int loss = 60 - 2 *
+               skill;
+
+    units::volume total_volume = 0_ml;
+    for( const item &i : items ) {
+        total_volume += i.volume();
+    }
+
+    const itype *char_type = item::find_type( itype_unfinished_methane );
+    int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
+    if( char_charges < 1 ) {
+        add_msg( _( "The batch in this digester is too small to yield anything useful." ) );
+        return;
+    }
+
+    add_msg( _( "This digester contains %s %s of material, and the process is ready to be started." ),
+             format_volume( total_volume ), volume_units_abbr() );
+    if( !query_yn( _( "Start the digester?" ) ) ) {
+        return;
+    }
+
+    here.i_clear( examp );
+    here.furn_set( examp, next_digester_type );
+    item result( "unfinished_methane", calendar::turn );
+    result.charges = char_charges;
+    here.add_item( examp, result );
+    add_msg( _( "You start the digestion process." ) );
+}
+
+void iexamine::digester_full( Character &, const tripoint &examp )
+{
+    map &here = get_map();
+    furn_id cur_digester_type = here.furn( examp );
+    furn_id next_digester_type = f_null;
+    if( cur_digester_type == f_digester_full ) {
+        next_digester_type = f_digester_empty;
+    } else {
+        debugmsg( "Examined furniture has action digester_full, but is of type %s",
+                  here.furn( examp ).id().c_str() );
+        return;
+    }
+    map_stack items = here.i_at( examp );
+    if( items.empty() ) {
+        add_msg( _( "This digester is empty…" ) );
+        here.furn_set( examp, next_digester_type );
+        return;
+    }
+    const itype *char_type = item::find_type( itype_methane );
+    add_msg( _( "There's a biogas digester there." ) );
+    const time_duration firing_time =
+        2_hours; // test value, FIXME KAROL ??? Why Karol??? Drew, tell me what numbers pls
+    const time_duration time_left = firing_time - items.only_item().age();
+    if( time_left > 0_turns ) {
+        int hours = to_hours<int>( time_left );
+        int minutes = to_minutes<int>( time_left ) + 1;
+        if( minutes > 60 ) {
+            add_msg( n_gettext( "It will finish fermenting in about %d hour.",
+                                "It will finish fermenting in about %d hours.",
+                                hours ), hours );
+        } else if( minutes > 30 ) {
+            add_msg( _( "It will finish fermenting in less than an hour." ) );
+        } else {
+            add_msg( n_gettext( "It should take about %d minute to finish fermenting.",
+                                "It should take about %d minutes to finish fermenting.",
+                                minutes ), minutes );
+        }
+        return;
+    }
+
+    units::volume total_volume = 0_ml;
+    for( auto item_it = items.begin(); item_it != items.end(); ) {
+        if( item_it->typeId() == itype_unfinished_methane || item_it->typeId() == itype_methane ) {
+            total_volume += item_it->volume();
+            item_it = items.erase( item_it );
+        } else {
+            item_it++;
+        }
+    }
+
+    item result( "methane", calendar::turn );
+    result.charges = char_type->charges_per_volume( total_volume );
+    here.add_item( examp, result );
+    here.furn_set( examp, next_digester_type );
+    add_msg( _( "The process has finished, yielding %d methane." ), result.charges );
+}
+
+// This is all stolen from the gas pumps. I have no idea what I am doing.
+void iexamine::gaspump( Character &you, const tripoint &examp )
+{
+    map &here = get_map();
+    if( !query_yn( _( "Use the %s?" ), here.tername( examp ) ) ) {
+        none( you, examp );
+        return;
+    }
+
+    map_stack items = here.i_at( examp );
+    for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
+        if( item_it->made_of( phase_id::GAS ) ) {
+            /// @note \EFFECT_DEX decreases chance of spilling gas from a pump
+            if( one_in( 10 + you.get_dex() ) ) {
+                add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
+                static const auto max_spill_volume = units::from_liter( 1 );
+                const int max_spill_charges = std::max( 1, item_it->charges_per_volume( max_spill_volume ) );
+                /// @note \EFFECT_DEX decreases amount of gas spilled, if gas is spilled from pump
+                const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, you.get_dex() ) );
+
+                item spill = item_it->split( qty );
+                if( spill.is_null() ) {
+                    here.add_item_or_charges( you.pos(), *item_it );
+                    items.erase( item_it );
+                } else {
+                    here.add_item_or_charges( you.pos(), spill );
+                }
+
+            } else {
+                liquid_handler::handle_liquid_from_ground( item_it, examp, 1 );
+            }
+            return;
+        }
+    }
+    add_msg( m_info, _( "Out of order." ) );
+}
+
 //arc furnance start
 void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
 {
@@ -7028,6 +7210,8 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "kiln_full", &iexamine::kiln_full },
             { "stook_empty", &iexamine::stook_empty },
             { "stook_full", &iexamine::stook_full },
+            { "digester_empty", &iexamine::digester_empty },
+            { "digester_full", &iexamine::digester_full },
             { "arcfurnace_empty", &iexamine::arcfurnace_empty },
             { "arcfurnace_full", &iexamine::arcfurnace_full },
             { "autoclave_empty", &iexamine::autoclave_empty },
