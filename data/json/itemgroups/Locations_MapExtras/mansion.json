@@ -84,6 +84,22 @@
     ]
   },
   {
+    "id": "mansion_safe_nogun",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "diamond", 20 ],
+      { "item": "money_bundle_twenty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_fifty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_hundred", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "stash_drugs", "prob": 5 },
+      [ "file", 70 ],
+      { "group": "jewelry_front", "prob": 40 },
+      { "group": "costume_jewelry_vampire", "prob": 5 },
+      { "group": "costume_jewelry_dark", "prob": 5 }
+    ]
+  },
+  {
     "id": "mansion_gunsafe",
     "type": "item_group",
     "subtype": "collection",
