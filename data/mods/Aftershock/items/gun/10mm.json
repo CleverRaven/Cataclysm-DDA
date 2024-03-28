@@ -60,7 +60,7 @@
     "price": "1750 USD",
     "to_hit": -2,
     "material": [ "steel", "superalloy" ],
-    "modes": [ [ "DEFAULT", "semi-autoi", 1 ], [ "DOUBLE", "2rd burst", 2 ] ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "DOUBLE", "2rd burst", 2 ] ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "afs_10mm",

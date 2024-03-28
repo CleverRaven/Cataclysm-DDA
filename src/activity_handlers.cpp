@@ -140,7 +140,6 @@ static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_MOP( "ACT_MULTIPLE_MOP" );
 static const activity_id ACT_MULTIPLE_READ( "ACT_MULTIPLE_READ" );
-static const activity_id ACT_MUTANT_TREE_COMMUNION( "ACT_MUTANT_TREE_COMMUNION" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
@@ -230,10 +229,8 @@ static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
-static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
@@ -255,7 +252,6 @@ activity_handlers::do_turn_functions = {
     { ACT_MULTIPLE_MOP, multiple_mop_do_turn },
     { ACT_MULTIPLE_BUTCHER, multiple_butcher_do_turn },
     { ACT_MULTIPLE_FARM, multiple_farm_do_turn },
-    { ACT_MUTANT_TREE_COMMUNION, mutant_tree_communion_do_turn },
     { ACT_FETCH_REQUIRED, fetch_do_turn },
     { ACT_BUILD, build_do_turn },
     { ACT_EAT_MENU, eat_menu_do_turn },
@@ -272,15 +268,8 @@ activity_handlers::do_turn_functions = {
     { ACT_ATM, atm_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
-    { ACT_BLEED, butcher_do_turn },
-    { ACT_BUTCHER, butcher_do_turn },
-    { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIELD_DRESS, butcher_do_turn },
-    { ACT_SKIN, butcher_do_turn },
-    { ACT_QUARTER, butcher_do_turn },
-    { ACT_DISMEMBER, butcher_do_turn },
-    { ACT_DISSECT, butcher_do_turn },
+    { ACT_DISMEMBER, dismember_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
@@ -1405,6 +1394,9 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     you->recoil = MAX_RECOIL;
 
+    get_event_bus().send<event_type::character_butchered_corpse>( you->getID(),
+            corpse_item.get_mtype()->id, act->id().str() );
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if it's mutli-tile butchering, then restart the backlog.
@@ -1592,58 +1584,6 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         debugmsg( "error in activity data: \"%s\"", err.what() );
         act_ref.set_to_null();
         return;
-    }
-}
-
-void activity_handlers::mutant_tree_communion_do_turn( player_activity *act, Character *you )
-{
-    int communioncycles = 0;
-    // The mutant tree is intelligent, but communicating via mycelium is slow
-    if( calendar::once_every( 2_minutes ) ) {
-        bool adjacent_mutant_tree = false;
-        map &here = get_map();
-        for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
-            if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
-                adjacent_mutant_tree = true;
-            }
-        }
-        if( adjacent_mutant_tree == false ) {
-            if( you->has_trait( trait_THRESH_PLANT ) && !you->has_trait( trait_PSYCHOPATH ) ) {
-                you->add_msg_if_player( m_bad,
-                                        _( "A shock runs through your xylem as you realize your connection to the mutant tree has been lost." ) );
-                you->add_morale( MORALE_FEELING_BAD, -10, 10, 6_hours, 2_hours );
-            } else {
-                you->add_msg_if_player(
-                    _( "You feel a sense of loss as you realize your connection to the mutant tree has been cut off." ) );
-            }
-            act->set_to_null();
-        }
-        if( one_in( 128 ) ) {
-            communioncycles += 1;
-            if( one_in( 256 ) ) {
-                if( you->has_effect( effect_social_dissatisfied ) ) {
-                    you->remove_effect( effect_social_dissatisfied );
-                }
-                if( ( you->has_flag( json_flag_SOCIAL1 ) || you->has_flag( json_flag_SOCIAL2 ) ) &&
-                    !you->has_effect( effect_social_satisfied ) ) {
-                    you->add_effect( effect_social_satisfied, 3_hours, false, 1 );
-                }
-                if( ( you->has_flag( json_flag_ASOCIAL1 ) || you->has_flag( json_flag_ASOCIAL2 ) ) &&
-                    !you->has_effect( effect_asocial_dissatisfied ) ) {
-                    you->add_effect( effect_asocial_dissatisfied, 3_hours, false, 1 );
-                }
-            }
-            you->add_msg_if_player( "%s", SNIPPET.random_from_category( "mutant_tree_communion" ).value_or(
-                                        translation() ) );
-            you->add_morale( MORALE_TREE_COMMUNION, 4, 30, 18_hours, 8_hours );
-            you->mod_daily_health( rng( 0, 1 ), 5 );
-            if( communioncycles >= 20 ) {
-                you->add_msg_if_player(
-                    _( "You retract your roots, feeling a lingering sense of warmth after your communion." ) );
-                you->add_morale( MORALE_TREE_COMMUNION, 20, 20, 18_hours, 8_hours );
-                act->set_to_null();
-            }
-        }
     }
 }
 
@@ -1836,12 +1776,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             moves += 100 / std::max( 0.25f,
                                      stamina_ratio ) * you->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || you->is_npc() ) {
-                you->moves = std::min( 0, you->moves - moves );
+                you->set_moves( std::min( 0, you->get_moves() - moves ) );
                 return;
             }
-            if( moves >= you->moves ) {
+            if( moves >= you->get_moves() ) {
                 // Enough for this turn;
-                you->moves -= moves;
+                you->mod_moves( -moves );
                 return;
             }
         }
@@ -1865,6 +1805,7 @@ void activity_handlers::pulp_finish( player_activity *act, Character *you )
     if( you->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( you );
         guy->revert_after_activity();
+        guy->pulp_location.reset();
     } else {
         act->set_to_null();
     }
@@ -1964,7 +1905,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
         return;
     }
 
-    you->mod_moves( -you->moves );
+    you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
     const float light = actor->light_mod( you->pos() );
     act->moves_left -= light * 100;
@@ -2997,17 +2938,17 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
     const float exertion_mult = you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    const int effective_moves = you->moves / ( you->fine_detail_vision_mod() * exertion_mult );
+    const int effective_moves = you->get_moves() / ( you->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
-        you->moves = 0;
+        you->set_moves( 0 );
     } else {
-        you->moves -= act->moves_left * you->fine_detail_vision_mod();
+        you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity * /*act*/, Character *you )
+void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character *you )
 {
     you->burn_energy_arms( -20 );
 }
@@ -3336,7 +3277,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         } else {
             here.furn_set( examp, f_plant_seed );
         }
-        you->add_msg_player_or_npc( _( "You plant your %s." ), _( "<npcname> plants their %s." ),
+        you->add_msg_player_or_npc( _( "You plant some %s." ), _( "<npcname> plants some %s." ),
                                     item::nname( seed_id ) );
     }
     // Go back to what we were doing before
@@ -3587,7 +3528,7 @@ static void perform_zone_activity_turn(
             // we are at destination already
             /* Perform action */
             tile_action( *you, tile_loc );
-            if( you->moves <= 0 ) {
+            if( you->get_moves() <= 0 ) {
                 return;
             }
         }
@@ -3744,35 +3685,10 @@ void activity_handlers::pull_creature_finish( player_activity *act, Character *y
 void activity_handlers::tree_communion_do_turn( player_activity *act, Character *you )
 {
     // There's an initial rooting process.
-    bool adjacent_mutant_tree = false;
     if( act->values.front() > 0 ) {
         act->values.front() -= 1;
         if( act->values.front() == 0 ) {
-            map &here = get_map();
-            for( const tripoint &p2 : here.points_in_radius( you->pos(), 1 ) ) {
-                if( here.has_flag( ter_furn_flag::TFLAG_MUTANT_TREE, p2 ) ) {
-                    adjacent_mutant_tree = true;
-                }
-            }
-            if( adjacent_mutant_tree == true ) {
-                uilist mutant_tree_query;
-                mutant_tree_query.text = string_format(
-                                             _( "Something familiar reaches out to your roots as the communion begins." ) );
-                mutant_tree_query.addentry( 1, true, 'f', _( "Focus only on the mutant tree." ) );
-                mutant_tree_query.addentry( 2, true, 's',
-                                            _( "Spread your roots in communion with all nearby trees." ) );
-                mutant_tree_query.query();
-                switch( mutant_tree_query.ret ) {
-                    case 1:
-                        you->assign_activity( ACT_MUTANT_TREE_COMMUNION );
-                        return;
-                    case 2:
-                        add_msg( m_neutral, _( "The mutant tree's voice blends with the chorus of green." ) );
-                        return;
-                    default:
-                        return;
-                }
-            } else if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
+            if( you->has_trait( trait_id( trait_SPIRITUAL ) ) ) {
                 you->add_msg_if_player( m_good, _( "The ancient tree spirits answer your call." ) );
             } else {
                 you->add_msg_if_player( m_good, _( "Your communion with the trees has begun." ) );

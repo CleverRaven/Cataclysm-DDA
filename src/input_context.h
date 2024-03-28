@@ -20,9 +20,7 @@
 enum class kb_menu_status;
 
 class hotkey_queue;
-#if !defined(__ANDROID__)
 class keybindings_ui;
-#endif
 namespace catacurses
 {
 class window;
@@ -40,9 +38,7 @@ class window;
  */
 class input_context
 {
-#if !defined(__ANDROID__)
         friend class keybindings_ui;
-#endif
     public:
 #if defined(__ANDROID__)
         // Whatever's on top is our current input context.
@@ -267,6 +263,7 @@ class input_context
          *
          * If the action is mouse input, returns "MOUSE".
          *
+         * @param timeout in milliseconds.
          * @return One of the input actions formerly registered with
          *         `register_action()`, or "ERROR" if an error happened.
          *
@@ -462,9 +459,7 @@ class input_context
                 std::string_view phrase ) const;
 
         action_id display_menu_legacy( bool permit_execute_action );
-#if !defined(__ANDROID__)
         action_id display_menu_imgui( bool permit_execute_action );
-#endif
 };
 
 class hotkey_queue

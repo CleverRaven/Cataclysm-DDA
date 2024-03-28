@@ -717,6 +717,12 @@ class talker
         virtual bool using_martial_art( const matype_id & ) const {
             return false;
         }
+        virtual int climate_control_str_heat() const {
+            return 0;
+        }
+        virtual int climate_control_str_chill() const {
+            return 0;
+        }
 };
 template <class T, class B = talker>
 class talker_cloner : public B

@@ -242,6 +242,7 @@ class basecamp
         /// Helper, forwards to above
         void feed_workers( Character &worker, nutrients food, bool is_player_meal = false );
         void player_eats_meal();
+        item make_fake_food( const nutrients &to_use ) const;
         /// Takes all the food from the camp_food zone and increases the faction
         /// food_supply
         bool distribute_food();
@@ -286,6 +287,7 @@ class basecamp
          * if skill is higher, an item or corpse is spawned
          */
         void hunting_results( int skill, const mission_id &miss_id, int attempts, int difficulty );
+        void make_corpse_from_group( const std::vector<MonsterGroupResult> &group );
         inline const tripoint_abs_ms &get_dumping_spot() const {
             return dumping_spot;
         }

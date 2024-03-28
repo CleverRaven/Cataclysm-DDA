@@ -3687,7 +3687,7 @@
     "id": "VAMPIRE_BITE_CRIT",
     "name": "Critical Vampire Bite",
     "melee_allowed": true,
-    "messages": [ "You sink your fangs deep into %s", "<npcname> sinks their fangs deep into %s!" ],
+    "messages": [ "You sink your fangs deep into %s!", "<npcname> sinks their fangs deep into %s!" ],
     "unarmed_allowed": true,
     "weighting": -4,
     "reach_ok": false,

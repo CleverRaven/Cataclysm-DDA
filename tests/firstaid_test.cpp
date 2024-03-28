@@ -21,8 +21,8 @@ static const skill_id skill_firstaid( "firstaid" );
 static void process_activity_interrupt( Character &guy, const int interrupt_time )
 {
     do {
-        guy.moves += guy.get_speed();
-        while( guy.moves > 0 && guy.has_activity( ACT_FIRSTAID ) ) {
+        guy.mod_moves( guy.get_speed() );
+        while( guy.get_moves() > 0 && guy.has_activity( ACT_FIRSTAID ) ) {
             guy.activity.do_turn( guy );
             if( guy.activity.moves_total - guy.activity.moves_left >= interrupt_time ) {
                 // Assume the player confirms the option to cancel the activity when getting interrupted,

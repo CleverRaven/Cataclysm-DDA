@@ -52,7 +52,7 @@
     "items": [
       [ "pickaxe", 50 ],
       [ "shovel", 50 ],
-      [ "bucket", 20 ],
+      [ "bucket_5gal", 20 ],
       [ "gasoline_lantern", 10 ],
       [ "electric_lantern", 10 ],
       [ "oil_lamp", 10 ],

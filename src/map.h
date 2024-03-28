@@ -335,6 +335,12 @@ struct tile_render_info {
  *
  * When the player moves between submaps, the whole map is shifted, so that if the player moves one submap to the right,
  * (0, 0) now points to a tile one submap to the right from before
+ *
+ * The map's coverage is 11 * 11 submaps, corresponding to the current submap plus 5 submaps on every side of it,
+ * covering all Z levels. 5 submaps means 5 * 12 = 60 map squares, which means the map covers the current reality bubble
+ * in all directions for as long as you remain within the current submap (and when you leave the map shifts).
+ * The natural relative reference system for the map is the tripoint_bub_ms, as the map covers 132 * 132 tiles
+ * (11 * 11 submaps).
  */
 class map
 {
@@ -1744,7 +1750,6 @@ class map
 
         /**
          * Handles map objects of given type (not creatures) falling down.
-         * Returns true if anything changed.
          */
         /*@{*/
         void drop_everything( const tripoint &p );
@@ -1762,9 +1767,9 @@ class map
         bool is_cornerfloor( const tripoint &p ) const;
 
         // mapgen.cpp functions
-        // TODO: fix point types (remove the first overload)
-        void generate( const tripoint &p, const time_point &when );
-        void generate( const tripoint_abs_sm &p, const time_point &when );
+        // The code relies on the submap coordinate falling on omt boundaries, so taking a
+        // tripoint_abs_omt coordinate guarantees this will be fulfilled.
+        void generate( const tripoint_abs_omt &p, const time_point &when );
         void place_spawns( const mongroup_id &group, int chance,
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false,
@@ -2381,6 +2386,13 @@ bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag
 bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter );
 bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type );
 
+/**
+* Tinymap is a small version of the map which covers a single overmap terrain (OMT) tile,
+* which corresponds to 2 * 2 submaps, or 24 * 24 map tiles. In addition to being smaller
+* than the map, it's also limited to a single Z level (defined the the tripoint_abs_omt
+* parameter to the 'load' operation, so it's not tied to the Z = 0 level).
+* The tinymap's natural relative reference system is the tripoint_omt_ms one.
+*/
 class tinymap : private map
 {
         friend class editmap;
@@ -2394,22 +2406,14 @@ class tinymap : private map
         }
 
         using map::save;
-        using map::load; // TODO: Get rid of the inherited operation. Needs to be done in one go with the
-        // operation below replacing it, as using both concurrently results in ambiguous call profiles
-        // with {x, y, z} parameter calls.
-        //        void load(const tripoint_abs_omt& w, bool update_vehicles,
-        //            bool pump_events = false) {
-        //            map::load(project_to<coords::sm>(w), update_vehicles, pump_events);
-        //        };
+        void load( const tripoint_abs_omt &w, bool update_vehicles,
+                   bool pump_events = false ) {
+            map::load( project_to<coords::sm>( w ), update_vehicles, pump_events );
+        };
 
         using map::is_main_cleanup_queued;
         using map::main_cleanup_override;
-        void generate( const tripoint &p, const time_point &when ) {
-            map::generate( p, when );    // TODO: Remove when below is converted
-        }
-        void generate( const tripoint_abs_sm &p, const time_point &when ) {
-            map::generate( p, when );    // TODO: Convert to tripoint_abs_omt
-        }
+        using map::generate;
         void place_spawns( const mongroup_id &group, int chance, // TODO: Convert to typed
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false,
@@ -2485,6 +2489,8 @@ class tinymap : private map
         tripoint_range<tripoint> points_on_zlevel( int z ) const; // TODO: Make it typed
         tripoint_range<tripoint> points_in_rectangle(
             const tripoint &from, const tripoint &to ) const; // TODO: Make it typed
+        tripoint_range<tripoint_omt_ms> points_in_rectangle(
+            const tripoint_omt_ms &from, const tripoint_omt_ms &to ) const;
         tripoint_range<tripoint> points_in_radius(
             const tripoint &center, size_t radius, size_t radiusz = 0 ) const; // TODO: Make it typed
         map_stack i_at( const tripoint &p ) {
@@ -2542,8 +2548,15 @@ class tinymap : private map
                         const time_duration &age = 0_turns, bool hit_player = true ) {
             return map::add_field( p, type_id, intensity, age, hit_player ); // TODO: Make it typed
         }
+        bool add_field( const tripoint_omt_ms &p, const field_type_id &type_id, int intensity = INT_MAX,
+                        const time_duration &age = 0_turns, bool hit_player = true ) {
+            return map::add_field( p.raw(), type_id, intensity, age, hit_player );
+        }
         void delete_field( const tripoint &p, const field_type_id &field_to_remove ) {
             return map::delete_field( p, field_to_remove );    // TODO: Make it typed
+        }
+        void delete_field( const tripoint_omt_ms &p, const field_type_id &field_to_remove ) {
+            return map::delete_field( p.raw(), field_to_remove );
         }
         bool has_flag( ter_furn_flag flag, const tripoint &p ) const {
             return map::has_flag( flag, p );    // TODO: Make it typed

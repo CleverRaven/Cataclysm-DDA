@@ -26,7 +26,7 @@
     "valid_mod_locations": [
       [ "grip", 1 ],
       [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights mount", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
@@ -62,44 +62,6 @@
     "melee_damage": { "bash": 9 }
   },
   {
-    "id": "lever_shotgun",
-    "copy-from": "shotgun_base",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "handmade lever shotgun" },
-    "description": "A short, homemade lever-action shotgun with a small internal tube magazine.  While still a primitive design - made from a pipe and a plank - it is a formidable shotgun in its own right with room for improvement.",
-    "weight": "2311 g",
-    "volume": "2 L",
-    "longest_side": "85 cm",
-    "barrel_length": "356 mm",
-    "//": "length of a 6 round shotshell tube",
-    "price": 10000,
-    "price_postapoc": 2250,
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
-    "dispersion": 550,
-    "durability": 6,
-    "barrel_volume": "500 ml",
-    "valid_mod_locations": [
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "clip_size": 6,
-    "extend": { "flags": [ "RELOAD_ONE", "EASY_CLEAN" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
-    "melee_damage": { "bash": 10 }
-  },
-  {
     "id": "ksg",
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
@@ -130,10 +92,9 @@
     "built_in_mods": [ "ksg_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -175,10 +136,9 @@
     "built_in_mods": [ "ksg25_aux_shotgun" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
@@ -202,19 +162,13 @@
         "id": "mossberg_500",
         "name": { "str": "Mossberg 500 Field shotgun" },
         "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with a 28 inch barrel with sight rib."
-      },
-      {
-        "id": "mossberg_500_security",
-        "name": { "str": "Mossberg 500 Security shotgun" },
-        "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with an 18.5 inch barrel.",
-        "ascii_picture": "mossberg500_sec"
       }
     ],
     "ascii_picture": "mossberg500",
     "weight": "3402 g",
     "volume": "2450 ml",
     "longest_side": "1166 mm",
-    "barrel_length": "470 mm",
+    "barrel_length": "711 mm",
     "price": 53800,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -230,6 +184,7 @@
   {
     "id": "mossberg_590",
     "copy-from": "mossberg_500",
+    "looks_like": "mossberg_500",
     "type": "GUN",
     "name": { "str": "9-round combat shotgun" },
     "description": "A military oriented spin on the classic pump-action shotgun recipe, this firearm features an extended magazine tube capable of fielding nine rounds of 12 gauge shotshells.  Sporting a heavier barrel and a bayonet lug, it makes for a highly intimidating weapon, as well as a satisfying answer to most of the nasties you're liable to find in the post-apocalypse.",
@@ -241,29 +196,28 @@
         "description": "The Mossberg 590A1 is a military and police oriented version of the Mossberg 500.  It features a heavier barrel, a bayonet lug, and a different magazine tube for easier cleaning and maintenance."
       },
       {
-        "id": "SPAS_12",
-        "name": { "str": "Franchi SPAS-12 shotgun" },
-        "description": "Mean and intimidating looking, the SPAS-12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting."
+        "id": "slp",
+        "name": { "str": "FN SLP MK I shotgun" },
+        "description": "An eminently practical semi-automatic shotgun, Fabrique Nationale's Mk I iteration of their Self-Loading Police brings together an 8-round magazine tube, accessory-ready picatinny rail, and comfortably rubber-padded grip surfaces.  Per the company's claims, it can dispense 8 servings of 12-gauge-diameter medicine in under a second, and, while you're not sure if that's true or even a good thing, the gun's certain to serve as a good educational tool for disciplining the dead."
       }
     ],
     "ascii_picture": "mossberg590",
     "weight": "3289 g",
     "volume": "2548 ml",
     "longest_side": "1043 mm",
-    "looks_like": "mossberg_500",
+    "barrel_length": "508 mm",
+    "//": "The true dimensions of the FN SLP are 1092 mm overall length, 558mm barrel length, and 3583 gramme weight.",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
     "price_postapoc": 2400,
-    "barrel_volume": "0 ml",
-    "barrel_length": "508 mm",
     "clip_size": 9,
+    "barrel_volume": "0 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "loading port", 1 ],
       [ "rail mount", 1 ],
@@ -316,7 +270,7 @@
       [ "rail mount", 1 ],
       [ "loading port", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -463,11 +417,10 @@
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "loading port", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -567,7 +520,7 @@
     "valid_mod_locations": [
       [ "sling", 1 ],
       [ "stock mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "barrel", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
@@ -597,7 +550,6 @@
     "barrel_volume": "494 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "mechanism", 2 ],
@@ -631,7 +583,6 @@
     "barrel_volume": "670 ml",
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "muzzle", 1 ],
       [ "mechanism", 1 ],
       [ "sights mount", 1 ],
@@ -677,10 +628,9 @@
     "built_in_mods": [ "wire_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail mount", 1 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
@@ -721,10 +671,9 @@
     "sight_dispersion": 500,
     "built_in_mods": [ "ts12_aux_shotgun", "ts12_aux_shotgun2" ],
     "valid_mod_locations": [
-      [ "bore", 1 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "underbarrel", 2 ],
       [ "rail mount", 1 ],
@@ -820,6 +769,91 @@
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ],
     "melee_damage": { "bash": 11 }
+  },
+  {
+    "id": "benelli_sa",
+    "copy-from": "shotgun_base",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "4-round waterfowl shotgun" },
+    "description": "This is a lanky, though relatively light, semi-automatic shotgun fitted with a plastic, dimple buttstock and forend, a representative of many such guns employed in fighting the true, greatest foe: geese.  An under-slung magazine tube retains three shells in complement with a chambered cartridge, lending the gun a somewhat modest capacity despite its durability and reliable action.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m2",
+        "name": { "str": "Benelli M2 shotgun" },
+        "description": "Workhorse, companion, and Italian hole-puncher: the M2 forms the backbone of the Benelli's venerable line of Super 90 shotguns, utilising the company's signature inertia-driven system to snap out 12-gauge shells with alacrity.  Though possessing a 3-round magazine tube, the shotgun's dimpled, synthetic furniture, cryogenically treated barrel, and robust action capable of withstanding magnum loads make it a hardy option, even for the post-cataclysm survivor."
+      },
+      {
+        "id": "sbe",
+        "name": { "str": "Benelli SBE 3 shotgun" },
+        "description": "A relatively light, semi-automatic fowling peace finished in black furniture with trim lines and a slender forend, the Super Black Eagle (SBE) shotgun operates off of Benelli's inertia-driven recoil system.  Synonymous with versatility and reliability, it's a decades-beloved design incorporating one of the earliest actions rated to chamber 3-inch magnum shotgun shells, with this 2023 updated version coming fitted with a recoil pad."
+      }
+    ],
+    "weight": "3039 g",
+    "volume": "2600  ml",
+    "longest_side": "1213 mm",
+    "barrel_length": "660 mm",
+    "//": "Based on a 26-inch-barrel field configuration.",
+    "price": 149900,
+    "price_postapoc": 1800,
+    "clip_size": 4,
+    "//2": "The capacity of an unmodified M2 is three shells in the tube plus one in the chamber. We're assuming that the player takes the time to rack a cartridge into the chamber and top off the tube when loading in shell number 4.",
+    "durability": 10,
+    "barrel_volume": "86 ml",
+    "//3": "The number's simulating the cubic volume of a 7.5-inch stretch of 20-mm bore barrel being removed.",
+    "dispersion": 300,
+    "to_hit": -1,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "default_mods": [ "recoil_stock" ],
+    "valid_mod_locations": [
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "loading port", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 4 } } ]
+  },
+  {
+    "id": "benelli_tsa",
+    "copy-from": "benelli_sa",
+    "looks_like": "remington_870",
+    "type": "GUN",
+    "name": { "str": "6-round tactical shotgun" },
+    "description": "A black-finished shotgun fit for the gentlemanly pursuit of blowing very large holes through the residence of the cataclysm, be it zombie, goose, or tiny abomination, this semi-automatic longarm fields five shotgun shells within its tubular magazine.  Aesthetically pleasing with its dimpled buttstock and forend, the weapon features an underslung pistol-style grip and a gel cushion on the back of the stock for recoil mitigation.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "m2_tac",
+        "name": { "str": "Benelli M2 Tactical shotgun" },
+        "description": "Where the full-sized Benelli M2 shotgun is a hefty stallion, this mission-oriented tactical iteration is a trim race horse, with an 18.5-inch barrel, dimpled grip surfaces, and an underslung pistol grip.  Ghost-ring aperture-sights, a recoil-padded buttstock, and a cryogenically-treated barrel all join hands to ensure that you can carry out your post-cataclysm farming duties: seeding lead shot into fields of zombies."
+      },
+      {
+        "id": "mossberg_500_security",
+        "name": { "str": "Mossberg 500 Security shotgun" },
+        "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with an 18.5 inch barrel.",
+        "ascii_picture": "mossberg500_sec"
+      }
+    ],
+    "volume": "2519  ml",
+    "longest_side": "1010 mm",
+    "barrel_length": "470 mm",
+    "//": "The true dimensions of a Mossberg 500 Security are 1003 mm in length, 457 mm in barrel length, and 3062 grammes.",
+    "price": 159900,
+    "price_postapoc": 2760,
+    "clip_size": 6,
+    "//2": "The capacity of an unmodified M2 Tactical is five shells in the tube plus one in the chamber. We're assuming that the player takes the time to rack a cartridge into the chamber and top off the tube when loading in shell number six.",
+    "barrel_volume": "0 ml",
+    "default_mods": [ "pistol_grip", "recoil_stock" ],
+    "//3": "Benelli's assumed to be coming with the ComforTech buttstock fitted.",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
     "id": "slamfire_shotgun",

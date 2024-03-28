@@ -171,7 +171,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     if( add_topics.back() == "TALK_NONE" ) {
         add_topics.back() = me_npc->pick_talk_topic( player_character );
     }
-    me_npc->moves -= 100;
+    me_npc->mod_moves( -to_moves<int>( 1_seconds ) );
 
     if( player_character.is_deaf() ) {
         if( add_topics.back() == me_npc->chatbin.talk_mug ||
@@ -364,7 +364,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
 
             const time_duration &consume_time = p.get_consume_time( to_eat );
-            p.moves -= to_moves<int>( consume_time );
+            p.mod_moves( -to_moves<int>( consume_time ) );
             p.consume( to_eat );
             reason = p.chat_snippets().snip_consume_eat.translated();
         }
@@ -395,7 +395,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
 
         p.consume_effects( to_eat );
         to_eat.charges -= amount_used;
-        p.moves -= 250;
+        p.mod_moves( -to_moves<int>( 1_seconds ) * 2.5 );
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
     }
@@ -450,7 +450,7 @@ std::string talker_npc::give_item_to( const bool to_use )
         // Eating first, to avoid evaluating bread as a weapon
         const consumption_result consume_res = try_consume( *me_npc, given, reason );
         if( consume_res != REFUSED ) {
-            player_character.moves -= 100;
+            player_character.mod_moves( -to_moves<int>( 1_seconds ) );
             if( consume_res == CONSUMED_ALL ) {
                 player_character.i_rem( &given );
             } else if( given.is_container() ) {
@@ -510,7 +510,7 @@ std::string talker_npc::give_item_to( const bool to_use )
 
     if( taken ) {
         player_character.i_rem( &given );
-        player_character.moves -= 100;
+        player_character.mod_moves( -to_moves<int>( 1_seconds ) );
         me_npc->has_new_items = true;
     }
 

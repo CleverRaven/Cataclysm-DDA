@@ -2990,8 +2990,9 @@
     "durability": 200,
     "description": "A plow.  Use the vehicle controls to turn it on or off.  When turned on, it will create a furrow in any dirt it travels over, making it suitable for planting seeds.  It should be placed in front of any seed drills on the vehicle.",
     "item": "v_plow_item",
-    "location": "under",
-    "power": "-300 W",
+    "location": "structure",
+    "power": "-6000 W",
+    "//2": "~8 hp for a moldboard plow depth of 8 inches",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
@@ -3025,7 +3026,8 @@
     "item": "v_planter_item",
     "location": "structure",
     "size": "12500 ml",
-    "power": "-700 W",
+    "power": "-1200 W",
+    "//2": "~1.5 hp for seed drill depth of 1.5 inches",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
       "install": {
@@ -3058,6 +3060,7 @@
     "item": "v_planter_item_advanced",
     "location": "structure",
     "power": "-700 W",
+    "epower": "-1 W",
     "size": "17500 ml",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
     "requirements": {
@@ -3073,7 +3076,7 @@
       },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
-    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE" ],
+    "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG", "CARGO_PASSABLE", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [
       { "item": "cable", "charges": [ 3, 6 ] },
       { "item": "e_scrap", "count": [ 4, 10 ] },
@@ -3091,7 +3094,8 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": "-700 W",
+    "power": "-1500 W",
+    "//2": "about 2 hp",
     "durability": 200,
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space, so harvested plants will end up on the ground.",
     "item": "v_reaper_item",
@@ -3123,13 +3127,13 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": "-1050 W",
+    "power": "-2000 W",
     "durability": 200,
     "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
     "//1": "200 cm weld to install and 60 cm weld per damage quadrant to repair",
-    "location": "under",
+    "location": "structure",
     "size": "87500 ml",
     "requirements": {
       "install": {

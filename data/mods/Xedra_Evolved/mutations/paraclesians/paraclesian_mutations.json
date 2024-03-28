@@ -140,10 +140,9 @@
     "purifiable": false,
     "profession": true,
     "points": 2,
-    "weakness_to_water": -2,
+    "enchantments": [ { "values": [ { "value": "WEAKNESS_TO_WATER", "add": -2 }, { "value": "THIRST", "multiply": -1 } ] } ],
     "ignored_by": [ "UNDINE" ],
     "scent_type": "sc_fae",
-    "thirst_modifier": -1.0,
     "cancels": [
       "THIRST",
       "THIRST2",
@@ -214,8 +213,7 @@
     ],
     "can_heal_with": [ "doll_repair_paste" ],
     "description": "A spirit of the image of humans given life.",
-    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ],
-    "allowed_category": [ "HOMULLUS" ]
+    "anger_relations": [ [ "HOMULLUS", -20 ], [ "ARVORE", 20 ] ]
   },
   {
     "type": "mutation",
@@ -401,7 +399,7 @@
     "types": [ "MANA_ADD" ],
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 500
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 500 } ] } ]
   },
   {
     "type": "mutation",
@@ -414,7 +412,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA1" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 1000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 1000 } ] } ]
   },
   {
     "type": "mutation",
@@ -426,7 +424,7 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "prereqs": [ "ELEMENTAL_MANA2" ],
     "flags": [ "NON_THRESH" ],
-    "mana_modifier": 2000
+    "enchantments": [ { "values": [ { "value": "MAX_MANA", "add": 2000 } ] } ]
   },
   {
     "type": "mutation",
@@ -464,6 +462,18 @@
     "category": [ "UNDINE", "SALAMANDER", "ARVORE", "IERDE", "HOMULLUS", "SYLPH" ],
     "threshreq": [ "THRESH_UNDINE", "THRESH_SALAMANDER", "THRESH_ARVORE", "THRESH_IERDE", "THRESH_HOMULLUS", "THRESH_SYLPH" ],
     "spells_learned": [ [ "paraclesian_spell_make_gossamer", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "copy-from": "ANIMALEMPATH",
+    "extend": { "category": [ "UNDINE", "ARVORE", "IERDE" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "copy-from": "ANIMALEMPATH2",
+    "extend": { "category": [ "UNDINE", "ARVORE", "IERDE" ] }
   },
   {
     "type": "mutation",

@@ -1376,7 +1376,15 @@
     "ammo": "battery",
     "charges_per_use": 1,
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" } ] },
-    "use_action": [ "RM13ARMOR_OFF" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You activate your RM13 combat armor.\nRivtech Model 13 RivOS v2.19:   ONLINE.\nCBRN defense system:            ONLINE.\nAcoustic dampening system:      ONLINE.\nThermal regulation system:      ONLINE.\nVision enhancement system:      ONLINE.\nElectro-reactive armor system:  ONLINE.\nAll systems nominal.",
+      "target": "rm13_armor_on",
+      "active": true,
+      "need_worn": true,
+      "need_charges": 1,
+      "need_charges_msg": "The RM13 combat armor's battery is dead."
+    },
     "warmth": 30,
     "environmental_protection": 10,
     "material_thickness": 3,
@@ -1465,7 +1473,12 @@
     "material": [ "hyperweave_on", "carbide" ],
     "power_draw": "100 W",
     "revert_to": "rm13_armor",
-    "use_action": [ "RM13ARMOR_ON" ],
+    "use_action": {
+      "type": "transform",
+      "msg": "You deactivate your RM13 combat armor.\nRivOS v2.19 shutdown sequence initiated.\nShutting down.\nYour RM13 combat armor turns off.",
+      "target": "rm13_armor",
+      "need_worn": true
+    },
     "environmental_protection": 40,
     "qualities": [ [ "GLARE", 1 ] ],
     "material_thickness": 3,
@@ -3856,7 +3869,9 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "relic_data": {
+      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 215000 } ] } ]
+    },
     "armor": [
       {
         "encumbrance": 20,
@@ -3878,7 +3893,6 @@
     "power_draw": "972216 mW",
     "//": "Battery should last two hours (02:00:07). Weight capacity bonus should include weight of item AND battery, plus 90kg.",
     "revert_to": "utility_exoskeleton_off",
-    "weight_capacity_bonus": "215 kg",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "utility_exoskeleton_off" }
   },
   {
@@ -3904,7 +3918,9 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
-    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
+    "relic_data": {
+      "passive_effects": [ { "id": "ench_exo_strength" }, { "condition": "ACTIVE", "values": [ { "value": "CARRY_WEIGHT", "add": 190000 } ] } ]
+    },
     "armor": [
       {
         "encumbrance": 20,
@@ -3925,7 +3941,6 @@
     "turns_per_charge": 1,
     "//": "Full tank lasts a bit under three hours (166.66 minutes). Has less carry bonus than the battery one since the weight of the fuel will drop over time.",
     "revert_to": "ice_utility_exoskeleton_off",
-    "weight_capacity_bonus": "190 kg",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "ice_utility_exoskeleton_off" }
   }
 ]

@@ -62,7 +62,7 @@ static void clear_addictions( Character &u )
 {
     u.addictions.clear();
     u.clear_effects();
-    u.moves = 100;
+    u.set_moves( u.get_speed() );
     u.set_daily_health( 0 );
     u.str_max = 8;
     u.dex_max = 8;

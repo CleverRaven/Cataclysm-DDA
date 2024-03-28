@@ -11,29 +11,27 @@
 #include "output.h"
 #include "ui_manager.h"
 #include "ui.h"
-#if !defined(__ANDROID__)
 #include "cata_imgui.h"
 #include "imgui/imgui.h"
 
 class query_popup_impl : public cataimgui::window
 {
-        short keyboard_selected_option;
         short mouse_selected_option;
         size_t msg_width;
         query_popup *parent;
     public:
+        short keyboard_selected_option;
+
         explicit query_popup_impl( query_popup *parent ) : cataimgui::window( "QUERY_POPUP",
                     ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar ) {
             msg_width = 400;
             this->parent = parent;
-            keyboard_selected_option = -1;
+            keyboard_selected_option = 0;
             mouse_selected_option = -1;
         }
 
         void on_resized() override;
-        int get_keyboard_selected_option() const {
-            return keyboard_selected_option;
-        }
+
         int get_mouse_selected_option() const {
             return mouse_selected_option;
         }
@@ -54,7 +52,6 @@ class query_popup_impl : public cataimgui::window
 void query_popup_impl::draw_controls()
 {
     mouse_selected_option = -1;
-    keyboard_selected_option = -1;
 
     for( const std::string &line : parent->folded_msg ) {
         nc_color col = parent->default_text_color;
@@ -73,16 +70,12 @@ void query_popup_impl::draw_controls()
             if( ImGui::IsItemHovered() ) {
                 mouse_selected_option = ind;
             }
-            if( ImGui::IsItemFocused() ) {
-                keyboard_selected_option = ind;
+            if( keyboard_selected_option == short( ind ) && ImGui::IsWindowFocused() ) {
+                ImGui::SetKeyboardFocusHere( -1 );
             }
             ImGui::SameLine();
         }
 
-        if( keyboard_selected_option == -1 ) {
-            ImGui::SetKeyboardFocusHere( -1 );
-            keyboard_selected_option = parent->buttons.size() - 1;
-        }
     }
 }
 
@@ -140,7 +133,6 @@ void query_popup_impl::on_resized()
         }
     }
 }
-#endif
 
 query_popup::query_popup()
     : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ),
@@ -277,12 +269,10 @@ void query_popup::invalidate_ui() const
         }
         legacy_ui->mark_resize();
     }
-#if !defined(__ANDROID__)
     std::shared_ptr<query_popup_impl> imgui_ui = p_impl.lock();
     if( imgui_ui ) {
         imgui_ui->mark_resized();
     }
-#endif
 }
 
 static constexpr int border_width = 1;
@@ -502,18 +492,13 @@ query_popup::result query_popup::query_once_legacy()
 
 query_popup::result query_popup::query_once()
 {
-#if defined(__ANDROID__)
-    return query_once_legacy();
-#else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         return query_once_imgui();
     } else {
         return query_once_legacy();
     }
-#endif
 }
 
-#if !defined(__ANDROID__)
 std::shared_ptr<query_popup_impl> query_popup::create_or_get_impl()
 {
     std::shared_ptr<query_popup_impl> impl = p_impl.lock();
@@ -553,6 +538,8 @@ query_popup::result query_popup::query_once_imgui()
         // Mouse movement and button
         ctxt.register_action( "SELECT" );
         ctxt.register_action( "MOUSE_MOVE" );
+        ctxt.register_action( "LEFT" );
+        ctxt.register_action( "RIGHT" );
     }
     if( anykey ) {
         ctxt.register_action( "ANY_INPUT" );
@@ -579,8 +566,8 @@ query_popup::result query_popup::query_once_imgui()
             // Left-click to confirm selection
             res.action = "CONFIRM";
             cur = size_t( impl->get_mouse_selected_option() );
-        } else if( res.action == "CONFIRM" && impl->get_keyboard_selected_option() != -1 ) {
-            cur = size_t( impl->get_keyboard_selected_option() );
+        } else if( res.action == "CONFIRM" && impl->keyboard_selected_option != -1 ) {
+            cur = size_t( impl->keyboard_selected_option );
         }
     } while(
         // Always ignore mouse movement
@@ -597,6 +584,14 @@ query_popup::result query_popup::query_once_imgui()
         if( cur < options.size() ) {
             res.wait_input = false;
             res.action = options[cur].action;
+        }
+    } else if( res.action == "LEFT" ) {
+        if( impl->keyboard_selected_option > 0 ) {
+            impl->keyboard_selected_option--;
+        }
+    } else if( res.action == "RIGHT" ) {
+        if( impl->keyboard_selected_option < short( buttons.size() - 1 ) ) {
+            impl->keyboard_selected_option++;
         }
     } else if( res.action == "HELP_KEYBINDINGS" ) {
         // Keybindings may have changed, regenerate the UI
@@ -620,6 +615,7 @@ query_popup::result query_popup::query_once_imgui()
     return res;
 }
 
+
 query_popup::result query_popup::query()
 {
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
@@ -639,13 +635,7 @@ query_popup::result query_popup::query_imgui()
     } while( res.wait_input );
     return res;
 }
-#else
 
-query_popup::result query_popup::query()
-{
-    return query_legacy();
-}
-#endif
 
 query_popup::result query_popup::query_legacy()
 {
@@ -703,13 +693,9 @@ bool query_popup::button::contains( const point &p ) const
 
 static_popup::static_popup()
 {
-#if defined(__ANDROID__)
-    ui = create_or_get_adaptor();
-#else
     if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
         ui_imgui = create_or_get_impl();
     } else {
         ui = create_or_get_adaptor();
     }
-#endif
 }
