@@ -2,6 +2,7 @@
 #include "cata_catch.h"
 #include "field.h"
 #include "item.h"
+#include "item_group.h"
 #include "item_location.h"
 #include "game.h"
 #include "map.h"
@@ -19,18 +20,14 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_invisibility( "invisibility" );
 static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
 
-static const mtype_id debug_mon("debug_mon");
+static const mtype_id debug_mon( "debug_mon" );
+
+static const item_group_id item_group_id_test_STAT_ench_item_1_pair( "test_STAT_ench_item_1_pair" );
 
 static void advance_turn( Character &guy )
 {
     guy.process_turn();
     calendar::turn += 1_turns;
-}
-
-static void give_item( Character &guy, const std::string &item_id )
-{
-    guy.i_add( item( item_id ) );
-    guy.recalculate_enchantment_cache();
 }
 
 struct enchant_test {
@@ -129,6 +126,57 @@ TEST_CASE( "mutation_enchantments", "[enchantments][mutations]" )
 }
 
 
+
+TEST_CASE( "Enchantments_change_stats", "[magic][enchantments][WIP]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_character( *guy.as_avatar(), true );
+    GIVEN( "Default character with 8 8 8 8 stats" ) {
+        WHEN( "When obtain item with stat enchantments" ) {
+            guy.i_add( item( "test_STAT_ench_item_1" ) );
+            guy.recalculate_enchantment_cache();
+            advance_turn( guy );
+            THEN( "Stats change accordingly" ) {
+                REQUIRE( guy.get_str() == 22 );
+                REQUIRE( guy.get_dex() == 6 );
+                REQUIRE( guy.get_int() == 5 );
+                REQUIRE( guy.get_per() == 1 );
+            }
+            AND_WHEN( "Item is removed" ) {
+                clear_character( *guy.as_avatar(), true );
+                advance_turn( guy );
+                THEN( "Stats change back" ) {
+                    REQUIRE( guy.get_str() == 8 );
+                    REQUIRE( guy.get_dex() == 8 );
+                    REQUIRE( guy.get_int() == 8 );
+                    REQUIRE( guy.get_per() == 8 );
+                }
+            }
+        }
+    }
+    GIVEN( "Default character with 8 8 8 8 stats" ) {
+        WHEN( "When obtain two items with stat enchantments" ) {
+
+            item backpack( "debug_backpack" );
+            guy.wear_item( backpack );
+            item enchantment_item( "test_STAT_ench_item_1" );
+            guy.i_add( enchantment_item, /* should_stack */ true, /*allow_drop*/ false, /*allow wield*/ false );
+            guy.i_add( enchantment_item, /* should_stack */ true, /*allow_drop*/ false, /*allow wield*/ false );
+            guy.recalculate_enchantment_cache();
+            advance_turn( guy );
+            THEN( "Stats change accordingly" ) {
+                REQUIRE( guy.get_str() == 42 );
+                REQUIRE( guy.get_dex() == 4 );
+                REQUIRE( guy.get_int() == 0 );
+                REQUIRE( guy.get_per() == 0 );
+            }
+        }
+    }
+}
+
+
+
 TEST_CASE( "Enchantments_modify_speed", "[magic][enchantments][speed][WIP]" )
 {
     clear_map();
@@ -144,7 +192,8 @@ TEST_CASE( "Enchantments_modify_speed", "[magic][enchantments][speed][WIP]" )
     }
 
     WHEN( "Character has speed enchantment" ) {
-        give_item( guy, "test_relic_mods_speed" );
+        guy.i_add( item( "test_SPEED_ench_item_1" ) );
+        guy.recalculate_enchantment_cache();
         guy.set_moves( 0 );
         advance_turn( guy );
         THEN( "Speed is changed accordingly" ) {
@@ -152,16 +201,15 @@ TEST_CASE( "Enchantments_modify_speed", "[magic][enchantments][speed][WIP]" )
             REQUIRE( guy.get_speed() == 62 );
             REQUIRE( guy.get_speed_bonus() == -38 );
         }
-    }
-
-    WHEN( "Character loses speed enchantment" ) {
-        clear_items( guy );
-        guy.set_moves( 0 );
-        advance_turn( guy );
-        THEN( "Speed is default again" ) {
-            REQUIRE( guy.get_speed_base() == 100 );
-            REQUIRE( guy.get_speed() == 100 );
-            REQUIRE( guy.get_speed_bonus() == 0 );
+        AND_WHEN( "Character loses speed enchantment" ) {
+            clear_character( *guy.as_avatar(), true );
+            guy.set_moves( 0 );
+            advance_turn( guy );
+            THEN( "Speed is default again" ) {
+                REQUIRE( guy.get_speed_base() == 100 );
+                REQUIRE( guy.get_speed() == 100 );
+                REQUIRE( guy.get_speed_bonus() == 0 );
+            }
         }
     }
 }
@@ -182,7 +230,8 @@ TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments][WIP]" )
     }
 
     WHEN( "Character has speed enchantment" ) {
-        give_item( guy, "test_SPEED_ench_item" );
+        guy.i_add( item( "test_SPEED_ench_item" ) );
+        guy.recalculate_enchantment_cache();
         guy.set_moves( 0 );
         advance_turn( guy );
         THEN( "Speed is changed accordingly" ) {
@@ -193,7 +242,7 @@ TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments][WIP]" )
     }
 
     WHEN( "Character loses speed enchantment" ) {
-        clear_items( guy );
+        clear_character( *guy.as_avatar(), true );
         guy.set_moves( 0 );
         advance_turn( guy );
         THEN( "Speed is default again" ) {
@@ -225,7 +274,8 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments][WIP]" )
     }
 
     WHEN( "Character attacks with enchantment, that halves attack speed cost" ) {
-        give_item( guy, "test_ATTACK_SPEED_ench_item" );
+        guy.i_add( item( "test_ATTACK_SPEED_ench_item" ) );
+        guy.recalculate_enchantment_cache();
         advance_turn( guy );
         // 30 moves per attack
         THEN( "10 attacks cost only 300 moves" ) {
@@ -240,7 +290,8 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments][WIP]" )
     }
 
     WHEN( "Character attacks with enchantment, that adds 41 moves to each attack" ) {
-        give_item( guy, "test_ATTACK_SPEED_ench_item_2" );
+        guy.i_add( item( "test_ATTACK_SPEED_ench_item_2" ) );
+        guy.recalculate_enchantment_cache();
         advance_turn( guy );
         // 101 moves for first attack, next one are 100 moves
         THEN( "10 attacks cost 1001 moves" ) {
@@ -263,7 +314,8 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][
     g->place_critter_at( debug_mon, tripoint( 1, 1, 0 ) );
 
     WHEN( "Character attacks with no enchantment" ) {
-        give_item( guy, "test_MELEE_STAMINA_CONSUMPTION_ench_item_0" );
+        guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_0" ) );
+        guy.recalculate_enchantment_cache();
         advance_turn( guy );
         THEN( "10 attacks cost 1750 stamina" ) {
             int stamina_start = guy.get_stamina();
@@ -280,7 +332,8 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][
 
     WHEN( "Character attacks with enchantment, that decreases stamina cost for 100" ) {
         clear_character( *guy.as_avatar(), true );
-        give_item( guy, "test_MELEE_STAMINA_CONSUMPTION_ench_item_1" );
+        guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_1" ) );
+        guy.recalculate_enchantment_cache();
         advance_turn( guy );
         THEN( "10 attacks cost 750 stamina" ) {
             int stamina_start = guy.get_stamina();
@@ -297,7 +350,8 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][
 
     WHEN( "Character attacks with enchantment, that double stamina cost" ) {
         clear_character( *guy.as_avatar(), true );
-        give_item( guy, "test_MELEE_STAMINA_CONSUMPTION_ench_item_2" );
+        guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_2" ) );
+        guy.recalculate_enchantment_cache();
         advance_turn( guy );
         THEN( "10 attacks cost 3500 stamina" ) {
             int stamina_start = guy.get_stamina();
@@ -313,33 +367,35 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][
     }
 }
 
-TEST_CASE("Enchantment_BONUS_DODGE_test", "[magic][enchantments][WIP]")
+TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments][WIP]" )
 {
     clear_map();
-    Character& guy = get_player_character();
-    clear_character(*guy.as_avatar(), true);
+    Character &guy = get_player_character();
+    clear_character( *guy.as_avatar(), true );
 
-    WHEN("Character has default amount of dodges, not affected by enchantments") {
-        THEN("1 dodge") {
-            REQUIRE(guy.get_num_dodges() == 1);
+    WHEN( "Character has default amount of dodges, not affected by enchantments" ) {
+        THEN( "1 dodge" ) {
+            REQUIRE( guy.get_num_dodges() == 1 );
         }
     }
 
-    WHEN("Character has enchantment that gives +3 dodges") {
-        give_item(guy, "test_BONUS_DODGE_ench_item_1");
-        advance_turn(guy);
-        THEN("4 dodges") {
-            REQUIRE(guy.get_num_dodges() == 4);
+    WHEN( "Character has enchantment that gives +3 dodges" ) {
+        guy.i_add( item( "test_BONUS_DODGE_ench_item_1" ) );
+        guy.recalculate_enchantment_cache();
+        advance_turn( guy );
+        THEN( "4 dodges" ) {
+            REQUIRE( guy.get_num_dodges() == 4 );
         }
     }
 
-    clear_character(*guy.as_avatar(), true);
+    clear_character( *guy.as_avatar(), true );
 
-    WHEN("Character has enchantment that gives +4 dodges, and then halves amount of dodges") {
-        give_item(guy, "test_BONUS_DODGE_ench_item_2");
-        advance_turn(guy);
-        THEN("2.5 dodges, rounded down to 2") {
-            REQUIRE(guy.get_num_dodges() == 2);
+    WHEN( "Character has enchantment that gives +4 dodges, and then halves amount of dodges" ) {
+        guy.i_add( item( "test_BONUS_DODGE_ench_item_2" ) );
+        guy.recalculate_enchantment_cache();
+        advance_turn( guy );
+        THEN( "2.5 dodges, rounded down to 2" ) {
+            REQUIRE( guy.get_num_dodges() == 2 );
         }
     }
 }

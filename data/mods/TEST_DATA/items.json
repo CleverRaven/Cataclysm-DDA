@@ -4928,6 +4928,31 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_SPEED_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_item_ench",
+    "relic_data": { "passive_effects": [ { "has": "HELD", "values": [ { "value": "SPEED", "add": 25, "multiply": -0.5 } ] } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "test_STAT_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_STAT_ench_item_1",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "values": [
+            { "value": "STRENGTH", "add": 3, "multiply": 1 },
+            { "value": "DEXTERITY", "add": -2 },
+            { "value": "INTELLIGENCE", "add": 1, "multiply": -0.5 },
+            { "value": "PERCEPTION", "add": -7 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
     "id": "test_rock_cheese",
     "category": "spare_parts",
     "symbol": ",",
