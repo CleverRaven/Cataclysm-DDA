@@ -133,6 +133,7 @@ static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 static const damage_type_id damage_cut( "cut" );
 static const damage_type_id damage_heat( "heat" );
+static const damage_type_id damage_stab( "stab" );
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_cig( "cig" );
@@ -219,6 +220,10 @@ static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
+static const weapon_category_id weapon_category_long_swords( "LONG_SWORDS" );
+static const weapon_category_id weapon_category_medium_swords( "MEDIUM_SWORDS" );
+static const weapon_category_id weapon_category_great_swords( "GREAT_SWORDS" );
 
 // vitamin flags
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
@@ -7408,7 +7413,26 @@ int item::lift_strength() const
 
 int item::attack_time( const Character &you ) const
 {
-    int ret = 65 + ( volume() / 62.5_ml + weight() / 60_gram ) / count();
+    const double base_move = 65;
+    const double const_stab = 3;
+    const double const_weild = 2.5;
+    const double sword_factor = 0.75;
+
+    int ret = base_move;
+    int stab_damage = damage_melee( damage_stab );
+    if( stab_damage > damage_melee( damage_bash ) && stab_damage > damage_melee( damage_cut ) ) {
+        ret = base_move * std::sqrt( weight() / const_stab / 1000_gram + 1 );
+    } else {
+        std::set<weapon_category_id> weapon_types = type->weapon_category;
+        bool is_sword = std::any_of( weapon_types.begin(),
+        weapon_types.end(), [&]( const weapon_category_id weapon_type ) {
+            return weapon_type == weapon_category_great_swords || weapon_type == weapon_category_long_swords ||
+                   weapon_type == weapon_category_medium_swords;
+        } );
+        ret = base_move * std::sqrt( weight() * ( is_sword ? sword_factor : 1 ) / 1000_gram * std::pow(
+                                         ( double )( length() / 1_mm ) / 1000,
+                                         2 ) / const_weild + 1 );
+    }
     ret = calculate_by_enchantment_wield( you, ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
@@ -10140,7 +10164,8 @@ ret_val<void> item::can_contain_partial_directly( const item &it ) const
     return can_contain( i_copy, false, false, true, item_location(), 10000000_ml, false );
 }
 
-std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &this_loc,
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it,
+        item_location &this_loc,
         const item *avoid, const bool allow_sealed, const bool ignore_settings,
         const bool nested, bool ignore_rigidity )
 {
