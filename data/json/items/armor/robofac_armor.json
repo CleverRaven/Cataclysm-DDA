@@ -836,7 +836,7 @@
     "copy-from": "robofac_greaves",
     "name": { "str": "pair of Hub 01 kinetic greaves", "str_pl": "pairs of Hub 01 kinetic greaves" },
     "description": "3D printed leg guards, consisting of thick knee pads and a pair of large, flexible polymer plates for securing around the calves to protect the tibias of each leg.  Thick padding and rubber lining provide excellent protection from blunt trauma.",
-    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 4 }, { "type": "rubber", "portion": 4 } ],
+    "material": [ { "type": "plastic", "portion": 2 }, { "type": "qt_steel", "portion": 1 }, { "type": "rubber", "portion": 4 } ],
     "proportional": { "weight": 1.576 }
   },
   {
