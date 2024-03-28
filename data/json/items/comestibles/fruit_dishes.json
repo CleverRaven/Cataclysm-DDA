@@ -123,7 +123,7 @@
     "weight": "246 g",
     "color": "yellow",
     "spoils_in": "1 day",
-    "container": "can_medium",
+    "container": "can_food",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 5,
