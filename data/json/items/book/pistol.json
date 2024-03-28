@@ -124,6 +124,11 @@
           "str_pl": "copies of FM 3-23.35: Combat Training With Pistols, M9 And M11"
         },
         "description": "Official U.S. Army manual detailing how M9 and M11 handguns work, and how to use them safely and effectively."
+      },
+      {
+        "id": "manual_pistol_8",
+        "name": { "str": "Black Powder to Berettas", "str_pl": "copies of Black Powder to Berettas" },
+        "description": "This hardcover book, aimed at the gun nut, provides an illustrated, concise history of the handgun throughout history, including technical specifications and use techniques.  It's difficult to follow without a passing knowledge in pistols, but an experienced handgun user could glean much from it."
       }
     ],
     "weight": "440 g",
