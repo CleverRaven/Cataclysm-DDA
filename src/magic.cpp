@@ -2488,7 +2488,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
 
     const bool cost_encumb = sp.energy_cost_encumbered( pc );
     const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
-    if( is_psi) {
+    if( is_psi ) {
         std::string cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) : _( "Channeling Cost" );
         std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
                              string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
