@@ -86,6 +86,36 @@ enum class do_activity_reason : int {
 
 };
 
+// Vector because of style demands => no built in consistency check when number of enum elements change.
+const std::vector<std::string> do_activity_reason_string = {
+    "CAN_DO_CONSTRUCTION",
+    "CAN_DO_FETCH",
+    "NO_COMPONENTS",
+    "DONT_HAVE_SKILL",
+    "NO_ZONE",
+    "ALREADY_DONE",
+    "UNKNOWN_ACTIVITY",
+    "NEEDS_HARVESTING",
+    "NEEDS_PLANTING",
+    "NEEDS_TILLING",
+    "BLOCKING_TILE",
+    "NEEDS_BOOK_TO_LEARN",
+    "NEEDS_CHOPPING",
+    "NEEDS_TREE_CHOPPING",
+    "NEEDS_BIG_BUTCHERING",
+    "NEEDS_BUTCHERING",
+    "NEEDS_CUT_HARVESTING",
+    "ALREADY_WORKING",
+    "NEEDS_VEH_DECONST",
+    "NEEDS_VEH_REPAIR",
+    "WOULD_PREVENT_VEH_FLYING",
+    "NEEDS_MINING",
+    "NEEDS_MOP",
+    "NEEDS_FISHING",
+    "NEEDS_CRAFT",
+    "NEEDS_DISASSEMBLE"
+};
+
 struct activity_reason_info {
     //reason for success or fail
     do_activity_reason reason;
