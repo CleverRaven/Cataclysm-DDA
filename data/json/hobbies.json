@@ -1105,6 +1105,16 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "luthier",
+    "name": "Woodworking - Luthier",
+    "description": "You've learned woodworking in the field of making musical instruments.  You'll be able to create musical instruments in the Cataclysm.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "fabrication" } ],
+    "proficiencies": [ "prof_luthier_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "home_improvement",
     "name": "Home Improvement",
     "points": 4,
