@@ -321,7 +321,6 @@
     "id": "krar",
     "looks_like": "krar_golden",
     "type": "TOOL",
-    "category": "tools",
     "name": { "str": "krar" },
     "description": "A wooden krar, similar to a harp.",
     "copy-from": "krar_golden",
