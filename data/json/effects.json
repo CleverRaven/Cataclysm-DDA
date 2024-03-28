@@ -567,7 +567,7 @@
       { "limb_score": "manip", "modifier": 0.8 },
       { "limb_score": "grip", "modifier": 0.8 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ],
   },
   {
     "type": "effect_type",
