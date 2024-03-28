@@ -97,6 +97,11 @@
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_IMPRESSIVE"
       },
       {
+        "text": "Tell them the story of how you were trapped in an infinitely looping corridor, fighting the warped remnants of the researchers there and somehow the damned corridor itself.  And at the end of the day, you're not even sure the headache was worth it.",
+        "condition": { "u_has_var": "completed_robofac_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "BEM_CHATTING_VETERANS_TELL_STORY_LIXA"
+      },
+      {
         "text": "Tell them the story of how you dived into and were forced to fight for your life within a disgusting, toxic hellscape made from the un-living innards of some crushed zombie monstrosity.  All so the intercom could have some damned HDD back.",
         "condition": { "u_has_var": "completed_robofac_intercom_3", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER"
@@ -136,6 +141,19 @@
     "dynamic_line": "&The veterans eagerly accept your challenge, and none of you can really stomach the prospect of more drinks after the first pair of tales.",
     "speaker_effect": [ { "effect": [ { "u_add_effect": "drunk", "duration": "20 minutes" }, { "u_add_faction_trust": 1 } ] } ],
     "responses": [ { "text": "Well, I should be going now.", "effect": "end_conversation", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BEM_CHATTING_VETERANS_TELL_STORY_LIXA",
+    "type": "talk_topic",
+    "dynamic_line": "&The expressions on both the mercs' faces are a mix of confusion and visceral disgust as you relate your tale.  Finally, the younger mercenary blurts out, \"None of us wanted to touch that contract since the intercom was being so shifty about it.\"  \"You're my kind of free-range lunatic!\"  The older mercenary interjects.  \"I'll drink to that!\".",
+    "speaker_effect": [ { "effect": [ { "u_add_faction_trust": 10 } ] } ],
+    "responses": [
+      {
+        "text": "Yeah, that was certainly an…  interesting experience.",
+        "effect": "end_conversation",
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "BEM_CHATTING_VETERANS_TELL_STORY_TOWER",
