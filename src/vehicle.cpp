@@ -2799,6 +2799,13 @@ std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint &pos, const st
     return res;
 }
 
+std::vector<vehicle_part *> vehicle::get_parts_at( const tripoint_bub_ms &pos,
+        const std::string &flag,
+        const part_status_flag condition )
+{
+    return vehicle::get_parts_at( pos.raw(), flag, condition );
+}
+
 std::vector<const vehicle_part *> vehicle::get_parts_at( const tripoint &pos,
         const std::string &flag,
         const part_status_flag condition ) const
@@ -7730,6 +7737,10 @@ point vpart_position::mount() const
     return vehicle().part( part_index() ).mount;
 }
 
+tripoint_bub_ms vpart_position::pos_bub() const
+{
+    return tripoint_bub_ms( pos() );
+}
 tripoint vpart_position::pos() const
 {
     return vehicle().global_part_pos3( part_index() );

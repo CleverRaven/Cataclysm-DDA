@@ -1251,6 +1251,8 @@ class vehicle
          *  @param condition enum to include unabled, unavailable, and broken parts
          */
         std::vector<vehicle_part *> get_parts_at( const tripoint &pos, const std::string &flag,
+                part_status_flag condition );  // TODO: Get rid of untyped operation.
+        std::vector<vehicle_part *> get_parts_at( const tripoint_bub_ms &pos, const std::string &flag,
                 part_status_flag condition );
         std::vector<const vehicle_part *> get_parts_at( const tripoint &pos,
                 const std::string &flag, part_status_flag condition ) const;
