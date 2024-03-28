@@ -6790,7 +6790,7 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         };
     } else if( jo.get_bool( "list_faction_camp_sites", false ) ) {
         function = [&]( const dialogue & ) {
-            const auto &sites = recipe_group::get_recipes_by_id( "all_faction_base_types", "ANY" );
+            const auto &sites = recipe_group::get_recipes_by_id( "all_faction_base_types" );
             if( sites.empty() ) {
                 return std::string( _( "I can't think of a single place I can build a camp." ) );
             }
