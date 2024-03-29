@@ -289,7 +289,7 @@ optional.
 
 
 ## Fill terrain using "fill_ter"
-*required if "rows" is unset* Fill with the given terrain.
+Fill with the given terrain.
 
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
@@ -297,10 +297,11 @@ Example: `"fill_ter": "t_region_groundcover"`
 
 
 ## ASCII map using "rows" array
-*required if "fill_ter" is unset*
 
-Nested array of 24 (or 48) strings, each 24 (or 48) characters long, where each character is defined by "terrain" and
-optionally "furniture" or other entries below.
+Nested array usually of 24 strings, each 24 characters long but can vary for nests (in which case between 1 and 24)
+and defining multiple overmap terrains maps at once (in which case a multiple of 24),
+where each character is defined by "terrain" and optionally "furniture" or other entries below.
+Defaults to all spaces " " if unset.
 
 Usage:
 
