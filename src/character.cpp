@@ -11893,7 +11893,21 @@ bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
             return true;
         }
         if( elem.second.has_conditional_flag( flag ) ) {
-            return true;
+            // Checking for disabling effects is a bit convoluted
+            bool disabled = false;
+            if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                for( const effect &eff : get_effects_from_bp( elem.first ) ) {
+                    if( eff.has_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                        disabled = true;
+                        break;
+
+                    }
+                }
+            }
+            if( !disabled ) {
+                return true;
+
+            }
         }
     }
     return false;
@@ -11907,7 +11921,18 @@ int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
             ret++;
         }
         if( get_part( bp )->has_conditional_flag( flag ) ) {
-            ret++;
+            bool disabled = false;
+            if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                for( const effect &eff : get_effects_from_bp( bp ) ) {
+                    if( eff.has_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                        disabled = true;
+                        break;
+                    }
+                }
+            }
+            if( !disabled ) {
+                ret++;
+            }
         }
     }
     return ret;
