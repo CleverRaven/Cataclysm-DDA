@@ -22,8 +22,6 @@ static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
 
 static const mtype_id debug_mon( "debug_mon" );
 
-static const item_group_id item_group_id_test_STAT_ench_item_1_pair( "test_STAT_ench_item_1_pair" );
-
 static void advance_turn( Character &guy )
 {
     guy.process_turn();
@@ -257,7 +255,7 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( debug_mon, tripoint( 1, 1, 0 ) );
+    g->place_critter_at( debug_mon, tripoint_south );
 
     WHEN( "Character attacks with no enchantment" ) {
         // 60 moves for the first attack, and 59 for each next, please don't ask why.
@@ -310,7 +308,7 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
-    g->place_critter_at( debug_mon, tripoint( 1, 1, 0 ) );
+    g->place_critter_at( debug_mon, tripoint_south );
 
     WHEN( "Character attacks with no enchantment" ) {
         guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_0" ) );
