@@ -91,6 +91,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "volume_encumber_modifier": 0,
+        "holster": true,
         "description": "Compartment for a heavy battery.",
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "max_contains_volume": "1500 ml",
