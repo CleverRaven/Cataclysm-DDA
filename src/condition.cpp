@@ -1604,7 +1604,7 @@ conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view me
         if( terrain ) {
             return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
         } else {
-            return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
+            return get_map().furn( loc ) == furn_id( furn_type.evaluate( d ) );
         }
     };
 }
