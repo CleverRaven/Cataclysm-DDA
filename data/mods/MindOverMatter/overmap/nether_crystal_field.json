@@ -172,7 +172,6 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "furniture": { "N": [ [ "f_nether_crystal_structure", 1 ], [ "f_null", 1 ] ] },
       "place_monsters": [ { "monster": "GROUP_CRYSTAL_FIELD_PSYCHOACTIVE", "x": [ 0, 1 ], "y": [ 0, 1 ], "chance": 50, "repeat": [ 1, 3 ] } ]
     }
   },

@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "rock_border" ],
-    "object": { "terrain": { " ": "t_rock" } }
+    "om_terrain": "rock_border",
+    "object": { "fill_ter": "t_rock" }
   }
 ]
