@@ -125,6 +125,7 @@ static const efftype_id effect_pet( "pet" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
+static const flag_id json_flag_LEVITATION( "LEVITATION" );
 static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
 static const flag_id json_flag_PROXIMITY( "PROXIMITY" );
 static const flag_id json_flag_UNDODGEABLE( "UNDODGEABLE" );
@@ -9868,7 +9869,9 @@ void map::maybe_trigger_prox_trap( const tripoint &pos, Creature &c, const bool 
     if( tr.is_null() ) {
         return;
     }
-
+    if( tr == tr_ledge && c.has_effect_with_flag( json_flag_LEVITATION ) ) {
+        return;
+    }
     //Don't trigger benign traps like cots and funnels
     if( tr.is_benign() ) {
         return;
@@ -9900,7 +9903,9 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
     if( tr.is_null() ) {
         return;
     }
-
+    if( tr == tr_ledge && c.has_effect_with_flag( json_flag_LEVITATION ) ) {
+        return;
+    }
     //Don't trigger benign traps like cots and funnels
     if( tr.is_benign() ) {
         return;
