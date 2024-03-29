@@ -12383,19 +12383,25 @@ stat_mod Character::get_pain_penalty() const
         return ret;
     }
 
-    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+    int stat_penalty = std::floor( pain / 10.0f );
+
+
+    // Int and per are penalized twice as hard
+    ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR, stat_penalty );
+
+    ret.dexterity = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX, stat_penalty );
+
+    ret.intelligence = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_INT, stat_penalty * 2.0f );
+
+    ret.perception = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER, stat_penalty * 2.0f );
+
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
-    // Venera says int and per should be penalized more (and per is penalized less, for legacy reasons, duh)
-    // TODO change the formula to pain/10?
-    ret.strength = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
-                             stat_penalty ), 0.0 );
-    ret.dexterity = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
-                              stat_penalty ), 0.0 );
-    ret.intelligence = std::max( enchantment_cache->modify_value(
-                                     enchant_vals::mod::PAIN_PENALTY_MOD_INT, stat_penalty ), 0.0 );
-    ret.perception = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
-                               stat_penalty * 0.666f ), 0.0 );
+    ret.strength = std::max( ret.strength, 0.0 );                 
+    ret.dexterity = std::max( ret.dexterity, 0.0 );
+    ret.intelligence = std::max( ret.intelligence, 0.0 );
+    ret.perception = std::max( ret.perception, 0.0 );
+
 
     int speed_penalty = std::pow( pain, 0.7f );
 
