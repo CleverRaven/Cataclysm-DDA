@@ -602,7 +602,7 @@ TEST_CASE( "npc_uses_guns", "[npc_ai]" )
     float danger_around = hostile.danger_assessment();
     CHECK( danger_around > 1.0f );
     // Now give them a TON of junk
-    for( item some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
+    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
         hostile.i_add( some_trash );
     }
     hostile.wield_better_weapon();
@@ -631,11 +631,11 @@ TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
     item backpack( "debug_backpack" );
     hostile.wear_item( backpack );
     // Give them a TON of junk
-    for( item some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
+    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
         hostile.i_add( some_trash );
     }
     // But also give them a gun and some magazines
-    for( item some_gun_item : item_group::items_from( Item_spawn_data_test_NPC_guns ) ) {
+    for( item &some_gun_item : item_group::items_from( Item_spawn_data_test_NPC_guns ) ) {
         hostile.i_add( some_gun_item );
     }
     // Make them realize we exist and COULD maybe hurt them! Or something. Otherwise they won't re-wield.
