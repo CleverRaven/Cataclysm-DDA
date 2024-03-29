@@ -12387,17 +12387,21 @@ stat_mod Character::get_pain_penalty() const
 
 
     // Int and per are penalized twice as hard
-    ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR, stat_penalty );
+    ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
+                   stat_penalty );
 
-    ret.dexterity = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX, stat_penalty );
+    ret.dexterity = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
+                    stat_penalty );
 
-    ret.intelligence = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_INT, stat_penalty * 2.0f );
+    ret.intelligence = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_INT,
+                       stat_penalty * 2.0f );
 
-    ret.perception = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER, stat_penalty * 2.0f );
+    ret.perception = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
+                     stat_penalty * 2.0f );
 
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
-    ret.strength = std::max( ret.strength, 0.0 );                 
+    ret.strength = std::max( ret.strength, 0.0 );
     ret.dexterity = std::max( ret.dexterity, 0.0 );
     ret.intelligence = std::max( ret.intelligence, 0.0 );
     ret.perception = std::max( ret.perception, 0.0 );
