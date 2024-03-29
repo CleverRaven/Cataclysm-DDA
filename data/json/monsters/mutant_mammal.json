@@ -482,7 +482,7 @@
     "dodge": 1,
     "vision_night": 4,
     "stomach_size": 150,
-    "harvest": "dog_small_with_skull",
+    "harvest": "dog_small_with_skull_mutant",
     "upgrades": { "age_grow": 42, "into": "mon_dog_mutant_loper" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
@@ -578,7 +578,7 @@
     "stomach_size": 200,
     "dodge": 1,
     "vision_night": 4,
-    "harvest": "dog_small_with_skull",
+    "harvest": "dog_small_with_skull_mutant",
     "upgrades": { "age_grow": 42, "into": "mon_dog_mutant_mauler" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
@@ -674,7 +674,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 1,
     "vision_night": 4,
-    "harvest": "dog_small_with_skull",
+    "harvest": "dog_small_with_skull_mutant",
     "upgrades": { "age_grow": 42, "into": "mon_dog_mutant_thrasher" },
     "extend": { "flags": [ "NO_BREED" ] }
   },
