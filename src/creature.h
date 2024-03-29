@@ -936,7 +936,6 @@ class Creature : public viewer
         /** Returns a set of points we do not want to path through. */
         virtual std::unordered_set<tripoint> get_path_avoid() const = 0;
 
-        int moves;
         bool underwater;
         void draw( const catacurses::window &w, const point &origin, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
@@ -1188,6 +1187,8 @@ class Creature : public viewer
         void set_summoner( character_id summoner );
         Creature *get_summoner() const;
     protected:
+        // How many moves do we have to work with
+        int moves;
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
         std::optional<time_point> lifespan_end = std::nullopt;

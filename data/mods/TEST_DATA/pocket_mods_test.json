@@ -45,7 +45,6 @@
     "durability": 7,
     "min_cycle_recoil": 1350,
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
-    "valid_mod_locations": [ [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sling", 1 ], [ "stock accessory", 2 ], [ "stock", 1 ] ],
     "melee_damage": { "bash": 12 },
     "flags": [ "NO_TURRET" ]
   },

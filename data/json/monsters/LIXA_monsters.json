@@ -217,7 +217,7 @@
     "id": "LIXA_eigenspectre_3",
     "type": "MONSTER",
     "name": { "str": "shifting eigenspectre" },
-    "description": "This distorted figure is a kaliadescope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
+    "description": "This distorted figure is a kaleidescope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
@@ -255,7 +255,7 @@
     "id": "LIXA_eigenspectre_3_echo",
     "type": "MONSTER",
     "name": { "str": "shifting eigenspectre" },
-    "description": "This distorted figure is a kaliadescope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
+    "description": "This distorted figure is a kaleidescope of borders.  Every part of a human, flattened into place, warps wildly from second to second.  The word your mind conjures to describe it is 'rotating', though you're not sure why.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
     "bodytype": "human",
@@ -360,7 +360,7 @@
         "type": "spell",
         "id": "LIXA_reshuffle_cone",
         "spell_data": { "id": "LIXA_reshuffle_cone", "min_level": 1 },
-        "monster_message": "The %s rearranges the parts of itself you occupy, dialating them around you.",
+        "monster_message": "The %s rearranges the parts of itself you occupy, dilating them around you.",
         "cooldown": 20
       }
     ],

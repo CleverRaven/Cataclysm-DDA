@@ -275,9 +275,10 @@ void timed_event::actualize()
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
                 summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );
             } else {
+                const tripoint_abs_omt omt_point = project_to<coords::omt>( map_point );
                 tinymap mx_map;
-                mx_map.load( map_point, false );
-                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, map_point );
+                mx_map.load( omt_point, false );
+                MapExtras::apply_function( map_extra_mx_dsa_alrp, mx_map, omt_point );
                 g->load_npcs();
                 here.invalidate_map_cache( map_point.z() );
             }

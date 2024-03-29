@@ -419,7 +419,7 @@ int relic::activate( Creature &caster, const tripoint &target )
         caster.add_msg_if_player( m_bad, _( "This artifact lacks the charges to activate." ) );
         return 0;
     }
-    caster.moves -= moves;
+    caster.mod_moves( -moves );
     for( const fake_spell &sp : active_effects ) {
         spell casting = sp.get_spell( caster, sp.level );
         casting.cast_all_effects( caster, target );

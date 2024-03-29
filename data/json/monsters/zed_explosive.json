@@ -86,7 +86,6 @@
     },
     "flags": [
       "SEES",
-      "GOODHEARING",
       "SMELLS",
       "STUMBLES",
       "WARM",
@@ -323,7 +322,7 @@
     "name": "bombardier boomer",
     "description": "This zombie's exposed ribcage is encircled by swollen lungs and other organs.  You would prefer to be far away when they burst.",
     "default_faction": "zombie",
-    "bodytype": "blob",
+    "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 9,
     "volume": "108500 ml",
@@ -349,7 +348,7 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_death_drops", 100 ], [ "explode_zed", 100 ] ] },
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "BASHES", "REVIVES", "FILTHY" ],
     "armor": { "bash": 10, "cut": 5, "bullet": 5, "electric": 2 }
   }
 ]

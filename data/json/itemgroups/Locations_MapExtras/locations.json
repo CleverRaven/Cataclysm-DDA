@@ -33,7 +33,7 @@
   {
     "id": "vfw_tools",
     "type": "item_group",
-    "items": [ { "item": "glock_19", "prob": 1, "charges": [ 0, 15 ] }, [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
+    "items": [ [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
   },
   {
     "id": "vfw_books",
@@ -243,7 +243,8 @@
       [ "lanyard", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ],
-      [ "crutches", 5 ]
+      [ "crutches", 5 ],
+      { "group": "pillbox_any_used", "prob": 20 }
     ]
   },
   {
@@ -480,12 +481,11 @@
       [ "hot_pants_leather", 30 ],
       [ "mag_porn", 30 ],
       { "group": "stash_drugs", "prob": 20 },
-      [ "bikini_top_leather", 10 ],
-      [ "bikini_top_fur", 10 ],
-      [ "bikini_top_short", 10 ],
-      [ "bikini_bottom_short", 10 ],
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 5 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 5 },
+      { "group": "bikini", "prob": 30 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 5
+      },
       [ "skirt_leather", 20 ],
       [ "nanoskirt", 20 ],
       [ "mag_dude", 20 ],
@@ -575,8 +575,7 @@
       [ "swimming_kickboard", 5 ],
       [ "plastic_sheet", 10 ],
       [ "fishing_waders", 5 ],
-      [ "bikini_top", 10 ],
-      [ "bikini_bottom", 10 ],
+      { "group": "bikini", "prob": 10 },
       [ "rashguard", 5 ],
       [ "wetsuit_jacket", 10 ],
       [ "wetsuit_top", 10 ],
@@ -614,6 +613,7 @@
       [ "fish_bait", 100 ],
       [ "fish_trap", 100 ],
       [ "bucket", 100 ],
+      [ "bucket_5gal", 100 ],
       [ "fishing_hook_basic", 100 ]
     ]
   },
@@ -726,7 +726,8 @@
       [ "plastic_chunk", 150 ],
       [ "plastic_plate", 50 ],
       [ "tumbler_plastic", 50 ],
-      [ "plastic_bowl_kids", 25 ]
+      [ "plastic_bowl_kids", 25 ],
+      { "group": "pillbox_any_empty", "prob": 15 }
     ]
   },
   {
@@ -953,7 +954,8 @@
       [ "tinder", 1 ],
       { "item": "hobo_stove", "prob": 1 },
       [ "eclipse_glasses", 1 ],
-      { "group": "writing_utensils", "prob": 5 }
+      { "group": "writing_utensils", "prob": 5 },
+      { "group": "pillbox_any_used", "prob": 5 }
     ]
   },
   {
@@ -1332,7 +1334,8 @@
       [ "shovel", 10 ],
       [ "e_tool", 5 ],
       { "item": "miner_hat", "prob": 40, "charges": [ 0, 100 ] },
-      [ "bucket", 10 ],
+      [ "bucket", 5 ],
+      [ "bucket_5gal", 20 ],
       [ "grapnel", 1 ],
       { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 5 ],
@@ -1474,7 +1477,7 @@
       { "item": "3006", "prob": 5, "charges": [ 1, 20 ] },
       { "item": "ksg", "prob": 8, "charges": [ 0, 7 ] },
       { "item": "remington_870_express", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
+      { "item": "benelli_tsa", "variant": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
       { "item": "shot_beanbag", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "rm120c", "prob": 2, "charges": [ 0, 5 ] },
       { "item": "rm20", "prob": 1, "charges": [ 0, 20 ] },
@@ -2001,7 +2004,8 @@
       [ "lanyard", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
-      { "group": "writing_utensils", "prob": 10 }
+      { "group": "writing_utensils", "prob": 10 },
+      { "group": "pillbox_any_used", "prob": 10 }
     ]
   },
   {
@@ -2304,7 +2308,8 @@
       { "item": "knitting_needles", "prob": 1 },
       { "item": "survnote", "prob": 1 },
       { "item": "eclipse_glasses", "prob": 1 },
-      { "group": "writing_utensils", "prob": 20 }
+      { "group": "writing_utensils", "prob": 20 },
+      { "group": "pillbox_any_used", "prob": 5 }
     ]
   },
   {
@@ -2594,7 +2599,8 @@
       [ "bottle_folding", 6 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ],
-      { "group": "writing_utensils", "prob": 20 }
+      { "group": "writing_utensils", "prob": 20 },
+      { "group": "pillbox_any_used", "prob": 10 }
     ]
   },
   {

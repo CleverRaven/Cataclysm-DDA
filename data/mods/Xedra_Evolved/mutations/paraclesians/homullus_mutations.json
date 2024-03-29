@@ -23,7 +23,7 @@
     "category": [ "HOMULLUS" ],
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "changes_to": [ "HOMULLUS_SKIN_3" ],
-    "healing_multiplier": 0.9,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.1 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 2 },
       { "part": "leg_l", "ignored": 5 },
@@ -51,7 +51,7 @@
     "prereqs": [ "HOMULLUS_SKIN_2" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],
-    "healing_multiplier": 0.7,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.3 } ] } ],
     "wet_protection": [
       { "part": "head", "ignored": 5 },
       { "part": "leg_l", "ignored": 16 },
@@ -136,6 +136,18 @@
     "prereqs": [ "HOMULLUS_SKIN_1" ],
     "prereqs2": [ "HOMULLUS_BACKSTAGE" ],
     "spells_learned": [ [ "homullus_invisible_to_humans_spell", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "HOMULLUS_REDUCED_VISIBILITY_ALLY",
+    "name": { "str": "The Average Joe" },
+    "points": 3,
+    "visibility": 0,
+    "ugliness": 0,
+    "description": "Upon gaining this ability the Homullus gains the ability to render themselves invisible to humans.",
+    "category": [ "HOMULLUS" ],
+    "prereqs": [ "HOMULLUS_INVISIBLE_TO_HUMANS" ],
+    "spells_learned": [ [ "homullus_reduced_visibility_ally_spell", 1 ] ]
   },
   {
     "type": "mutation",
@@ -265,7 +277,7 @@
     "points": 8,
     "visibility": 0,
     "ugliness": 0,
-    "description": "You embody the tales of ancient knights, increasing the strength of armor you wear by 40%",
+    "description": "You embody the tales of ancient knights, increasing the strength of armor you wear by 40%.",
     "prereqs": [ "HOMULLUS_ARMOR_MULT_1" ],
     "threshreq": [ "THRESH_HOMULLUS" ],
     "category": [ "HOMULLUS" ],

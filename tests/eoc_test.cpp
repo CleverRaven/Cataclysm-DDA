@@ -811,17 +811,21 @@ TEST_CASE( "EOC_string_var_var", "[eoc]" )
 {
     clear_avatar();
     clear_map();
-
-    dialogue d( get_talker_for( get_avatar() ), std::make_unique<talker>() );
+    standard_npc dude;
+    dialogue d( get_talker_for( get_avatar() ), get_talker_for( &dude ) );
     global_variables &globvars = get_globals();
     globvars.clear_global_values();
 
     REQUIRE( globvars.get_global_value( "npctalk_var_key1" ).empty() );
     REQUIRE( globvars.get_global_value( "npctalk_var_key2" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key3" ).empty() );
+    REQUIRE( globvars.get_global_value( "npctalk_var_key4" ).empty() );
 
     CHECK( effect_on_condition_EOC_string_var_var->activate( d ) );
-    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "Works" );
-    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Works" );
+    CHECK( globvars.get_global_value( "npctalk_var_key1" ) == "Works_global" );
+    CHECK( globvars.get_global_value( "npctalk_var_key2" ) == "Works_context" );
+    CHECK( globvars.get_global_value( "npctalk_var_key3" ) == "Works_u" );
+    CHECK( globvars.get_global_value( "npctalk_var_key4" ) == "Works_npc" );
 }
 
 TEST_CASE( "EOC_run_with_test", "[eoc]" )
