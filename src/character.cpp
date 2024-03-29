@@ -12401,10 +12401,10 @@ stat_mod Character::get_pain_penalty() const
 
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
-    ret.strength = std::max( ret.strength, 0.0 );
-    ret.dexterity = std::max( ret.dexterity, 0.0 );
-    ret.intelligence = std::max( ret.intelligence, 0.0 );
-    ret.perception = std::max( ret.perception, 0.0 );
+    ret.strength = std::max( ret.strength, 0.0f );
+    ret.dexterity = std::max( ret.dexterity, 0.0f );
+    ret.intelligence = std::max( ret.intelligence, 0.0f );
+    ret.perception = std::max( ret.perception, 0.0f );
 
 
     int speed_penalty = std::pow( pain, 0.7f );
