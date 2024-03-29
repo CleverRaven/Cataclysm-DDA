@@ -859,6 +859,7 @@ Character status value  | Description
 `MOVECOST_FLATGROUND_MOD`| How many moves you spend to move 1 tile on flat ground; shown in UI
 `MOVECOST_OBSTACLE_MOD` | How many moves you spend to move 1 tile, if this tile has a movecost more than 105 moves; not shown in UI
 `MOVECOST_SWIM_MOD`     | How many moves you spend to move 1 tile in water; not shown in UI
+`MOVEMENT_EXERTION_MODIFIER` | Affects how much physical exertion (activity_level) is required for the player to move a single tile. The value this affects is technically a float, so addition and multiplication operations can be performed on it, but player-facing effects only happen at specific whole-integer breakpoints. This can most easily be seen in `\data\json\ui\activity.json`.
 `NIGHT_VIS`             | How well you can see in darkness.  `ADD` adds tiles, so `"ADD": 3` increases night vision distance by 3 tiles.
 `OBTAIN_COST_MULTIPLIER`| Modifier for pulling an item from a container, as a handling penalty or bonus. `"add": 100` add 100 additional moves to item wield (1 second)
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
