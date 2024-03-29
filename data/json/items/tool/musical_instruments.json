@@ -297,7 +297,7 @@
     "name": { "str": "golden krar" },
     "description": "A shiny golden krar, similar to a harp.",
     "weight": "13000 g",
-    "volume": "1130973 ml",
+    "volume": "12 L",
     "longest_side": "100 cm",
     "price": 1000000,
     "price_postapoc": 1000,
