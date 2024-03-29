@@ -567,7 +567,7 @@
       { "limb_score": "manip", "modifier": 0.8 },
       { "limb_score": "grip", "modifier": 0.8 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
   },
   {
     "type": "effect_type",
@@ -591,7 +591,7 @@
       { "limb_score": "footing", "modifier": 0.5 },
       { "limb_score": "balance", "modifier": 0.5 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS" ]
   },
   {
     "type": "effect_type",
@@ -1728,7 +1728,7 @@
     "desc": [
       "You consumed chiropteran primer.",
       "You taste iron, and you want more.",
-      "Every sound is a painful screech in your ears.  It's all too much!."
+      "Every sound is a painful screech in your ears.  It's all too much!"
     ],
     "max_intensity": 3,
     "resist_traits": [ "THRESH_CHIROPTERAN" ],

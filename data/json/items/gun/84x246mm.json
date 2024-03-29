@@ -24,7 +24,7 @@
     "clip_size": 1,
     "reload": 300,
     "loudness": 200,
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sights", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "84x246mm": 1 } } ],
     "melee_damage": { "bash": 8 }
   },
@@ -41,7 +41,7 @@
     "weight": "6900 g",
     "volume": "5730 ml",
     "longest_side": "1000 mm",
-    "valid_mod_locations": [ [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "rail", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip", 1 ], [ "mechanism", 2 ], [ "sights", 1 ], [ "rail", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "AT4",

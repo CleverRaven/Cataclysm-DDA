@@ -1841,10 +1841,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
                                &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
                                false;
-    bool power_linked = false;
+    bool power_grid = false;
     bool cable_linked = false;
     for( vehicle_part *vp_part : vp_parts ) {
-        power_linked = power_linked ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
+        power_grid = power_grid ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
         cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
                        vp_part->info().has_flag( "TOW_CABLE" );
     }
@@ -2068,27 +2068,14 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( power_linked ) {
-        menu.add( _( "Disconnect power connections" ) )
+    if( power_grid ) {
+        menu.add( is_appliance() ? _( "Disconnect from power grid" ) : _( "Disconnect power connections" ) )
         .enable( !cable_linked )
         .desc( string_format( !cable_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp_parts] {
-            for( vehicle_part *vp_part : vp_parts )
-            {
-                if( vp_part->info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
-                    item drop = part_to_item( *vp_part );
-                    if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
-                        get_player_character().i_add_or_drop( drop );
-                        add_msg( _( "You detach the %s and take it." ), drop.type_name() );
-                    } else {
-                        add_msg( _( "You detached the %s." ), drop.type_name() );
-                    }
-                    remove_remote_part( *vp_part );
-                    remove_part( *vp_part );
-                }
-            }
+        .on_submit( [this, vp] {
+            unlink_cables( vp.mount(), get_player_character(), true, true, true );
             get_player_character().pause();
         } );
     }
@@ -2096,24 +2083,8 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         menu.add( _( "Disconnect cables" ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp_parts] {
-            for( vehicle_part *vp_part : vp_parts )
-            {
-                if( vp_part->has_flag( vp_flag::linked_flag ) ) {
-                    vp_part->last_disconnected = calendar::turn;
-                    vp_part->remove_flag( vp_flag::linked_flag );
-                    linked_item_epower_this_turn = 0_W;
-                    add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
-                }
-                if( vp_part->info().has_flag( "TOW_CABLE" ) ) {
-                    invalidate_towing( true, &get_player_character() );
-                    if( get_player_character().can_stash( vp_part->get_base() ) ) {
-                        add_msg( _( "You detach the %s and take it." ), vp_part->name( false ) );
-                    } else {
-                        add_msg( _( "You detached the %s." ), vp_part->name( false ) );
-                    }
-                }
-            }
+        .on_submit( [this, vp] {
+            unlink_cables( vp.mount(), get_player_character(), true, true, false );
             get_player_character().pause();
         } );
     }

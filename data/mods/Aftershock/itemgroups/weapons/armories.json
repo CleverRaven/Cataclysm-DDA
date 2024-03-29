@@ -61,7 +61,7 @@
     "items": [
       { "group": "afs_civilian_ballistic_gun", "prob": 6 },
       { "group": "afs_any_ballistic_mag", "prob": 2 },
-      { "group": "afs_any_ballistic_ammo", "prob": 4 },
+      { "group": "afs_any_civilian_ballistic_ammo", "prob": 4 },
       { "group": "afs_shotgun_gunmod", "prob": 1 }
     ]
   },
@@ -93,6 +93,8 @@
       [ "afs_heavy_tactical_laser", 5 ],
       [ "afs_pam-41", 10 ],
       [ "afs_magnadrive_230k", 5 ],
+      [ "afs_marsec_t72", 2 ],
+      [ "afs_sr77", 10 ],
       [ "afs_gibs_shotgun", 20 ],
       [ "afs_raketa_shotgun", 20 ]
     ]

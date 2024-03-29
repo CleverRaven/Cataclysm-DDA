@@ -4073,7 +4073,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
-    "description": "an assortment of gold beads used to decorate locs or braids.",
+    "description": "An assortment of gold beads used to decorate locs or braids.",
     "weight": "15 g",
     "volume": "25 ml",
     "material": [ "gold" ],
@@ -4243,10 +4243,10 @@
       { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "automatic-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "magnum-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
     ],
     "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.",
@@ -4312,7 +4312,7 @@
     "id": "simple_ordnance_cartridge_necklace",
     "copy-from": "simple_pistol_cartridge_necklace",
     "type": "ARMOR",
-    "name": { "str": "ordinance-cartridge necklace" },
+    "name": { "str": "ordnance-cartridge necklace" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str": "grenade-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str": "grenade-cartridge necklace" } },
@@ -4331,8 +4331,8 @@
       { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str": "grenade-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordinance necklace" } },
-      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordinance necklace" } }
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordnance necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordnance necklace" } }
     ],
     "description": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
     "snippet_category": [
@@ -4486,7 +4486,7 @@
     "id": "fancy_ordinance_cartridge_necklace",
     "type": "ARMOR",
     "copy-from": "fancy_pistol_cartridge_necklace",
-    "name": { "str": "refined ordinance-cartridge necklace" },
+    "name": { "str": "refined ordnance-cartridge necklace" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str_sp": "Grenadier's" } },
       { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str_sp": "God's Boomstick" } },

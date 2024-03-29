@@ -2116,9 +2116,6 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
         //... and a loudspeaker to attract zombies
         compmap.place_spawns( GROUP_TURRET_SPEAKER, 1, trap_center.xy(), trap_center.xy(), 1, true );
     }
-
-    compmap.save();
-
     return true;
 }
 
@@ -2170,9 +2167,6 @@ static bool mx_fungal_zone( map &/*m*/, const tripoint &abs_sub )
                              suitable_location.xy() + point_north_west,
                              suitable_location.xy() + point_south_east,
                              3, true );
-
-    fungal_map.save();
-
     return true;
 }
 
