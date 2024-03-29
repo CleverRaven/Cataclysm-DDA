@@ -4450,24 +4450,14 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
 
     jo.read( "flags", flags_ );
 
-    // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
-    mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
-    parameters = palette.get_parameters();
+    // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
+    // matching key in "terrain", unless fill_ter is set
+    // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
+    point expected_dim = mapgensize + m_offset;
+    cata_assert( expected_dim.x >= 0 );
+    cata_assert( expected_dim.y >= 0 );
+
     if( jo.has_array( "rows" ) ) {
-        auto &keys_with_terrain = palette.keys_with_terrain;
-        mapgen_palette::placing_map &format_placings = palette.format_placings;
-
-        if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
-            return false;
-        }
-
-        // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
-        // matching key in "terrain", unless fill_ter is set
-        // "rows:" [ "aaaajustlikeinmapgen.cpp", "this.must!be!exactly.24!", "and_must_match_terrain_", .... ]
-        point expected_dim = mapgensize + m_offset;
-        cata_assert( expected_dim.x >= 0 );
-        cata_assert( expected_dim.y >= 0 );
-
         parray = jo.get_array( "rows" );
         if( static_cast<int>( parray.size() ) < expected_dim.y ) {
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
@@ -4478,59 +4468,86 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 string_format( "format: rows: must have %d rows, not %d; check mapgensize if applicable",
                                total_size.y, parray.size() ) );
         }
-        for( int c = m_offset.y; c < expected_dim.y; c++ ) {
-            const std::string row = parray.get_string( c );
-            static std::vector<std::string_view> row_keys;
-            row_keys.clear();
-            row_keys.reserve( total_size.x );
-            utf8_display_split_into( row, row_keys );
-            if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
-                parray.throw_error(
-                    string_format( "  format: row %d must have at least %d columns, not %d",
-                                   c + 1, expected_dim.x, row_keys.size() ) );
-            }
-            if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
-                parray.throw_error(
-                    string_format( "  format: row %d must have %d columns, not %d; check mapgensize if applicable",
-                                   c + 1, total_size.x, row_keys.size() ) );
-            }
-            for( int i = m_offset.x; i < expected_dim.x; i++ ) {
-                const point p = point( i, c ) - m_offset;
-                const map_key key{ std::string( row_keys[i] ) };
-                const auto iter_ter = keys_with_terrain.find( key );
-                const auto fpi = format_placings.find( key );
+    } else {
+        // Construct default "rows" of just spaces
+        const std::string spaces( expected_dim.x, ' ' );
+        std::string empty_row( 1, '"' );
+        empty_row += spaces;
+        empty_row += '"';
+        std::string empty_rows = "[";
+        for( int rown = 0; rown < expected_dim.y - 1; rown++ ) {
+            empty_rows += empty_row;
+            empty_rows += ',';
+        }
+        empty_rows += empty_row;
+        empty_rows += ']';
+        auto empty_array_ = flexbuffer_cache::parse_buffer( empty_rows );
+        parray = JsonArray( empty_array_, flexbuffer_root_from_storage( empty_array_->get_storage() ), {} );
+    }
 
-                const bool has_terrain = iter_ter != keys_with_terrain.end();
-                const bool has_placing = fpi != format_placings.end();
+    // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
+    mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
+    auto &keys_with_terrain = palette.keys_with_terrain;
+    mapgen_palette::placing_map &format_placings = palette.format_placings;
 
-                if( !has_terrain && !fallback_terrain_exists ) {
+    if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
+        return false;
+    }
+
+    parameters = palette.get_parameters();
+
+    for( int c = m_offset.y; c < expected_dim.y; c++ ) {
+        const std::string row = parray.get_string( c );
+        static std::vector<std::string_view> row_keys;
+        row_keys.clear();
+        row_keys.reserve( total_size.x );
+        utf8_display_split_into( row, row_keys );
+        if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
+            parray.throw_error(
+                string_format( "  format: row %d must have at least %d columns, not %d",
+                               c + 1, expected_dim.x, row_keys.size() ) );
+        }
+        if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
+            parray.throw_error(
+                string_format( "  format: row %d must have %d columns, not %d; check mapgensize if applicable",
+                               c + 1, total_size.x, row_keys.size() ) );
+        }
+        for( int i = m_offset.x; i < expected_dim.x; i++ ) {
+            const point p = point( i, c ) - m_offset;
+            const map_key key{ std::string( row_keys[i] ) };
+            const auto iter_ter = keys_with_terrain.find( key );
+            const auto fpi = format_placings.find( key );
+
+            const bool has_terrain = iter_ter != keys_with_terrain.end();
+            const bool has_placing = fpi != format_placings.end();
+
+            if( !has_terrain && !fallback_terrain_exists ) {
+                parray.string_error(
+                    c, i + 1,
+                    string_format( "format: rows: row %d column %d: "
+                                   "'%s' is not in 'terrain', and no 'fill_ter' is set!",
+                                   c + 1, i + 1, key.str ) );
+            }
+            if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
+                try {
                     parray.string_error(
                         c, i + 1,
                         string_format( "format: rows: row %d column %d: "
-                                       "'%s' is not in 'terrain', and no 'fill_ter' is set!",
+                                       "'%s' has no terrain, furniture, or other definition",
                                        c + 1, i + 1, key.str ) );
+                } catch( const JsonError &e ) {
+                    debugmsg( "(json-error)\n%s", e.what() );
                 }
-                if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
-                    try {
-                        parray.string_error(
-                            c, i + 1,
-                            string_format( "format: rows: row %d column %d: "
-                                           "'%s' has no terrain, furniture, or other definition",
-                                           c + 1, i + 1, key.str ) );
-                    } catch( const JsonError &e ) {
-                        debugmsg( "(json-error)\n%s", e.what() );
-                    }
-                }
-                if( has_placing ) {
-                    jmapgen_place where( p );
-                    for( auto &what : fpi->second ) {
-                        objects.add( where, what );
-                    }
+            }
+            if( has_placing ) {
+                jmapgen_place where( p );
+                for( auto &what : fpi->second ) {
+                    objects.add( where, what );
                 }
             }
         }
-        fallback_terrain_exists = true;
     }
+    fallback_terrain_exists = true;
 
     // No fill_ter? No format? GTFO.
     if( !fallback_terrain_exists ) {
