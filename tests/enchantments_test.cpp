@@ -80,7 +80,7 @@ static enchant_test set_enc_test( avatar &p )
 TEST_CASE( "worn_enchantments", "[enchantments][worn][items]" )
 {
     avatar p;
-    clear_character( p );
+    clear_avatar();
 
     int str_before = p.get_str();
 
@@ -99,7 +99,7 @@ TEST_CASE( "worn_enchantments", "[enchantments][worn][items]" )
 TEST_CASE( "bionic_enchantments", "[enchantments][bionics]" )
 {
     avatar p;
-    clear_character( p );
+    clear_avatar();
 
     enchant_test enc_test = set_enc_test( p );
 
@@ -114,7 +114,7 @@ TEST_CASE( "bionic_enchantments", "[enchantments][bionics]" )
 TEST_CASE( "mutation_enchantments", "[enchantments][mutations]" )
 {
     avatar p;
-    clear_character( p );
+    clear_avatar();
     enchant_test enc_test = set_enc_test( p );
 
     p.toggle_trait( trait_TEST_ENCH_MUTATION );
@@ -127,11 +127,11 @@ TEST_CASE( "mutation_enchantments", "[enchantments][mutations]" )
 
 
 
-TEST_CASE( "Enchantments_change_stats", "[magic][enchantments][WIP]" )
+TEST_CASE( "Enchantments_change_stats", "[magic][enchantments]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_avatar(), true );
+    clear_avatar();
     GIVEN( "Default character with 8 8 8 8 stats" ) {
         WHEN( "When obtain item with stat enchantments" ) {
             guy.i_add( item( "test_STAT_ench_item_1" ) );
@@ -144,7 +144,7 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments][WIP]" )
                 REQUIRE( guy.get_per() == 1 );
             }
             AND_WHEN( "Item is removed" ) {
-                clear_character( *guy.as_avatar(), true );
+                clear_avatar();
                 advance_turn( guy );
                 THEN( "Stats change back" ) {
                     REQUIRE( guy.get_str() == 8 );
@@ -157,12 +157,11 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments][WIP]" )
     }
     GIVEN( "Default character with 8 8 8 8 stats" ) {
         WHEN( "When obtain two items with stat enchantments" ) {
-
             item backpack( "debug_backpack" );
             guy.wear_item( backpack );
             item enchantment_item( "test_STAT_ench_item_1" );
-            guy.i_add( enchantment_item, /* should_stack */ true, /*allow_drop*/ false, /*allow wield*/ false );
-            guy.i_add( enchantment_item, /* should_stack */ true, /*allow_drop*/ false, /*allow wield*/ false );
+            guy.i_add( enchantment_item );
+            guy.i_add( enchantment_item );
             guy.recalculate_enchantment_cache();
             advance_turn( guy );
             THEN( "Stats change accordingly" ) {
@@ -177,11 +176,11 @@ TEST_CASE( "Enchantments_change_stats", "[magic][enchantments][WIP]" )
 
 
 
-TEST_CASE( "Enchantments_modify_speed", "[magic][enchantments][speed][WIP]" )
+TEST_CASE( "Enchantments_modify_speed", "[magic][enchantments][speed]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_avatar(), true );
+    clear_avatar();
 
     WHEN( "Character has no speed enchantment" ) {
         THEN( "Speed is default" ) {
@@ -202,7 +201,7 @@ TEST_CASE( "Enchantments_modify_speed", "[magic][enchantments][speed][WIP]" )
             REQUIRE( guy.get_speed_bonus() == -38 );
         }
         AND_WHEN( "Character loses speed enchantment" ) {
-            clear_character( *guy.as_avatar(), true );
+            clear_avatar();
             guy.set_moves( 0 );
             advance_turn( guy );
             THEN( "Speed is default again" ) {
@@ -215,11 +214,11 @@ TEST_CASE( "Enchantments_modify_speed", "[magic][enchantments][speed][WIP]" )
 }
 
 
-TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments][WIP]" )
+TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_avatar(), true );
+    clear_avatar();
 
     WHEN( "Character has no speed enchantment" ) {
         THEN( "Speed is default" ) {
@@ -242,7 +241,7 @@ TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments][WIP]" )
     }
 
     WHEN( "Character loses speed enchantment" ) {
-        clear_character( *guy.as_avatar(), true );
+        clear_avatar();
         guy.set_moves( 0 );
         advance_turn( guy );
         THEN( "Speed is default again" ) {
@@ -253,11 +252,11 @@ TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments][WIP]" )
     }
 }
 
-TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments][WIP]" )
+TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_avatar(), true );
+    clear_avatar();
     g->place_critter_at( debug_mon, tripoint( 1, 1, 0 ) );
 
     WHEN( "Character attacks with no enchantment" ) {
@@ -306,11 +305,11 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments][WIP]" )
     }
 }
 
-TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][WIP]" )
+TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_avatar(), true );
+    clear_avatar();
     g->place_critter_at( debug_mon, tripoint( 1, 1, 0 ) );
 
     WHEN( "Character attacks with no enchantment" ) {
@@ -331,7 +330,7 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][
     }
 
     WHEN( "Character attacks with enchantment, that decreases stamina cost for 100" ) {
-        clear_character( *guy.as_avatar(), true );
+        clear_avatar();
         guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_1" ) );
         guy.recalculate_enchantment_cache();
         advance_turn( guy );
@@ -349,7 +348,7 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][
     }
 
     WHEN( "Character attacks with enchantment, that double stamina cost" ) {
-        clear_character( *guy.as_avatar(), true );
+        clear_avatar();
         guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_2" ) );
         guy.recalculate_enchantment_cache();
         advance_turn( guy );
@@ -367,11 +366,11 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments][
     }
 }
 
-TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments][WIP]" )
+TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments]" )
 {
     clear_map();
     Character &guy = get_player_character();
-    clear_character( *guy.as_avatar(), true );
+    clear_avatar();
 
     WHEN( "Character has default amount of dodges, not affected by enchantments" ) {
         THEN( "1 dodge" ) {
@@ -388,7 +387,7 @@ TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments][WIP]" )
         }
     }
 
-    clear_character( *guy.as_avatar(), true );
+    clear_avatar();
 
     WHEN( "Character has enchantment that gives +4 dodges, and then halves amount of dodges" ) {
         guy.i_add( item( "test_BONUS_DODGE_ench_item_2" ) );
