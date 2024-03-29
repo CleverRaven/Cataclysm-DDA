@@ -395,6 +395,6 @@
     "ugliness": 0,
     "player_display": true,
     "valid": false,
-    "flags": [ "TEEPSHIELD", "PORTAL_PROOF" ]
+    "flags": [ "TEEPSHIELD" ]
   }
 ]
