@@ -9809,7 +9809,8 @@ void game::butcher()
     }
 }
 
-static item::reload_option favorite_ammo_or_select( avatar &u, item_location &loc, bool empty, bool prompt )
+static item::reload_option favorite_ammo_or_select( avatar &u, item_location &loc, bool empty,
+        bool prompt )
 {
     if( u.ammo_location ) {
         std::vector<item::reload_option> ammo_list;
@@ -9822,8 +9823,7 @@ static item::reload_option favorite_ammo_or_select( avatar &u, item_location &lo
                 return *it;
             }
         }
-    }
-    else {
+    } else {
         const_cast<item_location &>( u.ammo_location ) = item_location();
     }
     return u.select_ammo( loc, prompt, empty );

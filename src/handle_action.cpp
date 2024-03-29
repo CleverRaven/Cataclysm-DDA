@@ -2475,7 +2475,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 if( weapon->gun_all_modes().size() > 1 ) {
                     weapon->gun_cycle_mode();
                 } else {
-                        add_msg( m_info, _( "Your %s has only one firing mode." ), weapon->tname() );
+                    add_msg( m_info, _( "Your %s has only one firing mode." ), weapon->tname() );
                 }
             }
             break;
@@ -2488,11 +2488,13 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 } else if( player_character.ammo_location && opt.ammo == player_character.ammo_location ) {
                     player_character.add_msg_if_player( _( "Cleared ammo preferences for %s." ), weapon->tname() );
                     player_character.ammo_location = item_location();
-                } else if ( player_character.has_item( *opt.ammo ) ) {
-                    player_character.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(), weapon->tname() );
+                } else if( player_character.has_item( *opt.ammo ) ) {
+                    player_character.add_msg_if_player( _( "Selected %s as default ammo for %s." ), opt.ammo->tname(),
+                                                        weapon->tname() );
                     player_character.ammo_location = opt.ammo;
                 } else {
-                    player_character.add_msg_if_player( _( "You need to keep that ammo on you to select it as default ammo." ) );
+                    player_character.add_msg_if_player(
+                        _( "You need to keep that ammo on you to select it as default ammo." ) );
                 }
             }
             break;
