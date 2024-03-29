@@ -1150,6 +1150,7 @@
     "id": "drum_skin",
     "name": { "str": "drum skin" },
     "copy-from": "tanned_hide",
+    "weight": "10 g",
     "description": "The tanned hide of an animal repursed to become the head on a percusssion drum."
   },
   {

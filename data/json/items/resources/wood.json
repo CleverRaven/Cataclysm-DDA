@@ -156,7 +156,7 @@
     "name": { "str": "tuning peg" },
     "description": "Tuning pegs go on stringed instruments to both provide an anchor for the strings and to control the tightness of the wire which in turn controls the tune of the notes produced.",
     "category": "spare_parts",
-    "weight": "1 g",
+    "weight": "50 mg",
     "color": "brown",
     "symbol": "/",
     "material": [ "wood" ],
