@@ -4481,7 +4481,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         }
         empty_rows += empty_row;
         empty_rows += ']';
-        auto empty_array_ = flexbuffer_cache::parse_buffer( empty_rows );
+        shared_flexbuffer empty_array_ = flexbuffer_cache::parse_buffer( empty_rows );
         parray = JsonArray( empty_array_, flexbuffer_root_from_storage( empty_array_->get_storage() ), {} );
     }
 
