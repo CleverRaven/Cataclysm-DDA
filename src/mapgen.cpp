@@ -4481,8 +4481,9 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         }
         empty_rows += empty_row;
         empty_rows += ']';
-        shared_flexbuffer empty_array_ = flexbuffer_cache::parse_buffer( empty_rows );
-        parray = JsonArray( empty_array_, flexbuffer_root_from_storage( empty_array_->get_storage() ), {} );
+        std::shared_ptr<parsed_flexbuffer> parsed_array_ptr = flexbuffer_cache::parse_buffer( empty_rows );
+        parray = JsonArray( parsed_array_ptr,
+                            flexbuffer_root_from_storage( parsed_array_ptr->get_storage() ), {} );
     }
 
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
