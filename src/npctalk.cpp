@@ -5233,6 +5233,34 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
     }
 }
 
+talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
+        std::string_view member, bool is_npc )
+{
+    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
+    std::optional<int> monster_range;
+    if( jo.has_int( "monster_range" ) ) {
+        monster_range = jo.get_int( "monster_range" );
+    }
+    bool monster_must_see = jo.get_bool( "monster_must_see", false );
+    return [eocs, monster_must_see, monster_range, is_npc]( dialogue const & d ) {
+        tripoint actor_pos = d.actor( is_npc )->pos();
+        const std::vector<Creature *> available = g->get_creatures_if( [monster_must_see, monster_range,
+                          actor_pos ]( const Creature & critter ) {
+            bool creature_is_monster = critter.is_monster();
+            return creature_is_monster && ( !monster_range.has_value() || actor_pos.z == critter.posz() ) &&
+                   ( !monster_must_see ||
+                     critter.sees( actor_pos ) ) &&
+                   ( !monster_range.has_value() || rl_dist( actor_pos, critter.pos() ) <= monster_range.value() );
+        } );
+        for( Creature *target : available ) {
+            for( const effect_on_condition_id &eoc : eocs ) {
+                dialogue newDialog( get_talker_for( target ), nullptr, d.get_conditionals(), d.get_context() );
+                eoc->activate( newDialog );
+            }
+        }
+    };
+}
+
 
 talk_effect_fun_t::func f_run_inv_eocs( const JsonObject &jo,
                                         std::string_view member, bool is_npc )
@@ -6262,6 +6290,7 @@ parsers = {
     { "u_assign_activity", "npc_assign_activity", jarg::member, &talk_effect_fun::f_assign_activity },
     { "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun::f_make_sound },
     { "u_run_npc_eocs", "npc_run_npc_eocs", jarg::array, &talk_effect_fun::f_run_npc_eocs },
+    { "u_run_monster_eocs", "npc_run_monster_eocs", jarg::array, &talk_effect_fun::f_run_monster_eocs },
     { "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun::f_run_inv_eocs },
     { "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun::f_roll_remainder },
     { "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun::f_mod_healthy },
