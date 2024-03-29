@@ -75,14 +75,12 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BANISH_SELF",
-    "eoc_type": "ACTIVATION",
     "effect": [ { "u_cast_spell": { "id": "BEGONE_SHADOW" } } ]
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_BANISH_MANSION_MONSTERS",
     "//": "Banish half the mapgen monsters from the mansion to make room for special scenario ferals",
-    "eoc_type": "ACTIVATION",
     "effect": [
       {
         "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
@@ -94,7 +92,6 @@
     "type": "effect_on_condition",
     "id": "EOC_SPAWN_MANSION_MONSTERS",
     "//": "Spawn special scenario ferals out from the center of the mansion",
-    "eoc_type": "ACTIVATION",
     "effect": [
       {
         "u_spawn_monster": "GROUP_MANSION_ARMORED",
