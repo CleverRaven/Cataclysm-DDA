@@ -2125,19 +2125,19 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             const std::set<itype_id> &allowed_tool_types = vp_toolstation->info().toolkit_info->allowed_types;
 
             std::set<itype_id> builtin_tool_types;
-            for( const auto &[tool, _] : vp_toolstation->info().get_pseudo_tools() ) {
-                builtin_tool_types.insert( tool );
+            for( const auto &[tool_type, _] : vp_toolstation->info().get_pseudo_tools() ) {
+                builtin_tool_types.insert( tool_type );
             }
 
             std::vector<item> tools_to_remove;
             // Tool is incompatible if it's not in allowed types and isn't a pseudo tool
-            for( const auto &[tool, _] : vp.get_tools() ) {
-                const itype_id &tool_type = tool.typeId();
+            for( const auto &[tool_item, _] : vp.get_tools() ) {
+                const itype_id &tool_type = tool_item.typeId();
                 if( builtin_tool_types.find( tool_type ) != builtin_tool_types.end() ) {
                     continue;
                 }
                 if( allowed_tool_types.find( tool_type ) == allowed_tool_types.end() ) {
-                    tools_to_remove.push_back( tool );
+                    tools_to_remove.push_back( tool_item );
                 }
             }
 
