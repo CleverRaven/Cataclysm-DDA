@@ -1930,7 +1930,7 @@ Monsters run EoCs, provided by this effect; only works inside reality bubble
 | Syntax | Optionality | Value  | Info |
 | --- | --- | --- | --- | 
 | "u_run_monster_eocs"/ "npc_run_monster_eocs" | **mandatory** | array of eocs | EoCs that would be run by monsters |
-| "monster_ids" | optional | string, [variable objects](#variable-object) or array | mtype_id(s) that should be affected |
+| "mtype_ids" | optional | array or [variable objects](#variable-object) | mtype_id(s) that should be affected |
 | "monster_range" | optional | int or [variable object](#variable-object) | if used, only monsters in this range are affected |
 | "monster_must_see" | optional | boolean | default false; if true, only monsters you can see are affected | 
 
