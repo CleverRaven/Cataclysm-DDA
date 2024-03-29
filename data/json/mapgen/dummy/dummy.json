@@ -4,35 +4,7 @@
     "method": "json",
     "//": "This mapgen exist only for suppressing 'No mapgen terrain exists for %s' type of errors on game start and shouldn't spawn ingame",
     "om_terrain": [ "unexplored" ],
-    "object": {
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
-      "terrain": { " ": "t_null" }
-    }
+    "object": { "terrain": { " ": "t_null" } }
   },
   {
     "type": "mapgen",
