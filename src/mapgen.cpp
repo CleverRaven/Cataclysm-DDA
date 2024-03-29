@@ -4451,16 +4451,15 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     jo.read( "flags", flags_ );
 
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
+    mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
+    parameters = palette.get_parameters();
     if( jo.has_array( "rows" ) ) {
-        mapgen_palette palette = mapgen_palette::load_temp( jo, "dda", context_ );
         auto &keys_with_terrain = palette.keys_with_terrain;
         mapgen_palette::placing_map &format_placings = palette.format_placings;
 
         if( palette.keys_with_terrain.empty() && !fallback_terrain_exists ) {
             return false;
         }
-
-        parameters = palette.get_parameters();
 
         // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
         // matching key in "terrain", unless fill_ter is set
