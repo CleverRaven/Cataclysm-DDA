@@ -1945,7 +1945,9 @@ Monsters run EoCs, provided by this effect; only works inside reality bubble
 Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
 ```json
   { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+```
 ...
+```json
   {
     "type": "effect_on_condition",
     "id": "EOC_BANISH_MANSION_MONSTERS",
