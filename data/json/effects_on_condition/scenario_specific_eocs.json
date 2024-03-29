@@ -83,7 +83,13 @@
     "//": "Banish half the mapgen monsters from the mansion to make room for special scenario ferals",
     "effect": [
       {
-        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
+        "npc_run_monster_eocs": [
+          {
+            "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER",
+            "condition": { "math": [ "rand(1)", "==", "0" ] },
+            "effect": { "run_eocs": "EOC_BANISH_SELF" }
+          }
+        ],
         "monster_range": 36
       }
     ]
