@@ -59,18 +59,24 @@
       },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "x_adjust": 11, "y_adjust": 11 },
       { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
-      { "run_eoc_with": "EOC_SPAWN_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 0, "z_override": true },
       { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
-      { "run_eoc_with": "EOC_SPAWN_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       { "location_variable_adjust": { "u_val": "mansion_centre" }, "z_adjust": 1, "z_override": true },
       { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
-      { "run_eoc_with": "EOC_SPAWN_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+      { "run_eocs": "EOC_SPAWN_MANSION_MONSTERS" },
       {
-        "u_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+        "u_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
         "monster_range": 6
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANISH_SELF",
+    "eoc_type": "ACTIVATION",
+    "effect": [ { "u_cast_spell": { "id": "BEGONE_SHADOW" } } ]
   },
   {
     "type": "effect_on_condition",
@@ -79,7 +85,7 @@
     "eoc_type": "ACTIVATION",
     "effect": [
       {
-        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_BANISH_SELF" } } ],
         "monster_range": 36
       }
     ]
@@ -91,19 +97,21 @@
     "eoc_type": "ACTIVATION",
     "effect": [
       {
-        "npc_spawn_monster": "GROUP_MANSION_ARMORED",
+        "u_spawn_monster": "GROUP_MANSION_ARMORED",
         "group": true,
         "real_count": 1,
         "min_radius": 0,
         "max_radius": 36,
+        "target_var": { "u_val": "mansion_centre" },
         "indoor_only": true
       },
       {
-        "npc_spawn_monster": "GROUP_MANSION_START",
+        "u_spawn_monster": "GROUP_MANSION_START",
         "group": true,
         "real_count": 20,
         "min_radius": 0,
         "max_radius": 36,
+        "target_var": { "u_val": "mansion_centre" },
         "indoor_only": true
       }
     ]
