@@ -312,8 +312,7 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
 
     mandatory( jo, was_loaded, "drench_capacity", drench_max );
     optional( jo, was_loaded, "drench_increment", drench_increment, 2 );
-    optional( jo, was_loaded, "drying_chance", drying_chance, drench_max );
-    optional( jo, was_loaded, "drying_increment", drying_increment, 1 );
+    optional( jo, was_loaded, "drying_rate", drying_rate, 1.0f );
 
     optional( jo, was_loaded, "wet_morale", wet_morale, 0 );
 
@@ -416,6 +415,8 @@ void body_part_type::load( const JsonObject &jo, const std::string_view )
     optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
 
     optional( jo, was_loaded, "power_efficiency", power_efficiency, 0 );
+
+    optional( jo, was_loaded, "similar_bodyparts", similar_bodyparts );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();

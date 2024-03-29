@@ -418,8 +418,11 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "amigara_death",
-    "object": { "place_items": [ { "item": "amigara_drops", "x": 11, "y": 12, "chance": 100 } ] }
+    "nested_mapgen_id": "rolling_trash_can_1x1",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 0, "y": 0, "chance": 80, "status": 0 } ]
+    }
   },
   {
     "type": "mapgen",

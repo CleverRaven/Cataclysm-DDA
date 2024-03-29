@@ -92,6 +92,7 @@ const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 const morale_type MORALE_VEGETARIAN( "morale_vegetarian" );
 const morale_type MORALE_VOMITED( "morale_vomited" );
 const morale_type MORALE_WET( "morale_wet" );
+
 static const morale_type morale_accomplishment( "morale_accomplishment" );
 static const morale_type morale_antifruit( "morale_antifruit" );
 static const morale_type morale_antijunk( "morale_antijunk" );

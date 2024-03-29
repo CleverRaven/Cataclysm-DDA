@@ -87,6 +87,19 @@
   },
   {
     "type": "scenario",
+    "id": "augustmoon",
+    "name": "Scavenger's Frontier",
+    "points": 1,
+    "description": "The Cryosleeper slow approach allows the display of Salus IV through all its forms: a fiery marble against interstellar darkness, a silver-white mirror, and a final world of glaciers split by the thin ruins of an equatorial metroplex.  Before long, Port Augustmoon's ancient hull comes to obstruct most the viewport, and the ship's computer announces that it is time to disembark.",
+    "allowed_locs": [ "sloc_augustmoon_docking" ],
+    "professions": [ "afs_salvor", "afs_academic", "afs_holo_fighter", "afs_wraitheon_executive", "rocket_jumper", "robot_scavenger" ],
+    "whitelist_hobbies": true,
+    "hobbies": [ "afs_speed_freak", "afs_armament_license", "afs_spacer", "afs_leadership", "afs_earthling" ],
+    "flags": [ "LONE_START" ],
+    "start_name": "Port Augustmoon"
+  },
+  {
+    "type": "scenario",
     "id": "escape_pod",
     "name": "Stranded Spacer",
     "points": 1,

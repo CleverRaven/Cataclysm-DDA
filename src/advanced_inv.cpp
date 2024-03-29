@@ -1832,7 +1832,7 @@ void advanced_inventory::display()
     }
 
     while( !exit ) {
-        if( player_character.moves < 0 ) {
+        if( player_character.get_moves() < 0 ) {
             do_return_entry();
             return;
         }

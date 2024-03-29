@@ -310,7 +310,7 @@ std::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, cons
                 _( "<npcname> puts on their %s." ),
                 to_wear.tname() );
         }
-        guy.moves -= guy.item_wear_cost( to_wear );
+        guy.mod_moves( -guy.item_wear_cost( to_wear ) );
 
         for( const bodypart_id &bp : guy.get_all_body_parts() ) {
             if( to_wear.covers( bp ) && guy.encumb( bp ) >= 40 && !quiet ) {
@@ -1143,23 +1143,6 @@ std::list<item> outfit::remove_worn_items_with( const std::function<bool( item &
     return result;
 }
 
-units::mass outfit::weight_capacity_bonus() const
-{
-    units::mass ret = 0_gram;
-    for( const item &clothing : worn ) {
-        ret += clothing.get_weight_capacity_bonus();
-    }
-    return ret;
-}
-
-float outfit::weight_capacity_modifier() const
-{
-    float ret = 1.0f;
-    for( const item &clothing : worn ) {
-        ret *= clothing.get_weight_capacity_modifier();
-    }
-    return ret;
-}
 
 units::mass outfit::weight() const
 {
@@ -1872,7 +1855,7 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     // if this body part has sub part locations roll one
     if( !bp->sub_parts.empty() ) {
         sbp = bp->random_sub_part( false );
-        // the torso nad legs has a second layer of hanging body parts
+        // the torso and legs has a second layer of hanging body parts
         secondary_sbp = bp->random_sub_part( true );
     }
 
@@ -2356,14 +2339,10 @@ void outfit::bodypart_exposure( std::map<bodypart_id, float> &bp_exposure,
         // What body parts does this item cover?
         body_part_set covered = it.get_covered_body_parts();
         for( const bodypart_id &bp : all_body_parts ) {
-            float part_exposure = 1.0;
             if( !covered.test( bp.id() ) ) {
                 continue;
             }
-            // How much exposure does this item leave on this part? (1.0 == naked)
-            if( !it.has_flag( flag_TRANSPARENT ) ) {
-                part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
-            }
+            float part_exposure = ( 100 - it.get_coverage( bp ) ) / 100.0f;
             // Coverage multiplies, so two layers with 50% coverage will together give 75%
             bp_exposure[bp] *= part_exposure;
         }
@@ -2625,6 +2604,10 @@ float outfit::clothing_wetness_mult( const bodypart_id &bp ) const
             clothing_mult = std::min( clothing_mult, breathability );
         }
     }
+
+    // always some evaporation even if completely covered
+    // doesn't handle things that would be "air tight"
+    clothing_mult = std::max( clothing_mult, .1f );
     return clothing_mult;
 }
 
