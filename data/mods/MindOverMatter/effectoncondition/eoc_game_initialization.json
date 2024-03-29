@@ -53,7 +53,7 @@
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "u_has_trait": "TELEPATH" },
-    "effect": [ { "math": [ "awakening_countup", "+=", "1" ] } ]
+    "effect": [ { "math": [ "u_awakening_countup", "+=", "1" ] } ]
   },
   {
     "type": "effect_on_condition",
