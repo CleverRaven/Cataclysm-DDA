@@ -1619,6 +1619,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
 - ```DISHWASHER``` Can be used to wash filthy non-soft items en masse.
 - ```DOME_LIGHT``` This part lightens up surroundings.
+- ```DOOR_LOCKING``` This is a lock that can be installed on a door. Can only be installed on a part with `LOCKABLE_DOOR` flag.
 - ```DOOR_MOTOR``` Can only be installed on a part with `OPENABLE` flag.
 - ```ENABLED_DRAINS_EPOWER``` Make vehicle part to require some energy to start it's work.  Requires `epower` field.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
@@ -1643,6 +1644,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).  The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Can only be installed on a part with `CARGO` flag.
 - ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
+- ```LOCKABLE_DOOR``` Doors that are able to have a lock installed. (See `DOOR_LOCKING`)
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than `MUSCLE_LEGS`).
