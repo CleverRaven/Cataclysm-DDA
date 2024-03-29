@@ -36,7 +36,7 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_landscaping_palette" ],
       "terrain": { "?": "t_water_pool_shallow_outdoors", "o": "t_window_enhanced", "$": "t_door_metal_locked" },
       "items": {
-        " ": { "item": "clutter_mansion", "chance": 1 },
+        " ": { "item": "clutter_mansion", "chance": 1 }
         "K": { "item": "crate_cleaning", "chance": 100 },
         "I": { "item": "table_foyer", "chance": 40 }
       },
