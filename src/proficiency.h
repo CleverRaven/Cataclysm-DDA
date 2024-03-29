@@ -129,7 +129,7 @@ class proficiency_set
         std::vector<display_proficiency> display() const;
         // True if the proficiency is learned;
         bool practice( const proficiency_id &practicing, const time_duration &amount,
-                       const std::optional<time_duration> &max );
+                       float remainder, const std::optional<time_duration> &max );
         void learn( const proficiency_id &learned );
         void remove( const proficiency_id &lost );
 
@@ -162,6 +162,8 @@ struct learning_proficiency {
 
     // How long we have practiced this proficiency
     time_duration practiced;
+    // Rounding errors of seconds, so that proficiencies practiced very briefly don't get truncated
+    float remainder = 0.f;
 
     learning_proficiency() = default;
     learning_proficiency( const proficiency_id &id, const time_duration &practiced ) : id( id ),

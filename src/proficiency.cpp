@@ -287,7 +287,7 @@ std::vector<display_proficiency> proficiency_set::display() const
 }
 
 bool proficiency_set::practice( const proficiency_id &practicing, const time_duration &amount,
-                                const std::optional<time_duration> &max )
+                                float remainder, const std::optional<time_duration> &max )
 {
     if( has_learned( practicing ) || !practicing->can_learn() || !has_prereqs( practicing ) ) {
         return false;
@@ -303,6 +303,11 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
     }
 
     current.practiced += amount;
+    current.remainder += remainder;
+    if( current.remainder > 1.f ) {
+        current.practiced += 1_seconds;
+        current.remainder -= 1.f;
+    }
 
     if( current.practiced >= practicing->time_to_learn() ) {
         for( std::vector<learning_proficiency>::iterator it = learning.begin(); it != learning.end(); ) {
@@ -546,6 +551,7 @@ void learning_proficiency::serialize( JsonOut &jsout ) const
 
     jsout.member( "id", id );
     jsout.member( "practiced", practiced );
+    jsout.member( "remainder", remainder );
 
     jsout.end_object();
 }
@@ -554,6 +560,7 @@ void learning_proficiency::deserialize( const JsonObject &jo )
 {
     jo.read( "id", id );
     jo.read( "practiced", practiced );
+    jo.read( "remainder", remainder, 0.f );
 }
 
 void book_proficiency_bonus::deserialize( const JsonObject &jo )
