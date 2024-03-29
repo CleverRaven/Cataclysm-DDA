@@ -692,7 +692,7 @@
     "morale": 20,
     "melee_skill": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
-    "harvest": "raccoon_with_skull",
+    "harvest": "raccoon_with_skull_mutant",
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "extend": { "flags": [ "NO_BREED", "CAN_OPEN_DOORS" ] }
   }
