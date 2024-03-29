@@ -90,7 +90,6 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
         "volume_encumber_modifier": 0,
         "description": "Compartment for a heavy battery.",
         "flag_restriction": [ "BATTERY_HEAVY" ],
