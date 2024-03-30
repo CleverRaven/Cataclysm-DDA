@@ -505,7 +505,7 @@ void suffer::from_chemimbalance( Character &you )
         you.mod_thirst( 5 * rng( 1, 3 ) );
     }
     if( one_turn_in( 6_hours ) ) {
-        you.add_msg_if_player( m_good, _( "You feel sleepinessd all of a sudden." ) );
+        you.add_msg_if_player( m_good, _( "You feel sleepy all of a sudden." ) );
         you.mod_sleepiness( 10 * rng( 2, 4 ) );
     }
     if( one_turn_in( 8_hours ) ) {

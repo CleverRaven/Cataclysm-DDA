@@ -1185,7 +1185,7 @@ static void eff_fun_sleep( Character &u, effect &it )
     // Have we already woken up?
     if( !woke_up && !u.has_effect( effect_narcosis ) ) {
         // Cold or heat may wake you up.
-        // Player will sleep through cold or heat if sleepinessd enough
+        // Player will sleep through cold or heat if sleepy enough
         for( const bodypart_id &bp : u.get_all_body_parts() ) {
             const units::temperature curr_temp = u.get_part_temp_cur( bp );
             const units::temperature_delta sleepiness_modifier = units::from_celsius_delta(
