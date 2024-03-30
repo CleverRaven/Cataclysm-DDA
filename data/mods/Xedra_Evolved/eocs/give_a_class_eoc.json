@@ -12,7 +12,8 @@
           ]
         },
         { "math": [ "magic_potential", ">", "0" ] }
-      ]
+      ],
+      "not": { "u_has_trait": "DREAMLESS" }
     },
     "effect": [ { "math": [ "allow_sequence", "=", "1" ] } ]
   },
