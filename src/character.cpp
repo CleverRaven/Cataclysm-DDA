@@ -12382,11 +12382,11 @@ stat_mod Character::get_pain_penalty() const
     if( pain <= 0 ) {
         return ret;
     }
+    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+    int stat_penalty_heavy = std::floor( pain / 10.0f );
 
-    int stat_penalty = std::floor( pain / 10.0f );
 
-
-    // Int and per are penalized twice as hard
+    // Int and per are penalized more
     ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
                    stat_penalty );
 
@@ -12394,10 +12394,10 @@ stat_mod Character::get_pain_penalty() const
                     stat_penalty );
 
     ret.intelligence = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_INT,
-                       stat_penalty * 2.0f );
+                       stat_penalty_heavy );
 
     ret.perception = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
-                     stat_penalty * 2.0f );
+                     stat_penalty_heavy );
 
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
