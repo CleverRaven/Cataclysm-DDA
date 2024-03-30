@@ -85,7 +85,7 @@
                 {
                   "or": [
                     { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "5" ] },
-                    { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] }
+                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] }
                   ]
                 }
               ]
@@ -333,7 +333,7 @@
             {
               "and": [
                 { "math": [ "u_spell_level('biokin_physical_enhance')", ">=", "6" ] },
-                { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "8" ] },
+                { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "8" ] },
                 {
                   "or": [
                     { "math": [ "u_spell_level('biokin_dash')", ">=", "8" ] },
@@ -543,7 +543,7 @@
                 {
                   "or": [
                     { "math": [ "u_spell_level('biokin_reflex_enhance')", ">=", "14" ] },
-                    { "math": [ "u_spell_level('biokin_biokin_adrenaline')", ">=", "12" ] }
+                    { "math": [ "u_spell_level('biokin_adrenaline')", ">=", "12" ] }
                   ]
                 }
               ]

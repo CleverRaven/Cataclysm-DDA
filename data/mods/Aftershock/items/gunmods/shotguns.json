@@ -36,7 +36,7 @@
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
-    "location": "bore",
+    "location": "barrel",
     "mod_targets": [ "shotgun" ],
     "damage_modifier": { "damage_type": "electric", "amount": 3, "armor_penetration": 7 },
     "energy_drain_modifier": "20 kJ",

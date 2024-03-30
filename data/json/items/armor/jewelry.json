@@ -4073,7 +4073,7 @@
     "copy-from": "garnet_gold_tiara",
     "type": "ARMOR",
     "name": { "str": "gold hair beads", "str_pl": "sets of gold hair beads" },
-    "description": "an assortment of gold beads used to decorate locs or braids.",
+    "description": "An assortment of gold beads used to decorate locs or braids.",
     "weight": "15 g",
     "volume": "25 ml",
     "material": [ "gold" ],
@@ -4243,25 +4243,25 @@
       { "type": "COMPONENT_ID", "condition": "38_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "46mm_casing", "name": { "str": "automatic-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "57mm_casing", "name": { "str": "automatic-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "45colt_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "357mag_casing", "name": { "str": "magnum-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "44_casing", "name": { "str": "magnum-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "rivolver-cartridge necklace" } },
+      { "type": "COMPONENT_ID", "condition": "454_casing", "name": { "str": "revolver-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "500_casing", "name": { "str": "magnum-cartridge necklace" } }
     ],
-    "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.",
+    "description": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.",
     "snippet_category": [
       {
         "id": "pistol_pendent1",
-        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell's neck has been daintily drilled through with two tiny holes on opposite sides, through which the cord has been fed and tied off to form a poor man's excuse for a chain, and from where the cartridge hangs, dimpled primer-down."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's neck has been daintily drilled through with two tiny holes on opposite sides, through which the cord has been fed and tied off to form a poor man's excuse for a chain, and from where the cartridge hangs, dimpled primer-down."
       },
       {
         "id": "pistol_pendent2",
-        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The dimpled section of the shell's primer has been punched out, and a second hole has been drilled through the casing's side just shy of the base, with the ballistic accoutrement hanging from a section of tied-off cord that has been threaded through both entry points."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The dimpled section of the shell's primer has been punched out, and a second hole has been drilled through the casing's side just shy of the base, with the ballistic accoutrement hanging from a section of tied-off cord that has been threaded through both entry points."
       },
       {
         "id": "pistol_pendent3",
-        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendent.  The shell's throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
+        "text": "A simple, if rather crude, piece of post-Cataclysm jewelry: a solitary bullet casing from a handgun cartridge or other such form of ammunition strung upon a length of string, cord, or twine to form a makeshift pendant.  The shell's throat has been twisted closed by a set of pliers, creating a spiralled taper where the neck would be, while a hole has been drilled on opposite hemispheres of the pendant's sides, through which a length of string has been threaded.  The cord's loose ends have been wrapped several times around the casing before being tied off, forming a sort of little bullet cocoon."
       }
     ],
     "weight": "24 g",
@@ -4312,7 +4312,7 @@
     "id": "simple_ordnance_cartridge_necklace",
     "copy-from": "simple_pistol_cartridge_necklace",
     "type": "ARMOR",
-    "name": { "str": "ordinance-cartridge necklace" },
+    "name": { "str": "ordnance-cartridge necklace" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "40x46mm_m212_casing", "name": { "str": "grenade-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str": "grenade-cartridge necklace" } },
@@ -4331,8 +4331,8 @@
       { "type": "COMPONENT_ID", "condition": "40x53mm_m169_casing", "name": { "str": "grenade-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
       { "type": "COMPONENT_ID", "condition": "410shot_hull", "name": { "str": "shotgun-cartridge necklace" } },
-      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordinance necklace" } },
-      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordinance necklace" } }
+      { "type": "COMPONENT_ID", "condition": "273x110casing", "name": { "str": "alien-ordnance necklace" } },
+      { "type": "COMPONENT_ID", "condition": "273x44casing", "name": { "str": "alien-ordnance necklace" } }
     ],
     "description": "An expedient means of flaunting one's gunnery prowess, or a crude attempt at overcompensating for matters best left undescribed, this article of craft-produced jewelry is, essentially, one part cordage and three parts mammoth bullet casing: the giant cartridge, either from a grenade round or some other form of heavy munitions, strung to hang upon the chest as a pendent.",
     "snippet_category": [
@@ -4466,15 +4466,15 @@
     "//": "Devil's Poison for 5.45x39mm is a reference to the fact that the cartridge was sometimes dubed either the 'Devil Bullet' or the 'Poison Bullet'.",
     "//2": "Pig's Feed for 7.62x51mm is a reference to the US M60 machine gun. It was nicknamed the 'Pig'. 7.62x51mm feeds it. Coming up with names is hard.",
     "//3": "Yes, illegal alien for 12.3LN is a reference to Aliens. No, it is not a comment about any group of people.",
-    "description": "A gentlemanly article of craft-preduced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.",
+    "description": "A gentlemanly article of craft-produced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendant.",
     "snippet_category": [
       {
         "id": "fancy_rifle_pendent1",
-        "text": "A gentlemanly article of craft-preduced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.  With its brass polished to a mirror-like sheen, the shell's primer and rim have been neatly extricated at the edge of a saw, with a little gemstone peeking out the casing's throat.  The gem's wrapped within the embrace of a length of fine-gauge wire, whose remaining length has been tugged back through the cartridge's body, fed out the base, and entwined with a link in the chain."
+        "text": "A gentlemanly article of craft-produced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendant.  With its brass polished to a mirror-like sheen, the shell's primer and rim have been neatly extricated at the edge of a saw, with a little gemstone peeking out the casing's throat.  The gem's wrapped within the embrace of a length of fine-gauge wire, whose remaining length has been tugged back through the cartridge's body, fed out the base, and entwined with a link in the chain."
       },
       {
         "id": "fancy_rifle_pendent2",
-        "text": "A gentlemanly article of craft-preduced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendent.  With its brass polished to a mirror-like sheen, the shell has grown shorter by virtue of its base having been sawed away, and a glittering jewel has been seated comfortably within the throat.  A length of wire is tightly wrapped around both cartridge and gemstone in a top-down pattern, forming an X-grid as it wines, with the cord's loose ends trailing through a small drill hole at the cartridge's base and tied to the chain's links."
+        "text": "A gentlemanly article of craft-produced jewelry for the most spiffy ladies and gentlemen of the post-apocalypse, this plain chain of precious metal has been retrofitted with a fired rifle cartridge that hangs from it as a pendant.  With its brass polished to a mirror-like sheen, the shell has grown shorter by virtue of its base having been sawed away, and a glittering jewel has been seated comfortably within the throat.  A length of wire is tightly wrapped around both cartridge and gemstone in a top-down pattern, forming an X-grid as it wines, with the cord's loose ends trailing through a small drill hole at the cartridge's base and tied to the chain's links."
       }
     ],
     "weight": "57 g",
@@ -4486,7 +4486,7 @@
     "id": "fancy_ordinance_cartridge_necklace",
     "type": "ARMOR",
     "copy-from": "fancy_pistol_cartridge_necklace",
-    "name": { "str": "refined ordinance-cartridge necklace" },
+    "name": { "str": "refined ordnance-cartridge necklace" },
     "conditional_names": [
       { "type": "COMPONENT_ID", "condition": "40x46mm_m118_casing", "name": { "str_sp": "Grenadier's" } },
       { "type": "COMPONENT_ID", "condition": "40x46mm_m199_casing", "name": { "str_sp": "God's Boomstick" } },
@@ -4519,15 +4519,15 @@
       { "type": "COMPONENT_ID", "condition": "blue_topaz", "name": { "str": "%s topaz necklace" } },
       { "type": "COMPONENT_ID", "condition": "onyx", "name": { "str": "%s onyx necklace" } }
     ],
-    "description": "An article of hand-produced apparel that George Washingten himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendent that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.",
+    "description": "An article of hand-produced apparel that George Washington himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendant that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.",
     "snippet_category": [
       {
         "id": "fancy_ordinance_pendent1",
-        "text": "An article of hand-produced apparel that George Washingten himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendent that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  With its brass polished to a mirror-like sheen and its rim cleanly extricated by the saw, a well-sized gemstone peers at the world from out of this shell's throat.  The jewel's wrapped within a length of fine-gauge wire, whose remaining length has been tugged through the cartridge's body, fed out the base, and entwined with a link in the chain."
+        "text": "An article of hand-produced apparel that George Washington himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendant that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  With its brass polished to a mirror-like sheen and its rim cleanly extricated by the saw, a well-sized gemstone peers at the world from out of this shell's throat.  The jewel's wrapped within a length of fine-gauge wire, whose remaining length has been tugged through the cartridge's body, fed out the base, and entwined with a link in the chain."
       },
       {
         "id": "fancy_ordinance_pendent2",
-        "text": "An article of hand-produced apparel that George Washingten himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendent that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  The shell has, essentially, been rendered into a tiny brass pipe: its base and primer are neatly sawed off, and its head is capped by a large, glittering gemstone that regards the Cataclysm from its seat within the throat.  A length of wire is tightly wrapped around both the cartridge and jewel, with the cord's loose ends trailing through a small drill hole at the shell's base and linked to the neck chain."
+        "text": "An article of hand-produced apparel that George Washington himself could look down upon with an approving smile, the daintiness of this necklace's precious metal chain looks rather comical when compared against the gargantuan pendant that hangs from it: an expended casing from a grenade round, shotgun cartridge, or some other form of sizable munition.  The shell has, essentially, been rendered into a tiny brass pipe: its base and primer are neatly sawed off, and its head is capped by a large, glittering gemstone that regards the Cataclysm from its seat within the throat.  A length of wire is tightly wrapped around both the cartridge and jewel, with the cord's loose ends trailing through a small drill hole at the shell's base and linked to the neck chain."
       }
     ],
     "weight": "69 g",

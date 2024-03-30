@@ -743,5 +743,26 @@
     "intelligence": 8,
     "time": "25 m",
     "melee_damage": { "bash": 4 }
+  },
+  {
+    "id": "recipe_dave_manual",
+    "type": "BOOK",
+    "category": "manuals",
+    "name": { "str": "Dino Dave's cardboard notebook", "str_pl": "copies of Dino Dave's cardboard notebook" },
+    "description": "This school notebook contains an astounding amount of \"recipes\" of various cardboard utilities, ranging from the wholly impractical to completely impossible.  Despite that, they're illustrated in a surprisingly thorough manner, to the point where you could possibly learn something from studying the chicken scratch and schematics in detail.  The last page thanks a number of names, some of which you recognize from the refugee center.  Your name covers half the page.  At the bottom, it warns you not to let \"the sandman\" read it.",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "mag_glam",
+    "color": "brown_yellow",
+    "skill": "fabrication",
+    "required_level": 2,
+    "max_level": 3,
+    "intelligence": 14,
+    "time": "20 m",
+    "fun": -1
   }
 ]

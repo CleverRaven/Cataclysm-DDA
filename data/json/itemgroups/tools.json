@@ -72,6 +72,21 @@
     ]
   },
   {
+    "id": "tools_luthier",
+    "type": "item_group",
+    "//": "Portable tools used for luthier",
+    "items": [
+      { "item": "luthier_toolset", "prob": 100 },
+      { "item": "tonewood", "prob": 100, "count-min": 1, "count-max": 6 },
+      { "item": "tuning_pegs", "prob": 100, "count-min": 5, "count-max": 15 },
+      { "item": "piano_wire", "prob": 100, "count-min": 1, "count-max": 3 },
+      [ "hand_drill", 20 ],
+      { "item": "superglue", "prob": 100, "count-min": 1, "count-max": 3 },
+      [ "chisel", 10 ],
+      [ "sandpaper", 100 ]
+    ]
+  },
+  {
     "id": "tools_construction",
     "type": "item_group",
     "//": "Industrial machinery used for construction",
@@ -98,6 +113,7 @@
     "//": "Common household tools",
     "items": [
       [ "bucket", 5 ],
+      [ "bucket_5gal", 5 ],
       [ "funnel", 50 ],
       [ "rake", 15 ],
       [ "rake_plastic", 25 ],
@@ -274,7 +290,7 @@
     "//": "Portable tools for earthworking or farming",
     "items": [
       [ "ax", 80 ],
-      [ "bucket", 40 ],
+      [ "bucket_5gal", 40 ],
       { "item": "chainsaw_off", "prob": 30, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
@@ -308,6 +324,7 @@
       [ "crowbar", 10 ],
       [ "pliers", 200 ],
       [ "bucket", 50 ],
+      [ "bucket_5gal", 50 ],
       [ "mop", 60 ],
       [ "mop_folded", 40 ],
       [ "shovel", 40 ],
@@ -961,6 +978,20 @@
       { "item": "fishing_rod_2pc_packed", "prob": 3 },
       { "item": "fishing_rod_tele_packed", "prob": 3 },
       { "item": "plastichoboreel", "prob": 1 }
+    ]
+  },
+  {
+    "id": "tools_tractor",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Tools that would be found in a tractor.",
+    "items": [
+      [ "wrench", 35 ],
+      [ "wrench_small", 35 ],
+      [ "hammer", 20 ],
+      [ "multitool", 20 ],
+      [ "pliers_locking", 15 ],
+      [ "wrench_large", 5 ]
     ]
   },
   {

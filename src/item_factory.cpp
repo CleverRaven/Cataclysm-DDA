@@ -65,6 +65,8 @@ static const ammotype ammo_NULL( "NULL" );
 static const damage_type_id damage_bash( "bash" );
 static const damage_type_id damage_bullet( "bullet" );
 
+static const flag_id json_flag_NO_RELOAD( "NO_RELOAD" );
+static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
 static const gun_mode_id gun_mode_DEFAULT( "DEFAULT" );
 static const gun_mode_id gun_mode_MELEE( "MELEE" );
@@ -776,6 +778,18 @@ void Item_factory::finalize_post( itype &obj )
             } ) ) {
                 obj.repair.insert( tool );
             }
+        }
+    }
+
+    if( obj.has_flag( json_flag_NO_UNLOAD ) ) {
+        for( pocket_data &pocket : obj.pockets ) {
+            pocket._no_unload = true;
+        }
+    }
+
+    if( obj.has_flag( json_flag_NO_RELOAD ) ) {
+        for( pocket_data &pocket : obj.pockets ) {
+            pocket._no_reload = true;
         }
     }
 
@@ -1838,8 +1852,6 @@ void Item_factory::init()
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOTEVEH_TICK", &iuse::remoteveh_tick );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
-    add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
-    add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
@@ -3597,11 +3609,9 @@ void Item_factory::load_generic( const JsonObject &jo, const std::string &src )
 // Set for all items (not just food and clothing) to avoid edge cases
 void Item_factory::set_allergy_flags( itype &item_template )
 {
-    static const std::array<std::pair<material_id, flag_id>, 31> all_pairs = { {
+    static const std::array<std::pair<material_id, flag_id>, 29> all_pairs = { {
             // First allergens:
             // An item is an allergen even if it has trace amounts of allergenic material
-            { material_hflesh, flag_CANNIBALISM },
-            { material_hblood, flag_CANNIBALISM },
             { material_hflesh, flag_ALLERGEN_MEAT },
             { material_iflesh, flag_ALLERGEN_MEAT },
             { material_bread, flag_ALLERGEN_BREAD },
@@ -3646,6 +3656,7 @@ void Item_factory::set_allergy_flags( itype &item_template )
 
 // Migration helper: turns human flesh into generic flesh
 // Don't call before making sure that the cannibalism flag is set
+// Cannibalism is vitamin based now but how old is this? Is it still useful?
 void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
@@ -4552,35 +4563,8 @@ itype_id Item_factory::migrate_id( const itype_id &id )
     return parent != nullptr ? parent->replace : id;
 }
 
-void Item_factory::migrate_item( const itype_id &id, item &obj )
+static void apply_migration( const migration *migrant, item &obj )
 {
-    auto iter = migrations.find( id );
-    if( iter == migrations.end() ) {
-        return;
-    }
-    bool convert = false;
-    const migration *migrant = nullptr;
-    for( const migration &m : iter->second ) {
-        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
-            migrant = &m;
-            // This is not the variant that the item has already been convert to
-            // So we'll convert it again.
-            convert = true;
-            break;
-        }
-        // When we find a migration that doesn't care about variants, keep it around
-        if( !m.from_variant ) {
-            migrant = &m;
-        }
-    }
-    if( migrant == nullptr ) {
-        return;
-    }
-
-    if( convert ) {
-        obj.convert( migrant->replace );
-    }
-
     if( migrant->reset_item_vars ) {
         obj.clear_vars();
         for( const auto &pair : migrant->replace.obj().item_variables ) {
@@ -4615,6 +4599,54 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
 
     if( !migrant->contents.empty() && migrant->sealed ) {
         obj.seal();
+    }
+}
+
+void Item_factory::migrate_item( const itype_id &id, item &obj )
+{
+    auto iter = migrations.find( id );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    bool convert = false;
+    const migration *migrant = nullptr;
+    for( const migration &m : iter->second ) {
+        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
+            migrant = &m;
+            // This is not the variant that the item has already been convert to
+            // So we'll convert it again.
+            convert = true;
+            break;
+        }
+        // When we find a migration that doesn't care about variants, keep it around
+        if( !m.from_variant ) {
+            migrant = &m;
+        }
+    }
+    if( migrant == nullptr ) {
+        return;
+    }
+
+    if( convert ) {
+        obj.convert( migrant->replace );
+    }
+
+    apply_migration( migrant, obj );
+}
+
+void Item_factory::migrate_item_from_variant( item &obj, const std::string &from_variant )
+{
+    auto iter = migrations.find( obj.typeId() );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    for( const migration &m : iter->second ) {
+        if( !m.from_variant.has_value() || m.from_variant.value() != from_variant ) {
+            continue;
+        }
+        obj.convert( m.replace );
+        apply_migration( &m, obj );
+        break;
     }
 }
 
@@ -4739,6 +4771,10 @@ void Item_factory::clear()
     migrated_magazines.clear();
     migrations.clear();
 
+    /* Avoid unvisited member errors when iterating on json */
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
     deferred.clear();
 
     frozen = false;

@@ -124,7 +124,7 @@ void handbrake()
             veh->velocity = sgn * ( std::abs( veh->velocity ) - braking_power );
         }
     }
-    player_character.moves = 0;
+    player_character.set_moves( 0 );
 }
 
 void vehicle::control_doors()
@@ -1841,10 +1841,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool player_inside = get_map().veh_at( get_player_character().pos() ) ?
                                &get_map().veh_at( get_player_character().pos() )->vehicle() == this :
                                false;
-    bool power_linked = false;
+    bool power_grid = false;
     bool cable_linked = false;
     for( vehicle_part *vp_part : vp_parts ) {
-        power_linked = power_linked ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
+        power_grid = power_grid ? true : vp_part->info().has_flag( VPFLAG_POWER_TRANSFER );
         cable_linked = cable_linked ? true : vp_part->has_flag( vp_flag::linked_flag ) ||
                        vp_part->info().has_flag( "TOW_CABLE" );
     }
@@ -2068,27 +2068,14 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( power_linked ) {
-        menu.add( _( "Disconnect power connections" ) )
+    if( power_grid ) {
+        menu.add( is_appliance() ? _( "Disconnect from power grid" ) : _( "Disconnect power connections" ) )
         .enable( !cable_linked )
         .desc( string_format( !cable_linked ? "" : _( "Remove other cables first" ) ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp_parts] {
-            for( vehicle_part *vp_part : vp_parts )
-            {
-                if( vp_part->info().has_flag( VPFLAG_POWER_TRANSFER ) ) {
-                    item drop = part_to_item( *vp_part );
-                    if( !magic && !drop.has_flag( STATIC( flag_id( "NO_DROP" ) ) ) ) {
-                        get_player_character().i_add_or_drop( drop );
-                        add_msg( _( "You detach the %s and take it." ), drop.type_name() );
-                    } else {
-                        add_msg( _( "You detached the %s." ), drop.type_name() );
-                    }
-                    remove_remote_part( *vp_part );
-                    remove_part( *vp_part );
-                }
-            }
+        .on_submit( [this, vp] {
+            unlink_cables( vp.mount(), get_player_character(), true, true, true );
             get_player_character().pause();
         } );
     }
@@ -2096,26 +2083,59 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         menu.add( _( "Disconnect cables" ) )
         .skip_locked_check()
         .hotkey( "DISCONNECT_CABLES" )
-        .on_submit( [this, vp_parts] {
-            for( vehicle_part *vp_part : vp_parts )
-            {
-                if( vp_part->has_flag( vp_flag::linked_flag ) ) {
-                    vp_part->last_disconnected = calendar::turn;
-                    vp_part->remove_flag( vp_flag::linked_flag );
-                    linked_item_epower_this_turn = 0_W;
-                    add_msg( _( "You detached the %s's cables." ), vp_part->name( false ) );
-                }
-                if( vp_part->info().has_flag( "TOW_CABLE" ) ) {
-                    invalidate_towing( true, &get_player_character() );
-                    if( get_player_character().can_stash( vp_part->get_base() ) ) {
-                        add_msg( _( "You detach the %s and take it." ), vp_part->name( false ) );
-                    } else {
-                        add_msg( _( "You detached the %s." ), vp_part->name( false ) );
-                    }
-                }
-            }
+        .on_submit( [this, vp] {
+            unlink_cables( vp.mount(), get_player_character(), true, true, false );
             get_player_character().pause();
         } );
+    }
+
+    const std::optional<vpart_reference> vp_toolstation = vp.avail_part_with_feature( "VEH_TOOLS" );
+    // Remove attached tools that have become incompatible with workstation because of migration etc
+    if( vp_toolstation && !vp.get_tools().empty() ) {
+        const vpart_info vp_info = vp_toolstation->info();
+        if( vp_info.toolkit_info ) {
+            const std::set<itype_id> &allowed_tool_types = vp_info.toolkit_info->allowed_types;
+
+            std::set<itype_id> builtin_tool_types;
+            for( const auto &[tool_type, _] : vp_info.get_pseudo_tools() ) {
+                builtin_tool_types.insert( tool_type );
+            }
+
+            std::vector<item> tools_to_remove;
+            // Tool is incompatible if it's not in allowed types and isn't a pseudo tool
+            for( const auto &[tool_item, _] : vp.get_tools() ) {
+                const itype_id &tool_type = tool_item.typeId();
+                if( builtin_tool_types.find( tool_type ) != builtin_tool_types.end() ) {
+                    continue;
+                }
+                if( allowed_tool_types.find( tool_type ) == allowed_tool_types.end() ) {
+                    tools_to_remove.push_back( tool_item );
+                }
+            }
+
+            if( !tools_to_remove.empty() ) {
+                Character &you = get_player_character();
+                for( item &tool_to_remove : tools_to_remove ) {
+                    you.add_msg_if_player( _( "The %s is no longer compatible with %s and pops out." ),
+                                           tool_to_remove.tname(), vp_toolstation->part().name( false ) );
+                    you.add_or_drop_with_msg( tool_to_remove );
+                }
+
+                std::vector<item> &stored_tools = vp_toolstation->part().tools;
+                stored_tools.erase( std::remove_if( stored_tools.begin(),
+                                                    stored_tools.end(),
+                [&tools_to_remove]( const item & item_to_remove ) {
+                    return std::find_if( tools_to_remove.begin(), tools_to_remove.end(),
+                    [&item_to_remove]( const item & tools_to_remove_item ) {
+                        return tools_to_remove_item.typeId() == item_to_remove.typeId();
+                    } ) != tools_to_remove.end();
+                } ),
+                stored_tools.end() );
+
+                invalidate_mass();
+                you.invalidate_crafting_inventory();
+            }
+        }
     }
 
     for( const auto&[tool_item, hk] : vp.get_tools() ) {
@@ -2301,7 +2321,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
     }
 
-    const std::optional<vpart_reference> vp_toolstation = vp.avail_part_with_feature( "VEH_TOOLS" );
     if( vp_toolstation && vp_toolstation->info().toolkit_info ) {
         const size_t vp_idx = vp_toolstation->part_index();
         const std::string vp_name = vp_toolstation->part().name( /* with_prefix = */ false );

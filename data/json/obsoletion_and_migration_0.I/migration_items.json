@@ -1141,5 +1141,102 @@
     "id": "ak74",
     "type": "MIGRATION",
     "replace": "ak74_semi"
+  },
+  {
+    "id": "bh_m89",
+    "type": "MIGRATION",
+    "replace": "henry_big_boy"
+  },
+  {
+    "id": "rifle_9mm",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_9x18",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_45",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_40",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_380",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "rifle_32",
+    "type": "MIGRATION",
+    "replace": "rifle_38"
+  },
+  {
+    "id": "lemat_revolver",
+    "type": "MIGRATION",
+    "replace": "colt_saa"
+  },
+  {
+    "id": "lemat_revolver_shotgun",
+    "type": "MIGRATION",
+    "replace": "u_shotgun"
+  },
+  {
+    "id": "shot_paper_slug",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_bird",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_00",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "shot_paper_dragon",
+    "type": "MIGRATION",
+    "replace": "44army"
+  },
+  {
+    "id": "lever_shotgun",
+    "type": "MIGRATION",
+    "replace": "remington_870"
+  },
+  {
+    "id": "mossberg_500",
+    "type": "MIGRATION",
+    "from_variant": "mossberg_500_security",
+    "replace": "benelli_tsa",
+    "variant": "mossberg_500_security"
+  },
+  {
+    "id": "bottle_suppressor",
+    "type": "MIGRATION",
+    "replace": "filter_suppressor"
+  },
+  {
+    "id": "riv_suppressor",
+    "type": "MIGRATION",
+    "replace": "suppressor"
+  },
+  {
+    "id": "surv_six_shooter",
+    "type": "MIGRATION",
+    "replace": "hptjcpmag"
+  },
+  {
+    "id": "surv_hand_cannon",
+    "type": "MIGRATION",
+    "replace": "hptjhpmag"
   }
 ]

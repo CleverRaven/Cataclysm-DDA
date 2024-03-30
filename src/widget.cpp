@@ -305,7 +305,7 @@ bool widget_clause::meets_condition( const std::string &opt_var ) const
 {
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     d.reason = opt_var; // TODO: remove since it's replaced by context var
-    write_var_value( var_type::context, "npctalk_var_widget", nullptr, &d, opt_var );
+    write_var_value( var_type::context, "npctalk_var_widget", &d, opt_var );
     return !has_condition || condition( d );
 }
 
@@ -806,7 +806,7 @@ int widget::get_var_value( const avatar &ava ) const
             value = ava.movecounter;
             break;
         case widget_var::move_remainder:
-            value = ava.moves;
+            value = ava.get_moves();
             break;
         case widget_var::move_cost:
             value = ava.run_cost( 100 );

@@ -316,6 +316,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```LIMB_UPPER``` This bodypart is high off the ground, and as such can't be attacked by small monsters - unless they have the `FLIES` or have `ATTACK_UPPER` flags`.
 - ```MEND_LIMB``` This bodypart can heal from being broken without needing a splint.
 - ```NONSTANDARD_BLOCK``` This limb is different enough that martial arts' arm/leg blocks aren't applicable - blocking with this limb is unlocked by reaching the MA's `nonstandard_block` level, unless the limb also has `ALWAYS_BLOCK`.  Either block flag is **required** for non-arm / non-leg limbs to be eligible to block.
+- ```WING_ARM``` Counts as a wing for `Character::can_fly` if two instances of the flag are present.
 
 
 ## Books
@@ -332,7 +333,6 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```ACID_IMMUNE``` You are immune to acid damage.
 - ```ALARMCLOCK``` You always can set alarms.
 - ```ALBINO``` Cause you to have painful sunburns.
-- ```ARM_WINGS``` You have wings instead of regular arms.
 - ```BASH_IMMUNE``` You are immune to bashing damage.
 - ```BG_OTHER_SURVIVORS_STORY``` Given to NPC when it has other survival story.
 - ```BG_SURVIVAL_STORY``` Given to NPC when it has a survival story.
@@ -429,8 +429,8 @@ Character flags can be `trait_id`, `json_flag_id` or `flag_id`.  Some of these a
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
 - ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WEB_WALKER``` Removes the movement speed demerit while walking through webs.
-- ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
-- ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
+- ```WINGS_1``` You can slow your fall, effectively reducing the height of it by 1 level.
+- ```WINGS_2``` You can slow your fall, effectively reducing the height of falls by 2 levels, and ignore pit-like traps.
 - ```WINGGLIDE``` You can glide using some part of your body and strenuous physical effort.
 - ```mycus``` acts as `THRESH_MYCUS`, makes all monsters with FUNGUS species friendly, fungicidal gas & antifungal pills cause worse effects.  Mutate when eating mycus fruit, or when sleeping.
 
@@ -564,6 +564,7 @@ These are checked by hardcode for monsters (introducing new flags will require C
 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`.
+- ```EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS``` Effect disables any conditional flags the limb has.
 - ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score.  See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
 - ```EFFECT_LIMB_SCORE_MOD_LOCAL``` Same as `EFFECT_LIMB_SCORE_MOD`, but limb score is modified only if effect is applied to body part, that has said score; effect, that apply -50% vision debuff, won't have effect if applied to leg with this flag.
 - ```GRAB``` This effect is a grab, creatures will attempt to break it as such (see `character_escape.cpp`).
@@ -1618,6 +1619,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
 - ```DISHWASHER``` Can be used to wash filthy non-soft items en masse.
 - ```DOME_LIGHT``` This part lightens up surroundings.
+- ```DOOR_LOCKING``` This is a lock that can be installed on a door. Can only be installed on a part with `LOCKABLE_DOOR` flag.
 - ```DOOR_MOTOR``` Can only be installed on a part with `OPENABLE` flag.
 - ```ENABLED_DRAINS_EPOWER``` Make vehicle part to require some energy to start it's work.  Requires `epower` field.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
@@ -1642,6 +1644,7 @@ Note: Vehicle parts requiring other parts is defined by setting a `requires_flag
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).  The items of parts with this flag are automatically added as component to the vehicle start construction.
 - ```INTERNAL``` Can only be installed on a part with `CARGO` flag.
 - ```LOCKABLE_CARGO``` Cargo containers that are able to have a lock installed.
+- ```LOCKABLE_DOOR``` Doors that are able to have a lock installed. (See `DOOR_LOCKING`)
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than `MUSCLE_LEGS`).

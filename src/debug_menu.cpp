@@ -488,7 +488,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_TIMED_EVENTS, true, 'E', _( "Write Timed (E)vents to timed_event_list.output" ) ) },
-            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 's', _( "Edit global var(s)" ) ) },
+            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'a', _( "Edit global v(a)rs" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -3401,10 +3401,9 @@ void debug()
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                 const tripoint_abs_omt where_omt( ui::omap::choose_point( true ) );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
-                    mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                    mx_map.load( where_omt, false );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_omt );
                     g->load_npcs();
                     here.invalidate_map_cache( here.get_abs_sub().z() );
                 }
@@ -3455,7 +3454,7 @@ void debug()
         case debug_menu_index::QUIT_NOSAVE:
             if( query_yn(
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                player_character.moves = 0;
+                player_character.set_moves( 0 );
                 g->uquit = QUIT_NOSAVED;
             }
             break;

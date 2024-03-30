@@ -1189,6 +1189,7 @@ void npc::act_on_danger_assessment()
             mem_combat.failing_to_reposition = 0;
         }
     }
+    mem_combat.panic = std::max( 0, mem_combat.panic );
     add_msg_debug( debugmode::DF_NPC_COMBATAI, "%s <color_magenta>panic level</color> is up to %i.",
                    name, mem_combat.panic );
     if( mem_combat.failing_to_reposition > 2 && has_effect( effect_npc_run_away ) &&
@@ -1887,7 +1888,7 @@ void npc::execute_action( npc_action action )
         break;
         case npc_talk_to_player:
             get_avatar().talk_to( get_talker_for( this ) );
-            moves = 0;
+            set_moves( 0 );
             break;
 
         case npc_mug_player:
@@ -2515,10 +2516,14 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( one_in( 3 ) && find_corpse_to_pulp() ) {
-        if( !do_pulp() ) {
-            move_to_next();
+    if( can_do_pulp() ) {
+        if( !activity ) {
+            assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
+            activity.placement = *pulp_location;
         }
+        return npc_player_activity;
+    } else if( find_corpse_to_pulp() ) {
+        move_to_next();
         return npc_noop;
     }
 
@@ -2539,7 +2544,7 @@ npc_action npc::address_needs( float danger )
         return false;
     };
     // TODO: More risky attempts at sleep when exhausted
-    if( one_in( 3 ) && could_sleep() ) {
+    if( could_sleep() ) {
         if( !is_player_ally() ) {
             // TODO: Make tired NPCs handle sleep offscreen
             set_fatigue( 0 );
@@ -3037,12 +3042,12 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             const double base_moves = run_cost( here.combined_movecost( pos(), p ),
                                                 diag ) * 100.0 / mounted_creature->get_speed();
             const double encumb_moves = get_weight() / 4800.0_gram;
-            moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
+            mod_moves( -static_cast<int>( std::ceil( base_moves + encumb_moves ) ) );
             if( mounted_creature->has_flag( mon_flag_RIDEABLE_MECH ) ) {
                 mounted_creature->use_mech_power( 1_kJ );
             }
         } else {
-            moves -= run_cost( here.combined_movecost( pos(), p ), diag );
+            mod_moves( -run_cost( here.combined_movecost( pos(), p ), diag ) );
         }
         moved = true;
     } else if( here.open_door( *this, p, !here.is_outside( pos() ), true ) ) {
@@ -3083,7 +3088,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             set_attitude( NPCATT_FLEE_TEMP );
         }
 
-        moves = 0;
+        set_moves( 0 );
     }
 
     if( moved ) {
@@ -3653,7 +3658,7 @@ void npc::pick_up_item()
         add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", get_name() );
         fetching_item = false;
         wanted_item = nullptr;
-        moves -= 1;
+        mod_moves( -1 );
         return;
     }
 
@@ -3965,7 +3970,7 @@ bool npc::find_corpse_to_pulp()
     return corpse != nullptr;
 }
 
-bool npc::do_pulp()
+bool npc::can_do_pulp()
 {
     if( !pulp_location ) {
         return false;
@@ -3974,12 +3979,7 @@ bool npc::do_pulp()
     if( rl_dist( *pulp_location, get_location() ) > 1 || pulp_location->z() != posz() ) {
         return false;
     }
-    // TODO: Don't recreate the activity every time
-    int old_moves = moves;
-    assign_activity( ACT_PULP, calendar::INDEFINITELY_LONG, 0 );
-    activity.placement = *pulp_location;
-    activity.do_turn( *this );
-    return moves != old_moves;
+    return true;
 }
 
 bool npc::do_player_activity()
@@ -4012,7 +4012,7 @@ bool npc::do_player_activity()
         }
     }
     if( multi_type && moves == moves_before ) {
-        moves -= 1;
+        mod_moves( -1 );
     }
     /* if the activity is finished, grab any backlog or change the mission */
     if( !has_destination() && !activity ) {
@@ -4093,7 +4093,7 @@ bool npc::wield_better_weapon()
             // we just recur to the next farther down
             return VisitResponse::NEXT;
         }
-        return VisitResponse::SKIP;
+        return VisitResponse::NEXT;
     } );
 
     // TODO: Reimplement switching to empty guns
@@ -4409,7 +4409,7 @@ void npc::use_painkiller()
         add_msg_if_player_sees( *this, _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         item_location loc = item_location( *this, it );
         const time_duration &consume_time = get_consume_time( *loc );
-        moves -= to_moves<int>( consume_time );
+        mod_moves( -to_moves<int>( consume_time ) );
         consume( loc );
     }
 }
@@ -4621,7 +4621,7 @@ bool npc::consume_food()
                 // TODO: Message that "X begins eating Y?" Right now it appears to the player
                 //       that "Urist eats a carp roast" and then stands still doing nothing
                 //       for a while.
-                moves -= to_moves<int>( consume_time );
+                mod_moves( -to_moves<int>( consume_time ) );
             } else {
                 debugmsg( "%s failed to consume %s", get_name(), best_food->tname() );
             }
@@ -4651,7 +4651,7 @@ void npc::mug_player( Character &mark )
             cash += mark.cash;
             mark.cash = 0;
         }
-        moves = 0;
+        set_moves( 0 );
         // Describe the action
         if( mark.is_npc() ) {
             if( u_see ) {
@@ -5352,7 +5352,7 @@ void npc::do_reload( const item_location &it )
         return;
     }
 
-    moves -= reload_time;
+    mod_moves( -reload_time );
     recoil = MAX_RECOIL;
 
     if( get_player_view().sees( *this ) ) {

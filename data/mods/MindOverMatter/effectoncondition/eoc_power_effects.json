@@ -73,14 +73,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_PSI_REDUCE_FOCUS_EFFECTS",
-    "eoc_type": "EVENT",
-    "required_event": "opens_spellbook",
-    "condition": { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING_ON" } },
-    "effect": [ { "math": [ "u_spellcasting_adjustment('concentration', 'flag_whitelist': 'PSIONIC' )", "=", "-0.4" ] } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_PSI_EXTENDED_CHANNELING",
     "eoc_type": "EVENT",
     "required_event": "opens_spellbook",

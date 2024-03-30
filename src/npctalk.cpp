@@ -1239,7 +1239,7 @@ void game::chat()
         add_msg( emote_msg );
     }
 
-    u.moves -= 100;
+    u.mod_moves( -u.get_speed() );
 }
 
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
@@ -3103,7 +3103,7 @@ void map_add_item( item &it, tripoint_abs_ms target_pos )
         get_map().add_item_or_charges( get_map().getlocal( target_pos ), it );
     } else {
         tinymap target_bay;
-        target_bay.load( project_to<coords::sm>( target_pos ), false );
+        target_bay.load( project_to<coords::omt>( target_pos ), false );
         target_bay.add_item_or_charges( target_bay.getlocal( target_pos ), it );
     }
 }
@@ -3701,7 +3701,7 @@ talk_effect_fun_t::func f_location_variable( const JsonObject &jo, std::string_v
             target_pos = target_pos + tripoint( 0, 0,
                                                 dov_z_adjust.evaluate( d ) );
         }
-        write_var_value( type, var_name, d.actor( type == var_type::npc ), &d, target_pos.to_string() );
+        write_var_value( type, var_name, &d, target_pos.to_string() );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -3738,11 +3738,9 @@ talk_effect_fun_t::func f_location_variable_adjust( const JsonObject &jo,
             target_pos = target_pos + tripoint( 0, 0, dov_z_adjust.evaluate( d ) );
         }
         if( output_var.has_value() ) {
-            write_var_value( output_var.value().type, output_var.value().name,
-                             d.actor( output_var.value().type == var_type::npc ), &d, target_pos.to_string() );
+            write_var_value( output_var.value().type, output_var.value().name, &d, target_pos.to_string() );
         } else {
-            write_var_value( input_var.value().type, input_var.value().name,
-                             d.actor( input_var.value().type == var_type::npc ), &d, target_pos.to_string() );
+            write_var_value( input_var.value().type, input_var.value().name,   &d, target_pos.to_string() );
         }
     };
 }
@@ -3908,22 +3906,27 @@ talk_effect_fun_t::func f_revert_location( const JsonObject &jo, std::string_vie
         time_point tif = calendar::turn + dov_time_in_future.evaluate( d ) + 1_seconds;
         // Timed events happen before the player turn and eocs are during so we add a second here to sync them up using the same variable
         // maptile is 4 submaps so queue up 4 submap reverts
+        const tripoint_abs_sm revert_sm_base = project_to<coords::sm>( omt_pos );
+
         for( int x = 0; x < 2; x++ ) {
             for( int y = 0; y < 2; y++ ) {
-                tripoint_abs_sm revert_sm = project_to<coords::sm>( omt_pos );
-                revert_sm += point( x, y );
+                const tripoint_abs_sm revert_sm = revert_sm_base + point( x, y );
                 submap *sm = MAPBUFFER.lookup_submap( revert_sm );
                 if( sm == nullptr ) {
                     tinymap tm;
-                    tm.load( revert_sm, true );
+                    // This creates the submaps if they didn't already exist.
+                    // Note that all four submaps are loaded/created by this
+                    // call, so the submap lookup can fail at most once.
+                    tm.load( omt_pos, true );
                     sm = MAPBUFFER.lookup_submap( revert_sm );
                 }
                 get_timed_events().add( timed_event_type::REVERT_SUBMAP, tif, -1,
                                         project_to<coords::ms>( revert_sm ), 0, "",
                                         sm->get_revert_submap(), key.evaluate( d ) );
-                get_map().invalidate_map_cache( omt_pos.z() );
             }
         }
+
+        get_map().invalidate_map_cache( omt_pos.z() );
     };
 }
 
@@ -4118,7 +4121,7 @@ talk_effect_fun_t::func f_turn_cost( const JsonObject &jo, std::string_view memb
     return [cost]( dialogue & d ) {
         Character *target = d.actor( false )->get_character();
         if( target ) {
-            target->moves -= to_moves<int>( cost.evaluate( d ) );
+            target->mod_moves( -to_moves<int>( cost.evaluate( d ) ) );
         }
     };
 }
@@ -4571,7 +4574,7 @@ talk_effect_fun_t::func f_set_string_var( const JsonObject &jo, std::string_view
             talker &beta = d.has_beta ? *d.actor( true ) : *default_talker;
             parse_tags( str, alpha, beta, d );
         }
-        write_var_value( var.type, var.name, d.actor( var.type == var_type::npc ), &d, str );
+        write_var_value( var.type, var.name, &d, str );
     };
 }
 
@@ -5329,7 +5332,7 @@ talk_effect_fun_t::func f_set_talker( const JsonObject &jo, std::string_view mem
     std::string var_name = var.name;
     return [is_npc, var, type, var_name]( dialogue & d ) {
         int id = d.actor( is_npc )->getID().get_value();
-        write_var_value( type, var_name, d.actor( type == var_type::npc ), &d, id );
+        write_var_value( type, var_name, &d, id );
     };
 }
 
@@ -5531,7 +5534,7 @@ talk_effect_fun_t::func f_foreach( const JsonObject &jo, std::string_view member
         }
 
         for( std::string_view str : list ) {
-            write_var_value( itr.type, itr.name, d.actor( itr.type == var_type::npc ), &d, str.data() );
+            write_var_value( itr.type, itr.name, &d, str.data() );
             effect.apply( d );
         }
     };
@@ -5727,6 +5730,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
     }
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
+    const bool temporary_drop_items = jo.get_bool( "temporary_drop_items", false );
     const bool friendly = jo.get_bool( "friendly", false );
 
     duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
@@ -5742,7 +5746,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     return [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
                         dov_max_radius, outdoor_only, indoor_only, group, single_target, dov_lifespan, target_var,
-                        spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
+                        spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed, temporary_drop_items,
                 friendly, is_npc]( dialogue & d ) {
         monster target_monster;
         std::vector<Creature *> target_monsters;
@@ -5868,6 +5872,9 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     lifespan = dov_lifespan.evaluate( d );
                     if( lifespan.value() > 0_seconds ) {
                         spawned->set_summon_time( lifespan.value() );
+                        // Temporary monsters shouldn't drop items unless told to
+                        spawned->no_extra_death_drops = !temporary_drop_items;
+                        spawned->no_corpse_quiet = !temporary_drop_items;
                     }
                 }
             }

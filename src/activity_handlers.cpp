@@ -268,15 +268,8 @@ activity_handlers::do_turn_functions = {
     { ACT_ATM, atm_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
-    { ACT_BLEED, butcher_do_turn },
-    { ACT_BUTCHER, butcher_do_turn },
-    { ACT_BUTCHER_FULL, butcher_do_turn },
     { ACT_TRAVELLING, travel_do_turn },
-    { ACT_FIELD_DRESS, butcher_do_turn },
-    { ACT_SKIN, butcher_do_turn },
-    { ACT_QUARTER, butcher_do_turn },
-    { ACT_DISMEMBER, butcher_do_turn },
-    { ACT_DISSECT, butcher_do_turn },
+    { ACT_DISMEMBER, dismember_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
     { ACT_JACKHAMMER, jackhammer_do_turn },
@@ -1401,6 +1394,9 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     you->recoil = MAX_RECOIL;
 
+    get_event_bus().send<event_type::character_butchered_corpse>( you->getID(),
+            corpse_item.get_mtype()->id, act->id().str() );
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if it's mutli-tile butchering, then restart the backlog.
@@ -1780,12 +1776,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             moves += 100 / std::max( 0.25f,
                                      stamina_ratio ) * you->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || you->is_npc() ) {
-                you->moves = std::min( 0, you->moves - moves );
+                you->set_moves( std::min( 0, you->get_moves() - moves ) );
                 return;
             }
-            if( moves >= you->moves ) {
+            if( moves >= you->get_moves() ) {
                 // Enough for this turn;
-                you->moves -= moves;
+                you->mod_moves( -moves );
                 return;
             }
         }
@@ -1809,6 +1805,7 @@ void activity_handlers::pulp_finish( player_activity *act, Character *you )
     if( you->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( you );
         guy->revert_after_activity();
+        guy->pulp_location.reset();
     } else {
         act->set_to_null();
     }
@@ -1908,7 +1905,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
         return;
     }
 
-    you->mod_moves( -you->moves );
+    you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
     const float light = actor->light_mod( you->pos() );
     act->moves_left -= light * 100;
@@ -2941,17 +2938,17 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
     const float exertion_mult = you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    const int effective_moves = you->moves / ( you->fine_detail_vision_mod() * exertion_mult );
+    const int effective_moves = you->get_moves() / ( you->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
-        you->moves = 0;
+        you->set_moves( 0 );
     } else {
-        you->moves -= act->moves_left * you->fine_detail_vision_mod();
+        you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
 }
 
-void activity_handlers::butcher_do_turn( player_activity * /*act*/, Character *you )
+void activity_handlers::dismember_do_turn( player_activity * /*act*/, Character *you )
 {
     you->burn_energy_arms( -20 );
 }
@@ -3531,7 +3528,7 @@ static void perform_zone_activity_turn(
             // we are at destination already
             /* Perform action */
             tile_action( *you, tile_loc );
-            if( you->moves <= 0 ) {
+            if( you->get_moves() <= 0 ) {
                 return;
             }
         }

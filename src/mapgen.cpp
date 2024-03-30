@@ -161,15 +161,13 @@ static constexpr int MON_RADIUS = 3;
 
 static void science_room( map *m, const point &p1, const point &p2, int z, int rotate );
 
-// (x,y,z) are absolute coordinates of a submap
-// x%2 and y%2 must be 0!
-void map::generate( const tripoint &p, const time_point &when )
+void map::generate( const tripoint_abs_omt &p, const time_point &when )
 {
     dbg( D_INFO ) << "map::generate( g[" << g.get() << "], p[" << p << "], "
                   "when[" << to_string( when ) << "] )";
 
-    // TODO: fix point types
-    set_abs_sub( tripoint_abs_sm( p ) );
+    const tripoint_abs_sm p_sm = project_to<coords::sm>( p );
+    set_abs_sub( p_sm );
 
     // First we have to create new submaps and initialize them to 0 all over
     // We create all the submaps, even if we're not a tinymap, so that map
@@ -179,31 +177,28 @@ void map::generate( const tripoint &p, const time_point &when )
     //  because other submaps won't be touched.
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            const size_t grid_pos = get_nonant( { gridx, gridy, p.z } );
+            const size_t grid_pos = get_nonant( { gridx, gridy, p_sm.z()} );
             if( getsubmap( grid_pos ) ) {
-                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p.z );
+                debugmsg( "Submap already exists at (%d, %d, %d)", gridx, gridy, p_sm.z() );
                 continue;
             }
             setsubmap( grid_pos, new submap() );
             // TODO: memory leak if the code below throws before the submaps get stored/deleted!
         }
     }
-    // x, and y are submap coordinates, convert to overmap terrain coordinates
-    // TODO: fix point types
-    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
-    oter_id terrain_type = overmap_buffer.ter( abs_omt );
+    oter_id terrain_type = overmap_buffer.ter( p );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
     float density = 0.0f;
     for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
         for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
-            density += overmap_buffer.ter( abs_omt + point( i, j ) )->get_mondensity();
+            density += overmap_buffer.ter( p + point( i, j ) )->get_mondensity();
         }
     }
     density = density / 100;
 
-    mapgendata dat( abs_omt, *this, density, when, nullptr );
+    mapgendata dat( p, *this, density, when, nullptr );
     draw_map( dat );
 
     // At some point, we should add region information so we can grab the appropriate extras
@@ -212,7 +207,7 @@ void map::generate( const tripoint &p, const time_point &when )
     if( this_ex.chance > 0 && ex.values.empty() && !this_ex.values.empty() ) {
         DebugLog( D_WARNING, D_MAP_GEN ) << "Overmap terrain " << terrain_type->get_type_id().str() <<
                                          " (extra type \"" << terrain_type->get_extras() <<
-                                         "\") zlevel = " << abs_omt.z() <<
+                                         "\") zlevel = " << p.z() <<
                                          " is out of range of all assigned map extras.  Skipping map extra generation.";
     } else if( ex.chance > 0 && one_in( ex.chance ) ) {
         map_extra_id *extra = ex.values.pick();
@@ -262,13 +257,13 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
 
-    // Okay, we know who are neighbors are.  Let's draw!
+    // Okay, we know who our neighbors are.  Let's draw!
     // And finally save used submaps and delete the rest.
     for( int i = 0; i < my_MAPSIZE; i++ ) {
         for( int j = 0; j < my_MAPSIZE; j++ ) {
             dbg( D_INFO ) << "map::generate: submap (" << i << "," << j << ")";
 
-            const tripoint pos( i, j, p.z );
+            const tripoint pos( i, j, p_sm.z() );
             if( i <= 1 && j <= 1 ) {
                 saven( pos );
             } else {
@@ -278,12 +273,6 @@ void map::generate( const tripoint &p, const time_point &when )
             }
         }
     }
-}
-
-void map::generate( const tripoint_abs_sm &p, const time_point &when )
-{
-    // TODO: fix point types
-    generate( p.raw(), when );
 }
 
 void mapgen_function_builtin::generate( mapgendata &mgd )
@@ -3657,6 +3646,20 @@ class jmapgen_nested : public jmapgen_piece
                     return allowed_predecessors.empty();
                 }
         };
+        class correct_z_level_check
+        {
+            private:
+                std::unordered_set<int> required_z;
+            public:
+                explicit correct_z_level_check( const JsonArray &jarr ) {
+                    for( const JsonValue entry : jarr ) {
+                        required_z.emplace( entry.get_int() );
+                    }
+                }
+                bool test( const mapgendata &dat ) const {
+                    return required_z.empty() || required_z.count( dat.zlevel() ) == 1;
+                }
+        };
 
     public:
         weighted_int_list<mapgen_value<nested_mapgen_id>> entries;
@@ -3666,12 +3669,14 @@ class jmapgen_nested : public jmapgen_piece
         neighbor_flag_check neighbor_flags;
         neighbor_flag_any_check neighbor_flags_any;
         predecessor_oter_check predecessors;
+        correct_z_level_check correct_z_level;
         jmapgen_nested( const JsonObject &jsi, const std::string_view/*context*/ )
             : neighbor_oters( jsi.get_object( "neighbors" ) )
             , neighbor_joins( jsi.get_object( "joins" ) )
             , neighbor_flags( jsi.get_object( "flags" ) )
             , neighbor_flags_any( jsi.get_object( "flags_any" ) )
-            , predecessors( jsi.get_array( "predecessors" ) ) {
+            , predecessors( jsi.get_array( "predecessors" ) )
+            , correct_z_level( jsi.get_array( "z" ) ) {
             if( jsi.has_member( "chunks" ) ) {
                 load_weighted_list( jsi.get_member( "chunks" ), entries, 100 );
             }
@@ -3700,11 +3705,9 @@ class jmapgen_nested : public jmapgen_piece
                     }
                 }
             };
-
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : entries ) {
                 merge_from( name.obj );
             }
-
             for( const weighted_object<int, mapgen_value<nested_mapgen_id>> &name : else_entries ) {
                 merge_from( name.obj );
             }
@@ -3712,7 +3715,7 @@ class jmapgen_nested : public jmapgen_piece
         const weighted_int_list<mapgen_value<nested_mapgen_id>> &get_entries(
         const mapgendata &dat ) const {
             if( neighbor_oters.test( dat ) && neighbor_joins.test( dat ) && neighbor_flags.test( dat ) &&
-                neighbor_flags_any.test( dat ) && predecessors.test( dat ) ) {
+                neighbor_flags_any.test( dat ) && predecessors.test( dat ) && correct_z_level.test( dat ) ) {
                 return entries;
             } else {
                 return else_entries;
@@ -7687,9 +7690,8 @@ bool update_mapgen_function_json::update_map(
 
     std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
     tinymap &update_tmap = *p_update_tmap;
-    const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    update_tmap.load( sm_pos, true );
+    update_tmap.load( omt_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
@@ -7700,7 +7702,7 @@ bool update_mapgen_function_json::update_map(
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
     update_tmap.rotate( rotation );
 
-    if( get_map().inbounds( project_to<coords::ms>( sm_pos ) ) ) {
+    if( get_map().inbounds( project_to<coords::ms>( omt_pos ) ) ) {
         // trigger main map cleanup
         p_update_tmap.reset();
         // trigger new traps, etc
@@ -7826,9 +7828,8 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
 
     std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
     tinymap &update_tmap = *p_update_tmap;
-    const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
 
-    update_tmap.load( sm_pos, true );
+    update_tmap.load( omt_pos, true );
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
@@ -7846,7 +7847,7 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
         if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
             for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
                 ter_id ter_at_pos = tmp_map.ter( pos );
-                const tripoint level_pos = tripoint( pos.xy(), sm_pos.z() );
+                const tripoint level_pos = tripoint( pos.xy(), omt_pos.z() );
 
                 if( ter_at_pos != t_grass || tmp_map.has_furn( level_pos ) ) {
                     if( apply ) {

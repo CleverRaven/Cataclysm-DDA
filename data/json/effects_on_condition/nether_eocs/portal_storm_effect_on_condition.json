@@ -133,7 +133,13 @@
       }
     },
     "effect": [
-      { "u_location_variable": { "global_val": "portal_storm_center" }, "min_radius": 30, "max_radius": 75 },
+      {
+        "u_location_variable": { "global_val": "portal_storm_center" },
+        "min_radius": 30,
+        "max_radius": 75,
+        "z_override": true,
+        "z_adjust": 0
+      },
       { "math": [ "cause_early_portal_storm", "=", "1" ] },
       "next_weather",
       { "queue_eocs": "EOC_CAUSE_PORTAL_STORM", "time_in_future": [ "30 seconds", "1 minutes" ] },
@@ -982,7 +988,7 @@
       ]
     },
     "effect": {
-      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength" },
+      "switch": { "global_val": "var", "var_name": "portal_dungeon_reflect_strength", "default": 0 },
       "cases": [
         {
           "case": 0,
@@ -1312,7 +1318,10 @@
             { "compare_string": [ "mon_hallucinator", { "context_val": "victim_type" } ] },
             { "compare_string": [ "mon_archunk_strong", { "context_val": "victim_type" } ] },
             { "compare_string": [ "mon_void_spider", { "context_val": "victim_type" } ] },
-            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] }
+            { "compare_string": [ "mon_XEDRA_officer", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "LIXA_eigenspectre_3", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "LIXA_eigenspectre_4", { "context_val": "victim_type" } ] },
+            { "compare_string": [ "LIXA_living_vector", { "context_val": "victim_type" } ] }
           ]
         }
       ]
