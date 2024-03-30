@@ -13,7 +13,7 @@
           "not": { "u_has_trait": "DREAMLESS" }
         },
         { "math": [ "magic_potential", ">", "0" ] }
-      ],
+      ]
     },
     "effect": [ { "math": [ "allow_sequence", "=", "1" ] } ]
   },
