@@ -122,7 +122,7 @@
     "dodge": 4,
     "families": [ "prof_intro_biology", "prof_wp_dino" ],
     "weakpoint_sets": [ "wps_dinosaur_body" ],
-    "hp": 70,
+    "hp": 120,
     "zombify_into": "mon_zeratosaurus",
     "description": "A large, fast predatory bipedal dinosaur, decorated with three colorful horns on its head and dotted with bright skin bones with long sharp teeth and a long flexible tail.",
     "reproduction": { "baby_egg": "egg_ceratosaurus", "baby_count": 3, "baby_timer": 24 },
