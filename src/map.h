@@ -2396,10 +2396,10 @@ bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type
 class tinymap : private map
 {
         friend class editmap;
-protected:
-    tinymap(int mapsize, bool zlev) : map(mapsize, zlev) {};
+    protected:
+        tinymap( int mapsize, bool zlev ) : map( mapsize, zlev ) {};
 
-public:
+    public:
         tinymap() : map( 2, false ) {}
         bool inbounds( const tripoint &p ) const override;
         bool inbounds( const tripoint_omt_ms &p ) const;
@@ -2650,7 +2650,7 @@ class fake_map : public tinymap
 */
 class smallmap : public tinymap
 {
-public:
-    smallmap() : tinymap(2, true) {}
+    public:
+        smallmap() : tinymap( 2, true ) {}
 };
 #endif // CATA_SRC_MAP_H
