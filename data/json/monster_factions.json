@@ -101,7 +101,14 @@
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "yrax", "passive_machine" ]
+    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "yrax", "passive_machine" ],
+    "by_mood": [ "herbivore_domestic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore_domestic",
+    "base_faction": "herbivore",
+    "by_mood": [ "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",
