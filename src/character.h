@@ -219,7 +219,7 @@ constexpr inline int operator-( const T &lhs, const sleepiness_levels &rhs )
 /** @brief five levels of consequences for days without sleep
     @details Sleep deprivation, distinct from sleepiness, is defined in minutes. Although most
     calculations scale linearly, malus is bestowed only upon reaching the tiers defined below.
-    @note Sleep deprivation increases sleepiness. Fatigue increase scales with the severity of sleep
+    @note Sleep deprivation increases sleepiness. Sleepiness increase scales with the severity of sleep
     deprivation.
     @note Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for
     long periods of time

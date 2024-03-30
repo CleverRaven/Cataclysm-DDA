@@ -450,7 +450,7 @@ void Character::update_bodytemp()
     const units::temperature_delta hunger_warmth = 4_C_delta * std::min( met_rate, 1.0f ) - 4_C_delta;
     // Give SOME bonus to those living furnaces with extreme metabolism
     const units::temperature_delta metabolism_warmth = std::max( 0.0f, met_rate - 1.0f ) * 2_C_delta;
-    // Fatigue
+    // Sleepiness
     // -1.725C when exhausted, scaled up and capped at 900 sleepiness.
     const float scaled_sleepiness = clamp( get_sleepiness(), 0,
                                         900 ) / static_cast<float>( sleepiness_levels::EXHAUSTED );

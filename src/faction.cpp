@@ -776,7 +776,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     mvwprintz( fac_w, point( width, ++y ), thirst_pair.second,
                _( "Thirst: " ) + ( thirst_pair.first.empty() ? nominal : thirst_pair.first ) );
     mvwprintz( fac_w, point( width, ++y ), sleepiness_pair.second,
-               _( "Fatigue: " ) + ( sleepiness_pair.first.empty() ? nominal : sleepiness_pair.first ) );
+               _( "Sleepiness: " ) + ( sleepiness_pair.first.empty() ? nominal : sleepiness_pair.first ) );
     int lines = fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, c_white,
                                 _( "Wielding: " ) + weapname_simple() );
     y += lines;

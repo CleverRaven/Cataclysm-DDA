@@ -253,8 +253,8 @@
     "id": "zenfs_sleepiness_bar_label",
     "type": "widget",
     "style": "text",
-    "string": "Fatigue",
-    "width": 7
+    "string": "Sleepiness",
+    "width": 10
   },
   {
     "id": "zenfs_sleepiness_num_label",

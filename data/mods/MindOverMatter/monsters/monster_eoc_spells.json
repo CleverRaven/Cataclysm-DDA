@@ -68,7 +68,7 @@
   {
     "id": "eater_drain_sleepiness",
     "type": "SPELL",
-    "name": "[Ψ]Eater Drain Fatigue",
+    "name": "[Ψ]Eater Drain Sleepiness",
     "description": "Eater's spell to drain sleepiness.  It's a bug if you have it.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],

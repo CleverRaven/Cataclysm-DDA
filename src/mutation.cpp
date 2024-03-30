@@ -697,7 +697,7 @@ void Character::activate_mutation( const trait_id &mut )
     trait_data &tdata = my_mutations[mut];
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
-    // Fatigue can go to Exhausted.
+    // Sleepiness can go to Exhausted.
     if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),

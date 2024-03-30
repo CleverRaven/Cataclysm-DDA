@@ -295,7 +295,7 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
         right_indent += utf8_width( thirst_pair.first ) + 3;
     }
 
-    // Fatigue
+    // Sleepiness
     if( !sleepiness_pair.first.empty() ) {
         cur_str_pos = right_print( window, 1, right_indent, sleepiness_pair.second, sleepiness_pair.first );
 

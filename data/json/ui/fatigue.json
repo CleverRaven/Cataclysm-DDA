@@ -27,7 +27,7 @@
   {
     "id": "sleepiness_num",
     "type": "widget",
-    "label": "Fatigue",
+    "label": "Sleepiness",
     "var": "sleepiness",
     "style": "number"
   },

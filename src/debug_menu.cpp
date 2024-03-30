@@ -1480,7 +1480,7 @@ static void character_edit_needs_menu( Character &you )
                            hunger_pair.second ) ) << std::endl;
     data << string_format( _( "Thirst: %d  %s" ), you.get_thirst(), colorize( thirst_pair.first,
                            thirst_pair.second ) ) << std::endl;
-    data << string_format( _( "Fatigue: %d  %s" ), you.get_sleepiness(), colorize( sleepiness_pair.first,
+    data << string_format( _( "Sleepiness: %d  %s" ), you.get_sleepiness(), colorize( sleepiness_pair.first,
                            sleepiness_pair.second ) ) << std::endl;
     data << string_format( _( "Weariness: %d  %s" ), you.weariness(), colorize( weariness_pair.first,
                            weariness_pair.second ) ) << std::endl;
@@ -1506,7 +1506,7 @@ static void character_edit_needs_menu( Character &you )
     smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), you.stomach.get_calories() );
     smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kCal" ), you.guts.get_calories() );
     smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), you.get_thirst() );
-    smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), you.get_sleepiness() );
+    smenu.addentry( 5, true, 'f', "%s: %d", _( "Sleepiness" ), you.get_sleepiness() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
     smenu.addentry( 7, true, 'w', "%s: %d", _( "Weariness" ), you.weariness() );
     smenu.addentry( 8, true, 'a', _( "Reset all basic needs" ) );

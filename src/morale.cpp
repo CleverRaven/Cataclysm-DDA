@@ -704,7 +704,7 @@ void player_morale::display( int focus_eq, int pain_penalty, int sleepiness_pena
     }
     if( sleepiness_penalty != 0 ) {
         bottom_lines.emplace_back(
-            _( "Fatigue level:" ), -sleepiness_penalty,
+            _( "Sleepiness level:" ), -sleepiness_penalty,
             morale_line::number_format::signed_or_dash,
             morale_line::line_color::green_gray_red
         );
