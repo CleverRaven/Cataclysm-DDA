@@ -2242,7 +2242,9 @@ class map
          * After calling @ref load or @ref generate, it should only contain non-null pointers.
          * Use @ref getsubmap or @ref setsubmap to access it.
          */
+    protected:
         std::vector<submap *> grid;
+    private:
         /**
          * This vector contains an entry for each trap type, it has therefore the same size
          * as the traplist vector. Each entry contains a list of all point on the map that
@@ -2652,5 +2654,6 @@ class smallmap : public tinymap
 {
     public:
         smallmap() : tinymap( 2, true ) {}
+        void add_roofs();
 };
 #endif // CATA_SRC_MAP_H
