@@ -202,6 +202,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     if( !is_npc() ) {
         update_stamina( to_turns<int>( to - from ) );
+        update_strain( to_turns<int>( to - from ) );
     }
     if( can_recover_oxygen() && oxygen < get_oxygen_max() ) {
         oxygen += std::max( static_cast<int>( to_turns<int>( to - from ) * get_stamina() * 5 * get_modifier(

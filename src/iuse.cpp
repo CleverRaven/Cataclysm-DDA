@@ -8250,7 +8250,7 @@ std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_it
 std::optional<int> iuse::break_stick( Character *p, item *it, const tripoint & )
 {
     p->mod_moves( -to_moves<int>( 2_seconds ) );
-    p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
+    p->mod_strain( static_cast<int>( 0.05f * p->get_strain_max() ) );
 
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );

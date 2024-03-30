@@ -1118,14 +1118,14 @@ int throw_cost( const Character &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
-    const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
+    const float strain_ratio = static_cast<float>( c.get_strain() ) / c.get_strain_max();
+    const float strain_penalty = 1.0 + std::max( ( 0.25f - strain_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
     move_cost *= c.get_modifier( character_modifier_melee_thrown_move_lift_mod );
     move_cost *= c.get_modifier( character_modifier_melee_thrown_move_balance_mod );
-    // Stamina penalty only affects base/2 and encumbrance parts of the cost
-    move_cost *= stamina_penalty;
+    // strain penalty only affects base/2 and encumbrance parts of the cost
+    move_cost *= strain_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
     move_cost = c.enchantment_cache->modify_value( enchant_vals::mod::ATTACK_SPEED, move_cost );
@@ -1317,8 +1317,8 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const std::optional<int> throw_assist = character_throw_assist( *this );
 
     if( !throw_assist ) {
-        const int stamina_cost = get_standard_stamina_cost( &thrown );
-        mod_stamina( stamina_cost + throwing_skill );
+        const int strain_cost = get_standard_stamina_cost( &thrown );
+        mod_strain( strain_cost + throwing_skill );
     }
 
     const float skill_level = throwing_skill_adjusted( *this );
@@ -1490,24 +1490,24 @@ void practice_archery_proficiency( Character &p, const item &relevant )
     }
 }
 
-// Apply stamina cost to archery which decreases due to proficiency
-static void mod_stamina_archery( Character &you, const item &relevant )
+// Apply strain cost to archery which decreases due to proficiency
+static void mod_strain_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
     const float str_ratio = static_cast<float>( relevant.get_min_str() ) / you.str_cur;
     you.set_activity_level( 10 * str_ratio );
 
-    // Calculate stamina drain based on archery, athletics skill, and effective bow strength ratio
+    // Calculate srain drain based on archery, athletics skill, and effective bow strength ratio
     const float archery_skill = you.get_skill_level( skill_archery );
     const float athletics_skill = you.get_skill_level( skill_swimming );
     const float skill_modifier = ( 2.0f * archery_skill + athletics_skill ) / 3.0f;
-    const int stamina_cost = pow( 10.0f * str_ratio + 10 - skill_modifier, 2 );
+    const int strain_cost = pow( 10.0f * str_ratio + 10 - skill_modifier, 2 );
 
-    you.mod_stamina( -stamina_cost );
+    you.mod_strain( -strain_cost );
     add_msg_debug( debugmode::DF_RANGED,
-                   "-%i stamina: %.1f str ratio, %.1f skill mod",
-                   stamina_cost, str_ratio, skill_modifier );
+                   "-%i strain: %.1f str ratio, %.1f skill mod",
+                   strain_cost, str_ratio, skill_modifier );
 }
 
 static void do_aim( Character &you, const item &relevant, const double min_recoil )
@@ -1522,9 +1522,9 @@ static void do_aim( Character &you, const item &relevant, const double min_recoi
         if( relevant.gun_skill() == skill_archery ) {
             practice_archery_proficiency( you, relevant );
 
-            // Only drain stamina on initial draw
+            // Only drain strain on initial draw
             if( you.get_moves() == 1 ) {
-                mod_stamina_archery( you, relevant );
+                mod_strain_archery( you, relevant );
             }
         }
     } else {
