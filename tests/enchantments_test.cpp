@@ -22,9 +22,9 @@ static const efftype_id effect_invisibility( "invisibility" );
 
 static const mtype_id debug_mon( "debug_mon" );
 
-static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
-
 static const skill_id skill_melee( "melee" );
+
+static const trait_id trait_TEST_ENCH_MUTATION("TEST_ENCH_MUTATION");
 
 static void advance_turn( Character &guy )
 {
@@ -202,7 +202,7 @@ TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments]" )
     REQUIRE( guy.get_speed_bonus() == 0 );
 }
 
-int test_melee_attack_attack_speed( Character &guy )
+static int test_melee_attack_attack_speed( Character &guy )
 {
     int i = 0;
     int prev_attack = 0;
@@ -260,7 +260,7 @@ TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
 }
 
 
-int test_melee_attack_attack_stamina( Character &guy )
+static int test_melee_attack_attack_stamina( Character &guy )
 {
     int i = 0;
     int stamina_prev = 0;
