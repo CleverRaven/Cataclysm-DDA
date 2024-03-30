@@ -4887,6 +4887,25 @@
   },
   {
     "type": "GENERIC",
+    "id": "test_PAIN_PENALTY_MOD_ench_item_1",
+    "copy-from": "test_item_ench",
+    "name": "test_PAIN_PENALTY_MOD_ench_item_1",
+    "relic_data": {
+      "passive_effects": [
+        {
+          "values": [
+            { "value": "PAIN_PENALTY_MOD_STR", "add": 2 },
+            { "value": "PAIN_PENALTY_MOD_DEX", "multiply": -3 },
+            { "value": "PAIN_PENALTY_MOD_INT", "add": -3 },
+            { "value": "PAIN_PENALTY_MOD_PER", "multiply": 1 },
+            { "value": "PAIN_PENALTY_MOD_SPEED", "add": -10, "multiply": 1.2 }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "GENERIC",
     "id": "test_MELEE_STAMINA_CONSUMPTION_ench_item_0",
     "copy-from": "test_item_ench",
     "weight": "2000 g",

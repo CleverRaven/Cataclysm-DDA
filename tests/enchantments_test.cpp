@@ -24,7 +24,7 @@ static const mtype_id debug_mon( "debug_mon" );
 
 static const skill_id skill_melee( "melee" );
 
-static const trait_id trait_TEST_ENCH_MUTATION("TEST_ENCH_MUTATION");
+static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
 
 static void advance_turn( Character &guy )
 {
@@ -353,4 +353,32 @@ TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments]" )
     advance_turn( guy );
     INFO( "2.5 dodges, rounded down to 2" );
     REQUIRE( guy.get_num_dodges() == 2 );
+}
+
+TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
+{
+    clear_map();
+    Character &guy = get_player_character();
+    clear_avatar();
+    INFO( "Character has 50 pain, not affected by enchantments" );
+    guy.set_pain( 50 );
+    advance_turn( guy );
+    INFO( "Stats are: 6 str, 6 dex, 3 int, 3 per, 85 speed" );
+    REQUIRE( guy.get_str() == 6 );
+    REQUIRE( guy.get_dex() == 6 );
+    REQUIRE( guy.get_int() == 3 );
+    REQUIRE( guy.get_per() == 3 );
+    REQUIRE( guy.get_speed() == 85 );
+
+
+    INFO( "Character has 50 pain, obtain enchantment" );
+    guy.i_add( item( "test_PAIN_PENALTY_MOD_ench_item_1" ) );
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+    INFO( "Stats are: 4 str, 8 dex, 3 int, 0 per, 89 speed" );
+    REQUIRE( guy.get_str() == 4 );
+    REQUIRE( guy.get_dex() == 8 );
+    REQUIRE( guy.get_int() == 6 );
+    REQUIRE( guy.get_per() == 0 );
+    REQUIRE( guy.get_speed() == 89 );
 }
