@@ -2296,11 +2296,18 @@
     "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 1000, "description": "Heal 1,000 Damage" } ]
   },
   {
-    "id": "achievement_heal_3000_damage",
+    "id": "achievement_heal_2500_damage",
     "type": "achievement",
     "name": "Veteran Survivor",
     "hidden_by": [ "achievement_heal_1000_damage" ],
-    "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 3000, "description": "Heal 3,000 Damage" } ]
+    "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 2500, "description": "Heal 2,500 Damage" } ]
+  },
+  {
+    "id": "achievement_heal_5000_damage",
+    "type": "achievement",
+    "name": "Hardened Survivor",
+    "hidden_by": [ "achievement_heal_2500_damage" ],
+    "requirements": [ { "event_statistic": "avatar_damage_healed", "is": ">=", "target": 5000, "description": "Heal 5,000 Damage" } ]
   },
   {
     "id": "achievement_reach_LIXA",
