@@ -84,6 +84,7 @@ std::optional<int> heat_solid_items(Character *p, item *it, const tripoint &);
 std::optional<int> heat_liquid_items(Character *p, item *it, const tripoint &);
 std::optional<int> heat_all_items(Character *p, item *it, const tripoint &);
 std::optional<int> heat_items(Character *p, item *it, bool liquid_items, bool solid_items);
+std::optional<int> heat_item(Character *p, item *it);
 std::optional<int> capture_monster_veh(Character *, item *, const tripoint &);
 std::optional<int> change_eyes( Character *, item *, const tripoint & );
 std::optional<int> change_skin( Character *, item *, const tripoint & );

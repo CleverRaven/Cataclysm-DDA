@@ -16,7 +16,7 @@
     "id": "debug_clay_pot",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "clay pot" },
+    "name": { "str": "debug clay pot" },
     "description": "A crude clay pot with a lid, used for cooking.",
     "weight": "480 g",
     "volume": "2100 ml",
@@ -35,7 +35,7 @@
     "id": "debug_waffleiron",
     "type": "GENERIC",
     "category": "tools",
-    "name": { "str": "waffle iron" },
+    "name": { "str": "debug waffle iron" },
     "description": "A waffle iron, generally used for making waffles.",
     "weight": "520 g",
     "volume": "870 ml",
@@ -52,9 +52,9 @@
     "melee_damage": { "bash": 10 }
   },
   {
-    "id": "coffeemaker",
+    "id": "debug_coffeemaker",
     "type": "TOOL",
-    "name": { "str": "coffeemaker" },
+    "name": { "str": "debug coffeemaker" },
     "description": "A heating element with a pot and a frame for holding coffee or other powders.  You can use it to make coffee, or other drinks if you so choose.",
     "weight": "1000 g",
     "volume": "7 L",
@@ -68,8 +68,8 @@
     "ammo": [ "battery" ],
     "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
     "charges_per_use": 25,
-    "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" } , "HEAT_LIQUID_ITEMS"],
+    "qualities": [ [ "BOIL", 1 ], [ "HOTPLATE", 1 ] ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 2, "charge_rate": "1 kW" }, "HEAT_LIQUID_ITEMS" ],
     "melee_damage": { "bash": 2 }
   }
 ]

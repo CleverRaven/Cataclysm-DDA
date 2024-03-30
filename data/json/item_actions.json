@@ -502,6 +502,21 @@
   },
   {
     "type": "item_action",
+    "id": "HEAT_LIQUID_ITEMS",
+    "name": { "str": "Heat up liquid" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_SOLID_ITEMS",
+    "name": { "str": "Heat up solid items" }
+  },
+  {
+    "type": "item_action",
+    "id": "HEAT_ALL_ITEMS",
+    "name": { "str": "Heat up solid or liquid items" }
+  },
+  {
+    "type": "item_action",
     "id": "HONEYCOMB",
     "name": { "str": "Consume" }
   },
