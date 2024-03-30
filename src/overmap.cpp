@@ -132,12 +132,6 @@ static const oter_type_str_id oter_type_slimepit_down( "slimepit_down" );
 static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
 static const oter_type_str_id oter_type_sub_station( "sub_station" );
 
-static const overmap_connection_id overmap_connection_forest_trail( "forest_trail" );
-static const overmap_connection_id overmap_connection_local_railroad( "local_railroad" );
-static const overmap_connection_id overmap_connection_local_road( "local_road" );
-static const overmap_connection_id overmap_connection_sewer_tunnel( "sewer_tunnel" );
-static const overmap_connection_id overmap_connection_subway_tunnel( "subway_tunnel" );
-
 static const overmap_location_id overmap_location_land( "land" );
 static const overmap_location_id overmap_location_swamp( "swamp" );
 
@@ -3616,6 +3610,8 @@ bool overmap::generate_sub( const int z )
     for( city &i : goo_points ) {
         requires_sub |= build_slimepit( tripoint_om_omt( i.pos, z ), i.size );
     }
+    const overmap_connection_id &overmap_connection_sewer_tunnel =
+        settings->overmap_connection.sewer_connection;
     connect_closest_points( sewer_points, z, *overmap_connection_sewer_tunnel );
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
@@ -3696,6 +3692,8 @@ bool overmap::generate_sub( const int z )
 
     subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
                           subway_lab_train_points.end() );
+    const overmap_connection_id &overmap_connection_subway_tunnel =
+        settings->overmap_connection.subway_connection;
     connect_closest_points( subway_points, z, *overmap_connection_subway_tunnel );
 
     for( auto &i : subway_points ) {
@@ -3705,7 +3703,8 @@ bool overmap::generate_sub( const int z )
     }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
-    const auto create_train_depots = [this, z]( const oter_id & train_type,
+    const auto create_train_depots = [this, z,
+                                            overmap_connection_subway_tunnel]( const oter_id & train_type,
     const std::vector<point_om_omt> &train_points ) {
         bool is_first_in_pair = true;
         std::vector<point_om_omt> extra_route;
@@ -4482,6 +4481,8 @@ void overmap::place_forest_trails()
             }
 
             // Finally, connect all the points and make a forest trail out of them.
+            const overmap_connection_id &overmap_connection_forest_trail =
+                settings->overmap_connection.trail_connection;
             connect_closest_points( chosen_points, 0, *overmap_connection_forest_trail );
         }
     }
@@ -5096,7 +5097,9 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     if( op_city_size <= 0 ) {
         return;
     }
-    std::vector<tripoint_om_omt> &roads_out = connections_out[overmap_connection_local_road];
+    const overmap_connection_id &overmap_connection_inter_city_road =
+        settings->overmap_connection.inter_city_road_connection;
+    std::vector<tripoint_om_omt> &roads_out = connections_out[overmap_connection_inter_city_road];
 
     // At least 3 exit points, to guarantee road continuity across overmaps
     if( roads_out.size() < 3 ) {
@@ -5158,7 +5161,7 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
     }
 
     // And finally connect them via roads.
-    connect_closest_points( road_points, 0, *overmap_connection_local_road );
+    connect_closest_points( road_points, 0, *overmap_connection_inter_city_road );
 }
 
 void overmap::place_railroads( const overmap *north, const overmap *east, const overmap *south,
@@ -5169,6 +5172,8 @@ void overmap::place_railroads( const overmap *north, const overmap *east, const 
     if( op_city_size <= 0 ) {
         return;
     }
+    const overmap_connection_id &overmap_connection_local_railroad =
+        settings->overmap_connection.rail_connection;
     std::vector<tripoint_om_omt> &railroads_out = connections_out[overmap_connection_local_railroad];
 
     // At least 3 exit points, to guarantee railroad continuity across overmaps
@@ -5476,7 +5481,9 @@ void overmap::place_cities()
                                      omts_per_city );
     }
 
-    const overmap_connection &local_road( *overmap_connection_local_road );
+    const overmap_connection_id &overmap_connection_intra_city_road =
+        settings->overmap_connection.intra_city_road_connection;
+    const overmap_connection &local_road( *overmap_connection_intra_city_road );
 
     // if there is only a single free tile, the probability of NOT finding it after MAX_PLACEMENT_ATTEMPTS attempts
     // is (1 - 1/(OMAPX * OMAPY))^MAX_PLACEMENT_ATTEMPTS ≈ 36% for the OMAPX=OMAPY=180 and MAX_PLACEMENT_ATTEMPTS=OMAPX * OMAPY
