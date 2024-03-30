@@ -234,12 +234,12 @@ struct overmap_ravine_settings {
 };
 
 struct overmap_connection_settings {
-    overmap_connection_id trail_connection = overmap_connection_id( "forest_trail" );
-    overmap_connection_id sewer_connection = overmap_connection_id( "sewer_tunnel" );
-    overmap_connection_id subway_connection = overmap_connection_id( "subway_tunnel" );
-    overmap_connection_id rail_connection = overmap_connection_id( "local_railroad" );
-    overmap_connection_id intra_city_road_connection = overmap_connection_id( "local_road" );
-    overmap_connection_id inter_city_road_connection = overmap_connection_id( "local_road" );
+    overmap_connection_id trail_connection;
+    overmap_connection_id sewer_connection;
+    overmap_connection_id subway_connection;
+    overmap_connection_id rail_connection;
+    overmap_connection_id intra_city_road_connection;
+    overmap_connection_id inter_city_road_connection;
 
     void finalize();
     overmap_connection_settings() = default;

@@ -595,7 +595,7 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 
-    load_overmap_connection_settings( jo, new_region.overmap_connection, false, false );
+    load_overmap_connection_settings( jo, new_region.overmap_connection, strict, false );
 
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
