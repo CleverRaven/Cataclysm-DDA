@@ -5960,28 +5960,30 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
 
     const itype *itt = f.crafting_pseudo_item_type();
     if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
-        const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
         const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
         map_stack stack = m->i_at( p );
-        auto iter = std::find_if( stack.begin(), stack.end(),
-        [ammo, using_ammotype]( const item & i ) {
-            if( using_ammotype && i.type->ammo && ammo->ammo ) {
-                return i.type->ammo->type == ammo->ammo->type;
-            } else {
-                return i.typeId() == ammo;
-            }
-        } );
-        if( iter != stack.end() ) {
-            item furn_item( itt, calendar::turn_zero );
-            furn_item.ammo_set( ammo, iter->charges );
+        for( auto ammo_itype : f.crafting_ammo_item_types() ) {
+            itype_id ammo = ammo_itype->get_id();
+            auto iter = std::find_if( stack.begin(), stack.end(),
+            [ammo, using_ammotype]( const item & i ) {
+                if( using_ammotype && i.type->ammo && ammo->ammo ) {
+                    return i.type->ammo->type == ammo->ammo->type;
+                } else {
+                    return i.typeId() == ammo;
+                }
+            } );
+            if( iter != stack.end() ) {
+                item furn_item( itt, calendar::turn_zero );
+                furn_item.ammo_set( ammo, iter->charges );
 
-            if( !filter( furn_item ) ) {
-                return;
-            }
-            if( furn_item.use_charges( type, quantity, ret, p, return_true<item>, nullptr, in_tools ) ) {
-                stack.erase( iter );
-            } else {
-                iter->charges = furn_item.ammo_remaining();
+                if( !filter( furn_item ) ) {
+                    return;
+                }
+                if( furn_item.use_charges( type, quantity, ret, p, return_true<item>, nullptr, in_tools ) ) {
+                    stack.erase( iter );
+                } else {
+                    iter->charges = furn_item.ammo_remaining();
+                }
             }
         }
     }
