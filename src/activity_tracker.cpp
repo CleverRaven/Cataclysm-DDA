@@ -16,7 +16,8 @@ int activity_tracker::weariness() const
 }
 
 // Called every 5 minutes, when activity level is logged
-void activity_tracker::try_reduce_weariness( int bmr, float sleepiness_mod, float sleepiness_regen_mod )
+void activity_tracker::try_reduce_weariness( int bmr, float sleepiness_mod,
+        float sleepiness_regen_mod )
 {
     if( average_activity() < LIGHT_EXERCISE ) {
         cata_assert( sleepiness_mod > 0.0f );

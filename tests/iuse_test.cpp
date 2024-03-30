@@ -380,7 +380,8 @@ TEST_CASE( "caffeine_and_atomic_caffeine", "[iuse][caff][atomic_caff]" )
     SECTION( "atomic caffeine greatly reduces sleepiness, and increases stimulant effect" ) {
         item atomic_coffee( "atomic_coffee", calendar::turn_zero, item::default_charges_tag{} );
         dummy.consume( atomic_coffee );
-        CHECK( dummy.get_sleepiness() == sleepiness_before - atomic_coffee.get_comestible()->sleepiness_mod );
+        CHECK( dummy.get_sleepiness() == sleepiness_before -
+               atomic_coffee.get_comestible()->sleepiness_mod );
         CHECK( dummy.get_stim() == atomic_coffee.get_comestible()->stim );
     }
 }

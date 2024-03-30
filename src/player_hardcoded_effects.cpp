@@ -1042,7 +1042,8 @@ static void eff_fun_sleep( Character &u, effect &it )
         u.set_sleepiness( 25 ); //Prevent us from waking up naturally while under anesthesia
     }
 
-    if( u.get_sleepiness() < -25 && it.get_duration() > 3_minutes && !u.has_effect( effect_narcosis ) ) {
+    if( u.get_sleepiness() < -25 && it.get_duration() > 3_minutes &&
+        !u.has_effect( effect_narcosis ) ) {
         it.set_duration( 1_turns * dice( 3, 10 ) );
     }
 

@@ -852,7 +852,8 @@ static std::pair<field, tripoint> spell_remove_field( const spell &sp,
     return std::pair<field, tripoint> {field_removed, field_position};
 }
 
-static void handle_remove_fd_sleepiness_field( const std::pair<field, tripoint> &fd_sleepiness_field,
+static void handle_remove_fd_sleepiness_field( const std::pair<field, tripoint>
+        &fd_sleepiness_field,
         Creature &caster )
 {
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( fd_sleepiness_field ) ) {

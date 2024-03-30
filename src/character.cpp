@@ -5050,7 +5050,8 @@ void Character::update_needs( int rate_multiplier )
             mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
-    if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED && !lying ) {
+    if( is_avatar() && wasnt_sleepinessd && get_sleepiness() > sleepiness_levels::DEAD_TIRED &&
+        !lying ) {
         if( !activity ) {
             add_msg_if_player( m_warning, _( "You're feeling tired.  %s to lie down for sleep." ),
                                press_x( ACTION_SLEEP ) );
@@ -5135,7 +5136,8 @@ needs_rates Character::calc_needs_rates() const
     }
 
     rates.hunger = enchantment_cache->modify_value( enchant_vals::mod::HUNGER, rates.hunger );
-    rates.sleepiness = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS, rates.sleepiness );
+    rates.sleepiness = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS,
+                       rates.sleepiness );
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
@@ -5334,7 +5336,8 @@ void Character::check_needs_extremes()
             if( one_in( 100 + int_cur ) ) {
                 fall_asleep( 30_seconds );
             }
-        } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
+        } else if( get_sleepiness() >= sleepiness_levels::DEAD_TIRED &&
+                   calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "*yawn* You should really get some sleep." ) );
             add_effect( effect_lack_sleep, 30_minutes + 1_turns );
         }
@@ -10861,7 +10864,7 @@ void Character::process_one_effect( effect &it, bool is_new )
         mod = 1;
         if( is_new || it.activated( calendar::turn, "SLEEPINESS", val, reduced, mod ) ) {
             mod_sleepiness( bound_mod_to_vals( get_sleepiness(), val, it.get_max_val( "SLEEPINESS", reduced ),
-                                            it.get_min_val( "SLEEPINESS", reduced ) ) );
+                                               it.get_min_val( "SLEEPINESS", reduced ) ) );
         }
     }
 

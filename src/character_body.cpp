@@ -217,7 +217,8 @@ void Character::update_body( const time_point &from, const time_point &to )
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         float sleepiness_mod = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS, 1 );
-        float sleepiness_regen_mod = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS_REGEN, 1 );
+        float sleepiness_regen_mod = enchantment_cache->modify_value( enchant_vals::mod::SLEEPINESS_REGEN,
+                                     1 );
         activity_history.try_reduce_weariness( base_bmr(), sleepiness_mod, sleepiness_regen_mod );
 
         check_needs_extremes();
@@ -453,7 +454,7 @@ void Character::update_bodytemp()
     // Sleepiness
     // -1.725C when exhausted, scaled up and capped at 900 sleepiness.
     const float scaled_sleepiness = clamp( get_sleepiness(), 0,
-                                        900 ) / static_cast<float>( sleepiness_levels::EXHAUSTED );
+                                           900 ) / static_cast<float>( sleepiness_levels::EXHAUSTED );
     const units::temperature_delta sleepiness_warmth = has_sleep ? 0_C_delta : -1.725_C_delta *
             scaled_sleepiness;
 
