@@ -8561,8 +8561,8 @@ void Character::blossoms()
 
 void Character::update_vitamins( const vitamin_id &vit )
 {
-    if( is_npc() && vit->type() != vitamin_type::COUNTER ) {
-        return; // NPCs cannot develop vitamin diseases, bypass for special
+    if( !needs_food() ) {
+        return; // NPCs can only develop vitamin diseases if their needs are enabled
     }
 
     efftype_id def = vit.obj().deficiency();
