@@ -560,7 +560,9 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
                                                        new_item.ammo_default() )->ammo->type );
             } else if( !new_item.magazine_default().is_null() ) {
                 // Get the capacity of the item's default magazine
-                max_ammo = item_controller->find_template( new_item.magazine_default() )->magazine->capacity;
+                if( auto &mag_data = item_controller->find_template( new_item.magazine_default() )->magazine ) {
+                    max_ammo = mag_data->capacity;
+                }
             }
             // Don't change the ammo capacity from 0 if the item isn't a magazine
             // and doesn't have a default magazine with a capacity
