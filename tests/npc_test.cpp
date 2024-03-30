@@ -144,7 +144,7 @@ TEST_CASE( "on_load-sane-values", "[.]" )
         test_npc.set_sleepiness( 1000 );
         const double five_min_ticks = 6_hours / 5_minutes;
         /*
-        // Fatigue regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
+        // sleepiness regeneration starts at 1 per 5min, but linearly increases to 2 per 5min at 2 hours or more
         const int expected_sleepiness_change =
             ((1.0f + 2.0f) / 2.0f * 2_hours / 5_minutes ) +
             (2.0f * (6_hours - 2_hours) / 5_minutes);

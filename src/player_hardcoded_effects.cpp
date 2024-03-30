@@ -1064,8 +1064,8 @@ static void eff_fun_sleep( Character &u, effect &it )
         if( u.has_trait( trait_CHLOROMORPH ) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if( incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
-                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_fatigue() <= 25 ) ) {
-                    u.set_fatigue( 25 );
+                if( u.has_active_mutation( trait_CHLOROMORPH ) && ( u.get_sleepiness() <= 25 ) ) {
+                    u.set_sleepiness( 25 );
                 }
                 if( u.get_hunger() >= -30 ) {
                     u.mod_hunger( -5 );
@@ -1083,8 +1083,8 @@ static void eff_fun_sleep( Character &u, effect &it )
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
             if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
-                if( u.get_fatigue() >= 0 ) {
-                    u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
+                if( u.get_sleepiness() >= 0 ) {
+                    u.mod_sleepiness( -5 ); // Local guides need less sleep on fungal soil
                 }
                 if( calendar::once_every( 1_hours ) ) {
                     u.spores(); // spawn some P O O F Y   B O I S
@@ -1092,7 +1092,7 @@ static void eff_fun_sleep( Character &u, effect &it )
             }
         }
         if( u.has_trait( trait_WATERSLEEP ) ) {
-            u.mod_fatigue( -3 ); // Fish sleep less in water
+            u.mod_sleepiness( -3 ); // Fish sleep less in water
         }
     }
 

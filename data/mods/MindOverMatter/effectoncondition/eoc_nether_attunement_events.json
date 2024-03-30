@@ -652,7 +652,7 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, you feel tired.", "type": "bad" },
-      { "math": [ "u_val('fatigue')", "+=", "rng(30,90)" ] }
+      { "math": [ "u_val('sleepiness')", "+=", "rng(30,90)" ] }
     ]
   },
   {
@@ -1056,7 +1056,7 @@
       ]
     },
     "effect": [
-      { "u_set_field": "fd_fatigue", "radius": 0, "intensity": 3, "hit_player": false },
+      { "u_set_field": "fd_sleepiness", "radius": 0, "intensity": 3, "hit_player": false },
       { "u_message": "As you unleash your powers, the air around you twists and warps in on itself.", "type": "bad" }
     ]
   },
