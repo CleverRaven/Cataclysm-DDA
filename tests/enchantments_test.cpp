@@ -24,6 +24,8 @@ static const mtype_id debug_mon( "debug_mon" );
 
 static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
 
+static const skill_id skill_melee( "melee" );
+
 static void advance_turn( Character &guy )
 {
     guy.process_turn();
@@ -200,69 +202,86 @@ TEST_CASE( "Enchantment_SPEED_test", "[magic][enchantments]" )
     REQUIRE( guy.get_speed_bonus() == 0 );
 }
 
+int test_melee_attack_attack_speed( Character &guy )
+{
+    int i = 0;
+    int prev_attack = 0;
+
+    guy.set_skill_level( skill_melee, 10 );
+    guy.add_effect( effect_debug_no_staggered, 100_seconds );
+    guy.recalculate_enchantment_cache();
+    advance_turn( guy );
+    guy.set_moves( 0 );
+
+    while( i != 10 ) {
+        prev_attack = guy.get_moves();
+        guy.melee_attack_abstract( guy, false, matec_id( "" ) );
+        add_msg( "attack %i: attack cost: %i, total amount of moves: %i", i, prev_attack - guy.get_moves(),
+                 guy.get_moves() );
+        guy.set_stamina( guy.get_stamina_max() ); //Reset reset!
+        guy.set_fatigue( 0 );
+        i++;
+    }
+
+    return guy.get_moves();
+}
+
 TEST_CASE( "Enchantment_ATTACK_SPEED_test", "[magic][enchantments]" )
 {
     clear_map();
     Character &guy = get_player_character();
     clear_avatar();
     g->place_critter_at( debug_mon, tripoint_south );
-    int i = 0;
-    guy.set_moves( 0 );
-    guy.set_skill_level( skill_id( "melee" ), 10 );
+    int moves_spent_on_attacks = 0;
 
-    INFO( "Character with melee 10 attacks with no enchantment" );
-    // 60 moves for the first attack, and 59 for each next, please don't ask why.
+
+    INFO( "Character, melee skill lvl 10, attacks with no enchantment" );
+    // 38 moves per attack
     INFO( "10 attacks cost 380 moves" );
-    guy.add_effect( effect_debug_no_staggered, 100_seconds );
-    while( i != 10 ) {
-        guy.melee_attack_abstract( guy, false, matec_id( "" ) );
-        add_msg( "attack %i: amount of moves: %i", i, guy.get_moves() );
-        guy.set_stamina( guy.get_stamina_max() ); //Reset reset!
-        guy.set_fatigue( 0 );
-        i++;
-    }
-    REQUIRE( guy.get_moves() == -380);
-    i = 0;
-    guy.set_moves( 0 );
-    guy.set_skill_level( skill_id( "melee" ), 10 );
+    moves_spent_on_attacks = test_melee_attack_attack_speed( guy );
+    REQUIRE( moves_spent_on_attacks == -380 );
 
 
-    INFO( "Character attacks with enchantment, that halves attack speed cost" );
+    INFO( "Character, melee skill lvl 10, attacks with enchantment, that halves attack speed cost" );
     guy.i_add( item( "test_ATTACK_SPEED_ench_item" ) );
-    guy.recalculate_enchantment_cache();
-    advance_turn( guy );
-    // 30 moves per attack
-    INFO( "10 attacks cost only 259 moves" );
-    guy.add_effect( effect_debug_no_staggered, 100_seconds );
-    while( i != 10 ) {
-        guy.melee_attack_abstract( guy, false, matec_id( "" ) );
-        add_msg( "attack %i: amount of moves: %i", i, guy.get_moves() );
-        guy.set_stamina( guy.get_stamina_max() ); //Reset reset!
-        guy.set_fatigue( 0 );
-        i++;
-    }
-    REQUIRE( guy.get_moves() == -259 );
-    i = 0;
-    guy.set_moves( 0 );
-    guy.set_skill_level( skill_id( "melee" ), 10 );
+    // 25 moves per attack
+    INFO( "10 attacks cost only 250 moves" );
+    moves_spent_on_attacks = test_melee_attack_attack_speed( guy );
+    REQUIRE( moves_spent_on_attacks == -250 );
+    clear_avatar();
 
-    INFO( "Character attacks with enchantment, that adds 41 moves to each attack" );
+
+    INFO( "Character attacks with enchantment, that adds 62 moves to each attack" );
     guy.i_add( item( "test_ATTACK_SPEED_ench_item_2" ) );
+    // 100 moves per attack
+    INFO( "10 attacks cost 1000 moves" );
+    moves_spent_on_attacks = test_melee_attack_attack_speed( guy );
+    REQUIRE( moves_spent_on_attacks == -1000 );
+}
+
+
+int test_melee_attack_attack_stamina( Character &guy )
+{
+    int i = 0;
+    int stamina_prev = 0;
+    guy.set_skill_level( skill_melee, 10 );
+    guy.add_effect( effect_debug_no_staggered, 100_seconds );
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
-    // 101 moves for first attack, next one are 100 moves
-    INFO( "10 attacks cost 1001 moves" );
-    guy.add_effect( effect_debug_no_staggered, 100_seconds );
+
     while( i != 10 ) {
+        stamina_prev = guy.get_stamina();
         guy.melee_attack_abstract( guy, false, matec_id( "" ) );
-        add_msg( "attack %i: amount of moves: %i", i, guy.get_moves() );
-        guy.set_stamina( guy.get_stamina_max() ); //Reset reset!
+        add_msg( "attack %i: stamina cost: %i, current amount of stamina: %i", i,
+                 stamina_prev - guy.get_stamina(),
+                 guy.get_stamina() );
         guy.set_fatigue( 0 );
         i++;
     }
-    REQUIRE( guy.get_moves() == -1001 );
-    i = 0;
+
+    return guy.get_stamina();
 }
+
 
 TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]" )
 {
@@ -270,65 +289,42 @@ TEST_CASE( "Enchantment_MELEE_STAMINA_CONSUMPTION_test", "[magic][enchantments]"
     Character &guy = get_player_character();
     clear_avatar();
     g->place_critter_at( debug_mon, tripoint_south );
-    int i = 0;
-    int stamina_start = 0;
+    int stamina_init = 0;
+    int stamina_current = 0;
     int stamina_spent = 0;
 
-
     INFO( "Character attacks with no enchantment" );
+    // item weight 2 kilo and has 2 L of volume
     guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_0" ) );
-    guy.recalculate_enchantment_cache();
-    advance_turn( guy );
-    INFO( "10 attacks cost 1750 stamina" );
-    stamina_start = guy.get_stamina();
-    while( i != 10 ) {
-        guy.melee_attack_abstract( guy, false, matec_id( "" ) );
-        //debugmsg( "attack %i: amount of stamina: %i", i, guy.get_stamina() );
-        i++;
-    }
-    stamina_spent = stamina_start - guy.get_stamina();
-    REQUIRE( stamina_spent == 1750 );
-    i = 0;
-    stamina_start = 0;
-    stamina_spent = 0;
+    // 165 stamina per attack
+    INFO( "10 attacks cost 1650 stamina" );
+    stamina_init = guy.get_stamina();
+    stamina_current = test_melee_attack_attack_stamina( guy );
+    stamina_spent = stamina_init - stamina_current;
+    REQUIRE( stamina_spent == 1650 );
+    clear_avatar();
 
 
     INFO( "Character attacks with enchantment, that decreases stamina cost for 100" );
-    clear_avatar();
     guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_1" ) );
-    guy.recalculate_enchantment_cache();
-    advance_turn( guy );
-    INFO( "10 attacks cost 750 stamina" );
-    stamina_start = guy.get_stamina();
-    while( i != 10 ) {
-        guy.melee_attack_abstract( guy, false, matec_id( "" ) );
-        //debugmsg( "attack %i: amount of stamina: %i", i, guy.get_stamina() );
-        i++;
-    }
-    stamina_spent = stamina_start - guy.get_stamina();
-    REQUIRE( stamina_spent == 750 );
-    i = 0;
-    stamina_start = 0;
-    stamina_spent = 0;
+    // 65 stamina per attack
+    INFO( "10 attacks cost 650 stamina" );
+    stamina_init = guy.get_stamina();
+    stamina_current = test_melee_attack_attack_stamina( guy );
+    stamina_spent = stamina_init - stamina_current;
+    REQUIRE( stamina_spent == 650 );
+    clear_avatar();
 
 
     INFO( "Character attacks with enchantment, that double stamina cost" );
-    clear_avatar();
     guy.i_add( item( "test_MELEE_STAMINA_CONSUMPTION_ench_item_2" ) );
-    guy.recalculate_enchantment_cache();
-    advance_turn( guy );
-    INFO( "10 attacks cost 3500 stamina" );
-    stamina_start = guy.get_stamina();
-    while( i != 10 ) {
-        guy.melee_attack_abstract( guy, false, matec_id( "" ) );
-        //debugmsg( "attack %i: amount of stamina: %i", i, guy.get_stamina() );
-        i++;
-    }
-    stamina_spent = stamina_start - guy.get_stamina();
-    REQUIRE( stamina_spent == 3500 );
-    i = 0;
-    stamina_start = 0;
-    stamina_spent = 0;
+    // 330 stamina per attack
+    INFO( "10 attacks cost 3300 stamina" );
+    stamina_init = guy.get_stamina();
+    stamina_current = test_melee_attack_attack_stamina( guy );
+    stamina_spent = stamina_init - stamina_current;
+    REQUIRE( stamina_spent == 3300 );
+    clear_avatar();
 }
 
 TEST_CASE( "Enchantment_BONUS_DODGE_test", "[magic][enchantments]" )

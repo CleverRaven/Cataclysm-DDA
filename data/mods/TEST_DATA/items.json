@@ -4883,7 +4883,7 @@
     "id": "test_ATTACK_SPEED_ench_item_2",
     "copy-from": "test_item_ench",
     "name": "test_ATTACK_SPEED_ench_item_2",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 41 } ] } ] }
+    "relic_data": { "passive_effects": [ { "values": [ { "value": "ATTACK_SPEED", "add": 62 } ] } ] }
   },
   {
     "type": "GENERIC",
