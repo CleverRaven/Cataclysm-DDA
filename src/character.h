@@ -3049,6 +3049,9 @@ class Character : public Creature, public visitable
         int get_stamina() const;
         int get_stamina_max() const;
         void set_stamina( int new_stamina );
+        int get_strain() const;
+        int get_strain_max() const;
+        void set_strain( int new_strain );
         // burn_energy looks at whether to use bionic power depending on how many limbs are cybernetic, then passes to mod_stamina after
         void burn_energy_arms( int mod );
         void burn_energy_legs( int mod );
@@ -3059,6 +3062,9 @@ class Character : public Creature, public visitable
         void burn_move_stamina( int moves );
         /** Regenerates stamina */
         void update_stamina( int turns );
+
+        void mod_strain( int mod );
+        void update_strain( int turns );
 
         int get_cardiofit() const;
 
@@ -3985,6 +3991,7 @@ class Character : public Creature, public visitable
         int hunger;
         int thirst;
         int stamina;
+        int strain;
 
         int cardio_acc;
         int base_cardio_acc;

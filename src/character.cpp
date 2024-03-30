@@ -561,6 +561,7 @@ Character::Character() :
     legs_stam_mult = 1.0f;
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     cardio_acc = 1000; // Temporary cardio accumulator. It will be updated when reset_cardio_acc is called.
+    set_strain( 10000 ); //As above for stamina
     set_anatomy( anatomy_human_anatomy );
     update_type_of_scent( true );
     pkill = 0;
@@ -779,6 +780,8 @@ void Character::mod_stat( const std::string &stat, float modifier )
         oxygen += modifier;
     } else if( stat == "stamina" ) {
         mod_stamina( modifier );
+    } else if( stat == "strain" ) {
+        mod_strain( modifier );
     } else if( stat == "str" ) {
         mod_str_bonus( modifier );
     } else if( stat == "dex" ) {
@@ -6808,6 +6811,39 @@ void Character::set_stamina( int new_stamina )
     stamina = new_stamina;
 }
 
+int Character::get_strain() const
+{
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use strain.
+        return 10000;
+    }
+    return strain;
+}
+
+int Character::get_strain_max() const
+{
+    if( is_npc() ) {
+        // No point in doing a bunch of checks on NPCs for now since they can't use strain.
+        return 10000;
+    }
+
+    // to start with your strain will be determined pretty chonkily as a global setting for "base
+    // strain", modified by your fitness determined by cardiofit, which should be 1000-3000.
+    // This is not meant to be permanent, here I am writing this in March 2024.
+    // Let's hope this doesn't become one of those funny comments.
+    static const std::string player_base_strain( "PLAYER_BASE_STRAIN" );
+
+    int max_strain = get_option<int>( player_base_strain ) + get_cardiofit();
+    max_strain = enchantment_cache->modify_value( enchant_vals::mod::MAX_STRAIN, max_strain );
+
+    return max_strain;
+}
+
+void Character::set_strain( int new_strain )
+{
+    strain = new_strain;
+}
+
 int Character::get_arms_power_use() const
 {
     // millijoules
@@ -7053,6 +7089,53 @@ void Character::update_stamina( int turns )
 
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
+}
+
+void Character::mod_strain( int mod )
+{
+    // At least for now, let's just use the same debug trait as stamina.
+    if( is_npc() || has_trait( trait_DEBUG_STAMINA ) ) {
+        return;
+    }
+
+    strain += mod;
+    strain = clamp( strain, 0, get_strain_max() );
+}
+
+
+void Character::update_strain( int turns )
+{
+    static const std::string player_base_strain_regen_rate( "PLAYER_BASE_STRAIN_REGEN_RATE" );
+    const float base_regen_rate = get_option<float>( player_base_strain_regen_rate );
+    // Your strain regen rate works as a function of how fit you are compared to your body size.
+    // This allows it to scale more quickly than your strain, so that at higher fitness levels you
+    // recover faster. For now we are using cardiofit as a stand-in for a dedicated fitness score
+    // for strain.
+    const float effective_regen_rate = base_regen_rate * get_cardiofit() / get_cardio_acc_base();
+    // Values above or below normal will increase or decrease strain regen
+    const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STRAIN_REGEN_MOD, 0 );
+    const float base_multiplier = mod_regen + 1.0f;
+    // Ensure multiplier is at least 0.1
+    const float strain_multiplier = std::max<float>( 0.1f, base_multiplier );
+
+    // Recover some strain every turn. Start with zero, then increase recovery factor based on
+    // mutations.  Bionics should get added in here eventually.  Stimulants are a matter worth
+    // debating, but aren't appropriate for a first pass.
+    float strain_recovery = 0.0f;
+    strain_recovery += strain_multiplier * std::max( 1.0f, effective_regen_rate );
+
+    strain_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STRAIN,
+                      strain_recovery );
+
+    const int max_strain = get_strain_max();
+
+    // Roll to determine actual stamina recovery over this period
+    int recover_amount = std::ceil( strain_recovery * turns );
+    mod_strain( recover_amount );
+    add_msg_debug( debugmode::DF_CHARACTER, "Strain recovery: %d", recover_amount );
+
+    // Cap at max
+    set_strain( std::min( std::max( get_strain(), 0 ), max_strain ) );
 }
 
 int Character::get_cardiofit() const

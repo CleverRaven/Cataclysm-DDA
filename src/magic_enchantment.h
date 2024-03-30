@@ -46,6 +46,8 @@ enum class mod : int {
     POWER_TRICKLE,
     MAX_STAMINA,
     REGEN_STAMINA,
+    MAX_STRAIN,
+    REGEN_STRAIN,
     FAT_TO_MAX_HP,
     CARDIO_MULTIPLIER,
     MAX_HP,        // for all limbs! use with caution
@@ -170,6 +172,7 @@ enum class mod : int {
     CONSUME_TIME_MOD,
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
+    STRAIN_REGEN_MOD,
     MOVEMENT_EXERTION_MODIFIER,
     NUM_MOD
 };

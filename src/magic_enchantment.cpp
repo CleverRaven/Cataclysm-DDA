@@ -69,6 +69,8 @@ namespace io
             case enchant_vals::mod::POWER_TRICKLE: return "POWER_TRICKLE";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchant_vals::mod::MAX_STRAIN: return "MAX_STRAIN";
+            case enchant_vals::mod::REGEN_STRAIN: return "REGEN_STRAIN";
             case enchant_vals::mod::FAT_TO_MAX_HP: return "FAT_TO_MAX_HP";
             case enchant_vals::mod::CARDIO_MULTIPLIER: return "CARDIO_MULTIPLIER";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
@@ -192,6 +194,7 @@ namespace io
             case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
+            case enchant_vals::mod::STRAIN_REGEN_MOD: return "STRAIN_REGEN_MOD";
             case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
             case enchant_vals::mod::NUM_MOD: break;
         }
