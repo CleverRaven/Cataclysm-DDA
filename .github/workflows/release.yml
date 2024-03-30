@@ -1,6 +1,7 @@
 name: "Experimental Release"
 concurrency: release
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
