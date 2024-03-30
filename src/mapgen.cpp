@@ -7688,8 +7688,8 @@ bool update_mapgen_function_json::update_map(
         return false;
     }
 
-    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
-    tinymap &update_tmap = *p_update_tmap;
+    std::unique_ptr<smallmap> p_update_tmap = std::make_unique<smallmap>();
+    smallmap &update_tmap = *p_update_tmap;
 
     update_tmap.load( omt_pos, true );
     update_tmap.rotate( 4 - rotation );
@@ -7826,8 +7826,8 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
     mapgendata fake_md( base_fake_md, args );
     fake_md.skip = { mapgen_phase::zones };
 
-    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
-    tinymap &update_tmap = *p_update_tmap;
+    std::unique_ptr<smallmap> p_update_tmap = std::make_unique<smallmap>();
+    smallmap &update_tmap = *p_update_tmap;
 
     update_tmap.load( omt_pos, true );
     update_tmap.rotate( 4 - rotation );
