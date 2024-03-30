@@ -72,6 +72,21 @@
     ]
   },
   {
+    "id": "tools_luthier",
+    "type": "item_group",
+    "//": "Portable tools used for luthier",
+    "items": [
+      { "item": "luthier_toolset", "prob": 100 },
+      { "item": "tonewood", "prob": 100, "count-min": 1, "count-max": 6 },
+      { "item": "tuning_pegs", "prob": 100, "count-min": 5, "count-max": 15 },
+      { "item": "piano_wire", "prob": 100, "count-min": 1, "count-max": 3 },
+      [ "hand_drill", 20 ],
+      { "item": "superglue", "prob": 100, "count-min": 1, "count-max": 3 },
+      [ "chisel", 10 ],
+      [ "sandpaper", 100 ]
+    ]
+  },
+  {
     "id": "tools_construction",
     "type": "item_group",
     "//": "Industrial machinery used for construction",
