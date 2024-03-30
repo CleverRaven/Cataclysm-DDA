@@ -1003,6 +1003,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "piano_wire",
+    "symbol": "l",
+    "color": "light_gray",
+    "name": { "str": "piano wire" },
+    "description": "A length of thin, relatively stretchy coiled steel wire.  Used to produce musical notes in instruments.",
+    "category": "spare_parts",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "1 g",
+    "volume": "3 ml",
+    "to_hit": -2
+  },
+  {
+    "type": "GENERIC",
     "id": "lc_wire",
     "symbol": ";",
     "color": "light_gray",
@@ -1136,6 +1151,14 @@
     "to_hit": -5,
     "milling": { "into": "meal_bone_tainted", "recipe": "meal_bone_tainted_mill_6_1" },
     "qualities": [ [ "COOK", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "drum_skin",
+    "name": { "str": "drum skin" },
+    "copy-from": "tanned_hide",
+    "weight": "10 g",
+    "description": "The tanned hide of an animal repursed to become the head on a percusssion drum."
   },
   {
     "type": "GENERIC",
