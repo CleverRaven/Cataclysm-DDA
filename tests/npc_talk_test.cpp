@@ -1161,7 +1161,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->pressure = 17;
     get_weather().clear_temp_cache();
     player_character.setpos( tripoint( -1, -2, -3 ) );
-    player_character.set_pain( 1 );
+    player_character.set_pain( 21 );
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 22_mJ );
     player_character.set_max_power_level( 44_mJ );
@@ -1224,14 +1224,14 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 23 ].text == "Pos_x is -1." );
     CHECK( d.responses[ 24 ].text == "Pos_y is -2." );
     CHECK( d.responses[ 25 ].text == "Pos_z is -3." );
-    CHECK( d.responses[ 26 ].text == "Pain level is 1." );
+    CHECK( d.responses[ 26 ].text == "Pain level is 21." );
     CHECK( d.responses[ 27 ].text == "Bionic power is 22." );
     CHECK( d.responses[ 28 ].text == "Bionic power max is 44." );
     CHECK( d.responses[ 29 ].text == "Bionic power is at 50%." );
     CHECK( d.responses[ 30 ].text == "Morale is 23." );
     CHECK( d.responses[ 31 ].text == "Focus is 24." );
     CHECK( d.responses[ 32 ].text == "Mana is 25." );
-    CHECK( d.responses[ 33 ].text == "Mana max is 900." );
+    CHECK( d.responses[ 33 ].text == "Mana max is 800." );
     CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
@@ -1362,10 +1362,10 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects.apply( d );
     CHECK( player_character.posz() == -3 );
 
-    // "Sets pain to 2."
+    // "Sets pain to 17."
     effects = d.responses[ 15 ].success;
     effects.apply( d );
-    CHECK( player_character.get_pain() == 2 );
+    CHECK( player_character.get_pain() == 17 );
 
     player_character.add_bionic( bio_power_storage );
     player_character.set_power_level( 10_mJ );
