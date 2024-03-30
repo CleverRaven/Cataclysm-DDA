@@ -213,7 +213,7 @@ void scenario::reset()
     all_scenarios.reset();
 }
 
-void scenario::check_definitions()
+void scenario::finalize()
 {
     for( const scenario &scen : all_scenarios.get_all() ) {
         scen.check_definition();

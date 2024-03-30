@@ -83,6 +83,15 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "dabbler_easy_sleep_spell",
+    "name": "Dabbler (Peaceful Rest)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Peaceful Rest.  Ever since you were a child, you dreaded bedtime.  Falling asleep was an ordeal, a battle between you and the bed, and it seemed like no matter how many sheep you counted, sleep hygiene habits you practiced, or exhausted you felt, it was an hour or more until you finally fell into sleep.  You became a mage because you were tired of having 5% of your life stuck staring at the ceiling while waiting for sleep to come, and ever since the world ended, you're even more grateful you can fall asleep whenever you need to.",
+    "points": 4,
+    "spells": [ { "id": "classless_easy_sleep_spell", "level": 5 } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "dabbler_summon_wisps",
     "name": "Dabbler (Ignus Fatuus)",
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Ignus Fatuus.  It was mostly just for your amusement, summoning the will-o'-the-wisps at sundown and watching them dance, but they've proven handy more than once lately by leading some monster astray while you ran for your life.",
@@ -128,6 +137,16 @@
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Water's Cooling Touch.  You always hated summer, the stickiness, the heat, the sunburns, and your dislike of the weather drove you to study druidic magic to overcome it.  With your water bottle handy, you'll never have to worry about being too hot in the sun again.",
     "points": 4,
     "spells": [ { "id": "druid_anti_heat", "level": 5 } ],
+    "traits": [ "DRUID" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_druid_traverse_the_wilds",
+    "name": "Dabbler (Traverse the Wilds)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Traverse the Wilds.  Part of the joy of hiking is taking your time, of being away from the tyranny of clocks and schedules and deadlines.  But sometimes, it was nice to just see the miles fly by, to reach the summit before sunrise and take in the view without getting up at 2 a.m., to finish the entire trail and still have time to sit down and eat a leisurely dinner.  And it's not like you teleported, after all.  Regardless of the magic, you still had to walk every single step.",
+    "points": 4,
+    "spells": [ { "id": "druid_traverse_the_wilds", "level": 5 } ],
     "traits": [ "DRUID" ]
   },
   {
@@ -188,6 +207,16 @@
     "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Slowfall.  Some people become mages due to a dream, or a goal they want to pursue, but for you it was the memory of falling down the stairs as a child and breaking your leg.  With your magic you could jump off a roof and it was no more dangerous than jumping off a low stone wall, and that's been pretty useful for some of the situations you've found yourself in since the Cataclysm.",
     "points": 4,
     "spells": [ { "id": "magus_slowfall", "level": 5 } ],
+    "traits": [ "MAGUS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dabbler_magus_far_hand_pull",
+    "name": "Dabbler (Sorcerer's Hand)",
+    "description": "You were one of the hundreds of millions of people who knew a single spell.  In your case, Sorcerer's Hand.  Alright, fine, you admit it, you learned magic because of laziness.  It seems odd to say, with all the hours after work and late at night, studying until you could make your keys twitch and fall off the table and eventually until you can grab a drink from across the room, but it's true.  You could reach nearly everything without having to get up.  Anyway, you're way more active now, and being able to grab things from across the room has come in handy more than once since the end of the world.",
+    "points": 4,
+    "spells": [ { "id": "magus_far_hand_pull", "level": 5 } ],
     "traits": [ "MAGUS" ]
   },
   {

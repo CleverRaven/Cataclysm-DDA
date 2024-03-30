@@ -1092,5 +1092,82 @@
       { "turn_cost": "4 s" }
     ],
     "false_effect": { "u_message": "You manage to avoid staring at the horrendous <npc_name>." }
+  },
+  {
+    "id": "stare",
+    "type": "SPELL",
+    "name": "Stare",
+    "description": "Applies various effects when you see the creature.",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_STARE",
+    "message": "",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "min_range": 150,
+    "max_range": 150
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE",
+    "//": "dimensional effects don't take against dimensionally anchored foes.",
+    "condition": { "or": [ { "u_has_worn_with_flag": "DIMENSIONAL_ANCHOR" }, { "npc_has_flag": "DIMENSIONAL_ANCHOR" } ] },
+    "effect": { "u_message": "You feel a strange reverberation across your body.", "type": "warning" },
+    "false_effect": { "run_eocs": [ "EOC_STARE2" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE2",
+    "condition": "player_see_npc",
+    "effect": [
+      { "u_message": "The <npc_name> stares at you, and you shudder.", "type": "bad" },
+      { "run_eocs": [ "EOC_STARE_EFF" ] }
+    ],
+    "false_effect": [
+      { "u_message": "You feel like you're being watched, it makes you sick.", "type": "bad" },
+      { "run_eocs": [ "EOC_STARE_EFF" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF",
+    "effect": [
+      {
+        "u_add_effect": "taint",
+        "intensity": { "math": [ "u_effect_intensity('taint') + 1" ] },
+        "duration": [ "2 m", "5 m" ]
+      },
+      { "run_eocs": [ "EOC_STARE_EFF2" ] },
+      { "run_eocs": [ "EOC_STARE_EFF3" ] },
+      { "run_eocs": [ "EOC_STARE_EFF4" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF2",
+    "//": "in case of fire, break glass, pull u_is_avatar",
+    "condition": { "and": [ { "math": [ "u_effect_intensity('taint') >= 2" ] }, { "one_in_chance": 2 } ] },
+    "effect": [
+      { "u_add_effect": "hallu", "duration": [ "25 m", "35 m" ] },
+      { "u_spawn_monster": "", "hallucination_count": 1, "target_range": 50, "lifespan": 60 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF3",
+    "condition": { "and": [ { "math": [ "u_effect_intensity('taint') >= 3" ] }, { "one_in_chance": 12 } ] },
+    "effect": [
+      { "u_add_effect": "blind", "duration": [ "4 m", "5 m" ] },
+      { "u_message": "Your sight darkens as the visions overtake you!", "type": "bad" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_STARE_EFF4",
+    "condition": { "and": [ { "math": [ "u_effect_intensity('taint') == 4" ] }, { "one_in_chance": 12 } ] },
+    "effect": [
+      { "u_add_effect": "tindrift", "duration": "1 s" },
+      { "u_message": "Your sight darkens as the visions overtake you!", "type": "bad" }
+    ]
   }
 ]

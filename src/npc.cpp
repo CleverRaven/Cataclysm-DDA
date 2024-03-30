@@ -101,6 +101,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 
 static const faction_id faction_amf( "amf" );
 static const faction_id faction_no_faction( "no_faction" );
@@ -114,6 +115,11 @@ static const item_group_id Item_spawn_data_npc_eyes( "npc_eyes" );
 static const item_group_id Item_spawn_data_survivor_bashing( "survivor_bashing" );
 static const item_group_id Item_spawn_data_survivor_cutting( "survivor_cutting" );
 static const item_group_id Item_spawn_data_survivor_stabbing( "survivor_stabbing" );
+
+static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
+static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
+static const json_character_flag json_flag_SPIRITUAL( "SPIRITUAL" );
 
 static const mfaction_str_id monfaction_bee( "bee" );
 static const mfaction_str_id monfaction_human( "human" );
@@ -144,14 +150,13 @@ static const skill_id skill_throw( "throw" );
 static const skill_id skill_unarmed( "unarmed" );
 
 static const trait_id trait_BEE( "BEE" );
-static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
+static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
+static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
-static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
-static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 
@@ -236,6 +241,7 @@ npc::npc()
     moves = 100;
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
+    idz = string_id<npc_template>::NULL_ID();
     fac_id = faction_id::NULL_ID();
     patience = 0;
     attitude = NPCATT_NULL;
@@ -252,6 +258,9 @@ standard_npc::standard_npc( const std::string &name, const tripoint &pos,
 {
     this->name = name;
     set_pos_only( pos );
+    if( !getID().is_valid() ) {
+        setID( g->assign_npc_id() );
+    }
 
     str_cur = std::max( s_str, 0 );
     str_max = std::max( s_str, 0 );
@@ -285,7 +294,7 @@ void npc_template::load( const JsonObject &jsobj )
 {
     npc_template tem;
     npc &guy = tem.guy;
-    guy.idz = npc_class_id( jsobj.get_string( "id" ) );
+    jsobj.get_member( "id" ).read( guy.idz );
     guy.name.clear();
     jsobj.read( "name_unique", tem.name_unique );
     jsobj.read( "name_suffix", tem.name_suffix );
@@ -352,219 +361,77 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "talk_friend_guard" ) ) {
         guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
     }
-    if( jsobj.has_string( "<acknowledged>" ) ) {
-        guy.chatbin.snip_acknowledged = jsobj.get_string( "<acknowledged>" );
-    }
-    if( jsobj.has_string( "<camp_food_thanks>" ) ) {
-        guy.chatbin.snip_camp_food_thanks = jsobj.get_string( "<camp_food_thanks>" );
-    }
-    if( jsobj.has_string( "<camp_larder_empty>" ) ) {
-        guy.chatbin.snip_camp_larder_empty = jsobj.get_string( "<camp_larder_empty>" );
-    }
-    if( jsobj.has_string( "<camp_water_thanks>" ) ) {
-        guy.chatbin.snip_camp_water_thanks = jsobj.get_string( "<camp_water_thanks>" );
-    }
-    if( jsobj.has_string( "<cant_flee>" ) ) {
-        guy.chatbin.snip_cant_flee = jsobj.get_string( "<cant_flee>" );
-    }
-    if( jsobj.has_string( "<close_distance>" ) ) {
-        guy.chatbin.snip_close_distance = jsobj.get_string( "<close_distance>" );
-    }
-    if( jsobj.has_string( "<combat_noise_warning>" ) ) {
-        guy.chatbin.snip_combat_noise_warning = jsobj.get_string( "<combat_noise_warning>" );
-    }
-    if( jsobj.has_string( "<danger_close_distance>" ) ) {
-        guy.chatbin.snip_danger_close_distance = jsobj.get_string( "<danger_close_distance>" );
-    }
-    if( jsobj.has_string( "<done_mugging>" ) ) {
-        guy.chatbin.snip_done_mugging = jsobj.get_string( "<done_mugging>" );
-    }
-    if( jsobj.has_string( "<far_distance>" ) ) {
-        guy.chatbin.snip_far_distance = jsobj.get_string( "<far_distance>" );
-    }
-    if( jsobj.has_string( "<fire_bad>" ) ) {
-        guy.chatbin.snip_fire_bad = jsobj.get_string( "<fire_bad>" );
-    }
-    if( jsobj.has_string( "<fire_in_the_hole_h>" ) ) {
-        guy.chatbin.snip_fire_in_the_hole_h = jsobj.get_string( "<fire_in_the_hole_h>" );
-    }
-    if( jsobj.has_string( "<fire_in_the_hole>" ) ) {
-        guy.chatbin.snip_fire_in_the_hole = jsobj.get_string( "<fire_in_the_hole>" );
-    }
-    if( jsobj.has_string( "<general_danger_h>" ) ) {
-        guy.chatbin.snip_general_danger_h = jsobj.get_string( "<general_danger_h>" );
-    }
-    if( jsobj.has_string( "<general_danger>" ) ) {
-        guy.chatbin.snip_general_danger = jsobj.get_string( "<general_danger>" );
-    }
-    if( jsobj.has_string( "<heal_self>" ) ) {
-        guy.chatbin.snip_heal_self = jsobj.get_string( "<heal_self>" );
-    }
-    if( jsobj.has_string( "<hungry>" ) ) {
-        guy.chatbin.snip_hungry = jsobj.get_string( "<hungry>" );
-    }
-    if( jsobj.has_string( "<im_leaving_you>" ) ) {
-        guy.chatbin.snip_im_leaving_you = jsobj.get_string( "<im_leaving_you>" );
-    }
-    if( jsobj.has_string( "<its_safe_h>" ) ) {
-        guy.chatbin.snip_its_safe_h = jsobj.get_string( "<its_safe_h>" );
-    }
-    if( jsobj.has_string( "<its_safe>" ) ) {
-        guy.chatbin.snip_its_safe = jsobj.get_string( "<its_safe>" );
-    }
-    if( jsobj.has_string( "<keep_up>" ) ) {
-        guy.chatbin.snip_keep_up = jsobj.get_string( "<keep_up>" );
-    }
-    if( jsobj.has_string( "<kill_npc_h>" ) ) {
-        guy.chatbin.snip_kill_npc_h = jsobj.get_string( "<kill_npc_h>" );
-    }
-    if( jsobj.has_string( "<kill_npc>" ) ) {
-        guy.chatbin.snip_kill_npc = jsobj.get_string( "<kill_npc>" );
-    }
-    if( jsobj.has_string( "<kill_player_h>" ) ) {
-        guy.chatbin.snip_kill_player_h = jsobj.get_string( "<kill_player_h>" );
-    }
-    if( jsobj.has_string( "<let_me_pass>" ) ) {
-        guy.chatbin.snip_let_me_pass = jsobj.get_string( "<let_me_pass>" );
-    }
-    if( jsobj.has_string( "<lets_talk>" ) ) {
-        guy.chatbin.snip_lets_talk = jsobj.get_string( "<lets_talk>" );
-    }
-    if( jsobj.has_string( "<medium_distance>" ) ) {
-        guy.chatbin.snip_medium_distance = jsobj.get_string( "<medium_distance>" );
-    }
-    if( jsobj.has_string( "<monster_warning_h>" ) ) {
-        guy.chatbin.snip_monster_warning_h = jsobj.get_string( "<monster_warning_h>" );
-    }
-    if( jsobj.has_string( "<monster_warning>" ) ) {
-        guy.chatbin.snip_monster_warning = jsobj.get_string( "<monster_warning>" );
-    }
-    if( jsobj.has_string( "<movement_noise_warning>" ) ) {
-        guy.chatbin.snip_movement_noise_warning = jsobj.get_string( "<movement_noise_warning>" );
-    }
-    if( jsobj.has_string( "<need_batteries>" ) ) {
-        guy.chatbin.snip_need_batteries = jsobj.get_string( "<need_batteries>" );
-    }
-    if( jsobj.has_string( "<need_booze>" ) ) {
-        guy.chatbin.snip_need_booze = jsobj.get_string( "<need_booze>" );
-    }
-    if( jsobj.has_string( "<need_fuel>" ) ) {
-        guy.chatbin.snip_need_fuel = jsobj.get_string( "<need_fuel>" );
-    }
-    if( jsobj.has_string( "<no_to_thorazine>" ) ) {
-        guy.chatbin.snip_no_to_thorazine = jsobj.get_string( "<no_to_thorazine>" );
-    }
-    if( jsobj.has_string( "<run_away>" ) ) {
-        guy.chatbin.snip_run_away = jsobj.get_string( "<run_away>" );
-    }
-    if( jsobj.has_string( "<speech_warning>" ) ) {
-        guy.chatbin.snip_speech_warning = jsobj.get_string( "<speech_warning>" );
-    }
-    if( jsobj.has_string( "<thirsty>" ) ) {
-        guy.chatbin.snip_thirsty = jsobj.get_string( "<thirsty>" );
-    }
-    if( jsobj.has_string( "<wait>" ) ) {
-        guy.chatbin.snip_wait = jsobj.get_string( "<wait>" );
-    }
-    if( jsobj.has_string( "<warn_sleep>" ) ) {
-        guy.chatbin.snip_warn_sleep = jsobj.get_string( "<warn_sleep>" );
-    }
-    if( jsobj.has_string( "<yawn>" ) ) {
-        guy.chatbin.snip_yawn = jsobj.get_string( "<yawn>" );
-    }
-    if( jsobj.has_string( "<yes_to_lsd>" ) ) {
-        guy.chatbin.snip_yes_to_lsd = jsobj.get_string( "<yes_to_lsd>" );
-    }
-    if( jsobj.has_string( "snip_pulp_zombie" ) ) {
-        guy.chatbin.snip_pulp_zombie = jsobj.get_string( "snip_pulp_zombie" );
-    }
-    if( jsobj.has_string( "snip_heal_player" ) ) {
-        guy.chatbin.snip_heal_player = jsobj.get_string( "snip_heal_player" );
-    }
-    if( jsobj.has_string( "snip_mug_dontmove" ) ) {
-        guy.chatbin.snip_mug_dontmove = jsobj.get_string( "snip_mug_dontmove" );
-    }
-    if( jsobj.has_string( "snip_wound_infected" ) ) {
-        guy.chatbin.snip_wound_infected = jsobj.get_string( "snip_wound_infected" );
-    }
-    if( jsobj.has_string( "snip_wound_bite" ) ) {
-        guy.chatbin.snip_wound_bite = jsobj.get_string( "snip_wound_bite" );
-    }
-    if( jsobj.has_string( "snip_radiation_sickness" ) ) {
-        guy.chatbin.snip_radiation_sickness = jsobj.get_string( "snip_radiation_sickness" );
-    }
-    if( jsobj.has_string( "snip_bleeding" ) ) {
-        guy.chatbin.snip_bleeding = jsobj.get_string( "snip_bleeding" );
-    }
-    if( jsobj.has_string( "snip_bleeding_badly" ) ) {
-        guy.chatbin.snip_bleeding_badly = jsobj.get_string( "snip_bleeding_badly" );
-    }
-    if( jsobj.has_string( "snip_lost_blood" ) ) {
-        guy.chatbin.snip_lost_blood = jsobj.get_string( "snip_lost_blood" );
-    }
-    if( jsobj.has_string( "snip_bye" ) ) {
-        guy.chatbin.snip_bye = jsobj.get_string( "snip_bye" );
-    }
-    if( jsobj.has_string( "snip_consume_cant_accept" ) ) {
-        guy.chatbin.snip_consume_cant_accept = jsobj.get_string( "snip_consume_cant_accept" );
-    }
-    if( jsobj.has_string( "snip_consume_cant_consume" ) ) {
-        guy.chatbin.snip_consume_cant_consume = jsobj.get_string( "snip_consume_cant_consume" );
-    }
-    if( jsobj.has_string( "snip_consume_rotten" ) ) {
-        guy.chatbin.snip_consume_rotten = jsobj.get_string( "snip_consume_rotten" );
-    }
-    if( jsobj.has_string( "snip_consume_eat" ) ) {
-        guy.chatbin.snip_consume_eat = jsobj.get_string( "snip_consume_eat" );
-    }
-    if( jsobj.has_string( "snip_consume_need_item" ) ) {
-        guy.chatbin.snip_consume_need_item = jsobj.get_string( "snip_consume_need_item" );
-    }
-    if( jsobj.has_string( "snip_consume_med" ) ) {
-        guy.chatbin.snip_consume_med = jsobj.get_string( "snip_consume_med" );
-    }
-    if( jsobj.has_string( "snip_consume_nocharge" ) ) {
-        guy.chatbin.snip_consume_nocharge = jsobj.get_string( "snip_consume_nocharge" );
-    }
-    if( jsobj.has_string( "snip_consume_use_med" ) ) {
-        guy.chatbin.snip_consume_use_med = jsobj.get_string( "snip_consume_use_med" );
-    }
-    if( jsobj.has_string( "snip_give_nope" ) ) {
-        guy.chatbin.snip_give_nope = jsobj.get_string( "snip_give_nope" );
-    }
-    if( jsobj.has_string( "snip_give_to_hallucination" ) ) {
-        guy.chatbin.snip_give_to_hallucination = jsobj.get_string( "snip_give_to_hallucination" );
-    }
-    if( jsobj.has_string( "snip_give_cancel" ) ) {
-        guy.chatbin.snip_give_cancel = jsobj.get_string( "snip_give_cancel" );
-    }
-    if( jsobj.has_string( "snip_give_dangerous" ) ) {
-        guy.chatbin.snip_give_dangerous = jsobj.get_string( "snip_give_dangerous" );
-    }
-    if( jsobj.has_string( "snip_give_wield" ) ) {
-        guy.chatbin.snip_give_wield = jsobj.get_string( "snip_give_wield" );
-    }
-    if( jsobj.has_string( "snip_give_weapon_weak" ) ) {
-        guy.chatbin.snip_give_weapon_weak = jsobj.get_string( "snip_give_weapon_weak" );
-    }
-    if( jsobj.has_string( "snip_give_carry" ) ) {
-        guy.chatbin.snip_give_carry = jsobj.get_string( "snip_give_carry" );
-    }
-    if( jsobj.has_string( "snip_give_carry_cant" ) ) {
-        guy.chatbin.snip_give_carry_cant = jsobj.get_string( "snip_give_carry_cant" );
-    }
-    if( jsobj.has_string( "snip_give_carry_cant_few_space" ) ) {
-        guy.chatbin.snip_give_carry_cant_few_space = jsobj.get_string( "snip_give_carry_cant_few_space" );
-    }
-    if( jsobj.has_string( "snip_give_carry_cant_no_space" ) ) {
-        guy.chatbin.snip_give_carry_cant_no_space = jsobj.get_string( "snip_give_carry_cant_no_space" );
-    }
-    if( jsobj.has_string( "snip_give_carry_too_heavy" ) ) {
-        guy.chatbin.snip_give_carry_too_heavy = jsobj.get_string( "snip_give_carry_too_heavy" );
-    }
-    if( jsobj.has_string( "snip_wear" ) ) {
-        guy.chatbin.snip_wear = jsobj.get_string( "snip_wear" );
-    }
+    jsobj.read( "<acknowledged>", tem.snippets.snip_acknowledged );
+    jsobj.read( "<camp_food_thanks>", tem.snippets.snip_camp_food_thanks );
+    jsobj.read( "<camp_larder_empty>", tem.snippets.snip_camp_larder_empty );
+    jsobj.read( "<camp_water_thanks>", tem.snippets.snip_camp_water_thanks );
+    jsobj.read( "<cant_flee>", tem.snippets.snip_cant_flee );
+    jsobj.read( "<close_distance>", tem.snippets.snip_close_distance );
+    jsobj.read( "<combat_noise_warning>", tem.snippets.snip_combat_noise_warning );
+    jsobj.read( "<danger_close_distance>", tem.snippets.snip_danger_close_distance );
+    jsobj.read( "<done_mugging>", tem.snippets.snip_done_mugging );
+    jsobj.read( "<far_distance>", tem.snippets.snip_far_distance );
+    jsobj.read( "<fire_bad>", tem.snippets.snip_fire_bad );
+    jsobj.read( "<fire_in_the_hole_h>", tem.snippets.snip_fire_in_the_hole_h );
+    jsobj.read( "<fire_in_the_hole>", tem.snippets.snip_fire_in_the_hole );
+    jsobj.read( "<general_danger_h>", tem.snippets.snip_general_danger_h );
+    jsobj.read( "<general_danger>", tem.snippets.snip_general_danger );
+    jsobj.read( "<heal_self>", tem.snippets.snip_heal_self );
+    jsobj.read( "<hungry>", tem.snippets.snip_hungry );
+    jsobj.read( "<im_leaving_you>", tem.snippets.snip_im_leaving_you );
+    jsobj.read( "<its_safe_h>", tem.snippets.snip_its_safe_h );
+    jsobj.read( "<its_safe>", tem.snippets.snip_its_safe );
+    jsobj.read( "<keep_up>", tem.snippets.snip_keep_up );
+    jsobj.read( "<kill_npc_h>", tem.snippets.snip_kill_npc_h );
+    jsobj.read( "<kill_npc>", tem.snippets.snip_kill_npc );
+    jsobj.read( "<kill_player_h>", tem.snippets.snip_kill_player_h );
+    jsobj.read( "<let_me_pass>", tem.snippets.snip_let_me_pass );
+    jsobj.read( "<lets_talk>", tem.snippets.snip_lets_talk );
+    jsobj.read( "<medium_distance>", tem.snippets.snip_medium_distance );
+    jsobj.read( "<monster_warning_h>", tem.snippets.snip_monster_warning_h );
+    jsobj.read( "<monster_warning>", tem.snippets.snip_monster_warning );
+    jsobj.read( "<movement_noise_warning>", tem.snippets.snip_movement_noise_warning );
+    jsobj.read( "<need_batteries>", tem.snippets.snip_need_batteries );
+    jsobj.read( "<need_booze>", tem.snippets.snip_need_booze );
+    jsobj.read( "<need_fuel>", tem.snippets.snip_need_fuel );
+    jsobj.read( "<no_to_thorazine>", tem.snippets.snip_no_to_thorazine );
+    jsobj.read( "<run_away>", tem.snippets.snip_run_away );
+    jsobj.read( "<speech_warning>", tem.snippets.snip_speech_warning );
+    jsobj.read( "<thirsty>", tem.snippets.snip_thirsty );
+    jsobj.read( "<wait>", tem.snippets.snip_wait );
+    jsobj.read( "<warn_sleep>", tem.snippets.snip_warn_sleep );
+    jsobj.read( "<yawn>", tem.snippets.snip_yawn );
+    jsobj.read( "<yes_to_lsd>", tem.snippets.snip_yes_to_lsd );
+    jsobj.read( "snip_pulp_zombie", tem.snippets.snip_pulp_zombie );
+    jsobj.read( "snip_heal_player", tem.snippets.snip_heal_player );
+    jsobj.read( "snip_mug_dontmove", tem.snippets.snip_mug_dontmove );
+    jsobj.read( "snip_wound_infected", tem.snippets.snip_wound_infected );
+    jsobj.read( "snip_wound_bite", tem.snippets.snip_wound_bite );
+    jsobj.read( "snip_radiation_sickness", tem.snippets.snip_radiation_sickness );
+    jsobj.read( "snip_bleeding", tem.snippets.snip_bleeding );
+    jsobj.read( "snip_bleeding_badly", tem.snippets.snip_bleeding_badly );
+    jsobj.read( "snip_lost_blood", tem.snippets.snip_lost_blood );
+    jsobj.read( "snip_bye", tem.snippets.snip_bye );
+    jsobj.read( "snip_consume_cant_accept", tem.snippets.snip_consume_cant_accept );
+    jsobj.read( "snip_consume_cant_consume", tem.snippets.snip_consume_cant_consume );
+    jsobj.read( "snip_consume_rotten", tem.snippets.snip_consume_rotten );
+    jsobj.read( "snip_consume_eat", tem.snippets.snip_consume_eat );
+    jsobj.read( "snip_consume_need_item", tem.snippets.snip_consume_need_item );
+    jsobj.read( "snip_consume_med", tem.snippets.snip_consume_med );
+    jsobj.read( "snip_consume_nocharge", tem.snippets.snip_consume_nocharge );
+    jsobj.read( "snip_consume_use_med", tem.snippets.snip_consume_use_med );
+    jsobj.read( "snip_give_nope", tem.snippets.snip_give_nope );
+    jsobj.read( "snip_give_to_hallucination", tem.snippets.snip_give_to_hallucination );
+    jsobj.read( "snip_give_cancel", tem.snippets.snip_give_cancel );
+    jsobj.read( "snip_give_dangerous", tem.snippets.snip_give_dangerous );
+    jsobj.read( "snip_give_wield", tem.snippets.snip_give_wield );
+    jsobj.read( "snip_give_weapon_weak", tem.snippets.snip_give_weapon_weak );
+    jsobj.read( "snip_give_carry", tem.snippets.snip_give_carry );
+    jsobj.read( "snip_give_carry_cant", tem.snippets.snip_give_carry_cant );
+    jsobj.read( "snip_give_carry_cant_few_space", tem.snippets.snip_give_carry_cant_few_space );
+    jsobj.read( "snip_give_carry_cant_no_space", tem.snippets.snip_give_carry_cant_no_space );
+    jsobj.read( "snip_give_carry_too_heavy", tem.snippets.snip_give_carry_too_heavy );
+    jsobj.read( "snip_wear", tem.snippets.snip_wear );
     jsobj.read( "age", tem.age );
     jsobj.read( "height", tem.height );
     jsobj.read( "str", tem.str );
@@ -583,7 +450,7 @@ void npc_template::load( const JsonObject &jsobj )
         guy.death_eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 
-    npc_templates.emplace( string_id<npc_template>( guy.idz.str() ), std::move( tem ) );
+    npc_templates.emplace( guy.idz, std::move( tem ) );
 }
 
 void npc_template::reset()
@@ -641,7 +508,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     const npc_template &tem = found->second;
     const npc &tguy = tem.guy;
 
-    idz = tguy.idz;
+    idz = ident;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass, ident );
     if( tem.gender_override != npc_template::gender::random ) {
@@ -672,77 +539,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
-    chatbin.snip_acknowledged = tguy.chatbin.snip_acknowledged;
-    chatbin.snip_camp_food_thanks = tguy.chatbin.snip_camp_food_thanks;
-    chatbin.snip_camp_larder_empty = tguy.chatbin.snip_camp_larder_empty;
-    chatbin.snip_camp_water_thanks = tguy.chatbin.snip_camp_water_thanks;
-    chatbin.snip_cant_flee = tguy.chatbin.snip_cant_flee;
-    chatbin.snip_close_distance = tguy.chatbin.snip_close_distance;
-    chatbin.snip_combat_noise_warning = tguy.chatbin.snip_combat_noise_warning;
-    chatbin.snip_danger_close_distance = tguy.chatbin.snip_danger_close_distance;
-    chatbin.snip_done_mugging = tguy.chatbin.snip_done_mugging;
-    chatbin.snip_far_distance = tguy.chatbin.snip_far_distance;
-    chatbin.snip_fire_bad = tguy.chatbin.snip_fire_bad;
-    chatbin.snip_fire_in_the_hole_h = tguy.chatbin.snip_fire_in_the_hole_h;
-    chatbin.snip_fire_in_the_hole = tguy.chatbin.snip_fire_in_the_hole;
-    chatbin.snip_general_danger_h = tguy.chatbin.snip_general_danger_h;
-    chatbin.snip_general_danger = tguy.chatbin.snip_general_danger;
-    chatbin.snip_heal_self = tguy.chatbin.snip_heal_self;
-    chatbin.snip_hungry = tguy.chatbin.snip_hungry;
-    chatbin.snip_im_leaving_you = tguy.chatbin.snip_im_leaving_you;
-    chatbin.snip_its_safe_h = tguy.chatbin.snip_its_safe_h;
-    chatbin.snip_its_safe = tguy.chatbin.snip_its_safe;
-    chatbin.snip_keep_up = tguy.chatbin.snip_keep_up;
-    chatbin.snip_kill_npc_h = tguy.chatbin.snip_kill_npc_h;
-    chatbin.snip_kill_npc = tguy.chatbin.snip_kill_npc;
-    chatbin.snip_kill_player_h = tguy.chatbin.snip_kill_player_h;
-    chatbin.snip_let_me_pass = tguy.chatbin.snip_let_me_pass;
-    chatbin.snip_lets_talk = tguy.chatbin.snip_lets_talk;
-    chatbin.snip_medium_distance = tguy.chatbin.snip_medium_distance;
-    chatbin.snip_monster_warning_h = tguy.chatbin.snip_monster_warning_h;
-    chatbin.snip_monster_warning = tguy.chatbin.snip_monster_warning;
-    chatbin.snip_movement_noise_warning = tguy.chatbin.snip_movement_noise_warning;
-    chatbin.snip_need_batteries = tguy.chatbin.snip_need_batteries;
-    chatbin.snip_need_booze = tguy.chatbin.snip_need_booze;
-    chatbin.snip_need_fuel = tguy.chatbin.snip_need_fuel;
-    chatbin.snip_no_to_thorazine = tguy.chatbin.snip_no_to_thorazine;
-    chatbin.snip_run_away = tguy.chatbin.snip_run_away;
-    chatbin.snip_speech_warning = tguy.chatbin.snip_speech_warning;
-    chatbin.snip_thirsty = tguy.chatbin.snip_thirsty;
-    chatbin.snip_wait = tguy.chatbin.snip_wait;
-    chatbin.snip_warn_sleep = tguy.chatbin.snip_warn_sleep;
-    chatbin.snip_yawn = tguy.chatbin.snip_yawn;
-    chatbin.snip_yes_to_lsd = tguy.chatbin.snip_yes_to_lsd;
-    chatbin.snip_pulp_zombie = tguy.chatbin.snip_pulp_zombie;
-    chatbin.snip_heal_player = tguy.chatbin.snip_heal_player;
-    chatbin.snip_mug_dontmove = tguy.chatbin.snip_mug_dontmove;
-    chatbin.snip_wound_infected = tguy.chatbin.snip_wound_infected;
-    chatbin.snip_wound_bite = tguy.chatbin.snip_wound_bite;
-    chatbin.snip_radiation_sickness = tguy.chatbin.snip_radiation_sickness;
-    chatbin.snip_bleeding = tguy.chatbin.snip_bleeding;
-    chatbin.snip_bleeding_badly = tguy.chatbin.snip_bleeding_badly;
-    chatbin.snip_lost_blood = tguy.chatbin.snip_lost_blood;
-    chatbin.snip_bye = tguy.chatbin.snip_bye;
-    chatbin.snip_consume_cant_accept = tguy.chatbin.snip_consume_cant_accept;
-    chatbin.snip_consume_cant_consume = tguy.chatbin.snip_consume_cant_consume;
-    chatbin.snip_consume_rotten = tguy.chatbin.snip_consume_rotten;
-    chatbin.snip_consume_eat = tguy.chatbin.snip_consume_eat;
-    chatbin.snip_consume_need_item = tguy.chatbin.snip_consume_need_item;
-    chatbin.snip_consume_med = tguy.chatbin.snip_consume_med;
-    chatbin.snip_consume_nocharge = tguy.chatbin.snip_consume_nocharge;
-    chatbin.snip_consume_use_med = tguy.chatbin.snip_consume_use_med;
-    chatbin.snip_give_nope = tguy.chatbin.snip_give_nope;
-    chatbin.snip_give_to_hallucination = tguy.chatbin.snip_give_to_hallucination;
-    chatbin.snip_give_cancel = tguy.chatbin.snip_give_cancel;
-    chatbin.snip_give_dangerous = tguy.chatbin.snip_give_dangerous;
-    chatbin.snip_give_wield = tguy.chatbin.snip_give_wield;
-    chatbin.snip_give_weapon_weak = tguy.chatbin.snip_give_weapon_weak;
-    chatbin.snip_give_carry = tguy.chatbin.snip_give_carry;
-    chatbin.snip_give_carry_cant = tguy.chatbin.snip_give_carry_cant;
-    chatbin.snip_give_carry_cant_few_space = tguy.chatbin.snip_give_carry_cant_few_space;
-    chatbin.snip_give_carry_cant_no_space = tguy.chatbin.snip_give_carry_cant_no_space;
-    chatbin.snip_give_carry_too_heavy = tguy.chatbin.snip_give_carry_too_heavy;
-    chatbin.snip_wear = tguy.chatbin.snip_wear;
 
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
@@ -1449,7 +1245,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
         for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
             if( is_limb_broken( bp ) && !has_effect( effect_mending, bp.id() ) &&
                 it.covers( bp ) ) {
-                reason = _( chatbin.snip_wear );
+                reason = chat_snippets().snip_wear.translated();
                 return !!wear_item( it, false );
             }
         }
@@ -1463,7 +1259,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             // TODO: Hazmat/power armor makes this not work due to 1 boots/headgear limit
 
             if( !!wear_item( it, false ) ) {
-                reason = _( chatbin.snip_wear );
+                reason = chat_snippets().snip_wear.translated();
                 return true;
             } else {
                 reason = _( "I tried but couldn't wear it." );
@@ -1491,7 +1287,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
             return false;
         }
     }
-    reason = _( chatbin.snip_wear );
+    reason = chat_snippets().snip_wear.translated();
     return worn.empty() && wear_item( it, false );
 }
 
@@ -1511,7 +1307,7 @@ void npc::stow_item( item &it )
             add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), it.tname() );
         }
         remove_item( it );
-        moves -= 15;
+        mod_moves( -item_wear_cost( it ) );
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
@@ -1519,7 +1315,7 @@ void npc::stow_item( item &it )
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret->tname() );
         }
-        moves -= 15;
+        mod_moves( -item_handling_cost( it ) );
     } else { // No room for weapon, so we drop it
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
@@ -1557,7 +1353,7 @@ bool npc::wield( item &it )
         return true;
     }
 
-    moves -= 15;
+    mod_moves( -to_wield.on_wield_cost( *this ) );
     if( weapon && to_wield.can_combine( *weapon ) ) {
         weapon->combine( to_wield );
     } else {
@@ -1668,7 +1464,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         }
     }
 
-    if( you.has_trait( trait_SAPIOVORE ) ) {
+    if( you.has_flag( json_flag_SAPIOVORE ) ) {
         npc_values.fear += 10; // Sapiovores = Scary
     }
     if( you.has_trait( trait_TERRIFYING ) ) {
@@ -1685,6 +1481,7 @@ npc_opinion npc::get_opinion_values( const Character &you ) const
         }
         u_ugly += bp->ugliness_mandatory;
         u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+        u_ugly = enchantment_cache->modify_value( enchant_vals::mod::UGLINESS, u_ugly );
     }
     npc_values.fear += u_ugly / 2;
     npc_values.trust -= u_ugly / 3;
@@ -1855,7 +1652,7 @@ void npc::on_attacked( const Creature &attacker )
     if( is_hallucination() ) {
         die( nullptr );
     }
-    if( attacker.is_avatar() && !is_enemy() && !is_dead() ) {
+    if( attacker.is_avatar() && !is_enemy() && !is_dead() && !guaranteed_hostile() ) {
         make_angry();
         hit_by_player = true;
     }
@@ -1959,9 +1756,51 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
                        male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+        // Always shouting when in danger or short time since being in danger
+        sounds::sound( pos(), danger_assessment() > NPC_DANGER_VERY_LOW ?
+                       get_shout_volume() : indoor_voice(),
+                       sounds::sound_t::speech,
+                       sound, false, "speech",
                        male ? "NPC_m_loud" : "NPC_f_loud" );
     }
+}
+
+int npc::indoor_voice() const
+{
+    const int max_volume = get_shout_volume();
+    const int min_volume = 1;
+    // Actual hearing distance is incredibly dependent on ambient noise and our noise propagation model is... rather binary
+    // But we'll assume people normally want to project their voice about 6 meters away.
+    int wanted_volume = 6;
+    Character &player = get_player_character();
+    const int distance_to_player = rl_dist( pos(), player.pos() );
+    if( is_following() || is_ally( player ) ) {
+        wanted_volume = distance_to_player;
+    } else if( is_enemy() && sees( player.pos() ) ) {
+        // Battle cry! Bandits have no concept of indoor voice, even when not threatened.
+        wanted_volume = max_volume;
+    }
+    // Possible fallthrough: neutral or unaware enemy NPCs talk at default wanted_volume
+
+    // Don't wake up friends when using our indoor voice
+    for( const auto &bunk_buddy : get_cached_friends() ) {
+        Character *char_buddy = nullptr;
+        if( auto buddy = bunk_buddy.lock() ) {
+            char_buddy = dynamic_cast<Character *>( buddy.get() );
+        }
+        if( !char_buddy ) {
+            continue;
+        }
+        if( char_buddy->has_effect( effect_sleep ) ) {
+            int distance_to_sleeper = rl_dist( pos(), char_buddy->pos() );
+            if( wanted_volume >= distance_to_sleeper ) {
+                // Speak just quietly enough to not disturb anyone
+                wanted_volume = distance_to_sleeper - 1;
+            }
+        }
+    }
+
+    return std::clamp( wanted_volume, min_volume, max_volume );
 }
 
 bool npc::wants_to_sell( const item_location &it ) const
@@ -2646,7 +2485,7 @@ void npc::npc_dismount()
     mounted_creature->add_effect( effect_controlled, 5_turns );
     mounted_creature = nullptr;
     setpos( *pnt );
-    mod_moves( -100 );
+    mod_moves( -get_speed() );
 }
 
 int npc::smash_ability() const
@@ -2955,7 +2794,6 @@ void npc::die( Creature *nkiller )
         // *only* set to true in this function!
         return;
     }
-
     prevent_death_reminder = false;
     dialogue d( get_talker_for( this ), nkiller == nullptr ? nullptr : get_talker_for( nkiller ) );
     for( effect_on_condition_id &eoc : death_eocs ) {
@@ -3018,17 +2856,51 @@ void npc::die( Creature *nkiller )
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
         get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
-
     Character &player_character = get_player_character();
-    if( killer == &player_character && ( !guaranteed_hostile() || hit_by_player ) ) {
-        bool cannibal = player_character.has_trait( trait_CANNIBAL );
-        bool psycho = player_character.has_trait( trait_PSYCHOPATH );
-        if( player_character.has_trait( trait_SAPIOVORE ) || psycho ) {
-            // No morale effect
-        } else if( cannibal ) {
-            player_character.add_morale( MORALE_KILLED_INNOCENT, -5, 0, 2_days, 3_hours );
-        } else {
-            player_character.add_morale( MORALE_KILLED_INNOCENT, -100, 0, 2_days, 3_hours );
+    if( killer == &player_character ) {
+        if( player_character.has_trait( trait_PACIFIST ) ) {
+            add_msg( _( "A cold shock of guilt washes over you." ) );
+            player_character.add_morale( MORALE_KILLER_HAS_KILLED, -15, 0, 1_days, 1_hours );
+        }
+        if( hit_by_player ) {
+            int morale_effect = -90;
+            // Just because you like eating people doesn't mean you love killing innocents
+            if( player_character.has_flag( json_flag_CANNIBAL ) && morale_effect < 0 ) {
+                morale_effect = std::min( 0, morale_effect + 50 );
+            } // Pacifists double dip on penalties if they kill an innocent
+            if( player_character.has_trait( trait_PACIFIST ) ) {
+                morale_effect -= 15;
+            }
+            if( player_character.has_flag( json_flag_PSYCHOPATH ) ||
+                player_character.has_flag( json_flag_SAPIOVORE ) ) {
+                morale_effect = 0;
+            } // Killer has the psychopath flag, so we're at +5 total. Whee!
+            if( player_character.has_trait( trait_KILLER ) ) {
+                morale_effect += 5;
+            } // only god can juge me
+            if( player_character.has_flag( json_flag_SPIRITUAL ) &&
+                ( !player_character.has_flag( json_flag_PSYCHOPATH ) ||
+                  ( player_character.has_flag( json_flag_PSYCHOPATH ) &&
+                    player_character.has_trait( trait_KILLER ) ) ) &&
+                !player_character.has_flag( json_flag_SAPIOVORE ) ) {
+                if( morale_effect < 0 ) {
+                    add_msg( _( "You feel ashamed of your actions." ) );
+                    morale_effect -= 10;
+                } // skulls for the skull throne
+                if( morale_effect > 0 ) {
+                    add_msg( _( "You feel a sense of righteous purpose." ) );
+                    morale_effect += 5;
+                }
+            }
+            if( morale_effect == 0 ) {
+                // No morale effect
+            } else if( morale_effect <= -50 ) {
+                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 2_days, 3_hours );
+            } else if( morale_effect > -50 && morale_effect < 0 ) {
+                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 1_days, 1_hours );
+            } else {
+                player_character.add_morale( MORALE_KILLED_INNOCENT, morale_effect, 0, 3_hours, 7_minutes );
+            }
         }
     }
 
@@ -3454,7 +3326,7 @@ std::unordered_set<tripoint> npc::get_path_avoid() const
     }
     if( rules.has_flag( ally_rule::avoid_locks ) ) {
         for( const tripoint &p : here.points_in_radius( pos(), 30 ) ) {
-            if( doors::can_unlock_door( here, *this, p ) ) {
+            if( doors::can_unlock_door( here, *this, tripoint_bub_ms( p ) ) ) {
                 ret.insert( p );
             }
         }
@@ -3928,6 +3800,15 @@ void npc::update_missions_target( character_id old_character, character_id new_c
             temp->set_assigned_player_id( new_character );
         }
     }
+}
+
+const dialogue_chatbin_snippets &npc::chat_snippets() const
+{
+    if( idz.is_null() ) {
+        static dialogue_chatbin_snippets dummy;
+        return dummy;
+    }
+    return idz->snippets;
 }
 
 std::unique_ptr<talker> get_talker_for( npc &guy )

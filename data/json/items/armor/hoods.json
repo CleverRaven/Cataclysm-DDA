@@ -193,14 +193,14 @@
     "volume": "750 ml",
     "price": 2000,
     "price_postapoc": 250,
-    "material": [ "plastic", "cotton" ],
+    "material": [ "vinyl" ],
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
     "warmth": 8,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "flags": [ "WATERPROOF", "OUTER", "SOFT" ],
+    "flags": [ "RAINPROOF", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ] } ]
   },
   {
@@ -239,7 +239,7 @@
     "warmth": 10,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "RAINPROOF", "OUTER" ],
+    "flags": [ "RAINPROOF", "OUTER" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {

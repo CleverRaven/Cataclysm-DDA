@@ -72,7 +72,8 @@
     "book_learn": [ [ "dollkin_tablet", 0 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "paint_brush", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "paint", 2, "LIST" ] ], [ [ "superglue", 1 ] ], [ [ "scrap_dreamdross", 1 ] ] ]
+    "using": [ [ "paint", 2 ] ],
+    "components": [ [ [ "superglue", 1 ] ], [ [ "scrap_dreamdross", 1 ] ] ]
   },
   {
     "type": "recipe",

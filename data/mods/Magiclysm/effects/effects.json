@@ -489,7 +489,7 @@
     "id": "biomechanic",
     "name": [ "Biomechanism" ],
     "desc": [ "Hunt.  Let them feel." ],
-    "remove_message": "Your body returns to normal state.",
+    "remove_message": "Your body returns to its normal state.",
     "rating": "good",
     "max_intensity": 25,
     "int_add_val": 1,
@@ -518,6 +518,35 @@
     "rating": "good",
     "show_intensity": false,
     "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": 0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_technomancer_invisibility",
+    "name": [ "Invisible" ],
+    "desc": [ "You are invisible." ],
+    "remove_message": "Your invisibility fades.",
+    "flags": [ "INVISIBLE" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_technomancer_gain_electronics_computer",
+    "name": [ "Machine Mind" ],
+    "desc": [ "You have an intuitive understanding of computers." ],
+    "remove_message": "Your mind no longer easily grasps the flow of electrons.",
+    "enchantments": [
+      {
+        "skills": [
+          {
+            "value": "computer",
+            "add": { "math": [ "((u_spell_level('technomancer_gain_electronics_computer_spell') / 7) + 1)" ] }
+          },
+          {
+            "value": "electronics",
+            "add": { "math": [ "((u_spell_level('technomancer_gain_electronics_computer_spell') / 7) + 1)" ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -791,6 +820,20 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_animist_add_evasion",
+    "name": [ "Guardian Spirit" ],
+    "desc": [ "A protective spirit is looking out for you." ],
+    "apply_message": "",
+    "remove_message": "With a soft whisper, the guardian spirit returns from whence it came.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "EVASION", "add": { "math": [ "(( u_spell_level('animist_add_evasion_spell') * 0.02) + 0.1)" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_druid_anti_heat",
     "name": [ "Water's Cooling Touch" ],
     "desc": [ "Your skin feels like you just splashed cool water on it." ],
@@ -885,6 +928,19 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_magus_ranged_increase",
+    "name": [ "Arrowflight" ],
+    "desc": [ "Your ranged weapons travel much further than physics claims they should." ],
+    "apply_message": "",
+    "remove_message": "Your weapons return to their normal range.",
+    "enchantments": [
+      {
+        "values": [ { "value": "RANGE", "multiply": { "math": [ "(( u_spell_level('magus_ranged_increase') * 0.02) + 0.25 )" ] } } ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_biomancer_swim_speed",
     "name": [ "Frog Limbs" ],
     "desc": [ "Your hands and feet have grown webbing, enabling faster swimming." ],
@@ -946,6 +1002,18 @@
     "flags": [ "WATCH" ]
   },
   {
+    "id": "effect_classless_easy_sleep",
+    "type": "effect_type",
+    "name": [ "Peaceful Rest" ],
+    "desc": [ "You feel pretty sleepy." ],
+    "apply_message": "",
+    "enchantments": [
+      {
+        "values": [ { "value": "SLEEPY", "add": { "math": [ "( u_spell_level('classless_easy_sleep_spell') * 3) + 15" ] } } ]
+      }
+    ]
+  },
+  {
     "type": "effect_type",
     "id": "effect_burning_trail",
     "name": [ "Burning Trail" ],
@@ -973,6 +1041,21 @@
     "remove_message": "The wind around you dies down.",
     "rating": "good",
     "enchantments": [ "enchant_stormshaper_heart_of_hurricane" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_stormshaper_loud_voice",
+    "name": [ "Thundering Voice" ],
+    "desc": [ "Every word you speak resounds like a crash of thunder." ],
+    "apply_message": "",
+    "remove_message": "Your voice returns to normal.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "SHOUT_NOISE", "add": { "math": [ "( u_spell_level('stormshaper_loud_voice_spell') * 3) + 15" ] } } ]
+      }
+    ],
+    "flags": [ "IMMUNE_HEARING_DAMAGE" ]
   },
   {
     "type": "effect_type",
@@ -1045,6 +1128,13 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_biomancer_eat_tons_of_food",
+    "name": [ "Gluttonous Consumption" ],
+    "desc": [ "You feel like you could eat a horse." ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "effect_flesh_rending",
     "name": [ "Rending" ],
     "desc": [ "Your flesh is twisting itself apart!" ],
@@ -1072,6 +1162,56 @@
     "show_in_info": true,
     "removes_effects": [ "onfire", "blisters" ],
     "enchantments": [ "ench_heat_and_fire_immunity" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_spirit_walking",
+    "name": [ "Spirit Walking" ],
+    "desc": [ "You have shed your physical form." ],
+    "rating": "good",
+    "show_in_info": true,
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 3 }, { "value": "MOVE_COST", "multiply": -0.66 } ] } ],
+    "flags": [ "ETHEREAL", "FEATHER_FALL", "CLIMB_NO_LADDER", "INVISIBLE", "NO_SCENT", "NO_SPELLCASTING" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_magus_mageshield",
+    "name": [ "Mageshield" ],
+    "desc": [ "You are invincible." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Your mageshield fades as the attack impacts it.",
+    "enchantments": [ { "values": [ { "value": "FORCEFIELD", "add": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_druid_traverse_the_wilds",
+    "name": [ "Traverse the Wilds" ],
+    "desc": [ "Nature is speeding your passage." ],
+    "rating": "good",
+    "show_in_info": true,
+    "remove_message": "Nature no longer speeds your movements.",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "MOVE_COST", "multiply": { "math": [ "((u_spell_level('druid_traverse_the_wilds') * -0.015) - 0.05)" ] } }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance",
+    "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "telepathic_ignorance_self",
+    "//": "id is hardcoded, used by the Animist spell A Shadow in the Crowd",
+    "name": [ "" ],
+    "desc": [ "" ]
   },
   {
     "id": "effect_dispel_magic",
@@ -1113,6 +1253,7 @@
       "flask_mana_regen",
       "flask_max_mana",
       "flask_regeneration",
+      "effect_animist_add_evasion",
       "earthshaper_fortitude_of_stone",
       "effect_tremorsense",
       "effect_sense_outsiders",
@@ -1125,13 +1266,19 @@
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_biomancer_eat_tons_of_food",
       "effect_druid_anti_heat",
+      "effect_druid_traverse_the_wilds",
+      "effect_magus_mageshield",
+      "effect_magus_ranged_increase",
       "effect_classless_watch",
       "effect_obfuscating_aura",
       "effect_shape_of_dust",
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
-      "effect_thorns_electric"
+      "effect_thorns_electric",
+      "effect_stormshaper_loud_voice",
+      "effect_technomancer_gain_electronics_computer"
     ]
   },
   {
@@ -1147,6 +1294,12 @@
       { "u_remove_item_with": "fleshpouch" },
       { "u_remove_item_with": "aura_caustic" },
       { "u_remove_item_with": "item_biomancer_scalpel_fingers" },
+      { "u_lose_trait": "BIO_LASHING_TENTACLES" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" },
       { "u_remove_item_with": "druid_recurve" },
       { "u_remove_item_with": "druid_naturearrows1" },
       { "u_remove_item_with": "druid_quiver" },
@@ -1155,6 +1308,7 @@
       { "u_remove_item_with": "aura_feral_plus" },
       { "u_remove_item_with": "druid_bandages" },
       { "u_remove_item_with": "arrow_druid" },
+      { "u_remove_item_with": "aura_bearmantle" },
       { "u_remove_item_with": "druid_bramble_spear_item" },
       { "u_remove_item_with": "aura_druid_breathing_water" },
       { "u_remove_item_with": "aura_druid_waterwalk" },
@@ -1179,7 +1333,8 @@
       { "u_remove_item_with": "armor_spirit" },
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
-      { "u_remove_item_with": "technomancer_welder" }
+      { "u_remove_item_with": "technomancer_welder" },
+      { "u_remove_item_with": "technomancer_far_sight_lens" }
     ]
   },
   {
@@ -1237,10 +1392,18 @@
       "effect_acid_res_aura",
       "effect_acid_res_aura_greater",
       "effect_thorns_electric",
+      "effect_animist_add_evasion",
       "effect_biomancer_slow_bleeding_01",
       "effect_biomancer_slow_bleeding_02",
       "effect_biomancer_slow_bleeding_03",
+      "effect_biomancer_eat_tons_of_food",
       "effect_druid_anti_heat",
+      "effect_druid_traverse_the_wilds",
+      "effect_magus_mageshield",
+      "effect_magus_ranged_increase",
+      "effect_spirit_walking",
+      "effect_stormshaper_loud_voice",
+      "effect_technomancer_gain_electronics_computer",
       "haste",
       "synaptic_stim",
       "slow_freeze_effect",
@@ -1272,6 +1435,12 @@
       { "u_remove_item_with": "fleshpouch" },
       { "u_remove_item_with": "aura_caustic" },
       { "u_remove_item_with": "item_biomancer_scalpel_fingers" },
+      { "u_lose_trait": "BIO_LASHING_TENTACLES" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" },
       { "u_remove_item_with": "druid_recurve" },
       { "u_remove_item_with": "druid_naturearrows1" },
       { "u_remove_item_with": "druid_quiver" },
@@ -1280,6 +1449,7 @@
       { "u_remove_item_with": "aura_feral_plus" },
       { "u_remove_item_with": "druid_bandages" },
       { "u_remove_item_with": "arrow_druid" },
+      { "u_remove_item_with": "aura_bearmantle" },
       { "u_remove_item_with": "druid_bramble_spear_item" },
       { "u_remove_item_with": "aura_druid_breathing_water" },
       { "u_remove_item_with": "aura_druid_waterwalk" },
@@ -1292,6 +1462,7 @@
       { "u_remove_item_with": "eshaper_shovel" },
       { "u_remove_item_with": "finger_firelighter" },
       { "u_remove_item_with": "ice_gliders" },
+      { "u_remove_item_with": "item_kelvinist_frozen_heart" },
       { "u_remove_item_with": "shield_ice" },
       { "u_remove_item_with": "armor_frost" },
       { "u_remove_item_with": "flamesword" },
@@ -1305,6 +1476,7 @@
       { "u_remove_item_with": "magic_lamp" },
       { "u_remove_item_with": "technomancer_summoned_radio" },
       { "u_remove_item_with": "technomancer_welder" },
+      { "u_remove_item_with": "technomancer_far_sight_lens" },
       { "u_remove_item_with": "druid_thorn_skin_item" },
       { "u_remove_item_with": "bonespear" },
       { "u_remove_item_with": "longsword_holy" },

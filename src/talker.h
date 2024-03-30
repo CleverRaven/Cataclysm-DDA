@@ -139,6 +139,9 @@ class talker
         virtual int get_hp_max( const bodypart_id & ) const {
             return 0;
         }
+        virtual int get_count() const {
+            return 0;
+        }
         virtual units::temperature get_cur_part_temp( const bodypart_id & ) const {
             return 0_K;
         }
@@ -713,6 +716,12 @@ class talker
         }
         virtual bool using_martial_art( const matype_id & ) const {
             return false;
+        }
+        virtual int climate_control_str_heat() const {
+            return 0;
+        }
+        virtual int climate_control_str_chill() const {
+            return 0;
         }
 };
 template <class T, class B = talker>

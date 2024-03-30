@@ -8,7 +8,7 @@
     "bodytype": "gator",
     "categories": [ "WILDLIFE" ],
     "species": [ "REPTILE" ],
-    "volume": "92500 ml",
+    "volume": "108500 ml",
     "weight": "120 kg",
     "hp": 90,
     "speed": 90,
@@ -71,6 +71,7 @@
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "families": [ "prof_intro_biology", "prof_physiology" ],
     "harvest": "mammal_tiny",
+    "biosignature": { "biosig_item": "shed_snakeskin_little", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "VENOM", "HARDTOSHOOT", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
@@ -111,6 +112,7 @@
     "baby_flags": [ "SUMMER" ],
     "//babies": "On average, a female rattlesnake gives birth to at least eight babies, up to around fifteen.  Most baby rattlesnakes are born in the early summer, but sometimes in late summer and early autumn.",
     "upgrades": { "half_life": 34, "into": "mon_rattlesnake_big" },
+    "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
@@ -133,9 +135,10 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 8, "armor_multiplier": 0.8 } ]
       }
     ],
-    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 240 },
+    "reproduction": { "baby_monster": "mon_rattlesnake_s", "baby_count": 13, "baby_timer": 180 },
     "baby_flags": [ "AUTUMN", "SUMMER" ],
     "upgrades": { "half_life": 65, "into": "mon_rattlesnake_giant" },
+    "biosignature": { "biosig_item": "shed_snakeskin_big", "biosig_timer": 240 },
     "armor": { "bash": 1, "cut": 3, "bullet": 2, "electric": 1 },
     "delete": { "anger_triggers": [ "PLAYER_CLOSE" ] }
   },
@@ -158,6 +161,7 @@
     "upgrades": { "age_grow": 365, "into": "mon_rattlesnake_big" },
     "fear_triggers": [ "PLAYER_CLOSE", "SOUND" ],
     "harvest": "mammal_tiny",
+    "biosignature": { "biosig_item": "shed_snakeskin", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ]
   },
   {
@@ -202,6 +206,7 @@
     "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 15, "baby_timer": 120 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "upgrades": { "half_life": 80, "into": "mon_rattlesnake_mega" },
+    "biosignature": { "biosig_item": "shed_snakeskin_giant", "biosig_timer": 180 },
     "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "SWIMS" ],
     "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
@@ -252,9 +257,10 @@
     "regenerates": 2,
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "reproduction": { "baby_monster": "mon_rattlesnake_big_s", "baby_count": 20, "baby_timer": 90 },
-    "//babies": "Rattlesnake’s gestation period is around 90 days, but it varies depending on the breed.  The timber rattlesnake has a gestation period of up to five months.",
+    "//babies": "Rattlesnake's gestation period is around 90 days, but it varies depending on the breed.  The timber rattlesnake has a gestation period of up to five months.",
     "//babies2": "Deathrattle is heavily mutated, so a short gestation period and all-year large clutch birth are plausible",
     "zombify_into": "mon_meat_cocoon_large",
+    "biosignature": { "biosig_item": "shed_snakeskin_scales", "biosig_timer": 180 },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "KEENNOSE", "CLIMBS", "PATH_AVOID_DANGER_1", "ANIMAL", "PUSH_MON", "SWIMS" ],
     "armor": { "bash": 6, "cut": 8, "bullet": 6, "electric": 3, "acid": 6 }
   },
@@ -705,7 +711,6 @@
     ],
     "fear_triggers": [ "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
-    "zombify_into": "mon_zombullfrog",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "SWARMS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS" ]
   },
@@ -718,6 +723,7 @@
     "color": "light_green",
     "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_STRANGE" },
+    "zombify_into": "mon_zombullfrog",
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 12, "baby_timer": 20 },
     "delete": { "flags": [ "SWARMS" ] }
   },
@@ -729,6 +735,7 @@
     "copy-from": "mon_proxy_bigfrog",
     "aggression": 0,
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_ODD" },
+    "zombify_into": "mon_toad_zombie",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "POISON" ] },
     "delete": { "flags": [ "SWARMS" ] }
@@ -752,6 +759,7 @@
     "luminance": 3,
     "special_when_hit": [ "ZAPBACK", 100 ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_PATTERN" },
+    "zombify_into": "mon_frog_shocker",
     "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 12, "baby_timer": 20 }
   },
   {
@@ -779,6 +787,7 @@
       }
     ],
     "upgrades": { "age_grow": 30, "into_group": "GROUP_FROGS_UPGRADE_FOUL" },
+    "zombify_into": "mon_toad_zombie",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "When possible, add an AOE burst & temporary trail of slippery, toxic grease on several hour cooldown.  The toad can expel grease like a squid with ink.  The grease offgasses into something between tear gas and a blister agent, hence the smell.  NO_BREATHE flag is to prevent self-gassing."
@@ -810,6 +819,7 @@
     ],
     "fear_triggers": [ "HURT", "FRIEND_DIED", "FIRE", "SOUND" ],
     "anger_triggers": [ "PLAYER_CLOSE", "MATING_SEASON" ],
+    "zombify_into": "mon_zombtreefrog",
     "reproduction": { "baby_egg": "egg_vocal_frog", "baby_count": 12, "baby_timer": 20 },
     "delete": { "flags": [ "SWARMS" ] },
     "harvest": "bullfrog",
@@ -845,6 +855,7 @@
     "dodge": 6,
     "armor": { "bash": 5, "acid": 2, "heat": 5, "electric": 4 },
     "vision_night": 35,
+    "zombify_into": "mon_frog_shadow",
     "reproduction": { "baby_egg": "egg_shift_frog", "baby_count": 12, "baby_timer": 20 },
     "extend": { "flags": [ "CAMOUFLAGE" ] },
     "//": "Give climbing (Z axis) ability when available."
@@ -904,7 +915,6 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
-    "zombify_into": "mon_zombullfrog",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "FISHABLE", "SEES", "SMELLS", "HEARS", "GRABS", "SWIMS", "WATER_CAMOUFLAGE", "CLIMBS", "BASHES" ]
   },
@@ -916,6 +926,7 @@
     "copy-from": "mon_proxy_giganfrog",
     "color": "light_green",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_STRANGE_MEGA" },
+    "zombify_into": "mon_zombullfrog",
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 18, "baby_timer": 20 }
   },
   {
@@ -925,7 +936,7 @@
     "description": "This toad has grown bigger than a human.  It looks uninterested in eating you but you better not give it a chance.",
     "copy-from": "mon_proxy_giganfrog",
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_ODD_MEGA" },
-    "zombify_into": "mon_gastro_bufo",
+    "zombify_into": "mon_toad_zombie",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "POISON" ] }
   },
@@ -973,6 +984,7 @@
     ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
+    "zombify_into": "mon_frog_shocker",
     "reproduction": { "baby_egg": "egg_pattern_frog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "SWARMS" ] }
   },
@@ -1014,7 +1026,7 @@
     ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
     "upgrades": { "age_grow": 45, "into_group": "GROUP_FROGS_UPGRADE_FOUL_MEGA" },
-    "zombify_into": "mon_gastro_bufo",
+    "zombify_into": "mon_toad_zombie",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 18, "baby_timer": 20 },
     "extend": { "flags": [ "POISON", "NO_BREATHE", "SWARMS" ] },
     "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."
@@ -1074,7 +1086,6 @@
     ],
     "fear_triggers": [ "FIRE" ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON" ],
-    "zombify_into": "mon_frog_dad",
     "baby_flags": [ "SPRING", "SUMMER" ],
     "flags": [ "SEES", "SMELLS", "GRABS", "HEARS", "SWIMS", "DESTROYS" ]
   },
@@ -1109,6 +1120,7 @@
       [ "SHRIEK_ALERT", 20 ],
       [ "SHRIEK_STUN", 5 ]
     ],
+    "zombify_into": "mon_frog_dad",
     "reproduction": { "baby_egg": "egg_strange_bigfrog", "baby_count": 32, "baby_timer": 20 }
   },
   {
@@ -1118,7 +1130,7 @@
     "description": "This toad is of truly enormous stature, larger than many cars.  You can't help but wonder if it could fit as many people inside.",
     "copy-from": "mon_proxy_megafrog",
     "armor": { "bash": 18, "cut": 18, "bullet": 12, "electric": 4 },
-    "zombify_into": "mon_gastro_bufo",
+    "zombify_into": "mon_toad_wart",
     "reproduction": { "baby_egg": "egg_odd_bigfrog", "baby_count": 32, "baby_timer": 20 },
     "extend": { "flags": [ "POISON" ] },
     "//": "Simple wallowing, likes to create deep pits and lay in them."
@@ -1153,7 +1165,7 @@
           { "damage_type": "cut", "amount": 26, "armor_multiplier": 0.2 },
           { "damage_type": "bash", "amount": 14, "armor_multiplier": 0.2 }
         ],
-        "effects": [ { "id": "paralyzepoison", "duration": 20, "affect_hit_bp": true } ],
+        "effects": [ { "id": "venom_pain", "duration": 20, "affect_hit_bp": true } ],
         "condition": { "not": { "u_has_effect": "maimed_mandible" } }
       },
       {
@@ -1178,7 +1190,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "MATING_SEASON", "FRIEND_ATTACKED" ],
-    "zombify_into": "mon_gastro_bufo",
+    "zombify_into": "mon_toad_bone",
     "reproduction": { "baby_egg": "egg_foul_bigfrog", "baby_count": 32, "baby_timer": 20 },
     "extend": { "flags": [ "POISON", "NO_BREATHE" ] },
     "//": "When possible, add ability to dig furrows (lines of shallow pits) and wallow.  NO_BREATHE flag is to prevent gassing by younger of its kind."

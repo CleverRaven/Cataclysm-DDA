@@ -133,13 +133,13 @@
       { "prob": 60, "group": "fish_pickled_jar_glass_sealed_2" },
       { "prob": 40, "group": "meat_canned_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "veggy_canned_jar_3l_glass_sealed_12" },
-      { "prob": 40, "group": "apple_canned_jar_3l_glass_sealed_12" },
-      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_12" },
+      { "prob": 40, "group": "apple_canned_jar_3l_glass_sealed_24" },
+      { "prob": 40, "group": "can_tomato_jar_3l_glass_sealed_24" },
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "meat_pickled_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "veggy_pickled_jar_3l_glass_sealed_12" },
       { "prob": 40, "group": "fish_pickled_jar_3l_glass_sealed_12" },
-      { "item": "sauce_red", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" },
+      { "item": "sauce_red", "prob": 40, "charges": 48, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 40, "charges": 12, "container-item": "jar_3l_glass_sealed" }
     ]
   },
@@ -345,7 +345,7 @@
   {
     "id": "MISSION_ISHERWOOD_JACK_1",
     "type": "mission_definition",
-    "name": { "str": "Find 10 3L jars" },
+    "name": { "str": "Find 10 3 L jars" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,

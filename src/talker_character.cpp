@@ -1211,3 +1211,13 @@ void talker_character::forget_martial_art( const matype_id &id ) const
 {
     me_chr->martial_arts_data->clear_style( id );
 }
+
+int talker_character_const::climate_control_str_heat() const
+{
+    return me_chr_const->climate_control_strength().first;
+}
+
+int talker_character_const::climate_control_str_chill() const
+{
+    return me_chr_const->climate_control_strength().second;
+}

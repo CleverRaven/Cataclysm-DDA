@@ -9,8 +9,48 @@
   {
     "type": "enchantment",
     "id": "arvore_forest_detect_enemies",
-    "condition": "ALWAYS",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "arvore_forest_detect_enemies_and_overmap",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [
+      { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
+      {
+        "value": "OVERMAP_SIGHT",
+        "add": { "math": [ "(u_has_trait('ARVORE_FOREST_DETECT_AND_OVERMAP') * 2) + (u_has_trait('THRESH_ARVORE') * 2)" ] }
+      }
+    ]
   },
   {
     "type": "enchantment",
@@ -40,8 +80,88 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_arvore_forest_stealth",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "40 + ( u_has_trait('THRESH_ARVORE') * 20)" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_sense_sun",
+    "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] },
+    "ench_effects": [ { "effect": "effect_arvore_sense_sun", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_wilds_super_mending",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "values": [ { "value": "MENDING_MODIFIER", "multiply": 10 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "ench_arvore_sun_foods_on",
-    "condition": "ALWAYS",
+    "condition": {
+      "and": [
+        "is_day",
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_dirt" },
+            { "u_is_on_terrain": "t_dirtmound" },
+            { "u_is_on_terrain": "t_clay" },
+            { "u_is_on_terrain": "t_sand" },
+            { "u_is_on_terrain": "t_sandmound" },
+            { "u_is_on_terrain": "t_grave" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_dead" },
+            { "u_is_on_terrain": "t_mud" },
+            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+            { "u_is_on_terrain": "t_moss" }
+          ]
+        }
+      ]
+    },
     "intermittent_activation": { "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "arvore_sun_foods_on_spell" } ] } ] },
     "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
   },
@@ -97,9 +217,16 @@
     "base_energy_cost": 500,
     "final_energy_cost": 250,
     "energy_increment": -12,
-    "min_duration": 30000,
-    "max_duration": 1080000,
-    "duration_increment": 16500,
+    "min_duration": {
+      "math": [
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000 ) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    },
     "learn_spells": { "arvore_summon_preservation_container": 6 }
   },
   {
@@ -561,7 +688,6 @@
     "id": "arvore_roots_spell",
     "type": "SPELL",
     "name": { "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.", "str": "Hungry Thirsty Roots" },
-    "//": "Experience with the druid spell Vegetative Grasp shows that at high levels it's a horde-killer with a single cast, so this is a greatly toned-down version with less predictability.",
     "description": "Your command over plants allows you to call forth roots from the earth to clutch and grasp at your enemies.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
@@ -727,7 +853,7 @@
     "id": "arvore_traverse_the_wilds_real",
     "type": "SPELL",
     "name": "Traverse the Wilds Real",
-    "description": "This is the actual spell that teleports you when you use Walk the Wilds.  It's a bug if you have it directly",
+    "description": "This is the actual spell that teleports you when you use Traverse the Wilds.  It's a bug if you have it directly",
     "valid_targets": [ "ground", "ally", "hostile" ],
     "skill": "deduction",
     "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
@@ -737,12 +863,8 @@
     "min_aoe": 4,
     "max_aoe": 1,
     "aoe_increment": -0.25,
-    "min_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )" ]
-    }
+    "min_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] }
   },
   {
     "id": "arvore_forest_translocate",

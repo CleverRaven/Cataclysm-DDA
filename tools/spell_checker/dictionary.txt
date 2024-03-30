@@ -34,6 +34,7 @@ aetherically
 affixes
 affordability
 affordably
+afro
 afterbirth
 aftereffect
 aftereffects
@@ -351,6 +352,7 @@ bloodhunting
 bloodstreams
 bloomery
 bloop
+blowback
 blued
 bluegill
 blup
@@ -376,6 +378,7 @@ boomin
 boonie
 booo
 booorrrring
+boop
 bootable
 bootup
 boozeberry
@@ -515,6 +518,7 @@ cere
 cerium
 cervine
 cestus
+ch
 chachalaca
 chainmail
 chambering
@@ -537,6 +541,7 @@ chestpiece
 chestplate
 chestplates
 chestwrap
+chhk
 chicharrones
 chickenbot
 chickenwire
@@ -551,6 +556,8 @@ chitin
 chitinous
 chitinworking
 chk
+chkch
+chkchh
 chlorination
 cholla
 chonker
@@ -945,6 +952,8 @@ elete
 elongates
 elopements
 elsewheres
+elven
+elves
 elytra
 embrasure
 emode
@@ -1578,6 +1587,7 @@ jirts
 johnnycake
 jointer
 jointing
+jolter
 jort
 jorts
 jpg
@@ -1942,6 +1952,7 @@ modifier
 modifiers
 modularity
 modulations
+mohawk
 mohawks
 moisturized
 mokorotlo
@@ -2159,6 +2170,8 @@ orthogonally
 oryctodromeus
 oscillated
 osho
+osteoderm
+osteoderms
 osteokinesis
 oter
 otes
@@ -2176,6 +2189,7 @@ overbore
 overbuilt
 overclock
 overclocks
+overcurrent
 overdosage
 overdrinking
 overengineered
@@ -2184,6 +2198,7 @@ overgloves
 overgrowth
 overhood
 overhoods
+overload
 overmap
 overmaps
 overpenetration
@@ -2302,6 +2317,7 @@ pictograms
 pictographic
 pidgeon
 piezomechanical
+pii
 pileus
 pinita
 pinnata
@@ -2407,7 +2423,6 @@ prigs
 primeside
 privet
 prizefights
-proc
 procedurally
 procompsignathids
 proficiencies
@@ -2818,6 +2833,7 @@ sluglike
 smallmouth
 smartcard
 smartgun
+smartphone
 smg
 smithing
 smokable
@@ -3067,6 +3083,7 @@ tazed
 tazer
 tazers
 tearjerker
+tech
 techn
 technologist
 technomancer
@@ -3098,6 +3115,7 @@ themm
 therizinosaurus
 thermochemistry
 thermoplastics
+thermoreceptors
 theropod
 thescelosaurus
 thicknesses
@@ -3409,6 +3427,7 @@ warhammers
 warmouth
 warpglass
 warpstream
+warted
 wastebread
 watchband
 waterfowl
@@ -3538,11 +3557,15 @@ zentai
 zeriatric
 zincite
 zischt
+zoad
+zoads
 zolpidem
 zombaby
 zombear
 zombeaver
 zombeavers
+zombfrog
+zombfrogs
 zombiespawn
 zombiethustra
 zombification

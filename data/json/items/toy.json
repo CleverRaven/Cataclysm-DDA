@@ -244,13 +244,13 @@
       {
         "id": "toy_plush_sancta",
         "name": { "str": "sanctacaris plushie" },
-        "description": "A fluffy and colorful sanctacaris plushie, the great great grandfather of all arthropods.  It has a soft, chubby body, multiple soft legs, and eyes on stalks.  Its plush is light blue coloured, with accents of shimmering purple on its legs and details on the body.  It has big, round eyes with a cute and friendly expression.",
+        "description": "A fluffy and colorful sanctacaris plushie, the great great grandfather of all arthropods.  It has a soft, chubby body, multiple soft legs, and eyes on stalks.  Its plush is light blue colored, with accents of shimmering purple on its legs and details on the body.  It has big, round eyes with a cute and friendly expression.",
         "weight": 1
       },
       {
         "id": "toy_plush_opal",
-        "name": { "str": "opalbinia plushie" },
-        "description": "A fluffy and colorful opalbinia plushie with an unconventional and cute design, with its body ending in a single, long and soft 'claw'.  It has five eyes on stalks and its plush body is coloured on a mix of light pink and white, with plush purple stripes on its legs, and a big pair of cute, gentle-looking eyes.",
+        "name": { "str": "opabinia plushie" },
+        "description": "A fluffy and colorful opabinia plushie with a cute, unconventional design, with a lengthy hollow proboscis ending in a single, long and soft 'claw' extending out of its head that's topped with five eyes on stalks.  Its segmented body is colored a mix of light pink and white while its tail bears purple stripes.",
         "weight": 1
       },
       {
@@ -296,7 +296,7 @@
       {
         "id": "toy_plush_balde",
         "name": { "str": "bald eagle plushie" },
-        "description": "A cuddly and majestic bald eagle plushie with soft, brown and white cotton fauxfeathers, a hooked, soft beak, and a patriotic expression.  It has a pair of special eyes that glow as brightly as the stars and stripes of Old Glory, the perfect partner to fend off your enemies in the Cataclysm.",
+        "description": "A cuddly and majestic bald eagle plushie with soft, brown and white cotton faux feathers, a hooked, soft beak, and a patriotic expression.  It has a pair of special eyes that glow as brightly as the stars and stripes of Old Glory, the perfect partner to fend off your enemies in the Cataclysm.",
         "weight": 1
       },
       {
@@ -326,7 +326,7 @@
       {
         "id": "toy_plush_pfalcon",
         "name": { "str": "peregrine falcon plushie" },
-        "description": "A cuddly peregrine falcon plushie with soft, brown and white cotton fauxfeathers, a soft hooked beak, and an alert expression.  With a speedy and sleek plushie design, this toy plushie is sure to take imaginative people on make-believe high-flying chase scenes!",
+        "description": "A cuddly peregrine falcon plushie with soft, brown and white cotton faux feathers, a soft hooked beak, and an alert expression.  With a speedy and sleek plushie design, this toy plushie is sure to take imaginative people on make-believe high-flying chase scenes!",
         "weight": 1
       },
       {
@@ -356,7 +356,7 @@
       {
         "id": "toy_plush_cloon",
         "name": { "str": "common loon plushie" },
-        "description": "A cuddly common loon plushie with soft, black-and-white cotton fauxfeathers and a pleasing expression.  Its head can bob and turn to mimic the loon's distinctive courtship calls.",
+        "description": "A cuddly common loon plushie with soft, black-and-white cotton faux feathers and a pleasing expression.  Its head can bob and turn to mimic the loon's distinctive courtship calls.",
         "weight": 1
       },
       {
@@ -374,19 +374,19 @@
       {
         "id": "toy_plush_scowl",
         "name": { "str": "screech owl plushie" },
-        "description": "A cute and wise-looking eastern screech owl plushie with big, round eyes and soft, tan fauxfeathers (they are made of cotton!).  It has a feather-soft and silky texture, making it an excellent sensory object for people, specially children, to play and explore while they navigate the world around them.",
+        "description": "A cute and wise-looking eastern screech owl plushie with big, round eyes and soft, tan cotton faux feathers.  It has a soft and silky texture, making it an excellent sensory object for people, specially children, to play and explore while they navigate the world around them.",
         "weight": 1
       },
       {
         "id": "toy_plush_snowl",
         "name": { "str": "snowy owl plushie" },
-        "description": "A cuddly and wise-looking snowy owl plushie with fluffy white fauxfeathers (they are made of cotton!), orange eyes, and a cute expression.  .It features a special light-up effect, mimicking the way the snowy owl's eyes glow brightly in the dark.",
+        "description": "A cuddly and wise-looking snowy owl plushie with fluffy white cotton faux feathers, orange eyes, and a cute expression.  .It features a special light-up effect, mimicking the way the snowy owl's eyes glow brightly in the dark.",
         "weight": 1
       },
       {
         "id": "toy_plush_wturkey",
         "name": { "str": "turkey plushie" },
-        "description": "A cuddly and big wild turkey plushie with brown fauxfeathers (they are made of cotton!), a prominent, soft beak, and expressive, soulful eyes.  It has a special feature of making gobbling sounds when squeezed, almost perfectly mimicking the turkey's unique calls.",
+        "description": "A cuddly and big wild turkey plushie with brown cotton faux feathers, a prominent, soft beak, and expressive, soulful eyes.  It has a special feature of making gobbling sounds when squeezed, almost perfectly mimicking the turkey's unique calls.",
         "weight": 1
       },
       {
@@ -433,7 +433,7 @@
       },
       {
         "id": "toy_plush_grecko",
-        "name": { "str": "grecko plushie" },
+        "name": { "str": "gecko plushie" },
         "description": "A cute and colorful gecko plushie with soft, vibrant skin and big, playful eyes.  This plushie has a special cotton-based internal mechanism that makes its tail wiggle and move playfully when squeezed enough, just like a real lizard's tail.",
         "weight": 1
       },
@@ -446,25 +446,25 @@
       {
         "id": "toy_plush_chicken",
         "name": { "str": "chicken plushie" },
-        "description": "A precious soft and cuddly chicken plushie with soft, warm brown fauxeathers (they are made of cotton!) and a gentle expression.",
+        "description": "A precious soft and cuddly chicken plushie with soft, warm brown cotton faux feathers and a gentle expression.",
         "weight": 1
       },
       {
         "id": "toy_plush_goose",
         "name": { "str": "goose plushie" },
-        "description": "A goose plushie with soft, white fauxfeathers (they are made of cotton!), a cute and soft orange beak, and big, playful eyes.  This plushie produces realistic honking sounds when hugged!",
+        "description": "A goose plushie with soft, white cotton faux feathers, a cute and soft orange beak, and big, playful eyes.  This plushie produces realistic honking sounds when hugged!",
         "weight": 1
       },
       {
         "id": "toy_plush_duck",
         "name": { "str": "duck plushie" },
-        "description": "A cuddly duck plushie with soft, yellow fauxfeathers (they are made of cotton!), cute orange feet, and a lovable quack.  This plushie has special water-repellent properties to make it float in water, just like a real duck!.",
+        "description": "A cuddly duck plushie with soft, yellow cotton faux feathers, cute orange feet, and a lovable quack.  This plushie has special water-repellent properties to make it float in water, just like a real duck!",
         "weight": 1
       },
       {
         "id": "toy_plush_rooster",
         "name": { "str": "rooster plushie" },
-        "description": "A fun and colorful rooster plushie with soft, vibrant fauxfeathers made of cotton, a long rooster tail, and a bold expression.",
+        "description": "A fun and colorful rooster plushie with soft, vibrantly colored cotton faux feathers, a long rooster tail, and a bold expression.",
         "weight": 1
       },
       {
@@ -488,7 +488,7 @@
       {
         "id": "toy_plush_crow",
         "name": { "str": "crow plushie" },
-        "description": "A plushie with black fluffy fauxfeathers made of cotton, big curious eyes, and an inquisitive expression.",
+        "description": "A plushie with black fluffy cotton faux feathers, big curious eyes, and an inquisitive expression.",
         "weight": 1
       },
       {

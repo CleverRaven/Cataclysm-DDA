@@ -265,14 +265,14 @@ void monmove()
             critter.try_biosignature();
             critter.try_reproduce();
         }
-        while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
+        while( critter.get_moves() > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
                 critter.plan();
             } else {
-                critter.moves = 0;
+                critter.set_moves( 0 );
                 break;
             }
             critter.move(); // Move one square, possibly hit u
@@ -306,7 +306,7 @@ void monmove()
     for( npc &guy : g->all_npcs() ) {
         int turns = 0;
         int real_count = 0;
-        const int count_limit = std::max( 10, guy.moves / 64 );
+        const int count_limit = std::max( 10, guy.get_moves() / 64 );
         if( guy.is_mounted() ) {
             guy.check_mount_is_spooked();
         }
@@ -315,11 +315,11 @@ void monmove()
             guy.process_turn();
         }
         while( !guy.is_dead() && ( !guy.in_sleep_state() || guy.activity.id() == ACT_OPERATION ) &&
-               guy.moves > 0 && turns < 10 ) {
-            const int moves = guy.moves;
+               guy.get_moves() > 0 && turns < 10 ) {
+            const int moves = guy.get_moves();
             const bool has_destination = guy.has_destination_activity();
             guy.move();
-            if( moves == guy.moves ) {
+            if( moves == guy.get_moves() ) {
                 // Count every time we exit npc::move() without spending any moves.
                 real_count++;
                 if( has_destination == guy.has_destination_activity() || real_count > count_limit ) {
@@ -490,7 +490,7 @@ bool do_turn()
     g->reset_light_level();
 
     g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
-    while( u.moves > 0 && u.activity ) {
+    while( u.get_moves() > 0 && u.activity ) {
         u.activity.do_turn( u );
     }
     // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
@@ -515,8 +515,8 @@ bool do_turn()
     }
 
     if( !u.has_effect( effect_sleep ) || g->uquit == QUIT_WATCH ) {
-        if( u.moves > 0 || g->uquit == QUIT_WATCH ) {
-            while( u.moves > 0 || g->uquit == QUIT_WATCH ) {
+        if( u.get_moves() > 0 || g->uquit == QUIT_WATCH ) {
+            while( u.get_moves() > 0 || g->uquit == QUIT_WATCH ) {
                 g->cleanup_dead();
                 g->mon_info_update();
                 // Process any new sounds the player caused during their turn.
@@ -550,7 +550,7 @@ bool do_turn()
                 if( g->uquit == QUIT_WATCH ) {
                     break;
                 }
-                while( u.moves > 0 && u.activity ) {
+                while( u.get_moves() > 0 && u.activity ) {
                     u.activity.do_turn( u );
                 }
             }
@@ -636,7 +636,7 @@ bool do_turn()
     }
     g->mon_info_update();
     u.process_turn();
-    if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
+    if( u.get_moves() < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
         ui_manager::redraw();
         refresh_display();
     }

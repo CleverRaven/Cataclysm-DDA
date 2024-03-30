@@ -270,7 +270,7 @@
         "entries": [
           { "item": "pants_army" },
           { "item": "gloves_tactical" },
-          { "item": "army_top" },
+          { "item": "tank_top", "variant": "tank_top_camo" },
           { "item": "boots_combat" },
           { "item": "socks" },
           { "item": "water_clean", "container-item": "canteen" },

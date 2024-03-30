@@ -342,36 +342,14 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
 static std::list<item> sane_consume_items( const comp_selection<item_comp> &it, Character *crafter,
         int batch, const std::function<bool( const item & )> &filter )
 {
-    std::function<bool( const item & )> preferred_component_filter = [&filter]( const item & it ) {
-        return is_preferred_component( it ) && filter( it );
-    };
     map &m = get_map();
     const std::vector<pocket_data> it_pkt = it.comp.type->pockets;
     if( ( item::count_by_charges( it.comp.type ) && it.comp.count > 0 ) ||
     !std::any_of( it_pkt.begin(), it_pkt.end(), []( const pocket_data & p ) {
     return p.type == pocket_type::CONTAINER && p.watertight;
 } ) ) {
-        std::list<item> empty_consumed = crafter->consume_items( it, batch, preferred_component_filter );
-        int left_to_consume = 0;
-
-        if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-            int consumed = 0;
-            for( item &itm : empty_consumed ) {
-                consumed += itm.charges;
-            }
-            left_to_consume = it.comp.count * batch - consumed;
-        } else if( empty_consumed.size() < static_cast<size_t>( it.comp.count ) * batch ) {
-            left_to_consume = it.comp.count * batch - empty_consumed.size();
-        }
-
-        if( left_to_consume > 0 ) {
-            comp_selection<item_comp> remainder = it;
-            remainder.comp.count = 1;
-            std::list<item>used_consumed = crafter->consume_items( remainder,
-                                           left_to_consume, filter );
-            empty_consumed.splice( empty_consumed.end(), used_consumed );
-        }
-        return empty_consumed;
+        std::list<item> consumed = crafter->consume_items( it, batch, filter );
+        return consumed;
     }
 
     // Everything below only occurs for item components that are liquid containers

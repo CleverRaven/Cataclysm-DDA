@@ -14,8 +14,9 @@
     "range_increment": 0.75,
     "effect": "attack",
     "shape": "blast",
-    "base_casting_time": 300,
-    "base_energy_cost": 800,
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(300)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
@@ -29,8 +30,9 @@
     "valid_targets": [ "self" ],
     "effect": "pain_split",
     "shape": "blast",
-    "base_casting_time": 100,
-    "base_energy_cost": 800,
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(100)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "energy_source": "MANA",
     "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
@@ -48,11 +50,12 @@
     "effect": "spawn_item",
     "effect_str": "tentacle_whip",
     "shape": "blast",
-    "base_casting_time": 250,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(250)" ] },
     "base_energy_cost": 550,
-    "min_duration": 24000,
-    "max_duration": 360000,
-    "duration_increment": 24000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "difficulty": 6,
     "max_level": 15,
     "flags": [ "SOMATIC", "LOUD" ],
@@ -71,15 +74,16 @@
     "effect": "spawn_item",
     "effect_str": "tentacle_whip",
     "shape": "blast",
-    "base_casting_time": 250,
-    "final_casting_time": 100,
-    "casting_time_increment": -6,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(250)" ] },
+    "final_casting_time": { "math": [ "summoning_proficiency_negate_calculate(100)" ] },
+    "casting_time_increment": { "math": [ "summoning_proficiency_negate_calculate(-6)" ] },
     "base_energy_cost": 550,
     "final_energy_cost": 200,
     "energy_increment": -14,
-    "min_duration": 360000,
-    "max_duration": 2160000,
-    "duration_increment": 72000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "difficulty": 7,
     "max_level": 25,
     "flags": [ "LOUD", "NO_FAIL" ],
@@ -95,9 +99,10 @@
     "effect": "attack",
     "effect_str": "bio_boost",
     "shape": "blast",
-    "base_casting_time": 100,
-    "casting_time_increment": -2.5,
-    "final_casting_time": 50,
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-2.5)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(50)" ] },
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "base_energy_cost": 250,
     "energy_increment": -5.0,
     "final_energy_cost": 150,
@@ -107,9 +112,9 @@
     "max_level": 20,
     "flags": [ "SOMATIC", "LOUD" ],
     "//": "duration is in moves",
-    "min_duration": 6000,
-    "max_duration": 60000,
-    "duration_increment": 2700
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2700)" ] }
   },
   {
     "id": "bio_acidicspray",
@@ -126,9 +131,10 @@
     "spell_class": "BIOMANCER",
     "difficulty": 2,
     "max_level": 20,
-    "min_damage": 8,
-    "max_damage": 65,
-    "damage_increment": 4.0,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(8)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(65)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(4.0)" ] },
+    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "damage_type": "acid",
     "min_range": 3,
     "max_range": 5,
@@ -149,11 +155,12 @@
     "effect": "spawn_item",
     "effect_str": "fleshpouch",
     "shape": "blast",
-    "base_casting_time": 250,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(250)" ] },
     "base_energy_cost": 300,
-    "min_duration": 360000,
-    "max_duration": 9000000,
-    "duration_increment": 360000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(9000000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "difficulty": 4,
     "max_level": 20,
     "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
@@ -171,11 +178,12 @@
     "effect": "spawn_item",
     "effect_str": "bonespear",
     "shape": "blast",
-    "base_casting_time": 300,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
     "base_energy_cost": 350,
-    "min_duration": 24000,
-    "max_duration": 360000,
-    "duration_increment": 24000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "difficulty": 8,
     "max_level": 15,
     "flags": [ "LOUD", "SOMATIC" ],
@@ -194,15 +202,16 @@
     "effect": "spawn_item",
     "effect_str": "bonespear",
     "shape": "blast",
-    "base_casting_time": 300,
-    "final_casting_time": 100,
-    "casting_time_increment": -8,
+    "base_casting_time": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
+    "final_casting_time": { "math": [ "summoning_proficiency_negate_calculate(100)" ] },
+    "casting_time_increment": { "math": [ "summoning_proficiency_negate_calculate(-8)" ] },
     "base_energy_cost": 350,
     "final_energy_cost": 100,
     "energy_increment": -0.2,
-    "min_duration": 360000,
-    "max_duration": 2160000,
-    "duration_increment": 72000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(21600000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "difficulty": 9,
     "max_level": 25,
     "flags": [ "LOUD", "NO_FAIL" ],
@@ -220,7 +229,8 @@
     "effect": "spawn_item",
     "effect_str": "rune_biomancer",
     "shape": "blast",
-    "base_casting_time": 5000,
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000)" ] },
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,
@@ -247,16 +257,17 @@
     "base_casting_time": 100,
     "base_energy_cost": 80,
     "max_level": 15,
-    "min_damage": 4,
-    "max_damage": 28,
-    "damage_increment": 1.6,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(4)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(28)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(1.6)" ] },
+    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "damage_type": "poison",
     "min_range": 3,
     "max_range": 9,
     "range_increment": 0.4,
-    "min_duration": 1200,
-    "max_duration": 12000,
-    "duration_increment": 720
+    "min_duration": { "math": [ "evocation_proficiency_bonus_calculate(1200)" ] },
+    "max_duration": { "math": [ "evocation_proficiency_bonus_calculate(12000)" ] },
+    "duration_increment": { "math": [ "evocation_proficiency_bonus_calculate(720)" ] }
   },
   {
     "id": "biomancer_visceral_projection",
@@ -267,7 +278,11 @@
     "effect": "attack",
     "effect_str": "badpoison",
     "shape": "blast",
-    "extra_effects": [ { "id": "biomancer_visceral_paralyze" }, { "id": "biomancer_visceral_backlash", "hit_self": true } ],
+    "extra_effects": [
+      { "id": "biomancer_visceral_paralyze" },
+      { "id": "biomancer_visceral_backlash", "hit_self": true },
+      { "id": "eoc_evocation_setup" }
+    ],
     "flags": [ "VERBAL", "NO_HANDS" ],
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
@@ -275,9 +290,9 @@
     "base_casting_time": 200,
     "base_energy_cost": 150,
     "max_level": 20,
-    "min_damage": 1,
-    "max_damage": 10,
-    "damage_increment": 0.45,
+    "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(1)" ] },
+    "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(10)" ] },
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(0.45)" ] },
     "damage_type": "poison",
     "min_aoe": 2,
     "max_aoe": 6,
@@ -302,9 +317,10 @@
     "min_aoe": 2,
     "max_aoe": 6,
     "aoe_increment": 0.2,
-    "min_duration": 6000,
-    "max_duration": 18000,
-    "duration_increment": 450,
+    "min_duration": { "math": [ "evocation_proficiency_bonus_calculate(6000)" ] },
+    "max_duration": { "math": [ "evocation_proficiency_bonus_calculate(18000)" ] },
+    "duration_increment": { "math": [ "evocation_proficiency_bonus_calculate(450)" ] },
+    "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "field_id": "fd_gibs_flesh",
     "field_chance": 1,
     "min_field_intensity": 1,
@@ -337,12 +353,13 @@
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "base_casting_time": 200,
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(200)" ] },
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "base_energy_cost": 100,
     "max_level": 20,
-    "min_duration": 6000,
-    "max_duration": 90000,
-    "duration_increment": 4200
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(4200)" ] }
   },
   {
     "id": "corrosive_aura_spell",
@@ -382,13 +399,14 @@
     "min_damage": 1,
     "max_damage": 1,
     "base_casting_time": 400,
-    "base_energy_cost": 350,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(350)" ] },
     "max_level": 15,
     "min_range": 1,
     "max_range": 1,
-    "min_duration": 24000,
-    "max_duration": 360000,
-    "duration_increment": 24000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "learn_spells": { "biomancer_caustic_aura_plus": 15 }
   },
   {
@@ -410,15 +428,16 @@
     "base_casting_time": 400,
     "final_casting_time": 150,
     "casting_time_increment": -10,
-    "base_energy_cost": 350,
-    "final_energy_cost": 150,
-    "energy_increment": -8,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(350)" ] },
+    "final_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(150)" ] },
+    "energy_increment": { "math": [ "summoning_proficiency_negate_calculate(-8)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "max_level": 25,
     "min_range": 1,
     "max_range": 1,
-    "min_duration": 360000,
-    "max_duration": 2160000,
-    "duration_increment": 72000
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(2160000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(72000)" ] }
   },
   {
     "id": "biomancer_swim_frog",
@@ -433,12 +452,13 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 10,
-    "min_duration": 120000,
-    "max_duration": 360000,
-    "duration_increment": 24000,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(120000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(360000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(24000)" ] },
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "energy_source": "MANA",
-    "base_energy_cost": 300,
-    "base_casting_time": 1000
+    "base_energy_cost": 200,
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1000)" ] }
   },
   {
     "id": "biomancer_giant_growth",
@@ -453,12 +473,13 @@
     "shape": "blast",
     "difficulty": 6,
     "max_level": 15,
-    "min_duration": 30000,
-    "max_duration": 90000,
-    "duration_increment": 4000,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(30000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(4000)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": 550,
-    "base_casting_time": 100
+    "base_energy_cost": 500,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(100)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -500,11 +521,12 @@
     "max_level": 15,
     "energy_source": "MANA",
     "min_range": 1,
-    "base_energy_cost": 1500,
-    "base_casting_time": 180000,
-    "min_duration": 4500000,
-    "max_duration": 45000000,
-    "duration_increment": 2700000
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1500)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_bonus_calculate(180000)" ] },
+    "min_duration": { "math": [ "channeling_proficiency_bonus_calculate(4500000)" ] },
+    "max_duration": { "math": [ "channeling_proficiency_bonus_calculate(45000000)" ] },
+    "extra_effects": [ { "id": "eoc_channeling_setup" } ],
+    "duration_increment": { "math": [ "channeling_proficiency_bonus_calculate(2700000)" ] }
   },
   {
     "id": "biomancer_carrion_feast",
@@ -520,11 +542,12 @@
     "difficulty": 3,
     "energy_source": "MANA",
     "max_level": 10,
-    "min_duration": 6000,
-    "max_duration": 36000,
-    "duration_increment": 2800,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(6000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(36000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(2800)" ] },
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
     "base_energy_cost": 250,
-    "base_casting_time": 1500
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] }
   },
   {
     "id": "biomancer_lashing_tentacles",
@@ -539,11 +562,12 @@
     "shape": "blast",
     "difficulty": 6,
     "max_level": 15,
-    "min_duration": 7000,
-    "max_duration": 30000,
-    "duration_increment": 1533,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(7000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(30000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(1533)" ] },
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "energy_source": "MANA",
-    "base_energy_cost": 400,
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
     "base_casting_time": 500
   },
   {
@@ -581,15 +605,16 @@
     "shape": "blast",
     "difficulty": 4,
     "max_level": 10,
-    "min_duration": 60480000,
-    "max_duration": 60480000,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60480000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(60480000)" ] },
     "min_range": 1,
     "max_range": 1,
     "energy_source": "MANA",
-    "base_energy_cost": 350,
-    "base_casting_time": 90000,
-    "final_casting_time": 30000,
-    "casting_time_increment": -6000
+    "base_energy_cost": 500,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(90000)" ] },
+    "final_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(30000)" ] },
+    "casting_time_increment": { "math": [ "enhancement_proficiency_negate_calculate(-6000)" ] }
   },
   {
     "id": "biomancer_hyper_regeneration",
@@ -604,11 +629,12 @@
     "shape": "blast",
     "difficulty": 10,
     "max_level": 20,
-    "min_duration": 3000,
-    "max_duration": 13000,
-    "duration_increment": 500,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(3000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(13000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(500)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": 750,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "base_energy_cost": { "math": [ "enhancement_proficiency_negate_calculate(900)" ] },
     "base_casting_time": 150
   },
   {
@@ -624,12 +650,13 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_BIOMANCER_SLOW_BLEEDING",
     "shape": "blast",
-    "min_duration": 90000,
-    "max_duration": 360000,
-    "duration_increment": 18000,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(90000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(630000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(36000)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": 450,
-    "base_casting_time": 350
+    "base_energy_cost": 250,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(350)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -641,21 +668,21 @@
           "case": 0,
           "effect": {
             "u_add_effect": "effect_biomancer_slow_bleeding_01",
-            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 )" ] }
           }
         },
         {
           "case": 8,
           "effect": {
             "u_add_effect": "effect_biomancer_slow_bleeding_02",
-            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 )" ] }
           }
         },
         {
           "case": 15,
           "effect": {
             "u_add_effect": "effect_biomancer_slow_bleeding_03",
-            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 180 ) + 900 )" ] }
+            "duration": { "math": [ "(( u_spell_level('biomancer_slow_bleeding') * 360 ) + 900 )" ] }
           }
         }
       ]
@@ -674,11 +701,12 @@
     "effect": "spawn_item",
     "effect_str": "item_biomancer_scalpel_fingers",
     "shape": "blast",
-    "min_duration": 24000,
-    "max_duration": 360000,
-    "duration_increment": 24000,
+    "min_duration": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
+    "max_duration": { "math": [ "summoning_proficiency_bonus_calculate(360000)" ] },
+    "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(24000)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": 450,
+    "extra_effects": [ { "id": "eoc_summon_setup" } ],
+    "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(300)" ] },
     "base_casting_time": 500
   },
   {
@@ -694,12 +722,13 @@
     "shape": "blast",
     "difficulty": 7,
     "max_level": 20,
-    "min_duration": 180000,
-    "max_duration": 1380000,
-    "duration_increment": 60000,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(180000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1380000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(60000)" ] },
     "energy_source": "MANA",
-    "base_energy_cost": 750,
-    "base_casting_time": 600
+    "base_energy_cost": 450,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(600)" ] }
   },
   {
     "type": "effect_on_condition",
@@ -723,6 +752,103 @@
       { "u_message": "The faint burning sensation fades.", "type": "bad" },
       { "u_lose_trait": "ACIDBLOOD" },
       { "u_lose_trait": "ACIDPROOF" }
+    ]
+  },
+  {
+    "id": "biomancer_eat_tons_of_food",
+    "type": "SPELL",
+    "name": "Gluttonous Consumption",
+    "description": "Magically expand your stomach size, allowing it to consume more food without taking up any more room in your body.  Once a rarely-learned spell, it's much more useful now that you're not always sure where your next meal is coming from.",
+    "valid_targets": [ "self" ],
+    "spell_class": "BIOMANCER",
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION",
+    "shape": "blast",
+    "difficulty": 3,
+    "max_level": 16,
+    "min_duration": { "math": [ "enhancement_proficiency_bonus_calculate(72000)" ] },
+    "max_duration": { "math": [ "enhancement_proficiency_bonus_calculate(1224000)" ] },
+    "duration_increment": { "math": [ "enhancement_proficiency_bonus_calculate(72000)" ] },
+    "energy_source": "MANA",
+    "base_energy_cost": 200,
+    "extra_effects": [ { "id": "eoc_enhancement_setup" } ],
+    "base_casting_time": { "math": [ "enhancement_proficiency_negate_calculate(1500)" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION",
+    "effect": [
+      {
+        "u_add_effect": "effect_biomancer_eat_tons_of_food",
+        "duration": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+      },
+      {
+        "switch": { "math": [ "u_spell_level('biomancer_eat_tons_of_food')" ] },
+        "cases": [
+          {
+            "case": 0,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 4,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 8,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 12,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          },
+          {
+            "case": 16,
+            "effect": [
+              { "u_add_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" },
+              {
+                "queue_eocs": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+                "time_in_future": { "math": [ "(( u_spell_level('biomancer_eat_tons_of_food') * 720 ) + 720 )" ] }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BIO_EAT_TONS_OF_FOOD_MUTATION_REMOVER",
+    "effect": [
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_01" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_02" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_03" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_04" },
+      { "u_lose_trait": "BIOMANCER_EAT_TONS_OF_FOOD_05" }
     ]
   }
 ]

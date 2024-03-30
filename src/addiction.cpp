@@ -292,7 +292,7 @@ static bool amphetamine_effect( Character &u, addiction &add )
             u.in_sleep_state() ? "addict_amphetamine_paralysis_asleep" : "addict_amphetamine_paralysis_awake";
         u.add_msg_if_player( m_warning,
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
-        u.moves -= ( u.in_sleep_state() ? 6000 : 300 );
+        u.mod_moves( -( u.in_sleep_state() ? 6000 : 300 ) );
         u.wake_up();
         ret = true;
     } else if( !u.has_effect( effect_hallu ) && one_in( 20 ) && 8 + dice( 2, 80 ) < in ) {

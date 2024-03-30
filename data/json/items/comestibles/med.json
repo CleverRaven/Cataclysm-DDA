@@ -1383,7 +1383,7 @@
     "comestible_type": "MED",
     "name": { "str_sp": "antihistamine pill" },
     "description": "Over-the-counter allergy medication.  These are meant to be taken once a day and can cause drowsiness.",
-    "//": "Diphenhydramine HCl. Many flu meds including nyquil contain this drug, so the overlap with cough syrup is intentional.",
+    "//": "Flu meds contain antihistamines among other things, so it's intended that there's some overlap between this and cough syrup.",
     "material": [ "drug_filler" ],
     "weight": "1 g",
     "volume": "1 ml",

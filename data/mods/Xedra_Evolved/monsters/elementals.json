@@ -21,7 +21,15 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ],
-    "armor": { "bash": 5, "cut": 5, "heat": 8, "bullet": 3 },
+    "armor": {
+      "bash": 5,
+      "cut": 5,
+      "heat": 8,
+      "bullet": 3,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "vision_night": 3,
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
@@ -52,7 +60,14 @@
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 3 } ],
-    "armor": { "bash": 2, "cut": 5, "cold": 12 },
+    "armor": {
+      "bash": 2,
+      "cut": 5,
+      "cold": 12,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "harvest": "fae_furred",
@@ -98,7 +113,10 @@
       "heat": 500,
       "biological": 500,
       "electric": 500,
-      "cold": 500
+      "cold": 500,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
     },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "dissect": "dissect_ierde_small",
@@ -140,7 +158,14 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "armor": { "bash": 3, "cut": 2, "acid": 8 },
+    "armor": {
+      "bash": 3,
+      "cut": 2,
+      "acid": 8,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "dodge": 3,
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
@@ -183,7 +208,15 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
-    "armor": { "bash": 4, "cut": 4, "acid": 8, "bullet": 3 },
+    "armor": {
+      "bash": 4,
+      "cut": 4,
+      "acid": 8,
+      "bullet": 3,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "vision_day": 14,
     "vision_night": 4,
     "weakpoint_sets": [ "wps_alien_biology" ],
@@ -283,7 +316,17 @@
       }
     ],
     "//": "The idea here is that the shabriri doesn't really have a body, so they're basically immune to physical damage, but heat, cold, or electricity will harm them.",
-    "armor": { "bash": 50, "cut": 120, "acid": 150, "stab": 500, "bullet": 500, "biological": 500 },
+    "armor": {
+      "bash": 50,
+      "cut": 120,
+      "acid": 150,
+      "stab": 500,
+      "bullet": 500,
+      "biological": 500,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "flags": [ "SEES", "HEARS", "FAE_CREATURE", "SWIMS", "PLASTIC", "NO_BREATHE", "CAMOUFLAGE", "WATER_CAMOUFLAGE" ]
   },
   {
@@ -307,7 +350,15 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
-    "armor": { "bash": 5, "cut": 5, "cold": 8, "bullet": 3 },
+    "armor": {
+      "bash": 5,
+      "cut": 5,
+      "cold": 8,
+      "bullet": 3,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "dodge": 5,
     "harvest": "rat_with_skull_arvore",
     "weakpoint_sets": [ "wps_alien_biology" ],
@@ -339,7 +390,15 @@
     "melee_dice_sides": 6,
     "grab_strength": 50,
     "special_attacks": [ { "id": "grab", "cooldown": 7 }, { "id": "grab_2", "cooldown": 12 } ],
-    "armor": { "bash": 5, "cut": 5, "cold": 8, "bullet": 3 },
+    "armor": {
+      "bash": 5,
+      "cut": 5,
+      "cold": 8,
+      "bullet": 3,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "dodge": 5,
     "bleed_rate": 10,
     "harvest": "triffid_small",
@@ -358,7 +417,7 @@
     "material": [ "fae_flesh", "veggy" ],
     "proportional": { "hp": 1.8, "morale": 2 },
     "melee_skill": 7,
-    "armor": { "bash": 10, "cut": 8 },
+    "armor": { "bash": 10, "cut": 8, "xe_cold_iron_cut_damage": 0, "xe_cold_iron_bash_damage": 0, "xe_cold_iron_stab_damage": 0 },
     "aggression": -10,
     "aggro_character": false,
     "harvest": "harvest_thornbear",
@@ -401,7 +460,15 @@
     "dodge": 3,
     "regenerates": 3,
     "regen_morale": true,
-    "armor": { "bash": 8, "cut": 12, "bullet": 10, "electric": 5 },
+    "armor": {
+      "bash": 8,
+      "cut": 12,
+      "bullet": 10,
+      "electric": 5,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "weakpoint_sets": [ "wps_humanoid_body" ],
     "families": [ "prof_alien_biology", "prof_wp_hulk" ],
     "vision_day": 40,
@@ -460,7 +527,14 @@
     "melee_dice": 1,
     "melee_dice_sides": 1,
     "melee_damage": [ { "damage_type": "heat", "amount": 1 } ],
-    "armor": { "bash": 3, "cut": 2, "heat": 8 },
+    "armor": {
+      "bash": 3,
+      "cut": 2,
+      "heat": 8,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "dodge": 3,
     "weakpoint_sets": [ "wps_alien_biology" ],
     "families": [ "prof_alien_biology" ],
@@ -501,7 +575,15 @@
     "melee_dice": 1,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "heat", "amount": 5 } ],
-    "armor": { "bash": 4, "cut": 4, "heat": 8, "bullet": 3 },
+    "armor": {
+      "bash": 4,
+      "cut": 4,
+      "heat": 8,
+      "bullet": 3,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "vision_day": 14,
     "vision_night": 4,
     "weakpoint_sets": [ "wps_alien_biology" ],
@@ -511,6 +593,50 @@
     "harvest": "fae_furred",
     "dissect": "dissect_salamander_single",
     "emit_fields": [ { "emit_id": "emit_smoke_plume", "delay": "1 s" } ]
+  },
+  {
+    "id": "mon_salamander_firebird",
+    "type": "MONSTER",
+    "name": { "str": "firebird" },
+    "description": "A bird flitting through the air, glowing brightly.  Its outline is obscured by the flames that ripple along its wings and body.",
+    "default_faction": "salamander",
+    "bodytype": "bird",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "BIRD" ],
+    "volume": "4 L",
+    "weight": "3500 g",
+    "hp": 12,
+    "speed": 160,
+    "material": [ "fae_flesh" ],
+    "symbol": "v",
+    "color": "red",
+    "aggression": 100,
+    "morale": 90,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_damage": [ { "damage_type": "heat", "amount": 3 } ],
+    "dodge": 6,
+    "luminance": 100,
+    "weakpoint_sets": [ "wps_alien_biology" ],
+    "families": [ "prof_alien_biology" ],
+    "harvest": "fae_flying",
+    "dissect": "dissect_salamander_single",
+    "special_attacks": [
+      {
+        "id": "mon_salamander_firebird_death_explosion",
+        "type": "spell",
+        "spell_data": { "id": "mon_firebird_explosion", "min_level": 0 },
+        "cooldown": 1,
+        "monster_message": "The firebird lets out a cry and explodes in a burst of flames!"
+      }
+    ],
+    "death_function": {
+      "effect": { "id": "mon_firebird_explosion", "hit_self": true },
+      "message": "The %s bursts into flames!",
+      "corpse_type": "NO_CORPSE"
+    },
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "WARM", "FIREY", "SWARMS" ]
   },
   {
     "id": "mon_elemental_saraph",
@@ -570,7 +696,15 @@
       "ANIMAL",
       "FLIES"
     ],
-    "armor": { "bash": 2, "cut": 4, "bullet": 3, "electric": 1 }
+    "armor": {
+      "bash": 2,
+      "cut": 4,
+      "bullet": 3,
+      "electric": 1,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_venus_doll",
@@ -641,7 +775,7 @@
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "CAN_OPEN_DOORS", "WARM", "BASHES" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "FAE_CREATURE", "CAN_OPEN_DOORS", "WARM" ],
     "armor": { "bash": 5, "cut": 5, "bullet": 4, "electric": 1 }
   },
   {
@@ -726,7 +860,14 @@
     "harvest": "fae_flying",
     "dissect": "dissect_sylph_single",
     "flags": [ "SEES", "HEARS", "NOHEAD", "FAE_CREATURE", "HARDTOSHOOT", "FLIES", "NO_BREATHE", "NOGIB", "HIT_AND_RUN", "SWARMS" ],
-    "armor": { "bash": 0, "cut": 0, "bullet": 0 }
+    "armor": {
+      "bash": 0,
+      "cut": 0,
+      "bullet": 0,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    }
   },
   {
     "id": "mon_sheyd",
@@ -750,7 +891,14 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "pure", "amount": 1 } ],
     "dodge": 5,
-    "armor": { "cut": 10, "stab": 10, "bullet": 10 },
+    "armor": {
+      "cut": 10,
+      "stab": 10,
+      "bullet": 10,
+      "xe_cold_iron_cut_damage": 0,
+      "xe_cold_iron_bash_damage": 0,
+      "xe_cold_iron_stab_damage": 0
+    },
     "vision_day": 45,
     "vision_night": 6,
     "special_attacks": [

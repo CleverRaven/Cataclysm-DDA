@@ -24,10 +24,11 @@
 #include "weighted_list.h"
 
 class map;
-template <typename Id> class mapgen_value;
 class mapgendata;
-class mission;
 struct mapgen_arguments;
+template <typename Id> class mapgen_value;
+class mission;
+class tinymap;
 
 using building_gen_pointer = void ( * )( mapgendata & );
 
@@ -317,7 +318,7 @@ class mapgen_palette
         void load_place_mapings( const JsonObject &jo, const std::string &member_name,
                                  placing_map &format_placings, const std::string &context );
 
-        void check();
+        void check() const;
 
         const mapgen_parameters &get_parameters() const {
             return parameters;
@@ -637,13 +638,16 @@ enum room_type {
 bool connects_to( const oter_id &there, int dir );
 // wrappers for map:: functions
 void line( map *m, const ter_id &type, const point &p1, const point &p2 );
+void line( tinymap *m, const ter_id &type, const point &p1, const point &p2 );
 void line_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
+void line_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
 void fill_background( map *m, const ter_id &type );
 void fill_background( map *m, ter_id( *f )() );
 void square( map *m, const ter_id &type, const point &p1, const point &p2 );
 void square( map *m, ter_id( *f )(), const point &p1, const point &p2 );
 void square( map *m, const weighted_int_list<ter_id> &f, const point &p1, const point &p2 );
 void square_furn( map *m, const furn_id &type, const point &p1, const point &p2 );
+void square_furn( tinymap *m, const furn_id &type, const point &p1, const point &p2 );
 void rough_circle( map *m, const ter_id &type, const point &, int rad );
 void rough_circle_furn( map *m, const furn_id &type, const point &, int rad );
 void circle( map *m, const ter_id &type, double x, double y, double rad );

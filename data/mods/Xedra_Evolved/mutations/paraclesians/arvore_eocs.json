@@ -50,14 +50,26 @@
     "effect": [
       {
         "u_add_effect": "natures_commune",
-        "duration": { "math": [ "( 300 + (u_spell_level('arvore_commune_with_nature') * 165)) " ] }
+        "duration": {
+          "math": [
+            "( 600 + (u_spell_level('arvore_commune_with_nature') * 240)) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1) "
+          ]
+        }
       },
       {
         "u_add_morale": "morale_forest_unity",
         "bonus": 10,
         "max_bonus": 15,
-        "duration": { "math": [ "( 300 + (u_spell_level('arvore_commune_with_nature') * 165) )" ] },
-        "decay_start": { "math": [ "(( 300 + (u_spell_level('arvore_commune_with_nature') * 165) ) / 2)" ] }
+        "duration": {
+          "math": [
+            "( 600 + (u_spell_level('arvore_commune_with_nature') * 240) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+          ]
+        },
+        "decay_start": {
+          "math": [
+            "(( 600 + (u_spell_level('arvore_commune_with_nature') * 240) ) * scaling_factor(u_val('perception') ) *  paraclesian_post_threshold_doubler(1)) / 2"
+          ]
+        }
       }
     ],
     "false_effect": [ { "u_message": "You must be surrounded by nature to commune with nature.", "type": "bad" } ]
@@ -74,7 +86,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_1",
               "duration": {
-                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 30) + 300) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -85,7 +97,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_2",
               "duration": {
-                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 30) + 300) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -96,7 +108,7 @@
             {
               "u_add_effect": "effect_paraclesian_dodge_bonus_3",
               "duration": {
-                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 3000) + 30000) * (scaling_factor(u_val('perception') ) )" ]
+                "math": [ "( (u_spell_level('paraclesian_spell_dodge_bonus') * 30) + 300) * (scaling_factor(u_val('perception') ) )" ]
               }
             }
           ]
@@ -123,6 +135,29 @@
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_POISON_POLLEN_OFF",
     "effect": [ { "u_lose_effect": "effect_arvore_poison_pollen" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_JAGGED_CLAWS_ON",
+    "condition": { "not": { "u_has_trait": "ARVORE_WOOD_CLAWS_active" } },
+    "effect": [
+      { "u_add_trait": "ARVORE_WOOD_CLAWS_active" },
+      { "u_message": "Your fingers itch as jagged wood rapidly covers them.", "type": "good" }
+    ],
+    "false_effect": [
+      { "u_lose_trait": "ARVORE_WOOD_CLAWS_active" },
+      { "u_message": "The jagged wood covering your hands recedes, leaving no trace behind.", "type": "neutral" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_THORNSKIN_ON",
+    "condition": { "not": { "u_has_trait": "ARVORE_THORN_SKIN_ON" } },
+    "effect": [ { "u_add_trait": "ARVORE_THORN_SKIN_ON" }, { "u_message": "Woody thorns push through your skin.", "type": "good" } ],
+    "false_effect": [
+      { "u_lose_trait": "ARVORE_THORN_SKIN_ON" },
+      { "u_message": "Your thorns retract, leaving smooth unbroken skin behind.", "type": "neutral" }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -228,8 +263,8 @@
         "variables": {
           "prep_time": "1",
           "spell_to_cast": "arvore_vine_drag_spell",
-          "message_success": "Vines lash out and drag your target in!",
-          "message_fail": "You are too parched to lash out with any vines."
+          "message_success": { "i18n": true, "str": "Vines lash out and drag your target in!" },
+          "message_fail": { "i18n": true, "str": "You are too parched to lash out with any vines." }
         }
       }
     ]

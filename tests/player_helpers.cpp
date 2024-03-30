@@ -221,8 +221,8 @@ void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 void process_activity( Character &dummy )
 {
     do {
-        dummy.moves += dummy.get_speed();
-        while( dummy.moves > 0 && dummy.activity ) {
+        dummy.mod_moves( dummy.get_speed() );
+        while( dummy.get_moves() > 0 && dummy.activity ) {
             dummy.activity.do_turn( dummy );
         }
     } while( dummy.activity );

@@ -203,6 +203,14 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
             selector_menu.query();
         }
 
+        if( selected_pocket->get_pocket_data()->_no_unload ) {
+            popup( std::string( _( "Can't unload that." ) ), PF_GET_KEY );
+            // These make sure we exit back to the top level of the menu regardless of how the function was called.
+            selector_menu.ret = -1;
+            item_to_move = { nullptr, nullptr };
+            refresh_columns( menu );
+        }
+
         if( selector_menu.ret >= 0 ) {
             item_to_move = { item_list[selector_menu.ret], selected_pocket };
         }
@@ -234,12 +242,20 @@ void pocket_favorite_callback::move_item( uilist *menu, item_pocket *selected_po
     } else {
         // If no pockets are enabled, uilist allows scrolling through them, so we need to recheck
         ret_val<item_pocket::contain_code> contain = selected_pocket->can_contain( *item_to_move.first );
-        if( contain.success() ) {
+
+        bool cant_reload = false;
+        std::string reload_fail;
+        if( selected_pocket->get_pocket_data()->_no_reload ) {
+            cant_reload = true;
+            reload_fail = _( "destination container can't be reloaded." );
+        }
+
+        if( contain.success() && !cant_reload ) {
             // storage should mimick character inserting
             get_avatar().as_character()->store( selected_pocket, *item_to_move.first );
         } else {
             const std::string base_string = _( "Cannot put item in pocket because %s" );
-            popup( string_format( base_string, contain.str() ) );
+            popup( string_format( base_string, cant_reload ? reload_fail : contain.str() ) );
         }
         // reset the moved item
         item_to_move = { nullptr, nullptr };
@@ -391,14 +407,14 @@ bool pocket_favorite_callback::key( const input_context &ctxt, const input_event
             } else if( !lhs_in_list && rhs_in_list ) {
                 return false;
             }
-            return localized_compare( lhs.name(), rhs.name() );
+            return localized_compare( lhs.name_header(), rhs.name_header() );
         } );
 
         uilist selector_menu;
         for( const item_category &cat : all_cat ) {
             const bool in_list = listed_cat.count( cat.get_id() );
             const std::string &prefix = in_list ? remove_prefix : add_prefix;
-            selector_menu.addentry( prefix + cat.name() );
+            selector_menu.addentry( prefix + cat.name_header() );
         }
         selector_menu.query();
 
@@ -1185,7 +1201,9 @@ bool item_contents::spill_contents( const tripoint &pos )
 {
     bool spilled = false;
     for( item_pocket &pocket : contents ) {
-        spilled = pocket.spill_contents( pos ) || spilled;
+        if( !pocket.get_pocket_data()->_no_unload ) {
+            spilled = pocket.spill_contents( pos ) || spilled;
+        }
     }
     return spilled;
 }
@@ -1233,7 +1251,8 @@ int item_contents::ammo_consume( int qty, const tripoint &pos, float fuel_effici
             if( !pocket.empty() && pocket.front().is_fuel() && fuel_efficiency >= 0 ) {
                 // if using fuel instead of battery, everything is in kJ
                 // charges is going to be the energy needed over the energy in 1 unit of fuel * the efficiency of the generator
-                int charges_used = ceil( static_cast<float>( units::from_kilojoule( qty ).value() ) / (
+                int charges_used = ceil( static_cast<float>( units::from_kilojoule( static_cast<std::int64_t>
+                                         ( qty ) ).value() ) / (
                                              static_cast<float>( pocket.front().fuel_energy().value() ) * fuel_efficiency ) );
 
                 const int res = pocket.ammo_consume( charges_used );
@@ -2259,11 +2278,22 @@ units::volume item_contents::total_container_capacity( const bool unrestricted_p
             restriction_condition = restriction_condition && !pocket.is_restricted();
         }
         if( restriction_condition ) {
-            // if the pocket has default volume or is a holster that has an
-            // item in it or is a pocket that has normal pickup disabled
-            // instead of returning the volume return the volume of things contained
-            if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
-                pocket.settings.is_disabled() || pocket.holster_full() ) {
+            // If the pocket is a holster that has an item return the volume when it is full (not larger than capacity).
+            // If the pocket has default volume or is a pocket that has normal pickup disabled return the volume of things contained.
+            // Otherwise, return the capacity.
+            if( pocket.holster_full() ) {
+                units::volume add_volume = pocket.front().volume();
+                for( const item_pocket *it_pocket : pocket.front().get_all_contained_pockets() ) {
+                    // Here, the case where the pocket is not empty for the holster is not considered, which will lead to higher results.
+                    // To obtain accurate results, a recursive function may be required. Since in the actual game,
+                    // the situation of holster nested in the holster is very rare, from a performance perspective, it seems not worth it to do so.
+                    if( it_pocket->is_valid() && !it_pocket->rigid() ) {
+                        add_volume += it_pocket->remaining_volume();
+                    }
+                }
+                total_vol += std::min( pocket.volume_capacity(), add_volume );
+            } else if( pocket.volume_capacity() >= pocket_data::max_volume_for_container ||
+                       pocket.settings.is_disabled() ) {
                 total_vol += pocket.contains_volume();
             } else {
                 total_vol += pocket.volume_capacity();

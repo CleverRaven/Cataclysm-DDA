@@ -342,13 +342,13 @@
         "id": "ammunition_can_carlgustav_hedp",
         "name": { "str": "double 84mm HEDP container" },
         "weight": 0,
-        "description": "A heavy and bulky container in a shape of two recoilless rifle rounds.  Text on the front says:\n<color_yellow>1 RD\n84 mm HEDP 502\n1315-01-343-1944</color>\n\n<color_red>EXPLOSIVE</color>"
+        "description": "A heavy and bulky container in a shape of two recoilless rifle rounds.  Text on the front says:\n<color_yellow>1 RD\n84MM HEDP 502\n1315-01-343-1944</color>\n\n<color_red>EXPLOSIVE</color>"
       },
       {
         "id": "ammunition_can_carlgustav_he",
         "name": { "str": "double 84mm HE container" },
         "weight": 0,
-        "description": "A heavy and bulky container in a shape of two recoilless rifle rounds.  Text on the front says:\n<color_yellow>1 RD\n84 mm HE 441D</color>\n\n<color_red>EXPLOSIVE</color>"
+        "description": "A heavy and bulky container in a shape of two recoilless rifle rounds.  Text on the front says:\n<color_yellow>1 RD\n84MM HE 441D</color>\n\n<color_red>EXPLOSIVE</color>"
       }
     ]
   },
@@ -381,13 +381,13 @@
         "id": "ammunition_box_carlgustav_he",
         "name": { "str": "84mm HE crate" },
         "weight": 0,
-        "description": "A big metal crate.  On one side it has label \"EXPLOSIVE\", and on another is written:\n<color_yellow>6 RDS 84mm HE</color>"
+        "description": "A big metal crate.  On one side it has label \"EXPLOSIVE\", and on another is written:\n<color_yellow>6 RDS 84MM HE</color>"
       },
       {
         "id": "ammunition_box_carlgustav_hedp",
         "name": { "str": "84mm HEDP crate" },
         "weight": 0,
-        "description": "A big metal crate.  On one side it has label \"EXPLOSIVE\", and on another is written:\n<color_yellow>6 RDS 84mm HEDP</color>",
+        "description": "A big metal crate.  On one side it has label \"EXPLOSIVE\", and on another is written:\n<color_yellow>6 RDS 84MM HEDP</color>",
         "//": "found no docs for HEDP crates, hence copy the hedp"
       }
     ]
@@ -439,7 +439,7 @@
     "type": "GENERIC",
     "copy-from": "ammo_box_1",
     "name": { "str": "20 5.56mm rounds ammo box", "str_pl": "20 5.56mm rounds ammo boxes" },
-    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"20 CARTRIDGES 5.56 mm TRACER M856\"",
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"20 CARTRIDGES 5.56MM TRACER M856\"",
     "color": "brown",
     "symbol": "#"
   },
@@ -468,6 +468,25 @@
     "copy-from": "ammo_box_1",
     "name": { "str": "5 slug ammo box", "str_pl": "5 slug ammo boxes" },
     "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"5 CARTRIDGES 12 GA SHOTSHELL SLUG\"",
+    "color": "brown",
+    "symbol": "#",
+    "volume": "115 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "110 ml",
+        "max_contains_weight": "1600 g",
+        "max_item_length": "90 mm"
+      }
+    ]
+  },
+  {
+    "id": "ammo_box_army_5_beanbag",
+    "type": "GENERIC",
+    "copy-from": "ammo_box_1",
+    "name": { "str": "5 beanbag ammo box", "str_pl": "5 beanbag ammo boxes" },
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"5 CARTRIDGES 12 GA SHOTSHELL BEANBAG\"",
     "color": "brown",
     "symbol": "#",
     "volume": "115 ml",
@@ -511,7 +530,7 @@
     "volume": "245 ml",
     "copy-from": "ammo_box_2",
     "name": { "str": "100 9x19mm FMJ ammo box", "str_pl": "100 9x19mm FMJ ammo boxes" },
-    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA FMJ FULL METAL JACKED 115 gr.\"",
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA FMJ FULL METAL JACKED 115GR.\"",
     "color": "brown",
     "symbol": "#",
     "pocket_data": [
@@ -529,7 +548,7 @@
     "type": "GENERIC",
     "copy-from": "ammo_box_army_100_9mm_fmj",
     "name": { "str": "100 9x19mm JHP ammo box", "str_pl": "100 9x19mm JHP ammo boxes" },
-    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA JHP JACKED HOLLOW POINT 116gr.\"",
+    "description": "Small, plain brown ammo box.  Black text, printed on the front, says \"100 ROUNDS 9x19MM PARA JHP JACKED HOLLOW POINT 116GR.\"",
     "color": "brown",
     "symbol": "#"
   },
@@ -663,7 +682,7 @@
     "type": "GENERIC",
     "copy-from": "ammo_box_4",
     "name": { "str": "20 .338 lapua ammo box", "str_pl": "20 .338 lapua ammo boxes" },
-    "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"20 CARTRIDGES\n.338LAPUA MAG.\nSWISS P TARGET\nHPBT\"",
+    "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"20 CARTRIDGES\n.338 LAPUA MAG.\nSWISS P TARGET\nHPBT\"",
     "color": "brown",
     "symbol": "#",
     "weight": "33 g",
@@ -683,7 +702,7 @@
     "type": "GENERIC",
     "copy-from": "ammo_box_4",
     "name": { "str": "10 .50 ammo box", "str_pl": "10 .50 ammo boxes" },
-    "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"10 CARTRIDGES\n12.7x99mm BALL M33\n(50 Browning)\"",
+    "description": "Small, painted in white ammo box.  Black text, printed on the front, says \"10 CARTRIDGES\n12.7x99MM BALL M33\n(50 Browning)\"",
     "color": "brown",
     "symbol": "#"
   },

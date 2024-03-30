@@ -73,6 +73,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
@@ -176,7 +177,7 @@ static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_GLIDE( "GLIDE" );
 static const json_character_flag json_flag_LEVITATION( "LEVITATION" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_SAFECRACK_NO_TOOL( "SAFECRACK_NO_TOOL" );
 static const json_character_flag json_flag_WING_GLIDE( "WING_GLIDE" );
 
 static const material_id material_bone( "bone" );
@@ -739,7 +740,7 @@ class atm_menu
                 }
             }
 
-            you.moves -= to_moves<int>( 5_seconds );
+            you.mod_moves( -to_moves<int>( 5_seconds ) );
         }
 
         //! Prompt for an integral value clamped to [0, max].
@@ -768,7 +769,7 @@ class atm_menu
             card.ammo_set( card.ammo_default(), 0 );
             you.i_add( card );
             you.cash -= 1000;
-            you.moves -= to_moves<int>( 5_seconds );
+            you.mod_moves( -to_moves<int>( 5_seconds ) );
             finish_interaction();
 
             return true;
@@ -794,7 +795,7 @@ class atm_menu
             add_msg( m_info, _( "You deposit %s into your account." ), format_money( amount ) );
             you.use_charges( itype_cash_card, amount );
             you.cash += amount;
-            you.moves -= to_moves<int>( 10_seconds );
+            you.mod_moves( -to_moves<int>( 10_seconds ) );
             finish_interaction();
 
             return true;
@@ -846,7 +847,7 @@ class atm_menu
 
             //dst->charges += amount;
             you.cash -= amount - remaining;
-            you.moves -= to_moves<int>( 10_seconds );
+            you.mod_moves( -to_moves<int>( 10_seconds ) );
             finish_interaction();
 
             return true;
@@ -890,7 +891,7 @@ class atm_menu
                 return false;
             }
             // Feeding a bill into the machine takes at least one turn
-            you.moves -= std::max( 100, you.moves );
+            you.mod_moves( -std::max( 100, you.get_moves() ) );
             int value = units::to_cent( cash_item->type->price );
             value *= 0.99;  // subtract fee
             if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining() ) {
@@ -932,7 +933,7 @@ class atm_menu
                 if( i == dst || i->ammo_remaining() <= 0 || i->typeId() != itype_cash_card ) {
                     continue;
                 }
-                if( you.moves < 0 ) {
+                if( you.get_moves() < 0 ) {
                     // Money from `*i` could be transferred, but we're out of moves, schedule it for
                     // the next turn. Putting this here makes sure there will be something to be
                     // done next turn.
@@ -947,7 +948,7 @@ class atm_menu
                 }
                 dst->ammo_set( dst->ammo_default(), i->ammo_remaining() + dst->ammo_remaining() );
                 i->ammo_set( i->ammo_default(), 0 );
-                you.moves -= 10;
+                you.mod_moves( -to_moves<int>( 1_seconds ) * 0.1 );
             }
 
             return true;
@@ -1123,7 +1124,7 @@ void iexamine::vending( Character &you, const tripoint &examp )
 
             if( !used_machine ) {
                 used_machine = true;
-                you.moves -= moves_cost;
+                you.mod_moves( -moves_cost );
             }
 
             money -= iprice;
@@ -1462,7 +1463,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
 {
     // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
     if( !you.move_effects( false ) ) {
-        you.moves -= 100;
+        you.mod_moves( -to_moves<int>( 1_seconds ) );
         return;
     }
 
@@ -1517,7 +1518,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     } else {
         move_cost = you.has_trait( trait_BADKNEES ) ? 800 : 400;
         if( g->slip_down( game::climb_maneuver::over_obstacle, climbing_aid_furn_CLIMBABLE ) ) {
-            you.moves -= move_cost;
+            you.mod_moves( -move_cost );
             return;
         }
     }
@@ -1530,7 +1531,7 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     move_cost /= you.get_modifier( character_modifier_obstacle_climb_mod );
     add_msg_debug( debugmode::DF_IEXAMINE,
                    "Final move cost %d", move_cost );
-    you.moves -= move_cost;
+    you.mod_moves( -move_cost );
     if( you.in_vehicle ) {
         here.unboard_vehicle( you.pos() );
     }
@@ -1565,7 +1566,7 @@ void iexamine::bars( Character &you, const tripoint &examp )
         none( you, examp );
         return;
     }
-    you.moves -= to_moves<int>( 2_seconds );
+    you.mod_moves( -to_moves<int>( 2_seconds ) );
     add_msg( _( "You slide right between the bars." ) );
     you.setpos( examp );
 }
@@ -1722,12 +1723,12 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
  */
 void iexamine::safe( Character &you, const tripoint &examp )
 {
-    bool has_cracking_tool = you.has_flag( json_flag_SUPER_HEARING );
+    bool has_cracking_tool = you.has_flag( json_flag_SAFECRACK_NO_TOOL );
     // short-circuit to avoid the more expensive iteration over items
     has_cracking_tool = has_cracking_tool || you.cache_has_item_with( flag_SAFECRACK );
 
     if( !has_cracking_tool ) {
-        you.moves -= to_moves<int>( 10_seconds );
+        you.mod_moves( -to_moves<int>( 10_seconds ) );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
         // Additionally, safes can be left-handed or right-handed, doubling the problem space.
@@ -2045,7 +2046,7 @@ void iexamine::fswitch( Character &you, const tripoint &examp )
         return;
     }
     ter_id terid = here.ter( examp );
-    you.moves -= to_moves<int>( 1_seconds );
+    you.mod_moves( -to_moves<int>( 1_seconds ) );
     tripoint tmp;
     tmp.z = examp.z;
     for( tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
@@ -2220,7 +2221,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
         add_msg( m_bad, _( "Your legs are covered in the poppy's roots!" ) );
         you.apply_damage( nullptr, bodypart_id( "leg_l" ), 4 );
         you.apply_damage( nullptr, bodypart_id( "leg_r" ), 4 );
-        you.moves -= 50;
+        you.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
     }
 
     here.furn_set( examp, f_null );
@@ -2389,7 +2390,8 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
                        here.furnname( examp ) ) ) {
             return;
         }
-        you.moves -= to_moves<int>( 30_seconds ); // Takes 30 seconds
+        you.mod_moves( -to_moves<int>
+                       ( 30_seconds ) ); // Takes 30 seconds, more or less if faster/slower than 100 speed
         add_msg( m_bad, _( "This flower tastes very wrong…" ) );
         // If you can drink flowers, you're post-thresh and the Mycus does not want you.
         you.add_effect( effect_teleglow, 10_minutes );
@@ -2412,7 +2414,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
     fungal_effects().create_spores( examp, &you );
     here.furn_set( examp, f_null );
-    you.moves -= 50;
+    you.mod_moves( -to_moves<int>( 1_seconds ) * 0.5 );
 }
 
 /**
@@ -3561,7 +3563,7 @@ void iexamine::fvat_empty( Character &you, const tripoint &examp )
         here.i_clear( examp );
         //This is needed to bypass NOITEM
         here.add_item( examp, brew );
-        you.moves -= to_moves<int>( 20_seconds );
+        you.mod_moves( -to_moves<int>( 20_seconds ) );
         if( !vat_full ) {
             ferment = query_yn( _( "Start fermenting cycle?" ) );
         }
@@ -3641,7 +3643,7 @@ void iexamine::fvat_full( Character &you, const tripoint &examp )
                 }
             }
 
-            you.moves -= to_moves<int>( 5_seconds );
+            you.mod_moves( -to_moves<int>( 5_seconds ) );
             you.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
         }
 
@@ -3783,7 +3785,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
             add_msg( _( "You fill the %1$s with %2$s." ),
                      keg_name, item::nname( drink_type ) );
         }
-        you.moves -= to_moves<int>( 10_seconds );
+        you.mod_moves( -to_moves<int>( 10_seconds ) );
         here.i_clear( examp );
         here.add_item( examp, drink );
         return;
@@ -3848,7 +3850,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 pour_into_keg( examp, tmp );
                 you.use_charges( drink.typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
-                you.moves -= to_moves<int>( 10_seconds );
+                you.mod_moves( -to_moves<int>( 10_seconds ) );
                 return;
             }
 
@@ -3946,7 +3948,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
                          calendar::turn );
         here.ter_set( examp, t_tree_hickory_dead );
         /** @EFFECT_SURVIVAL speeds up hickory root digging */
-        you.moves -= to_moves<int>( 20_seconds ) / ( you.get_skill_level( skill_survival ) + 1 ) + 100;
+        you.mod_moves( -to_moves<int>( 20_seconds ) / ( you.get_skill_level( skill_survival ) + 1 ) + 100 );
     }
 
     if( !auto_forage && !digging_up && you.is_avatar() ) {
@@ -4520,7 +4522,7 @@ void iexamine::curtains( Character &you, const tripoint &examp )
         here.spawn_item( you.pos(), itype_sheet, 2, 0, calendar::turn );
         here.spawn_item( you.pos(), itype_stick, 1, 0, calendar::turn );
         here.spawn_item( you.pos(), itype_string_36, 1, 0, calendar::turn );
-        you.moves -= to_moves<int>( 10_seconds );
+        you.mod_moves( -to_moves<int>( 10_seconds ) );
         you.add_msg_if_player( _( "You tear the curtains and curtain rod off the windowframe." ) );
     } else {
         you.add_msg_if_player( _( "Never mind." ) );
@@ -4944,7 +4946,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         you.use_charges( itype_cash_card, cost );
 
         add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( money ) );
-        you.moves -= to_moves<int>( 5_seconds );
+        you.mod_moves( -to_moves<int>( 5_seconds ) );
         return;
     }
 
@@ -4988,7 +4990,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
         }
         add_msg( m_info, _( "Your cash cards now hold %s." ),
                  format_money( you.charges_of( itype_cash_card ) ) );
-        you.moves -= to_moves<int>( 5_seconds );
+        you.mod_moves( -to_moves<int>( 5_seconds ) );
         return;
     }
 }
@@ -5060,7 +5062,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         case ledge_jump_across: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
-                you.moves -= 100;
+                you.mod_moves( -to_moves<int>( 1_seconds ) );
                 return;
             }
 
@@ -5115,7 +5117,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         /*case ledge_cling_down: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
-                you.moves -= 100;
+                you.mod_moves( -to_moves<int>( 1_seconds ) );
                 return;
             }
 
@@ -5136,7 +5138,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         case ledge_glide: {
             // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
             if( !you.move_effects( false ) ) {
-                you.moves -= 100;
+                you.mod_moves( -to_moves<int>( 1_seconds ) );
                 return;
             }
             // The carried weight check here is redundant, but we do it anyway for better player feedback
@@ -5175,7 +5177,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
         }
         case ledge_fall_down: {
             if( query_yn( _( "Climbing might be safer.  Really fall from the ledge?" ) ) ) {
-                you.moves -= 100;
+                you.mod_moves( -to_moves<int>( 1_seconds ) );
                 // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
                 if( !you.move_effects( false ) ) {
                     return;
@@ -5561,7 +5563,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                     continue;
                 }
                 broken_limbs_count++;
-                patient.moves -= 500;
+                patient.mod_moves( -to_moves<int>( 5_seconds ) );
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
                 int quantity = 1;
                 if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
@@ -5660,12 +5662,12 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
                                                          patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed ) );
                 }
             }
-            patient.moves -= 500;
+            patient.mod_moves( -to_moves<int>( 5_seconds ) );
             break;
         }
 
         case RAD_AWAY: {
-            patient.moves -= 500;
+            patient.mod_moves( -to_moves<int>( 5_seconds ) );
             patient.add_msg_player_or_npc( m_info,
                                            _( "The Autodoc scanned you and detected a radiation level of %d mSv." ),
                                            _( "The Autodoc scanned <npcname> and detected a radiation level of %d mSv." ),
@@ -5690,7 +5692,7 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
         }
 
         case BLOOD_ANALYSIS: {
-            patient.moves -= 500;
+            patient.mod_moves( -to_moves<int>( 5_seconds ) );
             patient.conduct_blood_analysis();
             patient.add_msg_player_or_npc( m_info,
                                            _( "The Autodoc analyzed your blood." ),
@@ -5724,16 +5726,6 @@ static bool is_non_rotten_crafting_component( const item &it )
     return is_crafting_component( it ) && !it.rotten();
 }
 
-static int get_milled_amount( const itype_id &milled_id, const tripoint &examp,
-                              map &here )
-{
-    const item_filter valid = [&milled_id]( const item & itm ) {
-        return itm.typeId() == milled_id;
-    };
-    const int num_here = here.items_with( examp, valid ).size();
-    return num_here * milled_id.obj().milling_data->conversion_rate_;
-}
-
 static void mill_activate( Character &you, const tripoint &examp )
 {
     map &here = get_map();
@@ -5752,8 +5744,116 @@ static void mill_activate( Character &you, const tripoint &examp )
     map_stack items = here.i_at( examp );
     units::volume food_volume = 0_ml;
 
+    std::map<itype_id, int> millable_counts;
+
+    for( const item &iter : items ) {
+        if( iter.type->milling_data && !iter.type->milling_data->into_.is_null() ) {
+            if( millable_counts.find( iter.typeId() ) == millable_counts.end() ) {
+                millable_counts.emplace( iter.typeId(), 1 );
+            } else {
+                millable_counts[iter.typeId()]++;
+            }
+        }
+    }
+
+    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+        item source( mill_type_count.first );
+        const item product( source.type->milling_data->into_ );
+        const recipe rec = *source.type->milling_data->recipe_;
+
+        if( rec.is_null() ) {
+            debugmsg( _( "Failed to find milling recipe for %s." ),
+                      source.tname( 1, false ) );
+            add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), source.tname( 1, false ) );
+            add_msg( _( "You remove the %s from the mill." ), source.tname() );
+
+            for( int i = 0; i < mill_type_count.second; i++ ) {
+                here.add_item_or_charges( you.pos(), source );
+                you.mod_moves( -you.item_handling_cost( source ) );
+                for( item &iter : items ) {
+                    if( iter.typeId() == source.typeId() ) {
+                        here.i_rem( examp, &iter );
+                        break;
+                    }
+                }
+            }
+
+        } else {
+            const requirement_data::alter_item_comp_vector &components =
+                rec.simple_requirements().get_components();
+            int lot_size = 0;
+
+            // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+            // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+            for( const std::vector<item_comp> &component : components ) {
+                for( const item_comp &comp : component ) {
+                    if( comp.type == mill_type_count.first ) {
+                        lot_size = comp.count;
+                        break;
+                    }
+                }
+
+                if( lot_size > 0 ) {
+                    break;
+                }
+            }
+
+            if( lot_size == 0 ) {
+                debugmsg( _( "Failed to find milling recipe for %s. It can't be milled." ),
+                          source.display_name().c_str() );
+                add_msg( m_bad, _( "This mill contains %s, which can't be milled!" ), source.tname( 1, false ) );
+                add_msg( _( "You remove the %s from the mill." ), source.tname() );
+
+                for( int i = 0; i < mill_type_count.second; i++ ) {
+                    here.add_item_or_charges( you.pos(), source );
+                    you.mod_moves( -you.item_handling_cost( source ) );
+                    for( item &iter : items ) {
+                        if( iter.typeId() == source.typeId() ) {
+                            here.i_rem( examp, &iter );
+                            break;
+                        }
+                    }
+                }
+            } else {
+                const int batches = mill_type_count.second / lot_size;
+                const int process_count = batches * lot_size;
+
+                if( batches == 0 ) {
+                    add_msg( m_bad, _( "This mill contains too little of %s, which requires a batch size of %d." ),
+                             source.tname( 1, false ), lot_size );
+                    add_msg( _( "You remove the %s from the mill." ), source.tname() );
+                    for( int i = 0; i < mill_type_count.second; i++ ) {
+                        here.add_item_or_charges( you.pos(), source );
+                        you.mod_moves( -you.item_handling_cost( source ) );
+                        for( item &iter : items ) {
+                            if( iter.typeId() == source.typeId() ) {
+                                here.i_rem( examp, &iter );
+                                break;
+                            }
+                        }
+                    }
+                } else if( process_count != mill_type_count.second ) {
+                    add_msg( m_bad,
+                             _( "This mill doesn't contain a full last batch of %s, which requires a batch size of %d." ),
+                             source.tname( 1, false ), lot_size );
+                    add_msg( _( "You remove the excess %s from the mill." ), source.tname() );
+                    for( int i = 0; i < mill_type_count.second - process_count; i++ ) {
+                        here.add_item_or_charges( you.pos(), source );
+                        you.mod_moves( -you.item_handling_cost( source ) );
+                        for( item &iter : items ) {
+                            if( iter.typeId() == source.typeId() ) {
+                                here.i_rem( examp, &iter );
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     for( item &it : items ) {
-        if( it.type->milling_data ) {
+        if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             food_present = true;
             food_volume += it.volume();
             continue;
@@ -5778,25 +5878,8 @@ static void mill_activate( Character &you, const tripoint &examp )
         return;
     }
 
-    std::set<std::string, localized_comparator> no_final_product;
-    for( const item &it : here.i_at( examp ) ) {
-        const cata::value_ptr<islot_milling> mdata = it.type->milling_data;
-        if( mdata ) {
-            const int resulting_charges = get_milled_amount( it.typeId(), examp, here );
-            if( resulting_charges <= 0 ) {
-                no_final_product.emplace( it.tname() );
-            }
-        }
-    }
-    if( !no_final_product.empty()
-        && !query_yn( _( "The following items have insufficient charges and will "
-                         "not produce anything.  Continue?\n<color_white>%s</color>" ),
-                      enumerate_as_string( no_final_product ) ) ) {
-        return;
-    }
-
     for( item &it : here.i_at( examp ) ) {
-        if( it.type->milling_data ) {
+        if( it.type->milling_data && !it.type->milling_data->into_.is_null() ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
             it.process_temperature_rot( 1, examp, get_map(), nullptr );
             it.set_flag( flag_PROCESSING );
@@ -5924,7 +6007,7 @@ static void smoker_activate( Character &you, const tripoint &examp )
     }
 }
 
-void iexamine::mill_finalize( Character &, const tripoint &examp, const time_point &start_time )
+void iexamine::mill_finalize( Character &, const tripoint &examp )
 {
     map &here = get_map();
     const furn_id cur_mill_type = here.furn( examp );
@@ -5945,79 +6028,95 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
         return;
     }
 
+    std::map<itype_id, int> millable_counts;
 
-    // Get list of milable items, their rot timer and their flags
-    std::map<itype_id, std::vector<double>> millable_rot;
-    std::map<itype_id, std::vector<flag_id>> millable_flags;
-    std::map<itype_id, item> millable_items;
-    std::vector<map_stack::iterator> iter_to_delet;
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ++iter ) {
-        item &it = *iter;
-        if( it.type->milling_data ) {
-            it.calc_rot_while_processing( milling_time );
-            // Unset processing flag to be able to check the relative rot
-            it.unset_flag( flag_PROCESSING );
-
-            if( millable_rot.find( it.typeId() ) == millable_rot.end() ) {
-                const std::vector<double> rot_times = { it.get_relative_rot() };
-                millable_rot.emplace( it.typeId(), rot_times );
+    for( const item &iter : items ) {
+        if( iter.type->milling_data && !iter.type->milling_data->into_.is_null() ) {
+            if( millable_counts.find( iter.typeId() ) == millable_counts.end() ) {
+                millable_counts.emplace( iter.typeId(), 1 );
             } else {
-                const double rot_time = it.get_relative_rot();
-                millable_rot[it.typeId()].emplace_back( rot_time );
+                millable_counts[iter.typeId()]++;
             }
-            if( millable_flags.find( it.typeId() ) == millable_flags.end() ) {
-                std::vector<flag_id> flags;
-                for( const flag_id &f : it.type->get_flags() ) {
-                    flags.emplace_back( f );
-                }
-                millable_flags.emplace( it.typeId(), flags );
-            } else {
-                for( const flag_id &f : it.type->get_flags() ) {
-                    millable_flags[it.typeId()].emplace_back( f );
-                }
-            }
-            millable_items.emplace( it.typeId(), it );
-
-            iter_to_delet.push_back( iter );
         }
     }
-    //Create the product items
-    for( const std::pair<const string_id<itype>, std::vector<double>> &rot_data : millable_rot ) {
-        const itype_id &type = rot_data.first;
-        const std::vector<double> &relative_rots = rot_data.second;
-        const double relative_rot = std::accumulate( relative_rots.begin(), relative_rots.end(),
-                                    0.0 ) / relative_rots.size();
 
-        const islot_milling &mdata = *type->milling_data;
-        const int resulting_charges = get_milled_amount( type, examp, here );
-        // if not enough material, just remove the item (0 loops)
-        // (may happen if the player did not add enough charges to the mill
-        // or if the conversion rate is changed between versions)
-        for( int i = 0; i < resulting_charges; i++ ) {
-            item result( mdata.into_, start_time + milling_time );
-            result.components.add( millable_items[type] );
+    for( std::pair<const string_id<itype>, int> mill_type_count : millable_counts ) {
+        const item source( mill_type_count.first );
+        const item product( source.type->milling_data->into_ );
+        const recipe rec = *source.type->milling_data->recipe_;
 
-            // copied from item::inherit_flags, which can not be called here because it requires a recipe.
-            for( const flag_id &f : millable_flags[type] ) {
-                if( f->craft_inherit() ) {
-                    result.set_flag( f );
-                }
-            }
+        if( rec.is_null() ) {
+            debugmsg( _( "Failed to find milling recipe for %s. It wasn't milled." ),
+                      source.display_name().c_str() );
 
-            result.recipe_charges = resulting_charges;
-            // Set flag to tell set_relative_rot() to calc from bday not now
-            result.set_flag( flag_PROCESSING_RESULT );
-            result.set_relative_rot( relative_rot );
-            result.unset_flag( flag_PROCESSING_RESULT );
-            here.add_item( examp, result );
-        }
-    }
-    //Delete the original items that got milled
-    for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
-        if( std::find( iter_to_delet.begin(), iter_to_delet.end(), iter ) != iter_to_delet.end() ) {
-            iter = items.erase( iter );
         } else {
-            ++iter;
+            const requirement_data::alter_item_comp_vector &components =
+                rec.simple_requirements().get_components();
+            int lot_size = 0;
+
+            // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+            // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+            for( const std::vector<item_comp> &component : components ) {
+                for( const item_comp &comp : component ) {
+                    if( comp.type == mill_type_count.first ) {
+                        lot_size = comp.count;
+                        break;
+                    }
+                }
+
+                if( lot_size > 0 ) {
+                    break;
+                }
+            }
+
+            if( lot_size == 0 ) {
+                debugmsg( _( "Failed to find milling recipe for %s. Milling of it failed." ),
+                          source.display_name().c_str() );
+                mill_type_count.second = 0;
+            } else {
+                const int batches = mill_type_count.second / lot_size;
+                const int process_count = batches * lot_size;
+
+                if( batches == 0 ) {
+                    add_msg( m_info, _( "%s is milled in batches of %d, so none was processed." ),
+                             source.tname(), lot_size );
+                } else if( process_count != mill_type_count.second ) {
+                    add_msg( m_info, _( "%s is milled in batches of %d, so %d remained unprocessed." ),
+                             source.tname(), lot_size, mill_type_count.second - batches * lot_size );
+                }
+
+                mill_type_count.second = process_count;
+
+                item_components item_component_lot;
+                int count = 0;
+
+                for( item &iter : items ) {
+                    if( iter.typeId() == mill_type_count.first ) {
+                        item_component_lot.add( iter );
+                        count++;
+                        if( count == mill_type_count.second ) {
+                            break;
+                        }
+                    }
+                }
+
+                std::vector<item> results = rec.create_results( batches, &item_component_lot );
+
+                for( const item &result : results ) {
+                    here.add_item( examp, result );
+                }
+
+                for( map_stack::iterator iter = items.begin(); iter != items.end(); ) {
+                    item &it = *iter;
+
+                    if( it.typeId() == mill_type_count.first && mill_type_count.second > 0 ) {
+                        iter = items.erase( iter );
+                        mill_type_count.second--;
+                    } else {
+                        ++iter;
+                    }
+                }
+            }
         }
     }
 
@@ -6145,7 +6244,36 @@ static void mill_load_food( Character &you, const tripoint &examp,
         return it.rotten();
     } );
     std::vector<const item *> filtered = you.crafting_inventory().items_with( []( const item & it ) {
-        return static_cast<bool>( it.type->milling_data );
+        if( !it.type->milling_data || it.type->milling_data->into_.is_null() ) {
+            return false;
+        }
+
+        const item product( it.type->milling_data->into_ );
+        const recipe rec = *it.type->milling_data->recipe_;
+
+        if( rec.is_null() ) {
+            debugmsg( _( "Failed to find milling recipe for %s. It can't be inserted into the mill." ),
+                      it.display_name().c_str() );
+            return false;
+        }
+
+        const requirement_data::alter_item_comp_vector &components =
+            rec.simple_requirements().get_components();
+
+        // Making the assumption that milling only uses a single type of input product. Support for mixed products would require additional logic.
+        // We also make the assumption that this is the only relevant input, so if lubricants etc. was to be added more logic would be needed.
+        for( const std::vector<item_comp> &component : components ) {
+            for( const item_comp &comp : component ) {
+                if( comp.type == it.typeId() ) {
+                    return true;
+                }
+            }
+        }
+
+        debugmsg( _( "Failed to find milling recipe for %s. Cannot be placed into the mill." ),
+                  it.display_name().c_str() );
+
+        return false;
     } );
 
     uilist smenu;

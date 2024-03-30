@@ -209,6 +209,29 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE",
+    "effect": [
+      { "u_assign_activity": "ACT_VITAKIN_HEALING_TRANCE_MEDITATE", "duration": "2400 minutes" },
+      { "u_add_effect": "effect_vitakin_healing_trance", "duration": "2400 minutes" }
+    ]
+  },
+  {
+    "id": "ACT_VITAKIN_HEALING_TRANCE_MEDITATE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "meditating",
+    "based_on": "time",
+    "can_resume": false,
+    "rooted": true,
+    "completion_eoc": "EOC_VITAKIN_HEALING_TRANCE_REMOVE"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_VITAKIN_HEALING_TRANCE_REMOVE",
+    "effect": [ { "u_lose_effect": "effect_vitakin_healing_trance" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VITAKIN_CURE_DISEASE_CHECKS",
     "condition": { "u_has_effect": "effect_vita_cure_disease" },
     "effect": [
@@ -503,10 +526,10 @@
           "Attempt to cure your minor illnesses.",
           "Attempt to cure your asthma.",
           "Attempt to cure your chemical imbalance.",
-          "Attempt to cure your kaluptic psychosis",
-          "Attempt to cure your jitters",
-          "Attempt to cure your mood swings",
-          "Attempt to cure your weakening sickness",
+          "Attempt to cure your kaluptic psychosis.",
+          "Attempt to cure your jitters.",
+          "Attempt to cure your mood swings.",
+          "Attempt to cure your weakening sickness.",
           "Attempt to cure your narcolepsy.  This meditation is extremely intensive, and is correspondingly more draining.",
           "Attempt to cure your seasonal allergies.",
           "Attempt to cure your seasonal affective disorder.",

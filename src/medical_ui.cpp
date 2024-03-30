@@ -23,7 +23,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 
-static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
@@ -634,26 +633,6 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
         pen = ( g->light_level( player->posz() ) >= 12 ? 5 : 10 );
         pge_str = pgettext( "speed penalty", "Out of Sunlight " );
         speed_detail_str += colorize( string_format( _( "%s     -%2d%%\n" ), pge_str, pen ), c_red );
-    }
-
-    const float temperature_speed_modifier = player->mutation_value( "temperature_speed_modifier" );
-    if( temperature_speed_modifier != 0 ) {
-        nc_color pen_color;
-        std::string pen_sign;
-        const units::temperature player_local_temp = get_weather().get_temperature( player->pos() );
-        if( player->has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
-            pen_color = c_green;
-            pen_sign = "+";
-        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
-            pen_color = c_red;
-            pen_sign = "-";
-        }
-        if( !pen_sign.empty() ) {
-            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
-            pge_str = pgettext( "speed modifier", "Cold-Blooded " );
-            speed_detail_str += colorize( string_format( _( "%s     %s%2d%%\n" ), pge_str, pen_sign,
-                                          std::abs( pen ) ), pen_color );
-        }
     }
 
     std::map<std::string, int> speed_effects;

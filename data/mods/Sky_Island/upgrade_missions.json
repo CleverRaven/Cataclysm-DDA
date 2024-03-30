@@ -325,7 +325,7 @@
     "components": [
       [ [ "microscope_dissecting", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "holybook_wicca1", 1 ] ],
+      [ [ "book_newage_witchcraftbeg", 1 ] ],
       [ [ "warptoken", 12 ] ],
       [ [ "platinum_small", 10 ] ],
       [ [ "battery_car", 1 ], [ "battery_motorbike", 1 ], [ "medium_storage_battery", 1 ] ],
@@ -860,7 +860,7 @@
       [ [ "geiger_off", 1 ] ],
       [ [ "scalpel", 1 ] ],
       [ [ "stethoscope", 1 ] ],
-      [ [ "meth", 10 ] ],
+      [ [ "pure_meth", 1 ] ],
       [ [ "transponder", 4 ] ],
       [ [ "receiver", 4 ] ],
       [
@@ -1257,15 +1257,14 @@
     "components": [
       [ [ "gasdiscount_platinum", 1 ] ],
       [ [ "warptoken", 3 ] ],
-      [ [ "silver_small", 200 ] ],
-      [ [ "opal", 1 ] ],
-      [ [ "pearl", 1 ] ],
-      [ [ "citrine", 1 ] ],
-      [ [ "peridot", 1 ] ],
-      [ [ "amethyst", 1 ] ],
-      [ [ "tourmaline", 1 ] ],
-      [ [ "aquamarine", 1 ] ],
-      [ [ "alexandrite", 1 ] ]
+      [ [ "ring_purity", 1 ] ],
+      [ [ "ring_engagement", 1 ] ],
+      [ [ "ring_wedding", 1 ] ],
+      [ [ "sf_watch", 1 ] ],
+      [ [ "cufflinks_intricate", 1 ] ],
+      [ [ "ring_signet", 1 ] ],
+      [ [ "platinum_locket", 1 ] ],
+      [ [ "onyx_silver_earring", 1 ] ]
     ]
   },
   {
@@ -1327,13 +1326,23 @@
     "components": [
       [ [ "jade_brooch", 1 ], [ "crown_golden", 1 ], [ "crown_golden_survivor", 1 ] ],
       [ [ "warptoken", 6 ] ],
-      [ [ "gold_small", 500 ] ],
+      [ [ "platinum_small", 100 ] ],
+      [ [ "gold_small", 200 ] ],
+      [ [ "silver_small", 500 ] ],
       [ [ "diamond", 5 ] ],
-      [ [ "ruby", 5 ] ],
-      [ [ "emerald", 5 ] ],
-      [ [ "onyx", 5 ] ],
-      [ [ "garnet", 5 ] ],
-      [ [ "sapphire", 5 ] ]
+      [ [ "ruby", 1 ] ],
+      [ [ "emerald", 1 ] ],
+      [ [ "onyx", 1 ] ],
+      [ [ "garnet", 1 ] ],
+      [ [ "sapphire", 1 ] ],
+      [ [ "opal", 1 ] ],
+      [ [ "pearl", 1 ] ],
+      [ [ "citrine", 1 ] ],
+      [ [ "peridot", 1 ] ],
+      [ [ "amethyst", 1 ] ],
+      [ [ "tourmaline", 1 ] ],
+      [ [ "aquamarine", 1 ] ],
+      [ [ "alexandrite", 1 ] ]
     ]
   },
   {
@@ -1398,7 +1407,7 @@
       [ [ "bat", 1 ], [ "bwirebat", 1 ], [ "nailbat", 1 ] ],
       [ [ "warptoken", 2 ] ],
       [ [ "bandages", 10 ] ],
-      [ [ "liq_bandage", 80 ] ],
+      [ [ "liq_bandage_spray", 1 ] ],
       [ [ "9mm", 50 ], [ "9mmfmj", 50 ], [ "9mmP", 30 ], [ "9mmP2", 20 ] ]
     ]
   },
@@ -1884,7 +1893,7 @@
       [ [ "feather", 40 ], [ "down_feather", 40 ] ],
       [ [ "eggs_any_shape", 6, "LIST" ] ],
       [ [ "golf_ball", 1 ] ],
-      [ [ "chair_folding", 1 ] ],
+      [ [ "camp_chair", 1 ] ],
       [ [ "tourist_table", 1 ] ],
       [ [ "stepladder", 1 ], [ "aluminum_stepladder", 1 ] ]
     ]
@@ -1913,6 +1922,7 @@
       "effect": [
         { "math": [ "labsunlocked", "=", "1" ] },
         { "u_forget_recipe": "upgradekey_labsunlock" },
+        { "u_learn_recipe": "warp_labs_catalyst" },
         {
           "u_message": "With this upgrade, you're guaranteed to begin your expedition at an underground lab.  Be aware that you will need to have a Labs Catalyst on you when activating the warp obelisk, and these will be consumed on leaving.",
           "type": "mixed"
@@ -1949,7 +1959,7 @@
       [ [ "id_science", 1 ] ],
       [ [ "plut_cell", 5 ] ],
       [ [ "oxy_torch", 1 ] ],
-      [ [ "oxyacetylene", 120 ] ],
+      [ [ "tinyweldtank", 1 ], [ "weldtank", 1 ] ],
       [ [ "mutagen", 2 ], [ "iv_mutagen", 1 ] ],
       [ [ "jackhammer", 1 ], [ "elec_jackhammer", 1 ] ]
     ]
