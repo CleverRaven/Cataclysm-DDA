@@ -164,6 +164,7 @@
               "context": "intercom",
               "value": "yes"
             },
+            { "u_has_var": "completed_robofac_lixa_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
             {
               "or": [
                 { "u_has_var": "completed_robofac_intercom_robot_sm_1", "type": "dialogue", "context": "intercom", "value": "yes" },
@@ -1000,7 +1001,7 @@
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_OFFER_ADVICE_Replacement",
     "type": "talk_topic",
     "//": "I feel like this could be phrased better.",
-    "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\" The voice pauses for a moment, \"Buuut that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
+    "dynamic_line": "Well, the ID card wouldn't strictly speaking be necessary if you were to find some way of breaching the facility's security doors.\" The voice pauses for a moment, \"But that said we only have the one ID card, so unless you're confident you can get in without it, please don't lose it.  As for the memory stick I would highly recommend you not lose that as portable drives with the required hardware security modules to interface with secure terminals are in short supply these days.  However there may very well be some on-site for you to scavenge if you're lucky."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_ACCEPTED",
@@ -1014,7 +1015,7 @@
     "dynamic_line": "As we discussed during acceptance of the contract, we were aware of hazardous ground conditions, but we were unable to deduce further information other than what was available through long-range sensing.  If you would like to provide a description of the hazards present, we are willing to document them.",
     "responses": [
       {
-        "text": "[Detail the conditions at the collapsed tower and its basement.  This will advance time by ten minutes.]",
+        "text": "[Detail the conditions at the research facility.  This will advance time by ten minutes.]",
         "effect": { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "10 minutes" },
         "topic": "MISSION_ROBOFAC_INTERCOM_LIXA_SM_1_COMPLETE_Explainer"
       },
