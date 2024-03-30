@@ -227,7 +227,7 @@
     "changes_to": [ "GIGANTIC_OK" ],
     "passive_mods": { "str_mod": 4 },
     "hp_adjustment": -6,
-    "fatigue_modifier": 0.15,
+    "sleepiness_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "weight_capacity_modifier": 1.1
@@ -287,8 +287,8 @@
     "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
     "prereqs": [ "HUNGER" ],
     "healing_multiplier": 0.25,
-    "fatigue_modifier": 0.75,
-    "fatigue_regen_modifier": 0.5,
+    "sleepiness_modifier": 0.75,
+    "sleepiness_regen_modifier": 0.5,
     "metabolism_modifier": 0.4
   },
   {

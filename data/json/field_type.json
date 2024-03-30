@@ -945,7 +945,7 @@
     "display_field": true
   },
   {
-    "id": "fd_fatigue",
+    "id": "fd_sleepiness",
     "type": "field_type",
     "legacy_enum_id": 20,
     "intensity_levels": [
@@ -965,7 +965,7 @@
         "monster_spawn_chance": 600,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
-        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+        "monster_spawn_group": "GROUP_NETHER_SLEEPINESS_FIELD"
       }
     ],
     "description_affix": "under",

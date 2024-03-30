@@ -7,7 +7,7 @@
     "weight": "253 g",
     "color": "magenta",
     "addiction_type": "alcohol",
-    "fatigue_mod": 112,
+    "sleepiness_mod": 112,
     "stim": 34,
     "container": "jug_plastic",
     "comestible_type": "DRINK",

@@ -1303,7 +1303,7 @@
         "distribution": [
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "plant_spellbook", "prob": 10 },
-          { "item": "spell_scroll_recover_fatigue", "prob": 100 },
+          { "item": "spell_scroll_recover_sleepiness", "prob": 100 },
           { "item": "spell_scroll_druid_thornskin", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
           { "item": "spell_scroll_druidic_healing", "prob": 100 },

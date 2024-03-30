@@ -47,9 +47,9 @@
       "hunger_min": [ 1 ],
       "hunger_chance": [ 100 ],
       "hunger_tick": [ 400 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_chance": [ 200 ],
-      "fatigue_tick": [ 500 ]
+      "sleepiness_min": [ 1 ],
+      "sleepiness_chance": [ 200 ],
+      "sleepiness_tick": [ 500 ]
     },
     "scaling_mods": {
       "str_mod": [ -0.12 ],
@@ -61,9 +61,9 @@
       "hunger_min": [ 0.08 ],
       "hunger_chance": [ -2.5 ],
       "hunger_tick": [ -3.5 ],
-      "fatigue_min": [ 0.05 ],
-      "fatigue_chance": [ -1.5 ],
-      "fatigue_tick": [ -1 ]
+      "sleepiness_min": [ 0.05 ],
+      "sleepiness_chance": [ -1.5 ],
+      "sleepiness_tick": [ -1 ]
     }
   },
   {

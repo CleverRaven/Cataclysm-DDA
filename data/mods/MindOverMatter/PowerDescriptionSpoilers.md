@@ -120,7 +120,7 @@ This is natural painkiller and so has natural effects (reduces speed slightly)<b
 *Duration*: 45 minutes to 112 minutes and 30 seconds, plus 4 minutes 10 seconds to 8 minutes 20 seconds per level<br />
 *Stamina Cost*: 8000, minus 250 per level to a minimum of 4000<br />
 *Channeling Time*: 250 moves, minus 13 moves per level to a minimum of 50<br />
-*Effects*: Greatly increases the psion’s metabolic efficiency.  Hunger, thirst, fatigue grow 25% more slowly and the basal metabolic rate is reduced by 25%.  All of these bonuses increase by 2% per level to a maximum of 70% increase.<br />
+*Effects*: Greatly increases the psion’s metabolic efficiency.  Hunger, thirst, sleepiness grow 25% more slowly and the basal metabolic rate is reduced by 25%.  All of these bonuses increase by 2% per level to a maximum of 70% increase.<br />
 *Prerequisites*: Temperature Adaptability 8, Adrenaline Trigger 6 *or* Physical Enhancement 12<br />
 
 ## Combat Dance
@@ -1128,7 +1128,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: Indefinite<br />
 *Stamina Cost*: 1000<br />
 *Channeling Time*: Indefinite<br />
-*Effects*: Meditate in lieu of sleep. Using the power will begin the meditating, slowly lowering the psion's fatigue and sleep deprivation ratings. The rate of reduction increases per power level and with the psion's metaphysics skill, with the formula: 1 in (55 - ( Wakeful Rest power level * 2) - Metaphysics skill) ), 15 ) chance per second for fatigue, and 1 per second for sleep deprivation.  When fatigue hits zero, a prompt to cancel the meditation pops up.<br />
+*Effects*: Meditate in lieu of sleep. Using the power will begin the meditating, slowly lowering the psion's sleepiness and sleep deprivation ratings. The rate of reduction increases per power level and with the psion's metaphysics skill, with the formula: 1 in (55 - ( Wakeful Rest power level * 2) - Metaphysics skill) ), 15 ) chance per second for sleepiness, and 1 per second for sleep deprivation.  When sleepiness hits zero, a prompt to cancel the meditation pops up.<br />
 *Prerequisites*: Healthy Glow 8, Immunostimulus 4<br />
 
 ## Damage Balancing
@@ -1200,7 +1200,7 @@ Powers causing telepathic damage have a 5% chance to down the target, a 33% chan
 *Duration*: 2 minutes and 26 seconds to 6 minutes and 12 seconds, plus 29 seconds to 1 minute and 50 seconds per power level<br />
 *Stamina Cost*: 10000, minus 150 per level to a minimum of 6500<br />
 *Channeling Time*: 10 seconds<br />
-*Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 30 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 80 units of vitamin C, and gains 2 to 10 points of fatigue.<br />
+*Effects*: Use up the psion's bodily reserves to speed healing to a preternatural rate. Every 30 seconds, the psion heals one hit point to every body part, but whenever a healing tick occurs, the psion loses between 50 and 250 kCal, 50 to 200 units of iron, 100 to 200 units of calcium, 20 to 80 units of vitamin C, and gains 2 to 10 points of sleepiness.<br />
 *Prerequisites*: Healthy Glow 14 *or* Revitalizing Meditation 9, Damage Balancing 10 *or* Detoxification 7 *or* Blood Purge 5<br />
 
 ## Accelerated Resuscitation

@@ -289,7 +289,7 @@
     "addiction_potential": 3,
     "addiction_type": "caffeine",
     "use_action": { "type": "consume_drug", "activation_message": "You take a caffeine pill." },
-    "fatigue_mod": 9
+    "sleepiness_mod": 9
   },
   {
     "id": "chaw",
@@ -448,7 +448,7 @@
     "weight": "61 g",
     "color": "brown",
     "addiction_type": "amphetamine",
-    "fatigue_mod": 60,
+    "sleepiness_mod": 60,
     "stim": 20,
     "container": "bottle_glass",
     "comestible_type": "DRINK",

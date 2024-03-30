@@ -200,7 +200,7 @@ struct mutation_branch {
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
         // IF any of the four are true, it drains that as the "cost"
-        bool fatigue       = false;
+        bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
         // How many points it costs in character creation
@@ -290,10 +290,10 @@ struct mutation_branch {
         std::optional<float> metabolism_modifier = std::nullopt;
         // As above but for thirst.
         std::optional<float> thirst_modifier = std::nullopt;
-        // As above but for fatigue.
-        std::optional<float> fatigue_modifier = std::nullopt;
-        // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        std::optional<float> fatigue_regen_modifier = std::nullopt;
+        // As above but for sleepiness.
+        std::optional<float> sleepiness_modifier = std::nullopt;
+        // Modifier for the rate at which sleepiness and sleep deprivation drops when resting.
+        std::optional<float> sleepiness_regen_modifier = std::nullopt;
         // Modifier for the rate at which stamina regenerates.
         std::optional<float> stamina_regen_modifier = std::nullopt;
         // the modifier for obtaining an item from a container as a handling penalty

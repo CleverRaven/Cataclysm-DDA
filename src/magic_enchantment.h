@@ -48,7 +48,7 @@ enum class mod : int {
     REGEN_HP,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
-    FATIGUE,       // fatigue rate
+    SLEEPINESS,       // sleepiness rate
     PAIN,
     PAIN_REMOVE,
     BONUS_DODGE,

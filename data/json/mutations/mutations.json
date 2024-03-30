@@ -1047,7 +1047,7 @@
     "active": true,
     "cost": 90,
     "time": "10 s",
-    "fatigue": true,
+    "sleepiness": true,
     "kcal": true,
     "thirst": true,
     "dodge_modifier": 2,
@@ -1063,7 +1063,7 @@
     "types": [ "SLEEP" ],
     "starting_trait": true,
     "category": [ "ALPHA", "ELFA", "PLANT", "BATRACHIAN" ],
-    "fatigue_modifier": -0.15
+    "sleepiness_modifier": -0.15
   },
   {
     "type": "mutation",
@@ -1458,8 +1458,8 @@
     "starting_trait": true,
     "types": [ "SLEEP" ],
     "category": [ "BEAST", "CHIMERA", "MOUSE", "RABBIT", "FELINE", "RAT" ],
-    "fatigue_modifier": 0.333,
-    "fatigue_regen_modifier": 0.333
+    "sleepiness_modifier": 0.333,
+    "sleepiness_regen_modifier": 0.333
   },
   {
     "type": "mutation",
@@ -2345,7 +2345,7 @@
     "changes_to": [ "WAKEFUL3" ],
     "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA", "THRESH_BATRACHIAN" ],
     "category": [ "ALPHA", "ELFA", "BATRACHIAN" ],
-    "fatigue_modifier": -0.25
+    "sleepiness_modifier": -0.25
   },
   {
     "type": "mutation",
@@ -2358,8 +2358,8 @@
     "prereqs": [ "WAKEFUL2" ],
     "threshreq": [ "THRESH_ELFA" ],
     "category": [ "ELFA" ],
-    "fatigue_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5
+    "sleepiness_modifier": -0.5,
+    "sleepiness_regen_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -3673,7 +3673,7 @@
     "cost": 90,
     "kcal": true,
     "thirst": true,
-    "fatigue": true
+    "sleepiness": true
   },
   {
     "type": "mutation",
@@ -3691,7 +3691,7 @@
     "cost": 90,
     "kcal": true,
     "thirst": true,
-    "fatigue": true
+    "sleepiness": true
   },
   {
     "type": "mutation",
@@ -5715,7 +5715,7 @@
     "category": [ "URSINE", "CATTLE", "CRUSTACEAN" ],
     "passive_mods": { "str_mod": 4 },
     "hp_adjustment": -6,
-    "fatigue_modifier": 0.15,
+    "sleepiness_modifier": 0.15,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
     "destroys_gear": true,
     "stomach_size_multiplier": 2.0,
@@ -6785,7 +6785,7 @@
     "types": [ "METABOLISM" ],
     "changes_to": [ "PERSISTENCE_HUNTER2" ],
     "category": [ "LUPINE" ],
-    "fatigue_modifier": -0.1,
+    "sleepiness_modifier": -0.1,
     "stamina_regen_modifier": 0.1
   },
   {
@@ -6798,7 +6798,7 @@
     "prereqs": [ "PERSISTENCE_HUNTER" ],
     "threshreq": [ "THRESH_LUPINE" ],
     "category": [ "LUPINE" ],
-    "fatigue_modifier": -0.2,
+    "sleepiness_modifier": -0.2,
     "stamina_regen_modifier": 0.2
   },
   {
@@ -6826,8 +6826,8 @@
     "category": [ "RAT", "MOUSE", "RABBIT" ],
     "healing_awake": 0.133,
     "healing_multiplier": 1.5,
-    "fatigue_modifier": 0.5,
-    "fatigue_regen_modifier": 0.333,
+    "sleepiness_modifier": 0.5,
+    "sleepiness_regen_modifier": 0.333,
     "metabolism_modifier": 0.333
   },
   {
@@ -6922,7 +6922,7 @@
     "prereqs": [ "SLEEPY" ],
     "types": [ "SLEEP" ],
     "category": [ "FELINE" ],
-    "fatigue_modifier": 1.0
+    "sleepiness_modifier": 1.0
   },
   {
     "type": "mutation",

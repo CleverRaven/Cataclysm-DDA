@@ -103,7 +103,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_SALAMANDER_NO_SLEEP",
-    "effect": [ { "math": [ "u_val('fatigue')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "=", "0" ] }, { "math": [ "u_val('sleep_deprivation')", "=", "0" ] } ]
   },
   {
     "type": "effect_on_condition",

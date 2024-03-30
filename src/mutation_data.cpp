@@ -346,7 +346,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "time", cooldown, 0_turns );
     optional( jo, was_loaded, "kcal", hunger, false );
     optional( jo, was_loaded, "thirst", thirst, false );
-    optional( jo, was_loaded, "fatigue", fatigue, false );
+    optional( jo, was_loaded, "sleepiness", sleepiness, false );
     optional( jo, was_loaded, "valid", valid, true );
     optional( jo, was_loaded, "purifiable", purifiable, true );
 
@@ -437,8 +437,8 @@ void mutation_branch::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, std::nullopt );
     optional( jo, was_loaded, "metabolism_modifier", metabolism_modifier, std::nullopt );
     optional( jo, was_loaded, "thirst_modifier", thirst_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, std::nullopt );
-    optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, std::nullopt );
+    optional( jo, was_loaded, "sleepiness_modifier", sleepiness_modifier, std::nullopt );
+    optional( jo, was_loaded, "sleepiness_regen_modifier", sleepiness_regen_modifier, std::nullopt );
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, std::nullopt );
     optional( jo, was_loaded, "obtain_cost_multiplier", obtain_cost_multiplier, std::nullopt );
     optional( jo, was_loaded, "stomach_size_multiplier", stomach_size_multiplier, std::nullopt );

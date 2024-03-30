@@ -65,25 +65,25 @@
         "id": "label_normal",
         "text": "Pain ",
         "color": "c_magenta",
-        "condition": { "math": [ "u_val('fatigue')", "<", "1000000" ] }
+        "condition": { "math": [ "u_val('sleepiness')", "<", "1000000" ] }
       },
       {
         "id": "label_tired",
         "text": "Pain ",
         "color": "c_pink",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "1000000" ] }, { "math": [ "u_val('fatigue')", "<", "1000000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "1000000" ] }, { "math": [ "u_val('sleepiness')", "<", "1000000" ] } ] }
       },
       {
         "id": "label_very_tired",
         "text": "Pain ",
         "color": "c_light_red",
-        "condition": { "and": [ { "math": [ "u_val('fatigue')", ">=", "1000000" ] }, { "math": [ "u_val('fatigue')", "<", "1000000" ] } ] }
+        "condition": { "and": [ { "math": [ "u_val('sleepiness')", ">=", "1000000" ] }, { "math": [ "u_val('sleepiness')", "<", "1000000" ] } ] }
       },
       {
         "id": "label_exhausted",
         "text": "Pain ",
         "color": "c_pink_red",
-        "condition": { "math": [ "u_val('fatigue')", ">=", "1000000" ] }
+        "condition": { "math": [ "u_val('sleepiness')", ">=", "1000000" ] }
       }
     ]
   },

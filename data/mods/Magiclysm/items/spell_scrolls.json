@@ -328,11 +328,11 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_recover_fatigue",
+    "id": "spell_scroll_recover_sleepiness",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
-    "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover from fatigue quickly in exchange for mana.",
+    "use_action": { "type": "learn_spell", "spells": [ "recover_sleepiness" ] }
   },
   {
     "type": "BOOK",

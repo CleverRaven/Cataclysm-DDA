@@ -992,7 +992,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         for( const string_id<effect_type> &eff : removable ) {
             remove_effect( eff );
         }
-        // Purging the substance won't remove the fatigue it caused
+        // Purging the substance won't remove the sleepiness it caused
         force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );

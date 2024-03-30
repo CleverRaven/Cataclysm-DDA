@@ -32,14 +32,14 @@
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_stamina_carrywt_malus", "zenfs_fatigue_weariness_activity", "zenfs_pain_power_mana" ]
+    "widgets": [ "zenfs_stamina_carrywt_malus", "zenfs_sleepiness_weariness_activity", "zenfs_pain_power_mana" ]
   },
   {
     "id": "zenfs_physical_num_block",
     "type": "widget",
     "style": "layout",
     "arrange": "minimum_columns",
-    "widgets": [ "zenfs_num_stamina_carrywt_malus", "zenfs_num_fatigue_weariness_activity", "zenfs_num_pain_power_mana" ],
+    "widgets": [ "zenfs_num_stamina_carrywt_malus", "zenfs_num_sleepiness_weariness_activity", "zenfs_num_pain_power_mana" ],
     "padding": 5
   },
   {
@@ -168,7 +168,7 @@
       "zenfs_pain_bar_15",
       "zenfs_carry_weight_bar_12",
       "zenfs_stamina_bar_12",
-      "zenfs_fatigue_bar",
+      "zenfs_sleepiness_bar",
       "zenfs_weariness_bar_10",
       "zenfs_activity_desc",
       "zenfs_weariness_trans_malus"
@@ -183,7 +183,7 @@
     "widgets": [
       "zenfs_pain_num",
       "zenfs_stamina_num",
-      "zenfs_fatigue_num",
+      "zenfs_sleepiness_num",
       "zenfs_weariness_num",
       "zenfs_weariness_trans_malus_num",
       "zenfs_activity_desc_no_label_12",
@@ -239,12 +239,12 @@
     "widgets": [ "zenfs_stamina_bar_14", "zenfs_carry_weight_bar_14", "zenfs_weariness_trans_malus_alt" ]
   },
   {
-    "id": "zenfs_fatigue_weariness_activity",
+    "id": "zenfs_sleepiness_weariness_activity",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 20,
-    "widgets": [ "zenfs_fatigue_bar", "zenfs_weariness_bar_10", "zenfs_activity_desc" ]
+    "widgets": [ "zenfs_sleepiness_bar", "zenfs_weariness_bar_10", "zenfs_activity_desc" ]
   },
   {
     "id": "zenfs_pain_power_mana",
@@ -263,12 +263,12 @@
     "widgets": [ "zenfs_stamina_num", "zenfs_carry_weight_num", "zenfs_weariness_trans_malus_num_alt" ]
   },
   {
-    "id": "zenfs_num_fatigue_weariness_activity",
+    "id": "zenfs_num_sleepiness_weariness_activity",
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
     "width": 12,
-    "widgets": [ "zenfs_fatigue_num", "zenfs_activity_desc_no_label_12", "zenfs_weariness_num" ]
+    "widgets": [ "zenfs_sleepiness_num", "zenfs_activity_desc_no_label_12", "zenfs_weariness_num" ]
   },
   {
     "id": "zenfs_num_pain_power_mana",

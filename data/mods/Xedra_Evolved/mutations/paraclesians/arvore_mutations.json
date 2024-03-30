@@ -1377,7 +1377,7 @@
     "category": [ "ARVORE" ],
     "threshreq": [ "THRESH_ARVORE" ],
     "metabolism_modifier": -0.5,
-    "fatigue_regen_modifier": 0.5,
+    "sleepiness_regen_modifier": 0.5,
     "healing_awake": 0.8,
     "healing_multiplier": 2.5,
     "mending_modifier": 16,

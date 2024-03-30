@@ -111,7 +111,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_HEALTH_CHANGE", 4 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ]
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ]
               ]
             }
           },
@@ -126,7 +126,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ]
               ]
             }
@@ -142,7 +142,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ]
@@ -160,7 +160,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
@@ -180,7 +180,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
@@ -201,7 +201,7 @@
                 [ "EOC_DRAIN_EFFECT_CHECK_NOSEBLEED", 8 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_STAMINA_LOSS", 5 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_POWER_SURGE", 3 ],
-                [ "EOC_DRAIN_EFFECT_CHECK_FATIGUE", 3 ],
+                [ "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_TELEPORT_LOCK", 3 ],
                 [ "EOC_DRAIN_EFFECT_CHECK_WEAKNESS", 3 ],
                 [ "EOC_NETHER_EFFECT_CHECK_BREATHING", 3 ],
@@ -380,7 +380,7 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_DRAIN_EFFECT_CHECK_FATIGUE",
+    "id": "EOC_DRAIN_EFFECT_CHECK_SLEEPINESS",
     "//": "Base is 2% chance from 70 attunement to 125 attunement, then scaling up 0.15% per attunement up to 9.5% chance at 175 attunement, then scaling up 0.45% chance per attunement up to 32% chance at 225 attunement, then scaling up 0.3% to 39.5% chance at max, plus the Difficulty squared.",
     "condition": {
       "and": [
@@ -399,7 +399,7 @@
     },
     "effect": [
       { "u_message": "As you unleash your powers, you feel tired.", "type": "bad" },
-      { "math": [ "u_val('fatigue')", "+=", "rng(30,90)" ] }
+      { "math": [ "u_val('sleepiness')", "+=", "rng(30,90)" ] }
     ]
   },
   {
