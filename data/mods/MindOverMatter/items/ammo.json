@@ -59,6 +59,6 @@
     "copy-from": "psionic_charge_power",
     "name": { "str_sp": "noetic energy" },
     "ammo_type": "noetic_charge_power",
-    "description": "Power charge for psychic phenomena."
+    "description": "Power charge for psychi phenomena."
   }
 ]
