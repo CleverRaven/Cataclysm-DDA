@@ -1717,8 +1717,9 @@ static void cast_spell()
         if( player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
             !player_character.has_flag( json_flag_NO_PSIONICS ) ) {
             add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                    _( "You can't cast any of the spells you know!" ) );
-        } else if ( !player_character.has_flag( json_flag_NO_SPELLCASTING ) && player_character.has_flag( json_flag_NO_PSIONICS ) ) {
+                     _( "You can't cast any of the spells you know!" ) );
+        } else if( !player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
+                   player_character.has_flag( json_flag_NO_PSIONICS ) ) {
             add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                     _( "You can't channel any of the powers you know!" ) );
         } else {
