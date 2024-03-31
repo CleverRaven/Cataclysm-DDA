@@ -4093,7 +4093,7 @@ bool npc::wield_better_weapon()
             // we just recur to the next farther down
             return VisitResponse::NEXT;
         }
-        return VisitResponse::SKIP;
+        return VisitResponse::NEXT;
     } );
 
     // TODO: Reimplement switching to empty guns
