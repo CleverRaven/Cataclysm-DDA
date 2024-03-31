@@ -306,6 +306,10 @@ static const species_id species_PLANT( "PLANT" );
 
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
 
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_manhole( "t_manhole" );
+static const ter_str_id ter_t_manhole_cover( "t_manhole_cover" );
+
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -12185,9 +12189,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( here.ter( stairs ) == t_manhole_cover ) {
+    if( here.ter( stairs ) == ter_t_manhole_cover ) {
         here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
-        here.ter_set( stairs, t_manhole );
+        here.ter_set( stairs, ter_t_manhole );
     }
 
     if( u.is_hauling() ) {
@@ -12283,8 +12287,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
-                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+                                    mp.ter( dest ) == ter_t_manhole_cover ) ) ||
+                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
             }

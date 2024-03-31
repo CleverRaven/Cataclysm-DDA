@@ -146,13 +146,50 @@ static const oter_str_id oter_solid_earth( "solid_earth" );
 
 static const species_id species_FERAL( "FERAL" );
 
+static const ter_str_id ter_t_bars( "t_bars" );
+static const ter_str_id ter_t_card_industrial( "t_card_industrial" );
+static const ter_str_id ter_t_card_military( "t_card_military" );
+static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
+static const ter_str_id ter_t_card_science( "t_card_science" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_door_b( "t_door_b" );
+static const ter_str_id ter_t_door_bar_c( "t_door_bar_c" );
+static const ter_str_id ter_t_door_bar_locked( "t_door_bar_locked" );
+static const ter_str_id ter_t_door_bar_o( "t_door_bar_o" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_frame( "t_door_frame" );
+static const ter_str_id ter_t_door_locked( "t_door_locked" );
+static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
+static const ter_str_id ter_t_door_locked_peep( "t_door_locked_peep" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_wax( "t_floor_wax" );
+static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
+static const ter_str_id ter_t_gas_pump_smashed( "t_gas_pump_smashed" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
+static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
 static const ter_str_id ter_t_soil( "t_soil" );
+static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
 static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_t_tree_hickory( "t_tree_hickory" );
 static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_tree_hickory_harvested( "t_tree_hickory_harvested" );
+static const ter_str_id ter_t_tree_maple_tapped( "t_tree_maple_tapped" );
+static const ter_str_id ter_t_tree_pine( "t_tree_pine" );
+static const ter_str_id ter_t_tree_willow( "t_tree_willow" );
 static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
+static const ter_str_id ter_t_tree_young( "t_tree_young" );
+static const ter_str_id ter_t_vat( "t_vat" );
+static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
+static const ter_str_id ter_t_wall_glass_alarm( "t_wall_glass_alarm" );
+static const ter_str_id ter_t_wax( "t_wax" );
+static const ter_str_id ter_t_window( "t_window" );
+static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
+static const ter_str_id ter_t_window_empty( "t_window_empty" );
+static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
@@ -834,8 +871,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         veh.velocity -= std::clamp( veh.velocity, -2000, 2000 ); // extra drag
         for( const tripoint &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
-            if( pter == t_dirt || pter == t_grass ) {
-                ter_set( p, t_dirtmound );
+            if( pter == ter_t_dirt || pter == ter_t_grass ) {
+                ter_set( p, ter_t_dirtmound );
             }
         }
     }
@@ -4529,32 +4566,33 @@ bool map::hit_with_acid( const tripoint &p )
         return false;    // Didn't hit the tile!
     }
     const ter_id t = ter( p );
-    if( t == t_wall_glass || t == t_wall_glass_alarm ||
-        t == t_vat ) {
-        ter_set( p, t_floor );
-    } else if( t == t_door_c || t == t_door_locked || t == t_door_locked_peep ||
-               t == t_door_locked_alarm ) {
+    if( t == ter_t_wall_glass || t == ter_t_wall_glass_alarm ||
+        t == ter_t_vat ) {
+        ter_set( p, ter_t_floor );
+    } else if( t == ter_t_door_c || t == ter_t_door_locked || t == ter_t_door_locked_peep ||
+               t == ter_t_door_locked_alarm ) {
         if( one_in( 3 ) ) {
-            ter_set( p, t_door_b );
+            ter_set( p, ter_t_door_b );
         }
-    } else if( t == t_door_bar_c || t == t_door_bar_o || t == t_door_bar_locked || t == t_bars ||
-               t == t_reb_cage ) {
-        ter_set( p, t_floor );
+    } else if( t == ter_t_door_bar_c || t == ter_t_door_bar_o || t == ter_t_door_bar_locked ||
+               t == ter_t_bars ||
+               t == ter_t_reb_cage ) {
+        ter_set( p, ter_t_floor );
         add_msg_if_player_sees( p, m_warning, _( "The metal bars melt!" ) );
-    } else if( t == t_door_b ) {
+    } else if( t == ter_t_door_b ) {
         if( one_in( 4 ) ) {
-            ter_set( p, t_door_frame );
+            ter_set( p, ter_t_door_frame );
         } else {
             return false;
         }
-    } else if( t == t_window || t == t_window_alarm || t == t_window_no_curtains ) {
-        ter_set( p, t_window_empty );
-    } else if( t == t_wax ) {
-        ter_set( p, t_floor_wax );
-    } else if( t == t_gas_pump || t == t_gas_pump_smashed ) {
+    } else if( t == ter_t_window || t == ter_t_window_alarm || t == ter_t_window_no_curtains ) {
+        ter_set( p, ter_t_window_empty );
+    } else if( t == ter_t_wax ) {
+        ter_set( p, ter_t_floor_wax );
+    } else if( t == ter_t_gas_pump || t == ter_t_gas_pump_smashed ) {
         return false;
-    } else if( t == t_card_science || t == t_card_military || t == t_card_industrial ) {
-        ter_set( p, t_card_reader_broken );
+    } else if( t == ter_t_card_science || t == ter_t_card_military || t == ter_t_card_industrial ) {
+        ter_set( p, ter_t_card_reader_broken );
     }
     return true;
 }
@@ -5596,7 +5634,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
         // root cellars are special
         temperature_flag flag = temperature_flag::NORMAL;
-        if( ter( map_location ) == t_rootcellar ) {
+        if( ter( map_location ) == ter_t_rootcellar ) {
             flag = temperature_flag::ROOT_CELLAR;
         }
 
@@ -8364,7 +8402,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
         return;
     }
 
-    if( t_tree_maple_tapped != ter( p ) ) {
+    if( !( ter( p ) == ter_t_tree_maple_tapped ) ) {
         return;
     }
 
@@ -8476,13 +8514,13 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_t_dirt},
-            {t_tree_young, ter_t_dirt},
-            {t_tree_pine, ter_t_tree_deadpine},
-            {t_tree_birch, ter_t_tree_birch_harvested},
-            {t_tree_willow, ter_t_tree_willow_harvested},
-            {t_tree_hickory, ter_t_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
+            {ter_t_grass, ter_t_dirt},
+            {ter_t_tree_young, ter_t_dirt},
+            {ter_t_tree_pine, ter_t_tree_deadpine},
+            {ter_t_tree_birch, ter_t_tree_birch_harvested},
+            {ter_t_tree_willow, ter_t_tree_willow_harvested},
+            {ter_t_tree_hickory, ter_t_tree_hickory_dead},
+            {ter_t_tree_hickory_harvested, ter_t_tree_hickory_dead},
         }};
 
     const auto iter = dies_into.find( tid );

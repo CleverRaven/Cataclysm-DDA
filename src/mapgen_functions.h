@@ -32,8 +32,8 @@ int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array
 
 using building_gen_pointer = void ( * )( mapgendata & );
 building_gen_pointer get_mapgen_cfunction( const std::string &ident );
-ter_id grass_or_dirt();
-ter_id clay_or_sand();
+ter_str_id grass_or_dirt();
+ter_str_id clay_or_sand();
 
 // helper functions for mapgen.cpp, so that we can avoid having a massive switch statement (sorta)
 void mapgen_null( mapgendata &dat );

@@ -77,6 +77,13 @@ static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_grass_alien( "t_grass_alien" );
+static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
+static const ter_str_id ter_t_grass_white( "t_grass_white" );
+static const ter_str_id ter_t_fault( "t_fault" );
+
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -292,7 +299,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         const tripoint minp = tripoint( 0, 0, you.posz() );
         const tripoint maxp = tripoint( MAPSIZE_X, MAPSIZE_Y, you.posz() );
         for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
-            if( m.ter( pt ) == t_fault ) {
+            if( m.ter( pt ) == ter_t_fault ) {
                 int dist = rl_dist( pt, you.pos() );
                 if( dist < curdist ) {
                     curdist = dist;
@@ -872,7 +879,7 @@ bool avatar_action::eat_here( avatar &you )
             add_msg( _( "You're too full to eat the leaves from the %s." ), here.ter( you.pos() )->name() );
             return true;
         } else {
-            here.ter_set( you.pos(), t_grass );
+            here.ter_set( you.pos(), ter_t_grass );
             item food( "underbrush", calendar::turn, 1 );
             you.assign_activity( consume_activity_actor( food ) );
             return true;
@@ -905,16 +912,17 @@ bool avatar_action::eat_here( avatar &you )
         }
     }
     if( you.has_active_mutation( trait_GRAZER ) ) {
-        if( here.ter( you.pos() ) == t_grass_golf || here.ter( you.pos() ) == t_grass ) {
+        const ter_id &ter_underfoot = here.ter( you.pos() );
+        if( ter_underfoot == ter_t_grass_golf || ter_underfoot == ter_t_grass ) {
             add_msg( _( "This grass is too short to graze." ) );
             return true;
-        } else if( here.ter( you.pos() ) == t_grass_dead ) {
+        } else if( ter_underfoot == ter_t_grass_dead ) {
             add_msg( _( "This grass is dead and too mangled for you to graze." ) );
             return true;
-        } else if( here.ter( you.pos() ) == t_grass_white ) {
+        } else if( ter_underfoot == ter_t_grass_white ) {
             add_msg( _( "This grass is tainted with paint and thus inedible." ) );
             return true;
-        } else if( here.ter( you.pos() ) == t_grass_alien ) {
+        } else if( ter_underfoot == ter_t_grass_alien ) {
             add_msg( _( "This grass is razor sharp and would probably shred your mouth." ) );
             return true;
         }

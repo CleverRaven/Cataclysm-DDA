@@ -33,6 +33,8 @@ class item;
 
 static const efftype_id effect_bleed( "bleed" );
 
+static const ter_str_id ter_t_floor( "t_floor" );
+
 static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
@@ -142,7 +144,7 @@ static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint
         // Don't need to board this up, is already occupied
         return;
     }
-    if( m.ter( p ) != t_floor ) {
+    if( m.ter( p ) != ter_t_floor ) {
         // Other terrain (door, wall, ...), not boarded either
         return;
     }

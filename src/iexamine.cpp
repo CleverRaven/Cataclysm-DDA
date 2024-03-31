@@ -222,8 +222,27 @@ static const skill_id skill_traps( "traps" );
 
 static const ter_str_id ter_t_diesel_pump( "t_diesel_pump" );
 static const ter_str_id ter_t_diesel_pump_a( "t_diesel_pump_a" );
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_covered( "t_pit_covered" );
+static const ter_str_id ter_t_pit_glass( "t_pit_glass" );
+static const ter_str_id ter_t_pit_glass_covered( "t_pit_glass_covered" );
+static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
+static const ter_str_id ter_t_pit_spiked_covered( "t_pit_spiked_covered" );
+static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
+static const ter_str_id ter_t_rock_green( "t_rock_green" );
+static const ter_str_id ter_t_rock_red( "t_rock_red" );
+static const ter_str_id ter_t_switch_even( "t_switch_even" );
+static const ter_str_id ter_t_switch_gb( "t_switch_gb" );
+static const ter_str_id ter_t_switch_rb( "t_switch_rb" );
+static const ter_str_id ter_t_switch_rg( "t_switch_rg" );
+static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_tree_maple( "t_tree_maple" );
+static const ter_str_id ter_t_tree_maple_tapped( "t_tree_maple_tapped" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -1674,12 +1693,13 @@ void iexamine::pit( Character &you, const tripoint &examp )
     map &here = get_map();
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
         you.consume_items( planks, 1, is_crafting_component );
-        if( here.ter( examp ) == t_pit ) {
-            here.ter_set( examp, t_pit_covered );
-        } else if( here.ter( examp ) == t_pit_spiked ) {
-            here.ter_set( examp, t_pit_spiked_covered );
-        } else if( here.ter( examp ) == t_pit_glass ) {
-            here.ter_set( examp, t_pit_glass_covered );
+        const ter_id &ter_pit = here.ter( examp );
+        if( ter_pit == ter_t_pit ) {
+            here.ter_set( examp, ter_t_pit_covered );
+        } else if( ter_pit == ter_t_pit_spiked ) {
+            here.ter_set( examp, ter_t_pit_spiked_covered );
+        } else if( ter_pit == ter_t_pit_glass ) {
+            here.ter_set( examp, ter_t_pit_glass_covered );
         }
         add_msg( _( "You place a plank of wood over the pit." ) );
         you.mod_moves( -to_moves<int>( 1_seconds ) );
@@ -1700,13 +1720,13 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
     item plank( "2x4", calendar::turn );
     add_msg( _( "You remove the plank." ) );
     here.add_item_or_charges( you.pos(), plank );
-
-    if( here.ter( examp ) == t_pit_covered ) {
-        here.ter_set( examp, t_pit );
-    } else if( here.ter( examp ) == t_pit_spiked_covered ) {
-        here.ter_set( examp, t_pit_spiked );
-    } else if( here.ter( examp ) == t_pit_glass_covered ) {
-        here.ter_set( examp, t_pit_glass );
+    const ter_id &ter_pit = here.ter( examp );
+    if( ter_pit == ter_t_pit_covered ) {
+        here.ter_set( examp, ter_t_pit );
+    } else if( ter_pit == ter_t_pit_spiked_covered ) {
+        here.ter_set( examp, ter_t_pit_spiked );
+    } else if( ter_pit == ter_t_pit_glass_covered ) {
+        here.ter_set( examp, ter_t_pit_glass );
     }
     you.mod_moves( -to_moves<int>( 1_seconds ) );
 }
@@ -2050,50 +2070,51 @@ void iexamine::fswitch( Character &you, const tripoint &examp )
     tmp.z = examp.z;
     for( tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
         for( tmp.x = 0; tmp.x < MAPSIZE_X; tmp.x++ ) {
-            if( terid == t_switch_rg ) {
-                if( here.ter( tmp ) == t_rock_red ) {
-                    here.ter_set( tmp, t_floor_red );
-                } else if( here.ter( tmp ) == t_floor_red ) {
-                    here.ter_set( tmp, t_rock_red );
-                } else if( here.ter( tmp ) == t_rock_green ) {
-                    here.ter_set( tmp, t_floor_green );
-                } else if( here.ter( tmp ) == t_floor_green ) {
-                    here.ter_set( tmp, t_rock_green );
+            const ter_id &nearby_ter = here.ter( tmp );
+            if( terid == ter_t_switch_rg ) {
+                if( nearby_ter == ter_t_rock_red ) {
+                    here.ter_set( tmp, ter_t_floor_red );
+                } else if( nearby_ter == ter_t_floor_red ) {
+                    here.ter_set( tmp, ter_t_rock_red );
+                } else if( nearby_ter == ter_t_rock_green ) {
+                    here.ter_set( tmp, ter_t_floor_green );
+                } else if( nearby_ter == ter_t_floor_green ) {
+                    here.ter_set( tmp, ter_t_rock_green );
                 }
-            } else if( terid == t_switch_gb ) {
-                if( here.ter( tmp ) == t_rock_blue ) {
-                    here.ter_set( tmp, t_floor_blue );
-                } else if( here.ter( tmp ) == t_floor_blue ) {
-                    here.ter_set( tmp, t_rock_blue );
-                } else if( here.ter( tmp ) == t_rock_green ) {
-                    here.ter_set( tmp, t_floor_green );
-                } else if( here.ter( tmp ) == t_floor_green ) {
-                    here.ter_set( tmp, t_rock_green );
+            } else if( terid == ter_t_switch_gb ) {
+                if( nearby_ter == ter_t_rock_blue ) {
+                    here.ter_set( tmp, ter_t_floor_blue );
+                } else if( nearby_ter == ter_t_floor_blue ) {
+                    here.ter_set( tmp, ter_t_rock_blue );
+                } else if( nearby_ter == ter_t_rock_green ) {
+                    here.ter_set( tmp, ter_t_floor_green );
+                } else if( nearby_ter == ter_t_floor_green ) {
+                    here.ter_set( tmp, ter_t_rock_green );
                 }
-            } else if( terid == t_switch_rb ) {
-                if( here.ter( tmp ) == t_rock_blue ) {
-                    here.ter_set( tmp, t_floor_blue );
-                } else if( here.ter( tmp ) == t_floor_blue ) {
-                    here.ter_set( tmp, t_rock_blue );
-                } else if( here.ter( tmp ) == t_rock_red ) {
-                    here.ter_set( tmp, t_floor_red );
-                } else if( here.ter( tmp ) == t_floor_red ) {
-                    here.ter_set( tmp, t_rock_red );
+            } else if( terid == ter_t_switch_rb ) {
+                if( nearby_ter == ter_t_rock_blue ) {
+                    here.ter_set( tmp, ter_t_floor_blue );
+                } else if( nearby_ter == ter_t_floor_blue ) {
+                    here.ter_set( tmp, ter_t_rock_blue );
+                } else if( nearby_ter == ter_t_rock_red ) {
+                    here.ter_set( tmp, ter_t_floor_red );
+                } else if( nearby_ter == ter_t_floor_red ) {
+                    here.ter_set( tmp, ter_t_rock_red );
                 }
-            } else if( terid == t_switch_even ) {
+            } else if( terid == ter_t_switch_even ) {
                 if( ( tmp.y - examp.y ) % 2 == 1 ) {
-                    if( here.ter( tmp ) == t_rock_red ) {
-                        here.ter_set( tmp, t_floor_red );
-                    } else if( here.ter( tmp ) == t_floor_red ) {
-                        here.ter_set( tmp, t_rock_red );
-                    } else if( here.ter( tmp ) == t_rock_green ) {
-                        here.ter_set( tmp, t_floor_green );
-                    } else if( here.ter( tmp ) == t_floor_green ) {
-                        here.ter_set( tmp, t_rock_green );
-                    } else if( here.ter( tmp ) == t_rock_blue ) {
+                    if( nearby_ter == ter_t_rock_red ) {
+                        here.ter_set( tmp, ter_t_floor_red );
+                    } else if( nearby_ter == ter_t_floor_red ) {
+                        here.ter_set( tmp, ter_t_rock_red );
+                    } else if( nearby_ter == ter_t_rock_green ) {
+                        here.ter_set( tmp, ter_t_floor_green );
+                    } else if( nearby_ter == ter_t_floor_green ) {
+                        here.ter_set( tmp, ter_t_rock_green );
+                    } else if( nearby_ter == ter_t_rock_blue ) {
                         here.ter_set( tmp, t_floor_blue );
-                    } else if( here.ter( tmp ) == t_floor_blue ) {
-                        here.ter_set( tmp, t_rock_blue );
+                    } else if( nearby_ter == t_floor_blue ) {
+                        here.ter_set( tmp, ter_t_rock_blue );
                     }
                 }
             }
@@ -3944,7 +3965,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
                          round( 3 + you.get_skill_level( skill_survival ) ) ),
                          0,
                          calendar::turn );
-        here.ter_set( examp, t_tree_hickory_dead );
+        here.ter_set( examp, ter_t_tree_hickory_dead );
         /** @EFFECT_SURVIVAL speeds up hickory root digging */
         you.moves -= to_moves<int>( 20_seconds ) / ( you.get_skill_level( skill_survival ) + 1 ) + 100;
     }
@@ -3986,7 +4007,7 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
     map &here = get_map();
     item_location spile_loc = g->inv_map_splice( [&here]( const item_location & it ) {
         return it->get_quality_nonrecursive( qual_TREE_TAP ) > 0 &&
-               t_tree_maple_tapped != here.ter( it.position() );
+               !( here.ter( it.position() ) == ter_t_tree_maple_tapped );
     }, _( "Use which tapping tool?" ), PICKUP_RANGE, _( "You don't have a tapping tool at hand." ) );
 
     item *spile = spile_loc.get_item();
@@ -3996,7 +4017,7 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
     std::string spile_name = spile->tname();
 
     you.mod_moves( -to_moves<int>( 20_seconds ) );
-    here.ter_set( examp, t_tree_maple_tapped );
+    here.ter_set( examp, ter_t_tree_maple_tapped );
     here.add_item_or_charges( examp, *spile, false );
     spile_loc.remove_item();
     add_msg( m_info, _( "You drill the maple tree crust and tap a %s into the prepared hole." ),
@@ -4082,7 +4103,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             here.i_clear( examp );
 
             you.mod_moves( -to_moves<int>( 20_seconds ) );
-            here.ter_set( examp, t_tree_maple );
+            here.ter_set( examp, ter_t_tree_maple );
 
             return;
         }

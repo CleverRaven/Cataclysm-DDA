@@ -85,6 +85,10 @@ static const material_id material_iflesh( "iflesh" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_glass( "t_pit_glass" );
+static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
+
 bool monster::is_immune_field( const field_type_id &fid ) const
 {
     if( fid == fd_fungal_haze ) {
@@ -276,7 +280,7 @@ bool monster::know_danger_at( const tripoint &p ) const
 
                 // Don't enter open pits ever unless tiny, can fly or climb well
                 if( !( type->size == creature_size::tiny || can_climb() ) &&
-                    ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+                    ( target == ter_t_pit || target == ter_t_pit_spiked || target == ter_t_pit_glass ) ) {
                     return false;
                 }
             }

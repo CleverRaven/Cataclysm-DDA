@@ -51,6 +51,10 @@ static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
 static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
 
+static const ter_str_id ter_t_fault( "t_fault" );
+static const ter_str_id ter_t_grate( "t_grate" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string key )
     : type( e_t )
@@ -134,9 +138,10 @@ void timed_event::actualize()
             std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_fault ) {
+                if( here.ter( p ) == ter_t_fault ) {
                     fault_point = p;
-                    horizontal = here.ter( p + tripoint_east ) == t_fault || here.ter( p + tripoint_west ) == t_fault;
+                    horizontal = here.ter( p + tripoint_east ) == ter_t_fault ||
+                                 here.ter( p + tripoint_west ) == ter_t_fault;
                     break;
                 }
             }
@@ -146,7 +151,7 @@ void timed_event::actualize()
                     if( horizontal ) {
                         monp.x = rng( fault_point->x, fault_point->x + 2 * SEEX - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( here.ter( point( monp.x, fault_point->y + n ) ) == t_rock_floor ) {
+                            if( here.ter( point( monp.x, fault_point->y + n ) ) == ter_t_rock_floor ) {
                                 monp.y = fault_point->y + n;
                             }
                         }
@@ -154,7 +159,7 @@ void timed_event::actualize()
                         // Vertical fault
                         monp.y = rng( fault_point->y, fault_point->y + 2 * SEEY - 8 );
                         for( int n = -1; n <= 1; n++ ) {
-                            if( here.ter( point( fault_point->x + n, monp.y ) ) == t_rock_floor ) {
+                            if( here.ter( point( fault_point->x + n, monp.y ) ) == ter_t_rock_floor ) {
                                 monp.x = fault_point->x + n;
                             }
                         }
@@ -180,7 +185,7 @@ void timed_event::actualize()
             get_event_bus().send<event_type::opens_temple>();
             bool saw_grate = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_grate ) {
+                if( here.ter( p ) == ter_t_grate ) {
                     here.ter_set( p, t_stairs_down );
                     if( !saw_grate && player_character.sees( p ) ) {
                         saw_grate = true;
@@ -336,7 +341,7 @@ void timed_event::per_turn()
         case timed_event_type::AMIGARA_WHISPERS: {
             bool faults = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_fault ) {
+                if( here.ter( p ) == ter_t_fault ) {
                     faults = true;
                     break;
                 }

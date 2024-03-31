@@ -64,6 +64,7 @@ static const efftype_id effect_amigara( "amigara" );
 
 static const furn_str_id furn_f_centrifuge( "f_centrifuge" );
 static const furn_str_id furn_f_console_broken( "f_console_broken" );
+static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 
 static const itype_id itype_black_box( "black_box" );
 static const itype_id itype_blood( "blood" );
@@ -99,6 +100,24 @@ static const skill_id skill_computer( "computer" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
+
+static const ter_str_id ter_t_concrete( "t_concrete" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_grate( "t_grate" );
+static const ter_str_id ter_t_hole( "t_hole" );
+static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
+static const ter_str_id ter_t_missile( "t_missile" );
+static const ter_str_id ter_t_rad_platform( "t_rad_platform" );
+static const ter_str_id ter_t_sewage( "t_sewage" );
+static const ter_str_id ter_t_sewage_pipe( "t_sewage_pipe" );
+static const ter_str_id ter_t_sewage_pump( "t_sewage_pump" );
+static const ter_str_id ter_t_vat( "t_vat" );
+static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
+static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
 
 static catacurses::window init_window()
 {
@@ -396,21 +415,22 @@ void computer_session::action_open_disarm()
 
 void computer_session::action_open()
 {
-    get_map().translate_radius( t_door_metal_locked, t_floor, 25.0, get_player_character().pos(),
+    get_map().translate_radius( ter_t_door_metal_locked, ter_t_floor, 25.0,
+                                get_player_character().pos(),
                                 true );
     query_any( _( "Doors opened.  Press any key…" ) );
 }
 
 void computer_session::action_open_gate()
 {
-    get_map().translate_radius( t_wall_metal, t_metal_floor, 8.0, get_player_character().pos(),
+    get_map().translate_radius( ter_t_wall_metal, ter_t_metal_floor, 8.0, get_player_character().pos(),
                                 true );
     query_any( _( "Gates opened.  Press any key…" ) );
 }
 
 void computer_session::action_close_gate()
 {
-    get_map().translate_radius( t_metal_floor, t_wall_metal, 8.0, get_player_character().pos(),
+    get_map().translate_radius( ter_t_metal_floor, ter_t_wall_metal, 8.0, get_player_character().pos(),
                                 true );
     query_any( _( "Gates closed.  Press any key…" ) );
 }
@@ -462,7 +482,7 @@ void computer_session::action_sample()
     get_player_character().moves -= 30;
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.ter( p ) != t_sewage_pump ) {
+        if( here.ter( p ) != ter_t_sewage_pump ) {
             continue;
         }
         for( const tripoint &n : here.points_in_radius( p, 1 ) ) {
@@ -722,9 +742,9 @@ void computer_session::action_miss_launch()
                      false );
 
         if( level < 0 ) {
-            tmpmap.translate( t_missile, t_hole );
+            tmpmap.translate( ter_t_missile, ter_t_hole );
         } else {
-            tmpmap.translate( t_metal_floor, t_hole );
+            tmpmap.translate( ter_t_metal_floor, ter_t_hole );
         }
         tmpmap.save();
     }
@@ -1122,18 +1142,19 @@ void computer_session::action_srcf_seal()
     add_msg( m_warning, _( "Evacuate Immediately!" ) );
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.ter( p ) == t_elevator || here.ter( p ) == t_vat ) {
-            here.make_rubble( p, f_rubble_rock, true );
+        if( here.ter( p ) == ter_t_elevator || here.ter( p ) == ter_t_vat ) {
+            here.make_rubble( p, furn_f_rubble_rock, true );
             explosion_handler::explosion( &get_player_character(), p, 40, 0.7, true );
         }
-        if( here.ter( p ) == t_wall_glass ) {
-            here.make_rubble( p, f_rubble_rock, true );
+        if( here.ter( p ) == ter_t_wall_glass ) {
+            here.make_rubble( p, furn_f_rubble_rock, true );
         }
-        if( here.ter( p ) == t_sewage_pipe || here.ter( p ) == t_sewage || here.ter( p ) == t_grate ) {
-            here.make_rubble( p, f_rubble_rock, true );
+        if( here.ter( p ) == ter_t_sewage_pipe || here.ter( p ) == ter_t_sewage ||
+            here.ter( p ) == ter_t_grate ) {
+            here.make_rubble( p, furn_f_rubble_rock, true );
         }
-        if( here.ter( p ) == t_sewage_pump ) {
-            here.make_rubble( p, f_rubble_rock, true );
+        if( here.ter( p ) == ter_t_sewage_pump ) {
+            here.make_rubble( p, furn_f_rubble_rock, true );
             explosion_handler::explosion( &get_player_character(), p, 50, 0.7, true );
         }
     }
@@ -1208,7 +1229,7 @@ void computer_session::action_srcf_elevator()
     query_any( _( "Press any key…" ) );
 }
 
-//irradiates food at t_rad_platform, adds radiation
+//irradiates food at ter_t_rad_platform, adds radiation
 void computer_session::action_irradiator()
 {
     Character &player_character = get_player_character();
@@ -1217,7 +1238,7 @@ void computer_session::action_irradiator()
     bool platform_exists = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
-        if( here.ter( dest ) == t_rad_platform ) {
+        if( here.ter( dest ) == ter_t_rad_platform ) {
             platform_exists = true;
             if( here.i_at( dest ).empty() ) {
                 print_error( _( "ERROR: Processing platform empty." ) );
@@ -1287,7 +1308,7 @@ void computer_session::action_irradiator()
     }
 }
 
-// geiger counter for irradiator, primary measurement at t_rad_platform, secondary at player location
+// geiger counter for irradiator, primary measurement at ter_t_rad_platform, secondary at player location
 void computer_session::action_geiger()
 {
     Character &player_character = get_player_character();
@@ -1300,7 +1321,7 @@ void computer_session::action_geiger()
     map &here = get_map();
     print_error( _( "RADIATION MEASUREMENTS:" ) );
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
-        if( here.ter( dest ) == t_rad_platform ) {
+        if( here.ter( dest ) == ter_t_rad_platform ) {
             source_exists = true;
             platform = dest;
         }
@@ -1343,13 +1364,13 @@ void computer_session::action_conveyor()
     bool p_exists = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
-        if( here.ter( dest ) == t_rad_platform ) {
+        if( here.ter( dest ) == ter_t_rad_platform ) {
             platform = dest;
             p_exists = true;
-        } else if( here.ter( dest ) == t_floor_red ) {
+        } else if( here.ter( dest ) == ter_t_floor_red ) {
             loading = dest;
             l_exists = true;
-        } else if( here.ter( dest ) == t_floor_green ) {
+        } else if( here.ter( dest ) == ter_t_floor_green ) {
             unloading = dest;
             u_exists = true;
         }
@@ -1405,14 +1426,14 @@ void computer_session::action_extract_rad_source()
         bool p_exists = false;
         map &here = get_map();
         for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
-            if( here.ter( dest ) == t_rad_platform ) {
+            if( here.ter( dest ) == ter_t_rad_platform ) {
                 platform = dest;
                 p_exists = true;
             }
         }
         if( p_exists ) {
             here.spawn_item( platform, itype_cobalt_60, rng( 8, 15 ) );
-            here.translate_radius( t_rad_platform, t_concrete, 8.0, player_character.pos(), true );
+            here.translate_radius( ter_t_rad_platform, ter_t_concrete, 8.0, player_character.pos(), true );
             comp.remove_option( COMPACT_IRRADIATOR );
             comp.remove_option( COMPACT_EXTRACT_RAD_SOURCE );
             query_any( _( "Extraction sequence complete…  Press any key." ) );
@@ -1552,7 +1573,7 @@ void computer_session::failure_pump_explode()
     add_msg( m_warning, _( "The pump explodes!" ) );
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.ter( p ) == t_sewage_pump ) {
+        if( here.ter( p ) == ter_t_sewage_pump ) {
             here.make_rubble( p );
             explosion_handler::explosion( &get_player_character(), p, 10 );
         }
@@ -1564,7 +1585,7 @@ void computer_session::failure_pump_leak()
     add_msg( m_warning, _( "Sewage leaks!" ) );
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.ter( p ) != t_sewage_pump ) {
+        if( here.ter( p ) != ter_t_sewage_pump ) {
             continue;
         }
         const int leak_size = rng( 4, 10 );

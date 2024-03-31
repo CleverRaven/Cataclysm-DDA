@@ -100,6 +100,33 @@ static const string_id<class npc_template> npc_template_commune_guard( "commune_
 
 static const string_id<class npc_template> npc_template_thug( "thug" );
 
+static const ter_str_id ter_t_door_b( "t_door_b" );
+static const ter_str_id ter_t_door_boarded( "t_door_boarded" );
+static const ter_str_id ter_t_door_boarded_damaged( "t_door_boarded_damaged" );
+static const ter_str_id ter_t_door_boarded_damaged_peep( "t_door_boarded_damaged_peep" );
+static const ter_str_id ter_t_door_boarded_peep( "t_door_boarded_peep" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_c_peep( "t_door_c_peep" );
+static const ter_str_id ter_t_door_locked( "t_door_locked" );
+static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
+static const ter_str_id ter_t_door_locked_peep( "t_door_locked_peep" );
+static const ter_str_id ter_t_door_o( "t_door_o" );
+static const ter_str_id ter_t_curtains( "t_curtains" );
+static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
+static const ter_str_id ter_t_wall_glass_alarm( "t_wall_glass_alarm" );
+static const ter_str_id ter_t_window( "t_window" );
+static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
+static const ter_str_id ter_t_window_alarm_taped( "t_window_alarm_taped" );
+static const ter_str_id ter_t_window_boarded( "t_window_boarded" );
+static const ter_str_id ter_t_window_boarded_noglass( "t_window_boarded_noglass" );
+static const ter_str_id ter_t_window_domestic( "t_window_domestic" );
+static const ter_str_id ter_t_window_domestic_taped( "t_window_domestic_taped" );
+static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
+static const ter_str_id ter_t_window_no_curtains_taped( "t_window_no_curtains_taped" );
+static const ter_str_id ter_t_window_taped( "t_window_taped" );
+static const ter_str_id ter_t_rdoor_boarded( "t_rdoor_boarded" );
+static const ter_str_id ter_t_rdoor_boarded_damaged( "t_rdoor_boarded_damaged" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NPC_CONSTRUCTION_LEV_2( "NPC_CONSTRUCTION_LEV_2" );
 static const trait_id trait_NPC_MISSION_LEV_1( "NPC_MISSION_LEV_1" );
@@ -2767,12 +2794,10 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
     for( const tripoint &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
-        if( t == t_door_c || t == t_door_c_peep || t == t_door_b
-            || t == t_door_boarded || t == t_door_boarded_damaged
-            || t == t_rdoor_boarded || t == t_rdoor_boarded_damaged
-            || t == t_door_boarded_peep || t == t_door_boarded_damaged_peep ) {
-            bay.ter_set( p, t_door_o );
-        } else if( t == t_door_locked || t == t_door_locked_peep || t == t_door_locked_alarm ) {
+        const std::unordered_set<ter_str_id> openable_doors = {ter_t_door_c, ter_t_door_c_peep, ter_t_door_b, ter_t_door_boarded, ter_t_door_boarded_damaged, ter_t_rdoor_boarded, ter_t_rdoor_boarded_damaged, ter_t_door_boarded_peep, ter_t_door_boarded_damaged_peep };
+        if( openable_doors.find( t.id() ) != openable_doors.end() ) {
+            bay.ter_set( p, ter_t_door_o );
+        } else if( t == ter_t_door_locked || t == ter_t_door_locked_peep || t == ter_t_door_locked_alarm ) {
             const map_bash_info &bash = bay.ter( p ).obj().bash;
             bay.ter_set( p, bash.ter_set );
             // Bash doors twice
@@ -2791,16 +2816,12 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
             bay.collapse_at( p, false );
         }
         //Smash easily breakable stuff
-        else if( ( t == t_window || t == t_window_taped || t == t_window_domestic ||
-                   t == t_window_boarded_noglass || t == t_window_domestic_taped ||
-                   t == t_window_alarm_taped || t == t_window_boarded ||
-                   t == t_curtains || t == t_window_alarm ||
-                   t == t_window_no_curtains || t == t_window_no_curtains_taped )
-                 && one_in( 4 ) ) {
+        else if( const std::unordered_set<ter_str_id> weak_window_ters = {ter_t_window, ter_t_window_taped, ter_t_window_domestic, ter_t_window_boarded_noglass, ter_t_window_domestic_taped, ter_t_window_alarm_taped, ter_t_window_boarded, ter_t_curtains, ter_t_window_alarm, ter_t_window_no_curtains, ter_t_window_no_curtains_taped };
+                 weak_window_ters.find( t.id() ) != weak_window_ters.end() && one_in( 4 ) ) {
             const map_bash_info &bash = bay.ter( p ).obj().bash;
             bay.ter_set( p, bash.ter_set );
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-        } else if( ( t == t_wall_glass || t == t_wall_glass_alarm ) && one_in( 3 ) ) {
+        } else if( ( t == ter_t_wall_glass || t == ter_t_wall_glass_alarm ) && one_in( 3 ) ) {
             const map_bash_info &bash = bay.ter( p ).obj().bash;
             bay.ter_set( p, bash.ter_set );
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );

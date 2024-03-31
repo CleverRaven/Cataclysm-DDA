@@ -155,6 +155,18 @@ static const skill_id skill_swimming( "swimming" );
 static const skill_id skill_traps( "traps" );
 static const skill_id skill_unarmed( "unarmed" );
 
+static const ter_str_id ter_t_clay( "t_clay" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
+static const ter_str_id ter_t_grass_long( "t_grass_long" );
+static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
+static const ter_str_id ter_t_improvised_shelter( "t_improvised_shelter" );
+static const ter_str_id ter_t_moss( "t_moss" );
+static const ter_str_id ter_t_sand( "t_sand" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 static const update_mapgen_id update_mapgen_faction_wall_level_E_1( "faction_wall_level_E_1" );
@@ -4415,11 +4427,9 @@ bool basecamp::survey_field_return( const mission_id &miss_id )
     int mismatch_tiles = 0;
     tripoint mapmin = tripoint( 0, 0, where.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, where.z() );
+    const std::unordered_set<ter_str_id> match_terrains = { ter_t_clay, ter_t_dirt, ter_t_dirtmound, ter_t_grass, ter_t_grass_dead, ter_t_grass_golf, ter_t_grass_long, ter_t_grass_tall, ter_t_moss, ter_t_sand };
     for( const tripoint &p : target.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target.ter( p ) != t_dirt && target.ter( p ) != t_sand && target.ter( p ) != t_clay &&
-            target.ter( p ) != t_dirtmound && target.ter( p ) != t_grass && target.ter( p ) != t_grass_dead &&
-            target.ter( p ) != t_grass_golf && target.ter( p ) != t_grass_long &&
-            target.ter( p ) != t_grass_tall && target.ter( p ) != t_moss ) {
+        if( match_terrains.find( target.ter( p ).id() ) == match_terrains.end() ) {
             mismatch_tiles++;
         }
     }
@@ -4963,7 +4973,7 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
     tinymap target_bay;
 
     target_bay.load( project_to<coords::sm>( omt_tgt ), false );
-    target_bay.ter_set( relay_site_stash, t_improvised_shelter );
+    target_bay.ter_set( relay_site_stash, ter_t_improvised_shelter );
     for( drop_location it : itms_rem ) {
         item *i = it.first.get_item();
         item split_item;

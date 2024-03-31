@@ -137,13 +137,31 @@ static const oter_type_str_id oter_type_road( "road" );
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_fungus( "t_fungus" );
+static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
+static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
+static const ter_str_id ter_t_grass_long( "t_grass_long" );
+static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
+static const ter_str_id ter_t_grass_white( "t_grass_white" );
+static const ter_str_id ter_t_moss( "t_moss" );
+static const ter_str_id ter_t_pavement( "t_pavement" );
+static const ter_str_id ter_t_pavement_y( "t_pavement_y" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
 static const ter_str_id ter_t_tree_deadpine( "t_tree_deadpine" );
+static const ter_str_id ter_t_tree_hickory( "t_tree_hickory" );
 static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_tree_hickory_harvested( "t_tree_hickory_harvested" );
+static const ter_str_id ter_t_tree_pine( "t_tree_pine" );
+static const ter_str_id ter_t_tree_willow( "t_tree_willow" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
+static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const trap_str_id tr_engine( "tr_engine" );
 
@@ -231,17 +249,17 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     // terrain specific conversions
     const ter_id tid = m.ter( loc );
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_t_grass_dead},
-            {t_grass_long, ter_t_grass_dead},
-            {t_grass_tall, ter_t_grass_dead},
-            {t_moss, ter_t_grass_dead},
-            {t_tree_pine, ter_t_tree_deadpine},
-            {t_tree_birch, ter_t_tree_birch_harvested},
-            {t_tree_willow, ter_t_tree_dead},
-            {t_tree_hickory, ter_t_tree_hickory_dead},
-            {t_tree_hickory_harvested, ter_t_tree_hickory_dead},
-            {t_grass_golf, ter_t_grass_dead},
-            {t_grass_white, ter_t_grass_dead},
+            {ter_t_grass, ter_t_grass_dead},
+            {ter_t_grass_long, ter_t_grass_dead},
+            {ter_t_grass_tall, ter_t_grass_dead},
+            {ter_t_moss, ter_t_grass_dead},
+            {ter_t_tree_pine, ter_t_tree_deadpine},
+            {ter_t_tree_birch, ter_t_tree_birch_harvested},
+            {ter_t_tree_willow, ter_t_tree_dead},
+            {ter_t_tree_hickory, ter_t_tree_hickory_dead},
+            {ter_t_tree_hickory_harvested, ter_t_tree_hickory_dead},
+            {ter_t_grass_golf, ter_t_grass_dead},
+            {ter_t_grass_white, ter_t_grass_dead},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -1359,13 +1377,13 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     // this method is deliberate to allow adding new post-terrains
     // (TODO: expand this list when new destroyed terrain is added)
     static const std::map<ter_id, ter_str_id> dies_into {{
-            {t_grass, ter_t_grass_dead},
-            {t_grass_long, ter_t_grass_dead},
-            {t_grass_tall, ter_t_grass_dead},
-            {t_moss, ter_t_grass_dead},
-            {t_fungus, ter_t_dirt},
-            {t_grass_golf, ter_t_grass_dead},
-            {t_grass_white, ter_t_grass_dead},
+            {ter_t_grass, ter_t_grass_dead},
+            {ter_t_grass_long, ter_t_grass_dead},
+            {ter_t_grass_tall, ter_t_grass_dead},
+            {ter_t_moss, ter_t_grass_dead},
+            {ter_t_fungus, ter_t_dirt},
+            {ter_t_grass_golf, ter_t_grass_dead},
+            {ter_t_grass_white, ter_t_grass_dead},
         }};
 
     const auto iter = dies_into.find( tid );
@@ -1532,14 +1550,15 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint loc( i, j, abs_sub.z );
-            if( ( m.ter( loc ) == t_water_sh || m.ter( loc ) == t_water_moving_sh ) &&
+            const ter_id &ter_loc = m.ter( loc );
+            if( ( ter_loc == ter_t_water_sh || ter_loc == ter_t_water_moving_sh ) &&
                 one_in( intensity ) ) {
                 m.furn_set( loc, vegetation.pick()->id() );
             }
             // tall grass imitates reed
-            if( ( m.ter( loc ) == t_dirt || m.ter( loc ) == t_grass ) &&
+            if( ( ter_loc == ter_t_dirt || ter_loc == ter_t_grass ) &&
                 one_in( near_water( loc ) ? intensity : 7 ) ) {
-                m.ter_set( loc, t_grass_tall );
+                m.ter_set( loc, ter_t_grass_tall );
             }
         }
     }
@@ -1567,10 +1586,10 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
 
     // defect types
     weighted_int_list<ter_id> road_defects;
-    road_defects.add( t_pit_shallow, 15 );
-    road_defects.add( t_dirt, 15 );
-    road_defects.add( t_dirtmound, 15 );
-    road_defects.add( t_pavement, 55 );
+    road_defects.add( ter_t_pit_shallow, 15 );
+    road_defects.add( ter_t_dirt, 15 );
+    road_defects.add( ter_t_dirtmound, 15 );
+    road_defects.add( ter_t_pavement, 55 );
     const weighted_int_list<ter_id> defects = road_defects;
 
     // location holders
@@ -2098,7 +2117,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 
     //Then find an empty 3x3 pavement square (no other traps, furniture, or vehicles)
     for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
-        if( ( compmap.ter( p ) == t_pavement || compmap.ter( p ) == t_pavement_y ) &&
+        if( ( compmap.ter( p ) == ter_t_pavement || compmap.ter( p ) == ter_t_pavement_y ) &&
             compmap.tr_at( p ).is_null() &&
             compmap.furn( p ) == f_null &&
             !compmap.veh_at( p ) ) {

@@ -52,6 +52,32 @@ static const oter_str_id oter_river_west( "river_west" );
 static const oter_str_id oter_slimepit( "slimepit" );
 static const oter_str_id oter_slimepit_down( "slimepit_down" );
 
+static const ter_str_id ter_t_buffer( "t_buffer" );
+static const ter_str_id ter_t_buffer_stop( "t_buffer_stop" );
+static const ter_str_id ter_t_clay( "t_clay" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
+static const ter_str_id ter_t_railroad_tie( "t_railroad_tie" );
+static const ter_str_id ter_t_railroad_tie_d( "t_railroad_tie_d" );
+static const ter_str_id ter_t_railroad_tie_d1( "t_railroad_tie_d1" );
+static const ter_str_id ter_t_railroad_tie_d2( "t_railroad_tie_d2" );
+static const ter_str_id ter_t_railroad_tie_h( "t_railroad_tie_h" );
+static const ter_str_id ter_t_railroad_tie_v( "t_railroad_tie_v" );
+static const ter_str_id ter_t_railroad_track( "t_railroad_track" );
+static const ter_str_id ter_t_railroad_track_d( "t_railroad_track_d" );
+static const ter_str_id ter_t_railroad_track_d1( "t_railroad_track_d1" );
+static const ter_str_id ter_t_railroad_track_d2( "t_railroad_track_d2" );
+static const ter_str_id ter_t_railroad_track_d_on_tie( "t_railroad_track_d_on_tie" );
+static const ter_str_id ter_t_railroad_track_h( "t_railroad_track_h" );
+static const ter_str_id ter_t_railroad_track_h_on_tie( "t_railroad_track_h_on_tie" );
+static const ter_str_id ter_t_railroad_track_on_tie( "t_railroad_track_on_tie" );
+static const ter_str_id ter_t_railroad_track_v( "t_railroad_track_v" );
+static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_tie" );
+static const ter_str_id ter_t_rock( "t_rock" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_t_sand( "t_sand" );
+
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
 
 class npc_template;
@@ -121,20 +147,20 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
     return iter == pointers.end() ? nullptr : iter->second;
 }
 
-ter_id grass_or_dirt()
+ter_str_id grass_or_dirt()
 {
     if( one_in( 4 ) ) {
-        return t_grass;
+        return ter_t_grass;
     }
-    return t_dirt;
+    return ter_t_dirt;
 }
 
-ter_id clay_or_sand()
+ter_str_id clay_or_sand()
 {
     if( one_in( 16 ) ) {
-        return t_sand;
+        return ter_t_sand;
     }
-    return t_clay;
+    return ter_t_clay;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -361,12 +387,12 @@ void mapgen_subway( mapgendata &dat )
                                         ".^/DX^/DX......XD/^XD/^.\n"
                                         "..^/D^^/D^....^D/^^D/^..",
                                         mapf::ter_bind( ". # ^ / D X",
-                                                t_rock_floor,
-                                                t_rock,
-                                                t_railroad_rubble,
-                                                t_railroad_tie_d,
-                                                t_railroad_track_d,
-                                                t_railroad_track ),
+                                                ter_t_rock_floor,
+                                                ter_t_rock,
+                                                ter_t_railroad_rubble,
+                                                ter_t_railroad_tie_d,
+                                                ter_t_railroad_track_d,
+                                                ter_t_railroad_track ),
                                         mapf::furn_bind( ". # ^ / D X",
                                                 f_null,
                                                 f_null,
@@ -403,14 +429,14 @@ void mapgen_subway( mapgendata &dat )
                                         "........................\n"
                                         "........................",
                                         mapf::ter_bind( ". # ^ | X x / D",
-                                                t_rock_floor,
-                                                t_rock,
-                                                t_railroad_rubble,
-                                                t_railroad_tie,
-                                                t_railroad_track,
-                                                t_railroad_track_on_tie,
-                                                t_railroad_tie_d,
-                                                t_railroad_track_d ),
+                                                ter_t_rock_floor,
+                                                ter_t_rock,
+                                                ter_t_railroad_rubble,
+                                                ter_t_railroad_tie,
+                                                ter_t_railroad_track,
+                                                ter_t_railroad_track_on_tie,
+                                                ter_t_railroad_tie_d,
+                                                ter_t_railroad_track_d ),
                                         mapf::furn_bind( ". # ^ | X x / D",
                                                 f_null,
                                                 f_null,
@@ -450,10 +476,10 @@ void mapgen_subway( mapgendata &dat )
                                             "##################......\n"
                                             "###################.....",
                                             mapf::ter_bind( ". # ^ D",
-                                                    t_rock_floor,
-                                                    t_rock,
-                                                    t_railroad_rubble,
-                                                    t_railroad_track_d ),
+                                                    ter_t_rock_floor,
+                                                    ter_t_rock,
+                                                    ter_t_railroad_rubble,
+                                                    ter_t_railroad_track_d ),
                                             mapf::furn_bind( ". # ^ D",
                                                     f_null,
                                                     f_null,
@@ -486,12 +512,12 @@ void mapgen_subway( mapgendata &dat )
                                             "...-x---x-....-x---x-...\n"
                                             "...^X^^^X^....^X^^^X^...",
                                             mapf::ter_bind( ". # ^ - X x",
-                                                    t_rock_floor,
-                                                    t_rock,
-                                                    t_railroad_rubble,
-                                                    t_railroad_tie,
-                                                    t_railroad_track,
-                                                    t_railroad_track_on_tie ),
+                                                    ter_t_rock_floor,
+                                                    ter_t_rock,
+                                                    ter_t_railroad_rubble,
+                                                    ter_t_railroad_tie,
+                                                    ter_t_railroad_track,
+                                                    ter_t_railroad_track_on_tie ),
                                             mapf::furn_bind( ". # ^ - X x",
                                                     f_null,
                                                     f_null,
@@ -529,15 +555,15 @@ void mapgen_subway( mapgendata &dat )
                                         "##....................##\n"
                                         "########################",
                                         mapf::ter_bind( ". # S ^ - / D X x",
-                                                t_rock_floor,
-                                                t_rock,
-                                                t_buffer_stop,
-                                                t_railroad_rubble,
-                                                t_railroad_tie,
-                                                t_railroad_tie_d,
-                                                t_railroad_track_d,
-                                                t_railroad_track,
-                                                t_railroad_track_on_tie ),
+                                                ter_t_rock_floor,
+                                                ter_t_rock,
+                                                ter_t_buffer_stop,
+                                                ter_t_railroad_rubble,
+                                                ter_t_railroad_tie,
+                                                ter_t_railroad_tie_d,
+                                                ter_t_railroad_track_d,
+                                                ter_t_railroad_track,
+                                                ter_t_railroad_track_on_tie ),
                                         mapf::furn_bind( ". # S ^ - / D X x",
                                                 f_null,
                                                 f_null,
