@@ -1714,7 +1714,8 @@ static void cast_spell()
     }
 
     if( !can_cast_spells ) {
-        if ( player_character.has_flag( json_flag_NO_SPELLCASTING ) && !player_character.has_flag( json_flag_NO_PSIONICS ) ) {
+        if( player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
+            !player_character.has_flag( json_flag_NO_PSIONICS ) ) {
             add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                     _( "You can't cast any of the spells you know!" ) );
         } else if ( !player_character.has_flag( json_flag_NO_SPELLCASTING ) && player_character.has_flag( json_flag_NO_PSIONICS ) ) {
