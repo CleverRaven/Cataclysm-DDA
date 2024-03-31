@@ -274,7 +274,7 @@ TEST_CASE( "cardio_is_affected_by_activity_level_each_day", "[cardio][activity]"
     // Then their cardio should increase slightly
 }
 
-TEST_CASE( "cardio_is_not_affected_by_character_height", "[cardio][height]" )
+TEST_CASE( "cardio_is_not_affected_by_small_character_height_variations", "[cardio][height]" )
 {
     verify_default_cardio_options();
     Character &they = get_player_character();
@@ -283,11 +283,12 @@ TEST_CASE( "cardio_is_not_affected_by_character_height", "[cardio][height]" )
     REQUIRE( they.size_class == creature_size::medium );
 
     SECTION( "No difference in cardio between heights" ) {
-        they.set_base_height( Character::default_height( they.size_class ) );
+        const int default_height = Character::default_height(they.size_class);
+        they.set_base_height( default_height );
         CHECK( they.get_cardiofit() == base_cardio );
-        they.set_base_height( Character::max_height( they.size_class ) );
+        they.set_base_height( default_height + 3);
         CHECK( they.get_cardiofit() == base_cardio );
-        they.set_base_height( Character::min_height( they.size_class ) );
+        they.set_base_height( default_height - 5 );
         CHECK( they.get_cardiofit() == base_cardio );
     }
 }

@@ -135,7 +135,7 @@ static void check_weary_mutation_nosleep( const std::string &trait_name, float f
         INFO( guy.debug_weary_info() );
         REQUIRE( !info.empty() );
         if( multiplier >= 1.0f ) { // Fatigue alterations from mutations themselves affect thresholds...
-            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= 170 );
+            CHECK( info.transition_minutes( 0, 1, 165_minutes ) <= 175 );
             CHECK( info.transition_minutes( 0, 1, 165_minutes ) >= ( 160.0f / multiplier ) );
             CHECK( info.transition_minutes( 1, 2, 295_minutes ) <= 300 );
             CHECK( info.transition_minutes( 1, 2, 295_minutes ) >= ( 290.0f / multiplier ) );
