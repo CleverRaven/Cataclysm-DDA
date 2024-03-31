@@ -688,6 +688,19 @@ void load_terrain( const JsonObject &jo, const std::string &src );
 void verify_furniture();
 void verify_terrain();
 
+class ter_furn_migrations
+{
+    public:
+        /** Handler for loading "ter_furn_migrations" type of json object */
+        static void load( const JsonObject &jo );
+
+        /** Clears migration list */
+        static void reset();
+
+        /** Checks migrations */
+        static void check();
+};
+
 /*
 runtime index: ter_id
 ter_id refers to a position in the terlist[] where the ter_t struct is stored. These global

@@ -4618,6 +4618,62 @@ void _write_rle_terrain( JsonOut &jsout, const std::string_view ter, int num )
 
 } // namespace
 
+static std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations;
+static std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations;
+
+void ter_furn_migrations::load( const JsonObject &jo )
+{
+    //TODO: Add support for migrating to items?
+    const bool is_ter_migration = jo.has_string( "from_ter" );
+    const bool is_furn_migration = jo.has_string( "from_furn" );
+    if( ( is_ter_migration && is_furn_migration ) || ( !is_ter_migration && !is_furn_migration ) ) {
+        debugmsg( "Should specify one of from_ter/from_furn" );
+        return;
+    }
+    ter_str_id to_ter = ter_str_id::NULL_ID();
+    furn_str_id to_furn = furn_str_id::NULL_ID();
+    if( is_ter_migration ) {
+        ter_str_id from_ter;
+        mandatory( jo, true, "from_ter", from_ter );
+        mandatory( jo, true, "to_ter", to_ter );
+        optional( jo, true, "to_furn", to_furn );
+        ter_migrations.insert( std::make_pair( from_ter, std::make_pair( to_ter, to_furn ) ) );
+    } else {
+        furn_str_id from_furn;
+        mandatory( jo, true, "from_furn", from_furn );
+        optional( jo, true, "to_ter", to_ter );
+        mandatory( jo, true, "to_furn", to_furn );
+        furn_migrations.insert( std::make_pair( from_furn, std::make_pair( to_ter, to_furn ) ) );
+    }
+}
+
+void ter_furn_migrations::reset()
+{
+    ter_migrations.clear();
+    furn_migrations.clear();
+}
+
+void ter_furn_migrations::check()
+{
+    auto check_to_ids_valid = []( const std::pair<ter_str_id, furn_str_id> &to_ids,
+    const std::string & context ) {
+        if( !to_ids.first.is_valid() ) {
+            debugmsg( "ter_furn_migration from '%s' specifies invalid to_ter id '%s'", context,
+                      to_ids.first.str() );
+        }
+        if( !to_ids.second.is_valid() ) {
+            debugmsg( "ter_furn_migration from '%s' specifies invalid to_furn id '%s'", context,
+                      to_ids.second.str() );
+        }
+    };
+    for( const auto &migration : ter_migrations ) {
+        check_to_ids_valid( migration.second, migration.first.str() );
+    }
+    for( const auto &migration : furn_migrations ) {
+        check_to_ids_valid( migration.second, migration.first.str() );
+    }
+}
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
@@ -4883,8 +4939,6 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int remaining = 0;
             int_id<ter_t> iid_ter;
             int_id<furn_t> iid_furn;
-            // TODO: Add support for adding items?
-            std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations = { { ter_str_id::NULL_ID(), std::make_pair( ter_str_id::NULL_ID(), furn_str_id::NULL_ID() ) } };
             for( int j = 0; j < SEEY; j++ ) {
                 // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < SEEX; i++ ) {
@@ -4894,12 +4948,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                             if( auto it = ter_migrations.find( terstr ); it != ter_migrations.end() ) {
                                 terstr = it->second.first;
                                 if( it->second.second != furn_str_id::NULL_ID() ) {
-                                    if( it->second.second.is_valid() ) {
-                                        iid_furn = it->second.second.id();
-                                    } else {
-                                        debugmsg( "invalid furn_str_id '%s' in ter_migration for '%s'", it->second.second.str(),
-                                                  terstr.str() );
-                                    }
+                                    iid_furn = it->second.second.id();
                                 }
                             }
                             if( terstr.is_valid() ) {
@@ -4950,8 +4999,6 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
     } else if( member_name == "furniture" ) {
         int_id<ter_t> iid_ter;
         int_id<furn_t> iid_furn;
-        // TODO: Add support for adding items?
-        std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations = { { furn_str_id::NULL_ID(), std::make_pair( ter_str_id::NULL_ID(), furn_str_id::NULL_ID() ) } };
         JsonArray furniture_json = jv;
         for( JsonArray furniture_entry : furniture_json ) {
             int i = furniture_entry.next_int();
@@ -4960,12 +5007,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             if( auto it = furn_migrations.find( furnstr ); it != furn_migrations.end() ) {
                 furnstr = it->second.second;
                 if( it->second.first != ter_str_id::NULL_ID() ) {
-                    if( it->second.first.is_valid() ) {
-                        m->ter[i][j] = it->second.first.id();
-                    } else {
-                        debugmsg( "invalid ter_str_id '%s' in furn_migration for '%s'", it->second.first.str(),
-                                  furnstr.str() );
-                    }
+                    m->ter[i][j] = it->second.first.id();
                 }
             }
             if( furnstr.is_valid() ) {
