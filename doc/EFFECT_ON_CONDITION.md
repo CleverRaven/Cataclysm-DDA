@@ -1991,6 +1991,52 @@ Move refugee center guards `GUARD1` - `GUARD7` to the `_First` position - EoC fo
 }
 ```
 
+#### `u_run_monster_eocs`, `npc_run_monster_eocs`
+Monsters run EoCs, provided by this effect; only works inside reality bubble
+
+| Syntax | Optionality | Value  | Info |
+| --- | --- | --- | --- | 
+| "u_run_monster_eocs"/ "npc_run_monster_eocs" | **mandatory** | array of eocs | EoCs that would be run by monsters |
+| "mtype_ids" | optional | array or [variable objects](#variable-object) | mtype_id(s) that should be affected |
+| "monster_range" | optional | int or [variable object](#variable-object) | if used, only monsters in this range are affected |
+| "monster_must_see" | optional | boolean | default false; if true, only monsters you can see are affected | 
+
+##### Valid talkers:
+
+| Avatar | Character | NPC | Monster |  Furniture | Item |
+| ------ | --------- | --------- | ---- | ------- | --- | 
+| ❌ | ❌ | ❌ | ✔️ | ❌ | ❌ |
+
+##### Examples
+
+Run EOC_KILL_SHADOW on half the monsters in a 36 range around u_mansion_centre
+```json
+  { "run_eoc_with": "EOC_BANISH_MANSION_MONSTERS", "beta_loc": { "u_val": "mansion_centre" } },
+```
+...
+```json
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANISH_MANSION_MONSTERS",
+    "//": "Banish half the mapgen monsters from the mansion to make room for special scenario ferals",
+    "eoc_type": "ACTIVATION",
+    "effect": [
+      {
+        "npc_run_monster_eocs": [ { "id": "EOC_BANISH_MONSTERS_AROUND_MANSION_CENTER", "condition": { "math": [ "rand(1)", "==", "0" ] }, "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+        "monster_range": 36
+      }
+    ]
+  },
+```
+
+Run EOC_KILL_SHADOW on any mon_zombie_dog, mon_dog_zombie_cop or mon_dog_zombie_rot in a 12 range around the alpha talker
+```json
+  {
+    "u_run_monster_eocs": [ { "id": "EOC_BANISH_ZOMBIE_DOGS_AROUND_PLAYER", "effect": { "run_eocs": "EOC_KILL_SHADOW" } } ],
+    "mtype_ids": [ "mon_zombie_dog", "mon_dog_zombie_cop", "mon_dog_zombie_rot" ]
+    "monster_range": 12
+  }
+```
 
 #### `u_run_inv_eocs`, `npc_run_inv_eocs`
 Run EOCs on items in your or NPC's inventory
