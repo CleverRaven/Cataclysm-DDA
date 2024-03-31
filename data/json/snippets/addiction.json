@@ -83,7 +83,11 @@
   {
     "type": "snippet",
     "category": "addict_nicotine_strong_awake",
-    "text": [ "You need some nicotine.", "You lick your lips as you think about lighting a cigarette.", "You catch a phantom smell of cigarette smoke on the wind.  Your mouth dampens in response." ]
+    "text": [
+      "You need some nicotine.",
+      "You lick your lips as you think about lighting a cigarette.",
+      "You catch a phantom smell of cigarette smoke on the wind.  Your mouth dampens in response."
+    ]
   },
   {
     "type": "snippet",
