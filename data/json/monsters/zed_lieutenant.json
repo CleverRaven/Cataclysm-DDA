@@ -165,6 +165,7 @@
         "outdoor_only": true,
         "//": "The maximum lifespan should not be terribly longer than the cooldown(currently 20 seconds), or else multiple groups can be active at once and make this much harder than desired.",
         "lifespan": [ "15 seconds", "30 seconds" ],
+        "temporary_drop_items": true,
         "target_var": { "global_val": "drain_terrain" }
       },
       { "u_message": "The air rings out with a piercing shriek!", "type": "warning" }
