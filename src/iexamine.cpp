@@ -4402,13 +4402,17 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
         return;
     }
-    float furn_fuel_gauge = 0.f; // 0 = empty, 1 = full
+    const itype *ammo_loaded = nullptr;
+    int amount_in_furn = 0;
+    int max_amount_in_furn = 0;
     for( const itype *ammo : ammo_list ) {
         itype_id ammo_itypeID( ammo->get_id() );
-        int amount_in_furn = use_ammotype ?
-                             count_charges_in_list( &ammo->ammo->type, here.i_at( examp ), ammo_itypeID ) :
-                             count_charges_in_list( ammo, here.i_at( examp ) );
-        if( allow_unload && amount_in_furn > 0 ) {
+        int amount_tmp = use_ammotype ?
+                         count_charges_in_list( &ammo->ammo->type, here.i_at( examp ), ammo_itypeID ) :
+                         count_charges_in_list( ammo, here.i_at( examp ) );
+        if( allow_unload && amount_tmp > 0 ) {
+            ammo_loaded = ammo;
+            amount_in_furn = amount_tmp;
             if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                               ammo_itypeID->nname( amount_in_furn ) ) ) {
                 map_stack items = here.i_at( examp );
@@ -4434,11 +4438,13 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
                 }
             }
         }
-        const int max_amount_in_furn = item( pseudo_type ).ammo_capacity( ammo->ammo->type );
-        furn_fuel_gauge += ( amount_in_furn / float( max_amount_in_furn ) );
     }
-    if( furn_fuel_gauge >= 1 ) {
-        return;
+    if( ammo_loaded ) {
+        const int max_amount_in_furn = item( pseudo_type ).ammo_capacity( ammo_loaded->ammo->type );
+        if( amount_in_furn >= max_amount_in_furn ) {
+            add_msg( m_info, _( "The %s is full, cannot reload." ), f.name() );
+            return;
+        }
     }
     item pseudo( pseudo_type );
     // maybe at some point we need a pseudo item_location or something
@@ -4452,8 +4458,13 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     if( !opt ) {
         return;
     }
-    const int max_reload_amount = int( ( 1.f - furn_fuel_gauge ) * item( pseudo_type ).ammo_capacity(
-                                           opt.ammo->ammo_type() ) );
+
+    if( ammo_loaded && opt.ammo->type != ammo_loaded ) {
+        add_msg( m_info, _( "This %s is already loaded with %s!" ), f.name(), ammo_loaded->nname( 0 ) );
+        return;
+    }
+    const int max_reload_amount = item( pseudo_type ).ammo_capacity(
+                                      opt.ammo->ammo_type() ) - amount_in_furn;
     const itype *opt_type = opt.ammo->type;
     const int max_amount = std::min( opt.qty(), max_reload_amount );
     const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
