@@ -4881,29 +4881,39 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         } else {
             // terrain is encoded using simple RLE
             int remaining = 0;
-            int_id<ter_t> iid;
+            int_id<ter_t> iid_ter;
+            int_id<furn_t> iid_furn;
+            // TODO: Add support for adding items?
+            std::unordered_map<ter_str_id, std::pair<ter_str_id, furn_str_id>> ter_migrations = { { ter_str_id::NULL_ID(), std::make_pair( ter_str_id::NULL_ID(), furn_str_id::NULL_ID() ) } };
             for( int j = 0; j < SEEY; j++ ) {
                 // NOLINTNEXTLINE(modernize-loop-convert)
                 for( int i = 0; i < SEEX; i++ ) {
                     if( !remaining ) {
                         JsonValue terrain_entry = terrain_json.next_value();
-                        if( terrain_entry.test_string() ) {
-                            const ter_str_id terstr( terrain_entry.get_string() );
+                        auto migrate_terstr = [&]( ter_str_id terstr ) {
+                            if( auto it = ter_migrations.find( terstr ); it != ter_migrations.end() ) {
+                                terstr = it->second.first;
+                                if( it->second.second != furn_str_id::NULL_ID() ) {
+                                    if( it->second.second.is_valid() ) {
+                                        iid_furn = it->second.second.id();
+                                    } else {
+                                        debugmsg( "invalid furn_str_id '%s' in ter_migration for '%s'", it->second.second.str(),
+                                                  terstr.str() );
+                                    }
+                                }
+                            }
                             if( terstr.is_valid() ) {
-                                iid = terstr.id();
+                                iid_ter = terstr.id();
                             } else {
                                 debugmsg( "invalid ter_str_id '%s'", terstr.str() );
-                                iid = ter_t_dirt;
+                                iid_ter = ter_t_dirt;
                             }
+                        };
+                        if( terrain_entry.test_string() ) {
+                            migrate_terstr( ter_str_id( terrain_entry.get_string() ) );
                         } else if( terrain_entry.test_array() ) {
                             JsonArray terrain_rle = terrain_entry;
-                            const ter_str_id terstr( terrain_rle.next_string() );
-                            if( terstr.is_valid() ) {
-                                iid = terstr.id();
-                            } else {
-                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
-                                iid = ter_t_dirt;
-                            }
+                            migrate_terstr( ter_str_id( terrain_rle.next_string() ) );
                             remaining = terrain_rle.next_int() - 1;
                             if( terrain_rle.size() > 2 ) {
                                 terrain_rle.throw_error( "Too many values for terrain RLE" );
@@ -4914,7 +4924,10 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     } else {
                         --remaining;
                     }
-                    m->ter[i][j] = iid;
+                    m->ter[i][j] = iid_ter;
+                    if( iid_furn ) {
+                        m->frn[i][j] = iid_furn;
+                    }
                 }
             }
             if( remaining ) {
@@ -4935,11 +4948,33 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             }
         }
     } else if( member_name == "furniture" ) {
+        int_id<ter_t> iid_ter;
+        int_id<furn_t> iid_furn;
+        // TODO: Add support for adding items?
+        std::unordered_map<furn_str_id, std::pair<ter_str_id, furn_str_id>> furn_migrations = { { furn_str_id::NULL_ID(), std::make_pair( ter_str_id::NULL_ID(), furn_str_id::NULL_ID() ) } };
         JsonArray furniture_json = jv;
         for( JsonArray furniture_entry : furniture_json ) {
             int i = furniture_entry.next_int();
             int j = furniture_entry.next_int();
-            m->frn[i][j] = furn_id( furniture_entry.next_string() );
+            furn_str_id furnstr( furniture_entry.next_string() );
+            if( auto it = furn_migrations.find( furnstr ); it != furn_migrations.end() ) {
+                furnstr = it->second.second;
+                if( it->second.first != ter_str_id::NULL_ID() ) {
+                    if( it->second.first.is_valid() ) {
+                        m->ter[i][j] = it->second.first.id();
+                    } else {
+                        debugmsg( "invalid ter_str_id '%s' in furn_migration for '%s'", it->second.first.str(),
+                                  furnstr.str() );
+                    }
+                }
+            }
+            if( furnstr.is_valid() ) {
+                iid_furn = furnstr.id();
+            } else {
+                debugmsg( "invalid furn_str_id '%s'", furnstr.str() );
+                iid_furn = furn_str_id::NULL_ID().id();
+            }
+            m->frn[i][j] = iid_furn;
             if( furniture_entry.size() > 3 ) {
                 furniture_entry.throw_error( "Too many values for furniture entry." );
             }
