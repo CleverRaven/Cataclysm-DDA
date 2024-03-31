@@ -532,7 +532,7 @@
       [ "dry_meat", 3 ],
       [ "dry_rice", 8 ],
       [ "dry_veggy", 5 ],
-      [ "duct_tape", 20 ],
+      { "group": "duct_tape", "prob": 20 },
       [ "dynamite", 3 ],
       [ "e_tool", 1 ],
       [ "ear_plugs", 1 ],

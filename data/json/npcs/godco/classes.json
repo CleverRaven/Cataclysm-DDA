@@ -1139,7 +1139,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "screwdriver" },
-      { "item": "duct_tape" },
+      { "group": "duct_tape" },
       { "item": "welder" },
       { "item": "goggles_welding" },
       { "item": "solar_cell" }
@@ -1167,7 +1167,7 @@
     "type": "item_group",
     "id": "GODCO_olwen_carried",
     "subtype": "collection",
-    "entries": [ { "item": "laptop" }, { "item": "duct_tape" }, { "item": "lemonlime" } ]
+    "entries": [ { "item": "laptop" }, { "group": "duct_tape" }, { "item": "lemonlime" } ]
   },
   {
     "type": "item_group",

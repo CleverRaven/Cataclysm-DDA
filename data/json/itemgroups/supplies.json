@@ -42,6 +42,12 @@
     ]
   },
   {
+    "id": "duct_tape",
+    "type": "item_group",
+    "container-item": "cardboard_roll",
+    "items": [ { "item": "duct_tape", "prob": 100, "charges": [ 20, 200 ] } ]
+  },
+  {
     "id": "tailoring_fabric",
     "type": "item_group",
     "//": "Fabric sheets used for tailoring.",
@@ -234,7 +240,7 @@
       [ "wire", 10 ],
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "pilot_light", 50 ],
-      { "item": "duct_tape", "prob": 200, "charges": [ 50, 200 ] },
+      { "group": "duct_tape", "prob": 200 },
       [ "superglue", 100 ],
       [ "string_6", 100 ],
       [ "string_36", 100 ],
@@ -392,7 +398,7 @@
       [ "wood_panel", 10 ],
       { "item": "wire", "prob": 50, "count": [ 1, 10 ] },
       { "item": "wire_barbed", "prob": 20, "count": [ 1, 10 ] },
-      [ "duct_tape", 60 ],
+      { "group": "duct_tape", "prob": 60 },
       [ "compressor", 5 ],
       [ "foot_crank", 10 ],
       [ "spray_can", 50 ],
@@ -747,7 +753,7 @@
       [ "rubber_band", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 18, "charges-min": 0 },
-      { "item": "duct_tape", "prob": 5, "charges": [ 50, 200 ] },
+      { "group": "duct_tape", "prob": 5 },
       { "item": "superglue", "prob": 5 },
       { "group": "ammo_pocket_batteries", "prob": 5 },
       { "item": "flashlight", "prob": 10, "charges": [ 0, 300 ] },
@@ -786,7 +792,7 @@
       [ "paper", 100 ],
       { "group": "writing_utensils", "prob": 35 },
       [ "file", 15 ],
-      { "item": "duct_tape", "prob": 15, "charges": [ 50, 200 ] },
+      { "group": "duct_tape", "prob": 15 },
       { "item": "superglue", "prob": 15 },
       [ "file", 15 ],
       [ "office_holepunch", 15 ],

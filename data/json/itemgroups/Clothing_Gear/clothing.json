@@ -1607,7 +1607,7 @@
       [ "bullwhip", 1 ],
       [ "10gal_hat", 3 ],
       [ "glasses_monocle", 2 ],
-      [ "duct_tape", 60 ],
+      { "group": "duct_tape", "prob": 60 },
       [ "superglue", 20 ],
       [ "firecracker_pack", 5 ],
       [ "firecracker", 5 ],

@@ -151,7 +151,7 @@
       { "item": "bubblewrap", "prob": 50 },
       { "item": "binoculars", "prob": 20 },
       { "item": "roller_blades", "prob": 20 },
-      { "item": "duct_tape", "prob": 100, "charges": [ 50, 200 ] },
+      { "group": "duct_tape", "prob": 100 },
       { "item": "superglue", "prob": 60 },
       { "item": "lawnmower", "prob": 25 },
       { "item": "lawn_dart", "prob": 10 },
@@ -1442,7 +1442,7 @@
           { "item": "paint_brush", "prob": 33 },
           { "item": "xacto", "prob": 10 },
           { "item": "screwdriver", "prob": 10 },
-          { "item": "duct_tape", "prob": 5, "charges": [ 25, 100 ] },
+          { "group": "duct_tape", "prob": 5 },
           { "item": "superglue", "prob": 10 },
           { "item": "splinter", "prob": 10, "count": [ 2, 3 ] },
           { "item": "toolbox_empty", "prob": 100 }
