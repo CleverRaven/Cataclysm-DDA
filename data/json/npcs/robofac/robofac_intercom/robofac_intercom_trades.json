@@ -58,6 +58,7 @@
         "condition": { "u_has_items": { "item": "nre_anomaly_printout_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "nre_anomaly_printout_data", "count": 1, "popup": true },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 10 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -67,6 +68,7 @@
         "condition": { "u_has_items": { "item": "large_printout_portal_storm_data", "count": 1 } },
         "effect": [
           { "u_consume_item": "large_printout_portal_storm_data", "count": 1, "popup": true },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 18 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Large"
@@ -82,6 +84,7 @@
         "effect": [
           { "u_consume_item": "medium_printout_portal_storm_data", "count": 1, "popup": true },
           { "math": [ "portal_storm_medium_data_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 5 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Medium"
@@ -98,6 +101,7 @@
         "effect": [
           { "u_consume_item": "small_printout_portal_storm_data", "count": 1, "popup": true },
           { "math": [ "portal_storm_small_data_sold", "++" ] },
+          { "math": [ "u_portal_storm_recordings_sold", "++" ] },
           { "u_spawn_item": "RobofacCoin", "count": 1 }
         ],
         "topic": "TALK_ROBOFAC_INTERCOM_SELL_PORTAL_STORM_DATA_Small"

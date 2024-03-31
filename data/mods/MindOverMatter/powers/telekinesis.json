@@ -562,7 +562,7 @@
     "valid_targets": [ "self" ],
     "spell_class": "TELEKINETIC",
     "skill": "metaphysics",
-    "flags": [ "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
+    "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
     "difficulty": 7,
     "max_level": { "math": [ "int_to_level(1)" ] },
     "effect": "effect_on_condition",

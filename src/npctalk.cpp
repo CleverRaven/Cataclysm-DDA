@@ -5211,6 +5211,53 @@ talk_effect_fun_t::func f_run_npc_eocs( const JsonObject &jo,
     }
 }
 
+talk_effect_fun_t::func f_run_monster_eocs( const JsonObject &jo,
+        std::string_view member, bool is_npc )
+{
+    std::vector<effect_on_condition_id> eocs = load_eoc_vector( jo, member );
+    std::vector<str_or_var> mtype_ids;
+    for( JsonValue jv : jo.get_array( "mtype_ids" ) ) {
+        mtype_ids.emplace_back( get_str_or_var( jv, "mtype_ids" ) );
+    }
+    std::optional<int> monster_range;
+    if( jo.has_int( "monster_range" ) ) {
+        monster_range = jo.get_int( "monster_range" );
+    }
+    bool monster_must_see = jo.get_bool( "monster_must_see", false );
+    return [eocs, mtype_ids, monster_must_see, monster_range, is_npc]( dialogue const & d ) {
+        std::vector<mtype_id> ids;
+        ids.reserve( mtype_ids.size() );
+        for( const str_or_var &id : mtype_ids ) {
+            ids.emplace_back( id.evaluate( d ) );
+        }
+        tripoint actor_pos = d.actor( is_npc )->pos();
+        const std::vector<Creature *> available = g->get_creatures_if( [ ids, monster_must_see,
+             monster_range, actor_pos ]( const Creature & critter ) {
+            bool id_valid = ids.empty();
+            bool creature_is_monster = critter.is_monster();
+            if( creature_is_monster ) {
+                for( const mtype_id &id : ids ) {
+                    if( id == critter.as_monster()->type->id ) {
+                        id_valid = true;
+                        break;
+                    }
+                }
+            }
+            return creature_is_monster && id_valid && ( !monster_range.has_value() ||
+                    actor_pos.z == critter.posz() ) &&
+                   ( !monster_must_see ||
+                     critter.sees( actor_pos ) ) &&
+                   ( !monster_range.has_value() || rl_dist( actor_pos, critter.pos() ) <= monster_range.value() );
+        } );
+        for( Creature *target : available ) {
+            for( const effect_on_condition_id &eoc : eocs ) {
+                dialogue newDialog( get_talker_for( target ), nullptr, d.get_conditionals(), d.get_context() );
+                eoc->activate( newDialog );
+            }
+        }
+    };
+}
+
 
 talk_effect_fun_t::func f_run_inv_eocs( const JsonObject &jo,
                                         std::string_view member, bool is_npc )
@@ -5730,6 +5777,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
         jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
     }
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
+    const bool temporary_drop_items = jo.get_bool( "temporary_drop_items", false );
     const bool friendly = jo.get_bool( "friendly", false );
 
     duration_or_var dov_lifespan = get_duration_or_var( jo, "lifespan", false, 0_seconds );
@@ -5745,7 +5793,7 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     return [monster_id, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
                         dov_max_radius, outdoor_only, indoor_only, group, single_target, dov_lifespan, target_var,
-                        spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
+                        spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed, temporary_drop_items,
                 friendly, is_npc]( dialogue & d ) {
         monster target_monster;
         std::vector<Creature *> target_monsters;
@@ -5871,6 +5919,9 @@ talk_effect_fun_t::func f_spawn_monster( const JsonObject &jo, std::string_view 
                     lifespan = dov_lifespan.evaluate( d );
                     if( lifespan.value() > 0_seconds ) {
                         spawned->set_summon_time( lifespan.value() );
+                        // Temporary monsters shouldn't drop items unless told to
+                        spawned->no_extra_death_drops = !temporary_drop_items;
+                        spawned->no_corpse_quiet = !temporary_drop_items;
                     }
                 }
             }
@@ -6240,6 +6291,7 @@ parsers = {
     { "u_assign_activity", "npc_assign_activity", jarg::member, &talk_effect_fun::f_assign_activity },
     { "u_make_sound", "npc_make_sound", jarg::member, &talk_effect_fun::f_make_sound },
     { "u_run_npc_eocs", "npc_run_npc_eocs", jarg::array, &talk_effect_fun::f_run_npc_eocs },
+    { "u_run_monster_eocs", "npc_run_monster_eocs", jarg::array, &talk_effect_fun::f_run_monster_eocs },
     { "u_run_inv_eocs", "npc_run_inv_eocs", jarg::member, &talk_effect_fun::f_run_inv_eocs },
     { "u_roll_remainder", "npc_roll_remainder", jarg::member, &talk_effect_fun::f_roll_remainder },
     { "u_mod_healthy", "npc_mod_healthy", jarg::array | jarg::member, &talk_effect_fun::f_mod_healthy },
