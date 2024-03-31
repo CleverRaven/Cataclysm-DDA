@@ -9647,6 +9647,11 @@ bool item::all_pockets_rigid() const
     return contents.all_pockets_rigid();
 }
 
+bool item::container_type_pockets_empty() const
+{
+    return contents.container_type_pockets_empty();
+}
+
 std::vector<const item_pocket *> item::get_all_contained_pockets() const
 {
     return contents.get_all_contained_pockets();

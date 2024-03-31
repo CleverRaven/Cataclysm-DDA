@@ -2527,6 +2527,19 @@ bool item_contents::all_pockets_rigid() const
     return true;
 }
 
+bool item_contents::container_type_pockets_empty() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( !pocket.is_type( pocket_type::CONTAINER ) ) {
+            continue;
+        }
+        if( !pocket.empty() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 units::volume item_contents::item_size_modifier() const
 {
     units::volume total_vol = 0_ml;
