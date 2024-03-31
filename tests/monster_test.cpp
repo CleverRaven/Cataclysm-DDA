@@ -302,6 +302,17 @@ static void monster_check()
     CHECK( can_catch_player( "mon_zombie_dog", tripoint_south_east ) > 0 );
 }
 
+TEST_CASE( "check_mon_id" )
+{
+    for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
+        if( !mon.src.empty() && mon.src.back().second.str() != "dda" ) {
+            continue;
+        }
+        INFO( "Now checking the id of " << mon.id.str() );
+        CHECK( mon.id.str()._Starts_with( "mon_" ) );
+    }
+}
+
 // Write out a map of slope at which monster is moving to time required to reach their destination.
 TEST_CASE( "write_slope_to_speed_map_trig", "[.]" )
 {
