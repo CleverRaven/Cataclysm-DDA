@@ -308,8 +308,10 @@ TEST_CASE( "check_mon_id" )
         if( !mon.src.empty() && mon.src.back().second.str() != "dda" ) {
             continue;
         }
+        std::string mon_id = mon.id.str();
+        std::string suffix_id = mon_id.substr( 0, mon_id.find( "_" ) );
         INFO( "Now checking the id of " << mon.id.str() );
-        CHECK( ( mon.id.str()._Starts_with( "mon_" ) || mon.id.str()._Starts_with( "pseudo_" ) ) );
+        CHECK( ( suffix_id == "mon"  || suffix_id == "pseudo" ) );
     }
 }
 
