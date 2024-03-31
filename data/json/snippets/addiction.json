@@ -78,12 +78,12 @@
   {
     "type": "snippet",
     "category": "addict_nicotine_mild_awake",
-    "text": [ "You could use some nicotine." ]
+    "text": [ "You could use some nicotine.", "I want a cigarette.", "Now is a good time for a cigarette." ]
   },
   {
     "type": "snippet",
     "category": "addict_nicotine_strong_awake",
-    "text": [ "You need some nicotine.", "You lick your lips as you think about lighting a cigarette." ]
+    "text": [ "You need some nicotine.", "You lick your lips as you think about lighting a cigarette.", "You catch a phantom smell of cigarette smoke on the wind.  Your mouth dampens in response." ]
   },
   {
     "type": "snippet",
@@ -91,6 +91,7 @@
     "text": [
       "You could use some nicotine.",
       "You dream of a long conversation with a dead relative, a cigarette in their hand and smoke wafts through your brain.",
+      "Every drag a wish, every cherry hope.",
       "In your dream you were standing around a campfire with a bunch of your now dead friends, a cigarette between your lips.  The tobacco smell mixing in with the wood smoke in the chill fall air."
     ]
   },
@@ -102,7 +103,8 @@
       "You dream of sex with an old flame, but the realest part of the dream is the post coital cigarette.",
       "You wake with the imagined taste of smoke in your mouth; how long has it been since that was true?",
       "Standing on the edge of a building with a cigarette in your hand, a horde of zombies milling below.  You take one last long drag and flick the butt out over the zombies then step off the ledge.  Waking with a start you can almost taste the smoke and tar in your mouth.",
-      "In your dream you brutally disanimate several zombies and then tear through their clothing looking for any unsmoked cigarettes"
+      "In your dream you brutally disanimate several zombies and then tear through their clothing looking for any unsmoked cigarettes.",
+      "Dreaming of smoking as an act of creation, I inhale destruction and exhale creation."
     ]
   },
   {
@@ -112,7 +114,12 @@
       "Your hands start shaking… you need some painkillers.",
       "If you don't find some opiates soon you might start engaging in reckless behavior, you think to yourself.",
       "You daydream of crushing pills and snorting them through a rolled up dollar bill.  The drip in the back of your throat presaging a fun time.",
-      "If I can just find some oxies, everything will be fine."
+      "If I can just find some oxies, everything will be fine.",
+      "You can imagine it right now, that tingle starting at your extremities, warm and welcoming.  But it's not real, you haven't had any opiates today.  Why haven't you? The world already ended, you don't have to stay sober to talk to your family or a job.",
+      "Today is a good day for hydros.",
+      "If I'm not feeling oxy's or morphine today I could just take a tramadol or three.",
+      "Give me one reason I shouldn't take a pain pill",
+      "I could kill some time with a pill or two."
     ]
   },
   {
@@ -121,7 +128,8 @@
     "text": [
       "Your hands start shaking… you need some painkillers.",
       "♪It is not a habit, it is cool, I feel alive, I feel♪",
-      "That warm rush fills your body in your dream, oxy's hug enveloping you."
+      "That warm rush fills your body in your dream, oxy's hug enveloping you.",
+      "Ugh, why am I sweating so much."
     ]
   },
   {
@@ -131,7 +139,13 @@
       "You feel anxious.  You need your painkillers!",
       "You need to find an unlooted pharmacy today before the lack of opiates kills you.",
       "The best thing about the apocalypse is that you've become your own prescriber.",
-      "The doctor is in and the doctor says it's time for some morphine, stat!"
+      "The doctor is in and the doctor says it's time for some morphine, stat!",
+      "So doctor, what should we take today to treat this existential post apocalyptic pain?",
+      "Will a veterinarian's office have opiates in it, I wonder?",
+      "Every day I don't take my pills is another day of the apocalypse wasted.",
+      "♪A little bit of hydro by my side, a little bit of oxy for a ride, a couple of trammy to even me out, and a little bit of morphine all night long.  Opiate Number 5!♪",
+      "I kill a zombie, I get a reward, I kill another, time for some more.",
+      "Why don't I just take some pain pills?  There's no reason not to!  What more can possibly go wrong in the world?"
     ]
   },
   {
@@ -140,7 +154,10 @@
     "text": [
       "You feel anxious.  You need your painkillers!",
       "The same old dream: a bottle of oxycodone, a zipper bag, a hammer, a flat surface and a dollar bill.",
-      "♪Got a bag of pills I've been dealin'♪"
+      "♪Got a bag of pills I've been dealin'♪",
+      "There is a puddle of sweat around you.",
+      "Counting and sorting my pills by strength, to each pill a pile and then on into a bottle.",
+      "Dream of being in a doctor's office.  The doctor doesn't trust the pain I feel and nothing else they prescribe works like oxy's."
     ]
   },
   {
