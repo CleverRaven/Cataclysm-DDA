@@ -1213,7 +1213,7 @@
     "replace": "remington_870"
   },
   {
-    "id": "famas"
+    "id": "famas",
     "type": "MIGRATION",
     "replace": "rdb_223"
   },
