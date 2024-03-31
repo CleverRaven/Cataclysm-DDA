@@ -237,7 +237,7 @@
     "name": { "str": "Bag of Cats" },
     "description": "Are you the crazy cat lady?",
     "valid_targets": [ "ground" ],
-    "flags": [ "LOUD", "SOMATIC", "SPAWN_GROUP" ],
+    "flags": [ "LOUD", "SOMATIC", "SPAWN_GROUP", "NO_CORPSE_QUIET" ],
     "min_damage": 1,
     "max_damage": 12,
     "damage_increment": 1.0,
@@ -283,7 +283,7 @@
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
     "final_energy_cost": 475,
     "energy_increment": -5.0,
-    "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_bear"
@@ -523,7 +523,7 @@
     "duration_increment": { "math": [ "summoning_proficiency_bonus_calculate(36000)" ] },
     "base_energy_cost": { "math": [ "summoning_proficiency_negate_calculate(400)" ] },
     "extra_effects": [ { "id": "eoc_summon_setup" } ],
-    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
+    "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_CORPSE_QUIET" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_wolf"
@@ -1180,7 +1180,7 @@
   {
     "id": "druid_breathing_underwater",
     "type": "SPELL",
-    "name": "Aquatic Mantle ",
+    "name": "Aquatic Mantle",
     "description": "Cover yourself in a thin layer of magical seaweed, preventing you from getting wet and allowing you to breathe underwater.",
     "valid_targets": [ "self" ],
     "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS" ],
