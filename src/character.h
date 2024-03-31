@@ -620,11 +620,13 @@ class Character : public Creature, public visitable
         int legs_power_use;     // millijoules
         float arms_stam_mult;
         float legs_stam_mult;
+        float arms_strain_mult;
         /** Getters for above stats */
         int get_arms_power_use() const;
         int get_legs_power_use() const;
         float get_arms_stam_mult() const;
         float get_legs_stam_mult() const;
+        float get_arms_strain_mult() const;
 
     private:
         /** Modifiers to character speed, with descriptions */

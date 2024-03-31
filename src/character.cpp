@@ -557,8 +557,9 @@ Character::Character() :
     set_stim( 0 );
     arms_power_use = 0;
     legs_power_use = 0;
-    arms_stam_mult = 1.0f;
+    arms_stam_mult = 0.25f;
     legs_stam_mult = 1.0f;
+    arms_strain_mult = 1.0f;
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
     cardio_acc = 1000; // Temporary cardio accumulator. It will be updated when reset_cardio_acc is called.
     set_strain( 10000 ); //As above for stamina
@@ -6866,6 +6867,11 @@ float Character::get_legs_stam_mult() const
     return legs_stam_mult;
 }
 
+float Character::get_arms_strain_mult() const
+{
+    return arms_strain_mult;
+}
+
 void Character::recalc_limb_energy_usage()
 {
     // calculate energy usage of arms
@@ -6882,9 +6888,11 @@ void Character::recalc_limb_energy_usage()
     }
     arms_power_use = bionic_powercost;
     if( bionic_limb_count > 0 ) {
-        arms_stam_mult = 1 - ( bionic_limb_count / total_limb_count );
+        arms_stam_mult = 0.25f * ( 1 - ( bionic_limb_count / total_limb_count ) );
+        arms_strain_mult = 1 - ( bionic_limb_count / total_limb_count );
     } else {
-        arms_stam_mult = 1.0f;
+        arms_stam_mult = 0.25f;
+        arms_strain_mult = 1.0f;
     }
     //sanity check ourselves in debug
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "Total arms in use: %.1f, Bionic arms: %.1f",
@@ -6892,6 +6900,7 @@ void Character::recalc_limb_energy_usage()
                    bionic_limb_count );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "bionic power per arms stamina: %d", arms_power_use );
     add_msg_debug( debugmode::DF_CHAR_HEALTH, "arms stam usage mult by %.1f", arms_stam_mult );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "arms strain usage mult by %.1f", arms_strain_mult );
 
     // calculate energy usage of legs
     total_limb_count = 0.0f;
@@ -6922,6 +6931,7 @@ void Character::recalc_limb_energy_usage()
 void Character::burn_energy_arms( int mod )
 {
     mod_stamina( mod * get_arms_stam_mult() );
+    mod_strain( mod * get_arms_strain_mult() );
     if( get_arms_power_use() > 0 ) {
         mod_power_level( units::from_millijoule( mod * get_arms_power_use() ) );
     }
@@ -6938,6 +6948,7 @@ void Character::burn_energy_legs( int mod )
 void Character::burn_energy_all( int mod )
 {
     mod_stamina( mod * ( get_arms_stam_mult() + get_legs_stam_mult() ) * 0.5f );
+    mod_strain( mod * ( get_arms_strain_mult() * 0.5f ) );
     if( ( get_arms_power_use() + get_legs_power_use() ) > 0 ) {
         mod_power_level( units::from_millijoule( mod * ( get_arms_power_use() + get_legs_power_use() ) ) );
     }
