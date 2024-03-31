@@ -25,7 +25,7 @@ const field_type_str_id fd_dazzling( "fd_dazzling" );
 const field_type_str_id fd_electricity( "fd_electricity" );
 const field_type_str_id fd_electricity_unlit( "fd_electricity_unlit" );
 const field_type_str_id fd_extinguisher( "fd_extinguisher" );
-const field_type_str_id fd_sleepiness( "fd_sleepiness" );
+const field_type_str_id fd_reality_tear( "fd_reality_tear" );
 const field_type_str_id fd_fire( "fd_fire" );
 const field_type_str_id fd_fire_vent( "fd_fire_vent" );
 const field_type_str_id fd_flame_burst( "fd_flame_burst" );
