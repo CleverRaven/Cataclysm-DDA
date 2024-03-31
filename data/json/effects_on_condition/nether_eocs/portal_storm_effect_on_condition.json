@@ -470,6 +470,7 @@
         "min_radius": 3,
         "max_radius": 20,
         "lifespan": [ "7 minutes", "10 minutes" ],
+        "temporary_drop_items": true,
         "spawn_message": "A chunk of reality gets loose and falls on the ground.",
         "spawn_message_plural": "Chunks of reality get loose and fall on the ground."
       }
@@ -489,6 +490,7 @@
         "min_radius": 3,
         "max_radius": 20,
         "lifespan": [ "7 minutes", "10 minutes" ],
+        "temporary_drop_items": true,
         "spawn_message": "Reality twists and deforms as a wriggling chunk of it falls on the ground.",
         "spawn_message_plural": "Reality twists and deforms as wriggling chunks of it fall on the ground."
       }
@@ -508,6 +510,7 @@
         "min_radius": 3,
         "max_radius": 20,
         "lifespan": [ "7 minutes", "10 minutes" ],
+        "temporary_drop_items": true,
         "spawn_message": "A chunk of reality tears itself asunder and takes shape on the ground.",
         "spawn_message_plural": "Chunks of reality tear themselves asunder and take shape on the ground."
       }

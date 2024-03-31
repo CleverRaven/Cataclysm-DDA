@@ -1103,6 +1103,7 @@
       { "item": "slingpack", "prob": 15 },
       { "item": "fanny", "prob": 10 },
       { "item": "acoustic_guitar", "prob": 20 },
+      { "item": "drum_percussion", "prob": 10 },
       { "item": "saxophone", "prob": 15 },
       { "item": "clarinet", "prob": 10 },
       { "item": "flute", "prob": 10 },

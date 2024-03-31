@@ -2943,8 +2943,8 @@ void map::drop_items( const tripoint &p )
             if( creature_hit_chance < 100 ) {
                 if( hit_part.is_valid() && !creature_below->is_monster() ) {
                     //~First positional argument: Item name. Second: Name of a person (e.g. "Jane") or player (e.g. "you"). Third: Body part name, accusative.
-                    add_msg_if_player_sees( creature_below->pos(), _(
-                                                "Falling %1$s hits %2$s on the %3$s for %4$i damage!" ),
+                    const std::string msg = _( "Falling %1$s hits %2$s on the %3$s for %4$i damage!" );
+                    add_msg_if_player_sees( creature_below->pos(), msg,
                                             i.tname(), creature_below->disp_name(), hit_part->accusative, static_cast<int>( damage ) );
                 } else {
                     add_msg_if_player_sees( creature_below->pos(), _( "Falling %1$s hits %2$s for %3$i damage!" ),

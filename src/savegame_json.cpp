@@ -2875,7 +2875,11 @@ void item::io( Archive &archive )
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
     const auto ivload = [this]( const std::string & variant ) {
-        set_itype_variant( variant );
+        if( possible_itype_variant( variant ) ) {
+            set_itype_variant( variant );
+        } else {
+            item_controller->migrate_item_from_variant( *this, variant );
+        }
     };
     const auto ivsave = []( const itype_variant_data * iv ) {
         return iv->id;
