@@ -13,6 +13,27 @@
     "use_action": [ "DBG_LUX_METER" ]
   },
   {
+    "id": "debug_hotplate",
+    "type": "TOOL",
+    "name": { "str": "debug hotplate" },
+    "description": "A small heating element on a stand, powered by your electric grid.  It is indispensable for cooking and chemistry.  Try not to burn yourself.",
+    "weight": "795 g",
+    "volume": "2 L",
+    "longest_side": "35 cm",
+    "price": 2500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "flags": [ "WATER_BREAK", "ALLOWS_REMOTE_USE" ],
+    "ammo": [ "battery" ],
+    "charges_per_use": 35,
+    "qualities": [ [ "HOTPLATE", 2 ] ],
+    "use_action": [ "HOTPLATE", { "type": "link_up", "cable_length": 3, "charge_rate": "1 kW" } ],
+    "melee_damage": { "bash": 4 }
+  },
+  {
     "id": "debug_clay_pot",
     "type": "GENERIC",
     "category": "tools",

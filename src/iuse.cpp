@@ -8239,12 +8239,12 @@ std::optional<int> iuse::heat_single_item( Character *p, item *it )
             heating_effect = it->type->charges_to_use();
         }else{
         auto filter = [&it]( const item & e ) {
-            if(e.has_quality(qual_HOTPLATE) && (e.energy_remaining()>0_kJ || e.ammo_remaining())) {
+            if(e.has_quality(qual_HOTPLATE,2) && (e.energy_remaining()>0_kJ || e.ammo_remaining())) {
                 return true;
             }
         };
         item_location heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
-                                            _( "You don't have heating tools." ) );
+                                            _( "You don't have proper heating source." ) );
         if(!heater){
             add_msg( m_info, _( "Never mind." ) );
             return std::nullopt;
@@ -8312,12 +8312,12 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
             heating_effect = it->type->charges_to_use();
         }else{
         auto filter = [&it]( const item & e ) {
-            if(e.has_quality(qual_HOTPLATE) && (e.energy_remaining()>0_kJ || e.ammo_remaining())) {
+            if(e.has_quality(qual_HOTPLATE,2) && (e.energy_remaining()>0_kJ || e.ammo_remaining())) {
                 return true;
             }
         };
         item_location heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
-                                            _( "You don't have heating tools." ) );
+                                            _( "You don't have proper heating source." ) );
         if(!heater){
             add_msg( m_info, _( "Never mind." ) );
             return std::nullopt;
