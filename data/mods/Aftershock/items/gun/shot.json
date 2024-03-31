@@ -57,11 +57,10 @@
     "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "sling", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "brass catcher", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "bore", 1 ],
       [ "sights mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
@@ -87,15 +86,7 @@
     "dispersion": 350,
     "durability": 8,
     "clip_size": 8,
-    "valid_mod_locations": [
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail", 1 ],
-      [ "bore", 1 ],
-      [ "sights", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
+    "valid_mod_locations": [ [ "grip", 1 ], [ "mechanism", 2 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",

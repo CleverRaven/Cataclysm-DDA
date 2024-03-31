@@ -30,7 +30,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     // wait a turn for the effect to kick in
     p.process_turn();
 
-    CHECK( p.get_dex() == enc_test.dex_before + p.get_dex_base() * 2 + 25 );
+    CHECK( p.get_dex() == ( enc_test.dex_before + 25 ) * 3 );
     CHECK( get_talker_for( p )->trial_chance_mod( "lie" ) == static_cast<int>( round( (
                 enc_test.lie_before + 15 ) * 1.5 ) ) );
     CHECK( get_talker_for( p )->trial_chance_mod( "persuade" ) == static_cast<int>( round( (

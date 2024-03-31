@@ -21,7 +21,7 @@
     "energy_drain": "5 kJ",
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],

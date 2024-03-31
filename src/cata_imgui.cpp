@@ -158,13 +158,41 @@ RGBTuple color_loader<RGBTuple>::from_rgb( const int r, const int g, const int b
 }
 #else
 #include "sdl_utils.h"
+#include "sdl_font.h"
+#include "font_loader.h"
+#include "wcwidth.h"
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 
-SDL_Renderer *cataimgui::client::sdl_renderer = nullptr;
-SDL_Window *cataimgui::client::sdl_window = nullptr;
+struct CataImFont : public ImFont {
+    std::unordered_map<ImU32, unsigned char> sdlColorsToCata;
+    const cataimgui::client &imclient;
+    const std::unique_ptr<Font> &cata_font;
+    CataImFont( const cataimgui::client &imclient, const std::unique_ptr<Font> &cata_font ) :
+        imclient( imclient ), cata_font( cata_font ) {
+    }
 
-cataimgui::client::client()
+    // this function QUEUES a character to be drawn
+    bool CanRenderFallbackChar( const char *s_begin, const char *s_end ) const override {
+        return s_begin != nullptr && s_end != nullptr;
+    }
+
+    int GetFallbackCharWidth( const char *s_begin, const char *s_end,
+                              const float scale ) const override {
+        return cata_font->width * utf8_width( std::string( s_begin, s_end ) ) * int( scale );
+    }
+
+    int GetFallbackCharWidth( ImWchar c, const float scale ) const override {
+        return cata_font->width * mk_wcwidth( c ) * scale;
+    }
+};
+static CataImFont *activeFont;
+
+cataimgui::client::client( const SDL_Renderer_Ptr &sdl_renderer, const SDL_Window_Ptr &sdl_window,
+                           const GeometryRenderer_Ptr &sdl_geometry ) :
+    sdl_renderer( sdl_renderer ),
+    sdl_window( sdl_window ),
+    sdl_geometry( sdl_geometry )
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -177,8 +205,39 @@ cataimgui::client::client()
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
-    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window, sdl_renderer );
-    ImGui_ImplSDLRenderer2_Init( sdl_renderer );
+    ImGui_ImplSDL2_InitForSDLRenderer( sdl_window.get(), sdl_renderer.get() );
+    ImGui_ImplSDLRenderer2_Init( sdl_renderer.get() );
+}
+
+void cataimgui::client::load_fonts( const std::unique_ptr<Font> &cata_font,
+                                    const std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> &windowsPalette )
+{
+    ImGuiIO &io = ImGui::GetIO();
+    if( ImGui::GetIO().FontDefault == nullptr ) {
+        std::vector<std::string> typefaces;
+        ensure_unifont_loaded( typefaces );
+
+        ImFontConfig cfg;
+        cfg.DstFont = activeFont = new CataImFont( *this, cata_font );
+        for( size_t index = 0; index < color_loader<SDL_Color>::COLOR_NAMES_COUNT; index++ ) {
+            SDL_Color sdlCol = windowsPalette[index];
+            ImU32 rgb = sdlCol.b << 16 | sdlCol.g << 8 | sdlCol.r;
+            activeFont->sdlColorsToCata[rgb] = index;
+        }
+        io.FontDefault = io.Fonts->AddFontFromFileTTF( typefaces[0].c_str(), cata_font->height, &cfg,
+                         io.Fonts->GetGlyphRangesDefault() );
+        io.Fonts->Fonts[0] = cfg.DstFont;
+        ImGui_ImplSDLRenderer2_SetFallbackGlyphDrawCallback( [&]( const ImFontGlyphToDraw & glyph ) {
+            std::string uni_string = std::string( glyph.uni_str );
+            point p( int( glyph.pos.x ), int( glyph.pos.y - 5 ) );
+            unsigned char col = 0;
+            auto it = activeFont->sdlColorsToCata.find( glyph.col & 0xFFFFFF );
+            if( it != activeFont->sdlColorsToCata.end() ) {
+                col = it->second;
+            }
+            cata_font->OutputChar( sdl_renderer, sdl_geometry, glyph.uni_str, p, col );
+        } );
+    }
 }
 
 cataimgui::client::~client()
