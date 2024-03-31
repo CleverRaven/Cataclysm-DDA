@@ -2260,5 +2260,5 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
 
 const field_type_str_id &map::get_applicable_electricity_field( const tripoint &p ) const
 {
-    return is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
+    return inbounds( p ) && is_transparent( p ) ? fd_electricity : fd_electricity_unlit;
 }
