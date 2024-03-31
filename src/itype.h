@@ -1397,6 +1397,10 @@ struct itype {
 
         int m_to_hit = 0;  // To-hit bonus for melee combat; -5 to 5 is reasonable
 
+        surface_val surface = surface_val::ANY;
+
+        balance_val balance = balance_val::NEUTRAL;
+
         unsigned light_emission = 0;   // Exactly the same as item_tags LIGHT_*, this is for lightmap.
 
         nc_color color = c_white; // Color on the map (color.h)

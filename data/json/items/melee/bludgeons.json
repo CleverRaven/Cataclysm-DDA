@@ -1150,7 +1150,7 @@
     "weight": "3200 g",
     "volume": "3750 ml",
     "longest_side": "200 cm",
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "uneven" },
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
     "price_postapoc": 10000,
     "qualities": [ [ "COOK", 1 ] ],
     "category": "weapons",

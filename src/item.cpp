@@ -221,9 +221,16 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
 
-static const weapon_category_id weapon_category_long_swords( "LONG_SWORDS" );
-static const weapon_category_id weapon_category_medium_swords( "MEDIUM_SWORDS" );
-static const weapon_category_id weapon_category_great_swords( "GREAT_SWORDS" );
+static const weapon_category_id weapon_category_LONG_SWORDS( "LONG_SWORDS" );
+static const weapon_category_id weapon_category_MEDIUM_SWORDS( "MEDIUM_SWORDS" );
+static const weapon_category_id weapon_category_GREAT_SWORDS( "GREAT_SWORDS" );
+static const weapon_category_id weapon_category_SHIVS( "SHIVS" );
+static const weapon_category_id weapon_category_HAND_AXES( "HAND_AXES" );
+static const weapon_category_id weapon_category_GREAT_AXES( "GREAT_AXES" );
+static const weapon_category_id weapon_category_MACES( "MACES" );
+static const weapon_category_id weapon_category_GREAT_HAMMERS( "GREAT_HAMMERS" );
+static const weapon_category_id weapon_category_QUARTERSTAVES( "QUARTERSTAVES" );
+static const weapon_category_id weapon_category_POLEARMS( "POLEARMS" );
 
 // vitamin flags
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
@@ -7410,32 +7417,101 @@ int item::lift_strength() const
     const int mass = units::to_gram( weight() );
     return std::max( mass / 10000, 1 );
 }
+enum class weapon_major_category : int {
+    DEFAULT = 0,
+    SWORD = 1,
+    HAMMER_OR_AXE = 2,
+    QUARTERSTAVE = 3,
+    POLEARM = 4,
 
+
+};
 int item::attack_time( const Character &you ) const
 {
-    const double base_move = 65;
-    const double const_stab = 3;
-    const double const_weild = 2.5;
-    const double sword_factor = 0.75;
+    const constexpr double base_move = 65;
+    const constexpr double base_move_twohand = base_move * 1.3;
+    const constexpr double const_stab = 0.6;
+    const constexpr double const_weild_1 = 0.4;
+    const constexpr double const_weild_2 = 0.6;
+    const constexpr double const_weild_polearm = 0.067;
+    const constexpr double factor_setting[5][5] = { { 1.5, 1.3, 1.1, 1, 0 }, {2, 1.5, 1, 0.8, 0}, { 2.5, 1.8, 1.5, 1.1, 0 }, { 1.5, 1.3, 1.1, 1, 0 }, { 3.5, 2.5, 1.5, 1.1, 0 } };
+
 
     int ret = base_move;
-    int stab_damage = damage_melee( damage_stab );
-    if( stab_damage > damage_melee( damage_bash ) && stab_damage > damage_melee( damage_cut ) ) {
-        ret = base_move * std::sqrt( weight() / const_stab / 1000_gram + 1 );
+    bool stab = false;
+    bool always_twohand = has_flag( flag_ALWAYS_TWOHAND );
+    switch( type->surface ) {
+        case surface_val::POINT:
+            stab = true;
+            break;
+        case surface_val::LINE:
+            stab = false;
+            break;
+        default:
+            stab = damage_melee( damage_stab ) > damage_melee( damage_bash ) &&
+                   damage_melee( damage_stab ) > damage_melee( damage_cut ) ? true : false;
+            break;
+    }
+    if( stab ) {
+        ret = base_move_twohand * std::sqrt( weight() * const_stab / 1000_gram /  2 + 1 );
+        if( !always_twohand ) {
+            ret = std::min( ret, static_cast<int>( base_move * std::sqrt( weight() * const_stab / 1000_gram +
+                                                   1 ) ) );
+        }
+
     } else {
-        std::set<weapon_category_id> weapon_types = type->weapon_category;
-        bool is_sword = std::any_of( weapon_types.begin(),
-        weapon_types.end(), [&]( const weapon_category_id weapon_type ) {
-            return weapon_type == weapon_category_great_swords || weapon_type == weapon_category_long_swords ||
-                   weapon_type == weapon_category_medium_swords;
-        } );
-        ret = base_move * std::sqrt( weight() * ( is_sword ? sword_factor : 1 ) / 1000_gram * std::pow(
-                                         static_cast<double>( length() / 1_mm ) / 1000,
-                                         2 ) / const_weild + 1 );
+
+        weapon_major_category major_category = weapon_major_category::DEFAULT;
+        for( const weapon_category_id weapon_type : type->weapon_category ) {
+            if( weapon_type == weapon_category_POLEARMS ) {
+                major_category = weapon_major_category::POLEARM;
+                break;
+            } else if( weapon_type == weapon_category_QUARTERSTAVES ) {
+                major_category = weapon_major_category::QUARTERSTAVE;
+                break;
+            } else if( weapon_type == weapon_category_GREAT_AXES ||
+                       weapon_type == weapon_category_GREAT_HAMMERS || weapon_type == weapon_category_HAND_AXES ||
+                       weapon_type == weapon_category_MACES ) {
+                major_category = weapon_major_category::HAMMER_OR_AXE;
+                break;
+            } else if( weapon_type == weapon_category_GREAT_SWORDS ||
+                       weapon_type == weapon_category_LONG_SWORDS || weapon_type == weapon_category_MEDIUM_SWORDS ||
+                       weapon_type == weapon_category_SHIVS ) {
+                major_category = weapon_major_category::SWORD;
+                break;
+            }
+        }
+        int factor = factor_setting[static_cast<int>( major_category )][static_cast<int>
+                     ( type->balance )];
+        switch( major_category ) {
+            case weapon_major_category::DEFAULT:
+            case weapon_major_category::SWORD:
+            case weapon_major_category::HAMMER_OR_AXE:
+                ret = base_move_twohand * std::sqrt( weight() * factor / 1000_gram * ( ( std::pow(
+                        static_cast<double>( length() / 1_mm ) / 1000,
+                        2 ) * const_weild_1 + const_weild_2 ) / 2 ) + 1 );
+
+                if( !always_twohand ) {
+                    ret = std::min( ret, static_cast<int>( base_move * std::sqrt( weight() * factor / 1000_gram * (
+                            std::pow(
+                                static_cast<double>( length() / 1_mm ) / 1000,
+                                2 ) * const_weild_1 + const_weild_2 ) + 1 ) ) );
+                }
+
+                break;
+
+            default:
+                ret = base_move_twohand * std::sqrt( weight() * factor / 1000_gram * ( ( std::pow(
+                        static_cast<double>( length() / 1_mm ) / 1000,
+                        2 ) * const_weild_polearm ) + 1 ) );
+
+        }
+
     }
     ret = calculate_by_enchantment_wield( you, ret, enchant_vals::mod::ITEM_ATTACK_SPEED,
                                           true );
     return ret;
+
 }
 
 int item::damage_melee( const damage_type_id &dt ) const

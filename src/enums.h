@@ -491,4 +491,48 @@ struct enum_traits<link_state> {
     static constexpr link_state last = link_state::last;
 };
 
+enum class grip_val : int {
+    BAD = 0,
+    NONE = 1,
+    SOLID = 2,
+    WEAPON = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<grip_val> {
+    static constexpr grip_val last = grip_val::LAST;
+};
+enum class length_val : int {
+    HAND = 0,
+    SHORT = 1,
+    LONG = 2,
+    LAST = 3
+};
+template<>
+struct enum_traits<length_val> {
+    static constexpr length_val last = length_val::LAST;
+};
+enum class surface_val : int {
+    POINT = 0,
+    LINE = 1,
+    ANY = 2,
+    EVERY = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<surface_val> {
+    static constexpr surface_val last = surface_val::LAST;
+};
+enum class balance_val : int {
+    CLUMSY = 0,
+    UNEVEN = 1,
+    NEUTRAL = 2,
+    GOOD = 3,
+    LAST = 4
+};
+template<>
+struct enum_traits<balance_val> {
+    static constexpr balance_val last = balance_val::LAST;
+};
+
 #endif // CATA_SRC_ENUMS_H

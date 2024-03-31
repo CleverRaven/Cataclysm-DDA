@@ -3839,49 +3839,7 @@ void Item_factory::add_special_pockets( itype &def )
     }
 }
 
-enum class grip_val : int {
-    BAD = 0,
-    NONE = 1,
-    SOLID = 2,
-    WEAPON = 3,
-    LAST = 4
-};
-template<>
-struct enum_traits<grip_val> {
-    static constexpr grip_val last = grip_val::LAST;
-};
-enum class length_val : int {
-    HAND = 0,
-    SHORT = 1,
-    LONG = 2,
-    LAST = 3
-};
-template<>
-struct enum_traits<length_val> {
-    static constexpr length_val last = length_val::LAST;
-};
-enum class surface_val : int {
-    POINT = 0,
-    LINE = 1,
-    ANY = 2,
-    EVERY = 3,
-    LAST = 4
-};
-template<>
-struct enum_traits<surface_val> {
-    static constexpr surface_val last = surface_val::LAST;
-};
-enum class balance_val : int {
-    CLUMSY = 0,
-    UNEVEN = 1,
-    NEUTRAL = 2,
-    GOOD = 3,
-    LAST = 4
-};
-template<>
-struct enum_traits<balance_val> {
-    static constexpr balance_val last = balance_val::LAST;
-};
+
 
 namespace io
 {
@@ -4158,6 +4116,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         bool was_loaded = false;
         mandatory( jo, was_loaded, "to_hit", temp );
         def.m_to_hit = temp.sum_values();
+        def.balance = temp.balance;
+        def.surface = temp.surface;
     }
     optional( jo, false, "variant_type", def.variant_kind, itype_variant_kind::generic );
     optional( jo, false, "variants", def.variants );
