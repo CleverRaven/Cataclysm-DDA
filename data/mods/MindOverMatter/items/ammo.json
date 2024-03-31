@@ -53,7 +53,7 @@
     "material": [ "nether_crystal" ],
     "count": 100
   },
-{
+  {
     "type": "AMMO",
     "id": "psionic_charge_power",
     "category": "spare_parts",
