@@ -582,10 +582,10 @@ void veh_app_interact::populate_app_actions()
     } );
     imenu.addentry( -1, true, ctxt.keys_bound_to( "PLUG" ).front(),
                     string_format( "%s%s", ctxt.get_action_name( "PLUG" ),
-                                   //~ An addition to the description if the appliance is a power grid.
+                                   //~ An addendum to Plug In's description, as in: Plug in appliance / merge power grid".
                                    veh->is_powergrid() ? _( " / merge power grid" ) : "" ) );
 
-    if( veh->is_powergrid() && veh->part_count() > 1 ) {
+    if( veh->is_powergrid() && veh->part_count() > 1 && !vp->info().has_flag( VPFLAG_WALL_MOUNTED ) ) {
         // Disconnect from power grid
         app_actions.emplace_back( [this]() {
             disconnect();
