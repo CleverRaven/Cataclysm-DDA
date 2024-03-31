@@ -512,19 +512,7 @@
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
     "fungalize_into": "mon_zombie_fungus",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "ELECTRIC",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
-    ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "ELECTRIC", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "armor": { "bash": 10, "cut": 18, "bullet": 14, "electric": 3 }
   },
   {
