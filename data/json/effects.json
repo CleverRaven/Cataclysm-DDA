@@ -1958,7 +1958,7 @@
     ],
     "apply_message": [
       [ "Your eyes are mildly irritated.", "bad" ],
-      [ "Your eyes watering out of smoke.", "bad" ],
+      [ "Your eyes are watering.", "bad" ],
       [ "Your eyes sting badly and tears stream from them continuously.", "bad" ],
       [
         "You can barely see anything due to your massive eye irritation and the flood of tears streaming from them.",
