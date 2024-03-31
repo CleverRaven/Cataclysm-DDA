@@ -1721,7 +1721,7 @@ static void cast_spell()
         } else if( !player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
                    player_character.has_flag( json_flag_NO_PSIONICS ) ) {
             add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                    _( "You can't channel any of the powers you know!" ) );
+                     _( "You can't channel any of the powers you know!" ) );
         } else {
             add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                     _( "You can't use any of your powers!" ) );
