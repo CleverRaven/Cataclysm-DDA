@@ -5129,11 +5129,6 @@ needs_rates Character::calc_needs_rates() const
                                 pos() ) ) - 32.5f ) / 40.0f );
     }
 
-    if( is_npc() ) {
-        rates.hunger *= 0.25f;
-        rates.thirst *= 0.25f;
-    }
-
     rates.hunger = enchantment_cache->modify_value( enchant_vals::mod::HUNGER, rates.hunger );
     rates.fatigue = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
@@ -8561,8 +8556,8 @@ void Character::blossoms()
 
 void Character::update_vitamins( const vitamin_id &vit )
 {
-    if( is_npc() && vit->type() != vitamin_type::COUNTER ) {
-        return; // NPCs cannot develop vitamin diseases, bypass for special
+    if( !needs_food() ) {
+        return; // NPCs can only develop vitamin diseases if their needs are enabled
     }
 
     efftype_id def = vit.obj().deficiency();
