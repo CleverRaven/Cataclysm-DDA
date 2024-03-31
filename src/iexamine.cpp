@@ -4386,7 +4386,7 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
 
     const itype *pseudo_type = f.crafting_pseudo_item_type();
 
-    if (!pseudo_type || !pseudo_type->tool || pseudo_type->tool->ammo_id.empty()) {
+    if( !pseudo_type || !pseudo_type->tool || pseudo_type->tool->ammo_id.empty() ) {
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
         return;
     }

@@ -11497,7 +11497,7 @@ void item::reload_option::qty( int val )
     // This gets rounded up to 1 later.
     int remaining_capacity = target->is_watertight_container() ?
                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
-                             target->ammo_capacity(ammo->ammo_type()) - target->ammo_remaining();
+                             target->ammo_capacity( ammo->ammo_type() ) - target->ammo_remaining();
     if( target->has_flag( flag_RELOAD_ONE ) &&
         !( ammo->has_flag( flag_SPEEDLOADER ) || ammo->has_flag( flag_SPEEDLOADER_CLIP ) ) ) {
         remaining_capacity = 1;
