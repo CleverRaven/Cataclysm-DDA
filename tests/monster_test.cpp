@@ -309,7 +309,7 @@ TEST_CASE( "check_mon_id" )
             continue;
         }
         std::string mon_id = mon.id.str();
-        std::string suffix_id = mon_id.substr( 0, mon_id.find( "_" ) );
+        std::string suffix_id = mon_id.substr( 0, mon_id.find( '_' ) );
         INFO( "Now checking the id of " << mon.id.str() );
         CHECK( ( suffix_id == "mon"  || suffix_id == "pseudo" ) );
     }
