@@ -645,8 +645,7 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
 
 void Character::vitamins_mod( const std::map<vitamin_id, int> &vitamins )
 {
-    const bool npc_no_food = is_npc() && get_option<bool>( "NO_NPC_FOOD" );
-    if( !npc_no_food ) {
+    if( needs_food() ) {
         for( const std::pair<const vitamin_id, int> &vit : vitamins ) {
             vitamin_mod( vit.first, vit.second );
         }

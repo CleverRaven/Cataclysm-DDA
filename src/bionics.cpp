@@ -762,7 +762,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
     for( const effect_on_condition_id &eoc : bio.id->activated_eocs ) {
         dialogue d( get_talker_for( *this ), nullptr );
-        write_var_value( var_type::context, "npctalk_var_act_cost", nullptr, &d,
+        write_var_value( var_type::context, "npctalk_var_act_cost", &d,
                          units::to_millijoule( bio.info().power_activate ) );
         if( eoc->type == eoc_type::ACTIVATION ) {
             eoc->activate( d );
