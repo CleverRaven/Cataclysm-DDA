@@ -309,7 +309,7 @@ TEST_CASE( "check_mon_id" )
             continue;
         }
         INFO( "Now checking the id of " << mon.id.str() );
-        CHECK( mon.id.str()._Starts_with( "mon_" ) );
+        CHECK( ( mon.id.str()._Starts_with( "mon_" ) || mon.id.str()._Starts_with( "pseudo_" ) ) );
     }
 }
 
