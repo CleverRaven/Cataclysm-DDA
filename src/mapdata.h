@@ -669,8 +669,6 @@ struct furn_t : map_data_common_t {
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
-    // May return NULL
-    const itype *crafting_ammo_item_type() const;
 
     furn_t();
 

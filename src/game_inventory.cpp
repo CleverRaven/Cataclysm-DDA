@@ -2773,8 +2773,11 @@ class select_ammo_inventory_preset : public inventory_selector_preset
 {
     public:
         select_ammo_inventory_preset( Character &you, const item_location &target,
-                                      bool empty ) : you( you ),
-            target( target ), empty( empty ) {
+                                      bool empty,
+        item_location_filter filter = []( const item_location & ) {
+            return true;
+        } ) : you( you ),
+            target( target ), empty( empty ), filter( std::move( filter ) ) {
             _indent_entries = false;
             _collate_entries = true;
 
@@ -2836,6 +2839,10 @@ class select_ammo_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
+            if( !filter( loc ) ) {
+                return false;
+            }
+
             // todo: allow to reload a magazine/magazine well from a container pocket on the same item
             if( loc.parent_item() == target ) {
                 return false;
@@ -2896,12 +2903,14 @@ class select_ammo_inventory_preset : public inventory_selector_preset
         Character &you;
         const item_location target;
         bool empty;
+        item_location_filter filter;
 };
 
 item::reload_option game_menus::inv::select_ammo( Character &you, const item_location &loc,
-        bool prompt, bool empty )
+        bool prompt,
+        bool empty, item_location_filter filter )
 {
-    const select_ammo_inventory_preset preset( you, loc, empty );
+    const select_ammo_inventory_preset preset( you, loc, empty, std::move( filter ) );
     ammo_inventory_selector inv_s( you, loc, preset );
 
     inv_s.set_title( string_format( loc->is_watertight_container() ? _( "Refill %s" ) :

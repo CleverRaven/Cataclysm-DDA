@@ -46,6 +46,7 @@
 #include "harvest.h"
 #include "input_context.h"
 #include "inventory.h"
+#include "inventory_ui.h"
 #include "item.h"
 #include "item_location.h"
 #include "item_stack.h"
@@ -4329,15 +4330,6 @@ const itype *furn_t::crafting_pseudo_item_type() const
     return item::find_type( crafting_pseudo_item );
 }
 
-const itype *furn_t::crafting_ammo_item_type() const
-{
-    const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo && pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
-        return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
-    }
-    return nullptr;
-}
-
 /**
 * Finds the number of charges of the first item that matches type.
 *
@@ -4356,90 +4348,85 @@ static int count_charges_in_list( const itype *type, const map_stack &items )
     return 0;
 }
 
-/**
-* Finds the number of charges of the first item that matches ammotype.
-*
-* @param ammotype   Search target.
-* @param items      Stack of items. Search stops at first match.
-* @param [out] item_type Matching type.
-*
-* @return           Number of charges.
-* */
-static int count_charges_in_list( const ammotype *ammotype, const map_stack &items,
-                                  itype_id &item_type )
-{
-    for( const item &candidate : items ) {
-        if( candidate.is_ammo() && candidate.type->ammo->type == *ammotype ) {
-            item_type = candidate.typeId();
-            return candidate.charges;
-        }
-    }
-    return 0;
-}
-
 static void reload_furniture( Character &you, const tripoint &examp, bool allow_unload )
 {
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
-    const itype *pseudo_type = f.crafting_pseudo_item_type();
-    const itype *ammo = f.crafting_ammo_item_type();
-    bool use_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
-    if( pseudo_type == nullptr || ammo == nullptr || !ammo->ammo ) {
-        add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
-        return;
-    }
-    itype_id ammo_itypeID( ammo->get_id() );
-    int amount_in_furn = use_ammotype ?
-                         count_charges_in_list( &ammo->ammo->type, here.i_at( examp ), ammo_itypeID ) :
-                         count_charges_in_list( ammo, here.i_at( examp ) );
-    if( allow_unload && amount_in_furn > 0 ) {
+    map_stack items = here.i_at( examp );
+    if( allow_unload && !items.empty() ) {
+        // Hopefully the furniture only ever has one itype in it at a time, but
+        // if something goes wrong, let's let the player remove whatever's in
+        // there.
+        const item &first_item = *items.begin();
+        int amount_in_furn = count_charges_in_list( first_item.type, items );
         if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
-                          ammo_itypeID->nname( amount_in_furn ) ) ) {
-            map_stack items = here.i_at( examp );
-            for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
-                if( itm->typeId() == ammo_itypeID ) {
-                    if( you.can_stash( *itm ) ) {
-                        std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
-                        you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
-                        return;
-                    } else {
-                        // get handling cost before the item reference is invalidated
-                        const int handling_cost = -you.item_handling_cost( *itm );
-
-                        add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
-                        here.add_item_or_charges( you.pos(), *itm );
-                        itm = items.erase( itm );
-                        you.mod_moves( handling_cost );
-                        return;
-                    }
+                          first_item.type->nname( amount_in_furn ) ) ) {
+            for( map_stack::iterator itm = items.begin(); itm != items.end(); itm++ ) {
+                if( itm->type != first_item.type ) {
+                    continue;
+                }
+                if( you.can_stash( *itm ) ) {
+                    std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
+                    you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
+                    return;
                 } else {
-                    itm++;
+                    // get handling cost before the item reference is invalidated
+                    const int handling_cost = -you.item_handling_cost( *itm );
+
+                    add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
+                    here.add_item_or_charges( you.pos(), *itm );
+                    itm = items.erase( itm );
+                    you.mod_moves( handling_cost );
+                    return;
                 }
             }
+            debugmsg( "Tried to unload %s, but there was nothing to unload.", f.name() );
         }
     }
 
-    const int max_amount_in_furn = item( pseudo_type ).ammo_capacity( ammo->ammo->type );
-    const int max_reload_amount = max_amount_in_furn - amount_in_furn;
-    if( max_reload_amount <= 0 ) {
+    const itype *pseudo_type = f.crafting_pseudo_item_type();
+
+    if (!pseudo_type || !pseudo_type->tool || pseudo_type->tool->ammo_id.empty()) {
+        add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
         return;
     }
+    const std::set<ammotype> &allowed_ammotypes = pseudo_type->tool->ammo_id;
+
     item pseudo( pseudo_type );
     // maybe at some point we need a pseudo item_location or something
     // but for now this should at least work as intended
     item_location pseudo_loc( map_cursor( examp ), &pseudo );
 
-    // used to only allow one type of ammo, changed with move to inventory_selector
-    // todo: use furniture name instead of pseudo item name
-    item::reload_option opt = game_menus::inv::select_ammo( you, pseudo_loc );
+    // If the furniture already has ammo in it, we'll only reload that exact itype.
+    const itype *ammo_to_load = nullptr;
+    for( const item &i : items ) {
+        if( i.type->ammo ) {
+            if( allowed_ammotypes.find( i.type->ammo->type ) != allowed_ammotypes.end() ) {
+                ammo_to_load = i.type;
+                break;
+            }
+        }
+    }
 
+    // todo: use furniture name instead of pseudo item name
+    item::reload_option opt = game_menus::inv::select_ammo( you,
+    pseudo_loc, false, true, [&]( const item_location & loc ) {
+        return !ammo_to_load || loc.get_item()->type->get_id() == ammo_to_load->get_id();
+    } );
     if( !opt ) {
         return;
     }
-    const itype *opt_type = opt.ammo->type;
+    ammo_to_load = opt.ammo->type;
+    const int amount_in_furn = count_charges_in_list( ammo_to_load, items );
+    const int max_amount_in_furn = item( pseudo_type ).ammo_capacity( ammo_to_load->ammo->type );
+    const int max_reload_amount = max_amount_in_furn - amount_in_furn;
+    if( max_reload_amount <= 0 ) {
+        return;
+    }
+
     const int max_amount = std::min( opt.qty(), max_reload_amount );
     const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
-                                 opt_type->nname( max_amount ), f.name() );
+                                 ammo_to_load->nname( max_amount ), f.name() );
     int amount = string_input_popup()
                  .title( popupmsg )
                  .width( 20 )
@@ -4460,20 +4447,20 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
         here.add_item( examp, it );
     };
 
-    item moved( opt_type, opt.ammo.get_item()->birthday(), amount );
+    item moved( ammo_to_load, opt.ammo.get_item()->birthday(), amount );
     place_item( moved );
     you.mod_moves( -you.item_handling_cost( moved ) );
     std::list<item>used;
-    if( opt.ammo.get_item()->use_charges( opt_type->get_id(), amount, used,
+    if( opt.ammo.get_item()->use_charges( ammo_to_load->get_id(), amount, used,
                                           opt.ammo.position() ) ) {
         opt.ammo.remove_item();
     }
 
-    const int amount_in_furn_after_placing = count_charges_in_list( opt_type,
+    const int amount_in_furn_after_placing = count_charges_in_list( ammo_to_load,
             here.i_at( examp ) );
     //~ %1$s - furniture, %2$d - number, %3$s items.
     add_msg( _( "The %1$s contains %2$d %3$s." ), f.name(), amount_in_furn_after_placing,
-             opt_type->nname( amount_in_furn_after_placing ) );
+             ammo_to_load->nname( amount_in_furn_after_placing ) );
 
     add_msg( _( "You reload the %s." ), here.furnname( examp ) );
 
@@ -6600,7 +6587,6 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
 
     const furn_t &f = here.furn( examp ).obj();
     const itype *type = f.crafting_pseudo_item_type();
-    const itype *ammo = f.crafting_ammo_item_type();
     const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
@@ -6609,8 +6595,10 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
     const bool has_coal_in_inventory = you.crafting_inventory().charges_of( itype_charcoal ) > 0;
     const int coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
     const int need_charges = get_charcoal_charges( f_volume );
-    const int max_charges = type == nullptr || ammo == nullptr ||
-                            !ammo->ammo ? 0 : item( type ).ammo_capacity( ammo->ammo->type );
+
+    const ammotype ammo = type && type->tool &&
+                          !type->tool->ammo_id.empty() ? *type->tool->ammo_id.begin() : ammotype::NULL_ID();
+    const int max_charges = ammo ? item( type ).ammo_capacity( ammo ) : 0;
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 

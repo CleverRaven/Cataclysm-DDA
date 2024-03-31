@@ -157,7 +157,11 @@ item_location change_sprite( Character &you );
 /** Unload item menu **/
 std::pair<item_location, bool> unload( Character &you );
 item::reload_option select_ammo( Character &you, const item_location &loc, bool prompt = false,
-                                 bool empty = true );
+                                 bool empty = true,
+                                 item_location_filter filter = []( const item_location & )
+{
+    return true;
+} );
 /*@}*/
 
 } // namespace inv
