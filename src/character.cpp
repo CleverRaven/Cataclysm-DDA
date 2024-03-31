@@ -567,6 +567,7 @@ Character::Character() :
     set_anatomy( anatomy_human_anatomy );
     update_type_of_scent( true );
     pkill = 0;
+    fasting_days = 0;
     // 55 Mcal or 55k kcal
     healthy_calories = 55'000'000;
     base_cardio_acc = 1000;
@@ -4572,6 +4573,34 @@ void Character::set_sleep_deprivation( int nsleep_deprivation )
 {
     sleep_deprivation = std::min( static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max( 0,
                                   nsleep_deprivation ) );
+}
+
+void Character::set_fasting_days(int nfasting_days) {
+    fasting_days = nfasting_days;
+}
+
+int Character::get_fasting_days() const 
+{
+    return fasting_days;
+}
+
+void Character::update_fasting()
+{
+    const int current_fasting_days = get_fasting_days();
+    const int total_entries = (as_avatar())->get_calorie_diary_entries();
+    int fast_total_days = 0;
+    while (fast_total_days < total_entries && (as_avatar())->get_daily_ingested_kcal(fast_total_days) < 100) {
+        fast_total_days++;
+    }
+    if (fast_total_days < current_fasting_days) {
+        const int fast_bonus = std::clamp((2 + current_fasting_days), 2, 30);
+        add_morale(MORALE_FASTING_BROKE, fast_bonus, fast_bonus, 60_minutes, 60_minutes, true);
+        fast_total_days = 0;
+    }
+    //fasting must occur over at least one whole day
+    if (fast_total_days != 1) {
+        set_fasting_days(fast_total_days);
+    }
 }
 
 time_duration Character::get_daily_sleep() const

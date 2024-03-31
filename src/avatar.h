@@ -351,13 +351,14 @@ class avatar : public Character
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
         int get_daily_spent_kcal( bool yesterday ) const;
-        int get_daily_ingested_kcal( bool yesterday ) const;
+        int get_daily_ingested_kcal(int days_back) const;
         void add_ingested_kcal( int kcal );
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
+        int get_calorie_diary_entries() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
         void randomize_hobbies();
         void add_random_hobby( std::vector<profession_id> &choices );

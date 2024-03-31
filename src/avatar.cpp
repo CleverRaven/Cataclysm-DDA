@@ -1592,17 +1592,22 @@ int avatar::get_daily_spent_kcal( bool yesterday ) const
     return calorie_diary.front().spent;
 }
 
-int avatar::get_daily_ingested_kcal( bool yesterday ) const
+/*
+For today's entry, use days_back = 0
+For yesterday's entry, use days_back = 1
+..
+*/
+int avatar::get_daily_ingested_kcal( int days_back ) const
 {
-    if( yesterday ) {
-        if( calorie_diary.size() < 2 ) {
-            return 0;
-        }
-        std::list<avatar::daily_calories> copy = calorie_diary;
-        copy.pop_front();
-        return copy.front().ingested;
+    if (days_back > calorie_diary.size() - 1) {
+        return 0;
     }
-    return calorie_diary.front().ingested;
+    std::list<avatar::daily_calories> copy = calorie_diary;
+    std::list<avatar::daily_calories>::iterator it = copy.begin();
+    for (int i = 0; i < days_back; i++) {
+        it++;
+    }
+    return it->ingested;
 }
 
 void avatar::add_ingested_kcal( int kcal )
@@ -1780,6 +1785,11 @@ std::string avatar::total_daily_calories_string() const
         ret += "\n";
     }
     return ret;
+}
+
+int avatar::get_calorie_diary_entries() const
+{
+    return calorie_diary.size();
 }
 
 std::unique_ptr<talker> get_talker_for( avatar &me )

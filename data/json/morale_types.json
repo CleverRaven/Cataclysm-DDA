@@ -438,5 +438,15 @@
     "id": "morale_asocial",
     "type": "morale_type",
     "text": "Spent time alone"
+  },
+  {
+    "id": "morale_fasting",
+    "type": "morale_type",
+    "text": "Fasting"
+  },
+  {
+    "id": "morale_fasting_broke",
+    "type": "morale_type",
+    "text": "Broke fast"
   }
 ]
