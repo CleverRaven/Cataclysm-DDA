@@ -1599,12 +1599,12 @@ For yesterday's entry, use days_back = 1
 */
 int avatar::get_daily_ingested_kcal( int days_back ) const
 {
-    if (days_back > calorie_diary.size() - 1) {
+    if( days_back > get_calorie_diary_entries() - 1 ) {
         return 0;
     }
     std::list<avatar::daily_calories> copy = calorie_diary;
     std::list<avatar::daily_calories>::iterator it = copy.begin();
-    for (int i = 0; i < days_back; i++) {
+    for( int i = 0; i < days_back; i++ ) {
         it++;
     }
     return it->ingested;

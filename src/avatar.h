@@ -351,7 +351,7 @@ class avatar : public Character
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
         int get_daily_spent_kcal( bool yesterday ) const;
-        int get_daily_ingested_kcal(int days_back) const;
+        int get_daily_ingested_kcal( int days_back ) const;
         void add_ingested_kcal( int kcal );
         void update_cardio_acc() override;
         void add_spent_calories( int cal ) override;

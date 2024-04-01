@@ -283,10 +283,10 @@ TEST_CASE( "cardio_is_not_affected_by_small_character_height_variations", "[card
     REQUIRE( they.size_class == creature_size::medium );
 
     SECTION( "No difference in cardio between heights" ) {
-        const int default_height = Character::default_height(they.size_class);
+        const int default_height = Character::default_height( they.size_class );
         they.set_base_height( default_height );
         CHECK( they.get_cardiofit() == base_cardio );
-        they.set_base_height( default_height + 3);
+        they.set_base_height( default_height + 3 );
         CHECK( they.get_cardiofit() == base_cardio );
         they.set_base_height( default_height - 5 );
         CHECK( they.get_cardiofit() == base_cardio );
