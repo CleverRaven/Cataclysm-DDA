@@ -1693,11 +1693,9 @@ void vehicle::precalculate_vehicle_turning( units::angle new_turn_dir, bool chec
                     if( diagonal_track_ters.find( terrain_at_wheel ) != diagonal_track_ters.end() ) {
                         incorrect_tiles_not_diagonal++;
                     }
-                } else if( is_diagonal_movement ) {
-                    const std::unordered_set<ter_str_id> straight_track_ters = { ter_t_railroad_track, ter_t_railroad_track_on_tie, ter_t_railroad_track_h, ter_t_railroad_track_v, ter_t_railroad_track_h_on_tie, ter_t_railroad_track_v_on_tie };
-                    if( straight_track_ters.find( terrain_at_wheel ) != straight_track_ters.end() ) {
-                        incorrect_tiles_not_diagonal++;
-                    }
+                } else if( const std::unordered_set<ter_str_id> straight_track_ters = { ter_t_railroad_track, ter_t_railroad_track_on_tie, ter_t_railroad_track_h, ter_t_railroad_track_v, ter_t_railroad_track_h_on_tie, ter_t_railroad_track_v_on_tie };
+                           straight_track_ters.find( terrain_at_wheel ) != straight_track_ters.end() ) {
+                    incorrect_tiles_not_diagonal++;
                 }
                 if( incorrect_tiles_diagonal > allowed_incorrect_tiles_diagonal ||
                     incorrect_tiles_not_diagonal > allowed_incorrect_tiles_not_diagonal ) {
