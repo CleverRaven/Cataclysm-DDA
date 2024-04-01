@@ -6,6 +6,8 @@
 #include "mapdata.h"
 #include "point.h"
 
+static const ter_str_id ter_t_null( "t_null" );
+
 namespace mapf
 {
 
@@ -21,7 +23,7 @@ void formatted_set_simple( map *m, const point &start, const char *cstr,
         } else {
             const ter_id ter = ter_b.translate( *p );
             const furn_id furn = furn_b.translate( *p );
-            if( ter != t_null ) {
+            if( ter != ter_t_null ) {
                 m->ter_set( p2, ter );
             }
             if( furn != f_null ) {

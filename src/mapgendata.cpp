@@ -11,6 +11,8 @@
 #include "point.h"
 #include "regional_settings.h"
 
+static const ter_str_id ter_t_null( "t_null" );
+
 void mapgen_arguments::merge( const mapgen_arguments &other )
 {
     for( const std::pair<const std::string, cata_variant> &p : other.map ) {
@@ -241,7 +243,7 @@ bool mapgendata::has_flag( jmapgen_flags f ) const
 ter_id mapgendata::groundcover() const
 {
     const ter_id *tid = default_groundcover.pick();
-    return tid != nullptr ? *tid : t_null;
+    return tid != nullptr ? *tid : ter_t_null.id();
 }
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const

@@ -183,7 +183,7 @@ void mapgen_null( mapgendata &dat )
     debugmsg( "Generating null terrain, please report this as a bug" );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            dat.m.ter_set( point( i, j ), t_null );
+            dat.m.ter_set( point( i, j ), ter_t_null );
             dat.m.set_radiation( point( i, j ), 0 );
         }
     }
@@ -1727,7 +1727,7 @@ void mapgen_lake_shore( mapgendata &dat )
                 }
                 // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
                 // has put down a t_water_sh, and we need to be able to flood-fill over that.
-                m->ter_set( bp, t_null );
+                m->ter_set( bp, ter_t_null );
                 m->furn_set( bp, f_null );
             }
         }
@@ -1765,7 +1765,7 @@ void mapgen_lake_shore( mapgendata &dat )
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
-        return m->ter( p ) != t_null;
+        return m->ter( p ) != ter_t_null;
     };
 
     const auto fill_deep_water = [&]( const point & starting_point ) {
@@ -2312,7 +2312,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     if( straight ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 );
-            line( m, t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
         }
         if( w_ravine ) {
             m->rotate( 1 );
@@ -2326,7 +2326,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( interior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 ) + x;
-            line( m, t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
         }
         if( nw_ravine ) {
             m->rotate( 1 );
@@ -2340,7 +2340,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( exterior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge =  12  + rng( 1, 3 ) - x;
-            line( m, t_null, point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
+            line( m, ter_t_null, point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
         }
         if( w_ravine && s_ravine ) {
             m->rotate( 1 );
