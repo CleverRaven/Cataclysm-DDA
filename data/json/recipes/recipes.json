@@ -118,6 +118,11 @@
   },
   {
     "type": "recipe_category",
+    "id": "CC_MUSIC",
+    "recipe_subcategories": [ "CSC_ALL", "CSC_MUSIC_STRING", "CSC_MUSIC_WIND", "CSC_MUSIC_PERCUSSION" ]
+  },
+  {
+    "type": "recipe_category",
     "id": "CC_BUILDING",
     "recipe_subcategories": [ "CSC_ALL", "CSC_BUILDING_BASES", "CSC_BUILDING_EXPANSIONS" ],
     "is_hidden": true

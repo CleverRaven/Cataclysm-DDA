@@ -1777,29 +1777,8 @@ static bool construction_activity( Character &you, const zone_data * /*zone*/,
             comp_selection<item_comp> sel;
             sel.use_from = usage_from::both;
             sel.comp = comp;
-            std::list<item> empty_consumed = you.consume_items( sel, 1, is_preferred_crafting_component );
-
-            int left_to_consume = 0;
-
-            if( !empty_consumed.empty() && empty_consumed.front().count_by_charges() ) {
-                int consumed = 0;
-                for( item &itm : empty_consumed ) {
-                    consumed += itm.charges;
-                }
-                left_to_consume = comp.count - consumed;
-            } else if( empty_consumed.size() < static_cast<size_t>( comp.count ) ) {
-                left_to_consume = comp.count - empty_consumed.size();
-            }
-
-            if( left_to_consume > 0 ) {
-                comp_selection<item_comp> remainder = sel;
-                remainder.comp.count = 1;
-                std::list<item>used_consumed = you.consume_items( remainder,
-                                               left_to_consume, is_crafting_component );
-                empty_consumed.splice( empty_consumed.end(), used_consumed );
-            }
-
-            used.splice( used.end(), empty_consumed );
+            std::list<item> consumed = you.consume_items( sel, 1, is_crafting_component );
+            used.splice( used.end(), consumed );
         }
     }
     pc.components = used;
@@ -2371,7 +2350,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                     break;
                 }
             }
-            if( you.moves <= 0 || move_and_reset ) {
+            if( you.get_moves() <= 0 || move_and_reset ) {
                 return;
             }
         }
@@ -2701,7 +2680,7 @@ static std::unordered_set<tripoint_abs_ms> generic_multi_activity_locations(
     }
     const bool post_dark_check = src_set.empty();
     if( !pre_dark_check && post_dark_check && !MOP_ACTIVITY ) {
-        you.add_msg_if_player( m_info, _( "It is too dark to do this activity." ) );
+        you.add_msg_if_player( m_info, _( "It is too dark to do the %s activity." ), act_id.c_str() );
     }
     return src_set;
 }
@@ -2751,9 +2730,21 @@ static requirement_check_result generic_multi_activity_check_requirement(
         reason == do_activity_reason::UNKNOWN_ACTIVITY ) {
         // we can discount this tile, the work can't be done.
         if( reason == do_activity_reason::DONT_HAVE_SKILL ) {
-            you.add_msg_if_player( m_info, _( "You don't have the skill for this task." ) );
+            if( zone ) {
+                you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task at zone %s." ),
+                                       act_id.c_str(), zone->get_name() );
+            } else {
+                you.add_msg_if_player( m_info, _( "You don't have the skill for the %s task." ), act_id.c_str() );
+            }
         } else if( reason == do_activity_reason::BLOCKING_TILE ) {
-            you.add_msg_if_player( m_info, _( "There is something blocking the location for this task." ) );
+            if( zone ) {
+                you.add_msg_if_player( m_info,
+                                       _( "There is something blocking the location for the %s task at zone %s." ), act_id.c_str(),
+                                       zone->get_name() );
+            } else {
+                you.add_msg_if_player( m_info, _( "There is something blocking the location for the %s task." ),
+                                       act_id.c_str() );
+            }
         }
         return requirement_check_result::SKIP_LOCATION;
     } else if( reason == do_activity_reason::NO_COMPONENTS ||
@@ -2772,8 +2763,15 @@ static requirement_check_result generic_multi_activity_check_requirement(
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
         if( you.is_npc() ) {
-            add_msg_if_player_sees( you, m_info, _( "%s is trying to find necessary items to do the job" ),
-                                    you.disp_name() );
+            if( zone ) {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job on zone %s, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), zone->get_name(), do_activity_reason_string[int( reason )] );
+            } else {
+                add_msg_if_player_sees( you, m_info,
+                                        _( "%s is trying to find necessary items to do the %s job, reason %s" ),
+                                        you.disp_name(), act_id.c_str(), do_activity_reason_string[int( reason )] );
+            }
         }
         requirement_id what_we_need;
         std::vector<tripoint_bub_ms> loot_zone_spots;
@@ -2887,9 +2885,17 @@ static requirement_check_result generic_multi_activity_check_requirement(
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
-            you.add_msg_player_or_npc( m_info,
-                                       _( "The required items are not available to complete this task." ),
-                                       _( "The required items are not available to complete this task." ) );
+            if( zone ) {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name(),
+                                           _( "The required items are not available to complete the %s task at zone %s." ), act_id.c_str(),
+                                           zone->get_name() );
+            } else {
+                you.add_msg_player_or_npc( m_info,
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str(),
+                                           _( "The required items are not available to complete the %s task." ), act_id.c_str() );
+            }
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 you.activity_vehicle_part_index = -1;
@@ -3211,7 +3217,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                 continue;
             }
             if( !check_only ) {
-                if( you.moves <= 0 ) {
+                if( you.get_moves() <= 0 ) {
                     // Restart activity and break from cycle.
                     you.assign_activity( activity_to_restore );
                     return true;
@@ -3250,7 +3256,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         }
     }
     if( !check_only ) {
-        if( you.moves <= 0 ) {
+        if( you.get_moves() <= 0 ) {
             // Restart activity and break from cycle.
             you.assign_activity( activity_to_restore );
             you.activity_vehicle_part_index = -1;

@@ -149,7 +149,6 @@ static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
-static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_ods( "bio_ods" );
 static const bionic_id bio_railgun( "bio_railgun" );
@@ -291,7 +290,6 @@ static const json_character_flag json_flag_BLIND( "BLIND" );
 static const json_character_flag json_flag_CLAIRVOYANCE( "CLAIRVOYANCE" );
 static const json_character_flag json_flag_CLAIRVOYANCE_PLUS( "CLAIRVOYANCE_PLUS" );
 static const json_character_flag json_flag_DEAF( "DEAF" );
-static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_EYE_MEMBRANE( "EYE_MEMBRANE" );
 static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
@@ -426,7 +424,6 @@ static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
-static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
@@ -1819,7 +1816,7 @@ void Character::forced_dismount()
     if( activity ) {
         cancel_activity();
     }
-    moves -= 150;
+    mod_moves( -get_speed() * 1.5 );
 }
 
 void Character::dismount()
@@ -2367,10 +2364,6 @@ void Character::process_turn()
         // Unusually high scent decreases steadily until it reaches normal levels.
         if( scent > norm_scent ) {
             scent--;
-        }
-
-        for( const trait_id &mut : get_mutations() ) {
-            scent *= mut.obj().scent_modifier;
         }
     }
 
@@ -3658,8 +3651,10 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
-        if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
+        const int rust_resist = enchantment_cache->get_value_add( enchant_vals::mod::SKILL_RUST_RESIST );
+        const float rust_resist_mult = 1.0f + enchantment_cache->get_value_multiply(
+                                           enchant_vals::mod::SKILL_RUST_RESIST );
+        if( skill_level_obj.rust( rust_resist, rust_resist_mult ) ) {
             mod_power_level( -bio_memory->power_trigger );
         }
     }
@@ -3769,16 +3764,6 @@ void Character::reset_stats()
         update_mental_focus();
     }
 
-    // Bionic buffs
-    if( has_active_bionic( bio_hydraulics ) ) {
-        mod_str_bonus( 20 );
-    }
-
-    mod_str_bonus( get_mod_stat_from_bionic( character_stat::STRENGTH ) );
-    mod_dex_bonus( get_mod_stat_from_bionic( character_stat::DEXTERITY ) );
-    mod_per_bonus( get_mod_stat_from_bionic( character_stat::PERCEPTION ) );
-    mod_int_bonus( get_mod_stat_from_bionic( character_stat::INTELLIGENCE ) );
-
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
     if( str_max >= 16 ) {
         mod_dodge_bonus( -1 );   // Penalty if we're huge
@@ -3885,7 +3870,7 @@ units::mass Character::get_weight() const
     return ret;
 }
 
-std::pair<int, int> Character::climate_control_strength()
+std::pair<int, int> Character::climate_control_strength() const
 {
     // In warmth points
     const int DEFAULT_STRENGTH = 50;
@@ -5144,11 +5129,6 @@ needs_rates Character::calc_needs_rates() const
                                 pos() ) ) - 32.5f ) / 40.0f );
     }
 
-    if( is_npc() ) {
-        rates.hunger *= 0.25f;
-        rates.thirst *= 0.25f;
-    }
-
     rates.hunger = enchantment_cache->modify_value( enchant_vals::mod::HUNGER, rates.hunger );
     rates.fatigue = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
     rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
@@ -5159,8 +5139,7 @@ needs_rates Character::calc_needs_rates() const
 void Character::calc_sleep_recovery_rate( needs_rates &rates ) const
 {
     const effect &sleep = get_effect( effect_sleep );
-    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN,
-                     rates.recovery );
+    rates.recovery = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE_REGEN, 1 );
 
     // -5% sleep recovery rate for every main part below cold
     float temp_mod = 0.0f;
@@ -5593,11 +5572,20 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
                     }
                 }
             }
-            if( const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true ) ) {
-                comfort += board->info().comfort;
-            } else {
-                comfort -= here.move_cost( p );
+            int max_boardable_confort = 0;
+            bool boardable = false;
+            for( const vpart_reference board : vp->vehicle().get_all_parts() ) {
+                if( !board.has_feature( "BOARDABLE" ) || board.pos() != p.raw() ) {
+                    continue;
+                }
+                boardable = true;
+                int boardable_comfort = board.info().comfort;
+                if( boardable_comfort > max_boardable_confort ) {
+                    max_boardable_confort = boardable_comfort;
+                }
             }
+            comfort += boardable ? max_boardable_confort : -here.move_cost( p );
+
             if( has_effect( effect_cramped_space ) ) {
                 comfort = static_cast<int>( comfort_level::impossible );
             }
@@ -6260,67 +6248,6 @@ social_modifiers Character::get_mutation_bionic_social_mods() const
     return mods;
 }
 
-template <std::optional<float> mutation_branch::*member>
-float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
-{
-    float lowest = 0.0f;
-    float highest = 0.0f;
-    for( const mutation_branch *mut : mutations ) {
-        if( ( mut->*member ).has_value() ) {
-            float val = ( mut->*member ).value();
-            lowest = std::min( lowest, val );
-            highest = std::max( highest, val );
-        }
-    }
-
-    return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
-}
-
-template <std::optional<float> mutation_branch::*member>
-float calc_mutation_value_additive( const std::vector<const mutation_branch *> &mutations )
-{
-    float ret = 0.0f;
-    for( const mutation_branch *mut : mutations ) {
-        if( ( mut->*member ).has_value() ) {
-            ret += ( mut->*member ).value();
-        }
-    }
-    return ret;
-}
-
-template <std::optional<float> mutation_branch::*member>
-float calc_mutation_value_multiplicative( const std::vector<const mutation_branch *> &mutations )
-{
-    float ret = 1.0f;
-    for( const mutation_branch *mut : mutations ) {
-        if( ( mut->*member ).has_value() ) {
-            ret *= ( mut->*member ).value();
-        }
-    }
-    return ret;
-}
-
-static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
-mutation_value_map = {
-    { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
-    { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
-    { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
-    { "temperature_speed_modifier", calc_mutation_value<&mutation_branch::temperature_speed_modifier> },
-    { "skill_rust_multiplier", calc_mutation_value_multiplicative<&mutation_branch::skill_rust_multiplier> },
-};
-
-float Character::mutation_value( const std::string &val ) const
-{
-    // Syntax similar to tuple get<n>()
-    const auto found = mutation_value_map.find( val );
-
-    if( found == mutation_value_map.end() ) {
-        debugmsg( "Invalid mutation value name %s", val );
-        return 0.0f;
-    } else {
-        return found->second( cached_mutations );
-    }
-}
 
 namespace
 {
@@ -6342,12 +6269,13 @@ float Character::healing_rate( float at_rest_quality ) const
     // TODO: Cache
     float const base_heal_rate = is_avatar() ? get_option<float>( "PLAYER_HEALING_RATE" )
                                  : get_option<float>( "NPC_HEALING_RATE" );
-    float const heal_rate =
-        base_heal_rate * mutation_value( "healing_multiplier" );
-    float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
+    float const heal_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
+                            base_heal_rate );
+    float awake_rate = ( 1.0f - rest ) * heal_rate;
+    awake_rate *= enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP_AWAKE,
+                  1 ) - 1;
     float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
     float final_rate = awake_rate + asleep_rate;
-    final_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
@@ -6382,7 +6310,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
         }
     }
 
-    rate_medicine *= mutation_value( "healing_multiplier" );
+    rate_medicine = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
+                    rate_medicine );
     rate_medicine *= 1.0f + clamp( at_rest_quality, 0.0f, 1.0f );
 
     // increase healing if character has both effects
@@ -7226,7 +7155,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                                           ammo_rem ),
                                it_name, ammo_rem, ammo_req );
         }
-        moves = pre_obtain_moves;
+        set_moves( pre_obtain_moves );
         return false;
     }
 
@@ -7234,14 +7163,14 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
     if( actually_used == nullptr ) {
         debugmsg( "Tried to invoke a method %s on item %s, which doesn't have this method",
                   method.c_str(), used->tname() );
-        moves = pre_obtain_moves;
+        set_moves( pre_obtain_moves );
         return false;
     }
 
     std::optional<int> charges_used = actually_used->type->invoke( this, *actually_used,
                                       pt, method );
     if( !charges_used.has_value() ) {
-        moves = pre_obtain_moves;
+        set_moves( pre_obtain_moves );
         return false;
     }
 
@@ -7413,7 +7342,7 @@ void Character::cough( bool harmful, int loudness )
     sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
                    "cough" );
 
-    moves -= 80;
+    mod_moves( -get_speed() * 0.8 );
 
     add_effect( effect_disrupted_sleep, 5_minutes );
 }
@@ -7451,7 +7380,7 @@ int Character::get_shout_volume() const
     int base = 10;
     int shout_multiplier = 2;
 
-    base = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE_BASE, base );
+    base = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE, base );
     shout_multiplier = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE_STR_MULT,
                        shout_multiplier );
 
@@ -7475,8 +7404,6 @@ int Character::get_shout_volume() const
     if( noise <= base ) {
         noise = std::max( minimum_noise, noise );
     }
-
-    noise = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE, noise );
 
     // Screaming underwater is not good for oxygen and harder to do overall
     if( underwater ) {
@@ -8629,8 +8556,8 @@ void Character::blossoms()
 
 void Character::update_vitamins( const vitamin_id &vit )
 {
-    if( is_npc() && vit->type() != vitamin_type::COUNTER ) {
-        return; // NPCs cannot develop vitamin diseases, bypass for special
+    if( !needs_food() ) {
+        return; // NPCs can only develop vitamin diseases if their needs are enabled
     }
 
     efftype_id def = vit.obj().deficiency();
@@ -9309,7 +9236,8 @@ units::temperature_delta Character::floor_warmth( const tripoint &pos ) const
     units::temperature_delta bedding_warmth = floor_bedding_warmth( pos );
 
     // If the PC has fur, etc, that will apply too
-    const units::temperature_delta floor_mut_warmth = bodytemp_modifier_traits_floor();
+    const units::temperature_delta floor_mut_warmth = enchantment_cache->modify_value(
+                enchant_vals::mod::BODYTEMP_SLEEP, units::from_kelvin_delta( 0.0f ) );
     // DOWN does not provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
     if( ( !has_trait( trait_DOWN ) ) && ( floor_mut_warmth >= 2_C_delta ) ) {
@@ -9323,15 +9251,6 @@ units::temperature_delta Character::bodytemp_modifier_traits( bool overheated ) 
     units::temperature_delta mod = 0_C_delta;
     for( const trait_id &iter : get_mutations() ) {
         mod += overheated ? iter->bodytemp_min : iter->bodytemp_max;
-    }
-    return mod;
-}
-
-units::temperature_delta Character::bodytemp_modifier_traits_floor() const
-{
-    units::temperature_delta mod = 0_C_delta;
-    for( const trait_id &iter : get_mutations() ) {
-        mod += iter->bodytemp_sleep;
     }
     return mod;
 }
@@ -10473,6 +10392,9 @@ void Character::place_corpse()
     for( item *itm : tmp ) {
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
+    // One sample, as you would get from dissecting any other human.
+    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
             item cbm( bio.id.str(), calendar::turn );
@@ -10490,12 +10412,12 @@ void Character::place_corpse()
 void Character::place_corpse( const tripoint_abs_omt &om_target )
 {
     tinymap bay;
-    bay.load( project_to<coords::sm>( om_target ), false );
+    bay.load( om_target, false );
     point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
     // and essentially select the last one that has no furniture.
-    // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.)
+    // Q: Why check for furniture? (Check for passable or can-place-items seems more useful.) A: Furniture blocks revival?
     // Q: Why not grep a random point out of all the possible points (e.g. via random_entry)?
     // Q: Why use furn_str_id instead of f_null?
     // TODO: fix it, see above.
@@ -10513,6 +10435,9 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     for( item *itm : tmp ) {
         body.force_insert_item( *itm, pocket_type::CONTAINER );
     }
+    // One sample, as you would get from dissecting any other human.
+    body.put_in( item( "human_sample" ), pocket_type::CORPSE );
+
     for( const bionic &bio : *my_bionics ) {
         if( item::type_is_defined( bio.info().itype() ) ) {
             body.put_in( item( bio.id.str(), calendar::turn ), pocket_type::CORPSE );
@@ -11797,7 +11722,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
             return false;
         }
         // Eject magazine consuming half as much time as required to insert it
-        this->moves -= this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
+        this->mod_moves( -this->item_reload_cost( *target, *target->magazine_current(), -1 ) / 2 );
 
         target->remove_items_with( [&target]( const item & e ) {
             return target->magazine_current() == &e;
@@ -11825,7 +11750,7 @@ bool Character::unload( item_location &loc, bool bypass_activity,
         }
 
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
-        this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
+        this->mod_moves( -this->item_reload_cost( *target, ammo, qty ) / 2 );
 
         target->ammo_set( target->ammo_current(), target->ammo_remaining() - qty );
     } else if( target->has_flag( flag_BRASS_CATCHER ) ) {
@@ -11963,7 +11888,21 @@ bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
             return true;
         }
         if( elem.second.has_conditional_flag( flag ) ) {
-            return true;
+            // Checking for disabling effects is a bit convoluted
+            bool disabled = false;
+            if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                for( const effect &eff : get_effects_from_bp( elem.first ) ) {
+                    if( eff.has_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                        disabled = true;
+                        break;
+
+                    }
+                }
+            }
+            if( !disabled ) {
+                return true;
+
+            }
         }
     }
     return false;
@@ -11977,7 +11916,18 @@ int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
             ret++;
         }
         if( get_part( bp )->has_conditional_flag( flag ) ) {
-            ret++;
+            bool disabled = false;
+            if( has_effect_with_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                for( const effect &eff : get_effects_from_bp( bp ) ) {
+                    if( eff.has_flag( flag_EFFECT_LIMB_DISABLE_CONDITIONAL_FLAGS ) ) {
+                        disabled = true;
+                        break;
+                    }
+                }
+            }
+            if( !disabled ) {
+                ret++;
+            }
         }
     }
     return ret;
@@ -12350,16 +12300,6 @@ void Character::recalc_speed_bonus()
             //FIXME get trait name directly
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ), _( "Sunlight Dependent" ) );
         }
-        const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
-        if( temperature_speed_modifier != 0 ) {
-            const int climate_control = climate_control_strength().first;
-            const units::temperature player_local_temp = get_weather().get_temperature( pos() );
-            if( has_flag( json_flag_ECTOTHERM ) ||
-                player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
-                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
-                                 temperature_speed_modifier, _( "Ectothermic" ) );
-            }
-        }
     }
     const int prev_speed_bonus = get_speed_bonus();
     const int speed_bonus_with_enchant = std::round( enchantment_cache->modify_value(
@@ -12440,24 +12380,22 @@ stat_mod Character::get_pain_penalty() const
 
     int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
 
-    bool ceno = has_trait( trait_CENOBITE );
-    if( !ceno ) {
-        ret.strength = stat_penalty;
-        ret.dexterity = stat_penalty;
-    }
+    // Prevent negative penalties, there is better ways to give bonuses for pain
+    // Venera says int and per should be penalized more (and per is penalized less, for legacy reasons, duh)
+    // TODO change the formula to pain/10?
+    ret.strength = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
+                             stat_penalty ), 0.0 );
+    ret.dexterity = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
+                              stat_penalty ), 0.0 );
+    ret.intelligence = std::max( enchantment_cache->modify_value(
+                                     enchant_vals::mod::PAIN_PENALTY_MOD_INT, stat_penalty ), 0.0 );
+    ret.perception = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
+                               stat_penalty * 0.666f ), 0.0 );
 
-    if( !has_trait( trait_INT_SLIME ) ) {
-        ret.intelligence = stat_penalty;
-    } else {
-        ret.intelligence = pain / 5;
-    }
+    int speed_penalty = std::pow( pain, 0.7f );
 
-    ret.perception = stat_penalty * 2 / 3;
-
-    ret.speed = std::pow( pain, 0.7f );
-    if( ceno ) {
-        ret.speed /= 2;
-    }
+    ret.speed = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_SPEED,
+                          speed_penalty ), 0.0 );
 
     ret.speed = std::min( ret.speed, 50 );
     return ret;
@@ -13002,7 +12940,7 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
     inv->update_cache_with_item( weapon );
     last_item = weapon.typeId();
 
-    moves -= mv;
+    mod_moves( -mv );
 
     weapon.on_wield( *this );
 
@@ -13016,7 +12954,7 @@ bool Character::wield_contents( item &container, item *internal_item, bool penal
 void Character::store( item &container, item &put, bool penalties, int base_cost,
                        pocket_type pk_type, bool check_best_pkt )
 {
-    moves -= item_store_cost( put, container, penalties, base_cost );
+    mod_moves( -item_store_cost( put, container, penalties, base_cost ) );
     if( check_best_pkt && pk_type == pocket_type::CONTAINER &&
         container.get_all_contained_pockets().size() > 1 ) {
         // Bypass pocket settings (assuming the item is manually stored)
@@ -13039,8 +12977,8 @@ void Character::store( item_pocket *pocket, item &put, bool penalties, int base_
     if( !!pkt_best && pocket->better_pocket( *pkt_best, put, true ) ) {
         pocket = pkt_best;
     }
-    moves -= std::max( item_store_cost( put, null_item_reference(), penalties, base_cost ),
-                       pocket->obtain_cost( put ) );
+    mod_moves( -std::max( item_store_cost( put, null_item_reference(), penalties, base_cost ),
+                          pocket->obtain_cost( put ) ) );
     ret_val<item *> result = pocket->insert_item( i_rem( &put ) );
     result.value()->on_pickup( *this );
     calc_encumbrance();
@@ -13068,11 +13006,11 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
 
     // if -1 is passed in we don't want to change moves at all
     if( pre_obtain_moves == -1 ) {
-        pre_obtain_moves = moves;
+        pre_obtain_moves = get_moves();
     }
     if( !loc ) {
         add_msg( m_info, _( "You do not have that item." ) );
-        moves = pre_obtain_moves;
+        set_moves( pre_obtain_moves );
         return;
     }
 
@@ -13082,7 +13020,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
     if( used.is_tool() ) {
         if( !used.type->has_use() ) {
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
-            moves = pre_obtain_moves;
+            set_moves( pre_obtain_moves );
             return;
         }
         invoke_item( &used, method, loc.position(), pre_obtain_moves );
@@ -13095,20 +13033,20 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
 
         if( used.is_medication() && !can_use_heal_item( used ) ) {
             add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
-            moves = pre_obtain_moves;
+            set_moves( pre_obtain_moves );
             return;
         }
 
         if( avatar *u = as_avatar() ) {
             const ret_val<edible_rating> ret = u->will_eat( used, true );
             if( !ret.success() ) {
-                moves = pre_obtain_moves;
+                set_moves( pre_obtain_moves );
                 return;
             }
             u->assign_activity( consume_activity_actor( loc ) );
         } else  {
             const time_duration &consume_time = get_consume_time( used );
-            moves -= to_moves<int>( consume_time );
+            mod_moves( -to_moves<int>( consume_time ) );
             consume( loc );
         }
     } else if( used.is_book() ) {
@@ -13134,7 +13072,7 @@ void Character::use( item_location loc, int pre_obtain_moves, std::string const 
         } else {
             add_msg( m_info, _( "You can't do anything interesting with your %s." ), used.tname() );
         }
-        moves = pre_obtain_moves;
+        set_moves( pre_obtain_moves );
     }
 }
 
@@ -13234,7 +13172,7 @@ bodypart_id Character::most_staunchable_bp( int &max_staunch )
 
 void Character::pause()
 {
-    moves = 0;
+    set_moves( 0 );
     recoil = MAX_RECOIL;
     map &here = get_map();
 

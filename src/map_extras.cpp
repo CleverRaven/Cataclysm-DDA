@@ -452,7 +452,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
     tinymap m;
     if( bridge_at_north && road_at_south ) {
-        m.load( project_to<coords::sm>( abs_omt + point_south ), false );
+        m.load( abs_omt + point_south, false );
 
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
@@ -553,7 +553,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_south && road_at_north ) {
-        m.load( project_to<coords::sm>( abs_omt + point_north ), false );
+        m.load( abs_omt + point_north, false );
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -656,7 +656,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_west && road_at_east ) {
-        m.load( project_to<coords::sm>( abs_omt + point_east ), false );
+        m.load( abs_omt + point_east, false );
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -803,7 +803,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_east && road_at_west ) {
-        m.load( project_to<coords::sm>( abs_omt + point_west ), false );
+        m.load( abs_omt + point_west, false );
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vehicle_prototype_military_cargo_truck, tripoint( 15, 11, abs_sub.z ),
                        270_degrees, 70, 1 );
@@ -2091,7 +2091,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
     const tripoint_abs_omt road_omt = random_entry( valid_omt, city_center_omt );
 
     tinymap compmap;
-    compmap.load( project_to<coords::sm>( road_omt ), false );
+    compmap.load( road_omt, false );
 
     const tripoint trap_center = { SEEX + rng( -5, 5 ), SEEY + rng( -5, 5 ), abs_sub.z };
     bool empty_3x3_square = false;
@@ -2116,9 +2116,6 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
         //... and a loudspeaker to attract zombies
         compmap.place_spawns( GROUP_TURRET_SPEAKER, 1, trap_center.xy(), trap_center.xy(), 1, true );
     }
-
-    compmap.save();
-
     return true;
 }
 
@@ -2148,7 +2145,7 @@ static bool mx_fungal_zone( map &/*m*/, const tripoint &abs_sub )
     const tripoint_abs_omt &park_omt = random_entry( valid_omt, city_center_omt );
 
     tinymap fungal_map;
-    fungal_map.load( project_to<coords::sm>( park_omt ), false );
+    fungal_map.load( park_omt, false );
 
     // Then find suitable location for fungal spire to spawn (grass, dirt etc)
     const tripoint submap_center = { SEEX, SEEY, abs_sub.z };
@@ -2170,9 +2167,6 @@ static bool mx_fungal_zone( map &/*m*/, const tripoint &abs_sub )
                              suitable_location.xy() + point_north_west,
                              suitable_location.xy() + point_south_east,
                              3, true );
-
-    fungal_map.save();
-
     return true;
 }
 
@@ -2253,7 +2247,7 @@ void apply_function( const map_extra_id &id, map &m, const tripoint_abs_sm &abs_
     overmap_buffer.add_extra( project_to<coords::omt>( abs_sub ), id );
 }
 
-void apply_function( const map_extra_id &id, tinymap &m, const tripoint_abs_sm &abs_sub )
+void apply_function( const map_extra_id &id, tinymap &m, const tripoint_abs_omt &abs_omt )
 {
     bool applied_successfully = false;
 
@@ -2262,18 +2256,18 @@ void apply_function( const map_extra_id &id, tinymap &m, const tripoint_abs_sm &
         case map_extra_method::map_extra_function: {
             const map_extra_pointer mx_func = get_function( map_extra_id( extra.generator_id ) );
             if( mx_func != nullptr ) {
-                applied_successfully = mx_func( *m.cast_to_map(), abs_sub.raw() );
+                applied_successfully = mx_func( *m.cast_to_map(), project_to<coords::sm>( abs_omt ).raw() );
             }
             break;
         }
         case map_extra_method::mapgen: {
-            mapgendata dat( project_to<coords::omt>( abs_sub ), *m.cast_to_map(), 0.0f, calendar::turn,
+            mapgendata dat( abs_omt, *m.cast_to_map(), 0.0f, calendar::turn,
                             nullptr );
             applied_successfully = run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
-            mapgendata dat( project_to<coords::omt>( abs_sub ), *m.cast_to_map(), 0.0f,
+            mapgendata dat( abs_omt, *m.cast_to_map(), 0.0f,
                             calendar::start_of_cataclysm, nullptr );
             applied_successfully =
                 run_mapgen_update_func( update_mapgen_id( extra.generator_id ), dat );
@@ -2288,7 +2282,7 @@ void apply_function( const map_extra_id &id, tinymap &m, const tripoint_abs_sm &
         return;
     }
 
-    overmap_buffer.add_extra( project_to<coords::omt>( abs_sub ), id );
+    overmap_buffer.add_extra( abs_omt, id );
 }
 
 FunctionMap all_functions()

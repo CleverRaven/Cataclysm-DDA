@@ -188,8 +188,8 @@
     "flags": [ "CANNIBAL", "ALBINO" ],
     "attacks": [
       {
-        "attack_text_u": "You sink your fangs into %s",
-        "attack_text_npc": "%1$s sinks their fangs into %2$s",
+        "attack_text_u": "You sink your fangs into %s!",
+        "attack_text_npc": "%1$s sinks their fangs into %2$s!",
         "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
         "body_part": "mouth",
         "chance": 20,

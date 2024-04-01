@@ -62,12 +62,6 @@ TEST_CASE( "footwear_may_affect_movement_cost", "[move_cost][shoes]" )
     clear_avatar();
     clear_map();
 
-    // Ensure no interference from mutations
-    // commented because of replacing mutation values with enchantments
-    // FIXME
-    // REQUIRE( ava.mutation_value( "movecost_modifier" ) == 1 );
-    // REQUIRE( ava.mutation_value( "movecost_flatground_modifier" ) == 1 );
-    // REQUIRE( ava.mutation_value( "movecost_obstacle_modifier" ) == 1 );
     // Ensure expected base modifiers
     REQUIRE( ava.get_modifier( character_modifier_limb_run_cost_mod ) == 1 );
     REQUIRE( ava.get_modifier( character_modifier_limb_speed_movecost_mod ) == 1 );
@@ -226,33 +220,33 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         clear_avatar();
         clear_map();
         u.wear_item( item( "sneakers" ) );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         WHEN( "is walking" ) {
             u.set_movement_mode( move_mode_walk );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -100 );
+                CHECK( u.get_moves() == -100 );
             }
         }
         WHEN( "is crouching" ) {
             u.set_movement_mode( move_mode_crouch );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -200 );
+                CHECK( u.get_moves() == -200 );
             }
         }
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 600 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -600 );
+                CHECK( u.get_moves() == -600 );
             }
         }
     }
@@ -261,33 +255,33 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         clear_avatar();
         u.wear_item( item( "sneakers" ) );
         u.wear_item( item( "test_briefcase" ) );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         WHEN( "is walking" ) {
             u.set_movement_mode( move_mode_walk );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -100 );
+                CHECK( u.get_moves() == -100 );
             }
         }
         WHEN( "is crouching" ) {
             u.set_movement_mode( move_mode_crouch );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -200 );
+                CHECK( u.get_moves() == -200 );
             }
         }
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 660 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -660 );
+                CHECK( u.get_moves() == -660 );
             }
         }
     }
@@ -295,33 +289,33 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         avatar &u = get_avatar();
         clear_avatar();
         u.wear_item( item( "test_hazmat_suit" ) );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         WHEN( "is walking" ) {
             u.set_movement_mode( move_mode_walk );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 154 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -154 );
+                CHECK( u.get_moves() == -154 );
             }
         }
         WHEN( "is crouching" ) {
             u.set_movement_mode( move_mode_crouch );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 309 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -309 );
+                CHECK( u.get_moves() == -309 );
             }
         }
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 932 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -932 );
+                CHECK( u.get_moves() == -932 );
             }
         }
     }
@@ -331,33 +325,33 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         clear_avatar();
         u.wear_item( item( "sneakers" ) );
         u.set_part_hp_cur( body_part_arm_l, 10 );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         WHEN( "is walking" ) {
             u.set_movement_mode( move_mode_walk );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -100 );
+                CHECK( u.get_moves() == -100 );
             }
         }
         WHEN( "is crouching" ) {
             u.set_movement_mode( move_mode_crouch );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -200 );
+                CHECK( u.get_moves() == -200 );
             }
         }
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 803 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -803 );
+                CHECK( u.get_moves() == -803 );
             }
         }
     }
@@ -367,33 +361,33 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         u.wear_item( item( "sneakers" ) );
         u.wear_item( item( "test_briefcase" ) );
         u.set_part_hp_cur( body_part_arm_l, 10 );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         WHEN( "is walking" ) {
             u.set_movement_mode( move_mode_walk );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 100 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -100 );
+                CHECK( u.get_moves() == -100 );
             }
         }
         WHEN( "is crouching" ) {
             u.set_movement_mode( move_mode_crouch );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 200 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -200 );
+                CHECK( u.get_moves() == -200 );
             }
         }
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 818 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -818 );
+                CHECK( u.get_moves() == -818 );
             }
         }
     }
@@ -402,33 +396,33 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         clear_avatar();
         u.wear_item( item( "test_hazmat_suit" ) );
         u.set_part_hp_cur( body_part_arm_l, 10 );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         WHEN( "is walking" ) {
             u.set_movement_mode( move_mode_walk );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 154 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -154 );
+                CHECK( u.get_moves() == -154 );
             }
         }
         WHEN( "is crouching" ) {
             u.set_movement_mode( move_mode_crouch );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "no crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 309 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -309 );
+                CHECK( u.get_moves() == -309 );
             }
         }
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1246 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -1246 );
+                CHECK( u.get_moves() == -1246 );
             }
         }
     }
@@ -439,16 +433,16 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         u.wear_item( item( "sneakers" ) );
         u.set_part_hp_cur( body_part_leg_l, 0 );
         u.set_part_hp_cur( body_part_leg_r, 0 );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         // Can't walk or couch w/ broken legs
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1000 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -1000 );
+                CHECK( u.get_moves() == -1000 );
             }
         }
     }
@@ -459,16 +453,16 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         u.wear_item( item( "test_briefcase" ) );
         u.set_part_hp_cur( body_part_leg_l, 0 );
         u.set_part_hp_cur( body_part_leg_r, 0 );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         // Can't walk or couch w/ broken legs
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1179 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -1179 );
+                CHECK( u.get_moves() == -1179 );
             }
         }
     }
@@ -478,16 +472,16 @@ TEST_CASE( "Crawl_score_effects_on_movement_cost", "[move_cost]" )
         u.wear_item( item( "test_hazmat_suit" ) );
         u.set_part_hp_cur( body_part_leg_l, 0 );
         u.set_part_hp_cur( body_part_leg_r, 0 );
-        u.moves = 0;
+        u.set_moves( 0 );
 
         // Can't walk or couch w/ broken legs
         WHEN( "is prone" ) {
             u.set_movement_mode( move_mode_prone );
-            REQUIRE( u.moves == 0 );
+            REQUIRE( u.get_moves() == 0 );
             THEN( "apply crawling modifier" ) {
                 CHECK( u.run_cost( 100 ) == 1561 );
                 avatar_action::move( u, get_map(), point_south );
-                CHECK( u.moves == -1561 );
+                CHECK( u.get_moves() == -1561 );
             }
         }
     }

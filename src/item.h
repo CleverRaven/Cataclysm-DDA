@@ -176,10 +176,6 @@ template<>
 struct enum_traits<iteminfo::flags> {
     static constexpr bool is_flag_enum = true;
 };
-// Currently used to store the only throwing stats of character dropping this item. Default is -1
-struct dropped_by_character_stats {
-    float throwing;
-};
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2, bool lower_is_better = true );
@@ -235,8 +231,6 @@ class item : public visitable
         {}
 
         ~item() override;
-
-        struct dropped_by_character_stats dropped_char_stats = { -1.0f };
 
         /** Return a pointer-like type that's automatically invalidated if this
          * item is destroyed or assigned-to */
@@ -1985,6 +1979,9 @@ class item : public visitable
         void unset_flags();
         /*@}*/
 
+        /**Does this item have the specified vitamin*/
+        bool has_vitamin( const vitamin_id &vitamin ) const;
+
         /**Does this item have the specified fault*/
         bool has_fault( const fault_id &fault ) const;
 
@@ -3269,11 +3266,6 @@ inline bool is_crafting_component( const item &component )
  * Filter for crafting components first pass searches excluding undesirable properties.
  */
 bool is_preferred_component( const item &component );
-
-/**
- * Filter for empty crafting components first pass searches
- */
-bool is_preferred_crafting_component( const item &component );
 
 #endif // CATA_SRC_ITEM_H
 

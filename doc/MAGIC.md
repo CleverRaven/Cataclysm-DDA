@@ -805,6 +805,7 @@ Character status value  | Description
 `BIONIC_MANA_PENALTY`       | changes how big the mana penalty for having bionic energy is (default ratio is 1 kj removes 1 mana point). better to use with `multiply`, using `add` just adds or removes flat amount of mana no matter of energy level. `"multiply": 1` double the ratio (1 kj removes 2 mana points), `"multiply": -0.5` halves it
 `BIONIC_POWER`          |
 `BLEED_STOP_BONUS`      | Affects the `bleed` level when applying medicine.
+`BODYTEMP_SLEEP`        | Amount of warmth (in celcius) added to you when you sleep. Default is 0, so better to use `add`
 `BONUS_BLOCK`           | Affects the number of blocks you can perform.
 `BONUS_DODGE`           | Affects the number of dodges you can perform.
 `CARDIO_MULTIPLIER`     | Affects total cardio fitness by this amount.  Since it's a percent, using `multiply` is recommended.
@@ -858,30 +859,37 @@ Character status value  | Description
 `MOVECOST_FLATGROUND_MOD`| How many moves you spend to move 1 tile on flat ground; shown in UI
 `MOVECOST_OBSTACLE_MOD` | How many moves you spend to move 1 tile, if this tile has a movecost more than 105 moves; not shown in UI
 `MOVECOST_SWIM_MOD`     | How many moves you spend to move 1 tile in water; not shown in UI
+`MOVEMENT_EXERTION_MODIFIER` | Affects how much physical exertion (activity_level) is required for the player to move a single tile. The value this affects is technically a float, so addition and multiplication operations can be performed on it, but player-facing effects only happen at specific whole-integer breakpoints. This can most easily be seen in `\data\json\ui\activity.json`.
 `NIGHT_VIS`             | How well you can see in darkness.  `ADD` adds tiles, so `"ADD": 3` increases night vision distance by 3 tiles.
 `OBTAIN_COST_MULTIPLIER`| Modifier for pulling an item from a container, as a handling penalty or bonus. `"add": 100` add 100 additional moves to item wield (1 second)
 `OVERKILL_DAMAGE`       | multiplies or contributes to the damage to an enemy corpse after death. The lower the number, the more damage caused.
 `OVERMAP_SIGHT`         | Increases the amount of overmap tiles you can see around.
 `PAIN`                  | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
+`PAIN_PENALTY_MOD_STR`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
+`PAIN_PENALTY_MOD_DEX`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
+`PAIN_PENALTY_MOD_INT`  | Amount of this stat you lose from pain. Default value is `(pain^0.8)/10`. Can't be lower than 0
+`PAIN_PENALTY_MOD_PER`  | Amount of this stat you lose from pain. Default value is `((pain^0.8)/10)*0.66`. Can't be lower than 0
+`PAIN_PENALTY_MOD_SPEED`| Amount of speed you lose from pain. Default value is `pain^0.7`. Can't be bigger than 50 speed.
 `PAIN_REMOVE`           | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 `PERCEPTION`            | Affects the perception stat.
+`POWER_TRICKLE`         | Generates this amount of joules each second. Default value is zero, so better to use `add`
 `RANGE`                 | Modifies your characters range with firearms
 `RANGED_DAMAGE`         | Adds damage to ranged attacks.
 `READING_EXP`           | Changes the minimum you learn from each reading increment.
 `READING_SPEED_MULTIPLIER`  | Changes how fast you can read books; Lesser value means faster book reading, with cap of 1 second.
 `RECOIL_MODIFIER`       | Affects recoil when shooting a gun.  Positive value increase the dispersion, negative decrease one.
-`REGEN_HP`              | Affects the rate you recover hp.
+`REGEN_HP`              | Affects the rate you recover hp, at all time, both natural and using medicine. Default 1; Negative value (so `multiply: -1.1` or smaller) would cause character lose it's HP all the time 
+`REGEN_HP_AWAKE`        | Affects the rate you recover hp when you do not sleep. Default value is 0, meaning if this enchantment is not specified, character can not regenerate hp when awake. Negative value causes character to lost HP over time when awake. Since it's a percent, using `multiply` is recommended; `multiply: 0.2` would make character able to regenerate at 20% of it's default regen
 `REGEN_MANA`            | 
 `REGEN_STAMINA`         | 
 `SCENT_MASK`            | Amount added to your scent target scent value (default 500, assigned by `scent_intensity` mutation field); `"add": 100` makes character a bit more smelly
-`SHOUT_NOISE`           | 
-`SHOUT_NOISE_BASE`      | `SHOUT_NOISE_BASE` modifies `base`
-`SHOUT_NOISE_STR_MULT`  | `SHOUT_NOISE_STR_MULT` modifies the `shout_multiplier`, that affect how much strength affects noise level
+`SHOUT_NOISE`           | Changes how loud your shouts are (default 10)
+`SHOUT_NOISE_STR_MULT`  | Modifies the `shout_multiplier`, that affect how much your strength affects noise level (default 2, meaning one point of strength adds 2 units of noise )
 `SIGHT_RANGE_ELECTRIC`  | How many tiles away is_electric() creatures are visible from.
 `SIGHT_RANGE_FAE`       | How many tiles away creatures with the FAE_CREATURE monster flag or FAERIECREATURE trait are visible from.
 `SIGHT_RANGE_NETHER`    | How many tiles away is_nether() creatures are visible from.
 `SIGHT_RANGE_MINDS`     | How many tiles away humans or creatures with the HAS_MIND flag are visible from.
-`SKILL_RUST_RESIST`     | Chance / 100 to resist skill rust.
+`SKILL_RUST_RESIST`     | when `add`, chance / 100 to resist skill rust; when `multiply`, multiplier for skill rust amount - the smaller, the less experience you will rust
 `SLEEPY`                | The higher this the easier you fall asleep.
 `SOCIAL_INTIMIDATE`     | Affects your ability to intimidate.
 `SOCIAL_LIE`            | Affects your ability to lie.
@@ -890,7 +898,7 @@ Character status value  | Description
 `STAMINA_REGEN_MOD`     | Modifier to how fast you regen your stamina. It is a percent with default value of 0, so `multiply` is useful only in combination with `add`. `add: 0.1` makes regen 10% bigger, `add: 1` doubles it
 `STEALTH_MODIFIER`      | Amount to be subtracted from player's visibility range, capped to 60.  Negative values work, but are not very effective due to the way vision ranges are capped.
 `STOMACH_SIZE_MULTIPLIER`   | Changes how much food you can consume at once. `"add": 1000` adds 1 L to stomach size
-`STRENGTH`              | Affects the strength stat.
+`STRENGTH`              | Affects the strength stat. Formula for all stat affecting enchantments are `(base_stat + enchantment_addition) * (enchantment_multiplier + 1)`. Str 8 with enchantment `add 2, multiply 1` result in `(8+2) * (1+1) = 10 * 2 =` 20 str
 `SWEAT_MULTIPLIER`      | Affects how much your body can sweat. Affects all bodyparts at once. Since it's a percent, using `multiply` is recommended.
 `THIRST`                | 
 `UGLINESS`              | Affects your `ugliness` stat, which affects NPCs' initial opinion of you.

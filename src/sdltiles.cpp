@@ -269,6 +269,10 @@ static void WinCreate()
     // Without this, the game only displays in the top-left 1/4 of the window.
     window_flags &= ~SDL_WINDOW_ALLOW_HIGHDPI;
 #endif
+#if defined(__ANDROID__)
+    // Without this, the game only displays in the top-left 1/4 of the window.
+    window_flags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_MAXIMIZED;
+#endif
 
     int display = std::stoi( get_option<std::string>( "DISPLAY" ) );
     if( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
@@ -421,12 +425,7 @@ static void WinCreate()
         geometry = std::make_unique<DefaultGeometryRenderer>();
     }
 
-    cataimgui::client::sdl_renderer = renderer.get();
-    cataimgui::client::sdl_window = window.get();
-    imclient = std::make_unique<cataimgui::client>();
-
-    //io.Fonts->AddFontDefault();
-    //io.Fonts->Build();
+    imclient = std::make_unique<cataimgui::client>( renderer, window, geometry );
 }
 
 static void WinDestroy()
@@ -3684,7 +3683,7 @@ void catacurses::init_interface()
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
-
+    imclient->load_fonts( font, windowsPalette );
 #if defined(__ANDROID__)
     // Make sure we initialize preview_terminal_width/height to sensible values
     preview_terminal_width = TERMINAL_WIDTH * fontwidth;
@@ -3789,6 +3788,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
     wnoutrefresh( catacurses::stdscr );
+    // This statement is required when the screen is made very small
+    if( ui_adaptor::has_imgui() ) {
+        needupdate = true;
+    }
+
     if( needupdate ) {
         refresh_display();
     }

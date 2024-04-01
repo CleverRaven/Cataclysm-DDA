@@ -215,7 +215,6 @@
       [ "458wm", 1 ],
       [ "sw629", 3 ],
       { "group": "modular_deagle_44", "prob": 2 },
-      [ "lemat_revolver", 1 ],
       [ "m1911", 5 ],
       [ "mosin91_30", 1 ],
       [ "match_trigger", 3 ],
@@ -764,6 +763,7 @@
       [ "signal_flare", 25 ],
       [ "grapnel", 10 ],
       [ "bucket", 4 ],
+      [ "bucket_5gal", 4 ],
       [ "folding_poncho", 5 ],
       [ "quikclot", 20 ],
       [ "bfipowder", 20 ],
@@ -995,9 +995,11 @@
           { "item": "harmonica_holder", "prob": 70 },
           { "item": "jug_clay", "prob": 20 },
           { "item": "saw", "prob": 20 },
+          { "item": "tonewood", "prob": 30 },
           { "item": "saxophone", "prob": 50 },
           { "item": "trumpet", "prob": 50 },
           { "item": "tuba", "prob": 25 },
+          { "item": "drum_percussion", "prob": 10 },
           { "item": "kantele", "prob": 10 },
           { "item": "ukulele", "prob": 50 },
           { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] },
@@ -1024,6 +1026,7 @@
       [ "clarinet", 25 ],
       [ "saxophone", 25 ],
       [ "harmonica_holder", 25 ],
+      [ "tonewood", 10 ],
       [ "bagpipes", 5 ]
     ]
   },
@@ -1037,6 +1040,7 @@
       [ "ukulele", 90 ],
       [ "kantele", 10 ],
       [ "banjo", 100 ],
+      [ "tonewood", 10 ],
       [ "guitar_electric", 100 ]
     ]
   },
@@ -1337,6 +1341,7 @@
       { "item": "bow_saw", "prob": 30 },
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       [ "bucket", 100 ],
+      [ "bucket_5gal", 100 ],
       [ "tree_spile", 100 ],
       [ "pot", 100 ]
     ]
@@ -1573,14 +1578,11 @@
     "items": [
       [ "panties", 90 ],
       [ "bra", 30 ],
-      [ "bikini_bottom", 20 ],
-      [ "bikini_top_leather", 30 ],
-      [ "bikini_top_fur", 30 ],
-      [ "bikini_top", 20 ],
-      [ "bikini_top_short", 20 ],
-      [ "bikini_bottom_short", 20 ],
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 15 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 15 },
+      { "group": "bikini", "prob": 40 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 15
+      },
       [ "flag_swimsuit", 10 ],
       [ "rope_6", 30 ],
       [ "corset", 20 ],
@@ -2045,8 +2047,7 @@
       [ "briefs", 30 ],
       [ "swim_briefs", 10 ],
       [ "speedo", 20 ],
-      [ "bikini_top", 5 ],
-      [ "bikini_bottom", 5 ],
+      { "group": "bikini", "prob": 5 },
       [ "yoghurt", 12 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
       { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
@@ -2062,9 +2063,12 @@
   {
     "type": "item_group",
     "id": "hotel_luggage",
-    "subtype": "distribution",
+    "subtype": "collection",
     "container-item": "suitcase_l",
-    "items": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
+    "entries": [
+      { "distribution": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ] },
+      { "group": "pillbox_any_used", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",

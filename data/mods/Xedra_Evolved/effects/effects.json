@@ -888,6 +888,27 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_ierde_buff_armor_allies",
+    "name": [ "Skin of the Mountains" ],
+    "desc": [ "Your skin is much harder than it appears." ],
+    "apply_message": "",
+    "remove_message": "The magicks reinforcing your skin vanish.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ARMOR_BASH", "multiply": -0.3 },
+          { "value": "ARMOR_BULLET", "multiply": -0.3 },
+          { "value": "ARMOR_CUT", "multiply": -0.3 },
+          { "value": "ARMOR_STAB", "multiply": -0.3 },
+          { "value": "MOVE_COST", "multiply": 0.1 }
+        ]
+      }
+    ],
+    "flags": [ "BLEEDSLOW1" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_ierde_no_mind_problems",
     "//": "Empty to hide effect--it's linked to a mutation already",
     "name": [ "" ],
@@ -915,6 +936,16 @@
     "enchantments": [
       { "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "u_val('strength') + u_val('perception')" ] } } ] }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_homullus_reduced_visibility_ally",
+    "name": [ "Average Joe" ],
+    "desc": [ "You're just this guy, you know?" ],
+    "apply_message": "",
+    "remove_message": "Nearby enemies twitch and start turning towards you.",
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "STEALTH_MODIFIER", "add": 50 } ] } ]
   },
   {
     "type": "effect_type",
@@ -1150,6 +1181,21 @@
   },
   {
     "type": "effect_type",
+    "id": "effect_sylph_increase_ally_speed",
+    "name": [ "Favonian Murmuration" ],
+    "desc": [ "You steps are buoyed up by the winds." ],
+    "apply_message": "",
+    "remove_message": "The winds around you die down.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "values": [ { "value": "MOVECOST_FLATGROUND_MOD", "multiply": -0.2 }, { "value": "MOVECOST_OBSTACLE_MOD", "multiply": -0.3 } ]
+      }
+    ],
+    "flags": [ "STEADY" ]
+  },
+  {
+    "type": "effect_type",
     "id": "effect_sylph_cloud_body",
     "name": [ "Body of Clouds" ],
     "desc": [ "You are mist and cloud and wind." ],
@@ -1184,6 +1230,21 @@
     ],
     "enchantments": [ { "values": [ { "value": "FALL_DAMAGE", "multiply": -0.6 }, { "value": "EVASION", "add": 0.33 } ] } ],
     "flags": [ "DOWNED_RECOVERY", "EFFECT_LIMB_SCORE_MOD" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_undine_acid_resist_ally",
+    "name": [ "Caustic Cloak" ],
+    "desc": [ "You are surrounded by a thin shell of acidic mist." ],
+    "apply_message": "",
+    "remove_message": "The acidic mist around you dissipates.",
+    "rating": "good",
+    "enchantments": [
+      {
+        "hit_me_effect": [ { "id": "undine_acid_resist_ally_thorns", "hit_self": false, "once_in": 3 } ],
+        "values": [ { "value": "ARMOR_ACID", "multiply": -0.75 } ]
+      }
+    ]
   },
   {
     "type": "effect_type",
@@ -1283,11 +1344,7 @@
         "values": [
           {
             "value": "SIGHT_RANGE_FAE",
-            "add": {
-              "math": [
-                "(u_val('perception') * 2) * max(( 1.5 * (u_has_trait('THRESH_ARVORE') + u_has_trait('THRESH_IERDE') + u_has_trait('THRESH_HOMULLUS') + u_has_trait('THRESH_SALAMANDER') + u_has_trait('THRESH_SYLPH') + u_has_trait('THRESH_UNDINE'))),1)"
-              ]
-            }
+            "add": { "math": [ "(u_val('perception') * 1.5) * (paraclesian_post_threshold_doubler(1))" ] }
           }
         ]
       }
@@ -1319,6 +1376,28 @@
     "name": [ "" ],
     "desc": [ "" ],
     "removes_effects": [ "effect_evil_eye" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_no_nightmares",
+    "//": "Empty to hide effect",
+    "name": [ "" ],
+    "desc": [ "" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_increase_healing_rate",
+    "name": [ "Convalescence" ],
+    "desc": [ "Your wounds are healing more quickly, as long as you don't do too much to upset the charm." ],
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": 0.2 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_hedge_increase_bandaging_rate",
+    "name": [ "Halt the Scarlet Flow" ],
+    "desc": [ "Blood easily stops flowing under your touch." ],
+    "rating": "good",
+    "enchantments": [ { "values": [ { "value": "BLEED_STOP_BONUS", "multiply": 0.66 } ] } ]
   },
   {
     "type": "effect_type",
