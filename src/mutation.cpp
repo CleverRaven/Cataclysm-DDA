@@ -1042,7 +1042,7 @@ bool Character::roll_bad_mutation( const mutation_category_id &categ ) const
         add_msg_debug( debugmode::DF_MUTATION, "No mutations yet, no bad mutations allowed" );
         return ret;
     } else {
-        // when we have a total instability score equal to the number of nonbad mutations in the tree, our odds of good/bad are 50/50
+        // When we have a total instability score equal to the number of non-bad mutations in the tree, our odds of good/bad are 50/50.
         float chance = 0.5 * static_cast<float>( insta_actual ) / static_cast<float>( muts_max );
         chance = std::min( chance, MAX_BAD_CHANCE );
         ret = rng_float( 0, 1 ) < chance;

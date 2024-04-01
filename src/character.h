@@ -1043,20 +1043,20 @@ class Character : public Creature, public visitable
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
         /**
-        * generates an integer based on how many times we've gained non-negative mutations.
-        * this is asked for any given tree, but counts all of our mutations in total.
-        * different than mutation_category_level[] in many ways:
-        * - does not count base traits, even if those are mutable, whereas mutation_category_level[] does
-        * - Does not count negative mutations, whereas mutation_category_level[] does
-        * - assigns 1 point to each level of mutation in our category, and 2 for each level out of it
-        * - individually counts each step of a multi level mutation (it counts Strong *and* Very Strong as their own mutations)
+        * Generates an integer based on how many times we've gained non-negative mutations.
+        * This is asked for any given tree, but counts all of our mutations in total.
+        * Different than mutation_category_level[] in many ways:
+        * - Does not count base traits, even if those are mutable, whereas mutation_category_level[] does.
+        * - Does not count negative mutations, whereas mutation_category_level[] does.
+        * - Assigns 1 point to each level of mutation in our category, and 2 for each level out of it.
+        * - Individually counts each step of a multi level mutation (it counts Strong *and* Very Strong as their own mutations).
         * - mutation_category_level[] ignores Strong and counts Very Strong as slightly more than 1 mutation, but not 2 mutations.
-        * - Meanwhile this counts Very Strong as 2 mutations, since you had to mutate Strong and then mutate that into Very Strong
-        * - this is to mimic the behavior of the old instability vitamin, which increased by 100 each time you mutated (so Very Strong was 200 instability)
+        * - Meanwhile this counts Very Strong as 2 mutations, since you had to mutate Strong and then mutate that into Very Strong.
+        * - This is to mimic the behavior of the old instability vitamin, which increased by 100 each time you mutated (so Very Strong was 200 instability).
         * The final result is used to calculate our current instability (influences chance of a negative mutation)
         * so each mutation we have that belongs to a different tree than the one we specified counts double.
-        * example: you start with Trog and mutate Slimy and Night Vision. Within Trog you have 2 points.
-        * you then go to mutate Rat. Rat has Night Vision but not Slimy, so you have 1+2=3 points.
+        * Example: you start with Trog and mutate Slimy and Night Vision. Within Trog you have 2 points.
+        * You then go to mutate Rat. Rat has Night Vision but not Slimy, so you have 1+2=3 points.
         * Having the Robust Genetics trait lets you "negate" this penalty, and makes all traits worth just 1 instability whether in/out of tree.
         */
         int get_instability_per_category( const mutation_category_id &categ ) const;
