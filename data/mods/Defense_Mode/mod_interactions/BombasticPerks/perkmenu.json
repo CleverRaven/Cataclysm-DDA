@@ -15,7 +15,8 @@
           { "set_string_var": "perk_money_maker_merc", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Must have completed a wave",
-            "target_var": { "context_val": "trait_requirement_description" }
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
           },
           { "set_condition": "perk_condition", "condition": { "math": [ "wave_number", ">=", "1" ] } }
         ],
@@ -31,7 +32,11 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_slice&dice", "target_var": { "context_val": "trait_id" } },
-          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -46,7 +51,11 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_bash&mash", "target_var": { "context_val": "trait_id" } },
-          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -61,7 +70,11 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_knifey", "target_var": { "context_val": "trait_id" } },
-          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"
@@ -78,7 +91,8 @@
           { "set_string_var": "perk_melee_master", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires Slice & Dice, Bash & Mash, and Knifey",
-            "target_var": { "context_val": "trait_requirement_description" }
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
           },
           {
             "set_condition": "perk_condition",
@@ -101,7 +115,8 @@
           { "set_string_var": "perk_gymrat_king", "target_var": { "context_val": "trait_id" } },
           {
             "set_string_var": "Requires athletics 5 and Gym Rat",
-            "target_var": { "context_val": "trait_requirement_description" }
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
           },
           {
             "set_condition": "perk_condition",
@@ -120,7 +135,30 @@
             "target_var": { "context_val": "trait_description" }
           },
           { "set_string_var": "perk_extra_life", "target_var": { "context_val": "trait_id" } },
-          { "set_string_var": "No Requirements", "target_var": { "context_val": "trait_requirement_description" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
+          { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
+        ],
+        "topic": "TALK_PERK_MENU_SELECT"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_mysterious_stranger" } },
+        "text": "Gain [<trait_name:perk_mysterious_stranger>]",
+        "effect": [
+          { "set_string_var": "<trait_name:perk_mysterious_stranger>", "target_var": { "context_val": "trait_name" } },
+          {
+            "set_string_var": "<trait_description:perk_mysterious_stranger>",
+            "target_var": { "context_val": "trait_description" }
+          },
+          { "set_string_var": "perk_mysterious_stranger", "target_var": { "context_val": "trait_id" } },
+          {
+            "set_string_var": "No Requirements",
+            "target_var": { "context_val": "trait_requirement_description" },
+            "i18n": true
+          },
           { "set_condition": "perk_condition", "condition": { "math": [ "0", "==", "0" ] } }
         ],
         "topic": "TALK_PERK_MENU_SELECT"

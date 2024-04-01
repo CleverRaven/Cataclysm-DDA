@@ -168,7 +168,8 @@
             "north": [ { "om_terrain": "road_curved", "om_terrain_match_type": "SUBTYPE" } ]
           }
         }
-      ]
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -205,10 +206,7 @@
         "  =_.......::......._=  "
       ],
       "palettes": [ "bridge_road_palette" ],
-      "place_nested": [
-        { "chunks": [ "24x24_bridgehead_ramp_trash" ], "x": 0, "y": 0 },
-        { "chunks": [ "24x24_bridgehead_ramp_vehicles" ], "x": 0, "y": 0 }
-      ]
+      "place_nested": [ { "chunks": [ "24x24_bridgehead_ramp_trash" ], "x": 0, "y": 0 } ]
     }
   },
   {

@@ -9,8 +9,62 @@
   {
     "type": "enchantment",
     "id": "arvore_forest_detect_enemies",
-    "condition": "ALWAYS",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "arvore_forest_detect_enemies_and_overmap",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [
+      { "value": "MOTION_VISION_RANGE", "add": { "math": [ "( u_val('perception') + u_val('intelligence'))" ] } },
+      {
+        "value": "OVERMAP_SIGHT",
+        "add": { "math": [ "(u_has_trait('ARVORE_FOREST_DETECT_AND_OVERMAP') * 2) + (u_has_trait('THRESH_ARVORE') * 2)" ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_jagged_claws_faster_attack",
+    "has": "WORN",
+    "condition": { "not": "u_has_weapon" },
+    "values": [ { "value": "ATTACK_SPEED", "add": -10 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_jagged_claws_when_bramble_bite",
+    "has": "WORN",
+    "condition": { "u_has_trait": "ARVORE_WOOD_WEAPON_DAMAGE" },
+    "values": [ { "value": "MELEE_DAMAGE", "multiply": 0.25 } ]
   },
   {
     "type": "enchantment",
@@ -26,8 +80,88 @@
   },
   {
     "type": "enchantment",
+    "id": "ench_arvore_forest_stealth",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "YOUNG" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_at_om_location": "forest" },
+            { "u_at_om_location": "forest_thick" }
+          ]
+        }
+      ]
+    },
+    "values": [ { "value": "STEALTH_MODIFIER", "add": { "math": [ "40 + ( u_has_trait('THRESH_ARVORE') * 20)" ] } } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_sense_sun",
+    "condition": { "math": [ "u_val('pos_z')", ">=", "0" ] },
+    "ench_effects": [ { "effect": "effect_arvore_sense_sun", "intensity": 1 } ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_arvore_wilds_super_mending",
+    "condition": {
+      "and": [
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain_with_flag": "DIGGABLE" },
+            { "u_is_on_terrain_with_flag": "YOUNG" }
+          ]
+        },
+        { "not": { "u_near_om_location": "road_curved", "range": 1 } },
+        { "not": { "u_near_om_location": "road_four_way", "range": 1 } },
+        { "not": { "u_near_om_location": "road_tee", "range": 1 } },
+        { "not": { "u_near_om_location": "road_straight", "range": 1 } },
+        { "not": { "u_near_om_location": "road_end", "range": 1 } },
+        { "not": { "u_near_om_location": "road_sw", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ne", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ew", "range": 1 } },
+        { "not": { "u_near_om_location": "road_ns", "range": 1 } },
+        { "not": { "u_near_om_location": "road_nesw", "range": 1 } },
+        { "not": { "u_near_om_location": "road", "range": 1 } }
+      ]
+    },
+    "values": [ { "value": "MENDING_MODIFIER", "multiply": 10 } ]
+  },
+  {
+    "type": "enchantment",
     "id": "ench_arvore_sun_foods_on",
-    "condition": "ALWAYS",
+    "condition": {
+      "and": [
+        "is_day",
+        "u_is_outside",
+        {
+          "or": [
+            { "u_is_on_terrain_with_flag": "SHRUB" },
+            { "u_is_on_terrain": "t_tree_young" },
+            { "u_is_on_terrain": "t_bamboo_tall" },
+            { "u_is_on_terrain": "t_dirt" },
+            { "u_is_on_terrain": "t_dirtmound" },
+            { "u_is_on_terrain": "t_clay" },
+            { "u_is_on_terrain": "t_sand" },
+            { "u_is_on_terrain": "t_sandmound" },
+            { "u_is_on_terrain": "t_grave" },
+            { "u_is_on_terrain": "t_forestfloor" },
+            { "u_is_on_terrain": "t_grass" },
+            { "u_is_on_terrain": "t_grass_long" },
+            { "u_is_on_terrain": "t_grass_tall" },
+            { "u_is_on_terrain": "t_grass_dead" },
+            { "u_is_on_terrain": "t_mud" },
+            { "u_is_on_terrain": "t_dirtfloor_no_roof" },
+            { "u_is_on_terrain": "t_moss" }
+          ]
+        }
+      ]
+    },
     "intermittent_activation": { "effects": [ { "frequency": "1 minutes", "spell_effects": [ { "id": "arvore_sun_foods_on_spell" } ] } ] },
     "values": [ { "value": "HUNGER", "multiply": -0.95 } ]
   },
@@ -63,6 +197,7 @@
     "flags": [ "RANDOM_DAMAGE" ]
   },
   {
+    "//": "General principle for spells below is--spells that involving growing or nurturing plants in the long-term are intelligence-based, other spells are perception-based.  Briarwall (long-term) is thus Intelligence, whereas Hungry Thirsty Roots is Perception because the roots die within minutes.",
     "id": "arvore_commune_with_nature",
     "type": "SPELL",
     "name": "Commune with Nature",
@@ -82,9 +217,17 @@
     "base_energy_cost": 500,
     "final_energy_cost": 250,
     "energy_increment": -12,
-    "min_duration": 30000,
-    "max_duration": 1080000,
-    "duration_increment": 16500
+    "min_duration": {
+      "math": [
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 60000 + (u_spell_level('arvore_commune_with_nature') * 24000 ) ) * scaling_factor(u_val('perception') ) * paraclesian_post_threshold_doubler(1)"
+      ]
+    },
+    "learn_spells": { "arvore_summon_preservation_container": 6 }
   },
   {
     "id": "arvore_cultivate_goblin_fruit",
@@ -99,13 +242,36 @@
     "spell_class": "ARVORE",
     "teachable": false,
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "NO_HANDS" ],
-    "max_level": { "math": [ "per_to_level(1)" ] },
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "difficulty": 8,
     "base_casting_time": 180000,
     "final_casting_time": 100,
     "casting_time_increment": -6000,
     "energy_source": "MANA",
-    "base_energy_cost": 450
+    "base_energy_cost": 450,
+    "final_energy_cost": 350,
+    "energy_increment": -4
+  },
+  {
+    "id": "arvore_tree_singing_spell",
+    "type": "SPELL",
+    "name": "Treesinging",
+    "description": "Using your voice and your magic, bring forth living wood from a tree to provide resources without harming the forest.",
+    "message": "You close your eyes and sing to the trees.",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "spell_class": "ARVORE",
+    "teachable": false,
+    "difficulty": 6,
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_TREE_SINGING",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_casting_time": 100,
+    "base_energy_cost": 800,
+    "final_energy_cost": 500,
+    "energy_increment": -40
   },
   {
     "id": "arvore_verdant_infusion",
@@ -134,7 +300,8 @@
     "energy_increment": -10,
     "min_duration": 30000,
     "max_duration": 1080000,
-    "duration_increment": 16500
+    "duration_increment": 16500,
+    "learn_spells": { "arvore_summon_preservation_container": 9 }
   },
   {
     "id": "arvore_roots_crack_the_foundation",
@@ -160,12 +327,16 @@
     "range_increment": 0.4,
     "energy_source": "MANA",
     "base_energy_cost": 450,
-    "base_casting_time": 150
+    "final_energy_cost": 250,
+    "energy_increment": -10,
+    "base_casting_time": 150,
+    "final_casting_time": 100,
+    "casting_time_increment": -4
   },
   {
     "id": "arvore_summon_wood_spirit",
     "type": "SPELL",
-    "name": "Call the Children of the Boughs",
+    "name": "Call the Children of the Roots",
     "description": "A lesser wood spirit is summoned to support you.",
     "flags": [ "SOMATIC", "VERBAL", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
@@ -175,7 +346,7 @@
     "spell_class": "ARVORE",
     "teachable": false,
     "effect": "summon",
-    "effect_str": "GROUP_GENIUS_ARVORE",
+    "effect_str": "GROUP_GENIUS_ARVORE_LESSER",
     "shape": "blast",
     "min_damage": 1,
     "max_damage": 8,
@@ -191,6 +362,57 @@
     "duration_increment": 36000
   },
   {
+    "id": "arvore_summon_preservation_container",
+    "type": "SPELL",
+    "name": { "str": "To Withstand Decay" },
+    "description": "While in the wild, weave together some leaves and grasses and magick to form a container that will keep its contents from rotting for a length of time.  The container will only last a few weeks at most.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 4,
+    "spell_class": "ARVORE",
+    "valid_targets": [ "self" ],
+    "skill": "deduction",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_SUMMON_PRESERVATION_CONTAINER_CHECK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 800,
+    "final_energy_cost": 300,
+    "energy_increment": -30,
+    "base_casting_time": 6000,
+    "final_casting_time": 1500,
+    "casting_time_increment": -250
+  },
+  {
+    "id": "arvore_summon_preservation_container_real",
+    "type": "SPELL",
+    "name": { "str": "To Withstand Decay Real" },
+    "description": "The actual spell that summons the container.  It's a bug if you have it directly.",
+    "flags": [ "SILENT", "RANDOM_DURATION" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "difficulty": 3,
+    "spell_class": "ARVORE",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "arvore_preservation_container",
+    "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": {
+      "math": [
+        "( 51840000 + (u_spell_level('arvore_summon_preservation_container') * 18360000) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "max_duration": {
+      "math": [
+        "( 51840000 + (u_spell_level('arvore_summon_preservation_container') * 30240000) ) * scaling_factor(u_val('perception') )"
+      ]
+    },
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "base_casting_time": 400
+  },
+  {
     "id": "arvore_summon_briars",
     "type": "SPELL",
     "name": "Briarwall",
@@ -200,14 +422,19 @@
     "teachable": false,
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_BRIARS_SELECTOR",
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "shape": "blast",
     "flags": [ "SOMATIC", "VERBAL" ],
     "energy_source": "MANA",
     "spell_class": "ARVORE",
     "difficulty": 5,
     "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5,
     "base_energy_cost": 550,
-    "max_level": 15
+    "final_energy_cost": 250,
+    "energy_increment": -15,
+    "learn_spells": { "arvore_tree_singing_spell": 12 }
   },
   {
     "id": "arvore_summon_briars_arc",
@@ -303,6 +530,20 @@
     "max_aoe": { "math": [ "(1 + (u_spell_level('arvore_anti_plant_spell') * 1) * (scaling_factor(u_val('perception') ) ) )" ] }
   },
   {
+    "id": "arvore_vine_drag_spell",
+    "type": "SPELL",
+    "name": "Entangling Vines Spell",
+    "description": "Pull a target to you.",
+    "message": "",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "directed_push",
+    "shape": "blast",
+    "difficulty": 1,
+    "min_damage": { "math": [ "(u_val('dexterity') / 2) * -1" ] },
+    "min_range": { "math": [ "(u_val('dexterity') / 2)" ] }
+  },
+  {
     "id": "arvore_nurture_the_green",
     "type": "SPELL",
     "name": "Nurturing the Green",
@@ -310,9 +551,9 @@
     "flags": [ "SOMATIC", "VERBAL" ],
     "valid_targets": [ "ground" ],
     "skill": "deduction",
-    "max_level": 20,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "shape": "blast",
-    "difficulty": 4,
+    "difficulty": 2,
     "effect": "ter_transform",
     "effect_str": "ter_arvore_plant_growth",
     "min_range": 1,
@@ -325,7 +566,8 @@
     "base_casting_time": 6000,
     "final_casting_time": 1500,
     "casting_time_increment": -225,
-    "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth.  They need to go stand in the sun for that."
+    "//": "Energy cost and lack of AoE so that Arvore can't just have infinite food through crop growth.  They need to go stand in the sun for that.",
+    "learn_spells": { "arvore_summon_preservation_container": 6, "arvore_tree_singing_spell": 10 }
   },
   {
     "id": "arvore_growing_wood_walls",
@@ -335,7 +577,7 @@
     "flags": [ "SOMATIC", "VERBAL" ],
     "valid_targets": [ "self" ],
     "skill": "deduction",
-    "max_level": 20,
+    "max_level": { "math": [ "int_to_level(1)" ] },
     "shape": "blast",
     "difficulty": 6,
     "spell_class": "ARVORE",
@@ -348,7 +590,8 @@
     "energy_source": "MANA",
     "base_energy_cost": 600,
     "final_energy_cost": 350,
-    "energy_increment": -15
+    "energy_increment": -15,
+    "learn_spells": { "arvore_tree_singing_spell": 6 }
   },
   {
     "id": "arvore_growing_wood_walls_wall",
@@ -419,11 +662,32 @@
     "range_increment": 0.25
   },
   {
+    "id": "arvore_climbing_vine_spell",
+    "type": "SPELL",
+    "name": "Creeper Ascends the Wall",
+    "description": "Cause a vine to burst out of diggable ground, and rise up into the sky in moments.  It will be easy to climb once its growth is finished.",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "valid_targets": [ "ground" ],
+    "skill": "deduction",
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "difficulty": 3,
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_climbing_vine",
+    "shape": "blast",
+    "min_range": 1,
+    "teachable": false,
+    "energy_source": "MANA",
+    "base_energy_cost": 350,
+    "final_energy_cost": 200,
+    "energy_increment": -25,
+    "base_casting_time": 150,
+    "final_casting_time": 75,
+    "casting_time_increment": -5
+  },
+  {
     "id": "arvore_roots_spell",
     "type": "SPELL",
-    "name": "Hungry Thirsty Roots",
-    "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.",
-    "//": "Experience with the druid spell Vegetative Grasp shows that at high levels it's a horde-killer with a single cast, so this is a greatly toned-down version with less predictability.",
+    "name": { "//~": "The name is a reference to the poem \"Goblin Market\" by Christina Rossetti.", "str": "Hungry Thirsty Roots" },
     "description": "Your command over plants allows you to call forth roots from the earth to clutch and grasp at your enemies.",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "NO_PROJECTILE", "NO_HANDS", "NO_LEGS", "RANDOM_DURATION" ],
@@ -451,7 +715,9 @@
     "base_casting_time": 150,
     "final_casting_time": 50,
     "casting_time_increment": -4,
-    "base_energy_cost": 225
+    "base_energy_cost": 225,
+    "final_energy_cost": 125,
+    "energy_increment": -5
   },
   {
     "id": "arvore_perennial_rebirth_spell",
@@ -471,6 +737,51 @@
     "base_casting_time": 2160000,
     "energy_source": "MANA",
     "base_energy_cost": 2000
+  },
+  {
+    "id": "arvore_overgrowth_spell",
+    "type": "SPELL",
+    "name": "Overgrowth",
+    "description": "While outdoors and not underground, the Arvore can create a profusion of life around themselves, causing grass to grow through pavement, bushes and flowers to sprout, and trees to grow to full height in moments.",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "valid_targets": [ "self" ],
+    "max_level": { "math": [ "int_to_level(1)" ] },
+    "skill": "deduction",
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "difficulty": 8,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_OVERGROWTH",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "final_energy_cost": 750,
+    "energy_increment": -35,
+    "base_casting_time": 500,
+    "final_casting_time": 250,
+    "casting_time_increment": -8,
+    "learn_spells": { "arvore_tree_singing_spell": 5, "arvore_damage_zombies_heal_living": 8 }
+  },
+  {
+    "id": "arvore_overgrowth_spell_real",
+    "type": "SPELL",
+    "name": "Overgrowth Real",
+    "description": "The actual spell that casts Overgrowth.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_overgrowth",
+    "min_aoe": {
+      "math": [
+        "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    },
+    "max_aoe": {
+      "math": [
+        "( ( (u_spell_level('arvore_overgrowth_spell') * rng(0.8,1.2)) + rng(1.5,4)) * (scaling_factor(u_val('intelligence') ) ) )"
+      ]
+    }
   },
   {
     "id": "arvore_sun_foods_on_spell",
@@ -512,7 +823,8 @@
     "energy_increment": -20,
     "base_casting_time": 150,
     "final_casting_time": 75,
-    "casting_time_increment": -2
+    "casting_time_increment": -2,
+    "learn_spells": { "arvore_damage_zombies_heal_living": 7 }
   },
   {
     "id": "arvore_traverse_the_wilds",
@@ -541,7 +853,7 @@
     "id": "arvore_traverse_the_wilds_real",
     "type": "SPELL",
     "name": "Traverse the Wilds Real",
-    "description": "This is the actual spell that teleports you when you use Walk the Wilds.  It's a bug if you have it directly",
+    "description": "This is the actual spell that teleports you when you use Traverse the Wilds.  It's a bug if you have it directly",
     "valid_targets": [ "ground", "ally", "hostile" ],
     "skill": "deduction",
     "flags": [ "SILENT", "TARGET_TELEPORT", "NO_PROJECTILE" ],
@@ -551,12 +863,78 @@
     "min_aoe": 4,
     "max_aoe": 1,
     "aoe_increment": -0.25,
-    "min_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 100) + 500) * (scaling_factor(u_val('perception') ) ) )" ]
-    },
-    "max_range": {
-      "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 300) + 3000) * (scaling_factor(u_val('perception') ) ) )" ]
-    }
+    "min_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] },
+    "max_range": { "math": [ "( ( (u_spell_level('arvore_traverse_the_wilds') * 1) + 5) * (scaling_factor(u_val('perception') ) ) )" ] }
+  },
+  {
+    "id": "arvore_forest_translocate",
+    "type": "SPELL",
+    "name": "From Root to Root the Forest Is Joined",
+    "description": "All forests are connected at their hearts.  You can use this connection to travel from the depths of a forest to the depths of another forest, if you properly attune to your destination.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ARVORE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_ROOT_TO_ROOT_TRANSLOCATE_CHECK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 1500,
+    "base_casting_time": 30000
+  },
+  {
+    "id": "arvore_forest_translocate_real",
+    "type": "SPELL",
+    "name": "From Root to Root the Forest Is Joined Real",
+    "description": "The actual spell that transports you for From Root to Root the Forest Is Joined.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ARVORE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC" ],
+    "difficulty": 9,
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "effect": "translocate",
+    "shape": "blast"
+  },
+  {
+    "id": "arvore_forest_translocate_attune",
+    "type": "SPELL",
+    "name": "Root to Root Attunement",
+    "description": "Attune to a location for later traveling.  You must attune within the depths of a forest.",
+    "teachable": false,
+    "valid_targets": [ "self" ],
+    "spell_class": "ARVORE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_ROOT_TO_ROOT_ATTUNEMENT_CHECK",
+    "shape": "blast",
+    "energy_source": "MANA",
+    "base_energy_cost": 0,
+    "base_casting_time": { "math": [ "2880000 - max(( u_spell_level('arvore_forest_translocate') * 108000), 180000)" ] }
+  },
+  {
+    "id": "arvore_forest_translocate_attune_real",
+    "type": "SPELL",
+    "name": "Root to Root Attunement Real",
+    "description": "The actual Root to Root attunement spell.  It's a bug if you have it.",
+    "teachable": false,
+    "valid_targets": [ "ground" ],
+    "spell_class": "ARVORE",
+    "skill": "deduction",
+    "flags": [ "VERBAL", "SOMATIC", "NO_FAIL" ],
+    "difficulty": 1,
+    "max_level": 1,
+    "effect": "ter_transform",
+    "effect_str": "ter_arvore_translocate_location_attune",
+    "shape": "blast",
+    "min_range": 1
   },
   {
     "id": "arvore_turn_into_tree",
@@ -613,5 +991,143 @@
     "effect": "effect_on_condition",
     "effect_str": "EOC_ARVORE_TREE_REDUCE_THIRST",
     "shape": "blast"
+  },
+  {
+    "id": "arvore_damage_zombies_heal_living",
+    "type": "SPELL",
+    "name": "Embrace of the Verdant Mother",
+    "description": "While outdoors and not underground, the Arvore can unleash the power of nature against their enemies.  The walking dead and most creatures not native to the world suffer the Earthmother's wrath, while animals and humans are healed.  Triffids, being plants, are healed as well.\n\nNote that this power is <color_yellow>indiscriminate</color>: if the Arvore has somehow bound a Nether creature to their service, it will be damaged, and hostile humans will be healed.",
+    "flags": [ "SOMATIC", "VERBAL", "RANDOM_DAMAGE" ],
+    "valid_targets": [ "self" ],
+    "max_level": { "math": [ "per_to_level(1)" ] },
+    "skill": "deduction",
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "difficulty": 10,
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_ARVORE_DAMAGE_ZOMBIES_HEAL_LIVING",
+    "energy_source": "MANA",
+    "base_energy_cost": 2200,
+    "final_energy_cost": 1500,
+    "energy_increment": -55,
+    "base_casting_time": 350,
+    "final_casting_time": 100,
+    "casting_time_increment": -15
+  },
+  {
+    "id": "arvore_verdant_mother_damage_zombies_and_aliens",
+    "type": "SPELL",
+    "name": "Embrace of the Verdant Mother Damage Zombies and Aliens",
+    "description": "The actual spell that damages zombies and aliens as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "targeted_monster_species": [ "ZOMBIE", "MIGO", "NETHER", "FUNGUS", "LEECH_PLANT" ]
+  },
+  {
+    "id": "arvore_verdant_mother_heal_animals",
+    "type": "SPELL",
+    "name": "Embrace of the Verdant Mother Heal Animals",
+    "description": "The actual spell that heals animals and plants as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "targeted_monster_species": [
+      "MAMMAL",
+      "BIRD",
+      "AMPHIBIAN",
+      "REPTILE",
+      "FISH",
+      "INSECT",
+      "CENTIPEDE",
+      "SPIDER",
+      "MOLLUSK",
+      "WORM",
+      "INSECT_FLYING",
+      "ARVORE",
+      "PLANT"
+    ]
+  },
+  {
+    "id": "arvore_verdant_mother_heal_npcs",
+    "type": "SPELL",
+    "name": "Embrace of the Verdant Mother Heal NPCS",
+    "description": "The actual spell that heals NPCs as part of Embrace of the Verdant Mother.  List below is to exclude all species, since NPCs do not have a species.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "ignored_monster_species": [
+      "FERAL",
+      "HUMAN",
+      "MAMMAL",
+      "BIRD",
+      "AMPHIBIAN",
+      "REPTILE",
+      "FISH",
+      "INSECT",
+      "CENTIPEDE",
+      "SPIDER",
+      "MOLLUSK",
+      "WORM",
+      "ZOMBIE",
+      "MIGO",
+      "NETHER",
+      "FUNGUS",
+      "PLANT",
+      "CYBORG",
+      "KRAKEN",
+      "MUTANT",
+      "NETHER_EMANATION",
+      "SLIME",
+      "LEECH_PLANT",
+      "INSECT_FLYING",
+      "ZOMBIE",
+      "FERAL",
+      "ROBOT",
+      "HORROR",
+      "ABERRATION",
+      "HALLUCINATION",
+      "HUMAN",
+      "UNKNOWN"
+    ]
+  },
+  {
+    "id": "arvore_verdant_mother_heal_ferals",
+    "//": "This needs to be a separate spell since ferals have the FERAL species but NPCs have no species",
+    "type": "SPELL",
+    "name": "Embrace of the Verdant Mother Heal Ferals",
+    "description": "The actual spell that damages zombies and aliens as part of Embrace of the Verdant Mother.  It's a bug if you have it.",
+    "flags": [ "SILENT", "VERBAL", "IGNORE_WALLS", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "hostile", "ally" ],
+    "spell_class": "ARVORE",
+    "shape": "blast",
+    "effect": "attack",
+    "damage_type": "biological",
+    "min_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "max_damage": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_damage * -1" ] },
+    "min_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "max_aoe": { "math": [ "u_latest_arvore_embrace_of_verdant_mother_aoe" ] },
+    "targeted_monster_species": [ "FERAL", "HUMAN" ]
   }
 ]

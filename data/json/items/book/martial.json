@@ -19,8 +19,10 @@
     },
     "price": 11000,
     "price_postapoc": 3000,
-    "//~": "Spanish description should change to say that this is archaic text and should mention explanations of archaic words instead of translations.",
-    "description": "Thankfully, someone has scrawled translations in the margins of this guide to Barbaran Montante.  Judging by the notation, this greatsword and war hammer training manual is also a form of poem.",
+    "description": {
+      "//~": "Spanish description should change to say that this is archaic text and should mention explanations of archaic words instead of translations.",
+      "str": "Thankfully, someone has scrawled translations in the margins of this guide to Barbaran Montante.  Judging by the notation, this greatsword and war hammer training manual is also a form of poem."
+    },
     "martial_art": "style_barbaran"
   },
   {

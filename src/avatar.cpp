@@ -68,6 +68,7 @@
 #include "ranged.h"
 #include "ret_val.h"
 #include "rng.h"
+#include "scenario.h"
 #include "skill.h"
 #include "stomach.h"
 #include "string_formatter.h"
@@ -138,6 +139,7 @@ static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
+static const trait_id trait_UNDINE_SLEEP_WATER( "UNDINE_SLEEP_WATER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
@@ -336,7 +338,8 @@ void avatar::set_active_mission( mission &cur_mission )
 {
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "new active mission %s is not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_mission = &cur_mission;
     }
@@ -364,7 +367,8 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "completed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -392,7 +396,8 @@ void avatar::remove_active_mission( mission &cur_mission )
     cur_mission.remove_active_world_mission( cur_mission );
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
-        debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
+        debugmsg( "removed mission %s was not in the active_missions list",
+                  cur_mission.mission_id().c_str() );
     } else {
         active_missions.erase( iter );
     }
@@ -1297,6 +1302,8 @@ void avatar::set_movement_mode( const move_mode_id &new_mode )
         }
         add_msg( new_mode->change_message( true, get_steed_type() ) );
         move_mode = new_mode;
+        // Enchantments based on move modes can stack inappropriately without a recalc here
+        recalculate_enchantment_cache();
         // crouching affects visibility
         get_map().set_seen_cache_dirty( pos().z );
         recoil = MAX_RECOIL;
@@ -1418,7 +1425,7 @@ bool avatar::wield( item &target, const int obtain_cost )
     }
 
     add_msg_debug( debugmode::DF_AVATAR, "wielding took %d moves", mv );
-    moves -= mv;
+    mod_moves( -mv );
 
     if( has_item( target ) ) {
         item removed = i_rem( &target );
@@ -1450,6 +1457,16 @@ bool avatar::wield( item &target, const int obtain_cost )
     inv->update_cache_with_item( *weapon );
 
     return true;
+}
+
+item::reload_option avatar::select_ammo( const item_location &base, bool prompt,
+        bool empty )
+{
+    if( !base ) {
+        return item::reload_option();
+    }
+
+    return game_menus::inv::select_ammo( *this, base, prompt, empty );
 }
 
 bool avatar::invoke_item( item *used, const tripoint &pt, int pre_obtain_moves )
@@ -1511,7 +1528,7 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
                           int pre_obtain_moves )
 {
     if( pre_obtain_moves == -1 ) {
-        pre_obtain_moves = moves;
+        pre_obtain_moves = get_moves();
     }
     return Character::invoke_item( used, method, pt, pre_obtain_moves );
 }
@@ -1777,7 +1794,15 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
 void avatar::randomize_hobbies()
 {
     hobbies.clear();
-    std::vector<profession_id> choices = profession::get_all_hobbies();
+    std::vector<profession_id> choices = get_scenario()->permitted_hobbies();
+    choices.erase( std::remove_if( choices.begin(), choices.end(),
+    [this]( const string_id<profession> &hobby ) {
+        return !prof->allows_hobby( hobby );
+    } ), choices.end() );
+    if( choices.empty() ) {
+        debugmsg( "Why would you blacklist all hobbies?" );
+        choices = profession::get_all_hobbies();
+    };
 
     int random = rng( 0, 5 );
 
@@ -1961,7 +1986,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         // Your shell's interior is a comfortable place to sleep.
         in_shell = true;
     }
-    if( has_trait( trait_WATERSLEEP ) ) {
+    if( has_trait( trait_WATERSLEEP ) || has_trait( trait_UNDINE_SLEEP_WATER ) ) {
         if( underwater ) {
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );

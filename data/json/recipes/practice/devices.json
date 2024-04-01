@@ -76,7 +76,7 @@
     "components": [
       [ [ "superglue", 1 ], [ "duct_tape", 25 ] ],
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
-      [ [ "bb", 60 ], [ "nail", 30 ] ]
+      [ [ "bb", 60 ], [ "nails", 30, "LIST" ] ]
     ],
     "autolearn": false,
     "book_learn": [ [ "manual_traps_mil", 3 ] ],

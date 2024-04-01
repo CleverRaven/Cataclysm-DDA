@@ -15,9 +15,9 @@
     "energy_source": "MANA",
     "difficulty": 6,
     "max_level": 20,
-    "min_duration": { "math": [ "spell_time(u_val('time: 3 m'))" ] },
-    "max_duration": { "math": [ "spell_time(u_val('time: 3 h'))" ] },
-    "duration_increment": { "math": [ "spell_time(u_val('time: 3 m'))" ] }
+    "min_duration": { "math": [ "spell_time(time(' 3 m'))" ] },
+    "max_duration": { "math": [ "spell_time(time(' 3 h'))" ] },
+    "duration_increment": { "math": [ "spell_time(time(' 3 m'))" ] }
   },
   {
     "id": "dread_weight",

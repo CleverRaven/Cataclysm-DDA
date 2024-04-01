@@ -6,12 +6,34 @@
     "entries": [
       { "group": "clothing_work_set", "damage": [ 1, 4 ] },
       { "group": "underwear", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 2 ] },
       {
-        "distribution": [ { "group": "tools_carpentry", "prob": 30 }, { "group": "tools_common", "prob": 70 } ],
-        "prob": 30
+        "distribution": [ { "group": "tools_workshop", "prob": 30 }, { "group": "tools_toolbox", "prob": 70 } ],
+        "prob": 50
       },
-      { "group": "supplies_electronics", "prob": 50 },
+      { "group": "supplies_electronics", "count": [ 1, 3 ], "prob": 70 },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 60 },
       { "item": "id_industrial", "prob": 20 }
+    ]
+  },
+  {
+    "id": "worker_kitted_hard_hat",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "attachable_ear_muffs", "damage": [ 1, 3 ], "prob": 50 },
+      {
+        "distribution": [ { "item": "nape_protector", "damage": [ 1, 3 ] }, { "item": "mesh_nape_protector", "damage": [ 1, 3 ] } ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "shield_visor", "damage": [ 1, 3 ] },
+          { "item": "face_shield", "damage": [ 1, 3 ] },
+          { "item": "face_shield_plastic", "damage": [ 1, 3 ] }
+        ],
+        "prob": 60
+      }
     ]
   },
   {
@@ -19,12 +41,61 @@
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "clothing_work_boots", "damage": [ 1, 4 ] },
+      { "group": "clothing_work_boots", "prob": 60, "damage": [ 1, 4 ] },
       { "group": "clothing_work_glasses", "prob": 60, "damage": [ 1, 4 ] },
-      { "group": "clothing_work_gloves", "prob": 75, "damage": [ 1, 4 ] },
+      { "group": "clothing_work_gloves", "prob": 50, "damage": [ 1, 4 ] },
       { "group": "clothing_work_mask", "prob": 40, "damage": [ 1, 4 ] },
-      { "item": "ear_plugs", "prob": 15, "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items_pockets", "prob": 80, "damage": [ 0, 2 ] },
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 40 },
       { "item": "tool_belt", "prob": 25, "damage": [ 1, 4 ] },
+      {
+        "distribution": [ { "item": "pickaxe", "prob": 10, "damage": [ 1, 3 ] }, { "item": "shovel", "prob": 50, "damage": [ 1, 3 ] } ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          {
+            "collection": [
+              {
+                "distribution": [
+                  { "item": "hat_hard", "variant": "yellow_hat_hard", "damage": [ 1, 3 ], "contents-group": "worker_kitted_hard_hat" },
+                  {
+                    "item": "hat_hard",
+                    "variant": "green_hat_hard",
+                    "damage": [ 1, 3 ],
+                    "prob": 10,
+                    "contents-group": "worker_kitted_hard_hat"
+                  },
+                  {
+                    "collection": [
+                      { "item": "hat_hard", "variant": "white_hat_hard", "damage": [ 1, 3 ], "contents-group": "worker_kitted_hard_hat" },
+                      {
+                        "distribution": [ { "group": "used_1st_aid", "prob": 70 }, { "group": "full_1st_aid", "prob": 30 } ]
+                      }
+                    ],
+                    "prob": 5
+                  }
+                ]
+              },
+              {
+                "distribution": [
+                  { "item": "ear_plugs", "prob": 15, "damage": [ 1, 4 ] },
+                  { "group": "tools_lighting_industrial", "damage": [ 1, 3 ] },
+                  { "item": "electric_lantern", "charges": [ 0, 100 ], "damage": [ 1, 3 ] }
+                ]
+              }
+            ]
+          },
+          {
+            "item": "miner_hat",
+            "charges": [ 50, 100 ],
+            "damage": [ 1, 4 ],
+            "contents-group": "worker_kitted_hard_hat"
+          }
+        ]
+      },
+      { "item": "glowstick", "prob": 30, "count": [ 1, 3 ], "charges": 1400 },
+      { "item": "multitool", "prob": 10 },
       {
         "distribution": [
           {
@@ -35,8 +106,7 @@
           { "item": "technician_coveralls_h", "prob": 10, "damage": [ 1, 4 ] }
         ]
       },
-      { "group": "underwear", "damage": [ 1, 4 ] },
-      { "item": "miner_hat", "prob": 90, "damage": [ 1, 4 ] }
+      { "group": "underwear", "damage": [ 1, 4 ] }
     ]
   }
 ]

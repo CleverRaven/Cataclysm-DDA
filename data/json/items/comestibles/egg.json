@@ -834,6 +834,33 @@
   },
   {
     "type": "COMESTIBLE",
+    "abstract": "egg_fish_mutant",
+    "name": { "str": "roe" },
+    "description": "A large half-translucent glob with a mutant fish fry inside.",
+    "volume": "330 ml",
+    "weight": "300 g",
+    "color": "red",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "o",
+    "calories": 425,
+    "quench": 50,
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "egg" ],
+    "fun": -8,
+    "vitamins": [ [ "vitC", 12 ], [ "mutant_toxin", 27 ] ],
+    "flags": [ "RAW" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mutant_salmon",
+    "name": { "str_sp": "mutant fish roe" },
+    "copy-from": "egg_fish_mutant",
+    "rot_spawn": "GROUP_EGG_MUTANT_SALMON"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "powder_eggs",
     "name": { "str_sp": "powdered egg" },
     "weight": "7 g",
@@ -894,6 +921,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seasoned_scrambled_eggs",
+    "name": { "str_sp": "seasoned scrambled eggs" },
+    "copy-from": "scrambled_eggs",
+    "fun": 5,
+    "description": "Tasty scrambled eggs, with seasoning to taste!"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "boiled_egg",
     "name": { "str": "boiled egg" },
     "copy-from": "egg_chicken",
@@ -938,6 +973,14 @@
     "price_postapoc": 120,
     "material": [ "egg" ],
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seasoned_fried_eggs",
+    "name": { "str_sp": "seasoned fried eggs" },
+    "copy-from": "fried_eggs",
+    "fun": 5,
+    "description": "A tasty fried egg, with seasoning added to taste!"
   },
   {
     "type": "COMESTIBLE",

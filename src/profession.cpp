@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "past_games_info.h"
+#include "past_achievements_info.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -41,7 +42,7 @@ static class json_item_substitution
     public:
         void reset();
         void load( const JsonObject &jo );
-        void check_consistency();
+        void check_consistency() const;
 
     private:
         struct trait_requirements {
@@ -80,6 +81,57 @@ template<>
 bool string_id<profession>::is_valid() const
 {
     return all_profs.is_valid( *this );
+}
+
+static profession_blacklist prof_blacklist;
+
+void profession_blacklist::load_profession_blacklist( const JsonObject &jo,
+        const std::string_view src )
+{
+    prof_blacklist.load( jo, src );
+}
+
+void profession_blacklist::load( const JsonObject &jo, const std::string_view )
+{
+    if( !professions.empty() ) {
+        DebugLog( D_INFO, DC_ALL ) << "Loading profession black with one already loaded, resetting";
+        profession_blacklist::reset();
+    }
+
+    const std::string type = jo.get_string( "subtype" );
+
+    if( type == "whitelist" ) {
+        whitelist = true;
+    } else if( type == "blacklist" ) {
+        whitelist = false;
+    } else {
+        jo.throw_error( "Invalid subtype %s for profession blacklist" );
+    }
+
+    mandatory( jo, false, "professions", professions );
+}
+
+void profession_blacklist::check_consistency() const
+{
+    for( const string_id<profession> &p : professions ) {
+        if( !p.is_valid() ) {
+            debugmsg( "Invalid profession %s in blacklist", p.str() );
+        }
+    }
+}
+
+void profession_blacklist::reset()
+{
+    prof_blacklist.professions.clear();
+    prof_blacklist.whitelist = false;
+}
+
+bool profession::is_blacklisted() const
+{
+    if( prof_blacklist.whitelist ) {
+        return prof_blacklist.professions.count( id ) == 0;
+    }
+    return prof_blacklist.professions.count( id ) != 0;
 }
 
 profession::profession()
@@ -263,6 +315,9 @@ void profession::load( const JsonObject &jo, const std::string_view )
               string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
+    optional( jo, was_loaded, "hobbies", _hobby_exclusion );
+    optional( jo, was_loaded, "whitelist_hobbies", hobbies_whitelist, true );
+
     optional( jo, was_loaded, "starting_styles", _starting_martialarts );
     optional( jo, was_loaded, "starting_styles_choices", _starting_martialarts_choices );
     optional( jo, was_loaded, "starting_styles_choices_amount", ma_choice_amount, 1 );
@@ -315,6 +370,7 @@ void profession::check_definitions()
     for( const profession &prof : all_profs.get_all() ) {
         prof.check_definition();
     }
+    prof_blacklist.check_consistency();
 }
 
 void profession::check_item_definitions( const itypedecvec &items ) const
@@ -379,6 +435,13 @@ void profession::check_definition() const
     for( const auto &elem : _starting_pets ) {
         if( !elem.is_valid() ) {
             debugmsg( "starting pet %s for profession %s does not exist", elem.c_str(), id.c_str() );
+        }
+    }
+    for( const string_id<profession> &hobby : _hobby_exclusion ) {
+        if( !hobby.is_valid() ) {
+            debugmsg( "hobby %s for profession %s does not exist", hobby.str(), id.str() );
+        } else if( !hobby->is_hobby() ) {
+            debugmsg( "hobby %s for profession %s is a profession", hobby.str(), id.str() );
         }
     }
     for( const auto &elem : _starting_skills ) {
@@ -569,6 +632,14 @@ std::vector<matype_id> profession::ma_choices() const
     return _starting_martialarts_choices;
 }
 
+bool profession::allows_hobby( const string_id<profession> &hobby ) const
+{
+    if( hobbies_whitelist && !_hobby_exclusion.empty() ) {
+        return _hobby_exclusion.count( hobby ) == 1;
+    }
+    return _hobby_exclusion.count( hobby ) == 0;
+}
+
 std::vector<trait_and_var> profession::get_locked_traits() const
 {
     return _starting_traits;
@@ -601,19 +672,15 @@ ret_val<void> profession::can_afford( const Character &you, const int points ) c
 ret_val<void> profession::can_pick() const
 {
     // if meta progression is disabled then skip this
-    if( get_past_games().achievement( achievement_achievement_arcade_mode ) ||
+    if( get_past_achievements().is_completed( achievement_achievement_arcade_mode ) ||
         !get_option<bool>( "META_PROGRESS" ) ) {
         return ret_val<void>::make_success();
     }
 
     if( _requirement ) {
-        const achievement_completion_info *other_games = get_past_games().achievement(
-                    _requirement.value()->id );
-        if( !other_games ) {
-            return ret_val<void>::make_failure(
-                       _( "You must complete the achievement \"%s\" to unlock this profession." ),
-                       _requirement.value()->name() );
-        } else if( other_games->games_completed.empty() ) {
+        const bool has_req = get_past_achievements().is_completed(
+                                 _requirement.value()->id );
+        if( !has_req ) {
             return ret_val<void>::make_failure(
                        _( "You must complete the achievement \"%s\" to unlock this profession." ),
                        _requirement.value()->name() );
@@ -734,7 +801,7 @@ void json_item_substitution::load( const JsonObject &jo )
     }
 }
 
-void json_item_substitution::check_consistency()
+void json_item_substitution::check_consistency() const
 {
     auto check_if_trait = []( const trait_id & t ) {
         if( !t.is_valid() ) {
@@ -839,6 +906,11 @@ const
         }
     }
     return ret;
+}
+
+profession_id profession::get_profession_id() const
+{
+    return id;
 }
 
 bool profession::is_hobby() const

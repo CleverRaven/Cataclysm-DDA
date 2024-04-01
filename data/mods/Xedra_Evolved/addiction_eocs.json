@@ -2,9 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOOD_ADDICTION",
-    "condition": {
-      "compare_num": [ { "rand": 2000 }, "<=", { "u_val": "addiction_intensity", "addiction": "blood", "mod": { "val": 2000, "step": 20 } } ]
-    },
+    "condition": { "math": [ "rand(2000)", "<=", "addiction_rational(2000, 20, u_addiction_intensity('blood'))" ] },
     "effect": [
       {
         "run_eocs": {
@@ -25,13 +23,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_LOTUS_ADDICTION",
-    "condition": {
-      "compare_num": [
-        { "rand": 800 },
-        "<=",
-        { "u_val": "addiction_intensity", "addiction": "lotus_blossom", "mod": { "val": 800, "step": 20 } }
-      ]
-    },
+    "condition": { "math": [ "rand(800)", "<=", "addiction_rational(800, 20, u_addiction_intensity('lotus_blossom'))" ] },
     "effect": [
       {
         "run_eocs": {

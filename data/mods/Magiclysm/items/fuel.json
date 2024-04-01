@@ -3,7 +3,7 @@
     "type": "AMMO",
     "id": "dragon_blood",
     "name": { "str_sp": "dragon blood" },
-    "weight": "2 g",
+    "weight": "1 g",
     "color": "red",
     "container": "flask_glass",
     "symbol": "~",
@@ -23,10 +23,12 @@
     "type": "AMMO",
     "copy-from": "blood_tainted",
     "name": { "str_sp": "tainted blood" },
+    "weight": "1048 mg",
+    "volume": "1 ml",
     "symbol": "~",
-    "material": "tainted_blood",
+    "material": "blood_tainted",
     "category": "fuel",
-    "ammo_type": "tainted_blood"
+    "ammo_type": "blood_tainted"
   },
   {
     "type": "AMMO",

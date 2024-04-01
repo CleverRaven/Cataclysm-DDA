@@ -1,0 +1,92 @@
+[
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_KNOW_TIME_OFF",
+    "trait": "ARVORE_KNOW_TIME",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_SUN_FOODS_ON",
+    "trait": "ARVORE_SUN_FOODS",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_SUN_NUTRIENTS_ON",
+    "trait": "ARVORE_SUN_NUTRIENTS",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_SUN_NUTRIENTS_AND_MANA_ON",
+    "trait": "ARVORE_SUN_NUTRIENTS_AND_MANA",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_SUN_MANA_BONUS_ON",
+    "trait": "ARVORE_SUN_MANA_BONUS",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_SUN_POWER_MANA_STATS_ON",
+    "trait": "ARVORE_SUN_POWER_MANA_STATS",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_FOREST_STEALTH_ON",
+    "trait": "ARVORE_FOREST_STEALTH",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_FOREST_DETECT_ON",
+    "trait": "ARVORE_FOREST_DETECT",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_FOREST_DETECT_AND_OVERMAP_ON",
+    "trait": "ARVORE_FOREST_DETECT_AND_OVERMAP",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "ARVORE_HEAL_LIMB_REGEN_ON",
+    "trait": "ARVORE_HEAL_LIMB_REGEN",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SYLPH_FAST_CAST_ON",
+    "trait": "SYLPH_FAST_CAST",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SYLPH_FAST_CAST2_ON",
+    "trait": "SYLPH_FAST_CAST2",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SALAMANDER_HEAT_HEAL_ON",
+    "trait": "SALAMANDER_HEAT_HEAL",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "SALAMANDER_FAST_CRAFT_ON",
+    "trait": "SALAMANDER_FAST_CRAFT",
+    "//": "remove after 0.I"
+  },
+  {
+    "type": "TRAIT_MIGRATION",
+    "id": "UNDINE_WATER_FORM_CAMOUFLAGE_ON",
+    "trait": "UNDINE_WATER_FORM_CAMOUFLAGE",
+    "//": "remove after 0.I"
+  }
+]

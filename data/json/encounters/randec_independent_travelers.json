@@ -1,0 +1,101 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_camper_add",
+    "recurrence": 1800,
+    "global": true,
+    "effect": [
+      { "set_condition": "random_enc_condition", "condition": { "math": [ "0", "==", "0" ] } },
+      {
+        "run_eoc_with": "EOC_RandEnc",
+        "variables": {
+          "omt": "roadstop_a",
+          "map_update": "nest_RandEnc_campervan_traveler_add",
+          "map_removal": "nest_RandEnc_campervan_traveler_remove",
+          "chance": "10",
+          "days_till_spawn": "7"
+        }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_traveler_random_destination_direction",
+    "//": "Picks a random direction for the NPC in question to be going in.  Used for dialogue checks.",
+    "condition": { "not": { "u_has_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" } },
+    "effect": [
+      {
+        "weighted_list_eocs": [
+          [
+            {
+              "id": "going_north",
+              "effect": [
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "north" },
+                { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
+              ]
+            },
+            1
+          ],
+          [
+            {
+              "id": "going_south",
+              "effect": [
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "south" },
+                { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
+              ]
+            },
+            1
+          ],
+          [
+            {
+              "id": "going_east",
+              "effect": [
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "east" },
+                { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
+              ]
+            },
+            1
+          ],
+          [
+            {
+              "id": "going_west",
+              "effect": [
+                { "u_add_var": "travel_direction", "type": "dialogue", "context": "travel_direction", "value": "west" },
+                { "u_add_var": "picked_direction", "type": "dialogue", "context": "travel_direction", "value": "yes" }
+              ]
+            },
+            1
+          ]
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_campervan_traveler_add",
+    "object": {
+      "place_vehicles": [
+        {
+          "vehicle": "traveler_van_motorhome",
+          "chance": 100,
+          "fuel": 85,
+          "rotation": 270,
+          "faction": "no_faction",
+          "x": [ 1 ],
+          "y": [ 2 ]
+        }
+      ],
+      "place_npcs": [ { "class": "traveler_camper_van", "x": 1, "y": 2, "unique_id": "TRAVELER" } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_campervan_traveler_remove",
+    "object": {
+      "remove_npcs": [ { "class": "FM_caravan_merchant_random", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "remove_vehicles": [ { "vehicles": [ "traveler_van_motorhome" ], "x": [ 0, 23 ], "y": [ 0, 23 ] } ]
+    }
+  }
+]

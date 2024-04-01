@@ -112,7 +112,7 @@
         {
           "and": [
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -1033,7 +1033,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -1173,7 +1173,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -1288,7 +1288,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -1540,7 +1540,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -1720,7 +1720,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -1812,7 +1812,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -1924,7 +1924,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -2150,7 +2150,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -2317,7 +2317,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -2390,7 +2390,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -2432,7 +2432,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -2639,7 +2639,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -2729,7 +2729,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -3082,7 +3082,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -3192,7 +3192,7 @@
           "and": [
             { "not": { "npc_has_species": "ZOMBIE" } },
             { "not": { "npc_has_species": "NETHER" } },
-            { "not": { "npc_has_species": "NETHER_EMENATION" } },
+            { "not": { "npc_has_species": "NETHER_EMANATION" } },
             { "not": { "npc_has_species": "LEECH_PLANT" } },
             { "not": { "npc_has_species": "MIGO" } },
             { "not": { "npc_has_species": "SLIME" } },
@@ -3485,10 +3485,235 @@
         "effect": [
           { "u_message": "That was so awesome, the foe decides to surrender!", "type": "good" },
           "follow",
-          { "arithmetic": [ { "npc_val": "friendly" }, "=", { "const": 100 } ] }
+          { "math": [ "n_val('friendly')", "=", "100" ] }
         ]
       }
     ],
     "attack_vectors": [ "WEAPON", "HAND" ]
+  },
+  {
+    "type": "technique",
+    "id": "FANGS_BITE",
+    "name": "Fang Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": true,
+    "crit_tec_id": "FANGS_BITE_CRIT",
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 9 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "FANGS_BITE_NATURAL",
+    "name": "Fang Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": true,
+    "crit_tec_id": "FANGS_BITE_CRIT",
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+        }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 70,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 9 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "FANGS_BITE_CRIT",
+    "name": "Critical Fang Bite",
+    "melee_allowed": true,
+    "messages": [ "You deliver a wicked bite to %s", "<npcname> delivers a wicked bite to %s!" ],
+    "unarmed_allowed": true,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "attack_vectors": [ "MOUTH" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 9 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unar,ed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VAMPIRE_BITE",
+    "name": "Vampire Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -5,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": true,
+    "crit_tec_id": "VAMPIRE_BITE_CRIT",
+    "attack_vectors": [ "MOUTH" ],
+    "condition": {
+      "and": [
+        { "not": { "u_has_effect": "natural_stance" } },
+        { "and": [ { "not": { "npc_has_flag": "GRAB_FILTER" } }, { "not": { "u_has_effect": "GRAB" } } ] }
+      ]
+    },
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 15 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VAMPIRE_BITE_NATURAL",
+    "name": "Vampire Bite",
+    "melee_allowed": true,
+    "messages": [ "You bite %s", "<npcname> bites %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -2,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_ok": true,
+    "crit_tec_id": "VAMPIRE_BITE_CRIT",
+    "attack_vectors": [ "MOUTH" ],
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 90,
+        "duration": 3000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "condition": {
+      "and": [
+        {
+          "or": [ { "u_has_effect": "natural_stance" }, { "and": [ { "npc_has_flag": "GRAB_FILTER" }, { "u_has_flag": "GRAB" } ] } ]
+        }
+      ]
+    },
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 15 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.06 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "VAMPIRE_BITE_CRIT",
+    "name": "Critical Vampire Bite",
+    "melee_allowed": true,
+    "messages": [ "You sink your fangs deep into %s!", "<npcname> sinks their fangs deep into %s!" ],
+    "unarmed_allowed": true,
+    "weighting": -4,
+    "reach_ok": false,
+    "attack_override": true,
+    "crit_tec": true,
+    "tech_effects": [
+      {
+        "id": "anticoagulant_draculin",
+        "chance": 100,
+        "duration": 6000,
+        "on_damage": true,
+        "message": "Saliva glistens across %s's wound!",
+        "req_flag": "DRACULIN_VENOM"
+      }
+    ],
+    "attack_vectors": [ "MOUTH" ],
+    "flat_bonuses": [
+      { "stat": "damage", "type": "stab", "scale": 15 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "unarmed", "scale": 4.4 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "unarmed", "scale": 0.24 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "unarmed", "scale": 1 },
+      { "stat": "movecost", "scale": 75 },
+      { "stat": "movecost", "scaling-stat": "melee", "scale": -1.25 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.5 }
+    ]
   }
 ]

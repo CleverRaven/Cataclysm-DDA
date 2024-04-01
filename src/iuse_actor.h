@@ -1099,10 +1099,10 @@ class link_up_actor : public iuse_actor
 
         ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
-        std::optional<int> use( Character *p, item &it, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
-        void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+        std::optional<int> use( Character *p, item &it, const tripoint &pnt ) const override;
 };
 
 class deploy_tent_actor : public iuse_actor

@@ -20,7 +20,8 @@
       { "item": "polo_shirt", "prob": 20 },
       { "item": "dress_shirt", "prob": 20 },
       { "item": "tank_top", "prob": 20 },
-      { "item": "longshirt", "prob": 20 }
+      { "item": "longshirt", "prob": 20 },
+      { "item": "denim_shirt", "prob": 20 }
     ]
   },
   {
@@ -32,7 +33,8 @@
       { "item": "polo_shirt", "prob": 20 },
       { "item": "dress_shirt", "prob": 20 },
       { "item": "tank_top", "prob": 20 },
-      { "item": "longshirt", "prob": 20 }
+      { "item": "longshirt", "prob": 20 },
+      { "item": "denim_shirt", "prob": 20 }
     ]
   },
   {

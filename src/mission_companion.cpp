@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -29,10 +28,9 @@
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
-#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_group.h"
@@ -152,6 +150,7 @@ std::string enum_to_string<mission_kind>( mission_kind data )
         case mission_kind::Caravan_Commune_Center_Job: return "Caravan_Commune_Center_Job";
         case mission_kind::Camp_Distribute_Food: return "Camp_Distribute_Food";
 		case mission_kind::Camp_Determine_Leadership: return "Camp_Determine_Leadership";
+		case mission_kind::Camp_Have_Meal: return "Camp_Have_Meal";
         case mission_kind::Camp_Hide_Mission: return "Camp_Hide_Mission";
         case mission_kind::Camp_Reveal_Mission: return "Camp_Reveal_Mission";
         case mission_kind::Camp_Assign_Jobs: return "Camp_Assign_Jobs";
@@ -230,6 +229,10 @@ static const std::array < miss_data, Camp_Harvest + 1 > miss_info = { {
         },
         {
             "Camp_Determine_Leadership",
+            no_translation( "" )
+        },
+        {
+            "Camp_Have_Meal",
             no_translation( "" )
         },
         {
@@ -1212,6 +1215,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
 
         case Camp_Distribute_Food:
         case Camp_Determine_Leadership:
+        case Camp_Have_Meal:
         case Camp_Hide_Mission:
         case Camp_Reveal_Mission:
         case Camp_Assign_Jobs:
@@ -1548,7 +1552,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     const tripoint_abs_omt site = overmap_buffer.find_closest(
                                       player_character.global_omt_location(), place, 20, false );
     tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
+    bay.load( site, false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == t_dirtmound ) {
             empty_plots++;
@@ -1620,7 +1624,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
-    bay.load( project_to<coords::sm>( site ), false );
+    bay.load( site, false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_f_plant_harvest && !items.empty() ) {
@@ -2204,7 +2208,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     tripoint_abs_sm sm_tgt = project_to<coords::sm>( om_tgt );
 
     tinymap target_bay;
-    target_bay.load( sm_tgt, false );
+    target_bay.load( om_tgt, false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
@@ -2763,7 +2767,7 @@ std::set<item> talk_function::loot_building( const tripoint_abs_omt &site,
         const oter_str_id &looted_replacement )
 {
     tinymap bay;
-    bay.load( project_to<coords::sm>( site ), false );
+    bay.load( site, false );
     creature_tracker &creatures = get_creature_tracker();
     std::set<item> return_items;
     for( const tripoint &p : bay.points_on_zlevel() ) {

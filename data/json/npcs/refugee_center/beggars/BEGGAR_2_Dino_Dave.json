@@ -50,6 +50,7 @@
       { "item": "boxer_shorts" },
       { "item": "socks_wool" },
       { "item": "dinosuit" },
+      { "item": "cardboard_crown_loose" },
       { "item": "boots_winter" },
       { "item": "coat_winter" }
     ]
@@ -108,7 +109,10 @@
     "dynamic_line": {
       "npc_has_effect": "beggar_has_eaten",
       "yes": "Oh nice.  Crunchings and munchings.  That's a cool, a cool thing.",
-      "no": "Yeah, I'm real hungry and they put drugs in most of the food.  I can see you're not like that."
+      "no": {
+        "gendered_line": "Yeah, I'm real hungry and they put drugs in most of the food.  I can see you're not like that.",
+        "relevant_genders": [ "u" ]
+      }
     },
     "responses": [
       { "text": "Actually can I ask you something else?", "topic": "TALK_NONE" },
@@ -399,10 +403,11 @@
       "success_lie": "I don't understand.",
       "failure": "No!  Oh god, no, this can't be happening…"
     },
+    "//": "todo2: migrate u refugee happiness to global",
     "end": {
       "effect": [
-        { "u_adjust_var": "dave_castle_stage", "adjustment": 1 },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 },
+        { "math": [ "dave_castle_stage", "++" ] },
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] },
         { "mapgen_update": "refcenter_unlock_roofstairs", "om_terrain": "evac_center_13" }
       ]
     }

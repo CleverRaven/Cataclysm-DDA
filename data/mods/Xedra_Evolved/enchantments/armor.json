@@ -114,5 +114,50 @@
     "id": "DECREASE_BERSERKER",
     "recurrence": "25 s",
     "effect": [ { "math": [ "BERSERKER", "=", "max( 0, BERSERKER - 1)" ] } ]
+  },
+  {
+    "id": "ench_verdant_helmet",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "ench_effects": [
+      { "effect": "effect_enhanced_vision_flag", "intensity": 1 },
+      { "effect": "effect_glare_resist_flag", "intensity": 1 }
+    ]
+  },
+  {
+    "id": "ench_verdant_body",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "REGEN_MANA", "multiply": 0.15 } ],
+    "ench_effects": [ { "effect": "effect_no_scent_flag", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_verdant_gauntlets",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CASTING_TIME_MULTIPLIER", "multiply": -0.15 } ],
+    "ench_effects": [ { "effect": "effect_subtle_spell_flag", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_verdant_boots",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.6 } ],
+    "ench_effects": [ { "effect": "effect_steady_flag", "intensity": 1 }, { "effect": "effect_sludge_immune_flag", "intensity": 1 } ]
+  },
+  {
+    "id": "ench_verdant_cloak",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [
+      { "value": "CLIMATE_CONTROL_HEAT", "add": 25 },
+      { "value": "CLIMATE_CONTROL_CHILL", "add": 10 },
+      { "value": "BONUS_DODGE", "add": 1 }
+    ]
   }
 ]

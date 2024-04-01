@@ -666,7 +666,7 @@ void outfit::holster_opts( std::vector<dispose_option> &opts, item_location obj,
                 }
                 opts.emplace_back( dispose_option{
                     string_format( "  >%s", it->tname() ), true, it->invlet,
-                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *it ) ),
+                    guy.item_store_cost( *obj, *it, false, it->insert_cost( *obj ) ),
                     [&guy, it, con, obj] {
                         item &i = *item_location( obj );
                         guy.store( con, i, false, it->insert_cost( i ) );
@@ -708,7 +708,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                 return false;
             }
 
-            moves -= item_handling_cost( *obj );
+            mod_moves( -item_handling_cost( *obj ) );
             this->i_add( *obj, true, &*obj, &*obj );
             obj.remove_item();
             return true;

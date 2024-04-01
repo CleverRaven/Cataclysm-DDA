@@ -70,6 +70,24 @@ enum class TILE_CATEGORY {
     last
 };
 
+const std::unordered_map<std::string, TILE_CATEGORY> to_TILE_CATEGORY = {
+    {"none", TILE_CATEGORY::NONE},
+    {"vehicle_part", TILE_CATEGORY::VEHICLE_PART},
+    {"terrain", TILE_CATEGORY::TERRAIN},
+    {"item", TILE_CATEGORY::ITEM},
+    {"furniture", TILE_CATEGORY::FURNITURE},
+    {"trap", TILE_CATEGORY::TRAP},
+    {"field", TILE_CATEGORY::FIELD},
+    {"lighting", TILE_CATEGORY::LIGHTING},
+    {"monster", TILE_CATEGORY::MONSTER},
+    {"bullet", TILE_CATEGORY::BULLET},
+    {"hit_entity", TILE_CATEGORY::HIT_ENTITY},
+    {"weather", TILE_CATEGORY::WEATHER},
+    {"overmap_terrain", TILE_CATEGORY::OVERMAP_TERRAIN},
+    {"map_extra", TILE_CATEGORY::MAP_EXTRA},
+    {"overmap_note", TILE_CATEGORY::OVERMAP_NOTE}
+};
+
 enum class NEIGHBOUR {
     SOUTH = 1,
     EAST = 2,

@@ -41,6 +41,9 @@ class Creature;
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_sleep( "sleep" );
 
+static const item_group_id Item_spawn_data_test_NPC_guns( "test_NPC_guns" );
+static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
+
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
 static const vpart_id vpart_frame( "frame" );
@@ -95,6 +98,16 @@ static std::string get_list_of_npcs( const std::string &title )
         npc_list << "  " << &n << ": " << n.name << '\n';
     }
     return npc_list.str();
+}
+
+static std::string get_list_of_monsters( const std::string &title )
+{
+    std::ostringstream mon_list;
+    mon_list << title << ":\n";
+    for( const shared_ptr_fast<monster> &m : get_creature_tracker().get_monsters_list() ) {
+        mon_list << "  " << m.get() << ": " << m->name() << '\n';
+    }
+    return mon_list.str();
 }
 
 TEST_CASE( "on_load-sane-values", "[.]" )
@@ -365,7 +378,7 @@ TEST_CASE( "npc-board-player-vehicle" )
 
             int turns = 0;
             while( turns++ < 100 && companion->pos() != data.npc_target ) {
-                companion->moves = 100;
+                companion->set_moves( 100 );
                 /* Uncommment for extra debug info
                 tripoint npc_pos = companion->pos();
                 optional_vpart_position vp = here.veh_at( npc_pos );
@@ -547,7 +560,6 @@ TEST_CASE( "npc_can_target_player" )
     clear_map();
     clear_avatar();
     set_time_to_day();
-    g->place_player( tripoint_zero );
 
     Character &player_character = get_player_character();
     npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );
@@ -556,8 +568,90 @@ TEST_CASE( "npc_can_target_player" )
     hostile.name = "Enemy NPC";
 
     INFO( get_list_of_npcs( "NPCs after spawning one" ) );
+    INFO( get_list_of_monsters( "Monsters after spawning NPC" ) );
 
     hostile.regen_ai_cache();
     REQUIRE( hostile.current_target() != nullptr );
     CHECK( hostile.current_target() == static_cast<Creature *>( &player_character ) );
+}
+
+static void advance_turn( Character &guy )
+{
+    guy.process_turn();
+    calendar::turn += 1_turns;
+}
+
+TEST_CASE( "npc_uses_guns", "[npc_ai]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+
+    clear_map();
+    clear_avatar();
+    set_time_to_day();
+
+    Character &player_character = get_player_character();
+    point five_tiles_south = {0, 5};
+    npc &hostile = spawn_npc( player_character.pos().xy() + five_tiles_south, "thug" );
+    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
+    hostile.set_attitude( NPCATT_KILL );
+    hostile.name = "Enemy NPC";
+    arm_shooter( hostile, "M24" );
+    // Give them an excuse to use it by making them aware the player (an enemy) exists
+    arm_shooter( player_character, "M24" );
+    hostile.regen_ai_cache();
+    float danger_around = hostile.danger_assessment();
+    CHECK( danger_around > 1.0f );
+    // Now give them a TON of junk
+    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
+        hostile.i_add( some_trash );
+    }
+    hostile.wield_better_weapon();
+
+    advance_turn( hostile );
+    advance_turn( hostile );
+    advance_turn( hostile );
+
+    REQUIRE( hostile.get_wielded_item().get_item()->is_gun() );
+}
+
+TEST_CASE( "npc_prefers_guns", "[npc_ai]" )
+{
+    g->faction_manager_ptr->create_if_needed();
+
+    clear_map();
+    clear_avatar();
+    set_time_to_day();
+
+    Character &player_character = get_player_character();
+    point five_tiles_south = {0, 5};
+    npc &hostile = spawn_npc( player_character.pos().xy() + five_tiles_south, "thug" );
+    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) >= 4 );
+    hostile.set_attitude( NPCATT_KILL );
+    hostile.name = "Enemy NPC";
+    item backpack( "debug_backpack" );
+    hostile.wear_item( backpack );
+    // Give them a TON of junk
+    for( item &some_trash : item_group::items_from( Item_spawn_data_trash_forest ) ) {
+        hostile.i_add( some_trash );
+    }
+    // But also give them a gun and some magazines
+    for( item &some_gun_item : item_group::items_from( Item_spawn_data_test_NPC_guns ) ) {
+        hostile.i_add( some_gun_item );
+    }
+    // Make them realize we exist and COULD maybe hurt them! Or something. Otherwise they won't re-wield.
+    arm_shooter( player_character, "M24" );
+    hostile.regen_ai_cache();
+    float danger_around = hostile.danger_assessment();
+    CHECK( danger_around > 1.0f );
+    CHECK( !hostile.get_wielded_item().get_item()->is_gun() );
+    hostile.wield_better_weapon();
+    CHECK( hostile.get_wielded_item().get_item()->is_gun() );
+
+    //Now give them some time to choose their belt instead
+    advance_turn( hostile );
+    advance_turn( hostile );
+    advance_turn( hostile );
+
+    CAPTURE( hostile.get_wielded_item().get_item()->tname() );
+    REQUIRE( hostile.get_wielded_item().get_item()->is_gun() );
 }

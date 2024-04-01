@@ -2,9 +2,11 @@
 #ifndef CATA_SRC_INT_ID_H
 #define CATA_SRC_INT_ID_H
 
+#include <bitset>
 #include <functional>
 #include <string>
 #include <type_traits>
+#include <unordered_set>
 
 template<typename T>
 class string_id;
@@ -116,6 +118,54 @@ class int_id
 
     private:
         int _id;
+};
+
+// Fast set implementation for sequential int IDs. Only meant to be used with implementations based
+// on generic_factory, i.e. non-negative IDs that are sequential from 0.
+template <typename T, std::size_t kFastSize>
+class int_id_set
+{
+    public:
+        template <typename... Ts>
+        void emplace( Ts &&... ts ) {
+            insert( int_id<T>( std::forward<Ts>( ts )... ) );
+        }
+
+        void insert( int_id<T> id ) {
+            const std::size_t i = static_cast<std::size_t>( id.to_i() );
+            if( i < fast_set_.size() ) {
+                fast_set_[i] = true;
+            } else {
+                slow_set_.insert( id );
+            }
+        }
+
+        void erase( int_id<T> id ) {
+            const std::size_t i = static_cast<std::size_t>( id.to_i() );
+            if( i < fast_set_.size() ) {
+                fast_set_[i] = false;
+            } else {
+                slow_set_.erase( id );
+            }
+        }
+
+        bool contains( int_id<T> id ) const {
+            const std::size_t i = static_cast<std::size_t>( id.to_i() );
+            if( i < fast_set_.size() ) {
+                return fast_set_[i];
+            } else {
+                return slow_set_.count( id );
+            }
+        }
+
+        void clear() {
+            fast_set_.reset();
+            slow_set_.clear();
+        }
+
+    private:
+        std::bitset<kFastSize> fast_set_;
+        std::unordered_set<int_id<T>> slow_set_;
 };
 
 // Support hashing of int based ids by forwarding the hash of the int.

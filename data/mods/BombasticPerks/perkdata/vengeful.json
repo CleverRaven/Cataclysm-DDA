@@ -5,7 +5,7 @@
     "rating": "good",
     "int_dur_factor": "1 s",
     "max_duration": "2 s",
-    "show_in_info": false
+    "show_in_info": true
   },
   {
     "type": "enchantment",

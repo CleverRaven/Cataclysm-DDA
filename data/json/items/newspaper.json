@@ -141,6 +141,30 @@
   },
   {
     "type": "GENERIC",
+    "id": "lab_file_mutagen_guide",
+    "name": { "str_sp": "production notes" },
+    "description": "A collection of documents attesting to the purity of this batch, the performance of instrumentation during its production, and a list of materials used during its production and analysis.  It includes a Certificate of Analysis, each line listing a test method, result, and reviewer's signature, all in service of… something.  On one distinctive page a series of checkmarks slowly appear and fade around <color_yellow>\"500 units of mutagen per 500 units of primer\"</color> ratio.",
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
+    "id": "lab_file_mutation_testing",
+    "name": { "str_sp": "production tests" },
+    "description": "Accompanying document, that describes tests performed on different subjects.",
+    "expand_snippets": true,
+    "variants": [
+      {
+        "id": "lab_file_mutation_testing_1",
+        "name": { "str_sp": "production tests" },
+        "description": "\n\n<mutation_testing>",
+        "append": true,
+        "expand_snippets": true
+      }
+    ],
+    "copy-from": "file"
+  },
+  {
+    "type": "GENERIC",
     "id": "lab_file_sec",
     "name": { "str": "security protocol" },
     "copy-from": "file",
@@ -568,5 +592,21 @@
     "price_postapoc": 0,
     "material": [ "paper" ],
     "flags": [ "TRADER_AVOID", "BANK_NOTE_SHAPED" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "home_picture",
+    "category": "books",
+    "symbol": "*",
+    "color": "white",
+    "name": { "str": "Picture" },
+    "snippet_category": "home_pictures",
+    "description": "A medium picture of something that the owner wished to decorate their house with.",
+    "weight": "600 g",
+    "volume": "650 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper", "wood" ],
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

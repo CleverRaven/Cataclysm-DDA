@@ -1,9 +1,6 @@
 #include "iuse_software_sokoban.h"
 
 #include <algorithm>
-#include <functional>
-#include <istream>
-#include <new>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -12,7 +9,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"

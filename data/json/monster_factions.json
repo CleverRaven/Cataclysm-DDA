@@ -95,13 +95,20 @@
     "base_faction": "animal",
     "friendly": [ "attack_player_only" ],
     "neutral": [ "zombie", "fish", "exodii", "isolated_artisans", "nether", "animal", "yrax", "passive_machine" ],
-    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf" ]
+    "by_mood": [ "cat", "bear", "fox", "big_cat", "dog", "wolf", "dog_small" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "herbivore",
     "base_faction": "animal",
-    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "yrax", "passive_machine" ]
+    "neutral": [ "small_animal", "fish", "exodii", "isolated_artisans", "yrax", "passive_machine" ],
+    "by_mood": [ "herbivore_domestic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "herbivore_domestic",
+    "base_faction": "herbivore",
+    "by_mood": [ "herbivore" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -133,12 +140,20 @@
     "type": "MONSTER_FACTION",
     "name": "cat",
     "base_faction": "small_animal",
+    "neutral": [ "dog_small" ],
     "hate": [ "small_animal" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "dog",
     "base_faction": "animal",
+    "hate": [ "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dog_small",
+    "base_faction": "small_animal",
+    "neutral": [ "cat" ],
     "hate": [ "small_animal" ]
   },
   {
@@ -163,7 +178,7 @@
     "name": "fish",
     "base_faction": "animal",
     "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider", "beetle_diving", "water_scorpion" ],
-    "by_mood": [ "bear", "big_cat", "kraken" ],
+    "by_mood": [ "bear", "big_cat", "kraken", "fish_mutant_passive" ],
     "neutral": [
       "zombie",
       "bot",
@@ -179,6 +194,22 @@
       "fungus",
       "yrax",
       "passive_machine"
+    ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "fish_mutant_passive",
+    "//": "This is for fish mutants that are either herbivores or carnivores but not aggressive enough to where they'd attack fish of similar size as them. They don't hate anyone because I don't want them all to blindly flail around the rivers murdering things if they're not predators.",
+    "base_faction": "fish",
+    "by_mood": [
+      "fish",
+      "strider",
+      "aquatic_predator",
+      "zombie_aquatic",
+      "mutant_piscivores",
+      "crayfish",
+      "beetle_diving",
+      "water_scorpion"
     ]
   },
   {

@@ -1,9 +1,6 @@
 #include "iuse_software_lightson.h"
 
 #include <algorithm>
-#include <functional>
-#include <iosfwd>
-#include <new>
 #include <optional>
 #include <string>
 #include <vector>
@@ -12,7 +9,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "input.h"
+#include "input_context.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"

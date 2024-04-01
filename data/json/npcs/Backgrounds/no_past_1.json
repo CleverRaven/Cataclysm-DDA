@@ -3,7 +3,7 @@
     "id": "BGSS_NO_PAST_1_STORY1",
     "type": "talk_topic",
     "dynamic_line": "Before <the_cataclysm>?  Who cares about that?  This is a new world, and yeah, it's pretty <shitty>.  It's the one we've got though, so let's not dwell in the past when we should be making the best of what little we have left.",
-    "responses": [ { "text": "I can respect that.", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "I can respect that.", "topic": "TALK_FRIEND_CONVERSATION" } ]
   },
   {
     "id": "CWH_NO_PAST_1_IDEAS1",
@@ -11,13 +11,13 @@
     "dynamic_line": "I don't really want to talk about the time before, you know?",
     "responses": [
       { "text": "Keep it vague if you want, but please, can you fill me in a little?", "topic": "CWH_NO_PAST_1_IDEAS2" },
-      { "text": "Never mind then.", "topic": "TALK_FRIEND" }
+      { "text": "Never mind then.", "topic": "TALK_FRIEND_CONVERSATION" }
     ]
   },
   {
     "id": "CWH_NO_PAST_1_IDEAS2",
     "type": "talk_topic",
     "dynamic_line": "I - fine.  Drugs in the water, some kind of bioweapon I guess.  You know how things were with China, they blamed it on them mostly.  Made people violent and ugly.  There were riots.  People I cared about joined them, and I guess I'll never know why.  Riots led to military and police action, which made the riots worse.  People acted like animals, not just the rioters but everyone.  Then came the monsters and nightmares walking the world like real Armageddon, and everyone died, and started coming back as monsters themselves.  There's your story.  If you want more, talk to someone else.",
-    "responses": [ { "text": "Thanks for that.", "topic": "TALK_FRIEND" } ]
+    "responses": [ { "text": "Thanks for that.", "topic": "TALK_FRIEND_CONVERSATION" } ]
   }
 ]

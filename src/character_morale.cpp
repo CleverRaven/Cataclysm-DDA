@@ -14,6 +14,7 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_THRESH_SPECIES_RAVENFOLK( "THRESH_SPECIES_RAVENFOLK" );
 
 void Character::update_morale()
 {
@@ -34,6 +35,8 @@ void Character::hoarder_morale_penalty()
     }
     if( has_effect( effect_took_xanax ) ) {
         pen = pen / 7;
+    } else if( has_trait( trait_THRESH_SPECIES_RAVENFOLK ) ) {
+        pen = pen / 4;
     } else if( has_effect( effect_took_prozac ) ) {
         pen = pen / 2;
     }

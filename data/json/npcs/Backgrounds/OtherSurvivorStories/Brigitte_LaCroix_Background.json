@@ -9,9 +9,7 @@
         "topic": "BOSS_Brigitte_LaCroix_Story2",
         "condition": {
           "and": [
-            {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
-            },
+            { "math": [ "npc_randomize_dialogue_direction", "==", "1" ] },
             { "npc_has_trait": "BOSS_Brigitte_LaCroix_01" },
             {
               "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "Brigitte_LaCroix" }
@@ -21,7 +19,7 @@
         "effect": { "assign_mission": "directions_Brigitte_LaCroix" },
         "switch": true
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND_CONVERSATION" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },

@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <memory>
 #include <set>
-#include <tuple>
 #include <utility>
 
 #include "avatar.h"
@@ -26,21 +25,18 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field.h"
-#include "flat_set.h"
 #include "generic_factory.h"
-#include "input.h"
+#include "input_context.h"
 #include "inventory.h"
 #include "item.h"
 #include "json.h"
 #include "line.h"
-#include "make_static.h"
 #include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "monstergenerator.h"
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
@@ -133,7 +129,6 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::POLYMORPH_GROUP: return "POLYMORPH_GROUP";
         case spell_flag::SILENT: return "SILENT";
         case spell_flag::NO_EXPLOSION_SFX: return "NO_EXPLOSION_SFX";
-        case spell_flag::LIQUID: return "LIQUID";
         case spell_flag::LOUD: return "LOUD";
         case spell_flag::VERBAL: return "VERBAL";
         case spell_flag::SOMATIC: return "SOMATIC";
@@ -157,6 +152,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::EXTRA_EFFECTS_FIRST: return "EXTRA_EFFECTS_FIRST";
         case spell_flag::MUST_HAVE_CLASS_TO_LEARN: return "MUST_HAVE_CLASS_TO_LEARN";
         case spell_flag::SPAWN_WITH_DEATH_DROPS: return "SPAWN_WITH_DEATH_DROPS";
+        case spell_flag::NO_CORPSE_QUIET: return "NO_CORPSE_QUIET";
         case spell_flag::NON_MAGICAL: return "NON_MAGICAL";
         case spell_flag::PSIONIC: return "PSIONIC";
         case spell_flag::RECHARM: return "RECHARM";
@@ -1103,11 +1099,8 @@ bool spell::can_cast( const Character &guy ) const
         return false;
     }
 
-    // only required because crafting_inventory always rebuilds the cache. maybe a const version doesn't write to cache.
-    Character &guy_inv = const_cast<Character &>( guy );
-
     if( !type->spell_components.is_empty() &&
-        !type->spell_components->can_make_with_inventory( guy_inv.crafting_inventory( guy.pos(), 0 ),
+        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0, false ),
                 return_true<item> ) ) {
         return false;
     }
@@ -1123,6 +1116,7 @@ void spell::use_components( Character &guy ) const
     const requirement_data &spell_components = type->spell_components.obj();
     // if we're here, we're assuming the Character has the correct components (using can_cast())
     inventory map_inv;
+    map_inv.form_from_map( guy.pos(), 0, &guy, true, false );
     for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
         guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
     }
@@ -1179,7 +1173,8 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         casting_time = type->base_casting_time.evaluate( d );
     }
 
-    casting_time *= guy.mutation_value( "casting_time_multiplier" );
+    casting_time = guy.enchantment_cache->modify_value( enchant_vals::mod::CASTING_TIME_MULTIPLIER,
+                   casting_time );
 
     if( !ignore_encumb && temp_somatic_difficulty_multiplyer > 0 ) {
         if( !has_flag( spell_flag::NO_LEGS ) ) {
@@ -1226,6 +1221,8 @@ float spell::spell_fail( const Character &guy ) const
     if( has_flag( spell_flag::NO_FAIL ) ) {
         return 0.0f;
     }
+    const bool is_psi = has_flag( spell_flag::PSIONIC );
+
     // formula is based on the following:
     // exponential curve
     // effective skill of 0 or less is 100% failure
@@ -1247,31 +1244,33 @@ float spell::spell_fail( const Character &guy ) const
     const float psi_effective_skill = 2 * ( ( guy.get_skill_level( skill() ) * 2 ) - get_difficulty(
             guy ) ) + ( guy.get_int() * 1.5 ) + two_thirds_power_level;
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
-    if( ( effective_skill > 30.0f && !has_flag( spell_flag::PSIONIC ) ) ||
-        ( psi_effective_skill > 40.0f && has_flag( spell_flag::PSIONIC ) ) ) {
+    if( ( effective_skill > 30.0f && !is_psi ) || ( psi_effective_skill > 40.0f && is_psi ) ) {
         return 0.0f;
-    } else if( ( effective_skill || psi_effective_skill ) < 0.0f ) {
+    } else if( ( effective_skill < 0.0f && !is_psi ) || ( psi_effective_skill < 0.0f && is_psi ) ) {
         return 1.0f;
     }
 
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     float psi_fail_chance = std::pow( ( psi_effective_skill - 40.0f ) / 40.0f, 2 );
 
-    if( has_flag( spell_flag::SOMATIC ) &&
-        !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0,
-                                          guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
-        // each encumbrance point beyond the "gray" color counts as half an additional fail %
-        fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
+    if( !is_psi ) {
+        if( has_flag( spell_flag::SOMATIC ) &&
+            !guy.has_flag( json_flag_SUBTLE_SPELL ) && temp_somatic_difficulty_multiplyer > 0 ) {
+            // the first 20 points of encumbrance combined is ignored
+            const int arms_encumb = std::max( 0,
+                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
+            // each encumbrance point beyond the "gray" color counts as half an additional fail %
+            fail_chance += ( arms_encumb / 200.0f ) * temp_somatic_difficulty_multiplyer;
+        }
+        if( has_flag( spell_flag::VERBAL ) &&
+            !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
+            // a little bit of mouth encumbrance is allowed, but not much
+            const int mouth_encumb = std::max( 0,
+                                               guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
+            fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
+        }
     }
-    if( has_flag( spell_flag::VERBAL ) &&
-        !guy.has_flag( json_flag_SILENT_SPELL ) && temp_sound_multiplyer > 0 ) {
-        // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0,
-                                           guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
-        fail_chance += ( mouth_encumb / 100.0f ) * temp_sound_multiplyer;
-    }
+
     // concentration spells work better than you'd expect with a higher focus pool
     if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
         if( guy.get_focus() <= 0 ) {
@@ -1283,11 +1282,7 @@ float spell::spell_fail( const Character &guy ) const
         psi_fail_chance /= 1.0f - concentration_loss;
     }
 
-    if( has_flag( spell_flag::PSIONIC ) ) {
-        return clamp( psi_fail_chance, 0.0f, 1.0f );
-    }
-
-    return clamp( fail_chance, 0.0f, 1.0f );
+    return clamp( is_psi ? psi_fail_chance : fail_chance, 0.0f, 1.0f );
 }
 
 std::string spell::colorized_fail_percent( const Character &guy ) const
@@ -2155,12 +2150,14 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 int known_magic::max_mana( const Character &guy ) const
 {
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    const int bionic_penalty = std::round( std::max( 0.0f,
-                                           units::to_kilojoule( guy.get_power_level() ) *
-                                           guy.mutation_value( "bionic_mana_penalty" ) ) );
+    int penalty_calc = std::round( std::max<int64_t>( 0,
+                                   units::to_kilojoule( guy.get_power_level() ) ) );
+
+    const int bionic_penalty = guy.enchantment_cache->modify_value(
+                                   enchant_vals::mod::BIONIC_MANA_PENALTY, penalty_calc );
+
     const float unaugmented_mana = std::max( 0.0f,
-                                   ( ( mana_base + int_bonus ) * guy.mutation_value( "mana_multiplier" ) ) +
-                                   guy.mutation_value( "mana_modifier" ) - bionic_penalty );
+                                   ( mana_base + int_bonus ) - bionic_penalty );
     return guy.calculate_by_enchantment( unaugmented_mana, enchant_vals::mod::MAX_MANA, true );
 }
 
@@ -2170,8 +2167,7 @@ void known_magic::update_mana( const Character &guy, float turns )
     const double full_replenish = to_turns<double>( 8_hours );
     const double ratio = turns / full_replenish;
     mod_mana( guy, std::floor( ratio * guy.calculate_by_enchantment( static_cast<double>( max_mana(
-                                   guy ) ) *
-                               guy.mutation_value( "mana_regen_multiplier" ), enchant_vals::mod::REGEN_MANA ) ) );
+                                   guy ) ), enchant_vals::mod::REGEN_MANA ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -2192,7 +2188,7 @@ bool known_magic::has_enough_energy( const Character &guy, const spell &sp ) con
         case magic_energy_type::mana:
             return available_mana() >= cost;
         case magic_energy_type::bionic:
-            return guy.get_power_level() >= units::from_kilojoule( cost );
+            return guy.get_power_level() >= units::from_kilojoule( static_cast<std::int64_t>( cost ) );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= cost;
         case magic_energy_type::hp:
@@ -2412,7 +2408,11 @@ bool spell::energy_cost_encumbered( const Character &guy ) const
 std::string spell::enumerate_spell_data( const Character &guy ) const
 {
     std::vector<std::string> spell_data;
-    if( has_flag( spell_flag::CONCENTRATE ) && temp_concentration_difficulty_multiplyer > 0 ) {
+    if( has_flag( spell_flag::PSIONIC ) ) {
+        spell_data.emplace_back( _( "is a psionic power" ) );
+    }
+    if( has_flag( spell_flag::CONCENTRATE ) && !has_flag( spell_flag::PSIONIC ) &&
+        temp_concentration_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires concentration" ) );
     }
     if( has_flag( spell_flag::VERBAL ) && temp_sound_multiplyer > 0 ) {
@@ -2423,14 +2423,19 @@ std::string spell::enumerate_spell_data( const Character &guy ) const
     }
     if( !no_hands() ) {
         spell_data.emplace_back( _( "impeded by gloves" ) );
-    } else {
+    } else if( no_hands() && !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "does not require hands" ) );
     }
     if( !has_flag( spell_flag::NO_LEGS ) && temp_somatic_difficulty_multiplyer > 0 ) {
         spell_data.emplace_back( _( "requires mobility" ) );
     }
-    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) ) {
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        !has_flag( spell_flag::PSIONIC ) ) {
         spell_data.emplace_back( _( "can be cast through walls" ) );
+    }
+    if( effect() == "attack" && range( guy ) > 1 && has_flag( spell_flag::NO_PROJECTILE ) &&
+        has_flag( spell_flag::PSIONIC ) ) {
+        spell_data.emplace_back( _( "can be channeled through walls" ) );
     }
     return enumerate_as_string( spell_data );
 }
@@ -2482,23 +2487,45 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     info_txt.emplace_back( );
 
     const bool cost_encumb = sp.energy_cost_encumbered( pc );
-    std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
-    std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-                             string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
-    if( !pc.magic->has_enough_energy( pc, sp ) ) {
-        cost_string = colorize( _( "Not Enough Energy" ), c_red );
-        energy_cur.clear();
-    }
-    info_txt.emplace_back(
-        colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
-                                 sp.energy_string(), energy_cur ), c_light_gray ) );
-
+    const bool is_psi = sp.has_flag( spell_flag::PSIONIC );
+    if( is_psi ) {
+        std::string cost_string = cost_encumb ? _( "Channeling Cost (impeded)" ) : _( "Channeling Cost" );
+        std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+        if( !pc.magic->has_enough_energy( pc, sp ) ) {
+            cost_string = colorize( _( "Not Enough Stamina" ), c_red );
+            energy_cur.clear();
+        }
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
+    } else {
+        std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
+        std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
+                                 string_format( _( " (%s current)" ), sp.energy_cur_string( pc ) );
+        if( !pc.magic->has_enough_energy( pc, sp ) ) {
+            cost_string = colorize( _( "Not Enough Energy" ), c_red );
+            energy_cur.clear();
+        }
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s %s%s", cost_string, sp.energy_cost_string( pc ),
+                                     sp.energy_string(), energy_cur ), c_light_gray ) );
+    };
     const bool c_t_encumb = sp.casting_time_encumbered( pc );
-    info_txt.emplace_back(
-        colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
-                                 moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+    if( is_psi ) {
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s",
+                                     c_t_encumb ? _( "Channeling Time (impeded)" ) : _( "Channeling Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
 
-    info_txt.emplace_back( );
+        info_txt.emplace_back( );
+    } else {
+        info_txt.emplace_back(
+            colorize( string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
+                                     moves_to_string( sp.casting_time( pc ) ) ), c_t_encumb  ? c_red : c_light_gray ) );
+
+        info_txt.emplace_back( );
+    };
 
     std::string targets;
     if( sp.is_valid_target( spell_target::none ) ) {
@@ -2623,13 +2650,13 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
     if( sp.has_components() ) {
         if( !sp.components().get_components().empty() ) {
             for( const std::string &line : sp.components().get_folded_components_list(
-                     width - 2, c_light_gray, pc.crafting_inventory(), return_true<item> ) ) {
+                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ), return_true<item> ) ) {
                 info_txt.emplace_back( line );
             }
         }
         if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
             for( const std::string &line : sp.components().get_folded_tools_list(
-                     width - 2, c_light_gray, pc.crafting_inventory() ) ) {
+                     width - 2, c_light_gray, pc.crafting_inventory( pc.pos(), 0, false ) ) ) {
                 info_txt.emplace_back( line );
             }
         }
@@ -2763,7 +2790,11 @@ int known_magic::select_spell( Character &guy )
         }
         return known_spells[entry.retval]->spell_class().is_valid() && known_spells[entry.retval]->spell_class().str() == key;
     } );
-    spell_menu.set_category( "all" );
+    if( !favorites.empty() ) {
+        spell_menu.set_category( "favorites" );
+    } else {
+        spell_menu.set_category( "all" );
+    }
 
     std::set<int> used_invlets{ cb.reserved_invlets };
 
@@ -3012,6 +3043,13 @@ spell fake_spell::get_spell( const Creature &caster, int min_level_override ) co
     }
     sp.set_exp( sp.exp_for_level( level_of_spell ) );
 
+    return sp;
+}
+
+// intended for spells without casters
+spell fake_spell::get_spell() const
+{
+    spell sp( id );
     return sp;
 }
 

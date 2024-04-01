@@ -108,7 +108,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1",
-    "dynamic_line": "*studies you with interest, her eyes lined with fatigue but still alert.  She brushes a lock of hair off her forehead.  \"Hi there.  You look new, nice to meet you.  My name's Uyen.\"",
+    "dynamic_line": {
+      "gendered_line": "*studies you with interest, her eyes lined with fatigue but still alert.  She brushes a lock of hair off her forehead.  \"Hi there.  You look new, nice to meet you.  My name's Uyen.\"",
+      "relevant_genders": [ "npc" ]
+    },
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" },
@@ -255,11 +258,7 @@
       "concatenate": [
         "\"We've got it okay, I guess",
         {
-          "u_compare_var": "refugee_happiness",
-          "type": "counter",
-          "context": "refugee_center",
-          "op": ">=",
-          "value": 6,
+          "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "6" ],
           "yes": ".  Things have been getting better.  I wasn't even sure it was possible",
           "no": ", as long as this doesn't last too long."
         },
@@ -301,7 +300,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 8 },
         { "u_add_var": "Uyen_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -332,7 +331,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 7 },
         { "u_add_var": "Uyen_Mission2", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   },
@@ -362,7 +361,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Uyen_Mission3", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 3 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "+=", "3" ] }
       ]
     }
   }

@@ -44,7 +44,7 @@
   {
     "type": "effect_on_condition",
     "id": "bad_hallucinations",
-    "effect": [ { "weighted_list_eocs": [ [ "creature_hallucinations", 20 ], [ "visuals", 10 ] ] } ]
+    "effect": [ { "weighted_list_eocs": [ [ "creature_hallucinations", 20 ], [ "visuals", 10 ], [ "hallucination_swarm", 4 ] ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -98,19 +98,19 @@
           {
             "id": "injured_talk",
             "condition": { "math": [ "n_hp('ALL')", "<", "n_hp_max('bp_null')" ] },
-            "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_damaged>\"" },
+            "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_damaged>\"" },
             "false_effect": {
               "run_eocs": {
                 "id": "you_injured_talk",
                 "//": "Weapon will be concerned for you if you're significantly injured.",
                 "condition": { "math": [ "(u_hp('ALL') * 1.4)", "<", "u_hp_max('bp_null')" ] },
-                "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_bleeding>\"" },
+                "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_bleeding>\"" },
                 "false_effect": {
                   "run_eocs": {
                     "id": "monsters_nearby_talk",
                     "condition": { "and": [ "u_can_see", { "math": [ "u_monsters_nearby('radius': 10)", ">=", "1" ] } ] },
-                    "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_monster>\"" },
-                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your weapon says \"<schizo_weapon_talk_misc>\"" } } }
+                    "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_monster>\"" },
+                    "false_effect": { "run_eocs": { "id": "normal_talk", "effect": { "u_message": "Your <npc_name> says \"<schizo_weapon_talk_misc>\"" } } }
                   }
                 }
               }
@@ -133,7 +133,7 @@
   {
     "type": "effect_on_condition",
     "id": "false_npc_talk",
-    "effect": { "u_message": "<random_anysex_first_name> <random_last_name> says \"<lets_talk>\"", "type": "info" }
+    "effect": { "u_message": "<full_name> says \"<lets_talk>\"", "type": "info" }
   },
   {
     "type": "effect_on_condition",
@@ -158,7 +158,7 @@
     "id": "numbness",
     "effect": [
       { "u_message": "You suddenly feel so numb…", "type": "mixed" },
-      { "u_add_effect": "pkill1", "duration": "15 minutes" }
+      { "u_add_effect": "pkill1_generic", "duration": "15 minutes" }
     ]
   },
   {
@@ -174,10 +174,31 @@
   {
     "type": "effect_on_condition",
     "id": "creature_hallucinations",
+    "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
+    "//": "If monsters are nearby, 3/4 chance to spawn some hallucinations of random monsters nearby and run again half the time, 1/4 chance to spawn some of YOUR_FEARS. If not, spawns some of YOUR_FEARS",
+    "condition": { "and": [ { "math": [ "rand(3)", "<", "3" ] }, { "math": [ "u_monsters_nearby()", ">", "0" ] } ] },
     "effect": [
-      { "u_message": "You can't trust everything you see…", "type": "bad" },
-      { "u_add_effect": "hallu", "duration": [ "1 hour", "3 hours" ] }
-    ]
+      {
+        "u_spawn_monster": "",
+        "hallucination_count": { "math": [ "1 + rand(4)" ] },
+        "target_range": 50,
+        "lifespan": [ "2 hours", "9 hours" ]
+      },
+      { "weighted_list_eocs": [ [ "creature_hallucinations", 1 ], [ "EOC_NONE", 1 ] ] }
+    ],
+    "false_effect": { "run_eocs": "creature_hallucinations_fears" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "creature_hallucinations_fears",
+    "//TODO": "ideally checks is the tile visible, and then spawns hallu where player can't see it",
+    "effect": {
+      "u_spawn_monster": "GROUP_YOUR_FEARS",
+      "group": true,
+      "hallucination_count": { "math": [ "1 + rand(2)" ] },
+      "max_radius": 40,
+      "lifespan": [ "1 hours", "4 hours" ]
+    }
   },
   {
     "type": "effect_on_condition",
@@ -185,6 +206,20 @@
     "effect": [
       { "u_message": "Your vision becomes very distorted…", "type": "bad" },
       { "u_add_effect": "visuals", "duration": [ 15, 60 ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "hallucination_swarm",
+    "condition": { "math": [ "u_monsters_nearby()", ">", "1" ] },
+    "effect": [
+      {
+        "u_spawn_monster": "",
+        "hallucination_count": [ 50, 100 ],
+        "target_range": 50,
+        "max_radius": 50,
+        "lifespan": [ "2 hours", "9 hours" ]
+      }
     ]
   }
 ]

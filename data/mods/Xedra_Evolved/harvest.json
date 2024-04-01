@@ -15,9 +15,33 @@
     ]
   },
   {
+    "id": "fae_changeling",
+    "//": "nether organs could be in base game.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "fae_meat", "type": "flesh", "mass_ratio": 0.3 },
+      { "drop": "fae_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
+      { "drop": "fae_organs", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.04 }
+    ]
+  },
+  {
     "id": "stoneling",
     "type": "harvest",
     "entries": [ { "drop": "pebble", "type": "blood", "mass_ratio": 0.1 }, { "drop": "rock", "type": "flesh", "mass_ratio": 0.4 } ]
+  },
+  {
+    "id": "fetch",
+    "type": "harvest",
+    "entries": [
+      { "drop": "material_sand", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "ash", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "birchbark", "type": "skin", "mass_ratio": 0.04 },
+      { "drop": "stick", "type": "bone", "mass_ratio": 0.15 }
+    ]
   },
   {
     "id": "water_elemental",
@@ -62,5 +86,29 @@
     "id": "elder_ginseng_harv",
     "type": "harvest",
     "entries": [ { "drop": "xe_elder_ginseng", "base_num": [ 1, 1 ] } ]
+  },
+  {
+    "id": "harvest_thornbear",
+    "type": "harvest",
+    "entries": [
+      { "drop": "skull_bear", "type": "bone", "scale_num": [ 1, 1 ], "max": 1 },
+      { "drop": "fae_meat", "type": "flesh", "mass_ratio": 0.28 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.04 },
+      { "drop": "fae_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
+      { "drop": "fae_blood", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "fae_organs", "type": "flesh", "mass_ratio": 0.008 },
+      { "drop": "stomach_large", "scale_num": [ 1, 1 ], "max": 1, "type": "offal" },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
+      { "drop": "bone_marrow", "type": "bone", "mass_ratio": 0.005 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "fae_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "fat", "type": "flesh", "mass_ratio": 0.07 }
+    ]
+  },
+  {
+    "id": "shrub_goblin_fruits_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "goblin_fruit_gacha", "base_num": [ 1, 3 ] } ]
   }
 ]

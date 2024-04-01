@@ -44,6 +44,19 @@
   },
   {
     "type": "SPELL",
+    "id": "debug_psionic",
+    "name": "Debug Psionic Attack",
+    "description": "A debug spell to test psionic damage as it appears",
+    "valid_targets": [ "hostile" ],
+    "effect": "attack",
+    "damage_type": "psionic",
+    "shape": "blast",
+    "min_damage": 10,
+    "max_damage": 10,
+    "max_level": 5
+  },
+  {
+    "type": "SPELL",
     "id": "debug_inaccurate",
     "name": "Debug Inaccurate Spell",
     "description": "This spell is less accurate.",

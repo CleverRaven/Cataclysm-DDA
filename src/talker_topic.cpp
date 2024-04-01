@@ -52,12 +52,6 @@ tripoint_abs_omt talker_topic::global_omt_location() const
     return tripoint_abs_omt( tripoint_zero );
 }
 
-std::string talker_topic::get_value( const std::string & ) const
-{
-    debugmsg( "This talker doesn't have values to get." );
-    return "";
-}
-
 void talker_topic::set_value( const std::string &, const std::string & )
 {
     debugmsg( "This talker doesn't have values to set." );

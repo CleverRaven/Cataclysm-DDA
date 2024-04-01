@@ -37,12 +37,14 @@
 #include "units.h"
 #include "vpart_position.h"
 
+static const itype_id itype_acetaminophen( "acetaminophen" );
 static const itype_id itype_aspirin( "aspirin" );
 static const itype_id itype_brick_oven_pseudo( "brick_oven_pseudo" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_fire( "fire" );
 static const itype_id itype_heroin( "heroin" );
+static const itype_id itype_ibuprofen( "ibuprofen" );
 static const itype_id itype_oxycodone( "oxycodone" );
 static const itype_id itype_salt_water( "salt_water" );
 static const itype_id itype_tramadol( "tramadol" );
@@ -354,7 +356,13 @@ extern void remove_stale_inventory_quick_shortcuts();
 item *inventory::provide_pseudo_item( const item &tool )
 {
     if( !provisioned_pseudo_tools.insert( tool.typeId() ).second ) {
-        return nullptr; // already provided tool -> bail out
+        // already provided tool -> return existing
+        for( auto &stack : items ) {
+            if( stack.front().typeId() == tool.typeId() ) {
+                return &stack.front();
+            }
+        }
+        return nullptr;
     }
     item *res = &add_item( tool );
     res->set_flag( flag_PSEUDO );
@@ -796,7 +804,8 @@ bool inventory::has_enough_painkiller( int pain ) const
 {
     for( const auto &elem : items ) {
         const item &it = elem.front();
-        if( ( pain <= 35 && it.typeId() == itype_aspirin ) ||
+        if( ( pain <= 35 && ( it.typeId() == itype_aspirin  || it.typeId() == itype_acetaminophen ||
+                              it.typeId() == itype_ibuprofen ) ) ||
             ( pain >= 50 && it.typeId() == itype_oxycodone ) ||
             it.typeId() == itype_tramadol || it.typeId() == itype_codeine ) {
             return true;
@@ -812,7 +821,7 @@ item *inventory::most_appropriate_painkiller( int pain )
     for( auto &elem : items ) {
         int diff = 9999;
         itype_id type = elem.front().typeId();
-        if( type == itype_aspirin ) {
+        if( type == itype_aspirin || type == itype_acetaminophen || type == itype_ibuprofen ) {
             diff = std::abs( pain - 15 );
         } else if( type == itype_codeine ) {
             diff = std::abs( pain - 30 );
@@ -1146,6 +1155,25 @@ bool inventory::must_use_liq_container( const itype_id &id, int to_use ) const
     }
     const int leftover = iter->second - to_use;
     return leftover < 0 && leftover * -1 <= total - iter->second;
+}
+
+bool inventory::must_use_hallu_poison( const itype_id &id, int to_use ) const
+{
+    const int total = count_item( id );
+    int bad = 0;
+    for( const std::list<item> &item_list : items ) {
+        for( const item &it : item_list ) {
+            if( it.typeId() == id && ( it.has_flag( flag_HIDDEN_POISON ) ||
+                                       it.has_flag( flag_HIDDEN_HALLU ) ) ) {
+                if( it.count_by_charges() ) {
+                    bad += it.charges;
+                } else {
+                    bad += it.count();
+                }
+            }
+        }
+    }
+    return total - bad < to_use;
 }
 
 void inventory::replace_liq_container_count( const std::map<itype_id, int> &newmap, bool use_max )

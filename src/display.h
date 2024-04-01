@@ -81,10 +81,6 @@ struct disp_bodygraph_cache {
 namespace display
 {
 // Functions returning plain strings
-// Current moon phase, ex. "Full moon", "Waxing crescent"
-std::string get_moon();
-// Current moon phase as ascii-art, ex. "(   )", "(  ))"
-std::string get_moon_graphic();
 // Current date, in terms of day within season, ex. "Summer, day 17"
 std::string date_string();
 // Approximate time of day on the given turn, ex. "Early morning", "Around dusk"
@@ -100,8 +96,6 @@ std::string sundial_time_text_color( const Character &u, int width );
 
 // Temperature at character location, if they have a thermometer
 std::string get_temp( const Character &u );
-// Change in character body temperature, ex. "(Rising)", "(Falling!!)"
-std::string temp_delta_string( const Character &u );
 
 // Text descriptor for given activity level, ex. "Light", "Brisk", "Extreme"
 std::string activity_level_str( float level );
@@ -132,8 +126,6 @@ std::pair<std::string, nc_color> health_text_color( const Character &u );
 std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
-// Change in character body temperature, as colorized arrows
-std::pair<std::string, nc_color> temp_delta_arrows( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
 std::pair<std::string, nc_color> morale_face_color( const avatar &u );
 // Helpers for morale_face_color
@@ -150,7 +142,6 @@ std::pair<std::string, nc_color> temp_text_color( const Character &u,
         const bodypart_str_id &bp = bodypart_str_id::NULL_ID() );
 std::pair<std::string, nc_color> power_text_color( const Character &u );
 std::pair<std::string, nc_color> power_balance_text_color( const avatar &u );
-std::pair<std::string, nc_color> mana_text_color( const Character &you );
 
 std::pair<std::string, nc_color> safe_mode_text_color( bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
@@ -198,10 +189,6 @@ std::string weight_string( const Character &u );
 // Functions returning colorized string
 // gets the string that describes your health
 std::string health_string( const Character &u );
-
-// Prints a list of nearby monsters
-void print_mon_info( const avatar &u, const catacurses::window &, int hor_padding = 0,
-                     bool compact = false );
 } // namespace display
 
 #endif // CATA_SRC_DISPLAY_H

@@ -6,7 +6,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "prob": 85, "group": "aspirin_bottle_plastic_pill_painkiller_1_10" },
+      { "prob": 85, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 25, "group": "caffeine_bottle_plastic_pill_supplement_1_10" },
       { "prob": 5, "group": "melatonin_tablet_bottle_plastic_pill_supplement_1_30" },
       { "group": "tobacco_products", "prob": 161 },
@@ -213,9 +213,8 @@
       [ "win70_458", 1 ],
       [ "combination_gun", 1 ],
       [ "458wm", 1 ],
-      [ "ruger_redhawk", 3 ],
-      [ "deagle_44", 2 ],
-      [ "lemat_revolver", 1 ],
+      [ "sw629", 3 ],
+      { "group": "modular_deagle_44", "prob": 2 },
       [ "m1911", 5 ],
       [ "mosin91_30", 1 ],
       [ "match_trigger", 3 ],
@@ -383,6 +382,7 @@
       [ "dance_shoes", 10 ],
       [ "heels", 50 ],
       [ "boots_western", 10 ],
+      [ "jeans_vintage", 40 ],
       [ "pants", 75 ],
       [ "pants_army", 30 ],
       [ "jacket_army", 30 ],
@@ -392,12 +392,15 @@
       [ "winter_gloves_army", 10 ],
       { "item": "tank_top", "variant": "tank_top_camo", "prob": 30 },
       [ "skirt", 75 ],
+      [ "skirt_long", 50 ],
+      [ "skirt_denim", 10 ],
       [ "skirt_leather", 5 ],
       [ "jumpsuit", 20 ],
       [ "dress", 70 ],
       [ "sundress", 50 ],
       [ "camisole", 60 ],
       [ "dress_shirt", 60 ],
+      [ "denim_shirt", 10 ],
       [ "sweater", 75 ],
       [ "blazer", 35 ],
       [ "jacket_leather", 30 ],
@@ -410,6 +413,7 @@
       [ "coat_lab", 20 ],
       [ "helmet_army", 40 ],
       [ "helmet_army_outdated", 30 ],
+      [ "helmet_soviet_tanker", 3 ],
       [ "helmet_conical", 1 ],
       [ "helmet_liner", 10 ],
       [ "hat_fur", 15 ],
@@ -434,7 +438,6 @@
       [ "SICP", 3 ],
       [ "textbook_robots", 1 ],
       [ "textbook_traps", 2 ],
-      [ "recipe_elfa", 1 ],
       [ "textbook_anarch", 1 ],
       [ "recipe_bows", 2 ],
       [ "recipe_arrows", 2 ],
@@ -535,14 +538,13 @@
       { "item": "smoxygen_tank", "prob": 5, "charges": 12 },
       [ "clogs", 1 ],
       [ "speargun", 8 ],
-      [ "minispeargun", 6 ],
       [ "doublespeargun", 6 ],
       [ "airspeargun", 4 ],
       [ "fishspear", 4 ],
       [ "m_fishspear", 8 ],
       [ "c_fishspear", 8 ],
       [ "rebreather", 5 ],
-      [ "rebreather_filter", 5 ],
+      [ "rebreather_filler_soda_lime", 5 ],
       [ "diveknife", 10 ],
       { "group": "tools_fishingrods_commercial", "prob": 3 },
       [ "alarmclock", 5 ],
@@ -754,12 +756,14 @@
       [ "helmet_liner", 20 ],
       [ "jacket_army", 40 ],
       [ "helmet_army_outdated", 10 ],
+      [ "helmet_soviet_tanker", 1 ],
       { "prob": 10, "group": "pur_tablets_bottle_plastic_small_1_15" },
       [ "knife_trench", 14 ],
       [ "flaregun", 20 ],
       [ "signal_flare", 25 ],
       [ "grapnel", 10 ],
       [ "bucket", 4 ],
+      [ "bucket_5gal", 4 ],
       [ "folding_poncho", 5 ],
       [ "quikclot", 20 ],
       [ "bfipowder", 20 ],
@@ -886,6 +890,7 @@
       { "prob": 45, "group": "cookies_box_snack_4" },
       { "item": "bat", "prob": 15 },
       { "item": "backpack", "prob": 20 },
+      { "item": "backpack_denim", "prob": 10 },
       { "item": "hairpin", "prob": 10 },
       { "item": "fc_hairpin", "prob": 4 },
       { "item": "wristwatch", "prob": 15 },
@@ -990,9 +995,12 @@
           { "item": "harmonica_holder", "prob": 70 },
           { "item": "jug_clay", "prob": 20 },
           { "item": "saw", "prob": 20 },
+          { "item": "tonewood", "prob": 30 },
           { "item": "saxophone", "prob": 50 },
           { "item": "trumpet", "prob": 50 },
           { "item": "tuba", "prob": 25 },
+          { "item": "drum_percussion", "prob": 10 },
+          { "item": "kantele", "prob": 10 },
           { "item": "ukulele", "prob": 50 },
           { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] },
           { "item": "violin", "prob": 90 },
@@ -1018,6 +1026,7 @@
       [ "clarinet", 25 ],
       [ "saxophone", 25 ],
       [ "harmonica_holder", 25 ],
+      [ "tonewood", 10 ],
       [ "bagpipes", 5 ]
     ]
   },
@@ -1025,7 +1034,15 @@
     "id": "mussto_stringinst",
     "type": "item_group",
     "//": "for music store",
-    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ], [ "guitar_electric", 100 ] ]
+    "items": [
+      [ "acoustic_guitar", 100 ],
+      [ "violin", 80 ],
+      [ "ukulele", 90 ],
+      [ "kantele", 10 ],
+      [ "banjo", 100 ],
+      [ "tonewood", 10 ],
+      [ "guitar_electric", 100 ]
+    ]
   },
   {
     "id": "bowling_alcohol",
@@ -1112,7 +1129,7 @@
     "entries": [
       { "item": "weed", "prob": 30, "count": [ 1, 5 ] },
       { "prob": 30, "group": "coke_bag_zipper_1_8" },
-      { "prob": 40, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 40, "group": "bottle_otc_painkiller_1_20" },
       { "prob": 20, "group": "cig_box_cigarette_1_20" },
       { "item": "syringe", "prob": 20 },
       { "prob": 10, "group": "meth_bag_zipper_1_6" },
@@ -1324,6 +1341,7 @@
       { "item": "bow_saw", "prob": 30 },
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       [ "bucket", 100 ],
+      [ "bucket_5gal", 100 ],
       [ "tree_spile", 100 ],
       [ "pot", 100 ]
     ]
@@ -1391,6 +1409,7 @@
       [ "longshirt", 30 ],
       [ "polo_shirt", 30 ],
       [ "dress_shirt", 30 ],
+      [ "denim_shirt", 15 ],
       [ "tie_skinny", 10 ],
       [ "tie_necktie", 10 ],
       [ "tie_clipon", 10 ],
@@ -1559,14 +1578,11 @@
     "items": [
       [ "panties", 90 ],
       [ "bra", 30 ],
-      [ "bikini_bottom", 20 ],
-      [ "bikini_top_leather", 30 ],
-      [ "bikini_top_fur", 30 ],
-      [ "bikini_top", 20 ],
-      [ "bikini_top_short", 20 ],
-      [ "bikini_bottom_short", 20 ],
-      { "item": "bikini_top", "variant": "maid_bikini_top", "prob": 15 },
-      { "item": "bikini_bottom", "variant": "maid_bikini_bottom", "prob": 15 },
+      { "group": "bikini", "prob": 40 },
+      {
+        "collection": [ { "item": "bikini_top", "variant": "maid_bikini_top" }, { "item": "bikini_bottom", "variant": "maid_bikini_bottom" } ],
+        "prob": 15
+      },
       [ "flag_swimsuit", 10 ],
       [ "rope_6", 30 ],
       [ "corset", 20 ],
@@ -1616,10 +1632,6 @@
     "id": "ss_merch_3",
     "//": "for cs_sex_shop, suits, dresses and large clothing",
     "items": [
-      [ "wolfsuit", 15 ],
-      [ "dinosuit", 15 ],
-      [ "felinesuit", 15 ],
-      [ "dragonsuit", 15 ],
       [ "bondage_suit", 10 ],
       { "item": "bodysuit_lycra", "variant": "bondage_suit", "prob": 10 },
       [ "bodysuit_lycra", 5 ],
@@ -1648,7 +1660,7 @@
       { "prob": 10, "group": "coke_bag_zipper_1_8" },
       { "group": "cigar_box_opened", "prob": 10, "count": [ 1, 2 ] },
       { "prob": 10, "group": "meth_bag_zipper_1_6" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       { "item": "mag_porn", "prob": 10 },
       { "item": "purse", "prob": 10 },
       { "item": "hairpin", "prob": 5 },
@@ -2035,11 +2047,10 @@
       [ "briefs", 30 ],
       [ "swim_briefs", 10 ],
       [ "speedo", 20 ],
-      [ "bikini_top", 5 ],
-      [ "bikini_bottom", 5 ],
+      { "group": "bikini", "prob": 5 },
       [ "yoghurt", 12 ],
       { "prob": 10, "group": "vitamins_bottle_plastic_pill_supplement_1_20" },
-      { "prob": 10, "group": "aspirin_bottle_plastic_pill_painkiller_1_20" },
+      { "prob": 10, "group": "bottle_otc_painkiller_1_20" },
       [ "fitness_band", 10 ]
     ]
   },
@@ -2052,9 +2063,12 @@
   {
     "type": "item_group",
     "id": "hotel_luggage",
-    "subtype": "distribution",
+    "subtype": "collection",
     "container-item": "suitcase_l",
-    "items": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
+    "entries": [
+      { "distribution": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ] },
+      { "group": "pillbox_any_used", "prob": 20 }
+    ]
   },
   {
     "type": "item_group",
@@ -2131,7 +2145,10 @@
   {
     "id": "farm_supply_quicklime_and_saltpetre",
     "type": "item_group",
-    "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
+    "items": [
+      { "group": "quicklime_bag", "prob": 85 },
+      { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 }
+    ]
   },
   {
     "id": "farm_supply_animal_feed",
@@ -2166,14 +2183,6 @@
       { "item": "survnote", "prob": 1 },
       { "item": "touristmap", "prob": 1 }
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "aspirin_bottle_plastic_pill_painkiller_1_10",
-    "subtype": "collection",
-    "//": "This group was created automatically and may contain errors.",
-    "container-item": "bottle_plastic_pill_painkiller",
-    "entries": [ { "item": "aspirin", "container-item": "null", "count": [ 1, 10 ] } ]
   },
   {
     "type": "item_group",

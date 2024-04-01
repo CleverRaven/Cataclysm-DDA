@@ -163,7 +163,7 @@
     "material_thickness": 1,
     "pocket_data": [
       {
-        "ammo_restriction": { "flintlock": 14, "36paper": 14, "44paper": 14, "blunderbuss": 14, "shotpaper": 14 },
+        "ammo_restriction": { "flintlock": 14, "36paper": 14, "44paper": 14, "blunderbuss": 14 },
         "moves": 20,
         "volume_encumber_modifier": 0.3
       }

@@ -208,11 +208,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mandeep_Situation",
     "dynamic_line": {
-      "u_compare_var": "refugee_happiness",
-      "type": "counter",
-      "context": "refugee_center",
-      "op": ">=",
-      "value": 5,
+      "math": [ "u_counter_refugee_center_refugee_happiness", ">=", "5" ],
       "yes": "The situation is tense, but it seems like things are slowly improving.  This place isn't home, but we're starting to become a community.  Perhaps, in time, I will call some of these people friends.  At least we don't feel like outsiders so much anymore.",
       "no": "It is hard for me to say.  No one is happy here.  I sense that some are frustrated that my family and I have escaped the end of the world apparently unscathed.  That, and perhaps some other things, have made it hard for us to make close friends here."
     },

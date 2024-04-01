@@ -99,6 +99,7 @@
     "species": [ "CYBORG" ],
     "bodytype": "human",
     "material": [ "steel" ],
+    "chat_topics": [ "TALK_EXODII_WORKER" ],
     "speed": 110,
     "symbol": "e",
     "morale": 20,

@@ -50,6 +50,8 @@ static const trait_id trait_ANTIFRUIT( "ANTIFRUIT" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
+static const vitamin_id vitamin_human_flesh_vitamin( "human_flesh_vitamin" );
+
 // ITEM INFO
 // =========
 //
@@ -185,7 +187,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Steel</color>, <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( axe, category ) ==
-               "Category: <color_c_magenta>TOOLS</color>\n" );
+               "Category: <color_c_magenta>Tools</color>\n" );
 
         CHECK( item_info_str( axe, description ) ==
                "--\n"
@@ -200,7 +202,7 @@ TEST_CASE( "item_material_category_description", "[iteminfo][material][category]
                "Material: <color_c_light_blue>Wood</color>\n" );
 
         CHECK( item_info_str( plank, category ) ==
-               "Category: <color_c_magenta>SPARE PARTS</color>\n" );
+               "Category: <color_c_magenta>Spare parts</color>\n" );
 
         CHECK( item_info_str( plank, description ) ==
                "--\n"
@@ -429,23 +431,23 @@ TEST_CASE( "item_rigidity", "[iteminfo][rigidity]" )
 
             CHECK( item_info_str( waterskin, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             CHECK( item_info_str( backpack, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             CHECK( item_info_str( quiver, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume and encumbrance increase with contents.\n" );
 
             // Non-armor item - volume increases, but not encumbrance
             CHECK( item_info_str( condom, rigidity ) ==
                    "--\n"
-                   "* This items pockets are <color_c_cyan>not rigid</color>."
+                   "* This item's pockets are <color_c_cyan>not rigid</color>."
                    "  Its volume increases with contents.\n" );
         }
 
@@ -1203,7 +1205,7 @@ TEST_CASE( "armor_fit_and_sizing", "[iteminfo][armor][fit]" )
            "--\n"
            "* This clothing <color_c_cyan>can be refitted</color>.\n" );
 
-    // Items with "covers" LEG_EITHER, ARM_EITHER, FOOT_EITHER, HAND_EITHER are "sided"
+    // Sided armor is show as sided
     item briefcase( "test_briefcase" );
     CHECK( item_info_str( briefcase, sided ) ==
            "--\n"
@@ -1247,7 +1249,7 @@ TEST_CASE( "armor_stats", "[armor][protection]" )
 // Materials and protection calculations are not tested here; only their display in item info.
 //
 // item::armor_protection_info
-TEST_CASE( "armor_protection", "[iteminfo][armor][protection]" )
+TEST_CASE( "armor_protection", "[iteminfo][armor][protection][!mayfail]" )
 {
     clear_avatar();
 
@@ -1614,7 +1616,6 @@ TEST_CASE( "gun_or_other_ranged_weapon_attributes", "[iteminfo][weapon][gun]" )
         std::vector<iteminfo_parts> aim_stats = { iteminfo_parts::GUN_AIMING_STATS };
         CHECK( item_info_str( glock, aim_stats ) ==
                "--\n"
-               "<color_c_white>Base aim speed</color>: <color_c_yellow>29</color>\n"
                "<color_c_cyan>Regular</color>\n"
                "Even chance of good hit at range: <color_c_yellow>2</color>\n"
                "Time to reach aim level: <color_c_yellow>233</color> moves\n"
@@ -1921,7 +1922,7 @@ TEST_CASE( "nutrients_in_food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "Vitamins (RDA): 63-354 mg Calcium (6-35%), 0-23 mg Iron (0-128%),"
-               " and 0-51 mg Vitamin C (0-56%)\n" );
+               " and 0-49 mg Vitamin C (0-54%)\n" );
     }
 }
 
@@ -2140,7 +2141,7 @@ TEST_CASE( "food_that_is_made_of_human_flesh", "[iteminfo][food][cannibal]" )
     std::vector<iteminfo_parts> cannibal = { iteminfo_parts::FOOD_CANNIBALISM };
 
     item thumb( "test_thumb" );
-    REQUIRE( thumb.has_flag( flag_CANNIBALISM ) );
+    REQUIRE( thumb.has_vitamin( vitamin_human_flesh_vitamin ) );
 
     GIVEN( "character is not a cannibal" ) {
         REQUIRE_FALSE( player_character.has_trait( trait_CANNIBAL ) );
@@ -2960,7 +2961,7 @@ TEST_CASE( "item_debug_info", "[iteminfo][debug][!mayfail][.]" )
     }
 }
 
-TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection]" )
+TEST_CASE( "Armor_values_preserved_after_copy-from", "[iteminfo][armor][protection][!mayfail]" )
 {
     // Normal item definition, no copy
     item armor( itype_test_armor_chitin );

@@ -13,6 +13,10 @@
 #include <optional>
 #include <string>
 
+#if defined(EMSCRIPTEN)
+#include <emscripten.h>
+#endif
+
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_scope_helpers.h"
@@ -48,6 +52,67 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 #include "worldfactory.h"
+
+#include "cata_imgui.h"
+#include "imgui/imgui.h"
+
+class demo_ui : public cataimgui::window
+{
+    public:
+        demo_ui();
+        void init();
+        void run();
+
+    protected:
+        void draw_controls() override;
+        cataimgui::bounds get_bounds() override;
+        void on_resized() override {
+            init();
+        };
+};
+
+demo_ui::demo_ui() : cataimgui::window( _( "ImGui Demo Screen" ) )
+{
+}
+
+cataimgui::bounds demo_ui::get_bounds()
+{
+    return { -1.f, -1.f, float( str_width_to_pixels( TERMX ) ), float( str_height_to_pixels( TERMY ) ) };
+}
+
+void demo_ui::draw_controls()
+{
+    ImGui::ShowDemoWindow();
+}
+
+void demo_ui::init()
+{
+    // The demo makes it's own screen.  Don't get in the way
+    force_to_back = true;
+}
+
+void demo_ui::run()
+{
+    init();
+
+    input_context ctxt( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    std::string action;
+
+    ui_manager::redraw();
+
+    while( is_open ) {
+        ui_manager::redraw();
+        action = ctxt.handle_input( 5 );
+        if( action == "QUIT" ) {
+            break;
+        }
+    }
+}
 
 static const mod_id MOD_INFORMATION_dda( "dda" );
 
@@ -452,7 +517,9 @@ void main_menu::init_strings()
     vMenuItems.emplace_back( pgettext( "Main Menu", "Se<t|T>tings" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "H<e|E|?>lp" ) );
     vMenuItems.emplace_back( pgettext( "Main Menu", "<C|c>redits" ) );
+#if !defined(EMSCRIPTEN)
     vMenuItems.emplace_back( pgettext( "Main Menu", "<Q|q>uit" ) );
+#endif
 
     // new game menu items
     vNewGameSubItems.clear();
@@ -504,6 +571,9 @@ void main_menu::init_strings()
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "A<u|U>topickup" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Sa<f|F>emode" ) );
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "Colo<r|R>s" ) );
+    if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
+        vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<I|i>mGui Demo Screen" ) );
+    }
 
     vSettingsHotkeys.clear();
     for( const std::string &item : vSettingsSubItems ) {
@@ -635,6 +705,10 @@ bool main_menu::opening_screen()
         }
     }
 
+#if defined(EMSCRIPTEN)
+    EM_ASM( window.dispatchEvent( new Event( 'menuready' ) ); );
+#endif
+
     while( !start ) {
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
@@ -724,9 +798,11 @@ bool main_menu::opening_screen()
 
         // also check special keys
         if( action == "QUIT" ) {
+#if !defined(EMSCRIPTEN)
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
+#endif
         } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
             sel1 = inc_clamp_wrap( sel1, action == "RIGHT" || action == "NEXT_TAB",
@@ -843,6 +919,11 @@ bool main_menu::opening_screen()
                         get_safemode().show();
                     } else if( sel2 == 4 ) { /// Colors
                         all_colors.show_gui();
+                    } else if( sel2 == 5 ) { /// ImGui demo
+                        if( get_options().has_option( "USE_IMGUI" ) && get_option<bool>( "USE_IMGUI" ) ) {
+                            demo_ui demo;
+                            demo.run();
+                        }
                     }
                     break;
                 case main_menu_opts::WORLD:

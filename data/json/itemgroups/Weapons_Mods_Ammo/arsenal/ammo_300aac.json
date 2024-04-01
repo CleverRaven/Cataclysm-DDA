@@ -13,14 +13,14 @@
     "//": "---------------------------------------------------",
     "type": "item_group",
     "id": "ammo_can_300blk_full",
-    "container-item": "ammo_can_30_300AAC_otmss_720",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_300AAC_otmss_720" },
     "on_overflow": "spill",
     "items": [ { "group": "ammo_box_300blk", "count": 24 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_can_300blk_part",
-    "container-item": "ammo_can_30_300AAC_otmss_720",
+    "container-item": { "item": "ammunition_can_30", "variant": "ammunition_can_30_300AAC_otmss_720" },
     "items": [ { "group": "ammo_box_300blk", "count": [ 0, 24 ] } ]
   },
   {
@@ -35,14 +35,14 @@
     "id": "ammo_can_ammo_pouch_300_full",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "ammo_can_50_300AAC_otm_840",
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_300AAC_otm_840" },
     "items": [ { "group": "ammo_pouch_300", "count": 7 } ]
   },
   {
     "id": "ammo_can_ammo_pouch_300_part",
     "type": "item_group",
     "subtype": "collection",
-    "container-item": "ammo_can_50_300AAC_otm_840",
+    "container-item": { "item": "ammunition_can_50", "variant": "ammunition_can_50_300AAC_otm_840" },
     "items": [ { "group": "ammo_pouch_300", "count": [ 1, 6 ] } ]
   },
   {

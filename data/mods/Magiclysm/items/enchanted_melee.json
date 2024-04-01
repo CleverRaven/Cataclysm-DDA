@@ -355,7 +355,7 @@
     "type": "GENERIC",
     "id": "cavalry_sabre_plus_one",
     "copy-from": "qt_cavalry_sabre",
-    "name": { "str": "cavalry sabre +1", "str_pl": "cavalry sabres +1" },
+    "name": { "str": "cavalry saber +1", "str_pl": "cavalry sabers +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "weight": 0.9, "melee_damage": { "all": 1.1 } },
     "relative": { "to_hit": 1 }
   },
@@ -363,7 +363,7 @@
     "type": "GENERIC",
     "id": "cavalry_sabre_plus_two",
     "copy-from": "qt_cavalry_sabre",
-    "name": { "str": "cavalry sabre +2", "str_pl": "cavalry sabres +2" },
+    "name": { "str": "cavalry saber +2", "str_pl": "cavalry sabers +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "weight": 0.8, "melee_damage": { "all": 1.2 } },
     "relative": { "to_hit": 2 }
   },

@@ -72,5 +72,110 @@
     "material": [ "plastic" ],
     "symbol": ")",
     "color": "light_gray"
+  },
+  {
+    "id": "saline_bag_250_empty",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small liquid bag" },
+    "description": "Small bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
+    "looks_like": "bag_iv",
+    "weight": "5 g",
+    "volume": "35 ml",
+    "price": 50,
+    "price_postapoc": 1,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "700 g",
+        "moves": 1000
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "saline_bag_500_empty",
+    "type": "GENERIC",
+    "name": { "str": "medium liquid bag" },
+    "description": "Bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
+    "copy-from": "saline_bag_250_empty",
+    "weight": "10 g",
+    "volume": "70 ml",
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "500 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "1400 g",
+        "moves": 1000
+      }
+    ]
+  },
+  {
+    "id": "saline_bag_1000_empty",
+    "type": "GENERIC",
+    "name": { "str": "large liquid bag" },
+    "description": "Large bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
+    "copy-from": "saline_bag_250_empty",
+    "weight": "20 g",
+    "volume": "140 ml",
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "1000 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "2800 g",
+        "moves": 1000
+      }
+    ]
+  },
+  {
+    "id": "saline_bag_2000_empty",
+    "type": "GENERIC",
+    "name": { "str": "huge liquid bag" },
+    "description": "Huge bag, similar to an IV bag, that previously stored a sterilized saline solution.  Whatever it stores now, it is not safe to put in your veins.",
+    "copy-from": "saline_bag_250_empty",
+    "weight": "40 g",
+    "volume": "280 ml",
+    "symbol": ")",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "2000 ml",
+        "max_item_volume": "17 ml",
+        "max_contains_weight": "5600 g",
+        "moves": 1000
+      }
+    ]
+  },
+  {
+    "id": "box_paper_small",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small paper box", "str_pl": "small paper boxes" },
+    "looks_like": "box_tea",
+    "description": "A very small paper box.",
+    "weight": "20 g",
+    "volume": "210 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "white",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "200 ml", "max_contains_weight": "400 g" } ]
   }
 ]

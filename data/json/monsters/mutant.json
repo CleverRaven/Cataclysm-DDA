@@ -271,9 +271,10 @@
   {
     "id": "mon_mutant_alpha_boss",
     "type": "MONSTER",
-    "name": { "str": "mutant child" },
-    "description": "A thin child with a shaved head, wearing a too-large white lab coat over a baggy orange jumpsuit.  They turn their head towards you with uncanny speed, and you're takеn aback by the inhuman curiosity burning in their eyes.  Their angelic smile does very little to reassure you of their intentions.",
+    "name": { "str": "mutant child", "str_pl": "mutant children" },
+    "description": "A thin child with a shaved head, wearing a too-large white lab coat over a baggy orange jumpsuit.  They turn their head towards you with uncanny speed, and you're taken aback by the inhuman curiosity burning in their eyes.  Their angelic smile does very little to reassure you of their intentions.",
     "copy-from": "mon_mutant_alpha",
+    "default_faction": "lab_mutant",
     "looks_like": "mon_zombie_child",
     "proportional": { "hp": 0.5, "volume": 0.33, "weight": 0.33, "dodge": 1.2 },
     "melee_skill": 5,
@@ -285,7 +286,7 @@
     },
     "zombify_into": "mon_zombie_child",
     "dissect": "dissect_alpha_sample_huge",
-    "extend": { "flags": [ "HARDTOSHOOT" ] }
+    "extend": { "flags": [ "HARDTOSHOOT", "GUILT_CHILD" ] }
   },
   {
     "id": "mon_mutant_mollusk",

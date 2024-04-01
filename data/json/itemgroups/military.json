@@ -4,8 +4,20 @@
     "id": "military_standard_assault_rifles",
     "subtype": "distribution",
     "entries": [
-      { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 88, "charges": [ 0, 30 ] },
-      { "item": "modular_m27_assault_rifle", "variant": "modular_m27iar", "prob": 10, "charges": [ 0, 30 ] },
+      {
+        "item": "modular_m4_carbine",
+        "variant": "modular_m4a1",
+        "prob": 88,
+        "charges": [ 0, 30 ],
+        "contents-group": "issued_carbine_mods"
+      },
+      {
+        "item": "modular_m27_assault_rifle",
+        "variant": "modular_m27iar",
+        "prob": 10,
+        "charges": [ 0, 30 ],
+        "contents-group": "issued_carbine_mods"
+      },
       {
         "item": "modular_m27_assault_rifle",
         "variant": "modular_m38dmr",
@@ -13,36 +25,14 @@
         "prob": 1,
         "charges": [ 0, 30 ]
       },
-      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ] }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "military_standard_assault_rifles_sighted",
-    "subtype": "distribution",
-    "entries": [
-      {
-        "item": "modular_m4_carbine",
-        "variant": "modular_m4a1",
-        "prob": 88,
-        "charges": [ 0, 30 ],
-        "contents-item": "acog_scope"
-      },
-      {
-        "item": "modular_m27_assault_rifle",
-        "variant": "modular_m27iar",
-        "prob": 10,
-        "charges": [ 0, 30 ],
-        "contents-item": "acog_scope"
-      },
-      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-item": "acog_scope" }
+      { "item": "modular_m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-group": "issued_slings" }
     ]
   },
   {
     "type": "item_group",
     "id": "military_grenadier_assault_rifles",
     "subtype": "distribution",
-    "entries": [ { "item": "modular_m4_carbine", "contents-group": "military_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
+    "entries": [ { "item": "modular_m4_carbine", "contents-group": "issued_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
   },
   {
     "id": "armor_plates",
@@ -129,18 +119,29 @@
     "entries": [ { "item": "esapi_plate" }, { "item": "esapi_plate" } ]
   },
   {
+    "id": "ballistic_protectors",
+    "type": "item_group",
+    "//": "Shoulder and groin protectors for heavy vest",
+    "subtype": "collection",
+    "entries": [ { "item": "iotv_groin_plate" }, { "item": "iotv_shoulder_plate" }, { "item": "iotv_neck_plate" } ]
+  },
+  {
     "id": "kitted_heavy_vest",
     "type": "item_group",
-    "//": "ESAPI plates for full vest and pouches",
+    "//": "ESAPI plates and protectors for heavy vest and pouches",
     "subtype": "collection",
-    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+    "entries": [ { "group": "pristine_esapi_plates" }, { "group": "custom_heavy_lbv" }, { "group": "ballistic_protectors" } ]
   },
   {
     "id": "used_kitted_heavy_vest",
     "type": "item_group",
-    "//": "ESAPI plates for full vest and pouches",
+    "//": "ESAPI plates and protectors for heavy vest and pouches",
     "subtype": "collection",
-    "entries": [ { "group": "some_esapi_plates" }, { "group": "custom_heavy_lbv" } ]
+    "entries": [
+      { "group": "some_esapi_plates" },
+      { "group": "custom_heavy_lbv" },
+      { "group": "ballistic_protectors", "damage": [ 0, 2 ] }
+    ]
   },
   {
     "id": "used_kitted_medium_vest",
@@ -548,6 +549,7 @@
     "subtype": "collection",
     "items": [
       { "group": "clothing_military" },
+      { "item": "resonance_measurement_device", "prob": 10 },
       { "item": "elbow_pads", "prob": 80 },
       { "item": "knee_pads", "prob": 85 },
       { "item": "tac_helmet", "prob": 100 },
@@ -635,11 +637,9 @@
       { "item": "40x53mm_m1001", "prob": 6 },
       { "item": "20x66_shot", "prob": 4 },
       { "item": "20x66_exp", "prob": 1 },
-      { "item": "20x66_inc", "prob": 1 },
       { "item": "20x66_flare", "prob": 2 },
       { "item": "20x66_frag", "prob": 1 },
       { "item": "20x66_slug", "prob": 4 },
-      { "item": "20x66_flechette", "prob": 3 },
       { "item": "m9", "variant": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
       { "item": "modular_m4_carbine", "variant": "modular_m4a1", "prob": 7 },
@@ -736,6 +736,7 @@
       { "item": "match_trigger", "prob": 2 },
       { "item": "grapnel", "prob": 1 },
       { "item": "bucket", "prob": 4 },
+      { "item": "bucket_5gal", "prob": 4 },
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
       { "item": "leg_sheath6", "prob": 2 },

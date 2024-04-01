@@ -178,7 +178,10 @@
         "context": "flag",
         "value": "yes",
         "no": "Sure, I could teach you the basics, I'll have to charge you though.  Let's say, 5 merch for a teaching session, plus a bit in trade depending on how in-depth you're looking for?",
-        "yes": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?"
+        "yes": {
+          "gendered_line": "Sure, I could teach you the basics, it'll cost you merch though.  Since you helped me out, I can shave a bit off the price, let's say 4 merch, plus a bit in trade depending on how in-depth you're looking for?",
+          "relevant_genders": [ "u" ]
+        }
       }
     },
     "speaker_effect": { "effect": { "u_add_var": "Fatima_Teacher", "type": "knowledge", "context": "trade", "value": "yes" } },
@@ -225,9 +228,7 @@
         "text": "[BARTER] Come on, I'm serious here.",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "not": { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
           ]
@@ -240,9 +241,7 @@
         "text": "[BARTER] That's still pretty steep, I risked my neck out there for your book.  Can't you manage a little lower?",
         "condition": {
           "and": [
-            {
-              "not": { "u_compare_time_since_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "op": "<=", "time": "1 day" }
-            },
+            { "math": [ "time_since(n_timer_flag_Fatima_barter_fail)", ">", "time('1 d')" ] },
             { "not": { "u_has_var": "Fatima_barter_success", "type": "barter", "context": "flag", "value": "yes" } },
             { "u_has_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }
           ]
@@ -259,7 +258,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Teach_nobarter",
     "dynamic_line": "Hey, I appreciate that, but I know what I've got, and I can make good money with that time.  Sorry, my price stands.",
-    "speaker_effect": { "effect": { "u_add_var": "Fatima_barter_fail", "type": "timer", "context": "flag", "time": true } },
+    "speaker_effect": { "effect": { "math": [ "n_timer_flag_Fatima_barter_fail", "=", "time('now')" ] } },
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -316,7 +315,7 @@
       "effect": [
         { "u_spawn_item": "FMCNote", "count": 5 },
         { "u_add_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" },
-        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 1 }
+        { "math": [ "u_counter_refugee_center_refugee_happiness", "++" ] }
       ]
     }
   }

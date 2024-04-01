@@ -293,7 +293,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15kits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [
@@ -320,7 +320,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_mdrxkits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [
@@ -339,7 +339,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_axmckits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [ { "group": "boxed_300win_axmckit", "prob": 30 }, { "group": "boxed_308win_axmckit", "prob": 30 } ],
@@ -351,7 +351,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_cz600kits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [ { "group": "boxed_223rem_cz600kit", "prob": 30 }, { "group": "boxed_762_cz600kit", "prob": 25 } ],
@@ -363,7 +363,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "boxed_deaglekits",
-    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "//": "An item group for a specific weapon platform's possible conversion kits .",
     "entries": [
       {
         "distribution": [

@@ -50,7 +50,7 @@ class migration
         int charges = 0;
 
         // if set to true then reset item_vars std::map to the value of itype's item_variables
-        bool reset_item_vars;
+        bool reset_item_vars = false;
 
         class content
         {
@@ -223,6 +223,9 @@ class Item_factory
          * @see Item_factory::migrate_id
          */
         void migrate_item( const itype_id &id, item &obj );
+
+        /** applies a migration to the item if one exists with the given from_variant */
+        void migrate_item_from_variant( item &obj, const std::string &from_variant );
 
         /**
          * Check if an item type is known to the Item_factory.

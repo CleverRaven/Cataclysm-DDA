@@ -71,7 +71,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_1",
-    "dynamic_line": "Well well, another traveler.  Don't try anything, you're outnumbered here and we're well armed.",
+    "dynamic_line": {
+      "gendered_line": "Well well, another traveler.  Don't try anything, you're outnumbered here and we're well armed.",
+      "relevant_genders": [ "u" ]
+    },
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_CARAVAN_MERCHANT_2" } },
     "responses": [
       { "text": "Are you threatening me?", "topic": "TALK_CARAVAN_MERCHANT_Threatening" },
@@ -135,7 +138,10 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_MERCHANT_Others",
-    "dynamic_line": "No offense, but my clients definitely would not like me giving strangers directions to their hideouts.  You'll have to find them on their own terms.",
+    "dynamic_line": {
+      "gendered_line": "No offense, but my clients definitely would not like me giving strangers directions to their hideouts.  You'll have to find them on their own terms.",
+      "relevant_genders": [ "u" ]
+    },
     "responses": [
       {
         "text": "I can understand that.  Well, let's trade.",
