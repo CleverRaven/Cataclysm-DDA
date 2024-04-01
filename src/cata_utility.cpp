@@ -399,7 +399,10 @@ std::string read_compressed_file_to_string( std::istream &fin )
     z_stream zs;
     memset( &zs, 0, sizeof( zs ) );
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
     if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+#pragma GCC diagnostic pop
         throw std::runtime_error( "inflateInit failed while decompressing." );
     }
 
