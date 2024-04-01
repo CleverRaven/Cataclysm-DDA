@@ -7879,12 +7879,12 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
     return true;
 }
 
-std::pair<std::map<ter_str_id, int>, std::map<furn_str_id, int>> get_changed_ids_from_update(
+std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const update_mapgen_id &update_mapgen_id,
-            const mapgen_arguments &mapgen_args, ter_str_id const &base_ter )
+            const mapgen_arguments &mapgen_args, ter_id const &base_ter )
 {
-    std::map<ter_str_id, int> terrains;
-    std::map<furn_str_id, int> furnitures;
+    std::map<ter_id, int> terrains;
+    std::map<furn_id, int> furnitures;
 
     const auto update_function = update_mapgens.find( update_mapgen_id );
 
@@ -7900,12 +7900,12 @@ std::pair<std::map<ter_str_id, int>, std::map<furn_str_id, int>> get_changed_ids
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-            ter_str_id ter_at_pos = tmp_map.ter( pos ).id();
+            ter_id ter_at_pos = tmp_map.ter( pos );
             if( ter_at_pos != base_ter ) {
                 terrains[ter_at_pos] += 1;
             }
             if( tmp_map.has_furn( pos ) ) {
-                furn_str_id furn_at_pos = tmp_map.furn( pos ).id();
+                furn_id furn_at_pos = tmp_map.furn( pos );
                 furnitures[furn_at_pos] += 1;
             }
         }

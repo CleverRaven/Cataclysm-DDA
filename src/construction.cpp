@@ -2188,8 +2188,8 @@ void finalize_constructions()
 }
 
 build_reqs get_build_reqs_for_furn_ter_ids(
-    const std::pair<std::map<ter_str_id, int>, std::map<furn_str_id, int>> &changed_ids,
-    ter_str_id const &base_ter )
+    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids,
+    ter_id const &base_ter )
 {
     build_reqs total_reqs;
 

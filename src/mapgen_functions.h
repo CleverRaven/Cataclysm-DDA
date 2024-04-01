@@ -73,10 +73,8 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
                                 const tripoint_abs_omt &omt_pos,
                                 const mapgen_arguments &args, bool mirror_horizontal,
                                 bool mirror_vertical, int rotation, bool apply );
-std::pair<std::map<ter_str_id, int>, std::map<furn_str_id, int>>
-        get_changed_ids_from_update(
-            const update_mapgen_id &, const mapgen_arguments &,
-            ter_str_id const &base_ter );
+std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
+            const update_mapgen_id &, const mapgen_arguments &, ter_id const &base_ter = t_dirt );
 mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
