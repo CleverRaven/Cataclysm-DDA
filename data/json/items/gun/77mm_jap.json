@@ -37,10 +37,9 @@
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "EASY_CLEAN" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
-      [ "bore", 1 ],
       [ "bayonet lug", 1 ],
       [ "brass catcher", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights mount", 1 ],
       [ "sling", 1 ],
       [ "grip mount", 1 ],
