@@ -79,6 +79,7 @@ static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
 static const ter_str_id ter_t_slope_down( "t_slope_down" );
+static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
 
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
 
@@ -700,7 +701,7 @@ void mapgen_rock_partial( mapgendata &dat )
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( rng( 0, dat.n_fac ) > j || rng( 0, dat.s_fac ) > SEEY * 2 - 1 - j ||
                 rng( 0, dat.w_fac ) > i || rng( 0, dat.e_fac ) > SEEX * 2 - 1 - i ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), ter_t_rock_floor );
             }
         }
     }
@@ -755,12 +756,12 @@ void mapgen_rift( mapgendata &dat )
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( dat.n_fac < 0 && j < dat.n_fac * -1 ) || ( dat.s_fac < 0 && j >= SEEY * 2 - dat.s_fac ) ||
                 ( dat.w_fac < 0 && i < dat.w_fac * -1 ) || ( dat.e_fac < 0 && i >= SEEX * 2 - dat.e_fac ) ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), ter_t_rock_floor );
             } else if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac ||
                        i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ) {
-                m->ter_set( point( i, j ), t_rock );
+                m->ter_set( point( i, j ), ter_t_rock );
             } else {
-                m->ter_set( point( i, j ), t_lava );
+                m->ter_set( point( i, j ), ter_t_lava );
             }
         }
     }
@@ -2177,7 +2178,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                     continue;
                 }
                 if( m->ter( bp ) == t_swater_sh ) {
-                    m->ter_set( bp, t_swater_surf );
+                    m->ter_set( bp, ter_t_swater_surf );
                 }
             }
         }
@@ -2221,7 +2222,7 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
-        return m->ter( p ) != t_null && m->ter( p ) != t_swater_sh  && m->ter( p ) != t_swater_surf;
+        return m->ter( p ) != t_null && m->ter( p ) != t_swater_sh  && m->ter( p ) != ter_t_swater_surf;
     };
 
     const auto fill_deep_water = [&]( const point & starting_point ) {

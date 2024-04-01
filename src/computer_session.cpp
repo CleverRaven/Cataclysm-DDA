@@ -103,6 +103,7 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_concrete( "t_concrete" );
 static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_elevator( "t_elevator" );
 static const ter_str_id ter_t_floor( "t_floor" );
@@ -116,6 +117,8 @@ static const ter_str_id ter_t_missile( "t_missile" );
 static const ter_str_id ter_t_rad_platform( "t_rad_platform" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
+static const ter_str_id ter_t_reinforced_glass_shutter( "t_reinforced_glass_shutter" );
+static const ter_str_id ter_t_reinforced_glass_shutter_open( "t_reinforced_glass_shutter_open" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_sewage_pipe( "t_sewage_pipe" );
 static const ter_str_id ter_t_sewage_pump( "t_sewage_pump" );
@@ -123,6 +126,7 @@ static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
+static const ter_str_id ter_t_water_pool( "t_water_pool" );
 
 static catacurses::window init_window()
 {
@@ -366,14 +370,14 @@ bool computer_session::can_activate( computer_action action )
 {
     switch( action ) {
         case COMPACT_LOCK:
-            return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_c, 8 );
+            return get_map().has_nearby_ter( get_player_character().pos(), ter_t_door_metal_c, 8 );
 
         case COMPACT_RELEASE:
         case COMPACT_RELEASE_DISARM:
-            return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 25 );
+            return get_map().has_nearby_ter( get_player_character().pos(), ter_t_reinforced_glass, 25 );
 
         case COMPACT_RELEASE_BIONICS:
-            return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 3 );
+            return get_map().has_nearby_ter( get_player_character().pos(), ter_t_reinforced_glass, 3 );
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
@@ -383,10 +387,10 @@ bool computer_session::can_activate( computer_action action )
                 if( !mon ) {
                     continue;
                 }
-                if( ( here.ter( p + tripoint_north ) == t_reinforced_glass &&
-                      here.ter( p + tripoint_south ) == t_concrete_wall ) ||
-                    ( here.ter( p + tripoint_south ) == t_reinforced_glass &&
-                      here.ter( p + tripoint_north ) == t_concrete_wall ) ) {
+                if( ( here.ter( p + tripoint_north ) == ter_t_reinforced_glass &&
+                      here.ter( p + tripoint_south ) == ter_t_concrete_wall ) ||
+                    ( here.ter( p + tripoint_south ) == ter_t_reinforced_glass &&
+                      here.ter( p + tripoint_north ) == ter_t_concrete_wall ) ) {
                     return true;
                 }
             }
@@ -395,7 +399,7 @@ bool computer_session::can_activate( computer_action action )
 
         case COMPACT_UNLOCK:
         case COMPACT_UNLOCK_DISARM:
-            return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_locked, 8 );
+            return get_map().has_nearby_ter( get_player_character().pos(), ter_t_door_metal_locked, 8 );
 
         default:
             return true;
@@ -1272,7 +1276,7 @@ void computer_session::action_irradiator()
                         here.i_rem( dest, it );
                         here.make_rubble( dest );
                         here.propagate_field( dest, fd_nuke_gas, 100, 3 );
-                        here.translate_radius( t_water_pool, t_sewage, 8.0, dest, true );
+                        here.translate_radius( ter_t_water_pool, ter_t_sewage, 8.0, dest, true );
                         here.adjust_radiation( dest, rng( 50, 500 ) );
                         for( const tripoint &radorigin : here.points_in_radius( dest, 5 ) ) {
                             here.adjust_radiation( radorigin, rng( 50, 500 ) / ( rl_dist( radorigin,
@@ -1417,7 +1421,8 @@ void computer_session::action_shutters()
 {
     Character &player_character = get_player_character();
     player_character.moves -= 300;
-    get_map().translate_radius( t_reinforced_glass_shutter_open, t_reinforced_glass_shutter, 8.0,
+    get_map().translate_radius( ter_t_reinforced_glass_shutter_open, ter_t_reinforced_glass_shutter,
+                                8.0,
                                 player_character.pos(),
                                 true, true );
     query_any( _( "Toggling shutters.  Press any key…" ) );
@@ -1613,7 +1618,7 @@ void computer_session::failure_pump_leak()
             if( next_move.empty() ) {
                 break;
             }
-            here.ter_set( random_entry( next_move ), t_sewage );
+            here.ter_set( random_entry( next_move ), ter_t_sewage );
         }
     }
 }

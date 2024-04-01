@@ -77,12 +77,17 @@ static const move_mode_id move_mode_prone( "prone" );
 
 static const skill_id skill_swimming( "swimming" );
 
+static const ter_str_id ter_t_door_bar_locked( "t_door_bar_locked" );
+static const ter_str_id ter_t_door_locked( "t_door_locked" );
+static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
+static const ter_str_id ter_t_door_locked_interior( "t_door_locked_interior" );
+static const ter_str_id ter_t_door_locked_peep( "t_door_locked_peep" );
+static const ter_str_id ter_t_fault( "t_fault" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_grass_alien( "t_grass_alien" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
 static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
 static const ter_str_id ter_t_grass_white( "t_grass_white" );
-static const ter_str_id ter_t_fault( "t_fault" );
 
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
@@ -538,11 +543,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( waste_moves ) {
             you.moves -= 100;
         }
-    } else if( m.ter( dest_loc ) == t_door_locked || m.ter( dest_loc ) == t_door_locked_peep ||
-               m.ter( dest_loc ) == t_door_locked_alarm || m.ter( dest_loc ) == t_door_locked_interior ) {
+    } else if( m.ter( dest_loc ) == ter_t_door_locked || m.ter( dest_loc ) == ter_t_door_locked_peep ||
+               m.ter( dest_loc ) == ter_t_door_locked_alarm || m.ter( dest_loc ) == ter_t_door_locked_interior ) {
         // Don't drain move points for learning something you could learn just by looking
         add_msg( _( "That door is locked!" ) );
-    } else if( m.ter( dest_loc ) == t_door_bar_locked ) {
+    } else if( m.ter( dest_loc ) == ter_t_door_bar_locked ) {
         add_msg( _( "You rattle the bars but the door is locked!" ) );
     }
     return false;

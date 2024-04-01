@@ -4890,7 +4890,7 @@ std::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const s
         return std::nullopt;
     }
 
-    bool grave = here.ter( where ) == t_grave_new;
+    bool grave = here.ter( where ) == ter_t_grave_new;
     int move_cost;
     if( message.empty() ) {
         if( here.has_graffiti_at( where ) ) {

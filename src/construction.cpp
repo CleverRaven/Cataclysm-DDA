@@ -98,7 +98,11 @@ static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_fabrication( "fabrication" );
 
+static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
+static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
 static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
 static const ter_str_id ter_t_wood_stairs_down( "t_wood_stairs_down" );
@@ -1580,14 +1584,14 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
     player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
-    if( tmpmap.ter( local_tmp ) == t_lava ) {
+    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
         if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
-            here.ter_set( p, t_pit ); // You dug down a bit before detecting the problem
+            here.ter_set( p, ter_t_pit ); // You dug down a bit before detecting the problem
             unroll_digging( dig ? 8 : 12 );
         } else {
             add_msg( m_warning, _( "You just tunneled into lava!" ) );
             get_event_bus().send<event_type::digs_into_lava>();
-            here.ter_set( p, t_hole );
+            here.ter_set( p, ter_t_hole );
         }
 
         return;
@@ -1665,8 +1669,8 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     tmpmap.load( pos_sm + tripoint_above, false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    if( tmpmap.ter( local_tmp ) == t_lava ) {
-        here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
+    if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
+        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock overhead feels hot.  You decide *not* to mine magma." ) );
         unroll_digging( 12 );
         return;
@@ -1674,7 +1678,7 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
 
     if( tmpmap.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, local_tmp ) ||
         tmpmap.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, local_tmp ) ) {
-        here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
+        here.ter_set( p.xy(), ter_t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );
         return;

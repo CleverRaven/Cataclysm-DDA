@@ -146,9 +146,11 @@ static const ter_str_id ter_t_grass_golf( "t_grass_golf" );
 static const ter_str_id ter_t_grass_long( "t_grass_long" );
 static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
 static const ter_str_id ter_t_grass_white( "t_grass_white" );
+static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_moss( "t_moss" );
 static const ter_str_id ter_t_pavement( "t_pavement" );
 static const ter_str_id ter_t_pavement_y( "t_pavement_y" );
+static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
@@ -971,7 +973,7 @@ static void place_fumarole( map &m, const point &p1, const point &p2, std::set<p
 
     std::vector<point> fumarole = line_to( p1, p2, 0 );
     for( point &i : fumarole ) {
-        m.ter_set( i, t_lava );
+        m.ter_set( i, ter_t_lava );
 
         // Add all adjacent tiles (even on diagonals) for possible ignition
         // Since they're being added to a set, duplicates won't occur
@@ -1033,7 +1035,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
                 tripoint end_location = { rng( 0, SEEX * 2 - 1 ), rng( 0, SEEY * 2 - 1 ), abs_sub.z };
                 std::vector<tripoint> failure = line_to( portal_location, end_location );
                 for( tripoint &i : failure ) {
-                    m.ter_set( { i.xy(), abs_sub.z }, t_pit );
+                    m.ter_set( { i.xy(), abs_sub.z }, ter_t_pit );
                 }
             }
             break;
@@ -1090,7 +1092,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
 
                 for( const point &i : ignited ) {
                     // Don't need to do anything to tiles that already have lava on them
-                    if( m.ter( i ) != t_lava ) {
+                    if( m.ter( i ) != ter_t_lava ) {
                         // Spawn an intense but short-lived fire
                         // Any furniture or buildings will catch fire, otherwise it will burn out quickly
                         m.add_field( tripoint( i, abs_sub.z ), fd_fire, 15, 1_minutes );
@@ -1830,16 +1832,16 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
                     defects_to );
             break;
         case 2:
-            rough_circle( &m, t_pit_shallow, defects_centered, rng( 2, 4 ) );
+            rough_circle( &m, ter_t_pit_shallow, defects_centered, rng( 2, 4 ) );
             break;
         case 3:
-            circle( &m, t_pit_shallow, defects_centered, rng( 2, 4 ) );
+            circle( &m, ter_t_pit_shallow, defects_centered, rng( 2, 4 ) );
             break;
         case 4:
-            rough_circle( &m, t_dirtmound, defects_centered, rng( 2, 4 ) );
+            rough_circle( &m, ter_t_dirtmound, defects_centered, rng( 2, 4 ) );
             break;
         case 5:
-            circle( &m, t_dirtmound, defects_centered, rng( 2, 4 ) );
+            circle( &m, ter_t_dirtmound, defects_centered, rng( 2, 4 ) );
             break;
     }
     // soil generator

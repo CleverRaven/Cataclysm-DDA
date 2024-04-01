@@ -85,6 +85,7 @@ static const material_id material_iflesh( "iflesh" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_glass( "t_pit_glass" );
 static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
@@ -268,7 +269,7 @@ bool monster::know_danger_at( const tripoint &p ) const
         const ter_id target = here.ter( p );
         if( !here.has_vehicle_floor( p ) ) {
             // Don't enter lava if we have any concept of heat being bad
-            if( avoid_fire && target == t_lava ) {
+            if( avoid_fire && target == ter_t_lava ) {
                 return false;
             }
 

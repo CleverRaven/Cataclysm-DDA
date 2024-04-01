@@ -227,6 +227,7 @@ static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
+static const ter_str_id ter_t_orifice( "t_orifice" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_covered( "t_pit_covered" );
 static const ter_str_id ter_t_pit_glass( "t_pit_glass" );
@@ -234,6 +235,7 @@ static const ter_str_id ter_t_pit_glass_covered( "t_pit_glass_covered" );
 static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
 static const ter_str_id ter_t_pit_spiked_covered( "t_pit_spiked_covered" );
 static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rock_green( "t_rock_green" );
 static const ter_str_id ter_t_rock_red( "t_rock_red" );
 static const ter_str_id ter_t_switch_even( "t_switch_even" );
@@ -1980,7 +1982,7 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
             // Send in a few wyrms to start things off.
             get_event_bus().send<event_type::awakes_dark_wyrms>();
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                if( here.ter( p ) == ter_t_orifice ) {
                     g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
@@ -1988,7 +1990,7 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
             sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
                            "misc", "stones_grinding" );
             add_msg( _( "The pedestal sinks into the ground…" ) );
-            here.ter_set( examp, t_rock_floor );
+            here.ter_set( examp, ter_t_rock_floor );
             get_timed_events().add( timed_event_type::SPAWN_WYRMS,
                                     calendar::turn + rng( 30_seconds, 60_seconds ) );
         } else {

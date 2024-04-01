@@ -221,7 +221,7 @@ void timed_event::actualize()
                         flood_buf[p.x][p.y] = t_water_dp;
                         flooded = true;
                     }
-                } else if( here.ter( p ) == t_rock_floor ) {
+                } else if( here.ter( p ) == ter_t_rock_floor ) {
                     bool flood = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
                         if( here.ter( w ) == t_water_dp || here.ter( w ) == t_water_sh ) {
