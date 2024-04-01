@@ -313,12 +313,9 @@ class submap
     private:
         std::map<point_sm_ms, tile_data> ephemeral_data;
         std::map<point, computer> computers;
-        std::unique_ptr<computer> legacy_computer;
         std::unique_ptr<maptile_soa> m;
         ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
-
-        void update_legacy_computer();
 
         static constexpr size_t elements = SEEX * SEEY;
 };

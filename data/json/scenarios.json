@@ -87,7 +87,8 @@
       "sloc_office_tower_rooftop",
       "sloc_office_tower_2_rooftop",
       "sloc_cathedral_rooftop",
-      "sloc_convention_center_rooftop"
+      "sloc_convention_center_rooftop",
+      "sloc_mansion_basement"
     ],
     "start_name": "In Large Building",
     "flags": [ "CITY_START", "LONE_START" ]
@@ -964,9 +965,8 @@
     "name": "Challenge - Mansion Escape",
     "points": -5,
     "description": "You were living the high life when the world ended, surrounded by riches and eating well every day.  Now you've woken up, alone and drugged, in a room of your mansion that you don't recognize.  As you fight to remain conscious, you hear heavy footsteps nearby.  Time to get the hell out of here.",
-    "allowed_locs": [ "sloc_mansion_basement", "sloc_enclosed_mansion_panic_room", "sloc_enclosed_mansion_sex_lair" ],
+    "allowed_locs": [ "sloc_enclosed_mansion_panic_room", "sloc_enclosed_mansion_sex_lair" ],
     "start_name": "Mansion",
-    "surround_groups": [ [ "GROUP_MANSION_START", 70.0 ] ],
     "eoc": [ "scenario_paralyzepoison", "scenario_mansion_pursuit" ],
     "flags": [ "CHALLENGE", "LONE_START" ],
     "professions": [
