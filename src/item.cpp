@@ -312,7 +312,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     if( qty >= 0 ) {
-        if( count_by_charges() ) {
+        if( type->can_have_charges() ) {
             charges = qty;
         } else {
             debugmsg( "Tried to set charges for item %s that could not have them!", tname() );
