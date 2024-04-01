@@ -613,6 +613,7 @@
     "type": "MONSTER",
     "name": "gray and magenta two-legged juvenile",
     "copy-from": "mon_camptosaurus_juvenile",
+    "description": "A two-legged plant-eating dinosaur juvenile larger than a cow, it could be from a number of different species.",
     "color": "yellow",
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "upgrades": { "age_grow": 365, "into": "mon_iguanodon" }
@@ -620,10 +621,7 @@
   {
     "id": "mon_hadrosaurus_juvenile",
     "type": "MONSTER",
-    "name": "gray and magenta two-legged juvenile",
-    "copy-from": "mon_camptosaurus_juvenile",
-    "color": "yellow",
-    "petfood": { "food": [ "DINOFOOD_C" ] },
+    "copy-from": "mon_iguanodon_juvenile",
     "upgrades": { "age_grow": 365, "into": "mon_hadrosaurus" }
   },
   {
