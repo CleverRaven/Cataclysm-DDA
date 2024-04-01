@@ -209,7 +209,10 @@
         { "not": { "u_has_proficiency": "prof_concentration_master" } }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS" ] } ]
+    "effect": [
+      { "u_message": "You are almost too tired to think, and can't concentrate on maintaining your powers", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -222,7 +225,7 @@
         { "compare_string": [ "pd_int_bad", { "context_val": "effect" } ] }
       ]
     },
-    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS" ] } ]
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] } ]
   },
   {
     "type": "effect_on_condition",
