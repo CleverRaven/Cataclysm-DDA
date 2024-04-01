@@ -2112,8 +2112,8 @@ void iexamine::fswitch( Character &you, const tripoint &examp )
                     } else if( nearby_ter == ter_t_floor_green ) {
                         here.ter_set( tmp, ter_t_rock_green );
                     } else if( nearby_ter == ter_t_rock_blue ) {
-                        here.ter_set( tmp, t_floor_blue );
-                    } else if( nearby_ter == t_floor_blue ) {
+                        here.ter_set( tmp, ter_t_floor_blue );
+                    } else if( nearby_ter == ter_t_floor_blue ) {
                         here.ter_set( tmp, ter_t_rock_blue );
                     }
                 }

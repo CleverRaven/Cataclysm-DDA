@@ -98,6 +98,11 @@ static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_fabrication( "fabrication" );
 
+static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
+static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
+static const ter_str_id ter_t_wood_stairs_down( "t_wood_stairs_down" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_EATDEAD( "EATDEAD" );
 static const trait_id trait_NUMB( "NUMB" );
@@ -1596,9 +1601,10 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     } else {
         add_msg( _( "You drill out a passage, heading deeper underground." ) );
     }
-    here.ter_set( p, t_stairs_down ); // There's the top half
+    here.ter_set( p, ter_t_stairs_down ); // There's the top half
     // Again, need to use submap-local coordinates.
-    tmpmap.ter_set( local_tmp, impassable ? t_stairs_up : t_ladder_up ); // and there's the bottom half.
+    tmpmap.ter_set( local_tmp, impassable ? ter_t_stairs_up :
+                    ter_t_ladder_up ); // and there's the bottom half.
     // And save to the center coordinate of the current active map.
     tmpmap.save();
 }
@@ -1683,16 +1689,16 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     player_character.mod_fatigue( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
-    here.ter_set( p.xy(), t_stairs_up ); // There's the bottom half
+    here.ter_set( p.xy(), ter_t_stairs_up ); // There's the bottom half
     // We need to write to submap-local coordinates.
-    tmpmap.ter_set( local_tmp, t_stairs_down ); // and there's the top half.
+    tmpmap.ter_set( local_tmp, ter_t_stairs_down ); // and there's the top half.
     tmpmap.save();
 }
 
 void construct::done_wood_stairs( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_wood_stairs_down" ) );
+    get_map().ter_set( top, ter_t_wood_stairs_down );
 }
 
 void construct::done_window_curtains( const tripoint_bub_ms &, Character &who )

@@ -157,13 +157,20 @@ static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
 static const ter_str_id ter_t_cvdbody( "t_cvdbody" );
 static const ter_str_id ter_t_cvdmachine( "t_cvdmachine" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_door_glass_frosted_c( "t_door_glass_frosted_c" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
+static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
+static const ter_str_id ter_t_slime( "t_slime" );
+static const ter_str_id ter_t_slope_down( "t_slope_down" );
+static const ter_str_id ter_t_slope_up( "t_slope_up" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
 static const ter_str_id ter_t_strconc_floor( "t_strconc_floor" );
 static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
 static const ter_str_id ter_t_thconc_floor_olight( "t_thconc_floor_olight" );
@@ -5471,8 +5478,8 @@ void map::draw_lab( mapgendata &dat )
                 } else {
                     debugmsg( "Error: Tried to generate 1-sided lab but no lab_1side json exists." );
                 }
-                maybe_insert_stairs( dat.above(), t_stairs_up );
-                maybe_insert_stairs( terrain_type, t_stairs_down );
+                maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+                maybe_insert_stairs( terrain_type, ter_t_stairs_down );
             } else {
                 const int hardcoded_4side_map_weight = 1500; // weight of all hardcoded maps.
                 // If you remove the usage of "lab_4side" here, remove it from mapgen_factory::get_usages above as well.
@@ -5486,12 +5493,12 @@ void map::draw_lab( mapgendata &dat )
                         !has_flag_ter( ter_furn_flag::TFLAG_DOOR, east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
-                        ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
-                        ter_id rw_type = tower_lab && rw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
-                        ter_id bw_type = tower_lab && bw == 2 ? t_reinforced_glass :
-                                         t_concrete_wall;
+                        ter_str_id lw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
+                        ter_str_id tw_type = tower_lab ? ter_t_reinforced_glass : ter_t_concrete_wall;
+                        ter_str_id rw_type = tower_lab && rw == 2 ? ter_t_reinforced_glass :
+                                             ter_t_concrete_wall;
+                        ter_str_id bw_type = tower_lab && bw == 2 ? ter_t_reinforced_glass :
+                                             ter_t_concrete_wall;
                         for( int i = 0; i < SEEX * 2; i++ ) {
                             ter_set( point( 23, i ), rw_type );
                             furn_set( point( 23, i ), f_null );
@@ -5517,13 +5524,13 @@ void map::draw_lab( mapgendata &dat )
                             ter_set( point( 23, 12 ), t_door_metal_c );
                         }
                         if( bw != 2 ) {
-                            ter_set( point( 11, 23 ), t_door_metal_c );
-                            ter_set( point( 12, 23 ), t_door_metal_c );
+                            ter_set( point( 11, 23 ), ter_t_door_metal_c );
+                            ter_set( point( 12, 23 ), ter_t_door_metal_c );
                         }
                     }
 
-                    maybe_insert_stairs( dat.above(), t_stairs_up );
-                    maybe_insert_stairs( terrain_type, t_stairs_down );
+                    maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+                    maybe_insert_stairs( terrain_type, ter_t_stairs_down );
                 } else { // then no json maps for lab_4side were found
                     switch( rng( 1, 3 ) ) {
                         case 1:
@@ -5536,61 +5543,61 @@ void map::draw_lab( mapgendata &dat )
                                         ( j < tw || j > SOUTH_EDGE - bw ) ||
                                         ( ( i < SEEX - 1 || i > SEEX ) &&
                                           ( j == SEEY - 2 || j == SEEY + 1 ) ) ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
+                                        ter_set( point( i, j ), ter_t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), ter_t_thconc_floor );
                                     }
                                 }
                             }
                             if( is_ot_match( "stairs", dat.above(), ot_match_type::contains ) ) {
                                 ter_set( point( rng( SEEX - 1, SEEX ), rng( SEEY - 1, SEEY ) ),
-                                         t_stairs_up );
+                                         ter_t_stairs_up );
                             }
                             // Top left
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX - 2, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX - 2, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, tw ), point( SEEX - 3, SEEY - 3 ), dat.zlevel(), 1 );
                             } else {
-                                ter_set( point( SEEX / 2, SEEY - 2 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX / 2, SEEY - 2 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, tw ), point( SEEX - 3, SEEY - 3 ), dat.zlevel(), 2 );
                             }
                             // Top right
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX + 1, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + 1, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 3 );
                             } else {
-                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 2 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 2 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, tw ), point( EAST_EDGE - rw, SEEY - 3 ),
                                               dat.zlevel(), 2 );
                             }
                             // Bottom left
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX / 2, SEEY + 1 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX / 2, SEEY + 1 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 0 );
                             } else {
-                                ter_set( point( SEEX - 2, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX - 2, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( lw, SEEY + 2 ), point( SEEX - 3, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 1 );
                             }
                             // Bottom right
                             if( one_in( 2 ) ) {
-                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 1 ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 1 ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 0 );
                             } else {
-                                ter_set( point( SEEX + 1, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                                ter_set( point( SEEX + 1, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                                 science_room( this, point( SEEX + 2, SEEY + 2 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                               dat.zlevel(), 3 );
                             }
                             if( rw == 1 ) {
-                                ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
-                                ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY ), ter_t_door_metal_c );
                             }
                             if( bw == 1 ) {
-                                ter_set( point( SEEX - 1, SOUTH_EDGE ), t_door_metal_c );
-                                ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
+                                ter_set( point( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
+                                ter_set( point( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
                             }
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) { // Stairs going down
                                 std::vector<point> stair_points;
@@ -5627,7 +5634,7 @@ void map::draw_lab( mapgendata &dat )
                                 stair_points.emplace_back( SEEX, static_cast<int>( SEEY / 2 ) + SEEY );
                                 stair_points.emplace_back( SEEX + 2, static_cast<int>( SEEY / 2 ) + SEEY );
                                 const point p = random_entry( stair_points );
-                                ter_set( p, t_stairs_down );
+                                ter_set( p, ter_t_stairs_down );
                             }
 
                             break;
@@ -5640,30 +5647,30 @@ void map::draw_lab( mapgendata &dat )
                                         i == SEEX - 4 || i == SEEX + 3 ||
                                         j < tw || j > SOUTH_EDGE - bw ||
                                         j == SEEY - 4 || j == SEEY + 3 ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
+                                        ter_set( point( i, j ), ter_t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), ter_t_thconc_floor );
                                     }
                                 }
                             }
                             if( is_ot_match( "stairs", dat.above(), ot_match_type::contains ) ) {
-                                ter_set( point( SEEX - 1, SEEY - 1 ), t_stairs_up );
-                                ter_set( point( SEEX, SEEY - 1 ), t_stairs_up );
-                                ter_set( point( SEEX - 1, SEEY ), t_stairs_up );
-                                ter_set( point( SEEX, SEEY ), t_stairs_up );
+                                ter_set( point( SEEX - 1, SEEY - 1 ), ter_t_stairs_up );
+                                ter_set( point( SEEX, SEEY - 1 ), ter_t_stairs_up );
+                                ter_set( point( SEEX - 1, SEEY ), ter_t_stairs_up );
+                                ter_set( point( SEEX, SEEY ), ter_t_stairs_up );
                             }
-                            ter_set( point( SEEX - rng( 0, 1 ), SEEY - 4 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - rng( 0, 1 ), SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, SEEY + rng( 0, 1 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, SEEY + rng( 0, 1 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX / 2, SEEY - 4 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX / 2, SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 4 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 3 ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX - 4, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
-                            ter_set( point( SEEX + 3, SEEY + static_cast<int>( SEEY / 2 ) ), t_door_glass_frosted_c );
+                            ter_set( point( SEEX - rng( 0, 1 ), SEEY - 4 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - rng( 0, 1 ), SEEY + 3 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, SEEY + rng( 0, 1 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, SEEY + rng( 0, 1 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX / 2, SEEY - 4 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX / 2, SEEY + 3 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY - 4 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + static_cast<int>( SEEX / 2 ), SEEY + 3 ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX - 4, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
+                            ter_set( point( SEEX + 3, SEEY + static_cast<int>( SEEY / 2 ) ), ter_t_door_glass_frosted_c );
                             science_room( this, point( lw, tw ), point( SEEX - 5, SEEY - 5 ), dat.zlevel(),
                                           rng( 1, 2 ) );
                             science_room( this, point( SEEX - 3, tw ), point( SEEX + 2, SEEY - 5 ), dat.zlevel(), 2 );
@@ -5679,16 +5686,16 @@ void map::draw_lab( mapgendata &dat )
                             science_room( this, point( SEEX + 4, SEEX + 4 ), point( EAST_EDGE - rw, SOUTH_EDGE - bw ),
                                           dat.zlevel(), 3 * rng( 0, 1 ) );
                             if( rw == 1 ) {
-                                ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
-                                ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY ), ter_t_door_metal_c );
                             }
                             if( bw == 1 ) {
-                                ter_set( point( SEEX - 1, SOUTH_EDGE ), t_door_metal_c );
-                                ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
+                                ter_set( point( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
+                                ter_set( point( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
                             }
                             if( is_ot_match( "stairs", terrain_type, ot_match_type::contains ) ) {
                                 ter_set( point( SEEX - 3 + 5 * rng( 0, 1 ), SEEY - 3 + 5 * rng( 0, 1 ) ),
-                                         t_stairs_down );
+                                         ter_t_stairs_down );
                             }
                             break;
 
@@ -5698,9 +5705,9 @@ void map::draw_lab( mapgendata &dat )
                                 for( int j = 0; j < SEEY * 2; j++ ) {
                                     if( i < lw || i >= EAST_EDGE - rw ||
                                         j < tw || j >= SOUTH_EDGE - bw ) {
-                                        ter_set( point( i, j ), t_concrete_wall );
+                                        ter_set( point( i, j ), ter_t_concrete_wall );
                                     } else {
-                                        ter_set( point( i, j ), t_thconc_floor );
+                                        ter_set( point( i, j ), ter_t_thconc_floor );
                                     }
                                 }
                             }
@@ -5708,15 +5715,15 @@ void map::draw_lab( mapgendata &dat )
                                           dat.zlevel(), rng( 0, 3 ) );
 
                             if( rw == 1 ) {
-                                ter_set( point( EAST_EDGE, SEEY - 1 ), t_door_metal_c );
-                                ter_set( point( EAST_EDGE, SEEY ), t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY - 1 ), ter_t_door_metal_c );
+                                ter_set( point( EAST_EDGE, SEEY ), ter_t_door_metal_c );
                             }
                             if( bw == 1 ) {
-                                ter_set( point( SEEX - 1, SOUTH_EDGE ), t_door_metal_c );
-                                ter_set( point( SEEX, SOUTH_EDGE ), t_door_metal_c );
+                                ter_set( point( SEEX - 1, SOUTH_EDGE ), ter_t_door_metal_c );
+                                ter_set( point( SEEX, SOUTH_EDGE ), ter_t_door_metal_c );
                             }
-                            maybe_insert_stairs( dat.above(), t_stairs_up );
-                            maybe_insert_stairs( terrain_type, t_stairs_down );
+                            maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+                            maybe_insert_stairs( terrain_type, ter_t_stairs_down );
                             break;
                     }
                 } // endif use_hardcoded_4side_map
@@ -6170,10 +6177,10 @@ void map::draw_lab( mapgendata &dat )
                     tmpcomp->add_failure( COMPFAIL_SECUBOTS );
                     tmpcomp->set_access_denied_msg(
                         _( "ERROR!  Access denied!  Unauthorized access will be met with lethal force!" ) );
-                    ter_set( point( SEEX - 2, 4 ), t_radio_tower );
-                    ter_set( point( SEEX + 1, 4 ), t_radio_tower );
-                    ter_set( point( SEEX - 2, 7 ), t_radio_tower );
-                    ter_set( point( SEEX + 1, 7 ), t_radio_tower );
+                    ter_set( point( SEEX - 2, 4 ), ter_t_radio_tower );
+                    ter_set( point( SEEX + 1, 4 ), ter_t_radio_tower );
+                    ter_set( point( SEEX - 2, 7 ), ter_t_radio_tower );
+                    ter_set( point( SEEX + 1, 7 ), ter_t_radio_tower );
                 }
                 break;
 
@@ -6236,7 +6243,8 @@ void map::draw_lab( mapgendata &dat )
 
         // Handle stairs in the unlikely case they are needed.
 
-        const auto maybe_insert_stairs = [this]( const oter_id & terrain,  const ter_id & t_stair_type ) {
+        const auto maybe_insert_stairs = [this]( const oter_id & terrain,
+        const ter_str_id & t_stair_type ) {
             if( is_ot_match( "stairs", terrain, ot_match_type::contains ) ) {
                 const auto predicate = [this]( const tripoint & p ) {
                     return ter( p ) == t_thconc_floor && furn( p ) == f_null &&
@@ -6249,8 +6257,8 @@ void map::draw_lab( mapgendata &dat )
                 }
             }
         };
-        maybe_insert_stairs( dat.above(), t_stairs_up );
-        maybe_insert_stairs( terrain_type, t_stairs_down );
+        maybe_insert_stairs( dat.above(), ter_t_stairs_up );
+        maybe_insert_stairs( terrain_type, ter_t_stairs_down );
 
         int light_odds = 0;
         // central labs are always fully lit, other labs have half chance of some lights.
@@ -6286,34 +6294,34 @@ void map::draw_slimepit( const mapgendata &dat )
                                        i > SEEX * 2 - dat.e_fac * SEEX ) ) {
                     ter_set( point( i, j ), ( !one_in( 10 ) ? t_slime : t_rock_floor ) );
                 } else if( rng( 0, SEEX ) > std::abs( i - SEEX ) && rng( 0, SEEY ) > std::abs( j - SEEY ) ) {
-                    ter_set( point( i, j ), t_slime );
+                    ter_set( point( i, j ), ter_t_slime );
                 } else if( dat.zlevel() == 0 ) {
-                    ter_set( point( i, j ), t_dirt );
+                    ter_set( point( i, j ), ter_t_dirt );
                 } else {
-                    ter_set( point( i, j ), t_rock_floor );
+                    ter_set( point( i, j ), ter_t_rock_floor );
                 }
             }
         }
         if( terrain_type == oter_slimepit_down ) {
-            ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), t_slope_down );
+            ter_set( point( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) ), ter_t_slope_down );
         }
         if( dat.above() == oter_slimepit_down ) {
             switch( rng( 1, 4 ) ) {
                 case 1:
-                    ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), t_slope_up );
+                    ter_set( point( rng( 0, 2 ), rng( 0, 2 ) ), ter_t_slope_up );
                     break;
                 case 2:
-                    ter_set( point( rng( 0, 2 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
+                    ter_set( point( rng( 0, 2 ), SEEY * 2 - rng( 1, 3 ) ), ter_t_slope_up );
                     break;
                 case 3:
-                    ter_set( point( SEEX * 2 - rng( 1, 3 ), rng( 0, 2 ) ), t_slope_up );
+                    ter_set( point( SEEX * 2 - rng( 1, 3 ), rng( 0, 2 ) ), ter_t_slope_up );
                     break;
                 case 4:
-                    ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), t_slope_up );
+                    ter_set( point( SEEX * 2 - rng( 1, 3 ), SEEY * 2 - rng( 1, 3 ) ), ter_t_slope_up );
             }
         } else if( dat.above() == oter_slimepit_bottom ) {
             // Align the stairs
-            ter_set( point( 7, 9 ), t_slope_up );
+            ter_set( point( 7, 9 ), ter_t_slope_up );
         }
         place_spawns( GROUP_SLIME, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 0.15 );
         place_items( Item_spawn_data_sewer, 40, point_zero, point( EAST_EDGE, SOUTH_EDGE ), true,

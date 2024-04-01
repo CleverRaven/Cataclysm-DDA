@@ -220,6 +220,9 @@ static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_root_wall( "t_root_wall" );
+
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
@@ -1819,9 +1822,9 @@ bool mattack::triffid_heartbeat( monster *z )
         add_msg( m_warning, _( "The root walls creak around you." ) );
         for( const tripoint &dest : here.points_in_radius( z->pos(), 3 ) ) {
             if( g->is_empty( dest ) && one_in( 4 ) ) {
-                here.ter_set( dest, t_root_wall );
-            } else if( here.ter( dest ) == t_root_wall && one_in( 10 ) ) {
-                here.ter_set( dest, t_dirt );
+                here.ter_set( dest, ter_t_root_wall );
+            } else if( here.ter( dest ) == ter_t_root_wall && one_in( 10 ) ) {
+                here.ter_set( dest, ter_t_dirt );
             }
         }
         // Open blank tiles as long as there's no possible route

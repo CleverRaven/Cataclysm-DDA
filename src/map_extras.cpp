@@ -138,6 +138,7 @@ static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" 
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_fence_barbed( "t_fence_barbed" );
 static const ter_str_id ter_t_fungus( "t_fungus" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_grass_dead( "t_grass_dead" );
@@ -519,7 +520,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Horizontal line of barbed wire fence
-        line( &m, t_fence_barbed, point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
+        line( &m, ter_t_fence_barbed, point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
 
         std::vector<point> barbed_wire = line_to( point( 3, 9 ), point( SEEX * 2 - 4, 9 ) );
         for( point &i : barbed_wire ) {
@@ -577,7 +578,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
 
         //Section of barbed wire fence
-        line( &m, t_fence_barbed, point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
+        line( &m, ter_t_fence_barbed, point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
 
         std::vector<point> barbed_wire = line_to( point( 3, 13 ), point( SEEX * 2 - 4, 13 ) );
         for( point &i : barbed_wire ) {
@@ -743,9 +744,9 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         }
 
         //Add sandbags and barbed wire fence barricades
-        line( &m, t_fence_barbed, point( 12, 3 ), point( 12, 13 ) );
+        line( &m, ter_t_fence_barbed, point( 12, 3 ), point( 12, 13 ) );
         line_furn( &m, f_sandbag_half, point( 10, 16 ), point( 10, 20 ) );
-        line( &m, t_fence_barbed, point( 12, 16 ), point( 12, 20 ) );
+        line( &m, ter_t_fence_barbed, point( 12, 16 ), point( 12, 20 ) );
 
         //Place second tent
         square_furn( &m, f_canvas_wall, point( 0, 16 ), point( 4, 20 ) );

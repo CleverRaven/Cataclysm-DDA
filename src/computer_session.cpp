@@ -102,9 +102,11 @@ static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const ter_str_id ter_t_concrete( "t_concrete" );
+static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_elevator( "t_elevator" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
 static const ter_str_id ter_t_grate( "t_grate" );
@@ -112,9 +114,12 @@ static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_missile( "t_missile" );
 static const ter_str_id ter_t_rad_platform( "t_rad_platform" );
+static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
+static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_sewage_pipe( "t_sewage_pipe" );
 static const ter_str_id ter_t_sewage_pump( "t_sewage_pump" );
+static const ter_str_id ter_t_thconc_floor( "t_thconc_floor" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
@@ -517,7 +522,8 @@ void computer_session::action_release()
     sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, player_character.pos(),
+    get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 25.0,
+                                player_character.pos(),
                                 true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
@@ -534,7 +540,8 @@ void computer_session::action_release_bionics()
     sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    get_map().translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, player_character.pos(), true );
+    get_map().translate_radius( ter_t_reinforced_glass, ter_t_thconc_floor, 3.0, player_character.pos(),
+                                true );
     query_any( _( "Containment shields opened.  Press any key…" ) );
 }
 
@@ -549,10 +556,10 @@ void computer_session::action_terminate()
         if( !mon ) {
             continue;
         }
-        if( ( here.ter( p + tripoint_north ) == t_reinforced_glass &&
-              here.ter( p + tripoint_south ) == t_concrete_wall ) ||
-            ( here.ter( p + tripoint_south ) == t_reinforced_glass &&
-              here.ter( p + tripoint_north ) == t_concrete_wall ) ) {
+        if( ( here.ter( p + tripoint_north ) == ter_t_reinforced_glass &&
+              here.ter( p + tripoint_south ) == ter_t_concrete_wall ) ||
+            ( here.ter( p + tripoint_south ) == ter_t_reinforced_glass &&
+              here.ter( p + tripoint_north ) == ter_t_concrete_wall ) ) {
             mon->die( &player_character );
         }
     }
@@ -566,7 +573,7 @@ void computer_session::action_portal()
     for( const tripoint &tmp : here.points_on_zlevel() ) {
         int numtowers = 0;
         for( const tripoint &tmp2 : here.points_in_radius( tmp, 2 ) ) {
-            if( here.ter( tmp2 ) == t_radio_tower ) {
+            if( here.ter( tmp2 ) == ter_t_radio_tower ) {
                 numtowers++;
             }
         }
@@ -590,7 +597,7 @@ void computer_session::action_cascade()
     map &here = get_map();
     std::vector<tripoint> cascade_points;
     for( const tripoint &dest : here.points_in_radius( player_pos, 10 ) ) {
-        if( here.ter( dest ) == t_radio_tower ) {
+        if( here.ter( dest ) == ter_t_radio_tower ) {
             cascade_points.push_back( dest );
         }
     }
@@ -1008,7 +1015,7 @@ void computer_session::action_data_anal()
     player_character.moves -= 30;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 2 ) ) {
-        if( here.ter( dest ) == t_floor_blue ) {
+        if( here.ter( dest ) == ter_t_floor_blue ) {
             print_error( _( "PROCESSING DATA" ) );
             map_stack items = here.i_at( dest );
             if( items.empty() ) {
@@ -1655,7 +1662,7 @@ void computer_session::failure_destroy_data()
     print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 2 ) ) {
-        if( here.ter( p ) == t_floor_blue ) {
+        if( here.ter( p ) == ter_t_floor_blue ) {
             map_stack items = here.i_at( p );
             if( items.empty() ) {
                 print_error( _( "ERROR: Please place memory bank in scan area." ) );

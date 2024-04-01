@@ -57,6 +57,7 @@ static const ter_str_id ter_t_buffer_stop( "t_buffer_stop" );
 static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_lava( "t_lava" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
 static const ter_str_id ter_t_railroad_tie( "t_railroad_tie" );
 static const ter_str_id ter_t_railroad_tie_d( "t_railroad_tie_d" );
@@ -77,6 +78,7 @@ static const ter_str_id ter_t_railroad_track_v_on_tie( "t_railroad_track_v_on_ti
 static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
+static const ter_str_id ter_t_slope_down( "t_slope_down" );
 
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
 
@@ -780,90 +782,90 @@ void mapgen_hellmouth( mapgendata &dat )
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( j < dat.n_fac || j >= SEEY * 2 - dat.s_fac || i < dat.w_fac || i >= SEEX * 2 - dat.e_fac ||
                 ( i >= 6 && i < SEEX * 2 - 6 && j >= 6 && j < SEEY * 2 - 6 ) ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), ter_t_rock_floor );
             } else {
-                m->ter_set( point( i, j ), t_lava );
+                m->ter_set( point( i, j ), ter_t_lava );
             }
             if( i >= SEEX - 1 && i <= SEEX && j >= SEEY - 1 && j <= SEEY ) {
-                m->ter_set( point( i, j ), t_slope_down );
+                m->ter_set( point( i, j ), ter_t_slope_down );
             }
         }
     }
     switch( rng( 0, 4 ) ) { // Randomly chosen "altar" design
         case 0:
             for( int i = 7; i <= 16; i += 3 ) {
-                m->ter_set( point( i, 6 ), t_rock );
-                m->ter_set( point( i, 17 ), t_rock );
-                m->ter_set( point( 6, i ), t_rock );
-                m->ter_set( point( 17, i ), t_rock );
+                m->ter_set( point( i, 6 ), ter_t_rock );
+                m->ter_set( point( i, 17 ), ter_t_rock );
+                m->ter_set( point( 6, i ), ter_t_rock );
+                m->ter_set( point( 17, i ), ter_t_rock );
                 if( i > 7 && i < 16 ) {
-                    m->ter_set( point( i, 10 ), t_rock );
-                    m->ter_set( point( i, 13 ), t_rock );
+                    m->ter_set( point( i, 10 ), ter_t_rock );
+                    m->ter_set( point( i, 13 ), ter_t_rock );
                 } else {
-                    m->ter_set( point( i - 1, 6 ), t_rock );
-                    m->ter_set( point( i - 1, 10 ), t_rock );
-                    m->ter_set( point( i - 1, 13 ), t_rock );
-                    m->ter_set( point( i - 1, 17 ), t_rock );
+                    m->ter_set( point( i - 1, 6 ), ter_t_rock );
+                    m->ter_set( point( i - 1, 10 ), ter_t_rock );
+                    m->ter_set( point( i - 1, 13 ), ter_t_rock );
+                    m->ter_set( point( i - 1, 17 ), ter_t_rock );
                 }
             }
             break;
         case 1:
             for( int i = 6; i < 11; i++ ) {
-                m->ter_set( point( i, i ), t_lava );
-                m->ter_set( point( SEEX * 2 - 1 - i, i ), t_lava );
-                m->ter_set( point( i, SEEY * 2 - 1 - i ), t_lava );
-                m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - i ), t_lava );
+                m->ter_set( point( i, i ), ter_t_lava );
+                m->ter_set( point( SEEX * 2 - 1 - i, i ), ter_t_lava );
+                m->ter_set( point( i, SEEY * 2 - 1 - i ), ter_t_lava );
+                m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - i ), ter_t_lava );
                 if( i < 10 ) {
-                    m->ter_set( point( i + 1, i ), t_lava );
-                    m->ter_set( point( SEEX * 2 - i, i ), t_lava );
-                    m->ter_set( point( i + 1, SEEY * 2 - 1 - i ), t_lava );
-                    m->ter_set( point( SEEX * 2 - i, SEEY * 2 - 1 - i ), t_lava );
+                    m->ter_set( point( i + 1, i ), ter_t_lava );
+                    m->ter_set( point( SEEX * 2 - i, i ), ter_t_lava );
+                    m->ter_set( point( i + 1, SEEY * 2 - 1 - i ), ter_t_lava );
+                    m->ter_set( point( SEEX * 2 - i, SEEY * 2 - 1 - i ), ter_t_lava );
 
-                    m->ter_set( point( i, i + 1 ), t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, i + 1 ), t_lava );
-                    m->ter_set( point( i, SEEY * 2 - i ), t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i ), t_lava );
+                    m->ter_set( point( i, i + 1 ), ter_t_lava );
+                    m->ter_set( point( SEEX * 2 - 1 - i, i + 1 ), ter_t_lava );
+                    m->ter_set( point( i, SEEY * 2 - i ), ter_t_lava );
+                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i ), ter_t_lava );
                 }
                 if( i < 9 ) {
-                    m->ter_set( point( i + 2, i ), t_rock );
-                    m->ter_set( point( SEEX * 2 - i + 1, i ), t_rock );
-                    m->ter_set( point( i + 2, SEEY * 2 - 1 - i ), t_rock );
-                    m->ter_set( point( SEEX * 2 - i + 1, SEEY * 2 - 1 - i ), t_rock );
+                    m->ter_set( point( i + 2, i ), ter_t_rock );
+                    m->ter_set( point( SEEX * 2 - i + 1, i ), ter_t_rock );
+                    m->ter_set( point( i + 2, SEEY * 2 - 1 - i ), ter_t_rock );
+                    m->ter_set( point( SEEX * 2 - i + 1, SEEY * 2 - 1 - i ), ter_t_rock );
 
-                    m->ter_set( point( i, i + 2 ), t_rock );
-                    m->ter_set( point( SEEX * 2 - 1 - i, i + 2 ), t_rock );
-                    m->ter_set( point( i, SEEY * 2 - i + 1 ), t_rock );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i + 1 ), t_rock );
+                    m->ter_set( point( i, i + 2 ), ter_t_rock );
+                    m->ter_set( point( SEEX * 2 - 1 - i, i + 2 ), ter_t_rock );
+                    m->ter_set( point( i, SEEY * 2 - i + 1 ), ter_t_rock );
+                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - i + 1 ), ter_t_rock );
                 }
             }
             break;
         case 2:
             for( int i = 7; i < 17; i++ ) {
-                m->ter_set( point( i, 6 ), t_rock );
-                m->ter_set( point( 6, i ), t_rock );
-                m->ter_set( point( i, 17 ), t_rock );
-                m->ter_set( point( 17, i ), t_rock );
+                m->ter_set( point( i, 6 ), ter_t_rock );
+                m->ter_set( point( 6, i ), ter_t_rock );
+                m->ter_set( point( i, 17 ), ter_t_rock );
+                m->ter_set( point( 17, i ), ter_t_rock );
                 if( i != 7 && i != 16 && i != 11 && i != 12 ) {
-                    m->ter_set( point( i, 8 ), t_rock );
-                    m->ter_set( point( 8, i ), t_rock );
-                    m->ter_set( point( i, 15 ), t_rock );
-                    m->ter_set( point( 15, i ), t_rock );
+                    m->ter_set( point( i, 8 ), ter_t_rock );
+                    m->ter_set( point( 8, i ), ter_t_rock );
+                    m->ter_set( point( i, 15 ), ter_t_rock );
+                    m->ter_set( point( 15, i ), ter_t_rock );
                 }
                 if( i == 11 || i == 12 ) {
-                    m->ter_set( point( i, 10 ), t_rock );
-                    m->ter_set( point( 10, i ), t_rock );
-                    m->ter_set( point( i, 13 ), t_rock );
-                    m->ter_set( point( 13, i ), t_rock );
+                    m->ter_set( point( i, 10 ), ter_t_rock );
+                    m->ter_set( point( 10, i ), ter_t_rock );
+                    m->ter_set( point( i, 13 ), ter_t_rock );
+                    m->ter_set( point( 13, i ), ter_t_rock );
                 }
             }
             break;
         case 3:
             for( int i = 6; i < 11; i++ ) {
                 for( int j = 6; j < 11; j++ ) {
-                    m->ter_set( point( i, j ), t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, j ), t_lava );
-                    m->ter_set( point( i, SEEY * 2 - 1 - j ), t_lava );
-                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - j ), t_lava );
+                    m->ter_set( point( i, j ), ter_t_lava );
+                    m->ter_set( point( SEEX * 2 - 1 - i, j ), ter_t_lava );
+                    m->ter_set( point( i, SEEY * 2 - 1 - j ), ter_t_lava );
+                    m->ter_set( point( SEEX * 2 - 1 - i, SEEY * 2 - 1 - j ), ter_t_lava );
                 }
             }
             break;

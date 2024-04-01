@@ -88,6 +88,13 @@ static const skill_id skill_throw( "throw" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
+static const ter_str_id ter_t_rock_green( "t_rock_green" );
+static const ter_str_id ter_t_rock_red( "t_rock_red" );
+
 static const trait_id trait_INFRESIST( "INFRESIST" );
 
 // A pit becomes less effective as it fills with corpses.
@@ -1372,23 +1379,23 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
         int &j = tmp.y;
         for( i = 0; i < MAPSIZE_X; i++ ) {
             for( j = 0; j < MAPSIZE_Y; j++ ) {
-                if( type == t_floor_red ) {
-                    if( here.ter( tmp ) == t_rock_green ) {
-                        here.ter_set( tmp, t_floor_green );
-                    } else if( here.ter( tmp ) == t_floor_green ) {
-                        here.ter_set( tmp, t_rock_green );
+                if( type == ter_t_floor_red ) {
+                    if( here.ter( tmp ) == ter_t_rock_green ) {
+                        here.ter_set( tmp, ter_t_floor_green );
+                    } else if( here.ter( tmp ) == ter_t_floor_green ) {
+                        here.ter_set( tmp, ter_t_rock_green );
                     }
-                } else if( type == t_floor_green ) {
-                    if( here.ter( tmp ) == t_rock_blue ) {
-                        here.ter_set( tmp, t_floor_blue );
-                    } else if( here.ter( tmp ) == t_floor_blue ) {
-                        here.ter_set( tmp, t_rock_blue );
+                } else if( type == ter_t_floor_green ) {
+                    if( here.ter( tmp ) == ter_t_rock_blue ) {
+                        here.ter_set( tmp, ter_t_floor_blue );
+                    } else if( here.ter( tmp ) == ter_t_floor_blue ) {
+                        here.ter_set( tmp, ter_t_rock_blue );
                     }
-                } else if( type == t_floor_blue ) {
-                    if( here.ter( tmp ) == t_rock_red ) {
-                        here.ter_set( tmp, t_floor_red );
-                    } else if( here.ter( tmp ) == t_floor_red ) {
-                        here.ter_set( tmp, t_rock_red );
+                } else if( type == ter_t_floor_blue ) {
+                    if( here.ter( tmp ) == ter_t_rock_red ) {
+                        here.ter_set( tmp, ter_t_floor_red );
+                    } else if( here.ter( tmp ) == ter_t_floor_red ) {
+                        here.ter_set( tmp, ter_t_rock_red );
                     }
                 }
             }
@@ -1404,19 +1411,19 @@ bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
 
         if( blocked_tiles.size() == 8 ) {
             for( int i = 7; i >= 0 ; --i ) {
-                if( here.ter( blocked_tiles.at( i ) ) != t_rock_red &&
-                    here.ter( blocked_tiles.at( i ) ) != t_rock_green &&
-                    here.ter( blocked_tiles.at( i ) ) != t_rock_blue ) {
+                if( here.ter( blocked_tiles.at( i ) ) != ter_t_rock_red &&
+                    here.ter( blocked_tiles.at( i ) ) != ter_t_rock_green &&
+                    here.ter( blocked_tiles.at( i ) ) != ter_t_rock_blue ) {
                     blocked_tiles.erase( blocked_tiles.begin() + i );
                 }
             }
             const tripoint &pnt = random_entry( blocked_tiles );
-            if( here.ter( pnt ) == t_rock_red ) {
-                here.ter_set( pnt, t_floor_red );
-            } else if( here.ter( pnt ) == t_rock_green ) {
-                here.ter_set( pnt, t_floor_green );
-            } else if( here.ter( pnt ) == t_rock_blue ) {
-                here.ter_set( pnt, t_floor_blue );
+            if( here.ter( pnt ) == ter_t_rock_red ) {
+                here.ter_set( pnt, ter_t_floor_red );
+            } else if( here.ter( pnt ) == ter_t_rock_green ) {
+                here.ter_set( pnt, ter_t_floor_green );
+            } else if( here.ter( pnt ) == ter_t_rock_blue ) {
+                here.ter_set( pnt, ter_t_floor_blue );
             }
         }
 

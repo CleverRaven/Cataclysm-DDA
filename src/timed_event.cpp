@@ -54,6 +54,9 @@ static const spell_id spell_dks_summon_alrp( "dks_summon_alrp" );
 static const ter_str_id ter_t_fault( "t_fault" );
 static const ter_str_id ter_t_grate( "t_grate" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_t_root_wall( "t_root_wall" );
+static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_underbrush( "t_underbrush" );
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string key )
@@ -175,8 +178,8 @@ void timed_event::actualize()
         case timed_event_type::ROOTS_DIE:
             get_event_bus().send<event_type::destroys_triffid_grove>();
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_root_wall && one_in( 3 ) ) {
-                    here.ter_set( p, t_underbrush );
+                if( here.ter( p ) == ter_t_root_wall && one_in( 3 ) ) {
+                    here.ter_set( p, ter_t_underbrush );
                 }
             }
             break;
@@ -186,7 +189,7 @@ void timed_event::actualize()
             bool saw_grate = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == ter_t_grate ) {
-                    here.ter_set( p, t_stairs_down );
+                    here.ter_set( p, ter_t_stairs_down );
                     if( !saw_grate && player_character.sees( p ) ) {
                         saw_grate = true;
                     }
