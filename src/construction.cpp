@@ -98,11 +98,17 @@ static const quality_id qual_CUT( "CUT" );
 
 static const skill_id skill_fabrication( "fabrication" );
 
+static const ter_str_id ter_t_clay( "t_clay" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_hole( "t_hole" );
 static const ter_str_id ter_t_ladder_up( "t_ladder_up" );
 static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_ramp_down_high( "t_ramp_down_high" );
+static const ter_str_id ter_t_ramp_down_low( "t_ramp_down_low" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_t_sand( "t_sand" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
 static const ter_str_id ter_t_stairs_up( "t_stairs_up" );
 static const ter_str_id ter_t_wood_stairs_down( "t_wood_stairs_down" );
@@ -1157,7 +1163,7 @@ void complete_construction( Character *you )
                 const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
                 if( post_terrain->roof ) {
                     const tripoint_bub_ms top = terp + tripoint_above;
-                    if( here.ter( top ) == t_open_air ) {
+                    if( here.ter( top ) == ter_t_open_air ) {
                         here.ter_set( top, ter_id( post_terrain->roof ) );
                     }
                 }
@@ -1721,12 +1727,12 @@ void construct::done_extract_maybe_revert_to_dirt( const tripoint_bub_ms &p, Cha
 {
     map &here = get_map();
     if( one_in( 10 ) ) {
-        here.ter_set( p, t_dirt );
+        here.ter_set( p, ter_t_dirt );
     }
 
-    if( here.ter( p ) == t_clay ) {
+    if( here.ter( p ) == ter_t_clay ) {
         add_msg( _( "You gather some clay." ) );
-    } else if( here.ter( p ) == t_sand ) {
+    } else if( here.ter( p ) == ter_t_sand ) {
         add_msg( _( "You gather some sand." ) );
     } else {
         // Fall through to an undefined material.
@@ -1747,13 +1753,13 @@ void construct::done_mark_practice_target( const tripoint_bub_ms &p, Character &
 void construct::done_ramp_low( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_ramp_down_low" ) );
+    get_map().ter_set( top, ter_t_ramp_down_low );
 }
 
 void construct::done_ramp_high( const tripoint_bub_ms &p, Character &/*who*/ )
 {
     const tripoint_bub_ms top = p + tripoint_above;
-    get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
+    get_map().ter_set( top, ter_t_ramp_down_high );
 }
 
 void construct::do_turn_shovel( const tripoint_bub_ms &p, Character &who )
@@ -2182,8 +2188,8 @@ void finalize_constructions()
 }
 
 build_reqs get_build_reqs_for_furn_ter_ids(
-    const std::pair<std::map<ter_id, int>, std::map<furn_id, int>> &changed_ids,
-    ter_id const &base_ter )
+    const std::pair<std::map<ter_str_id, int>, std::map<furn_str_id, int>> &changed_ids,
+    ter_str_id const &base_ter )
 {
     build_reqs total_reqs;
 

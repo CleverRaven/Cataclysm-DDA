@@ -220,13 +220,21 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
+static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
 static const ter_str_id ter_t_diesel_pump( "t_diesel_pump" );
 static const ter_str_id ter_t_diesel_pump_a( "t_diesel_pump_a" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_door_metal_o( "t_door_metal_o" );
 static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
 static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_fungus( "t_fungus" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
+static const ter_str_id ter_t_marloss( "t_marloss" );
+static const ter_str_id ter_t_marloss_tree( "t_marloss_tree" );
 static const ter_str_id ter_t_orifice( "t_orifice" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_covered( "t_pit_covered" );
@@ -238,10 +246,12 @@ static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rock_green( "t_rock_green" );
 static const ter_str_id ter_t_rock_red( "t_rock_red" );
+static const ter_str_id ter_t_shrub_fungal( "t_shrub_fungal" );
 static const ter_str_id ter_t_switch_even( "t_switch_even" );
 static const ter_str_id ter_t_switch_gb( "t_switch_gb" );
 static const ter_str_id ter_t_switch_rb( "t_switch_rb" );
 static const ter_str_id ter_t_switch_rg( "t_switch_rg" );
+static const ter_str_id ter_t_tree_fungal( "t_tree_fungal" );
 static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
 static const ter_str_id ter_t_tree_maple( "t_tree_maple" );
 static const ter_str_id ter_t_tree_maple_tapped( "t_tree_maple_tapped" );
@@ -1383,7 +1393,7 @@ void iexamine::cardreader_robofac( Character &you, const tripoint &examp )
         you.mod_moves( -100 );
         you.use_amount( card_type, 1 );
         add_msg( m_bad, _( "The card reader short circuits!" ) );
-        get_map().ter_set( examp, t_card_reader_broken );
+        get_map().ter_set( examp, ter_t_card_reader_broken );
         intercom( you, examp );
     } else {
         add_msg( _( "You have never seen this card reader model before.  Hacking it seems impossible." ) );
@@ -1399,8 +1409,8 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         you.mod_moves( -100 );
         map &here = get_map();
         for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
-            if( here.ter( tmp ) == t_door_metal_locked ) {
-                here.ter_set( tmp, t_door_metal_c );
+            if( here.ter( tmp ) == ter_t_door_metal_locked ) {
+                here.ter_set( tmp, ter_t_door_metal_c );
                 open = true;
             }
         }
@@ -1413,11 +1423,11 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
                 for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
-                    if( here.ter( tmp ) == t_door_metal_o || here.ter( tmp ) == t_door_metal_c ) {
+                    if( here.ter( tmp ) == ter_t_door_metal_o || here.ter( tmp ) == ter_t_door_metal_c ) {
                         if( you.pos() == tmp ) {
                             you.add_msg_if_player( m_bad, _( "You are in the way of the door, move before trying again." ) );
                         } else {
-                            here.ter_set( tmp, t_door_metal_locked );
+                            here.ter_set( tmp, ter_t_door_metal_locked );
                         }
                     }
                 }
@@ -2010,14 +2020,14 @@ void iexamine::pedestal_temple( Character &you, const tripoint &examp )
     map_stack items = here.i_at( examp );
     if( !items.empty() && items.only_item().typeId() == itype_petrified_eye ) {
         add_msg( _( "The pedestal sinks into the ground…" ) );
-        here.ter_set( examp, t_dirt );
+        here.ter_set( examp, ter_t_dirt );
         here.i_clear( examp );
         get_timed_events().add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else if( you.has_amount( itype_petrified_eye, 1 ) &&
                query_yn( _( "Place your petrified eye on the pedestal?" ) ) ) {
         you.use_amount( itype_petrified_eye, 1 );
         add_msg( _( "The pedestal sinks into the ground…" ) );
-        here.ter_set( examp, t_dirt );
+        here.ter_set( examp, ter_t_dirt );
         get_timed_events().add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
         add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a "
@@ -2648,7 +2658,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         here.i_clear( examp );
         if( you.has_trait( trait_M_DEPENDENT ) && ( you.get_kcal_percent() < 0.8f ||
                 you.get_thirst() > 300 ) ) {
-            here.ter_set( examp, t_marloss );
+            here.ter_set( examp, ter_t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
         } else if( you.has_trait( trait_M_DEFENDER ) || ( ( you.has_trait( trait_M_SPORES ) ||
@@ -4146,14 +4156,14 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
 void iexamine::shrub_marloss( Character &you, const tripoint &examp )
 {
     if( you.has_trait( trait_THRESH_MYCUS ) ) {
-        pick_plant( you, examp, itype_mycus_fruit, t_shrub_fungal );
+        pick_plant( you, examp, itype_mycus_fruit, ter_t_shrub_fungal );
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
         map &here = get_map();
         here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
-        here.ter_set( examp, t_fungus );
+        here.ter_set( examp, ter_t_fungus );
         add_msg( m_info, _( "The shrub offers up a fruit, then crumbles into a fungal bed." ) );
     } else {
-        pick_plant( you, examp, itype_marloss_berry, t_shrub_fungal );
+        pick_plant( you, examp, itype_marloss_berry, ter_t_shrub_fungal );
     }
 }
 
@@ -4161,20 +4171,20 @@ void iexamine::tree_marloss( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     if( you.has_trait( trait_THRESH_MYCUS ) ) {
-        pick_plant( you, examp, itype_mycus_fruit, t_tree_fungal );
+        pick_plant( you, examp, itype_mycus_fruit, ter_t_tree_fungal );
         if( you.has_trait( trait_M_DEPENDENT ) && one_in( 3 ) ) {
             // Folks have a better shot at keeping fed.
             add_msg( m_info,
                      _( "We have located a particularly vital nutrient deposit underneath this location." ) );
             add_msg( m_good, _( "Additional nourishment is available." ) );
-            here.ter_set( examp, t_marloss_tree );
+            here.ter_set( examp, ter_t_marloss_tree );
         }
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
         here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
-        here.ter_set( examp, t_tree_fungal );
+        here.ter_set( examp, ter_t_tree_fungal );
         add_msg( m_info, _( "The tree offers up a fruit, then shrivels into a fungal tree." ) );
     } else {
-        pick_plant( you, examp, itype_marloss_berry, t_tree_fungal );
+        pick_plant( you, examp, itype_marloss_berry, ter_t_tree_fungal );
     }
 }
 

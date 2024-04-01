@@ -136,6 +136,7 @@ static const oter_type_str_id oter_type_road( "road" );
 
 static const relic_procgen_id relic_procgen_data_alien_reality( "alien_reality" );
 
+static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_fence_barbed( "t_fence_barbed" );
@@ -163,6 +164,8 @@ static const ter_str_id ter_t_tree_hickory_harvested( "t_tree_hickory_harvested"
 static const ter_str_id ter_t_tree_pine( "t_tree_pine" );
 static const ter_str_id ter_t_tree_willow( "t_tree_willow" );
 static const ter_str_id ter_t_trunk( "t_trunk" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
+static const ter_str_id ter_t_water_moving_dp( "t_water_moving_dp" );
 static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
 static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
@@ -272,7 +275,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     // non-specific small vegetation falls into sticks, large dies and randomly falls
     const ter_t &tr = tid.obj();
     if( tr.has_flag( ter_furn_flag::TFLAG_SHRUB ) ) {
-        m.ter_set( loc, t_dirt );
+        m.ter_set( loc, ter_t_dirt );
         if( one_in( 2 ) ) {
             m.spawn_item( loc, itype_stick );
         }
@@ -308,13 +311,13 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
         for( int y = 0; y < SEEY * 2; y++ ) {
             if( m.veh_at( tripoint( x,  y, abs_sub.z ) ) &&
                 m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
             } else {
                 if( x >= c.x - dice( 1, 5 ) && x <= c.x + dice( 1, 5 ) && y >= c.y - dice( 1, 5 ) &&
                     y <= c.y + dice( 1, 5 ) ) {
                     if( one_in( 7 ) &&
                         m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                        m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                        m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
                     }
                 }
                 if( x >= c.x - dice( 1, 6 ) && x <= c.x + dice( 1, 6 ) && y >= c.y - dice( 1, 6 ) &&
@@ -322,12 +325,12 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     if( !one_in( 5 ) ) {
                         m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                            m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
                     } else if( m.is_bashable( point( x, y ) ) ) {
                         m.destroy( tripoint( x,  y, abs_sub.z ), true );
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                            m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
                     }
 
@@ -336,7 +339,7 @@ static bool mx_helicopter( map &m, const tripoint &abs_sub )
                     m.make_rubble( tripoint( x,  y, abs_sub.z ), f_wreckage, true );
                     if( !one_in( 3 ) ) {
                         if( m.ter( tripoint( x, y, abs_sub.z ) )->has_flag( ter_furn_flag::TFLAG_DIGGABLE ) ) {
-                            m.ter_set( tripoint( x, y, abs_sub.z ), t_dirtmound );
+                            m.ter_set( tripoint( x, y, abs_sub.z ), ter_t_dirtmound );
                         }
                     }
                 }
@@ -1229,17 +1232,17 @@ static bool mx_pond( map &m, const tripoint &abs_sub )
 
                 switch( lake_type ) {
                     case 1:
-                        m.ter_set( location, t_water_sh );
+                        m.ter_set( location, ter_t_water_sh );
                         break;
                     case 2:
-                        m.ter_set( location, t_water_dp );
+                        m.ter_set( location, ter_t_water_dp );
                         break;
                     case 3:
                         const int neighbors = CellularAutomata::neighbor_count( current, width, height, point( i, j ) );
                         if( neighbors == 8 ) {
-                            m.ter_set( location, t_water_dp );
+                            m.ter_set( location, ter_t_water_dp );
                         } else {
-                            m.ter_set( location, t_water_sh );
+                            m.ter_set( location, ter_t_water_sh );
                         }
                         break;
                 }
@@ -1284,7 +1287,7 @@ static bool mx_clay_deposit( map &m, const tripoint &abs_sub )
                 if( current[i][j] == 1 ) {
                     const tripoint location( i, j, abs_sub.z );
                     m.furn_set( location, f_null );
-                    m.ter_set( location, t_clay );
+                    m.ter_set( location, ter_t_clay );
                 }
             }
         }
@@ -1392,7 +1395,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     const auto iter = dies_into.find( tid );
     if( iter != dies_into.end() ) {
         if( one_in( 6 ) ) {
-            m.ter_set( loc, t_dirt );
+            m.ter_set( loc, ter_t_dirt );
             m.spawn_item( loc, itype_ash, 1, rng( 10, 50 ) );
         } else if( one_in( 10 ) ) {
             // do nothing, save some spots from fire
@@ -1408,7 +1411,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         }
     }
     if( tr.has_flag( ter_furn_flag::TFLAG_FUNGUS ) ) {
-        m.ter_set( loc, t_dirt );
+        m.ter_set( loc, ter_t_dirt );
         if( one_in( 5 ) ) {
             m.spawn_item( loc, itype_ash, 1, rng( 10, 50 ) );
         }
@@ -1537,8 +1540,8 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
             if( p == loc ) {
                 continue;
             }
-            if( m.ter( p ) == t_water_moving_sh || m.ter( p ) == t_water_sh ||
-                m.ter( p ) == t_water_moving_dp || m.ter( p ) == t_water_dp ) {
+            if( m.ter( p ) == ter_t_water_moving_sh || m.ter( p ) == ter_t_water_sh ||
+                m.ter( p ) == ter_t_water_moving_dp || m.ter( p ) == ter_t_water_dp ) {
                 return true;
             }
         }

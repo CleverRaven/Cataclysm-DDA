@@ -166,6 +166,8 @@ static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
 static const ter_str_id ter_t_improvised_shelter( "t_improvised_shelter" );
 static const ter_str_id ter_t_moss( "t_moss" );
 static const ter_str_id ter_t_sand( "t_sand" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
+static const ter_str_id ter_t_tree_young( "t_tree_young" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -2524,7 +2526,7 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 50 );
         int tree_young_est = om_harvest_ter_est( sample_npc, forest,
-                             ter_id( "t_tree_young" ), 50 );
+                             ter_t_tree_young, 50 );
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
@@ -2543,7 +2545,7 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
                                       skill_fabrication, 2, exertion_level );
         if( comp != nullptr ) {
             om_cutdown_trees_logs( forest, 50 );
-            om_harvest_ter( *comp, forest, ter_id( "t_tree_young" ), 50 );
+            om_harvest_ter( *comp, forest, ter_t_tree_young, 50 );
             om_harvest_itm( comp, forest, 95 );
             comp->companion_mission_time_ret = calendar::turn + work_time;
             change_cleared_terrain( forest );
@@ -2563,7 +2565,7 @@ void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
         sample_npc.set_fake( true );
         int tree_est = om_cutdown_trees_est( forest, 95 );
         int tree_young_est = om_harvest_ter_est( sample_npc, forest,
-                             ter_id( "t_tree_young" ), 95 );
+                             ter_t_tree_young, 95 );
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
         //Very roughly what the player does + 6 hours for prep, clean up, breaks
         time_duration chop_time = 6_hours + 1_hours * tree_est + 7_minutes * tree_young_est;
@@ -2580,7 +2582,7 @@ void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
                                       skill_fabrication, 1, exertion_level );
         if( comp != nullptr ) {
             om_cutdown_trees_trunks( forest, 95 );
-            om_harvest_ter_break( *comp, forest, ter_id( "t_tree_young" ), 95 );
+            om_harvest_ter_break( *comp, forest, ter_t_tree_young, 95 );
             change_cleared_terrain( forest );
         }
     }
@@ -3503,7 +3505,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
     std::string crops;
 
     const auto is_dirtmound = []( const tripoint & pos, tinymap & bay1, tinymap & bay2 ) {
-        return ( bay1.ter( pos ) == t_dirtmound ) && ( !bay2.has_furn( pos ) );
+        return ( bay1.ter( pos ) == ter_t_dirtmound ) && ( !bay2.has_furn( pos ) );
     };
     const auto is_unplowed = []( const tripoint & pos, tinymap & farm_map ) {
         const ter_id &farm_ter = farm_map.ter( pos );
@@ -3544,7 +3546,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                 if( is_dirtmound( pos, *farm_json, farm_map ) && is_unplowed( pos, farm_map ) ) {
                     plots_cnt += 1;
                     if( comp ) {
-                        farm_map.ter_set( pos, t_dirtmound );
+                        farm_map.ter_set( pos, ter_t_dirtmound );
                     }
                 }
                 break;
@@ -3569,7 +3571,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         }
                         used_seed.front().set_age( 0_turns );
                         farm_map.add_item_or_charges( pos, used_seed.front() );
-                        farm_map.set( pos, t_dirt, f_plant_seed );
+                        farm_map.set( pos, ter_t_dirt, f_plant_seed );
                         if( !tmp_seed->count_by_charges() ) {
                             comp->companion_mission_inv.remove_item( tmp_seed );
                         }
@@ -3598,7 +3600,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             }
                             farm_map.i_clear( pos );
                             farm_map.furn_set( pos, f_null );
-                            farm_map.ter_set( pos, t_dirt );
+                            farm_map.ter_set( pos, ter_t_dirt );
                         } else {
                             plant_names.insert( item::nname( itype_id( seed->type->seed->fruit_id ) ) );
                         }
@@ -4766,9 +4768,9 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
             std::vector<tripoint> tree = line_to( p, to, rng( 1, 8 ) );
             for( tripoint &elem : tree ) {
                 target_bay.destroy( elem );
-                target_bay.ter_set( elem, t_trunk );
+                target_bay.ter_set( elem, ter_t_trunk );
             }
-            target_bay.ter_set( p, t_dirt );
+            target_bay.ter_set( p, ter_t_dirt );
             harvested++;
         }
     }
@@ -4781,8 +4783,8 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
     }
     // having cut down the trees, cut the trunks into logs
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
-        if( target_bay.ter( p ) == ter_id( "t_trunk" ) ) {
-            target_bay.ter_set( p, t_dirt );
+        if( target_bay.ter( p ) == ter_t_trunk ) {
+            target_bay.ter_set( p, ter_t_dirt );
             target_bay.spawn_item( p, itype_log, rng( 2, 3 ), 0, calendar::turn );
             harvested++;
         }

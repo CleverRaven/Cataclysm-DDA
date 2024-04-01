@@ -57,6 +57,8 @@ static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_root_wall( "t_root_wall" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
 static const ter_str_id ter_t_underbrush( "t_underbrush" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
                           int s, std::string key )
@@ -209,28 +211,28 @@ void timed_event::actualize()
                 flood_buf[p.x][p.y] = here.ter( p );
             }
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == t_water_sh ) {
+                if( here.ter( p ) == ter_t_water_sh ) {
                     bool deepen = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( here.ter( w ) == t_water_dp ) {
+                        if( here.ter( w ) == ter_t_water_dp ) {
                             deepen = true;
                             break;
                         }
                     }
                     if( deepen ) {
-                        flood_buf[p.x][p.y] = t_water_dp;
+                        flood_buf[p.x][p.y] = ter_t_water_dp;
                         flooded = true;
                     }
                 } else if( here.ter( p ) == ter_t_rock_floor ) {
                     bool flood = false;
                     for( const tripoint &w : points_in_radius( p, 1 ) ) {
-                        if( here.ter( w ) == t_water_dp || here.ter( w ) == t_water_sh ) {
+                        if( here.ter( w ) == ter_t_water_dp || here.ter( w ) == ter_t_water_sh ) {
                             flood = true;
                             break;
                         }
                     }
                     if( flood ) {
-                        flood_buf[p.x][p.y] = t_water_sh;
+                        flood_buf[p.x][p.y] = ter_t_water_sh;
                         flooded = true;
                     }
                 }
@@ -242,7 +244,7 @@ void timed_event::actualize()
             // Check if we should print a message
             if( flood_buf[player_character.posx()][player_character.posy()] != here.ter(
                     player_character.pos() ) ) {
-                if( flood_buf[player_character.posx()][player_character.posy()] == t_water_sh ) {
+                if( flood_buf[player_character.posx()][player_character.posy()] == ter_t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
                     get_memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),

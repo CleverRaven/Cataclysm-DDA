@@ -341,6 +341,7 @@ static const species_id species_ROBOT( "ROBOT" );
 
 static const ter_str_id ter_t_grave( "t_grave" );
 static const ter_str_id ter_t_grave_new( "t_grave_new" );
+static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_pit( "t_pit" );
 static const ter_str_id ter_t_pit_corpsed( "t_pit_corpsed" );
 static const ter_str_id ter_t_pit_covered( "t_pit_covered" );
@@ -348,6 +349,8 @@ static const ter_str_id ter_t_pit_glass( "t_pit_glass" );
 static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
 static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
 static const ter_str_id ter_t_pit_spiked_covered( "t_pit_spiked_covered" );
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_utility_light( "t_utility_light" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
@@ -1357,7 +1360,7 @@ static void marloss_common( Character &p, item &it, const trait_id &current_colo
         }
 
         p.set_mutation( trait_THRESH_MARLOSS );
-        get_map().ter_set( p.pos(), t_marloss );
+        get_map().ter_set( p.pos(), ter_t_marloss );
         get_event_bus().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a Marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
@@ -4657,14 +4660,14 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, const tripoint & )
         return std::nullopt;
     }
 
-    const std::set<ter_id> allowed_ter_id {
-        t_trunk,
-        t_stump
+    const std::set<ter_str_id> allowed_ter_id {
+        ter_t_trunk,
+        ter_t_stump
     };
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&allowed_ter_id, &here]( const tripoint & pnt ) {
         const ter_id type = here.ter( pnt );
-        const bool is_allowed_terrain = allowed_ter_id.find( type ) != allowed_ter_id.end();
+        const bool is_allowed_terrain = allowed_ter_id.find( type.id() ) != allowed_ter_id.end();
         return is_allowed_terrain;
     };
 

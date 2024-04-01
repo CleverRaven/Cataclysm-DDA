@@ -39,6 +39,7 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throwing( "throwing" );
 
+static const ter_str_id ter_t_door_c( "t_door_c" );
 static const ter_str_id ter_t_door_locked_interior( "t_door_locked_interior" );
 static const ter_str_id ter_t_door_o( "t_door_o" );
 static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
@@ -216,7 +217,7 @@ void tutorial_game::per_turn()
     }
 
     for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
-        if( here.ter( p ) == t_door_c ) {
+        if( here.ter( p ) == ter_t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
         } else if( here.ter( p ) == ter_t_door_o ) {

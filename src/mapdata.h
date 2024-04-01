@@ -701,28 +701,7 @@ t_basalt
 "t_basalt"
 */
 // NOLINTNEXTLINE(cata-static-int_id-constants)
-extern ter_id t_null,
-       t_hole,
-       t_dirt, t_sand, t_clay, t_dirtmound,
-       t_door_c, t_door_c_peep, t_door_b,
-       t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
-       t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
-       t_retractable_gate_l, t_retractable_gate_c, t_retractable_gate_o,
-       t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
-       t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
-       t_door_metal_c, t_door_metal_o, t_door_metal_locked,
-       t_rock,
-       t_rock_wall,
-       t_tree, t_tree_young,
-       t_underbrush,
-       t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk, t_stump,
-       t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
-       t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
-       t_water_moving_dp, t_water_moving_sh, t_water_sh, t_swater_sh, t_water_dp, t_swater_dp,
-       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken,
-       t_elevator_control, t_elevator_control_off, t_elevator,
-       t_open_air
-       ;
+extern ter_id t_null, t_dirt;
 /*
 runtime index: furn_id
 furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note

@@ -170,6 +170,7 @@ static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_null( "t_null" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
+static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
@@ -189,6 +190,7 @@ static const ter_str_id ter_t_tree_young( "t_tree_young" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_glass_alarm( "t_wall_glass_alarm" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
 static const ter_str_id ter_t_wax( "t_wax" );
 static const ter_str_id ter_t_window( "t_window" );
 static const ter_str_id ter_t_window_alarm( "t_window_alarm" );
@@ -1651,8 +1653,8 @@ bool map::displace_water( const tripoint &p )
                     continue;
                 }
                 if( pass != 0 && dis_places == sel_place ) {
-                    ter_set( temp, t_water_sh );
-                    ter_set( temp, t_dirt );
+                    ter_set( temp, ter_t_water_sh );
+                    ter_set( temp, ter_t_dirt );
                     return true;
                 }
 
@@ -1772,8 +1774,8 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     }
 
     if( new_f.has_flag( ter_furn_flag::TFLAG_PLANT ) ) {
-        if( current_submap->get_ter( l ) == t_dirtmound ) {
-            ter_set( p, t_dirt );
+        if( current_submap->get_ter( l ) == ter_t_dirtmound ) {
+            ter_set( p, ter_t_dirt );
         }
     }
 
@@ -3768,7 +3770,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
                 // a wall which doesn't make sense.
                 if( !has_flag( ter_furn_flag::TFLAG_WALL, t ) ) {
                     furn_set( tz, f_null );
-                    ter_set( tz, t_open_air );
+                    ter_set( tz, ter_t_open_air );
                     Creature *critter = get_creature_tracker().creature_at( tz );
                     if( critter != nullptr ) {
                         creature_on_trap( *critter );
@@ -3993,7 +3995,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 smash_ter = false;
                 bash = nullptr;
             }
-        } else if( !bash->ter_set && ter( p ) == t_dirt ) {
+        } else if( !bash->ter_set && ter( p ) == ter_t_dirt ) {
             // As above, except for no-z-levels case
             smash_ter = false;
             bash = nullptr;
@@ -4194,14 +4196,14 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         }
 
         furn_set( p, f_null );
-        ter_set( p, t_open_air );
+        ter_set( p, ter_t_open_air );
     }
 
     if( !tent ) {
         spawn_items( p, item_group::items_from( bash->drop_group, calendar::turn ) );
     }
 
-    if( smash_ter && ter( p ) == t_open_air && zlevels ) {
+    if( smash_ter && ter( p ) == ter_t_open_air && zlevels ) {
         tripoint below( p.xy(), p.z - 1 );
         const ter_str_id roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
         ter_set( p, roof );
@@ -8102,9 +8104,9 @@ bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter )
 {
     std::unique_ptr<submap> sm = std::make_unique<submap>();
     if( oter == oter_open_air ) {
-        sm->set_all_ter( t_open_air, true );
+        sm->set_all_ter( ter_t_open_air, true );
     } else if( oter == oter_empty_rock || oter == oter_deep_rock ) {
-        sm->set_all_ter( t_rock, true );
+        sm->set_all_ter( ter_t_rock, true );
     } else if( oter == oter_solid_earth ) {
         sm->set_all_ter( ter_t_soil, true );
     } else {
@@ -8533,7 +8535,7 @@ void map::rad_scorch( const tripoint &p, const time_duration &time_since_last_ac
 
     const ter_t &tr = tid.obj();
     if( tr.has_flag( ter_furn_flag::TFLAG_SHRUB ) ) {
-        ter_set( p, t_dirt );
+        ter_set( p, ter_t_dirt );
     } else if( tr.has_flag( ter_furn_flag::TFLAG_TREE ) ) {
         ter_set( p, ter_t_tree_dead );
     }
@@ -8653,7 +8655,7 @@ void map::add_roofs( const tripoint &grid )
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const ter_id ter_here = sub_here->get_ter( { x, y } );
-            if( ter_here != t_open_air ) {
+            if( ter_here != ter_t_open_air ) {
                 continue;
             }
 

@@ -58,6 +58,8 @@ static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_null( "t_null" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
 static const ter_str_id ter_t_railroad_tie( "t_railroad_tie" );
 static const ter_str_id ter_t_railroad_tie_d( "t_railroad_tie_d" );
@@ -79,7 +81,13 @@ static const ter_str_id ter_t_rock( "t_rock" );
 static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_sand( "t_sand" );
 static const ter_str_id ter_t_slope_down( "t_slope_down" );
+static const ter_str_id ter_t_swater_dp( "t_swater_dp" );
+static const ter_str_id ter_t_swater_sh( "t_swater_sh" );
 static const ter_str_id ter_t_swater_surf( "t_swater_surf" );
+static const ter_str_id ter_t_water_dp( "t_water_dp" );
+static const ter_str_id ter_t_water_moving_dp( "t_water_moving_dp" );
+static const ter_str_id ter_t_water_moving_sh( "t_water_moving_sh" );
+static const ter_str_id ter_t_water_sh( "t_water_sh" );
 
 static const vspawn_id VehicleSpawn_default_subway_deadend( "default_subway_deadend" );
 
@@ -587,13 +595,13 @@ void mapgen_subway( mapgendata &dat )
 
 void mapgen_river_center( mapgendata &dat )
 {
-    fill_background( &dat.m, t_water_moving_dp );
+    fill_background( &dat.m, ter_t_water_moving_dp );
 }
 
 void mapgen_river_curved_not( mapgendata &dat )
 {
     map *const m = &dat.m;
-    fill_background( m, t_water_moving_dp );
+    fill_background( m, ter_t_water_moving_dp );
     // this is not_ne, so deep on all sides except ne corner, which is shallow
     // shallow is 20,0, 23,4
     int north_edge = rng( 16, 18 );
@@ -608,7 +616,7 @@ void mapgen_river_curved_not( mapgendata &dat )
             if( circle_edge == 9 && one_in( 25 ) ) {
                 m->ter_set( point( x, y ), clay_or_sand() );
             } else if( circle_edge <= 36 ) {
-                m->ter_set( point( x, y ), t_water_moving_sh );
+                m->ter_set( point( x, y ), ter_t_water_moving_sh );
             }
         }
     }
@@ -627,7 +635,7 @@ void mapgen_river_curved_not( mapgendata &dat )
 void mapgen_river_straight( mapgendata &dat )
 {
     map *const m = &dat.m;
-    fill_background( m, t_water_moving_dp );
+    fill_background( m, ter_t_water_moving_dp );
 
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -636,7 +644,7 @@ void mapgen_river_straight( mapgendata &dat )
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
     }
 
     if( dat.terrain_type() == oter_river_east ) {
@@ -653,7 +661,7 @@ void mapgen_river_straight( mapgendata &dat )
 void mapgen_river_curved( mapgendata &dat )
 {
     map *const m = &dat.m;
-    fill_background( m, t_water_moving_dp );
+    fill_background( m, ter_t_water_moving_dp );
     // NE corner deep, other corners are shallow.  do 2 passes: one x, one y
     for( int x = 0; x < SEEX * 2; x++ ) {
         int ground_edge = rng( 1, 3 );
@@ -662,7 +670,7 @@ void mapgen_river_curved( mapgendata &dat )
         if( one_in( 25 ) ) {
             m->ter_set( point( x, ++ground_edge ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
+        line( m, ter_t_water_moving_sh, point( x, ++ground_edge ), point( x, shallow_edge ) );
     }
     for( int y = 0; y < SEEY * 2; y++ ) {
         int ground_edge = rng( 19, 21 );
@@ -671,7 +679,7 @@ void mapgen_river_curved( mapgendata &dat )
         if( one_in( 25 ) ) {
             m->ter_set( point( --ground_edge, y ), clay_or_sand() );
         }
-        line( m, t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
+        line( m, ter_t_water_moving_sh, point( shallow_edge, y ), point( --ground_edge, y ) );
     }
 
     if( dat.terrain_type() == oter_river_se ) {
@@ -688,7 +696,7 @@ void mapgen_river_curved( mapgendata &dat )
 void mapgen_rock_partial( mapgendata &dat )
 {
     map *const m = &dat.m;
-    fill_background( m, t_rock );
+    fill_background( m, ter_t_rock );
     for( int i = 0; i < 4; i++ ) {
         if( dat.t_nesw[i] == oter_slimepit || dat.t_nesw[i] == oter_slimepit_down ) {
             dat.dir( i ) = 6;
@@ -709,12 +717,12 @@ void mapgen_rock_partial( mapgendata &dat )
 
 void mapgen_rock( mapgendata &dat )
 {
-    fill_background( &dat.m, t_rock );
+    fill_background( &dat.m, ter_t_rock );
 }
 
 void mapgen_open_air( mapgendata &dat )
 {
-    fill_background( &dat.m, t_open_air );
+    fill_background( &dat.m, ter_t_open_air );
 }
 
 void mapgen_rift( mapgendata &dat )
@@ -1764,7 +1772,7 @@ void mapgen_lake_shore( mapgendata &dat )
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
         for( point &wp : water_points ) {
-            m->ter_set( wp, t_water_dp );
+            m->ter_set( wp, ter_t_water_dp );
             m->furn_set( wp, f_null );
         }
     };
@@ -1789,7 +1797,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
-    m->translate( t_null, t_water_sh );
+    m->translate( ter_t_null, ter_t_water_sh );
 }
 
 void mapgen_ocean_shore( mapgendata &dat )
@@ -2155,7 +2163,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
-                m->ter_set( bp, t_swater_sh );
+                m->ter_set( bp, ter_t_swater_sh );
                 m->furn_set( bp, f_null );
             }
         }
@@ -2170,14 +2178,14 @@ void mapgen_ocean_shore( mapgendata &dat )
                 }
                 // Use t_null for now instead of t_sand, because sometimes our extended terrain
                 // has put down a t_sand, and we need to be able to flood-fill over that.
-                m->ter_set( bp, t_null );
+                m->ter_set( bp, ter_t_null );
                 m->furn_set( bp, f_null );
             }
             for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
                 if( !map_boundaries.contains( bp ) ) {
                     continue;
                 }
-                if( m->ter( bp ) == t_swater_sh ) {
+                if( m->ter( bp ) == ter_t_swater_sh ) {
                     m->ter_set( bp, ter_t_swater_surf );
                 }
             }
@@ -2222,14 +2230,15 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
-        return m->ter( p ) != t_null && m->ter( p ) != t_swater_sh  && m->ter( p ) != ter_t_swater_surf;
+        return m->ter( p ) != ter_t_null && m->ter( p ) != ter_t_swater_sh  &&
+               m->ter( p ) != ter_t_swater_surf;
     };
 
     const auto fill_deep_water = [&]( const point & starting_point ) {
         std::vector<point> water_points = ff::point_flood_fill_4_connected( starting_point, visited,
                                           should_fill );
         for( point &wp : water_points ) {
-            m->ter_set( wp, t_swater_dp );
+            m->ter_set( wp, ter_t_swater_dp );
             m->furn_set( wp, f_null );
         }
     };
@@ -2254,7 +2263,7 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     // We previously placed our sand but actually did a t_null instead to make sure that we didn't
     // pick up sand from our extended terrain. Now turn those nulls into t_sand.
-    m->translate( t_null, t_sand );
+    m->translate( ter_t_null, ter_t_sand );
 }
 
 void mapgen_ravine_edge( mapgendata &dat )
@@ -2346,9 +2355,9 @@ void mapgen_ravine_edge( mapgendata &dat )
     // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
     // in the other levels they are converted into open air to generate the cliffside.
     if( dat.zlevel() == dat.region.overmap_ravine.ravine_depth ) {
-        m->translate( t_null, dat.groundcover() );
+        m->translate( ter_t_null, dat.groundcover() );
     } else {
-        m->translate( t_null, t_open_air );
+        m->translate( ter_t_null, ter_t_open_air );
     }
 }
 

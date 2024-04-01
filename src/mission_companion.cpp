@@ -101,6 +101,8 @@ static const string_id<class npc_template> npc_template_commune_guard( "commune_
 static const string_id<class npc_template> npc_template_thug( "thug" );
 
 static const ter_str_id ter_t_curtains( "t_curtains" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
 static const ter_str_id ter_t_door_b( "t_door_b" );
 static const ter_str_id ter_t_door_boarded( "t_door_boarded" );
 static const ter_str_id ter_t_door_boarded_damaged( "t_door_boarded_damaged" );
@@ -1582,7 +1584,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
-        if( bay.ter( plot ) == t_dirtmound ) {
+        if( bay.ter( plot ) == ter_t_dirtmound ) {
             empty_plots++;
         }
     }
@@ -1622,7 +1624,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
 
     //Plant the actual seeds
     for( const tripoint &plot : bay.points_on_zlevel() ) {
-        if( bay.ter( plot ) == t_dirtmound && limiting_number > 0 ) {
+        if( bay.ter( plot ) == ter_t_dirtmound && limiting_number > 0 ) {
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
                 used_seed = player_character.use_charges( seed_id, 1 );
@@ -1631,7 +1633,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
             }
             used_seed.front().set_age( 0_turns );
             bay.add_item_or_charges( plot, used_seed.front() );
-            bay.set( plot, t_dirt, f_plant_seed );
+            bay.set( plot, ter_t_dirt, f_plant_seed );
             limiting_number--;
         }
     }
@@ -1725,7 +1727,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
                     bay.i_clear( plot );
                     bay.furn_set( plot, f_null );
-                    bay.ter_set( plot, t_dirtmound );
+                    bay.ter_set( plot, ter_t_dirtmound );
                 }
             }
         }

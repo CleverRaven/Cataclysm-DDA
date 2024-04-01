@@ -161,7 +161,11 @@ static const ter_str_id ter_t_door_glass_frosted_c( "t_door_glass_frosted_c" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_fungus( "t_fungus" );
+static const ter_str_id ter_t_fungus_floor_in( "t_fungus_floor_in" );
+static const ter_str_id ter_t_fungus_wall( "t_fungus_wall" );
 static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_marloss( "t_marloss" );
 static const ter_str_id ter_t_radio_tower( "t_radio_tower" );
 static const ter_str_id ter_t_reinforced_door_glass_c( "t_reinforced_door_glass_c" );
 static const ter_str_id ter_t_reinforced_glass( "t_reinforced_glass" );
@@ -3038,7 +3042,7 @@ class jmapgen_make_rubble : public jmapgen_piece
     public:
         mapgen_value<furn_id> rubble_type = mapgen_value<furn_id>( f_rubble );
         bool items = false;
-        mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( t_dirt );
+        mapgen_value<ter_id> floor_type = mapgen_value<ter_id>( ter_t_dirt );
         bool overwrite = false;
         jmapgen_make_rubble( const JsonObject &jsi, const std::string_view/*context*/ ) {
             if( jsi.has_member( "rubble_type" ) ) {
@@ -3059,7 +3063,7 @@ class jmapgen_make_rubble : public jmapgen_piece
             }
             if( chosen_floor_type.id().is_null() ) {
                 debugmsg( "null floor type when making rubble" );
-                chosen_floor_type = t_dirt;
+                chosen_floor_type = ter_t_dirt;
             }
             dat.m.make_rubble( tripoint( x.get(), y.get(), dat.m.get_abs_sub().z() ),
                                chosen_rubble_type, items, chosen_floor_type, overwrite );
@@ -5522,8 +5526,8 @@ void map::draw_lab( mapgendata &dat )
                             }
                         }
                         if( rw != 2 ) {
-                            ter_set( point( 23, 11 ), t_door_metal_c );
-                            ter_set( point( 23, 12 ), t_door_metal_c );
+                            ter_set( point( 23, 11 ), ter_t_door_metal_c );
+                            ter_set( point( 23, 12 ), ter_t_door_metal_c );
                         }
                         if( bw != 2 ) {
                             ter_set( point( 11, 23 ), ter_t_door_metal_c );
@@ -5934,14 +5938,14 @@ void map::draw_lab( mapgendata &dat )
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
                             if( !one_in( 5 ) && has_flag( ter_furn_flag::TFLAG_FLAT, point( i, j ) ) ) {
-                                ter_set( point( i, j ), t_fungus_floor_in );
+                                ter_set( point( i, j ), ter_t_fungus_floor_in );
                                 if( has_flag_furn( ter_furn_flag::TFLAG_ORGANIC, point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
                                 }
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_DOOR, point( i, j ) ) && !one_in( 5 ) ) {
-                                ter_set( point( i, j ), t_fungus_floor_in );
+                                ter_set( point( i, j ), ter_t_fungus_floor_in );
                             } else if( has_flag_ter( ter_furn_flag::TFLAG_WALL, point( i, j ) ) && one_in( 3 ) ) {
-                                ter_set( point( i, j ), t_fungus_wall );
+                                ter_set( point( i, j ), ter_t_fungus_wall );
                             }
                         }
                     }
@@ -5955,17 +5959,17 @@ void map::draw_lab( mapgendata &dat )
                             return; // spare stairs and consoles.
                         }
                         if( has_flag_ter( ter_furn_flag::TFLAG_WALL, p ) ) {
-                            ter_set( p, t_fungus_wall );
+                            ter_set( p, ter_t_fungus_wall );
                         } else {
-                            ter_set( p, t_fungus_floor_in );
+                            ter_set( p, ter_t_fungus_floor_in );
                             if( one_in( 3 ) ) {
                                 furn_set( p, f_flower_fungal );
                             } else if( one_in( 10 ) ) {
-                                ter_set( p, t_marloss );
+                                ter_set( p, ter_t_marloss );
                             }
                         }
                     }, center.xy(), 3 );
-                    ter_set( center.xy(), t_fungus_floor_in );
+                    ter_set( center.xy(), ter_t_fungus_floor_in );
                     furn_set( center.xy(), f_null );
                     trap_set( center, tr_portal );
                     place_spawns( GROUP_FUNGI_FUNGALOID, 1, center.xy() + point( -2, -2 ),
@@ -7460,7 +7464,7 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop, bo
     // TODO: Z
     point c( cp.xy() );
     if( create_rubble ) {
-        rough_circle( this, t_dirt, c, 11 );
+        rough_circle( this, ter_t_dirt, c, 11 );
         rough_circle_furn( this, f_rubble, c, 5 );
         furn_set( c, f_null );
     }
@@ -7875,12 +7879,12 @@ bool apply_construction_marker( const update_mapgen_id &update_mapgen_id,
     return true;
 }
 
-std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
+std::pair<std::map<ter_str_id, int>, std::map<furn_str_id, int>> get_changed_ids_from_update(
             const update_mapgen_id &update_mapgen_id,
-            const mapgen_arguments &mapgen_args, ter_id const &base_ter )
+            const mapgen_arguments &mapgen_args, ter_str_id const &base_ter )
 {
-    std::map<ter_id, int> terrains;
-    std::map<furn_id, int> furnitures;
+    std::map<ter_str_id, int> terrains;
+    std::map<furn_str_id, int> furnitures;
 
     const auto update_function = update_mapgens.find( update_mapgen_id );
 
@@ -7896,12 +7900,12 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {
         for( const tripoint &pos : tmp_map.points_on_zlevel( fake_map::fake_map_z ) ) {
-            ter_id ter_at_pos = tmp_map.ter( pos );
+            ter_str_id ter_at_pos = tmp_map.ter( pos ).id();
             if( ter_at_pos != base_ter ) {
                 terrains[ter_at_pos] += 1;
             }
             if( tmp_map.has_furn( pos ) ) {
-                furn_id furn_at_pos = tmp_map.furn( pos );
+                furn_str_id furn_at_pos = tmp_map.furn( pos ).id();
                 furnitures[furn_at_pos] += 1;
             }
         }

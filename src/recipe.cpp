@@ -46,6 +46,8 @@ static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::get_difficulty( const Character &crafter ) const
@@ -570,7 +572,7 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
         result->reqs_by_parameters.emplace(
             chosen_params,
             get_build_reqs_for_furn_ter_ids(
-                get_changed_ids_from_update( id, mapgen_arguments{ chosen_params } ) ) );
+                get_changed_ids_from_update( id, mapgen_arguments{ chosen_params }, ter_t_dirt ), ter_t_dirt ) );
     }
 
     return result;
@@ -1411,7 +1413,8 @@ const parameterized_build_reqs &recipe::blueprint_build_reqs() const
 void recipe::check_blueprint_requirements()
 {
     build_reqs total_reqs =
-        get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint, {} ) );
+        get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint, {}, ter_t_dirt ),
+                                         ter_t_dirt );
     if( bp_build_reqs->reqs_by_parameters.size() != 1 ) {
         debugmsg( "Cannot check blueprint reqs for blueprints with parameters" );
         return;

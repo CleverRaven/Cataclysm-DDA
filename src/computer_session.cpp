@@ -106,6 +106,8 @@ static const ter_str_id ter_t_concrete_wall( "t_concrete_wall" );
 static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
 static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
 static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_elevator_control( "t_elevator_control" );
+static const ter_str_id ter_t_elevator_control_off( "t_elevator_control_off" );
 static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
 static const ter_str_id ter_t_floor_green( "t_floor_green" );
@@ -451,7 +453,8 @@ void computer_session::action_close_gate()
 // player position to determine which terrain tiles to edit.
 void computer_session::action_lock()
 {
-    get_map().translate_radius( t_door_metal_c, t_door_metal_locked, 8.0, get_player_character().pos(),
+    get_map().translate_radius( ter_t_door_metal_c, ter_t_door_metal_locked, 8.0,
+                                get_player_character().pos(),
                                 true );
     query_any( _( "Lock enabled.  Press any key…" ) );
 }
@@ -464,7 +467,8 @@ void computer_session::action_unlock_disarm()
 
 void computer_session::action_unlock()
 {
-    get_map().translate_radius( t_door_metal_locked, t_door_metal_c, 8.0, get_player_character().pos(),
+    get_map().translate_radius( ter_t_door_metal_locked, ter_t_door_metal_c, 8.0,
+                                get_player_character().pos(),
                                 true );
     query_any( _( "Lock disabled.  Press any key…" ) );
 }
@@ -813,8 +817,8 @@ void computer_session::action_elevator_on()
 {
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.ter( p ) == t_elevator_control_off ) {
-            here.ter_set( p, t_elevator_control );
+        if( here.ter( p ) == ter_t_elevator_control_off ) {
+            here.ter_set( p, ter_t_elevator_control );
         }
     }
     query_any( _( "Elevator activated.  Press any key…" ) );
@@ -1185,16 +1189,16 @@ void computer_session::action_srcf_elevator()
     bool is_underground_elevator_exist = false;
 
     for( const tripoint &p : here.points_on_zlevel( 0 ) ) {
-        if( here.ter( p ) == t_elevator_control_off || here.ter( p ) == t_elevator_control ) {
+        if( here.ter( p ) == ter_t_elevator_control_off || here.ter( p ) == ter_t_elevator_control ) {
             surface_elevator = p;
-            is_surface_elevator_on = here.ter( p ) == t_elevator_control;
+            is_surface_elevator_on = here.ter( p ) == ter_t_elevator_control;
             is_surface_elevator_exist = true;
         }
     }
     for( const tripoint &p : here.points_on_zlevel( -2 ) ) {
-        if( here.ter( p ) == t_elevator_control_off || here.ter( p ) == t_elevator_control ) {
+        if( here.ter( p ) == ter_t_elevator_control_off || here.ter( p ) == ter_t_elevator_control ) {
             underground_elevator = p;
-            is_underground_elevator_on = here.ter( p ) == t_elevator_control;
+            is_underground_elevator_on = here.ter( p ) == ter_t_elevator_control;
             is_underground_elevator_exist = true;
         }
     }
@@ -1212,21 +1216,21 @@ void computer_session::action_srcf_elevator()
             print_error( _( "Access code required!\n\n" ) );
         } else {
             player_character.use_amount( itype_sarcophagus_access_code, 1 );
-            here.ter_set( surface_elevator, t_elevator_control );
+            here.ter_set( surface_elevator, ter_t_elevator_control );
             is_surface_elevator_on = true;
-            here.ter_set( underground_elevator, t_elevator_control );
+            here.ter_set( underground_elevator, ter_t_elevator_control );
             is_underground_elevator_on = true;
         }
     }
 
     //If only one is enabled, enable the other one. Fix for before this change
     else if( is_surface_elevator_on && !is_underground_elevator_on && is_underground_elevator_exist ) {
-        here.ter_set( underground_elevator, t_elevator_control );
+        here.ter_set( underground_elevator, ter_t_elevator_control );
         is_underground_elevator_on = true;
     }
 
     else if( is_underground_elevator_on && !is_surface_elevator_on && is_surface_elevator_exist ) {
-        here.ter_set( surface_elevator, t_elevator_control );
+        here.ter_set( surface_elevator, ter_t_elevator_control );
         is_surface_elevator_on = true;
     }
 

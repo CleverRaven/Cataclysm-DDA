@@ -913,7 +913,7 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
     const furn_t &frn = pd.map_tile.get_furn_t();
     const int intensity = cur.get_field_intensity();
     if( ter.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
-        pd.here.ter_set( p, t_dirt );
+        pd.here.ter_set( p, ter_t_dirt );
     }
     if( frn.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
         pd.here.furn_set( p, f_null );
