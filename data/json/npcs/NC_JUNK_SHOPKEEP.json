@@ -118,7 +118,6 @@
       { "item": "45_acp", "prob": 10 },
       { "item": "reloaded_45_acp", "prob": 25 },
       { "item": "45_jhp", "prob": 1 },
-      { "item": "rifle_9mm", "prob": 20 },
       { "item": "rifle_22", "prob": 20 },
       { "item": "uzi", "prob": 10 },
       { "item": "mac_10", "prob": 10 },

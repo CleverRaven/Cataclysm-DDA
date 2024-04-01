@@ -168,21 +168,6 @@
   },
   {
     "type": "snippet",
-    "category": "mutant_tree_communion",
-    "text": [
-      "You feel something like laughter through your roots.",
-      "The trees hear you, the first of your kind.",
-      "The impossible task of survival seems suddenly quite simple.",
-      "You feel the presence of another like yourself.",
-      "An inquisitive mind probes at you, its curiosity unique among the whispering leaves.",
-      "The brief sensation that someone is holding your hand is almost enough to bring you to tears.",
-      "You dream of a wooded grove.  Peace.  Family.",
-      "In your mind's eye you walk the woods, a familiar presence by your side.",
-      "A gentle feeling washes over you like a tender hug."
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "headshop_graffiti",
     "text": [ "(~);}", "<given_name> + <given_name> forever", "Be Kind", "Save the whales!" ]
   },

@@ -1,0 +1,224 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_meat",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "cccccc",
+        "cf  ht",
+        "C    d",
+        "cf   d",
+        "cf H d",
+        "cccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "furniture": { "H": "f_hanging_meathook" },
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "d": { "item": "butcher_meat", "chance": 25, "repeat": [ 1, 2 ] },
+        "f": { "item": "butcher_raw_meat", "chance": 25, "repeat": [ 1, 2 ] },
+        "H": { "item": "butcher_raw_meat", "chance": 25, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_grocery",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "cccccc",
+        "cT  ht",
+        "C    d",
+        "cT   d",
+        "cT   d",
+        "cccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "T": { "item": "fresh_produce", "chance": 30, "repeat": [ 1, 2 ] },
+        "d": { "item": "produce", "chance": 30, "repeat": [ 1, 3 ] }
+      },
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_fish",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "cccccc",
+        "cr  ht",
+        "C    d",
+        "cr   d",
+        "cr   d",
+        "cccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "liquids": { "d": { "liquid": "water", "amount": [ 12, 60 ] } },
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "d": { "item": "fresh_fish", "chance": 50, "repeat": [ 1, 2 ] },
+        "r": { "item": "fish_market_stall", "chance": 30, "repeat": [ 1, 3 ] }
+      },
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_confectionery",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "cccccc",
+        "cr  ht",
+        "cr   d",
+        "C    d",
+        "cr   d",
+        "cccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "r": { "item": "candy_chocolate", "chance": 65, "repeat": [ 1, 2 ] },
+        "d": { "item": "candy_shop", "chance": 40, "repeat": [ 1, 3 ] }
+      },
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_bees",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rows": [
+        "cccc",
+        "crht",
+        "C  T",
+        "cccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 3, "y2": 3 } ],
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "r": { "item": "honey_market_stall", "chance": 75, "repeat": [ 1, 3 ] },
+        "T": { "item": "honey_market_stall", "chance": 75, "repeat": [ 1, 2 ] }
+      },
+      "palettes": [ "open_air_stall_palette" ],
+      "//": "Give small chance to spawn mutated/normal bees?"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_clothes",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "cccccc",
+        "MRKJZc",
+        "     c",
+        "    hC",
+        "MRTIUc",
+        "cccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "furniture": {
+        "I": "f_clothing_rail",
+        "J": "f_clothing_rail",
+        "K": "f_clothing_rail",
+        "M": "f_mannequin",
+        "R": "f_clothing_rail",
+        "T": "f_clothing_rail",
+        "U": "f_clothing_rail",
+        "Z": "f_clothing_rail"
+      },
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "R": { "item": "SUS_mannequin_outdoor", "chance": 40, "repeat": [ 1, 2 ] },
+        "M": { "item": "SUS_mannequin_general", "chance": 40 },
+        "K": { "item": "coats_unisex", "chance": 40, "repeat": [ 1, 2 ] },
+        "J": [ { "item": "shoes_unisex", "chance": 60 }, { "item": "shoes_womens", "chance": 20 } ],
+        "Z": [ { "item": "shirts_unisex", "chance": 60 }, { "item": "shirts_womens", "chance": 25 } ],
+        "U": { "item": "underwear_mens", "chance": 65 },
+        "I": { "item": "underwear_womens", "chance": 65 },
+        "T": [ { "item": "gloves_unisex", "chance": 65 }, { "item": "scarfs_unisex", "chance": 40 } ]
+      },
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_botanical",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        "ccccc",
+        "ppppc",
+        "   hC",
+        "ppppc",
+        "ccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 4, "y2": 4 } ],
+      "furniture": { "p": [ "f_indoor_plant", "f_indoor_plant_y", [ "f_null", 3 ] ] },
+      "items": { "t": { "item": "cash_register_random", "chance": 100 } },
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_misc",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "ccccccc",
+        "hrrrrrc",
+        "      c",
+        "trrrrrc",
+        "      c",
+        " rrrrrc",
+        "ccccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 6, "y2": 6 } ],
+      "items": { "t": { "item": "cash_register_random", "chance": 100 } },
+      "place_items": [
+        { "chance": 50, "repeat": [ 2, 6 ], "item": "recycle_electronic", "x": [ 1, 5 ], "y": [ 1, 1 ] },
+        { "chance": 50, "repeat": [ 3, 6 ], "item": "office_mess", "x": [ 1, 5 ], "y": [ 3, 3 ] },
+        { "chance": 35, "repeat": [ 1, 3 ], "item": "tools_home", "x": [ 1, 5 ], "y": [ 5, 5 ] }
+      ],
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "market_books",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "cccccc",
+        "TTTTTc",
+        "     c",
+        "    hc",
+        "TTTTTc",
+        "cccccc"
+      ],
+      "set": [ { "square": "terrain", "id": "t_sidewalk_roof_canvas", "x": 0, "y": 0, "x2": 5, "y2": 5 } ],
+      "items": {
+        "t": { "item": "cash_register_random", "chance": 100 },
+        "T": [ { "item": "homebooks", "chance": 40, "repeat": [ 1, 2 ] } ]
+      },
+      "palettes": [ "open_air_stall_palette" ]
+    }
+  }
+]

@@ -40,7 +40,7 @@
     "name": "pipe rifles",
     "description": "Recipes related to constructing pistol-caliber rifles using pipes.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_40", "rifle_45", "rifle_9mm", "rifle_44", "rifle_32", "rifle_9x18", "rifle_380" ],
+    "nested_category_data": [ "rifle_22", "rifle_38", "rifle_44" ],
     "difficulty": 3
   },
   {
@@ -6915,6 +6915,7 @@
       "iv_purifier",
       "iv_mutagen",
       "iv_mutagen_rat",
+      "iv_mutagen_chiropteran",
       "iv_mutagen_fish",
       "iv_mutagen_bird",
       "iv_mutagen_mouse",
@@ -6955,6 +6956,7 @@
       "purifier",
       "mutagen",
       "mutagen_rat",
+      "mutagen_chiropteran",
       "mutagen_fish",
       "mutagen_bird",
       "mutagen_mouse",
@@ -7097,5 +7099,46 @@
       "qt_esbi_plate"
     ],
     "difficulty": 5
+  },
+  {
+    "id": "nested_cardboard_armor",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "name": "cardboard armor",
+    "description": "Recipes related to the construction of cardboard 'armor'.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "helmet_cardboard", "armor_cardboard", "armor_cardboard_cuirass", "cardboard_shield", "cardboard_crown" ],
+    "difficulty": 1
+  },
+  {
+    "id": "nested_bullet_necklaces",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "name": "casing necklaces",
+    "description": "Recipes dealing with the manufacture of necklaces made with bullet casings, including ones made through simple techniques or more refined workmanship.",
+    "skill_used": "fabrication",
+    "nested_category_data": [
+      "simple_pistol_cartridge_necklace",
+      "simple_rifle_cartridge_necklace",
+      "simple_ordnance_cartridge_necklace",
+      "fancy_pistol_cartridge_necklace",
+      "fancy_rifle_cartridge_necklace",
+      "fancy_ordinance_cartridge_necklace"
+    ]
+  },
+  {
+    "id": "nested_bullet_jewelry",
+    "type": "nested_category",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "name": "cartridge accoutrements",
+    "description": "Recipes pertaining to the production of necklaces, bracelets, and other forms of jewelry formed from spent munitions.",
+    "skill_used": "fabrication",
+    "nested_category_data": [ "nested_bullet_necklaces" ]
   }
 ]

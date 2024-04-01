@@ -263,8 +263,8 @@
       },
       {
         "id": "jigsaw_20",
-        "name": { "str": "Mount Fiji jigsaw puzzle" },
-        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the horizontal view of Mount Fiji, at the Japanese island of Honshu.",
+        "name": { "str": "Mount Fuji jigsaw puzzle" },
+        "description": "A jigsaw puzzle cardboard box containing 1000 cardboard pieces that when connected together properly forms the horizontal view of Mount Fuji, at the Japanese island of Honshu.",
         "color": "blue",
         "weight": 20
       },
@@ -484,7 +484,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "mancala set" },
-    "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different coloured beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
+    "description": "A somewhat large wooden box containing a rectangular wooden board with a series of small pits, as well as a number of game pieces that look like different colored beads.  The board features two rows of pits, with each player controlling the row of pits closest to them.  The game pieces are distributed evenly among the pits at the beginning of the game, and players take turns picking up and redistributing the pieces according to the rules.  In the box, there's a comprehensible step-by-step guide on how to play.",
     "weight": "1313 g",
     "volume": "4668 ml",
     "price": 2000,
@@ -500,7 +500,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Four in a Row set" },
-    "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 coloured discs, alongside a small booklet explaining how to play Four in a Row.",
+    "description": "A cardboard box containing a plastic grid with seven columns and six rows, and 42 colored discs, alongside a small booklet explaining how to play Four in a Row.",
     "weight": "680 g",
     "volume": "600 ml",
     "price": 2000,
@@ -772,7 +772,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Survival Island", "str_pl": "sets of Survival Island" },
-    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe’s mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson’s abilities and combat various challenges that arise during his time on the island.",
+    "description": "A fun solo deck-building board game where a player takes on the role of Robinson Crusoe's mentor, trying to help him survive and escape from a deserted island.  This game is played in rounds, with the player using their deck-building skills to improve Robinson's abilities and combat various challenges that arise during his time on the island.",
     "weight": "708 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -788,7 +788,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Nemo's Sea", "str_pl": "sets of Nemo's Sea" },
-    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne’s classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
+    "description": "A thematic adventure board game designed for solo play.  It is based on Jules Verne's classic novel '20,000 Leagues Under the Sea' and allows players to step into the role of Captain Nemo as they navigate the oceans, encounter various challenges, and make critical decisions that impact their journey.",
     "weight": "904 g",
     "volume": "1250 ml",
     "price": 7050,
@@ -804,7 +804,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Knight Mage", "str_pl": "sets of Knight Mage" },
-    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters’ abilities and acquire new skills as they progress through the game.",
+    "description": "A highly strategic board game that combines elements of role-playing games with deck-building and traditional board game mechanics.  Players (or a solo player) take on the roles of powerful Knights Mages who explore the land, conquer cities, and engage in epic battles against various enemies.  The game features an intricate levelling system where players can enhance their characters' abilities and acquire new skills as they progress through the game.",
     "weight": "1120 g",
     "volume": "1850 ml",
     "price": 7050,
@@ -902,7 +902,7 @@
       {
         "id": "terraforming_saturn",
         "name": { "str": "Terraforming - Saturn", "str_pl": "sets of Terraforming - Saturn" },
-        "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn’s moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players."
+        "description": "This board game is set in the 4600s, and there, the player or the players take on the role of corporations competing to terraform and/or colonize Saturn's moons, rings and Saturn itself, to make them habitable for human life.  The game combines elements of strategy, resource management, and area control, offering an immersive experience for players."
       },
       {
         "id": "terraforming_uranus",
@@ -922,7 +922,7 @@
       {
         "id": "terraforming_earth",
         "name": { "str": "Terraforming - Pluto", "str_pl": "sets of Terraforming - Pluto" },
-        "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet’s ecosystems, atmosphere, and climate while also competing for resources and prestige."
+        "description": "This board game is set in the 5000s, a distant future where Earth has become uninhabitable due to climate change, resource depletion, and overpopulation.  The player or players must work together to restore the planet's ecosystems, atmosphere, and climate while also competing for resources and prestige."
       }
     ]
   },
@@ -931,7 +931,7 @@
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "Vigneto", "str_pl": "sets of Vigneto" },
-    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard’s productivity and efficiency.",
+    "description": "A fun strategy board game that simulates the experience of running a vineyard in Tuscany, Italy.  Players take on the roles of vineyard owners who must plant vines, harvest grapes, produce wine, and fulfill orders to earn victory points.  The game is played over several seasons, with players making strategic decisions about which actions to take each season to maximize their vineyard's productivity and efficiency.",
     "weight": "904 g",
     "volume": "1350 ml",
     "price": 7050,
@@ -1506,6 +1506,49 @@
     "color": "brown"
   },
   {
+    "type": "GENERIC",
+    "id": "LIXA_lab_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA on-site staff notice" },
+    "snippet_category": "LIXA_lab_files",
+    "copy-from": "file",
+    "description": "A brief with the word LIXA on the official letterhead, for distribution to the onsite staff."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_generic_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA data file" },
+    "copy-from": "file",
+    "description": "A sheaf of papers containing a truly dizzying assortment of graphs, diagrams, and equations, on LIXA letterhead."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_mil_file",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "LIXA military notice" },
+    "snippet_category": "LIXA_mil_files",
+    "copy-from": "file",
+    "description": "A signed and serialed notice distributed to LIXA's onsite military police."
+  },
+  {
+    "type": "GENERIC",
+    "id": "LIXA_lab_postit",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "post-it note" },
+    "snippet_category": "LIXA_lab_notes",
+    "description": "A cyan post-it note.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "copy-from": "lab_postit_bio"
+  },
+  {
     "id": "glass_book",
     "type": "GENERIC",
     "name": { "str": "battered glass storybook" },
@@ -1567,5 +1610,184 @@
     "to_hit": -1,
     "melee_damage": { "cut": 6 },
     "weapon_category": [ "SHIVS" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sketch",
+    "copy-from": "paper",
+    "name": { "str_sp": "sketch" },
+    "description": "A piece of graphite-based artwork someone has drawn on a spare sheet of paper.",
+    "price": 0,
+    "price_postapoc": 500,
+    "variants": [
+      {
+        "id": "sketch_goofy_doodles",
+        "name": { "str": "goofy doodle" },
+        "description": "This one is a collection of assorted doodles of goofy cartoon characters in varying styles.",
+        "append": true,
+        "weight": 10
+      },
+      {
+        "id": "sketch_dark_doodles",
+        "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
+        "description": "This one is a collection of assorted doodles, many have dark imagery and shadowy figures.  It's kind of distrubing.",
+        "append": true,
+        "weight": 2
+      },
+      {
+        "id": "sketch_dark_character_doodles",
+        "name": { "str": "disturbing sketch", "str_pl": "disturbing sketches" },
+        "description": "This one is a <sketch_concept_description> <random_character_pose_dark>.  <artist_identifying_info>.  It gives off a sense of unease.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 2
+      },
+      {
+        "id": "sketch_concept_doodles",
+        "name": { "str": "concept sketch", "str_pl": "concept sketches" },
+        "description": "This one is a <sketch_concept_description> <random_character_pose>.  <artist_identifying_info>.  It would appear that this is some sort of concept art.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "painting",
+    "copy-from": "sheet_canvas",
+    "name": { "str_sp": "painting" },
+    "description": "A painting that someone has made.",
+    "price": 10000,
+    "price_postapoc": 20000,
+    "variants": [
+      {
+        "id": "painting_character",
+        "//": "This is a moreso side project someone made, rather than an official project.",
+        "name": { "str": "character portrait" },
+        "description": "This painting depicts a <sketch_concept_description> <random_character_pose>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 5
+      },
+      {
+        "id": "painting_landscape",
+        "name": { "str": "landscape painting" },
+        "description": "This painting depicts a <landscape_description>.  It seems to have been <painting_type_with_style>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 10
+      },
+      {
+        "id": "painting_abstract",
+        "name": { "str": "abstract painting" },
+        "description": "This painting depicts <abstract_art_type>.  It seems to have been <painting_type>.  <artist_identifying_info>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "sculpture_rock",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": { "str": "stone sculpture" },
+    "description": "A medium-sized stone sculpture.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "7884 g",
+    "volume": "20813 ml",
+    "longest_side": "30 cm",
+    "price": 100000,
+    "price_postapoc": 30000,
+    "to_hit": -2,
+    "variants": [
+      {
+        "id": "statue_person",
+        "name": { "str": "stone statue" },
+        "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 10
+      },
+      {
+        "id": "statue_releif",
+        "name": { "str": "abstract stone statue" },
+        "description": "This statue depicts <abstract_statue_type>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "stone releif" },
+        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "stone landscape releif" },
+        "description": "This releif depicts a <landscape_description>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      }
+    ],
+    "melee_damage": { "bash": 14 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "sculpture_clay",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "clay sculpture" },
+    "description": "A medium-sized clay sculpture.",
+    "category": "spare_parts",
+    "material": "clay",
+    "weight": "150 g",
+    "volume": "94 ml",
+    "longest_side": "30 cm",
+    "price": 80000,
+    "price_postapoc": 15000,
+    "to_hit": -2,
+    "variants": [
+      {
+        "id": "statue_person",
+        "name": { "str": "clay sculpture" },
+        "description": "This statue depicts a <sculpture_person_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 10
+      },
+      {
+        "id": "statue_releif",
+        "name": { "str": "abstract clay sculpture" },
+        "description": "This statue depicts <abstract_statue_type>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 7
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "clay releif" },
+        "description": "This releif depicts a <sketch_concept_description> <random_character_pose_statue>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      },
+      {
+        "id": "sculpture_releif",
+        "name": { "str": "clay landscape releif" },
+        "description": "This releif depicts a <landscape_description>.",
+        "append": true,
+        "expand_snippets": true,
+        "weight": 8
+      }
+    ],
+    "melee_damage": { "bash": 10 }
   }
 ]

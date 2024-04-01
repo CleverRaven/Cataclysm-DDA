@@ -16,6 +16,7 @@
       { "trait": "SPIRITUAL" },
       { "trait": "EAGLEEYED" },
       { "trait": "hair_long", "variant": "brown" },
+      { "trait": "natural_hair_color_brown" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -93,6 +94,7 @@
       { "trait": "PACIFIST" },
       { "group": "NPC_starting_traits" },
       { "trait": "hair_long", "variant": "blond" },
+      { "trait": "natural_hair_color_blond" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
@@ -437,6 +439,7 @@
       { "trait": "ANIMALEMPATH" },
       { "trait": "HYPEROPIC" },
       { "trait": "hair_long", "variant": "white" },
+      { "trait": "natural_hair_color_white" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],

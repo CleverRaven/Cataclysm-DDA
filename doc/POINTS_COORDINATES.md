@@ -22,7 +22,7 @@ Two origins for map square coordinates are common:
   for the whole game, relative to a fixed origin.
 * **Local** coordinates, which are relative to the corner of the current "reality
   bubble", or `map` roughly centered on the avatar.  In local map square
-  coordinates, `x` and `y` values will both fall in the range [0,120).
+  coordinates, `x` and `y` values will both fall in the range [0,132).
 
 The next scale is **submap** (sm) coordinates.  One submap is 12x12
 (`SEEX`x`SEEY`) map squares.  Submaps are the scale at which chunks of the map

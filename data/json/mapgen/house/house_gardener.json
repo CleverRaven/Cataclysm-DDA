@@ -36,7 +36,6 @@
       "terrain": {
         "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
         "$": "t_fence",
-        "#": "t_adobe_brick_wall",
         "=": "t_shrub_blueberry",
         "!": "t_dirtmound",
         "&": "t_shrub_strawberry"
@@ -47,7 +46,7 @@
         { "group": "farming_tools", "x": [ 16, 20 ], "y": 11, "chance": 65, "repeat": [ 1, 2 ] },
         { "group": "farming_seeds", "x": [ 16, 20 ], "y": 13, "chance": 85, "repeat": [ 1, 5 ] }
       ],
-      "place_vehicles": [ { "vehicle": "rolling_trash_can", "x": 10, "y": 1, "chance": 80, "status": 0 } ],
+      "place_nested": [ { "chunks": [ "rolling_trash_can_1x1" ], "x": 10, "y": 1 } ],
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
     }
   },

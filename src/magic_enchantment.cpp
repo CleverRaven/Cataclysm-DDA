@@ -66,15 +66,25 @@ namespace io
             case enchant_vals::mod::MAX_MANA: return "MAX_MANA";
             case enchant_vals::mod::REGEN_MANA: return "REGEN_MANA";
             case enchant_vals::mod::BIONIC_POWER: return "BIONIC_POWER";
+            case enchant_vals::mod::POWER_TRICKLE: return "POWER_TRICKLE";
             case enchant_vals::mod::MAX_STAMINA: return "MAX_STAMINA";
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
+            case enchant_vals::mod::FAT_TO_MAX_HP: return "FAT_TO_MAX_HP";
+            case enchant_vals::mod::CARDIO_MULTIPLIER: return "CARDIO_MULTIPLIER";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
+            case enchant_vals::mod::FATIGUE_REGEN: return "FATIGUE_REGEN";
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_STR: return "PAIN_PENALTY_MOD_STR";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_DEX: return "PAIN_PENALTY_MOD_DEX";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_INT: return "PAIN_PENALTY_MOD_INT";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_PER: return "PAIN_PENALTY_MOD_PER";
+            case enchant_vals::mod::PAIN_PENALTY_MOD_SPEED: return "PAIN_PENALTY_MOD_SPEED";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::RANGED_DAMAGE: return "RANGED_DAMAGE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
@@ -93,14 +103,30 @@ namespace io
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::BODYTEMP_SLEEP: return "BODYTEMP_SLEEP";
             case enchant_vals::mod::LUMINATION: return "LUMINATION";
             case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
             case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
             case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::HEALTHY_RATE: return "HEALTHY_RATE";
             case enchant_vals::mod::READING_EXP: return "READING_EXP";
             case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
+            case enchant_vals::mod::OVERMAP_SIGHT: return "OVERMAP_SIGHT";
+            case enchant_vals::mod::READING_SPEED_MULTIPLIER: return "READING_SPEED_MULTIPLIER";
+            case enchant_vals::mod::KCAL: return "KCAL";
+            case enchant_vals::mod::VITAMIN_ABSORB_MOD: return "VITAMIN_ABSORB_MOD";
+            case enchant_vals::mod::MELEE_STAMINA_CONSUMPTION: return "MELEE_STAMINA_CONSUMPTION";
+            case enchant_vals::mod::OBTAIN_COST_MULTIPLIER: return "OBTAIN_COST_MULTIPLIER";
+            case enchant_vals::mod::CASTING_TIME_MULTIPLIER: return "CASTING_TIME_MULTIPLIER";
+            case enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER: return "CRAFTING_SPEED_MULTIPLIER";
+            case enchant_vals::mod::BIONIC_MANA_PENALTY: return "BIONIC_MANA_PENALTY";
+            case enchant_vals::mod::STEALTH_MODIFIER: return "STEALTH_MODIFIER";
+            case enchant_vals::mod::WEAKNESS_TO_WATER: return "WEAKNESS_TO_WATER";
+            case enchant_vals::mod::MENDING_MODIFIER: return "MENDING_MODIFIER";
+            case enchant_vals::mod::STOMACH_SIZE_MULTIPLIER: return "STOMACH_SIZE_MULTIPLIER";
             case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::RECOIL_MODIFIER: return "RECOIL_MODIFIER";
+            case enchant_vals::mod::ARMOR_ALL: return "ARMOR_ALL";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -151,6 +177,22 @@ namespace io
             case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
             case enchant_vals::mod::RANGE: return "RANGE";
             case enchant_vals::mod::AVOID_FRIENDRY_FIRE: return "AVOID_FRIENDRY_FIRE";
+            case enchant_vals::mod::MOVECOST_SWIM_MOD: return "MOVECOST_SWIM_MOD";
+            case enchant_vals::mod::MOVECOST_OBSTACLE_MOD: return "MOVECOST_OBSTACLE_MOD";
+            case enchant_vals::mod::MOVECOST_FLATGROUND_MOD: return "MOVECOST_FLATGROUND_MOD";
+            case enchant_vals::mod::SHOUT_NOISE_STR_MULT: return "SHOUT_NOISE_STR_MULT";
+            case enchant_vals::mod::NIGHT_VIS: return "NIGHT_VIS";
+            case enchant_vals::mod::HEARING_MULT: return "HEARING_MULT";
+            case enchant_vals::mod::BANDAGE_BONUS: return "BANDAGE_BONUS";
+            case enchant_vals::mod::DISINFECTANT_BONUS: return "DISINFECTANT_BONUS";
+            case enchant_vals::mod::BLEED_STOP_BONUS: return "BLEED_STOP_BONUS";
+            case enchant_vals::mod::UGLINESS: return "UGLINESS";
+            case enchant_vals::mod::VOMIT_MUL: return "VOMIT_MUL";
+            case enchant_vals::mod::SCENT_MASK: return "SCENT_MASK";
+            case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
+            case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
+            case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
+            case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -269,6 +311,7 @@ bool enchantment::is_monster_relevant() const
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_add ) {
         if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -287,6 +330,7 @@ bool enchantment::is_monster_relevant() const
     for( const std::pair<const enchant_vals::mod, dbl_or_var> &pair_values :
          values_multiply ) {
         if( pair_values.first == enchant_vals::mod::ARMOR_ACID ||
+            pair_values.first == enchant_vals::mod::ARMOR_ALL ||
             pair_values.first == enchant_vals::mod::ARMOR_BASH ||
             pair_values.first == enchant_vals::mod::ARMOR_BIO ||
             pair_values.first == enchant_vals::mod::ARMOR_BULLET ||
@@ -844,6 +888,30 @@ units::mass enchant_cache::modify_value( const enchant_vals::mod mod_val,
     return value;
 }
 
+units::volume enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        units::volume value ) const
+{
+    value += units::from_milliliter<double>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::temperature_delta enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        units::temperature_delta value ) const
+{
+    value += units::from_celsius_delta<double>( get_value_add( mod_val ) );
+    value *= 1 + get_value_multiply( mod_val );
+    return value;
+}
+
+time_duration enchant_cache::modify_value( const enchant_vals::mod mod_val,
+        time_duration value ) const
+{
+    value += time_duration::from_seconds<double>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
 int enchant_cache::mult_bonus( enchant_vals::mod value_type, int base_value ) const
 {
     return get_value_multiply( value_type ) * base_value;
@@ -875,23 +943,24 @@ body_part_set enchantment::modify_bodyparts( const body_part_set &unmodified ) c
 
 void enchant_cache::activate_passive( Character &guy ) const
 {
-    guy.mod_str_bonus( get_value_add( enchant_vals::mod::STRENGTH ) );
-    guy.mod_str_bonus( mult_bonus( enchant_vals::mod::STRENGTH, guy.get_str_base() ) );
+    // since it's a modifier, need to remove original value from the math
+    guy.mod_str_bonus( modify_value( enchant_vals::mod::STRENGTH,
+                                     guy.get_str_base() ) - guy.get_str_base() );
 
-    guy.mod_dex_bonus( get_value_add( enchant_vals::mod::DEXTERITY ) );
-    guy.mod_dex_bonus( mult_bonus( enchant_vals::mod::DEXTERITY, guy.get_dex_base() ) );
+    guy.mod_dex_bonus( modify_value( enchant_vals::mod::DEXTERITY,
+                                     guy.get_dex_base() ) - guy.get_dex_base() );
 
-    guy.mod_per_bonus( get_value_add( enchant_vals::mod::PERCEPTION ) );
-    guy.mod_per_bonus( mult_bonus( enchant_vals::mod::PERCEPTION, guy.get_per_base() ) );
+    guy.mod_per_bonus( modify_value( enchant_vals::mod::PERCEPTION,
+                                     guy.get_per_base() ) - guy.get_per_base() );
 
-    guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
-    guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
+    guy.mod_int_bonus( modify_value( enchant_vals::mod::INTELLIGENCE,
+                                     guy.get_int_base() ) - guy.get_int_base() );
 
-    guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
-    guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
+    guy.mod_num_dodges_bonus( modify_value( enchant_vals::mod::BONUS_DODGE,
+                                            guy.get_num_dodges_base() ) - guy.get_num_dodges_base() );
 
-    guy.mod_num_blocks_bonus( get_value_add( enchant_vals::mod::BONUS_BLOCK ) );
-    guy.mod_num_blocks_bonus( mult_bonus( enchant_vals::mod::BONUS_BLOCK, guy.get_num_blocks_base() ) );
+    guy.mod_num_blocks_bonus( modify_value( enchant_vals::mod::BONUS_BLOCK,
+                                            guy.get_num_blocks_base() ) - guy.get_num_blocks_base() );
 
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );

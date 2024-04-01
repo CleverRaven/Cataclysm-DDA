@@ -117,7 +117,7 @@ $ cmake-gui ..
 
 ## CMake Build for MSYS2 (MinGW)
 
-1. Follow `COMPILING-MSYS.md` 
+1. Follow [`COMPILING-MSYS.md`](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILING/COMPILING-MSYS.md)
 
 2. Run
 ```

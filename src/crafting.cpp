@@ -140,6 +140,14 @@ static bool crafting_allowed( const Character &p, const recipe &rec )
         return false;
     }
 
+    if( p.is_driving() ) {
+        // One day, NPCs may be able to drive.
+        p.add_msg_player_or_npc( m_info,
+                                 _( "You can't craft while driving!" ),
+                                 _( "<npcname> refuses to violate road safety guidelines by crafting while driving!" ) );
+        return false;
+    }
+
     if( rec.category == "CC_BUILDING" ) {
         add_msg( m_info, _( "Overmap terrain building recipes are not implemented yet!" ) );
         return false;
@@ -281,9 +289,13 @@ float Character::workbench_crafting_speed_multiplier( const item &craft,
 
 float Character::crafting_speed_multiplier( const recipe &rec ) const
 {
-    const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec ) *
-                         get_limb_score( limb_score_manip );
+    float crafting_speed = morale_crafting_speed_multiplier( rec ) *
+                           lighting_craft_speed_multiplier( rec ) *
+                           get_limb_score( limb_score_manip );
+
+    const float result = enchantment_cache->modify_value( enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER,
+                         crafting_speed );
+
     add_msg_debug( debugmode::DF_CHARACTER, "Limb score multiplier %.1f, crafting speed multiplier %1f",
                    get_limb_score( limb_score_manip ), result );
 
@@ -306,7 +318,8 @@ float Character::crafting_speed_multiplier( const item &craft,
                                 cached_workbench_multiplier > 0.0f ) ? cached_workbench_multiplier :
                               workbench_crafting_speed_multiplier( craft, loc );
     const float morale_multi = morale_crafting_speed_multiplier( rec );
-    const float mut_multi = mutation_value( "crafting_speed_multiplier" );
+    const float mut_multi = 1.0 + enchantment_cache->get_value_multiply(
+                                enchant_vals::mod::CRAFTING_SPEED_MULTIPLIER );
 
     const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
                               get_limb_score( limb_score_manip );
@@ -1991,13 +2004,7 @@ static void empty_buckets( Character &p )
 std::list<item> Character::consume_items( const comp_selection<item_comp> &is, int batch,
         const std::function<bool( const item & )> &filter, bool select_ind )
 {
-    return consume_items( get_map(), is, batch, filter, pos(), PICKUP_RANGE, select_ind );
-}
-
-std::list<item> Character::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-        const std::function<bool( const item & )> &filter, const tripoint &origin, int radius,
-        bool select_ind )
-{
+    map &m = get_map();
     std::list<item> ret;
 
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -2005,7 +2012,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     }
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts;
-    m.reachable_flood_steps( reachable_pts, origin, radius, 1, 100 );
+    m.reachable_flood_steps( reachable_pts, pos(), PICKUP_RANGE, 1, 100 );
     return consume_items( m, is, batch, filter, reachable_pts, select_ind );
 }
 
@@ -2013,6 +2020,10 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
         const std::function<bool( const item & )> &filter, const std::vector<tripoint> &reachable_pts,
         bool select_ind )
 {
+    auto preferred_filter = [&filter]( const item & it ) {
+        return filter( it ) && is_preferred_component( it );
+    };
+
     std::list<item> ret;
 
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -2025,28 +2036,62 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
     // Count given to use_amount/use_charges, changed by those functions!
     int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : std::abs(
                          selected_comp.count );
-    // First try to get everything from the map, than (remaining amount) from player
+
+    // First try to get everything from the map, then (remaining amount) from player in two passes, first using preferred items and then remainder ones.
     if( is.use_from & usage_from::map ) {
         if( by_charges ) {
-            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
+            std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count,
+                                                 preferred_filter );
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
+            std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, preferred_filter,
                                                 select_ind );
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
+
     if( is.use_from & usage_from::player ) {
         if( by_charges ) {
-            std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+            std::list<item> tmp = use_charges( selected_comp.type, real_count, preferred_filter );
+            for( const item &it : tmp ) {
+                real_count -= it.charges;  // The use_charges operation above doesn't deduct what's been used...
+            }
             ret.splice( ret.end(), tmp );
         } else {
-            std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
+            std::list<item> tmp = use_amount( selected_comp.type, real_count, preferred_filter, select_ind );
+            real_count -= tmp.size();  // The use_amount operation above doesn't deduct what's been used...
             remove_ammo( tmp, *this );
             ret.splice( ret.end(), tmp );
         }
     }
+
+    if( real_count > 0 ) {
+        if( is.use_from & usage_from::map ) {
+            if( by_charges ) {
+                std::list<item> tmp = m.use_charges( reachable_pts, selected_comp.type, real_count, filter );
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = m.use_amount( reachable_pts, selected_comp.type, real_count, filter,
+                                                    select_ind );
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
+        }
+        if( is.use_from & usage_from::player ) {
+            if( by_charges ) {
+                std::list<item> tmp = use_charges( selected_comp.type, real_count, filter );
+                // The use_charges operation above doesn't deduct what's been used, but we're not going to use real_count again.
+                ret.splice( ret.end(), tmp );
+            } else {
+                std::list<item> tmp = use_amount( selected_comp.type, real_count, filter, select_ind );
+                // The use_amount operation above doesn't deduct what's been used, but we're not going to use real_count again.
+                remove_ammo( tmp, *this );
+                ret.splice( ret.end(), tmp );
+            }
+        }
+    }
+
     // Merge charges for items that stack with each other
     if( by_charges && ret.size() > 1 ) {
         for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {

@@ -53,7 +53,12 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] },
+        "condition": {
+          "or": [
+            { "math": [ "!has_var(n_timer_teamster_directions_recycler)" ] },
+            { "math": [ "time_since(n_timer_teamster_directions_recycler)", ">=", "time('2 d')" ] }
+          ]
+        },
         "effect": [
           { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
           { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
@@ -63,16 +68,6 @@
       {
         "text": "So, have your caravans seen anything interesting out there in the wasteland?",
         "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "condition": { "math": [ "time_since(n_timer_teamster_directions_recycler)", "<", "time('2 d')" ] },
-        "switch": true
-      },
-      {
-        "text": "So, have your caravans seen anything interesting out there in the wasteland?",
-        "topic": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
-        "effect": [
-          { "math": [ "npc_randomize_dialogue_direction", "=", "rand(4)" ] },
-          { "math": [ "n_timer_teamster_directions_recycler", "=", "time('now')" ] }
-        ],
         "switch": true,
         "default": true
       },
@@ -440,7 +435,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Isherwood Farms", "om_terrain": "farm_isherwood_1", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -465,7 +460,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "hub_01", "om_terrain": "robofachq_surface_entrance", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -490,7 +485,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_terrain": "exodii_base_x0y3z0", "om_special": "exodii_base", "reveal_radius": 5, "search_range": 1000 },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -515,7 +510,12 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "isolated_road", "om_terrain": "isolated_house_farm_gunsmith", "reveal_radius": 2, "search_range": 400 },
+      "assign_mission_target": {
+        "om_special": "isolated_road",
+        "om_terrain": "isolated_house_farm_gunsmith",
+        "reveal_radius": 2,
+        "search_range": 1000
+      },
       "effect": { "u_add_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

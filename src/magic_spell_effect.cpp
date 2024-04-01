@@ -495,13 +495,8 @@ static void add_effect_to_target( const tripoint &target, const spell &sp, Creat
     if( guy ) {
         for( const bodypart_id &bp : guy->get_all_body_parts() ) {
             if( sp.bp_is_affected( bp.id() ) ) {
-                if( sp.has_flag( spell_flag::LIQUID ) ) {
-                    guy->add_liquid_effect( spell_effect, bp, 1, dur_td, sp.has_flag( spell_flag::PERMANENT ) );
-                    bodypart_effected = true;
-                } else {
-                    guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
-                    bodypart_effected = true;
-                }
+                guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
+                bodypart_effected = true;
             }
         }
     }
@@ -1200,7 +1195,8 @@ static bool is_summon_friendly( const spell &sp )
     return friendly;
 }
 
-static bool add_summoned_mon( const tripoint &pos, const time_duration &time, const spell &sp )
+static bool add_summoned_mon( const tripoint &pos, const time_duration &time, const spell &sp,
+                              Creature &caster )
 {
     std::string monster_id = sp.effect_data();
 
@@ -1227,6 +1223,8 @@ static bool add_summoned_mon( const tripoint &pos, const time_duration &time, co
         spawned_mon.set_summon_time( time );
     }
     spawned_mon.no_extra_death_drops = !sp.has_flag( spell_flag::SPAWN_WITH_DEATH_DROPS );
+    spawned_mon.no_corpse_quiet = sp.has_flag( spell_flag::NO_CORPSE_QUIET );
+    spawned_mon.set_summoner( &caster );
     return true;
 }
 
@@ -1241,7 +1239,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
         const size_t mon_spot = rng( 0, area.size() - 1 );
         auto iter = area.begin();
         std::advance( iter, mon_spot );
-        if( add_summoned_mon( *iter, summon_time, sp ) ) {
+        if( add_summoned_mon( *iter, summon_time, sp, caster ) ) {
             num_mons--;
             sp.make_sound( *iter, caster );
         } else {
@@ -1367,7 +1365,7 @@ void spell_effect::mod_moves( const spell &sp, Creature &caster, const tripoint 
             continue;
         }
         sp.make_sound( potential_target, caster );
-        critter->moves += sp.damage( caster );
+        critter->mod_moves( sp.damage( caster ) );
     }
 }
 
@@ -1678,7 +1676,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         ++walk_point;
     }
     // save the amount of moves the caster has so we can restore them after the dash
-    const int cur_moves = caster.moves;
+    const int cur_moves = caster.get_moves();
     creature_tracker &creatures = get_creature_tracker();
     while( walk_point != trajectory.end() ) {
         if( caster_you != nullptr ) {
@@ -1699,7 +1697,7 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
         // we want the last tripoint in the actually reached trajectory
         --walk_point;
     }
-    caster.moves = cur_moves;
+    caster.set_moves( cur_moves );
 
     tripoint far_target;
     calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ), here.getlocal( *walk_point ),
@@ -1744,7 +1742,7 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
             int caster_total_hp = 0;
             int unbroken_parts = 0;
             for( const bodypart_id &part : caster.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                const int cur_part_hp = caster.as_character()->get_part_hp_cur( part );
+                const int cur_part_hp = caster.get_part_hp_cur( part );
                 if( cur_part_hp != 0 ) {
                     caster_total_hp += cur_part_hp;
                     unbroken_parts++;
@@ -1761,14 +1759,13 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
                 int parts_checked = 0;
 
                 for( const bodypart_id &part : caster.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                    Character &char_caster = *caster.as_character();
-                    const int cur_part_hp = char_caster.get_part_hp_cur( part );
+                    const int cur_part_hp = caster.get_part_hp_cur( part );
                     if( cur_part_hp > std::ceil( damage_per_part ) ) {
                         const int rolled_dam = roll_remainder( damage_per_part );
-                        char_caster.mod_part_hp_cur( part, -rolled_dam );
+                        caster.mod_part_hp_cur( part, -rolled_dam );
                         overflow -= rolled_dam;
                     } else {
-                        char_caster.mod_part_hp_cur( part, -( cur_part_hp - 1 ) );
+                        caster.mod_part_hp_cur( part, -( cur_part_hp - 1 ) );
                         overflow -= cur_part_hp - 1;
                         damage_per_part = static_cast<float>( overflow ) /
                                           static_cast<float>( unbroken_parts - parts_checked );

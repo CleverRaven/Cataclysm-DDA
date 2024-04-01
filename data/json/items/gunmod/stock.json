@@ -285,7 +285,7 @@
     "id": "under_folding_stock",
     "type": "GUNMOD",
     "name": { "str": "under folding stock" },
-    "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  The wire construction means that it’s less comfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
+    "description": "A light wire-framed stock with a push button release catch on the side  which allows it to fold and be stored away under the weapon's receiver.  The wire construction means that it's less comfortable to shoulder than a regular fixed attachment.  The stock is currently locked in the open position.",
     "weight": "100 g",
     "volume": "300 ml",
     "integral_volume": "100 ml",
@@ -379,7 +379,7 @@
       "moves": 300
     },
     "handling_modifier": -10,
-    "//": "This mod shouldn’t get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
+    "//": "This mod shouldn't get a folding stock flag. The deployed version of this mod adds extra length to the base gun item, which this folded version removes to simulate the greatly shorter length of the sub2000 when collapsed. Adding a folding stock flag will remove another 20 cm from the base gun, making it only 19 cm long."
   },
   {
     "id": "m26_mass_stock",

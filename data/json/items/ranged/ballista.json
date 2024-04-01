@@ -34,7 +34,7 @@
     "id": "bolt_ballista_steel",
     "type": "AMMO",
     "name": { "str": "ballista bolt" },
-    "description": "A big, steel tipped projectile, twice the size of a normal bolt and much heavier than one.  It gets thicker towards the base, and is fletched there with the portrusions of the shaft itself.",
+    "description": "A big, steel tipped projectile, twice the size of a normal bolt and much heavier than one.  It gets thicker towards the base, and is fletched there with the protrusions of the shaft itself.",
     "weight": "200 g",
     "volume": "450 ml",
     "price": 2500,

@@ -133,7 +133,8 @@
     "magazine": 100,
     "ammo": 20,
     "entries": [
-      { "item": "m9", "prob": 100, "damage": [ 2, 4 ] },
+      { "item": "m9", "prob": 100, "charges-max": 0, "damage": [ 2, 4 ] },
+      { "item": "baton-extended", "prob": 100, "damage": [ 2, 4 ] },
       { "group": "security_armor", "prob": 30, "damage": [ 0, 2 ] },
       { "group": "security_gear", "prob": 50, "damage": [ 0, 2 ] },
       { "group": "cop_gloves", "prob": 30, "damage": [ 1, 4 ] },
@@ -144,8 +145,7 @@
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "wallets", "damage": [ 1, 4 ] },
-      { "item": "m9mag", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 10 ] },
-      { "item": "m9mag", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 15 ] }
+      { "item": "m9mag", "prob": 100, "charges-max": 0, "count": [ 0, 2 ] }
     ]
   },
   {
@@ -209,12 +209,6 @@
     "subtype": "collection",
     "id": "feral_fancy_death_drops_rapier_fake",
     "entries": [ { "item": "rapier_fake", "prob": 100, "damage": [ 0, 2 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
-    "id": "feral_fancy_death_drops_crossbow",
-    "entries": [ { "item": "rep_crossbow", "prob": 100, "damage": [ 1, 3 ] }, { "group": "default_fancy_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
@@ -563,10 +557,10 @@
     "magazine": 100,
     "ammo": 20,
     "entries": [
-      { "group": "feral_handgun", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "feral_handgun", "prob": 30, "charges-max": 0, "damage": [ 1, 4 ] },
       { "group": "clothing_outdoor_set", "damage": [ 1, 4 ] },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 100 },
-      { "group": "fired_mags_9mm", "prob": 80 },
+      { "group": "fired_mags_9mm", "charges-max": 0, "prob": 80 },
       { "group": "book_survival", "prob": 40 },
       { "group": "survivor_knife", "damage": [ 1, 4 ] },
       { "group": "gear_survival", "prob": 55, "damage": [ 1, 4 ] },
@@ -574,6 +568,21 @@
       { "group": "stash_food", "prob": 70 },
       { "group": "mil_food_nodrugs", "prob": 10 },
       { "group": "used_survival_kit", "prob": 70, "damage": [ 1, 4 ] }
+    ]
+  },
+  {
+    "id": "mon_feral_prepper_mace_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mace_pipe", "prob": 100, "damage": [ 2, 4 ] }, { "group": "mon_feral_prepper_death_drops", "prob": 100 } ]
+  },
+  {
+    "id": "mon_feral_prepper_knife_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "knife_combat", "prob": 100, "damage": [ 2, 4 ] },
+      { "group": "mon_feral_prepper_death_drops", "prob": 100 }
     ]
   },
   {
@@ -617,7 +626,7 @@
       { "item": "knife_KABAR", "prob": 40, "container-item": "sheath" },
       { "item": "kevlar", "prob": 50, "damage": [ 2, 4 ] },
       { "item": "wearable_light", "prob": 100, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
-      { "group": "feral_autogun", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "feral_autogun", "charges-max": 0, "prob": 100, "damage": [ 1, 4 ] },
       { "group": "survivor_grenades", "prob": 20 },
       { "group": "bags", "damage": [ 1, 4 ], "prob": 100 },
       { "group": "book_survival", "prob": 70 },
@@ -627,9 +636,9 @@
       { "group": "mil_food_nodrugs", "prob": 40 },
       { "group": "shelter", "prob": 30 },
       { "group": "used_survival_kit", "prob": 80, "damage": [ 1, 4 ] },
-      { "item": "stanag30", "prob": 25, "ammo-item": "223", "charges": [ 0, 10 ] },
-      { "item": "stanag30ranger", "prob": 33, "ammo-item": "556", "charges": [ 0, 30 ] },
-      { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] },
+      { "item": "stanag30", "prob": 25, "charges-max": 0 },
+      { "item": "stanag30ranger", "prob": 33, "charges-max": 0 },
+      { "item": "stanag30", "prob": 50, "charges-max": 0 },
       { "item": "dog_tag", "prob": 20 }
     ]
   },
@@ -662,11 +671,11 @@
     "id": "feral_jackboot_shotgun",
     "subtype": "distribution",
     "entries": [
-      { "item": "mossberg_500", "prob": 33, "charges": [ 0, 6 ] },
-      { "item": "mossberg_590", "prob": 3, "charges": [ 0, 9 ] },
-      { "item": "remington_870", "prob": 35, "charges": [ 0, 5 ] },
-      { "item": "remington_870_express", "prob": 18, "charges": [ 0, 6 ] },
-      { "item": "mossberg_930", "prob": 15, "charges": [ 0, 6 ] }
+      { "item": "mossberg_500", "prob": 33, "charges": 0 },
+      { "item": "mossberg_590", "prob": 3, "charges": 0 },
+      { "item": "remington_870", "prob": 35, "charges": 0 },
+      { "item": "remington_870_express", "prob": 18, "charges": 0 },
+      { "item": "mossberg_930", "prob": 15, "charges": 0 }
     ]
   },
   {
@@ -687,9 +696,9 @@
       { "item": "mask_gas", "prob": 5, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "item": "two_way_radio", "prob": 15, "charges": [ 0, 100 ], "damage": [ 1, 4 ] },
       { "group": "infantry_knives", "prob": 100, "damage": [ 2, 4 ] },
-      { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 10 ] },
-      { "item": "stanag30ranger", "prob": 1, "ammo-item": "556", "charges": [ 0, 30 ] },
-      { "item": "stanag30", "prob": 50, "ammo-item": "556", "charges": [ 0, 30 ] },
+      { "item": "stanag30", "prob": 50, "charges-max": 0 },
+      { "item": "stanag30ranger", "prob": 1, "charges-max": 0 },
+      { "item": "stanag30", "prob": 50, "charges-max": 0 },
       { "item": "dog_tag", "prob": 40 }
     ]
   },
@@ -801,6 +810,7 @@
         "group": "military_standard_assault_rifles",
         "contents-item": "knife_combat_marine",
         "prob": 100,
+        "charges-max": 0,
         "damage": [ 0, 4 ],
         "dirt": [ 0, 6000 ]
       },
@@ -840,9 +850,9 @@
       { "item": "wristwatch", "damage": [ 0, 4 ], "prob": 33 },
       { "group": "pocket_cigar", "prob": 5 },
       { "group": "misc_smoking_legal", "prob": 10 },
-      { "item": "m18", "prob": 100, "damage": [ 0, 4 ] },
-      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 14 ] },
-      { "item": "p320mag_17rd_9x19mm", "prob": 50, "ammo-item": "9mm", "charges": [ 0, 17 ] },
+      { "item": "m18", "prob": 100, "damage": [ 0, 4 ], "charges-max": 0 },
+      { "item": "p320mag_17rd_9x19mm", "prob": 50, "charges-max": 0 },
+      { "item": "p320mag_17rd_9x19mm", "prob": 50, "charges-max": 0 },
       { "item": "dog_tag", "prob": 20 }
     ]
   },
@@ -890,7 +900,7 @@
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 5 },
       { "group": "cop_pants_stuff" },
-      { "group": "cop_armaments" },
+      { "group": "cop_armaments", "charges-max": 0 },
       {
         "collection": [ { "item": "badge_deputy", "prob": 100 }, { "item": "badge_detective", "prob": 20 } ],
         "prob": 10
