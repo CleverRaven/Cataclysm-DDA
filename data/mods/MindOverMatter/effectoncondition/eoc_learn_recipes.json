@@ -1176,5 +1176,24 @@
       }
     ],
     "false_effect": [ { "u_message": "Without a laptop, you can't access the data on the USB", "type": "bad" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_UNLEARN_CHANNELING_RECIPE",
+    "recurrence": "5 minutes",
+    "condition": {
+      "and": [
+        { "u_know_recipe": "psi_research_extended_channeling" },
+        { "or": [ { "u_has_trait": "PSI_EXTENDED_CHANNELING" }, { "u_has_trait": "PSI_EXTENDED_CHANNELING_ON" } ] }
+      ]
+    },
+    "deactivate_condition": {
+      "and": [
+        { "not": { "u_know_recipe": "psi_research_extended_channeling" } },
+        { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING" } },
+        { "not": { "u_has_trait": "PSI_EXTENDED_CHANNELING_ON" } }
+      ]
+    },
+    "effect": [ { "u_forget_recipe": "psi_research_extended_channeling" } ]
   }
 ]
