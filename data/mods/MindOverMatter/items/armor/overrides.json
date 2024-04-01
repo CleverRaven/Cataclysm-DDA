@@ -4,7 +4,7 @@
     "copy-from": "dimensional_anchor",
     "type": "TOOL_ARMOR",
     "category": "clothing",
-    "name": { "str": "5-point anchor", "str_pl": "5-point anchors" },
+    "name": { "str": "5-point anchor" },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "mutations": [ "ANCHORCROWN_NOSPELL" ] } ] }
   },
   {
