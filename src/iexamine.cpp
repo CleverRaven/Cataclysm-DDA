@@ -4329,7 +4329,7 @@ const itype *furn_t::crafting_pseudo_item_type() const
     return item::find_type( crafting_pseudo_item );
 }
 
-const std::vector<const itype *> furn_t::crafting_ammo_item_types() const
+std::vector<const itype *> furn_t::crafting_ammo_item_types() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
     std::vector<const itype *> output;
@@ -4404,7 +4404,6 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     }
     const itype *ammo_loaded = nullptr;
     int amount_in_furn = 0;
-    int max_amount_in_furn = 0;
     for( const itype *ammo : ammo_list ) {
         itype_id ammo_itypeID( ammo->get_id() );
         int amount_tmp = use_ammotype ?
@@ -6629,7 +6628,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
 
     const furn_t &f = here.furn( examp ).obj();
     const itype *type = f.crafting_pseudo_item_type();
-    const itype *ammo = f.crafting_ammo_item_types().front();
+    std::vector<const itype *> ammo_list = f.crafting_ammo_item_types();
     const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
@@ -6638,8 +6637,8 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
     const bool has_coal_in_inventory = you.crafting_inventory().charges_of( itype_charcoal ) > 0;
     const int coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
     const int need_charges = get_charcoal_charges( f_volume );
-    const int max_charges = type == nullptr || ammo == nullptr ||
-                            !ammo->ammo ? 0 : item( type ).ammo_capacity( ammo->ammo->type );
+    const int max_charges = type == nullptr || ammo_list.empty() ||
+                            !ammo_list[0]->ammo ? 0 : item( type ).ammo_capacity( ammo_list[0]->ammo->type );
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 
