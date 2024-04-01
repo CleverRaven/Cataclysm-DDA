@@ -3740,8 +3740,8 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "LAB", "MAN_MADE" ]
+    "occurrences": [ 50, 100 ],
+    "flags": [ "LAB", "MAN_MADE", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
@@ -4014,8 +4014,8 @@
     ],
     "locations": [ "land" ],
     "city_distance": [ 5, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "LAB", "MAN_MADE" ]
+    "occurrences": [ 50, 100 ],
+    "flags": [ "LAB", "MAN_MADE", "UNIQUE" ]
   },
   {
     "type": "overmap_special",
