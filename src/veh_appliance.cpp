@@ -470,7 +470,7 @@ void veh_app_interact::remove()
     if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
-        int const part = veh->part_at( a_point );
+        int const part = veh->part_at( veh->coord_translate( a_point ) );
         vp = &veh->part( part >= 0 ? part : 0 );
     }
     const vpart_info &vpinfo = vp->info();
@@ -512,7 +512,7 @@ void veh_app_interact::remove()
 
 void veh_app_interact::plug()
 {
-    const int part = veh->part_at( a_point );
+    const int part = veh->part_at( veh->coord_translate( a_point ) );
     const tripoint pos = veh->global_part_pos3( part );
     item cord( "power_cord" );
     cord.link_to( *veh, a_point, link_state::automatic );
@@ -564,7 +564,7 @@ void veh_app_interact::populate_app_actions()
     if( auto sel_part = here.veh_at( a_point_bub ).part_with_feature( VPFLAG_APPLIANCE, false ) ) {
         vp = &sel_part->part();
     } else {
-        const int part = veh->part_at( a_point );
+        const int part = veh->part_at( veh->coord_translate( a_point ) );
         vp = &veh->part( part >= 0 ? part : 0 );
     }
 

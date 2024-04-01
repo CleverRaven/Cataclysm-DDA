@@ -24,7 +24,7 @@
     "valid_mod_locations": [
       [ "brass catcher", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
@@ -63,7 +63,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "sights", 1 ],
       [ "rail mount", 1 ],
       [ "stock mount", 1 ],
@@ -100,7 +100,7 @@
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],

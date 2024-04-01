@@ -2089,6 +2089,55 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
     }
 
+    const std::optional<vpart_reference> vp_toolstation = vp.avail_part_with_feature( "VEH_TOOLS" );
+    // Remove attached tools that have become incompatible with workstation because of migration etc
+    if( vp_toolstation && !vp.get_tools().empty() ) {
+        const vpart_info vp_info = vp_toolstation->info();
+        if( vp_info.toolkit_info ) {
+            const std::set<itype_id> &allowed_tool_types = vp_info.toolkit_info->allowed_types;
+
+            std::set<itype_id> builtin_tool_types;
+            for( const auto &[tool_type, _] : vp_info.get_pseudo_tools() ) {
+                builtin_tool_types.insert( tool_type );
+            }
+
+            std::vector<item> tools_to_remove;
+            // Tool is incompatible if it's not in allowed types and isn't a pseudo tool
+            for( const auto &[tool_item, _] : vp.get_tools() ) {
+                const itype_id &tool_type = tool_item.typeId();
+                if( builtin_tool_types.find( tool_type ) != builtin_tool_types.end() ) {
+                    continue;
+                }
+                if( allowed_tool_types.find( tool_type ) == allowed_tool_types.end() ) {
+                    tools_to_remove.push_back( tool_item );
+                }
+            }
+
+            if( !tools_to_remove.empty() ) {
+                Character &you = get_player_character();
+                for( item &tool_to_remove : tools_to_remove ) {
+                    you.add_msg_if_player( _( "The %s is no longer compatible with %s and pops out." ),
+                                           tool_to_remove.tname(), vp_toolstation->part().name( false ) );
+                    you.add_or_drop_with_msg( tool_to_remove );
+                }
+
+                std::vector<item> &stored_tools = vp_toolstation->part().tools;
+                stored_tools.erase( std::remove_if( stored_tools.begin(),
+                                                    stored_tools.end(),
+                [&tools_to_remove]( const item & item_to_remove ) {
+                    return std::find_if( tools_to_remove.begin(), tools_to_remove.end(),
+                    [&item_to_remove]( const item & tools_to_remove_item ) {
+                        return tools_to_remove_item.typeId() == item_to_remove.typeId();
+                    } ) != tools_to_remove.end();
+                } ),
+                stored_tools.end() );
+
+                invalidate_mass();
+                you.invalidate_crafting_inventory();
+            }
+        }
+    }
+
     for( const auto&[tool_item, hk] : vp.get_tools() ) {
         const itype_id &tool_type = tool_item.typeId();
         if( !tool_type->has_use() ) {
@@ -2272,7 +2321,6 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
     }
 
-    const std::optional<vpart_reference> vp_toolstation = vp.avail_part_with_feature( "VEH_TOOLS" );
     if( vp_toolstation && vp_toolstation->info().toolkit_info ) {
         const size_t vp_idx = vp_toolstation->part_index();
         const std::string vp_name = vp_toolstation->part().name( /* with_prefix = */ false );

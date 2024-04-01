@@ -1452,5 +1452,35 @@
         "description": "A history of the development of Rabbinic Judaism, from the Jewish Revolt in the first century to the writing of the Mishnah, and how Judaism and Christianity fully separated."
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "book_ruined",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "ruined book" },
+    "description": "A ruined book.  Someone has thoroughly ruined this book by ripping pages out and covering the remainder in… is that paint?",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "1587 g",
+    "volume": "1500 ml"
+  },
+  {
+    "type": "GENERIC",
+    "id": "book_pieces",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str_sp": "pieces of books" },
+    "description": "Scraps of paper that used to be part of a book.  Completely useless now.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "120 g",
+    "volume": "200 ml"
   }
 ]
