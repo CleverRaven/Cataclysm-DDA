@@ -131,6 +131,8 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_radiocontrol( "radiocontrol" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_NO_PSIONICS( "NO_PSIONICS" );
+static const json_character_flag json_flag_NO_SPELLCASTING( "NO_SPELLCASTING" );
 static const json_character_flag json_flag_SUBTLE_SPELL( "SUBTLE_SPELL" );
 
 static const material_id material_glass( "glass" );
@@ -1712,8 +1714,18 @@ static void cast_spell()
     }
 
     if( !can_cast_spells ) {
-        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
-                 _( "You can't cast any of the spells you know!" ) );
+        if( player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
+            !player_character.has_flag( json_flag_NO_PSIONICS ) ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     _( "You can't cast any of the spells you know!" ) );
+        } else if( !player_character.has_flag( json_flag_NO_SPELLCASTING ) &&
+                   player_character.has_flag( json_flag_NO_PSIONICS ) ) {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     _( "You can't channel any of the powers you know!" ) );
+        } else {
+            add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                     _( "You can't use any of your powers!" ) );
+        }
     }
 
     const int spell_index = player_character.magic->select_spell( player_character );
