@@ -114,6 +114,37 @@ Monster can be removed without migration, the game replace all critters without 
 
 Recipes can be removed without migration, the game will simply delete the recipe when loaded
 
+# Terrain and furniture migration
+
+Terrain and furniture migration replace the provided id as submaps are loaded. You can use `f_null` with `to_furn` to remove furniture entirely without creating errors, however `from_ter` must specify a non null `to_ter`.
+
+## Examples
+
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_ter": "t_fence_that_bashes_into_t_dirt",
+    "to_ter": "t_dirt",
+    "to_furn": "f_fence_that_can_now_be_used_on_all_terrains"
+  }
+```
+
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_furn": "f_underbrush_harvested_spring",
+    "to_furn": "f_underbrush_harvested"
+  }
+```
+...
+```json
+  {
+    "type": "ter_furn_migration",
+    "from_furn": "f_underbrush_harvested_winter",
+    "to_furn": "f_underbrush_harvested"
+  }
+```
+
 # Overmap terrain migration
 
 Overmap terrain migration replaces the location, if it's not generated, and replaces the entry shown on your map even if it's already generated. If you need the map to be removed without alternative, use `omt_obsolete`
