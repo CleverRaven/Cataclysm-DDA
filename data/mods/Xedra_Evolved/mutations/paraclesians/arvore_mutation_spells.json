@@ -974,8 +974,8 @@
     "shape": "blast",
     "spell_class": "ARVORE",
     "teachable": false,
-    "min_damage": { "math": [ "(25 + arvore_turn_into_tree_spell_level * 5) * arvore_turn_into_tree_perception" ] },
-    "max_damage": { "math": [ "(100 + arvore_turn_into_tree_spell_level * 15) * arvore_turn_into_tree_perception" ] },
+    "min_damage": { "math": [ "(25 + (arvore_turn_into_tree_spell_level * 5)) * arvore_turn_into_tree_intelligence" ] },
+    "max_damage": { "math": [ "(100 + (arvore_turn_into_tree_spell_level * 15)) * arvore_turn_into_tree_intelligence" ] },
     "min_range": 0,
     "max_range": 0,
     "ignored_monster_species": [ "NETHER_EMANATION", "ROBOT" ]
