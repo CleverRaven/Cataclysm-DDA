@@ -28,7 +28,6 @@
 #include "submap.h"
 #include "type_id.h"
 
-static const ter_str_id ter_t_floor( "t_floor" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_rock( "t_rock" );

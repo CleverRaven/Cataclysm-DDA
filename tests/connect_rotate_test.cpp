@@ -11,9 +11,8 @@
 #include "sdltiles.h"
 
 static const ter_str_id ter_t_floor( "t_floor" );
-static const ter_str_id ter_t_wall( "t_wall" );
-static const ter_str_id ter_t_connection( "t_connection" );
 static const ter_str_id ter_t_pavement( "t_pavement" );
+static const ter_str_id ter_t_wall( "t_wall" );
 
 class cata_tiles_test_helper
 {

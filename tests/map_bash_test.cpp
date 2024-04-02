@@ -9,8 +9,8 @@
 static const furn_str_id furn_test_f_bash_persist( "test_f_bash_persist" );
 static const furn_str_id furn_test_f_eoc( "test_f_eoc" );
 
-static const ter_str_id ter_test_t_bash_persist( "test_t_bash_persist" );
 static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_test_t_bash_persist( "test_t_bash_persist" );
 static const ter_str_id ter_test_t_pit_shallow( "test_t_pit_shallow" );
 
 void bash_test_loadout::apply( Character &guy ) const
