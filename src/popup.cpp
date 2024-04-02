@@ -588,10 +588,14 @@ query_popup::result query_popup::query_once_imgui()
     } else if( res.action == "LEFT" ) {
         if( impl->keyboard_selected_option > 0 ) {
             impl->keyboard_selected_option--;
+        } else {
+            impl->keyboard_selected_option = short( buttons.size() - 1 );
         }
     } else if( res.action == "RIGHT" ) {
         if( impl->keyboard_selected_option < short( buttons.size() - 1 ) ) {
             impl->keyboard_selected_option++;
+        } else {
+            impl->keyboard_selected_option = 0;
         }
     } else if( res.action == "HELP_KEYBINDINGS" ) {
         // Keybindings may have changed, regenerate the UI
