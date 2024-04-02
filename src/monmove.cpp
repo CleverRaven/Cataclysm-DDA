@@ -691,10 +691,9 @@ void monster::plan()
             }
             if( mon_plan.swarms ) {
                 if( rating < 5 ) { // Too crowded here
-                    wander_pos = get_location()
+                    wander_pos = get_location();
                     while( wander_pos == get_location() ) {
-                        wander_pos.x = get_location().x + rng( -3, 3 );
-                        wander_pos.y = get_location().y + rng( -3, 3 );
+                        wander_pos += point( rng( -3, 3 ), rng( -3, 3 ) );
                     }
                     wandf = 2;
                     mon_plan.target = nullptr;
