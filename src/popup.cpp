@@ -23,7 +23,7 @@ class query_popup_impl : public cataimgui::window
         short keyboard_selected_option;
 
         explicit query_popup_impl( query_popup *parent ) : cataimgui::window( "QUERY_POPUP",
-                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar ) {
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysAutoResize ) {
             msg_width = 400;
             this->parent = parent;
             keyboard_selected_option = 0;
