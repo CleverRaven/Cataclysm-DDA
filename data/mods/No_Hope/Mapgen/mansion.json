@@ -316,15 +316,9 @@
           { "item": "tailorbooks", "chance": 20, "repeat": [ 0, 1 ] },
           { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
         ],
-        "f": [
-          { "item": "snacks_fancy", "chance": 35 },
-          { "item": "table_sideboard", "chance": 20 }
-        ],
+        "f": [ { "item": "snacks_fancy", "chance": 35 }, { "item": "table_sideboard", "chance": 20 } ],
         "D": [ { "item": "sex_lair", "chance": 35 }, { "item": "ss_merch_1", "chance": 25 } ],
-        "d": [
-          { "item": "clothing_fancy", "chance": 35 },
-          { "item": "beauty", "chance": 25 }
-        ],
+        "d": [ { "item": "clothing_fancy", "chance": 35 }, { "item": "beauty", "chance": 25 } ],
         "h": [ { "item": "backroom", "chance": 15 }, { "item": "tools_lighting", "chance": 25 } ],
         ".": { "item": "clutter_basement", "chance": 1 },
         "=": { "item": "sex_lair", "chance": 10 },
