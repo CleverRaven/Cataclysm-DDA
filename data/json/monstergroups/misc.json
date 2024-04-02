@@ -65,10 +65,10 @@
     "name": "GROUP_MANSION_START",
     "//": "Nonsense ferals for the mansion escape challenge scenario, shouldn't be used for general spawns",
     "monsters": [
-      { "monster": "mon_feral_maid_broom", "weight": 400 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 400 },
+      { "monster": "mon_feral_maid_broom", "weight": 600 },
+      { "monster": "mon_feral_maid_candlestick", "weight": 600 },
       { "monster": "mon_feral_maid_knife", "weight": 400 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 300 },
+      { "monster": "mon_feral_fancy_rapier", "weight": 200 },
       { "monster": "mon_feral_fancy_rapier_fake", "weight": 300 }
     ]
   },
