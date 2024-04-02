@@ -2851,6 +2851,24 @@
   },
   {
     "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Lord, an intruder!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"My lady, come see this one!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_maid_broom", "mon_feral_maid_candlestick", "mon_feral_maid_knife" ],
+    "sound": "\"Master, I have one trapped!\"",
+    "volume": 35
+  },
+  {
+    "type": "speech",
     "speaker": [ "mon_feral_fancy_rapier", "mon_feral_fancy_rapier_fake", "mon_feral_armored_mace", "mon_feral_armored_battleaxe" ],
     "sound": "\"Where…\"",
     "volume": 5

@@ -558,19 +558,12 @@
     "type": "monstergroup",
     "//": "Same as above, but with the fancy ferals thrown into the mix for the scenario.",
     "monsters": [
-      { "monster": "mon_zombie_child", "weight": 250 },
-      { "monster": "mon_zombie", "weight": 20, "cost_multiplier": 2 },
-      { "group": "GROUP_CIVILIANS_STANDARD", "weight": 100 },
-      { "group": "GROUP_FERAL", "weight": 50, "cost_multiplier": 2 },
-      { "monster": "mon_feral_maid_broom", "weight": 20 },
-      { "monster": "mon_feral_maid_candlestick", "weight": 20 },
+      { "group": "GROUP_PANICROOM", "weight": 750 },
+      { "monster": "mon_feral_maid_broom", "weight": 15 },
+      { "monster": "mon_feral_maid_candlestick", "weight": 15 },
       { "monster": "mon_feral_maid_knife", "weight": 20 },
-      { "monster": "mon_feral_fancy_rapier", "weight": 140, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_rapier_fake", "weight": 100, "cost_multiplier": 3 },
-      { "group": "GROUP_PET_DOGS", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_dog_rottweiler", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_dog_gpyrenees", "weight": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_dog", "weight": 20 }
+      { "monster": "mon_feral_fancy_rapier", "weight": 120, "cost_multiplier": 5 },
+      { "monster": "mon_feral_fancy_rapier_fake", "weight": 80, "cost_multiplier": 3 }
     ]
   },
   {
