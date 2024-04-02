@@ -4511,8 +4511,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "need_sunlight": true   // Whether the character needs to be in direct sunlight, e.g. to use magnifying glasses
 },
 "use_action": {
-  "type": "unpack",                 // unpack this item
-  "group": "gobag_contents",        // itemgroup this unpacks into
+  "type": "unpack",                 // Unpack this item
+  "group": "gobag_contents",        // Item group this unpacks into
   "items_fit": true,                // Do the armor items in this fit? Defaults to false
   "filthy_volume_threshold": "10 L" // If the items unpacked from this item have volume, and this item is filthy, at what amount of held volume should they become filthy
 },
