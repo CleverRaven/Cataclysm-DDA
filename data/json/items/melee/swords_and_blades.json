@@ -319,7 +319,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -391,7 +390,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -451,7 +449,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -1682,7 +1679,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -3114,7 +3110,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",
@@ -3164,7 +3159,6 @@
       "blacklist_mod": [
         "crafted_suppressor",
         "filter_suppressor",
-        "bottle_suppressor",
         "shot_suppressor",
         "suppressor",
         "suppressor_compact",

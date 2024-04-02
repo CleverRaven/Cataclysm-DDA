@@ -19,8 +19,6 @@
     "blacklist_mod": [
       "crafted_suppressor",
       "filter_suppressor",
-      "bottle_suppressor",
-      "riv_suppressor",
       "shot_suppressor",
       "suppressor",
       "mp5sd_suppressor",
