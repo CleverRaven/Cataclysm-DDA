@@ -46,7 +46,6 @@ static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
-static const ter_str_id ter_t_dirt( "t_dirt" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
