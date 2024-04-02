@@ -5962,7 +5962,7 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
         const bool using_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
         map_stack stack = m->i_at( p );
-        for( auto ammo_itype : f.crafting_ammo_item_types() ) {
+        for( const itype *ammo_itype : f.crafting_ammo_item_types() ) {
             itype_id ammo = ammo_itype->get_id();
             auto iter = std::find_if( stack.begin(), stack.end(),
             [ammo, using_ammotype]( const item & i ) {
