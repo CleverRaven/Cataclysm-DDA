@@ -4489,14 +4489,22 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
         row_keys.reserve( total_size.x );
         utf8_display_split_into( row, row_keys );
         if( row_keys.size() < static_cast<size_t>( expected_dim.x ) ) {
-            parray.throw_error(
-                string_format( "  format: row %d must have at least %d columns, not %d",
-                               c + 1, expected_dim.x, row_keys.size() ) );
+            if( !default_rows ) {
+                parray.throw_error(
+                    string_format( "format: row %d must have at least %d columns, not %d",
+                                   c + 1, expected_dim.x, row_keys.size() ) );
+            } else {
+                jo.throw_error( "Defaulted rows row somehow has the wrong size!" );
+            }
         }
         if( row_keys.size() != static_cast<size_t>( total_size.x ) ) {
-            parray.throw_error(
-                string_format( "  format: row %d must have %d columns, not %d; check mapgensize if applicable",
-                               c + 1, total_size.x, row_keys.size() ) );
+            if( !default_rows ) {
+                parray.throw_error(
+                    string_format( "format: row %d must have %d columns, not %d; check mapgensize if applicable",
+                                   c + 1, total_size.x, row_keys.size() ) );
+            } else {
+                jo.throw_error( "Defaulted rows somehow used the wrong number of rows!" );
+            }
         }
         for( int i = m_offset.x; i < expected_dim.x; i++ ) {
             const point p = point( i, c ) - m_offset;
@@ -4508,19 +4516,26 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             const bool has_placing = fpi != format_placings.end();
 
             if( !has_terrain && !fallback_terrain_exists ) {
-                parray.string_error(
-                    c, i + 1,
-                    string_format( "format: rows: row %d column %d: "
-                                   "'%s' is not in 'terrain', and no 'fill_ter' is set!",
-                                   c + 1, i + 1, key.str ) );
+                if( !default_rows ) {
+                    parray.string_error(
+                        c, i + 1,
+                        string_format( "format: rows: row %d column %d: '%s' is not in 'terrain',"
+                                       "and no 'fill_ter', 'predecessor_mapgen' or 'fallback_predecessor_mapgen' is set!",
+                                       c + 1, i + 1, key.str ) );
+                } else {
+                    jo.throw_error( "format: ' ' is not in 'terrain', and no 'fill_ter', 'predecessor_mapgen' or 'fallback_predecessor_mapgen' is set!" );
+                }
             }
             if( !has_terrain && !has_placing && key.str != " " && key.str != "." ) {
                 try {
-                    parray.string_error(
-                        c, i + 1,
-                        string_format( "format: rows: row %d column %d: "
-                                       "'%s' has no terrain, furniture, or other definition",
-                                       c + 1, i + 1, key.str ) );
+                    if( !default_rows ) {
+                        parray.string_error(
+                            c, i + 1,
+                            string_format( "format: rows: row %d column %d: '%s' has no terrain, furniture, or other definition",
+                                           c + 1, i + 1, key.str ) );
+                    } else {
+                        jo.throw_error( "Defaulted rows somehow has a non ' ' character!" );
+                    }
                 } catch( const JsonError &e ) {
                     debugmsg( "(json-error)\n%s", e.what() );
                 }
@@ -4538,7 +4553,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     // No fill_ter? No format? GTFO.
     if( !fallback_terrain_exists ) {
         jo.throw_error(
-            "Need one of 'fill_terrain' or 'predecessor_mapgen' or 'rows' + 'terrain'" );
+            "Need one of 'fill_terrain', 'predecessor_mapgen', 'fallback_predecessor_mapgen', 'terrain' or a palette providing 'terrain'." );
         // TODO: write TFM.
     }
 
