@@ -742,12 +742,11 @@ void map_data_common_t::set_groups( std::bitset<NUM_TERCONN> &bits,
     }
 }
 
-ter_id t_null, t_dirt;
+ter_id t_null;
 
 void set_ter_ids()
 {
     t_null = ter_id( "t_null" );
-    t_dirt = ter_id( "t_dirt" );
 
     for( const ter_t &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t &>( elem );

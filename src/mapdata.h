@@ -698,7 +698,7 @@ t_basalt
 "t_basalt"
 */
 // NOLINTNEXTLINE(cata-static-int_id-constants)
-extern ter_id t_null, t_dirt;
+extern ter_id t_null;
 /*
 runtime index: furn_id
 furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
