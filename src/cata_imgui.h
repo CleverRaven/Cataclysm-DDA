@@ -68,6 +68,7 @@ class client
         const SDL_Window_Ptr &sdl_window;
         const GeometryRenderer_Ptr &sdl_geometry;
 #endif
+        bool auto_size_frame_active();
 };
 
 void point_to_imvec2( point *src, ImVec2 *dest );
