@@ -4447,8 +4447,8 @@ The contents of `use_action` fields can either be a string indicating a built-in
   "type": "place_monster",          // Place a turret / manhack / whatever monster on the map
   "monster_id": "mon_manhack",      // Monster ID, see monsters.json
   "difficulty": 4,                  // Difficulty for programming it (manhacks have 4, turrets 6, etc.)
-  "hostile_msg": "It's hostile!",   // (optional) message when programming the monster failed and it's hostile
-  "friendly_msg": "Good!",          // (optional) message when the monster is programmed properly and it's friendly
+  "hostile_msg": "It's hostile!",   // (optional) Message when programming the monster failed and it's hostile
+  "friendly_msg": "Good!",          // (optional) Message when the monster is programmed properly and it's friendly
   "place_randomly": true,           // Places the monster randomly around the player or lets the player decide where to put it (default: false)
   "skills": [ "unarmed", "throw" ], // (optional) Array of skill IDs. Higher skill level means more likely to place a friendly monster
   "moves": 60,                      // How many move points the action takes
