@@ -80,8 +80,6 @@ static const efftype_id effect_ridden( "ridden" );
 
 static const itype_id itype_corpse( "corpse" );
 
-static const ter_str_id ter_t_null( "t_null" );
-
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
@@ -4846,12 +4844,12 @@ void cata_tiles::get_terrain_orientation( const tripoint &p, int &rota, int &sub
     const auto ter = [&]( const tripoint & q, const bool invis ) -> ter_str_id {
         const auto override_it = ter_override.find( q );
         return override_it != ter_override.end() ? override_it->second.id() :
-        ( !overridden || !invis ) ? here.ter( q ).id() : ter_t_null;
+        ( !overridden || !invis ) ? here.ter( q ).id() : ter_str_id::NULL_ID();
     };
 
     // get terrain at x,y
     const ter_id tid = ter( p, invisible[0] );
-    if( tid == ter_t_null ) {
+    if( tid == ter_str_id::NULL_ID() ) {
         subtile = 0;
         rota = 0;
         return;

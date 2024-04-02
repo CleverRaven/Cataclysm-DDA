@@ -57,7 +57,6 @@ static const ter_str_id ter_t_clay( "t_clay" );
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_grass( "t_grass" );
 static const ter_str_id ter_t_lava( "t_lava" );
-static const ter_str_id ter_t_null( "t_null" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_railroad_rubble( "t_railroad_rubble" );
 static const ter_str_id ter_t_railroad_tie( "t_railroad_tie" );
@@ -176,7 +175,7 @@ void mapgen_null( mapgendata &dat )
     debugmsg( "Generating null terrain, please report this as a bug" );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            dat.m.ter_set( point( i, j ), ter_t_null );
+            dat.m.ter_set( point( i, j ), ter_str_id::NULL_ID() );
             dat.m.set_radiation( point( i, j ), 0 );
         }
     }
@@ -1720,7 +1719,7 @@ void mapgen_lake_shore( mapgendata &dat )
                 }
                 // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
                 // has put down a t_water_sh, and we need to be able to flood-fill over that.
-                m->ter_set( bp, ter_t_null );
+                m->ter_set( bp, ter_str_id::NULL_ID() );
                 m->furn_set( bp, f_null );
             }
         }
@@ -1758,7 +1757,7 @@ void mapgen_lake_shore( mapgendata &dat )
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
-        return m->ter( p ) != ter_t_null;
+        return m->ter( p ) != ter_str_id::NULL_ID();
     };
 
     const auto fill_deep_water = [&]( const point & starting_point ) {
@@ -1790,7 +1789,7 @@ void mapgen_lake_shore( mapgendata &dat )
 
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
-    m->translate( ter_t_null, ter_t_water_sh );
+    m->translate( ter_str_id::NULL_ID(), ter_t_water_sh );
 }
 
 void mapgen_ocean_shore( mapgendata &dat )
@@ -2171,7 +2170,7 @@ void mapgen_ocean_shore( mapgendata &dat )
                 }
                 // Use t_null for now instead of t_sand, because sometimes our extended terrain
                 // has put down a t_sand, and we need to be able to flood-fill over that.
-                m->ter_set( bp, ter_t_null );
+                m->ter_set( bp, ter_str_id::NULL_ID() );
                 m->furn_set( bp, f_null );
             }
             for( const point &bp : closest_points_first( p, sand_margin + 1 ) ) {
@@ -2223,7 +2222,7 @@ void mapgen_ocean_shore( mapgendata &dat )
         if( !map_boundaries.contains( p ) ) {
             return false;
         }
-        return m->ter( p ) != ter_t_null && m->ter( p ) != ter_t_swater_sh  &&
+        return m->ter( p ) != ter_str_id::NULL_ID() && m->ter( p ) != ter_t_swater_sh  &&
                m->ter( p ) != ter_t_swater_surf;
     };
 
@@ -2256,7 +2255,7 @@ void mapgen_ocean_shore( mapgendata &dat )
 
     // We previously placed our sand but actually did a t_null instead to make sure that we didn't
     // pick up sand from our extended terrain. Now turn those nulls into t_sand.
-    m->translate( ter_t_null, ter_t_sand );
+    m->translate( ter_str_id::NULL_ID(), ter_t_sand );
 }
 
 void mapgen_ravine_edge( mapgendata &dat )
@@ -2305,7 +2304,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     if( straight ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 );
-            line( m, ter_t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
         }
         if( w_ravine ) {
             m->rotate( 1 );
@@ -2319,7 +2318,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( interior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge = 12 + rng( 1, 3 ) + x;
-            line( m, ter_t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, ++ground_edge ), point( x, SEEY * 2 ) );
         }
         if( nw_ravine ) {
             m->rotate( 1 );
@@ -2333,7 +2332,7 @@ void mapgen_ravine_edge( mapgendata &dat )
     } else if( exterior_corner ) {
         for( int x = 0; x < SEEX * 2; x++ ) {
             int ground_edge =  12  + rng( 1, 3 ) - x;
-            line( m, ter_t_null, point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
+            line( m, ter_str_id::NULL_ID(), point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
         }
         if( w_ravine && s_ravine ) {
             m->rotate( 1 );
@@ -2348,9 +2347,9 @@ void mapgen_ravine_edge( mapgendata &dat )
     // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
     // in the other levels they are converted into open air to generate the cliffside.
     if( dat.zlevel() == dat.region.overmap_ravine.ravine_depth ) {
-        m->translate( ter_t_null, dat.groundcover() );
+        m->translate( ter_str_id::NULL_ID(), dat.groundcover() );
     } else {
-        m->translate( ter_t_null, ter_t_open_air );
+        m->translate( ter_str_id::NULL_ID(), ter_t_open_air );
     }
 }
 

@@ -168,7 +168,6 @@ static const ter_str_id ter_t_floor_wax( "t_floor_wax" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_smashed( "t_gas_pump_smashed" );
 static const ter_str_id ter_t_grass( "t_grass" );
-static const ter_str_id ter_t_null( "t_null" );
 static const ter_str_id ter_t_open_air( "t_open_air" );
 static const ter_str_id ter_t_reb_cage( "t_reb_cage" );
 static const ter_str_id ter_t_rock( "t_rock" );
@@ -1914,14 +1913,14 @@ std::string map::furnname( const tripoint_bub_ms &p )
 ter_id map::ter( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
-        return ter_t_null.id();
+        return ter_str_id::NULL_ID().id();
     }
 
     point l;
     const submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
         debugmsg( "Tried to process terrain at (%d,%d) but the submap is not loaded", l.x, l.y );
-        return ter_t_null.id();
+        return ter_str_id::NULL_ID().id();
     }
 
     return current_submap->get_ter( l );
@@ -3965,7 +3964,7 @@ ter_str_id map::get_roof( const tripoint &p, const bool allow_air ) const
 
         return ter_t_open_air;
     }
-    if( roof == ter_t_null ) {
+    if( roof == ter_str_id::NULL_ID() ) {
         debugmsg( "map::get_new_floor: %d,%d,%d has invalid roof type %s",
                   p.x, p.y, p.z, roof.c_str() );
         return ter_t_dirt;
@@ -8134,7 +8133,7 @@ void map::saven( const tripoint &grid )
         debugmsg( "Tried to save submap node (%d) but it's not loaded", gridn );
         return;
     }
-    if( submap_to_save->get_ter( point_zero ) == ter_t_null ) {
+    if( submap_to_save->get_ter( point_zero ) == ter_str_id::NULL_ID() ) {
         // This is a serious error and should be signaled as soon as possible
         debugmsg( "map::saven grid %s uninitialized!", grid.to_string() );
         return;
@@ -9804,7 +9803,7 @@ void map::draw_square_ter( const weighted_int_list<ter_id> &f, const point &p1,
 {
     draw_square( [this, f, avoid_creatures]( const point & p ) {
         const ter_id *tid = f.pick();
-        this->ter_set( p, tid != nullptr ? *tid : ter_t_null, avoid_creatures );
+        this->ter_set( p, tid != nullptr ? *tid : ter_str_id::NULL_ID(), avoid_creatures );
     }, p1, p2 );
 }
 

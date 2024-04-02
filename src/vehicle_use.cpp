@@ -99,7 +99,6 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
-static const ter_str_id ter_t_null( "t_null" );
 
 static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
@@ -1002,7 +1001,7 @@ void vehicle::transform_terrain()
         }
         if( prereq_fulfilled ) {
             const ter_id new_ter = ter_id( ttd.post_terrain );
-            if( new_ter != ter_t_null ) {
+            if( new_ter != ter_str_id::NULL_ID() ) {
                 here.ter_set( start_pos, new_ter );
             }
             const furn_id new_furn = furn_id( ttd.post_furniture );
