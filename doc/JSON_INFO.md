@@ -4457,7 +4457,7 @@ The contents of `use_action` fields can either be a string indicating a built-in
 "use_action": {
   "type": "place_npc",                     // Place NPC of specific class on the map
   "npc_class_id": "true_foodperson",       // NPC ID, see npcs/npc.json
-  "summon_msg": "You summon a food hero!", // (optional) message when summoning the NPC
+  "summon_msg": "You summon a food hero!", // (optional) Message when summoning the NPC
   "place_randomly": true,                  // Places NPC randomly around the player or lets the player decide where to put it (default: false)
   "radius": 1,                             // Maximum radius for random NPC placement
   "moves": 50                              // How many move points the action takes
