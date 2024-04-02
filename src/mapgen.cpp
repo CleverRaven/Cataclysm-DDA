@@ -4456,8 +4456,9 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     point expected_dim = mapgensize + m_offset;
     cata_assert( expected_dim.x >= 0 );
     cata_assert( expected_dim.y >= 0 );
-
-    if( jo.has_array( "rows" ) ) {
+    const std::string default_row( expected_dim.x, ' ' );
+    const bool default_rows = !jo.has_array( "rows" );
+    if( !default_rows ) {
         parray = jo.get_array( "rows" );
         if( static_cast<int>( parray.size() ) < expected_dim.y ) {
             parray.throw_error( string_format( "format: rows: must have at least %d rows, not %d",
@@ -4468,22 +4469,6 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
                 string_format( "format: rows: must have %d rows, not %d; check mapgensize if applicable",
                                total_size.y, parray.size() ) );
         }
-    } else {
-        // Construct default "rows" of just spaces
-        const std::string spaces( expected_dim.x, ' ' );
-        std::string empty_row( 1, '"' );
-        empty_row += spaces;
-        empty_row += '"';
-        std::string empty_rows = "[";
-        for( int rown = 0; rown < expected_dim.y - 1; rown++ ) {
-            empty_rows += empty_row;
-            empty_rows += ',';
-        }
-        empty_rows += empty_row;
-        empty_rows += ']';
-        std::shared_ptr<parsed_flexbuffer> parsed_array_ptr = flexbuffer_cache::parse_buffer( empty_rows );
-        parray = JsonArray( parsed_array_ptr,
-                            flexbuffer_root_from_storage( parsed_array_ptr->get_storage() ), {} );
     }
 
     // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
@@ -4498,7 +4483,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     parameters = palette.get_parameters();
 
     for( int c = m_offset.y; c < expected_dim.y; c++ ) {
-        const std::string row = parray.get_string( c );
+        const std::string row = default_rows ? default_row : parray.get_string( c );
         static std::vector<std::string_view> row_keys;
         row_keys.clear();
         row_keys.reserve( total_size.x );
