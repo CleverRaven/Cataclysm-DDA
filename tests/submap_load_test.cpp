@@ -788,7 +788,7 @@ static std::string submap_pre_migration_ss(
     "  \"furniture\": [\n"
     "    [ 0, 0, \"f_bookcase\" ],\n"
     "    [ 0, 11, \"test_f_migration_old_id\" ],\n"
-    "    [ 11, 11, \"test_f_migration_old_id\" ],\n"
+    "    [ 11, 11, \"test_f_migration_old_id\" ]\n"
     "  ],\n"
     "  \"items\": [ ],\n"
     "  \"traps\": [ ],\n"
