@@ -117,7 +117,7 @@ static const oter_type_str_id oter_type_field( "field" );
 static const oter_type_str_id oter_type_forest( "forest" );
 static const oter_type_str_id oter_type_forest_thick( "forest_thick" );
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
-static const oter_type_str_id oter_type_forest_water( "forest_water" );
+static const oter_type_str_id oter_type_forest_trail_intersection( "forest_trail_intersection" );
 static const oter_type_str_id oter_type_rural_road( "rural_road" );
 static const oter_type_str_id oter_type_rural_road_forest( "rural_road_forest" );
 static const oter_type_str_id oter_type_special_forest( "special_forest" );
@@ -2499,13 +2499,14 @@ static void change_cleared_terrain( tripoint_abs_omt forest )
         const std::unordered_map<oter_type_str_id, oter_type_str_id> clear_cut_conversion = {
             { oter_type_forest, oter_type_field },
             { oter_type_forest_thick, oter_type_field },
-            { oter_type_special_forest, oter_type_field },
-            { oter_type_special_forest_thick, oter_type_field },
             { oter_type_forest_trail, oter_type_field },
-            { oter_type_rural_road_forest, oter_type_rural_road }
+            { oter_type_forest_trail_intersection, oter_type_field },
+            { oter_type_rural_road_forest, oter_type_rural_road },
+            { oter_type_special_forest, oter_type_field },
+            { oter_type_special_forest_thick, oter_type_field }
         };
-        auto converted_it = clear_cut_conversion.find( omt_trees->get_type_id() );
 
+        auto converted_it = clear_cut_conversion.find( omt_trees->get_type_id() );
         if( converted_it == clear_cut_conversion.end() ) {
             popup( _( "%s isn't a recognized terrain.  Please file a bug report." ), omt_trees.id().c_str() );
             return;
