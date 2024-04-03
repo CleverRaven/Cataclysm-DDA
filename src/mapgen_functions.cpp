@@ -1033,7 +1033,8 @@ void mapgen_forest( mapgendata &dat )
     }
 
     // Get the current biome definition for this terrain.
-    const auto current_biome_def_it = dat.region.forest_composition.biomes.find( dat.terrain_type()->get_type_id() );
+    const auto current_biome_def_it = dat.region.forest_composition.biomes.find(
+                                          dat.terrain_type()->get_type_id() );
 
     // If there is no biome definition for this terrain, fill in with the region's default ground cover
     // and bail--nothing more to be done. Should not continue with terrain feathering if there is
