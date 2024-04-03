@@ -873,10 +873,7 @@ void mapgen_forest( mapgendata &dat )
     // being placed by the relative density of the current terrain to its
     // neighbors. For example, a forest_thick surrounded by forest_thick on
     // all sides can be much more dense than a forest_water surrounded by
-    // fields on all sides. The properties of this density and blending would
-    // do well to be encoded in JSON for the regional and biome settings, but
-    // for now use the general hardcoded pattern from previous generations of the
-    // algorithm.
+    // fields on all sides.
 
     // "Sparsity Factor" is a misnomer carried over from JSON; the value reflects
     // the density of the terrain, not the sparsity.
@@ -894,7 +891,7 @@ void mapgen_forest( mapgendata &dat )
     * @return A discrete scale of the density of natural features occurring in \p ot.
     */
     const auto get_sparseness_adjacency_factor = [&dat]( const oter_id & ot ) {
-        const auto biome = dat.region.forest_composition.biomes.find( ot );
+        const auto biome = dat.region.forest_composition.biomes.find( ot->get_type_id() );
         if( biome == dat.region.forest_composition.biomes.end() ) {
             return 0;
         }
@@ -936,7 +933,7 @@ void mapgen_forest( mapgendata &dat )
     // This can be calculated once from dat.t_nesw, and stored here:
     std::array<const forest_biome *, 8> adjacent_biomes;
     for( int d = 0; d < 7; d++ ) {
-        auto lookup = dat.region.forest_composition.biomes.find( dat.t_nesw[d] );
+        auto lookup = dat.region.forest_composition.biomes.find( dat.t_nesw[d]->get_type_id() );
         if( lookup != dat.region.forest_composition.biomes.end() ) {
             adjacent_biomes[d] = &( lookup->second );
         } else {
@@ -1036,7 +1033,7 @@ void mapgen_forest( mapgendata &dat )
     }
 
     // Get the current biome definition for this terrain.
-    const auto current_biome_def_it = dat.region.forest_composition.biomes.find( dat.terrain_type() );
+    const auto current_biome_def_it = dat.region.forest_composition.biomes.find( dat.terrain_type()->get_type_id() );
 
     // If there is no biome definition for this terrain, fill in with the region's default ground cover
     // and bail--nothing more to be done. Should not continue with terrain feathering if there is

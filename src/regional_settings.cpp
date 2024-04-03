@@ -889,7 +889,7 @@ void forest_mapgen_settings::finalize()
 {
     for( auto &pr : unfinalized_biomes ) {
         pr.second.finalize();
-        const oter_id ot( pr.first );
+        const oter_type_id ot( pr.first );
         biomes[ot] = pr.second;
     }
 }
