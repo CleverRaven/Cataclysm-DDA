@@ -169,8 +169,8 @@ static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
 static const ter_str_id ter_t_improvised_shelter( "t_improvised_shelter" );
 static const ter_str_id ter_t_moss( "t_moss" );
 static const ter_str_id ter_t_sand( "t_sand" );
-static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_tree_young( "t_tree_young" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
