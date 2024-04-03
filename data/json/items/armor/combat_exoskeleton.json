@@ -94,8 +94,8 @@
         "holster": true,
         "description": "Compartment for a heavy battery.",
         "flag_restriction": [ "BATTERY_HEAVY" ],
-        "max_contains_volume": "1500 ml",
-        "max_contains_weight": "1500 g",
+        "max_contains_volume": "2000 ml",
+        "max_contains_weight": "2000 g",
         "moves": 500
       },
       {
