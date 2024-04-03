@@ -2812,10 +2812,10 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
                                            io::enum_to_string( subtype_ ) ) );
     }
 
+    assign( jo, "city_sizes", constraints_.city_size, strict );
+
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", constraints_.occurrences );
-
-        assign( jo, "city_sizes", constraints_.city_size, strict );
         assign( jo, "city_distance", constraints_.city_distance, strict );
         assign( jo, "priority", priority_, strict );
     }
@@ -5577,10 +5577,12 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special_id building_tid = pick_random_building_to_place( town_dist );
-
-        if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
-            place_special( *building_tid, building_pos, building_dir, town, false, false );
+        const overmap_special building = *pick_random_building_to_place( town_dist );
+        if( !building.get_constraints().city_size.contains( town.size ) ) {
+            continue;
+        }
+        if( can_place_special( building, building_pos, building_dir, false ) ) {
+            place_special( building, building_pos, building_dir, town, false, false );
             break;
         }
     }
