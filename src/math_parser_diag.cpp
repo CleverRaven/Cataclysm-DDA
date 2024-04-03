@@ -565,6 +565,107 @@ std::function<double( dialogue & )> mod_order_eval( char /* scope */,
     };
 }
 
+enum class character_filter : int {
+    allies = 0,
+    not_allies,
+    hostile,
+    any,
+};
+
+bool _friend_match_filter_character( Character const &beta, Character const &guy,
+                                     character_filter filter )
+{
+    switch( filter ) {
+        case character_filter::allies:
+            return guy.is_ally( beta );
+        case character_filter::not_allies:
+            return !guy.is_ally( beta );
+        case character_filter::hostile:
+            return guy.attitude_to( beta ) == Creature::Attitude::HOSTILE ||
+                   ( beta.is_avatar() && guy.is_npc() && guy.as_npc()->guaranteed_hostile() );
+        case character_filter::any:
+            return true;
+    }
+    return false;
+}
+
+bool _filter_character( Character const &beta, Character const &guy, int radius,
+                        tripoint_abs_ms const &loc, character_filter filter, bool allow_hallucinations )
+{
+    if( ( !guy.is_hallucination() || allow_hallucinations ) && ( beta.getID() != guy.getID() ) ) {
+        return _friend_match_filter_character( beta, guy, filter ) &&
+               radius >= rl_dist( guy.get_location(), loc );
+    }
+    return false;
+}
+
+std::function<double( dialogue & )> _characters_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value radius_val( 1000.0 );
+    diag_value filter_val( std::string{ "any" } );
+    diag_value allow_hallucinations_val( 0.0 );
+    std::optional<var_info> loc_var;
+    if( kwargs.count( "radius" ) != 0 ) {
+        radius_val = *kwargs.at( "radius" );
+    }
+    if( kwargs.count( "attitude" ) != 0 ) {
+        filter_val = *kwargs.at( "attitude" );
+    }
+    if( kwargs.count( "allow_hallucinations" ) != 0 ) {
+        allow_hallucinations_val = *kwargs.at( "allow_hallucinations" );
+    }
+    if( kwargs.count( "location" ) != 0 ) {
+        loc_var = kwargs.at( "location" )->var();
+    } else if( scope == 'g' ) {
+        throw std::invalid_argument( string_format(
+                                         R"("characters_nearby" needs either an actor scope (u/n) or a 'location' kwarg)" ) );
+    }
+
+    return [beta = is_beta( scope ), params, loc_var, filter_val, radius_val,
+         allow_hallucinations_val ]( dialogue & d ) {
+        tripoint_abs_ms loc;
+        if( loc_var.has_value() ) {
+            loc = get_tripoint_from_var( loc_var, d );
+        } else {
+            loc = d.actor( beta )->global_pos();
+        }
+
+        int const radius = static_cast<int>( radius_val.dbl( d ) );
+        std::string const filter_str = filter_val.str( d );
+        character_filter filter = character_filter::any;
+        if( filter_str == "allies" ) {
+            filter = character_filter::allies;
+        } else if( filter_str == "not_allies" ) {
+            filter = character_filter::not_allies;
+        } else if( filter_str == "hostile" ) {
+            filter = character_filter::hostile;
+        } else if( filter_str != "any" ) {
+            debugmsg( R"(Unknown attitude filter "%s" for characters_nearby(), counting all characters)",
+                      filter_str );
+        }
+        bool allow_hallucinations = false;
+        int const hallucinations_int = static_cast<int>( allow_hallucinations_val.dbl( d ) );
+        if( hallucinations_int != 0 ) {
+            allow_hallucinations = true;
+        }
+
+        std::vector<Character *> const targets = g->get_characters_if( [ &beta, &d, &radius,
+               &loc, filter, allow_hallucinations ]( const Character & guy ) {
+            return _filter_character( *d.actor( beta )->get_character(), guy, radius, loc, filter,
+                                      allow_hallucinations );
+        } );
+        return static_cast<double>( targets.size() );
+    };
+}
+
+std::function<double( dialogue & )> characters_nearby_eval( char scope,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    return _characters_nearby_eval( scope, params, kwargs );
+}
+
+
 template<class ID>
 using f_monster_match = bool ( * )( Creature const &critter, ID const &id );
 
@@ -844,6 +945,14 @@ std::function<double( dialogue & )> spell_exp_eval( char scope,
     };
 }
 
+std::function<double( dialogue & )> spell_exp_for_level_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
+{
+    return[level = params[0]]( dialogue const & d ) -> double {
+        return spell::exp_for_level( level.dbl( d ) );
+    };
+}
+
 std::function<void( dialogue &, double )> spell_exp_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -993,10 +1102,42 @@ std::function<double( dialogue & )> time_since_eval( char /* scope */,
             ret = to_turns<double>( calendar::turn - calendar::start_of_cataclysm );
         } else if( val_str == "midnight" ) {
             ret = to_turns<double>( time_past_midnight( calendar::turn ) );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( calendar::turn - noon( calendar::turn ) );
         } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
             return -1.0;
         } else {
             ret = to_turn<double>( calendar::turn ) - val.dbl( d );
+        }
+        return _time_in_unit( ret, unit_val.str( d ) );
+    };
+}
+
+std::function<double( dialogue & )> time_until_eval( char /* scope */,
+        std::vector<diag_value> const &params, diag_kwargs const &kwargs )
+{
+    diag_value unit_val( std::string{} );
+    if( kwargs.count( "unit" ) != 0 ) {
+        unit_val = *kwargs.at( "unit" );
+    }
+
+    return [val = params[0], unit_val]( dialogue const & d ) {
+        double ret{};
+        std::string const val_str = val.str( d );
+        if( val_str == "night_time" ) {
+            ret = to_turns<double>( night_time( calendar::turn ) - calendar::turn );
+        } else if( val_str == "daylight_time" ) {
+            ret = to_turns<double>( daylight_time( calendar::turn ) - calendar::turn );
+        } else if( val_str == "sunset" ) {
+            ret = to_turns<double>( sunset( calendar::turn ) - calendar::turn );
+        } else if( val_str == "sunrise" ) {
+            ret = to_turns<double>( sunrise( calendar::turn ) - calendar::turn );
+        } else if( val_str == "noon" ) {
+            ret = to_turns<double>( noon( calendar::turn ) - calendar::turn );
+        } else if( val.is_var() && !maybe_read_var_value( val.var(), d ).has_value() ) {
+            return -1.0;
+        } else {
+            ret = val.dbl( d ) - to_turn<double>( calendar::turn );
         }
         return _time_in_unit( ret, unit_val.str( d ) );
     };
@@ -1143,6 +1284,20 @@ std::function<double( dialogue & )> value_or_eval( char /* scope */,
     };
 }
 
+std::function<double( dialogue & )> vision_range_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        if( d.actor( beta )->get_character() ) {
+            return static_cast<talker const *>( d.actor( beta ) )
+                   ->get_character()
+                   ->unimpaired_range();
+        }
+        return 0;
+    };
+}
+
+
 std::function<double( dialogue & )> vitamin_eval( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &/* kwargs */ )
 {
@@ -1237,6 +1392,22 @@ std::function<void( dialogue &, double )> weather_ass( char /* scope */,
     throw std::invalid_argument( string_format( "Unknown weather aspect %s", params[0].str() ) );
 }
 
+std::function<double( dialogue & )> climate_control_str_heat_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return [beta = is_beta( scope )]( dialogue const & d ) {
+        return static_cast<talker const *>( d.actor( beta ) )->climate_control_str_heat();
+    };
+}
+
+std::function<double( dialogue & )> climate_control_str_chill_eval( char scope,
+        std::vector<diag_value> const &/* params */, diag_kwargs const &/* kwargs */ )
+{
+    return[beta = is_beta( scope )]( dialogue const & d ) {
+        return static_cast<talker const *>( d.actor( beta ) )->climate_control_str_chill();
+    };
+}
+
 // { "name", { "scopes", num_args, function } }
 // kwargs are not included in num_args
 std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
@@ -1246,6 +1417,7 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "addiction_turns", { "un", 1, addiction_turns_eval } },
     { "armor", { "un", 2, armor_eval } },
     { "attack_speed", { "un", 0, attack_speed_eval } },
+    { "characters_nearby", { "ung", 0, characters_nearby_eval } },
     { "charge_count", { "un", 1, charge_count_eval } },
     { "coverage", { "un", 1, coverage_eval } },
     { "damage_level", { "un", 0, damage_level_eval } },
@@ -1281,17 +1453,22 @@ std::map<std::string_view, dialogue_func_eval> const dialogue_eval_f{
     { "skill_exp", { "un", 1, skill_exp_eval } },
     { "spell_count", { "un", 0, spell_count_eval}},
     { "spell_exp", { "un", 1, spell_exp_eval}},
+    { "spell_exp_for_level", { "g", 1, spell_exp_for_level_eval}},
     { "spell_level", { "un", 1, spell_level_eval}},
     { "spell_level_adjustment", { "un", 1, spell_level_adjustment_eval } },
     { "time", { "g", 1, time_eval } },
     { "time_since", { "g", 1, time_since_eval } },
+    { "time_until", { "g", 1, time_until_eval } },
     { "time_until_eoc", { "g", 1, time_until_eoc_eval } },
     { "proficiency", { "un", 1, proficiency_eval } },
     { "val", { "un", 1, u_val } },
     { "value_or", { "g", 2, value_or_eval } },
+    { "vision_range", { "un", 0, vision_range_eval } },
     { "vitamin", { "un", 1, vitamin_eval } },
     { "warmth", { "un", 1, warmth_eval } },
     { "weather", { "g", 1, weather_eval } },
+    { "climate_control_str_heat", { "un", 0, climate_control_str_heat_eval } },
+    { "climate_control_str_chill", { "un", 0, climate_control_str_chill_eval } },
 };
 
 std::map<std::string_view, dialogue_func_ass> const dialogue_assign_f{

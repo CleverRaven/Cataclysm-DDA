@@ -221,14 +221,16 @@
     "id": "mon_hound_tindalos",
     "copy-from": "mon_hound_tindalos",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ] },
+    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ],
     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
   },
   {
     "id": "mon_hound_tindalos_afterimage",
     "copy-from": "mon_hound_tindalos_afterimage",
     "type": "MONSTER",
-    "extend": { "flags": [ "TEEP_IMMUNE" ] },
+    "extend": { "flags": [ "TEEP_IMMUNE", "TELEPORT_IMMUNE" ] },
+    "attack_effs": [ { "id": "effect_teleporting_lock", "duration": [ 5, 60 ], "chance": 50 } ],
     "armor": { "cut": 50, "bullet": 40, "electric": 1, "psi_telekinetic_damage": 50 }
   },
   {

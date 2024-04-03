@@ -110,7 +110,7 @@ void power::deserialize( const JsonValue &jv )
 {
     if( jv.test_int() ) {
         // Compatibility with old 0.F saves
-        *this = from_watt( jv.get_int() );
+        *this = from_watt( static_cast<std::int64_t>( jv.get_int() ) );
         return;
     }
     *this = read_from_json_string( jv, units::power_units );

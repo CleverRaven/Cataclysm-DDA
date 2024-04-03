@@ -1483,6 +1483,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_market_small_roof",
+    "name": "small market roof",
+    "copy-from": "generic_city_building",
+    "sym": "m",
+    "color": "i_light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_sex_shop",
     "copy-from": "generic_city_building",
     "name": "sex shop",

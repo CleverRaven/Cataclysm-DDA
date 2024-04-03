@@ -984,7 +984,7 @@ class Character : public Creature, public visitable
         bool is_wearing_active_optcloak() const;
 
         /** Returns strength of any climate control affecting character, for heating and chilling respectively */
-        std::pair<int, int> climate_control_strength();
+        std::pair<int, int> climate_control_strength() const;
 
         /** Returns wind resistance provided by armor, etc **/
         std::map<bodypart_id, int> get_wind_resistance( const
@@ -1030,7 +1030,6 @@ class Character : public Creature, public visitable
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
-        bool is_runallfours() const;
         bool is_prone() const;
 
         int footstep_sound() const;
@@ -1200,9 +1199,7 @@ class Character : public Creature, public visitable
         bool is_stealthy() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns value of player's footing on narrow or slippery terrain */
-        float balance_roll() const;
-        /** Returns value of player's footing on skates or similar */
+        /** Returns value of player's stable footing */
         float stability_roll() const override;
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
@@ -1627,8 +1624,6 @@ class Character : public Creature, public visitable
         bool is_category_allowed( const std::vector<mutation_category_id> &category ) const;
         bool is_category_allowed( const mutation_category_id &category ) const;
 
-        bool is_weak_to_water() const;
-
         /**Check for mutation disallowing the use of an healing item*/
         bool can_use_heal_item( const item &med ) const;
 
@@ -1677,8 +1672,6 @@ class Character : public Creature, public visitable
         /** Returns vehicles connected to cable charger bionic */
         std::vector<vehicle *> get_cable_vehicle() const;
 
-        /**Get stat bonus from bionic*/
-        int get_mod_stat_from_bionic( const character_stat &Stat ) const;
         // route for overmap-scale traveling
         std::vector<tripoint_abs_omt> omt_path;
         // Container of OMTs to highlight as having been revealed
@@ -2372,6 +2365,13 @@ class Character : public Creature, public visitable
          * Only required for rendering.
          */
         std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
+        /**
+         * Returns a list of the IDs of overlays on this character if the character has override look mutations
+         * sorted from "lowest" to "highest".
+         *
+         * Only required for rendering.
+         */
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids_when_override_look() const;
 
         // --------------- Skill Stuff ---------------
         float get_skill_level( const skill_id &ident ) const;
@@ -2415,6 +2415,8 @@ class Character : public Creature, public visitable
         int intimidation() const;
 
         void set_skills_from_hobbies();
+
+        void set_bionics_from_hobbies();
 
         // --------------- Proficiency Stuff ----------------
         bool has_proficiency( const proficiency_id &prof ) const;
@@ -2584,12 +2586,6 @@ class Character : public Creature, public visitable
         float healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const;
 
         /**
-         * Goes over all mutations, gets min and max of a value with given name
-         * @return min( 0, lowest ) + max( 0, highest )
-         */
-        float mutation_value( const std::string &val ) const;
-
-        /**
          * Goes over all mutations/bionics, returning the sum of the social modifiers
          */
         social_modifiers get_mutation_bionic_social_mods() const;
@@ -2609,8 +2605,10 @@ class Character : public Creature, public visitable
         /** Get the idents of all base traits. */
         std::vector<trait_id> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
-        std::vector<trait_id> get_mutations( bool include_hidden = true,
-                                             bool ignore_enchantment = false ) const;
+        std::vector<trait_id> get_mutations(
+            bool include_hidden = true,
+            bool ignore_enchantment = false,
+            const std::function<bool( const mutation_branch & )> &filter = nullptr ) const;
         /** Same as above, but also grab the variant ids (or empty string if none) */
         std::vector<trait_and_var> get_mutations_variants( bool include_hidden = true,
                 bool ignore_enchantment = false ) const;
@@ -2734,6 +2732,7 @@ class Character : public Creature, public visitable
         std::optional<tripoint> last_target_pos;
         // Save favorite ammo location
         item_location ammo_location;
+        // FIXME: The presence of camps should be global objects, this should only be knowledge of camps (at best)
         std::set<tripoint_abs_omt> camps;
 
         std::vector <addiction> addictions;
@@ -3260,8 +3259,6 @@ class Character : public Creature, public visitable
 
         /** Correction factor of the body temperature due to traits and mutations **/
         units::temperature_delta bodytemp_modifier_traits( bool overheated ) const;
-        /** Correction factor of the body temperature due to traits and mutations for player lying on the floor **/
-        units::temperature_delta bodytemp_modifier_traits_floor() const;
         /** Value of the body temperature corrected by climate control **/
         units::temperature temp_corrected_by_climate_control( units::temperature temperature,
                 int heat_strength,
@@ -3614,10 +3611,8 @@ class Character : public Creature, public visitable
                                        const std::function<bool( const item & )> &filter = return_true<item>, bool select_ind = false );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE, bool select_ind = false );
-        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::vector<tripoint> &reachable_pts = {}, bool select_ind = false );
+        // Selects one entry in components using select_item_component and consumes those items.
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
                                        const std::function<bool( const itype_id & )> &select_ind = return_false<itype_id> );
@@ -3672,6 +3667,9 @@ class Character : public Creature, public visitable
 
         /** Creates an auditory hallucination */
         void sound_hallu();
+
+        /** All nearby obstacles make a very quiet sound */
+        void echo_pulse();
 
         /** Checks if a Character is driving */
         bool is_driving() const;
@@ -4064,8 +4062,8 @@ class Character : public Creature, public visitable
         std::unordered_map<point_abs_omt, time_duration> overmap_time;
 
     public:
-        time_point next_climate_control_check;
-        bool last_climate_control_ret;
+        mutable time_point next_climate_control_check;
+        mutable bool last_climate_control_ret;
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache

@@ -2875,7 +2875,11 @@ void item::io( Archive &archive )
     } );
     archive.io( "craft_data", craft_data_, decltype( craft_data_ )() );
     const auto ivload = [this]( const std::string & variant ) {
-        set_itype_variant( variant );
+        if( possible_itype_variant( variant ) ) {
+            set_itype_variant( variant );
+        } else {
+            item_controller->migrate_item_from_variant( *this, variant );
+        }
     };
     const auto ivsave = []( const itype_variant_data * iv ) {
         return iv->id;
@@ -4271,6 +4275,7 @@ void basecamp::serialize( JsonOut &json ) const
 {
     if( omt_pos != tripoint_abs_omt() ) {
         json.start_object();
+        json.member( "owner", owner );
         json.member( "name", name );
         json.member( "pos", omt_pos );
         json.member( "bb_pos", bb_pos );
@@ -4356,6 +4361,10 @@ void basecamp::serialize( JsonOut &json ) const
 void basecamp::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
+    if( !data.read( "owner", owner ) ) {
+        faction_id your_fac( "your_followers" );
+        owner = your_fac;
+    }
     data.read( "name", name );
     data.read( "pos", omt_pos );
     data.read( "bb_pos", bb_pos );
@@ -4806,11 +4815,7 @@ void submap::store( JsonOut &jsout ) const
     }
     jsout.end_array();
 
-    if( legacy_computer ) {
-        // it's possible that no access to computers has been made and legacy_computer
-        // is not cleared
-        jsout.member( "computers", *legacy_computer );
-    } else if( !computers.empty() ) {
+    if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
         for( const auto &elem : computers ) {
@@ -5047,7 +5052,8 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int faction_id = spawn_entry.next_int();
             int mission_id = spawn_entry.next_int();
             bool friendly = spawn_entry.next_bool();
-            std::string name = spawn_entry.next_string();
+            std::optional<std::string> name = std::nullopt;
+            spawn_entry.read_next( name );
             if( spawn_entry.has_more() ) {
                 spawn_entry.throw_error( "Too many values for spawn" );
             }
@@ -5099,11 +5105,6 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                                                       tripoint_zero ) ).first;
                 computers_json.next_value().read( new_comp_it->second );
             }
-        } else {
-            // only load legacy data here, but do not update to std::map, since
-            // the terrain may not have been loaded yet.
-            legacy_computer = std::make_unique<computer>( "BUGGED_COMPUTER", -100, tripoint_zero );
-            legacy_computer->deserialize( jv );
         }
     } else if( member_name == "camp" ) {
         camp = std::make_unique<basecamp>();

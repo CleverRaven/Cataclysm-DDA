@@ -1079,15 +1079,14 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         std::string id;
         std::vector<mod_id> mods;
         std::vector<mod_id> mods_unfiltered;
+
+        explicit mod_tab( std::string id, std::vector<mod_id> mods, std::vector<mod_id> mods_unfiltered ) :
+            id( std::move( id ) ), mods( std::move( mods ) ), mods_unfiltered( std::move( mods_unfiltered ) ) {}
     };
     std::vector<mod_tab> all_tabs;
 
     for( const std::pair<std::string, translation> &tab : get_mod_list_tabs() ) {
-        all_tabs.push_back( {
-            tab.first,
-            std::vector<mod_id>(),
-            std::vector<mod_id>()
-        } );
+        all_tabs.emplace_back( tab.first, std::vector<mod_id> {}, std::vector<mod_id> {} );
     }
 
     const std::map<std::string, std::string> &cat_tab_map = get_mod_list_cat_tab();

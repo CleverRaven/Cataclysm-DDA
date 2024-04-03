@@ -269,6 +269,7 @@
     "eoc_type": "PREVENT_DEATH",
     "condition": { "u_has_item": "warphome" },
     "effect": [
+      "u_prevent_death",
       { "run_eocs": [ "EOC_homewardmote", "EOC_healall" ] },
       {
         "u_message": "Moments before your last breath leaves your body, the mote of warp essence on you jolts with a brilliant energy.  Its thin filament immediately snaps tight, reeling you home faster than you can process what it was that just saved your life.  The mote is spent, but you arrive home alive and well.",
@@ -283,6 +284,7 @@
     "//": "The player's death is now confirmed and not protected.  The true effect is when you die on the island, and the false effect is when you die out in the world.  Both make you incorporeal, which saves you from damage but also makes you drop all items behind, then heal you slightly to prevent death.",
     "condition": { "not": { "u_has_trait": "awayfromhome" } },
     "effect": [
+      "u_prevent_death",
       { "u_add_effect": "downed", "duration": 1 },
       { "u_add_effect": "incorporeal", "duration": 500 },
       { "run_eocs": [ "EOC_death_heal" ] },
@@ -292,6 +294,7 @@
       }
     ],
     "false_effect": [
+      "u_prevent_death",
       { "u_add_effect": "incorporeal", "duration": 1 },
       { "u_add_effect": "downed", "duration": 1 },
       { "run_eocs": [ "EOC_death_heal" ] },

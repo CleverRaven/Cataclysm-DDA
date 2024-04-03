@@ -167,6 +167,8 @@ CHKJSON_BIN = $(BUILD_PREFIX)chkjson
 BINDIST_DIR = $(BUILD_PREFIX)bindist
 BUILD_DIR = $(CURDIR)
 SRC_DIR = src
+IMGUI_DIR = $(SRC_DIR)/third-party/imgui
+IMTUI_DIR = $(SRC_DIR)/third-party/imtui
 LOCALIZE = 1
 ASTYLE_BINARY = astyle
 
@@ -641,7 +643,7 @@ ifeq ($(NATIVE), emscripten)
   endif
 
   # Flags that are common across compile and link phases.
-  EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=['png']
+  EMCC_COMMON_FLAGS = -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -sSDL2_IMAGE_FORMATS=['png'] -fexceptions
 
   ifneq ($(RELEASE), 1)
     EMCC_COMMON_FLAGS += -g
@@ -650,7 +652,7 @@ ifeq ($(NATIVE), emscripten)
   CXXFLAGS += $(EMCC_COMMON_FLAGS)
   LDFLAGS += $(EMCC_COMMON_FLAGS)
 
-  LDFLAGS += --preload-file web_bundle@/
+  LDFLAGS += -sFORCE_FILESYSTEM
   LDFLAGS += -sEXPORTED_RUNTIME_METHODS=['FS','stackTrace','jsStackTrace']
   LDFLAGS += -sINITIAL_MEMORY=512MB
   LDFLAGS += -sMAXIMUM_MEMORY=4GB
@@ -893,6 +895,11 @@ endif
 
 ifeq ($(TARGETSYSTEM),LINUX)
   BINDIST_EXTRAS += cataclysm-launcher
+  ifneq ("$(wildcard LICENSE-SDL.txt)","")
+    SDL2_solib = $(shell ldd $(TARGET) | grep libSDL2-2\.0 | cut -d ' ' -f 3)
+    INSTALL_EXTRAS += $(SDL2_solib)
+    BINDIST_EXTRAS += LICENSE-SDL.txt
+  endif
   ifeq ($(BACKTRACE),1)
     # -rdynamic needed for symbols in backtraces
     LDFLAGS += -rdynamic
@@ -945,6 +952,18 @@ ASTYLE_SOURCES := $(sort \
 
 # Third party sources should not be astyle'd
 SOURCES += $(THIRD_PARTY_SOURCES)
+
+IMGUI_SOURCES = $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
+
+ifeq ($(SDL), 1)
+	OTHERS += -DIMGUI_DISABLE_OBSOLETE_KEYIO
+	IMGUI_SOURCES += $(IMGUI_DIR)/imgui_impl_sdl2.cpp $(IMGUI_DIR)/imgui_impl_sdlrenderer2.cpp
+else
+	IMGUI_SOURCES += $(IMTUI_DIR)/imtui-impl-ncurses.cpp $(IMTUI_DIR)/imtui-impl-text.cpp
+  OTHERS += -DIMTUI
+endif
+
+SOURCES += $(IMGUI_SOURCES)
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
@@ -1038,10 +1057,18 @@ $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 .PHONY: version prefix
 version:
 	@( VERSION_STRING=$(VERSION) ; \
-            [ -e ".git" ] && GITVERSION=$$( git describe --tags --always --match "[0-9A-Z]*.[0-9A-Z]*" ) && DIRTYFLAG=$$( [ -z "$$(git diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && VERSION_STRING=$$GITVERSION$$DIRTYFLAG ; \
-            [ -e "$(SRC_DIR)/version.h" ] && OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h|cut -d '"' -f2) ; \
-            if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; fi \
-         )
+        [ -e ".git" ] && \
+          GITVERSION=$$( git describe --tags --always --match "[0-9A-Z]*.[0-9A-Z]*" --match "cdda-experimental-*" --exact-match 2>/dev/null || true ) && \
+          GITSHA=$$( git rev-parse --short HEAD ) && \
+          DIRTYFLAG=$$( [ -z "$$(git diff --numstat | grep -v lang/po/)" ] || echo "-dirty") && \
+          VERSION_STRING="$$GITVERSION $$GITSHA$$DIRTYFLAG" && \
+          VERSION_STRING="$${VERSION_STRING## }" ; \
+        [ -e "$(SRC_DIR)/version.h" ] && \
+          OLDVERSION=$$(grep VERSION $(SRC_DIR)/version.h | cut -d '"' -f2) ; \
+        if [ "x$$VERSION_STRING" != "x$$OLDVERSION" ]; then \
+          printf '// NOLINT(cata-header-guard)\n#define VERSION "%s"\n' "$$VERSION_STRING" | tee $(SRC_DIR)/version.h ; \
+        fi \
+     )
 
 prefix:
 	@( PREFIX_STRING=$(PREFIX) ; \
@@ -1059,6 +1086,12 @@ $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 .PHONY: includes
 includes: $(OBJS:.o=.inc)
 	+make -C tests includes
+
+$(ODIR)/third-party/imgui/%.o: $(IMGUI_DIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
+
+$(ODIR)/third-party/imtui/%.o: $(IMTUI_DIR)/%.cpp
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -w -MMD -MP -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -MMD -MP $(PCHFLAGS) -c $< -o $@
@@ -1277,6 +1310,7 @@ endif  # ifeq ($(NATIVE), osx)
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
 	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
+	$(foreach lib,$(INSTALL_EXTRAS), install --strip $(lib) $(BINDIST_DIR))
 ifdef LANGUAGES
 	cp -R --parents lang/mo $(BINDIST_DIR)
 endif

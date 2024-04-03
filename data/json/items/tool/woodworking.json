@@ -354,6 +354,25 @@
     "melee_damage": { "bash": 10, "cut": 20 }
   },
   {
+    "id": "luthier_toolset",
+    "type": "TOOL",
+    "name": { "str": "luthier toolset" },
+    "description": "A set of luthier tools in several sizes and types.  Guaranteed to have the right tools for creating musical instruments from wood.",
+    "looks_like": "screwdriver_set",
+    "weight": "1600 g",
+    "volume": "1500 ml",
+    "longest_side": "28 cm",
+    "price": 20000,
+    "price_postapoc": 250,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "qualities": [ [ "LUTHIER", 1 ] ],
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ],
+    "melee_damage": { "bash": 2 }
+  },
+  {
     "id": "elec_chainsaw_off",
     "type": "TOOL",
     "name": { "str": "electric chainsaw (off)", "str_pl": "electric chainsaws (off)" },

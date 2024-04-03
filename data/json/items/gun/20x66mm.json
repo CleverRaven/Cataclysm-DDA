@@ -26,7 +26,7 @@
     "barrel_volume": "750 ml",
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -63,7 +63,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 2 ] ],
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
@@ -101,7 +101,7 @@
     "default_mods": [ "pistol_stock" ],
     "valid_mod_locations": [
       [ "grip", 1 ],
-      [ "mechanism", 4 ],
+      [ "mechanism", 2 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
       [ "stock", 1 ],

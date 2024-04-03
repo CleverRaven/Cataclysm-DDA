@@ -1649,7 +1649,7 @@
       {
         "id": "flag_leg_bag",
         "name": { "str": "founders' leg bag" },
-        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington’s face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go."
+        "description": "A garishly colored red, white, and blue bag that can be worn on the thighs and hips using adjustable buckled straps, with the stylized depiction of George Washington's face gazing sternly from the side.  Perfect for carrying the dreams of the founding fathers wherever you go."
       }
     ]
   },
@@ -2833,6 +2833,11 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "yellow",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Seems like it could calm local conditions.",
+      "effect_on_conditions": [ "EOC_CANCEL_PORTAL_STORM" ]
+    },
     "pocket_data": [
       {
         "rigid": true,
@@ -2841,6 +2846,102 @@
         "max_contains_weight": "100000 kg",
         "moves": 1,
         "max_item_length": "1 km",
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
+        "weight_multiplier": 0.01,
+        "volume_multiplier": 0.01
+      },
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km",
+        "watertight": true,
+        "airtight": true,
         "weight_multiplier": 0.01,
         "volume_multiplier": 0.01
       }
