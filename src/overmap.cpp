@@ -5538,7 +5538,7 @@ void overmap::place_cities()
     }
 }
 
-overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
+overmap_special_id overmap::pick_random_building_to_place( int town_dist, int town_size ) const
 {
     const city_settings &city_spec = settings->city_spec;
     int shop_radius = city_spec.shop_radius;
@@ -5560,11 +5560,23 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist ) const
     }
 
     if( shop_normal > town_dist ) {
-        return city_spec.pick_shop();
+        overmap_special_id ret;
+        do {
+            ret = city_spec.pick_shop();
+        } while( !ret->get_constraints().city_size.contains( town_size ) );
+        return ret;
     } else if( park_normal > town_dist ) {
-        return city_spec.pick_park();
+        overmap_special_id ret;
+        do {
+            ret = city_spec.pick_park();
+        } while( !ret->get_constraints().city_size.contains( town_size ) );
+        return ret;
     } else {
-        return city_spec.pick_house();
+        overmap_special_id ret;
+        do {
+            ret = city_spec.pick_house();
+        } while( !ret->get_constraints().city_size.contains( town_size ) );
+        return ret;
     }
 }
 
@@ -5577,12 +5589,9 @@ void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
     const int town_dist = ( trig_dist( building_pos.xy(), town.pos ) * 100 ) / std::max( town.size, 1 );
 
     for( size_t retries = 10; retries > 0; --retries ) {
-        const overmap_special building = *pick_random_building_to_place( town_dist );
-        if( !building.get_constraints().city_size.contains( town.size ) ) {
-            continue;
-        }
-        if( can_place_special( building, building_pos, building_dir, false ) ) {
-            place_special( building, building_pos, building_dir, town, false, false );
+        const overmap_special_id building_tid = pick_random_building_to_place( town_dist, town.size );
+        if( can_place_special( *building_tid, building_pos, building_dir, false ) ) {
+            place_special( *building_tid, building_pos, building_dir, town, false, false );
             break;
         }
     }
