@@ -266,6 +266,16 @@ void cataimgui::client::process_input( void *input )
 
 #endif
 
+bool cataimgui::client::auto_size_frame_active()
+{
+    for( const ImGuiWindow *window : GImGui->Windows ) {
+        if( window->AutoFitFramesX > 0 || window->AutoFitFramesY > 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 static ImGuiKey cata_key_to_imgui( int cata_key )
 {
     switch( cata_key ) {
