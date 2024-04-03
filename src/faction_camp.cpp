@@ -107,7 +107,7 @@ static const oter_type_str_id oter_type_field( "field" );
 static const oter_type_str_id oter_type_forest( "forest" );
 static const oter_type_str_id oter_type_forest_thick( "forest_thick" );
 static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
-static const oter_type_str_id oter_type_forest_water( "forest_water" );
+static const oter_type_str_id oter_type_forest_trail_intersection( "forest_trail_intersection" );
 static const oter_type_str_id oter_type_rural_road( "rural_road" );
 static const oter_type_str_id oter_type_rural_road_forest( "rural_road_forest" );
 static const oter_type_str_id oter_type_special_forest( "special_forest" );
@@ -2405,13 +2405,14 @@ static void change_cleared_terrain( tripoint_abs_omt forest )
         const std::unordered_map<oter_type_str_id, oter_type_str_id> clear_cut_conversion = {
             { oter_type_forest, oter_type_field },
             { oter_type_forest_thick, oter_type_field },
-            { oter_type_special_forest, oter_type_field },
-            { oter_type_special_forest_thick, oter_type_field },
             { oter_type_forest_trail, oter_type_field },
-            { oter_type_rural_road_forest, oter_type_rural_road }
+            { oter_type_forest_trail_intersection, oter_type_field },
+            { oter_type_rural_road_forest, oter_type_rural_road },
+            { oter_type_special_forest, oter_type_field },
+            { oter_type_special_forest_thick, oter_type_field }
         };
-        auto converted_it = clear_cut_conversion.find( omt_trees->get_type_id() );
 
+        auto converted_it = clear_cut_conversion.find( omt_trees->get_type_id() );
         if( converted_it == clear_cut_conversion.end() ) {
             popup( _( "%s isn't a recognized terrain.  Please file a bug report." ), omt_trees.id().c_str() );
             return;
@@ -2433,10 +2434,8 @@ static void change_cleared_terrain( tripoint_abs_omt forest )
 
 void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail", "rural_road_forest", "rural_road_turn_forest", "rural_road_turn1_forest", "rural_road_3way_forest",
-                                             "dirt_road_forest", "dirt_road_3way_forest", "dirt_road_turn_forest", "forest_trail_intersection", "special_forest", "special_forest_thick", "forest_trail_isolated", "forest_trail_end"
-                                           };
-    popup( _( "Forests are the only valid cutting locations, with forest dirt roads, forest rural roads, and trails being valid as well.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail",  "forest_trail_intersection", "rural_road_forest", "special_forest", "special_forest_thick" };
+    popup( _( "Forests, forest rural roads, and trails are the only valid cutting locations.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
@@ -2472,10 +2471,8 @@ void basecamp::start_cut_logs( const mission_id &miss_id, float exertion_level )
 
 void basecamp::start_clearcut( const mission_id &miss_id, float exertion_level )
 {
-    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail", "rural_road_forest", "rural_road_turn_forest", "rural_road_turn1_forest", "rural_road_3way_forest",
-                                             "dirt_road_forest", "dirt_road_3way_forest", "dirt_road_turn_forest", "forest_trail_intersection", "special_forest", "special_forest_thick", "forest_trail_isolated", "forest_trail_end"
-                                           };
-    popup( _( "Forests are the only valid cutting locations, with forest dirt roads, forest rural roads, and trails being valid as well.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
+    std::vector<std::string> log_sources = { "forest", "forest_thick", "forest_trail",  "forest_trail_intersection", "rural_road_forest", "special_forest", "special_forest_thick" };
+    popup( _( "Forests, forest rural roads, and trails are the only valid cutting locations.  Note that it's likely both forest and field roads look exactly the same after having been cleared." ) );
     tripoint_abs_omt forest = om_target_tile( omt_pos, 1, 50, log_sources, ot_match_type::type );
     if( forest != tripoint_abs_omt( -999, -999, -999 ) ) {
         standard_npc sample_npc( "Temp" );
