@@ -5558,26 +5558,21 @@ overmap_special_id overmap::pick_random_building_to_place( int town_dist, int to
     if( park_sigma > 0 ) {
         park_normal = std::max( park_normal, static_cast<int>( normal_roll( park_radius, park_sigma ) ) );
     }
-
-    if( shop_normal > town_dist ) {
-        overmap_special_id ret;
-        do {
-            ret = city_spec.pick_shop();
-        } while( !ret->get_constraints().city_size.contains( town_size ) );
-        return ret;
-    } else if( park_normal > town_dist ) {
-        overmap_special_id ret;
-        do {
-            ret = city_spec.pick_park();
-        } while( !ret->get_constraints().city_size.contains( town_size ) );
-        return ret;
-    } else {
-        overmap_special_id ret;
-        do {
-            ret = city_spec.pick_house();
-        } while( !ret->get_constraints().city_size.contains( town_size ) );
-        return ret;
-    }
+    auto building_type_to_pick = [&]() {
+        if( shop_normal > town_dist ) {
+            return std::mem_fn( &city_settings::pick_shop );
+        } else if( park_normal > town_dist ) {
+            return std::mem_fn( &city_settings::pick_park );
+        } else {
+            return std::mem_fn( &city_settings::pick_house );
+        }
+    };
+    auto pick_building = building_type_to_pick();
+    overmap_special_id ret;
+    do {
+        ret = pick_building( city_spec );
+    } while( !ret->get_constraints().city_size.contains( town_size ) );
+    return ret;
 }
 
 void overmap::place_building( const tripoint_om_omt &p, om_direction::type dir,
