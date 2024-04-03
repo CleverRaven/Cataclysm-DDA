@@ -15,10 +15,10 @@
     "effect_str": "eoc_crystal_spawn",
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] },
-    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000, 10)" ] },
+    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000, 2000)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000, 2000)" ] },
     "extra_effects": [ { "id": "mana_fatigue" }, { "id": "eoc_channeling_setup" } ]
   },
   {
