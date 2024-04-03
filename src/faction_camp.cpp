@@ -113,38 +113,15 @@ static const mongroup_id GROUP_CAMP_HUNTING( "GROUP_CAMP_HUNTING" );
 static const mongroup_id GROUP_CAMP_HUNTING_LARGE( "GROUP_CAMP_HUNTING_LARGE" );
 static const mongroup_id GROUP_CAMP_TRAPPING( "GROUP_CAMP_TRAPPING" );
 
-static const oter_str_id oter_dirt_road_3way_forest_east( "dirt_road_3way_forest_east" );
-static const oter_str_id oter_dirt_road_3way_forest_north( "dirt_road_3way_forest_north" );
-static const oter_str_id oter_dirt_road_3way_forest_south( "dirt_road_3way_forest_south" );
-static const oter_str_id oter_dirt_road_3way_forest_west( "dirt_road_3way_forest_west" );
-static const oter_str_id oter_dirt_road_forest_east( "dirt_road_forest_east" );
-static const oter_str_id oter_dirt_road_forest_north( "dirt_road_forest_north" );
-static const oter_str_id oter_dirt_road_forest_south( "dirt_road_forest_south" );
-static const oter_str_id oter_dirt_road_forest_west( "dirt_road_forest_west" );
-static const oter_str_id oter_dirt_road_turn_forest_east( "dirt_road_turn_forest_east" );
-static const oter_str_id oter_dirt_road_turn_forest_north( "dirt_road_turn_forest_north" );
-static const oter_str_id oter_dirt_road_turn_forest_south( "dirt_road_turn_forest_south" );
-static const oter_str_id oter_dirt_road_turn_forest_west( "dirt_road_turn_forest_west" );
-static const oter_str_id oter_forest( "forest" );
-static const oter_str_id oter_forest_thick( "forest_thick" );
-static const oter_str_id oter_rural_road_3way_forest_east( "rural_road_3way_forest_east" );
-static const oter_str_id oter_rural_road_3way_forest_north( "rural_road_3way_forest_north" );
-static const oter_str_id oter_rural_road_3way_forest_south( "rural_road_3way_forest_south" );
-static const oter_str_id oter_rural_road_3way_forest_west( "rural_road_3way_forest_west" );
-static const oter_str_id oter_rural_road_forest_east( "rural_road_forest_east" );
-static const oter_str_id oter_rural_road_forest_north( "rural_road_forest_north" );
-static const oter_str_id oter_rural_road_forest_south( "rural_road_forest_south" );
-static const oter_str_id oter_rural_road_forest_west( "rural_road_forest_west" );
-static const oter_str_id oter_rural_road_turn1_forest_east( "rural_road_turn1_forest_east" );
-static const oter_str_id oter_rural_road_turn1_forest_north( "rural_road_turn1_forest_north" );
-static const oter_str_id oter_rural_road_turn1_forest_south( "rural_road_turn1_forest_south" );
-static const oter_str_id oter_rural_road_turn1_forest_west( "rural_road_turn1_forest_west" );
-static const oter_str_id oter_rural_road_turn_forest_east( "rural_road_turn_forest_east" );
-static const oter_str_id oter_rural_road_turn_forest_north( "rural_road_turn_forest_north" );
-static const oter_str_id oter_rural_road_turn_forest_south( "rural_road_turn_forest_south" );
-static const oter_str_id oter_rural_road_turn_forest_west( "rural_road_turn_forest_west" );
-static const oter_str_id oter_special_forest( "special_forest" );
-static const oter_str_id oter_special_forest_thick( "special_forest_thick" );
+static const oter_type_str_id oter_type_field( "field" );
+static const oter_type_str_id oter_type_forest( "forest" );
+static const oter_type_str_id oter_type_forest_thick( "forest_thick" );
+static const oter_type_str_id oter_type_forest_trail( "forest_trail" );
+static const oter_type_str_id oter_type_forest_water( "forest_water" );
+static const oter_type_str_id oter_type_rural_road( "rural_road" );
+static const oter_type_str_id oter_type_rural_road_forest( "rural_road_forest" );
+static const oter_type_str_id oter_type_special_forest( "special_forest" );
+static const oter_type_str_id oter_type_special_forest_thick( "special_forest_thick" );
 
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_combat( "combat" );
@@ -2517,75 +2494,31 @@ static void change_cleared_terrain( tripoint_abs_omt forest )
 {
     if( om_cutdown_trees_est( forest ) < 5 ) {
         const oter_id &omt_trees = overmap_buffer.ter( forest );
-        const std::string omt_trees_string = static_cast<std::string>( omt_trees.id() );
 
-        if( omt_trees_string.find( "dirt_road" ) != std::string::npos ) {}
+        // Oter types before and after clear cutting, if value (after) is linear, key (before) should also be linear, otherwise any combination of rotatable/linear/not rotatable should work
+        const std::unordered_map<oter_type_str_id, oter_type_str_id> clear_cut_conversion = {
+            { oter_type_forest, oter_type_field },
+            { oter_type_forest_thick, oter_type_field },
+            { oter_type_special_forest, oter_type_field },
+            { oter_type_special_forest_thick, oter_type_field },
+            { oter_type_forest_trail, oter_type_field },
+            { oter_type_rural_road_forest, oter_type_rural_road }
+        };
+        auto converted_it = clear_cut_conversion.find( omt_trees->get_type_id() );
 
-        if( omt_trees.id() == oter_dirt_road_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_west" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_3way_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_3way_west" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_north" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_east" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_south" ) );
-        } else if( omt_trees.id() == oter_dirt_road_turn_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "dirt_road_turn_west" ) );
-        }
-
-        else if( omt_trees.id() == oter_forest || omt_trees.id() == oter_forest_thick ||
-                 omt_trees.id() == oter_special_forest || omt_trees.id() == oter_special_forest_thick ||
-                 omt_trees_string.find( "forest_trail" ) != std::string::npos ) {
-            overmap_buffer.ter_set( forest, oter_id( "field" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_3way_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_3way_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn_west" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_north ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_north" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_east ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_east" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_south ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_south" ) );
-        } else if( omt_trees.id() == oter_rural_road_turn1_forest_west ) {
-            overmap_buffer.ter_set( forest, oter_id( "rural_road_turn1_west" ) );
-        } else {
+        if( converted_it == clear_cut_conversion.end() ) {
             popup( _( "%s isn't a recognized terrain.  Please file a bug report." ), omt_trees.id().c_str() );
             return;
+        } else {
+            const oter_type_str_id &oter_type_clearcut = converted_it->second;
+            oter_id oter_to_place;
+            // Maintain rotation
+            if( oter_type_clearcut->is_linear() ) {
+                oter_to_place = oter_type_clearcut->get_linear( omt_trees->get_line() );
+            } else {
+                oter_to_place = oter_type_clearcut->get_rotated( omt_trees->get_dir() );
+            }
+            overmap_buffer.ter_set( forest, oter_to_place );
         }
         popup( _( "The logged tile has been cleared and cannot be logged further after this mission." ),
                omt_trees.id().c_str() );
