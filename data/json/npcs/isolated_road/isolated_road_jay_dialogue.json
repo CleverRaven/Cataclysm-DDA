@@ -203,7 +203,7 @@
         "text": "I'm listening.",
         "effect": [
           { "add_mission": "MISSION_GUNSMITH_1" },
-		  { "u_sell_item": "broken_kord" },
+          { "u_sell_item": "broken_kord" },
           { "u_add_var": "gunsmith_accepted_quest", "type": "dialogue", "context": "artisans", "value": "yes" }
         ],
         "topic": "TALK_GUNSMITH_Q1_DETAILS"
