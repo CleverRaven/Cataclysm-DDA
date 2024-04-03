@@ -820,7 +820,6 @@ static JsonValue submap_construction = json_loader::from_string( submap_construc
 static JsonValue submap_computer = json_loader::from_string( submap_computer_ss );
 static JsonValue submap_cosmetic = json_loader::from_string( submap_cosmetic_ss );
 static JsonValue submap_pre_migration = json_loader::from_string( submap_pre_migration_ss );
-static JsonValue submap_post_migration = json_loader::from_string( submap_post_migration_ss );
 
 static void load_from_jsin( submap &sm, const JsonValue &jsin )
 {
