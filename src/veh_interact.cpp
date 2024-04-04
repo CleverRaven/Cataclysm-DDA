@@ -3362,8 +3362,8 @@ void veh_interact::complete_vehicle( Character &you )
                 veh.remove_remote_part( *vp );
             }
 
-            // Remove any leftover power cords from the appliance
-            if( appliance_removal && veh.part_count() >= 2 ) {
+            if( appliance_removal && veh.part_count() > 1 ) {
+                // Split up power grids
                 veh.find_and_split_vehicles( here, { vp_index } );
                 veh.part_removal_cleanup();
                 // Ensure the position, pivot, and precalc points are up-to-date
