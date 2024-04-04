@@ -21,7 +21,7 @@
     "min_duration": 1500,
     "duration_increment": 115,
     "max_duration": 5500,
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(140)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(140, 1.5)" ] },
     "components": "spy_wasp",
     "field_id": "fd_clairvoyant",
     "min_field_intensity": 1,
@@ -29,7 +29,7 @@
     "spell_class": "ARTIFICER",
     "difficulty": 3,
     "max_level": 35,
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(700)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(700, 1.5)" ] },
     "energy_source": "MANA"
   },
   {
