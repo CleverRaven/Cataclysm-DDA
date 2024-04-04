@@ -197,7 +197,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 18,
+        "encumbrance": 16,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
@@ -305,7 +305,7 @@
       {
         "layers": [ "NORMAL", "OUTER" ],
         "covers": [ "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-        "encumbrance": 14,
+        "encumbrance": 12,
         "coverage": 100,
         "material": [
           { "type": "lycra", "thickness": 0.2 },
