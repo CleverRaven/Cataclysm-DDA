@@ -4837,7 +4837,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
             }
             target_bay.ter_set( p, ter_t_dirt );
             for( int z = p.z + 1; z <= OVERMAP_HEIGHT; z++ ) {
-                const tripoint up_tree = tripoint{ p.x, p.y, z };
+                const tripoint up_tree = tripoint{ p.xy(), z};
                 if( target_bay.ter( up_tree ) == ter_t_treetop ) {
                     target_bay.ter_set( up_tree, ter_t_open_air );
                 } else {
