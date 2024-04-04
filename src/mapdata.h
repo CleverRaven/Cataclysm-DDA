@@ -699,13 +699,6 @@ t_basalt
 */
 // NOLINTNEXTLINE(cata-static-int_id-constants)
 extern ter_id t_null;
-/*
-runtime index: furn_id
-furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
-about ter_id above.
-*/
-// NOLINTNEXTLINE(cata-static-int_id-constants)
-extern furn_id f_null;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

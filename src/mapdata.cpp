@@ -119,6 +119,8 @@ const furn_t &string_id<furn_t>::obj() const
     return furniture_data.obj( *this );
 }
 
+furn_id f_null;
+
 /** @relates string_id */
 template<>
 int_id<furn_t> string_id<furn_t>::id() const
@@ -763,8 +765,6 @@ void reset_furn_ter()
     terrain_data.reset();
     furniture_data.reset();
 }
-
-furn_id f_null;
 
 void set_furn_ids()
 {
