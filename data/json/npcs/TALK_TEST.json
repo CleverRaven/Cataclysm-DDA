@@ -1009,9 +1009,9 @@
       { "text": "Focus is 24.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('focus')", "==", "24" ] } },
       { "text": "Mana is 25.", "topic": "TALK_DONE", "condition": { "math": [ "u_val('mana')", "==", "25" ] } },
       {
-        "text": "Mana max is 800.",
+        "text": "Mana max is 900.",
         "topic": "TALK_DONE",
-        "condition": { "math": [ "u_val('mana_max')", "==", "800" ] }
+        "condition": { "math": [ "u_val('mana_max')", "==", "900" ] }
       },
       {
         "text": "Mana is at 2%.",

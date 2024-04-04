@@ -1231,7 +1231,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 30 ].text == "Morale is 23." );
     CHECK( d.responses[ 31 ].text == "Focus is 24." );
     CHECK( d.responses[ 32 ].text == "Mana is 25." );
-    CHECK( d.responses[ 33 ].text == "Mana max is 800." );
+    CHECK( d.responses[ 33 ].text == "Mana max is 900." );
     CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
