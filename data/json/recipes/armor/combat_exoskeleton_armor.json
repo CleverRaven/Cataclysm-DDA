@@ -9,7 +9,7 @@
     "difficulty": 7,
     "time": "1 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 1 ] ],
+    "using": [ [ "chainmail_standard", 1 ], [ "welding_standard", 100 ] ],
     "components": [
       [ [ "qt_link_sheet", 1 ] ],
       [ [ "qt_chain_link", 20 ] ],
@@ -28,7 +28,7 @@
     "difficulty": 7,
     "time": "1 h 45 m",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 2 ] ],
+    "using": [ [ "chainmail_standard", 2 ], [ "welding_standard", 200 ] ],
     "components": [
       [ [ "qt_link_sheet", 2 ] ],
       [ [ "qt_chain_link", 45 ] ],
@@ -47,7 +47,7 @@
     "difficulty": 7,
     "time": "1 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 1 ] ],
+    "using": [ [ "chainmail_standard", 1 ], [ "welding_standard", 100 ] ],
     "components": [
       [ [ "qt_link_sheet", 1 ] ],
       [ [ "qt_chain_link", 25 ] ],
@@ -66,7 +66,7 @@
     "difficulty": 7,
     "time": "1 h",
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
-    "using": [ [ "chainmail_standard", 1 ] ],
+    "using": [ [ "chainmail_standard", 1 ], [ "welding_standard", 100 ] ],
     "components": [
       [ [ "qt_link_sheet", 1 ] ],
       [ [ "qt_chain_link", 25 ] ],
