@@ -29,6 +29,10 @@
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stunned( "stunned" );
 
+static const furn_str_id furn_f_flower_fungal( "f_flower_fungal" );
+static const furn_str_id furn_f_fungal_clump( "f_fungal_clump" );
+static const furn_str_id furn_f_fungal_mass( "f_fungal_mass" );
+
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
@@ -219,12 +223,12 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
     // Furniture conversion
     if( converted ) {
         if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) ) {
-            here.furn_set( p, f_flower_fungal );
+            here.furn_set( p, furn_f_flower_fungal );
         } else if( here.has_flag( ter_furn_flag::TFLAG_ORGANIC, p ) ) {
             if( here.furn( p ).obj().movecost == -10 ) {
-                here.furn_set( p, f_fungal_mass );
+                here.furn_set( p, furn_f_fungal_mass );
             } else {
-                here.furn_set( p, f_fungal_clump );
+                here.furn_set( p, furn_f_fungal_clump );
             }
         } else if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
             // Replace the (already existing) seed

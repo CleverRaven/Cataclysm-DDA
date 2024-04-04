@@ -82,6 +82,8 @@ static const efftype_id effect_teargas( "teargas" );
 
 static const flag_id json_flag_NO_UNLOAD( "NO_UNLOAD" );
 
+static const furn_str_id furn_f_ash( "f_ash" );
+
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
 static const itype_id itype_rock( "rock" );
 
@@ -918,7 +920,7 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
         pd.here.ter_set( p, ter_t_dirt );
     }
     if( frn.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
-        pd.here.furn_set( p, f_null );
+        pd.here.furn_set( p, furn_str_id::NULL_ID() );
     }
 }
 
@@ -1058,14 +1060,14 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 here.spawn_item( p, "ash", 1, rng( 10, 1000 ) );
                 if( p.z > 0 ) {
                     // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
-                    here.furn_set( p, f_null );
+                    here.furn_set( p, furn_str_id::NULL_ID() );
                     here.ter_set( p, ter_t_open_air );
                 } else if( p.z < -1 ) {
                     // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
                     here.ter_set( p, ter_t_rock_floor );
                 } else {
                     // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
-                    here.furn_set( p, f_null );
+                    here.furn_set( p, furn_str_id::NULL_ID() );
                     here.ter_set( p, ter_t_dirt );
                 }
             }
@@ -1077,7 +1079,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             smoke += static_cast<int>( windpower / 5 );
             if( cur.get_field_intensity() > 1 &&
                 one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                here.furn_set( p, f_ash );
+                here.furn_set( p, furn_f_ash );
                 here.add_item_or_charges( p, item( "ash" ) );
             }
 

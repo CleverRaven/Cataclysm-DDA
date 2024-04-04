@@ -554,7 +554,7 @@ bool mattack::graze( monster *z )
         if( here.has_flag( ter_furn_flag::TFLAG_FLOWER, p ) &&
             !here.has_flag( ter_furn_flag::TFLAG_GRAZER_INEDIBLE, p ) &&
             ( z->amount_eaten <= z->stomach_size ) ) {
-            here.furn_set( p, f_null );
+            here.furn_set( p, furn_str_id::NULL_ID() );
             z->amount_eaten += 50;
             //Calorie amount is based on the "small_plant" dummy item, as with the grazer mutation.
             return true;
