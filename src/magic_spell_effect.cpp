@@ -1518,10 +1518,10 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         std::string msg;
         game_message_type msgtype = m_bad; // default guilt message type
         std::map<int, std::string> guilt_thresholds;
-        guilt_thresholds[ ceil( max_kills * 0.25 ) ] = _( "You feel guilty for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.25 ) ] = _( "You feel awful about killing %s." );
         guilt_thresholds[ ceil( max_kills * 0.5 ) ] = _( "You feel remorse for killing %s." );
-        guilt_thresholds[ ceil( max_kills * 0.75 ) ] = _( "You regret killing %s." );
-        guilt_thresholds[max_kills] = _( "You feel ashamed for killing %s." );
+        guilt_thresholds[ ceil( max_kills * 0.75 ) ] = _( "You feel guilty for killing %s." );
+        guilt_thresholds[max_kills] = _( "You feel uneasy about killing %s." );
 
         Character &guy = *guilt_target;
         if( guy.has_trait( trait_PSYCHOPATH ) || guy.has_trait( trait_KILLER ) ||

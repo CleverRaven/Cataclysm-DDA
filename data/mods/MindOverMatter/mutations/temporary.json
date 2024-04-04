@@ -381,7 +381,7 @@
     "points": 5,
     "visibility": 0,
     "ugliness": 0,
-    "player_display": true,
+    "player_display": false,
     "valid": false,
     "flags": [ "NO_PSIONICS" ]
   },
@@ -395,6 +395,6 @@
     "ugliness": 0,
     "player_display": true,
     "valid": false,
-    "flags": [ "TEEPSHIELD", "PORTAL_PROOF" ]
+    "flags": [ "TEEPSHIELD" ]
   }
 ]

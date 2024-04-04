@@ -666,7 +666,7 @@
     "time": "10 m",
     "autolearn": false,
     "book_learn": [ [ "concrete_book", 2 ] ],
-    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "tools": [ [ [ "concrete_mix_tool", 50 ] ] ],
     "components": [ [ [ "material_cement", 50 ] ], [ [ "material_sand", 150 ] ] ]
   },
   {

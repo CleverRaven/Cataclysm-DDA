@@ -42,10 +42,11 @@
       "per_mod": [ -1 ],
       "pain_chance": [ 100 ],
       "pain_min": [ 1 ],
-      "pain_max": [ 2 ],
-      "pain_max_val": [ 40 ],
+      "pain_max": [ 1 ],
+      "pain_max_val": [ 20 ],
       "pain_tick": [ 200 ],
       "vomit_chance": [ 100 ],
+      "vomit_tick": [ 200 ],
       "hurt_chance": [ 300 ],
       "hurt_amount": [ 0 ],
       "hurt_tick": [ 200 ]
@@ -55,7 +56,7 @@
       "int_mod": [ -0.6 ],
       "pain_min": [ 0 ],
       "pain_max": [ 0 ],
-      "pain_max_val": [ 20 ],
+      "pain_max_val": [ 5 ],
       "vomit_chance": [ -2 ],
       "hurt_chance": [ -5 ],
       "hurt_amount": [ 2, 1 ],
@@ -211,6 +212,15 @@
       "effect_vita_super_heal"
     ],
     "max_duration": "24 hours",
+    "flags": [ "NO_PSIONICS" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_psi_too_much_pain_cant_channel",
+    "name": [ "Can't Concentrate" ],
+    "desc": [ "You can't use your powers." ],
+    "apply_message": "You're in so much pain you can't concentrate to use your powers!",
+    "rating": "bad",
     "flags": [ "NO_PSIONICS" ]
   },
   {

@@ -14,14 +14,14 @@
   {
     "type": "jmath_function",
     "id": "channeling_proficiency_negate_calculate",
-    "num_args": 1,
-    "return": "_0 - ((u_proficiency('prof_magic_channel_beginner', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') * 1) / 10) - ((u_proficiency('prof_magic_channel_master', 'format': 'percent') * 1) / 10)"
+    "num_args": 2,
+    "return": "_0 - (((((u_proficiency('prof_magic_channel_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_master', 'format': 'percent') * 1) / 10))) * _1 )"
   },
   {
     "type": "jmath_function",
     "id": "channeling_proficiency_bonus_calculate",
-    "num_args": 1,
-    "return": "_0 + ((u_proficiency('prof_magic_channel_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_master', 'format': 'percent') * 1) / 10)"
+    "num_args": 2,
+    "return": "_0 + (((((u_proficiency('prof_magic_channel_beginner', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_apprentice', 'format': 'percent') * 1) / 10) + ((u_proficiency('prof_magic_channel_master', 'format': 'percent') * 1) / 10))) * _1 )"
   },
   {
     "type": "jmath_function",

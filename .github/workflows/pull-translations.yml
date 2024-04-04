@@ -44,7 +44,7 @@ jobs:
       - name: "Update stats"
         run: ./lang/update_stats.sh
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v6
         with:
           commit-message: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
           token: ${{ secrets.TX_PR_CREATOR }}

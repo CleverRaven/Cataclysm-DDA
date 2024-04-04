@@ -1657,7 +1657,7 @@
       "psi_stunned",
       "telepathic_ignorance"
     ],
-    "flags": [ "PORTAL_PROOF", "TEEPSHIELD" ]
+    "flags": [ "TEEPSHIELD" ]
   },
   {
     "type": "effect_type",

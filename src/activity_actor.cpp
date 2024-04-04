@@ -225,6 +225,15 @@ static const skill_id skill_traps( "traps" );
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_locked_alarm( "t_door_locked_alarm" );
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_stump( "t_stump" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvested_autumn" );
 static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
 static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
@@ -814,10 +823,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
             } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
-                here.ter_set( examp, t_card_reader_broken );
+                here.ter_set( examp, ter_t_card_reader_broken );
                 for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
-                    if( here.ter( tmp ) == t_door_metal_locked ) {
-                        here.ter_set( tmp, t_door_metal_c );
+                    if( here.ter( tmp ) == ter_t_door_metal_locked ) {
+                        here.ter_set( tmp, ter_t_door_metal_c );
                     }
                 }
             }
@@ -2811,7 +2820,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         you->practice( skill_traps, xp_gain );
     }
 
-    if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
+    if( !perfect && ter_type == ter_t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
     }
@@ -2858,7 +2867,7 @@ std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
         you.add_msg_if_player( m_info,
                                _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
-    } else if( terr_type == t_door_c ) {
+    } else if( terr_type == ter_t_door_c ) {
         you.add_msg_if_player( m_info, _( "That door isn't locked." ) );
     } else {
         you.add_msg_if_player( m_info, _( "That cannot be picked." ) );
@@ -6213,11 +6222,11 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int log_quan;
     int stick_quan;
     int splint_quan;
-    if( here.ter( pos ) == t_trunk ) {
+    if( here.ter( pos ) == ter_t_trunk ) {
         log_quan = rng( 2, 3 );
         stick_quan = rng( 0, 3 );
         splint_quan = 0;
-    } else if( here.ter( pos ) == t_stump ) {
+    } else if( here.ter( pos ) == ter_t_stump ) {
         log_quan = rng( 0, 2 );
         stick_quan = 0;
         splint_quan = rng( 5, 15 );
@@ -6241,7 +6250,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
         obj.set_var( "activity_var", who.name );
         here.add_item_or_charges( pos, obj );
     }
-    here.ter_set( pos, t_dirt );
+    here.ter_set( pos, ter_t_dirt );
     who.add_msg_if_player( m_good, _( "You finish chopping wood." ) );
 
     act.set_to_null();
@@ -6399,10 +6408,10 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
     std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
     for( const tripoint &elem : tree ) {
         here.batter( elem, 300, 5 );
-        here.ter_set( elem, t_trunk );
+        here.ter_set( elem, ter_t_trunk );
     }
 
-    here.ter_set( pos, t_stump );
+    here.ter_set( pos, ter_t_stump );
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     here.collapse_at( pos, false, true, false );
@@ -6445,7 +6454,7 @@ void churn_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
     who.add_msg_if_player( _( "You finish churning up the earth here." ) );
-    here.ter_set( here.getlocal( act.placement ), t_dirtmound );
+    here.ter_set( here.getlocal( act.placement ), ter_t_dirtmound );
     // Go back to what we were doing before
     // could be player zone activity, or could be NPC multi-farming
     act.set_to_null();

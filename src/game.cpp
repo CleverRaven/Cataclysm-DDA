@@ -308,6 +308,14 @@ static const species_id species_PLANT( "PLANT" );
 
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
 
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
+static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_manhole( "t_manhole" );
+static const ter_str_id ter_t_manhole_cover( "t_manhole_cover" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -852,6 +860,7 @@ bool game::start_game()
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
     tripoint_abs_omt omtstart = overmap::invalid_tripoint;
+    std::unordered_map<std::string, std::string> associated_parameters;
     const bool select_starting_city = get_option<bool>( "SELECT_STARTING_CITY" );
     do {
         if( select_starting_city ) {
@@ -859,9 +868,13 @@ bool game::start_game()
                 u.starting_city = random_entry( city::get_all() );
                 u.world_origin = u.starting_city->pos_om;
             }
-            omtstart = start_loc.find_player_initial_location( u.starting_city.value() );
+            auto ret = start_loc.find_player_initial_location( u.starting_city.value() );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         } else {
-            omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            auto ret = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            omtstart = ret.first;
+            associated_parameters = ret.second;
         }
         if( omtstart == overmap::invalid_tripoint ) {
 
@@ -874,6 +887,9 @@ bool game::start_game()
             }
         }
     } while( omtstart == overmap::invalid_tripoint );
+
+    // Set parameter(s) if specified in chosen start_loc
+    start_loc.set_parameters( omtstart, associated_parameters );
 
     start_loc.prepare_map( omtstart );
 
@@ -6564,7 +6580,7 @@ void game::print_terrain_info( const tripoint &lp, const catacurses::window &w_l
     print_furniture_info( lp, w_look, column, line );
 
     // Cover percentage from terrain and furniture next.
-    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Cover: %d%%" ),
+    fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray, _( "Concealment: %d%%" ),
                     m.coverage( lp ) );
 
     if( m.has_flag( ter_furn_flag::TFLAG_TREE, lp ) ) {
@@ -6675,7 +6691,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     for( const auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire && ( m.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, lp ) ||
-                                          m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+                                          m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
@@ -6803,7 +6819,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
         const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                                          m.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                                           m.graffiti_at( lp ) );
         line += lines - 1;
     }
@@ -12188,9 +12204,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( here.ter( stairs ) == t_manhole_cover ) {
+    if( here.ter( stairs ) == ter_t_manhole_cover ) {
         here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
-        here.ter_set( stairs, t_manhole );
+        here.ter_set( stairs, ter_t_manhole );
     }
 
     if( u.is_hauling() ) {
@@ -12286,8 +12302,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
-                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+                                    mp.ter( dest ) == ter_t_manhole_cover ) ) ||
+                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
             }
@@ -12332,7 +12348,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     stairs.emplace( pos );
     stairs->z = z_after;
     // Check the destination area for lava.
-    if( mp.ter( *stairs ) == t_lava ) {
+    if( mp.ter( *stairs ) == ter_t_lava ) {
         if( movez < 0 &&
             !query_yn(
                 _( "There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up." ) ) ) {
