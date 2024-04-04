@@ -56,13 +56,13 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 200,
-    "description": "A delicious fruit-filled pastry that you can cook in your toaster.  It even comes with frosting!  Cook it to make it tasty.",
+    "description": "A delicious fruit-filled pastry that you can cook in your toaster.  It even comes with frosting!  Cook it to make it tastier.",
     "price": "2 USD",
     "price_postapoc": "62 cent",
     "material": [ "wheat", "junk" ],
     "volume": "125 ml",
     "flags": [ "EATEN_HOT" ],
-    "fun": -10,
+    "fun": 5,
     "vitamins": [ [ "iron", 10 ] ]
   },
   {
