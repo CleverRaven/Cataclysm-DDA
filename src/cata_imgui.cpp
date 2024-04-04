@@ -435,7 +435,7 @@ class cataimgui::window_impl
                 ImVec2 imsize = ImGui::GetWindowSize();
                 imvec2_to_point( &impos, &catapos );
                 imvec2_to_point( &imsize, &catasize );
-                window_adaptor->position( catapos, catasize );
+                window_adaptor->position_absolute( catapos, catasize );
             } );
             window_adaptor->on_screen_resize( [this]( ui_adaptor & ) {
                 is_resized = true;
