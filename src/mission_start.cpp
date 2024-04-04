@@ -100,7 +100,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
         } else if( broken.empty() && compmap.ter( p ) == ter_t_floor &&
                    compmap.furn( p ) == furn_str_id::NULL_ID() ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.furn( p2 ) == f_bed || compmap.furn( p2 ) == furn_f_dresser ) {
+                if( compmap.furn( p2 ) == furn_f_bed || compmap.furn( p2 ) == furn_f_dresser ) {
                     potential.emplace_back( p );
                     break;
                 }

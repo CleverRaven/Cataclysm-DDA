@@ -124,6 +124,7 @@ static const efftype_id effect_pet( "pet" );
 
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
+static const furn_str_id furn_f_clear( "f_clear" );
 static const furn_str_id furn_f_wreckage( "f_wreckage" );
 static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 static const furn_str_id furn_f_rubble( "f_rubble" );
@@ -1755,7 +1756,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
-    const furn_id new_target_furniture = new_furniture == f_clear ? furn_str_id::NULL_ID() :
+    const furn_id new_target_furniture = new_furniture == furn_f_clear ? furn_str_id::NULL_ID() :
                                          new_furniture;
     const furn_id old_id = current_submap->get_furn( l );
     if( old_id == new_target_furniture ) {
@@ -1798,7 +1799,7 @@ bool map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
         player_character.grab( object_type::NONE );
     }
     // If a creature was crushed under a rubble -> free it
-    if( old_id == f_rubble && new_target_furniture == furn_str_id::NULL_ID() ) {
+    if( old_id == furn_f_rubble && new_target_furniture == furn_str_id::NULL_ID() ) {
         Creature *c = get_creature_tracker().creature_at( p );
         if( c ) {
             c->remove_effect( effect_crushed );
