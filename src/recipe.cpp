@@ -46,6 +46,7 @@ static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
+
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
 int recipe::get_difficulty( const Character &crafter ) const

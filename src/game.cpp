@@ -308,6 +308,14 @@ static const species_id species_PLANT( "PLANT" );
 
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
 
+static const ter_str_id ter_t_elevator( "t_elevator" );
+static const ter_str_id ter_t_grave_new( "t_grave_new" );
+static const ter_str_id ter_t_lava( "t_lava" );
+static const ter_str_id ter_t_manhole( "t_manhole" );
+static const ter_str_id ter_t_manhole_cover( "t_manhole_cover" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+
 static const trait_id trait_BADKNEES( "BADKNEES" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -6683,7 +6691,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
     for( const auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire && ( m.has_flag( ter_furn_flag::TFLAG_FIRE_CONTAINER, lp ) ||
-                                          m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
+                                          m.ter( lp ) == ter_t_pit_shallow || m.ter( lp ) == ter_t_pit ) ) {
             const int max_width = getmaxx( w_look ) - column - 2;
             int lines = fold_and_print( w_look, point( column, ++line ), max_width, cur.color(),
                                         get_fire_fuel_string( lp ) ) - 1;
@@ -6811,7 +6819,7 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
         const int lines = fold_and_print( w_look, point( column, ++line ), max_width, c_light_gray,
-                                          m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
+                                          m.ter( lp ) == ter_t_grave_new ? _( "Graffiti: %s" ) : _( "Inscription: %s" ),
                                           m.graffiti_at( lp ) );
         line += lines - 1;
     }
@@ -12196,9 +12204,9 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( here.ter( stairs ) == t_manhole_cover ) {
+    if( here.ter( stairs ) == ter_t_manhole_cover ) {
         here.spawn_item( stairs + point( rng( -1, 1 ), rng( -1, 1 ) ), itype_manhole_cover );
-        here.ter_set( stairs, t_manhole );
+        here.ter_set( stairs, ter_t_manhole );
     }
 
     if( u.is_hauling() ) {
@@ -12294,8 +12302,8 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
             if( rl_dist( u.pos(), dest ) <= best &&
                 ( ( going_down_1 && mp.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ||
                   ( going_up_1 && ( mp.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ||
-                                    mp.ter( dest ) == t_manhole_cover ) ) ||
-                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == t_elevator ) ) ) {
+                                    mp.ter( dest ) == ter_t_manhole_cover ) ) ||
+                  ( ( movez == 2 || movez == -2 ) && mp.ter( dest ) == ter_t_elevator ) ) ) {
                 stairs.emplace( dest );
                 best = rl_dist( u.pos(), dest );
             }
@@ -12340,7 +12348,7 @@ std::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, b
     stairs.emplace( pos );
     stairs->z = z_after;
     // Check the destination area for lava.
-    if( mp.ter( *stairs ) == t_lava ) {
+    if( mp.ter( *stairs ) == ter_t_lava ) {
         if( movez < 0 &&
             !query_yn(
                 _( "There is a LOT of heat coming out of there, even the stairs have melted away.  Jump down?  You won't be able to get back up." ) ) ) {

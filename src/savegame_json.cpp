@@ -155,10 +155,14 @@ static const mtype_id mon_breather( "mon_breather" );
 static const skill_id skill_chemistry( "chemistry" );
 
 static const ter_str_id ter_t_ash( "t_ash" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
 static const ter_str_id ter_t_pwr_sb_support_l( "t_pwr_sb_support_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_l( "t_pwr_sb_switchgear_l" );
 static const ter_str_id ter_t_pwr_sb_switchgear_s( "t_pwr_sb_switchgear_s" );
 static const ter_str_id ter_t_rubble( "t_rubble" );
+static const ter_str_id ter_t_support_l( "t_support_l" );
+static const ter_str_id ter_t_switchgear_l( "t_switchgear_l" );
+static const ter_str_id ter_t_switchgear_s( "t_switchgear_s" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
@@ -4851,24 +4855,24 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     const ter_str_id tid( terrain_json.next_string() );
 
                     if( tid == ter_t_rubble ) {
-                        m->ter[i][j] = ter_id( "t_dirt" );
+                        m->ter[i][j] = ter_t_dirt;
                         m->frn[i][j] = furn_id( "f_rubble" );
                         m->itm[i][j].insert( rock );
                         m->itm[i][j].insert( rock );
                     } else if( tid == ter_t_wreckage ) {
-                        m->ter[i][j] = ter_id( "t_dirt" );
+                        m->ter[i][j] = ter_t_dirt;
                         m->frn[i][j] = furn_id( "f_wreckage" );
                         m->itm[i][j].insert( chunk );
                         m->itm[i][j].insert( chunk );
                     } else if( tid == ter_t_ash ) {
-                        m->ter[i][j] = ter_id( "t_dirt" );
+                        m->ter[i][j] = ter_t_dirt;
                         m->frn[i][j] = furn_id( "f_ash" );
                     } else if( tid == ter_t_pwr_sb_support_l ) {
-                        m->ter[i][j] = ter_id( "t_support_l" );
+                        m->ter[i][j] = ter_t_support_l;
                     } else if( tid == ter_t_pwr_sb_switchgear_l ) {
-                        m->ter[i][j] = ter_id( "t_switchgear_l" );
+                        m->ter[i][j] = ter_t_switchgear_l;
                     } else if( tid == ter_t_pwr_sb_switchgear_s ) {
-                        m->ter[i][j] = ter_id( "t_switchgear_s" );
+                        m->ter[i][j] = ter_t_switchgear_s;
                     } else {
                         m->ter[i][j] = tid.id();
                     }
@@ -4889,7 +4893,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                                 iid = terstr.id();
                             } else {
                                 debugmsg( "invalid ter_str_id '%s'", terstr.str() );
-                                iid = t_dirt;
+                                iid = ter_t_dirt;
                             }
                         } else if( terrain_entry.test_array() ) {
                             JsonArray terrain_rle = terrain_entry;
@@ -4898,7 +4902,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                                 iid = terstr.id();
                             } else {
                                 debugmsg( "invalid ter_str_id '%s'", terstr.str() );
-                                iid = t_dirt;
+                                iid = ter_t_dirt;
                             }
                             remaining = terrain_rle.next_int() - 1;
                             if( terrain_rle.size() > 2 ) {

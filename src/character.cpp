@@ -388,6 +388,12 @@ static const species_id species_HUMAN( "HUMAN" );
 
 static const start_location_id start_location_sloc_shelter_a( "sloc_shelter_a" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+static const ter_str_id ter_t_grass( "t_grass" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_shallow( "t_pit_shallow" );
+
 static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_BADBACK( "BADBACK" );
@@ -5647,12 +5653,12 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint_bub_
             comfort = static_cast<int>( comfort_level::impossible );
         } else {
             // It's very easy for Chloromorphs to get to sleep on soil!
-            if( ter_at_pos == t_dirt || ter_at_pos == t_pit || ter_at_pos == t_dirtmound ||
-                ter_at_pos == t_pit_shallow ) {
+            const std::unordered_set<ter_str_id> very_comfy_ters = { ter_t_dirt, ter_t_dirtmound, ter_t_pit,  ter_t_pit_shallow };
+            if( very_comfy_ters.find( ter_at_pos.id() ) != very_comfy_ters.end() ) {
                 comfort += static_cast<int>( comfort_level::very_comfortable );
             }
             // Not as much if you have to dig through stuff first
-            else if( ter_at_pos == t_grass ) {
+            else if( ter_at_pos == ter_t_grass ) {
                 comfort += static_cast<int>( comfort_level::comfortable );
             }
             // Sleep ain't happening

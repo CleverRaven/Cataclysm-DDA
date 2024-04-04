@@ -228,6 +228,9 @@ static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_tree( "t_tree" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
@@ -1670,7 +1673,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     if( you->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         if( here.is_bashable( pos ) && here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, pos ) &&
-            here.ter( pos ) != t_tree ) {
+            here.ter( pos ) != ter_t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
             if( you->has_trait( trait_STOCKY_TROGLO ) ) {
@@ -3273,7 +3276,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, t_dirt, f_plant_seed );
+            here.set( examp, ter_t_dirt, f_plant_seed );
         } else {
             here.furn_set( examp, f_plant_seed );
         }
