@@ -12384,19 +12384,30 @@ stat_mod Character::get_pain_penalty() const
         return ret;
     }
 
-    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+    // Int and per are penalized more, 100 pain to drop stat to zero vs 140-ish for str and dex
+    float penalty_mod = pain * 0.01f;
+    float lesser_penalty_mod = pain * 0.007f;
+
+
+    ret.strength = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
+                   get_str() * lesser_penalty_mod );
+
+    ret.dexterity = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
+                    get_dex() * lesser_penalty_mod );
+
+    ret.intelligence = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_INT,
+                       get_int() * penalty_mod );
+
+    ret.perception = enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
+                     get_per() * penalty_mod );
+
 
     // Prevent negative penalties, there is better ways to give bonuses for pain
-    // Venera says int and per should be penalized more (and per is penalized less, for legacy reasons, duh)
-    // TODO change the formula to pain/10?
-    ret.strength = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_STR,
-                             stat_penalty ), 0.0 );
-    ret.dexterity = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_DEX,
-                              stat_penalty ), 0.0 );
-    ret.intelligence = std::max( enchantment_cache->modify_value(
-                                     enchant_vals::mod::PAIN_PENALTY_MOD_INT, stat_penalty ), 0.0 );
-    ret.perception = std::max( enchantment_cache->modify_value( enchant_vals::mod::PAIN_PENALTY_MOD_PER,
-                               stat_penalty * 0.666f ), 0.0 );
+    ret.strength = std::max( ret.strength, 0 );
+    ret.dexterity = std::max( ret.dexterity, 0 );
+    ret.intelligence = std::max( ret.intelligence, 0 );
+    ret.perception = std::max( ret.perception, 0 );
+
 
     int speed_penalty = std::pow( pain, 0.7f );
 
