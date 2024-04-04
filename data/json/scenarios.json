@@ -849,7 +849,7 @@
     "id": "presort",
     "name": "Crazy Party",
     "points": -2,
-    "description": "You'd been unsurprised when your vacation — a hastily arranged holiday to a remote resort to maintain distance from the riots — had been put out of its misery when state-wide evacuation was ordered after weeks of worsening violence, and the complex had been placed on a shortlist for civilian gathering sights.  After days of waiting for a non-existent rescue and refugees bringing tales of monsters and the dead, the remaining staff had taken steps to keep spirits up, and last evening, they did that in the best way they knew — hosting a party.  Considering that it lured scores of zombies, you could probably classify that decision as a 'road to literal hell paved with good intentions.'",
+    "description": "You'd been unsurprised when your vacation — a hastily arranged holiday to a remote resort to maintain distance from the riots — had been put out of its misery when state-wide evacuation was ordered after weeks of worsening violence, and the complex had been placed on a shortlist for civilian gathering sites.  After days of waiting for a non-existent rescue and refugees bringing tales of monsters and the dead, the remaining staff had taken steps to keep spirits up, and last evening, they did that in the best way they knew — hosting a party.  Considering that it lured scores of zombies, you could probably classify that decision as a 'road to literal hell paved with good intentions.'",
     "start_name": "Private resort",
     "allowed_locs": [ "sloc_private_resort" ],
     "professions": [
