@@ -20,32 +20,6 @@
     "om_terrain": [ "backfloorchamber" ],
     "object": {
       "fill_ter": "t_carpet_backrooms",
-      "rows": [
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        "
-      ],
       "place_nested": [
         { "chunks": [ [ "mx_backrooms_whole", 100 ] ], "x": 0, "y": 0 },
         {
