@@ -18,7 +18,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ), furn( f_null ) { }
+ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ), furn( furn_str_id::NULL_ID().id() ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
