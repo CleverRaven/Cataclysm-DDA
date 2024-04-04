@@ -32,7 +32,7 @@ struct recipe_group_data {
     std::vector<std::pair<group_id, mod_id>> src;
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
-    std::map<recipe_id, omt_types_parameters> om_terrains;
+    std::map<recipe_id, std::vector<omt_types_parameters>> om_terrains;
     bool was_loaded = false;
 
     void load( const JsonObject &jo, std::string_view src );
@@ -68,7 +68,7 @@ void recipe_group_data::load( const JsonObject &jo, const std::string_view )
                     jo.read( "parameters", parameter_map );
                 }
             }
-            om_terrains[name_id] = omt_types_parameters{ ter, ter_match_type, parameter_map };
+            om_terrains[name_id].emplace_back( omt_types_parameters{ ter, ter_match_type, parameter_map } );
         }
     }
 }
@@ -121,35 +121,45 @@ std::map<recipe_id, translation> recipe_group::get_recipes_by_id( const std::str
     const recipe_group_data &group = recipe_groups_data.obj( group_id( id ) );
     for( const auto &recp : group.recipes ) {
         const auto &recp_terrain_it = group.om_terrains.find( recp.first );
-        if( recp_terrain_it->second.omt != "ANY" ) {
-            if( !is_ot_match( recp_terrain_it->second.omt, omt_ter, recp_terrain_it->second.omt_type ) ) {
-                continue;
-            }
-        }
-        if( recp_terrain_it->second.parameters.empty() ) {
-            all_rec.emplace( recp );
+        if( recp_terrain_it == group.om_terrains.end() ) {
+            debugmsg( "Recipe %s doesn't specify 'om_terrains', use ANY instead if intended to work anywhere",
+                      recp.second );
             continue;
         }
-        if( !!maybe_args ) {
-            bool parameters_matched = true;
-            for( const auto &key_value_set_pair : recp_terrain_it->second.parameters ) {
-                auto map_key_it = maybe_args->value().map.find( key_value_set_pair.first );
-                if( map_key_it == maybe_args->value().map.end() ) {
-                    debugmsg( "Parameter key %s in recipe %s not found for omt %s", key_value_set_pair.first, id,
-                              omt_ter.id().str() );
-                    continue;
+        for( const omt_types_parameters &om_terrain : recp_terrain_it->second ) {
+            if( om_terrain.omt == "ANY" ) {
+                all_rec.emplace( recp );
+                break;
+            }
+            if( !is_ot_match( om_terrain.omt, omt_ter, om_terrain.omt_type ) ) {
+                continue;
+            }
+            if( om_terrain.parameters.empty() ) {
+                all_rec.emplace( recp );
+                break;
+            }
+            if( !!maybe_args ) {
+                bool parameters_matched = true;
+                for( const auto &key_value_set_pair : om_terrain.parameters ) {
+                    auto map_key_it = maybe_args->value().map.find( key_value_set_pair.first );
+                    if( map_key_it == maybe_args->value().map.end() ) {
+                        debugmsg( "Parameter key %s in recipe %s not found for omt %s", key_value_set_pair.first, id,
+                                  omt_ter.id().str() );
+                        continue;
+                    }
+                    if( key_value_set_pair.second.find( map_key_it->second.get_string() ) ==
+                        key_value_set_pair.second.end() ) {
+                        parameters_matched = false;
+                        break;
+                    }
                 }
-                if( key_value_set_pair.second.find( map_key_it->second.get_string() ) ==
-                    key_value_set_pair.second.end() ) {
-                    parameters_matched = false;
+                if( parameters_matched ) {
+                    all_rec.emplace( recp );
                     break;
                 }
+            } else {
+                debugmsg( "Parameter(s) expected for recipe %s but none found for omt %s", id, omt_ter.id().str() );
             }
-            if( parameters_matched ) {
-                all_rec.emplace( recp );
-            }
-        } else {
-            debugmsg( "Parameter(s) expected for recipe %s but none found for omt %s", id, omt_ter.id().str() );
         }
     }
     return all_rec;
