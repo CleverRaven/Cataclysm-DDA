@@ -835,7 +835,7 @@ class map
             return furn_set( tripoint( p, abs_sub.z() ), new_furniture, false, avoid_creatures );
         }
         void furn_clear( const tripoint &p ) {
-            furn_set( p, f_clear );
+            furn_set( p, furn_str_id( "f_clear" ) );
         };
         void furn_clear( const point &p ) {
             furn_clear( tripoint( p, abs_sub.z() ) );
@@ -1086,7 +1086,7 @@ class map
             make_rubble( p, rubble_type, items, ter_str_id( "t_dirt" ).id(), false );
         }
         void make_rubble( const tripoint &p ) {
-            make_rubble( p, f_rubble, false, ter_str_id( "t_dirt" ).id(), false );
+            make_rubble( p, furn_str_id( "f_rubble" ), false, ter_str_id( "t_dirt" ).id(), false );
         }
 
         bool is_outside( const tripoint &p ) const;
