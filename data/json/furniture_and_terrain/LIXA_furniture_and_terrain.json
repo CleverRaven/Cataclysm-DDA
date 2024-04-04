@@ -104,7 +104,7 @@
     "bash": {
       "str_min": 7,
       "str_max": 17,
-      "sound": "geometry crackling!",
+      "sound": "a hollow pop, followed by a sickly wet squelching as congealed light slowly leaks out of the tube.",
       "sound_fail": "nothing.",
       "ter_set": "t_LIXA_unfolded_tube_broken"
     },

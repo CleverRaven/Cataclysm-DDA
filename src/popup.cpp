@@ -23,7 +23,7 @@ class query_popup_impl : public cataimgui::window
         short keyboard_selected_option;
 
         explicit query_popup_impl( query_popup *parent ) : cataimgui::window( "QUERY_POPUP",
-                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar ) {
+                    ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_AlwaysAutoResize ) {
             msg_width = 400;
             this->parent = parent;
             keyboard_selected_option = 0;
@@ -38,14 +38,7 @@ class query_popup_impl : public cataimgui::window
     protected:
         void draw_controls() override;
         cataimgui::bounds get_bounds() override {
-            float height = float( str_height_to_pixels( parent->folded_msg.size() ) ) +
-                           ( ImGui::GetStyle().ItemSpacing.y * 2 );
-            if( !parent->buttons.empty() ) {
-                height += float( str_height_to_pixels( 1 ) ) + ( ImGui::GetStyle().ItemInnerSpacing.y * 2 ) +
-                          ( ImGui::GetStyle().ItemSpacing.y * 2 );
-            }
-            return { -1.f, parent->ontop ? 0 : -1.f,
-                     float( msg_width ) + ( ImGui::GetStyle().WindowBorderSize * 2 ), height };
+            return { -1.f, parent->ontop ? 0 : -1.f, -1.f, -1.f };
         }
 };
 
@@ -588,10 +581,14 @@ query_popup::result query_popup::query_once_imgui()
     } else if( res.action == "LEFT" ) {
         if( impl->keyboard_selected_option > 0 ) {
             impl->keyboard_selected_option--;
+        } else {
+            impl->keyboard_selected_option = short( buttons.size() - 1 );
         }
     } else if( res.action == "RIGHT" ) {
         if( impl->keyboard_selected_option < short( buttons.size() - 1 ) ) {
             impl->keyboard_selected_option++;
+        } else {
+            impl->keyboard_selected_option = 0;
         }
     } else if( res.action == "HELP_KEYBINDINGS" ) {
         // Keybindings may have changed, regenerate the UI

@@ -691,7 +691,10 @@ void monster::plan()
             }
             if( mon_plan.swarms ) {
                 if( rating < 5 ) { // Too crowded here
-                    wander_pos = get_location() + point( rng( 1, 3 ), rng( 1, 3 ) );
+                    wander_pos = get_location();
+                    while( wander_pos == get_location() ) {
+                        wander_pos += point( rng( -3, 3 ), rng( -3, 3 ) );
+                    }
                     wandf = 2;
                     mon_plan.target = nullptr;
                     // Swarm to the furthest ally you can see

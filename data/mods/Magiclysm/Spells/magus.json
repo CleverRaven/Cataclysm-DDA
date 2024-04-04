@@ -288,7 +288,7 @@
     "effect_str": "rune_magus",
     "shape": "blast",
     "extra_effects": [ { "id": "eoc_channeling_setup" } ],
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000, 10)" ] },
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,
@@ -688,8 +688,8 @@
     "difficulty": 8,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(900)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(180000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(900, 5)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(180000, 1500)" ] }
   },
   {
     "type": "effect_on_condition",

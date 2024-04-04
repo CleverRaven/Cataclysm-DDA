@@ -1042,6 +1042,25 @@ class Character : public Creature, public visitable
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
 
+        /**
+        * Generates an integer based on how many times we've gained non-negative mutations.
+        * This is asked for any given tree, but counts all of our mutations in total.
+        * Different than mutation_category_level[] in many ways:
+        * - Does not count base traits, even if those are mutable, whereas mutation_category_level[] does.
+        * - Does not count negative mutations, whereas mutation_category_level[] does.
+        * - Assigns 1 point to each level of mutation in our category, and 2 for each level out of it.
+        * - Individually counts each step of a multi level mutation (it counts Strong *and* Very Strong as their own mutations).
+        * - mutation_category_level[] ignores Strong and counts Very Strong as slightly more than 1 mutation, but not 2 mutations.
+        * - Meanwhile this counts Very Strong as 2 mutations, since you had to mutate Strong and then mutate that into Very Strong.
+        * - This is to mimic the behavior of the old instability vitamin, which increased by 100 each time you mutated (so Very Strong was 200 instability).
+        * The final result is used to calculate our current instability (influences chance of a negative mutation)
+        * so each mutation we have that belongs to a different tree than the one we specified counts double.
+        * Example: you start with Trog and mutate Slimy and Night Vision. Within Trog you have 2 points.
+        * You then go to mutate Rat. Rat has Night Vision but not Slimy, so you have 1+2=3 points.
+        * Having the Robust Genetics trait lets you "negate" this penalty, and makes all traits worth just 1 instability whether in/out of tree.
+        */
+        int get_instability_per_category( const mutation_category_id &categ ) const;
+
         /**Determine if character is susceptible to dis_type and if so apply the symptoms*/
         void expose_to_disease( const diseasetype_id &dis_type );
         /**
@@ -1584,8 +1603,8 @@ class Character : public Creature, public visitable
                           const vitamin_id &mut_vit ) const;
         bool mutation_ok( const trait_id &mutation, bool allow_good, bool allow_bad,
                           bool allow_neutral ) const;
-        /** Roll, based on instability, whether next mutation should be good or bad */
-        bool roll_bad_mutation() const;
+        /** Roll, based on category and total mutations in/out of it, whether next mutation should be good or bad */
+        bool roll_bad_mutation( const mutation_category_id &categ ) const;
         /** Opens a menu which allows players to choose from a list of mutations */
         bool mutation_selector( const std::vector<trait_id> &prospective_traits,
                                 const mutation_category_id &cat, const bool &use_vitamins );
@@ -1610,7 +1629,7 @@ class Character : public Creature, public visitable
         /** Try to cross The Threshold */
         void test_crossing_threshold( const mutation_category_id &mutation_category );
         /** Returns how many steps are required to reach a mutation */
-        int mutation_height( const trait_id &mut );
+        int mutation_height( const trait_id &mut ) const;
         /** Recalculates mutation_category_level[] values for the player */
         void calc_mutation_levels();
         /** Returns a weighted list of mutation categories based on blood vitamin levels */

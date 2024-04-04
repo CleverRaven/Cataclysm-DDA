@@ -233,6 +233,7 @@
     "type": "GUN",
     "name": { "str_sp": "S&W 619" },
     "description": "A seven-round .357 revolver sold by Smith & Wesson.  Can also fire .38 Special.  It features a fixed rear sight and a reinforced frame.",
+    "ascii_picture": "sw_610",
     "weight": "1074 g",
     "volume": "608 ml",
     "longest_side": "278 mm",

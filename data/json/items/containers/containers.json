@@ -43,15 +43,16 @@
     "id": "30gal_barrel",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "30 gallon barrel" },
+    "name": { "str": "30 gallon plastic barrel" },
     "looks_like": "55gal_drum",
     "description": "A huge plastic barrel with a watertight lid.",
     "ascii_picture": "30gal_barrel",
     "weight": "6800 g",
-    "volume": "118125 ml",
-    "price": 5000,
+    "volume": "165640 ml",
+    "longest_side": "72 cm",
+    "price": "71 USD",
     "price_postapoc": 250,
-    "to_hit": -5,
+    "to_hit": { "grip": "bad", "length": "long", "surface": "any", "balance": "clumsy" },
     "material": [ "plastic" ],
     "symbol": "0",
     "color": "light_blue",
@@ -60,13 +61,14 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "112500 ml",
+        "max_contains_volume": "113560 ml",
         "max_contains_weight": "255 kg"
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "melee_damage": { "bash": 8 }
+    "melee_damage": { "bash": 8 },
+    "//": "Based on https://www.amazon.com/dp/B0025QI4XC"
   },
   {
     "id": "30gal_drum",

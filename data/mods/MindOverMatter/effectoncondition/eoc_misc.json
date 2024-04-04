@@ -1,6 +1,30 @@
 [
   {
     "type": "effect_on_condition",
+    "id": "EOC_PORTAL_STORM_CONDITION_FLAG_PORTAL_PROOF",
+    "condition": {
+      "and": [
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        {
+          "not": {
+            "and": [
+              { "u_has_effect": "effect_telepathic_psi_armor" },
+              {
+                "math": [
+                  "u_spell_level('telepathic_shield')",
+                  ">=",
+                  "(u_vitamin('vitamin_psionic_drain') / 10) + (max(u_school_level('BIOKINETIC'), u_school_level('CLAIRSENTIENT'), u_school_level('ELECTROKINETIC'), u_school_level('PHOTOKINETIC'), u_school_level('PYROKINETIC'), u_school_level('TELEPATH'), u_school_level('TELEKINETIC'), u_school_level('TELEPORTER'), u_school_level('VITAKINETIC')) / 3) + (u_awakening_countup / 3)"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "effect": [  ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_RESET_TELEPATHIC_STEALING_TIMER",
     "recurrence": [ "20 hours", "28 hours" ],
     "condition": { "math": [ "telepathically_stole_recently", ">=", "1" ] },
@@ -178,7 +202,11 @@
         "run_eocs": [
           {
             "id": "EOC_PSIONICS_DAZED_ENDS_POWERS_2",
-            "condition": { "roll_contested": { "math": [ "u_val('intelligence') + u_skill('metaphysics')" ] }, "difficulty": 20, "die_size": 15 },
+            "condition": {
+              "roll_contested": { "math": [ "(u_val('intelligence') / 2) + u_skill('metaphysics') + concentration_trait_bonuses()" ] },
+              "difficulty": 20,
+              "die_size": 15
+            },
             "effect": [  ],
             "false_effect": [
               { "u_message": "Your head is swimming.  You can no longer maintain your powers!", "type": "bad" },
@@ -188,6 +216,40 @@
         ]
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_WEARINESS_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "and": [
+        {
+          "or": [
+            { "compare_string": [ "weary_7", { "context_val": "effect" } ] },
+            { "compare_string": [ "weary_8", { "context_val": "effect" } ] }
+          ]
+        },
+        { "not": { "u_has_proficiency": "prof_concentration_master" } }
+      ]
+    },
+    "effect": [
+      { "u_message": "You are almost too tired to think, and can't concentrate on maintaining your powers", "type": "bad" },
+      { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PSIONICS_MIND_PROBLEMS_ENDS_POWERS",
+    "eoc_type": "EVENT",
+    "required_event": "character_gains_effect",
+    "condition": {
+      "or": [
+        { "compare_string": [ "brainworms", { "context_val": "effect" } ] },
+        { "compare_string": [ "pd_int_bad", { "context_val": "effect" } ] }
+      ]
+    },
+    "effect": [ { "run_eocs": [ "EOC_END_PSI_POWERS_MAINTAINED" ] } ]
   },
   {
     "type": "effect_on_condition",
