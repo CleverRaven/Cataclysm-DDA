@@ -7691,25 +7691,34 @@ bool update_mapgen_function_json::update_map(
         return false;
     }
 
-    std::unique_ptr<tinymap> p_update_tmap = std::make_unique<tinymap>();
-    tinymap &update_tmap = *p_update_tmap;
+    std::unique_ptr<smallmap> p_update_smap = std::make_unique<smallmap>();
+    smallmap &update_smap = *p_update_smap;
 
-    update_tmap.load( omt_pos, true );
-    update_tmap.rotate( 4 - rotation );
-    update_tmap.mirror( mirror_horizontal, mirror_vertical );
+    update_smap.load( omt_pos, true );
+    update_smap.rotate( 4 - rotation );
+    update_smap.mirror( mirror_horizontal, mirror_vertical );
 
-    mapgendata md_base( omt_pos, *update_tmap.cast_to_map(), 0.0f, calendar::start_of_cataclysm, miss );
+    mapgendata md_base( omt_pos, *update_smap.cast_to_map(), 0.0f, calendar::start_of_cataclysm, miss );
     mapgendata md( md_base, args );
 
     bool const u = update_map( md, offset, verify );
-    update_tmap.mirror( mirror_horizontal, mirror_vertical );
-    update_tmap.rotate( rotation );
+    update_smap.mirror( mirror_horizontal, mirror_vertical );
+    update_smap.rotate( rotation );
 
     if( get_map().inbounds( project_to<coords::ms>( omt_pos ) ) ) {
         // trigger main map cleanup
-        p_update_tmap.reset();
+        p_update_smap.reset();
         // trigger new traps, etc
         g->place_player( get_avatar().pos(), true );
+    }
+
+    // Trigger magic to add roofs (within load) if needed.
+    if( omt_pos.z() < OVERMAP_HEIGHT ) {
+        std::unique_ptr<smallmap> p_roof_smap = std::make_unique<smallmap>();
+        smallmap &roof_smap = *p_roof_smap;
+        // The loading of the Z level above is not necessary, but looks better.
+        const tripoint_abs_omt omt_above = { omt_pos.x(), omt_pos.y(), omt_pos.z() + 1 };
+        roof_smap.load( omt_above, false );
     }
 
     return u;
