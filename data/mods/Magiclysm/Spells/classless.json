@@ -126,7 +126,6 @@
     "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(100, 0.5)" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
     "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(3.5, 0.05)" ] },
-
     "min_range": 3,
     "max_range": 12,
     "range_increment": 0.45,
