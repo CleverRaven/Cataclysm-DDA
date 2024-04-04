@@ -89,6 +89,9 @@ void cataimgui::client::set_alloced_pair_count( short count )
 
 void cataimgui::client::process_input( void *input )
 {
+    if( !any_window_shown() ) {
+        return;
+    }
     if( input ) {
         input_event *curses_input = static_cast<input_event *>( input );
         ImTui::mouse_event new_mouse_event = ImTui::mouse_event();
@@ -261,7 +264,9 @@ void cataimgui::client::end_frame()
 
 void cataimgui::client::process_input( void *input )
 {
-    ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+    if( any_window_shown() ) {
+        ImGui_ImplSDL2_ProcessEvent( static_cast<const SDL_Event *>( input ) );
+    }
 }
 
 #endif
@@ -274,6 +279,18 @@ bool cataimgui::client::auto_size_frame_active()
         }
     }
     return false;
+}
+
+bool cataimgui::client::any_window_shown()
+{
+    bool any_window_shown = false;
+    for( const ImGuiWindow *window : GImGui->Windows ) {
+        if( window->Active && !window->Hidden ) {
+            any_window_shown = true;
+            break;
+        }
+    }
+    return any_window_shown;
 }
 
 static ImGuiKey cata_key_to_imgui( int cata_key )
