@@ -1942,6 +1942,11 @@ void vehicle::separate_from_grid( const point mount )
     // Split again if removing the target part separated the power grid into multiple sections.
     find_and_split_vehicles( here, {} );
 
+    // Ensure the position, pivot, and precalc points are up-to-date.
+    shift_if_needed( get_map() );
+    pos -= pivot_anchor[0];
+    precalc_mounts( 0, turn_dir, point() );
+
     add_msg( _( "You separate the %s from the power grid" ), part_name );
 
     part_removal_cleanup();
