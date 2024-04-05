@@ -74,7 +74,7 @@
     "min_cycle_recoil": 1260,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
-    "default_mods": [ "bars", "wire_stock", "shoulder_strap", "holo_sight", "compensator", "rail_laser_sight" ],
+    "default_mods": [ "bars", "wire_stock" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],
@@ -86,7 +86,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "MISSION_ITEM" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],

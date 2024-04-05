@@ -177,6 +177,21 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "kitted_kord",
+    "subtype": "collection",
+    "container-item": "briefcase",
+    "items": [
+      
+      { "item": "broken_kord", "prob": 100 },
+      { "item": "shoulder_strap", "prob": 100 },
+      { "item": "compensator", "prob": 100 },
+      { "item": "rail_laser_sight", "prob": 100 },
+      { "item": "holo_sight", "prob": 100 },
+      { "item": "ak74mag", "prob": 100 }
+    ]
+  },
+  {
     "type": "GENERIC",
     "id": "blacksmith_prototypes",
     "category": "books",
