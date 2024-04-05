@@ -537,7 +537,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
 
 ```json
 {
-  "npc_need": "fatigue",
+  "npc_need": "sleepiness",
   "level": "TIRED",
   "no": "Just few minutes more...",
   "yes": "Make it quick, I want to go back to sleep."
@@ -1392,7 +1392,7 @@ These can be read or written to with `val()`.
 | `cash` | ❌ | Amount of money |
 | `dodge` | ❌ | Current effective dodge |
 | `exp` | ✅ | Total experience earned. |
-| `fatigue` | ✅ | Current fatigue level. |
+| `sleepiness` | ✅ | Current sleepiness level. |
 | `fine_detail_vision_mod` | ❌ | Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind). |
 | `focus` | ✅ | Current focus level. |
 | `friendly` | ✅ | Current friendly level. Only works for monsters. |

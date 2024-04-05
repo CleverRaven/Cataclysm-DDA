@@ -1647,6 +1647,10 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
             pending.push( { without_dupes, next.index + 1 } );
         }
 
+        if( alternatives_.empty() && pending.empty() ) {
+            debugmsg( "Recipe definition %s somehow has no valid recipes!", context.str() );
+        }
+
         // Because this algorithm is super-exponential in the worst case, add a
         // sanity check to prevent things getting too far out of control.
         // The worst case in the core game currently is boots_fur

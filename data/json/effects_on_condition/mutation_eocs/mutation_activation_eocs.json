@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GENERIC_SPELL_MUTATION",
-    "//energy_amount": "optional, how much stamina you spend on activation of the mutation - EoC works exclusively with stamina, to consume calories, fatigue or thirst use corresponding booleans in mutation; default zero if you don't need to consume stamina",
+    "//energy_amount": "optional, how much stamina you spend on activation of the mutation - EoC works exclusively with stamina, to consume calories, sleepiness or thirst use corresponding booleans in mutation; default zero if you don't need to consume stamina",
     "//prep_time": "time you spend to prepare the activation, in seconds. Use 0 to make activation instant.  Decimals are allowed, 0.5 means 50 moves",
     "//spell_to_cast": "spell that would be casted if activation is successful",
     "//message_success": "message that would be printed if activation is successful",

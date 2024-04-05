@@ -73,10 +73,6 @@
     "object": {
       "faction_owner": [ { "id": "robofac_auxiliaries", "x": [ 0, 4 ], "y": [ 0, 4 ] } ],
       "mapgensize": [ 2, 2 ],
-      "rows": [
-        "  ",
-        "  "
-      ],
       "place_npcs": [ { "class": "robofac_merc_1", "x": 1, "y": 1 } ]
     }
   },

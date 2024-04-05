@@ -150,14 +150,14 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small",
-    "items": [ { "item": "tampon", "prob": 100, "count": 24 } ]
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": 24 } ]
   },
   {
     "id": "tampon_box_used",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small",
-    "items": [ { "item": "tampon", "prob": 100, "count": [ 1, 24 ] } ]
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": [ 1, 24 ] } ]
   },
   {
     "id": "menstrual_pad_box_full",
