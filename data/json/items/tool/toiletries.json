@@ -21,7 +21,7 @@
     "id": "brush",
     "type": "TOOL",
     "name": { "str": "scrub brush", "str_pl": "scrub brushes" },
-    "description": "A simple scrub brush for cleaning soft objects.",
+    "description": "A simple scrub brush for cleaning hard objects.",
     "weight": "70 g",
     "volume": "350 ml",
     "longest_side": "14 cm",

@@ -419,7 +419,7 @@
     "id": "vita_healing_trance",
     "type": "SPELL",
     "name": "[Ψ]Revitalizing Meditation",
-    "description": "Enter a trance state and heal your injuries",
+    "description": "Enter a trance state and heal your injuries many times faster than they would heal naturally.",
     "message": "You exit your trance and your wounds feel less painful.",
     "teachable": false,
     "valid_targets": [ "self" ],
@@ -428,21 +428,12 @@
     "flags": [ "PSIONIC", "CONCENTRATE", "SILENT", "NO_HANDS", "NO_LEGS", "RANDOM_DAMAGE" ],
     "difficulty": 6,
     "max_level": { "math": [ "int_to_level(1)" ] },
-    "effect": "attack",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_VITAKIN_HEALING_TRANCE",
     "shape": "blast",
-    "min_damage": {
-      "math": [
-        "( (u_spell_level('vita_healing_trance') * -0.5) - 3) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
-    "max_damage": {
-      "math": [
-        "( (u_spell_level('vita_healing_trance') * -2) - 8) * (scaling_factor(u_val('intelligence') ) ) * u_nether_attunement_power_scaling"
-      ]
-    },
     "energy_source": "STAMINA",
     "base_energy_cost": 8000,
-    "base_casting_time": 360000
+    "base_casting_time": 500
   },
   {
     "id": "vita_attack_touch",

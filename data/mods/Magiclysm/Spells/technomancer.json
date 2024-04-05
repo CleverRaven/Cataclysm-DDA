@@ -192,9 +192,9 @@
     "min_damage": 250,
     "damage_increment": 50.0,
     "max_damage": 15000,
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(250)" ] },
-    "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(50.0)" ] },
-    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(15000)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(250, 3)" ] },
+    "energy_increment": { "math": [ "channeling_proficiency_negate_calculate(50.0, 0.0034)" ] },
+    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(15000, 3)" ] },
     "max_level": 25,
     "spell_class": "TECHNOMANCER",
     "effect": "recover_energy",
@@ -202,7 +202,7 @@
     "shape": "blast",
     "energy_source": "MANA",
     "difficulty": 6,
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] }
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1000, 10)" ] }
   },
   {
     "id": "create_rune_technomancer",
@@ -216,7 +216,7 @@
     "effect_str": "rune_technomancer",
     "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "shape": "blast",
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(5000, 10)" ] },
     "base_energy_cost": 5,
     "min_duration": 1,
     "max_duration": 2,
@@ -572,10 +572,10 @@
     "flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE", "NO_PROJECTILE" ],
     "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "max_level": 15,
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1200)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1050)" ] },
-    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-10)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(350)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1200, 6)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(1050, 6)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-10, 0.07)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(350, 5)" ] },
     "difficulty": 3,
     "min_range": 1,
     "max_range": 4,
@@ -595,10 +595,10 @@
     "flags": [ "NO_LEGS", "SOMATIC", "CONCENTRATE", "NO_PROJECTILE" ],
     "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "max_level": 15,
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2600)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2375)" ] },
-    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-15)" ] },
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2600, 6)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(2375, 6)" ] },
+    "casting_time_increment": { "math": [ "channeling_proficiency_negate_calculate(-15, 0.07)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(800, 5)" ] },
     "difficulty": 7,
     "min_range": 6,
     "max_range": 6,
@@ -802,8 +802,8 @@
     "damage_increment": 2350,
     "min_range": 1,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(500)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(6000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(500, 5)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(6000, 12)" ] }
   },
   {
     "id": "technomancer_gain_electronics_computer_spell",
@@ -843,8 +843,8 @@
     "difficulty": 6,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(600)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(720000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(600, 5)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(720000, 500)" ] }
   },
   {
     "type": "effect_on_condition",

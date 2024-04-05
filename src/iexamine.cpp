@@ -221,10 +221,41 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
+static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
 static const ter_str_id ter_t_diesel_pump( "t_diesel_pump" );
 static const ter_str_id ter_t_diesel_pump_a( "t_diesel_pump_a" );
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_door_metal_c( "t_door_metal_c" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_door_metal_o( "t_door_metal_o" );
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_fungus( "t_fungus" );
 static const ter_str_id ter_t_gas_pump( "t_gas_pump" );
 static const ter_str_id ter_t_gas_pump_a( "t_gas_pump_a" );
+static const ter_str_id ter_t_marloss( "t_marloss" );
+static const ter_str_id ter_t_marloss_tree( "t_marloss_tree" );
+static const ter_str_id ter_t_orifice( "t_orifice" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_pit_covered( "t_pit_covered" );
+static const ter_str_id ter_t_pit_glass( "t_pit_glass" );
+static const ter_str_id ter_t_pit_glass_covered( "t_pit_glass_covered" );
+static const ter_str_id ter_t_pit_spiked( "t_pit_spiked" );
+static const ter_str_id ter_t_pit_spiked_covered( "t_pit_spiked_covered" );
+static const ter_str_id ter_t_rock_blue( "t_rock_blue" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+static const ter_str_id ter_t_rock_green( "t_rock_green" );
+static const ter_str_id ter_t_rock_red( "t_rock_red" );
+static const ter_str_id ter_t_shrub_fungal( "t_shrub_fungal" );
+static const ter_str_id ter_t_switch_even( "t_switch_even" );
+static const ter_str_id ter_t_switch_gb( "t_switch_gb" );
+static const ter_str_id ter_t_switch_rb( "t_switch_rb" );
+static const ter_str_id ter_t_switch_rg( "t_switch_rg" );
+static const ter_str_id ter_t_tree_fungal( "t_tree_fungal" );
+static const ter_str_id ter_t_tree_hickory_dead( "t_tree_hickory_dead" );
+static const ter_str_id ter_t_tree_maple( "t_tree_maple" );
+static const ter_str_id ter_t_tree_maple_tapped( "t_tree_maple_tapped" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -1363,7 +1394,7 @@ void iexamine::cardreader_robofac( Character &you, const tripoint &examp )
         you.mod_moves( -100 );
         you.use_amount( card_type, 1 );
         add_msg( m_bad, _( "The card reader short circuits!" ) );
-        get_map().ter_set( examp, t_card_reader_broken );
+        get_map().ter_set( examp, ter_t_card_reader_broken );
         intercom( you, examp );
     } else {
         add_msg( _( "You have never seen this card reader model before.  Hacking it seems impossible." ) );
@@ -1379,8 +1410,8 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
         you.mod_moves( -100 );
         map &here = get_map();
         for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
-            if( here.ter( tmp ) == t_door_metal_locked ) {
-                here.ter_set( tmp, t_door_metal_c );
+            if( here.ter( tmp ) == ter_t_door_metal_locked ) {
+                here.ter_set( tmp, ter_t_door_metal_c );
                 open = true;
             }
         }
@@ -1393,11 +1424,11 @@ void iexamine::cardreader_foodplace( Character &you, const tripoint &examp )
             add_msg( _( "The nearby doors are already unlocked." ) );
             if( query_yn( _( "Lock doors?" ) ) ) {
                 for( const tripoint &tmp : here.points_in_radius( examp, 3 ) ) {
-                    if( here.ter( tmp ) == t_door_metal_o || here.ter( tmp ) == t_door_metal_c ) {
+                    if( here.ter( tmp ) == ter_t_door_metal_o || here.ter( tmp ) == ter_t_door_metal_c ) {
                         if( you.pos() == tmp ) {
                             you.add_msg_if_player( m_bad, _( "You are in the way of the door, move before trying again." ) );
                         } else {
-                            here.ter_set( tmp, t_door_metal_locked );
+                            here.ter_set( tmp, ter_t_door_metal_locked );
                         }
                     }
                 }
@@ -1675,12 +1706,13 @@ void iexamine::pit( Character &you, const tripoint &examp )
     map &here = get_map();
     if( query_yn( _( "Place a plank over the pit?" ) ) ) {
         you.consume_items( planks, 1, is_crafting_component );
-        if( here.ter( examp ) == t_pit ) {
-            here.ter_set( examp, t_pit_covered );
-        } else if( here.ter( examp ) == t_pit_spiked ) {
-            here.ter_set( examp, t_pit_spiked_covered );
-        } else if( here.ter( examp ) == t_pit_glass ) {
-            here.ter_set( examp, t_pit_glass_covered );
+        const ter_id &ter_pit = here.ter( examp );
+        if( ter_pit == ter_t_pit ) {
+            here.ter_set( examp, ter_t_pit_covered );
+        } else if( ter_pit == ter_t_pit_spiked ) {
+            here.ter_set( examp, ter_t_pit_spiked_covered );
+        } else if( ter_pit == ter_t_pit_glass ) {
+            here.ter_set( examp, ter_t_pit_glass_covered );
         }
         add_msg( _( "You place a plank of wood over the pit." ) );
         you.mod_moves( -to_moves<int>( 1_seconds ) );
@@ -1701,13 +1733,13 @@ void iexamine::pit_covered( Character &you, const tripoint &examp )
     item plank( "2x4", calendar::turn );
     add_msg( _( "You remove the plank." ) );
     here.add_item_or_charges( you.pos(), plank );
-
-    if( here.ter( examp ) == t_pit_covered ) {
-        here.ter_set( examp, t_pit );
-    } else if( here.ter( examp ) == t_pit_spiked_covered ) {
-        here.ter_set( examp, t_pit_spiked );
-    } else if( here.ter( examp ) == t_pit_glass_covered ) {
-        here.ter_set( examp, t_pit_glass );
+    const ter_id &ter_pit = here.ter( examp );
+    if( ter_pit == ter_t_pit_covered ) {
+        here.ter_set( examp, ter_t_pit );
+    } else if( ter_pit == ter_t_pit_spiked_covered ) {
+        here.ter_set( examp, ter_t_pit_spiked );
+    } else if( ter_pit == ter_t_pit_glass_covered ) {
+        here.ter_set( examp, ter_t_pit_glass );
     }
     you.mod_moves( -to_moves<int>( 1_seconds ) );
 }
@@ -1961,7 +1993,7 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
             // Send in a few wyrms to start things off.
             get_event_bus().send<event_type::awakes_dark_wyrms>();
             for( const tripoint &p : here.points_on_zlevel() ) {
-                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                if( here.ter( p ) == ter_t_orifice ) {
                     g->place_critter_around( mon_dark_wyrm, p, 1 );
                 }
             }
@@ -1969,7 +2001,7 @@ void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
             sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
                            "misc", "stones_grinding" );
             add_msg( _( "The pedestal sinks into the ground…" ) );
-            here.ter_set( examp, t_rock_floor );
+            here.ter_set( examp, ter_t_rock_floor );
             get_timed_events().add( timed_event_type::SPAWN_WYRMS,
                                     calendar::turn + rng( 30_seconds, 60_seconds ) );
         } else {
@@ -1989,14 +2021,14 @@ void iexamine::pedestal_temple( Character &you, const tripoint &examp )
     map_stack items = here.i_at( examp );
     if( !items.empty() && items.only_item().typeId() == itype_petrified_eye ) {
         add_msg( _( "The pedestal sinks into the ground…" ) );
-        here.ter_set( examp, t_dirt );
+        here.ter_set( examp, ter_t_dirt );
         here.i_clear( examp );
         get_timed_events().add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else if( you.has_amount( itype_petrified_eye, 1 ) &&
                query_yn( _( "Place your petrified eye on the pedestal?" ) ) ) {
         you.use_amount( itype_petrified_eye, 1 );
         add_msg( _( "The pedestal sinks into the ground…" ) );
-        here.ter_set( examp, t_dirt );
+        here.ter_set( examp, ter_t_dirt );
         get_timed_events().add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
         add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a "
@@ -2051,50 +2083,51 @@ void iexamine::fswitch( Character &you, const tripoint &examp )
     tmp.z = examp.z;
     for( tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
         for( tmp.x = 0; tmp.x < MAPSIZE_X; tmp.x++ ) {
-            if( terid == t_switch_rg ) {
-                if( here.ter( tmp ) == t_rock_red ) {
-                    here.ter_set( tmp, t_floor_red );
-                } else if( here.ter( tmp ) == t_floor_red ) {
-                    here.ter_set( tmp, t_rock_red );
-                } else if( here.ter( tmp ) == t_rock_green ) {
-                    here.ter_set( tmp, t_floor_green );
-                } else if( here.ter( tmp ) == t_floor_green ) {
-                    here.ter_set( tmp, t_rock_green );
+            const ter_id &nearby_ter = here.ter( tmp );
+            if( terid == ter_t_switch_rg ) {
+                if( nearby_ter == ter_t_rock_red ) {
+                    here.ter_set( tmp, ter_t_floor_red );
+                } else if( nearby_ter == ter_t_floor_red ) {
+                    here.ter_set( tmp, ter_t_rock_red );
+                } else if( nearby_ter == ter_t_rock_green ) {
+                    here.ter_set( tmp, ter_t_floor_green );
+                } else if( nearby_ter == ter_t_floor_green ) {
+                    here.ter_set( tmp, ter_t_rock_green );
                 }
-            } else if( terid == t_switch_gb ) {
-                if( here.ter( tmp ) == t_rock_blue ) {
-                    here.ter_set( tmp, t_floor_blue );
-                } else if( here.ter( tmp ) == t_floor_blue ) {
-                    here.ter_set( tmp, t_rock_blue );
-                } else if( here.ter( tmp ) == t_rock_green ) {
-                    here.ter_set( tmp, t_floor_green );
-                } else if( here.ter( tmp ) == t_floor_green ) {
-                    here.ter_set( tmp, t_rock_green );
+            } else if( terid == ter_t_switch_gb ) {
+                if( nearby_ter == ter_t_rock_blue ) {
+                    here.ter_set( tmp, ter_t_floor_blue );
+                } else if( nearby_ter == ter_t_floor_blue ) {
+                    here.ter_set( tmp, ter_t_rock_blue );
+                } else if( nearby_ter == ter_t_rock_green ) {
+                    here.ter_set( tmp, ter_t_floor_green );
+                } else if( nearby_ter == ter_t_floor_green ) {
+                    here.ter_set( tmp, ter_t_rock_green );
                 }
-            } else if( terid == t_switch_rb ) {
-                if( here.ter( tmp ) == t_rock_blue ) {
-                    here.ter_set( tmp, t_floor_blue );
-                } else if( here.ter( tmp ) == t_floor_blue ) {
-                    here.ter_set( tmp, t_rock_blue );
-                } else if( here.ter( tmp ) == t_rock_red ) {
-                    here.ter_set( tmp, t_floor_red );
-                } else if( here.ter( tmp ) == t_floor_red ) {
-                    here.ter_set( tmp, t_rock_red );
+            } else if( terid == ter_t_switch_rb ) {
+                if( nearby_ter == ter_t_rock_blue ) {
+                    here.ter_set( tmp, ter_t_floor_blue );
+                } else if( nearby_ter == ter_t_floor_blue ) {
+                    here.ter_set( tmp, ter_t_rock_blue );
+                } else if( nearby_ter == ter_t_rock_red ) {
+                    here.ter_set( tmp, ter_t_floor_red );
+                } else if( nearby_ter == ter_t_floor_red ) {
+                    here.ter_set( tmp, ter_t_rock_red );
                 }
-            } else if( terid == t_switch_even ) {
+            } else if( terid == ter_t_switch_even ) {
                 if( ( tmp.y - examp.y ) % 2 == 1 ) {
-                    if( here.ter( tmp ) == t_rock_red ) {
-                        here.ter_set( tmp, t_floor_red );
-                    } else if( here.ter( tmp ) == t_floor_red ) {
-                        here.ter_set( tmp, t_rock_red );
-                    } else if( here.ter( tmp ) == t_rock_green ) {
-                        here.ter_set( tmp, t_floor_green );
-                    } else if( here.ter( tmp ) == t_floor_green ) {
-                        here.ter_set( tmp, t_rock_green );
-                    } else if( here.ter( tmp ) == t_rock_blue ) {
-                        here.ter_set( tmp, t_floor_blue );
-                    } else if( here.ter( tmp ) == t_floor_blue ) {
-                        here.ter_set( tmp, t_rock_blue );
+                    if( nearby_ter == ter_t_rock_red ) {
+                        here.ter_set( tmp, ter_t_floor_red );
+                    } else if( nearby_ter == ter_t_floor_red ) {
+                        here.ter_set( tmp, ter_t_rock_red );
+                    } else if( nearby_ter == ter_t_rock_green ) {
+                        here.ter_set( tmp, ter_t_floor_green );
+                    } else if( nearby_ter == ter_t_floor_green ) {
+                        here.ter_set( tmp, ter_t_rock_green );
+                    } else if( nearby_ter == ter_t_rock_blue ) {
+                        here.ter_set( tmp, ter_t_floor_blue );
+                    } else if( nearby_ter == ter_t_floor_blue ) {
+                        here.ter_set( tmp, ter_t_rock_blue );
                     }
                 }
             }
@@ -2627,7 +2660,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         here.i_clear( examp );
         if( you.has_trait( trait_M_DEPENDENT ) && ( you.get_kcal_percent() < 0.8f ||
                 you.get_thirst() > 300 ) ) {
-            here.ter_set( examp, t_marloss );
+            here.ter_set( examp, ter_t_marloss );
             add_msg( m_info,
                      _( "We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides." ) );
         } else if( you.has_trait( trait_M_DEFENDER ) || ( ( you.has_trait( trait_M_SPORES ) ||
@@ -3946,7 +3979,7 @@ void iexamine::tree_hickory( Character &you, const tripoint &examp )
                          round( 3 + you.get_skill_level( skill_survival ) ) ),
                          0,
                          calendar::turn );
-        here.ter_set( examp, t_tree_hickory_dead );
+        here.ter_set( examp, ter_t_tree_hickory_dead );
         /** @EFFECT_SURVIVAL speeds up hickory root digging */
         you.mod_moves( -to_moves<int>( 20_seconds ) / ( you.get_skill_level( skill_survival ) + 1 ) + 100 );
     }
@@ -3988,7 +4021,7 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
     map &here = get_map();
     item_location spile_loc = g->inv_map_splice( [&here]( const item_location & it ) {
         return it->get_quality_nonrecursive( qual_TREE_TAP ) > 0 &&
-               t_tree_maple_tapped != here.ter( it.position() );
+               !( here.ter( it.position() ) == ter_t_tree_maple_tapped );
     }, _( "Use which tapping tool?" ), PICKUP_RANGE, _( "You don't have a tapping tool at hand." ) );
 
     item *spile = spile_loc.get_item();
@@ -3998,7 +4031,7 @@ void iexamine::tree_maple( Character &you, const tripoint &examp )
     std::string spile_name = spile->tname();
 
     you.mod_moves( -to_moves<int>( 20_seconds ) );
-    here.ter_set( examp, t_tree_maple_tapped );
+    here.ter_set( examp, ter_t_tree_maple_tapped );
     here.add_item_or_charges( examp, *spile, false );
     spile_loc.remove_item();
     add_msg( m_info, _( "You drill the maple tree crust and tap a %s into the prepared hole." ),
@@ -4084,7 +4117,7 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
             here.i_clear( examp );
 
             you.mod_moves( -to_moves<int>( 20_seconds ) );
-            here.ter_set( examp, t_tree_maple );
+            here.ter_set( examp, ter_t_tree_maple );
 
             return;
         }
@@ -4125,14 +4158,14 @@ void iexamine::tree_maple_tapped( Character &you, const tripoint &examp )
 void iexamine::shrub_marloss( Character &you, const tripoint &examp )
 {
     if( you.has_trait( trait_THRESH_MYCUS ) ) {
-        pick_plant( you, examp, itype_mycus_fruit, t_shrub_fungal );
+        pick_plant( you, examp, itype_mycus_fruit, ter_t_shrub_fungal );
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
         map &here = get_map();
         here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
-        here.ter_set( examp, t_fungus );
+        here.ter_set( examp, ter_t_fungus );
         add_msg( m_info, _( "The shrub offers up a fruit, then crumbles into a fungal bed." ) );
     } else {
-        pick_plant( you, examp, itype_marloss_berry, t_shrub_fungal );
+        pick_plant( you, examp, itype_marloss_berry, ter_t_shrub_fungal );
     }
 }
 
@@ -4140,20 +4173,20 @@ void iexamine::tree_marloss( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     if( you.has_trait( trait_THRESH_MYCUS ) ) {
-        pick_plant( you, examp, itype_mycus_fruit, t_tree_fungal );
+        pick_plant( you, examp, itype_mycus_fruit, ter_t_tree_fungal );
         if( you.has_trait( trait_M_DEPENDENT ) && one_in( 3 ) ) {
             // Folks have a better shot at keeping fed.
             add_msg( m_info,
                      _( "We have located a particularly vital nutrient deposit underneath this location." ) );
             add_msg( m_good, _( "Additional nourishment is available." ) );
-            here.ter_set( examp, t_marloss_tree );
+            here.ter_set( examp, ter_t_marloss_tree );
         }
     } else if( you.has_trait( trait_THRESH_MARLOSS ) ) {
         here.spawn_item( you.pos(), itype_mycus_fruit, 1, 0, calendar::turn );
-        here.ter_set( examp, t_tree_fungal );
+        here.ter_set( examp, ter_t_tree_fungal );
         add_msg( m_info, _( "The tree offers up a fruit, then shrivels into a fungal tree." ) );
     } else {
-        pick_plant( you, examp, itype_marloss_berry, t_tree_fungal );
+        pick_plant( you, examp, itype_marloss_berry, ter_t_tree_fungal );
     }
 }
 
@@ -4329,13 +4362,19 @@ const itype *furn_t::crafting_pseudo_item_type() const
     return item::find_type( crafting_pseudo_item );
 }
 
-const itype *furn_t::crafting_ammo_item_type() const
+std::vector<const itype *> furn_t::crafting_ammo_item_types() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
+    std::vector<const itype *> output;
     if( pseudo && pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
-        return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
+        for( const ammotype &atype : pseudo->tool->ammo_id ) {
+            const itype *itype = item::find_type( atype->default_ammotype() );
+            if( itype != nullptr ) {
+                output.push_back( itype );
+            }
+        }
     }
-    return nullptr;
+    return output;
 }
 
 /**
@@ -4382,47 +4421,62 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     map &here = get_map();
     const furn_t &f = here.furn( examp ).obj();
     const itype *pseudo_type = f.crafting_pseudo_item_type();
-    const itype *ammo = f.crafting_ammo_item_type();
+    const std::vector<const itype *> ammo_list = f.crafting_ammo_item_types();
     bool use_ammotype = f.has_flag( ter_furn_flag::TFLAG_AMMOTYPE_RELOAD );
-    if( pseudo_type == nullptr || ammo == nullptr || !ammo->ammo ) {
+    auto can_be_reloaded = []( const std::vector<const itype *> &lst ) {
+        for( const itype *atype : lst ) {
+            if( atype != nullptr && atype->ammo ) {
+                return true;
+            }
+        }
+        return false;
+    };
+    if( pseudo_type == nullptr || !can_be_reloaded( ammo_list ) ) {
         add_msg( m_info, _( "This %s can not be reloaded!" ), f.name() );
         return;
     }
-    itype_id ammo_itypeID( ammo->get_id() );
-    int amount_in_furn = use_ammotype ?
+    const itype *ammo_loaded = nullptr;
+    int amount_in_furn = 0;
+    for( const itype *ammo : ammo_list ) {
+        itype_id ammo_itypeID( ammo->get_id() );
+        int amount_tmp = use_ammotype ?
                          count_charges_in_list( &ammo->ammo->type, here.i_at( examp ), ammo_itypeID ) :
                          count_charges_in_list( ammo, here.i_at( examp ) );
-    if( allow_unload && amount_in_furn > 0 ) {
-        if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
-                          ammo_itypeID->nname( amount_in_furn ) ) ) {
-            map_stack items = here.i_at( examp );
-            for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
-                if( itm->typeId() == ammo_itypeID ) {
-                    if( you.can_stash( *itm ) ) {
-                        std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
-                        you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
-                        return;
-                    } else {
-                        // get handling cost before the item reference is invalidated
-                        const int handling_cost = -you.item_handling_cost( *itm );
+        if( allow_unload && amount_tmp > 0 ) {
+            ammo_loaded = ammo;
+            amount_in_furn = amount_tmp;
+            if( you.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
+                              ammo_itypeID->nname( amount_in_furn ) ) ) {
+                map_stack items = here.i_at( examp );
+                for( map_stack::iterator itm = items.begin(); itm != items.end(); ) {
+                    if( itm->typeId() == ammo_itypeID ) {
+                        if( you.can_stash( *itm ) ) {
+                            std::vector<item_location> target_items{ item_location( map_cursor( examp ), &*itm ) };
+                            you.assign_activity( pickup_activity_actor( target_items, { 0 }, you.pos(), false ) );
+                            return;
+                        } else {
+                            // get handling cost before the item reference is invalidated
+                            const int handling_cost = -you.item_handling_cost( *itm );
 
-                        add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
-                        here.add_item_or_charges( you.pos(), *itm );
-                        itm = items.erase( itm );
-                        you.mod_moves( handling_cost );
-                        return;
+                            add_msg( _( "You remove %1$s from the %2$s." ), itm->tname(), f.name() );
+                            here.add_item_or_charges( you.pos(), *itm );
+                            itm = items.erase( itm );
+                            you.mod_moves( handling_cost );
+                            return;
+                        }
+                    } else {
+                        itm++;
                     }
-                } else {
-                    itm++;
                 }
             }
         }
     }
-
-    const int max_amount_in_furn = item( pseudo_type ).ammo_capacity( ammo->ammo->type );
-    const int max_reload_amount = max_amount_in_furn - amount_in_furn;
-    if( max_reload_amount <= 0 ) {
-        return;
+    if( ammo_loaded ) {
+        const int max_amount_in_furn = item( pseudo_type ).ammo_capacity( ammo_loaded->ammo->type );
+        if( amount_in_furn >= max_amount_in_furn ) {
+            add_msg( m_info, _( "The %s is full, cannot reload." ), f.name() );
+            return;
+        }
     }
     item pseudo( pseudo_type );
     // maybe at some point we need a pseudo item_location or something
@@ -4436,6 +4490,13 @@ static void reload_furniture( Character &you, const tripoint &examp, bool allow_
     if( !opt ) {
         return;
     }
+
+    if( ammo_loaded && opt.ammo->type != ammo_loaded ) {
+        add_msg( m_info, _( "This %s is already loaded with %s!" ), f.name(), ammo_loaded->nname( 0 ) );
+        return;
+    }
+    const int max_reload_amount = item( pseudo_type ).ammo_capacity(
+                                      opt.ammo->ammo_type() ) - amount_in_furn;
     const itype *opt_type = opt.ammo->type;
     const int max_amount = std::min( opt.qty(), max_reload_amount );
     const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
@@ -6600,7 +6661,7 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
 
     const furn_t &f = here.furn( examp ).obj();
     const itype *type = f.crafting_pseudo_item_type();
-    const itype *ammo = f.crafting_ammo_item_type();
+    std::vector<const itype *> ammo_list = f.crafting_ammo_item_types();
     const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
     const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
@@ -6609,8 +6670,8 @@ void iexamine::smoker_options( Character &you, const tripoint &examp )
     const bool has_coal_in_inventory = you.crafting_inventory().charges_of( itype_charcoal ) > 0;
     const int coal_charges = count_charges_in_list( item::find_type( itype_charcoal ), items_here );
     const int need_charges = get_charcoal_charges( f_volume );
-    const int max_charges = type == nullptr || ammo == nullptr ||
-                            !ammo->ammo ? 0 : item( type ).ammo_capacity( ammo->ammo->type );
+    const int max_charges = type == nullptr || ammo_list.empty() ||
+                            !ammo_list[0]->ammo ? 0 : item( type ).ammo_capacity( ammo_list[0]->ammo->type );
     const bool has_coal = coal_charges > 0;
     const bool has_enough_coal = coal_charges >= need_charges;
 

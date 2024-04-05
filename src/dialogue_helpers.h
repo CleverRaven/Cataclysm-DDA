@@ -83,7 +83,7 @@ template<class T>
 std::string read_var_value( const abstract_var_info<T> &info, const dialogue &d );
 template<class T>
 std::optional<std::string> maybe_read_var_value(
-    const abstract_var_info<T> &info, const dialogue &d );
+    const abstract_var_info<T> &info, const dialogue &d, int call_depth = 0 );
 
 var_info process_variable( const std::string &type );
 

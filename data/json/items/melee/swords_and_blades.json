@@ -342,7 +342,6 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [
@@ -415,7 +414,6 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [
@@ -639,12 +637,12 @@
     "symbol": "/",
     "color": "dark_gray",
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID", "WBLOCK_1" ],
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 16 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 19 }
   },
   {
     "id": "knife_swissarmy",
@@ -1007,11 +1005,11 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ "steel" ],
     "//": "Should be split into a preexisting iron version and a craftable steel version",
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 20 }
+    "melee_damage": { "stab": 19 }
   },
   {
     "id": "kris_fake",
@@ -1060,11 +1058,11 @@
     "repairs_with": [ "mc_steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "CUT", 2 ], [ "AXE", 1 ], [ "GRASS_CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "cut": 21 }
+    "melee_damage": { "cut": 20 }
   },
   {
     "id": "hc_kukri",
@@ -1729,11 +1727,10 @@
     "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
     "material": [ { "type": "leather", "portion": 1.1 }, { "type": "steel", "portion": 48 } ],
     "repairs_with": [ "steel" ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "bash": 2, "stab": 19 }
+    "melee_damage": { "bash": 2, "stab": 18 }
   },
   {
     "id": "tanto_inferior",
@@ -1742,7 +1739,7 @@
     "name": { "str_sp": "tanto" },
     "description": "Long Japanese knives like this more-modern remake were the samurai's backup weapon, before the advent of the larger wakizashi.  This one doesn't feel well-balanced.",
     "replace_materials": { "steel": "budget_steel" },
-    "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.28 }, "price": 0.1, "price_postapoc": 0.1 },
+    "proportional": { "melee_damage": { "bash": 6.5, "stab": 0.15 }, "price": 0.1, "price_postapoc": 0.1 },
     "delete": { "flags": [ "DURABLE_MELEE" ] }
   },
   {
@@ -1752,7 +1749,7 @@
     "name": { "str_sp": "tanto" },
     "description": "A dull, cheaply-made replica of a long Japanese knife, typically used as a samurai's backup weapon.",
     "replace_materials": { "steel": "aluminum", "leather": "nylon" },
-    "proportional": { "melee_damage": { "bash": 3.5, "stab": 0.047 }, "price": 0.05, "price_postapoc": 0.05 },
+    "proportional": { "melee_damage": { "bash": 3, "stab": 0.047 }, "price": 0.05, "price_postapoc": 0.05 },
     "delete": { "flags": [ "DURABLE_MELEE" ] },
     "extend": { "flags": [ "FRAGILE_MELEE" ] }
   },
@@ -1959,7 +1956,6 @@
     "material": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
@@ -1981,11 +1977,10 @@
     "repairs_with": [ "steel" ],
     "symbol": "/",
     "color": "dark_gray",
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
     "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 17 }
+    "melee_damage": { "stab": 16 }
   },
   {
     "id": "kirpan_cheap",
@@ -3142,7 +3137,7 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "KNIVES" ]

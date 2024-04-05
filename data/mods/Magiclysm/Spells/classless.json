@@ -15,10 +15,10 @@
     "effect_str": "eoc_crystal_spawn",
     "shape": "blast",
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] },
-    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000)" ] },
-    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000, 10)" ] },
+    "final_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(1000, 10)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000, 4000)" ] },
+    "final_casting_time": { "math": [ "channeling_proficiency_negate_calculate(600000, 4000)" ] },
     "extra_effects": [ { "id": "mana_fatigue" }, { "id": "eoc_channeling_setup" } ]
   },
   {
@@ -125,7 +125,7 @@
     "min_damage": { "math": [ "evocation_proficiency_bonus_calculate(30)" ] },
     "max_damage": { "math": [ "evocation_proficiency_bonus_calculate(100)" ] },
     "extra_effects": [ { "id": "eoc_evocation_setup" } ],
-    "damage_increment": 3.5,
+    "damage_increment": { "math": [ "evocation_proficiency_bonus_calculate(3.5)" ] },
     "min_range": 3,
     "max_range": 12,
     "range_increment": 0.45,
@@ -432,13 +432,13 @@
     "shape": "blast",
     "sound_description": "a loud, high pitched sound",
     "damage_type": "sonic",
-    "min_damage": { "math": [ "channeling_proficiency_bonus_calculate(12)" ] },
-    "max_damage": { "math": [ "channeling_proficiency_bonus_calculate(120)" ] },
+    "min_damage": { "math": [ "channeling_proficiency_bonus_calculate(12, 0.5)" ] },
+    "max_damage": { "math": [ "channeling_proficiency_bonus_calculate(120, 0.5)" ] },
     "damage_increment": 5,
     "min_range": 5,
     "max_range": 55,
     "range_increment": 2,
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(125)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(125, 1)" ] },
     "spell_class": "NONE",
     "difficulty": 3,
     "max_level": 25,
@@ -469,8 +469,8 @@
     "duration_increment": 720000,
     "extra_effects": [ { "id": "eoc_channeling_setup" } ],
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(50)" ] },
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(6000)" ] }
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(50, 0.5)" ] },
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(6000, 15)" ] }
   },
   {
     "id": "classless_clean_clothing_and_self",
@@ -486,9 +486,9 @@
     "difficulty": 2,
     "max_level": 15,
     "energy_source": "MANA",
-    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(75)" ] },
+    "base_energy_cost": { "math": [ "channeling_proficiency_negate_calculate(75, 0.5)" ] },
     "extra_effects": [ { "id": "eoc_channeling_setup" } ],
-    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3000)" ] }
+    "base_casting_time": { "math": [ "channeling_proficiency_negate_calculate(3000, 12)" ] }
   },
   {
     "type": "effect_on_condition",

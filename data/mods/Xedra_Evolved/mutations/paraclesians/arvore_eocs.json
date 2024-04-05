@@ -701,14 +701,67 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_ARVORE_VERDANT_IMPRISONMENT",
+    "condition": "u_is_outside",
+    "effect": [ { "run_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_2" } ],
+    "false_effect": [ { "npc_message": "Your target must be outdoors to transform them into a tree." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_2",
+    "condition": { "not": "u_is_npc" },
     "effect": [
+      { "math": [ "u_arvore_turn_into_tree_intelligence", "=", "( ( n_val('intelligence') + 10) / 20 )" ] },
+      { "math": [ "u_arvore_turn_into_tree_spell_level", "=", "n_spell_level('arvore_turn_into_tree')" ] },
       {
-        "npc_location_variable": { "global_val": "arvore_tree_transform_target" },
+        "u_location_variable": { "global_val": "arvore_tree_transform_target" },
         "x_adjust": 0,
         "y_adjust": 0,
-        "z_adjust": 0,
-        "monster": "",
+        "z_adjust": 0
+      },
+      { "u_cast_spell": { "id": "arvore_turn_into_tree_banish", "message": "" } },
+      {
+        "run_eoc_with": "EOC_NULL",
+        "beta_loc": { "global_val": "arvore_tree_transform_target" },
         "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
+      }
+    ],
+    "false_effect": [
+      {
+        "math": [
+          "u_arvore_turn_into_tree_damage",
+          "=",
+          "rng(((25 + (n_spell_level('arvore_turn_into_tree') * 5)) * ( ( n_val('intelligence') + 10) / 20 )),((100 + (n_spell_level('arvore_turn_into_tree') * 15)) * ( ( n_val('intelligence') + 10) / 20 )))"
+        ]
+      },
+      {
+        "math": [
+          "u_health_comparison",
+          "=",
+          "(u_hp('arm_l') + u_hp('arm_r') + u_hp('leg_l') + u_hp('leg_r') + u_hp('torso') + u_hp('head')) / 3"
+        ]
+      },
+      {
+        "u_location_variable": { "global_val": "arvore_tree_transform_target" },
+        "x_adjust": 0,
+        "y_adjust": 0,
+        "z_adjust": 0
+      },
+      {
+        "if": { "math": [ "u_arvore_turn_into_tree_damage", ">", "u_health_comparison" ] },
+        "then": [
+          "u_die",
+          {
+            "u_map_run_item_eocs": "all",
+            "min_radius": 0,
+            "max_radius": 0,
+            "true_eocs": [ { "id": "EOC_ARVORE_VERDANT_IMPRISONMENT_DELETE_NPC_ITEMS", "effect": [ "npc_die" ] } ]
+          },
+          {
+            "run_eoc_with": "EOC_NULL",
+            "beta_loc": { "global_val": "arvore_tree_transform_target" },
+            "false_eocs": "EOC_ARVORE_VERDANT_IMPRISONMENT_SUCCESS"
+          }
+        ]
       }
     ]
   },
@@ -718,7 +771,7 @@
     "effect": [
       {
         "u_transform_radius": 0,
-        "ter_furn_transform": "ter_arvore_tree_transform",
+        "ter_furn_transform": "ter_arvore_verdant_tree_transform",
         "target_var": { "global_val": "arvore_tree_transform_target" }
       }
     ]

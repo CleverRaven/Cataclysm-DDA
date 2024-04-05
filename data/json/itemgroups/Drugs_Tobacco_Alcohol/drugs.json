@@ -150,14 +150,14 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small",
-    "items": [ { "item": "tampon", "prob": 100, "count": 24 } ]
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": 24 } ]
   },
   {
     "id": "tampon_box_used",
     "type": "item_group",
     "subtype": "collection",
     "container-item": "box_small",
-    "items": [ { "item": "tampon", "prob": 100, "count": [ 1, 24 ] } ]
+    "items": [ { "item": "tampon", "prob": 100, "container-item": "null", "count": [ 1, 24 ] } ]
   },
   {
     "id": "menstrual_pad_box_full",
@@ -756,5 +756,63 @@
       { "item": "saline_bag_1000", "prob": 25 },
       { "item": "saline_bag_2000", "prob": 10 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_contents",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 60 },
+          { "item": "gummy_vitamins", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 },
+          { "item": "calcium_tablet", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 20 }
+        ],
+        "prob": 90
+      },
+      { "item": "homeopathic_pills", "container-item": "null", "count-min": 5, "count-max": 7, "prob": 30 },
+      { "item": "antihistamine", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 15 },
+      {
+        "distribution": [
+          { "item": "adderall", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
+          { "item": "diazepam", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
+          { "item": "prozac", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
+          { "item": "thorazine", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 },
+          { "item": "pills_sleep", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 }
+        ],
+        "prob": 15
+      },
+      {
+        "distribution": [
+          { "item": "antibiotics", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 40 },
+          { "item": "weak_antibiotic", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 40 },
+          { "item": "strong_antibiotic", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 20 }
+        ],
+        "prob": 10
+      },
+      { "item": "antifungal", "container-item": "null", "count-min": 3, "count-max": 7, "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_used",
+    "subtype": "distribution",
+    "container-item": "pillbox",
+    "on_overflow": "discard",
+    "entries": [ { "group": "pillbox_contents" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_large_used",
+    "subtype": "distribution",
+    "container-item": "pillbox_large",
+    "on_overflow": "discard",
+    "entries": [ { "group": "pillbox_contents" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "pillbox_any_used",
+    "subtype": "distribution",
+    "groups": [ "pillbox_used", "pillbox_large_used" ]
   }
 ]

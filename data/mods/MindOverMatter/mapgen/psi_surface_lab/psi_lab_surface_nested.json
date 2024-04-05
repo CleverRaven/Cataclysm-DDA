@@ -283,12 +283,6 @@
     "object": {
       "mapgensize": [ 4, 4 ],
       "rotation": [ 0, 3 ],
-      "rows": [
-        "    ",
-        "    ",
-        "    ",
-        "    "
-      ],
       "terrain": { " ": "t_nether_water_sh" },
       "palettes": [ "lab_surface_palette" ]
     }
@@ -1307,20 +1301,7 @@
     "object": {
       "mapgensize": [ 11, 11 ],
       "rotation": [ 0, 3 ],
-      "rows": [
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           ",
-        "           "
-      ],
-      "terrain": { " ": "t_nether_water_sh", "X": "t_nether_water_sh" },
+      "terrain": { " ": "t_nether_water_sh" },
       "palettes": [ "lab_surface_palette" ]
     }
   },

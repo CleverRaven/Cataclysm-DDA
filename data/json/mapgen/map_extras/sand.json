@@ -3,16 +3,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "sand_patch",
-    "object": {
-      "mapgensize": [ 3, 3 ],
-      "rows": [
-        "   ",
-        "   ",
-        "   "
-      ],
-      "terrain": { " ": [ "t_sand", "t_null" ] },
-      "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ]
-    }
+    "object": { "mapgensize": [ 3, 3 ], "terrain": { " ": [ "t_sand", "t_null" ] }, "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ] }
   },
   {
     "type": "mapgen",
