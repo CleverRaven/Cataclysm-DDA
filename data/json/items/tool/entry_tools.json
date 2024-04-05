@@ -79,6 +79,7 @@
     "name": { "str": "makeshift crowbar" },
     "description": "A pipe with both ends bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, or to lift manhole covers.  It's not strong enough to pry doors or windows, though.  You could also wield it to fight with, in a pinch.",
     "copy-from": "pipe",
+    "category": "tools",
     "longest_side": "45 cm",
     "price": 0,
     "price_postapoc": 10,
