@@ -46,14 +46,14 @@
     "name": "PLAYER_BASE_STRAIN",
     "info": "Sets the base max strain value of the player, before cardio modifiers.",
     "stype": "int",
-    "value": 5500
+    "value": 500
   },
   {
     "type": "EXTERNAL_OPTION",
     "name": "PLAYER_BASE_STRAIN_REGEN_RATE",
     "info": "Sets base strain regeneration per turn of the player, before modifiers.  May be used as an offset in strain draining effects.",
     "stype": "float",
-    "value": 20
+    "value": 50
   },
   {
     "type": "EXTERNAL_OPTION",

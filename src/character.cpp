@@ -6834,7 +6834,7 @@ int Character::get_strain_max() const
     // Let's hope this doesn't become one of those funny comments.
     static const std::string player_base_strain( "PLAYER_BASE_STRAIN" );
 
-    int max_strain = get_option<int>( player_base_strain ) + get_cardiofit();
+    int max_strain = get_option<int>( player_base_strain ) + get_cardiofit() / 10;
     max_strain = enchantment_cache->modify_value( enchant_vals::mod::MAX_STRAIN, max_strain );
 
     return max_strain;
