@@ -675,7 +675,7 @@ void widget::set_default_var_range( const avatar &ava )
             break;
         case widget_var::strain:
             _var_min = 0;
-            _var_max = ava.get_strain_max(); // IDK, fill me in Erk
+            _var_max = ava.get_strain_max();
             break;
         case widget_var::weariness_level:
             _var_min = 0;
@@ -755,7 +755,7 @@ int widget::get_var_value( const avatar &ava ) const
             value = ava.get_stamina();
             break;
         case widget_var::strain:
-            value = ava.get_strain(); // IDK, fill me in erk!
+            value = ava.get_strain_max() - ava.get_strain();
             break;
         case widget_var::mana:
             value = ava.magic->available_mana();
