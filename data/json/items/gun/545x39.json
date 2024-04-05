@@ -74,7 +74,7 @@
     "min_cycle_recoil": 1260,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "burst", 2 ], [ "AUTO", "auto", 4 ] ],
     "barrel_volume": "250 ml",
-    "default_mods": [ "bars", "wire_stock" ],
+    "default_mods": [ "bars", "wire_stock", "shoulder_strap", "holo_sight", "compensator", "rail_laser_sight" ],
     "valid_mod_locations": [
       [ "barrel", 1 ],
       [ "bayonet lug", 1 ],

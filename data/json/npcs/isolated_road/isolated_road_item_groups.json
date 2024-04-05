@@ -177,19 +177,6 @@
     ]
   },
   {
-    "type": "item_group",
-    "id": "kitted_kord",
-    "subtype": "collection",
-    "items": [
-      {
-        "item": "kord",
-        "ammo-item": "545",
-        "charges": 30,
-        "contents-item": [ "shoulder_strap", "holo_sight", "muzzle_brake", "rail_laser_sight" ]
-      }
-    ]
-  },
-  {
     "type": "GENERIC",
     "id": "blacksmith_prototypes",
     "category": "books",
