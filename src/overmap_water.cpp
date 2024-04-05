@@ -540,6 +540,96 @@ void overmap::place_oceans( const std::vector<const overmap *> &neighbor_overmap
     }
 }
 
+om_direction::type overmap::find_dir_nearest_ocean_origin() const
+{
+    if( settings->overmap_ocean ) {
+        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+        //BEFOREMERGE: Make the ocean_start_north etc optionals and use value_or( INT_MAX ) in a loop to make this 1000x less ugly
+        om_direction::type ocean_dir = om_direction::type::north;
+        int ocean_dist = settings_ocean.ocean_start_north == 0 ? INT_MAX :
+                         settings_ocean.ocean_start_north;
+        const int ocean_start_east = settings_ocean.ocean_start_east == 0 ? INT_MAX :
+                                     settings_ocean.ocean_start_east;
+        if( ocean_start_east < ocean_dist ) {
+            ocean_dir = om_direction::type::east;
+            ocean_dist = ocean_start_east;
+        }
+        const int ocean_start_south = settings_ocean.ocean_start_south == 0 ? INT_MAX :
+                                      settings_ocean.ocean_start_south;
+        if( ocean_start_south < ocean_dist ) {
+            ocean_dir = om_direction::type::south;
+            ocean_dist = ocean_start_south;
+        }
+        const int ocean_start_west = settings_ocean.ocean_start_west == 0 ? INT_MAX :
+                                     settings_ocean.ocean_start_west;
+        if( ocean_start_west < ocean_dist ) {
+            ocean_dir = om_direction::type::west;
+            ocean_dist = ocean_start_west;
+        }
+        if( ocean_dist == INT_MAX ) {
+            debugmsg( "Tried to find ocean when none set to spawn in region settings" );
+            return om_direction::type::invalid;
+        }
+        return ocean_dir;
+    } else {
+        debugmsg( "Tried to find ocean when disabled by external option" );
+        return om_direction::type::invalid;
+    }
+}
+
+om_direction::type overmap::find_dir_random_ocean_origin() const
+{
+    if( settings->overmap_ocean ) {
+        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+        std::vector<om_direction::type> valid_dirs;
+        if( settings_ocean.ocean_start_north != 0 ) {
+            valid_dirs.push_back( om_direction::type::north );
+        }
+        if( settings_ocean.ocean_start_east != 0 ) {
+            valid_dirs.push_back( om_direction::type::east );
+        }
+        if( settings_ocean.ocean_start_south != 0 ) {
+            valid_dirs.push_back( om_direction::type::south );
+        }
+        if( settings_ocean.ocean_start_west != 0 ) {
+            valid_dirs.push_back( om_direction::type::west );
+        }
+        if( valid_dirs.empty() ) {
+            debugmsg( "Tried to find ocean when none set to spawn in region settings" );
+            return om_direction::type::invalid;
+        }
+        return valid_dirs[ rng( 0, valid_dirs.size() - 1 ) ];
+    } else {
+        debugmsg( "Tried to find ocean when disabled by external option" );
+        return om_direction::type::invalid;
+    }
+}
+
+int overmap::find_dist_ocean_origin( const om_direction::type &dir ) const
+{
+    if( settings->overmap_ocean ) {
+        const region_settings_ocean &settings_ocean = settings->get_settings_ocean();
+        switch( dir ) {
+            case om_direction::type::north:
+                return settings_ocean.ocean_start_north;
+            case om_direction::type::east:
+                return settings_ocean.ocean_start_east;
+            case om_direction::type::south:
+                return settings_ocean.ocean_start_south;
+            case om_direction::type::west:
+                return settings_ocean.ocean_start_west;
+            case om_direction::type::invalid:
+            case om_direction::type::last:
+            default:
+                debugmsg( "Tried to find ocean when none set to spawn in region settings" );
+                return 0;
+        }
+    } else {
+        debugmsg( "Tried to find ocean when disabled by external option" );
+        return 0;
+    }
+}
+
 void overmap::place_rivers( const std::vector<const overmap *> &neighbor_overmaps )
 {
     const int OMAPX_edge = OMAPX - 1;

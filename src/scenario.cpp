@@ -156,6 +156,7 @@ void scenario::load( const JsonObject &jo, std::string_view )
         reset_calendar();
     }
 
+    // Deprecated, doesn't work well and can't handle water vehicles, left for now as the C++ handling needs to stay for profession vehicles anyway
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }

@@ -32,6 +32,36 @@
   },
   {
     "type": "scenario",
+    "id": "ocean_boat",
+    "name": "Boatnapper",
+    "points": 1,
+    "description": "You watched the chaos from afar on a small boat you stole during the initial panic but your paltry supplies are already running low, forcing you to turn back.",
+    "allowed_locs": [ "sloc_ocean" ],
+    "map_extra": "mx_ocean_boat_scenario",
+    "start_name": "Boatnapper",
+    "flags": [ "LONE_START" ],
+    "forbidden_traits": [ "WAYFARER" ],
+    "requirement": "achievement_vehicle_distance_boat_hocr"
+  },
+  {
+    "type": "scenario",
+    "id": "beached",
+    "name": "Beached",
+    "points": -2,
+    "description": "You tried to escape the chaos by stealing a boat during the initial panic, failing to note its dwindling fuel reserves.  Eventually you picked a calm moment and spent the last of your energy swimming to shore, only to pass out.  Soaked, dedraggled and with no supplies you wake to the sound of harrowing bird call, a lump in your stomach telling you the worst is still to come.",
+    "//": "If this start location is expanded the EOC's mapgen update should be changed to a map extra only spawned by the scenario",
+    "allowed_locs": [ "sloc_beach" ],
+    "start_name": "Beach",
+    "eoc": [ "EOC_scenario_beached" ],
+    "professions": [ "naked" ],
+    "forbidden_traits": [ "WAYFARER" ],
+    "reveal_locale": false,
+    "flags": [ "LONE_START", "SUR_START" ],
+    "start_of_game": { "hour": 4, "day": 61, "season": "spring", "year": 1 },
+    "surround_groups": [ [ "GROUP_COASTAL_BIRDS", 3.0 ] ]
+  },
+  {
+    "type": "scenario",
     "id": "friend_liam",
     "name": "Friends to the End",
     "points": -10,
@@ -816,12 +846,11 @@
     "name": "The Last Delivery",
     "points": 2,
     "description": "As the world was falling apart around you, something shook you out of your stupor: a phone call on Foodplace's excellent delivery service line.  It was the most incoherent babbling you've ever heard, but it was undeniably the biggest order you've seen in your years working at Foodplace, and that merits respect.  While you can't fix the tears in reality, this you can do!  You're not sure of much anymore, but one thing is certain: that delicious food™ is going to get delivered if it's the last thing you do!",
-    "vehicle": "food_truck_delivery_mission",
     "professions": [ "true_foodperson", "unemployed" ],
     "start_name": "A Stop On The Road",
-    "allowed_locs": [ "sloc_gas_station" ],
+    "allowed_locs": [ "sloc_gas_station_last_delivery" ],
     "missions": [ "MISSION_LAST_DELIVERY" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CONTROLLING_VEHICLE" ]
   },
   {
     "type": "scenario",
@@ -830,11 +859,12 @@
     "points": 2,
     "description": "Once it became clear that the world was ending you took to the skies, hoping that your flying skills could lead you to safety.  You found no standing safe zones, and when your fuel ran out, were forced to land in open field.",
     "start_name": "Emergency Landing Site",
+    "//": "If this start location is expanded the EOC's mapgen update should be changed to a map extra only spawned by the scenario",
     "allowed_locs": [ "sloc_field" ],
-    "vehicle": "2seater2_scenario",
+    "map_extra": "mx_last_flight_scenario",
     "missions": [ "MISSION_HELICOPTER_REFUEL" ],
     "professions": [ "heli_pilot" ],
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CONTROLLING_VEHICLE" ]
   },
   {
     "type": "scenario",

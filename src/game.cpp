@@ -794,7 +794,14 @@ bool game::start_game()
             omtstart = ret.first;
             associated_parameters = ret.second;
         } else {
-            auto ret = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
+            point_abs_om search_location = u.world_origin.value_or( point_abs_om() );
+            // Potentially offset the search based on start location
+            if( start_loc.offset_search_location( search_location ) ) {
+                // Had to load the origin overmap to get region settings
+                MAPBUFFER.clear();
+                overmap_buffer.clear();
+            }
+            auto ret = start_loc.find_player_initial_location( search_location );
             omtstart = ret.first;
             associated_parameters = ret.second;
         }
@@ -826,7 +833,8 @@ bool game::start_game()
     lev -= point( HALF_MAPSIZE, HALF_MAPSIZE );
     load_map( lev, /*pump_events=*/true );
 
-    start_loc.place_player( u, omtstart );
+    start_loc.place_player( u, omtstart, !scen->has_flag( "LONE_START" ),
+                            scen->has_flag( "CONTROLLING_VEHICLE" ) );
     map &here = reality_bubble();
     int level = here.get_abs_sub().z();
     // Rebuild map cache because we want visibility cache to avoid spawning monsters in sight
@@ -863,7 +871,7 @@ bool game::start_game()
     get_auto_notes_settings().default_initialize();
 
     // spawn the starting NPC, assuming it's not disallowed by the scenario
-    if( !get_scenario()->has_flag( "LONE_START" ) ) {
+    if( !get_scenario()->has_flag( "LONE_START" ) && !start_loc.has_flag( "LONE_START" ) ) {
         create_starting_npcs();
     }
     //Load NPCs. Set nearby npcs to active.
@@ -1045,10 +1053,10 @@ vehicle *game::place_vehicle_nearby(
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
         const vehicle &veh = *id->blueprint;
-        if( veh.max_ground_velocity( here ) == 0 && veh.can_float( here ) ) {
-            search_types.emplace_back( "river" );
-            search_types.emplace_back( "lake" );
-            search_types.emplace_back( "ocean" );
+        if( veh.max_water_velocity( here ) > 0 && veh.can_float( here ) ) {
+            search_types.emplace_back( "river_center" );
+            search_types.emplace_back( "lake_surface" );
+            search_types.emplace_back( "ocean_surface" );
         } else {
             search_types.emplace_back( "road" );
             search_types.emplace_back( "field" );

@@ -69,6 +69,42 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_scenario_beached",
+    "//": "A proper secondary drowning effect might be nice here but I don't know medicine and researching it isn't helping much bc there seems to be alot of misinformation",
+    "//TODO": "Allow ALL_MAJOR for u_add_effect and some way to check if a foreached bodypart is major for the u_hps (just using ALL_MAJOR there results in all bps taking the same damage)",
+    "effect": [
+      { "mapgen_update": "beach_scenario", "om_terrain": "ocean_shore" },
+      { "u_add_effect": "sleep_deprived", "duration": "3 days" },
+      { "math": [ "u_hp('head') -= rand(4) * u_hp('head') / 10" ] },
+      { "math": [ "u_hp('torso') -= rand(4) * u_hp('torso') / 10" ] },
+      { "math": [ "u_hp('arm_l') -= rand(4) * u_hp('arm_l') / 10" ] },
+      { "math": [ "u_hp('arm_r') -= rand(4) * u_hp('arm_r') / 10" ] },
+      { "math": [ "u_hp('leg_l') -= rand(4) * u_hp('leg_l') / 10" ] },
+      { "math": [ "u_hp('leg_r') -= rand(4) * u_hp('leg_r') / 10" ] },
+      { "u_add_effect": "winded", "intensity": 1, "duration": "30 seconds" },
+      { "u_add_effect": "wet", "intensity": 2, "duration": "10 minutes", "target_part": "head" },
+      { "u_add_effect": "wet", "intensity": 2, "duration": "10 minutes", "target_part": "torso" },
+      { "u_add_effect": "wet", "intensity": 2, "duration": "10 minutes", "target_part": "arm_l" },
+      { "u_add_effect": "wet", "intensity": 2, "duration": "10 minutes", "target_part": "arm_r" },
+      { "u_add_effect": "wet", "intensity": 2, "duration": "10 minutes", "target_part": "leg_l" },
+      { "u_add_effect": "wet", "intensity": 2, "duration": "10 minutes", "target_part": "leg_r" },
+      { "math": [ "u_oxygen() = u_oxygen_max() / 3" ] },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -100,
+        "max_bonus": -100,
+        "duration": "50 minutes",
+        "decay_start": "50 minutes"
+      }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "beach_scenario",
+    "object": { "place_item": [ { "item": "beach_volleyball", "x": [ 5, 18 ], "y": [ 5, 18 ], "chance": 100 } ] }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_BANISH_SELF",
     "effect": [ { "u_cast_spell": { "id": "BEGONE_SHADOW" } } ]
   },

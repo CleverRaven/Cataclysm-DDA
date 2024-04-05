@@ -355,6 +355,15 @@
         ".##00#####0############."
       ],
       "palettes": [ "parametrized_walls_palette", "parametrized_linoleum_palette", "commercial" ],
+      "parameters": {
+        "scenario_nest": {
+          "type": "nested_mapgen_id",
+          "//": "Place the starting vehicle if parameter is set by the last_delivery scenario",
+          "//FIXME": "1x1_last_delivery_scenario want's to be 0 weight but then it gets skipped when the weighted_list is populated and so isn't recognised as valid when used as a starting parameter",
+          "default": { "distribution": [ [ "null", 10000 ], [ "1x1_last_delivery_scenario", 1 ] ] }
+        }
+      },
+      "place_nested": [ { "chunks": [ { "param": "scenario_nest", "fallback": "null" } ], "x": 19, "y": 3 } ],
       "terrain": {
         "A": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
         "R": { "param": "linoleum_color", "fallback": "t_linoleum_gray" },
@@ -418,6 +427,24 @@
         { "item": "nested_shotgun_s", "x": 3, "y": 20, "chance": 10 }
       ],
       "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 5, 10 ], "y": [ 6, 10 ], "repeat": [ 1, 2 ], "chance": 25 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "nested_mapgen_id": "1x1_last_delivery_scenario",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_vehicles": [
+        {
+          "vehicle": "food_truck_delivery_mission",
+          "fuel": 50,
+          "status": 2,
+          "rotation": 270,
+          "faction": "your_followers",
+          "x": 0,
+          "y": 0
+        }
+      ]
     }
   },
   {

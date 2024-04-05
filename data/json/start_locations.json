@@ -626,9 +626,10 @@
   },
   {
     "type": "start_location",
-    "id": "sloc_gas_station",
+    "id": "sloc_gas_station_last_delivery",
     "name": "Gas Station",
-    "terrain": [ "s_gas_rural" ]
+    "terrain": [ { "om_terrain": "s_gas_rural", "parameters": { "scenario_nest": "1x1_last_delivery_scenario" } } ],
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
@@ -799,6 +800,22 @@
     "id": "sloc_sewer",
     "name": "Sewer",
     "terrain": [ "sewer" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_ocean",
+    "name": "Ocean",
+    "terrain": [ "ocean_surface" ],
+    "ocean_offset": 4,
+    "flags": [ "ALLOW_OUTSIDE", "CONTROLLING_VEHICLE" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_beach",
+    "name": "Beach",
+    "terrain": [ "ocean_shore" ],
+    "ocean_offset": 2,
+    "flags": [ "ALLOW_OUTSIDE" ]
   },
   {
     "type": "start_location",
