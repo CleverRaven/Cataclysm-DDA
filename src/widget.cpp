@@ -82,6 +82,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "speed";
         case widget_var::stamina:
             return "stamina";
+        case widget_var::strain:
+            return "strain";
         case widget_var::fatigue:
             return "fatigue";
         case widget_var::health:
@@ -671,6 +673,10 @@ void widget::set_default_var_range( const avatar &ava )
             _var_max = ava.get_stamina_max();
             // No normal defined, unless we want max stamina to be colored white? (maybe)
             break;
+        case widget_var::strain:
+            _var_min = 0;
+            _var_max = ava.get_strain_max(); // IDK, fill me in Erk
+            break;
         case widget_var::weariness_level:
             _var_min = 0;
             _var_max = 10;
@@ -747,6 +753,9 @@ int widget::get_var_value( const avatar &ava ) const
         // Vars with a known max val
         case widget_var::stamina:
             value = ava.get_stamina();
+            break;
+        case widget_var::strain:
+            value = ava.get_strain(); // IDK, fill me in erk!
             break;
         case widget_var::mana:
             value = ava.magic->available_mana();

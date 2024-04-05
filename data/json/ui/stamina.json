@@ -25,6 +25,31 @@
     "symbols": ".\\|"
   },
   {
+    "id": "strain_widget",
+    "type": "widget",
+    "var": "strain_widget",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "strain_graph_classic",
+    "type": "widget",
+    "copy-from": "strain_widget",
+    "label": "Strain",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|"
+  },
+  {
+    "id": "strain_graph",
+    "type": "widget",
+    "copy-from": "strain_widget",
+    "//": "Like the classic 5-bar stamina graph, but twice as wide",
+    "label": "Strain",
+    "style": "graph",
+    "width": 10,
+    "symbols": ".\\|"
+  },
+  {
     "id": "stamina_num_label",
     "type": "widget",
     "copy-from": "stamina_widget",

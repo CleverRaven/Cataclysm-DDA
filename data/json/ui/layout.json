@@ -99,7 +99,7 @@
     "style": "layout",
     "label": "Stamina/Weariness",
     "arrange": "rows",
-    "widgets": [ "stamina_graph", "activity_desc", "weariness_desc", "weary_malus_desc" ]
+    "widgets": [ "stamina_graph", "strain_graph", "activity_desc", "weariness_desc", "weary_malus_desc" ]
   },
   {
     "id": "mood_focus_layout",
