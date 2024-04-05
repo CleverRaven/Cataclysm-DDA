@@ -8237,22 +8237,37 @@ std::optional<int> iuse::heat_single_item( Character *p, item *it )
         if(it->has_quality(qual_HOTPLATE) && it->ammo_remaining() > 0){
             available_heater = it->ammo_remaining();
             heating_effect = it->type->charges_to_use();
-        }else{
+        }else if(it->has_quality(qual_HOTPLATE) && !it->has_no_links()){
+            if(int remain = it->link().t_veh->connected_battery_power_level().first > 0){
+                available_heater = remain;
+                heating_effect = it->type->charges_to_use();
+            };
+        };
         auto filter = [&it]( const item & e ) {
-            if(e.has_quality(qual_HOTPLATE,2) && (e.energy_remaining()>0_kJ || e.ammo_remaining())) {
+            if(e.has_quality(qual_HOTPLATE,2) && e.ammo_remaining()) {
                 return true;
-            }
+            };
+            if(e.has_quality(qual_HOTPLATE,2) && (!e.has_no_links())){
+                if(e.link().t_veh->connected_battery_power_level().first>0){
+                    return true;
+                }
+            };
+            return false;
         };
         item_location heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
                                             _( "You don't have proper heating source." ) );
         if(!heater){
             add_msg( m_info, _( "Never mind." ) );
             return std::nullopt;
-        }
-        available_heater = heater->ammo_remaining();
-        heating_effect = heater->type->charges_to_use();
-        }
-    }
+        };
+        if(heater->has_no_links()){
+            available_heater = heater->ammo_remaining();
+            heating_effect = heater->type->charges_to_use();
+        }else{
+            available_heater = heater->link().t_veh->connected_battery_power_level().first;
+            heating_effect = heater->type->charges_to_use();
+        };
+    };
     if( !heater ) {
         add_msg( m_info, _( "Never mind." ) );
         return std::nullopt;
@@ -8310,22 +8325,37 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
         if(it->has_quality(qual_HOTPLATE) && it->ammo_remaining() > 0){
             available_heater = it->ammo_remaining();
             heating_effect = it->type->charges_to_use();
-        }else{
+        }else if(it->has_quality(qual_HOTPLATE) && !it->has_no_links()){
+            if(int remain = it->link().t_veh->connected_battery_power_level().first > 0){
+                available_heater = remain;
+                heating_effect = it->type->charges_to_use();
+            };
+        };
         auto filter = [&it]( const item & e ) {
-            if(e.has_quality(qual_HOTPLATE,2) && (e.energy_remaining()>0_kJ || e.ammo_remaining())) {
+            if(e.has_quality(qual_HOTPLATE,2) && e.ammo_remaining()) {
                 return true;
-            }
+            };
+            if(e.has_quality(qual_HOTPLATE,2) && (!e.has_no_links())){
+                if(e.link().t_veh->connected_battery_power_level().first>0){
+                    return true;
+                }
+            };
+            return false;
         };
         item_location heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
                                             _( "You don't have proper heating source." ) );
         if(!heater){
             add_msg( m_info, _( "Never mind." ) );
             return std::nullopt;
-        }
-        available_heater = heater->ammo_remaining();
-        heating_effect = heater->type->charges_to_use();
-        }
-    }
+        };
+        if(heater->has_no_links()){
+            available_heater = heater->ammo_remaining();
+            heating_effect = heater->type->charges_to_use();
+        }else{
+            available_heater = heater->link().t_veh->connected_battery_power_level().first;
+            heating_effect = heater->type->charges_to_use();
+        };
+    };
     if( !heater ) {
         add_msg( m_info, _( "Never mind." ) );
         return std::nullopt;
