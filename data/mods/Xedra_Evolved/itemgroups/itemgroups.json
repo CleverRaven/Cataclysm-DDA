@@ -349,10 +349,16 @@
   {
     "id": "homebooks",
     "type": "item_group",
-    "//": "Adding hedge magic books subgroup to itemgroups",
+    "//": "Adding spell learning items to standard itemgroups",
     "copy-from": "homebooks",
     "subtype": "distribution",
-    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 1 } ] }
+    "extend": {
+      "entries": [
+        { "item": "firmament_driver_book", "prob": 1 },
+        { "item": "eater_book_artifact", "prob": 1 },
+        { "group": "hedge_magic_books", "prob": 1 }
+      ]
+    }
   },
   {
     "id": "hedge_magic_books",
