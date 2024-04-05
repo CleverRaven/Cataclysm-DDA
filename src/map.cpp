@@ -125,9 +125,9 @@ static const efftype_id effect_pet( "pet" );
 static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const furn_str_id furn_f_clear( "f_clear" );
-static const furn_str_id furn_f_wreckage( "f_wreckage" );
-static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
 static const furn_str_id furn_f_rubble( "f_rubble" );
+static const furn_str_id furn_f_rubble_rock( "f_rubble_rock" );
+static const furn_str_id furn_f_wreckage( "f_wreckage" );
 
 static const flag_id json_flag_AVATAR_ONLY( "AVATAR_ONLY" );
 static const flag_id json_flag_LEVITATION( "LEVITATION" );

@@ -85,8 +85,8 @@ class character_id;
 
 static const activity_id ACT_MOVE_LOOT( "ACT_MOVE_LOOT" );
 
-static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 
 static const item_group_id
 Item_spawn_data_foraging_faction_camp_autumn( "foraging_faction_camp_autumn" );

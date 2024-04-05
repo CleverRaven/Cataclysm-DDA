@@ -26,6 +26,8 @@
 #include "trap.h"
 #include "type_id.h"
 
+static furn_id f_null;
+
 static const item_group_id Item_spawn_data_EMPTY_GROUP( "EMPTY_GROUP" );
 
 namespace
@@ -118,8 +120,6 @@ const furn_t &string_id<furn_t>::obj() const
 {
     return furniture_data.obj( *this );
 }
-
-furn_id f_null;
 
 /** @relates string_id */
 template<>
@@ -1213,7 +1213,7 @@ void activity_data_ter::load( const JsonObject &jo )
 
 void activity_data_furn::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "result", result_, f_null.id() );
+    optional( jo, was_loaded, "result", result_, furn_str_id::NULL_ID() );
     activity_data_common::load( jo );
     valid_ = true;
 }

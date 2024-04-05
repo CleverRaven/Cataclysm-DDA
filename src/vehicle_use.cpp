@@ -72,8 +72,8 @@ static const fault_id fault_engine_starter( "fault_engine_starter" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 
-static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 static const furn_str_id furn_f_plant_harvest( "f_plant_harvest" );
+static const furn_str_id furn_f_plant_seed( "f_plant_seed" );
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
