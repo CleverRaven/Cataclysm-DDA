@@ -718,22 +718,22 @@ std::string display::health_string( const Character &u )
     return colorize( health_pair.first, health_pair.second );
 }
 
-std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
+std::pair<std::string, nc_color> display::sleepiness_text_color( const Character &u )
 {
-    int fatigue = u.get_fatigue();
-    std::string fatigue_string;
-    nc_color fatigue_color = c_white;
-    if( fatigue >= fatigue_levels::EXHAUSTED ) {
-        fatigue_color = c_red;
-        fatigue_string = translate_marker( "Exhausted" );
-    } else if( fatigue >= fatigue_levels::DEAD_TIRED ) {
-        fatigue_color = c_light_red;
-        fatigue_string = translate_marker( "Dead Tired" );
-    } else if( fatigue >= fatigue_levels::TIRED ) {
-        fatigue_color = c_yellow;
-        fatigue_string = translate_marker( "Tired" );
+    int sleepiness = u.get_sleepiness();
+    std::string sleepiness_string;
+    nc_color sleepiness_color = c_white;
+    if( sleepiness >= sleepiness_levels::EXHAUSTED ) {
+        sleepiness_color = c_red;
+        sleepiness_string = translate_marker( "Exhausted" );
+    } else if( sleepiness >= sleepiness_levels::DEAD_TIRED ) {
+        sleepiness_color = c_light_red;
+        sleepiness_string = translate_marker( "Dead Tired" );
+    } else if( sleepiness >= sleepiness_levels::TIRED ) {
+        sleepiness_color = c_yellow;
+        sleepiness_string = translate_marker( "Tired" );
     }
-    return std::make_pair( _( fatigue_string ), fatigue_color );
+    return std::make_pair( _( sleepiness_string ), sleepiness_color );
 }
 
 std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )

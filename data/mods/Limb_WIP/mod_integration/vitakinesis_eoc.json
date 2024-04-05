@@ -180,7 +180,7 @@
       { "math": [ "u_vitamin('iron')", "-=", "rng( 1875,7500 )" ] },
       { "math": [ "u_vitamin('calcium')", "-=", "rng( 3750,7500 )" ] },
       { "math": [ "u_vitamin('vitC')", "-=", "rng( 750,3000 )" ] },
-      { "math": [ "u_val('fatigue')", "+=", "rng( 75,375 )" ] }
+      { "math": [ "u_val('sleepiness')", "+=", "rng( 75,375 )" ] }
     ]
   }
 ]

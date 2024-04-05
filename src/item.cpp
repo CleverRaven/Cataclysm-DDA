@@ -510,12 +510,14 @@ static void inherit_rot_from_components( item &it )
         const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
         if( shortest_lifespan > 0_turns && shortest_lifespan < it.get_shelf_life() ) {
             it.set_rot( it.get_shelf_life() - shortest_lifespan );
+            return;
         }
-    } else {
-        const item *most_rotten = get_most_rotten_component( it );
-        if( most_rotten ) {
-            it.set_relative_rot( most_rotten->get_relative_rot() );
-        }
+        // Fallthrough: shortest_lifespan <= 0_turns (all components are rotten)
+    }
+
+    const item *most_rotten = get_most_rotten_component( it );
+    if( most_rotten ) {
+        it.set_relative_rot( most_rotten->get_relative_rot() );
     }
 }
 
@@ -11959,6 +11961,13 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
 
     for( item *removed : removed_items ) {
+        // Handle cases where items are removed but the pocket isn't emptied
+        item *parent = this->find_parent( *removed );
+        for( item_pocket *pocket : parent->get_all_standard_pockets() ) {
+            if( pocket->has_item( *removed ) ) {
+                pocket->unseal();
+            }
+        }
         this->remove_item( *removed );
     }
 

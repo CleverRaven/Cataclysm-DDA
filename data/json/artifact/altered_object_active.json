@@ -136,6 +136,6 @@
     "flags": [ "IGNORE_WALLS", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "remove_field",
-    "effect_str": "fd_fatigue"
+    "effect_str": "fd_reality_tear"
   }
 ]

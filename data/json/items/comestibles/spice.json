@@ -92,7 +92,6 @@
     "name": { "str_sp": "sugar" },
     "weight": "5 g",
     "color": "white",
-    "container": "box_small",
     "comestible_type": "FOOD",
     "symbol": "%",
     "description": "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",

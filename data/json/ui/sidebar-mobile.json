@@ -1903,7 +1903,7 @@
     "id": "i_rest_graph",
     "width": 4,
     "copy-from": "t_horiz_graph",
-    "var": "fatigue",
+    "var": "sleepiness",
     "colors": [ "h_light_gray", "h_light_red" ],
     "type": "widget"
   },
