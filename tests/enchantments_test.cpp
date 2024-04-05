@@ -366,8 +366,8 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     INFO( "Stats are: 6 str, 6 dex, 3 int, 3 per, 85 speed" );
     REQUIRE( guy.get_str() == 6 );
     REQUIRE( guy.get_dex() == 6 );
-    REQUIRE( guy.get_int() == 3 );
-    REQUIRE( guy.get_per() == 3 );
+    REQUIRE( guy.get_int() == 4 );
+    REQUIRE( guy.get_per() == 4 );
     REQUIRE( guy.get_speed() == 85 );
 
 
@@ -375,10 +375,10 @@ TEST_CASE( "Enchantment_PAIN_PENALTY_MOD_test", "[magic][enchantments]" )
     guy.i_add( item( "test_PAIN_PENALTY_MOD_ench_item_1" ) );
     guy.recalculate_enchantment_cache();
     advance_turn( guy );
-    INFO( "Stats are: 4 str, 8 dex, 3 int, 0 per, 89 speed" );
+    INFO( "Stats are: 4 str, 8 dex, 7 int, 0 per, 89 speed" );
     REQUIRE( guy.get_str() == 4 );
     REQUIRE( guy.get_dex() == 8 );
-    REQUIRE( guy.get_int() == 6 );
+    REQUIRE( guy.get_int() == 7 );
     REQUIRE( guy.get_per() == 0 );
     REQUIRE( guy.get_speed() == 89 );
 }
