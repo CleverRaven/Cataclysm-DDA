@@ -43,7 +43,7 @@
       "rad_min": [ 1 ],
       "hunger_min": [ 1 ],
       "thirst_min": [ 1 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_min": [ 1 ],
       "stamina_min": [ 1 ]
     }
   },
@@ -116,7 +116,7 @@
       "rad_min": [ 1 ],
       "hunger_min": [ 1 ],
       "thirst_min": [ 1 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_min": [ 1 ],
       "stamina_min": [ 1 ]
     }
   }

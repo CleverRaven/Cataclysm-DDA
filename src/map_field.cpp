@@ -92,6 +92,11 @@ static const material_id material_veggy( "veggy" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_open_air( "t_open_air" );
+static const ter_str_id ter_t_pit( "t_pit" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
 static const trait_id trait_GASTROPOD_FOOT( "GASTROPOD_FOOT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -910,7 +915,7 @@ static void field_processor_fd_fungicidal_gas( const tripoint &p, field_entry &c
     const furn_t &frn = pd.map_tile.get_furn_t();
     const int intensity = cur.get_field_intensity();
     if( ter.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
-        pd.here.ter_set( p, t_dirt );
+        pd.here.ter_set( p, ter_t_dirt );
     }
     if( frn.has_flag( ter_furn_flag::TFLAG_FUNGUS ) && one_in( 10 / intensity ) ) {
         pd.here.furn_set( p, f_null );
@@ -1054,14 +1059,14 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                 if( p.z > 0 ) {
                     // We're in the air. Need to invalidate the furniture otherwise it'll cause problems
                     here.furn_set( p, f_null );
-                    here.ter_set( p, t_open_air );
+                    here.ter_set( p, ter_t_open_air );
                 } else if( p.z < -1 ) {
                     // We're deep underground, in bedrock. Whatever terrain was here is burned to the ground, leaving only the carved out rock (including ceiling)
-                    here.ter_set( p, t_rock_floor );
+                    here.ter_set( p, ter_t_rock_floor );
                 } else {
                     // Need to invalidate the furniture otherwise it'll cause problems when supporting terrain collapses
                     here.furn_set( p, f_null );
-                    here.ter_set( p, t_dirt );
+                    here.ter_set( p, ter_t_dirt );
                 }
             }
 
@@ -1140,7 +1145,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         }
     }
     // If the flames are in a pit, it can't spread to non-pit
-    const bool in_pit = ter.id.id() == t_pit;
+    const bool in_pit = ter.id.id() == ter_t_pit;
 
     // Count adjacent fires, to optimize out needless smoke and hot air
     int adjacent_fires = 0;
@@ -1163,7 +1168,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                     if( dstfld &&
                         ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
                           dstfld->get_field_age() > cur.get_field_age() ) &&
-                        ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
+                        ( in_pit == ( dst.get_ter() == ter_t_pit ) ) ) {
                         if( dstfld->get_field_intensity() < 2 ) {
                             // HACK: ignoring all map field caches, since field already exists
                             // and intensity is increased, not decreased
@@ -1188,7 +1193,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
                     if( dstfld &&
                         ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
                           dstfld->get_field_age() > cur.get_field_age() ) &&
-                        ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
+                        ( in_pit == ( dst.get_ter() == ter_t_pit ) ) ) {
                         if( dstfld->get_field_intensity() < 2 ) {
                             // HACK: ignoring all map field caches, since field already exists
                             // and intensity is increased, not decreased
@@ -1297,7 +1302,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                ( in_pit == ( dster.id.id() == ter_t_pit ) ) &&
                 (
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE ) &&
                                       one_in( 2 ) ) ) ||
@@ -1357,7 +1362,7 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             // Allow weaker fires to spread occasionally
             const int power = cur.get_field_intensity() + one_in( 5 );
             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                ( in_pit == ( dster.id.id() == ter_t_pit ) ) &&
                 (
                     ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, ter_furn_flag::TFLAG_FLAMMABLE ) &&
                                       one_in( 2 ) ) ) ||
@@ -1661,7 +1666,7 @@ void map::player_in_field( Character &you )
                 }
             }
         }
-        if( ft == fd_fatigue ) {
+        if( ft == fd_reality_tear ) {
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !you.in_vehicle ) {
                 // Teleports you... somewhere.
@@ -1981,7 +1986,7 @@ void map::monster_in_field( monster &z )
                                                     cur.get_field_intensity() ) );
             z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_electric, field_dmg ) );
         }
-        if( cur_field_type == fd_fatigue ) {
+        if( cur_field_type == fd_reality_tear ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
                 teleport::teleport( z );

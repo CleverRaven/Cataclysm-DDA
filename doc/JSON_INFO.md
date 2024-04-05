@@ -3926,14 +3926,15 @@ CBMs can be defined like this:
 "spoils_in" : 0,            // A time duration: how long a comestible is good for. 0 = no spoilage.
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
-"fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
+"sleepiness_mod": 3,           // How much sleepiness this comestible removes. (Negative values add sleepiness)
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting. One of 'FOOD', 'DRINK', 'MED', or 'INVALID' (consider using a different "type" than COMESTIBLE instead of using INVALID)
 "consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched
 "healthy" : -2,             // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Default strength for this item to cause addictions
 "addiction_type" : [ "crack", { "addiction": "cocaine", "potential": 5 } ], // Addiction types (if no potential is given, the "addiction_potential" field is used to determine the strength of that addiction)
-"monotony_penalty" : 0,     // (Optional, default: 2) Fun is reduced by this number for each one you've consumed in the last 48 hours.
+"monotony_penalty" : 0,     // (Optional, default: 2 or 0 depending on material) Fun is reduced by this number for each one you've consumed in the last 48 hours.
+                            // Comestibles with any material of junk food (id: "junk") default to 0. All other comestibles default to 2 when unspecified.
                             // Can't drop fun below 0, unless the comestible also has the "NEGATIVE_MONOTONY_OK" flag.
 "calories" : 0,             // Hunger satisfied (in kcal)
 "nutrition" : 0,            // Hunger satisfied (OBSOLETE)
@@ -4326,7 +4327,7 @@ Possible values (see src/artifact.h for an up-to-date list):
 - `AEA_ADRENALINE` Adrenaline rush
 - `AEA_MAP` Maps the area around you
 - `AEA_BLOOD` Shoots blood all over
-- `AEA_FATIGUE` Creates interdimensional fatigue
+- `AEA_SLEEPINESS` Creates interdimensional sleepiness
 - `AEA_ACIDBALL` Targeted acid
 - `AEA_PULSE` Destroys adjacent terrain
 - `AEA_HEAL` Heals minor damage
@@ -4856,9 +4857,12 @@ Harvest drop types are used in harvest drop entries to control how the drop is p
 {
     "type": "weapon_category",
     "id": "WEAP_CAT"
-    "name": "Weapon Category"
+    "name": "Weapon Category",
+    "proficiencies": [ "prof_baz" ]
 }
 ```
+
+`proficiencies` is a list of proficiencies that may apply bonuses when using weapons with this category. See the proficiency documentation for more details.
 
 ### Connect group definitions
 

@@ -97,6 +97,9 @@ static const quality_id qual_SCREW( "SCREW" );
 
 static const skill_id skill_mechanics( "mechanics" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_dirtmound( "t_dirtmound" );
+
 static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
@@ -998,7 +1001,7 @@ void vehicle::transform_terrain()
         }
         if( prereq_fulfilled ) {
             const ter_id new_ter = ter_id( ttd.post_terrain );
-            if( new_ter != t_null ) {
+            if( new_ter != ter_str_id::NULL_ID() ) {
                 here.ter_set( start_pos, new_ter );
             }
             const furn_id new_furn = furn_id( ttd.post_furniture );
@@ -1073,11 +1076,11 @@ void vehicle::operate_planter()
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( here.ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( here.ter( loc ) != ter_t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( here.ter( loc ) == t_dirtmound ) {
-                    here.set( loc, t_dirt, f_plant_seed );
+                } else if( here.ter( loc ) == ter_t_dirtmound ) {
+                    here.set( loc, ter_t_dirt, f_plant_seed );
                 } else if( !here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( here, planter_id, rng( 1, 10 ), damage_bash, false );

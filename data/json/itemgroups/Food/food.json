@@ -116,7 +116,7 @@
     "subtype": "distribution",
     "entries": [
       { "prob": 50, "group": "yeast_bag_plastic_25" },
-      { "prob": 40, "group": "sugar_box_small_71" },
+      { "prob": 40, "group": "sugar_packed" },
       { "prob": 10, "group": "artificial_sweetener_box_small_71" },
       { "prob": 5, "group": "sprinkles_bottle_plastic_small_62" },
       { "prob": 40, "group": "salt_bag_plastic_100" },
@@ -258,7 +258,7 @@
       { "prob": 30, "group": "toastem2_box_small_8" },
       { "prob": 35, "group": "toastem3_box_small_8" },
       { "prob": 20, "group": "toasterpastryfrozen_box_snack_2" },
-      { "prob": 20, "group": "sugar_box_small_71" },
+      { "prob": 20, "group": "sugar_packed" },
       { "prob": 5, "group": "artificial_sweetener_box_small_71" },
       { "prob": 5, "group": "lemonade_powder_bottle_plastic_small_10" },
       { "item": "molasses", "prob": 10 },

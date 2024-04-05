@@ -535,14 +535,14 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```DOGFOOD``` Makes a dog friendly.
 - ```FIRSTAID``` Heals.
 - ```FLUMED``` Adds disease `took_flumed`.
-- ```FLUSLEEP``` Adds disease `took_flumed` and increases fatigue.
+- ```FLUSLEEP``` Adds disease `took_flumed` and increases sleepiness.
 - ```FUNGICIDE``` Kills fungus and spores. Removes diseases `fungus` and `spores`.
 - ```HALLU``` Adds disease `hallu`.
 - ```HONEYCOMB``` Spawns wax.
 - ```INHALER``` Removes disease `asthma`.
 - ```IODINE``` Adds disease `iodine`.
 - ```MARLOSS``` "As you eat the berry, you have a near-religious experience, feeling at one with your surroundings..."
-- ```MYCUS``` if has trait `THRESH_MARLOSS`, neutral effect removes radiation, add 30 painkiller & heals all bodyparts by 4.  if good effect, add 1000 morale, sleep for 5 hours, add `THRESH_MYCUS`, also removes marloss addictions `addiction_marloss_r`,`addiction_marloss_b`, `addiction_marloss_y` .  With mycus threshold, adds 5 painkiller and stimulant.  With trait `M_DEPENDENT`, removes 87 kcal, add 10 thirst, adds 5 fatigue, and add morale to negate mutation pains. not having previously mentioned traits causes you to vomit, mutate, randomly gain 2 pain, reduce daily health by 8-50, removes 87 kcal, add 10 thirst, and add 5 fatigue.  Only applies to mycus fruit by default.
+- ```MYCUS``` if has trait `THRESH_MARLOSS`, neutral effect removes radiation, add 30 painkiller & heals all bodyparts by 4.  if good effect, add 1000 morale, sleep for 5 hours, add `THRESH_MYCUS`, also removes marloss addictions `addiction_marloss_r`,`addiction_marloss_b`, `addiction_marloss_y` .  With mycus threshold, adds 5 painkiller and stimulant.  With trait `M_DEPENDENT`, removes 87 kcal, add 10 thirst, adds 5 sleepiness, and add morale to negate mutation pains. not having previously mentioned traits causes you to vomit, mutate, randomly gain 2 pain, reduce daily health by 8-50, removes 87 kcal, add 10 thirst, and add 5 sleepiness.  Only applies to mycus fruit by default.
 - ```METH``` Adds disease `meth`.
 - ```NONE``` "You can't do anything of interest with your [x]."
 - ```PKILL``` Reduces pain.  Adds disease `pkill[n]` where `[n]` is the level of flag `PKILL_[n]` used on this comestible.
@@ -551,8 +551,8 @@ These flags apply to the `use_action` field, instead of the `flags` field.
 - ```PROZAC``` Adds disease `took_prozac` if not currently present, otherwise acts as a minor stimulant.  Rarely has the `took_prozac_bad` adverse effect.
 - ```PURIFIER``` Removes random number of negative mutations.
 - ```SEWAGE``` Causes vomiting.
-- ```SLEEP``` Greatly increases fatigue.
-- ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`.  Additionally removes disease `formication` if disease `dermatik` isn't also present.  Has a chance of a negative reaction which increases fatigue.
+- ```SLEEP``` Greatly increases sleepiness.
+- ```THORAZINE``` Removes diseases `hallu`, `visuals`, `high`.  Additionally removes disease `formication` if disease `dermatik` isn't also present.  Has a chance of a negative reaction which increases sleepiness.
 - ```VITAMINS``` Increases healthiness (not to be confused with HP).
 - ```WEED``` Makes you roll with Cheech & Chong.  Adds disease `weed_high`.
 - ```XANAX``` Alleviates anxiety.  Adds disease `took_xanax`.

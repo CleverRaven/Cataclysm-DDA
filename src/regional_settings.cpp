@@ -18,7 +18,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
+ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ), furn( f_null ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -761,7 +761,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = percent_str.begin();
          it != percent_str.end(); ++it ) {
-        tf_id.ter = t_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
         tf_id.furn = f_null;
         if( it->second < 0.0001 ) {
             continue;
@@ -782,7 +782,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin();
          it != boosted_percent_str.end(); ++it ) {
-        tf_id.ter = t_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
         tf_id.furn = f_null;
         if( it->second < 0.0001 ) {
             continue;
@@ -844,7 +844,7 @@ void forest_biome_component::finalize()
 {
     for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
-        tf_id.ter = t_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
         tf_id.furn = f_null;
         const ter_str_id tid( pr.first );
         const furn_str_id fid( pr.first );
@@ -922,7 +922,7 @@ void forest_mapgen_settings::finalize()
 {
     for( auto &pr : unfinalized_biomes ) {
         pr.second.finalize();
-        const oter_id ot( pr.first );
+        const oter_type_id ot( pr.first );
         biomes[ot] = pr.second;
     }
 }
