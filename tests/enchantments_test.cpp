@@ -219,7 +219,7 @@ static int test_melee_attack_attack_speed( Character &guy )
         add_msg( "attack %i: attack cost: %i, total amount of moves: %i", i, prev_attack - guy.get_moves(),
                  guy.get_moves() );
         guy.set_stamina( guy.get_stamina_max() ); //Reset reset!
-        guy.set_fatigue( 0 );
+        guy.set_sleepiness( 0 );
         i++;
     }
 
@@ -275,7 +275,7 @@ static int test_melee_attack_attack_stamina( Character &guy )
         add_msg( "attack %i: stamina cost: %i, current amount of stamina: %i", i,
                  stamina_prev - guy.get_stamina(),
                  guy.get_stamina() );
-        guy.set_fatigue( 0 );
+        guy.set_sleepiness( 0 );
         i++;
     }
 
