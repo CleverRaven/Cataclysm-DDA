@@ -347,6 +347,14 @@
     "entries": [ { "item": "socks_gossamer", "prob": 20 }, { "item": "stockings_gossamer", "prob": 10 } ]
   },
   {
+    "id": "homebooks",
+    "type": "item_group",
+    "//": "Adding hedge magic books subgroup to itemgroups",
+    "copy-from": "homebooks",
+    "subtype": "distribution",
+    "extend": { "entries": [ { "group": "hedge_magic_books", "prob": 1 } ] }
+  },
+  {
     "id": "hedge_magic_books",
     "type": "item_group",
     "subtype": "distribution",
