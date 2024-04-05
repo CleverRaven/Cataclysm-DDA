@@ -655,6 +655,9 @@ static void field_processor_fd_electricity( const tripoint &p, field_entry &cur,
 
     bool valid_candidates = false;
     for( const tripoint &dst : points_in_radius( p, 1 ) ) {
+        if( !pd.here.inbounds( dst ) ) {
+            continue;
+        }
         // Skip tiles with intense fields
         const field_type_str_id &field_type = pd.here.get_applicable_electricity_field( dst );
         if( field_entry *field = pd.here.get_field( dst, field_type ) ) {
