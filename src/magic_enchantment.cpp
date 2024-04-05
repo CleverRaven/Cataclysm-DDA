@@ -76,8 +76,8 @@ namespace io
             case enchant_vals::mod::REGEN_HP_AWAKE: return "REGEN_HP_AWAKE";
             case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
-            case enchant_vals::mod::FATIGUE: return "FATIGUE";
-            case enchant_vals::mod::FATIGUE_REGEN: return "FATIGUE_REGEN";
+            case enchant_vals::mod::SLEEPINESS: return "SLEEPINESS";
+            case enchant_vals::mod::SLEEPINESS_REGEN: return "SLEEPINESS_REGEN";
             case enchant_vals::mod::PAIN: return "PAIN";
             case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
             case enchant_vals::mod::PAIN_PENALTY_MOD_STR: return "PAIN_PENALTY_MOD_STR";
@@ -192,6 +192,7 @@ namespace io
             case enchant_vals::mod::CONSUME_TIME_MOD: return "CONSUME_TIME_MOD";
             case enchant_vals::mod::SWEAT_MULTIPLIER: return "SWEAT_MULTIPLIER";
             case enchant_vals::mod::STAMINA_REGEN_MOD: return "STAMINA_REGEN_MOD";
+            case enchant_vals::mod::MOVEMENT_EXERTION_MODIFIER: return "MOVEMENT_EXERTION_MODIFIER";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );

@@ -35,6 +35,6 @@
     "armor": [
       { "encumbrance": 4, "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown", "head_forehead" ] }
     ],
-    "flags": [ "PADDED" ]
+    "flags": [ "PADDED", "PORTAL_PROOF" ]
   }
 ]

@@ -53,8 +53,8 @@ enum class mod : int {
     REGEN_HP_AWAKE,
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
-    FATIGUE,       // fatigue rate
-    FATIGUE_REGEN,
+    SLEEPINESS,       // sleepiness rate
+    SLEEPINESS_REGEN,
     PAIN,
     PAIN_REMOVE,
     PAIN_PENALTY_MOD_STR,
@@ -170,6 +170,7 @@ enum class mod : int {
     CONSUME_TIME_MOD,
     SWEAT_MULTIPLIER,
     STAMINA_REGEN_MOD,
+    MOVEMENT_EXERTION_MODIFIER,
     NUM_MOD
 };
 } // namespace enchant_vals

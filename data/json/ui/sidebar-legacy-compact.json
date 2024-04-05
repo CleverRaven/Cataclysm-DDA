@@ -169,7 +169,7 @@
     "type": "widget",
     "style": "layout",
     "arrange": "rows",
-    "widgets": [ "hunger_desc_no_label", "thirst_desc_no_label", "fatigue_desc_no_label" ]
+    "widgets": [ "hunger_desc_no_label", "thirst_desc_no_label", "sleepiness_desc_no_label" ]
   },
   {
     "id": "lcom_needs_right_layout",
