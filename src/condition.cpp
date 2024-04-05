@@ -942,15 +942,15 @@ conditional_t::func f_need( const JsonObject &jo, std::string_view member, bool 
         dov = get_dbl_or_var( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
-        auto flevel = fatigue_level_strs.find( level );
-        if( flevel != fatigue_level_strs.end() ) {
+        auto flevel = sleepiness_level_strs.find( level );
+        if( flevel != sleepiness_level_strs.end() ) {
             dov.min.dbl_val = static_cast<int>( flevel->second );
         }
     }
     return [need, dov, is_npc]( dialogue & d ) {
         const talker *actor = d.actor( is_npc );
         int amount = dov.evaluate( d );
-        return ( actor->get_fatigue() > amount && need.evaluate( d ) == "fatigue" ) ||
+        return ( actor->get_sleepiness() > amount && need.evaluate( d ) == "sleepiness" ) ||
                ( actor->get_hunger() > amount && need.evaluate( d ) == "hunger" ) ||
                ( actor->get_thirst() > amount && need.evaluate( d ) == "thirst" );
     };
@@ -1589,6 +1589,26 @@ conditional_t::func f_map_ter_furn_with_flag( const JsonObject &jo, std::string_
     };
 }
 
+conditional_t::func f_map_ter_furn_id( const JsonObject &jo, std::string_view member )
+{
+    str_or_var furn_type = get_str_or_var( jo.get_member( member ), member, true );
+    var_info loc_var = read_var_info( jo.get_object( "loc" ) );
+    bool terrain = true;
+    if( member == "map_terrain_id" ) {
+        terrain = true;
+    } else if( member == "map_furniture_id" ) {
+        terrain = false;
+    }
+    return [terrain, furn_type, loc_var]( dialogue const & d ) {
+        tripoint loc = get_map().getlocal( get_tripoint_from_var( loc_var, d ) );
+        if( terrain ) {
+            return get_map().ter( loc ) == ter_id( furn_type.evaluate( d ) );
+        } else {
+            return get_map().furn( loc ) == furn_id( furn_type.evaluate( d ) );
+        }
+    };
+}
+
 conditional_t::func f_map_in_city( const JsonObject &jo, std::string_view member )
 {
     str_or_var target = get_str_or_var( jo.get_member( member ), member, true );
@@ -1994,7 +2014,7 @@ std::unordered_map<std::string_view, int ( talker::* )() const> const f_get_vals
     { "dexterity_bonus", &talker::get_dex_bonus },
     { "dexterity", &talker::dex_cur },
     { "exp", &talker::get_kill_xp },
-    { "fatigue", &talker::get_fatigue },
+    { "sleepiness", &talker::get_sleepiness },
     { "fine_detail_vision_mod", &talker::get_fine_detail_vision_mod },
     { "focus", &talker::focus_cur },
     { "friendly", &talker::get_friendly },
@@ -2118,7 +2138,7 @@ std::unordered_map<std::string_view, void ( talker::* )( int )> const f_set_vals
     { "dexterity_base", &talker::set_dex_max },
     { "dexterity_bonus", &talker::set_dex_bonus },
     { "exp", &talker::set_kill_xp },
-    { "fatigue", &talker::set_fatigue },
+    { "sleepiness", &talker::set_sleepiness },
     { "friendly", &talker::set_friendly },
     { "height", &talker::set_height },
     { "intelligence_base", &talker::set_int_max },
@@ -2400,6 +2420,8 @@ parsers = {
     {"is_weather", jarg::member, &conditional_fun::f_is_weather },
     {"map_terrain_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
     {"map_furniture_with_flag", jarg::member, &conditional_fun::f_map_ter_furn_with_flag },
+    {"map_terrain_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
+    {"map_furniture_id", jarg::member, &conditional_fun::f_map_ter_furn_id },
     {"map_in_city", jarg::member, &conditional_fun::f_map_in_city },
     {"mod_is_loaded", jarg::member, &conditional_fun::f_mod_is_loaded },
     {"u_has_faction_trust", jarg::member | jarg::array, &conditional_fun::f_has_faction_trust },

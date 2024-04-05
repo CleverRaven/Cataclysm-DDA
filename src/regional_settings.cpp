@@ -18,7 +18,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
+ter_furn_id::ter_furn_id() : ter( ter_str_id::NULL_ID().id() ), furn( f_null ) { }
 
 template<typename T>
 void read_and_set_or_throw( const JsonObject &jo, const std::string &member, T &target,
@@ -322,6 +322,33 @@ static void load_overmap_ravine_settings(
     }
 }
 
+static void load_overmap_connection_settings(
+    const JsonObject &jo, overmap_connection_settings &overmap_connection_settings, const bool strict,
+    const bool overlay )
+{
+    if( !jo.has_object( "overmap_connection_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_connection_settings\": { … } required for default" );
+        }
+    } else {
+        JsonObject overmap_connection_settings_jo = jo.get_object( "overmap_connection_settings" );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "trail_connection",
+                overmap_connection_settings.trail_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "sewer_connection",
+                overmap_connection_settings.sewer_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "subway_connection",
+                overmap_connection_settings.subway_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo, "rail_connection",
+                overmap_connection_settings.rail_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo,
+                "intra_city_road_connection",
+                overmap_connection_settings.intra_city_road_connection, !overlay );
+        read_and_set_or_throw<overmap_connection_id>( overmap_connection_settings_jo,
+                "inter_city_road_connection",
+                overmap_connection_settings.inter_city_road_connection, !overlay );
+    }
+}
+
 static void load_overmap_lake_settings( const JsonObject &jo,
                                         overmap_lake_settings &overmap_lake_settings,
                                         const bool strict, const bool overlay )
@@ -568,6 +595,8 @@ void load_region_settings( const JsonObject &jo )
 
     load_overmap_ravine_settings( jo, new_region.overmap_ravine, strict, false );
 
+    load_overmap_connection_settings( jo, new_region.overmap_connection, strict, false );
+
     load_region_terrain_and_furniture_settings( jo, new_region.region_terrain_and_furniture, strict,
             false );
 
@@ -713,7 +742,11 @@ void apply_region_overlay( const JsonObject &jo, regional_settings &region )
 
     load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 
+    load_overmap_ocean_settings( jo, region.overmap_ocean, false, true );
+
     load_overmap_ravine_settings( jo, region.overmap_ravine, false, true );
+
+    load_overmap_connection_settings( jo, region.overmap_connection, false, true );
 
     load_region_terrain_and_furniture_settings( jo, region.region_terrain_and_furniture, false, true );
 }
@@ -728,7 +761,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = percent_str.begin();
          it != percent_str.end(); ++it ) {
-        tf_id.ter = t_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
         tf_id.furn = f_null;
         if( it->second < 0.0001 ) {
             continue;
@@ -749,7 +782,7 @@ void groundcover_extra::finalize()   // FIXME: return bool for failure
 
     for( std::map<std::string, double>::const_iterator it = boosted_percent_str.begin();
          it != boosted_percent_str.end(); ++it ) {
-        tf_id.ter = t_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
         tf_id.furn = f_null;
         if( it->second < 0.0001 ) {
             continue;
@@ -811,7 +844,7 @@ void forest_biome_component::finalize()
 {
     for( const std::pair<const std::string, int> &pr : unfinalized_types ) {
         ter_furn_id tf_id;
-        tf_id.ter = t_null;
+        tf_id.ter = ter_str_id::NULL_ID().id();
         tf_id.furn = f_null;
         const ter_str_id tid( pr.first );
         const furn_str_id fid( pr.first );
@@ -889,7 +922,7 @@ void forest_mapgen_settings::finalize()
 {
     for( auto &pr : unfinalized_biomes ) {
         pr.second.finalize();
-        const oter_id ot( pr.first );
+        const oter_type_id ot( pr.first );
         biomes[ot] = pr.second;
     }
 }

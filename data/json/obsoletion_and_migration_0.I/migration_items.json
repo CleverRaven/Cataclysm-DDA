@@ -1213,6 +1213,13 @@
     "replace": "remington_870"
   },
   {
+    "id": "mossberg_500",
+    "type": "MIGRATION",
+    "from_variant": "mossberg_500_security",
+    "replace": "benelli_tsa",
+    "variant": "mossberg_500_security"
+  },
+  {
     "id": "bottle_suppressor",
     "type": "MIGRATION",
     "replace": "filter_suppressor"
@@ -1226,5 +1233,21 @@
     "id": "cz75mag_12rd",
     "type": "MIGRATION",
     "replace": "cz75mag_16rd"
+  },
+  {
+    "id": "surv_six_shooter",
+    "type": "MIGRATION",
+    "replace": "hptjcpmag"
+  },
+  {
+    "id": "surv_hand_cannon",
+    "type": "MIGRATION",
+    "replace": "hptjhpmag"
+  },
+  {
+    "id": "con_mix",
+    "type": "MIGRATION",
+    "replace": "con_mix_foldable",
+    "reset_item_vars": true
   }
 ]

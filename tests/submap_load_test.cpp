@@ -27,6 +27,13 @@
 static const construction_str_id construction_constr_ground_cable( "constr_ground_cable" );
 static const construction_str_id construction_constr_rack_coat( "constr_rack_coat" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_floor_blue( "t_floor_blue" );
+static const ter_str_id ter_t_floor_green( "t_floor_green" );
+static const ter_str_id ter_t_floor_red( "t_floor_red" );
+static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
+
 // NOLINTNEXTLINE(cata-static-declarations)
 extern const int savegame_version;
 
@@ -837,7 +844,7 @@ static bool is_normal_submap( const submap &sm, submap_checks checks = {} )
     // For every point on the submap
     for( int y = 0; y < SEEY; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            if( terrain && sm.get_ter( { x, y } ) != t_dirt ) {
+            if( terrain && sm.get_ter( { x, y } ) != ter_t_dirt ) {
                 return false;
             }
             if( furniture && sm.get_furn( { x, y } ) != f_null ) {
@@ -905,28 +912,28 @@ TEST_CASE( "submap_terrain_rle_load", "[submap][load]" )
     INFO( string_format( "sw: %s", ter_sw.id().str() ) );
     INFO( string_format( "se: %s", ter_se.id().str() ) );
     // Require to prevent the lower CHECK from being spammy
-    REQUIRE( ter_nw == t_floor_green );
-    REQUIRE( ter_ne == t_floor_red );
-    REQUIRE( ter_sw == t_floor );
-    REQUIRE( ter_se == t_floor_blue );
+    REQUIRE( ter_nw == ter_t_floor_green );
+    REQUIRE( ter_ne == ter_t_floor_red );
+    REQUIRE( ter_sw == ter_t_floor );
+    REQUIRE( ter_se == ter_t_floor_blue );
 
     // And for the rest of the map, half of it is t_dirt, the other half t_rock_floor
     for( int x = 1; x < SEEX - 2; ++x ) {
-        CHECK( sm.get_ter( { x, 0 } ) == t_dirt );
+        CHECK( sm.get_ter( { x, 0 } ) == ter_t_dirt );
     }
     for( int y = 1; y < SEEY / 2; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            CHECK( sm.get_ter( { x, y } ) == t_dirt );
+            CHECK( sm.get_ter( { x, y } ) == ter_t_dirt );
         }
     }
     for( int y = SEEY / 2; y < SEEY - 1; ++y ) {
         for( int x = 0; x < SEEX; ++x ) {
-            CHECK( sm.get_ter( { x, y } ) == t_rock_floor );
+            CHECK( sm.get_ter( { x, y } ) == ter_t_rock_floor );
         }
 
     }
     for( int x = 1; x < SEEX - 2; ++x ) {
-        CHECK( sm.get_ter( { x, SEEY - 1 } ) == t_rock_floor );
+        CHECK( sm.get_ter( { x, SEEY - 1 } ) == ter_t_rock_floor );
     }
 }
 
@@ -942,12 +949,11 @@ TEST_CASE( "submap_terrain_load_invalid_ter_ids_as_t_dirt", "[submap][load]" )
     REQUIRE( error == "invalid ter_str_id 't_this_ter_id_does_not_exist'" );
 
     //capture_debugmsg_during
-    const ter_id t_dirt( "t_dirt" );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             CAPTURE( x, y );
             // expect t_rock_floor patch in a corner
-            const ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? t_rock_floor : t_dirt;
+            const ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? ter_t_rock_floor : ter_t_dirt;
             CHECK( sm.get_ter( {x, y} ) == expected );
         }
     }

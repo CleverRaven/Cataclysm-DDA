@@ -83,6 +83,21 @@ void weapon_category::reset()
 void weapon_category::load( const JsonObject &jo, const std::string_view )
 {
     mandatory( jo, was_loaded, "name", name_ );
+    optional( jo, was_loaded, "proficiencies", proficiencies_ );
+}
+
+void weapon_category::verify_weapon_categories()
+{
+    weapon_category_factory.check();
+}
+
+void weapon_category::check() const
+{
+    for( const proficiency_id &prof : proficiencies_ ) {
+        if( !prof.is_valid() ) {
+            debugmsg( "Proficiency %s does not exist in weapon category %s", prof.str(), id.str() );
+        }
+    }
 }
 
 const std::vector<weapon_category> &weapon_category::get_all()

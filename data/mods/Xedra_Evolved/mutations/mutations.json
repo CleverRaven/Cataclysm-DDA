@@ -23,6 +23,14 @@
   },
   {
     "type": "mutation",
+    "id": "DREAMLESS",
+    "name": { "str": "Dreamless" },
+    "points": 0,
+    "valid": false,
+    "description": "You live firmly in reality and never experience extremely vivid dreams about choices that have real world consequences.  ( You will be unable to gain Dream magicks from sleeping after strange events)"
+  },
+  {
+    "type": "mutation",
     "id": "MANIFEST_DESTINY_GOBLIN",
     "name": { "str": "Transforming into Goblin" },
     "points": 0,
