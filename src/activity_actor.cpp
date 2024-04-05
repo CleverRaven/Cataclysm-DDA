@@ -6404,14 +6404,9 @@ void chop_tree_activity_actor::finish( player_activity &act, Character &who )
             }
         }
     }
-    const tripoint to = pos + 3 * direction.xy() + point( rng( -1, 1 ), rng( -1, 1 ) );
-    std::vector<tripoint> tree = line_to( pos, to, rng( 1, 8 ) );
-    for( const tripoint &elem : tree ) {
-        here.batter( elem, 300, 5 );
-        here.ter_set( elem, ter_t_trunk );
-    }
 
-    here.ter_set( pos, ter_t_stump );
+    here.cut_down_tree( tripoint_bub_ms( pos ), direction.xy() );
+
     who.add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
     // sound of falling tree
     here.collapse_at( pos, false, true, false );

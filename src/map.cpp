@@ -175,6 +175,7 @@ static const ter_str_id ter_t_rock_floor( "t_rock_floor" );
 static const ter_str_id ter_t_rootcellar( "t_rootcellar" );
 static const ter_str_id ter_t_sewage( "t_sewage" );
 static const ter_str_id ter_t_soil( "t_soil" );
+static const ter_str_id ter_t_stump( "t_stump" );
 static const ter_str_id ter_t_tree_birch( "t_tree_birch" );
 static const ter_str_id ter_t_tree_birch_harvested( "t_tree_birch_harvested" );
 static const ter_str_id ter_t_tree_dead( "t_tree_dead" );
@@ -187,6 +188,8 @@ static const ter_str_id ter_t_tree_pine( "t_tree_pine" );
 static const ter_str_id ter_t_tree_willow( "t_tree_willow" );
 static const ter_str_id ter_t_tree_willow_harvested( "t_tree_willow_harvested" );
 static const ter_str_id ter_t_tree_young( "t_tree_young" );
+static const ter_str_id ter_t_treetop( "t_treetop" );
+static const ter_str_id ter_t_trunk( "t_trunk" );
 static const ter_str_id ter_t_vat( "t_vat" );
 static const ter_str_id ter_t_wall_glass( "t_wall_glass" );
 static const ter_str_id ter_t_wall_glass_alarm( "t_wall_glass_alarm" );
@@ -8541,6 +8544,44 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
             // Only fill up the first container.
             break;
         }
+    }
+}
+
+// This operation assumes trees have zero or one tree tops above. If that changes the logic has to change.
+void map::cut_down_tree( tripoint_bub_ms p, point dir )
+{
+    if( !zlevels ) {
+        debugmsg( "Call to cut_down_tree from a map that doesn't support zlevels." );
+        return;
+    }
+
+    if( !ter( p ).obj().has_flag( ter_furn_flag::TFLAG_TREE ) ) {
+        debugmsg( "Call to cut_down_tree on a tile that doesn't contain a tree." );
+        return;
+    }
+
+    int tree_height = 1;
+
+    // There are several types of tree tops, but they all have the single support flag, something that is unlikely to be the case if something is
+    // "built" above a tree.
+    if( ter( p ).obj().roof && ter( p + tripoint_above ) != ter_t_open_air &&
+        ter( p + tripoint_above ).obj().has_flag( ter_furn_flag::TFLAG_SINGLE_SUPPORT ) ) {
+        tree_height = 2; // Both indicates the height and the presence of a tree top above.
+    }
+
+    // This code essentially assumes a tree height of 1 or 2, as the line of trunks probably gets
+    // too long if larger.
+    const tripoint_bub_ms to = p + ( tree_height + 1 ) * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
+    // TODO: make line_to type aware.
+    std::vector<tripoint> tree = line_to( p.raw(), to.raw(), rng( 1, 8 ) );
+    for( tripoint &elem : tree ) {
+        batter( elem, 300, 5 );
+        ter_set( elem, ter_t_trunk );
+    }
+    ter_set( p, ter_t_stump );
+
+    if( tree_height == 2 ) {
+        ter_set( p + tripoint_above, ter_t_open_air );
     }
 }
 
