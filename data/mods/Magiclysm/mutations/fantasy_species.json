@@ -502,7 +502,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.25 },
           { "value": "STRENGTH", "add": -3 },
           { "value": "DEXTERITY", "add": 2 },

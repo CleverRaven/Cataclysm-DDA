@@ -3770,6 +3770,8 @@ void Character::reset_stats()
         update_mental_focus();
     }
 
+    mod_dodge_bonus( enchantment_cache->modify_value( enchant_vals::mod::DODGE_CHANCE, 0 ) );
+
     /** @EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE) */
     if( str_max >= 16 ) {
         mod_dodge_bonus( -1 );   // Penalty if we're huge

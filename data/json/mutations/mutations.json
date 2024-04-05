@@ -1130,7 +1130,7 @@
     "sleepiness": true,
     "kcal": true,
     "thirst": true,
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "DODGE_CHANCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4705,7 +4705,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4721,7 +4721,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4737,7 +4737,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 2 } ] } ]
   },
   {
     "type": "mutation",
@@ -4760,7 +4760,7 @@
       "chance": 20,
       "base_damage": { "damage_type": "bash", "amount": 8 }
     },
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -4799,7 +4799,7 @@
     "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ]
   },
   {
     "type": "mutation",
@@ -4815,7 +4815,7 @@
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "social_modifiers": { "lie": -20, "persuade": 10 },
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 4 } ] } ]
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 4 } ] } ]
   },
   {
     "type": "mutation",
@@ -6129,7 +6129,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 1 },
+          { "value": "DODGE_CHANCE", "add": 1 },
           { "value": "MAX_HP", "multiply": -0.05 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
           { "value": "CARRY_WEIGHT", "multiply": -0.2 }
@@ -6153,7 +6153,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.3 },
           { "value": "FOOTSTEP_NOISE", "multiply": -1 },
           { "value": "CARRY_WEIGHT", "multiply": -0.5 },
@@ -6179,7 +6179,7 @@
     "enchantments": [
       {
         "values": [
-          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "DODGE_CHANCE", "add": 2 },
           { "value": "MAX_HP", "multiply": -0.25 },
           { "value": "FOOTSTEP_NOISE", "multiply": -1 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": -0.5 },
@@ -6404,7 +6404,7 @@
     "category": [ "INSECT" ],
     "restricts_gear": [ "torso" ],
     "social_modifiers": { "lie": 15, "persuade": 5, "intimidate": -20 },
-    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "BONUS_DODGE", "add": -4 } ] } ],
+    "enchantments": [ { "values": [ { "value": "MOVE_COST", "multiply": -0.1 }, { "value": "DODGE_CHANCE", "add": -4 } ] } ],
     "flags": [ "WINGS_1" ]
   },
   {
@@ -6742,7 +6742,7 @@
           { "value": "ATTACK_SPEED", "multiply": 0.05 },
           { "value": "MAX_HP", "add": 4 },
           { "value": "MOVECOST_SWIM_MOD", "multiply": 0.2 },
-          { "value": "BONUS_DODGE", "add": -1 },
+          { "value": "DODGE_CHANCE", "add": -1 },
           { "value": "CARRY_WEIGHT", "multiply": 0.15 }
         ]
       }
@@ -9186,7 +9186,7 @@
     "points": 2,
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 3 } ] } ],
+    "enchantments": [ { "values": [ { "value": "DODGE_CHANCE", "add": 3 } ] } ],
     "category": [ "FELINE" ]
   },
   {
