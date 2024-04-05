@@ -104,6 +104,7 @@ EoCs support mutate_towards directly
 make `u_spawn_item` to support the item group whose subtype is `collection`
 Add u_wants_to_talk/npc_wants_to_talk EOC effects
 Player can eat from camp larder(always). Workers receive spent food from it when being assigned to work (requires NPC needs enabled).
+Allow effects disabling (conditional) limb flags
 
 
 ## Content:
@@ -210,6 +211,11 @@ Simulate hair growth over time.
 Add earthworms to the game, as a food source
 Add cougar kittens and fix cougar taming in mods
 Boomers now leave fleshy gibs on detonation```
+Pictures for House fluff
+Added Hub 01 mission signposting LIXA
+Crafting Musical Instruments
+Additional Achievements
+Adds ASCII Art to 619
 
 
 ## Interface:
@@ -264,6 +270,7 @@ Keep displaying selected outfit throughout chargen
 High characters now see fancy smiley faces and exclamations in their message log.
 Can't accidentally select full deconstruction if simple deconstruction is available
 Set priority for containers that have auto whitelisting.
+Tile cover is now named concealment, because that's all it actually does.
 
 
 ## Mods:
@@ -380,6 +387,19 @@ Fix Brackenwight special attack message
 [Magiclysm] Last Mage on Earth start
 Tamable Wildlife: add Cougars to list of tameables
 [Magiclysm] Add spellcasting proficiencies.
+[MoM] Channeling powers costs focus
+Edit spell UI word choice when using psionics
+Fixes spellcasting proficiencies adding when they should be subtracting
+[MoM] High levels of weariness turn off your powers
+More specific messages for being unable to use supernatural powers
+[Xedra Evolved] New Arvore spell--Verdant Imprisonment
+Tune channeling spells with scale modifier.
+[MoM] Edit portal storm conditions to support moddability, use that for Telepathic Shield in MoM
+allow incandescent lance to repair metal items
+XE: Trait to avoid learning dream magick
+Too much pain shuts down your powers
+Tune evocation spells with scale modifier.
+[MoM] Add luminance to Eaters
 
 
 ## Balance:
@@ -438,6 +458,12 @@ Bring ice axe in line with reality
 Audit remaining magazines (.223, 9mm, .308)
 Update books.json to rebalance religious book spawning
 Retuned frag grenades to be less effective against ballistic armor and lose power over distance faster
+Remove rapid strike from knives
+Hub MDS fix and material update
+Instability no longer accumulates or decreases; it depends on how many mutations you have, and how many are outside of your current tree
+toaster pastry tastiness
+Removes 5.45 from bullet bank, breaks the kord
+Pain is painful
 
 
 ## Bugfixes:
@@ -566,6 +592,22 @@ Fix assignment ID's with NECC mapgen EOCs.
 Allows Infrared vision to see through smoke
 [Magiclysm] Fix Peaceful Rest hobby
 NPCs can overeat, starve, and dehydrate to death
+Remove Survivor Revolvers
+Implemented drawing of non-English characters in ImGui screens
+Fixed monsters which regenerate in the dark regenerating in daylight
+Crafting will unseal containers when contents are removed
+[MoM] Awakening  > u_awakening
+Fix migrating from item variants when the variant has been deleted
+NPCs can develop vitamin diseases
+Fixing issue where popup doesn't size to fit its contents properly, and doesnt wrap the button selection navigation properly
+Rotten food doesn't become fresh when crafted with
+Missing commit from #69186
+fixes issue where NPCs could take an item like canned corn as a donation and would remove the corn from the can and give you the can back.
+Fixes issue where loading a forge with coal does not work
+ 'gathering sights' should be 'gathering sites' 
+Vegetarian Foraging now provides the proper proficiencies
+Fixing screen artifacts left on the screen after closing keybindings UI
+fixed issue where ImGui processes input that happens with no ImGui screens visible
 
 
 ## Performance:
@@ -639,6 +681,10 @@ Effect enchantments can now apply to monsters
 Make JSON formatter replace nbsp with escape sequence
 Update houses to utilize palettes
 Added SMALL_HIDER flag to various monsters.
+Added MOVEMENT_EXERTION_MODIFIER as an enchantment
+Test case: NPCs prefer to use guns
+Pop out incompatible tools from workstations
+Rename 'fatigue' to 'sleepiness', mostly on the back end, to avoid confusing different ways of being knackered
 
 
 ## Build:
