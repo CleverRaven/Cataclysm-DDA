@@ -3796,7 +3796,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &js
 
 void workout_activity_actor::start( player_activity &act, Character &who )
 {
-    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    if( who.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         who.add_msg_if_player( _( "You are too tired to exercise." ) );
         act_id = activity_id::NULL_ID();
         act.set_to_null();
@@ -3894,16 +3894,16 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
     if( who.male ) {
-        sfx::play_activity_sound( "plmove", "fatigue_m_med", sfx::get_heard_volume( location ) );
+        sfx::play_activity_sound( "plmove", "sleepiness_m_med", sfx::get_heard_volume( location ) );
     } else {
-        sfx::play_activity_sound( "plmove", "fatigue_f_med", sfx::get_heard_volume( location ) );
+        sfx::play_activity_sound( "plmove", "sleepiness_f_med", sfx::get_heard_volume( location ) );
     }
     who.add_msg_if_player( _( "You start your workout session." ) );
 }
 
 void workout_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+    if( who.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
         who.add_msg_if_player( _( "You are exhausted so you finish your workout early." ) );
         act.set_to_null();
         return;
@@ -3916,7 +3916,7 @@ void workout_activity_actor::do_turn( player_activity &act, Character &who )
     if( !rest_mode && who.get_stamina() > who.get_stamina_max() / 3 ) {
         who.mod_stamina( -25 - intensity_modifier );
         if( one_in( 180 / intensity_modifier ) ) {
-            who.mod_fatigue( 1 );
+            who.mod_sleepiness( 1 );
             who.mod_thirst( 1 );
         }
         if( calendar::once_every( 16_minutes / intensity_modifier ) ) {

@@ -82,7 +82,7 @@
     "max_level": 1,
     "min_duration": 6000,
     "max_duration": 6000,
-    "//": "actual fatigue gained is 1/100th duration, at 6000 you get 60 fatigue."
+    "//": "actual sleepiness gained is 1/100th duration, at 6000 you get 60 sleepiness."
   },
   {
     "id": "dark_sight",

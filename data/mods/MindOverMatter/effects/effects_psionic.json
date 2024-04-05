@@ -399,7 +399,7 @@
             }
           },
           {
-            "value": "FATIGUE",
+            "value": "SLEEPINESS",
             "multiply": {
               "math": [
                 "max((( -0.25 + ( u_spell_level('biokin_metabolism_enhance') * -0.02 ) * (scaling_factor(u_val('intelligence') ) ) ) * u_nether_attunement_power_scaling), -0.7)"
@@ -1949,9 +1949,9 @@
       "health_min": [ 0 ],
       "health_chance": [ 1000 ],
       "health_tick": [ 60 ],
-      "fatigue_min": [ 0 ],
-      "fatigue_chance": [ 500 ],
-      "fatigue_tick": [ 60 ],
+      "sleepiness_min": [ 0 ],
+      "sleepiness_chance": [ 500 ],
+      "sleepiness_tick": [ 60 ],
       "vomit_chance": [ 1000 ],
       "vomit_tick": [ 60 ]
     },
@@ -1963,8 +1963,8 @@
       "pain_chance": [ -1 ],
       "health_min": [ -1 ],
       "health_chance": [ -135 ],
-      "fatigue_min": [ 0.6 ],
-      "fatigue_chance": [ -65 ],
+      "sleepiness_min": [ 0.6 ],
+      "sleepiness_chance": [ -65 ],
       "vomit_chance": [ -150 ]
     }
   },

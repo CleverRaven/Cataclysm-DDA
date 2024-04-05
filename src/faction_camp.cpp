@@ -3806,7 +3806,7 @@ void basecamp::finish_return( npc &comp, const bool fixed_time, const std::strin
     if( has_water() ) {
         comp.set_thirst( 0 );
     }
-    comp.set_fatigue( 0 );
+    comp.set_sleepiness( 0 );
     comp.set_sleep_deprivation( 0 );
 }
 

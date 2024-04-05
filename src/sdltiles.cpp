@@ -2780,7 +2780,7 @@ static void CheckMessages()
                 }
 
                 // Check if we're dead tired - if so, add sleep
-                if( player_character.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+                if( player_character.get_sleepiness() > sleepiness_levels::DEAD_TIRED ) {
                     actions.insert( ACTION_SLEEP );
                 }
 
