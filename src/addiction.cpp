@@ -173,7 +173,7 @@ static bool nicotine_effect( Character &u, addiction &add )
                              SNIPPET.random_from_category( msg ).value_or( translation() ).translated() );
         u.add_morale( MORALE_CRAVING_NICOTINE, -15, -3 * in );
         if( one_in( 800 - 50 * in ) ) {
-            u.mod_fatigue( 1 );
+            u.mod_sleepiness( 1 );
         }
         if( current_stim > -5 * in && one_in( 400 - 20 * in ) ) {
             u.mod_stim( -1 );

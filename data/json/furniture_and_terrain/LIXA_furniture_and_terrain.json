@@ -309,7 +309,7 @@
     "type": "furniture",
     "id": "f_LIXA_unfold_barrier",
     "name": "wall of flat space",
-    "looks_like": "fd_fatigue",
+    "looks_like": "fd_reality_tear",
     "description": "From a distance, this looks like where the chamber ends; a flat wall, with a very detailed painting of a tunnel behind it.  But as you get closer, you can see how it ripples, like lazy water, and notice angles of the space beyond that a flat image could never give.",
     "symbol": "@",
     "color": "light_gray",

@@ -1083,10 +1083,10 @@ class map
         void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items,
                           const ter_id &floor_type, bool overwrite = false );
         void make_rubble( const tripoint &p, const furn_id &rubble_type, bool items ) {
-            make_rubble( p, rubble_type, items, t_dirt, false );
+            make_rubble( p, rubble_type, items, ter_str_id( "t_dirt" ).id(), false );
         }
         void make_rubble( const tripoint &p ) {
-            make_rubble( p, f_rubble, false, t_dirt, false );
+            make_rubble( p, f_rubble, false, ter_str_id( "t_dirt" ).id(), false );
         }
 
         bool is_outside( const tripoint &p ) const;
@@ -2206,7 +2206,7 @@ class map
         // Gets the roof type of the tile at p
         // Second argument refers to whether we have to get a roof (we're over an unpassable tile)
         // or can just return air because we bashed down an entire floor tile
-        ter_id get_roof( const tripoint &p, bool allow_air ) const;
+        ter_str_id get_roof( const tripoint &p, bool allow_air ) const;
 
     public:
         void process_items();
@@ -2636,7 +2636,7 @@ class fake_map : public tinymap
     private:
         std::vector<std::unique_ptr<submap>> temp_submaps_;
     public:
-        explicit fake_map( const ter_id &ter_type = t_dirt );
+        explicit fake_map( const ter_id &ter_type = ter_str_id( "t_dirt" ).id() );
         ~fake_map() override;
         static constexpr int fake_map_z = -OVERMAP_DEPTH;
 };

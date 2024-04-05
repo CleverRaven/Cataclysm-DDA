@@ -1917,7 +1917,7 @@
     "container": "bottle_glass",
     "weight": "54100 mg",
     "use_action": [ "POISON", "BLECH" ],
-    "fatigue_mod": -20,
+    "sleepiness_mod": -20,
     "volume": "50 ml",
     "charges": 1,
     "quench": -99,

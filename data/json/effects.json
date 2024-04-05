@@ -1837,8 +1837,8 @@
     "resist_traits": [ "THRESH_URSINE" ],
     "base_mods": {
       "str_mod": [ 1 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_chance": [ 1100 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_chance": [ 1100 ],
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ -22 ],
@@ -1852,7 +1852,7 @@
       "str_mod": [ 2.5 ],
       "per_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "fatigue_chance": [ -500 ],
+      "sleepiness_chance": [ -500 ],
       "hurt_chance": [ 21, 0 ],
       "pain_chance": [ -30 ]
     },
@@ -2317,10 +2317,10 @@
       "stamina_min": [ -8, -4 ],
       "stamina_max": [ -50, -20 ],
       "stamina_chance": [ 3, 10 ],
-      "fatigue_min": [ 2, 0 ],
-      "fatigue_max": [ 10, 5 ],
-      "fatigue_chance": [ 110 ],
-      "fatigue_max_val": [ 700, 250 ],
+      "sleepiness_min": [ 2, 0 ],
+      "sleepiness_max": [ 10, 5 ],
+      "sleepiness_chance": [ 110 ],
+      "sleepiness_max_val": [ 700, 250 ],
       "healing_rate": [ 0.01, 1 ]
     },
     "scaling_mods": {
@@ -2332,8 +2332,8 @@
       "stamina_min": [ -6, -4 ],
       "stamina_max": [ 15, 4 ],
       "stamina_chance": [ -1, -2.5 ],
-      "fatigue_chance": [ -50 ],
-      "fatigue_tick": [ 0.5 ]
+      "sleepiness_chance": [ -50 ],
+      "sleepiness_tick": [ 0.5 ]
     },
     "//": "Stamina regen stops completely at int 3, but no stamina loss from then on",
     "blood_analysis_description": "Bacterial Infection"
@@ -2360,10 +2360,10 @@
       "speed_mod": [ -5, 0 ],
       "stamina_min": [ -8 ],
       "stamina_chance": [ 10, 20 ],
-      "fatigue_min": [ 1, 0 ],
-      "fatigue_max": [ 5, 3 ],
-      "fatigue_chance": [ 210 ],
-      "fatigue_max_val": [ 500, 125 ],
+      "sleepiness_min": [ 1, 0 ],
+      "sleepiness_max": [ 5, 3 ],
+      "sleepiness_chance": [ 210 ],
+      "sleepiness_max_val": [ 500, 125 ],
       "healing_rate": [ 0.5 ]
     },
     "scaling_mods": {
@@ -2374,7 +2374,7 @@
       "speed_mod": [ -5, -4 ],
       "stamina_min": [ -6, -3 ],
       "stamina_chance": [ -1, -2.5 ],
-      "fatigue_chance": [ -60 ]
+      "sleepiness_chance": [ -60 ]
     }
   },
   {
@@ -2919,8 +2919,8 @@
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 600 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 600 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -1, 0 ],
       "cough_chance": [ 600, 0 ]
     }
@@ -2940,8 +2940,8 @@
     "base_mods": {
       "thirst_tick": [ 3600 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 600 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 600 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -1, 0 ],
       "cough_chance": [ 600, 0 ]
     }
@@ -2961,8 +2961,8 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 300 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 300 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -3, -1 ],
       "dex_mod": [ -1, 0 ],
       "per_mod": [ -1, 0 ],
@@ -2988,8 +2988,8 @@
     "base_mods": {
       "thirst_tick": [ 1800 ],
       "thirst_min": [ 1 ],
-      "fatigue_tick": [ 300 ],
-      "fatigue_min": [ 1 ],
+      "sleepiness_tick": [ 300 ],
+      "sleepiness_min": [ 1 ],
       "str_mod": [ -4, -2 ],
       "dex_mod": [ -2, 0 ],
       "per_mod": [ -1, 0 ],
@@ -3227,8 +3227,8 @@
       "dex_mod": [ 1 ],
       "int_mod": [ 0.5 ],
       "per_mod": [ 1 ],
-      "fatigue_min": [ 1 ],
-      "fatigue_tick": [ 9 ],
+      "sleepiness_min": [ 1 ],
+      "sleepiness_tick": [ 9 ],
       "stamina_min": [ 8 ]
     },
     "blood_analysis_description": "Methamphetamines"
@@ -3479,7 +3479,7 @@
     "name": [ "Unidentified Illness" ],
     "desc": [ "You aren't sure what's wrong with you but you don't feel well." ],
     "rating": "bad",
-    "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "fatigue_chance": [ 256 ], "fatigue_min": [ 1 ] },
+    "base_mods": { "pain_chance": [ 256 ], "pain_min": [ 1 ], "pain_max": [ 4 ], "sleepiness_chance": [ 256 ], "sleepiness_min": [ 1 ] },
     "blood_analysis_description": "Intramuscular Parasites"
   },
   {
@@ -3507,9 +3507,9 @@
       "stamina_max": [ -100 ],
       "stamina_chance": [ 300 ],
       "int_mod": [ -1, 0 ],
-      "fatigue_min": [ 5 ],
-      "fatigue_max": [ 10 ],
-      "fatigue_chance": [ 500 ]
+      "sleepiness_min": [ 5 ],
+      "sleepiness_max": [ 10 ],
+      "sleepiness_chance": [ 500 ]
     },
     "blood_analysis_description": "Streptobacillus moniliformis Infection"
   },
@@ -3728,9 +3728,9 @@
       "stamina_min": [ -100 ],
       "stamina_max": [ -200 ],
       "stamina_chance": [ 900 ],
-      "fatigue_min": [ 10 ],
-      "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
+      "sleepiness_min": [ 10 ],
+      "sleepiness_max": [ 20 ],
+      "sleepiness_chance": [ 900 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 900 ]
@@ -3738,9 +3738,9 @@
     "scaling_mods": {
       "str_mod": [ -2 ],
       "stamina_max": [ -500 ],
-      "fatigue_max": [ 20 ],
+      "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
-      "fatigue_chance": [ -300 ],
+      "sleepiness_chance": [ -300 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
@@ -3762,9 +3762,9 @@
       "stamina_min": [ -100 ],
       "stamina_max": [ -200 ],
       "stamina_chance": [ 900 ],
-      "fatigue_min": [ 10 ],
-      "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
+      "sleepiness_min": [ 10 ],
+      "sleepiness_max": [ 20 ],
+      "sleepiness_chance": [ 900 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 900 ]
@@ -3772,9 +3772,9 @@
     "scaling_mods": {
       "str_mod": [ -2 ],
       "stamina_max": [ -500 ],
-      "fatigue_max": [ 20 ],
+      "sleepiness_max": [ 20 ],
       "stamina_chance": [ -300 ],
-      "fatigue_chance": [ -300 ],
+      "sleepiness_chance": [ -300 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -50 ],
       "h_mod_chance": [ -200 ]
@@ -3798,16 +3798,16 @@
       "pain_chance": [ 9000 ],
       "pain_min": [ 1 ],
       "pain_max": [ 5 ],
-      "fatigue_chance": [ 900 ],
-      "fatigue_max_val": [ 500, 200 ],
-      "fatigue_min": [ 10 ],
+      "sleepiness_chance": [ 900 ],
+      "sleepiness_max_val": [ 500, 200 ],
+      "sleepiness_min": [ 10 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
       "h_mod_chance": [ 900 ]
     },
     "scaling_mods": {
       "pain_chance": [ -150 ],
-      "fatigue_chance": [ -200 ],
+      "sleepiness_chance": [ -200 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ -100 ],
       "h_mod_chance": [ -300 ],
@@ -3822,18 +3822,23 @@
     "id": "betablock",
     "name": [ "Beta blocker" ],
     "desc": [
-      "You are under the influence of a beta blocker.  This controls your heart rate, decreasing the influence of stressful events such as pain on it.  However, it also lowers blood pressure and induces fatigue."
+      "You are under the influence of a beta blocker.  This controls your heart rate, decreasing the influence of stressful events such as pain on it.  However, it also lowers blood pressure and induces sleepiness."
     ],
     "max_intensity": 3,
     "base_mods": {
       "blood_pressure_tick": [ 250 ],
       "blood_pressure_min": [ -2 ],
       "blood_pressure_min_val": [ -200 ],
-      "fatigue_min": [ 4 ],
-      "fatigue_chance": [ 500 ],
-      "fatigue_max_val": [ 200 ]
+      "sleepiness_min": [ 4 ],
+      "sleepiness_chance": [ 500 ],
+      "sleepiness_max_val": [ 200 ]
     },
-    "scaling_mods": { "blood_pressure_min": [ -1 ], "blood_pressure_min_val": [ -100 ], "fatigue_max_val": [ 50 ], "fatigue_min": [ 2 ] },
+    "scaling_mods": {
+      "blood_pressure_min": [ -1 ],
+      "blood_pressure_min_val": [ -100 ],
+      "sleepiness_max_val": [ 50 ],
+      "sleepiness_min": [ 2 ]
+    },
     "rating": "neutral",
     "blood_analysis_description": "Beta Blocker"
   },
@@ -4416,7 +4421,7 @@
     "desc": [ "You feel quite full, and a bit sluggish." ],
     "apply_message": "You feel quite full, and a bit sluggish.",
     "rating": "bad",
-    "base_mods": { "speed_mod": [ -2 ], "fatigue_amount": [ 1 ] }
+    "base_mods": { "speed_mod": [ -2 ], "sleepiness_amount": [ 1 ] }
   },
   {
     "type": "effect_type",
@@ -4425,7 +4430,13 @@
     "desc": [ "Your stomach is full to bursting.  This was a mistake." ],
     "apply_message": "Your stomach is full to bursting.  This was a mistake.",
     "rating": "bad",
-    "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 500 ], "vomit_tick": [ 10 ], "pain_amount": [ 3 ] }
+    "base_mods": {
+      "speed_mod": [ -10 ],
+      "sleepiness_amount": [ 2 ],
+      "vomit_chance": [ 500 ],
+      "vomit_tick": [ 10 ],
+      "pain_amount": [ 3 ]
+    }
   },
   {
     "type": "effect_type",

@@ -247,7 +247,7 @@ bool mapgendata::has_flag( jmapgen_flags f ) const
 ter_id mapgendata::groundcover() const
 {
     const ter_id *tid = default_groundcover.pick();
-    return tid != nullptr ? *tid : t_null;
+    return tid != nullptr ? *tid : ter_str_id::NULL_ID().id();
 }
 
 const oter_id &mapgendata::neighbor_at( om_direction::type dir ) const

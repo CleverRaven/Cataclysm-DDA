@@ -296,7 +296,7 @@
         "values": [
           { "value": "MAX_HP", "add": -6 },
           { "value": "STRENGTH", "add": 4 },
-          { "value": "FATIGUE", "multiply": 0.15 },
+          { "value": "SLEEPINESS", "multiply": 0.15 },
           { "value": "STOMACH_SIZE_MULTIPLIER", "multiply": 1 },
           { "value": "CARRY_WEIGHT", "multiply": 0.1 }
         ]

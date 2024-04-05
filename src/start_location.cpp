@@ -33,6 +33,18 @@ class item;
 
 static const efftype_id effect_bleed( "bleed" );
 
+static const ter_str_id ter_t_curtains( "t_curtains" );
+static const ter_str_id ter_t_door_boarded( "t_door_boarded" );
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_c_peep( "t_door_c_peep" );
+static const ter_str_id ter_t_door_locked( "t_door_locked" );
+static const ter_str_id ter_t_door_o( "t_door_o" );
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_window( "t_window" );
+static const ter_str_id ter_t_window_boarded( "t_window_boarded" );
+static const ter_str_id ter_t_window_domestic( "t_window_domestic" );
+static const ter_str_id ter_t_window_no_curtains( "t_window_no_curtains" );
+
 static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
@@ -149,7 +161,7 @@ static void add_boardable( const tinymap &m, const tripoint &p, std::vector<trip
         // Don't need to board this up, is already occupied
         return;
     }
-    if( m.ter( p ) != t_floor ) {
+    if( m.ter( p ) != ter_t_floor ) {
         // Other terrain (door, wall, ...), not boarded either
         return;
     }
@@ -172,19 +184,19 @@ static void board_up( tinymap &m, const tripoint_range<tripoint> &range )
     for( const tripoint &p : range ) {
         bool must_board_around = false;
         const ter_id t = m.ter( p );
-        if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
+        if( t == ter_t_window_domestic || t == ter_t_window || t == ter_t_window_no_curtains ) {
             // Windows are always to the outside and must be boarded
             must_board_around = true;
-            m.ter_set( p, t_window_boarded );
-        } else if( t == t_door_c || t == t_door_locked || t == t_door_c_peep ) {
+            m.ter_set( p, ter_t_window_boarded );
+        } else if( t == ter_t_door_c || t == ter_t_door_locked || t == ter_t_door_c_peep ) {
             // Only board up doors that lead to the outside
             if( m.is_outside( p + tripoint_north ) || m.is_outside( p + tripoint_south ) ||
                 m.is_outside( p + tripoint_east ) || m.is_outside( p + tripoint_west ) ) {
-                m.ter_set( p, t_door_boarded );
+                m.ter_set( p, ter_t_door_boarded );
                 must_board_around = true;
             } else {
                 // internal doors are opened instead
-                m.ter_set( p, t_door_o );
+                m.ter_set( p, ter_t_door_o );
             }
         }
         if( must_board_around ) {
@@ -238,7 +250,7 @@ void start_location::prepare_map( tinymap &m ) const
         m.build_outside_cache( z );
         board_up( m, m.points_on_zlevel( z ) );
     } else {
-        m.translate( t_window_domestic, t_curtains );
+        m.translate( ter_t_window_domestic, ter_t_curtains );
     }
 }
 

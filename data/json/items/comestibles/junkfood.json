@@ -566,7 +566,7 @@
     "color": "brown",
     "spoils_in": "360 days",
     "addiction_type": "caffeine",
-    "fatigue_mod": 30,
+    "sleepiness_mod": 30,
     "stim": 10,
     "container": "bag_plastic",
     "comestible_type": "FOOD",

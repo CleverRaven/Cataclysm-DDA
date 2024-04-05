@@ -2533,11 +2533,11 @@ npc_action npc::address_needs( float danger )
 
     const auto could_sleep = [&]() {
         if( danger <= 0.01 ) {
-            if( get_fatigue() >= fatigue_levels::TIRED ) {
+            if( get_sleepiness() >= sleepiness_levels::TIRED ) {
                 return true;
             }
             if( is_walking_with() && player_character.in_sleep_state() &&
-                get_fatigue() > ( fatigue_levels::TIRED / 2 ) ) {
+                get_sleepiness() > ( sleepiness_levels::TIRED / 2 ) ) {
                 return true;
             }
         }
@@ -2547,12 +2547,12 @@ npc_action npc::address_needs( float danger )
     if( could_sleep() ) {
         if( !is_player_ally() ) {
             // TODO: Make tired NPCs handle sleep offscreen
-            set_fatigue( 0 );
+            set_sleepiness( 0 );
             return npc_undecided;
         }
 
         if( rules.has_flag( ally_rule::allow_sleep ) ||
-            get_fatigue() > fatigue_levels::MASSIVE_FATIGUE ) {
+            get_sleepiness() > sleepiness_levels::MASSIVE_SLEEPINESS ) {
             return npc_sleep;
         }
         if( player_character.in_sleep_state() ) {
@@ -5217,7 +5217,7 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
 bool npc::complain()
 {
     static const std::string infected_string = "infected";
-    static const std::string fatigue_string = "fatigue";
+    static const std::string sleepiness_string = "sleepiness";
     static const std::string bite_string = "bite";
     static const std::string bleed_string = "bleed";
     static const std::string hypovolemia_string = "hypovolemia";
@@ -5258,9 +5258,9 @@ bool npc::complain()
 
     // When tired, complain every 30 minutes
     // If massively tired, ignore restrictions
-    if( get_fatigue() > fatigue_levels::TIRED &&
-        complain_about( fatigue_string, 30_minutes, chat_snippets().snip_yawn.translated(),
-                        get_fatigue() > fatigue_levels::MASSIVE_FATIGUE - 100 ) )  {
+    if( get_sleepiness() > sleepiness_levels::TIRED &&
+        complain_about( sleepiness_string, 30_minutes, chat_snippets().snip_yawn.translated(),
+                        get_sleepiness() > sleepiness_levels::MASSIVE_SLEEPINESS - 100 ) )  {
         return true;
     }
 

@@ -69,6 +69,7 @@ class client
         const GeometryRenderer_Ptr &sdl_geometry;
 #endif
         bool auto_size_frame_active();
+        bool any_window_shown();
 };
 
 void point_to_imvec2( point *src, ImVec2 *dest );

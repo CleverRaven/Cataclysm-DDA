@@ -69,7 +69,7 @@
     "shape": "blast",
     "effect": "attack",
     "max_level": 2,
-    "field_id": "fd_fatigue",
+    "field_id": "fd_reality_tear",
     "field_chance": 1,
     "min_field_intensity": 1,
     "field_intensity_increment": 1,
