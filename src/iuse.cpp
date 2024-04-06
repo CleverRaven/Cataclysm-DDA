@@ -4920,7 +4920,7 @@ static bool heat_item( Character &p )
         return false;
     }
     // simulates heat capacity of food, more weight = longer heating time
-    // this is x3 to simulate larger delta temperature of frozen food in relation to
+    // this is x2 to simulate larger delta temperature of frozen food in relation to
     // heating non-frozen food (x1); no real life physics here, only approximations
     int duration = to_turns<int>( time_duration::from_seconds( to_gram( heat->weight() ) ) ) * 10;
     if( heat->has_own_flag( flag_FROZEN ) && !heat->has_flag( flag_EATEN_COLD ) ) {
