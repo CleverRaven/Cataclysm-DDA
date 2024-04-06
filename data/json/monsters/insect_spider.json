@@ -2994,8 +2994,9 @@
   {
     "id": "mon_lady_bug_larva",
     "type": "MONSTER",
-    "name": { "str": "ladybug larva", "str_pl": "ladybug larvae" },
+    "name": { "str": "lady bug larva", "str_pl": "lady bug larvae" },
     "description": "A large armored larva looking not unlike a centipede.  Even though it's just a juvenile the armor on its back already looks functional.",
+    "default_faction": "ladybug",
     "copy-from": "mon_larva_abstract",
     "volume": "20 L",
     "weight": "10 kg",

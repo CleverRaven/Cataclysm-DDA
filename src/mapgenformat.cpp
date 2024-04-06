@@ -21,7 +21,7 @@ void formatted_set_simple( map *m, const point &start, const char *cstr,
         } else {
             const ter_id ter = ter_b.translate( *p );
             const furn_id furn = furn_b.translate( *p );
-            if( ter != t_null ) {
+            if( ter != ter_str_id::NULL_ID() ) {
                 m->ter_set( p2, ter );
             }
             if( furn != f_null ) {

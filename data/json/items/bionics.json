@@ -1256,7 +1256,7 @@
     "copy-from": "bionic_general_faulty",
     "type": "BIONIC_ITEM",
     "name": { "str": "Endocrine Enervator CBM" },
-    "description": "A malfunctioning bionic that causes fatigue by altering the unfortunate user's brain chemistry.",
+    "description": "A malfunctioning bionic that causes sleepiness by altering the unfortunate user's brain chemistry.",
     "weight": "100 g",
     "difficulty": 11
   },

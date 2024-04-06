@@ -46,7 +46,7 @@
           [ "f_null", 90 ]
         ]
       },
-      "fields": { "P": { "field": "fd_fatigue", "intensity": 1, "age": 10 } },
+      "fields": { "P": { "field": "fd_reality_tear", "intensity": 1, "age": 10 } },
       "place_monsters": [ { "monster": "GROUP_MI-GO_BASE_COMMON", "density": 0.1, "x": 8, "y": 10 } ],
       "nested": {
         "1": {

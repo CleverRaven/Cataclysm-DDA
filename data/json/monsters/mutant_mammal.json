@@ -63,7 +63,7 @@
     "type": "MONSTER",
     "name": { "str": "dambreaker" },
     "description": "This mutated beaver is almost double its normal size, and its back is covered with tough-looking bristles.",
-    "default_faction": "small_animal",
+    "default_faction": "herbivore",
     "bodytype": "bear",
     "categories": [ "WILDLIFE" ],
     "species": [ "MAMMAL" ],

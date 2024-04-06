@@ -38,6 +38,9 @@ static const itype_id itype_software_useless( "software_useless" );
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
+static const ter_str_id ter_t_floor( "t_floor" );
+static const ter_str_id ter_t_wall_metal( "t_wall_metal" );
+
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -89,7 +92,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
     for( const tripoint &p : compmap.points_on_zlevel() ) {
         if( compmap.furn( p ) == f_console_broken ) {
             broken.emplace_back( p );
-        } else if( broken.empty() && compmap.ter( p ) == t_floor && compmap.furn( p ) == f_null ) {
+        } else if( broken.empty() && compmap.ter( p ) == ter_t_floor && compmap.furn( p ) == f_null ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
                 if( compmap.furn( p2 ) == f_bed || compmap.furn( p2 ) == f_dresser ) {
                     potential.emplace_back( p );
@@ -208,9 +211,9 @@ void mission_start::place_deposit_box( mission *miss )
     compmap.load( site, false );
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.ter( p ) == t_floor ) {
+        if( compmap.ter( p ) == ter_t_floor ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.ter( p2 ) == t_wall_metal ) {
+                if( compmap.ter( p2 ) == ter_t_wall_metal ) {
                     valid.push_back( p );
                     break;
                 }

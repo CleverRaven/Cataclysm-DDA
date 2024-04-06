@@ -146,7 +146,7 @@
       [ "spell_scroll_devour", 25 ],
       [ "spell_scroll_recover_mana", 25 ],
       [ "spell_scroll_recover_pain", 25 ],
-      [ "spell_scroll_recover_fatigue", 25 ],
+      [ "spell_scroll_recover_sleepiness", 25 ],
       [ "spell_scroll_recover_stamina", 25 ],
       [ "spell_scroll_recover_bionic_power", 25 ],
       [ "spell_scroll_summon_undead_swarm", 35 ],
