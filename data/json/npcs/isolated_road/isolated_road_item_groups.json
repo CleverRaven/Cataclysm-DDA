@@ -180,13 +180,14 @@
     "type": "item_group",
     "id": "kitted_kord",
     "subtype": "collection",
+    "container-item": "briefcase",
     "items": [
-      {
-        "item": "kord",
-        "ammo-item": "545",
-        "charges": 30,
-        "contents-item": [ "shoulder_strap", "holo_sight", "muzzle_brake", "rail_laser_sight" ]
-      }
+      { "item": "broken_kord", "prob": 100 },
+      { "item": "shoulder_strap", "prob": 100 },
+      { "item": "compensator", "prob": 100 },
+      { "item": "rail_laser_sight", "prob": 100 },
+      { "item": "holo_sight", "prob": 100 },
+      { "item": "ak74mag", "prob": 100 }
     ]
   },
   {
