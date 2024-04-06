@@ -1536,7 +1536,7 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "con_mix",
+    "result": "con_mix_foldable",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1545,28 +1545,27 @@
     "time": "4 h 30 m",
     "reversible": true,
     "autolearn": true,
-    "//": "80 cm weld",
+    "//1": "338cm weld. 108cm from pipes making the base and handles, 20cm from welding four sheets for the blades on the inside of the drum, 200cm from welding six sheets around the motor.",
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 80 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 338 ] ],
+    "proficiencies": [ { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 }, { "proficiency": "prof_welding" } ],
     "qualities": [
       { "id": "HAMMER", "level": 3 },
-      { "id": "SAW_M", "level": 1 },
+      { "id": "SAW_M", "level": 2 },
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
     "components": [
-      [ [ "steel_lump", 3 ], [ "steel_chunk", 9 ], [ "scrap", 36 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "pipe", 4 ] ],
-      [ [ "motor_tiny", 1 ] ],
-      [ [ "element", 3 ], [ "crude_heating_element", 4 ] ],
-      [ [ "cable", 16 ] ]
-    ]
+      [ [ "pipe", 12 ] ],
+      [ [ "sheet_metal_small", 10 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "wheel_small", 2 ] ],
+      [ [ "wheel_mount_light", 2 ] ],
+      [ [ "nuts_bolts", 8 ] ],
+      [ [ "30gal_barrel", 1 ] ]
+    ],
+    "//2": "The component list is by no means perfect - this craft still generates ~7.2kg of mass. I can't, however, improve it without adding nonexistant components to the recipe, so I think this is an acceptable state of things."
   },
   {
     "type": "recipe",

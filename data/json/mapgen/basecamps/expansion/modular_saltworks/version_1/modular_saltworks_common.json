@@ -10,18 +10,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmsw_0",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "fbmsw_common_palette" ]
-    }
+    "object": { "mapgensize": [ 6, 6 ], "palettes": [ "fbmsw_common_palette" ] }
   },
   {
     "type": "mapgen",
