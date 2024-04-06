@@ -735,14 +735,7 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", daily_health );
     data.read( "health_tally", health_tally );
 
-    // Remove check after 0.F
-    if( savegame_loading_version >= 30 ) {
-        if( data.has_array( "proficiencies" ) ) {
-            _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
-        } else {
-            data.read( "proficiencies", _proficiencies );
-        }
-    }
+    data.read( "proficiencies", _proficiencies );
 
     //energy
     data.read( "stim", stim );
