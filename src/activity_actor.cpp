@@ -117,6 +117,7 @@ static const activity_id ACT_HACKING( "ACT_HACKING" );
 static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAIRCUT( "ACT_HAIRCUT" );
 static const activity_id ACT_HARVEST( "ACT_HARVEST" );
+static const activity_id ACT_HEAT( "ACT_HEAT" );
 static const activity_id ACT_HOTWIRE_CAR( "ACT_HOTWIRE_CAR" );
 static const activity_id ACT_INSERT_ITEM( "ACT_INSERT_ITEM" );
 static const activity_id ACT_INVOKE_ITEM( "ACT_INVOKE_ITEM" );
@@ -7569,89 +7570,64 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
     return actor.clone();
 }
 
-// void heat_activity_actor::start( player_activity &act, Character & )
-// {
-//     act.moves_total = requirements.time;
-//     act.moves_left = requirements.time;
-// }
+void heat_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = requirements.time;
+    act.moves_left = requirements.time;
+}
 
-// void heat_activity_actor::finish( player_activity &act, Character &p )
-// {
-//     // const auto is_liquid_crafting_component = []( const item & it ) {
-//     //     return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
-//     // };
-//     // const inventory &crafting_inv = p.crafting_inventory();
-//     // if( !crafting_inv.has_charges( itype_water, requirements.volume, is_liquid_crafting_component ) &&
-//     //     !crafting_inv.has_charges( itype_water_clean, requirements.volume, is_liquid_crafting_component ) ) {
-//     //     p.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
-//     //                          requirements.volume );
-//     //     act.set_to_null();
-//     //     return;
-//     // } else if( !crafting_inv.has_charges( itype_soap, requirements.ammo ) &&
-//     //            !crafting_inv.has_charges( itype_detergent, requirements.ammo ) &&
-//     //            !crafting_inv.has_charges( itype_liquid_soap, requirements.ammo,
-//     //                                       is_liquid_crafting_component ) ) {
-//     //     p.add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
-//     //                          requirements.ammo );
-//     //     act.set_to_null();
-//     //     return;
-//     // }
+void heat_activity_actor::finish( player_activity &act, Character &p )
+{
+    const auto is_liquid_crafting_component = []( const item & it ) {
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
+    };
+    const inventory &crafting_inv = p.crafting_inventory();
+    for( drop_location &ait : to_heat ) {
+        item_location cold_item = ait.first;
+        if( cold_item->count_by_charges() ) {
+            item copy( *cold_item );
+            copy.charges = ait.second;
+            copy.unset_flag( flag_FROZEN );
+            copy.set_flag( flag_HOT );
+            cold_item->charges -= ait.second;
+            if( cold_item->charges <= 0 ) {
+                cold_item.remove_item();
+            }
+            p.i_add_or_drop( copy );
+        } else {
+            cold_item->unset_flag( flag_FROZEN );
+            cold_item->set_flag( flag_HOT );
+            p.i_add_or_drop( *cold_item );
+        }
+    }
 
-//     // for( drop_location &ait : to_heat ) {
-//     //     item_location filthy_item = ait.first;
-//     //     if( filthy_item->count_by_charges() ) {
-//     //         item copy( *filthy_item );
-//     //         copy.charges = ait.second;
-//     //         copy.unset_flag( flag_FILTHY );
-//     //         filthy_item->charges -= ait.second;
-//     //         if( filthy_item->charges <= 0 ) {
-//     //             filthy_item.remove_item();
-//     //         }
-//     //         p.i_add_or_drop( copy );
-//     //     } else {
-//     //         filthy_item->unset_flag( flag_FILTHY );
-//     //         p.on_worn_item_washed( *filthy_item );
-//     //     }
-//     // }
+    p.add_msg_if_player( m_good, _( "You heated your items." ) );
 
-//     // std::vector<item_comp> comps;
-//     // comps.emplace_back( itype_water, requirements.water );
-//     // comps.emplace_back( itype_water_clean, requirements.water );
-//     // p.consume_items( comps, 1, is_liquid_crafting_component );
+    p.invalidate_crafting_inventory();
 
-//     // std::vector<item_comp> comps1;
-//     // comps1.emplace_back( itype_soap, requirements.cleanser );
-//     // comps1.emplace_back( itype_detergent, requirements.cleanser );
-//     // comps1.emplace_back( itype_liquid_soap, requirements.cleanser );
-//     // p.consume_items( comps1 );
+    act.set_to_null();
+}
 
-//     // p.add_msg_if_player( m_good, _( "You heated your items." ) );
+void heat_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "to_heat", to_heat );
+    jsout.member( "time", requirements.time );
+    jsout.member( "volume", requirements.volume );
+    jsout.member( "ammo", requirements.ammo );
+    jsout.end_object();
+}
 
-//     // p.invalidate_crafting_inventory();
-
-//     act.set_to_null();
-// }
-
-// void heat_activity_actor::serialize( JsonOut &jsout ) const
-// {
-//     jsout.start_object();
-//     jsout.member( "to_heat", to_heat );
-//     jsout.member( "time", requirements.time );
-//     jsout.member( "volume", requirements.volume );
-//     jsout.member( "ammo", requirements.ammo );
-//     jsout.end_object();
-// }
-
-// std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsin )
-// {
-//     wash_activity_actor actor;
-//     JsonObject data = jsin.get_object();
-//     data.read( "to_heat", actor.to_heat );
-//     data.read( "time", actor.requirements.time );
-//     data.read( "volume", actor.requirements.volume );
-//     data.read( "ammo", actor.requirements.ammo );
-//     return actor.clone();
-// }
+std::unique_ptr<activity_actor> heat_activity_actor::deserialize( JsonValue &jsin )
+{
+    heat_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "to_heat", actor.to_heat );
+    data.read( "time", actor.requirements.time );
+    data.read( "volume", actor.requirements.volume );
+    data.read( "ammo", actor.requirements.ammo );
+    return actor.clone();
+}
 void wash_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_total = requirements.time;
@@ -7771,6 +7747,7 @@ deserialize_functions = {
     { ACT_HACKSAW, &hacksaw_activity_actor::deserialize },
     { ACT_HAIRCUT, &haircut_activity_actor::deserialize },
     { ACT_HARVEST, &harvest_activity_actor::deserialize},
+    { ACT_HEAT, &heat_activity_actor::deserialize },
     { ACT_HOTWIRE_CAR, &hotwire_car_activity_actor::deserialize },
     { ACT_INSERT_ITEM, &insert_item_activity_actor::deserialize },
     { ACT_INVOKE_ITEM, &invoke_item_activity_actor::deserialize },
