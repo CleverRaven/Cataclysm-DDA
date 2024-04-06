@@ -863,7 +863,7 @@ static void smash()
         mech_smash = true;
     }
     
-    if( !mech_smash && player_character.get_strain() != player_character.get_strain_max() && player_character.get_strain() < 2 * player_character.get_standard_stamina_cost() ){
+    if( !mech_smash && player_character.get_strain() <= player_character.get_strain_max() * 0.25 ){
         add_msg( m_bad, _( "Your muscles are too strained to smash!" ) );
         return;
     }

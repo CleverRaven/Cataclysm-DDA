@@ -7122,7 +7122,9 @@ void Character::update_strain( int turns )
     // This allows it to scale more quickly than your strain, so that at higher fitness levels you
     // recover faster. For now we are using cardiofit as a stand-in for a dedicated fitness score
     // for strain.
-    const float effective_regen_rate = base_regen_rate * get_cardiofit() / get_cardio_acc_base();
+    const float effective_regen_rate = base_regen_rate * ( get_cardiofit() / get_cardio_acc_base() ) 
+                      * std::min( 1.0f, 2000.0f/weariness());
+    add_msg( m_bad, _( "effective regen rate: %f, base rate: %f, cardio mod: %d, weary mod: %f" ), effective_regen_rate, base_regen_rate, get_cardiofit() / get_cardio_acc_base(), std::min( 1.0f, 2000.0f/weariness()) );
     // Values above or below normal will increase or decrease strain regen
     const float mod_regen = enchantment_cache->modify_value( enchant_vals::mod::STRAIN_REGEN_MOD, 0 );
     const float base_multiplier = mod_regen + 1.0f;
