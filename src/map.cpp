@@ -8571,7 +8571,13 @@ void map::cut_down_tree( tripoint_bub_ms p, point dir )
 
     // This code essentially assumes a tree height of 1 or 2, as the line of trunks probably gets
     // too long if larger.
-    const tripoint_bub_ms to = p + ( tree_height + 1 ) * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
+    tripoint_bub_ms to = p + ( tree_height + 1 ) * dir + point( rng( -1, 1 ), rng( -1, 1 ) );
+    // If a treetopless tree ends up providing zero trunks, give it one anyway. This will hopefully
+    // stave of potential bug reports about logging resulting in no trunks.
+    if( to == p ) {
+        to = p + dir;
+    }
+
     // TODO: make line_to type aware.
     std::vector<tripoint> tree = line_to( p.raw(), to.raw(), rng( 1, 8 ) );
     for( tripoint &elem : tree ) {
