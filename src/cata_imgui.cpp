@@ -599,3 +599,43 @@ cataimgui::bounds cataimgui::window::get_bounds()
 {
     return { -1.f, -1.f, -1.f, -1.f };
 }
+
+class cataimgui::filter_box_impl
+{
+    public:
+        ImGuiID id;
+};
+
+cataimgui::filter_box::filter_box()
+{
+    p_impl = new cataimgui::filter_box_impl();
+    p_impl->id = 0;
+    filter_text_impl[0] = '\0';
+}
+
+cataimgui::filter_box::~filter_box()
+{
+    delete p_impl;
+}
+
+void cataimgui::filter_box::draw()
+{
+    ImGui::InputText( "##FILTERBOX", filter_text_impl, std::extent_v< decltype( filter_text_impl )> );
+    if( !p_impl->id ) {
+        p_impl->id = GImGui->LastItemData.ID;
+    }
+}
+
+std::string cataimgui::filter_box::get_filter()
+{
+    return std::string( filter_text_impl );
+}
+
+void cataimgui::filter_box::set_filter( const std::string &filter )
+{
+    // doesnt currently work, relies on API only available in newer ImGUi, because I can't have nice things
+    //ImGuiInputTextState* input_state = ImGui::GetInputTextState( id );
+    //if( input_state ) {
+    //    input_state->ReloadUserBufAndSelectAll();
+    //}
+}

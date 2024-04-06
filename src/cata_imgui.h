@@ -114,6 +114,18 @@ class window
         virtual void draw_controls() = 0;
 };
 
+class filter_box
+{
+        class filter_box_impl *p_impl;
+        char filter_text_impl[255]; // NOLINT(modernize-avoid-c-arrays)
+    public:
+        filter_box();
+        ~filter_box();
+        void draw();
+        std::string get_filter();
+        void set_filter( const std::string &filter );
+};
+
 #if !(defined(TILES) || defined(WIN32))
 void init_pair( int p, int f, int b );
 void load_colors();
