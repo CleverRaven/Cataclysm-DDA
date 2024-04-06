@@ -1495,7 +1495,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
                        proficiency_prof_test ) == 0 );
 
 
-    // Proficency learning without 'direct': 'true' is impacted by focus
+    // Proficency learning without 'direct': true is impacted by focus
     const auto prof_xp = [&player_character]() {
         return to_seconds<int>( player_character.get_proficiency_practiced_time( proficiency_prof_test ) );
     };

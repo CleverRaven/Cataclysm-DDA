@@ -66,6 +66,11 @@ bool is_beta( char scope )
     }
 }
 
+constexpr bool is_true( double dbl )
+{
+    return dbl >= 1 || float_equals( dbl, 1 );
+}
+
 template<typename T>
 constexpr std::string_view _str_type_of()
 {
@@ -1195,7 +1200,7 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
         std::vector<diag_value> const &params, diag_kwargs const &kwargs )
 {
     diag_value fmt_val( std::string{"time_spent"} );
-    diag_value direct_val( std::string{"false"} );
+    diag_value direct_val( 0.0 );
     if( kwargs.count( "format" ) != 0 ) {
         fmt_val = *kwargs.at( "format" );
     }
@@ -1206,7 +1211,7 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
     double val ) {
         proficiency_id prof( prof_value.str( d ) );
         std::string const format = fmt_val.str( d );
-        std::string direct = direct_val.str( d );
+        bool const direct = is_true( direct_val.dbl( d ) );
         int to_write = 0;
         if( format == "percent" ) {
             to_write = to_turns<int>( prof->time_to_learn() * val ) / 100;
@@ -1222,14 +1227,11 @@ std::function<void( dialogue &, double )> proficiency_ass( char scope,
         }
         int before = to_turns<int>( d.actor( beta )->proficiency_practiced_time( prof ) );
         int learned = to_write - before;
-        if( direct != "true" && direct != "false" ) {
-            debugmsg( R"(Unknown direct value "%s" for proficiency, assuming "false")", direct );
-            direct = "false";
-        } else if( direct == "false" && learned < 0 ) {
+        if( !direct && learned < 0 ) {
             debugmsg( "For proficiency %s in dialogue, trying to learn negative without direct", prof.str() );
             return 0;
         }
-        if( direct == "false" ) {
+        if( !direct ) {
             d.actor( beta )->train_proficiency_for( prof, learned );
         } else {
             d.actor( beta )->set_proficiency_practiced_time( prof, to_write );
