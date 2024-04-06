@@ -1334,7 +1334,7 @@
       {
         "type": "VAR",
         "condition": "npctalk_var_mbt_f_function",
-        "value": "fatigue",
+        "value": "sleepiness",
         "name": { "str_sp": "%s (wake up)" }
       }
     ],
@@ -1374,7 +1374,7 @@
               "npc_add_var": "function",
               "type": "mbt",
               "context": "f",
-              "possible_values": [ "morale", "focus", "pain", "fatigue" ]
+              "possible_values": [ "morale", "focus", "pain", "sleepiness" ]
             }
           ]
         },
@@ -1406,9 +1406,9 @@
           "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
         },
         {
-          "id": "EOC_MIGO_BIO_TECH_FATIGUE",
-          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "fatigue" },
-          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('fatigue')", "-=", "30" ] } ]
+          "id": "EOC_MIGO_BIO_TECH_SLEEPINESS",
+          "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "sleepiness" },
+          "effect": [ { "u_message": "You instantly feel more awake!" }, { "math": [ "u_val('sleepiness')", "-=", "30" ] } ]
         }
       ]
     }

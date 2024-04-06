@@ -197,7 +197,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_GOBLIN_FRUIT_AWAKE",
-    "effect": [ { "math": [ "u_val('fatigue')", "-=", "25" ] } ]
+    "effect": [ { "math": [ "u_val('sleepiness')", "-=", "25" ] } ]
   },
   {
     "type": "COMESTIBLE",

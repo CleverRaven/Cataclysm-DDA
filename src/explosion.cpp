@@ -88,6 +88,13 @@ static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
+static const ter_str_id ter_t_card_industrial( "t_card_industrial" );
+static const ter_str_id ter_t_card_military( "t_card_military" );
+static const ter_str_id ter_t_card_reader_broken( "t_card_reader_broken" );
+static const ter_str_id ter_t_card_science( "t_card_science" );
+static const ter_str_id ter_t_door_metal_locked( "t_door_metal_locked" );
+static const ter_str_id ter_t_floor( "t_floor" );
+
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
@@ -658,14 +665,14 @@ void emp_blast( const tripoint &p )
         return;
     }
     // TODO: More terrain effects.
-    if( here.ter( p ) == t_card_science || here.ter( p ) == t_card_military ||
-        here.ter( p ) == t_card_industrial ) {
+    if( here.ter( p ) == ter_t_card_science || here.ter( p ) == ter_t_card_military ||
+        here.ter( p ) == ter_t_card_industrial ) {
         int rn = rng( 1, 100 );
         if( rn > 92 || rn < 40 ) {
             if( sight ) {
                 add_msg( _( "The card reader is rendered non-functional." ) );
             }
-            here.ter_set( p, t_card_reader_broken );
+            here.ter_set( p, ter_t_card_reader_broken );
         }
         if( rn > 80 ) {
             if( sight ) {
@@ -673,8 +680,8 @@ void emp_blast( const tripoint &p )
             }
             for( int i = -3; i <= 3; i++ ) {
                 for( int j = -3; j <= 3; j++ ) {
-                    if( here.ter( p + tripoint( i, j, 0 ) ) == t_door_metal_locked ) {
-                        here.ter_set( p + tripoint( i, j, 0 ), t_floor );
+                    if( here.ter( p + tripoint( i, j, 0 ) ) == ter_t_door_metal_locked ) {
+                        here.ter_set( p + tripoint( i, j, 0 ), ter_t_floor );
                     }
                 }
             }

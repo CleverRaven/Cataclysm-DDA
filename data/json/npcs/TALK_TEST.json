@@ -238,9 +238,9 @@
         "condition": { "npc_need": "hunger", "amount": 75 }
       },
       {
-        "text": "This is a npc fatigue test response.",
+        "text": "This is a npc sleepiness test response.",
         "topic": "TALK_DONE",
-        "condition": { "npc_need": "fatigue", "level": "DEAD_TIRED" }
+        "condition": { "npc_need": "sleepiness", "level": "DEAD_TIRED" }
       }
     ]
   },

@@ -548,6 +548,7 @@
     "priority": 8,
     "half_life": "2 minutes",
     "phase": "gas",
+    "has_fume": true,
     "accelerated_decay": true,
     "display_items": false,
     "display_field": true,
@@ -871,7 +872,7 @@
     "display_field": true
   },
   {
-    "id": "fd_fatigue",
+    "id": "fd_reality_tear",
     "type": "field_type",
     "legacy_enum_id": 20,
     "intensity_levels": [
@@ -891,7 +892,7 @@
         "monster_spawn_chance": 600,
         "monster_spawn_count": 1,
         "monster_spawn_radius": 1,
-        "monster_spawn_group": "GROUP_NETHER_FATIGUE_FIELD"
+        "monster_spawn_group": "GROUP_NETHER_REALITY_TEAR_FIELD"
       }
     ],
     "description_affix": "under",
@@ -1999,8 +2000,8 @@
     "max_duration": "6 seconds",
     "max_intensity": 3,
     "int_dur_factor": "2 seconds",
-    "base_mods": { "hurt_min": [ 2 ], "hurt_chance": [ 1 ] },
-    "scaling_mods": { "hurt_min": [ 2 ] },
+    "base_mods": { "hurt_min": [ 1 ], "hurt_chance": [ 3 ] },
+    "scaling_mods": { "hurt_min": [ 1 ] },
     "show_in_info": true
   },
   {

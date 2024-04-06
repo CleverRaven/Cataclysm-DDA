@@ -1190,18 +1190,18 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
             if( !filtered_registered_actions.empty() ) {
                 status = kb_menu_status::execute;
             }
-        } else if( action == "DOWN" ) {
+        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
             if( !filtered_registered_actions.empty()
                 && filtered_registered_actions.size() > display_height
                 && scroll_offset < filtered_registered_actions.size() - display_height ) {
                 scroll_offset++;
             }
-        } else if( action == "UP" ) {
+        } else if( action == "UP" || action == "SCROLL_UP" ) {
             if( !filtered_registered_actions.empty()
                 && scroll_offset > 0 ) {
                 scroll_offset--;
             }
-        } else if( action == "PAGE_DOWN" || action == "SCROLL_DOWN" ) {
+        } else if( action == "PAGE_DOWN" ) {
             if( filtered_registered_actions.empty() ) {
                 // do nothing
             } else if( scroll_offset + display_height < filtered_registered_actions.size() ) {
@@ -1210,7 +1210,7 @@ action_id input_context::display_menu_legacy( const bool permit_execute_action )
             } else if( filtered_registered_actions.size() > display_height ) {
                 scroll_offset = 0;
             }
-        } else if( action == "PAGE_UP" || action == "SCROLL_UP" ) {
+        } else if( action == "PAGE_UP" ) {
             if( filtered_registered_actions.empty() ) {
                 // do nothing
             } else if( scroll_offset >= display_height ) {

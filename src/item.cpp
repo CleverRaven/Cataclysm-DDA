@@ -204,7 +204,6 @@ static const quality_id qual_LIFT( "LIFT" );
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_survival( "survival" );
-static const skill_id skill_throw( "throw" );
 static const skill_id skill_weapon( "weapon" );
 
 static const species_id species_ROBOT( "ROBOT" );
@@ -511,12 +510,14 @@ static void inherit_rot_from_components( item &it )
         const time_duration shortest_lifespan = get_shortest_lifespan_from_components( it );
         if( shortest_lifespan > 0_turns && shortest_lifespan < it.get_shelf_life() ) {
             it.set_rot( it.get_shelf_life() - shortest_lifespan );
+            return;
         }
-    } else {
-        const item *most_rotten = get_most_rotten_component( it );
-        if( most_rotten ) {
-            it.set_relative_rot( most_rotten->get_relative_rot() );
-        }
+        // Fallthrough: shortest_lifespan <= 0_turns (all components are rotten)
+    }
+
+    const item *most_rotten = get_most_rotten_component( it );
+    if( most_rotten ) {
+        it.set_relative_rot( most_rotten->get_relative_rot() );
     }
 }
 
@@ -5695,14 +5696,14 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
             } );
             if( any_encumb_increase ) {
                 info.emplace_back( "BASE",
-                                   _( "* This items pockets are <info>not rigid</info>.  Its"
+                                   _( "* This item's pockets are <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
                 not_rigid = true;
             }
         }
         if( !not_rigid && !all_pockets_rigid() && !is_corpse() ) {
             info.emplace_back( "BASE",
-                               _( "* This items pockets are <info>not rigid</info>.  Its"
+                               _( "* This item's pockets are <info>not rigid</info>.  Its"
                                   " volume increases with contents." ) );
         }
     }
@@ -6535,7 +6536,7 @@ int item::on_wield_cost( const Character &you ) const
 void item::on_wield( Character &you )
 {
     int wield_cost = on_wield_cost( you );
-    you.moves -= wield_cost;
+    you.mod_moves( -wield_cost );
 
     std::string msg;
 
@@ -11965,6 +11966,13 @@ bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
     }
 
     for( item *removed : removed_items ) {
+        // Handle cases where items are removed but the pocket isn't emptied
+        item *parent = this->find_parent( *removed );
+        for( item_pocket *pocket : parent->get_all_standard_pockets() ) {
+            if( pocket->has_item( *removed ) ) {
+                pocket->unseal();
+            }
+        }
         this->remove_item( *removed );
     }
 
@@ -13114,7 +13122,7 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         } else {
             carrier->add_effect( effect_weed_high, duration / 2 );
         }
-        carrier->moves -= 15;
+        carrier->mod_moves( -to_moves<int>( 1_seconds ) * 0.15 );
 
         if( ( carrier->has_effect( effect_shakes ) && one_in( 10 ) ) ||
             ( carrier->has_trait( trait_JITTERY ) && one_in( 200 ) ) ) {
@@ -13314,7 +13322,7 @@ ret_val<void> item::link_to( vehicle &veh, const point &mount, link_state link_t
         } else if( !veh.is_external_part( veh.mount_to_tripoint( mount ) ) ) {
             return ret_val<void>::make_failure( _( "You can't attach a tow-line to an internal part." ) );
         } else {
-            const int part_at = veh.part_at( mount );
+            const int part_at = veh.part_at( veh.coord_translate( mount ) );
             if( part_at != -1 && !veh.part( part_at ).carried_stack.empty() ) {
                 return ret_val<void>::make_failure( _( "You can't attach a tow-line to a racked part." ) );
             }
@@ -14604,9 +14612,6 @@ bool item::on_drop( const tripoint &pos, map &m )
     }
 
     avatar &player_character = get_avatar();
-
-    // set variable storing information of character dropping item
-    dropped_char_stats.throwing = player_character.get_skill_level( skill_throw );
 
     return type->drop_action && type->drop_action.call( &player_character, *this, pos );
 }

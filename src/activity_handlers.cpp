@@ -228,6 +228,9 @@ static const species_id species_FERAL( "FERAL" );
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
+static const ter_str_id ter_t_dirt( "t_dirt" );
+static const ter_str_id ter_t_tree( "t_tree" );
+
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
@@ -1394,6 +1397,9 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
 
     you->recoil = MAX_RECOIL;
 
+    get_event_bus().send<event_type::character_butchered_corpse>( you->getID(),
+            corpse_item.get_mtype()->id, act->id().str() );
+
     // Ready to move on to the next item, if there is one (for example if multibutchering)
     act->index = true;
     // if it's mutli-tile butchering, then restart the backlog.
@@ -1667,7 +1673,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     if( you->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         if( here.is_bashable( pos ) && here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, pos ) &&
-            here.ter( pos ) != t_tree ) {
+            here.ter( pos ) != ter_t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
             if( you->has_trait( trait_STOCKY_TROGLO ) ) {
@@ -1773,12 +1779,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
             moves += 100 / std::max( 0.25f,
                                      stamina_ratio ) * you->exertion_adjusted_move_multiplier( act->exertion_level() );
             if( stamina_ratio < 0.33 || you->is_npc() ) {
-                you->moves = std::min( 0, you->moves - moves );
+                you->set_moves( std::min( 0, you->get_moves() - moves ) );
                 return;
             }
-            if( moves >= you->moves ) {
+            if( moves >= you->get_moves() ) {
                 // Enough for this turn;
-                you->moves -= moves;
+                you->mod_moves( -moves );
                 return;
             }
         }
@@ -1902,7 +1908,7 @@ void activity_handlers::start_fire_do_turn( player_activity *act, Character *you
         return;
     }
 
-    you->mod_moves( -you->moves );
+    you->mod_moves( -you->get_moves() );
     const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
     const float light = actor->light_mod( you->pos() );
     act->moves_left -= light * 100;
@@ -2105,7 +2111,7 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, Character *you
             add_msg( m_info, _( "You've charged the battery completely." ) );
         }
     }
-    if( you->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         act->moves_left = 0;
         add_msg( m_info, _( "You're too exhausted to keep cranking." ) );
     }
@@ -2137,7 +2143,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, Character *you )
         }
     }
     // Dead Tired: different kind of relaxation needed
-    if( you->get_fatigue() >= fatigue_levels::DEAD_TIRED ) {
+    if( you->get_sleepiness() >= sleepiness_levels::DEAD_TIRED ) {
         act->moves_left = 0;
         add_msg( m_info, _( "You're too tired to continue." ) );
     }
@@ -2935,12 +2941,12 @@ void activity_handlers::repair_item_do_turn( player_activity *act, Character *yo
 {
     // Moves are decremented based on a combination of speed and good vision (not in the dark, farsighted, etc)
     const float exertion_mult = you->exertion_adjusted_move_multiplier( act->exertion_level() );
-    const int effective_moves = you->moves / ( you->fine_detail_vision_mod() * exertion_mult );
+    const int effective_moves = you->get_moves() / ( you->fine_detail_vision_mod() * exertion_mult );
     if( effective_moves <= act->moves_left ) {
         act->moves_left -= effective_moves;
-        you->moves = 0;
+        you->set_moves( 0 );
     } else {
-        you->moves -= act->moves_left * you->fine_detail_vision_mod();
+        you->mod_moves( -act->moves_left * you->fine_detail_vision_mod() );
         act->moves_left = 0;
     }
 }
@@ -3270,7 +3276,7 @@ void activity_handlers::plant_seed_finish( player_activity *act, Character *you 
         if( here.has_flag_furn( seed_id->seed->required_terrain_flag, examp ) ) {
             here.furn_set( examp, furn_str_id( here.furn( examp )->plant->transform ) );
         } else if( seed_id->seed->required_terrain_flag == ter_furn_flag::TFLAG_PLANTABLE ) {
-            here.set( examp, t_dirt, f_plant_seed );
+            here.set( examp, ter_t_dirt, f_plant_seed );
         } else {
             here.furn_set( examp, f_plant_seed );
         }
@@ -3525,7 +3531,7 @@ static void perform_zone_activity_turn(
             // we are at destination already
             /* Perform action */
             tile_action( *you, tile_loc );
-            if( you->moves <= 0 ) {
+            if( you->get_moves() <= 0 ) {
                 return;
             }
         }

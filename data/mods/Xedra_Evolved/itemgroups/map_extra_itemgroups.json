@@ -134,7 +134,7 @@
       { "weight": 100, "spell_id": "AEA_NOISE", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_LIGHT", "base_power": 100 },
       { "weight": 100, "spell_id": "AEA_DIM", "base_power": 100 },
-      { "weight": 100, "spell_id": "AEA_FATIGUE", "base_power": -100 },
+      { "weight": 100, "spell_id": "AEA_SLEEPINESS", "base_power": -100 },
       { "weight": 100, "spell_id": "AEA_FIREBALL", "base_power": 500 },
       { "weight": 100, "spell_id": "AEA_FLASH", "base_power": 250 },
       { "weight": 100, "spell_id": "AEA_PARALYZE", "base_power": -250 },

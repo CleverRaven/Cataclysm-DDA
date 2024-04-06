@@ -1852,8 +1852,6 @@ void Item_factory::init()
     add_iuse( "REMOTEVEH", &iuse::remoteveh );
     add_iuse( "REMOTEVEH_TICK", &iuse::remoteveh_tick );
     add_iuse( "REMOVE_ALL_MODS", &iuse::remove_all_mods );
-    add_iuse( "RM13ARMOR_OFF", &iuse::rm13armor_off );
-    add_iuse( "RM13ARMOR_ON", &iuse::rm13armor_on );
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "SEED", &iuse::seed );
     add_iuse( "SEWAGE", &iuse::sewage );
@@ -3278,7 +3276,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     assign( jo, "quench", slot.quench, strict );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "stim", slot.stim, strict );
-    assign( jo, "fatigue_mod", slot.fatigue_mod, strict );
+    assign( jo, "sleepiness_mod", slot.sleepiness_mod, strict );
     assign( jo, "healthy", slot.healthy, strict );
     assign( jo, "parasites", slot.parasites, strict, 0 );
     assign( jo, "freezing_point", slot.freeze_point, strict );
@@ -4568,35 +4566,8 @@ itype_id Item_factory::migrate_id( const itype_id &id )
     return parent != nullptr ? parent->replace : id;
 }
 
-void Item_factory::migrate_item( const itype_id &id, item &obj )
+static void apply_migration( const migration *migrant, item &obj )
 {
-    auto iter = migrations.find( id );
-    if( iter == migrations.end() ) {
-        return;
-    }
-    bool convert = false;
-    const migration *migrant = nullptr;
-    for( const migration &m : iter->second ) {
-        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
-            migrant = &m;
-            // This is not the variant that the item has already been convert to
-            // So we'll convert it again.
-            convert = true;
-            break;
-        }
-        // When we find a migration that doesn't care about variants, keep it around
-        if( !m.from_variant ) {
-            migrant = &m;
-        }
-    }
-    if( migrant == nullptr ) {
-        return;
-    }
-
-    if( convert ) {
-        obj.convert( migrant->replace );
-    }
-
     if( migrant->reset_item_vars ) {
         obj.clear_vars();
         for( const auto &pair : migrant->replace.obj().item_variables ) {
@@ -4631,6 +4602,54 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
 
     if( !migrant->contents.empty() && migrant->sealed ) {
         obj.seal();
+    }
+}
+
+void Item_factory::migrate_item( const itype_id &id, item &obj )
+{
+    auto iter = migrations.find( id );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    bool convert = false;
+    const migration *migrant = nullptr;
+    for( const migration &m : iter->second ) {
+        if( m.from_variant && obj.has_itype_variant() && obj.itype_variant().id == *m.from_variant ) {
+            migrant = &m;
+            // This is not the variant that the item has already been convert to
+            // So we'll convert it again.
+            convert = true;
+            break;
+        }
+        // When we find a migration that doesn't care about variants, keep it around
+        if( !m.from_variant ) {
+            migrant = &m;
+        }
+    }
+    if( migrant == nullptr ) {
+        return;
+    }
+
+    if( convert ) {
+        obj.convert( migrant->replace );
+    }
+
+    apply_migration( migrant, obj );
+}
+
+void Item_factory::migrate_item_from_variant( item &obj, const std::string &from_variant )
+{
+    auto iter = migrations.find( obj.typeId() );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    for( const migration &m : iter->second ) {
+        if( !m.from_variant.has_value() || m.from_variant.value() != from_variant ) {
+            continue;
+        }
+        obj.convert( m.replace );
+        apply_migration( &m, obj );
+        break;
     }
 }
 
@@ -4755,6 +4774,10 @@ void Item_factory::clear()
     migrated_magazines.clear();
     migrations.clear();
 
+    /* Avoid unvisited member errors when iterating on json */
+    for( std::pair<JsonObject, std::string> &deferred_json : deferred ) {
+        deferred_json.first.allow_omitted_members();
+    }
     deferred.clear();
 
     frozen = false;

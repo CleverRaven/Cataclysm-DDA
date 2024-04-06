@@ -323,9 +323,9 @@
     "vision_night": 8,
     "extend": {
       "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_mandible", "wps_amalgamation_tail" ],
-      "families": [ "prof_wp_nat_armored" ]
+      "families": [ "prof_wp_nat_armored" ],
+      "flags": [ "GRABS" ]
     },
-    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 },
-    "flags": [ "GRABS" ]
+    "armor": { "bash": 20, "cut": 25, "stab": 30, "acid": 12, "bullet": 40, "electric": 12 }
   }
 ]

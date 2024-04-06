@@ -488,7 +488,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_EOCS, true, 'C', _( "Write global effect_on_condition(s) to eocs.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_GLOBAL_VARS, true, 'G', _( "Write global var(s) to var_list.output" ) ) },
             { uilist_entry( debug_menu_index::WRITE_TIMED_EVENTS, true, 'E', _( "Write Timed (E)vents to timed_event_list.output" ) ) },
-            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 's', _( "Edit global var(s)" ) ) },
+            { uilist_entry( debug_menu_index::EDIT_GLOBAL_VARS, true, 'a', _( "Edit global v(a)rs" ) ) },
             { uilist_entry( debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION, true, 'e', _( "Test map extra list" ) ) },
             { uilist_entry( debug_menu_index::GENERATE_EFFECT_LIST, true, 'L', _( "Generate effect list" ) ) },
         };
@@ -1472,7 +1472,7 @@ static void character_edit_needs_menu( Character &you )
 {
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
-    std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
+    std::pair<std::string, nc_color> sleepiness_pair = display::sleepiness_text_color( you );
     std::pair<std::string, nc_color> weariness_pair = display::weariness_text_color( you );
 
     std::stringstream data;
@@ -1480,8 +1480,9 @@ static void character_edit_needs_menu( Character &you )
                            hunger_pair.second ) ) << std::endl;
     data << string_format( _( "Thirst: %d  %s" ), you.get_thirst(), colorize( thirst_pair.first,
                            thirst_pair.second ) ) << std::endl;
-    data << string_format( _( "Fatigue: %d  %s" ), you.get_fatigue(), colorize( fatigue_pair.first,
-                           fatigue_pair.second ) ) << std::endl;
+    data << string_format( _( "Sleepiness: %d  %s" ), you.get_sleepiness(),
+                           colorize( sleepiness_pair.first,
+                                     sleepiness_pair.second ) ) << std::endl;
     data << string_format( _( "Weariness: %d  %s" ), you.weariness(), colorize( weariness_pair.first,
                            weariness_pair.second ) ) << std::endl;
     data << std::endl;
@@ -1506,7 +1507,7 @@ static void character_edit_needs_menu( Character &you )
     smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), you.stomach.get_calories() );
     smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kCal" ), you.guts.get_calories() );
     smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), you.get_thirst() );
-    smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), you.get_fatigue() );
+    smenu.addentry( 5, true, 'f', "%s: %d", _( "Sleepiness" ), you.get_sleepiness() );
     smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
     smenu.addentry( 7, true, 'w', "%s: %d", _( "Weariness" ), you.weariness() );
     smenu.addentry( 8, true, 'a', _( "Reset all basic needs" ) );
@@ -1552,8 +1553,8 @@ static void character_edit_needs_menu( Character &you )
             break;
 
         case 5:
-            if( query_int( value, _( "Set fatigue to?  Currently: %d" ), you.get_fatigue() ) ) {
-                you.set_fatigue( value );
+            if( query_int( value, _( "Set sleepiness to?  Currently: %d" ), you.get_sleepiness() ) ) {
+                you.set_sleepiness( value );
             }
             break;
 
@@ -1574,7 +1575,7 @@ static void character_edit_needs_menu( Character &you )
             you.initialize_stomach_contents();
             you.set_hunger( 0 );
             you.set_thirst( 0 );
-            you.set_fatigue( 0 );
+            you.set_sleepiness( 0 );
             you.set_sleep_deprivation( 0 );
             you.set_stored_kcal( you.get_healthy_kcal() );
             you.activity_history.weary_clear();
@@ -2822,7 +2823,7 @@ static void normalize_body()
     u.clear_morale();
     u.clear_vitamins();
     u.set_all_parts_hp_to_max();
-    u.set_fatigue( 0 );
+    u.set_sleepiness( 0 );
     u.set_focus( 100 );
     u.set_hunger( 0 );
     u.set_pain( 0 );
@@ -3454,7 +3455,7 @@ void debug()
         case debug_menu_index::QUIT_NOSAVE:
             if( query_yn(
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                player_character.moves = 0;
+                player_character.set_moves( 0 );
                 g->uquit = QUIT_NOSAVED;
             }
             break;
