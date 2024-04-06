@@ -737,6 +737,13 @@ void Character::load( const JsonObject &data )
 
     data.read( "proficiencies", _proficiencies );
 
+    // If the proficiency XP required has changed such that a proficiency is now known
+    for( const proficiency_id &prof : _proficiencies->learning_profs() ) {
+        if( _proficiencies->pct_practiced_time( prof ) >= prof->time_to_learn() ) {
+            _proficiencies->learn( prof );
+        }
+    }
+
     //energy
     data.read( "stim", stim );
     data.read( "stamina", stamina );
