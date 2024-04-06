@@ -161,9 +161,9 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
 
             WHEN( "NPC has a battery for their armor" ) {
-                item battery = item("heavy_battery_cell");
-                battery.ammo_set( battery.ammo_default());
-                worn_armor.put_in(battery,pocket_type::MAGAZINE_WELL);
+                item battery = item( "heavy_battery_cell" );
+                battery.ammo_set( battery.ammo_default() );
+                worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
 
                 REQUIRE( worn_armor.ammo_remaining() > 0 );
 
