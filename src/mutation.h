@@ -200,7 +200,7 @@ struct mutation_branch {
         // Allow soft (fabric) gear on restricted body parts
         bool allow_soft_gear  = false;
         // IF any of the four are true, it drains that as the "cost"
-        bool fatigue       = false;
+        bool sleepiness       = false;
         bool hunger        = false;
         bool thirst        = false;
         // How many points it costs in character creation
@@ -554,6 +554,7 @@ bool b_is_higher_trait_of_a( const trait_id &trait_a, const trait_id &trait_b );
 bool are_opposite_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b );
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait );
+int get_total_nonbad_in_category( const mutation_category_id &categ );
 
 enum class mutagen_technique : int {
     consumed_mutagen,

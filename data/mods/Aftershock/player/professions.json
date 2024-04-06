@@ -377,7 +377,7 @@
       { "level": 3, "name": "bashing" }
     ],
     "proficiencies": [ "prof_batons_familiar", "prof_auto_pistols_familiar" ],
-    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "MUT_TANK", "TUSKS", "HUGE_OK" ],
+    "traits": [ "PROF_SWAT", "UPLIFTED", "THRESH_MASTODON", "TUSKS", "HUGE_OK" ],
     "//": "Need to add XL gear for MASTODON's in more items.",
     "items": {
       "both": {

@@ -310,18 +310,7 @@
       }
     ],
     "ammo": "battery",
-    "flags": [
-      "USE_UPS",
-      "IS_UPS",
-      "STURDY",
-      "WATERPROOF",
-      "ELECTRIC_IMMUNE",
-      "COMBAT_TOGGLEABLE",
-      "OUTER",
-      "MUNDANE",
-      "DEAF",
-      "TARDIS"
-    ],
+    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
     "relic_data": {
       "passive_effects": [
         { "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 }, { "value": "CARRY_WEIGHT", "add": 20000 } ] }
@@ -349,7 +338,6 @@
     "description": "This is a standard exosuit frame.  Designed to be modular, it can accept a variety of power supplies, defensive and offensive systems, and utility tools.  Slots exist for the torso, back, arms, and legs.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [
       "USE_UPS",
-      "IS_UPS",
       "STURDY",
       "WATERPROOF",
       "ELECTRIC_IMMUNE",
@@ -541,18 +529,7 @@
       }
     ],
     "ammo": "battery",
-    "flags": [
-      "USE_UPS",
-      "IS_UPS",
-      "STURDY",
-      "WATERPROOF",
-      "ELECTRIC_IMMUNE",
-      "COMBAT_TOGGLEABLE",
-      "OUTER",
-      "MUNDANE",
-      "DEAF",
-      "TARDIS"
-    ],
+    "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF", "TARDIS" ],
     "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "use_action": [
       {
@@ -576,7 +553,6 @@
     "description": "This is a light duty exosuit frame.  This lighter version of the exosuit draws less power but has less capacity for equipment and uses a fixed cage for collision protection instead of modular armor.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [
       "USE_UPS",
-      "IS_UPS",
       "STURDY",
       "WATERPROOF",
       "ELECTRIC_IMMUNE",
@@ -600,7 +576,7 @@
         ],
         "covers": [ "eyes" ],
         "coverage": 100,
-        "encumbrance": 100,
+        "encumbrance": 5,
         "layers": [ "OUTER" ]
       },
       {

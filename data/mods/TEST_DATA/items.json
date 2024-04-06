@@ -4919,5 +4919,15 @@
     "//": "Do not use calcium, iron or vitamin C! Those are calculated as RDAs, and you only get 96% of the listed value! No, that doesn't make any sense! But that's how it is. So use a normal vitamin. This is for a camp test, not a vitamin test...",
     "vitamins": [ [ "mutant_toxin", 100 ], [ "mutagen", 200 ] ],
     "melee_damage": { "bash": 1 }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "toastem_test",
+    "name": { "str": "toast-em" },
+    "copy-from": "toastem",
+    "//": "toastem copy with a different material + manual values so monotony penalty is sure to apply",
+    "material": [ "foodplace_foodstuff" ],
+    "fun": 20,
+    "monotony_penalty": 4
   }
 ]

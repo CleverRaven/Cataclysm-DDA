@@ -39,6 +39,13 @@ static const skill_id skill_gun( "gun" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_throwing( "throwing" );
 
+static const ter_str_id ter_t_door_c( "t_door_c" );
+static const ter_str_id ter_t_door_locked_interior( "t_door_locked_interior" );
+static const ter_str_id ter_t_door_o( "t_door_o" );
+static const ter_str_id ter_t_stairs_down( "t_stairs_down" );
+static const ter_str_id ter_t_water_dispenser( "t_water_dispenser" );
+static const ter_str_id ter_t_window( "t_window" );
+
 static const trap_str_id tr_bubblewrap( "tr_bubblewrap" );
 static const trap_str_id tr_tutorial_1( "tr_tutorial_1" );
 static const trap_str_id tr_tutorial_10( "tr_tutorial_10" );
@@ -210,25 +217,25 @@ void tutorial_game::per_turn()
     }
 
     for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
-        if( here.ter( p ) == t_door_c ) {
+        if( here.ter( p ) == ter_t_door_c ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( here.ter( p ) == t_door_o ) {
+        } else if( here.ter( p ) == ter_t_door_o ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( here.ter( p ) == t_door_locked_interior ) {
+        } else if( here.ter( p ) == ter_t_door_locked_interior ) {
             add_message( tut_lesson::LESSON_LOCKED_DOOR );
             break;
-        } else if( here.ter( p ) == t_window ) {
+        } else if( here.ter( p ) == ter_t_window ) {
             add_message( tut_lesson::LESSON_WINDOW );
             break;
         } else if( here.furn( p ) == f_rack ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( here.ter( p ) == t_stairs_down ) {
+        } else if( here.ter( p ) == ter_t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( here.ter( p ) == ter_id( "t_water_dispenser" ) ) {
+        } else if( here.ter( p ) == ter_t_water_dispenser ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         } else if( here.tr_at( p ).id == tr_bubblewrap ) {

@@ -474,7 +474,6 @@
       "install_time": "5 s"
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
-    "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
     "flags": [
@@ -487,7 +486,7 @@
       "CONDUCTIVE"
     ],
     "weapon_category": [ "KNIVES" ],
-    "melee_damage": { "stab": 22 }
+    "melee_damage": { "stab": 21 }
   },
   {
     "id": "knife_hunting",
