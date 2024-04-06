@@ -143,7 +143,7 @@
     "points": 2,
     "visibility": 8,
     "mixed_effect": true,
-    "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.   <color_red>You can still go back to how you used to be.  If you continue changing in this direction you will be permanently changed.  Progress from this state will need the matching threshold.</color>",
+    "description": "Your forearms are covered by long, stiff feathers.  While they are impressive to look at and resistant to water and other contaminants, they always get in the way and you hate it when they get filthy.  <color_red>You can still go back to how you used to be.  If you continue changing in this direction you will be permanently changed.  Progress from this state will need the matching threshold.</color>",
     "category": [ "RAPTOR", "BIRD" ],
     "prereqs": [ "FEATHERS", "SPARSE_SCALES" ],
     "prereqs2": [ "PRE_ARM_FEATHERS" ],
