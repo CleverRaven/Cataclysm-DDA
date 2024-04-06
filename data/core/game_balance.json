@@ -53,7 +53,7 @@
     "name": "PLAYER_BASE_STRAIN_REGEN_RATE",
     "info": "Sets base strain regeneration per turn of the player, before modifiers.  May be used as an offset in strain draining effects.",
     "stype": "float",
-    "value": 50
+    "value": 20
   },
   {
     "type": "EXTERNAL_OPTION",

@@ -654,6 +654,18 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     }
 
     const bool hits = hit_spread >= 0;
+    
+    /** @EFFECT_MELEE reduces stamina cost of melee attacks */
+    const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
+    const int base_stam = get_base_melee_stamina_cost();
+    const int total_stam = enchantment_cache->modify_value(
+                               enchant_vals::mod::MELEE_STAMINA_CONSUMPTION,
+                               get_total_melee_stamina_cost() );
+    
+    if( get_strain() != get_strain_max() && get_strain() < std::min( 50, total_stam + deft_bonus ) ){
+        add_msg( m_bad, _( "Your muscles are too strained to make an attack!" ) );
+        return false;
+    }
 
     if( monster *m = t.as_monster() ) {
         cata::event e = cata::event::make<event_type::character_melee_attacks_monster>( getID(),
@@ -936,12 +948,6 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
         handle_melee_wear( cur_weapon );
     }
 
-    /** @EFFECT_MELEE reduces stamina cost of melee attacks */
-    const int deft_bonus = !hits && has_trait( trait_DEFT ) ? 50 : 0;
-    const int base_stam = get_base_melee_stamina_cost();
-    const int total_stam = enchantment_cache->modify_value(
-                               enchant_vals::mod::MELEE_STAMINA_CONSUMPTION,
-                               get_total_melee_stamina_cost() );
 
     burn_energy_arms( std::min( -50, total_stam + deft_bonus ) );
     add_msg_debug( debugmode::DF_MELEE, "Stamina burn base/total (capped at -50): %d/%d", base_stam,
