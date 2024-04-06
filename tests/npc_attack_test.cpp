@@ -150,13 +150,13 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
             }
         }
         WHEN( "NPC has an exoskeleton" ) {
-            
+
             main_npc.clear_worn();
             item armor( "combat_exoskeleton_medium" );
             item &worn_armor = **main_npc.wear_item( armor );
 
             REQUIRE( !worn_armor.is_null() );
-            
+
             // If the flag gets removed from power armor, some other item with the flag will need to replace it.
             REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
 
