@@ -149,27 +149,25 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 CHECK( !throw_attack );
             }
         }
-        /*WHEN( "NPC has power armor" ) {
+        WHEN( "NPC has an exoskeleton" ) {
+            
             main_npc.clear_worn();
-
             item armor( "combat_exoskeleton_medium" );
-            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
-            REQUIRE( wear_success );
+            item &worn_armor = **main_npc.wear_item( armor );
 
+            REQUIRE( !worn_armor.is_null() );
+            
             // If the flag gets removed from power armor, some other item with the flag will need to replace it.
             REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
 
             WHEN( "NPC has a battery for their armor" ) {
+                item battery = item("heavy_battery_cell");
+                battery.ammo_set( battery.ammo_default());
+                worn_armor.put_in(battery,pocket_type::MAGAZINE_WELL);
 
-                item battery( "heavy_plus_battery_cell" );
-                battery.ammo_set( battery.ammo_default(), battery.ammo_capacity( ammo_battery ) );
+                REQUIRE( worn_armor.ammo_remaining() > 0 );
 
-                item_location battery_location = main_npc.try_add(battery);
-                armor.reload(main_npc, battery_location, 1);
-
-                REQUIRE( battery_location == item_location::nowhere );
-
-                THEN( "NPC activates their power armor successfully" ) {
+                THEN( "NPC activates their exoskeleton successfully" ) {
 
                     // target is not exposed, so regen_ai_cache is used to have the npc re-assess threat and store the target.
                     main_npc.regen_ai_cache();
@@ -179,8 +177,8 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 }
             }
 
-            WHEN( "NPC has no power supply for their armor" ) {
-                THEN( "NPC fails to activate their power armor" ) {
+            WHEN( "NPC has no power supply for their exoskeleton" ) {
+                THEN( "NPC fails to activate their exoskeleton" ) {
                     main_npc.regen_ai_cache();
                     main_npc.method_of_attack();
                     CHECK( main_npc.is_wearing( itype_combat_exoskeleton_medium ) );
@@ -188,7 +186,7 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
                 }
             }
         }
-        */WHEN( "NPC has a headlamp" ) {
+        WHEN( "NPC has a headlamp" ) {
             main_npc.clear_worn();
 
             item headlamp( "wearable_light" );
@@ -293,13 +291,13 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
         }
     }
     GIVEN( "There is no zombie nearby. " ) {
-        WHEN( "NPC is wearing active power armor. " ) {
+        WHEN( "NPC is wearing active exoskeleton. " ) {
             item armor( "combat_exoskeleton_medium_on" );
             armor.activate();
             std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );
 
-            THEN( "NPC deactivates their power armor. " ) {
+            THEN( "NPC deactivates their exoskeleton. " ) {
                 // This is somewhat cheating, but going up one level is testing all of npc::move.
                 main_npc.cleanup_on_no_danger();
 
