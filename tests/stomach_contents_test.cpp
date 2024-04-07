@@ -77,7 +77,7 @@ static time_duration time_until_hungry( Character &p )
     do {
         p.set_sleep_deprivation( 0 );
         p.set_sleepiness( 0 );
-        pass_time( p, 30_minutes, 1_minutes  );
+        pass_time( p, 30_minutes, 1_minutes );
         thirty_minutes++;
     } while( p.get_hunger() < 40 ); // hungry
     return thirty_minutes * 30_minutes;
@@ -482,6 +482,8 @@ TEST_CASE( "hunger" )
 
 TEST_CASE( "fasting" )
 {
+    // change this bool when editing the test
+    const bool print_tests = false;
     clear_avatar();
     Character &dummy = get_player_character();
     reset_time();
@@ -494,14 +496,14 @@ TEST_CASE( "fasting" )
     int morale_init = dummy.get_morale_level();
     int str_init = dummy.get_str();
     int speed_init = dummy.get_speed();
-    int kcal_init = dummy.get_stored_kcal();
 
-    printf( "DAY 0:\n" );
-    printf( "STR: %d\n", dummy.get_str() );
-    printf( "SPEED: %d\n", dummy.get_speed() );
-    printf( "MORALE: %d\n", dummy.get_morale_level() );
-    printf( "kCAL: %d\n", dummy.get_stored_kcal() );
-
+    if( print_tests ) {
+        printf( "DAY 0:\n" );
+        printf( "STR: %d\n", dummy.get_str() );
+        printf( "SPEED: %d\n", dummy.get_speed() );
+        printf( "MORALE: %d\n", dummy.get_morale_level() );
+        printf( "kCAL: %d\n", dummy.get_stored_kcal() );
+    }
     CHECK( !dummy.has_effect( effect_fasting ) );
     CHECK( !dummy.has_effect( effect_fasting_prolonged ) );
 
@@ -512,7 +514,7 @@ TEST_CASE( "fasting" )
     pass_time( dummy, 1_days + 30_minutes, 30_minutes );
     dummy.set_hunger( 0 );
     dummy.set_thirst( 0 );
-    dummy.set_fatigue( 0 );
+    dummy.set_sleepiness( 0 );
     dummy.set_sleep_deprivation( 0 );
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
@@ -520,16 +522,18 @@ TEST_CASE( "fasting" )
     CHECK( !dummy.has_effect( effect_fasting_prolonged ) );
 
     for( unsigned int day = 1; day <= 3; day++ ) {
-        printf( "DAY: %d\n", day );
-        printf( "STR: %d\n", dummy.get_str() );
-        printf( "SPEED: %d\n", dummy.get_speed() );
-        printf( "MORALE: %d\n", dummy.get_morale_level() );
-        printf( "kCAL: %d\n", dummy.get_stored_kcal() );
+        if( print_tests ) {
+            printf( "DAY: %d\n", day );
+            printf( "STR: %d\n", dummy.get_str() );
+            printf( "SPEED: %d\n", dummy.get_speed() );
+            printf( "MORALE: %d\n", dummy.get_morale_level() );
+            printf( "kCAL: %d\n", dummy.get_stored_kcal() );
+        }
 
         pass_time( dummy, 1_days, 30_minutes );
         dummy.set_hunger( 0 );
         dummy.set_thirst( 0 );
-        dummy.set_fatigue( 0 );
+        dummy.set_sleepiness( 0 );
         dummy.set_sleep_deprivation( 0 );
         dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     }
@@ -540,19 +544,20 @@ TEST_CASE( "fasting" )
     //REQUIRE(dummy.get_str() == str_init);
 
     for( unsigned int day = 4; day <= 34; day++ ) {
-        printf( "DAY: %d\n", day );
-        printf( "STR: %d\n", dummy.get_str() );
-        printf( "SPEED: %d\n", dummy.get_speed() );
-        printf( "MORALE: %d\n", dummy.get_morale_level() );
-        printf( "kCAL: %d\n", dummy.get_stored_kcal() );
+        if( print_tests ) {
+            printf( "DAY: %d\n", day );
+            printf( "STR: %d\n", dummy.get_str() );
+            printf( "SPEED: %d\n", dummy.get_speed() );
+            printf( "MORALE: %d\n", dummy.get_morale_level() );
+            printf( "kCAL: %d\n", dummy.get_stored_kcal() );
 
-        effect e = dummy.get_effect( effect_fasting_prolonged );
-        printf( "Fasting Intensity: %d\n", e.get_effective_intensity() );
-
+            effect e = dummy.get_effect( effect_fasting_prolonged );
+            printf( "Fasting Intensity: %d\n", e.get_effective_intensity() );
+        }
         pass_time( dummy, 1_days, 30_minutes );
         dummy.set_hunger( 0 );
         dummy.set_thirst( 0 );
-        dummy.set_fatigue( 0 );
+        dummy.set_sleepiness( 0 );
         dummy.set_sleep_deprivation( 0 );
         dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     }
