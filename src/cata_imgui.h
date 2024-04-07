@@ -18,6 +18,7 @@ struct item_info_data;
 struct point;
 class ImVec2;
 class Font;
+class input_context;
 
 namespace cataimgui
 {
@@ -116,7 +117,7 @@ class window
         std::string button_action;
         virtual bounds get_bounds();
         virtual void draw_controls() = 0;
-        void draw_filter(bool filtering_active);
+        void draw_filter( const input_context &ctxt, bool filtering_active );
 };
 
 #if !(defined(TILES) || defined(WIN32))

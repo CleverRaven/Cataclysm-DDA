@@ -10,6 +10,7 @@
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
+#include "input_context.h"
 
 static ImGuiKey cata_key_to_imgui( int cata_key );
 
@@ -607,7 +608,7 @@ cataimgui::bounds cataimgui::window::get_bounds()
     return { -1.f, -1.f, -1.f, -1.f };
 }
 
-void cataimgui::window::draw_filter(bool filtering_active)
+void cataimgui::window::draw_filter( const input_context &ctxt, bool filtering_active )
 {
     if( !filter_impl ) {
         filter_impl = std::make_unique<cataimgui::filter_box_impl>();
@@ -616,19 +617,19 @@ void cataimgui::window::draw_filter(bool filtering_active)
     }
 
     if( !filtering_active ) {
-        action_button( "FILTER", "[/] Set" );
+        action_button( "FILTER", ctxt.get_button_text( "FILTER" ) );
         ImGui::SameLine();
-        action_button( "RESET_FILTER", "[r] Clear" );
+        action_button( "RESET_FILTER", ctxt.get_button_text( "RESET_FILTER" ) );
         ImGui::SameLine();
     } else {
-        action_button( "QUIT", "[ESC] Cancel" );
+        action_button( "QUIT", ctxt.get_button_text( "QUIT", _( "Cancel" ) ) );
         ImGui::SameLine();
-        action_button( "TEXT.CONFIRM", "[RET] OK" );
+        action_button( "TEXT.CONFIRM", ctxt.get_button_text( "TEXT.CONFIRM", _( "OK" ) ) );
         ImGui::SameLine();
     }
     ImGui::BeginDisabled( filtering_active );
     ImGui::InputText( "##FILTERBOX", filter_impl->text,
-        std::extent_v < decltype(filter_impl->text) > );
+                      std::extent_v < decltype( filter_impl->text ) > );
     ImGui::EndDisabled();
     if( !filter_impl->id ) {
         filter_impl->id = GImGui->LastItemData.ID;

@@ -320,6 +320,44 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     return rval;
 }
 
+
+std::string input_context::get_button_text( const std::string &action_descriptor ) const
+{
+    std::string action_name = get_action_name( action_descriptor );
+    if( action_name.empty() ) {
+        action_name = action_descriptor;
+    }
+    return get_button_text( action_descriptor, action_name );
+}
+
+std::string input_context::get_button_text( const std::string &action_descriptor,
+        const std::string &action_text ) const
+{
+    if( action_descriptor == "ANY_INPUT" ) {
+        return ""; // what sort of crazy button would this be?
+    }
+
+    bool is_local = false;
+    const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
+            category, &is_local );
+    if( events.empty() ) {
+        return action_text;
+    }
+
+    std::vector<input_event> inputs_to_show;
+    for( const input_event &event : events ) {
+        if( is_event_type_enabled( event.type ) ) {
+            inputs_to_show.push_back( event );
+        }
+    }
+
+    if( inputs_to_show.empty() ) {
+        return action_text;
+    } else {
+        return string_format( "[%s] %s", inputs_to_show[0].long_description(), action_text );
+    }
+}
+
 std::string input_context::get_desc(
     const std::string &action_descriptor,
     const std::string &text,
@@ -663,7 +701,7 @@ void keybindings_ui::draw_controls()
     if( last_status != status && status == kb_menu_status::filter ) {
         ImGui::SetKeyboardFocusHere( 0 );
     }
-    draw_filter(status == kb_menu_status::filter);
+    draw_filter( *ctxt, status == kb_menu_status::filter );
     ImGui::Separator();
 
     if( last_status != status && status == kb_menu_status::show ) {
