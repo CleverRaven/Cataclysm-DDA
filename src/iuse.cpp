@@ -8085,11 +8085,13 @@ std::optional<int> iuse::capture_monster_act( Character *p, item *it, const trip
     return 0;
 }
 
-heating_requirements heating_requirements_for_volume( const units::volume &frozen,const units::volume &nfrozen )
+heating_requirements heating_requirements_for_volume( const units::volume &frozen,
+        const units::volume &nfrozen )
 {
     units::volume volume = frozen + nfrozen;
     int ammo = 2 * divide_round_up( frozen, 1_liter ) + divide_round_up( nfrozen, 1_liter );
-    int time = to_moves<int>( 20_seconds * ( frozen / 250_ml ) ) + to_moves<int>( 10_seconds * ( nfrozen / 250_ml ) ) ;
+    int time = to_moves<int>( 20_seconds * ( frozen / 250_ml ) ) + to_moves<int>( 10_seconds *
+               ( nfrozen / 250_ml ) ) ;
     return { volume, ammo, time };
 }
 
@@ -8102,8 +8104,8 @@ std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoin
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    if(!it->container_type_pockets_empty()){
-        p->add_msg_if_player(_("You need an empty container to heat items."));
+    if( !it->container_type_pockets_empty() ) {
+        p->add_msg_if_player( _( "You need an empty container to heat items." ) );
         return std::nullopt;
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
@@ -8113,10 +8115,10 @@ std::optional<int> iuse::heat_solid_items( Character *p, item *it, const tripoin
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if(it->has_pocket_type(pocket_type::CONTAINER)){
+    if( it->has_pocket_type( pocket_type::CONTAINER ) ) {
         heat_items( p, it, false, true );
-    }else{
-        heat_single_item( p, it);
+    } else {
+        heat_single_item( p, it );
     }
     return 0;
 }
@@ -8130,8 +8132,8 @@ std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoi
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    if(!it->container_type_pockets_empty()){
-        p->add_msg_if_player(_("You need an empty container to heat items."));
+    if( !it->container_type_pockets_empty() ) {
+        p->add_msg_if_player( _( "You need an empty container to heat items." ) );
         return std::nullopt;
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
@@ -8141,10 +8143,10 @@ std::optional<int> iuse::heat_liquid_items( Character *p, item *it, const tripoi
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if(it->has_pocket_type(pocket_type::CONTAINER)){
+    if( it->has_pocket_type( pocket_type::CONTAINER ) ) {
         heat_items( p, it, true, false );
-    }else{
-        heat_single_item( p, it);
+    } else {
+        heat_single_item( p, it );
     }
     return 0;
 }
@@ -8158,8 +8160,8 @@ std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint 
     if( p->cant_do_mounted() ) {
         return std::nullopt;
     }
-    if(!it->container_type_pockets_empty()){
-        p->add_msg_if_player(_("You need an empty container to heat items."));
+    if( !it->container_type_pockets_empty() ) {
+        p->add_msg_if_player( _( "You need an empty container to heat items." ) );
         return std::nullopt;
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
@@ -8169,10 +8171,10 @@ std::optional<int> iuse::heat_all_items( Character *p, item *it, const tripoint 
         return std::nullopt;
     }
     //If *it don't have container,such like COOK level 1 tools(tongs,spear), you can only heat one solid item a time(and can't be liquid), but no volume limit on each batch.
-    if(it->has_pocket_type(pocket_type::CONTAINER)){
+    if( it->has_pocket_type( pocket_type::CONTAINER ) ) {
         heat_items( p, it, true, true );
-    }else{
-        heat_single_item( p, it);
+    } else {
+        heat_single_item( p, it );
     }
     return 0;
 }
@@ -8188,45 +8190,47 @@ std::optional<int> iuse::heat_single_item( Character *p, item *it )
         return it.made_of( phase_id::LIQUID );
     };
     item_location heater = item_location( *p, it );
-    int available_heater = 0;
-    int heating_effect = 0;
     int fire_flag = 0;
-    if(get_map().has_nearby_fire( p->pos() )){
-        available_heater = 10000;
-        heating_effect = 1;
+    add_msg( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
+    if( get_map().has_nearby_fire( p->pos() ) ) {
         int fire_flag = 1;
-    }else if(it->has_quality(qual_HOTPLATE)){
-        if(it->ammo_remaining() > it->type->charges_to_use()){
+    } else if( it->has_quality( qual_HOTPLATE ) &&
+               ( it->ammo_remaining() > it->type->charges_to_use() ||
+                 !it->has_no_links() ? it->link().t_veh->connected_battery_power_level().first >
+                 it->type->charges_to_use() : false ) ) {
+        if( it->ammo_remaining() > it->type->charges_to_use() ) {
             heater = item_location( *p, it );
-        }else if(!it->has_no_links()){
-            if(int remain = it->link().t_veh->connected_battery_power_level().first > 0){
-                heater = item_location( *p, it );
-            }
+            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+        } else if( !it->has_no_links() ) {
+            heater = item_location( *p, it );
+            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
         }
-    }else{
+    } else {
         auto filter = [&it]( const item & e ) {
-            if(e.has_quality(qual_HOTPLATE,2) && e.ammo_remaining()>e.type->charges_to_use()) {
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() > e.type->charges_to_use() ) {
                 return true;
             }
-            if(e.has_quality(qual_HOTPLATE,2) && (!e.has_no_links())){
-                if(e.link().t_veh->connected_battery_power_level().first>e.type->charges_to_use()){
+            if( e.has_quality( qual_HOTPLATE, 2 ) && ( !e.has_no_links() ) ) {
+                if( e.link().t_veh->connected_battery_power_level().first > e.type->charges_to_use() ) {
                     return true;
                 }
             }
             return false;
         };
         heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
-                                            _( "You don't have proper heating source." ) );
+                                    _( "You don't have proper heating source." ) );
+        add_msg( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(), heater->tname() );
     }
-    if(heat_item(*p)){
-        if (fire_flag!=1){
-            heater->activation_consume(1,heater.position(),p);
+    if( heat_item( *p ) ) {
+        if( fire_flag != 1 ) {
+            heater->activation_consume( 1, heater.position(), p );
         }
     }
+    add_msg( m_info, _( "You have finished heating." ) );
     return 0;
 }
 
-std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items, bool solid_items )
+std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, bool solid_items )
 {
     if( p->cant_do_mounted() ) {
         return std::nullopt;
@@ -8240,65 +8244,73 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
     int available_heater = 0;
     int heating_effect = 0;
     int fire_flag = 0;
-    if(get_map().has_nearby_fire( p->pos() )){
+    if( get_map().has_nearby_fire( p->pos() ) ) {
         available_heater = 10000;
         heating_effect = 1;
         int fire_flag = 1;
-    }else if(it->has_quality(qual_HOTPLATE)){
-        heater = item_location( *p, it );
-        if(it->ammo_remaining() > it->type->charges_to_use()){
+        //Check if it is HOTPLATE tool with at least one charge.
+    } else if( it->has_quality( qual_HOTPLATE ) &&
+               ( it->ammo_remaining() > it->type->charges_to_use() ||
+                 !it->has_no_links() ? it->link().t_veh->connected_battery_power_level().first >
+                 it->type->charges_to_use() : false ) ) {
+        if( it->ammo_remaining() > it->type->charges_to_use() ) {
+            heater = item_location( *p, it );
             available_heater = it->ammo_remaining();
             heating_effect = it->type->charges_to_use();
-        }else if(!it->has_no_links()){
-            if(int remain = it->link().t_veh->connected_battery_power_level().first > it->type->charges_to_use()){
-                available_heater = remain;
-                heating_effect = it->type->charges_to_use();
-            }
+            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+        } else if( !it->has_no_links() ) {
+            heater = item_location( *p, it );
+            available_heater = it->link().t_veh->connected_battery_power_level().first;
+            heating_effect = it->type->charges_to_use();
+            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
         }
-    }else{
+    } else {
         auto filter = [&it]( const item & e ) {
-            if(e.has_quality(qual_HOTPLATE,2) && e.ammo_remaining()>e.type->charges_to_use()) {
+            if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() > e.type->charges_to_use() ) {
                 return true;
             }
-            if(e.has_quality(qual_HOTPLATE,2) && (!e.has_no_links())){
-                if(e.link().t_veh->connected_battery_power_level().first>e.type->charges_to_use()){
+            if( e.has_quality( qual_HOTPLATE, 2 ) && ( !e.has_no_links() ) ) {
+                if( e.link().t_veh->connected_battery_power_level().first > e.type->charges_to_use() ) {
                     return true;
                 }
             }
             return false;
         };
         heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
-                                            _( "You don't have proper heating source." ) );
-        if(!heater){
+                                    _( "You don't have proper heating source." ) );
+        add_msg( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(), heater->tname() );
+        if( !heater ) {
             add_msg( m_info, _( "Never mind." ) );
             return std::nullopt;
         }
-        if(heater->has_no_links()){
+        if( heater->has_no_links() ) {
             available_heater = heater->ammo_remaining();
             heating_effect = heater->type->charges_to_use();
-        }else{
+        } else {
             available_heater = heater->link().t_veh->connected_battery_power_level().first;
             heating_effect = heater->type->charges_to_use();
         }
     }
     units::volume available_volume = it->max_containable_volume();
-    const inventory_filter_preset preset( [liquid_items, solid_items]( const item_location & location ) {
+    const inventory_filter_preset preset( [liquid_items,
+    solid_items]( const item_location & location ) {
         return location->has_temperature() && !location->has_own_flag( flag_HOT ) &&
-               ( ( liquid_items && location->made_of_from_type(phase_id::LIQUID) ) || ( solid_items && !location->made_of_from_type(phase_id::LIQUID) ) );
+               ( ( liquid_items && location->made_of_from_type( phase_id::LIQUID ) ) || ( solid_items &&
+                       !location->made_of_from_type( phase_id::LIQUID ) ) );
     } );
     auto make_raw_stats = [available_volume,
-                           available_heater,heating_effect]( const std::vector<std::pair<item_location, int>> &locs
+                           available_heater, heating_effect]( const std::vector<std::pair<item_location, int>> &locs
     ) {
         units::volume frozen_volume = 0_ml;
         units::volume not_frozen_volume = 0_ml;
-        for (const auto &pair :locs){
-            if(pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD )){
+        for( const auto &pair : locs ) {
+            if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
                 frozen_volume +=  pair.first->volume( false, true, pair.second );
-            }else{
+            } else {
                 not_frozen_volume +=  pair.first->volume( false, true, pair.second );
             }
         }
-        heating_requirements required = heating_requirements_for_volume( frozen_volume , not_frozen_volume );
+        heating_requirements required = heating_requirements_for_volume( frozen_volume, not_frozen_volume );
         const std::string time = colorize( to_string( time_duration::from_moves( required.time ), true ),
                                            c_light_gray );
         auto to_string = []( int val ) -> std::string {
@@ -8308,10 +8320,12 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
             }
             return string_format( "%3d", val );
         };
-        const std::string volume = string_join( display_stat( "", required.volume.value(), available_volume.value(),
-                                               to_string ), "" );
-        const std::string ammo = string_join( display_stat( "", required.ammo*heating_effect, available_heater,
-                                     to_string ), "" );
+        const std::string volume = string_join( display_stat( "", required.volume.value(),
+                                                available_volume.value(),
+                                                to_string ), "" );
+        const std::string ammo = string_join( display_stat( "", required.ammo * heating_effect,
+                                              available_heater,
+                                              to_string ), "" );
         using stats = inventory_selector::stats;
         return stats{{
                 {{ _( "Container" ), volume }},
@@ -8335,19 +8349,19 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
     }
     units::volume frozen_volume = 0_ml;
     units::volume not_frozen_volume = 0_ml;
-    for (const auto &pair : to_heat){
-        if(pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD )){
+    for( const auto &pair : to_heat ) {
+        if( pair.first->has_own_flag( flag_FROZEN ) && !pair.first->has_own_flag( flag_EATEN_COLD ) ) {
             frozen_volume +=  pair.first->volume( false, true, pair.second );
-        }else{
+        } else {
             not_frozen_volume +=  pair.first->volume( false, true, pair.second );
         }
     }
-    heating_requirements required = heating_requirements_for_volume( frozen_volume , not_frozen_volume );
+    heating_requirements required = heating_requirements_for_volume( frozen_volume, not_frozen_volume );
     if( required.volume > available_volume ) {
-        p->add_msg_if_player( _( "You need more space to contain these items." ));
+        p->add_msg_if_player( _( "You need more space to contain these items." ) );
         return std::nullopt;
     } else if( available_heater < required.ammo * heating_effect ) {
-        p->add_msg_if_player( _( "You need more energy to heat these items." ));
+        p->add_msg_if_player( _( "You need more energy to heat these items." ) );
         return std::nullopt;
     }
     const std::vector<Character *> helpers = p->get_crafting_helpers();
@@ -8357,9 +8371,10 @@ std::optional<int> iuse::heat_items( Character *p, item *it , bool liquid_items,
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( heat_activity_actor( to_heat, required ) );
-    if (fire_flag!=1){
-        heater->activation_consume(required.ammo,heater.position(),p);
+    if( fire_flag != 1 ) {
+        heater->activation_consume( required.ammo, heater.position(), p );
     }
+    add_msg( m_info, _( "You have finished heating." ) );
     return 0;
 }
 
