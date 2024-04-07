@@ -153,14 +153,16 @@ TEST_CASE( "NPC_faces_zombies", "[npc_attack]" )
 
             main_npc.clear_worn();
             item armor( "combat_exoskeleton_medium" );
-            item &worn_armor = **main_npc.wear_item( armor );
+            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            item &worn_armor = **wear_success;
 
-            REQUIRE( !worn_armor.is_null() );
+            REQUIRE( wear_success );
 
             // If the flag gets removed from power armor, some other item with the flag will need to replace it.
             REQUIRE( main_npc.worn_with_flag( flag_COMBAT_TOGGLEABLE ) );
 
             WHEN( "NPC has a battery for their armor" ) {
+
                 item battery = item( "heavy_battery_cell" );
                 battery.ammo_set( battery.ammo_default() );
                 worn_armor.put_in( battery, pocket_type::MAGAZINE_WELL );
