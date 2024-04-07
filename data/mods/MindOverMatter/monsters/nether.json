@@ -3,7 +3,7 @@
     "id": "mon_nether_eater",
     "type": "MONSTER",
     "name": { "str": "eater" },
-    "description": "A thicket of opalescent diaphanous fronds, lazily waving in the air, with parts of them constantly vanishing and reappearing.  The central core, if it exists, is obscured by their constant motion.  There are no obvious sensory organs, but as you approach the motion of the fronds changes slightly.",
+    "description": "A thicket of opalescent, faintly-glowing diaphanous fronds, lazily waving in the air, with parts of them constantly vanishing and reappearing.  The central core, if it exists, is obscured by their constant motion.  There are no obvious sensory organs, but as you approach the motion of the fronds changes slightly.",
     "//": "This is like a flaming eye in that it flies and spams an attack, but different in that it's nearly immune to bullets but otherwise very fragile and its primary attack starts off as harmless (only draining mana) and progresses through stamina and then health.  The function is to make areas with eaters more dangerous, but eaters themselves only become very dangerous if there are a lot of them or you're too busy killing other things while they drain you.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
@@ -23,6 +23,7 @@
     "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 40,
+    "luminance": 1,
     "tracking_distance": 15,
     "harvest": "exempt",
     "special_attacks": [

@@ -952,7 +952,7 @@
     "color": "brown",
     "addiction_type": "caffeine",
     "addiction_potential": 1,
-    "fatigue_mod": 24,
+    "sleepiness_mod": 24,
     "stim": 8,
     "container": "bag_plastic",
     "comestible_type": "FOOD",

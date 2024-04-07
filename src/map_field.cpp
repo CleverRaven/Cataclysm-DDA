@@ -1666,7 +1666,7 @@ void map::player_in_field( Character &you )
                 }
             }
         }
-        if( ft == fd_fatigue ) {
+        if( ft == fd_reality_tear ) {
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !you.in_vehicle ) {
                 // Teleports you... somewhere.
@@ -1986,7 +1986,7 @@ void map::monster_in_field( monster &z )
                                                     cur.get_field_intensity() ) );
             z.deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_electric, field_dmg ) );
         }
-        if( cur_field_type == fd_fatigue ) {
+        if( cur_field_type == fd_reality_tear ) {
             if( rng( 0, 2 ) < cur.get_field_intensity() ) {
                 dam += cur.get_field_intensity();
                 teleport::teleport( z );

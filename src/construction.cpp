@@ -1561,7 +1561,7 @@ void construct::done_digormine_stair( const tripoint_bub_ms &p, bool dig,
     int mine_penalty = dig ? 0 : 10;
     player_character.mod_stored_kcal( -43 - 9 * mine_penalty - 9 * no_mut_penalty );
     player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
-    player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+    player_character.mod_sleepiness( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == ter_t_lava ) {
         if( !query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) {
@@ -1669,7 +1669,7 @@ void construct::done_mine_upstair( const tripoint_bub_ms &p, Character &player_c
     int no_mut_penalty = dig_muts ? 15 : 0;
     player_character.mod_stored_kcal( -174 - 9 * no_mut_penalty );
     player_character.mod_thirst( 20 + no_mut_penalty );
-    player_character.mod_fatigue( 25 + no_mut_penalty );
+    player_character.mod_sleepiness( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
     here.ter_set( p.xy(), ter_t_stairs_up ); // There's the bottom half

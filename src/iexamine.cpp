@@ -2204,7 +2204,7 @@ void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
 /**
  * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
  *
- * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
+ * Drinking causes: -25 hunger, +20 sleepiness, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
  * Picking w/ env_resist < 5 causes 1 in 3  sleep for 12 min and 4 dmg to each leg
  */
 void iexamine::flower_poppy( Character &you, const tripoint &examp )
@@ -2223,7 +2223,7 @@ void iexamine::flower_poppy( Character &you, const tripoint &examp )
         add_msg( _( "You slowly suck up the nectar." ) );
         item poppy( "poppy_nectar", calendar::turn, 1 );
         you.assign_activity( consume_activity_actor( poppy ) );
-        you.mod_fatigue( 20 );
+        you.mod_sleepiness( 20 );
         you.add_effect( effect_pkill2, 7_minutes );
         // Please drink poppy nectar responsibly.
         if( one_in( 20 ) ) {

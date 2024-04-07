@@ -393,7 +393,7 @@
         "recover_mana",
         "recover_bionic_power",
         "recover_pain",
-        "recover_fatigue",
+        "recover_sleepiness",
         "recover_stamina",
         "druid_healing",
         "convert"

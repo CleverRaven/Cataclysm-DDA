@@ -154,7 +154,7 @@ class talker_character_const: public talker_cloner<talker_character_const>
         bool has_activity() const override;
         bool is_mounted() const override;
         int get_activity_level() const override;
-        int get_fatigue() const override;
+        int get_sleepiness() const override;
         int get_hunger() const override;
         int get_thirst() const override;
         int get_instant_thirst() const override;
@@ -272,7 +272,7 @@ class talker_character: public talker_cloner<talker_character, talker_character_
         // speaking
         void shout( const std::string &speech = "", bool order = false ) override;
 
-        void set_fatigue( int amount ) override;
+        void set_sleepiness( int amount ) override;
         void mod_pain( int amount ) override;
         void set_pain( int amount ) override;
         void mod_daily_health( int, int ) override;
