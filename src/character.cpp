@@ -6143,6 +6143,7 @@ float Character::rest_quality() const
     map &here = get_map();
     const tripoint your_pos = pos();
     float rest = 0.0f;
+    const float your_exercise = instantaneous_activity_level();
     // Negative morales are penalties
     int cold_penalty = -has_morale( morale_cold );
     int heat_penalty = -has_morale( morale_hot );
@@ -6160,7 +6161,7 @@ float Character::rest_quality() const
     }
     const optional_vpart_position veh_part = here.veh_at( your_pos );
     bool has_vehicle_seat = !!veh_part.part_with_feature( "SEAT", true );
-    if( activity_level() <= LIGHT_EXERCISE ) {
+    if( your_exercise <= LIGHT_EXERCISE ) {
         rest += 0.1f;
         if( here.has_flag_ter_or_furn( "CAN_SIT", your_pos.xy() ) || has_vehicle_seat ) {
             // If not performing any real exercise (not even moving around), chairs allow you to rest a little bit.
@@ -6169,20 +6170,21 @@ float Character::rest_quality() const
             // Any comfortable bed can substitute for a chair, but only if you don't have one.
             rest += 0.2f * ( units::to_celsius_delta( floor_bedding_warmth( your_pos ) ) / 2.0f );
         }
-        if( activity_level() <= NO_EXERCISE ) {
+        if( your_exercise <= NO_EXERCISE ) {
             rest += 0.2f;
         }
     }
     // These stack!
-    if( activity_level() >= BRISK_EXERCISE ) {
+    if( your_exercise >= BRISK_EXERCISE ) {
         rest -= 0.1f;
     }
-    if( activity_level() >= ACTIVE_EXERCISE ) {
+    if( your_exercise >= ACTIVE_EXERCISE ) {
         rest -= 0.2f;
     }
-    if( activity_level() >= EXTRA_EXERCISE ) {
+    if( your_exercise >= EXTRA_EXERCISE ) {
         rest -= 0.3f;
     }
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s rest quality: %.6f", get_name(), rest );
     return rest;
 }
 
@@ -6290,7 +6292,8 @@ float Character::healing_rate( float at_rest_quality ) const
         // Sufficiently negative rest quality can completely eliminate your natural healing, but never turn it negative.
         asleep_rate = std::max( rest, 0.0f ) * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
         asleep_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, asleep_rate );
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing: %.6f", get_name(), asleep_rate );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing while asleep: %.6f", get_name(),
+                       asleep_rate );
         if( asleep_rate < eps ) {
             asleep_rate = 0.0f;
         }
@@ -6299,7 +6302,7 @@ float Character::healing_rate( float at_rest_quality ) const
     awake_rate *= enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP_AWAKE,
                   1 ) - 1;
     if( !is_asleep ) {
-        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing: %.6f", get_name(), awake_rate );
+        add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing while awake: %.6f", get_name(), awake_rate );
         if( awake_rate < eps ) {
             awake_rate = 0.0f;
         }
