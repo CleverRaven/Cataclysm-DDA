@@ -39,6 +39,15 @@
   },
   {
     "type": "mutation",
+    "id": "TEST_CONSISTENCY_CHECK",
+    "name": "Dummy Test Trait",
+    "points": 0,
+    "description": "Test trait to trip the consistency check: it shouldn't cause a load error since it overwrites a basegame trait.",
+    "prereqs": [ "WINGS_STUB" ],
+    "category": [ "INST_TEST" ]
+  },
+  {
+    "type": "mutation",
     "id": "TEST_TRIGGER",
     "name": { "str": "OR Test trigger" },
     "points": 1,
