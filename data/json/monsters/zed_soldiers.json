@@ -36,6 +36,14 @@
     "armor": { "bash": 12, "cut": 25, "bullet": 20, "electric": 3 }
   },
   {
+    "id": "mon_zombie_soldier_dps",
+    "type": "MONSTER",
+    "name": { "str": "zombie soldier DPS calculator" },
+    "description": "This zombie soldier exists solely for weapon DPS calculation.",
+    "copy-from": "mon_zombie_soldier",
+    "dodge": 1
+  },
+  {
     "id": "mon_zombie_soldier_blackops_1",
     "type": "MONSTER",
     "name": { "str": "black-ops zombie" },
