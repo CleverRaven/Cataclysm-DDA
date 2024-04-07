@@ -583,12 +583,8 @@
     "shape": "blast",
     "spell_class": "TELEPORTER",
     "teachable": false,
-    "min_damage": {
-      "math": [ "(15 + (u_psi_teleporter_power_level * 15)) * u_psi_teleporter_intelligence * u_nether_attunement_adjuster" ]
-    },
-    "max_damage": {
-      "math": [ "(350 + (u_psi_teleporter_power_level * 35)) * u_psi_teleporter_intelligence * u_nether_attunement_adjuster" ]
-    },
+    "min_damage": { "math": [ "u_psi_teleporter_damage" ] },
+    "max_damage": { "math": [ "u_psi_teleporter_damage" ] },
     "min_range": 0,
     "max_range": 0,
     "ignored_monster_species": [ "PSI_NULL" ]
