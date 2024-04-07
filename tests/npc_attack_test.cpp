@@ -11,8 +11,6 @@
 #include "options_helpers.h"
 #include "player_helpers.h"
 
-static const ammotype ammo_battery( "battery" );
-
 static const faction_id faction_your_followers( "your_followers" );
 
 static const itype_id itype_combat_exoskeleton_medium( "combat_exoskeleton_medium" );
