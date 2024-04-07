@@ -573,10 +573,6 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     if( !is_adjacent( &t, true ) ) {
         return false;
     }
-    if( get_strain() <= 0 ){
-        add_msg( m_bad, _( "NO ATTACK FOR YOU!" ) );
-        return false;
-    }
 
     // Max out recoil & reset aim point
     recoil = MAX_RECOIL;
@@ -676,9 +672,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
     const int total_stam = enchantment_cache->modify_value(
                                enchant_vals::mod::MELEE_STAMINA_CONSUMPTION,
                                get_total_melee_stamina_cost() );
+    const int strain_cost = std::min( -50, total_stam + deft_bonus );
     
-    if( get_strain() != get_strain_max() && get_strain() < abs( std::min( -50, total_stam + deft_bonus ) ) ){
+    if( get_strain() < get_strain_max() * 0.75 && get_strain() < abs( strain_cost ) ){
         add_msg( m_bad, _( "Your muscles are too strained to make an attack!" ) );
+        add_msg_debug( debugmode::DF_CHARACTER, "Strain cost: %i, max strain: %1 strain left: %i", strain_cost, get_strain_max(), get_strain() );
         return false;
     }
 
