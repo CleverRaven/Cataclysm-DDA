@@ -522,6 +522,21 @@
     ]
   },
   {
+    "id": "organic_waste",
+    "type": "requirement",
+    "//": "Materials for use when composting",
+    "components": [
+      [
+        [ "feces_roach", 18 ],
+        [ "feces_bird", 18 ],
+        [ "feces_manure", 3 ],
+        [ "feces_dog", 3 ],
+        [ "ruined_chunks", 3 ],
+        [ "feces_cow", 1 ]
+      ]
+    ]
+  },
+  {
     "id": "carbon",
     "type": "requirement",
     "//": "Carbon resources, used for case hardening.",
