@@ -318,10 +318,10 @@ static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicki
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_GLARE( "GLARE" );
+static const quality_id qual_HOTPLATE( "HOTPLATE" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 static const quality_id qual_PRY( "PRY" );
 static const quality_id qual_SCREW_FINE( "SCREW_FINE" );
-static const quality_id qual_HOTPLATE( "HOTPLATE" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_cooking( "cooking" );
