@@ -351,6 +351,24 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "fermenting_fertilizer_liquid",
+    "name": {"str_sp": "fermenting fertilizer liquid"},
+    "description": "A mixture of various organic wastes and water. It will ferment into liquid fertilizer in about two weeks.",
+    "copy-from": "fertilizer_liquid",
+    "price": 0,
+    "price_postapoc": 0,
+    "flags": [ "NUTRIENT_OVERRIDE", "TRADER_AVOID" ],
+    "use_action": {
+      "target": "fertilizer_liquid",
+      "msg": "The mixture has fermented and is ready to be used for fertilizer.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 1209600,
+      "not_ready_msg": "The mixture is still fermenting."
+    }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "fertilizer_commercial",
     "name": { "str_sp": "commercial fertilizer" },
     "weight": "27 g",
