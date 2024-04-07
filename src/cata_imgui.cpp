@@ -656,11 +656,11 @@ void cataimgui::window::clear_filter()
     }
 }
 
-void cataimgui::window::set_filter( const std::string &filter )
-{
-    // doesnt currently work, relies on API only available in newer ImGUi, because I can't have nice things
-    //ImGuiInputTextState* input_state = ImGui::GetInputTextState( p_impl->id );
-    //if( input_state ) {
-    //    input_state->ReloadUserBufAndSelectAll();
-    //}
-}
+//void cataimgui::window::set_filter( const std::string &filter )
+//{
+//    // doesnt currently work, relies on API only available in newer ImGUi, because I can't have nice things
+//    //ImGuiInputTextState* input_state = ImGui::GetInputTextState( p_impl->id );
+//    //if( input_state ) {
+//    //    input_state->ReloadUserBufAndSelectAll();
+//    //}
+//}

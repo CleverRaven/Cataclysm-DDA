@@ -1453,7 +1453,8 @@ action_id input_context::display_menu_imgui( const bool permit_execute_action )
                 break;
             }
         } else if( action == "TEXT.INPUT_FROM_FILE" ) {
-            kb_menu.set_filter( kb_menu.get_filter() + get_input_string_from_file() );
+            //kb_menu.set_filter( kb_menu.get_filter() + get_input_string_from_file() );
+            continue;
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
             kb_menu.hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
