@@ -353,7 +353,7 @@
     "type": "COMESTIBLE",
     "id": "fermenting_fertilizer_liquid",
     "name": { "str_sp": "fermenting fertilizer liquid" },
-    "description": "A mixture of various organic wastes and water. It will ferment into liquid fertilizer in about two weeks.",
+    "description": "A mixture of various organic wastes and water.  It will ferment into liquid fertilizer in about two weeks.",
     "copy-from": "fertilizer_liquid",
     "price": 0,
     "price_postapoc": 0,
