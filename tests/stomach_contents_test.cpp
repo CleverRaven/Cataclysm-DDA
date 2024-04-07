@@ -14,6 +14,8 @@
 #include "units.h"
 
 static const efftype_id effect_tapeworm( "tapeworm" );
+static const efftype_id effect_fasting( "fasting" );
+static const efftype_id effect_fasting_prolonged( "fasting_prolonged" );
 
 static const trait_id trait_HUNGER3( "HUNGER3" );
 
@@ -31,10 +33,8 @@ static void reset_time()
     clear_avatar();
 }
 
-static void pass_time( Character &p, time_duration amt )
+static void pass_time( Character &p, time_duration amt, time_duration time_chunk )
 {
-    constexpr time_duration time_chunk = 1_minutes;
-
     // make sure we start spinning aligned to minutes, so that calendar::once_every
     // in Character::update_body works correctly, 997 is a randomly picked prime
     REQUIRE( to_seconds<int64_t>( calendar::turn - calendar::turn_zero + 997 * time_chunk ) % 60 == 0 );
@@ -42,6 +42,8 @@ static void pass_time( Character &p, time_duration amt )
     while( amt > 0_seconds ) {
         p.update_body( calendar::turn, calendar::turn + time_chunk );
         p.update_health();
+        p.process_turn();
+        p.update_morale();
         calendar::turn += time_chunk;
         amt -= time_chunk;
     }
@@ -75,7 +77,7 @@ static time_duration time_until_hungry( Character &p )
     do {
         p.set_sleep_deprivation( 0 );
         p.set_fatigue( 0 );
-        pass_time( p, 30_minutes );
+        pass_time( p, 30_minutes, 1_minutes );
         thirty_minutes++;
     } while( p.get_hunger() < 40 ); // hungry
     return thirty_minutes * 30_minutes;
@@ -140,7 +142,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     do {
         results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
-        pass_time( dummy, 1_days );
+        pass_time( dummy, 1_days, 1_minutes );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
@@ -165,7 +167,7 @@ TEST_CASE( "vitamin_process", "[vitamins]" )
     REQUIRE( subject.vitamin_get( vitamin_test_vit_fast ) == 0 );
     REQUIRE( subject.vitamin_get( vitamin_test_vit_slow ) == 0 );
 
-    pass_time( subject, 1_days );
+    pass_time( subject, 1_days, 1_minutes );
 
     // check
     CHECK( subject.vitamin_get( vitamin_iron ) <= -95 );
@@ -203,7 +205,7 @@ TEST_CASE( "vitamin_equilibrium", "[vitamins]" )
     CHECK( subject.compute_effective_nutrients( f ).get_vitamin( vitamin_vitC ) == 96 );
     subject.consume( f );
 
-    pass_time( subject, 1_days );
+    pass_time( subject, 1_days, 1_minutes );
 
     // check if something with 100% RDA will keep you at equilibrium
     CHECK( subject.vitamin_get( vitamin_iron ) <= -99 );
@@ -231,7 +233,7 @@ TEST_CASE( "vitamin_multivitamin", "[vitamins]" )
 
     subject.consume( f );
 
-    pass_time( subject, 1_days );
+    pass_time( subject, 1_days, 1_minutes );
 
     // check if something with 100% RDA will keep you at equilibrium
     CHECK( subject.vitamin_get( vitamin_iron ) <= -99 );
@@ -269,7 +271,7 @@ TEST_CASE( "vitamin_daily", "[vitamins]" )
 
     int hours = 0;
     while( hours < 72 ) {
-        pass_time( subject, 1_hours );
+        pass_time( subject, 1_hours, 1_minutes );
         hours++;
         // check vitamins to see if health has updated
         if( subject.get_daily_vitamin( vitamin_vitC ) == 0 &&
@@ -315,7 +317,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 
     do {
         results.push_back( string_format( "\nday %d: %d", day, dummy.get_stored_kcal() ) );
-        pass_time( dummy, 1_days );
+        pass_time( dummy, 1_days, 1_minutes );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         set_all_vitamins( 0, dummy );
@@ -348,7 +350,7 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
         if( print_tests ) {
             printf( "day %u: %d\n", day, dummy.get_stored_kcal() );
         }
-        pass_time( dummy, 1_days );
+        pass_time( dummy, 1_days, 1_minutes );
         dummy.set_thirst( 0 );
         dummy.set_fatigue( 0 );
         eat_all_nutrients( dummy );
@@ -476,4 +478,97 @@ TEST_CASE( "hunger" )
     }
     CHECK( hunger_time <= 240 );
     CHECK( hunger_time >= 180 );
+}
+
+TEST_CASE( "fasting" )
+{
+    clear_avatar();
+    Character &dummy = get_player_character();
+    reset_time();
+    clear_stomach( dummy );
+    dummy.initialize_stomach_contents();
+    dummy.clear_effects();
+    dummy.clear_morale();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+
+    int morale_init = dummy.get_morale_level();
+    int str_init = dummy.get_str();
+    int speed_init = dummy.get_speed();
+    int kcal_init = dummy.get_stored_kcal();
+
+    printf( "DAY 0:\n" );
+    printf( "STR: %d\n", dummy.get_str() );
+    printf( "SPEED: %d\n", dummy.get_speed() );
+    printf( "MORALE: %d\n", dummy.get_morale_level() );
+    printf( "kCAL: %d\n", dummy.get_stored_kcal() );
+
+    CHECK( !dummy.has_effect( effect_fasting ) );
+    CHECK( !dummy.has_effect( effect_fasting_prolonged ) );
+
+    pass_time( dummy, 30_minutes, 30_minutes );
+    CHECK( !dummy.has_effect( effect_fasting ) );
+    CHECK( !dummy.has_effect( effect_fasting_prolonged ) );
+
+    pass_time( dummy, 1_days + 30_minutes, 30_minutes );
+    dummy.set_hunger( 0 );
+    dummy.set_thirst( 0 );
+    dummy.set_fatigue( 0 );
+    dummy.set_sleep_deprivation( 0 );
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+
+    CHECK( dummy.has_effect( effect_fasting ) );
+    CHECK( !dummy.has_effect( effect_fasting_prolonged ) );
+
+    for( unsigned int day = 1; day <= 3; day++ ) {
+        printf( "DAY: %d\n", day );
+        printf( "STR: %d\n", dummy.get_str() );
+        printf( "SPEED: %d\n", dummy.get_speed() );
+        printf( "MORALE: %d\n", dummy.get_morale_level() );
+        printf( "kCAL: %d\n", dummy.get_stored_kcal() );
+
+        pass_time( dummy, 1_days, 30_minutes );
+        dummy.set_hunger( 0 );
+        dummy.set_thirst( 0 );
+        dummy.set_fatigue( 0 );
+        dummy.set_sleep_deprivation( 0 );
+        dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+    }
+
+    CHECK( !dummy.has_effect( effect_fasting ) );
+    CHECK( dummy.has_effect( effect_fasting_prolonged ) );
+    CHECK( dummy.get_morale_level() < morale_init );
+    //REQUIRE(dummy.get_str() == str_init);
+
+    for( unsigned int day = 4; day <= 34; day++ ) {
+        printf( "DAY: %d\n", day );
+        printf( "STR: %d\n", dummy.get_str() );
+        printf( "SPEED: %d\n", dummy.get_speed() );
+        printf( "MORALE: %d\n", dummy.get_morale_level() );
+        printf( "kCAL: %d\n", dummy.get_stored_kcal() );
+
+        effect e = dummy.get_effect( effect_fasting_prolonged );
+        printf( "Fasting Intensity: %d\n", e.get_effective_intensity() );
+
+        pass_time( dummy, 1_days, 30_minutes );
+        dummy.set_hunger( 0 );
+        dummy.set_thirst( 0 );
+        dummy.set_fatigue( 0 );
+        dummy.set_sleep_deprivation( 0 );
+        dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+    }
+
+    CHECK( dummy.has_effect( effect_fasting_prolonged ) );
+    CHECK( dummy.get_str() < str_init );
+    CHECK( dummy.get_speed() < speed_init );
+
+    item f = item( "beansnrice" );
+    dummy.consume( f );
+    dummy.update_body();
+    dummy.process_effects();
+
+    pass_time( dummy, 30_minutes, 30_minutes );
+
+    CHECK( !dummy.has_effect( effect_fasting ) );
+    CHECK( !dummy.has_effect( effect_fasting_prolonged ) );
+    CHECK( dummy.get_morale_level() > morale_init );
 }
