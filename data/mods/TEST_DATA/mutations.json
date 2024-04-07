@@ -8,6 +8,7 @@
     "dummy": true,
     "category": [ "HUMAN" ],
     "cancels": [
+      "TEST_CONSISTENCY_CHECK",
       "TEST_ENCH_MUTATION",
       "TEST_GOOD1",
       "TEST_GOOD2",
