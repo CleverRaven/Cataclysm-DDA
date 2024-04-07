@@ -4,6 +4,8 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
+#include "game_constants.h"
+#include "map.h"
 #include "options.h"
 #include "type_id.h"
 
@@ -18,6 +20,10 @@
 // - traits like "Imperceptive Healer" and "Rapid Metabolism"
 // - lifestyle value (hidden health stat)
 // - effects ot being bandaged and/or disinfected
+
+static const efftype_id effect_sleep( "sleep" );
+
+static const furn_str_id furn_f_bed( "f_bed" );
 
 // Character::healing_rate floating-point `at_rest_quality` for awake/asleep states
 static const float awake_rest = 0.0f;
@@ -55,6 +61,8 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
 TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
 {
     avatar dummy;
+    // We need them to be inbounds for furniture
+    dummy.setpos( get_player_character().pos() + point_north );
     dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     // What is considered normal baseline healing rate comes from game_balance.json.
     const float normal = get_option<float>( "PLAYER_HEALING_RATE" );
@@ -68,15 +76,29 @@ TEST_CASE( "baseline_healing_rate_with_no_healing_traits", "[heal][baseline]" )
         dummy.clear_mutations();
         // just in case we mutated into something of a different size
         dummy.set_stored_kcal( dummy.get_healthy_kcal() );
-        // Ensure there are no healing modifiers from traits/mutations
 
-        THEN( "healing rate is zero when awake" ) {
+        THEN( "healing rate is zero when awake and moderately active" ) {
+            dummy.set_activity_level( MODERATE_EXERCISE );
+            CHECK( dummy.rest_quality() == awake_rest );
             CHECK( dummy.healing_rate( awake_rest ) == zero );
         }
+
+        THEN( "natural healing rate is still zero when awake and resting" ) {
+            dummy.set_activity_level( NO_EXERCISE );
+            map &here = get_map();
+            here.furn_set( dummy.pos(), furn_f_bed );
+            float actual_rest = dummy.rest_quality();
+            CHECK( actual_rest > 0.0f );
+            CHECK( dummy.healing_rate( actual_rest ) == 0.0f );
+        }
+
+        // Sleeping rate is only calculated when actually asleep
+        dummy.add_effect( effect_sleep, 1_turns );
 
         THEN( "healing rate is normal when asleep" ) {
             CHECK( dummy.healing_rate( sleep_rest ) == Approx( normal ) );
         }
+        dummy.clear_effects();
     }
 }
 

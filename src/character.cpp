@@ -6298,7 +6298,8 @@ float Character::healing_rate( float at_rest_quality ) const
             asleep_rate = 0.0f;
         }
     }
-    float awake_rate = ( 1.0f - rest ) * heal_rate;
+    float awake_rate = rest * heal_rate;
+    // Null out all awake natural healing, on purpose?
     awake_rate *= enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP_AWAKE,
                   1 ) - 1;
     if( !is_asleep ) {
