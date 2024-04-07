@@ -8185,28 +8185,24 @@ std::optional<int> iuse::heat_single_item( Character *p, item *it )
         return std::nullopt;
     }
     p->inv->restack( *p );
-    const inventory &crafting_inv = p->crafting_inventory();
-    auto is_liquid = []( const item & it ) {
-        return it.made_of( phase_id::LIQUID );
-    };
     item_location heater = item_location( *p, it );
     int fire_flag = 0;
-    add_msg( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
+    p->add_msg_if_player( m_info, _( "You put %1$s on fire to start heating." ), it->tname() );
     if( get_map().has_nearby_fire( p->pos() ) ) {
-        int fire_flag = 1;
+        fire_flag = 1;
     } else if( it->has_quality( qual_HOTPLATE ) &&
                ( it->ammo_remaining() > it->type->charges_to_use() ||
                  !it->has_no_links() ? it->link().t_veh->connected_battery_power_level().first >
                  it->type->charges_to_use() : false ) ) {
         if( it->ammo_remaining() > it->type->charges_to_use() ) {
             heater = item_location( *p, it );
-            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
         } else if( !it->has_no_links() ) {
             heater = item_location( *p, it );
-            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
         }
     } else {
-        auto filter = [&it]( const item & e ) {
+        auto filter = []( const item & e ) {
             if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() > e.type->charges_to_use() ) {
                 return true;
             }
@@ -8219,14 +8215,14 @@ std::optional<int> iuse::heat_single_item( Character *p, item *it )
         };
         heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
                                     _( "You don't have proper heating source." ) );
-        add_msg( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(), heater->tname() );
+        p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
+                              heater->tname() );
     }
     if( heat_item( *p ) ) {
         if( fire_flag != 1 ) {
             heater->activation_consume( 1, heater.position(), p );
         }
     }
-    add_msg( m_info, _( "You have finished heating." ) );
     return 0;
 }
 
@@ -8236,10 +8232,6 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
         return std::nullopt;
     }
     p->inv->restack( *p );
-    const inventory &crafting_inv = p->crafting_inventory();
-    auto is_liquid = []( const item & it ) {
-        return it.made_of( phase_id::LIQUID );
-    };
     item_location heater = item_location( *p, it );
     int available_heater = 0;
     int heating_effect = 0;
@@ -8247,7 +8239,7 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
     if( get_map().has_nearby_fire( p->pos() ) ) {
         available_heater = 10000;
         heating_effect = 1;
-        int fire_flag = 1;
+        fire_flag = 1;
         //Check if it is HOTPLATE tool with at least one charge.
     } else if( it->has_quality( qual_HOTPLATE ) &&
                ( it->ammo_remaining() > it->type->charges_to_use() ||
@@ -8257,15 +8249,15 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
             heater = item_location( *p, it );
             available_heater = it->ammo_remaining();
             heating_effect = it->type->charges_to_use();
-            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
         } else if( !it->has_no_links() ) {
             heater = item_location( *p, it );
             available_heater = it->link().t_veh->connected_battery_power_level().first;
             heating_effect = it->type->charges_to_use();
-            add_msg( m_info, _( "You use %1$s to start heating." ), heater->tname() );
+            p->add_msg_if_player( m_info, _( "You use %1$s to start heating." ), heater->tname() );
         }
     } else {
-        auto filter = [&it]( const item & e ) {
+        auto filter = []( const item & e ) {
             if( e.has_quality( qual_HOTPLATE, 2 ) && e.ammo_remaining() > e.type->charges_to_use() ) {
                 return true;
             }
@@ -8278,7 +8270,8 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
         };
         heater = g->inv_map_splice( filter, _( "Select a tool to heat:" ), 1,
                                     _( "You don't have proper heating source." ) );
-        add_msg( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(), heater->tname() );
+        p->add_msg_if_player( m_info, _( "You put %1$s on %2$s to start heating." ), it->tname(),
+                              heater->tname() );
         if( !heater ) {
             add_msg( m_info, _( "Never mind." ) );
             return std::nullopt;
@@ -8374,7 +8367,6 @@ std::optional<int> iuse::heat_items( Character *p, item *it, bool liquid_items, 
     if( fire_flag != 1 ) {
         heater->activation_consume( required.ammo, heater.position(), p );
     }
-    add_msg( m_info, _( "You have finished heating." ) );
     return 0;
 }
 
